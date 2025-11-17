@@ -7,7 +7,7 @@
         <h2 id="umrah-title" class="display-5 fw-bold mb-4">
           Hajj & Umrah Guides
         </h2>
-        <p class="mx-auto description text-muted" style="max-width: 900px; font-size: 1.2rem;">
+        <p class="mx-auto description text-muted guide-description">
           <i class="bi bi-info-circle me-2" aria-hidden="true"></i>These guides provide essential knowledge on the
           rituals, historical
           background, spiritual significance, logistical steps, and etiquette involved in performing both pilgrimages.
@@ -36,18 +36,25 @@
       <div class="row g-3 g-md-4 align-items-stretch justify-content-center">
         <div class="col-12 col-md-10 col-lg-8">
           <!-- Print Button -->
-          <div class="d-flex justify-content-end align-items-center mb-3 no-print">
-            <button @click="printGuide" class="btn btn-outline-secondary btn-sm print-btn"
-              aria-label="Print this guide as PDF">
-              <i class="bi bi-printer me-2" aria-hidden="true"></i> Print / Save as PDF
+          <!-- <div class="action-row action-row--spaced action-row--end mb-3 no-print">
+            <button type="button" @click="copyText" :disabled="isCopying"
+              class="premium-action-button premium-action-button--outline"
+              aria-label="Copy the Hajj and Umrah guide content">
+              <span class="action-row__icon"><i class="bi bi-link-45deg" aria-hidden="true"></i></span>
+              <span class="action-row__label">{{ isCopying ? 'Copying...' : 'Copy Guide' }}</span>
             </button>
-          </div>
-          
-          <div class="mb-4" style="height: 350px;" role="region" aria-label="Map showing key ritual locations">
-            <div id="ritual-map"
-              style="width: 100%; height: 100%; border: 2px solid lightgray; border-radius: 2%; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; overflow: hidden;">
+            <button type="button" @click="printGuide"
+              class="premium-action-button premium-action-button--primary"
+              aria-label="Print or save this guide">
+              <span class="action-row__icon"><i class="bi bi-printer" aria-hidden="true"></i></span>
+              <span class="action-row__label">Print / Save PDF</span>
+            </button>
+          </div> -->
+          <!--
+            <div class="map-panel mb-4" role="region" aria-label="Map showing key ritual locations">
+              <div id="ritual-map" class="ritual-map-frame"></div>
             </div>
-          </div>
+          -->
           <div class="p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2" :aria-labelledby="currentTab + '-tab'"
             :id="currentTab + '-panel'" role="tabpanel">
             <h1 class="h1 fw-bold text-center mb-3">{{ currentContent.title }}</h1>
@@ -153,10 +160,9 @@
           </div>
         </div>
         <transition name="fade-slow-top">
-          <div v-if="copySuccess"
-            class="alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x"
-            role="alert" aria-live="polite"
-            style="background-color: rgba(223, 250, 241, 0.9); color: #00bfa6; z-index: 1100; max-width: 500px;">
+        <div v-if="copySuccess"
+          class="alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x alert-floating"
+          role="alert" aria-live="polite">
             <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i><strong>Success:</strong> Guide copied to
             clipboard!
             <button type="button" class="btn-close" @click="copySuccess = false" aria-label="Close"></button>
@@ -1044,13 +1050,19 @@ export default {
   cursor: not-allowed;
 }
 
+.guide-description {
+  font-size: 1.1rem;
+  max-width: 900px;
+  line-height: 1.6;
+}
+
 .guide-card {
   background: #fff;
-  border-radius: 1.2rem;
-  box-shadow: none;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);
   border: none;
-  padding: 2.2rem 1.5rem 2rem 1.5rem;
-  margin-bottom: 2.2rem;
+  padding: 2.4rem 1.6rem 2.2rem;
+  margin-bottom: 2.4rem;
 }
 
 .info-row {
@@ -1084,8 +1096,20 @@ export default {
   color: #b0b0b0;
 }
 
-#ritual-map {
-  box-shadow: 0 2px 12px rgba(0, 191, 166, 0.10);
+.map-panel {
+  height: clamp(280px, 40vw, 360px);
+  border-radius: 24px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.ritual-map-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  border: 2px solid rgba(0, 0, 0, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 @media (max-width: 600px) {
@@ -1329,17 +1353,17 @@ section .list-unstyled li {
   box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);
 }
 
-.print-btn {
-  font-size: 1rem;
-  padding: 0.35rem 1.1rem;
-  border-radius: 0.5rem;
-  border-width: 1.5px;
-  transition: background 0.18s, color 0.18s;
-  box-shadow: none;
+.alert-floating {
+  border-radius: 20px;
+  background: rgba(223, 250, 241, 0.95);
+  color: #0d6657;
+  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);
+  width: min(90vw, 450px);
+  animation: premiumFloatUp 0.5s ease;
 }
 
-.print-btn i {
-  font-size: 1.1em;
+.alert-floating .btn-close {
+  filter: brightness(0.8);
 }
 
 @media print {

@@ -27024,66 +27024,40 @@ const _hoisted_2 = {
   class: "calendar-header"
 };
 const _hoisted_3 = {
-  class: "container",
-  style: {
-    "padding": "10px"
-  }
+  class: "container py-2"
 };
 const _hoisted_4 = {
-  class: "mx-auto mb-4",
-  style: {
-    "position": "relative",
-    "background": "#eaf3f1",
-    "border": "1px solid rgba(11, 128, 111, 0.20)",
-    "border-radius": "24px",
-    "box-shadow": "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09)",
-    "padding": "1.25rem 1.75rem"
-  }
+  class: "mx-auto mb-4"
 };
-const _hoisted_5 = ["title", "aria-label"];
+const _hoisted_5 = {
+  class: "premium-panel next-step-card"
+};
 const _hoisted_6 = {
-  class: "d-flex align-items-start gap-3 text-start"
+  class: "premium-panel__header"
 };
-const _hoisted_7 = {
-  style: {
-    "flex": "1"
-  }
-};
+const _hoisted_7 = ["title", "aria-label"];
 const _hoisted_8 = {
-  class: "mb-2 d-inline-flex align-items-center gap-1",
-  style: {
-    "color": "#1f2933"
-  }
+  class: "next-step-callout"
 };
 const _hoisted_9 = {
-  class: "mb-3",
-  style: {
-    "color": "#1f2933",
-    "line-height": "1.7",
-    "font-size": "1.02rem"
-  }
+  class: "next-step-callout__content"
 };
 const _hoisted_10 = {
-  class: "d-flex flex-wrap gap-2"
+  class: "mb-3"
 };
 const _hoisted_11 = {
-  style: {
-    "border": "1px solid gray",
-    "border-radius": "20px",
-    "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px"
-  },
-  class: "container calendar-controls d-flex flex-column flex-md-row justify-content-between align-items-center gap-1 mb-4"
+  class: "calendar-controls action-row action-row--spaced align-items-center flex-wrap gap-3 mb-4"
 };
 const _hoisted_12 = {
-  class: "col-md-3 text-center text-md-start"
+  class: "action-row__item text-center text-md-start"
 };
 const _hoisted_13 = {
-  class: "container col-md-6 d-flex justify-content-center align-items-center gap-2"
+  class: "action-row__item calendar-control__selectors d-flex flex-wrap gap-2 justify-content-center"
 };
 const _hoisted_14 = ["value"];
 const _hoisted_15 = ["value"];
 const _hoisted_16 = {
-  class: "col-md-3 text-center text-md-end"
+  class: "action-row__item text-center text-md-end"
 };
 const _hoisted_17 = {
   key: 0,
@@ -27118,14 +27092,11 @@ const _hoisted_25 = {
 };
 const _hoisted_26 = {
   key: 0,
-  class: "modal fade show d-block",
+  class: "modal fade show d-block modal-backdrop-soft",
   tabindex: "-1",
   role: "dialog",
   "aria-modal": "true",
-  "aria-labelledby": "day-details-title",
-  style: {
-    "background": "rgba(0,0,0,0.5)"
-  }
+  "aria-labelledby": "day-details-title"
 };
 const _hoisted_27 = {
   class: "modal-dialog modal-dialog-centered modal-xl"
@@ -27175,108 +27146,43 @@ const _hoisted_40 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _$data$selectedDay$ev;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     id: "calendar-title",
     class: "text-center fw-bold display-5 mb-4"
-  }, "Islamic Hijri Calendar", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Islamic Hijri Calendar", -1 /* CACHED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center container mb-3 lead"
-  }, " The Islamic Hijri Calendar is a lunar calendar used by Muslims to determine religious events like Ramadan, Eid, and Hajj. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " The Islamic Hijri Calendar is a lunar calendar used by Muslims to determine religious events like Ramadan, Eid, and Hajj. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "premium-panel__title"
+  }, "NEXT STEP", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     title: $data.nextStepMinimized ? 'Restore' : 'Minimize',
     "aria-label": $data.nextStepMinimized ? 'Restore next step' : 'Minimize next step',
     onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleNextStepMinimized && $options.toggleNextStepMinimized(...args)),
-    style: {
-      "position": "absolute",
-      "right": "44px",
-      "top": "14px",
-      "opacity": "0.9",
-      "background": "transparent",
-      "border": "0",
-      "color": "#6b8b91",
-      "z-index": "3",
-      "cursor": "pointer"
-    }
+    class: "next-step-card__toggle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "flex-shrink-0 mt-1"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "next-step-icon-circle",
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_7)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "next-step-callout__icon",
     role: "img",
-    "aria-label": "Gentle Hijri date guide",
-    style: {
-      "width": "48px",
-      "height": "48px",
-      "border-radius": "50%",
-      "background": "linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12))",
-      "display": "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "color": "rgb(0, 121, 107)",
-      "font-size": "1.25rem",
-      "box-shadow": "inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12)"
-    }
+    "aria-label": "Gentle Hijri date guide"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-calendar-check",
     "aria-hidden": "true"
-  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-2 fw-semibold text-uppercase",
-    style: {
-      "letter-spacing": "0.1em",
-      "color": "#1a5f7a",
-      "font-size": "0.78rem"
-    }
-  }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/date",
-    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1",
-    style: {
-      "color": "rgb(0, 121, 107)"
-    },
-    "aria-label": "Open the Islamic Date Converter"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Open the Islamic Date Converter "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square",
-    "aria-hidden": "true",
-    style: {
-      "color": "rgb(0, 121, 107)",
-      "font-size": "0.82rem",
-      "opacity": "0.85"
-    }
-  })], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Converted a date? Keep this Hijri calendar close for nearby events and prayer-friendly context. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/date",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "rgb(0, 121, 107)"
-    }
-  }, " Reopen the converter ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" whenever you need another exact match. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/date",
-    class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center",
-    style: {
-      "background": "linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a)",
-      "border": "none",
-      "border-radius": "999px",
-      "box-shadow": "0 10px 20px rgba(26, 95, 122, 0.22)",
-      "transition": "transform 0.2s ease, box-shadow 0.2s ease"
-    },
-    onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';",
-    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Open Hijri Date Converter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-exchange-alt ms-2",
-    "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "visually-hidden"
-  }, "Open the accessible Hijri to Gregorian date converter")], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Left: Previous Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"text-muted mb-2\" data-v-56bbe5f8>Save the converter for conversion peace of mind.</p><a href=\"/date\" class=\"premium-action-button premium-action-button--outline\" aria-label=\"Open the Islamic Date Converter\" data-v-56bbe5f8><span class=\"action-row__icon\" data-v-56bbe5f8><i class=\"fas fa-arrow-up-right-from-square\" aria-hidden=\"true\" data-v-56bbe5f8></i></span><span class=\"action-row__label\" data-v-56bbe5f8>Open Islamic Date Converter</span></a>", 2)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"next-step-callout__copy mb-3\" data-v-56bbe5f8> Converted a date? Keep this Hijri calendar close for nearby events and prayer-friendly context. <a href=\"/date\" class=\"fw-semibold text-decoration-none\" aria-label=\"Reopen the converter\" data-v-56bbe5f8>Reopen the converter</a> whenever you need another exact match. </p><div class=\"action-row action-row--spaced mt-3\" data-v-56bbe5f8><a href=\"/date\" class=\"premium-action-button premium-action-button--primary\" aria-label=\"Open the Hijri Date Converter\" data-v-56bbe5f8><span class=\"action-row__icon\" data-v-56bbe5f8><i class=\"fas fa-exchange-alt\" aria-hidden=\"true\" data-v-56bbe5f8></i></span><span class=\"action-row__label\" data-v-56bbe5f8>Open Hijri Date Converter</span></a><a href=\"/date\" class=\"premium-action-button premium-action-button--outline\" aria-label=\"Explore seasonal milestones\" data-v-56bbe5f8><span class=\"action-row__icon\" data-v-56bbe5f8><i class=\"fas fa-star\" aria-hidden=\"true\" data-v-56bbe5f8></i></span><span class=\"action-row__label\" data-v-56bbe5f8>Explore Milestones</span></a></div>", 2)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[1] || (_cache[1] = (...args) => $options.previousMonth && $options.previousMonth(...args)),
-    class: "btn btn-outline-success w-100"
-  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chevron-left"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous ", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Center: Month & Year Selectors "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    class: "premium-action-button premium-action-button--outline"
+  }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-chevron-left",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Previous Month", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.currentMonth = $event),
     onChange: _cache[3] || (_cache[3] = (...args) => $options.scheduleFetch && $options.scheduleFetch(...args)),
-    class: "form-select",
-    style: {
-      "min-width": "140px"
-    }
+    class: "form-select"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.islamicMonths, (month, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: index,
@@ -27285,26 +27191,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentMonth]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "onUpdate:modelValue": _cache[4] || (_cache[4] = $event => $data.currentYear = $event),
     onChange: _cache[5] || (_cache[5] = (...args) => $options.scheduleFetch && $options.scheduleFetch(...args)),
-    class: "form-select",
-    style: {
-      "min-width": "140px"
-    }
+    class: "form-select"
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.yearRange, year => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       value: year,
       key: year
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(year) + " AH ", 9 /* TEXT, PROPS */, _hoisted_15);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentYear]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Right: Next Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.currentYear]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[6] || (_cache[6] = (...args) => $options.nextMonth && $options.nextMonth(...args)),
-    class: "btn btn-outline-success w-100"
-  }, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Next ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chevron-right"
-  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "premium-action-button premium-action-button--outline"
+  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-chevron-right",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Next Month", -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading Indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-success",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Weekdays Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekdays, day => {
+  }, "Loading...")], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Weekdays Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.weekdays, day => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: day,
       class: "col py-2 bg-light"
@@ -27337,7 +27245,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $event => $options.showDayDetails(day),
         ref_for: true,
         ref: "cells"
-      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.hijri.day), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.gregorianShort[day.gregorian.month.en] || day.gregorian.month.en), 1 /* TEXT */), $options.isCurrentDay(day) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, "Today")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_day$events = day.events) !== null && _day$events !== void 0 && _day$events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [...(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [day ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.hijri.day), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.gregorianShort[day.gregorian.month.en] || day.gregorian.month.en), 1 /* TEXT */), $options.isCurrentDay(day) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, "Today")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_day$events = day.events) !== null && _day$events !== void 0 && _day$events.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-star-fill text-warning"
       }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_20);
     }), 128 /* KEYED_FRAGMENT */))]);
@@ -27346,17 +27254,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "aria-label": "Close day details",
     onClick: _cache[8] || (_cache[8] = $event => $data.selectedDay = null)
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.month.en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.year), 1 /* TEXT */), (_$data$selectedDay$ev = $data.selectedDay.events) !== null && _$data$selectedDay$ev !== void 0 && _$data$selectedDay$ev.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Islamic Events:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedDay.events, (event, index) => {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.day) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.month.en) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedDay.gregorian.year), 1 /* TEXT */), (_$data$selectedDay$ev = $data.selectedDay.events) !== null && _$data$selectedDay$ev !== void 0 && _$data$selectedDay$ev.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Islamic Events:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.selectedDay.events, (event, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: index,
       class: "list-group-item"
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event), 1 /* TEXT */);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-success",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Loading...")], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Prayer Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, (time, name) => {
+  }, "Loading...")], -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerTimes ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_36, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Prayer Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerTimes, (time, name) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col-6",
       key: name
@@ -28535,10 +28443,7 @@ const _hoisted_5 = {
   class: "mb-3"
 };
 const _hoisted_6 = {
-  class: "progress",
-  style: {
-    "height": "30px"
-  }
+  class: "progress progress-tracker"
 };
 const _hoisted_7 = ["aria-valuenow"];
 const _hoisted_8 = {
@@ -28747,19 +28652,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 1. Welcome "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center mb-5 fade-in"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    class: "display-5 fw-bold",
-    style: {
-      "color": "#228B22"
-    }
+    class: "display-5 fw-bold premium-heading"
   }, "Welcome, New Muslim!"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead"
   }, "Your journey begins here. We're here to support you every step of the way.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracker "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-bar-chart-steps me-2",
-    style: {
-      "color": "#228B22"
-    }
+    class: "bi bi-bar-chart-steps me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Journey Progress")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-danger btn-sm",
     onClick: _cache[0] || (_cache[0] = (...args) => $options.resetProgress && $options.resetProgress(...args)),
@@ -28767,10 +28666,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-counterclockwise"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "progress-bar",
+    class: "progress-bar progress-tracker-bar",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: $options.progressPercent + '%',
-      backgroundColor: '#228B22'
+      width: $options.progressPercent + '%'
     }),
     role: "progressbar",
     "aria-valuenow": $options.progressPercent,
@@ -28793,10 +28691,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Testimonials Carousel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chat-quote-fill me-2",
-    style: {
-      "color": "#228B22"
-    }
+    class: "bi bi-chat-quote-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Testimonials")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-primary btn-sm",
     onClick: _cache[2] || (_cache[2] = (...args) => $options.shareTestimonial && $options.shareTestimonial(...args)),
@@ -28811,13 +28706,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: testimonial.avatar,
-      class: "rounded-circle mb-3",
-      style: {
-        "width": "80px",
-        "height": "80px",
-        "object-fit": "cover",
-        "border": "2px solid #228B22"
-      }
+      class: "rounded-circle mb-3 testimonial-avatar"
     }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("blockquote", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.text) + "\"", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.name) + " from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.country), 1 /* TEXT */)])])], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "carousel-control-prev",
@@ -28842,10 +28731,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Next", -1 /* CACHED */)]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Interactive Quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-question-circle-fill me-2",
-    style: {
-      "color": "#228B22"
-    }
+    class: "bi bi-question-circle-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Islam Basics Quiz")], -1 /* CACHED */)), $data.quizCompleted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("You scored " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizScore) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizQuestions.length) + "! ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-link p-0",
     onClick: _cache[5] || (_cache[5] = (...args) => $options.resetQuiz && $options.resetQuiz(...args))
@@ -28876,10 +28762,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Submit Quiz", 8 /* PROPS */, _hoisted_31)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 2. Shahada "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-star-fill me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-star-fill me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step 1: The Shahada")], -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "The testimony of faith is the first step to becoming a Muslim.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
     src: $data.shahadaAudio,
     type: "audio/mpeg"
@@ -28891,19 +28774,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Download Shahada Certificate", 8 /* PROPS */, _hoisted_36)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3. First Steps Checklist "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-list-check me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-list-check me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step 2: Your First Steps")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.firstSteps, (step, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: i,
       class: "list-group-item bg-white text-black d-flex align-items-center"
     }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check-circle-fill me-2",
-      style: {
-        "color": "#00bfa6"
-      }
+      class: "bi bi-check-circle-fill me-2 accent-teal"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -28931,10 +28808,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "col",
       key: i
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([basic.icon, "me-2"]),
-      style: {
-        "color": "#00bfa6"
-      }
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([basic.icon, "me-2 accent-teal"])
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(basic.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: basic.link,
       class: "btn btn-outline-primary btn-sm convert-btn-outline",
@@ -28945,10 +28819,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 5. Community & Support "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-people-fill me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-people-fill me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Find Community")], -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Connect with other Muslims near you and online.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
     src: $data.communityMap,
     allowfullscreen: ""
@@ -28975,19 +28846,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 6. Resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-journal-richtext me-2",
-    style: {
-      "color": "#228B22"
-    }
+    class: "bi bi-journal-richtext me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Resources")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.resources, (resource, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col",
       key: i
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([resource.icon, "me-2"]),
-      style: {
-        "color": "#228B22"
-      }
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([resource.icon, "me-2 accent-primary"])
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: resource.link,
       class: "btn btn-outline-primary btn-sm convert-btn-outline",
@@ -28998,10 +28863,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7. Ask a Question "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-question-circle-fill me-2",
-    style: {
-      "color": "#228B22"
-    }
+    class: "bi bi-question-circle-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Need Help?")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitQuestion && $options.submitQuestion(...args), ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
@@ -29021,29 +28883,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.questionLoading ? 'Sending...' : 'Send'), 9 /* TEXT, PROPS */, _hoisted_70)], 32 /* NEED_HYDRATION */), $data.questionSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, " Thank you for your question! We'll get back to you soon. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.questionError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.questionError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 8. Events & Meetups "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-calendar-event-fill me-2",
-    style: {
-      "color": "#228B22"
-    }
+    class: "bi bi-calendar-event-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Upcoming Events")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_75, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, (event, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: i,
       class: "list-group-item d-flex justify-content-between align-items-center bg-white text-black"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-calendar2-week me-2",
-      style: {
-        "color": "#228B22"
-      }
+      class: "bi bi-calendar2-week me-2 accent-primary"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill", event.badgeClass])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.badge), 3 /* TEXT, CLASS */)]);
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 9. Feedback "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chat-dots-fill me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-chat-dots-fill me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitFeedback && $options.submitFeedback(...args), ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
@@ -29060,7 +28913,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn btn-secondary btn-sm convert-btn",
     disabled: $data.feedbackLoading,
     title: "Submit feedback"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackLoading ? 'Submitting...' : 'Submit'), 9 /* TEXT, PROPS */, _hoisted_80)], 32 /* NEED_HYDRATION */), $data.feedbackSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, " Thank you for your feedback! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.feedbackError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call to Action "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card mb-5 shadow-sm convert-card fade-in\" data-v-d2c5d416><div class=\"card-body text-center\" data-v-d2c5d416><h2 class=\"card-title mb-3\" style=\"color:#228B22;\" data-v-d2c5d416><i class=\"bi bi-megaphone-fill me-2\" data-v-d2c5d416></i>Get Involved!</h2><p class=\"mb-3\" data-v-d2c5d416>Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p><div class=\"d-flex flex-column flex-md-row justify-content-center gap-3\" data-v-d2c5d416><a href=\"mailto:stories@islamicconnect.com\" class=\"btn btn-success convert-btn\" title=\"Share your story\" data-v-d2c5d416><i class=\"bi bi-pencil-square me-1\" data-v-d2c5d416></i> Share Your Story</a><a href=\"https://calendly.com/mentor-session\" target=\"_blank\" class=\"btn btn-primary convert-btn\" title=\"Book a mentor session\" data-v-d2c5d416><i class=\"bi bi-person-video3 me-1\" data-v-d2c5d416></i> Book 1:1 Mentor Session</a></div></div></div>", 1))]);
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackLoading ? 'Submitting...' : 'Submit'), 9 /* TEXT, PROPS */, _hoisted_80)], 32 /* NEED_HYDRATION */), $data.feedbackSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, " Thank you for your feedback! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.feedbackError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call to Action "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card mb-5 shadow-sm convert-card fade-in\" data-v-d2c5d416><div class=\"card-body text-center\" data-v-d2c5d416><h2 class=\"card-title mb-3 accent-heading accent-heading--primary\" data-v-d2c5d416><i class=\"bi bi-megaphone-fill me-2 accent-primary\" data-v-d2c5d416></i>Get Involved!</h2><p class=\"mb-3\" data-v-d2c5d416>Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p><div class=\"d-flex flex-column flex-md-row justify-content-center gap-3 action-row action-row--spaced\" data-v-d2c5d416><a href=\"mailto:stories@islamicconnect.com\" class=\"premium-action-button premium-action-button--outline\" title=\"Share your story\" data-v-d2c5d416><span class=\"action-row__icon\" data-v-d2c5d416><i class=\"bi bi-pencil-square\" aria-hidden=\"true\" data-v-d2c5d416></i></span><span class=\"action-row__label\" data-v-d2c5d416>Share Your Story</span></a><a href=\"https://calendly.com/mentor-session\" target=\"_blank\" class=\"premium-action-button premium-action-button--primary\" title=\"Book a mentor session\" data-v-d2c5d416><span class=\"action-row__icon\" data-v-d2c5d416><i class=\"bi bi-person-video3\" aria-hidden=\"true\" data-v-d2c5d416></i></span><span class=\"action-row__label\" data-v-d2c5d416>Book 1:1 Mentor Session</span></a></div></div></div>", 1))]);
 }
 
 /***/ }),
@@ -34822,47 +34675,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container",
-  style: {
-    "padding": "10px"
-  }
+  class: "container py-2"
 };
 const _hoisted_2 = {
-  class: "mx-auto mb-4",
-  style: {
-    "position": "relative",
-    "background": "#eaf3f1",
-    "border": "1px solid rgba(11, 128, 111, 0.20)",
-    "border-radius": "24px",
-    "box-shadow": "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09)",
-    "padding": "1.25rem 1.75rem"
-  }
+  class: "mx-auto mb-4"
 };
-const _hoisted_3 = ["title", "aria-label"];
+const _hoisted_3 = {
+  class: "premium-panel next-step-card"
+};
 const _hoisted_4 = {
-  class: "d-flex align-items-start gap-3 text-start"
+  class: "premium-panel__header"
 };
-const _hoisted_5 = {
-  style: {
-    "flex": "1"
-  }
-};
+const _hoisted_5 = ["title", "aria-label"];
 const _hoisted_6 = {
-  class: "mb-2 d-inline-flex align-items-center gap-1",
-  style: {
-    "color": "#1f2933"
-  }
+  class: "next-step-callout"
 };
 const _hoisted_7 = {
-  class: "mb-3",
-  style: {
-    "color": "#1f2933",
-    "line-height": "1.7",
-    "font-size": "1.02rem"
-  }
+  class: "next-step-callout__content"
 };
 const _hoisted_8 = {
-  class: "d-flex flex-wrap gap-2"
+  class: "mb-3"
 };
 const _hoisted_9 = {
   class: "container d-flex justify-content-center"
@@ -34875,11 +34707,7 @@ const _hoisted_11 = {
 };
 const _hoisted_12 = {
   key: 0,
-  class: "list-group position-absolute w-100 z-3",
-  style: {
-    "max-height": "200px",
-    "overflow-y": "auto"
-  }
+  class: "list-group position-absolute w-100 z-3 suggestions-dropdown"
 };
 const _hoisted_13 = ["onMousedown"];
 const _hoisted_14 = {
@@ -34897,7 +34725,7 @@ const _hoisted_19 = {
   class: "flex-grow-1"
 };
 const _hoisted_20 = {
-  class: "d-flex gap-2"
+  class: "action-row mt-3 w-100 flex-wrap"
 };
 const _hoisted_21 = {
   key: 0,
@@ -34925,102 +34753,34 @@ const _hoisted_27 = {
   class: "alert alert-warning text-center mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    class: "text-center py-4 fw-bold display-5 display-md-4"
-  }, "Prayer Times Calendar", -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-center text-dark mb-4 mt-1 px-3 px-md-0",
-    style: {
-      "font-size": "18px"
-    }
-  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", {
+    class: "text-center py-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    class: "fw-bold display-5 display-md-4 mb-2"
+  }, "Prayer Times Calendar"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "hero-subtitle mx-auto mb-4 px-3 px-md-0"
+  }, " Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location or lets you manually choose. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "premium-panel__title"
+  }, "NEXT STEP", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     title: $data.nextStepMinimized ? 'Restore' : 'Minimize',
     "aria-label": $data.nextStepMinimized ? 'Restore next step' : 'Minimize next step',
     onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleNextStepMinimized && $options.toggleNextStepMinimized(...args)),
-    style: {
-      "position": "absolute",
-      "right": "44px",
-      "top": "14px",
-      "opacity": "0.9",
-      "background": "transparent",
-      "border": "0",
-      "color": "#6b8b91",
-      "z-index": "3",
-      "cursor": "pointer"
-    }
+    class: "next-step-card__toggle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_3), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "flex-shrink-0 mt-1"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "next-step-icon-circle",
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "next-step-callout__icon",
     role: "img",
-    "aria-label": "Gentle Qibla guide",
-    style: {
-      "width": "48px",
-      "height": "48px",
-      "border-radius": "50%",
-      "background": "linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12))",
-      "display": "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "color": "rgb(0, 121, 107)",
-      "font-size": "1.25rem",
-      "box-shadow": "inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12)"
-    }
+    "aria-label": "Gentle Qibla guide"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-compass",
     "aria-hidden": "true"
-  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-2 fw-semibold text-uppercase",
-    style: {
-      "letter-spacing": "0.1em",
-      "color": "#1a5f7a",
-      "font-size": "0.78rem"
-    }
-  }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/qibla",
-    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1",
-    style: {
-      "color": "rgb(0, 121, 107)"
-    },
-    "aria-label": "Open the Qibla finder"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Align with the Qibla "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square",
-    "aria-hidden": "true",
-    style: {
-      "color": "rgb(0, 121, 107)",
-      "font-size": "0.82rem",
-      "opacity": "0.85"
-    }
-  })], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" New to Islam and relying on these Salah schedules? Take the next gentle step by visiting our Qibla finder. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/qibla",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "rgb(0, 121, 107)"
-    }
-  }, " Visit Qibla Finder ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" whenever you’re ready to align your heart and compass. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/qibla",
-    class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center",
-    style: {
-      "background": "linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a)",
-      "border": "none",
-      "border-radius": "999px",
-      "box-shadow": "0 10px 20px rgba(26, 95, 122, 0.22)",
-      "transition": "transform 0.2s ease, box-shadow 0.2s ease"
-    },
-    onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';",
-    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Open Qibla Finder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-location-arrow ms-2",
-    "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "visually-hidden"
-  }, "Open the accessible Qibla finder experience")], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"text-muted mb-2\" data-v-02228b8a>Align your routine with the Qibla and keep the compass close.</p><a href=\"/qibla\" class=\"premium-action-button premium-action-button--outline\" aria-label=\"Open the Qibla finder\" data-v-02228b8a><span class=\"action-row__icon\" data-v-02228b8a><i class=\"fas fa-arrow-up-right-from-square\" aria-hidden=\"true\" data-v-02228b8a></i></span><span class=\"action-row__label\" data-v-02228b8a>Open Qibla Finder</span></a>", 2)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<p class=\"next-step-callout__copy mb-3\" data-v-02228b8a> New to Islam and relying on these Salah schedules? Take the next gentle step by visiting our Qibla finder. <a href=\"/qibla\" class=\"fw-semibold text-decoration-none\" aria-label=\"Visit Qibla Finder\" data-v-02228b8a>Visit Qibla Finder</a> whenever you’re ready to align your heart and compass. </p><div class=\"action-row action-row--spaced mt-3\" data-v-02228b8a><a href=\"/qibla\" class=\"premium-action-button premium-action-button--outline\" aria-label=\"Discover trusted compass guidance\" data-v-02228b8a><span class=\"action-row__icon\" data-v-02228b8a><i class=\"fas fa-globe\" aria-hidden=\"true\" data-v-02228b8a></i></span><span class=\"action-row__label\" data-v-02228b8a>Compass Guidance</span></a></div>", 2)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Input Form "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitSearch && $options.submitSearch(...args), ["prevent"])),
     class: "container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "city",
     class: "form-label fw-bold"
   }, "City", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -35038,7 +34798,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "list-group-item list-group-item-action",
       onMousedown: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.selectCitySuggestion(suggestion), ["prevent"])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(suggestion.display_name), 41 /* TEXT, PROPS, NEED_HYDRATION */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "country",
     class: "form-label fw-bold"
   }, "Country", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -35046,7 +34806,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.country = $event),
     class: "form-select",
     required: ""
-  }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Country", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.countryList, c => {
@@ -35054,7 +34814,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: c,
       value: c
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(c), 9 /* TEXT, PROPS */, _hoisted_15);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.country]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.country]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "methodSelect"
   }, "Select Calculation Method:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "methodSelect",
@@ -35065,25 +34825,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: id,
       value: id
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 9 /* TEXT, PROPS */, _hoisted_17);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.method]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "schoolSelect"
   }, "Asr Juristic Method:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "schoolSelect",
     "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => $data.school = $event),
     class: "form-select"
-  }, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: 0
   }, "Shafi, Maliki, Hanbali (Standard)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: 1
   }, "Hanafi (Later Asr)", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.school, void 0, {
     number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "latAdjSelect"
   }, "High Latitude Adjustment:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "latAdjSelect",
     "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $data.latitudeAdjustmentMethod = $event),
     class: "form-select"
-  }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: 0
   }, "None", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: 1
@@ -35093,23 +34853,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     value: 3
   }, "Angle Based", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.latitudeAdjustmentMethod, void 0, {
     number: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
-    class: "btn px-4",
-    style: {
-      "background-color": "#00bfa6",
-      "color": "white",
-      "font-weight": "bold"
-    }
+    class: "premium-action-button premium-action-button--primary",
+    "aria-label": "Search for prayer times"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-search me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Search ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "bi bi-search",
+    "aria-hidden": "true"
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Search")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn btn-outline-secondary px-4",
-    onClick: _cache[9] || (_cache[9] = (...args) => $options.resetFields && $options.resetFields(...args))
-  }, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-geo-alt me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" My Location ", -1 /* CACHED */)]))])])], 32 /* NEED_HYDRATION */), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "premium-action-button premium-action-button--outline",
+    onClick: _cache[9] || (_cache[9] = (...args) => $options.resetFields && $options.resetFields(...args)),
+    "aria-label": "Use my current location"
+  }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-geo-alt",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "My Location", -1 /* CACHED */)]))])])], 32 /* NEED_HYDRATION */), $data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-primary",
     role: "status"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -35118,11 +34885,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "mt-2"
   }, "Fetching prayer times for your location...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerData.length && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" 📅 Timings for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.monthName) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.year) + " – " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.city) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.useCurrentLocation ? ' (Current Location)' : ' (Search Results)') + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_25, [_cache[11] || ((0,vue__WEBPACK_IMPORTED_MODULE_0__.setBlockTracking)(-1, true), (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", {
     class: "table-secondary sticky-top"
-  }, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")], -1 /* CACHED */))])).cacheIndex = 11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.setBlockTracking)(1), _cache[11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerRows, day => {
+  }, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Date"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Fajr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Sunrise"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Dhuhr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Asr"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Maghrib"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "Isha")], -1 /* CACHED */))])).cacheIndex = 11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.setBlockTracking)(1), _cache[11]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.prayerRows, day => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
       key: day.date
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.date), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.fajr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.sunrise), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.dhuhr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.asr), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.maghrib), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(day.isha), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerRows.length === 0 && $data.submitted && !$data.loading && !$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [...(_cache[29] || (_cache[29] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), 128 /* KEYED_FRAGMENT */))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.prayerRows.length === 0 && $data.submitted && !$data.loading && !$data.errorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-exclamation-triangle-fill me-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" No prayer times found. Please check your city/country or try another method. ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 64 /* STABLE_FRAGMENT */);
 }
@@ -42685,113 +42452,100 @@ const _hoisted_8 = {
 const _hoisted_9 = {
   class: "col-12 col-md-10 col-lg-8"
 };
-const _hoisted_10 = {
-  class: "d-flex justify-content-end align-items-center mb-3 no-print"
-};
-const _hoisted_11 = ["aria-labelledby", "id"];
-const _hoisted_12 = {
+const _hoisted_10 = ["aria-labelledby", "id"];
+const _hoisted_11 = {
   class: "h1 fw-bold text-center mb-3"
 };
-const _hoisted_13 = {
+const _hoisted_12 = {
   class: "mt-3"
 };
-const _hoisted_14 = {
+const _hoisted_13 = {
   class: "accordion mb-3",
   id: "guideSteps",
   role: "region",
   "aria-label": "Step-by-step guide"
 };
-const _hoisted_15 = ["id"];
-const _hoisted_16 = ["data-bs-target", "aria-expanded", "aria-controls", "id", "aria-label"];
-const _hoisted_17 = ["id", "aria-labelledby", "aria-label"];
-const _hoisted_18 = {
+const _hoisted_14 = ["id"];
+const _hoisted_15 = ["data-bs-target", "aria-expanded", "aria-controls", "id", "aria-label"];
+const _hoisted_16 = ["id", "aria-labelledby", "aria-label"];
+const _hoisted_17 = {
   class: "accordion-body"
 };
-const _hoisted_19 = ["innerHTML"];
-const _hoisted_20 = {
+const _hoisted_18 = ["innerHTML"];
+const _hoisted_19 = {
   key: 0,
   class: "alert alert-soft-success rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Dua"
 };
-const _hoisted_21 = ["innerHTML"];
-const _hoisted_22 = {
+const _hoisted_20 = ["innerHTML"];
+const _hoisted_21 = {
   key: 1,
   class: "alert alert-soft-warning rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Warning"
 };
-const _hoisted_23 = ["innerHTML"];
-const _hoisted_24 = {
+const _hoisted_22 = ["innerHTML"];
+const _hoisted_23 = {
   key: 2,
   class: "alert alert-soft-primary rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Do's"
 };
-const _hoisted_25 = {
+const _hoisted_24 = {
   class: "mb-0"
 };
-const _hoisted_26 = {
+const _hoisted_25 = {
   key: 3,
   class: "alert alert-soft-danger rounded-4 shadow-sm mt-2",
   role: "region",
   "aria-label": "Don'ts"
 };
-const _hoisted_27 = {
+const _hoisted_26 = {
   class: "mb-0"
 };
-const _hoisted_28 = {
+const _hoisted_27 = {
   key: 0,
   class: "mt-4"
 };
+const _hoisted_28 = ["id"];
 const _hoisted_29 = ["id"];
-const _hoisted_30 = ["id"];
-const _hoisted_31 = ["data-bs-target", "aria-controls", "aria-label"];
-const _hoisted_32 = ["id", "aria-labelledby", "data-bs-parent", "aria-label"];
-const _hoisted_33 = {
+const _hoisted_30 = ["data-bs-target", "aria-controls", "aria-label"];
+const _hoisted_31 = ["id", "aria-labelledby", "data-bs-parent", "aria-label"];
+const _hoisted_32 = {
   class: "accordion-body"
 };
-const _hoisted_34 = ["innerHTML"];
-const _hoisted_35 = {
+const _hoisted_33 = ["innerHTML"];
+const _hoisted_34 = {
   key: 1,
   class: "mt-4"
 };
-const _hoisted_36 = {
+const _hoisted_35 = {
   class: "list-unstyled ms-2"
 };
-const _hoisted_37 = {
+const _hoisted_36 = {
   key: 2,
   class: "mt-3"
 };
-const _hoisted_38 = {
+const _hoisted_37 = {
   class: "list-unstyled"
 };
-const _hoisted_39 = ["href", "aria-label"];
-const _hoisted_40 = {
+const _hoisted_38 = ["href", "aria-label"];
+const _hoisted_39 = {
   key: 0,
-  class: "alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x",
+  class: "alert alert-success alert-dismissible fs-5 p-4 text-center border-0 position-fixed top-0 start-50 translate-middle-x alert-floating",
   role: "alert",
-  "aria-live": "polite",
-  style: {
-    "background-color": "rgba(223, 250, 241, 0.9)",
-    "color": "#00bfa6",
-    "z-index": "1100",
-    "max-width": "500px"
-  }
+  "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skip to main content link for screen readers and keyboard users "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Skip to main content link for screen readers and keyboard users "), _cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "#main-content",
     class: "visually-hidden-focusable skip-link"
-  }, "Skip to main content", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, "Skip to main content", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     id: "umrah-title",
     class: "display-5 fw-bold mb-4"
-  }, " Hajj & Umrah Guides ", -1 /* CACHED */)), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mx-auto description text-muted",
-    style: {
-      "max-width": "900px",
-      "font-size": "1.2rem"
-    }
+  }, " Hajj & Umrah Guides ", -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "mx-auto description text-muted guide-description"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-circle me-2",
     "aria-hidden": "true"
@@ -42815,7 +42569,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "tabHajj",
     onKeydown: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)($event => $options.switchTab('hajj'), ["enter", "space"])),
     "aria-label": 'Show Hajj Guide'
-  }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-moon-stars me-2",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Hajj Guides ", -1 /* CACHED */)]))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_5)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -42832,44 +42586,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "tabUmrah",
     onKeydown: _cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)($event => $options.switchTab('umrah'), ["enter", "space"])),
     "aria-label": 'Show Umrah Guide'
-  }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-person-walking me-2",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ", -1 /* CACHED */)]))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)])], 544 /* NEED_HYDRATION, NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Print Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[5] || (_cache[5] = (...args) => $options.printGuide && $options.printGuide(...args)),
-    class: "btn btn-outline-secondary btn-sm print-btn",
-    "aria-label": "Print this guide as PDF"
-  }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-printer me-2",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Print / Save as PDF ", -1 /* CACHED */)]))])]), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "mb-4",
-    style: {
-      "height": "350px"
-    },
-    role: "region",
-    "aria-label": "Map showing key ritual locations"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    id: "ritual-map",
-    style: {
-      "width": "100%",
-      "height": "100%",
-      "border": "2px solid lightgray",
-      "border-radius": "2%",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "overflow": "hidden"
-    }
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Umrah Guides ", -1 /* CACHED */)]))], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_7)])], 544 /* NEED_HYDRATION, NEED_PATCH */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Print Button "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"action-row action-row--spaced action-row--end mb-3 no-print\">\n            <button type=\"button\" @click=\"copyText\" :disabled=\"isCopying\"\n              class=\"premium-action-button premium-action-button--outline\"\n              aria-label=\"Copy the Hajj and Umrah guide content\">\n              <span class=\"action-row__icon\"><i class=\"bi bi-link-45deg\" aria-hidden=\"true\"></i></span>\n              <span class=\"action-row__label\">{{ isCopying ? 'Copying...' : 'Copy Guide' }}</span>\n            </button>\n            <button type=\"button\" @click=\"printGuide\"\n              class=\"premium-action-button premium-action-button--primary\"\n              aria-label=\"Print or save this guide\">\n              <span class=\"action-row__icon\"><i class=\"bi bi-printer\" aria-hidden=\"true\"></i></span>\n              <span class=\"action-row__label\">Print / Save PDF</span>\n            </button>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("\n            <div class=\"map-panel mb-4\" role=\"region\" aria-label=\"Map showing key ritual locations\">\n              <div id=\"ritual-map\" class=\"ritual-map-frame\"></div>\n            </div>\n          "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3 p-md-4 guide-card shadow-sm rounded-4 border border-2",
     "aria-labelledby": $data.currentTab + '-tab',
     id: $data.currentTab + '-panel',
     role: "tabpanel"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"info-row d-flex flex-wrap justify-content-center gap-2 mb-4\" aria-label=\"Guide info badges\">\n              <span class=\"badge info-badge\"><i class=\"bi bi-book me-1\" aria-hidden=\"true\"></i><strong>Read: </strong> {{ readTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-headphones me-1\" aria-hidden=\"true\"></i><strong>Listen:</strong> {{ listeningTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-file-earmark-word me-1\" aria-hidden=\"true\"></i><strong>Words: </strong> {{ wordCount }}</span>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_13, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currentContent.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"info-row d-flex flex-wrap justify-content-center gap-2 mb-4\" aria-label=\"Guide info badges\">\n              <span class=\"badge info-badge\"><i class=\"bi bi-book me-1\" aria-hidden=\"true\"></i><strong>Read: </strong> {{ readTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-headphones me-1\" aria-hidden=\"true\"></i><strong>Listen:</strong> {{ listeningTime }} min</span>\n              <span class=\"badge info-badge\"><i class=\"bi bi-file-earmark-word me-1\" aria-hidden=\"true\"></i><strong>Words: </strong> {{ wordCount }}</span>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_12, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-list-ol me-2",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step-by-Step Guide ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.steps, (step, idx) => {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step-by-Step Guide ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.steps, (step, idx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: idx,
       class: "accordion-item rounded-4 mb-2 shadow-sm border border-2"
@@ -42889,10 +42619,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       role: "button",
       tabindex: "0",
       "aria-label": 'Expand step: ' + step.title
-    }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check2-circle me-2 text-custom",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_16)], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_15)], 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: `collapse${idx}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-collapse collapse", {
         show: idx === 0
@@ -42901,43 +42631,43 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "data-bs-parent": "#guideSteps",
       role: "region",
       "aria-label": 'Step details: ' + step.title
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "mb-2",
       innerHTML: step.description
-    }, null, 8 /* PROPS */, _hoisted_19), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_18), step.dua ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-journal-richtext me-2",
       "aria-hidden": "true"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Dua")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: step.dua
-    }, null, 8 /* PROPS */, _hoisted_21)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_20)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.warning ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-exclamation-triangle me-2",
       "aria-hidden": "true"
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Warning")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: step.warning
-    }, null, 8 /* PROPS */, _hoisted_23)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }, null, 8 /* PROPS */, _hoisted_22)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.dos ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-hand-thumbs-up me-2",
       "aria-hidden": "true"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Do's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_25, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.dos, (doItem, dIdx) => {
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Do's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_24, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.dos, (doItem, dIdx) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: dIdx
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(doItem), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_26, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), step.donts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: "mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-hand-thumbs-down me-2",
       "aria-hidden": "true"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Don'ts")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.donts, (dontItem, dIdx) => {
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Don'ts")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(step.donts, (dontItem, dIdx) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: dIdx
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dontItem), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_17)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), $options.currentContent.faq && $options.currentContent.faq.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_28, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_16)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), $options.currentContent.faq && $options.currentContent.faq.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_27, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle me-2",
@@ -42962,38 +42692,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-expanded": "false",
       "aria-controls": `faq-collapse-${$data.currentTab}-${idx}`,
       "aria-label": 'Expand FAQ: ' + item.question
-    }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-question-lg me-2 text-custom",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_31)], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_30)], 8 /* PROPS */, _hoisted_29), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: `faq-collapse-${$data.currentTab}-${idx}`,
       class: "accordion-collapse collapse",
       "aria-labelledby": `faq-heading-${$data.currentTab}-${idx}`,
       "data-bs-parent": `#${$data.currentTab}-faq`,
       role: "region",
       "aria-label": 'FAQ answer: ' + item.question
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       innerHTML: item.answer
-    }, null, 8 /* PROPS */, _hoisted_34)])], 8 /* PROPS */, _hoisted_32)]);
-  }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_29)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Mistakes Section "), $options.currentContent.commonMistakes && $options.currentContent.commonMistakes.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_35, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, 8 /* PROPS */, _hoisted_33)])], 8 /* PROPS */, _hoisted_31)]);
+  }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_28)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common Mistakes Section "), $options.currentContent.commonMistakes && $options.currentContent.commonMistakes.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_34, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-exclamation-diamond me-2",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Common Mistakes")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.commonMistakes, (mistake, mIdx) => {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Common Mistakes")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_35, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.commonMistakes, (mistake, mIdx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: mIdx,
       class: "mb-2 d-flex align-items-start"
-    }, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill text-danger me-2",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(mistake), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_37, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentContent.references && $options.currentContent.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_36, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "section-title mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-link-45deg me-2",
     "aria-hidden": "true"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("References & Further Reading")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.references, (ref, rIdx) => {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("References & Further Reading")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_37, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.currentContent.references, (ref, rIdx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: rIdx,
       class: "me-3"
@@ -43003,17 +42733,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       rel: "noopener",
       class: "text-decoration-underline",
       "aria-label": 'Reference: ' + ref.title
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.title), 9 /* TEXT, PROPS */, _hoisted_39)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_11)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(ref.title), 9 /* TEXT, PROPS */, _hoisted_38)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_10)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade-slow-top"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_40, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill me-2",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Success:", -1 /* CACHED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Guide copied to clipboard! ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn-close",
-      onClick: _cache[6] || (_cache[6] = $event => $data.copySuccess = false),
+      onClick: _cache[5] || (_cache[5] = $event => $data.copySuccess = false),
       "aria-label": "Close"
     })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
@@ -43694,7 +43424,7 @@ const _hoisted_3 = {
   class: "row g-4 justify-content-center"
 };
 const _hoisted_4 = {
-  class: "card shadow-md rounded-4"
+  class: "card shadow-md rounded-20"
 };
 const _hoisted_5 = {
   class: "card-body p-lg-5"
@@ -43845,7 +43575,9 @@ const _hoisted_54 = {
   class: "input-group-text bg-light"
 };
 const _hoisted_55 = {
-  class: "d-flex flex-column flex-md-row gap-3 mt-5"
+  class: "action-row action-row--spaced flex-wrap mt-5",
+  role: "group",
+  "aria-label": "Zakat calculator actions"
 };
 const _hoisted_56 = ["disabled"];
 const _hoisted_57 = {
@@ -43854,126 +43586,135 @@ const _hoisted_57 = {
   ref: "zakatSummary"
 };
 const _hoisted_58 = {
-  class: "card shadow-md rounded-4 sticky-top"
+  class: "card shadow-md rounded-20 sticky-top"
 };
 const _hoisted_59 = {
-  class: "card-body p-4"
+  class: "card-body p-4",
+  style: {
+    "padding": "10px"
+  }
 };
 const _hoisted_60 = {
   class: "summary-item mb-4"
 };
 const _hoisted_61 = {
-  class: "text-muted"
+  class: "d-flex w-100 justify-content-between align-items-center"
 };
 const _hoisted_62 = {
-  class: "summary-item mb-4"
+  class: "text-muted"
 };
 const _hoisted_63 = {
-  class: "d-flex justify-content-between mb-2"
-};
-const _hoisted_64 = {
-  class: "text-danger"
-};
-const _hoisted_65 = {
   class: "summary-item mb-4"
 };
+const _hoisted_64 = {
+  class: "summary-metric mb-2"
+};
+const _hoisted_65 = {
+  class: "d-flex w-100 justify-content-between align-items-center"
+};
 const _hoisted_66 = {
-  class: "d-flex justify-content-between mb-2"
+  class: "text-danger"
 };
 const _hoisted_67 = {
-  class: "text-dark"
+  class: "summary-item mb-4"
 };
 const _hoisted_68 = {
+  class: "summary-metric mb-2"
+};
+const _hoisted_69 = {
+  class: "d-flex w-100 justify-content-between align-items-center"
+};
+const _hoisted_70 = {
+  class: "text-dark"
+};
+const _hoisted_71 = {
   key: 0,
   class: "summary-item mb-4"
 };
-const _hoisted_69 = {
-  class: "d-flex justify-content-between"
-};
-const _hoisted_70 = {
-  class: "d-flex justify-content-between"
-};
-const _hoisted_71 = {
-  class: "summary-item bg-success-light p-3 rounded mb-4"
-};
 const _hoisted_72 = {
-  class: "d-flex justify-content-between align-items-center"
+  class: "d-flex justify-content-between mb-2"
 };
 const _hoisted_73 = {
-  class: "text-success fw-bold mb-0"
+  class: "d-flex justify-content-between mb-2"
 };
 const _hoisted_74 = {
-  class: "summary-item mb-3"
+  class: "summary-item bg-success-light p-3 rounded mb-4"
 };
 const _hoisted_75 = {
-  class: "form-check form-switch"
+  class: "d-flex justify-content-between align-items-center"
 };
 const _hoisted_76 = {
-  class: "form-check-label",
-  for: "showChartsSwitch"
+  class: "text-success fw-bold mb-0"
 };
 const _hoisted_77 = {
+  class: "summary-item mb-3"
+};
+const _hoisted_78 = {
+  class: "form-check form-switch"
+};
+const _hoisted_79 = {
+  class: "form-check-label ml-3",
+  for: "showChartsSwitch"
+};
+const _hoisted_80 = {
   key: 0,
   class: "ms-2 align-middle"
 };
-const _hoisted_78 = {
+const _hoisted_81 = {
   key: 1,
   class: "chart-container mb-4"
 };
-const _hoisted_79 = {
+const _hoisted_82 = {
   ref: "zakatChart",
   id: "zakatChart"
 };
-const _hoisted_80 = {
+const _hoisted_83 = {
   class: "summary-item mb-4"
 };
-const _hoisted_81 = {
+const _hoisted_84 = {
   class: "d-flex justify-content-between mb-2"
 };
-const _hoisted_82 = {
+const _hoisted_85 = {
   class: "text-muted"
 };
-const _hoisted_83 = {
+const _hoisted_86 = {
   key: 0,
   class: "small mb-0"
 };
-const _hoisted_84 = {
+const _hoisted_87 = {
   key: 1,
   class: "small mb-0"
 };
-const _hoisted_85 = {
+const _hoisted_88 = {
   class: "d-flex flex-column gap-2 mt-4"
 };
-const _hoisted_86 = {
+const _hoisted_89 = {
   class: "row g-4 justify-content-center mt-4"
 };
-const _hoisted_87 = {
+const _hoisted_90 = {
   class: "col-lg-9"
 };
-const _hoisted_88 = {
+const _hoisted_91 = {
   class: "card shadow-md rounded-4"
 };
-const _hoisted_89 = {
+const _hoisted_92 = {
   class: "card-body p-lg-5"
 };
-const _hoisted_90 = {
+const _hoisted_93 = {
   class: "accordion",
   id: "zakatFaqAccordion"
 };
-const _hoisted_91 = ["id"];
-const _hoisted_92 = ["onClick", "aria-expanded", "aria-controls"];
-const _hoisted_93 = ["id", "aria-labelledby"];
-const _hoisted_94 = {
+const _hoisted_94 = ["id"];
+const _hoisted_95 = ["onClick", "aria-expanded", "aria-controls"];
+const _hoisted_96 = ["id", "aria-labelledby"];
+const _hoisted_97 = {
   class: "accordion-body"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "mb-2 text-center py-4 fw-bold display-5"
-  }, "Zakat Calculator", -1 /* CACHED */)), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-center container text-dark mb-4",
-    style: {
-      "font-size": "18px"
-    }
+  }, "Zakat Calculator", -1 /* CACHED */)), _cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "text-center container text-dark mb-4 hero-subtitle"
   }, " Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.zakatCalculated ? 'col-lg-7' : 'col-lg-9', "calculator-column"])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
@@ -44199,117 +43940,121 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.otherLiabilities, void 0, {
     number: true
   }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-dark flex-fill",
+    type: "button",
+    class: "premium-action-button premium-action-button--primary",
+    onClick: _cache[16] || (_cache[16] = (...args) => $options.calculateZakat && $options.calculateZakat(...args)),
     disabled: !$options.isFormValid,
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      opacity: $options.isFormValid ? 1 : 0.5,
-      cursor: $options.isFormValid ? 'pointer' : 'not-allowed'
-    }),
-    onClick: _cache[16] || (_cache[16] = (...args) => $options.calculateZakat && $options.calculateZakat(...args))
-  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-calculator me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* CACHED */)]))], 12 /* STYLE, PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-outline-secondary flex-fill",
-    onClick: _cache[17] || (_cache[17] = (...args) => $options.resetCalculator && $options.resetCalculator(...args))
-  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ", -1 /* CACHED */)]))])])])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    "aria-label": "Calculate my Zakat"
+  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-calculator",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Calculate Zakat", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "premium-action-button premium-action-button--outline",
+    onClick: _cache[17] || (_cache[17] = (...args) => $options.resetCalculator && $options.resetCalculator(...args)),
+    "aria-label": "Reset values"
+  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-arrow-counterclockwise",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Reset", -1 /* CACHED */)]))])])])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
       class: "fw-bold text-dark"
-    }, "Zakat Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Breakdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    }, "Zakat Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Breakdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       class: "mb-3 fw-bold"
     }, "Asset Breakdown", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.assetBreakdown, (value, key) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: key,
-        class: "d-flex justify-content-between mb-2"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(value.toLocaleString()), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */)), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress mb-3",
-      style: {
-        "height": "8px"
-      }
+        class: "summary-metric mb-2"
+      }, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        class: "summary-metric__icon"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-piggy-bank",
+        "aria-hidden": "true"
+      })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(value.toLocaleString()), 1 /* TEXT */)])]);
+    }), 128 /* KEYED_FRAGMENT */)), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "progress mb-3 custom-progress"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress-bar bg-success",
-      role: "progressbar",
-      style: {
-        width: '100%'
-      }
-    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "progress-bar bg-success progress-bar-full",
+      role: "progressbar"
+    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "summary-metric__icon"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-card-list",
+      "aria-hidden": "true"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "Liabilities:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalLiabilities.toLocaleString()), 1 /* TEXT */)]), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress mb-3",
-      style: {
-        "height": "8px"
-      }
+    }, "Liabilities:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalLiabilities.toLocaleString()), 1 /* TEXT */)])]), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "progress mb-3 custom-progress"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress-bar bg-danger",
-      role: "progressbar",
-      style: {
-        width: '100%'
-      }
-    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakatable Amount "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "progress-bar bg-danger progress-bar-full",
+      role: "progressbar"
+    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakatable Amount "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "summary-metric__icon"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-calculator",
+      "aria-hidden": "true"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "Zakatable Amount:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress mb-3",
-      style: {
-        "height": "8px"
-      }
+    }, "Zakatable Amount:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)])]), _cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "progress mb-3 custom-progress"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress-bar bg-dark",
-      role: "progressbar",
-      style: {
-        width: '100%'
-      }
-    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due Breakdown "), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      class: "progress-bar bg-dark progress-bar-full",
+      role: "progressbar"
+    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due Breakdown "), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       class: "mb-3 fw-bold"
-    }, "Zakat Breakdown", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, "Zakat Breakdown", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "On General Assets (2.5%):", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wealthZakat.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, "On General Assets (2.5%):", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wealthZakat.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "On Agricultural Produce:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.agriculturalZakat.toLocaleString()), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+    }, "On Agricultural Produce:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.agriculturalZakat.toLocaleString()), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       class: "mb-1 text-success fw-bold"
-    }, "Total Zakat Due", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString(undefined, {
+    }, "Total Zakat Due", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    })), 1 /* TEXT */)]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check-circle-fill text-success",
-      style: {
-        "font-size": "2rem"
-      }
-    }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Charts Toggle + Canvas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      class: "form-check-input",
+    })), 1 /* TEXT */)]), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-check-circle-fill text-success summary-icon"
+    }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Charts Toggle + Canvas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      class: "form-check-input ml-3",
       type: "checkbox",
       id: "showChartsSwitch",
       "onUpdate:modelValue": _cache[18] || (_cache[18] = $event => $data.showCharts = $event)
-    }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showCharts]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_76, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show asset breakdown chart ", -1 /* CACHED */)), $data.isChartLibLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_77, [...(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showCharts]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_79, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show asset breakdown chart ", -1 /* CACHED */)), $data.isChartLibLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_80, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "spinner-border spinner-border-sm text-secondary",
       role: "status",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Loading…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), $data.showCharts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_79, null, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Nisab Threshold "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_82, "Nisab Threshold (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel) + "):", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Eligibility "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Loading…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), $data.showCharts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_82, null, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Nisab Threshold "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_85, "Nisab Threshold (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel) + "):", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Eligibility "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["eligibility-badge text-center p-3 rounded mt-4", $options.isEligible ? 'bg-success-light' : 'bg-light'])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'text-success' : 'text-muted', "fw-bold"])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill', "me-2"])
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_83, "Your assets exceed the Nisab threshold.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_84, "Your assets are below the Nisab threshold."))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_86, "Your assets exceed the Nisab threshold.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_87, "Your assets are below the Nisab threshold."))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-dark w-100",
       onClick: _cache[19] || (_cache[19] = (...args) => $options.printSummary && $options.printSummary(...args))
-    }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-download me-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-outline-dark w-100",
       onClick: _cache[20] || (_cache[20] = (...args) => $options.shareSummary && $options.shareSummary(...args))
-    }, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-share me-2"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Summary", -1 /* CACHED */)]))])])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "mb-4 fw-bold text-dark text-left"
-  }, "Zakat FAQs", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
+  }, "Zakat FAQs", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "accordion-item",
       key: index
@@ -44324,16 +44069,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.toggleFaq(index),
       "aria-expanded": faq.isOpen,
       "aria-controls": 'faq-collapse-' + index
-    }, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "material-icons me-2"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_92)], 8 /* PROPS */, _hoisted_91), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_95)], 8 /* PROPS */, _hoisted_94), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: 'faq-collapse-' + index,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-collapse collapse", {
         show: faq.isOpen
       }]),
       "aria-labelledby": 'faq-heading-' + index,
       "data-bs-parent": "#zakatFaqAccordion"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_93)]);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_96)]);
   }), 128 /* KEYED_FRAGMENT */))])])])])])])]);
 }
 
@@ -49374,7 +49119,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.islamic-calendar-container[data-v-56bbe5f8] {\n  margin: 0 auto;\n  padding: 20px;\n  background-color: #f8f9fa;\n  border-radius: 10px;\n  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);\n}\n.calendar-header[data-v-56bbe5f8] {\n  margin-bottom: 20px;\n}\n.calendar-controls[data-v-56bbe5f8] {\n  background-color: #fff;\n  padding: 15px;\n  border-radius: 8px;\n  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);\n  gap: 10px;\n}\n.month-year-display[data-v-56bbe5f8] {\n  font-size: 1.2rem;\n  font-weight: bold;\n  gap: 10px;\n}\n.calendar-grid[data-v-56bbe5f8] {\n  background-color: white;\n  border-radius: 8px;\n  overflow: hidden;\n  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);\n}\n.weekday[data-v-56bbe5f8] {\n  padding: 10px;\n  text-align: center;\n  font-weight: bold;\n  background-color: #f1f1f1;\n  border-bottom: 1px solid #dee2e6;\n}\n.calendar-day[data-v-56bbe5f8] {\n  min-height: 100px;\n  padding: 5px;\n  border: 1px solid #dee2e6;\n  background-color: white;\n  transition: all 0.2s;\n  cursor: pointer;\n}\n.calendar-day[data-v-56bbe5f8]:hover {\n  background-color: #f8f9fa;\n  transform: scale(1.02);\n  z-index: 1;\n  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);\n}\n.day-content[data-v-56bbe5f8] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: flex-start;\n  position: relative;\n}\n.day-number[data-v-56bbe5f8] {\n  font-size: 1.3rem;\n  font-weight: bold;\n  margin-bottom: 2px;\n}\n.gregorian-date[data-v-56bbe5f8] {\n  color: #6c757d;\n  font-size: 0.8rem;\n  margin-bottom: 5px;\n}\n.day-indicator[data-v-56bbe5f8] {\n  font-size: 0.7rem;\n  background-color: #4e73df;\n  color: white;\n  padding: 2px 5px;\n  border-radius: 10px;\n  margin-top: 3px;\n}\n.current-day[data-v-56bbe5f8] {\n  background-color: #e3f2fd;\n  position: relative;\n}\n.current-day[data-v-56bbe5f8]::after {\n  content: '';\n  position: absolute;\n  top: 0;\n  right: 0;\n  width: 0;\n  height: 0;\n  border-style: solid;\n  border-width: 0 15px 15px 0;\n  border-color: transparent #4e73df transparent transparent;\n}\n.other-month[data-v-56bbe5f8] {\n  background-color: #f8f9fa;\n  color: #adb5bd;\n}\n.weekend[data-v-56bbe5f8] {\n  background-color: #f0f7ff;\n}\n.islamic-event[data-v-56bbe5f8] {\n  background-color: #fff8e1;\n}\n.event-indicator[data-v-56bbe5f8] {\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  color: #ffc107;\n}\n.modal[data-v-56bbe5f8] {\n  backdrop-filter: blur(5px);\n}\n.prayer-times[data-v-56bbe5f8] {\n  margin-top: 15px;\n}\n.prayer-time[data-v-56bbe5f8] {\n  padding: 5px 0;\n  border-bottom: 1px solid #eee;\n}\n.prayer-name[data-v-56bbe5f8] {\n  font-weight: bold;\n  color: #4e73df;\n}\n.prayer-value[data-v-56bbe5f8] {\n  float: right;\n}\n@media (max-width: 576px) {\n.calendar-day[data-v-56bbe5f8] {\n    min-height: 70px;\n}\n.day-number[data-v-56bbe5f8] {\n    font-size: 1rem;\n}\n.gregorian-date[data-v-56bbe5f8] {\n    display: none;\n}\n.calendar-controls[data-v-56bbe5f8] {\n    flex-direction: column;\n}\n.month-year-display[data-v-56bbe5f8] {\n    margin: 10px 0;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.islamic-calendar-container[data-v-56bbe5f8] {\n  margin: 0 auto;\n  padding: 20px;\n  background-color: #eef2f7;\n}\n.calendar-header[data-v-56bbe5f8] {\n  margin-bottom: 30px;\n}\n.calendar-controls[data-v-56bbe5f8] {\n  background: #fff;\n  border-radius: 20px;\n  padding: 1rem 1.2rem;\n  border: 1px solid rgba(15, 23, 42, 0.1);\n  box-shadow: 0 20px 42px rgba(15, 23, 42, 0.1);\n  gap: 1rem;\n}\n.calendar-controls .form-select[data-v-56bbe5f8] {\n  border-radius: 12px;\n  min-width: 150px;\n  transition: border-color 0.25s ease, box-shadow 0.25s ease;\n}\n.calendar-control__selectors .form-select[data-v-56bbe5f8] {\n  min-width: 160px;\n}\n.calendar-grid[data-v-56bbe5f8] {\n  background-color: #fff;\n  border-radius: 20px;\n  overflow: hidden;\n  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.12);\n}\n.calendar-weekdays .col[data-v-56bbe5f8] {\n  padding: 0.9rem;\n  border-bottom: 1px solid rgba(15, 23, 42, 0.08);\n  background: #f9fafc;\n}\n.calendar-day[data-v-56bbe5f8] {\n  min-height: 100px;\n  padding: 1rem 0.35rem;\n  background-color: #fff;\n  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;\n  cursor: pointer;\n  border: none;\n}\n.calendar-day[data-v-56bbe5f8]:hover {\n  background: #f4fbff;\n  transform: translateY(-1px);\n  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.05);\n}\n.calendar-day[data-v-56bbe5f8]:focus-visible {\n  outline: none;\n  box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.25);\n}\n.calendar-day.bg-light[data-v-56bbe5f8] {\n  background: #fafcff;\n}\n.calendar-day.islamic-event[data-v-56bbe5f8] {\n  background: #fff8e5;\n}\n.event-indicator[data-v-56bbe5f8] {\n  position: absolute;\n  top: 8px;\n  right: 8px;\n}\n.modal[data-v-56bbe5f8] {\n  backdrop-filter: blur(6px);\n}\n.modal-content[data-v-56bbe5f8] {\n  border-radius: 18px;\n}\n.prayer-times[data-v-56bbe5f8] {\n  margin-top: 1rem;\n}\n.prayer-time[data-v-56bbe5f8] {\n  padding: 0.65rem 0;\n  border-bottom: 1px solid #eee;\n}\n.prayer-time[data-v-56bbe5f8]:last-child {\n  border-bottom: none;\n}\n@media (max-width: 768px) {\n.calendar-day[data-v-56bbe5f8] {\n    min-height: 80px;\n}\n.calendar-controls[data-v-56bbe5f8] {\n    flex-direction: column;\n}\n.calendar-control__selectors .form-select[data-v-56bbe5f8] {\n    min-width: 120px;\n}\n}\n@media (max-width: 576px) {\n.calendar-controls[data-v-56bbe5f8] {\n    padding: 0.9rem;\n}\n.calendar-control__selectors[data-v-56bbe5f8] {\n    flex-direction: column;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49443,7 +49188,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.convert-bg[data-v-d2c5d416] {\n  background: #fff !important;\n  color: #000 !important;\n}\n.convert-card[data-v-d2c5d416] {\n  background: #fff !important;\n  color: #000 !important;\n  border: 1px solid #e0e0e0;\n}\n.card-title[data-v-d2c5d416] {\n  color: #00bfa6 !important;\n}\n.btn-primary[data-v-d2c5d416], .btn-success[data-v-d2c5d416], .btn-info[data-v-d2c5d416], .btn-secondary[data-v-d2c5d416], .convert-btn[data-v-d2c5d416] {\n  background-color: #00bfa6 !important;\n  border-color: #00bfa6 !important;\n  color: #fff !important;\n}\n.btn-primary[data-v-d2c5d416]:hover, .btn-success[data-v-d2c5d416]:hover, .btn-info[data-v-d2c5d416]:hover, .btn-secondary[data-v-d2c5d416]:hover, .convert-btn[data-v-d2c5d416]:hover {\n  background-color: #009e8e !important;\n  border-color: #009e8e !important;\n}\n.convert-btn-outline[data-v-d2c5d416] {\n  color: #00bfa6 !important;\n  border-color: #00bfa6 !important;\n  background: #fff !important;\n}\n.convert-btn-outline[data-v-d2c5d416]:hover {\n  background: #0b5d4b !important;\n  color: #fff !important;\n}\n.bg-white[data-v-d2c5d416] {\n  background: #fff !important;\n}\n.text-black[data-v-d2c5d416] {\n  color: #000 !important;\n}\n.fade-in[data-v-d2c5d416] {\n  animation: fadeIn-d2c5d416 0.8s ease-in;\n}\n@keyframes fadeIn-d2c5d416 {\nfrom { opacity: 0; transform: translateY(30px);\n}\nto { opacity: 1; transform: none;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.convert-bg[data-v-d2c5d416] {\n  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);\n  color: #0f172a;\n}\n.convert-card[data-v-d2c5d416] {\n  background: #fff;\n  color: #0f172a;\n  border-radius: 24px;\n  border: none;\n  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.1);\n}\n.card-title[data-v-d2c5d416] {\n  font-weight: 700;\n  color: #0f172a;\n}\n.convert-btn[data-v-d2c5d416] {\n  border-radius: 999px;\n  padding: 0.45rem 1.4rem;\n  font-weight: 600;\n  min-width: 160px;\n  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n}\n.convert-btn[data-v-d2c5d416]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n  box-shadow: none;\n}\n.convert-btn-outline[data-v-d2c5d416] {\n  border-radius: 16px;\n  border-width: 1px;\n  border-color: rgba(0, 191, 166, 0.4);\n  background: #fff;\n  color: #0f3d3b;\n  padding: 0.5rem 1rem;\n  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);\n  transition: background 0.25s ease, color 0.25s ease;\n}\n.convert-btn-outline[data-v-d2c5d416]:hover {\n  background: rgba(0, 191, 166, 0.12);\n  color: #005247;\n}\n.progress-tracker[data-v-d2c5d416] {\n  height: 30px;\n  border-radius: 18px;\n  overflow: hidden;\n  background: rgba(34, 139, 34, 0.12);\n  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.12);\n}\n.progress-tracker-bar[data-v-d2c5d416] {\n  background: linear-gradient(135deg, #00bfa6, #1a5f7a);\n  border-radius: 18px;\n}\n.testimonial-avatar[data-v-d2c5d416] {\n  width: 80px;\n  height: 80px;\n  object-fit: cover;\n  border: 2px solid rgba(34, 139, 34, 0.35);\n  box-shadow: 0 12px 18px rgba(15, 23, 42, 0.2);\n}\n.fade-in[data-v-d2c5d416] {\n  animation: fadeIn-d2c5d416 0.8s ease-in both;\n}\n@keyframes fadeIn-d2c5d416 {\nfrom { opacity: 0; transform: translateY(30px);\n}\nto { opacity: 1; transform: translateY(0);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49904,7 +49649,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.names-container[data-v-062ee157] {\n  /* Provide teal palette for descendants (AA compliant) */\n  --teal-400: #2dd4bf;\n  --teal-500: #14b8a6;\n  --teal-600: #0d9488;\n  --teal-700: #0f766e;\n  --teal-800: #115e59;\n  --teal: var(--teal-500);\n  --teal-dark: var(--teal-700);\n  --surface: #f2fbfa;\n  --ink: #0f172a;\n  --ring: rgba(20, 184, 166, 0.35);\n  --accent-gold: #eab308;\n}\n.text-teal[data-v-062ee157] {\n  color: var(--teal) !important;\n}\n.badge-teal[data-v-062ee157] {\n  background-color: var(--teal);\n  color: #fff;\n}\n\n/* Premium buttons (pill, exact sizing) */\n.btn-premium[data-v-062ee157],\n.btn.btn-premium[data-v-062ee157] {\n  background-image: linear-gradient(135deg, var(--teal-500), var(--teal-700));\n  color: #fff;\n  border: none;\n  border-radius: 24px;\n  min-height: 44px;\n  font-weight: 500;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: .4rem;\n  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;\n}\n.btn-premium[data-v-062ee157]:hover {\n  filter: brightness(1.03);\n  transform: translateY(-1px);\n  box-shadow: 0 10px 22px rgba(17, 94, 89, 0.28);\n}\n.btn-premium[data-v-062ee157]:active {\n  transform: translateY(0);\n}\n.btn-premium-outline[data-v-062ee157],\n.btn.btn-premium-outline[data-v-062ee157] {\n  background: #fff;\n  color: var(--teal-700);\n  border-radius: 24px;\n  border: 2px solid var(--teal-500);\n  padding: 0.65rem 1rem;\n  min-height: 44px;\n  font-weight: 500;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: .4rem;\n  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;\n}\n.btn-premium b[data-v-062ee157], .btn-premium-outline b[data-v-062ee157] { font-weight: 500;\n}\n.btn-premium-outline[data-v-062ee157]:hover {\n  background: rgba(20, 184, 166, 0.06);\n  box-shadow: 0 6px 14px rgba(17, 94, 89, 0.16);\n}\n.btn-premium-outline[data-v-062ee157]:active {\n  background: rgba(20, 184, 166, 0.12);\n}\n\n/* Legacy teal button kept for compatibility */\n.btn-teal[data-v-062ee157] {\n  background-color: var(--teal);\n  color: #fff;\n  border-color: var(--teal);\n  border-radius: 20px;\n}\n.btn-teal[data-v-062ee157]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-compact[data-v-062ee157] {\n  height: auto;\n}\n.card-teal[data-v-062ee157] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 166, 0.22);\n  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);\n  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-teal[data-v-062ee157]:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12);\n}\n\n/* Apply rounded aesthetic to all cards in this component */\n.card[data-v-062ee157] {\n  border-radius: 20px;\n}\n\n/* Premium card & badge */\n.card-premium[data-v-062ee157] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 166, 0.25);\n  background: linear-gradient(180deg, #ffffff, #f9fefd);\n  box-shadow: 0 10px 28px rgba(2, 44, 34, 0.06);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-premium[data-v-062ee157]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 16px 36px rgba(2, 44, 34, 0.10);\n}\n.badge-premium[data-v-062ee157] {\n  background: var(--teal-700);\n  color: #ffffff;\n  border: 1px solid rgba(255, 255, 255, 0.22);\n  border-radius: 8px;\n  padding: .25rem .5rem;\n  font-weight: 700;\n  line-height: 1;\n  box-shadow: 0 1px 2px rgba(2, 44, 34, 0.06);\n}\n\n/* Consistent 20px rounded aesthetic */\n.round-20[data-v-062ee157] {\n  border-radius: 20px;\n}\n.rounded-pill[data-v-062ee157] {\n  border-radius: 999px;\n}\n\n/* Clean, evenly spaced action rows */\n.action-row[data-v-062ee157] {\n  padding: 12px;\n  display: flex;\n  justify-content: space-between;\n  background: #fff;\n}\n.action-row .btn[data-v-062ee157] {\n  flex: 1 1 0;\n}\n.action-row .btn+.btn[data-v-062ee157] {\n  margin-left: .5rem;\n}\n\n/* Liked section responsive tweaks */\n.fav-title[data-v-062ee157] {\n  font-size: 1.6rem;\n}\n.fav-arabic[data-v-062ee157] {\n  font-size: 2.4rem;\n}\n.fav-small[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.fav-actions[data-v-062ee157] {\n  padding: 10px;\n}\n@media (max-width: 576px) {\n.liked-header[data-v-062ee157] {\n    gap: 0.5rem;\n    flex-wrap: wrap;\n}\n.liked-actions[data-v-062ee157] {\n    width: 100%;\n    display: flex;\n    gap: 0.5rem;\n    justify-content: flex-end;\n    margin-top: 0.25rem;\n}\n.fav-title[data-v-062ee157] {\n    font-size: 1.25rem;\n}\n.fav-arabic[data-v-062ee157] {\n    font-size: 1.8rem;\n}\n.fav-small[data-v-062ee157] {\n    font-size: 1rem;\n}\n.fav-actions[data-v-062ee157] {\n    padding: 6px;\n    flex-direction: column;\n}\n.fav-actions .btn[data-v-062ee157] {\n    width: 100%;\n    margin-right: 0 !important;\n}\n}\n.custom-success[data-v-062ee157]:checked {\n  background-color: var(--teal-600) !important;\n  border-color: var(--teal-600) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n\n/* Subtle animations */\n@keyframes fadeSlideUp-062ee157 {\n0% {\n    opacity: 0;\n    transform: translateY(6px);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes subtlePulse-062ee157 {\n0% {\n    box-shadow: 0 0 0 0 rgba(26, 95, 122, 0.0);\n}\n100% {\n    box-shadow: 0 0 0 10px rgba(26, 95, 122, 0.0);\n}\n}\n.animate-in[data-v-062ee157] {\n  animation: fadeSlideUp-062ee157 320ms ease both;\n}\n.raise-on-hover[data-v-062ee157] {\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.raise-on-hover[data-v-062ee157]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);\n}\n.shadow-soft[data-v-062ee157] {\n  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid #228B22;\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: #228B22;\n  color: #ffffff;\n  border-color: #228B22;\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: #00564c;\n  color: #ffffff;\n  border-color: #00564c;\n}\n.btn-outline-primary[data-v-062ee157] {\n  border-color: #228B22;\n  color: #228B22;\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: #228B22;\n  border-color: #228B22;\n  color: #ffffff;\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 20px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid #228B22;\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: #228B22;\n  border-color: #228B22;\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: #00564c;\n  border-color: #00564c;\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n\n/* .form-check-label { font-size: 1.2rem; } */\n\n/* Keep Arabic + Meaning together, minimal padding */\n.toggle-switches-container[data-v-062ee157] {\n  padding: 8px;\n  gap: 12px;\n}\n.toggle-pair[data-v-062ee157] {\n  flex: 0 0 auto;\n  display: inline-flex;\n  align-items: center;\n  -moz-column-gap: 16px;\n       column-gap: 16px;\n  white-space: nowrap;\n}\n.toggle-switches-container .form-check[data-v-062ee157] {\n  flex: 0 0 auto;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n.toggle-switches-container .form-switch[data-v-062ee157] {\n  padding-left: 0;\n}\n.toggle-switches-container .form-check .form-check-input[data-v-062ee157] {\n  margin-right: 8px;\n}\n\n/* Slightly smaller switches on compact screens */\n.form-switch .form-check-input[data-v-062ee157] {\n  width: 2.25rem;\n  height: 1.2rem;\n}\n.form-switch .form-check-input[data-v-062ee157]:checked {\n  background-size: 1.2rem 1.2rem;\n}\n.desc-check[data-v-062ee157] {\n  flex: 0 0 auto;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 6px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n\n/* Let Description drop below on narrow screens; keep pair intact */\n@media (max-width: 576px) {\n.desc-check[data-v-062ee157] {\n    flex-basis: 100%;\n}\n}\n\n/* All names responsive classes */\n.name-title[data-v-062ee157] {\n  font-size: 1.6rem;\n}\n.name-arabic[data-v-062ee157] {\n  font-size: 2.4rem;\n}\n.name-small[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.name-actions[data-v-062ee157] {\n  padding: 12px;\n}\n@media (max-width: 576px) {\n.name-title[data-v-062ee157] {\n    font-size: 1.25rem;\n}\n.name-arabic[data-v-062ee157] {\n    font-size: 1.8rem;\n}\n.name-small[data-v-062ee157] {\n    font-size: 1rem;\n}\n.name-actions[data-v-062ee157] {\n    padding: 8px;\n    flex-direction: column;\n}\n.name-actions .btn[data-v-062ee157] {\n    width: 100%;\n    margin-right: 0 !important;\n}\n}\n\n/* Next-step card + utilities (minimal inline styles) */\n.next-step-card[data-v-062ee157] {\n  position: relative;\n  background: var(--surface);\n  border: 1px solid rgba(11, 128, 111, 0.20);\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 28px rgba(26, 95, 122, 0.09);\n  padding: 1.25rem 1.75rem;\n}\n.ghost-icon-btn[data-v-062ee157] {\n  position: absolute;\n  right: 44px;\n  top: 14px;\n  opacity: 0.9;\n  background: transparent;\n  border: 0;\n  color: #6b8b91;\n  z-index: 3;\n  cursor: pointer;\n  border-radius: 12px;\n  padding: 6px 8px;\n  transition: background-color 120ms ease, color 120ms ease;\n}\n.ghost-icon-btn[data-v-062ee157]:hover {\n  background: rgba(26, 95, 122, 0.08);\n  color: var(--teal-dark);\n}\n.ghost-icon-btn[data-v-062ee157]:focus-visible {\n  outline: none;\n  box-shadow: 0 0 0 4px var(--ring);\n}\n.next-step-icon[data-v-062ee157] {\n  width: 48px;\n  height: 48px;\n  border-radius: 50%;\n  background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: rgb(0, 121, 107);\n  font-size: 1.25rem;\n  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26, 95, 122, 0.12);\n}\n.next-step-eyebrow[data-v-062ee157] {\n  letter-spacing: 0.1em;\n  color: #1a5f7a;\n  font-size: 0.78rem;\n}\n.next-step-copy[data-v-062ee157] {\n  color: var(--ink);\n  line-height: 1.7;\n  font-size: 1.02rem;\n}\n.link-teal[data-v-062ee157] {\n  color: rgb(0, 121, 107);\n}\n.link-teal[data-v-062ee157]:hover {\n  color: var(--teal-dark);\n}\n.btn-gradient[data-v-062ee157] {\n  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);\n  border: none;\n}\n\n/* Improved focus styles */\n.focus-ring[data-v-062ee157] {\n  outline: none;\n}\n.focus-ring[data-v-062ee157]:focus-visible {\n  box-shadow: 0 0 0 4px var(--ring);\n}\n.shadow-soft[data-v-062ee157] {\n  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);\n}\n.raise-on-hover[data-v-062ee157] {\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.raise-on-hover[data-v-062ee157]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);\n}\n.animate-in[data-v-062ee157] {\n  animation: fadeSlideUp-062ee157 320ms ease both;\n}\n@keyframes subtlePop-062ee157 {\nfrom { transform: translateY(0) scale(1);\n}\n50% { transform: translateY(-1px) scale(1.01);\n}\nto { transform: translateY(0) scale(1);\n}\n}\n.btn-premium[data-v-062ee157]:hover, .btn-premium-outline[data-v-062ee157]:hover { animation: subtlePop-062ee157 260ms ease;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.names-container[data-v-062ee157] {\n  /* Provide teal palette for descendants (AA compliant) */\n  --teal-400: #2dd4bf;\n  --teal-500: #14b8a6;\n  --teal-600: #0d9488;\n  --teal-700: #0f766e;\n  --teal-800: #115e59;\n  --teal: var(--teal-500);\n  --teal-dark: var(--teal-700);\n  --surface: #f2fbfa;\n  --ink: #0f172a;\n  --ring: rgba(20, 184, 166, 0.35);\n  --accent-gold: #eab308;\n}\n.text-teal[data-v-062ee157] {\n  color: var(--teal) !important;\n}\n.badge-teal[data-v-062ee157] {\n  background-color: var(--teal);\n  color: #fff;\n}\n\n/* Premium buttons (pill, exact sizing) */\n.btn-premium[data-v-062ee157],\n.btn.btn-premium[data-v-062ee157] {\n  background-image: linear-gradient(135deg, var(--teal-500), var(--teal-700));\n  color: #fff;\n  border: none;\n  border-radius: 24px;\n  min-height: 44px;\n  font-weight: 500;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: .4rem;\n  transition: transform 160ms ease, box-shadow 160ms ease, filter 160ms ease;\n}\n.btn-premium[data-v-062ee157]:hover {\n  filter: brightness(1.03);\n  transform: translateY(-1px);\n  box-shadow: 0 10px 22px rgba(17, 94, 89, 0.28);\n}\n.btn-premium[data-v-062ee157]:active {\n  transform: translateY(0);\n}\n.btn-premium-outline[data-v-062ee157],\n.btn.btn-premium-outline[data-v-062ee157] {\n  background: #fff;\n  color: var(--teal-700);\n  border-radius: 24px;\n  border: 2px solid var(--teal-500);\n  padding: 0.65rem 1rem;\n  min-height: 44px;\n  font-weight: 500;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: .4rem;\n  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;\n}\n.btn-premium b[data-v-062ee157], .btn-premium-outline b[data-v-062ee157] { font-weight: 500;\n}\n.btn-premium-outline[data-v-062ee157]:hover {\n  background: rgba(20, 184, 166, 0.06);\n  box-shadow: 0 6px 14px rgba(17, 94, 89, 0.16);\n}\n.btn-premium-outline[data-v-062ee157]:active {\n  background: rgba(20, 184, 166, 0.12);\n}\n\n/* Legacy teal button kept for compatibility */\n.btn-teal[data-v-062ee157] {\n  background-color: var(--teal);\n  color: #fff;\n  border-color: var(--teal);\n  border-radius: 20px;\n}\n.btn-teal[data-v-062ee157]:hover {\n  background-color: var(--teal-dark);\n  border-color: var(--teal-dark);\n}\n.btn-compact[data-v-062ee157] {\n  height: auto;\n}\n.card-teal[data-v-062ee157] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 166, 0.22);\n  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);\n  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-teal[data-v-062ee157]:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12);\n}\n\n/* Apply rounded aesthetic to all cards in this component */\n.card[data-v-062ee157] {\n  border-radius: 20px;\n}\n\n/* Premium card & badge */\n.card-premium[data-v-062ee157] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 166, 0.25);\n  background: linear-gradient(180deg, #ffffff, #f9fefd);\n  box-shadow: 0 10px 28px rgba(2, 44, 34, 0.06);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-premium[data-v-062ee157]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 16px 36px rgba(2, 44, 34, 0.10);\n}\n.badge-premium[data-v-062ee157] {\n  background: var(--teal-700);\n  color: #ffffff;\n  border: 1px solid rgba(255, 255, 255, 0.22);\n  border-radius: 8px;\n  /* padding: .25rem .5rem; */\n  font-weight: 700;\n  line-height: 1;\n  box-shadow: 0 1px 2px rgba(2, 44, 34, 0.06);\n}\n\n/* Consistent 20px rounded aesthetic */\n.round-20[data-v-062ee157] {\n  border-radius: 20px;\n}\n.rounded-pill[data-v-062ee157] {\n  border-radius: 999px;\n}\n\n/* Clean, evenly spaced action rows */\n.action-row[data-v-062ee157] {\n  padding: 12px;\n  display: flex;\n  justify-content: space-between;\n}\n.action-row .btn[data-v-062ee157] {\n  flex: 1 1 0;\n}\n.action-row .btn+.btn[data-v-062ee157] {\n  margin-left: .5rem;\n}\n\n/* Liked section responsive tweaks */\n.fav-title[data-v-062ee157] {\n  font-size: 1.6rem;\n}\n.fav-arabic[data-v-062ee157] {\n  font-size: 2.4rem;\n}\n.fav-small[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.fav-actions[data-v-062ee157] {\n  padding: 10px;\n}\n@media (max-width: 576px) {\n.liked-header[data-v-062ee157] {\n    gap: 0.5rem;\n    flex-wrap: wrap;\n}\n.liked-actions[data-v-062ee157] {\n    width: 100%;\n    display: flex;\n    gap: 0.5rem;\n    justify-content: flex-end;\n    margin-top: 0.25rem;\n}\n.fav-title[data-v-062ee157] {\n    font-size: 1.25rem;\n}\n.fav-arabic[data-v-062ee157] {\n    font-size: 1.8rem;\n}\n.fav-small[data-v-062ee157] {\n    font-size: 1rem;\n}\n.fav-actions[data-v-062ee157] {\n    padding: 6px;\n    flex-direction: column;\n}\n.fav-actions .btn[data-v-062ee157] {\n    width: 100%;\n    margin-right: 0 !important;\n}\n}\n.custom-success[data-v-062ee157]:checked {\n  background-color: var(--teal-600) !important;\n  border-color: var(--teal-600) !important;\n}\nhtml[data-v-062ee157] {\n  scroll-behavior: smooth;\n}\n.cursor-pointer[data-v-062ee157] {\n  cursor: pointer;\n}\n.hover-zoom[data-v-062ee157]:hover {\n  transform: scale(1.02);\n  transition: transform 0.3s ease;\n}\n\n/* Subtle animations */\n@keyframes fadeSlideUp-062ee157 {\n0% {\n    opacity: 0;\n    transform: translateY(6px);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes subtlePulse-062ee157 {\n0% {\n    box-shadow: 0 0 0 0 rgba(26, 95, 122, 0.0);\n}\n100% {\n    box-shadow: 0 0 0 10px rgba(26, 95, 122, 0.0);\n}\n}\n.animate-in[data-v-062ee157] {\n  animation: fadeSlideUp-062ee157 320ms ease both;\n}\n.raise-on-hover[data-v-062ee157] {\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.raise-on-hover[data-v-062ee157]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);\n}\n.shadow-soft[data-v-062ee157] {\n  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);\n}\n.featured-card[data-v-062ee157] {\n  background: linear-gradient(135deg, #e0f7fa, #ffffff);\n  border-left: 5px solid #228B22;\n}\n.names-container[data-v-062ee157] {\n  max-width: 1400px;\n  margin: 0 auto;\n  font-size: 1.1rem;\n}\n.btn-primary[data-v-062ee157] {\n  background-color: #228B22;\n  color: #ffffff;\n  border-color: #228B22;\n}\n.btn-primary[data-v-062ee157]:hover {\n  background-color: #00564c;\n  color: #ffffff;\n  border-color: #00564c;\n}\n.btn-outline-primary[data-v-062ee157] {\n  border-color: #228B22;\n  color: #228B22;\n}\n.btn-outline-primary[data-v-062ee157]:hover {\n  background-color: #228B22;\n  border-color: #228B22;\n  color: #ffffff;\n}\n.names-grid[data-v-062ee157] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 25px;\n  padding: 25px 0;\n}\n.name-card[data-v-062ee157] {\n  border: none;\n  border-radius: 20px;\n  overflow: hidden;\n  font-size: 1.1rem;\n}\n.name-card[data-v-062ee157]:hover {\n  transform: translateY(-8px);\n}\n.featured-card[data-v-062ee157] {\n  border: 3px solid #228B22;\n}\n.arabic-name[data-v-062ee157] {\n  font-family: 'Traditional Arabic', 'Arial', sans-serif;\n  line-height: 1.6;\n  color: #333;\n}\n.floating-action-btn[data-v-062ee157] {\n  position: fixed;\n  bottom: 40px;\n  right: 40px;\n  z-index: 1000;\n}\n.floating-action-btn button[data-v-062ee157] {\n  width: 60px;\n  height: 60px;\n  font-size: 1.5rem;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: #228B22;\n  border-color: #228B22;\n}\n.floating-action-btn button[data-v-062ee157]:hover {\n  background-color: #00564c;\n  border-color: #00564c;\n}\n@media (max-width: 768px) {\n.names-grid[data-v-062ee157] {\n    grid-template-columns: 1fr;\n}\n.header[data-v-062ee157] {\n    padding: 25px 0;\n}\nh1.display-3[data-v-062ee157] {\n    font-size: 2.2rem;\n}\n.arabic-name[data-v-062ee157] {\n    font-size: 2.5rem;\n}\n}\n@keyframes fadeIn-062ee157 {\nfrom {\n    opacity: 0;\n    transform: translateY(20px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.name-card[data-v-062ee157] {\n  animation: fadeIn-062ee157 0.5s ease forwards;\n  opacity: 0;\n}\n.name-card[data-v-062ee157]:nth-child(1) {\n  animation-delay: 0.1s;\n}\n.name-card[data-v-062ee157]:nth-child(2) {\n  animation-delay: 0.2s;\n}\n.name-card[data-v-062ee157]:nth-child(3) {\n  animation-delay: 0.3s;\n}\n.card-title[data-v-062ee157] {\n  font-size: 1.8rem;\n}\n.arabic-name[data-v-062ee157] {\n  font-size: 3rem;\n}\n.translation[data-v-062ee157],\n.description[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.badge[data-v-062ee157] {\n  font-size: 1rem;\n}\n\n/* .form-check-label { font-size: 1.2rem; } */\n\n/* Keep Arabic + Meaning together, minimal padding */\n.toggle-switches-container[data-v-062ee157] {\n  padding: 8px;\n  gap: 12px;\n}\n.toggle-pair[data-v-062ee157] {\n  flex: 0 0 auto;\n  display: inline-flex;\n  align-items: center;\n  -moz-column-gap: 16px;\n       column-gap: 16px;\n  white-space: nowrap;\n}\n.toggle-switches-container .form-check[data-v-062ee157] {\n  flex: 0 0 auto;\n  margin-bottom: 0;\n  margin-right: 0;\n}\n.toggle-switches-container .form-switch[data-v-062ee157] {\n  padding-left: 0;\n}\n.toggle-switches-container .form-check .form-check-input[data-v-062ee157] {\n  margin-right: 8px;\n}\n\n/* Slightly smaller switches on compact screens */\n.form-switch .form-check-input[data-v-062ee157] {\n  width: 2.25rem;\n  height: 1.2rem;\n}\n.form-switch .form-check-input[data-v-062ee157]:checked {\n  background-size: 1.2rem 1.2rem;\n}\n.desc-check[data-v-062ee157] {\n  flex: 0 0 auto;\n}\n@media (max-width: 768px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 6px;\n}\n}\n@media (min-width: 769px) {\n.toggle-switches-container[data-v-062ee157] {\n    padding: 12px;\n}\n.form-check[data-v-062ee157] {\n    flex: 0 0 auto;\n}\n}\n\n/* Let Description drop below on narrow screens; keep pair intact */\n@media (max-width: 576px) {\n.desc-check[data-v-062ee157] {\n    flex-basis: 100%;\n}\n}\n\n/* All names responsive classes */\n.name-title[data-v-062ee157] {\n  font-size: 1.6rem;\n}\n.name-arabic[data-v-062ee157] {\n  font-size: 2.4rem;\n}\n.name-small[data-v-062ee157] {\n  font-size: 1.2rem;\n}\n.name-actions[data-v-062ee157] {\n  padding: 12px;\n}\n@media (max-width: 576px) {\n.name-title[data-v-062ee157] {\n    font-size: 1.25rem;\n}\n.name-arabic[data-v-062ee157] {\n    font-size: 1.8rem;\n}\n.name-small[data-v-062ee157] {\n    font-size: 1rem;\n}\n.name-actions[data-v-062ee157] {\n    padding: 8px;\n    flex-direction: column;\n}\n.name-actions .btn[data-v-062ee157] {\n    width: 100%;\n    margin-right: 0 !important;\n}\n}\n\n/* Next-step card + utilities (minimal inline styles) */\n.next-step-card[data-v-062ee157] {\n  position: relative;\n  background: var(--surface);\n  border: 1px solid rgba(11, 128, 111, 0.20);\n  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 28px rgba(26, 95, 122, 0.09);\n  padding: 1.25rem 1.75rem;\n}\n.ghost-icon-btn[data-v-062ee157] {\n  position: absolute;\n  right: 44px;\n  top: 14px;\n  opacity: 0.9;\n  background: transparent;\n  border: 0;\n  color: #6b8b91;\n  z-index: 3;\n  cursor: pointer;\n  border-radius: 12px;\n  padding: 6px 8px;\n  transition: background-color 120ms ease, color 120ms ease;\n}\n.ghost-icon-btn[data-v-062ee157]:hover {\n  background: rgba(26, 95, 122, 0.08);\n  color: var(--teal-dark);\n}\n.ghost-icon-btn[data-v-062ee157]:focus-visible {\n  outline: none;\n  box-shadow: 0 0 0 4px var(--ring);\n}\n.next-step-icon[data-v-062ee157] {\n  width: 48px;\n  height: 48px;\n  border-radius: 50%;\n  background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  color: rgb(0, 121, 107);\n  font-size: 1.25rem;\n  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26, 95, 122, 0.12);\n}\n.next-step-eyebrow[data-v-062ee157] {\n  letter-spacing: 0.1em;\n  color: #1a5f7a;\n  font-size: 0.78rem;\n}\n.next-step-copy[data-v-062ee157] {\n  color: var(--ink);\n  line-height: 1.7;\n  font-size: 1.02rem;\n}\n.link-teal[data-v-062ee157] {\n  color: rgb(0, 121, 107);\n}\n.link-teal[data-v-062ee157]:hover {\n  color: var(--teal-dark);\n}\n.btn-gradient[data-v-062ee157] {\n  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);\n  border: none;\n}\n\n/* Improved focus styles */\n.focus-ring[data-v-062ee157] {\n  outline: none;\n}\n.focus-ring[data-v-062ee157]:focus-visible {\n  box-shadow: 0 0 0 4px var(--ring);\n}\n.shadow-soft[data-v-062ee157] {\n  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);\n}\n.raise-on-hover[data-v-062ee157] {\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.raise-on-hover[data-v-062ee157]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);\n}\n.animate-in[data-v-062ee157] {\n  animation: fadeSlideUp-062ee157 320ms ease both;\n}\n@keyframes subtlePop-062ee157 {\nfrom { transform: translateY(0) scale(1);\n}\n50% { transform: translateY(-1px) scale(1.01);\n}\nto { transform: translateY(0) scale(1);\n}\n}\n.btn-premium[data-v-062ee157]:hover, .btn-premium-outline[data-v-062ee157]:hover { animation: subtlePop-062ee157 260ms ease;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -49927,7 +49672,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 1rem;\n  background: rgba(255, 255, 255, 0.97);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: grey;\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #e8f4ff;\n}\n.position-relative[data-v-02228b8a] { position: relative;\n}\n.z-3[data-v-02228b8a] { z-index: 3;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.btn[data-v-02228b8a] {\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-02228b8a] {\n  border-radius: 20px;\n  background: rgba(255, 255, 255, 0.96);\n  border: none;\n  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);\n}\n.next-step-card[data-v-02228b8a] {\n  position: relative;\n}\n.next-step-card__toggle[data-v-02228b8a] {\n  position: absolute;\n  top: 1.1rem;\n  right: 1.1rem;\n  background: transparent;\n  border: none;\n  color: rgba(59, 76, 97, 0.9);\n  font-size: 1rem;\n  padding: 0.3rem 0.5rem;\n  border-radius: 999px;\n  transition: color 0.2s ease, transform 0.2s ease;\n}\n.next-step-card__toggle[data-v-02228b8a]:hover,\n.next-step-card__toggle[data-v-02228b8a]:focus-visible {\n  color: #0d8271;\n  transform: translateY(-1px);\n}\n.table-scroll[data-v-02228b8a] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar {\n  width: 6px;\n}\n.table-scroll[data-v-02228b8a]::-webkit-scrollbar-thumb {\n  background-color: rgba(59, 76, 97, 0.4);\n  border-radius: 10px;\n}\nthead.sticky-top[data-v-02228b8a] {\n  top: 0;\n  z-index: 10;\n}\ntbody tr[data-v-02228b8a]:hover {\n  background-color: #f1fbff;\n}\n.position-relative[data-v-02228b8a] {\n  position: relative;\n}\n.z-3[data-v-02228b8a] {\n  z-index: 3;\n}\n@media (max-width: 576px) {\ntable thead th[data-v-02228b8a],\n  table tbody td[data-v-02228b8a] {\n    font-size: 0.85rem;\n    padding: 0.4rem;\n}\n.premium-action-button[data-v-02228b8a] {\n    flex: 1 1 100%;\n    justify-content: center;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50412,7 +50157,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.1rem;\n  padding: 0.5rem 1.2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.2s cubic-bezier(.4, 2, .3, 1);\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 1px 4px rgba(0, 191, 166, 0.06);\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 10px rgba(0, 191, 166, 0.13);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.guide-card[data-v-2c27c8a7] {\n  background: #fff;\n  border-radius: 1.2rem;\n  box-shadow: none;\n  border: none;\n  padding: 2.2rem 1.5rem 2rem 1.5rem;\n  margin-bottom: 2.2rem;\n}\n.info-row[data-v-2c27c8a7] {\n  gap: 1.1rem !important;\n  margin-bottom: 2.2rem !important;\n  flex-wrap: wrap !important;\n  justify-content: center;\n}\n.info-badge[data-v-2c27c8a7] {\n  background: none;\n  color: #666;\n  font-size: 1.01rem;\n  font-weight: 400;\n  border-radius: 0.4rem;\n  padding: 0.28rem 1.1rem 0.28rem 0.8rem;\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  justify-content: center;\n  border: none;\n  box-shadow: none;\n  margin-right: 0.5rem;\n  margin-left: 0.5rem;\n  margin-bottom: 0.2rem;\n}\n.info-badge i[data-v-2c27c8a7] {\n  font-size: 1.01em;\n  margin-right: 0.3em;\n  color: #b0b0b0;\n}\n#ritual-map[data-v-2c27c8a7] {\n  box-shadow: 0 2px 12px rgba(0, 191, 166, 0.10);\n}\n@media (max-width: 600px) {\n.info-row[data-v-2c27c8a7] {\n    gap: 0.2rem !important;\n    margin-bottom: 1.1rem !important;\n    flex-wrap: wrap !important;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.info-badge[data-v-2c27c8a7] {\n    font-size: 0.95rem;\n    padding: 0.13rem 0.5rem 0.13rem 0.3rem;\n    margin-right: 0.18rem;\n    margin-left: 0.18rem;\n    margin-bottom: 0.15rem;\n    white-space: nowrap;\n}\n.guide-card[data-v-2c27c8a7] {\n    padding: 1.1rem 0.5rem 1.2rem 0.5rem;\n    margin-bottom: 1.2rem;\n}\n.section-title[data-v-2c27c8a7] {\n    margin-top: 1.2rem;\n    margin-bottom: 0.7rem;\n    padding-bottom: 0.1rem;\n}\nsection[data-v-2c27c8a7] {\n    margin-top: 1.1rem;\n    margin-bottom: 1.1rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n    margin-bottom: 0.7rem;\n}\n.accordion-body[data-v-2c27c8a7] {\n    padding: 0.8rem 0.3rem 0.7rem 0.3rem;\n}\n.alert-info[data-v-2c27c8a7],\n  .alert-warning[data-v-2c27c8a7],\n  .alert-primary[data-v-2c27c8a7],\n  .alert-danger[data-v-2c27c8a7],\n  .alert-success[data-v-2c27c8a7] {\n    padding: 0.7rem 0.6rem;\n    margin-bottom: 0.7rem;\n}\n.ms-2[data-v-2c27c8a7] {\n    margin-left: 0.5rem !important;\n}\nsection .list-unstyled[data-v-2c27c8a7] {\n    gap: 0.5rem 0.7rem;\n}\n}\n.section-title[data-v-2c27c8a7] {\n  font-size: 1.22rem;\n  font-weight: 700;\n  color: #222;\n  letter-spacing: 0.5px;\n  margin-top: 2.5rem;\n  margin-bottom: 1.2rem;\n  padding-bottom: 0.2rem;\n  border-bottom: 1px solid #f2f2f2;\n}\n.section-title i[data-v-2c27c8a7] {\n  /* Improve icon contrast on light background */\n  color: #666;\n}\nsection[data-v-2c27c8a7] {\n  margin-top: 2.2rem;\n  margin-bottom: 2.2rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  margin-bottom: 1.2rem;\n  border: none !important;\n  box-shadow: none;\n  background: #fff;\n}\n.accordion-button[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  font-size: 1.08rem;\n  font-weight: 600;\n  background: #f9f9fa;\n  color: #222;\n  transition: background 0.2s, color 0.2s;\n  border: none;\n  box-shadow: none;\n  padding: 1.2rem 1.3rem 1.2rem 1.3rem;\n}\n.accordion-button[data-v-2c27c8a7]:not(.collapsed) {\n  background: #f1f7f6;\n  color: #00bfa6;\n}\n.accordion-body[data-v-2c27c8a7] {\n  font-size: 1.04rem;\n  background: #fff;\n  border-radius: 0.8rem;\n  padding: 1.3rem 1.2rem 1.2rem 1.2rem;\n  border-top: 1px solid #f0f0f0;\n  box-shadow: none;\n  margin-bottom: 0.2rem;\n}\n.alert-info[data-v-2c27c8a7],\n.alert-warning[data-v-2c27c8a7],\n.alert-primary[data-v-2c27c8a7],\n.alert-danger[data-v-2c27c8a7],\n.alert-success[data-v-2c27c8a7] {\n  font-size: 1.01rem;\n  border-radius: 0.8rem;\n  box-shadow: none;\n  border: none;\n  margin-bottom: 1.2rem;\n  padding: 1.2rem 1.3rem;\n}\nul.list-unstyled[data-v-2c27c8a7] {\n  padding-left: 0;\n  margin-bottom: 0.5rem;\n}\nul.list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.8rem;\n  line-height: 1.7;\n}\n\n/* FAQ and Common Mistakes spacing */\n.accordion#hajj-faq[data-v-2c27c8a7],\n.accordion#umrah-faq[data-v-2c27c8a7] {\n  margin-bottom: 1.7rem;\n}\n.ms-2[data-v-2c27c8a7] {\n  margin-left: 1.2rem !important;\n}\n\n/* Reference links horizontal gap */\nsection .list-unstyled[data-v-2c27c8a7] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1.2rem 2.2rem;\n}\nsection .list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.2rem;\n  margin-right: 0;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n.clean-tabs[data-v-2c27c8a7] {\n  gap: 1.2rem;\n  margin-bottom: 2.2rem !important;\n  margin-top: 0.7rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n  background: none;\n  border: none;\n  border-radius: 0;\n  color: #555;\n  font-size: 1.01rem;\n  font-weight: 500;\n  padding: 0.45rem 0.7rem 0.25rem 0.7rem;\n  margin-bottom: -2px;\n  border-bottom: 1.5px solid transparent;\n  transition: color 0.18s, border-bottom 0.18s;\n  min-width: 80px;\n  letter-spacing: 0.01em;\n}\n.clean-tab-btn.active[data-v-2c27c8a7],\n.clean-tab-btn[data-v-2c27c8a7]:focus {\n  color: #00bfa6;\n  border-bottom: 1.5px solid #00bfa6;\n  background: none;\n  font-weight: 600;\n}\n.clean-tab-btn[data-v-2c27c8a7]:hover {\n  color: #009688;\n  background: none;\n  border-bottom: 1.5px solid #b2dfdb;\n}\n@media (max-width: 600px) {\n.clean-tabs[data-v-2c27c8a7] {\n    gap: 0.5rem;\n    margin-bottom: 1.2rem !important;\n    margin-top: 0.3rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n    font-size: 0.97rem;\n    padding: 0.35rem 0.5rem 0.18rem 0.5rem;\n    min-width: 60px;\n}\n}\n\n/* Visually hidden but focusable skip link for accessibility */\n.skip-link[data-v-2c27c8a7] {\n  position: absolute;\n  left: -999px;\n  top: auto;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  z-index: 10000;\n  background: #fff;\n  color: #00bfa6;\n  border-radius: 0.3rem;\n  padding: 0.5rem 1rem;\n  font-weight: bold;\n  outline: none;\n  transition: left 0.2s;\n}\n.skip-link[data-v-2c27c8a7]:focus {\n  left: 1rem;\n  top: 1rem;\n  width: auto;\n  height: auto;\n  outline: 2px solid #00bfa6;\n  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);\n}\n.print-btn[data-v-2c27c8a7] {\n  font-size: 1rem;\n  padding: 0.35rem 1.1rem;\n  border-radius: 0.5rem;\n  border-width: 1.5px;\n  transition: background 0.18s, color 0.18s;\n  box-shadow: none;\n}\n.print-btn i[data-v-2c27c8a7] {\n  font-size: 1.1em;\n}\n@media print {\nbody[data-v-2c27c8a7] * {\n    visibility: hidden !important;\n    box-shadow: none !important;\n    background: #fff !important;\n    color: #222 !important;\n}\n#main-content[data-v-2c27c8a7],\n  #main-content[data-v-2c27c8a7] * {\n    visibility: visible !important;\n    color: #222 !important;\n    background: #fff !important;\n    box-shadow: none !important;\n}\n.no-print[data-v-2c27c8a7],\n  .no-print[data-v-2c27c8a7] * {\n    display: none !important;\n}\n.guide-card[data-v-2c27c8a7] {\n    box-shadow: none !important;\n    border: none !important;\n    background: #fff !important;\n    color: #222 !important;\n    padding: 0 !important;\n    margin: 0 !important;\n}\n.section-title[data-v-2c27c8a7] {\n    border-bottom: 1px solid #eee !important;\n    margin-top: 2rem !important;\n    margin-bottom: 1rem !important;\n    color: #111 !important;\n}\n.accordion-item[data-v-2c27c8a7],\n  .accordion-button[data-v-2c27c8a7],\n  .accordion-body[data-v-2c27c8a7],\n  .alert[data-v-2c27c8a7],\n  .info-badge[data-v-2c27c8a7] {\n    background: #fff !important;\n    color: #222 !important;\n    box-shadow: none !important;\n    border: none !important;\n}\n.alert[data-v-2c27c8a7] {\n    padding: 0.7rem 1rem !important;\n    margin-bottom: 0.7rem !important;\n}\n.info-row[data-v-2c27c8a7],\n  .clean-tabs[data-v-2c27c8a7],\n  .skip-link[data-v-2c27c8a7],\n  .alert-dismissible[data-v-2c27c8a7],\n  .position-fixed[data-v-2c27c8a7] {\n    display: none !important;\n}\na[data-v-2c27c8a7] {\n    color: #222 !important;\n    text-decoration: underline !important;\n}\n@page {\n    margin: 1.5cm;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.custom-tab[data-v-2c27c8a7] {\n  background-color: #e6f3f2;\n  color: #00bfa6;\n  font-size: 1.1rem;\n  padding: 0.5rem 1.2rem;\n  border-radius: 50px;\n  border: 2px solid transparent;\n  transition: all 0.2s cubic-bezier(.4, 2, .3, 1);\n  text-decoration: none;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  box-shadow: 0 1px 4px rgba(0, 191, 166, 0.06);\n}\n.custom-tab[data-v-2c27c8a7]:hover {\n  background-color: #d1ecea;\n  color: #009688;\n  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);\n}\n.custom-tab.active[data-v-2c27c8a7] {\n  background-color: #00bfa6;\n  color: white;\n  border-color: #009688;\n  box-shadow: 0 3px 10px rgba(0, 191, 166, 0.13);\n}\n.custom-tab[data-v-2c27c8a7]:disabled {\n  background-color: #6c757d;\n  color: white;\n  cursor: not-allowed;\n}\n.guide-description[data-v-2c27c8a7] {\n  font-size: 1.1rem;\n  max-width: 900px;\n  line-height: 1.6;\n}\n.guide-card[data-v-2c27c8a7] {\n  background: #fff;\n  border-radius: 24px;\n  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.15);\n  border: none;\n  padding: 2.4rem 1.6rem 2.2rem;\n  margin-bottom: 2.4rem;\n}\n.info-row[data-v-2c27c8a7] {\n  gap: 1.1rem !important;\n  margin-bottom: 2.2rem !important;\n  flex-wrap: wrap !important;\n  justify-content: center;\n}\n.info-badge[data-v-2c27c8a7] {\n  background: none;\n  color: #666;\n  font-size: 1.01rem;\n  font-weight: 400;\n  border-radius: 0.4rem;\n  padding: 0.28rem 1.1rem 0.28rem 0.8rem;\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  justify-content: center;\n  border: none;\n  box-shadow: none;\n  margin-right: 0.5rem;\n  margin-left: 0.5rem;\n  margin-bottom: 0.2rem;\n}\n.info-badge i[data-v-2c27c8a7] {\n  font-size: 1.01em;\n  margin-right: 0.3em;\n  color: #b0b0b0;\n}\n.map-panel[data-v-2c27c8a7] {\n  height: clamp(280px, 40vw, 360px);\n  border-radius: 24px;\n  overflow: hidden;\n  background: #fff;\n  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);\n}\n.ritual-map-frame[data-v-2c27c8a7] {\n  width: 100%;\n  height: 100%;\n  border-radius: inherit;\n  border: 2px solid rgba(0, 0, 0, 0.08);\n  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);\n}\n@media (max-width: 600px) {\n.info-row[data-v-2c27c8a7] {\n    gap: 0.2rem !important;\n    margin-bottom: 1.1rem !important;\n    flex-wrap: wrap !important;\n    overflow-x: auto;\n    -webkit-overflow-scrolling: touch;\n}\n.info-badge[data-v-2c27c8a7] {\n    font-size: 0.95rem;\n    padding: 0.13rem 0.5rem 0.13rem 0.3rem;\n    margin-right: 0.18rem;\n    margin-left: 0.18rem;\n    margin-bottom: 0.15rem;\n    white-space: nowrap;\n}\n.guide-card[data-v-2c27c8a7] {\n    padding: 1.1rem 0.5rem 1.2rem 0.5rem;\n    margin-bottom: 1.2rem;\n}\n.section-title[data-v-2c27c8a7] {\n    margin-top: 1.2rem;\n    margin-bottom: 0.7rem;\n    padding-bottom: 0.1rem;\n}\nsection[data-v-2c27c8a7] {\n    margin-top: 1.1rem;\n    margin-bottom: 1.1rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n    margin-bottom: 0.7rem;\n}\n.accordion-body[data-v-2c27c8a7] {\n    padding: 0.8rem 0.3rem 0.7rem 0.3rem;\n}\n.alert-info[data-v-2c27c8a7],\n  .alert-warning[data-v-2c27c8a7],\n  .alert-primary[data-v-2c27c8a7],\n  .alert-danger[data-v-2c27c8a7],\n  .alert-success[data-v-2c27c8a7] {\n    padding: 0.7rem 0.6rem;\n    margin-bottom: 0.7rem;\n}\n.ms-2[data-v-2c27c8a7] {\n    margin-left: 0.5rem !important;\n}\nsection .list-unstyled[data-v-2c27c8a7] {\n    gap: 0.5rem 0.7rem;\n}\n}\n.section-title[data-v-2c27c8a7] {\n  font-size: 1.22rem;\n  font-weight: 700;\n  color: #222;\n  letter-spacing: 0.5px;\n  margin-top: 2.5rem;\n  margin-bottom: 1.2rem;\n  padding-bottom: 0.2rem;\n  border-bottom: 1px solid #f2f2f2;\n}\n.section-title i[data-v-2c27c8a7] {\n  /* Improve icon contrast on light background */\n  color: #666;\n}\nsection[data-v-2c27c8a7] {\n  margin-top: 2.2rem;\n  margin-bottom: 2.2rem;\n}\n.accordion-item[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  margin-bottom: 1.2rem;\n  border: none !important;\n  box-shadow: none;\n  background: #fff;\n}\n.accordion-button[data-v-2c27c8a7] {\n  border-radius: 1rem !important;\n  font-size: 1.08rem;\n  font-weight: 600;\n  background: #f9f9fa;\n  color: #222;\n  transition: background 0.2s, color 0.2s;\n  border: none;\n  box-shadow: none;\n  padding: 1.2rem 1.3rem 1.2rem 1.3rem;\n}\n.accordion-button[data-v-2c27c8a7]:not(.collapsed) {\n  background: #f1f7f6;\n  color: #00bfa6;\n}\n.accordion-body[data-v-2c27c8a7] {\n  font-size: 1.04rem;\n  background: #fff;\n  border-radius: 0.8rem;\n  padding: 1.3rem 1.2rem 1.2rem 1.2rem;\n  border-top: 1px solid #f0f0f0;\n  box-shadow: none;\n  margin-bottom: 0.2rem;\n}\n.alert-info[data-v-2c27c8a7],\n.alert-warning[data-v-2c27c8a7],\n.alert-primary[data-v-2c27c8a7],\n.alert-danger[data-v-2c27c8a7],\n.alert-success[data-v-2c27c8a7] {\n  font-size: 1.01rem;\n  border-radius: 0.8rem;\n  box-shadow: none;\n  border: none;\n  margin-bottom: 1.2rem;\n  padding: 1.2rem 1.3rem;\n}\nul.list-unstyled[data-v-2c27c8a7] {\n  padding-left: 0;\n  margin-bottom: 0.5rem;\n}\nul.list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.8rem;\n  line-height: 1.7;\n}\n\n/* FAQ and Common Mistakes spacing */\n.accordion#hajj-faq[data-v-2c27c8a7],\n.accordion#umrah-faq[data-v-2c27c8a7] {\n  margin-bottom: 1.7rem;\n}\n.ms-2[data-v-2c27c8a7] {\n  margin-left: 1.2rem !important;\n}\n\n/* Reference links horizontal gap */\nsection .list-unstyled[data-v-2c27c8a7] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1.2rem 2.2rem;\n}\nsection .list-unstyled li[data-v-2c27c8a7] {\n  margin-bottom: 0.2rem;\n  margin-right: 0;\n}\n.text-custom[data-v-2c27c8a7] {\n  color: #00bfa6;\n}\n.clean-tabs[data-v-2c27c8a7] {\n  gap: 1.2rem;\n  margin-bottom: 2.2rem !important;\n  margin-top: 0.7rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n  background: none;\n  border: none;\n  border-radius: 0;\n  color: #555;\n  font-size: 1.01rem;\n  font-weight: 500;\n  padding: 0.45rem 0.7rem 0.25rem 0.7rem;\n  margin-bottom: -2px;\n  border-bottom: 1.5px solid transparent;\n  transition: color 0.18s, border-bottom 0.18s;\n  min-width: 80px;\n  letter-spacing: 0.01em;\n}\n.clean-tab-btn.active[data-v-2c27c8a7],\n.clean-tab-btn[data-v-2c27c8a7]:focus {\n  color: #00bfa6;\n  border-bottom: 1.5px solid #00bfa6;\n  background: none;\n  font-weight: 600;\n}\n.clean-tab-btn[data-v-2c27c8a7]:hover {\n  color: #009688;\n  background: none;\n  border-bottom: 1.5px solid #b2dfdb;\n}\n@media (max-width: 600px) {\n.clean-tabs[data-v-2c27c8a7] {\n    gap: 0.5rem;\n    margin-bottom: 1.2rem !important;\n    margin-top: 0.3rem;\n}\n.clean-tab-btn[data-v-2c27c8a7] {\n    font-size: 0.97rem;\n    padding: 0.35rem 0.5rem 0.18rem 0.5rem;\n    min-width: 60px;\n}\n}\n\n/* Visually hidden but focusable skip link for accessibility */\n.skip-link[data-v-2c27c8a7] {\n  position: absolute;\n  left: -999px;\n  top: auto;\n  width: 1px;\n  height: 1px;\n  overflow: hidden;\n  z-index: 10000;\n  background: #fff;\n  color: #00bfa6;\n  border-radius: 0.3rem;\n  padding: 0.5rem 1rem;\n  font-weight: bold;\n  outline: none;\n  transition: left 0.2s;\n}\n.skip-link[data-v-2c27c8a7]:focus {\n  left: 1rem;\n  top: 1rem;\n  width: auto;\n  height: auto;\n  outline: 2px solid #00bfa6;\n  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.10);\n}\n.alert-floating[data-v-2c27c8a7] {\n  border-radius: 20px;\n  background: rgba(223, 250, 241, 0.95);\n  color: #0d6657;\n  box-shadow: 0 18px 44px rgba(15, 23, 42, 0.18);\n  width: min(90vw, 450px);\n  animation: premiumFloatUp 0.5s ease;\n}\n.alert-floating .btn-close[data-v-2c27c8a7] {\n  filter: brightness(0.8);\n}\n@media print {\nbody[data-v-2c27c8a7] * {\n    visibility: hidden !important;\n    box-shadow: none !important;\n    background: #fff !important;\n    color: #222 !important;\n}\n#main-content[data-v-2c27c8a7],\n  #main-content[data-v-2c27c8a7] * {\n    visibility: visible !important;\n    color: #222 !important;\n    background: #fff !important;\n    box-shadow: none !important;\n}\n.no-print[data-v-2c27c8a7],\n  .no-print[data-v-2c27c8a7] * {\n    display: none !important;\n}\n.guide-card[data-v-2c27c8a7] {\n    box-shadow: none !important;\n    border: none !important;\n    background: #fff !important;\n    color: #222 !important;\n    padding: 0 !important;\n    margin: 0 !important;\n}\n.section-title[data-v-2c27c8a7] {\n    border-bottom: 1px solid #eee !important;\n    margin-top: 2rem !important;\n    margin-bottom: 1rem !important;\n    color: #111 !important;\n}\n.accordion-item[data-v-2c27c8a7],\n  .accordion-button[data-v-2c27c8a7],\n  .accordion-body[data-v-2c27c8a7],\n  .alert[data-v-2c27c8a7],\n  .info-badge[data-v-2c27c8a7] {\n    background: #fff !important;\n    color: #222 !important;\n    box-shadow: none !important;\n    border: none !important;\n}\n.alert[data-v-2c27c8a7] {\n    padding: 0.7rem 1rem !important;\n    margin-bottom: 0.7rem !important;\n}\n.info-row[data-v-2c27c8a7],\n  .clean-tabs[data-v-2c27c8a7],\n  .skip-link[data-v-2c27c8a7],\n  .alert-dismissible[data-v-2c27c8a7],\n  .position-fixed[data-v-2c27c8a7] {\n    display: none !important;\n}\na[data-v-2c27c8a7] {\n    color: #222 !important;\n    text-decoration: underline !important;\n}\n@page {\n    margin: 1.5cm;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -50528,7 +50273,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #198754;\n  background-color: #e6f4ea;\n}\n.summary-item[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.5s ease forwards;\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.accordion-item[data-v-b319a4de] {\n  border: 1px solid #dee2e6;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n}\n.accordion-button[data-v-b319a4de] {\n  font-weight: bold;\n  color: #212529;\n  background-color: #fff;\n  padding: 1rem 1.5rem;\n  border-radius: 0.5rem;\n}\n.accordion-button[data-v-b319a4de]:hover {\n  color: #198754;\n  background-color: #f1f8f4;\n}\n.accordion-button[data-v-b319a4de]:focus {\n  border-color: rgba(25, 135, 84, 0.4);\n  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);\n}\n.accordion-body[data-v-b319a4de] {\n  background-color: #f8f9fa;\n  border-radius: 0 0 0.5rem 0.5rem;\n  padding: 1.5rem;\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n  background: #f7f9fc;\n}\n.premium-panel[data-v-b319a4de] {\n  border-radius: 20px;\n  padding: 12px;\n  background: linear-gradient(145deg, rgba(15, 140, 124, 0.15), rgba(11, 99, 88, 0.12));\n  border: 1px solid rgba(15, 140, 124, 0.35);\n  box-shadow: 0 25px 45px rgba(11, 73, 67, 0.2);\n}\n.card-teal[data-v-b319a4de]:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12);\n}\n.card.card-teal[data-v-b319a4de] {\n  background: linear-gradient(145deg, #e2faf5, #c6f2ec);\n  border-color: rgba(15, 140, 124, 0.25);\n  color: #0b4d44;\n}\n.card.card-teal .card-body[data-v-b319a4de] {\n  background: transparent;\n}\n.action-row[data-v-b319a4de] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1rem;\n  justify-content: center;\n  align-items: stretch;\n}\n.action-row--spaced > button[data-v-b319a4de] {\n  flex: 1 1 170px;\n  min-width: 150px;\n  max-width: 230px;\n}\n.premium-action-button[data-v-b319a4de] {\n  border-radius: 20px;\n  border: 1px solid transparent;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.65rem;\n  padding: 0.75rem 1rem;\n  font-weight: 600;\n  font-size: 0.95rem;\n  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;\n  text-transform: none;\n  letter-spacing: 0.01em;\n  animation: premiumEntry-b319a4de 0.8s ease both;\n}\n.premium-action-button--primary[data-v-b319a4de] {\n  color: #fff;\n  box-shadow: 0 8px 25px rgba(15, 140, 124, 0.35);\n}\n.premium-action-button--outline[data-v-b319a4de] {\n  background: rgba(15, 140, 124, 0.08);\n  border-color: rgba(15, 140, 124, 0.55);\n  color: #0c7867;\n  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible,\n.premium-action-button[data-v-b319a4de]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible {\n  outline: 3px solid rgba(15, 140, 124, 0.45);\n  outline-offset: 2px;\n}\n.premium-action-button[data-v-b319a4de]:disabled {\n  cursor: not-allowed;\n  opacity: 0.6;\n  box-shadow: none;\n}\n.action-row__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  background: rgba(255, 255, 255, 0.18);\n  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  color: inherit;\n}\n.action-row__label[data-v-b319a4de] {\n  font-size: 0.95rem;\n  letter-spacing: 0.01em;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #198754;\n  background-color: #e6f4ea;\n}\n.summary-item[data-v-b319a4de] {\n  animation: premiumPulse-b319a4de 0.7s ease forwards;\n  background: rgba(255, 255, 255, 0.95);\n  border: 1px solid rgba(15, 23, 42, 0.07);\n  border-radius: 20px;\n  padding: 1rem;\n  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n.summary-pillars[data-v-b319a4de] {\n  border-radius: 20px;\n  background: #fff;\n  border: 1px solid rgba(15, 23, 42, 0.08);\n  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);\n  padding: 1rem;\n}\n.summary-pill[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.65rem;\n  flex: 1 1 220px;\n  min-width: 220px;\n  padding: 0.35rem 0.65rem;\n  border-radius: 14px;\n  background: rgba(0, 0, 0, 0.01);\n  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;\n}\n.summary-pill[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);\n  background: rgba(0, 191, 166, 0.05);\n}\n.summary-pill small[data-v-b319a4de] {\n  display: block;\n  font-size: 0.75rem;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n}\n.summary-pill .fw-semibold[data-v-b319a4de] {\n  font-size: 0.95rem;\n}\n.summary-pillars .action-row__icon[data-v-b319a4de] {\n  background: rgba(0, 191, 166, 0.15);\n  color: #0d8271;\n}\n.summary-pillars .action-row__label[data-v-b319a4de] {\n  font-size: 0.9rem;\n  font-weight: 600;\n}\n.summary-row[data-v-b319a4de] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.summary-metric[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  padding: 0.75rem 0.65rem;\n  border-radius: 18px;\n  background: rgba(15, 23, 42, 0.04);\n  border: 1px solid rgba(15, 23, 42, 0.06);\n  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;\n}\n.summary-metric[data-v-b319a4de]:hover {\n  background: rgba(0, 191, 166, 0.08);\n  transform: translateY(-1px);\n  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);\n}\n.summary-metric__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 122, 102, 0.18);\n  color: #0c7867;\n}\n.summary-metric strong[data-v-b319a4de] {\n  font-size: 1rem;\n}\n.form-control[data-v-b319a4de],\n.form-select[data-v-b319a4de] {\n  border-radius: 14px;\n  transition: border 0.3s ease, box-shadow 0.3s ease;\n}\n.form-control[data-v-b319a4de]:focus,\n.form-select[data-v-b319a4de]:focus {\n  border-color: #00bfa6;\n  box-shadow: 0 0 0 0.25rem rgba(0, 191, 166, 0.25);\n}\n.animate-entry[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.7s ease both;\n}\n.custom-progress[data-v-b319a4de] {\n  height: 8px;\n  border-radius: 10px;\n  overflow: hidden;\n  background: rgba(15, 23, 42, 0.08);\n  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);\n}\n.custom-progress .progress-bar[data-v-b319a4de] {\n  border-radius: 10px;\n}\n.progress-bar-full[data-v-b319a4de] {\n  width: 100%;\n}\n.summary-icon[data-v-b319a4de] {\n  font-size: 2rem;\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes premiumPulse-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(16px);\n}\n65% {\n    opacity: 1;\n    transform: translateY(0);\n}\n100% {\n    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);\n}\n}\n@keyframes premiumEntry-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(10px) scale(0.98);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.accordion-item[data-v-b319a4de] {\n  border: 1px solid #dee2e6;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n}\n.accordion-button[data-v-b319a4de] {\n  font-weight: bold;\n  color: #212529;\n  background-color: #fff;\n  padding: 1rem 1.5rem;\n  border-radius: 0.5rem;\n}\n.accordion-button[data-v-b319a4de]:hover {\n  color: #198754;\n  background-color: #f1f8f4;\n}\n.accordion-button[data-v-b319a4de]:focus {\n  border-color: rgba(25, 135, 84, 0.4);\n  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);\n}\n.accordion-body[data-v-b319a4de] {\n  background-color: #f8f9fa;\n  border-radius: 0 0 0.5rem 0.5rem;\n  padding: 1.5rem;\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

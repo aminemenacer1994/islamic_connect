@@ -2,7 +2,7 @@
   <div class="container py-4 convert-bg text-black">
     <!-- 1. Welcome -->
     <div class="text-center mb-5 fade-in">
-      <h1 class="display-5 fw-bold" style="color: #228B22">Welcome, New Muslim!</h1>
+      <h1 class="display-5 fw-bold premium-heading">Welcome, New Muslim!</h1>
       <p class="lead">Your journey begins here. We're here to support you every step of the way.</p>
     </div>
 
@@ -10,12 +10,12 @@
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="card-title mb-0"><i class="bi bi-bar-chart-steps me-2" style="color:#228B22"></i>Your Journey Progress</h2>
+          <h2 class="card-title mb-0"><i class="bi bi-bar-chart-steps me-2 accent-primary"></i>Your Journey Progress</h2>
           <button class="btn btn-outline-danger btn-sm" @click="resetProgress" title="Reset all progress"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
         </div>
         <div class="mb-3">
-          <div class="progress" style="height: 30px;">
-            <div class="progress-bar" :style="{width: progressPercent + '%', backgroundColor: '#228B22'}" role="progressbar" :aria-valuenow="progressPercent" aria-valuemin="0" aria-valuemax="100">
+          <div class="progress progress-tracker">
+            <div class="progress-bar progress-tracker-bar" :style="{width: progressPercent + '%'}" role="progressbar" :aria-valuenow="progressPercent" aria-valuemin="0" aria-valuemax="100">
               {{ progressPercent }}%
             </div>
           </div>
@@ -33,14 +33,14 @@
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h2 class="card-title mb-0"><i class="bi bi-chat-quote-fill me-2" style="color:#228B22"></i>Testimonials</h2>
+          <h2 class="card-title mb-0"><i class="bi bi-chat-quote-fill me-2 accent-primary"></i>Testimonials</h2>
           <button class="btn btn-outline-primary btn-sm" @click="shareTestimonial" title="Share this testimonial"><i class="bi bi-share"></i> Share</button>
         </div>
         <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div v-for="(testimonial, i) in testimonials" :key="i" :class="['carousel-item', {active: i === testimonialIndex}]">
               <div class="d-flex flex-column align-items-center">
-                <img :src="testimonial.avatar" class="rounded-circle mb-3" style="width: 80px; height: 80px; object-fit: cover; border: 2px solid #228B22;">
+                <img :src="testimonial.avatar" class="rounded-circle mb-3 testimonial-avatar">
                 <blockquote class="blockquote text-center">
                   <p class="mb-2">"{{ testimonial.text }}"</p>
                   <footer class="blockquote-footer">{{ testimonial.name }} from {{ testimonial.country }}</footer>
@@ -63,7 +63,7 @@
     <!-- Interactive Quiz -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2" style="color:#228B22"></i>Islam Basics Quiz</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2 accent-primary"></i>Islam Basics Quiz</h2>
         <div v-if="quizCompleted" class="alert alert-success">You scored {{ quizScore }}/{{ quizQuestions.length }}! <button class="btn btn-link p-0" @click="resetQuiz">Try Again</button></div>
         <div v-else>
           <div v-for="(q, i) in quizQuestions" :key="i" class="mb-4">
@@ -84,7 +84,7 @@
     <!-- 2. Shahada -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-star-fill me-2" style="color:#00bfa6"></i>Step 1: The Shahada</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-star-fill me-2 accent-teal"></i>Step 1: The Shahada</h2>
         <p>The testimony of faith is the first step to becoming a Muslim.</p>
         <audio controls class="w-100 mb-2">
           <source :src="shahadaAudio" type="audio/mpeg">
@@ -97,10 +97,10 @@
     <!-- 3. First Steps Checklist -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-list-check me-2" style="color:#00bfa6"></i>Step 2: Your First Steps</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-list-check me-2 accent-teal"></i>Step 2: Your First Steps</h2>
         <ul class="list-group list-group-flush mb-3">
           <li v-for="(step, i) in firstSteps" :key="i" class="list-group-item bg-white text-black d-flex align-items-center">
-            <i class="bi bi-check-circle-fill me-2" style="color:#00bfa6"></i>{{ step }}
+            <i class="bi bi-check-circle-fill me-2 accent-teal"></i>{{ step }}
           </li>
         </ul>
         <div class="accordion" id="faqAccordion">
@@ -125,7 +125,7 @@
       <div class="col" v-for="(basic, i) in basics" :key="i">
         <div class="card h-100 convert-card">
           <div class="card-body">
-            <h5 class="card-title"><i :class="basic.icon" class="me-2" style="color:#00bfa6"></i>{{ basic.title }}</h5>
+            <h5 class="card-title"><i :class="basic.icon" class="me-2 accent-teal"></i>{{ basic.title }}</h5>
             <a :href="basic.link" class="btn btn-outline-primary btn-sm convert-btn-outline" :download="basic.download || false" target="_blank" :title="basic.cta">{{ basic.cta }}</a>
           </div>
         </div>
@@ -135,7 +135,7 @@
     <!-- 5. Community & Support -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-people-fill me-2" style="color:#00bfa6"></i>Find Community</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-people-fill me-2 accent-teal"></i>Find Community</h2>
         <p>Connect with other Muslims near you and online.</p>
         <div class="ratio ratio-16x9 mb-3">
           <iframe :src="communityMap" allowfullscreen></iframe>
@@ -156,12 +156,12 @@
     <!-- 6. Resources -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-journal-richtext me-2" style="color:#228B22"></i>Resources</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-journal-richtext me-2 accent-primary"></i>Resources</h2>
         <div class="row row-cols-1 row-cols-md-2 g-4">
           <div class="col" v-for="(resource, i) in resources" :key="i">
             <div class="card h-100 border-0">
               <div class="card-body">
-                <h5 class="card-title"><i :class="resource.icon" class="me-2" style="color:#228B22"></i>{{ resource.title }}</h5>
+                <h5 class="card-title"><i :class="resource.icon" class="me-2 accent-primary"></i>{{ resource.title }}</h5>
                 <p class="card-text">{{ resource.desc }}</p>
                 <a :href="resource.link" class="btn btn-outline-primary btn-sm convert-btn-outline" :download="resource.download || false" target="_blank" :title="resource.cta">{{ resource.cta }}</a>
               </div>
@@ -174,7 +174,7 @@
     <!-- 7. Ask a Question -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2" style="color:#228B22"></i>Need Help?</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-question-circle-fill me-2 accent-primary"></i>Need Help?</h2>
         <form @submit.prevent="submitQuestion">
           <div class="mb-3">
             <label for="question" class="form-label">Ask us anything</label>
@@ -194,10 +194,10 @@
     <!-- 8. Events & Meetups -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-calendar-event-fill me-2" style="color:#228B22"></i>Upcoming Events</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-calendar-event-fill me-2 accent-primary"></i>Upcoming Events</h2>
         <ul class="list-group">
           <li v-for="(event, i) in events" :key="i" class="list-group-item d-flex justify-content-between align-items-center bg-white text-black">
-            <span><i class="bi bi-calendar2-week me-2" style="color:#228B22"></i>{{ event.title }}</span>
+            <span><i class="bi bi-calendar2-week me-2 accent-primary"></i>{{ event.title }}</span>
             <span class="badge rounded-pill" :class="event.badgeClass">{{ event.badge }}</span>
           </li>
         </ul>
@@ -207,7 +207,7 @@
     <!-- 9. Feedback -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body">
-        <h2 class="card-title mb-3"><i class="bi bi-chat-dots-fill me-2" style="color:#00bfa6"></i>Feedback</h2>
+        <h2 class="card-title mb-3"><i class="bi bi-chat-dots-fill me-2 accent-teal"></i>Feedback</h2>
         <form @submit.prevent="submitFeedback">
           <div class="mb-3">
             <label for="feedback" class="form-label">Your feedback</label>
@@ -227,11 +227,19 @@
     <!-- Call to Action -->
     <div class="card mb-5 shadow-sm convert-card fade-in">
       <div class="card-body text-center">
-        <h2 class="card-title mb-3" style="color:#228B22"><i class="bi bi-megaphone-fill me-2"></i>Get Involved!</h2>
+        <h2 class="card-title mb-3 accent-heading accent-heading--primary"><i class="bi bi-megaphone-fill me-2 accent-primary"></i>Get Involved!</h2>
         <p class="mb-3">Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p>
-        <div class="d-flex flex-column flex-md-row justify-content-center gap-3">
-          <a href="mailto:stories@islamicconnect.com" class="btn btn-success convert-btn" title="Share your story"><i class="bi bi-pencil-square me-1"></i> Share Your Story</a>
-          <a href="https://calendly.com/mentor-session" target="_blank" class="btn btn-primary convert-btn" title="Book a mentor session"><i class="bi bi-person-video3 me-1"></i> Book 1:1 Mentor Session</a>
+        <div class="d-flex flex-column flex-md-row justify-content-center gap-3 action-row action-row--spaced">
+          <a href="mailto:stories@islamicconnect.com" class="premium-action-button premium-action-button--outline"
+            title="Share your story">
+            <span class="action-row__icon"><i class="bi bi-pencil-square" aria-hidden="true"></i></span>
+            <span class="action-row__label">Share Your Story</span>
+          </a>
+          <a href="https://calendly.com/mentor-session" target="_blank" class="premium-action-button premium-action-button--primary"
+            title="Book a mentor session">
+            <span class="action-row__icon"><i class="bi bi-person-video3" aria-hidden="true"></i></span>
+            <span class="action-row__label">Book 1:1 Mentor Session</span>
+          </a>
         </div>
       </div>
     </div>
@@ -473,46 +481,81 @@ export default {
 
 <style scoped>
 .convert-bg {
-  background: #fff !important;
-  color: #000 !important;
+  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);
+  color: #0f172a;
 }
+
 .convert-card {
-  background: #fff !important;
-  color: #000 !important;
-  border: 1px solid #e0e0e0;
+  background: #fff;
+  color: #0f172a;
+  border-radius: 24px;
+  border: none;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.1);
 }
+
 .card-title {
-  color: #00bfa6 !important;
+  font-weight: 700;
+  color: #0f172a;
 }
-.btn-primary, .btn-success, .btn-info, .btn-secondary, .convert-btn {
-  background-color: #00bfa6 !important;
-  border-color: #00bfa6 !important;
-  color: #fff !important;
+
+.convert-btn {
+  border-radius: 999px;
+  padding: 0.45rem 1.4rem;
+  font-weight: 600;
+  min-width: 160px;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
-.btn-primary:hover, .btn-success:hover, .btn-info:hover, .btn-secondary:hover, .convert-btn:hover {
-  background-color: #009e8e !important;
-  border-color: #009e8e !important;
+
+.convert-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
 }
+
 .convert-btn-outline {
-  color: #00bfa6 !important;
-  border-color: #00bfa6 !important;
-  background: #fff !important;
+  border-radius: 16px;
+  border-width: 1px;
+  border-color: rgba(0, 191, 166, 0.4);
+  background: #fff;
+  color: #0f3d3b;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
+  transition: background 0.25s ease, color 0.25s ease;
 }
+
 .convert-btn-outline:hover {
-  background: #0b5d4b !important;
-  color: #fff !important;
+  background: rgba(0, 191, 166, 0.12);
+  color: #005247;
 }
-.bg-white {
-  background: #fff !important;
+
+.progress-tracker {
+  height: 30px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(34, 139, 34, 0.12);
+  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.12);
 }
-.text-black {
-  color: #000 !important;
+
+.progress-tracker-bar {
+  background: linear-gradient(135deg, #00bfa6, #1a5f7a);
+  border-radius: 18px;
 }
+
+.testimonial-avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 2px solid rgba(34, 139, 34, 0.35);
+  box-shadow: 0 12px 18px rgba(15, 23, 42, 0.2);
+}
+
 .fade-in {
-  animation: fadeIn 0.8s ease-in;
+  animation: fadeIn 0.8s ease-in both;
 }
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: none; }
+  to { opacity: 1; transform: translateY(0); }
 }
 </style>

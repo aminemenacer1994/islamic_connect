@@ -1,15 +1,15 @@
 <template>
-  <div class="zakat-calculator">
-    <!-- Hero Section -->
-    <h2 class="mb-2 text-center py-4 fw-bold display-5 ">Zakat Calculator</h2>
-    <p class="text-center container text-dark mb-4" style="font-size: 18px;">
-      Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
+    <div class="zakat-calculator">
+      <!-- Hero Section -->
+      <h2 class="mb-2 text-center py-4 fw-bold display-5 ">Zakat Calculator</h2>
+      <p class="text-center container text-dark mb-4 hero-subtitle">
+        Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
       threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
     </p>
     <div class="container-fluid">
       <div class="row g-4 justify-content-center">
         <div :class="zakatCalculated ? 'col-lg-7' : 'col-lg-9'" class="calculator-column">
-          <div class="card shadow-md rounded-4">
+          <div class="card shadow-md rounded-20">
             <div class="card-body p-lg-5">
               <!-- Currency and Nisab Selection -->
               <h4 class="mb-4 fw-bold text-dark text-left">Zakat Calculator</h4>
@@ -203,14 +203,16 @@
               </div>
 
               <!-- Action Buttons -->
-              <div class="d-flex flex-column flex-md-row gap-3 mt-5">
-                <button class="btn btn-dark flex-fill" :disabled="!isFormValid"
-                  :style="{ opacity: isFormValid ? 1 : 0.5, cursor: isFormValid ? 'pointer' : 'not-allowed' }"
-                  @click="calculateZakat">
-                  <i class="bi bi-calculator me-2"></i><strong>Calculate Zakat</strong>
+              <div class="action-row action-row--spaced flex-wrap mt-5" role="group" aria-label="Zakat calculator actions">
+                <button type="button" class="premium-action-button premium-action-button--primary" @click="calculateZakat"
+                  :disabled="!isFormValid" aria-label="Calculate my Zakat">
+                  <span class="action-row__icon"><i class="bi bi-calculator" aria-hidden="true"></i></span>
+                  <span class="action-row__label">Calculate Zakat</span>
                 </button>
-                <button class="btn btn-outline-secondary flex-fill" @click="resetCalculator">
-                  <i class="bi bi-arrow-counterclockwise me-2"></i>Reset
+                <button type="button" class="premium-action-button premium-action-button--outline" @click="resetCalculator"
+                  aria-label="Reset values">
+                  <span class="action-row__icon"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
+                  <span class="action-row__label">Reset</span>
                 </button>
               </div>
             </div>
@@ -219,52 +221,61 @@
         <!-- Results Panel -->
         <transition name="fade">
           <div class="col-lg-5" ref="zakatSummary" v-if="zakatCalculated">
-            <div class="card shadow-md rounded-4 sticky-top">
-              <div class="card-body p-4">
-                <h2 class="fw-bold text-dark">Zakat Summary</h2>
+          <div class="card shadow-md rounded-20 sticky-top">
+            <div class="card-body p-4" style="padding: 10px;">
+              <h1 class="fw-bold text-dark">Zakat Summary</h1>
 
                 <!-- Asset Breakdown -->
                 <div class="summary-item mb-4">
                   <h6 class="mb-3 fw-bold">Asset Breakdown</h6>
-                  <div v-for="(value, key) in assetBreakdown" :key="key" class="d-flex justify-content-between mb-2">
+                <div v-for="(value, key) in assetBreakdown" :key="key" class="summary-metric mb-2">
+                  <span class="summary-metric__icon"><i class="bi bi-piggy-bank" aria-hidden="true"></i></span>
+                  <div class="d-flex w-100 justify-content-between align-items-center">
                     <span class="text-muted">{{ key }}:</span>
                     <strong>{{ currencySymbol }}{{ value.toLocaleString() }}</strong>
                   </div>
-                  <div class="progress mb-3" style="height: 8px;">
-                    <div class="progress-bar bg-success" role="progressbar" :style="{ width: '100%' }"></div>
+                </div>
+                  <div class="progress mb-3 custom-progress">
+                    <div class="progress-bar bg-success progress-bar-full" role="progressbar"></div>
                   </div>
                 </div>
 
                 <!-- Liabilities -->
                 <div class="summary-item mb-4">
-                  <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Liabilities:</span>
-                    <strong class="text-danger">{{ currencySymbol }}{{ totalLiabilities.toLocaleString() }}</strong>
+                  <div class="summary-metric mb-2">
+                    <span class="summary-metric__icon"><i class="bi bi-card-list" aria-hidden="true"></i></span>
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <span class="text-muted">Liabilities:</span>
+                      <strong class="text-danger">{{ currencySymbol }}{{ totalLiabilities.toLocaleString() }}</strong>
+                    </div>
                   </div>
-                  <div class="progress mb-3" style="height: 8px;">
-                    <div class="progress-bar bg-danger" role="progressbar" :style="{ width: '100%' }"></div>
+                  <div class="progress mb-3 custom-progress">
+                    <div class="progress-bar bg-danger progress-bar-full" role="progressbar"></div>
                   </div>
                 </div>
 
                 <!-- Zakatable Amount -->
                 <div class="summary-item mb-4">
-                  <div class="d-flex justify-content-between mb-2">
-                    <span class="text-muted">Zakatable Amount:</span>
-                    <strong class="text-dark">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
+                  <div class="summary-metric mb-2">
+                    <span class="summary-metric__icon"><i class="bi bi-calculator" aria-hidden="true"></i></span>
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <span class="text-muted">Zakatable Amount:</span>
+                      <strong class="text-dark">{{ currencySymbol }}{{ zakatableAmount.toLocaleString() }}</strong>
+                    </div>
                   </div>
-                  <div class="progress mb-3" style="height: 8px;">
-                    <div class="progress-bar bg-dark" role="progressbar" :style="{ width: '100%' }"></div>
+                  <div class="progress mb-3 custom-progress">
+                    <div class="progress-bar bg-dark progress-bar-full" role="progressbar"></div>
                   </div>
                 </div>
 
                 <!-- Zakat Due Breakdown -->
                 <div v-if="isEligible" class="summary-item mb-4">
                   <h6 class="mb-3 fw-bold">Zakat Breakdown</h6>
-                  <div class="d-flex justify-content-between">
+                  <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">On General Assets (2.5%):</span>
                     <strong>{{ currencySymbol }}{{ wealthZakat.toLocaleString() }}</strong>
                   </div>
-                  <div class="d-flex justify-content-between">
+                  <div class="d-flex justify-content-between mb-2">
                     <span class="text-muted">On Agricultural Produce:</span>
                     <strong>{{ currencySymbol }}{{ agriculturalZakat.toLocaleString() }}</strong>
                   </div>
@@ -278,15 +289,15 @@
                       <h3 class="text-success fw-bold mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString(undefined, {
                         minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h3>
                     </div>
-                    <i class="bi bi-check-circle-fill text-success" style="font-size: 2rem;"></i>
+                    <i class="bi bi-check-circle-fill text-success summary-icon"></i>
                   </div>
                 </div>
 
                 <!-- Charts Toggle + Canvas -->
                 <div class="summary-item mb-3">
                   <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="showChartsSwitch" v-model="showCharts">
-                    <label class="form-check-label" for="showChartsSwitch">
+                    <input class="form-check-input ml-3" type="checkbox" id="showChartsSwitch" v-model="showCharts">
+                    <label class="form-check-label ml-3" for="showChartsSwitch">
                       Show asset breakdown chart
                       <span v-if="isChartLibLoading" class="ms-2 align-middle">
                         <span class="spinner-border spinner-border-sm text-secondary" role="status" aria-hidden="true"></span>
@@ -942,6 +953,104 @@ export default {
 .zakat-calculator {
   min-height: 100vh;
   padding-bottom: 4rem;
+  background: #f7f9fc;
+}
+
+.premium-panel {
+  border-radius: 20px;
+  padding: 12px;
+  background: linear-gradient(145deg, rgba(15, 140, 124, 0.15), rgba(11, 99, 88, 0.12));
+  border: 1px solid rgba(15, 140, 124, 0.35);
+  box-shadow: 0 25px 45px rgba(11, 73, 67, 0.2);
+}
+
+
+.card-teal:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); }
+
+.card.card-teal {
+  background: linear-gradient(145deg, #e2faf5, #c6f2ec);
+  border-color: rgba(15, 140, 124, 0.25);
+  color: #0b4d44;
+}
+
+.card.card-teal .card-body {
+  background: transparent;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.action-row--spaced > button {
+  flex: 1 1 170px;
+  min-width: 150px;
+  max-width: 230px;
+}
+
+.premium-action-button {
+  border-radius: 20px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  animation: premiumEntry 0.8s ease both;
+}
+
+.premium-action-button--primary {
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(15, 140, 124, 0.35);
+}
+
+.premium-action-button--outline {
+  background: rgba(15, 140, 124, 0.08);
+  border-color: rgba(15, 140, 124, 0.55);
+  color: #0c7867;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);
+}
+
+.premium-action-button:focus-visible,
+.premium-action-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);
+}
+
+.premium-action-button:focus-visible {
+  outline: 3px solid rgba(15, 140, 124, 0.45);
+  outline-offset: 2px;
+}
+
+.premium-action-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.action-row__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+}
+
+.action-row__label {
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
 }
 
 .calculator-column {
@@ -964,11 +1073,137 @@ export default {
 }
 
 .summary-item {
-  animation: fadeIn 0.5s ease forwards;
+  animation: premiumPulse 0.7s ease forwards;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  border-radius: 20px;
+  padding: 1rem;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);
 }
 
 .bg-success-light {
   background-color: rgba(25, 135, 84, 0.1);
+}
+
+.summary-pillars {
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+  padding: 1rem;
+}
+
+.summary-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1 1 220px;
+  min-width: 220px;
+  padding: 0.35rem 0.65rem;
+  border-radius: 14px;
+  background: rgba(0, 0, 0, 0.01);
+  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;
+}
+
+.summary-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);
+  background: rgba(0, 191, 166, 0.05);
+}
+
+.summary-pill small {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.summary-pill .fw-semibold {
+  font-size: 0.95rem;
+}
+
+.summary-pillars .action-row__icon {
+  background: rgba(0, 191, 166, 0.15);
+  color: #0d8271;
+}
+
+.summary-pillars .action-row__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.summary-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.summary-metric {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.75rem 0.65rem;
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.summary-metric:hover {
+  background: rgba(0, 191, 166, 0.08);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+}
+
+.summary-metric__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 122, 102, 0.18);
+  color: #0c7867;
+}
+
+.summary-metric strong {
+  font-size: 1rem;
+}
+
+.form-control,
+.form-select {
+  border-radius: 14px;
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #00bfa6;
+  box-shadow: 0 0 0 0.25rem rgba(0, 191, 166, 0.25);
+}
+
+.animate-entry {
+  animation: fadeIn 0.7s ease both;
+}
+
+.custom-progress {
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);
+}
+
+.custom-progress .progress-bar {
+  border-radius: 10px;
+}
+
+.progress-bar-full {
+  width: 100%;
+}
+
+.summary-icon {
+  font-size: 2rem;
 }
 
 @keyframes fadeIn {
@@ -979,6 +1214,31 @@ export default {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes premiumPulse {
+  0% {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);
+  }
+}
+
+@keyframes premiumEntry {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
   }
 }
 

@@ -1229,7 +1229,7 @@ export default {
   color: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
-  padding: .25rem .5rem;
+  /* padding: .25rem .5rem; */
   font-weight: 700;
   line-height: 1;
   box-shadow: 0 1px 2px rgba(2, 44, 34, 0.06);
@@ -1249,7 +1249,6 @@ export default {
   padding: 12px;
   display: flex;
   justify-content: space-between;
-  background: #fff;
 }
 
 .action-row .btn {
