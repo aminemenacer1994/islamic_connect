@@ -3,11 +3,13 @@
     <!-- Header -->
     <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Qibla Compass</h2>
     <p class="text-center text-dark mb-4" style="font-size: 18px;">
-      Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your location
+      Your essential companion for locating the precise direction of the Kaaba in Mecca for Islamic prayers, ensuring
+      accurate alignment from anywhere in the world. This tool also provides reliable prayer times tailored to your
+      location
     </p>
 
     <div class="container" style="padding: 10px;">
-        <div class="mx-auto mb-4" style="
+      <div class="mx-auto mb-4" style="
           position: relative;
           background: #eaf3f1;
           border: 1px solid rgba(11, 128, 111, 0.20);
@@ -15,15 +17,14 @@
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
           padding: 1.25rem 1.75rem;
         ">
-          <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-            :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-            @click="toggleNextStepMinimized"
-            style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
-            <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
-          </button>
-          <div class="d-flex align-items-start gap-3 text-start">
-            <div class="flex-shrink-0 mt-1">
-              <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide" style="
+        <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
+          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+        </button>
+        <div class="d-flex align-items-start gap-3 text-start">
+          <div class="flex-shrink-0 mt-1">
+            <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide" style="
                       width: 48px; height: 48px;
                       border-radius: 50%;
                       background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
@@ -31,92 +32,71 @@
                       color: rgb(0, 121, 107); font-size: 1.25rem;
                       box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
                     ">
-                <i class="fas fa-clock" aria-hidden="true"></i>
-              </div>
+              <i class="fas fa-clock" aria-hidden="true"></i>
             </div>
-            <div style="flex:1;">
-              <p class="mb-2 fw-semibold text-uppercase"
-                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
-                NEXT STEP
-              </p>
-              <!-- Minimized teaser -->
-              <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
-                style="color: #1f2933;">
-                <a href="/prayer" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
-                  style="color:rgb(0, 121, 107);" aria-label="Open the Prayer Times companion">
-                  Check Prayer Times
-                  <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
-                    style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
-                </a>
-              </div>
-              <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
-                Found your Qibla and need the schedule next? Our Prayer Times guide can flow from alignment to Salah with
-                confidence.
-                <a href="/prayer" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
-                  Visit Prayer Times
-                </a>
-                whenever you’re ready to plan the day.
-              </p>
-              <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
-                <a href="/prayer" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
-                  style="
+          </div>
+          <div style="flex:1;">
+            <p class="mb-2 fw-semibold text-uppercase"
+              style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+              NEXT STEP
+            </p>
+            <!-- Minimized teaser -->
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
+              <a href="/prayer" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+                style="color:rgb(0, 121, 107);" aria-label="Open the Prayer Times companion">
+                Check Prayer Times
+                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                  style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
+              </a>
+            </div>
+            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+              Found your Qibla and need the schedule next? Our Prayer Times guide can flow from alignment to Salah with
+              confidence.
+              <a href="/prayer" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
+                Visit Prayer Times
+              </a>
+              whenever you’re ready to plan the day.
+            </p>
+            <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+              <a href="/prayer" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
+                style="
                       background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
                       border: none; border-radius: 999px;
                       box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
                       transition: transform 0.2s ease, box-shadow 0.2s ease;
                       "
-                  onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
-                  onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
-                  <span>Open Prayer Times</span>
-                  <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
-                  <span class="visually-hidden">Open the accessible Prayer Times experience</span>
-                </a>
-              </div>
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+                <span>Open Prayer Times</span>
+                <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
+                <span class="visually-hidden">Open the accessible Prayer Times experience</span>
+              </a>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
     <!-- Search & Location -->
     <section class="card shadow-sm mb-4" role="region" aria-labelledby="find-location-title">
       <div class="container-fluid card-body p-4">
-        <h5
-          id="find-location-title"
-          class="h4 card-title text-primary fw-bold mb-3 d-block w-100"
-        >
+        <h5 id="find-location-title" class="h4 card-title text-primary fw-bold mb-3 d-block w-100">
           Find Your Location
         </h5>
         <div class="row g-0 align-items-stretch mb-2 w-100">
           <div class="col-10 col-md-10">
-            <input
-              type="text"
-              class="form-control h-100"
-              placeholder="Enter a city or address"
-              v-model="searchLocation"
-              @keyup.enter="searchQibla"
-              ref="searchInput"
-              aria-label="Enter a city or address"
-            />
+            <input type="text" class="form-control h-100" placeholder="Enter a city or address" v-model="searchLocation"
+              @keyup.enter="searchQibla" ref="searchInput" aria-label="Enter a city or address" />
           </div>
           <div class="col-1 col-md-1">
-            <button
-              class="btn btn-success w-100 h-100 d-flex justify-content-center align-items-center"
-              @click="searchQibla"
-              :disabled="loading"
-              title="Search"
-              aria-label="Search location"
-            >
+            <button class="btn btn-success w-100 h-100 d-flex justify-content-center align-items-center"
+              @click="searchQibla" :disabled="loading" title="Search" aria-label="Search location">
               <i class="bi bi-search"></i>
             </button>
           </div>
           <div class="col-1 col-md-1">
-            <button
-              class="btn btn-outline-secondary w-100 h-100 d-flex justify-content-center align-items-center gap-1"
-              @click="getLocation"
-              :disabled="loading"
-              title="Use My Location"
-              aria-label="Use my location"
-            >
+            <button class="btn btn-outline-secondary w-100 h-100 d-flex justify-content-center align-items-center gap-1"
+              @click="getLocation" :disabled="loading" title="Use My Location" aria-label="Use my location">
               <i class="bi bi-geo-alt"></i>
               <span class="d-none d-sm-inline"></span>
             </button>
@@ -178,142 +158,84 @@
               Qibla Direction
             </h5>
           </div>
-          <div
-            class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4"
-          >
+          <div class="container-fluid card-body text-center d-flex flex-column justify-content-center p-4">
             <div class="d-flex justify-content-center align-items-center mb-3">
               <div class="qibla-compass-wrapper position-relative mx-auto">
                 <div
                   class="compass-dial position-absolute top-0 start-0 w-100 h-100 rounded-circle border border-2 border-secondary bg-light"
-                  :style="{ transform: `rotate(-${compassRotation}deg)` }"
-                >
-                  <div
-                    class="compass-label position-absolute top-0 start-50 translate-middle-x"
-                  >
+                  :style="{ transform: `rotate(-${compassRotation}deg)` }">
+                  <div class="compass-label position-absolute top-0 start-50 translate-middle-x">
                     N
                   </div>
-                  <div
-                    class="compass-label position-absolute bottom-0 start-50 translate-middle-x"
-                  >
+                  <div class="compass-label position-absolute bottom-0 start-50 translate-middle-x">
                     S
                   </div>
-                  <div
-                    class="compass-label position-absolute top-50 end-0 translate-middle-y"
-                  >
+                  <div class="compass-label position-absolute top-50 end-0 translate-middle-y">
                     E
                   </div>
-                  <div
-                    class="compass-label position-absolute top-50 start-0 translate-middle-y"
-                  >
+                  <div class="compass-label position-absolute top-50 start-0 translate-middle-y">
                     W
                   </div>
-                  <div
-                    v-for="degree in [45, 90, 135, 180, 225, 270, 315]"
-                    :key="degree"
-                    class="degree-marker position-absolute w-100 h-100"
-                    :style="{ transform: `rotate(${degree}deg)` }"
-                  >
+                  <div v-for="degree in [45, 90, 135, 180, 225, 270, 315]" :key="degree"
+                    class="degree-marker position-absolute w-100 h-100" :style="{ transform: `rotate(${degree}deg)` }">
                     <div class="marker-line position-absolute top-0 start-50"></div>
                   </div>
                 </div>
-                <svg
-                  class="qibla-arrow position-absolute top-50 start-50"
-                  :style="{
-                    transform: `translate(-50%, -50%) rotate(${qiblaDirection - compassRotation}deg)`,
-                    'transform-origin': '25 75'
-                  }"
-                  width="50"
-                  height="150"
-                  viewBox="0 0 50 150"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
+                <svg class="qibla-arrow position-absolute top-50 start-50" :style="{
+                  transform: `translate(-50%, -50%) rotate(${qiblaDirection - compassRotation}deg)`,
+                  'transform-origin': '25 75'
+                }" width="50" height="150" viewBox="0 0 50 150" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <linearGradient id="arrowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
                       <stop offset="0%" style="stop-color: var(--primary-color); stop-opacity: 1" />
                       <stop offset="100%" style="stop-color: var(--primary-hover-color); stop-opacity: 1" />
                     </linearGradient>
                   </defs>
-                  <path
-                    d="M25 150 L40 100 L30 30 L25 0 L20 30 L10 100 Z"
-                    fill="url(#arrowGradient)"
-                    stroke="var(--primary-hover-color)"
-                    stroke-width="3"
-                  />
-                  <path
-                    d="M25 150 L40 100 L25 90 L10 100 Z"
-                    fill="var(--primary-color)"
-                    stroke="var(--primary-hover-color)"
-                    stroke-width="2"
-                  />
+                  <path d="M25 150 L40 100 L30 30 L25 0 L20 30 L10 100 Z" fill="url(#arrowGradient)"
+                    stroke="var(--primary-hover-color)" stroke-width="3" />
+                  <path d="M25 150 L40 100 L25 90 L10 100 Z" fill="var(--primary-color)"
+                    stroke="var(--primary-hover-color)" stroke-width="2" />
                 </svg>
               </div>
             </div>
-            <ul
-              class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50"
-              role="list"
-            >
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+            <ul class="list-group list-group-flush text-start mx-auto mb-3 w-100 w-md-75 w-lg-50" role="list">
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Direction</span>
                 <span class="fw-bold d-flex align-items-center gap-2">
                   <i :class="['bi', directionIconClass]"></i>
                   {{ computedBearing }}° ({{ qiblaCardinalDirection }})
                 </span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Bearing from North</span>
                 <span class="fw-bold">{{ qiblaBearing }}° clockwise</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Relative Dir</span>
                 <span class="fw-bold">{{ relativeDirection }}</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Distance</span>
                 <span class="fw-bold">{{ distanceKmRounded }} km / {{ distanceMiRounded }} mi</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Your Coordinates</span>
                 <span class="fw-bold">{{ userLatFmt }}°, {{ userLonFmt }}°</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Kaaba Coordinates</span>
                 <span class="fw-bold">21.4225°, 39.8262°</span>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center py-3 px-3"
-                role="listitem"
-              >
+              <li class="list-group-item d-flex justify-content-between align-items-center py-3 px-3" role="listitem">
                 <span class="text-muted">Last Updated</span>
                 <span class="fw-bold" role="status" aria-live="polite">{{ lastUpdated }}</span>
               </li>
             </ul>
-            <div
-              class="alert alert-info small mb-0"
-              style="
+            <div class="alert alert-info small mb-0" style="
                 background: rgba(13, 182, 145, 0.08);
                 border-color: rgba(13, 182, 145, 0.2);
                 color: rgb(13, 182, 145);
-              "
-            >
+              ">
               <i class="bi bi-info-circle"></i> Compass uses true north, not
               magnetic north. For best accuracy, calibrate your device.
             </div>
@@ -322,10 +244,7 @@
                 <div class="col-6 col-md-6">
                   <button
                     class="btn w-100 btn-primary text-white d-flex align-items-center justify-content-center gap-2"
-                    @click="speakQiblaDirection"
-                    :disabled="!qiblaDirection"
-                    title="Speak Qibla Direction"
-                  >
+                    @click="speakQiblaDirection" :disabled="!qiblaDirection" title="Speak Qibla Direction">
                     <i class="bi bi-volume-up-fill fs-5"></i>
                     <span>Speak</span>
                   </button>
@@ -333,10 +252,7 @@
                 <div class="col-6 col-md-6">
                   <button
                     class="btn w-100 btn-primary text-white d-flex align-items-center justify-content-center gap-2"
-                    @click="shareLocation"
-                    :disabled="!hasData"
-                    title="Share Location"
-                  >
+                    @click="shareLocation" :disabled="!hasData" title="Share Location">
                     <i class="bi bi-share-fill fs-5"></i>
                     <span>Share</span>
                   </button>
@@ -360,46 +276,24 @@
             </div>
             <div class="mb-3">
               <h6 class="text-primary fw-bold mb-2">Calculation Method</h6>
-              <select
-                class="form-select"
-                v-model="calculationMethod"
-                @change="getPrayerTimes"
-                aria-label="Prayer time calculation method"
-              >
-                <option
-                  v-for="(name, id) in calculationMethods"
-                  :key="id"
-                  :value="id"
-                >
+              <select class="form-select" v-model="calculationMethod" @change="getPrayerTimes"
+                aria-label="Prayer time calculation method">
+                <option v-for="(name, id) in calculationMethods" :key="id" :value="id">
                   {{ name }}
                 </option>
               </select>
             </div>
-            <ul
-              v-if="prayerTimes"
-              class="list-group list-group-flush flex-grow-1"
-              role="list"
-            >
-              <li
-                class="list-group-item d-flex justify-content-between align-items-center"
-                v-for="(time, name) in prayerTimes"
-                :key="name"
-                role="listitem"
-              >
+            <ul v-if="prayerTimes" class="list-group list-group-flush flex-grow-1" role="list">
+              <li class="list-group-item d-flex justify-content-between align-items-center"
+                v-for="(time, name) in prayerTimes" :key="name" role="listitem">
                 <span class="text-muted fw-bold">{{ name }}</span>
                 <strong class="text-muted">{{ time }}</strong>
               </li>
             </ul>
-            <div
-              v-else
-              class="flex-grow-1 d-flex align-items-center justify-content-center"
-              >
+            <div v-else class="flex-grow-1 d-flex align-items-center justify-content-center">
               <p class="text-muted">Prayer times will appear here.</p>
             </div>
-            <p
-              v-if="timezone"
-              class="text-muted small mt-3 mb-0 text-center" role="status" aria-live="polite"
-            >
+            <p v-if="timezone" class="text-muted small mt-3 mb-0 text-center" role="status" aria-live="polite">
               Timezone: {{ timezone }}
             </p>
           </div>

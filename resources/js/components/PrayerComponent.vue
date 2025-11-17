@@ -2,52 +2,76 @@
   <section class="text-center py-4">
     <h2 class="fw-bold display-5 display-md-4 mb-2">Prayer Times Calendar</h2>
     <p class="hero-subtitle mx-auto mb-4 px-3 px-md-0">
-      Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your location
+      Never miss a prayer. Get accurate Salah times for your city, wherever you are. Our system auto-detects your
+      location
       or lets you manually choose.
     </p>
   </section>
 
-  <div class="container py-2">
-    <div class="mx-auto mb-4">
-      <section class="premium-panel next-step-card">
-        <div class="premium-panel__header">
-          <p class="premium-panel__title">NEXT STEP</p>
-          <button type="button"
-            :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-            :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-            @click="toggleNextStepMinimized"
-            class="next-step-card__toggle">
-            <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
-          </button>
-        </div>
-        <div class="next-step-callout">
-          <div class="next-step-callout__icon" role="img" aria-label="Gentle Qibla guide">
-            <i class="fas fa-compass" aria-hidden="true"></i>
-          </div>
-          <div class="next-step-callout__content">
-            <div v-show="nextStepMinimized" class="mb-3">
-              <p class="text-muted mb-2">Align your routine with the Qibla and keep the compass close.</p>
-              <a href="/qibla" class="premium-action-button premium-action-button--outline" aria-label="Open the Qibla finder">
-                <span class="action-row__icon"><i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i></span>
-                <span class="action-row__label">Open Qibla Finder</span>
-              </a>
-            </div>
-            <div v-show="!nextStepMinimized">
-              <p class="next-step-callout__copy mb-3">
-                New to Islam and relying on these Salah schedules? Take the next gentle step by visiting our Qibla finder.
-                <a href="/qibla" class="fw-semibold text-decoration-none" aria-label="Visit Qibla Finder">Visit Qibla Finder</a>
-                whenever you’re ready to align your heart and compass.
-              </p>
-              <div class="action-row action-row--spaced mt-3">
-                <a href="/qibla" class="premium-action-button premium-action-button--outline" aria-label="Discover trusted compass guidance">
-                  <span class="action-row__icon"><i class="fas fa-globe" aria-hidden="true"></i></span>
-                  <span class="action-row__label">Compass Guidance</span>
-                </a>
-              </div>
-            </div>
+  <div class="container" style="padding: 10px;">
+    <div class="mx-auto mb-4" style="
+          position: relative;
+          background: #eaf3f1;
+          border: 1px solid rgba(11, 128, 111, 0.20);
+          border-radius: 24px;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+          padding: 1.25rem 1.75rem;
+        ">
+      <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+        :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
+        style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+        <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+      </button>
+      <div class="d-flex align-items-start gap-3 text-start">
+        <div class="flex-shrink-0 mt-1">
+          <div class="next-step-icon-circle" role="img" aria-label="Gentle prayer time guide" style="
+                      width: 48px; height: 48px;
+                      border-radius: 50%;
+                      background: linear-gradient(145deg, rgba(11, 128, 111, 0.24), rgba(26, 95, 122, 0.12));
+                      display: flex; align-items: center; justify-content: center;
+                      color: rgb(0, 121, 107); font-size: 1.25rem;
+                      box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 6px 16px rgba(26,95,122,0.12);
+                    ">
+            <i class="fas fa-clock" aria-hidden="true"></i>
           </div>
         </div>
-      </section>
+        <div style="flex:1;">
+          <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+            NEXT STEP
+          </p>
+          <!-- Minimized teaser -->
+          <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
+            <a href="/qibla" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
+              style="color:rgb(0, 121, 107);" aria-label="Open the Prayer Times companion">
+              Search for Qibla
+              <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
+                style="color:rgb(0, 121, 107); font-size: 0.82rem; opacity: 0.85;"></i>
+            </a>
+          </div>
+          <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+            New to Islam and relying on these Salah schedules? Take the next gentle step by visiting our Qibla finder.
+            Visit Qibla Finder whenever you’re ready to align your heart and compass.
+            <a href="/qibla" class="fw-semibold text-decoration-none" style="color:rgb(0, 121, 107);">
+              Compass Guidance
+            </a>
+            whenever you’re ready to plan the day.
+          </p>
+          <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
+            <a href="/qibla" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center" style="
+                      background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+                      border: none; border-radius: 999px;
+                      box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
+                      transition: transform 0.2s ease, box-shadow 0.2s ease;
+                      "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 26px rgba(26, 95, 122, 0.26)';"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.22)';">
+              <span>Compass Guidance</span>
+              <i class="fas fa-globe ms-2" aria-hidden="true"></i>
+              <span class="visually-hidden">Open the accessible Prayer Times experience</span>
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -58,11 +82,12 @@
         class="container d-flex flex-wrap gap-3 align-items-end justify-content-center mb-4">
         <div class="flex-grow-1 position-relative">
           <label for="city" class="form-label fw-bold">City</label>
-          <input id="city" v-model="city" class="form-control" required autocomplete="off"
-            @input="onCityInput" @focus="showCitySuggestions = true" @blur="hideCitySuggestions" />
-          <ul v-if="showCitySuggestions && citySuggestions.length" class="list-group position-absolute w-100 z-3 suggestions-dropdown">
-            <li v-for="suggestion in citySuggestions" :key="suggestion.display_name" class="list-group-item list-group-item-action"
-              @mousedown.prevent="selectCitySuggestion(suggestion)">
+          <input id="city" v-model="city" class="form-control" required autocomplete="off" @input="onCityInput"
+            @focus="showCitySuggestions = true" @blur="hideCitySuggestions" />
+          <ul v-if="showCitySuggestions && citySuggestions.length"
+            class="list-group position-absolute w-100 z-3 suggestions-dropdown">
+            <li v-for="suggestion in citySuggestions" :key="suggestion.display_name"
+              class="list-group-item list-group-item-action" @mousedown.prevent="selectCitySuggestion(suggestion)">
               {{ suggestion.display_name }}
             </li>
           </ul>
@@ -104,11 +129,13 @@
         </div>
 
         <div class="action-row mt-3 w-100 flex-wrap">
-          <button type="submit" class="premium-action-button premium-action-button--primary" aria-label="Search for prayer times">
+          <button type="submit" class="premium-action-button premium-action-button--primary"
+            aria-label="Search for prayer times">
             <span class="action-row__icon"><i class="bi bi-search" aria-hidden="true"></i></span>
             <span class="action-row__label">Search</span>
           </button>
-          <button type="button" class="premium-action-button premium-action-button--outline" @click="resetFields" aria-label="Use my current location">
+          <button type="button" class="premium-action-button premium-action-button--outline" @click="resetFields"
+            aria-label="Use my current location">
             <span class="action-row__icon"><i class="bi bi-geo-alt" aria-hidden="true"></i></span>
             <span class="action-row__label">My Location</span>
           </button>
@@ -155,7 +182,8 @@
         </div>
       </div>
 
-      <div v-if="prayerRows.length === 0 && submitted && !loading && !errorMessage" class="alert alert-warning text-center mt-4">
+      <div v-if="prayerRows.length === 0 && submitted && !loading && !errorMessage"
+        class="alert alert-warning text-center mt-4">
         <i class="bi bi-exclamation-triangle-fill me-2"></i>
         No prayer times found. Please check your city/country or try another method.
       </div>
@@ -453,9 +481,9 @@ export default {
       localStorage.removeItem('prayer_city');
       localStorage.removeItem('prayer_country');
       localStorage.removeItem('prayer_method');
-       localStorage.removeItem('prayer_lat');
-       localStorage.removeItem('prayer_lon');
-       localStorage.removeItem('prayer_tz');
+      localStorage.removeItem('prayer_lat');
+      localStorage.removeItem('prayer_lon');
+      localStorage.removeItem('prayer_tz');
       this.getCurrentLocation();
     },
     setDefaultLocation() {
@@ -568,6 +596,7 @@ tbody tr:hover {
 }
 
 @media (max-width: 576px) {
+
   table thead th,
   table tbody td {
     font-size: 0.85rem;
