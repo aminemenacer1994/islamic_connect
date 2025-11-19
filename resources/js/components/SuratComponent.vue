@@ -13,15 +13,15 @@
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown card-teal" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
       <!-- Existing template for surah, reciter, and translation selection -->
-      <span @click="toggleVisibility" class="text-white" style="cursor: pointer;" aria-label="Toggle filters visibility"
+      <span @click="toggleVisibility" class="text-white mb-3" style="cursor: pointer;" aria-label="Toggle filters visibility"
         role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
-        <i v-if="isVisible" class="bi bi-x-lg" aria-hidden="true"></i>
+        <i v-if="isVisible" class="bi bi-x-lg mb-3" aria-hidden="true"></i>
         <i v-else class="bi bi-plus-lg" aria-hidden="true"></i>
       </span>
-      <div class="row g-3" style="padding: 6px;" v-show="isVisible">
-        <div class="col-12 col-md-4 mt-3">
-          <label for="surah-select" class="form-label text-white">Select Surah:</label>
-          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
+      <div class="row g-3" v-show="isVisible">
+        <div class="col-12 col-md-4 ">
+          <label for="surah-select" class="form-label text-white mt-2">Select Surah:</label>
+          <select id="surah-select" class="form-select shadow-sm " v-model="selectedSurah" @change="fetchSurahDetails">
             <option value="" disabled>Select a Surah</option>
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
               {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
@@ -29,7 +29,7 @@
           </select>
         </div>
         <div class="col-12 col-md-4">
-          <label for="reciter-select" class="form-label text-white">Select Reciter:</label>
+          <label for="reciter-select" class="form-label text-white mt-2">Select Reciter:</label>
           <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
             <option value="" disabled>Select a reciter</option>
             <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
@@ -38,7 +38,7 @@
           </select>
         </div>
         <div class="col-12 col-md-4">
-          <label for="translation-select" class="form-label text-white">Select Translation:</label>
+          <label for="translation-select" class="form-label text-white mt-2">Select Translation:</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translationsSorted" :key="translation.identifier"
@@ -139,7 +139,7 @@
             flex-direction: column;
             height: 100%;">
           <!-- Surah and Ayah Number -->
-          <div class="d-flex justify-content-between p-3 text-muted ltr-text">
+          <div class="d-flex justify-content-between text-muted ltr-text">
             <h4>
               <img src="/images/art.png" width="35px" alt="Art Icon" />
               {{ surahDetails?.surahNumber }} : {{ item.index + 1 }}
@@ -150,10 +150,10 @@
           <div class="row d-none d-md-flex" role="group" aria-label="Ayah controls (desktop)" :aria-hidden="isMobile">
             <div class="col-md-11">
               <div style="padding: 4px;">
-                <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
+                <p class="arabic-text  rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
                   :style="{ fontSize: arabicFontSize + 'px' }"></p>
                 <h2 class=" pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h2>
-                <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
+                <p class="fw-regular  ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                   :style="{ fontSize: translationFontSize + 'px' }"></p>
               </div>
             </div>
@@ -180,17 +180,15 @@
               </div>
             </div>
           </div>
-          <hr>
-
           <!-- Mobile/Tablet Layout: Text then Icons -->
 
-          <div style="padding: 8px;" class="d-block d-md-none " role="group" aria-label="Ayah controls (mobile)"
+          <div style="" class="d-block d-md-none " role="group" aria-label="Ayah controls (mobile)"
             :aria-hidden="!isMobile">
             <div>
-              <p class="arabic-text p-2 rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
+              <p class="arabic-text  rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
                 :style="{ fontSize: arabicFontSize + 'px' }"></p>
               <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
-              <p class="fw-regular p-2 ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
+              <p class="fw-regular  ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
             </div>
             <div class="row card-teal mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
@@ -289,7 +287,7 @@
               formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
           <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
             style="margin-left: auto;">
-            <i class="bi bi-x-lg"></i>
+            <i class="bi bi-x-lg mb-2"></i>
           </button>
         </div>
         <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
@@ -1581,7 +1579,7 @@ export default {
   color: white;
   font-size: 1.75rem;
   cursor: pointer;
-  padding: 8px;
+  
   transition: color 0.2s, transform 0.18s ease, background-color 0.18s ease;
   display: flex;
   align-items: center;
@@ -2087,7 +2085,7 @@ h1.display-5 { letter-spacing: -0.01em; }
 .density-compact .controls { gap: 8px; }
 .density-compact .arabic-text { font-size: 0.95em; }
 .density-compact .translation-text { font-size: 0.95em; }
-.density-compact .sticky-dropdown { padding: 8px; }
+.density-compact .sticky-dropdown {  }
 
 /* Reduce motion politely */
 @media (prefers-reduced-motion: reduce) {
