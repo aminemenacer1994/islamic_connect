@@ -137,19 +137,19 @@
                     <p class="small text-muted">{{ tip.description }}</p>
 
                     <div v-if="tip.example" class="p-3 rounded-3 bg-light border mb-2">
-                      <h6 class="text-success"><i class="bi bi-lightbulb me-1"></i> Practical Example</h6>
+                      <h6 class="text-dark"><i class="bi bi-lightbulb me-1"></i> Practical Example</h6>
                       <p class="small mb-0">{{ tip.example }}</p>
                     </div>
 
                     <div v-if="tip.benefits" class="p-3 rounded-3 bg-light border mb-2">
-                      <h6 class="text-success"><i class="bi bi-check-circle me-1"></i> Key Benefits</h6>
+                      <h6 class="text-dark"><i class="bi bi-check-circle me-1"></i> Key Benefits</h6>
                       <ul class="small ps-3 mb-0">
                         <li v-for="(benefit, i) in tip.benefits" :key="i">{{ benefit }}</li>
                       </ul>
                     </div>
                   </div>
                   <div v-if="tip.references" class="card-footer bg-white border-top small">
-                    <h6 class="text-success"><i class="bi bi-book me-1"></i> Islamic References</h6>
+                    <h6 class="text-dark"><i class="bi bi-book me-1"></i> Islamic References</h6>
                     <ul class="ps-3 mb-0">
                       <li v-for="(ref, i) in tip.references" :key="i">{{ ref }}</li>
                     </ul>
