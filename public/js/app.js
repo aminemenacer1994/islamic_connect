@@ -21091,168 +21091,204 @@ __webpack_require__.r(__webpack_exports__);
     },
     printSummary() {
       const content = this.$refs.zakatSummary.innerHTML;
-      const currentDate = new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
+      const generatedDate = new Date().toLocaleDateString('en-GB', {
+        day: '2-digit',
         month: 'long',
         year: 'numeric'
       });
-      const printWindow = window.open('', '', '');
+      const printWindow = window.open('', '', 'width=900,height=800');
       printWindow.document.write(`
-        <html>
-          <head>
-            <title>Zakat Summary</title>
-            <link rel="stylesheet" href="/css/app.css">
-            <style>
-              body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 2.5rem;
-                color: #333;
-                background-color: #fff;
-              }
-              .print-container {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 2rem;
-                background-color: #fff;
-              }
-              .header {
-                text-align: center;
-                margin-bottom: 2.5rem;
-                padding-bottom: 1.5rem;
-                border-bottom: 2px solid #dee2e6;
-              }
-              .header h1 {
-                font-size: 2.25rem;
-                font-weight: 700;
-                margin: 0 0 0.5rem 0;
-                color: #212529;
-              }
-              .header p {
-                font-size: 1rem;
-                color: #6c757d;
-                margin: 0;
-              }
-              .summary-section {
-                margin-bottom: 2rem;
-                padding: 1.5rem;
-                border: 1px solid #e9ecef;
-                border-radius: 0.75rem;
-                background-color: #f8f9fa;
-              }
-              .summary-section h6 {
-                font-size: 1.2rem;
-                font-weight: 600;
-                margin-bottom: 1.5rem;
-                color: #343a40;
-              }
-              .summary-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1rem;
-                font-size: 1rem;
-                line-height: 1.6;
-              }
-              .summary-item span:first-child {
-                color: #6c757d;
-                flex: 0 0 60%;
-                padding-right: 1rem;
-              }
-              .summary-item strong {
-                color: #212529;
-                flex: 0 0 40%;
-                text-align: right;
-              }
-              .progress {
-                height: 8px;
-                margin: 1rem 0 1.5rem 0;
-                background-color: #e9ecef;
-                border-radius: 4px;
-              }
-              .bg-success-light {
-                background-color: #e6f4ea !important;
-                border-color: #d4edda !important;
-                padding: 1.5rem !important;
-              }
-              .eligibility-badge {
-                text-align: center;
-                padding: 1.5rem;
-                border-radius: 0.75rem;
-                margin: 2rem 0;
-                background-color: #f8f9fa;
-              }
-              .eligibility-badge h5 {
-                font-size: 1.3rem;
-                margin-bottom: 0.75rem;
-                font-weight: 600;
-              }
-              .eligibility-badge p {
-                font-size: 0.9rem;
-                margin: 0;
-              }
-              .chart-container {
-                margin: 2.5rem 0;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-              }
-              canvas {
-                max-width: 100%;
-                height: auto;
-                display: block;
-              }
-              @media print {
-                body {
-                  padding: 1.5cm;
-                }
-                .print-container {
-                  border: none;
-                  box-shadow: none;
-                  padding: 0;
-                }
-                .btn, .btn-outline-dark {
-                  display: none;
-                }
-                .header {
-                  border-bottom: 1px solid #000;
-                  margin-bottom: 2rem;
-                }
-                .summary-section {
-                  border: none;
-                  background-color: transparent;
-                  page-break-inside: avoid;
-                  margin-bottom: 1.5rem;
-                  padding: 1rem;
-                }
-                .chart-container {
-                  page-break-inside: avoid;
-                  max-width: 350px;
-                }
-                .progress {
-                  background-color: #f0f0f0;
-                }
-                @page {
-                  margin: 1.5cm;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="print-container">
-              <div class="header">
-                <h1>Zakat Summary</h1>
-                <p>Generated on ${currentDate}</p>
-              </div>
-              ${content}
-            </div>
-          </body>
-        </html>
-      `);
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Zakat Summary - ${generatedDate}</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          background: #fff;
+          color: #1f2937;
+          line-height: 1.7;
+          padding: 60px 20px;
+        }
+        .container {
+          max-width: 820px;
+          margin: 0 auto;
+          background: white;
+          padding: 50px 60px;
+          border-radius: 16px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+        }
+        .header {
+          text-align: center;
+          margin-bottom: 60px;
+          padding-bottom: 30px;
+          border-bottom: 4px solid #f1f5f9;
+        }
+        .header h1 {
+          font-size: 36px;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 12px;
+          letter-spacing: -0.5px;
+        }
+        .header p {
+          font-size: 18px;
+          color: #64748b;
+          font-weight: 500;
+        }
+
+        /* Hide buttons completely */
+        .btn, .el-button, button, .no-print {
+          display: none !important;
+        }
+
+        /* Asset Grid – Spacious & Clean */
+        .assets-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 24px;
+          margin: 50px 0;
+          padding: 32px;
+          background: #f8fafc;
+          border-radius: 14px;
+          border: 1px solid #e2e8f0;
+        }
+        .asset-item {
+          background: white;
+          padding: 20px;
+          border-radius: 12px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          transition: transform 0.2s;
+        }
+        .asset-label {
+          font-size: 15px;
+          color: #64748b;
+          margin-bottom: 10px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .asset-value {
+          font-size: 22px;
+          font-weight: 700;
+          color: #111827;
+        }
+
+        /* Liabilities & Zakatables */
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 18px 0;
+          font-size: 18px;
+          border-bottom: 1px dashed #e2e8f0;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #475569; font-weight: 500; }
+        .info-value { font-weight: 700; color: #111827; }
+
+        /* Total Zakat Due – Hero Section */
+        .zakat-due {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+          color: white;
+          padding: 48px 32px;
+          border-radius: 18px;
+          text-align: center;
+          margin: 60px 0;
+          box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+        }
+        .zakat-due h3 {
+          font-size: 28px;
+          font-weight: 600;
+          margin-bottom: 16px;
+          opacity: 0.95;
+        }
+        .zakat-due .amount {
+          font-size: 64px;
+          font-weight: 800;
+          letter-spacing: -2px;
+        }
+        .zakat-due .currency {
+          font-size: 32px;
+          vertical-align: top;
+          margin-right: 8px;
+        }
+
+        /* Nisab & Obligation */
+        .nisab-info {
+          text-align: center;
+          padding: 32px;
+          background: #fffbeb;
+          border: 2px solid #fbbf24;
+          border-radius: 14px;
+          margin: 50px 0;
+        }
+        .nisab-info h4 {
+          color: #92400e;
+          font-size: 20px;
+          margin-bottom: 8px;
+        }
+        .nisab-info p {
+          color: #78350f;
+          font-size: 16px;
+        }
+
+        .obligation {
+          text-align: center;
+          padding: 40px;
+          background: #fef2f2;
+          border: 3px solid #fca5a5;
+          border-radius: 18px;
+          margin: 60px 0;
+        }
+        .obligation h2 {
+          font-size: 32px;
+          color: #991b1b;
+          margin-bottom: 16px;
+          font-weight: 700;
+        }
+        .obligation p {
+          font-size: 19px;
+          color: #7f1d1d;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        /* Print Optimizations */
+        @media print {
+          body { padding: 0; background: white; }
+          .container {
+            box-shadow: none;
+            padding: 40px;
+            border-radius: 0;
+          }
+          @page { margin: 1.8cm; }
+          .zakat-due, .obligation, .nisab-info {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+        }
+      </style>
+    </head>
+    <body onload="window.print(); window.close()">
+      <div class="container">
+        <div class="header">
+          <h1>Zakat Summary</h1>
+          <p>Generated on ${generatedDate}</p>
+        </div>
+
+        <!-- This is your original content from zakatSummary ref -->
+        ${content}
+
+      </div>
+    </body>
+    </html>
+  `);
       printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-      printWindow.close();
     },
     shareSummary() {
       const summaryText = `
@@ -44101,12 +44137,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[18] || (_cache[18] = (...args) => $options.printSummary && $options.printSummary(...args))
     }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-download me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-outline-dark w-100",
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+      class: "text-center"
+    }, "Download Summary", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "btn text-center btn-outline-dark w-100",
       onClick: _cache[19] || (_cache[19] = (...args) => $options.shareSummary && $options.shareSummary(...args))
     }, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-share me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Summary", -1 /* CACHED */)]))])])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+      class: "text-center"
+    }, "Share Summary", -1 /* CACHED */)]))])])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "mb-4 fw-bold text-dark text-left"
@@ -50329,7 +50369,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card-teal[data-v-b319a4de] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 165, 0);\n  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);\n  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-teal[data-v-b319a4de]:hover { \n  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12);\n}\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n  background: #f7f9fc;\n}\n.premium-panel[data-v-b319a4de] {\n  border-radius: 20px;\n  padding: 12px;\n  background: linear-gradient(145deg, rgba(15, 140, 124, 0.15), rgba(11, 99, 88, 0.12));\n  border: 1px solid rgba(15, 140, 124, 0.35);\n  box-shadow: 0 25px 45px rgba(11, 73, 67, 0.2);\n}\n.card-teal[data-v-b319a4de]:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12);\n}\n.card.card-teal[data-v-b319a4de] {\n  background: linear-gradient(145deg, #e2faf5, #c6f2ec);\n  border-color: rgba(15, 140, 124, 0.25);\n  color: #0b4d44;\n}\n.card.card-teal .card-body[data-v-b319a4de] {\n  background: transparent;\n}\n.action-row[data-v-b319a4de] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1rem;\n  justify-content: center;\n  align-items: stretch;\n}\n.action-row--spaced > button[data-v-b319a4de] {\n  flex: 1 1 170px;\n  min-width: 150px;\n  max-width: 230px;\n}\n.premium-action-button[data-v-b319a4de] {\n  border-radius: 20px;\n  border: 1px solid transparent;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  gap: 0.65rem;\n  padding: 0.75rem 1rem;\n  font-weight: 600;\n  font-size: 0.95rem;\n  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;\n  text-transform: none;\n  letter-spacing: 0.01em;\n  animation: premiumEntry-b319a4de 0.8s ease both;\n}\n.premium-action-button--primary[data-v-b319a4de] {\n  color: #fff;\n  box-shadow: 0 8px 25px rgba(15, 140, 124, 0.35);\n}\n.premium-action-button--outline[data-v-b319a4de] {\n  background: rgba(15, 140, 124, 0.08);\n  border-color: rgba(15, 140, 124, 0.55);\n  color: #0c7867;\n  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible,\n.premium-action-button[data-v-b319a4de]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible {\n  outline: 3px solid rgba(15, 140, 124, 0.45);\n  outline-offset: 2px;\n}\n.premium-action-button[data-v-b319a4de]:disabled {\n  cursor: not-allowed;\n  opacity: 0.6;\n  box-shadow: none;\n}\n.action-row__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  background: rgba(255, 255, 255, 0.18);\n  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  color: inherit;\n}\n.action-row__label[data-v-b319a4de] {\n  font-size: 0.95rem;\n  letter-spacing: 0.01em;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #198754;\n  background-color: #e6f4ea;\n}\n.summary-item[data-v-b319a4de] {\n  animation: premiumPulse-b319a4de 0.7s ease forwards;\n  background: rgba(255, 255, 255, 0.95);\n  border: 1px solid rgba(15, 23, 42, 0.07);\n  border-radius: 20px;\n  padding: 1rem;\n  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n.summary-pillars[data-v-b319a4de] {\n  border-radius: 20px;\n  background: #fff;\n  border: 1px solid rgba(15, 23, 42, 0.08);\n  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);\n  padding: 1rem;\n}\n.summary-pill[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.65rem;\n  flex: 1 1 220px;\n  min-width: 220px;\n  padding: 0.35rem 0.65rem;\n  border-radius: 14px;\n  background: rgba(0, 0, 0, 0.01);\n  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;\n}\n.summary-pill[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);\n  background: rgba(0, 191, 166, 0.05);\n}\n.summary-pill small[data-v-b319a4de] {\n  display: block;\n  font-size: 0.75rem;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n}\n.summary-pill .fw-semibold[data-v-b319a4de] {\n  font-size: 0.95rem;\n}\n.summary-pillars .action-row__icon[data-v-b319a4de] {\n  background: rgba(0, 191, 166, 0.15);\n  color: #0d8271;\n}\n.summary-pillars .action-row__label[data-v-b319a4de] {\n  font-size: 0.9rem;\n  font-weight: 600;\n}\n.summary-row[data-v-b319a4de] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.summary-metric[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  padding: 0.75rem 0.65rem;\n  border-radius: 18px;\n  background: rgba(15, 23, 42, 0.04);\n  border: 1px solid rgba(15, 23, 42, 0.06);\n  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;\n}\n.summary-metric[data-v-b319a4de]:hover {\n  background: rgba(0, 191, 166, 0.08);\n  transform: translateY(-1px);\n  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);\n}\n.summary-metric__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 122, 102, 0.18);\n  color: #0c7867;\n}\n.summary-metric strong[data-v-b319a4de] {\n  font-size: 1rem;\n}\n.form-control[data-v-b319a4de],\n.form-select[data-v-b319a4de] {\n  border-radius: 14px;\n  transition: border 0.3s ease, box-shadow 0.3s ease;\n}\n.form-control[data-v-b319a4de]:focus,\n.form-select[data-v-b319a4de]:focus {\n  border-color: #00bfa6;\n  box-shadow: 0 0 0 0.25rem rgba(0, 191, 166, 0.25);\n}\n.animate-entry[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.7s ease both;\n}\n.custom-progress[data-v-b319a4de] {\n  height: 8px;\n  border-radius: 10px;\n  overflow: hidden;\n  background: rgba(15, 23, 42, 0.08);\n  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);\n}\n.custom-progress .progress-bar[data-v-b319a4de] {\n  border-radius: 10px;\n}\n.progress-bar-full[data-v-b319a4de] {\n  width: 100%;\n}\n.summary-icon[data-v-b319a4de] {\n  font-size: 2rem;\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes premiumPulse-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(16px);\n}\n65% {\n    opacity: 1;\n    transform: translateY(0);\n}\n100% {\n    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);\n}\n}\n@keyframes premiumEntry-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(10px) scale(0.98);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.accordion-item[data-v-b319a4de] {\n  border: 1px solid #dee2e6;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n}\n.accordion-button[data-v-b319a4de] {\n  font-weight: bold;\n  color: #212529;\n  background-color: #fff;\n  padding: 1rem 1.5rem;\n  border-radius: 0.5rem;\n}\n.accordion-button[data-v-b319a4de]:hover {\n  color: #198754;\n  background-color: #f1f8f4;\n}\n.accordion-button[data-v-b319a4de]:focus {\n  border-color: rgba(25, 135, 84, 0.4);\n  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);\n}\n.accordion-body[data-v-b319a4de] {\n  background-color: #f8f9fa;\n  border-radius: 0 0 0.5rem 0.5rem;\n  padding: 1.5rem;\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-teal[data-v-b319a4de] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 165, 0);\n  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);\n  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-teal[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);\n}\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n  background: #f7f9fc;\n}\n.premium-panel[data-v-b319a4de] {\n  border-radius: 20px;\n  padding: 12px;\n  background: linear-gradient(145deg, rgba(15, 140, 124, 0.15), rgba(11, 99, 88, 0.12));\n  border: 1px solid rgba(15, 140, 124, 0.35);\n  box-shadow: 0 25px 45px rgba(11, 73, 67, 0.2);\n}\n.card-teal[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);\n}\n.card.card-teal[data-v-b319a4de] {\n  background: linear-gradient(145deg, #e2faf5, #c6f2ec);\n  border-color: rgba(15, 140, 124, 0.25);\n  color: #0b4d44;\n}\n.card.card-teal .card-body[data-v-b319a4de] {\n  background: transparent;\n}\n.action-row[data-v-b319a4de] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1rem;\n  justify-content: center;\n  align-items: stretch;\n}\n.action-row--spaced>button[data-v-b319a4de] {\n  flex: 1 1 170px;\n  min-width: 150px;\n  max-width: 230px;\n}\n.premium-action-button[data-v-b319a4de] {\n  border-radius: 20px;\n  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;\n  animation: premiumEntry-b319a4de 0.8s ease both;\n}\n.premium-action-button--primary[data-v-b319a4de] {\n  color: #fff;\n  box-shadow: 0 8px 25px rgba(15, 140, 124, 0.35);\n}\n.premium-action-button--outline[data-v-b319a4de] {\n  background: rgba(15, 140, 124, 0.08);\n  border-color: rgba(15, 140, 124, 0.55);\n  color: #0c7867;\n  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible,\n.premium-action-button[data-v-b319a4de]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible {\n  outline: 3px solid rgba(15, 140, 124, 0.45);\n  outline-offset: 2px;\n}\n.premium-action-button[data-v-b319a4de]:disabled {\n  cursor: not-allowed;\n  opacity: 0.6;\n  box-shadow: none;\n}\n.action-row__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  background: rgba(255, 255, 255, 0.18);\n  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  color: inherit;\n}\n.action-row__label[data-v-b319a4de] {\n  font-size: 0.95rem;\n  letter-spacing: 0.01em;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #198754;\n  background-color: #e6f4ea;\n}\n.summary-item[data-v-b319a4de] {\n  animation: premiumPulse-b319a4de 0.7s ease forwards;\n  background: rgba(255, 255, 255, 0.95);\n  border: 1px solid rgba(15, 23, 42, 0.07);\n  border-radius: 20px;\n  padding: 1rem;\n  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n.summary-pillars[data-v-b319a4de] {\n  border-radius: 20px;\n  background: #fff;\n  border: 1px solid rgba(15, 23, 42, 0.08);\n  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);\n  padding: 1rem;\n}\n.summary-pill[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.65rem;\n  flex: 1 1 220px;\n  min-width: 220px;\n  padding: 0.35rem 0.65rem;\n  border-radius: 14px;\n  background: rgba(0, 0, 0, 0.01);\n  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;\n}\n.summary-pill[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);\n  background: rgba(0, 191, 166, 0.05);\n}\n.summary-pill small[data-v-b319a4de] {\n  display: block;\n  font-size: 0.75rem;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n}\n.summary-pill .fw-semibold[data-v-b319a4de] {\n  font-size: 0.95rem;\n}\n.summary-pillars .action-row__icon[data-v-b319a4de] {\n  background: rgba(0, 191, 166, 0.15);\n  color: #0d8271;\n}\n.summary-pillars .action-row__label[data-v-b319a4de] {\n  font-size: 0.9rem;\n  font-weight: 600;\n}\n.summary-row[data-v-b319a4de] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.summary-metric[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  padding: 0.75rem 0.65rem;\n  border-radius: 18px;\n  background: rgba(15, 23, 42, 0.04);\n  border: 1px solid rgba(15, 23, 42, 0.06);\n  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;\n}\n.summary-metric[data-v-b319a4de]:hover {\n  background: rgba(0, 191, 166, 0.08);\n  transform: translateY(-1px);\n  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);\n}\n.summary-metric__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 122, 102, 0.18);\n  color: #0c7867;\n}\n.summary-metric strong[data-v-b319a4de] {\n  font-size: 1rem;\n}\n.form-control[data-v-b319a4de],\n.form-select[data-v-b319a4de] {\n  border-radius: 14px;\n  transition: border 0.3s ease, box-shadow 0.3s ease;\n}\n.form-control[data-v-b319a4de]:focus,\n.form-select[data-v-b319a4de]:focus {\n  border-color: #00bfa6;\n  box-shadow: 0 0 0 0.25rem rgba(0, 191, 166, 0.25);\n}\n.animate-entry[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.7s ease both;\n}\n.custom-progress[data-v-b319a4de] {\n  height: 8px;\n  border-radius: 10px;\n  overflow: hidden;\n  background: rgba(15, 23, 42, 0.08);\n  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);\n}\n.custom-progress .progress-bar[data-v-b319a4de] {\n  border-radius: 10px;\n}\n.progress-bar-full[data-v-b319a4de] {\n  width: 100%;\n}\n.summary-icon[data-v-b319a4de] {\n  font-size: 2rem;\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes premiumPulse-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(16px);\n}\n65% {\n    opacity: 1;\n    transform: translateY(0);\n}\n100% {\n    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);\n}\n}\n@keyframes premiumEntry-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(10px) scale(0.98);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.accordion-item[data-v-b319a4de] {\n  border: 1px solid #dee2e6;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n}\n.accordion-button[data-v-b319a4de] {\n  font-weight: bold;\n  color: #212529;\n  background-color: #fff;\n  padding: 1rem 1.5rem;\n  border-radius: 0.5rem;\n}\n.accordion-button[data-v-b319a4de]:hover {\n  color: #198754;\n  background-color: #f1f8f4;\n}\n.accordion-button[data-v-b319a4de]:focus {\n  border-color: rgba(25, 135, 84, 0.4);\n  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);\n}\n.accordion-body[data-v-b319a4de] {\n  background-color: #f8f9fa;\n  border-radius: 0 0 0.5rem 0.5rem;\n  padding: 1.5rem;\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

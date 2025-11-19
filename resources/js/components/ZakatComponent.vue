@@ -1,10 +1,11 @@
 <template>
-    <div class="zakat-calculator">
-      <!-- Hero Section -->
-      <h2 class="mb-2 text-center py-4 fw-bold display-5 ">Zakat Calculator</h2>
-      <p class="text-center container text-dark mb-4 hero-subtitle">
-        Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
-      threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations.
+  <div class="zakat-calculator">
+    <!-- Hero Section -->
+    <h2 class="mb-2 text-center py-4 fw-bold display-5 ">Zakat Calculator</h2>
+    <p class="text-center container text-dark mb-4 hero-subtitle">
+      Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab
+      threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate
+      calculations.
     </p>
     <div class="container-fluid">
       <div class="row g-4 justify-content-center">
@@ -203,14 +204,15 @@
               </div>
 
               <!-- Action Buttons -->
-              <div class="action-row action-row--spaced flex-wrap mt-5" role="group" aria-label="Zakat calculator actions">
-                <button type="button" class="premium-action-button premium-action-button--primary" @click="calculateZakat"
-                  :disabled="!isFormValid" aria-label="Calculate my Zakat">
+              <div class="action-row action-row--spaced flex-wrap mt-5" role="group"
+                aria-label="Zakat calculator actions">
+                <button type="button" class="premium-action-button premium-action-button--primary"
+                  @click="calculateZakat" :disabled="!isFormValid" aria-label="Calculate my Zakat">
                   <span class="action-row__icon"><i class="bi bi-calculator" aria-hidden="true"></i></span>
                   <span class="action-row__label">Calculate Zakat</span>
                 </button>
-                <button type="button" class="premium-action-button premium-action-button--outline" @click="resetCalculator"
-                  aria-label="Reset values">
+                <button type="button" class="premium-action-button premium-action-button--outline"
+                  @click="resetCalculator" aria-label="Reset values">
                   <span class="action-row__icon"><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i></span>
                   <span class="action-row__label">Reset</span>
                 </button>
@@ -221,20 +223,20 @@
         <!-- Results Panel -->
         <transition name="fade">
           <div class="col-lg-5" ref="zakatSummary" v-if="zakatCalculated">
-          <div class="card shadow-md rounded-20 sticky-top">
-            <div class="card-body p-4" style="padding: 10px;">
-              <h1 class="fw-bold text-dark">Zakat Summary</h1>
+            <div class="card shadow-md rounded-20 sticky-top">
+              <div class="card-body p-4" style="padding: 10px;">
+                <h1 class="fw-bold text-dark">Zakat Summary</h1>
 
                 <!-- Asset Breakdown -->
                 <div class="summary-item mb-4">
                   <h6 class="mb-3 fw-bold">Asset Breakdown</h6>
-                <div v-for="(value, key) in assetBreakdown" :key="key" class="summary-metric mb-2">
-                  <span class="summary-metric__icon"><i class="bi bi-piggy-bank" aria-hidden="true"></i></span>
-                  <div class="d-flex w-100 justify-content-between align-items-center">
-                    <span class="text-muted">{{ key }}:</span>
-                    <strong>{{ currencySymbol }}{{ value.toLocaleString() }}</strong>
+                  <div v-for="(value, key) in assetBreakdown" :key="key" class="summary-metric mb-2">
+                    <span class="summary-metric__icon"><i class="bi bi-piggy-bank" aria-hidden="true"></i></span>
+                    <div class="d-flex w-100 justify-content-between align-items-center">
+                      <span class="text-muted">{{ key }}:</span>
+                      <strong>{{ currencySymbol }}{{ value.toLocaleString() }}</strong>
+                    </div>
                   </div>
-                </div>
                   <div class="progress mb-3 custom-progress">
                     <div class="progress-bar bg-success progress-bar-full" role="progressbar"></div>
                   </div>
@@ -287,7 +289,8 @@
                     <div>
                       <h6 class="mb-1 text-dark fw-bold">Total Zakat Due</h6>
                       <h3 class="text-success fw-bold mb-0">{{ currencySymbol }}{{ zakatDue.toLocaleString(undefined, {
-                        minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</h3>
+                        minimumFractionDigits: 2, maximumFractionDigits: 2
+                      }) }}</h3>
                     </div>
                     <i class="bi bi-check-circle-fill text-success summary-icon"></i>
                   </div>
@@ -332,10 +335,10 @@
                 <!-- Action Buttons -->
                 <div class="d-flex flex-column gap-2 mt-4">
                   <button class="btn btn-dark w-100" @click="printSummary">
-                    <i class="bi bi-download me-2"></i><b>Download Summary</b>
+                    <i class="bi bi-download me-2"></i><b class="text-center">Download Summary</b>
                   </button>
-                  <button class="btn btn-outline-dark w-100" @click="shareSummary">
-                    <i class="bi bi-share me-2"></i><b>Share Summary</b>
+                  <button class="btn text-center btn-outline-dark w-100" @click="shareSummary">
+                    <i class="bi bi-share me-2"></i><b class="text-center">Share Summary</b>
                   </button>
                 </div>
               </div>
@@ -353,25 +356,14 @@
               <div class="accordion" id="zakatFaqAccordion">
                 <div class="accordion-item" v-for="(faq, index) in faqs" :key="index">
                   <h2 class="accordion-header" :id="'faq-heading-' + index">
-                    <button
-                      class="accordion-button"
-                      :class="{ collapsed: !faq.isOpen }"
-                      type="button"
-                      @click="toggleFaq(index)"
-                      :aria-expanded="faq.isOpen"
-                      :aria-controls="'faq-collapse-' + index"
-                    >
+                    <button class="accordion-button" :class="{ collapsed: !faq.isOpen }" type="button"
+                      @click="toggleFaq(index)" :aria-expanded="faq.isOpen" :aria-controls="'faq-collapse-' + index">
                       <span class="material-icons me-2"></span>
                       {{ faq.question }}
                     </button>
                   </h2>
-                  <div
-                    :id="'faq-collapse-' + index"
-                    class="accordion-collapse collapse"
-                    :class="{ show: faq.isOpen }"
-                    :aria-labelledby="'faq-heading-' + index"
-                    data-bs-parent="#zakatFaqAccordion"
-                  >
+                  <div :id="'faq-collapse-' + index" class="accordion-collapse collapse" :class="{ show: faq.isOpen }"
+                    :aria-labelledby="'faq-heading-' + index" data-bs-parent="#zakatFaqAccordion">
                     <div class="accordion-body">
                       {{ faq.answer }}
                     </div>
@@ -678,170 +670,206 @@ export default {
     },
     printSummary() {
       const content = this.$refs.zakatSummary.innerHTML;
-      const currentDate = new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
+      const generatedDate = new Date().toLocaleDateString('en-GB', {
+        day: '2-digit',
         month: 'long',
-        year: 'numeric',
+        year: 'numeric'
       });
-      const printWindow = window.open('', '', '');
+
+      const printWindow = window.open('', '', 'width=900,height=800');
 
       printWindow.document.write(`
-        <html>
-          <head>
-            <title>Zakat Summary</title>
-            <link rel="stylesheet" href="/css/app.css">
-            <style>
-              body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 2.5rem;
-                color: #333;
-                background-color: #fff;
-              }
-              .print-container {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 2rem;
-                background-color: #fff;
-              }
-              .header {
-                text-align: center;
-                margin-bottom: 2.5rem;
-                padding-bottom: 1.5rem;
-                border-bottom: 2px solid #dee2e6;
-              }
-              .header h1 {
-                font-size: 2.25rem;
-                font-weight: 700;
-                margin: 0 0 0.5rem 0;
-                color: #212529;
-              }
-              .header p {
-                font-size: 1rem;
-                color: #6c757d;
-                margin: 0;
-              }
-              .summary-section {
-                margin-bottom: 2rem;
-                padding: 1.5rem;
-                border: 1px solid #e9ecef;
-                border-radius: 0.75rem;
-                background-color: #f8f9fa;
-              }
-              .summary-section h6 {
-                font-size: 1.2rem;
-                font-weight: 600;
-                margin-bottom: 1.5rem;
-                color: #343a40;
-              }
-              .summary-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1rem;
-                font-size: 1rem;
-                line-height: 1.6;
-              }
-              .summary-item span:first-child {
-                color: #6c757d;
-                flex: 0 0 60%;
-                padding-right: 1rem;
-              }
-              .summary-item strong {
-                color: #212529;
-                flex: 0 0 40%;
-                text-align: right;
-              }
-              .progress {
-                height: 8px;
-                margin: 1rem 0 1.5rem 0;
-                background-color: #e9ecef;
-                border-radius: 4px;
-              }
-              .bg-success-light {
-                background-color: #e6f4ea !important;
-                border-color: #d4edda !important;
-                padding: 1.5rem !important;
-              }
-              .eligibility-badge {
-                text-align: center;
-                padding: 1.5rem;
-                border-radius: 0.75rem;
-                margin: 2rem 0;
-                background-color: #f8f9fa;
-              }
-              .eligibility-badge h5 {
-                font-size: 1.3rem;
-                margin-bottom: 0.75rem;
-                font-weight: 600;
-              }
-              .eligibility-badge p {
-                font-size: 0.9rem;
-                margin: 0;
-              }
-              .chart-container {
-                margin: 2.5rem 0;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-              }
-              canvas {
-                max-width: 100%;
-                height: auto;
-                display: block;
-              }
-              @media print {
-                body {
-                  padding: 1.5cm;
-                }
-                .print-container {
-                  border: none;
-                  box-shadow: none;
-                  padding: 0;
-                }
-                .btn, .btn-outline-dark {
-                  display: none;
-                }
-                .header {
-                  border-bottom: 1px solid #000;
-                  margin-bottom: 2rem;
-                }
-                .summary-section {
-                  border: none;
-                  background-color: transparent;
-                  page-break-inside: avoid;
-                  margin-bottom: 1.5rem;
-                  padding: 1rem;
-                }
-                .chart-container {
-                  page-break-inside: avoid;
-                  max-width: 350px;
-                }
-                .progress {
-                  background-color: #f0f0f0;
-                }
-                @page {
-                  margin: 1.5cm;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="print-container">
-              <div class="header">
-                <h1>Zakat Summary</h1>
-                <p>Generated on ${currentDate}</p>
-              </div>
-              ${content}
-            </div>
-          </body>
-        </html>
-      `);
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Zakat Summary - ${generatedDate}</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          background: #fff;
+          color: #1f2937;
+          line-height: 1.7;
+          padding: 60px 20px;
+        }
+        .container {
+          max-width: 820px;
+          margin: 0 auto;
+          background: white;
+          padding: 50px 60px;
+          border-radius: 16px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+        }
+        .header {
+          text-align: center;
+          margin-bottom: 60px;
+          padding-bottom: 30px;
+          border-bottom: 4px solid #f1f5f9;
+        }
+        .header h1 {
+          font-size: 36px;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 12px;
+          letter-spacing: -0.5px;
+        }
+        .header p {
+          font-size: 18px;
+          color: #64748b;
+          font-weight: 500;
+        }
 
-      printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-      printWindow.close();
+        /* Hide buttons completely */
+        .btn, .el-button, button, .no-print {
+          display: none !important;
+        }
+
+        /* Asset Grid – Spacious & Clean */
+        .assets-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 24px;
+          margin: 50px 0;
+          padding: 32px;
+          background: #f8fafc;
+          border-radius: 14px;
+          border: 1px solid #e2e8f0;
+        }
+        .asset-item {
+          background: white;
+          padding: 20px;
+          border-radius: 12px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          transition: transform 0.2s;
+        }
+        .asset-label {
+          font-size: 15px;
+          color: #64748b;
+          margin-bottom: 10px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .asset-value {
+          font-size: 22px;
+          font-weight: 700;
+          color: #111827;
+        }
+
+        /* Liabilities & Zakatables */
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 18px 0;
+          font-size: 18px;
+          border-bottom: 1px dashed #e2e8f0;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #475569; font-weight: 500; }
+        .info-value { font-weight: 700; color: #111827; }
+
+        /* Total Zakat Due – Hero Section */
+        .zakat-due {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+          color: white;
+          padding: 48px 32px;
+          border-radius: 18px;
+          text-align: center;
+          margin: 60px 0;
+          box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+        }
+        .zakat-due h3 {
+          font-size: 28px;
+          font-weight: 600;
+          margin-bottom: 16px;
+          opacity: 0.95;
+        }
+        .zakat-due .amount {
+          font-size: 64px;
+          font-weight: 800;
+          letter-spacing: -2px;
+        }
+        .zakat-due .currency {
+          font-size: 32px;
+          vertical-align: top;
+          margin-right: 8px;
+        }
+
+        /* Nisab & Obligation */
+        .nisab-info {
+          text-align: center;
+          padding: 32px;
+          background: #fffbeb;
+          border: 2px solid #fbbf24;
+          border-radius: 14px;
+          margin: 50px 0;
+        }
+        .nisab-info h4 {
+          color: #92400e;
+          font-size: 20px;
+          margin-bottom: 8px;
+        }
+        .nisab-info p {
+          color: #78350f;
+          font-size: 16px;
+        }
+
+        .obligation {
+          text-align: center;
+          padding: 40px;
+          background: #fef2f2;
+          border: 3px solid #fca5a5;
+          border-radius: 18px;
+          margin: 60px 0;
+        }
+        .obligation h2 {
+          font-size: 32px;
+          color: #991b1b;
+          margin-bottom: 16px;
+          font-weight: 700;
+        }
+        .obligation p {
+          font-size: 19px;
+          color: #7f1d1d;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        /* Print Optimizations */
+        @media print {
+          body { padding: 0; background: white; }
+          .container {
+            box-shadow: none;
+            padding: 40px;
+            border-radius: 0;
+          }
+          @page { margin: 1.8cm; }
+          .zakat-due, .obligation, .nisab-info {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+        }
+      </style>
+    </head>
+    <body onload="window.print(); window.close()">
+      <div class="container">
+        <div class="header">
+          <h1>Zakat Summary</h1>
+          <p>Generated on ${generatedDate}</p>
+        </div>
+
+        <!-- This is your original content from zakatSummary ref -->
+        ${content}
+
+      </div>
+    </body>
+    </html>
+  `);
+    printWindow.document.close();
     },
     shareSummary() {
       const summaryText = `
@@ -926,7 +954,7 @@ export default {
       this.$nextTick(() => this.renderChartIfReady());
       try {
         localStorage.setItem('zakat_show_charts', String(this.showCharts));
-      } catch (_) {}
+      } catch (_) { }
     },
     assetBreakdown: {
       deep: true,
@@ -940,7 +968,7 @@ export default {
     try {
       const saved = localStorage.getItem('zakat_show_charts');
       if (saved === 'true') this.showCharts = true;
-    } catch (_) {}
+    } catch (_) { }
     this.$refs.zakatCalculator?.focus();
   },
   mounted() {
@@ -957,9 +985,12 @@ export default {
   background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
-.card-teal:hover { 
-  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+
+.card-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);
 }
+
 .zakat-calculator {
   min-height: 100vh;
   padding-bottom: 4rem;
@@ -975,7 +1006,10 @@ export default {
 }
 
 
-.card-teal:hover { transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); }
+.card-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);
+}
 
 .card.card-teal {
   background: linear-gradient(145deg, #e2faf5, #c6f2ec);
@@ -995,7 +1029,7 @@ export default {
   align-items: stretch;
 }
 
-.action-row--spaced > button {
+.action-row--spaced>button {
   flex: 1 1 170px;
   min-width: 150px;
   max-width: 230px;
@@ -1003,17 +1037,7 @@ export default {
 
 .premium-action-button {
   border-radius: 20px;
-  border: 1px solid transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.65rem;
-  padding: 0.75rem 1rem;
-  font-weight: 600;
-  font-size: 0.95rem;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;
-  text-transform: none;
-  letter-spacing: 0.01em;
   animation: premiumEntry 0.8s ease both;
 }
 
@@ -1221,6 +1245,7 @@ export default {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1232,10 +1257,12 @@ export default {
     opacity: 0;
     transform: translateY(16px);
   }
+
   65% {
     opacity: 1;
     transform: translateY(0);
   }
+
   100% {
     box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);
   }
@@ -1246,6 +1273,7 @@ export default {
     opacity: 0;
     transform: translateY(10px) scale(0.98);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
