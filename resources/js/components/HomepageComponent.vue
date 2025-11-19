@@ -347,21 +347,28 @@
             <p class="section-lead">Measurable results showing how we're making Islamic knowledge accessible to all</p>
 
             <div class="row container-fluid stats-grid">
-              <div class="col-md-4 col-6 mb-4">
+              <div class="col-md-3 col-6 mb-4">
+                <div class="stat-card">
+                  <h3>85%</h3>
+                  <p>Accessibility</p>
+                  <small>Score </small>
+                </div>
+              </div>
+              <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
                   <h3>75+</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
-              <div class="col-md-4 col-6 mb-4">
+              <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
                   <h3>575+</h3>
                   <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
               </div>
-              <div class="col-md-4 col-6 mb-4">
+              <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
                   <h3>1,090%</h3>
                   <p>Growth</p>

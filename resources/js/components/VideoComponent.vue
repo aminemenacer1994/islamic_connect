@@ -515,7 +515,7 @@ export default {
   text-decoration: none;
 }
 
-.badge { background-color: black; color: #fff; font-size: 1em; border: 1px solid #0db69175; border-radius: 8px; padding: 8px 12px; transition: all .3s ease; }
+.badge { background-color: white; color: #000; font-size: 1em; border: 1px solid #0db69175; border-radius: 8px; padding: 8px 12px; transition: all .3s ease; }
 .badge.active { background-color: #0db691; color: #fff; transform: scale(1.05); }
 .badge:hover { background-color: #0aa07f; color: #fff; transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,.15); }
 

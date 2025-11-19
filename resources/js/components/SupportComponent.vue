@@ -10,25 +10,25 @@
 
             <!-- Impact Metrics -->
             <div class="row">
-              <div class="col-md-3 mb-4">
+              <div class="col-md-3 col-sm-3 mb-4">
                 <div class="metric-item">
                   <h3>85%</h3>
-                  <p>AccessibilityScore</p>
+                  <p>Accessibility Score</p>
                 </div>
               </div>
-              <div class="col-md-3 mb-4">
+              <div class="col-md-3 mb-4 col-sm-3">
                 <div class="metric-item">
                   <h3>75+</h3>
                   <p>Countries</p>
                 </div>
               </div>
-              <div class="col-md-3 mb-4">
+              <div class="col-md-3 mb-4 col-sm-3">
                 <div class="metric-item">
                   <h3>575+</h3>
                   <p>Cities</p>
                 </div>
               </div>
-              <div class="col-md-3 mb-4">
+              <div class="col-md-3 mb-4 col-sm-3">
                 <div class="metric-item">
                   <h3>1,090%</h3>
                   <p>User Growth</p>
