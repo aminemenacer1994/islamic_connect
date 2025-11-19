@@ -159,8 +159,7 @@
                         </div>
                     </section>
                 </div>
-                <div class="col-md-8 card-hide text-left pr-4 "
-                    style="scroll-margin-top:24px;">
+                <div class="col-md-8 card-hide text-left pr-4 " style="scroll-margin-top:24px;">
                     <div v-if="information == null" class="companion-hero">
                         <div class="hero-inner d-flex">
                             <div class="hero-text">
@@ -185,8 +184,9 @@
                         <!-- breakdown content here -->
 
                     </div>
-                    
-                    <div class="card card-teal" style="background-color:#ffffff; border-radius:18px; border:1px solid rgba(2,6,23,0.06); box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08); overflow:hidden; transition: box-shadow .2s ease;">
+
+                    <div class="card card-teal"
+                        style="background-color:#ffffff; border-radius:18px; border:1px solid rgba(2,6,23,0.06); box-shadow: 0 14px 36px rgba(15, 23, 42, 0.08); overflow:hidden; transition: box-shadow .2s ease;">
                         <div v-if="information != null">
                             <div class="container-fluid ">
                                 <div class="row">
@@ -272,7 +272,8 @@
                                 </div> -->
                             </div>
 
-                            <div class="card-body content card-teal" style="border-radius: 20px; padding: 16px 18px 18px 18px;">
+                            <div class="card-body content card-teal"
+                                style="border-radius: 20px; padding: 16px 18px 18px 18px;">
                                 <div class="tab-content text-center" style="border-radius: 20px; background:#ffffff;">
                                     <!-- <Welcome :information="information" /> -->
 
@@ -298,7 +299,8 @@
                                                 <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
                                                     role="button" aria-label="Go to first verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToFirstAyah"
-                                                    @keydown.space.prevent="goToFirstAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    @keydown.space.prevent="goToFirstAyah"
+                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
                                                     onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                     onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToFirstAyah" title="First verse"></i>
@@ -310,7 +312,8 @@
                                                     role="button" aria-label="Go to previous verse"
                                                     :tabindex="isMobile ? -1 : 0"
                                                     @keydown.enter.prevent="goToPreviousAyah"
-                                                    @keydown.space.prevent="goToPreviousAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    @keydown.space.prevent="goToPreviousAyah"
+                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
                                                     onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                     onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToPreviousAyah" title="Previous verse"></i>
@@ -321,7 +324,8 @@
                                                 <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to next verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToNextAyah"
-                                                    @keydown.space.prevent="goToNextAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    @keydown.space.prevent="goToNextAyah"
+                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
                                                     onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                     onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToNextAyah" title="Next verse"></i>
@@ -332,7 +336,8 @@
                                                 <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon"
                                                     role="button" aria-label="Go to last verse"
                                                     :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToLastAyah"
-                                                    @keydown.space.prevent="goToLastAyah" style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                    @keydown.space.prevent="goToLastAyah"
+                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
                                                     onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                     onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                     @click="goToLastAyah" title="Last verse"></i>
@@ -504,7 +509,8 @@
                                                         role="button" aria-label="Go to first verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToFirstAyah"
-                                                        @keydown.space.prevent="goToFirstAyah" style="cursor: pointer;color:rgb(26, 95, 122)"
+                                                        @keydown.space.prevent="goToFirstAyah"
+                                                        style="cursor: pointer;color:rgb(26, 95, 122)"
                                                         @click="goToFirstAyah" title="First verse"></i>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Previous verse">
@@ -513,15 +519,16 @@
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToPreviousAyah"
                                                         @keydown.space.prevent="goToPreviousAyah"
-                                                        style="cursor: pointer; color:rgb(26, 95, 122)" @click="goToPreviousAyah"
-                                                        title="Previous verse"></i>
+                                                        style="cursor: pointer; color:rgb(26, 95, 122)"
+                                                        @click="goToPreviousAyah" title="Previous verse"></i>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Next verse">
                                                     <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
                                                         role="button" aria-label="Go to next verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToNextAyah"
-                                                        @keydown.space.prevent="goToNextAyah" style="cursor: pointer;color:rgb(26, 95, 122)"
+                                                        @keydown.space.prevent="goToNextAyah"
+                                                        style="cursor: pointer;color:rgb(26, 95, 122)"
                                                         @click="goToNextAyah" title="Next verse"></i>
                                                 </div>
                                                 <div class="text-center" role="group" aria-label="Last verse">
@@ -529,7 +536,8 @@
                                                         role="button" aria-label="Go to last verse"
                                                         :tabindex="isMobile ? -1 : 0"
                                                         @keydown.enter.prevent="goToLastAyah"
-                                                        @keydown.space.prevent="goToLastAyah" style="cursor: pointer;color:rgb(26, 95, 122)"
+                                                        @keydown.space.prevent="goToLastAyah"
+                                                        style="cursor: pointer;color:rgb(26, 95, 122)"
                                                         @click="goToLastAyah" title="Last verse"></i>
                                                 </div>
                                             </div>
@@ -674,28 +682,32 @@
                                                     style="display:flex; gap:12px; justify-content:space-around; align-items:center; background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px;">
                                                     <div class="text-center">
                                                         <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToFirstAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                            @click="goToFirstAyah"
                                                             onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                             onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="First verse"></i>
                                                     </div>
                                                     <div class="text-center">
                                                         <i class="bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToPreviousAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                            @click="goToPreviousAyah"
                                                             onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                             onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="Previous verse"></i>
                                                     </div>
                                                     <div class="text-center">
                                                         <i class="bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToNextAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                            @click="goToNextAyah"
                                                             onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                             onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="Next verse"></i>
                                                     </div>
                                                     <div class="text-center">
                                                         <i class="bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;" @click="goToLastAyah"
+                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
+                                                            @click="goToLastAyah"
                                                             onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
                                                             onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
                                                             title="Last verse"></i>
@@ -774,7 +786,7 @@
 
                                                 <!-- mobile navigation -->
                                                 <div class="dropdown mobile-only">
-                                                
+
                                                     <!-- Mobile/Tablet tip: swipe between verses -->
                                                     <div v-if="showSwipeTip"
                                                         class="swipe-tip alert py-2 pb-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none"
@@ -1603,15 +1615,18 @@ export default {
 <style scoped src="./css/styles.css"></style>
 <style scoped>
 .card-teal {
-  border-radius: 20px;
-  border: 1px solid rgba(20, 184, 165, 0);
-  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
-  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+    border-radius: 20px;
+    border: 1px solid rgba(20, 184, 165, 0);
+    box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+    background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+    transition: transform 160ms ease, box-shadow 160ms ease;
 }
-.card-teal:hover { 
-  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+
+.card-teal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);
 }
+
 .companion-hero {
     background: linear-gradient(145deg, #f4f9f7, #fdfcf8);
     border: 1px solid rgba(11, 128, 111, 0.12);

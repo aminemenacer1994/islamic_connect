@@ -13,7 +13,7 @@
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
                   <h3>85%</h3>
-                  <p>Accessibility SEO Score</p>
+                  <p>AccessibilityScore</p>
                 </div>
               </div>
               <div class="col-md-3 mb-4">

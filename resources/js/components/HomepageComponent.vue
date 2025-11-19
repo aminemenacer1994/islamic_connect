@@ -91,7 +91,7 @@
                   </div>
                   <div class="col-4 text-center">
                     <div style="color: rgb(0, 121, 107); font-weight: 800; font-size: 1.8rem; line-height: 1;">85%</div>
-                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">SEO & Accessibility</div>
+                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Accessibility</div>
                   </div>
                   <div class="col-4 text-center">
                     <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">575+</div>

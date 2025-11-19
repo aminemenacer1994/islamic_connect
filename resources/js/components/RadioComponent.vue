@@ -12,46 +12,75 @@
 
       <!-- Search Bar and Category Dropdown -->
       <section class="mb-5" role="search" aria-label="Search and filter stations">
-        <div class="fixed-footer p-4 mb-5 border-md"
-          style="border-radius:20px;background:linear-gradient(135deg,#e2e8f0,#c7f5ea);border:1px solid rgba(6,182,172,.28);box-shadow:0 10px 30px rgba(2,44,34,.18), inset 0 1px 0 rgba(255,255,255,.35);position:sticky;top:8px;z-index:40;backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);">
-          <h2 class="visually-hidden">Search and Filter</h2>
-          <div class="row g-4 align-items-end">
-            <!-- Search by Name -->
-            <div class="col-md-6">
-              <label for="reciterSearch" style="font-size: 1.5em;"
-                class="form-label fw-bold display-4 text-dark mb-2">Search by Name</label>
-              <div class="input-group align-items-center">
-                <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
-                  class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
-                  aria-label="Search reciters by name"
-                  style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;" />
+        <!-- Collapsible Filter Panel -->
+        <div class="fixed-footer p-2 mb-5 border-md"
+          style="border-radius:20px; background:linear-gradient(135deg,#e2e8f0,#c7f5ea);border:1px solid rgba(6,182,172,.28);box-shadow:0 10px 30px rgba(2,44,34,.18), inset 0 1px 0 rgba(255,255,255,.35);position:sticky;top:8px;z-index:40;backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);">
+
+          <!-- Toggle Header -->
+          <div class="d-flex justify-content-between align-items-center mb-3 cursor-pointer"
+            @click="isFilterOpen = !isFilterOpen" role="button" :aria-expanded="isFilterOpen"
+            :aria-controls="'filter-panel'" tabindex="0" @keydown.enter.prevent="isFilterOpen = !isFilterOpen"
+            @keydown.space.prevent="isFilterOpen = !isFilterOpen">
+
+            <h4 class="h4 pl-3 pt-2 fw-bold text-dark mb-0 d-flex align-items-center gap-2">
+              <i :class="isFilterOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
+              Filters
+            </h4>
+
+            <!-- Optional: Badge showing active filters -->
+            <span v-if="hasActiveFilters" class="badge bg-primary rounded-pill">
+              {{ activeFilterCount }} active
+            </span>
+          </div>
+
+          <!-- Collapsible Content with smooth transition -->
+          <transition name="slide-fade">
+            <div v-show="isFilterOpen" id="filter-panel">
+              <div class="row g-4 align-items-end">
+                <!-- Search by Name -->
+                <div class="col-md-6">
+                  <label for="reciterSearch" class="form-label fw-bold text-dark mb-2" style="font-size: 1.4em;">
+                    Search by Name
+                  </label>
+                  <div class="input-group align-items-center">
+                    <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
+                      class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
+                      aria-label="Search reciters by name"
+                      style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;" />
+                  </div>
+                </div>
+
+                <!-- Category Filter -->
+                <div class="col-md-3">
+                  <label for="reciterCategory" class="form-label fw-bold text-dark mb-2" style="font-size: 1.4em;">
+                    Category
+                  </label>
+                  <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
+                    class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
+                    style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
+                    <option value="All Categories">All Categories</option>
+                    <option v-for="category in availableCategories" :key="category" :value="category">
+                      {{ category }}
+                    </option>
+                  </select>
+                </div>
+
+                <!-- Sort By Filter -->
+                <div class="col-md-3">
+                  <label for="sortBy" class="form-label fw-bold text-dark mb-2" style="font-size: 1.4em;">
+                    Sort By
+                  </label>
+                  <select v-model="sortBy" id="sortBy" class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6"
+                    aria-label="Sort stations" style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
+                    <option value="default">Default</option>
+                    <option value="name_asc">Name (A-Z)</option>
+                    <option value="name_desc">Name (Z-A)</option>
+                    <option value="listeners_desc">Most Listeners</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <!-- Category Filter -->
-            <div class="col-md-3">
-              <label for="reciterCategory" style="font-size: 1.5em;"
-                class="form-label fw-bold display-4 text-dark mb-2">Category</label>
-              <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
-                class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
-                style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
-                <option value="All Categories">All Categories</option>
-                <option v-for="category in availableCategories" :key="category" :value="category">{{ category }}
-                </option>
-              </select>
-            </div>
-            <!-- Sort By Filter -->
-            <div class="col-md-3">
-              <label for="sortBy" style="font-size: 1.5em;" class="form-label fw-bold display-4 text-dark mb-2">Sort
-                By</label>
-              <select v-model="sortBy" id="sortBy" class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6"
-                aria-label="Sort stations" style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
-                <option value="default">Default</option>
-                <option value="name_asc">Name (A-Z)</option>
-                <option value="name_desc">Name (Z-A)</option>
-                <option value="listeners_desc">Most Listeners</option>
-              </select>
-            </div>
-          </div>
+          </transition>
         </div>
       </section>
 
@@ -714,6 +743,21 @@ watch(sortedStations, () => {
 // Methods
 const getAudioForStation = (id) => audioRefs[id];
 
+const isFilterOpen = ref(true) // Start open by default (or false if you prefer collapsed)
+
+// Optional: computed to show active filter count
+const hasActiveFilters = computed(() => {
+  return searchQuery.value || selectedCategory.value !== 'All Categories' || sortBy.value !== 'default'
+})
+
+const activeFilterCount = computed(() => {
+  let count = 0
+  if (searchQuery.value) count++
+  if (selectedCategory.value !== 'All Categories') count++
+  if (sortBy.value !== 'default') count++
+  return count
+})
+
 const closePlayer = () => {
   if (currentPlayingStationId.value) {
     const audio = getAudioForStation(currentPlayingStationId.value);
@@ -1246,6 +1290,36 @@ const playAudio = (index) => {
 }
 </script>
 <style scoped>
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all 0.35s ease;
+  overflow: hidden;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-15px);
+  max-height: 0;
+}
+
+.slide-fade-enter-to,
+.slide-fade-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+  max-height: 500px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Optional: make header look clickable */
+.cursor-pointer:hover {
+  opacity: 0.9;
+}
+
 .card-teal {
   border-radius: 20px;
   border: 1px solid rgba(20, 184, 166, 0.22);

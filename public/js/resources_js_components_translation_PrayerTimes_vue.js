@@ -21,10 +21,12 @@ __webpack_require__.r(__webpack_exports__);
       nextPrayer: null,
       loading: false,
       error: null,
+      // Only for real errors (API down, network, etc.)
       lat: null,
       lon: null,
       gregorianDate: "",
-      hijriDate: ""
+      hijriDate: "",
+      updateInterval: null
     };
   },
   computed: {
@@ -38,7 +40,7 @@ __webpack_require__.r(__webpack_exports__);
     this.setCurrentDate();
     this.getCurrentLocation();
 
-    // Update prayer times every minute to keep next prayer accurate
+    // Update "Next Prayer" every minute
     this.updateInterval = setInterval(() => {
       if (this.prayerTimes) {
         this.calculateNextPrayer();
@@ -46,9 +48,7 @@ __webpack_require__.r(__webpack_exports__);
     }, 60000);
   },
   beforeUnmount() {
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval);
-    }
+    if (this.updateInterval) clearInterval(this.updateInterval);
   },
   methods: {
     setCurrentDate() {
@@ -60,147 +60,136 @@ __webpack_require__.r(__webpack_exports__);
         day: 'numeric'
       });
 
-      // Use Intl for Hijri date if available, fallback to moment
-      if (typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
-        const hijriFormatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', {
+      // Hijri date (modern browsers support Intl)
+      try {
+        const hijri = new Intl.DateTimeFormat('en-u-ca-islamic', {
           day: 'numeric',
           month: 'long',
           year: 'numeric'
-        });
-        this.hijriDate = hijriFormatter.format(now);
-      } else if (typeof moment !== 'undefined') {
-        this.hijriDate = moment().format('iMMMM iYYYY');
+        }).format(now);
+        this.hijriDate = hijri;
+      } catch (e) {
+        this.hijriDate = "";
       }
     },
     getCurrentLocation() {
       if (!navigator.geolocation) {
-        this.error = "Geolocation is not supported by your browser.";
+        this.fetchPrayerTimesByCity('London');
         return;
       }
       this.loading = true;
-
-      // Add timeout for geolocation
       const geoTimeout = setTimeout(() => {
-        this.error = "Location request timed out. Using default location.";
         this.loading = false;
-        this.fetchPrayerTimesByCity('London'); // Fallback city
+        this.fetchPrayerTimesByCity('London');
       }, 10000);
       navigator.geolocation.getCurrentPosition(position => {
         clearTimeout(geoTimeout);
         this.lat = position.coords.latitude;
         this.lon = position.coords.longitude;
         this.fetchPrayerTimesByLocation();
-      }, error => {
+      }, () => {
         clearTimeout(geoTimeout);
-        this.error = "Unable to retrieve your location. Using default location.";
-        this.fetchPrayerTimesByCity('London'); // Fallback city
+        this.loading = false;
+        this.fetchPrayerTimesByCity('London'); // Silent fallback
       }, {
         enableHighAccuracy: false,
         timeout: 10000,
-        maximumAge: 300000 // 5 minutes cache
+        maximumAge: 300000
       });
     },
     async fetchPrayerTimesByLocation() {
       if (!this.lat || !this.lon) return;
       try {
-        // Cache key for localStorage
-        const cacheKey = `prayer-${this.lat}-${this.lon}-${new Date().toDateString()}`;
+        const today = new Date().toDateString();
+        const cacheKey = `prayer-${this.lat.toFixed(4)}-${this.lon.toFixed(4)}-${today}`;
         const cached = localStorage.getItem(cacheKey);
         if (cached) {
-          const _data = JSON.parse(cached);
-          this.prayerTimes = _data.timings;
-          this.cityName = _data.location.city;
+          const data = JSON.parse(cached);
+          this.prayerTimes = data.timings;
+          this.cityName = data.city || "Your Location";
           this.calculateNextPrayer();
           this.loading = false;
           return;
         }
         const response = await fetch(`https://api.aladhan.com/v1/timings?latitude=${this.lat}&longitude=${this.lon}&method=2`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        if (data.code === 200) {
-          this.prayerTimes = data.data.timings;
-          this.cityName = data.data.meta.timezone; // More reliable than city name
-
-          // Cache the response
-          localStorage.setItem(cacheKey, JSON.stringify({
-            timings: data.data.timings,
-            location: data.data.meta
-          }));
-          this.calculateNextPrayer();
-        } else {
-          throw new Error('Invalid response from prayer times API');
-        }
-      } catch (error) {
-        this.error = "Unable to fetch prayer times. Please try again later.";
-        console.error("Prayer times error:", error);
+        if (!response.ok) throw new Error("Network error");
+        const json = await response.json();
+        if (json.code !== 200) throw new Error("Invalid API response");
+        this.prayerTimes = json.data.timings;
+        this.cityName = json.data.meta.timezone;
+        localStorage.setItem(cacheKey, JSON.stringify({
+          timings: json.data.timings,
+          city: json.data.meta.timezone
+        }));
+        this.calculateNextPrayer();
+      } catch (err) {
+        this.error = "Failed to load prayer times. Please try again later.";
+        console.error(err);
       } finally {
         this.loading = false;
       }
     },
     async fetchPrayerTimesByCity(city = 'London') {
       try {
-        const cacheKey = `prayer-${city}-${new Date().toDateString()}`;
+        const today = new Date().toDateString();
+        const cacheKey = `prayer-${city}-${today}`;
         const cached = localStorage.getItem(cacheKey);
         if (cached) {
-          const _data2 = JSON.parse(cached);
-          this.prayerTimes = _data2.timings;
+          const data = JSON.parse(cached);
+          this.prayerTimes = data.timings;
           this.cityName = city;
           this.calculateNextPrayer();
           return;
         }
-        const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=GB&method=2`);
-        if (!response.ok) throw new Error('Network response was not ok');
-        const data = await response.json();
-        if (data.code === 200) {
-          this.prayerTimes = data.data.timings;
-          this.cityName = city;
-          localStorage.setItem(cacheKey, JSON.stringify({
-            timings: data.data.timings
-          }));
-          this.calculateNextPrayer();
-        }
-      } catch (error) {
-        this.error = "Unable to fetch prayer times for the specified city.";
-        console.error("City prayer times error:", error);
+        const response = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=GB&method=2`);
+        if (!response.ok) throw new Error("Network error");
+        const json = await response.json();
+        if (json.code !== 200) throw new Error("API error");
+        this.prayerTimes = json.data.timings;
+        this.cityName = city;
+        localStorage.setItem(cacheKey, JSON.stringify({
+          timings: json.data.timings
+        }));
+        this.calculateNextPrayer();
+      } catch (err) {
+        this.error = "Failed to load prayer times for " + city;
+        console.error(err);
+      } finally {
+        this.loading = false;
       }
     },
     calculateNextPrayer() {
       if (!this.prayerTimes) return;
       const now = new Date();
-      const currentTime = now.getHours() * 60 + now.getMinutes();
-      let nextPrayerTime = Infinity;
-      let nextPrayerName = null;
-      Object.entries(this.filteredPrayerTimes).forEach(([prayer, time]) => {
-        const [hours, minutes] = time.split(':').map(Number);
-        const prayerTime = hours * 60 + minutes;
-
-        // If prayer time is later today and earlier than current next prayer
-        if (prayerTime > currentTime && prayerTime < nextPrayerTime) {
-          nextPrayerTime = prayerTime;
-          nextPrayerName = prayer;
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      let closest = Infinity;
+      let next = null;
+      for (const [name, time] of Object.entries(this.filteredPrayerTimes)) {
+        const [h, m] = time.split(':').map(Number);
+        const minutes = h * 60 + m;
+        if (minutes > currentMinutes && minutes < closest) {
+          closest = minutes;
+          next = name;
         }
-      });
-
-      // If no prayer found for today, use Fajr tomorrow
-      this.nextPrayer = nextPrayerName || 'Fajr';
+      }
+      this.nextPrayer = next || 'Fajr'; // rollover to Fajr if all passed
     },
     getPrayerDisplayName(prayer) {
-      const names = {
-        'Fajr': 'Fajr',
-        'Dhuhr': 'Dhuhr',
-        'Asr': 'Asr',
-        'Maghrib': 'Maghrib',
-        'Isha': 'Isha',
-        'Sunrise': 'Sunrise'
+      const map = {
+        Fajr: 'Fajr',
+        Sunrise: 'Sunrise',
+        Dhuhr: 'Dhuhr',
+        Asr: 'Asr',
+        Maghrib: 'Maghrib',
+        Isha: 'Isha'
       };
-      return names[prayer] || prayer;
+      return map[prayer] || prayer;
     },
     formatTime(time) {
-      // Convert to 12-hour format
-      const [hours, minutes] = time.split(':').map(Number);
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const twelveHour = hours % 12 || 12;
-      return `${twelveHour}:${minutes.toString().padStart(2, '0')} ${period}`;
+      const [h, m] = time.split(':').map(Number);
+      const period = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h % 12 || 12;
+      return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
     }
   }
 });
@@ -241,7 +230,7 @@ const _hoisted_4 = {
 };
 const _hoisted_5 = {
   key: 1,
-  class: "alert alert-warning text-center",
+  class: "alert alert-danger text-center",
   role: "alert",
   "aria-live": "assertive"
 };
@@ -263,15 +252,15 @@ const _hoisted_8 = {
 };
 const _hoisted_9 = {
   key: 1,
-  class: "text-center text-muted"
+  class: "text-center text-muted mt-4"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State with Accessibility "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mt-2 text-muted"
-  }, "Loading prayer times...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error State "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, "Loading prayer times...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Only show real errors (critical) errors — not location fallback "), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-exclamation-triangle me-2",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Prayer Times Grid "), $data.prayerTimes && !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredPrayerTimes, (time, prayer) => {
@@ -292,7 +281,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "mb-0 fs-5 fw-bold",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(prayer === $data.nextPrayer ? 'color: white !important;' : 'color: #1a5f7a !important;')
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatTime(time)), 5 /* TEXT, STYLE */), prayer === $data.nextPrayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, " Next ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 14 /* CLASS, STYLE, PROPS */, _hoisted_7)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fallback when no data "), !$data.prayerTimes && !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [...(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Unable to load prayer times. Please check your connection.", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Fallback when no data at all "), !$data.prayerTimes && !$data.loading && !$data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [...(_cache[2] || (_cache[2] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Unable to load prayer times. Please check your connection.", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
 }
 
 /***/ }),
@@ -313,7 +302,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.prayer-card[data-v-5ae7cc26] {\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.prayer-card[data-v-5ae7cc26]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;\n}\n.date-badge[data-v-5ae7cc26] {\n  padding: 0.5rem 1rem;\n  background: #f8f9fa;\n  border-radius: 8px;\n  border: 1px solid #e9ecef;\n}\n.spinner[data-v-5ae7cc26] {\n  border: 3px solid #f3f3f3;\n  border-top: 3px solid #1a5f7a !important;\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  animation: spin-5ae7cc26 1s linear infinite;\n}\n@keyframes spin-5ae7cc26 {\n0% { transform: rotate(0deg);\n}\n100% { transform: rotate(360deg);\n}\n}\n\n/* Reduced motion support */\n@media (prefers-reduced-motion: reduce) {\n.prayer-card[data-v-5ae7cc26] {\n    transition: none;\n}\n.spinner[data-v-5ae7cc26] {\n    animation: none;\n    border-top-color: transparent;\n}\n}\n\n/* High contrast support */\n@media (prefers-contrast: high) {\n.prayer-card[data-v-5ae7cc26] {\n    border: 2px solid #000;\n}\n}\n\n/* Mobile optimizations */\n@media (max-width: 768px) {\n.prayer-card[data-v-5ae7cc26] {\n    padding: 1rem 0.5rem !important;\n}\n.date-badge[data-v-5ae7cc26] {\n    padding: 0.5rem;\n    font-size: 0.9rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.prayer-card[data-v-5ae7cc26] {\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n}\n.prayer-card[data-v-5ae7cc26]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;\n}\n.spinner[data-v-5ae7cc26] {\n  border: 4px solid #f3f3f3;\n  border-top: 4px solid #1a5f7a;\n  border-radius: 50%;\n  width: 42px;\n  height: 42px;\n  animation: spin-5ae7cc26 1s linear infinite;\n  margin: 0 auto;\n}\n@keyframes spin-5ae7cc26 {\nto { transform: rotate(360deg);\n}\n}\n@media (prefers-reduced-motion: reduce) {\n.prayer-card[data-v-5ae7cc26] { transition: none;\n}\n.spinner[data-v-5ae7cc26] { animation: none;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

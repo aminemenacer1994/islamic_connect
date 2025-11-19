@@ -3,14 +3,14 @@
     <div class="text-center container">
       <div class="row mb-3" style="align-items: center; text-align: center">
         
-        <!-- Loading State with Accessibility -->
+        <!-- Loading State -->
         <div v-if="loading" class="text-center mb-4" role="status" aria-live="polite">
           <div class="spinner" aria-hidden="true"></div>
           <p class="mt-2 text-muted">Loading prayer times...</p>
         </div>
 
-        <!-- Error State -->
-        <div v-if="error" class="alert alert-warning text-center" role="alert" aria-live="assertive">
+        <!-- Only show real errors (critical) errors — not location fallback -->
+        <div v-if="error" class="alert alert-danger text-center" role="alert" aria-live="assertive">
           <i class="fas fa-exclamation-triangle me-2" aria-hidden="true"></i>
           {{ error }}
         </div>
@@ -54,8 +54,8 @@
         </div>
       </div>
 
-      <!-- Fallback when no data -->
-      <div v-if="!prayerTimes && !loading && !error" class="text-center text-muted">
+      <!-- Fallback when no data at all -->
+      <div v-if="!prayerTimes && !loading && !error" class="text-center text-muted mt-4">
         <p>Unable to load prayer times. Please check your connection.</p>
       </div>
     </div>
@@ -72,11 +72,12 @@ export default {
       prayerTimes: null,
       nextPrayer: null,
       loading: false,
-      error: null,
+      error: null,         // Only for real errors (API down, network, etc.)
       lat: null,
       lon: null,
       gregorianDate: "",
       hijriDate: "",
+      updateInterval: null
     };
   },
   computed: {
@@ -91,8 +92,8 @@ export default {
   mounted() {
     this.setCurrentDate();
     this.getCurrentLocation();
-    
-    // Update prayer times every minute to keep next prayer accurate
+
+    // Update "Next Prayer" every minute
     this.updateInterval = setInterval(() => {
       if (this.prayerTimes) {
         this.calculateNextPrayer();
@@ -100,9 +101,7 @@ export default {
     }, 60000);
   },
   beforeUnmount() {
-    if (this.updateInterval) {
-      clearInterval(this.updateInterval);
-    }
+    if (this.updateInterval) clearInterval(this.updateInterval);
   },
   methods: {
     setCurrentDate() {
@@ -113,33 +112,31 @@ export default {
         month: 'long', 
         day: 'numeric' 
       });
-      
-      // Use Intl for Hijri date if available, fallback to moment
-      if (typeof Intl !== 'undefined' && Intl.DateTimeFormat) {
-        const hijriFormatter = new Intl.DateTimeFormat('en-US-u-ca-islamic', {
+
+      // Hijri date (modern browsers support Intl)
+      try {
+        const hijri = new Intl.DateTimeFormat('en-u-ca-islamic', {
           day: 'numeric',
           month: 'long',
           year: 'numeric'
-        });
-        this.hijriDate = hijriFormatter.format(now);
-      } else if (typeof moment !== 'undefined') {
-        this.hijriDate = moment().format('iMMMM iYYYY');
+        }).format(now);
+        this.hijriDate = hijri;
+      } catch (e) {
+        this.hijriDate = "";
       }
     },
 
     getCurrentLocation() {
       if (!navigator.geolocation) {
-        this.error = "Geolocation is not supported by your browser.";
+        this.fetchPrayerTimesByCity('London');
         return;
       }
 
       this.loading = true;
-      
-      // Add timeout for geolocation
+
       const geoTimeout = setTimeout(() => {
-        this.error = "Location request timed out. Using default location.";
         this.loading = false;
-        this.fetchPrayerTimesByCity('London'); // Fallback city
+        this.fetchPrayerTimesByCity('London');
       }, 10000);
 
       navigator.geolocation.getCurrentPosition(
@@ -149,15 +146,15 @@ export default {
           this.lon = position.coords.longitude;
           this.fetchPrayerTimesByLocation();
         },
-        (error) => {
+        () => {
           clearTimeout(geoTimeout);
-          this.error = "Unable to retrieve your location. Using default location.";
-          this.fetchPrayerTimesByCity('London'); // Fallback city
+          this.loading = false;
+          this.fetchPrayerTimesByCity('London'); // Silent fallback
         },
         {
           enableHighAccuracy: false,
           timeout: 10000,
-          maximumAge: 300000 // 5 minutes cache
+          maximumAge: 300000
         }
       );
     },
@@ -166,14 +163,14 @@ export default {
       if (!this.lat || !this.lon) return;
 
       try {
-        // Cache key for localStorage
-        const cacheKey = `prayer-${this.lat}-${this.lon}-${new Date().toDateString()}`;
+        const today = new Date().toDateString();
+        const cacheKey = `prayer-${this.lat.toFixed(4)}-${this.lon.toFixed(4)}-${today}`;
         const cached = localStorage.getItem(cacheKey);
-        
+
         if (cached) {
           const data = JSON.parse(cached);
           this.prayerTimes = data.timings;
-          this.cityName = data.location.city;
+          this.cityName = data.city || "Your Location";
           this.calculateNextPrayer();
           this.loading = false;
           return;
@@ -182,28 +179,24 @@ export default {
         const response = await fetch(
           `https://api.aladhan.com/v1/timings?latitude=${this.lat}&longitude=${this.lon}&method=2`
         );
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
 
-        if (data.code === 200) {
-          this.prayerTimes = data.data.timings;
-          this.cityName = data.data.meta.timezone; // More reliable than city name
-          
-          // Cache the response
-          localStorage.setItem(cacheKey, JSON.stringify({
-            timings: data.data.timings,
-            location: data.data.meta
-          }));
-          
-          this.calculateNextPrayer();
-        } else {
-          throw new Error('Invalid response from prayer times API');
-        }
-      } catch (error) {
-        this.error = "Unable to fetch prayer times. Please try again later.";
-        console.error("Prayer times error:", error);
+        if (!response.ok) throw new Error("Network error");
+
+        const json = await response.json();
+        if (json.code !== 200) throw new Error("Invalid API response");
+
+        this.prayerTimes = json.data.timings;
+        this.cityName = json.data.meta.timezone;
+
+        localStorage.setItem(cacheKey, JSON.stringify({
+          timings: json.data.timings,
+          city: json.data.meta.timezone
+        }));
+
+        this.calculateNextPrayer();
+      } catch (err) {
+        this.error = "Failed to load prayer times. Please try again later.";
+        console.error(err);
       } finally {
         this.loading = false;
       }
@@ -211,9 +204,10 @@ export default {
 
     async fetchPrayerTimesByCity(city = 'London') {
       try {
-        const cacheKey = `prayer-${city}-${new Date().toDateString()}`;
+        const today = new Date().toDateString();
+        const cacheKey = `prayer-${city}-${today}`;
         const cached = localStorage.getItem(cacheKey);
-        
+
         if (cached) {
           const data = JSON.parse(cached);
           this.prayerTimes = data.timings;
@@ -223,26 +217,24 @@ export default {
         }
 
         const response = await fetch(
-          `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=GB&method=2`
+          `https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(city)}&country=GB&method=2`
         );
-        
-        if (!response.ok) throw new Error('Network response was not ok');
-        
-        const data = await response.json();
 
-        if (data.code === 200) {
-          this.prayerTimes = data.data.timings;
-          this.cityName = city;
-          
-          localStorage.setItem(cacheKey, JSON.stringify({
-            timings: data.data.timings
-          }));
-          
-          this.calculateNextPrayer();
-        }
-      } catch (error) {
-        this.error = "Unable to fetch prayer times for the specified city.";
-        console.error("City prayer times error:", error);
+        if (!response.ok) throw new Error("Network error");
+
+        const json = await response.json();
+        if (json.code !== 200) throw new Error("API error");
+
+        this.prayerTimes = json.data.timings;
+        this.cityName = city;
+
+        localStorage.setItem(cacheKey, JSON.stringify({ timings: json.data.timings }));
+        this.calculateNextPrayer();
+      } catch (err) {
+        this.error = "Failed to load prayer times for " + city;
+        console.error(err);
+      } finally {
+        this.loading = false;
       }
     },
 
@@ -250,43 +242,41 @@ export default {
       if (!this.prayerTimes) return;
 
       const now = new Date();
-      const currentTime = now.getHours() * 60 + now.getMinutes();
-      let nextPrayerTime = Infinity;
-      let nextPrayerName = null;
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
 
-      Object.entries(this.filteredPrayerTimes).forEach(([prayer, time]) => {
-        const [hours, minutes] = time.split(':').map(Number);
-        const prayerTime = hours * 60 + minutes;
-        
-        // If prayer time is later today and earlier than current next prayer
-        if (prayerTime > currentTime && prayerTime < nextPrayerTime) {
-          nextPrayerTime = prayerTime;
-          nextPrayerName = prayer;
+      let closest = Infinity;
+      let next = null;
+
+      for (const [name, time] of Object.entries(this.filteredPrayerTimes)) {
+        const [h, m] = time.split(':').map(Number);
+        const minutes = h * 60 + m;
+
+        if (minutes > currentMinutes && minutes < closest) {
+          closest = minutes;
+          next = name;
         }
-      });
+      }
 
-      // If no prayer found for today, use Fajr tomorrow
-      this.nextPrayer = nextPrayerName || 'Fajr';
+      this.nextPrayer = next || 'Fajr'; // rollover to Fajr if all passed
     },
 
     getPrayerDisplayName(prayer) {
-      const names = {
-        'Fajr': 'Fajr',
-        'Dhuhr': 'Dhuhr',
-        'Asr': 'Asr',
-        'Maghrib': 'Maghrib',
-        'Isha': 'Isha',
-        'Sunrise': 'Sunrise'
+      const map = {
+        Fajr: 'Fajr',
+        Sunrise: 'Sunrise',
+        Dhuhr: 'Dhuhr',
+        Asr: 'Asr',
+        Maghrib: 'Maghrib',
+        Isha: 'Isha'
       };
-      return names[prayer] || prayer;
+      return map[prayer] || prayer;
     },
 
     formatTime(time) {
-      // Convert to 12-hour format
-      const [hours, minutes] = time.split(':').map(Number);
-      const period = hours >= 12 ? 'PM' : 'AM';
-      const twelveHour = hours % 12 || 12;
-      return `${twelveHour}:${minutes.toString().padStart(2, '0')} ${period}`;
+      const [h, m] = time.split(':').map(Number);
+      const period = h >= 12 ? 'PM' : 'AM';
+      const hour12 = h % 12 || 12;
+      return `${hour12}:${m.toString().padStart(2, '0')} ${period}`;
     }
   }
 };
@@ -300,58 +290,25 @@ export default {
 
 .prayer-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
-}
-
-.date-badge {
-  padding: 0.5rem 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
-  border: 1px solid #e9ecef;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
 }
 
 .spinner {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #1a5f7a !important;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #1a5f7a;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   animation: spin 1s linear infinite;
+  margin: 0 auto;
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  to { transform: rotate(360deg); }
 }
 
-/* Reduced motion support */
 @media (prefers-reduced-motion: reduce) {
-  .prayer-card {
-    transition: none;
-  }
-  
-  .spinner {
-    animation: none;
-    border-top-color: transparent;
-  }
-}
-
-/* High contrast support */
-@media (prefers-contrast: high) {
-  .prayer-card {
-    border: 2px solid #000;
-  }
-}
-
-/* Mobile optimizations */
-@media (max-width: 768px) {
-  .prayer-card {
-    padding: 1rem 0.5rem !important;
-  }
-  
-  .date-badge {
-    padding: 0.5rem;
-    font-size: 0.9rem;
-  }
+  .prayer-card { transition: none; }
+  .spinner { animation: none; }
 }
 </style>
