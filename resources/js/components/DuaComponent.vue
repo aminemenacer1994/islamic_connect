@@ -274,12 +274,12 @@
                 <div class="d-flex justify-content-between align-items-center w-100">
                   <!-- Font Controls -->
                   <div class="d-flex align-items-center bg-white rounded-pill px-2 shadow-sm">
-                    <button class="btn btn-link p-1 text-secondary" @click="changeFontSize('decrease')"
+                    <button class="btn btn-link p-1" style="color: #00897b;" @click="changeFontSize('decrease')"
                       :disabled="fontSize <= 14" aria-label="Decrease Font Size">
                       <i class="bi bi-dash-circle-fill fs-5"></i>
                     </button>
                     <span class="mx-1 bg-light" style="width: 1px; height: 20px;"></span>
-                    <button class="btn btn-link p-1 text-secondary" @click="changeFontSize('increase')"
+                    <button class="btn btn-link p-1" style="color: #00897b;" @click="changeFontSize('increase')"
                       :disabled="fontSize >= 28" aria-label="Increase Font Size">
                       <i class="bi bi-plus-circle-fill fs-5"></i>
                     </button>

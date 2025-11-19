@@ -394,22 +394,23 @@
             </p>
           </div>
 
-          <!-- Feature 1: Speech-to-Text -->
-          <div class="col-md-6 mb-3">
+          <!-- Feature 4: Text Summarization -->
+          <div class="col-md-6">
             <div class="d-flex h-100">
               <div class="flex-shrink-0 me-4">
-                <img src="images/podcasting.png" width="60" height="60"
-                  alt="Microphone icon representing speech-to-text feature" loading="lazy">
+                <img src="images/content.png" width="60" height="60" alt="Content icon for text summarization feature"
+                  loading="lazy">
               </div>
               <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">Speech-to-Text for Islamic Notes</h3>
+                <h3 class="h5 mb-2 fw-bold">AI Text Summarization</h3>
                 <p class="mb-0">
-                  Capture your spoken reflections and thoughts on Islamic teachings effortlessly.
-                  Perfect for documenting insights and ensuring accessibility for those who prefer audio input.
+                  Quickly understand complex Islamic texts with AI-powered summaries.
+                  Extract key insights from lengthy content to enhance your learning efficiency.
                 </p>
               </div>
             </div>
           </div>
+
 
           <!-- Feature 2: Voice Search -->
           <!-- <div class="col-md-6">
@@ -445,18 +446,18 @@
             </div>
           </div> -->
 
-          <!-- Feature 4: Text Summarization -->
-          <div class="col-md-6">
+          <!-- Feature 1: Speech-to-Text -->
+          <div class="col-md-6 mb-3">
             <div class="d-flex h-100">
               <div class="flex-shrink-0 me-4">
-                <img src="images/content.png" width="60" height="60" alt="Content icon for text summarization feature"
-                  loading="lazy">
+                <img src="images/podcasting.png" width="60" height="60"
+                  alt="Microphone icon representing speech-to-text feature" loading="lazy">
               </div>
               <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">AI Text Summarization</h3>
+                <h3 class="h5 mb-2 fw-bold">Speech-to-Text for Islamic Notes</h3>
                 <p class="mb-0">
-                  Quickly understand complex Islamic texts with AI-powered summaries.
-                  Extract key insights from lengthy content to enhance your learning efficiency.
+                  Capture your spoken reflections and thoughts on Islamic teachings effortlessly.
+                  Perfect for documenting insights and ensuring accessibility for those who prefer audio input.
                 </p>
               </div>
             </div>
