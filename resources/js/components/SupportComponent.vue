@@ -24,7 +24,7 @@
               </div>
               <div class="col-md-3 mb-4">
                 <div class="metric-item">
-                  <h3>570+</h3>
+                  <h3>575+</h3>
                   <p>Cities</p>
                 </div>
               </div>

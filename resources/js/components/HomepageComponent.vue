@@ -137,20 +137,20 @@
                 data-bs-interval="4000">
                 <div class="carousel-inner">
                   <div class="carousel-item active">
-                    <img src="/images/qenew.png" class="d-block w-100" alt="Quran companion" width="800" height="533" loading="eager" decoding="async" fetchpriority="high">
+                    <img src="/images/slide1.png" class="d-block w-100" alt="Quran companion"  loading="eager" decoding="async" fetchpriority="high">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/surat2.png" class="d-block w-100" alt="Quran explorer" width="800" height="533" loading="lazy" decoding="async">
+                    <img src="/images/slide2.png" class="d-block w-100" alt="Quran explorer" loading="lazy" decoding="async">
                   </div>
                   
                   <div class="carousel-item">
-                    <img src="/images/seerah2.png" class="d-block w-100" alt="Seerah timeline" width="800" height="533" loading="lazy" decoding="async">
+                    <img src="/images/slide3.png" class="d-block w-100" alt="Seerah timeline" loading="lazy" decoding="async">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/radio2.png" class="d-block w-100" alt="Islamic Radio" width="800" height="533" loading="lazy" decoding="async">
+                    <img src="/images/slide4.png" class="d-block w-100" alt="Islamic Radio" loading="lazy" decoding="async">
                   </div>
                   <div class="carousel-item">
-                    <img src="/images/locator2.png" class="d-block w-100" alt="Mosque Locator" width="800" height="533" loading="lazy" decoding="async">
+                    <img src="/images/slide5.png" class="d-block w-100" alt="Mosque Locator" loading="lazy" decoding="async">
                   </div>
                 </div>
 
@@ -282,7 +282,7 @@
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-          <img src="/images/companion2.png" class="img-fluid rounded-20 shadow-sm"
+          <img src="/images/slide1.png" class="img-fluid rounded-20 shadow-sm"
             alt="Quran Companion interface showing AI-powered features and accessibility tools" loading="lazy"
             width="600" height="400">
         </div>
@@ -291,7 +291,7 @@
       <!-- Second Row - Audio Content -->
       <div class="row py-4 py-lg-5 align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="/images/radio2.png" class="img-fluid rounded-20 shadow-sm"
+          <img src="/images/slide4.png" class="img-fluid rounded-20 shadow-sm"
             alt="Islamic podcasts and audio content streaming interface" loading="lazy" width="600" height="400">
         </div>
         <div class="col-lg-6">
@@ -329,7 +329,7 @@
           </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-          <img src="/images/surat2.png" class="img-fluid rounded-20 shadow-sm"
+          <img src="/images/slide2.png" class="img-fluid rounded-20 shadow-sm"
             alt="Quran exploration interface with search and translation features" loading="lazy" width="600"
             height="400">
         </div>
@@ -913,7 +913,7 @@
         <div class="copyright text-center text-md-start">
           <span class="me-2">©</span>
           <strong>2025 Copyright: </strong>
-          <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">www.islamiconnect.com</a>
+          <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">islamiconnect.com</a>
         </div>
         <div class="social text-center text-md-end">
           <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>

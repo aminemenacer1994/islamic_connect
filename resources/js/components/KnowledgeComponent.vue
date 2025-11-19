@@ -10,7 +10,7 @@
     <div class="row g-4 ">
       <div class="col-md-6 col-lg-4 ">
         <div class="card custom-card rounded-4 overflow-hidden">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/sr.png" alt="Seerah Timeline" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Seerah Timeline</h1>
@@ -64,7 +64,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/book2.png" alt="guides" class="w-100 pt-3" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Islamic Guides</h1>
@@ -81,7 +81,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden" style=" ">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/fn.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Islamic Finance</h1>
@@ -101,7 +101,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden" style=" ">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/copywriter.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Islamic Blogs</h1>
@@ -121,7 +121,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden" style=" ">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/idic.png" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Dictionary</h1>

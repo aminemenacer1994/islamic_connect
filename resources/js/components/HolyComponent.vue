@@ -9,8 +9,7 @@
 
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden">
-                    <span
-                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
                     <img src="/images/qc.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
                     <div class="p-3">
                         <h1 class="mb-2 fw-bold text-dark text-center">Quran Explorer</h1>
@@ -27,8 +26,7 @@
 
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden">
-                    <span
-                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
                     <img src="/images/qe.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
                     <div class="p-3">
                         <h1 class="mb-2 fw-bold text-dark text-center single-line-title">Quran Companion</h1>
@@ -45,8 +43,7 @@
 
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden">
-                    <span
-                        class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
                     <img src="/images/history.png" alt="Islamic Shops" class="w-100 pt-4"
                         style="object-fit: contain;" />
                     <div class="p-3">

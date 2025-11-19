@@ -5,7 +5,7 @@
         <div class="row g-4">
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden">
-                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
                     <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1" style="object-fit: contain; padding: 20px;" />
                     <div class="p-3">
                         <h1 class="mb-2 fw-bold text-dark text-center">Audio Podcasts</h1>
@@ -27,7 +27,7 @@
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden">
-                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
                     <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
                         <h1 class="mb-2 fw-bold text-dark text-center">Channel Guide</h1>
@@ -49,7 +49,7 @@
             </div>
             <div class="col-md-6 col-lg-4">
                 <div class="card custom-card rounded-4 overflow-hidden">
-                    <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
                     <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
                     <div class="p-3">
                         <h1 class="mb-2 fw-bold text-dark text-center">Reciters Stations</h1>

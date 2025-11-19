@@ -10,7 +10,7 @@
     <div class="row g-4 ">
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/ml.webp" alt="Mosque Locator" class="w-100 pt-3" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Mosque Locator</h1>
@@ -37,7 +37,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/food.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Halal Butchers</h1>
@@ -96,7 +96,7 @@
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden" style=" ">
-          <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span>
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
           <img src="/images/school1.png" alt="Islamic Shops" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Islamic Schools</h1>
