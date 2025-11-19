@@ -7,8 +7,7 @@ window.bootstrap = bootstrap;
 import $ from 'jquery';
 import { Form } from "vform";
 import swal from "sweetalert2";
-import "sweetalert2/src/sweetalert2.scss";
-
+import 'sweetalert2/dist/sweetalert2.min.css';
 import PrimeVue from "primevue/config";
 import "primevue/resources/themes/saga-blue/theme.css";
 import "primevue/resources/primevue.min.css";

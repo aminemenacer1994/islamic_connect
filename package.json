@@ -35,10 +35,7 @@
         "webpack-cli": "^5.1.4"
   },
   "browserslist": [
-    "defaults and last 2 versions",
-    "not IE 11",
-    "not op_mini all",
-    "maintained node versions"
+    "defaults"
   ],
   "dependencies": {
         "@extractus/feed-extractor": "^7.1.4",

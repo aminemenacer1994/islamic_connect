@@ -395,7 +395,7 @@
           </div>
 
           <!-- Feature 1: Speech-to-Text -->
-          <div class="col-md-6">
+          <div class="col-md-6 mb-3">
             <div class="d-flex h-100">
               <div class="flex-shrink-0 me-4">
                 <img src="images/podcasting.png" width="60" height="60"
@@ -412,7 +412,7 @@
           </div>
 
           <!-- Feature 2: Voice Search -->
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <div class="d-flex h-100">
               <div class="flex-shrink-0 me-4">
                 <img src="images/voice-recognition.png" width="60" height="60"
@@ -426,10 +426,10 @@
                 </p>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Feature 3: Note Editor -->
-          <div class="col-md-6">
+          <!-- <div class="col-md-6">
             <div class="d-flex h-100">
               <div class="flex-shrink-0 me-4">
                 <img src="images/elearning.png" width="60" height="60" alt="E-learning icon for note editor feature"
@@ -443,7 +443,7 @@
                 </p>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- Feature 4: Text Summarization -->
           <div class="col-md-6">
