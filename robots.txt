@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /storage
+Disallow: /vendor
+Sitemap: https://www.islamiconnect.com/sitemap.xml

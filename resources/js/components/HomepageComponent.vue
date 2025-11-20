@@ -67,14 +67,19 @@
                 font-size: 1.3rem;
                 color: #4a5568;
                 font-weight: 500;
-                margin-bottom: 2rem;
+                margin-bottom: 1.25rem;
                 padding-right: 1rem;
               ">
                   <strong>
-                    Your all-in-one Islamic platform to explore the Quran, learn from trusted content,
-                    and access AI-powered tools for a transformative spiritual experience anytime, anywhere.
+                    Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform
+                    to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative
+                    spiritual experience anytime, anywhere.
                   </strong>
                 </h2>
+                <p class="text-left text-muted mb-4" style="line-height: 1.6em; font-size: 1rem;">
+                  Every resource we curate and every tool we build is designed to keep the connection to sacred
+                  knowledge seamless and accessible, whether you are offline, on the go, or simply seeking inspiration that resonates.
+                </p>
 
                 <!-- Stats Row -->
                 <div class="row mb-4" style="
@@ -101,77 +106,142 @@
 
                 <div class="row mb-3">
                   <div class="col-12">
-                    <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
-                        <i class="fas fa-rocket me-2"></i>Get Started Free
-                      </a>
+                <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
+                  <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
+                    <i class="fas fa-rocket me-2"></i>Get Started Free
+                  </a>
 
-                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
-                        <i class="fas fa-heart me-2"></i>Support Our Mission
-                      </a>
-                    </div>
+                  <a href="/subscribe" class="btn rounded-20 fw-bold px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
+                    <i class="fas fa-heart me-2"></i>Support Our Mission
+                  </a>
+                </div>
 
-                    <!-- Trust Indicators -->
-                    <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
-                      <div class="d-flex align-items-center">
-                        <i class="fas fa-shield-alt text-success me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <i class="fas fa-clock text-warning me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
-                      </div>
-                      <div class="d-flex align-items-center">
-                        <i class="fas fa-user-check text-info me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">No Registration</small>
-                      </div>
-                    </div>
+                <!-- Trust Indicators -->
+                <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-shield-alt text-success me-2"></i>
+                    <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
                   </div>
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-clock text-warning me-2"></i>
+                    <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <i class="fas fa-user-check text-info me-2"></i>
+                    <small style="color: #4a5568; font-weight: 600;">No Registration</small>
+                  </div>
+                </div>
+              </div>
                 </div>
               </div>
             </div>
 
             <div class="col-md-6">
+              <div v-if="carouselReady">
+                <div id="carouselExampleInterval" class="carousel slide d-none d-md-block" data-bs-ride="carousel"
+                  data-bs-interval="4000">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <picture>
+                        <source media="(max-width: 767px)" srcset="/images/slide1-md.webp" type="image/webp">
+                        <source srcset="/images/slide1.webp" type="image/webp">
+                        <img src="/images/slide1.png" class="d-block w-100" alt="Quran companion" loading="lazy" decoding="async" width="1200" height="675" sizes="(min-width: 768px) 600px, 100vw">
+                      </picture>
+                    </div>
+                    <div class="carousel-item">
+                      <picture>
+                        <source media="(max-width: 767px)" srcset="/images/slide2-md.webp" type="image/webp">
+                        <source srcset="/images/slide2.webp" type="image/webp">
+                        <img src="/images/slide2.png" class="d-block w-100" alt="Quran explorer" loading="lazy" decoding="async" width="1200" height="675" sizes="(min-width: 768px) 600px, 100vw">
+                      </picture>
+                    </div>
+                    
+                    <div class="carousel-item">
+                      <picture>
+                        <source media="(max-width: 767px)" srcset="/images/slide3-md.webp" type="image/webp">
+                        <source srcset="/images/slide3.webp" type="image/webp">
+                        <img src="/images/slide3.png" class="d-block w-100" alt="Seerah timeline" loading="lazy" decoding="async" width="1200" height="675" sizes="(min-width: 768px) 600px, 100vw">
+                      </picture>
+                    </div>
+                    <div class="carousel-item">
+                      <picture>
+                        <source media="(max-width: 767px)" srcset="/images/slide4-md.webp" type="image/webp">
+                        <source srcset="/images/slide4.webp" type="image/webp">
+                        <img src="/images/slide4.png" class="d-block w-100" alt="Islamic Radio" loading="lazy" decoding="async" width="1200" height="675" sizes="(min-width: 768px) 600px, 100vw">
+                      </picture>
+                    </div>
+                    <div class="carousel-item">
+                      <picture>
+                        <source media="(max-width: 767px)" srcset="/images/slide5-md.webp" type="image/webp">
+                        <source srcset="/images/slide5.webp" type="image/webp">
+                        <img src="/images/slide5.png" class="d-block w-100" alt="Mosque Locator" loading="lazy" decoding="async" width="1200" height="675" sizes="(min-width: 768px) 600px, 100vw">
+                      </picture>
+                    </div>
+                  </div>
 
-              <div id="carouselExampleInterval" class="carousel slide d-none d-md-block" data-bs-ride="carousel"
-                data-bs-interval="4000">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <img src="/images/slide1.png" class="d-block w-100" alt="Quran companion"  loading="eager" decoding="async" fetchpriority="high">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="/images/slide2.png" class="d-block w-100" alt="Quran explorer" loading="lazy" decoding="async">
-                  </div>
-                  
-                  <div class="carousel-item">
-                    <img src="/images/slide3.png" class="d-block w-100" alt="Seerah timeline" loading="lazy" decoding="async">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="/images/slide4.png" class="d-block w-100" alt="Islamic Radio" loading="lazy" decoding="async">
-                  </div>
-                  <div class="carousel-item">
-                    <img src="/images/slide5.png" class="d-block w-100" alt="Mosque Locator" loading="lazy" decoding="async">
+                  <!-- Simple Indicators -->
+                  <div class="carousel-indicators mt-2 mb-2">
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active"
+                      aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"
+                      aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"
+                      aria-label="Slide 3"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3"
+                      aria-label="Slide 4"></button>
+                    <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4"
+                      aria-label="Slide 5"></button>
                   </div>
                 </div>
-
-                <!-- Simple Indicators -->
-                <div class="carousel-indicators mt-2 mb-2">
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="0" class="active"
-                    aria-current="true" aria-label="Slide 1"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="1"
-                    aria-label="Slide 2"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="2"
-                    aria-label="Slide 3"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="3"
-                    aria-label="Slide 4"></button>
-                  <button type="button" data-bs-target="#carouselExampleInterval" data-bs-slide-to="4"
-                    aria-label="Slide 5"></button>
+              </div>
+              <div v-else class="hero-carousel-placeholder" aria-hidden="true">
+                <div class="hero-carousel-placeholder__content">
+                  <div class="hero-carousel-placeholder__ring"></div>
+                  <p class="hero-carousel-placeholder__text">
+                    Preparing an immersive glimpse of Islamic Connect…
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <section aria-labelledby="quick-links-heading" class="mt-4">
+        <div class="container py-4">
+          <h3 id="quick-links-heading" class="text-center fw-bold mb-3" style="font-size: 1.4rem;">
+            Discover more ways Islamic Connect keeps you engaged
+          </h3>
+          <p class="text-center mb-3 text-muted">
+            Jump straight to the resources you need—our mission is to keep you connected to Islamic knowledge seamlessly and accessibly.
+          </p>
+          <div class="d-flex flex-wrap justify-content-center gap-2">
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/surat">Complete Quran</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/holy">Holy Quran Portal</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/media">Media Center</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/knowledge">Knowledge Library</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/toolkit">Toolkit</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/shop">Islamic Store</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/mission">Mission & Vision</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/subscribe">Subscribe</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="/contact">Contact</a>
+            <a class="btn btn-outline-dark rounded-pill px-3 py-2" href="https://quran.com" target="_blank" rel="noreferrer noopener">
+              External: Quran.com
+            </a>
+          </div>
+        </div>
+      </section>
+      <section aria-labelledby="platform-story-heading" class="container pt-5 pb-4">
+        <h2 id="platform-story-heading" class="h3 text-center fw-bold mb-4">Why Islamic Connect Matters</h2>
+        <p class="text-muted lh-lg mb-3" style="font-size: 1rem;">
+          Islamic Connect is built for anyone who wants to keep the Quran and authentic knowledge woven into their daily routine. We gather voices from scholars, community leaders, and accessible technology experts so that every page, button, and tool feels personal yet universal. Whether you are revisiting a favorite dua, comparing tafseer notes, or listening to a curated recitation, the experience is intentionally simple: no distracting ads, no gated content, and no unnecessary friction between you and the Divine message. We start with authenticity and add layers of accessibility so that every reader, listener, or seeker feels listened to.
+        </p>
+        <p class="text-muted lh-lg mb-3" style="font-size: 1rem;">
+          Every feature on this page—from the AI-powered Quran companion to the media center playlists—has been stress-tested with real-world usability in mind. We collaborate with assistive technology specialists to ensure the experience works smoothly with screen readers, keyboard navigation, and low-bandwidth connections. Our prayer time tools update in real time, our toolkit keeps travel-ready resources easy to access, and our subscription model remains compassionate with both a free tier and affordable premium options. The voices echoing through Islamic Connect are global and generational because the mission is too important to be local or temporal. It is a living archive of spiritual encouragement crafted for modern lives.
+        </p>
+        <p class="text-muted lh-lg mb-3" style="font-size: 1rem;">
+          We continuously collect feedback, publish community success stories, and share timely reminders so that the platform feels responsive to what matters most to you. If there is a topic you cannot find, reach out—our support team collaborates with scholars and contributors to expand content, translations, and audio/visual materials. Islamic Connect celebrates both the fast-paced curiosity of today and the deep reflection of yesterday. This vision of inclusive, joyful learning is why we keep refining the homepage, enriching the copy, and shaping new features inspired directly by the Muslim global community.
+        </p>
+      </section>
       </hr>
     </div>
     <section aria-labelledby="prayer-times-heading">
@@ -697,7 +767,7 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20" target="_blank"
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20" target="_blank" rel="noopener noreferrer"
                     style="
                 background: linear-gradient(135deg, #25D366, #128C7E);
                 color: white;
@@ -758,7 +828,7 @@
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank" style="
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank" rel="noopener noreferrer" style="
                 background: linear-gradient(135deg, #0088cc, #006699);
                 color: white;
                 font-weight: 700;
@@ -821,6 +891,49 @@
       </div>
     </section>
 
+
+    <section class="py-5" aria-labelledby="pillars-heading" style="background: #f8f9fa;">
+      <div class="container">
+        <h2 id="pillars-heading" class="display-5 fw-bold text-center mb-4">Our Community Pillars</h2>
+        <div class="row g-4">
+          <div class="col-md-6">
+            <article>
+              <h3 class="h4 fw-semibold">Guidance with Clarity</h3>
+              <p class="text-muted">
+                From curated tafseer highlights to audio recitations recorded in crystal clarity, we build every resource with clarity in mind. Scholars verify the content, while accessibility specialists confirm it is readable on every device.
+              </p>
+              <p class="text-muted">
+                When you browse verse-by-verse explanations, the UI stays calm, offering no distractions beyond the Holy text. References and citations are provided so you can trace every insight back to trusted sources.
+              </p>
+            </article>
+          </div>
+          <div class="col-md-6">
+            <article>
+              <h3 class="h4 fw-semibold">Connection through Media</h3>
+              <p class="text-muted">
+                Our media center stitches together podcasts, recitations, and stories from Muslim communities worldwide. Whether you listen during your commute or pause a video for reflective notes, the experience adapts to your pace.
+              </p>
+              <p class="text-muted">
+                Connection means hearing multiple voices, so we highlight translators, reciters, and storytellers so you can choose the tone that resonates with you.
+              </p>
+            </article>
+          </div>
+        </div>
+        <div class="row g-4 mt-3">
+          <div class="col-md-12">
+            <article>
+              <h3 class="h4 fw-semibold">Tools that Respect Your Time</h3>
+              <p class="text-muted">
+                Prayer time reminders, Qibla calculations, and AI-assisted search are all fast enough to load even on slower networks. By keeping the UI lean, we make sure these tools appear instantly when you need them most.
+              </p>
+              <p class="text-muted">
+                We listen to every feedback loop, iterating on how computations look, so each utility keeps you anchored in the rhythm of the day without adding cognitive noise.
+              </p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- contact -->
     <section class="py-5 contact-section" aria-labelledby="contact-heading"
@@ -1446,6 +1559,45 @@
     .ic-footer .copyright { text-align: center; }
     .ic-footer .footer-inner { gap: .75rem; }
   }
+
+  .hero-carousel-placeholder {
+    border-radius: 32px;
+    min-height: 360px;
+    background: linear-gradient(160deg, #0b806f, #0b5d4b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-carousel-placeholder__content {
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-carousel-placeholder__ring {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 3px dashed rgba(255, 255, 255, 0.6);
+    animation: placeholder-spin 4s linear infinite;
+  }
+
+  .hero-carousel-placeholder__text {
+    font-weight: 500;
+    font-size: 1rem;
+    max-width: 220px;
+  }
+
+  @keyframes placeholder-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
 </style>
 <script defer>
 import axios from "axios";
@@ -1463,6 +1615,7 @@ export default {
   data() {
     return {
       amount: 10,
+      carouselReady: false,
       partners: [
         { name: "Ana Atlou", icon: "/images/aatlout.webp" },
         { name: "Noor Taibah", icon: "/images/algerian.png" },
@@ -1506,6 +1659,17 @@ export default {
     stripeUrl() {
       const amountInCents = this.finalAmount * 100;
       return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${amountInCents}`;
+    }
+  },
+  mounted() {
+    if (typeof window !== "undefined") {
+      requestAnimationFrame(() => {
+        setTimeout(() => {
+          this.carouselReady = true;
+        }, 400);
+      });
+    } else {
+      this.carouselReady = true;
     }
   },
   methods: {

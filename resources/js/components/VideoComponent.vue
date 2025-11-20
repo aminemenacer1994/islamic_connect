@@ -94,6 +94,7 @@
             <a
               :href="`https://wa.me/?text=${encodeURIComponent(video.url)}`"
               target="_blank"
+              rel="noopener noreferrer"
               class="btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2"
               :aria-label="'Share video via WhatsApp'"
             >
@@ -104,6 +105,7 @@
               :download="`video-${video.id}.mp4`"
               class="btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2"
               target="_blank"
+              rel="noopener noreferrer"
               :aria-label="'Download video file'"
             >
               <i class="bi bi-download" aria-hidden="true"></i> Download

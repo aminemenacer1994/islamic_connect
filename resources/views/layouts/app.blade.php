@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @php
-        $canonicalUrl = trim($__env->yieldContent('canonical', url()->current()));
-        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect – Quran'));
+        $appUrl = rtrim(config('app.url') ?? url('/'), '/');
+        $path = trim(request()->path(), '/');
+        $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
+        $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
+        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect — Quran, Knowledge, Accessible Tools'));
         $metaDescription = trim(
             $__env->yieldContent(
                 'meta_description',
-                'Islamic Connect offers Quran recitations, Islamic media, and accessibility tools to support Muslims worldwide.'
+                'Islamic Connect delivers Quran recitations, media, and accessible tools that empower Muslims everywhere.'
             )
         );
         $metaImage = trim($__env->yieldContent('meta_image', asset('images/logo_main.png')));
@@ -45,15 +47,29 @@
 
     <!-- CSS Assets -->
     <!-- Vendor CSS first -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    </noscript>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    </noscript>
+    <link rel="preload" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <noscript>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    </noscript>
     <!-- App CSS last so it overrides vendor defaults -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}" media="(prefers-color-scheme: light)">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_white.png') }}" media="(prefers-color-scheme: dark)">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo_main.png') }}">
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
+    <noscript>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    </noscript>
+    <link rel="preload" as="image" href="/images/slide1.webp" type="image/webp" imagesrcset="/images/slide1.webp" imagesizes="100vw">
     <!-- Google Analytics -->
     <!-- <script>
         // Immediately check localStorage and apply dark mode if needed
@@ -880,7 +896,9 @@
             @hasSection('page_h1')
             @yield('page_h1')
             @else
-            <h1 class="sr-only" id="page-title">@yield('title', 'Islamic Connect')</h1>
+            @unless(View::hasSection('suppress_layout_h1'))
+                <h1 class="sr-only" id="page-title">@yield('title', 'Islamic Connect')</h1>
+            @endunless
             @endif
             <div id="app">
                 @yield('content')
