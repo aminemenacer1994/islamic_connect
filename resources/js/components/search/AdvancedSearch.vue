@@ -254,14 +254,22 @@ export default {
       if (!SR) { alert('Speech Recognition not supported.'); this.isListening = false; return; }
       this.recognition = new SR(); this.recognition.lang = 'en-US'; this.recognition.continuous = false;
       this.recognition.onresult = (e) => {
-        this.searchTerm = e.results[0][0].transcript; this.isListening = false;
-        if (this.searchTerm.length > 2) this.fetchSuggestions(); else { this.fetchResults(this.searchTerm); this.showOffcanvas(); }
+        const transcript = (e.results[0][0].transcript || '').trim();
+        this.isListening = false;
+        if (transcript) this.handleVoiceSearchTerm(transcript);
       };
       this.recognition.onend = () => { this.isListening = false; };
       this.recognition.onerror = (e) => { console.error('Speech recognition error:', e.error); this.isListening = false; };
       this.recognition.start();
     },
     stopVoiceRecognition() { if (this.recognition) { this.recognition.stop(); this.isListening = false; if (this.searchTerm) { this.fetchResults(this.searchTerm); this.showOffcanvas(); } } },
+    handleVoiceSearchTerm(term) {
+      const normalized = term && term.trim();
+      if (!normalized) return;
+      this.searchTerm = normalized;
+      this.fetchResults(normalized);
+      this.showOffcanvas();
+    },
     fetchResults(query) {
       this.loading = true;
       axios.get('/search-translations', { params: { query, filters: this.filters } })
