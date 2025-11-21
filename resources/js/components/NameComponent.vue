@@ -92,19 +92,32 @@
       </div>
 
       <!-- Liked Names Section -->
-      <div class="mb-5 pt-4">
-        <div class="liked-header d-flex flex-row align-items-center gap-3">
-          <h4 class="fw-bold mb-0 mt-">Liked Allah’s Names <span class="badge badge-premium">{{ favoriteNames.length
-              }}</span>
-          </h4>
-          <div class="liked-actions ms-auto ">
-            <button class="btn btn-outline-danger rounded-pill me-2" :disabled="favoriteNames.length === 0"
-              @click="clearAllFavorites" v-if="favoriteNames.length > 0">
+      <!-- <div class="mb-5 pt-4">
+        <div class="liked-header" role="region" aria-live="polite">
+          <div class="liked-info mb-2 d-flex align-items-center gap-2">
+            <h4 class="fw-bold mb-0">
+              Liked Names
+              <span class="badge badge-premium">{{ favoriteNames.length }}</span>
+            </h4>
+          </div>
+          <div class="liked-actions d-flex align-items-center gap-2">
+            <button
+              v-if="favoriteNames.length > 0"
+              class="btn btn-outline-danger rounded-pill"
+              :disabled="favoriteNames.length === 0"
+              @click="clearAllFavorites"
+            >
               Unlike All
             </button>
-            <button v-if="favoriteNames.length > 0" class="btn btn-sm btn-premium-outline rounded-pill" type="button"
-              data-bs-toggle="collapse" data-bs-target="#likedNamesCollapse" :aria-expanded="!isCollapsed"
-              aria-controls="likedNamesCollapse">
+            <button
+              v-if="favoriteNames.length > 0"
+              class="btn btn-premium-outline liked-toggle-btn rounded-circle"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#likedNamesCollapse"
+              :aria-expanded="!isCollapsed"
+              aria-controls="likedNamesCollapse"
+            >
               <i :class="isCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
             </button>
           </div>
@@ -134,16 +147,13 @@
                     <strong class="fav-label">Description:</strong>
                     <p class="fav-small small text-muted">{{ name.description }}</p>
                   </div>
-                  <!-- Button container pushed to the bottom -->
                   <div class="action-row fav-actions d-flex align-items-center gap-2">
-                    <!-- Copy to Clipboard Button -->
                     <button
                       class="btn btn-premium-outline btn-compact rounded-pill d-flex align-items-center justify-content-center flex-grow-1 me-2 focus-ring"
                       aria-label="Copy name to clipboard" @click="copyToClipboard(name)">
                       <i class="bi bi-clipboard me-2"></i>
                       <b>Copy</b>
                     </button>
-                    <!-- WhatsApp Share Button -->
                     <a class="btn btn-premium btn-compact rounded-pill d-flex align-items-center justify-content-center flex-grow-1 focus-ring"
                       aria-label="Share name on WhatsApp" :href="generateWhatsAppLink(name)" target="_blank"
                       rel="noopener">
@@ -156,16 +166,16 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <h3 class="fw-bold">All Allah's Names:</h3>
+      <h3 class=" mt-4 fw-bold">All Allah's Names:</h3>
 
       <!-- Names Grid -->
       <div class="row g-4 mt-2">
         <div v-for="name in filteredNames" :key="name.number" class="col-12 col-md-4">
           <div class="card card-teal h-100" role="article" :aria-labelledby="'name-title-' + name.number">
             <div class="card-body  h-100">
-              <div class="d-flex justify-content-between align-items-start">
+              <!-- <div class="d-flex justify-content-between align-items-start">
                 <span class="badge badge-premium fs-6">{{ name.number }}</span>
                 <button class="btn p-0" type="button" :aria-pressed="isFavorited(name.number) ? 'true' : 'false'"
                   :aria-label="isFavorited(name.number) ? 'Remove from favorites' : 'Add to favorites'"
@@ -173,7 +183,7 @@
                   <i
                     :class="['bi', isFavorited(name.number) ? 'bi-heart-fill text-teal' : 'bi-heart text-dark', 'fs-4']"></i>
                 </button>
-              </div>
+              </div> -->
 
               <p class="name-title mt-3 mb-2 text-dark" :id="'name-title-' + name.number"><b>{{ name.name }}</b></p>
 
@@ -935,23 +945,40 @@ export default {
     // Throttle scroll handler and use passive listener for performance
     this._throttledScroll = this.throttle(this.handleScroll, 100);
     window.addEventListener('scroll', this._throttledScroll, { passive: true });
-    collapseElement.addEventListener('shown.bs.collapse', () => {
-      this.isCollapsed = false;
-    });
-    collapseElement.addEventListener('hidden.bs.collapse', () => {
-      this.isCollapsed = true;
-    });
+    if (collapseElement) {
+      this._collapseElement = collapseElement;
+      this._collapseShownHandler = () => {
+        this.isCollapsed = false;
+      };
+      this._collapseHiddenHandler = () => {
+        this.isCollapsed = true;
+      };
+      collapseElement.addEventListener('shown.bs.collapse', this._collapseShownHandler);
+      collapseElement.addEventListener('hidden.bs.collapse', this._collapseHiddenHandler);
+    }
   },
   beforeUnmount() {
     // Clean up scroll listener if present (Vue 3)
     if (this._throttledScroll) {
       window.removeEventListener('scroll', this._throttledScroll);
     }
+    if (this._collapseElement && this._collapseShownHandler) {
+      this._collapseElement.removeEventListener('shown.bs.collapse', this._collapseShownHandler);
+    }
+    if (this._collapseElement && this._collapseHiddenHandler) {
+      this._collapseElement.removeEventListener('hidden.bs.collapse', this._collapseHiddenHandler);
+    }
   },
   beforeDestroy() {
     // Clean up scroll listener if present (Vue 2)
     if (this._throttledScroll) {
       window.removeEventListener('scroll', this._throttledScroll);
+    }
+    if (this._collapseElement && this._collapseShownHandler) {
+      this._collapseElement.removeEventListener('shown.bs.collapse', this._collapseShownHandler);
+    }
+    if (this._collapseElement && this._collapseHiddenHandler) {
+      this._collapseElement.removeEventListener('hidden.bs.collapse', this._collapseHiddenHandler);
     }
   },
 
@@ -1030,23 +1057,23 @@ export default {
       this.activeLetter = '';
       this.filteredNames = [...this.names];
     },
-    toggleFavorite(number) {
-      const index = this.favoriteNames.indexOf(number);
-      if (index === -1) {
-        this.favoriteNames.push(number);
-      } else {
-        this.favoriteNames.splice(index, 1);
-      }
-      localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
-    },
-    clearAllFavorites() {
-      this.favoriteNames = [];
-      localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
-    },
-    isFavorited(number) {
-      // O(1) lookup using Set
-      return this.favoriteSet.has(number);
-    },
+    // toggleFavorite(number) {
+    //   const index = this.favoriteNames.indexOf(number);
+    //   if (index === -1) {
+    //     this.favoriteNames.push(number);
+    //   } else {
+    //     this.favoriteNames.splice(index, 1);
+    //   }
+    //   localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
+    // },
+    // clearAllFavorites() {
+    //   this.favoriteNames = [];
+    //   localStorage.setItem('favoriteNames', JSON.stringify(this.favoriteNames));
+    // },
+    // isFavorited(number) {
+    //   // O(1) lookup using Set
+    //   return this.favoriteSet.has(number);
+    // },
     debounce(fn, wait) {
       let timeout;
       return function (...args) {
@@ -1257,6 +1284,63 @@ export default {
 
 .action-row .btn+.btn {
   margin-left: .5rem;
+}
+
+.liked-header {
+  width: 100%;
+  border: 1px solid rgba(20, 184, 166, 0.35);
+  border-radius: 24px;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, #ffffff, #f7fdfb 65%, #e3f7f0 100%);
+  box-shadow: 0 18px 35px rgba(6, 48, 41, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.liked-info {
+  min-width: 0;
+}
+
+.liked-info h4 {
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.liked-actions {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.liked-actions .btn {
+  min-height: 44px;
+  font-weight: 600;
+}
+
+.liked-toggle-btn {
+  width: 52px;
+  height: 52px;
+  border-width: 2px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-color: var(--teal-500);
+  box-shadow: 0 6px 18px rgba(15, 118, 110, 0.18);
+  background: #ffffff;
+  color: var(--teal-500);
+}
+
+.liked-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(15, 118, 110, 0.28);
+  border-color: var(--teal-600);
+  color: var(--teal-700);
 }
 
 /* Liked section responsive tweaks */
