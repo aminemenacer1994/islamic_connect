@@ -78,31 +78,51 @@
     </div>
 
     <!-- Search & Location -->
-    <section class="card shadow-sm mb-4" role="region" aria-labelledby="find-location-title">
-      <div class="container-fluid card-body p-4">
-        <h5 id="find-location-title" class="h4 card-title text-primary fw-bold mb-3 d-block w-100">
-          Find Your Location
-        </h5>
-        <div class="row g-0 align-items-stretch mb-2 w-100">
-          <div class="col-10 col-md-10">
-            <input type="text" class="form-control h-100" placeholder="Enter a city or address" v-model="searchLocation"
-              @keyup.enter="searchQibla" ref="searchInput" aria-label="Enter a city or address" />
+    <section class="card shadow-lg border-0 rounded-4 overflow-hidden mb-4">
+      <div class="card-body">
+        <div class="text-center text-md-start mb-4">
+          <h5 class="h4 fw-bold mb-2 text-success-primary">Find Your Location</h5>
+          <p class="text-muted small fw-medium mb-0">
+            Type a city or address, or tap the pin to use your device location.
+          </p>
+        </div>
+        <div class="location-form d-flex align-items-stretch flex-nowrap gap-3">
+          <div class="flex-grow-1">
+            <input
+              type="text"
+              v-model="searchLocation"
+              @keyup.enter="searchQibla"
+              placeholder="Enter a city or address"
+              class="form-control form-control-lg "
+              aria-label="Enter a city or address"
+              autocomplete="off"
+              ref="searchInput"
+            />
           </div>
-          <div class="col-1 col-md-1">
-            <button class="btn btn-success w-100 h-100 d-flex justify-content-center align-items-center"
-              @click="searchQibla" :disabled="loading" title="Search" aria-label="Search location">
+          <div class="d-flex gap-2 justify-content-end flex-shrink-0">
+            <button
+              type="button"
+              class="btn circle-action search-action"
+              :disabled="loading"
+              @click="searchQibla"
+              aria-label="Search location"
+            >
               <i class="bi bi-search"></i>
             </button>
-          </div>
-          <div class="col-1 col-md-1">
-            <button class="btn btn-outline-secondary w-100 h-100 d-flex justify-content-center align-items-center gap-1"
-              @click="getLocation" :disabled="loading" title="Use My Location" aria-label="Use my location">
-              <i class="bi bi-geo-alt"></i>
-              <span class="d-none d-sm-inline"></span>
+            <button
+              type="button"
+              class="btn circle-action pin-action"
+              :disabled="loading"
+              @click="getLocation"
+              aria-label="Use my current location"
+            >
+              <i class="bi bi-geo-alt-fill"></i>
             </button>
           </div>
         </div>
-        <p v-if="error" class="text-danger mt-3 mb-0" role="alert">{{ error }}</p>
+        <p v-if="error" class="text-danger text-center mt-4 mb-0 fw-medium" role="alert">
+          {{ error }}
+        </p>
       </div>
     </section>
 
@@ -879,9 +899,12 @@ export default {
   background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
-.card-teal:hover { 
-  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+
+.card-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);
 }
+
 :root {
   --primary-color: rgb(13, 182, 145);
   --primary-hover-color: rgb(11, 158, 127);
@@ -1032,6 +1055,76 @@ export default {
 
 .qibla-info-modern-card .border-md-start {
   border-left: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+.text-success-primary {
+  color: #0d9488;
+}
+
+.location-form {
+  max-width: 720px;
+  margin: 0 auto;
+  width: 100%;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+.location-input {
+  border-radius: 32px;
+  border: 0;
+  box-shadow: 0 10px 36px rgba(13, 148, 136, 0.12);
+  padding: 0.95rem 1.25rem;
+  font-size: 1.05rem;
+  background: #fff;
+  min-width: 0;
+}
+.location-input::placeholder {
+  color: rgba(13, 148, 136, 0.45);
+}
+.location-input:focus {
+  box-shadow: 0 0 0 0.2rem rgba(13, 148, 136, 0.25);
+}
+.circle-action {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+.circle-action:focus-visible {
+  outline: 2px solid rgba(13, 148, 136, 0.6);
+  outline-offset: 2px;
+}
+.circle-action:not(:disabled):hover {
+  transform: translateY(-1px);
+}
+.search-action {
+  background: linear-gradient(135deg, #0da785, #0b8e70);
+  color: #fff;
+}
+.search-action:disabled {
+  opacity: 0.6;
+  box-shadow: none;
+}
+.pin-action {
+  background: #fff;
+  border: 2px solid rgba(12, 104, 93, 0.25);
+  color: #0d9488;
+}
+.pin-action:not(:disabled):hover {
+  border-color: rgba(12, 104, 93, 0.6);
+  box-shadow: 0 8px 20px rgba(12, 104, 93, 0.2);
+}
+
+@media (max-width: 576px) {
+  .circle-action {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 /* Accessibility: ensure sufficient contrast for lead muted text */
