@@ -46,97 +46,18 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   class: "container py-4"
 };
-const _hoisted_2 = {
-  class: "row g-4"
-};
-const _hoisted_3 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_4 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_5 = {
-  class: "p-3"
-};
-const _hoisted_6 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_7 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_8 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_9 = {
-  class: "p-3"
-};
-const _hoisted_10 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_11 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_12 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_13 = {
-  class: "p-3"
-};
-const _hoisted_14 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_15 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_16 = {
-  class: "card custom-card shadow-sm rounded-4",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_17 = {
-  class: "p-3"
-};
-const _hoisted_18 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center fw-bold display-5 mb-4"
-  }, "Media Center", -1 /* CACHED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Media Center", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center mb-4 lead"
-  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, "The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "row g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ap.avif",
     alt: "Qibla finder",
     class: "w-90 mt-1",
@@ -144,127 +65,90 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "object-fit": "contain",
       "padding": "20px"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Audio Podcasts", -1 /* CACHED */)), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Audio Podcasts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/content')),
-    type: "button",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onclick: "window.location.href='/content'",
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "#006b5f",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Stream Podcasts")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/content')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Stream Podcasts</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\"border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/mtv2.png",
     alt: "Watch Live",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Channel Guide", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Channel Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[1] || (_cache[1] = $event => $options.goTo('/streaming')),
-    type: "button",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onclick: "window.location.href='/streaming'",
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "#006b5f",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Channels")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/streaming')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>View Channels</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/radio5.jpg",
     alt: "Radio stations",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Reciters Stations", -1 /* CACHED */)), _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Reciters Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[2] || (_cache[2] = $event => $options.goTo('/radio')),
-    type: "button",
+    onclick: "window.location.href='/radio'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "#006b5f",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Explore Reciters")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/radio')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Explore Reciters</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: #228B22; font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4",
-    style: {
-      "border": "1px solid grey"
-    }
+    class: "card custom-card overflow-hidden rounded-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/img_g.png",
     alt: "Image Gallery",
@@ -274,8 +158,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
   }, "Image Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
@@ -296,46 +180,42 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Gallery")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card overflow-hidden rounded-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/vide_g.png",
     alt: "Video Gallery",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Video Gallery", -1 /* CACHED */)), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Video Gallery"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[3] || (_cache[3] = $event => $options.goTo('/video')),
-    type: "button",
+    onclick: "window.location.href='/video'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
       "color": "white",
       "height": "38px",
       "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    },
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])])])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Watch Videos")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/video')\" type=\"button\" style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n                            <span class=\"text-center w-100\"><b>Watch Videos</b></span>\n                        </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n                            <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n                            <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n                        </div> ")])])])], -1 /* CACHED */)]))]);
 }
 
 /***/ }),
@@ -356,7 +236,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #0b5d4b;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-63cb17b8]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-63cb17b8] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-63cb17b8] {\n    height: 180px;\n    object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-63cb17b8] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: #006b5f;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n50% {\n        border-color: #00564c;\n        box-shadow: 0 0 12px rgba(0, 86, 76, 0.7);\n}\n100% {\n        border-color: #006b5f;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n}\n.card.custom-card[data-v-63cb17b8] {\n    animation: borderPulse-63cb17b8 2s infinite ease-in-out;\n}\n.restricted-access[data-v-63cb17b8] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover {\n    color: #00564c;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-63cb17b8]:root {\n    --brand-1: #1a5f7a;\n    --brand-2: #0b5d4b;\n    --accent: #00bfa6;\n    --text-1: #2c3e50;\n    --text-2: #6c757d;\n    --surface: #ffffff;\n    --surface-muted: #f8f9fa;\n    --border: #e9ecef;\n    --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n    --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container > h1.display-5[data-v-63cb17b8] { letter-spacing: -0.01em; margin-bottom: 0.75rem; color: var(--text-1);\n}\n.lead[data-v-63cb17b8] { color: var(--text-2); line-height: 1.75; margin-left: auto; margin-right: auto;\n}\n.custom-card .display-6[data-v-63cb17b8] { font-size: 1.4rem; font-weight: 800; color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-63cb17b8] { font-size: 0.95rem; line-height: 1.6; color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container > h1.display-5[data-v-63cb17b8] { font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-63cb17b8] { font-size: 1.1rem;\n}\n.custom-card img[data-v-63cb17b8] { height: 160px;\n}\n.lead[data-v-63cb17b8] { font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-63cb17b8] { height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-63cb17b8] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-63cb17b8] {\n    background: #0b5d4b;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: #fff;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.card.custom-card button.form-control[data-v-63cb17b8]:focus-visible { outline: 3px solid rgba(0,191,166,0.45); outline-offset: 2px;\n}\n.custom-card[data-v-63cb17b8] { border: none; border-radius: 16px; background: #fff; height: 100%; box-shadow: 0 6px 20px rgba(0,0,0,0.08); transition: transform 0.25s ease, box-shadow 0.25s ease; position: relative; overflow: hidden;\n}\n.custom-card[data-v-63cb17b8]:hover { transform: translateY(-6px); box-shadow: 0 18px 45px rgba(0,0,0,0.16);\n}\n.custom-card[data-v-63cb17b8]::before { content: \"\"; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand-2), var(--brand-1)); transform: scaleX(0.4); transform-origin: left; transition: transform 0.3s ease;\n}\n.custom-card[data-v-63cb17b8]:hover::before { transform: scaleX(1);\n}\n.custom-card img[data-v-63cb17b8] { height: 180px; -o-object-fit: contain; object-fit: contain; transition: transform 0.25s ease; border: none;\n}\n.custom-card:hover img[data-v-63cb17b8] { transform: scale(1.05);\n}\n@keyframes borderPulse-63cb17b8 {\n0% {\n        border-color: #228B22;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n50% {\n        border-color: #00564c;\n        box-shadow: 0 0 12px rgba(0, 86, 76, 0.7);\n}\n100% {\n        border-color: #228B22;\n        box-shadow: 0 0 5px rgba(0, 107, 95, 0.4);\n}\n}\n.card.custom-card[data-v-63cb17b8] { animation: none;\n}\n.restricted-access[data-v-63cb17b8] { background: #28b66324; transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-63cb17b8]:hover { background: #28b66333; transform: translateY(-2px);\n}\n.restricted-access a[data-v-63cb17b8]:hover { color: var(--brand-2); text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-63cb17b8], .custom-card img[data-v-63cb17b8], .card.custom-card button.form-control[data-v-63cb17b8] { transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

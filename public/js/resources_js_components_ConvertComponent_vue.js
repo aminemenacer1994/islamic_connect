@@ -473,10 +473,7 @@ const _hoisted_5 = {
   class: "mb-3"
 };
 const _hoisted_6 = {
-  class: "progress",
-  style: {
-    "height": "30px"
-  }
+  class: "progress progress-tracker"
 };
 const _hoisted_7 = ["aria-valuenow"];
 const _hoisted_8 = {
@@ -685,19 +682,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 1. Welcome "), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "text-center mb-5 fade-in"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    class: "display-5 fw-bold",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "display-5 fw-bold premium-heading"
   }, "Welcome, New Muslim!"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead"
   }, "Your journey begins here. We're here to support you every step of the way.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Tracker "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-bar-chart-steps me-2",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "bi bi-bar-chart-steps me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Journey Progress")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-danger btn-sm",
     onClick: _cache[0] || (_cache[0] = (...args) => $options.resetProgress && $options.resetProgress(...args)),
@@ -705,10 +696,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-counterclockwise"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reset", -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "progress-bar",
+    class: "progress-bar progress-tracker-bar",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: $options.progressPercent + '%',
-      backgroundColor: '#006b5f'
+      width: $options.progressPercent + '%'
     }),
     role: "progressbar",
     "aria-valuenow": $options.progressPercent,
@@ -731,10 +721,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Testimonials Carousel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chat-quote-fill me-2",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "bi bi-chat-quote-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Testimonials")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-primary btn-sm",
     onClick: _cache[2] || (_cache[2] = (...args) => $options.shareTestimonial && $options.shareTestimonial(...args)),
@@ -749,13 +736,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: testimonial.avatar,
-      class: "rounded-circle mb-3",
-      style: {
-        "width": "80px",
-        "height": "80px",
-        "object-fit": "cover",
-        "border": "2px solid #006b5f"
-      }
+      class: "rounded-circle mb-3 testimonial-avatar"
     }, null, 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("blockquote", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, "\"" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.text) + "\"", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("footer", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.name) + " from " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(testimonial.country), 1 /* TEXT */)])])], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "carousel-control-prev",
@@ -780,10 +761,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Next", -1 /* CACHED */)]))])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Interactive Quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-question-circle-fill me-2",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "bi bi-question-circle-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Islam Basics Quiz")], -1 /* CACHED */)), $data.quizCompleted ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("You scored " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizScore) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.quizQuestions.length) + "! ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-link p-0",
     onClick: _cache[5] || (_cache[5] = (...args) => $options.resetQuiz && $options.resetQuiz(...args))
@@ -814,10 +792,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Submit Quiz", 8 /* PROPS */, _hoisted_31)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 2. Shahada "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-star-fill me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-star-fill me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step 1: The Shahada")], -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "The testimony of faith is the first step to becoming a Muslim.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("audio", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("source", {
     src: $data.shahadaAudio,
     type: "audio/mpeg"
@@ -829,19 +804,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Download Shahada Certificate", 8 /* PROPS */, _hoisted_36)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 3. First Steps Checklist "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-list-check me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-list-check me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Step 2: Your First Steps")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_39, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.firstSteps, (step, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: i,
       class: "list-group-item bg-white text-black d-flex align-items-center"
     }, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check-circle-fill me-2",
-      style: {
-        "color": "#00bfa6"
-      }
+      class: "bi bi-check-circle-fill me-2 accent-teal"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
@@ -869,10 +838,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "col",
       key: i
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([basic.icon, "me-2"]),
-      style: {
-        "color": "#00bfa6"
-      }
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([basic.icon, "me-2 accent-teal"])
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(basic.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: basic.link,
       class: "btn btn-outline-primary btn-sm convert-btn-outline",
@@ -883,10 +849,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 5. Community & Support "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-people-fill me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-people-fill me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Find Community")], -1 /* CACHED */)), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Connect with other Muslims near you and online.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
     src: $data.communityMap,
     allowfullscreen: ""
@@ -913,19 +876,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 6. Resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-journal-richtext me-2",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "bi bi-journal-richtext me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Resources")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.resources, (resource, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col",
       key: i
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([resource.icon, "me-2"]),
-      style: {
-        "color": "#006b5f"
-      }
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([resource.icon, "me-2 accent-primary"])
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: resource.link,
       class: "btn btn-outline-primary btn-sm convert-btn-outline",
@@ -936,10 +893,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 7. Ask a Question "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-question-circle-fill me-2",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "bi bi-question-circle-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Need Help?")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitQuestion && $options.submitQuestion(...args), ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
@@ -959,29 +913,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.questionLoading ? 'Sending...' : 'Send'), 9 /* TEXT, PROPS */, _hoisted_70)], 32 /* NEED_HYDRATION */), $data.questionSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, " Thank you for your question! We'll get back to you soon. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.questionError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.questionError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 8. Events & Meetups "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-calendar-event-fill me-2",
-    style: {
-      "color": "#006b5f"
-    }
+    class: "bi bi-calendar-event-fill me-2 accent-primary"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Upcoming Events")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_75, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.events, (event, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: i,
       class: "list-group-item d-flex justify-content-between align-items-center bg-white text-black"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-calendar2-week me-2",
-      style: {
-        "color": "#006b5f"
-      }
+      class: "bi bi-calendar2-week me-2 accent-primary"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge rounded-pill", event.badgeClass])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(event.badge), 3 /* TEXT, CLASS */)]);
   }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" 9. Feedback "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "card-title mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-chat-dots-fill me-2",
-    style: {
-      "color": "#00bfa6"
-    }
+    class: "bi bi-chat-dots-fill me-2 accent-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Feedback")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     onSubmit: _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitFeedback && $options.submitFeedback(...args), ["prevent"]))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
@@ -998,7 +943,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn btn-secondary btn-sm convert-btn",
     disabled: $data.feedbackLoading,
     title: "Submit feedback"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackLoading ? 'Submitting...' : 'Submit'), 9 /* TEXT, PROPS */, _hoisted_80)], 32 /* NEED_HYDRATION */), $data.feedbackSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, " Thank you for your feedback! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.feedbackError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call to Action "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card mb-5 shadow-sm convert-card fade-in\" data-v-d2c5d416><div class=\"card-body text-center\" data-v-d2c5d416><h2 class=\"card-title mb-3\" style=\"color:#006b5f;\" data-v-d2c5d416><i class=\"bi bi-megaphone-fill me-2\" data-v-d2c5d416></i>Get Involved!</h2><p class=\"mb-3\" data-v-d2c5d416>Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p><div class=\"d-flex flex-column flex-md-row justify-content-center gap-3\" data-v-d2c5d416><a href=\"mailto:stories@islamicconnect.com\" class=\"btn btn-success convert-btn\" title=\"Share your story\" data-v-d2c5d416><i class=\"bi bi-pencil-square me-1\" data-v-d2c5d416></i> Share Your Story</a><a href=\"https://calendly.com/mentor-session\" target=\"_blank\" class=\"btn btn-primary convert-btn\" title=\"Book a mentor session\" data-v-d2c5d416><i class=\"bi bi-person-video3 me-1\" data-v-d2c5d416></i> Book 1:1 Mentor Session</a></div></div></div>", 1))]);
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackLoading ? 'Submitting...' : 'Submit'), 9 /* TEXT, PROPS */, _hoisted_80)], 32 /* NEED_HYDRATION */), $data.feedbackSent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, " Thank you for your feedback! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.feedbackError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.feedbackError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Call to Action "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card mb-5 shadow-sm convert-card fade-in\" data-v-d2c5d416><div class=\"card-body text-center\" data-v-d2c5d416><h2 class=\"card-title mb-3 accent-heading accent-heading--primary\" data-v-d2c5d416><i class=\"bi bi-megaphone-fill me-2 accent-primary\" data-v-d2c5d416></i>Get Involved!</h2><p class=\"mb-3\" data-v-d2c5d416>Share your story to inspire others, or book a 1:1 session with a mentor for personalized support.</p><div class=\"d-flex flex-column flex-md-row justify-content-center gap-3 action-row action-row--spaced\" data-v-d2c5d416><a href=\"mailto:stories@islamicconnect.com\" class=\"premium-action-button premium-action-button--outline\" title=\"Share your story\" data-v-d2c5d416><span class=\"action-row__icon\" data-v-d2c5d416><i class=\"bi bi-pencil-square\" aria-hidden=\"true\" data-v-d2c5d416></i></span><span class=\"action-row__label\" data-v-d2c5d416>Share Your Story</span></a><a href=\"https://calendly.com/mentor-session\" target=\"_blank\" class=\"premium-action-button premium-action-button--primary\" title=\"Book a mentor session\" data-v-d2c5d416><span class=\"action-row__icon\" data-v-d2c5d416><i class=\"bi bi-person-video3\" aria-hidden=\"true\" data-v-d2c5d416></i></span><span class=\"action-row__label\" data-v-d2c5d416>Book 1:1 Mentor Session</span></a></div></div></div>", 1))]);
 }
 
 /***/ }),
@@ -1019,7 +964,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.convert-bg[data-v-d2c5d416] {\n  background: #fff !important;\n  color: #000 !important;\n}\n.convert-card[data-v-d2c5d416] {\n  background: #fff !important;\n  color: #000 !important;\n  border: 1px solid #e0e0e0;\n}\n.card-title[data-v-d2c5d416] {\n  color: #00bfa6 !important;\n}\n.btn-primary[data-v-d2c5d416], .btn-success[data-v-d2c5d416], .btn-info[data-v-d2c5d416], .btn-secondary[data-v-d2c5d416], .convert-btn[data-v-d2c5d416] {\n  background-color: #00bfa6 !important;\n  border-color: #00bfa6 !important;\n  color: #fff !important;\n}\n.btn-primary[data-v-d2c5d416]:hover, .btn-success[data-v-d2c5d416]:hover, .btn-info[data-v-d2c5d416]:hover, .btn-secondary[data-v-d2c5d416]:hover, .convert-btn[data-v-d2c5d416]:hover {\n  background-color: #009e8e !important;\n  border-color: #009e8e !important;\n}\n.convert-btn-outline[data-v-d2c5d416] {\n  color: #00bfa6 !important;\n  border-color: #00bfa6 !important;\n  background: #fff !important;\n}\n.convert-btn-outline[data-v-d2c5d416]:hover {\n  background: #0b5d4b !important;\n  color: #fff !important;\n}\n.bg-white[data-v-d2c5d416] {\n  background: #fff !important;\n}\n.text-black[data-v-d2c5d416] {\n  color: #000 !important;\n}\n.fade-in[data-v-d2c5d416] {\n  animation: fadeIn-d2c5d416 0.8s ease-in;\n}\n@keyframes fadeIn-d2c5d416 {\nfrom { opacity: 0; transform: translateY(30px);\n}\nto { opacity: 1; transform: none;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.convert-bg[data-v-d2c5d416] {\n  background: linear-gradient(180deg, #f5f7fb 0%, #eef2f7 100%);\n  color: #0f172a;\n}\n.convert-card[data-v-d2c5d416] {\n  background: #fff;\n  color: #0f172a;\n  border-radius: 24px;\n  border: none;\n  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.1);\n}\n.card-title[data-v-d2c5d416] {\n  font-weight: 700;\n  color: #0f172a;\n}\n.convert-btn[data-v-d2c5d416] {\n  border-radius: 999px;\n  padding: 0.45rem 1.4rem;\n  font-weight: 600;\n  min-width: 160px;\n  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n}\n.convert-btn[data-v-d2c5d416]:disabled {\n  opacity: 0.6;\n  cursor: not-allowed;\n  box-shadow: none;\n}\n.convert-btn-outline[data-v-d2c5d416] {\n  border-radius: 16px;\n  border-width: 1px;\n  border-color: rgba(0, 191, 166, 0.4);\n  background: #fff;\n  color: #0f3d3b;\n  padding: 0.5rem 1rem;\n  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);\n  transition: background 0.25s ease, color 0.25s ease;\n}\n.convert-btn-outline[data-v-d2c5d416]:hover {\n  background: rgba(0, 191, 166, 0.12);\n  color: #005247;\n}\n.progress-tracker[data-v-d2c5d416] {\n  height: 30px;\n  border-radius: 18px;\n  overflow: hidden;\n  background: rgba(34, 139, 34, 0.12);\n  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.12);\n}\n.progress-tracker-bar[data-v-d2c5d416] {\n  background: linear-gradient(135deg, #00bfa6, #1a5f7a);\n  border-radius: 18px;\n}\n.testimonial-avatar[data-v-d2c5d416] {\n  width: 80px;\n  height: 80px;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border: 2px solid rgba(34, 139, 34, 0.35);\n  box-shadow: 0 12px 18px rgba(15, 23, 42, 0.2);\n}\n.fade-in[data-v-d2c5d416] {\n  animation: fadeIn-d2c5d416 0.8s ease-in both;\n}\n@keyframes fadeIn-d2c5d416 {\nfrom { opacity: 0; transform: translateY(30px);\n}\nto { opacity: 1; transform: translateY(0);\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

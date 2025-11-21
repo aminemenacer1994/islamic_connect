@@ -56,6 +56,23 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getFilterIcon(filter) {
+      const iconMap = {
+        'Islamic': 'bi-star-fill',
+        'islamic animation': 'bi-play-btn',
+        'Calligraphy': 'bi-pen-nib',
+        'Quran': 'bi-book',
+        'Kaaba': 'bi-box',
+        'Mecca': 'bi-geo-alt',
+        'Madina': 'bi-geo-alt-fill',
+        'Hijab': 'bi-person',
+        'Ramadan': 'bi-moon-stars',
+        'Eid': 'bi-gift',
+        'Arabic Art': 'bi-brush',
+        'Islamic Architecture': 'bi-columns'
+      };
+      return iconMap[filter] || 'bi-image';
+    },
     // Virtualization helpers
     computeItemsPerRow() {
       const w = window.innerWidth || 1024;
@@ -326,12 +343,15 @@ const _hoisted_3 = {
   class: "col-12 col-md-12"
 };
 const _hoisted_4 = {
-  class: "mb-4 text-center"
+  class: "col-12 col-md-11"
 };
 const _hoisted_5 = {
-  class: "filter-scroll-wrapper position-relative"
+  class: "mb-4 text-center"
 };
 const _hoisted_6 = {
+  class: "filter-scroll-wrapper position-relative"
+};
+const _hoisted_7 = {
   class: "filter-scroll d-flex justify-content-start gap-2 px-2 py-2",
   style: {
     "overflow-x": "auto",
@@ -344,40 +364,37 @@ const _hoisted_6 = {
   "aria-label": "Filter videos",
   tabindex: "0"
 };
-const _hoisted_7 = ["aria-checked", "tabindex", "onClick", "onKeydown"];
-const _hoisted_8 = {
+const _hoisted_8 = ["aria-checked", "tabindex", "onClick", "onKeydown"];
+const _hoisted_9 = {
   key: 0
 };
-const _hoisted_9 = {
+const _hoisted_10 = {
   class: "row g-3"
 };
-const _hoisted_10 = {
-  class: "card d-flex flex-column shadow-md p-1 w-100 h-100 card-video",
-  style: {
-    "border": "2px solid lightgray"
-  }
+const _hoisted_11 = {
+  class: "card d-flex flex-column shadow-sm p-2 w-100 h-100 card-video card-20 card-float glow-card"
 };
-const _hoisted_11 = ["aria-label"];
-const _hoisted_12 = ["src", "poster", "onLoadedmetadata"];
-const _hoisted_13 = {
-  class: "d-flex flex-column flex-sm-row justify-content-between align-items-stretch gap-2 mt-auto px-2 pb-2"
+const _hoisted_12 = ["aria-label"];
+const _hoisted_13 = ["src", "poster", "onLoadedmetadata"];
+const _hoisted_14 = {
+  class: "action-row px-2 pb-2"
 };
-const _hoisted_14 = ["href"];
-const _hoisted_15 = ["href", "download"];
-const _hoisted_16 = {
+const _hoisted_15 = ["href"];
+const _hoisted_16 = ["href", "download"];
+const _hoisted_17 = {
   ref: "infiniteScrollSentinel",
   class: "w-100",
   style: {
     "height": "1px"
   }
 };
-const _hoisted_17 = {
+const _hoisted_18 = {
   key: 1,
   class: "text-center py-3",
   role: "status",
   "aria-live": "polite"
 };
-const _hoisted_18 = {
+const _hoisted_19 = {
   key: 2,
   class: "text-center py-5 text-muted",
   role: "status",
@@ -395,30 +412,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "video-gallery-search-label",
     class: "fw-bold text-left pt-2 pb-2 container"
   }, "Search Animated Videos:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    class: "input-group",
+    class: "row g-2 align-items-stretch",
     role: "search",
     "aria-labelledby": "video-gallery-search-label",
     onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.resetAndSearch && $options.resetAndSearch(...args), ["prevent"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "video-gallery-search-input",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.query = $event),
     type: "text",
-    class: "form-control",
+    class: "form-control h-100 rounded-20",
     "aria-label": 'Search Islamic videos',
     placeholder: "Search for Islamic videos..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn",
-    type: "submit",
-    style: {
-      "background-color": "#00695c",
-      "color": "#ffffff"
-    }
-  }, "Search", -1 /* CACHED */))], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, (filter, idx) => {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]])]), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-12 col-md-1 d-grid"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "btn w-100 h-100 btn-teal rounded-20",
+    type: "submit"
+  }, "Search")], -1 /* CACHED */))], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, (filter, idx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: filter,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge flex-shrink-0 px-3 py-2", {
-        'bg-dark text-white': $data.activeFilter === filter,
-        'bg-light text-dark': $data.activeFilter !== filter
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge flex-shrink-0 d-flex align-items-center gap-2 px-3 py-2", {
+        'active': $data.activeFilter === filter
       }]),
       role: "radio",
       "aria-checked": String($data.activeFilter === filter),
@@ -426,23 +440,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       onClick: $event => $options.applyFilter(filter),
       onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusPrevFilter(idx), ["prevent"]), ["left"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusNextFilter(idx), ["prevent"]), ["right"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.applyFilter(filter), ["prevent"]), ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.applyFilter(filter), ["prevent"]), ["space"])]
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 43 /* TEXT, CLASS, PROPS, NEED_HYDRATION */, _hoisted_7);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getFilterIcon(filter))
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 1 /* TEXT */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_8);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Video Grid "), $data.videos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       height: $options.topSpacerHeight + 'px'
     })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visibleVideos, (video, i) => {
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visibleVideos, (video, i) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.id || $data.startIndex + i,
-      class: "col-12 col-sm-6 col-md-4 col-lg-4 mb-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "ratio ratio-16x9 video-container",
-      style: {
-        "height": "500px",
-        "object-fit": "cover",
-        "border-top-left-radius": "5px",
-        "border-top-right-radius": "5px"
-      },
+      class: "col-12 col-sm-6 col-md-6 col-lg-4 mb-4"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "ratio ratio-16x9 pb-2 video-container rounded-20 overflow-hidden video-frame media-frame",
       role: "button",
       onClick: _cache[3] || (_cache[3] = $event => $options.togglePlayPause($event)),
       tabindex: "0",
@@ -451,7 +461,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("video", {
       src: video.loaded ? video.url : '',
       poster: video.thumbnail,
-      class: "w-100 rounded-top video-hover",
+      class: "w-100 mb-2 rounded-20 video-hover",
       controls: "",
       controlslist: "nodownload noplaybackrate",
       loop: "",
@@ -460,40 +470,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       playsinline: "",
       onClick: _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.togglePlayPause($event), ["stop"])),
       onLoadedmetadata: $event => $options.updateMetadata($event, video)
-    }, " Your browser does not support the video tag. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_12)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, " Your browser does not support the video tag. ", 40 /* PROPS, NEED_HYDRATION */, _hoisted_13)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: `https://wa.me/?text=${encodeURIComponent(video.url)}`,
       target: "_blank",
-      class: "btn btn-sm w-100 custom-btn",
-      style: {
-        "font-size": "18px"
-      },
+      rel: "noopener noreferrer",
+      class: "btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2",
       "aria-label": 'Share video via WhatsApp'
     }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-share-fill",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: video.url,
       download: `video-${video.id}.mp4`,
-      class: "btn btn-sm w-100 custom-btn",
-      style: {
-        "font-size": "18px"
-      },
+      class: "btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2",
       target: "_blank",
+      rel: "noopener noreferrer",
       "aria-label": 'Download video file'
     }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-download",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Download ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15)])])]);
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Download ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_16)])])]);
   }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       height: $options.bottomSpacerHeight + 'px'
     })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sentinel for infinite scroll "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, null, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Sentinel for infinite scroll "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, null, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading indicator "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "spinner-border text-primary",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "ms-2"
-  }, "Loading videos…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Loading videos…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" No videos fallback "), !$data.loading && $data.videos.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "fs-5"
   }, "No videos found. Try another keyword.", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
@@ -516,7 +522,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.video-container[data-v-26d38626] {\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;\n}\n.video-container[data-v-26d38626]:focus {\n  outline: 2px solid #0db691;\n  outline-offset: 2px;\n}\n.video-container[data-v-26d38626]:hover {\n  transform: scale(1.05);\n  /* Slight zoom effect on hover */\n  opacity: 0.9;\n  /* Slight fade effect on hover */\n}\n.video-container video[data-v-26d38626] {\n  transition: opacity 0.3s ease-in-out;\n  cursor: pointer;\n}\n.video-container video[data-v-26d38626]:hover {\n  opacity: 1;\n  /* Ensure video stays visible during hover */\n}\n.card-video[data-v-26d38626] {\n  transition: all 0.3s ease;\n}\n.video-hover[data-v-26d38626] {\n  object-fit: cover;\n}\n.card-video video[data-v-26d38626] {\n  width: 100%;\n  height: 100%;\n  object-fit: cover;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.custom-btn[data-v-26d38626] {\n  background-color: #00695c;\n  color: #ffffff;\n  padding: 10px;\n  transition: background-color 0.3s, transform 0.2s;\n}\n.custom-btn[data-v-26d38626]:hover,\n.custom-btn[data-v-26d38626]:focus {\n  background-color: #005347;\n  transform: translateY(-2px);\n  color: #ffffff;\n  outline: 2px solid #003c34;\n  outline-offset: 2px;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge.active[data-v-26d38626] {\n  background-color: rgba(0, 191, 166, 0.2);\n  color: rgb(5, 32, 29);\n  border: 1px solid rgba(0, 191, 166);\n}\n.badge[data-v-26d38626] {\n  background-color: rgba(0, 191, 166);\n  font-size: 1em;\n  color: #fff;\n  border: 1px solid rgba(0, 191, 166);\n  border-radius: 2px;\n  border-radius: 6px;\n  padding: 8px;\n}\n.badge[data-v-26d38626]:hover {\n  font-size: 1em;\n  color: white;\n  border-radius: 6px;\n  padding: 8px;\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  display: none;\n  cursor: pointer;\n}\n.filter-scroll[data-v-26d38626]:focus {\n  outline: 2px solid #0db691;\n  outline-offset: 2px;\n}\n.scroll-fade[data-v-26d38626] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 40px;\n  pointer-events: none;\n  z-index: 1;\n}\n.scroll-fade-left[data-v-26d38626] {\n  left: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0.11), transparent);\n}\n.scroll-fade-right[data-v-26d38626] {\n  right: 0;\n  background: linear-gradient(to left, rgba(255, 255, 255, 0.11), transparent);\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] {\n  border-radius: 0.25rem;\n  overflow: hidden;\n}\nvideo[data-v-26d38626] {\n  border-radius: 0.25rem;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n  content-visibility: auto;\n  contain: content;\n}\n\n\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.video-container[data-v-26d38626] {\n  position: relative;\n  overflow: hidden;\n  transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;\n}\n.video-container[data-v-26d38626]:focus {\n  outline: 2px solid #0db691;\n  outline-offset: 2px;\n}\n.video-container[data-v-26d38626]:hover {\n  transform: scale(1.05);\n  /* Slight zoom effect on hover */\n  opacity: 0.9;\n  /* Slight fade effect on hover */\n}\n.video-container video[data-v-26d38626] {\n  transition: opacity 0.3s ease-in-out;\n  cursor: pointer;\n}\n.video-container video[data-v-26d38626]:hover {\n  opacity: 1;\n  /* Ensure video stays visible during hover */\n}\n.card-video[data-v-26d38626] {\n  transition: all 0.3s ease;\n}\n.video-hover[data-v-26d38626] {\n  -o-object-fit: cover;\n     object-fit: cover;\n}\n.card-video video[data-v-26d38626] {\n  width: 100%;\n  height: 100%;\n  -o-object-fit: cover;\n     object-fit: cover;\n  border-top-left-radius: 5px;\n  border-top-right-radius: 5px;\n}\n.custom-btn[data-v-26d38626] { background-color: #0db691; color: #fff; padding: 10px; transition: all 0.3s ease; position: relative; overflow: hidden;\n}\n.custom-btn[data-v-26d38626]:hover, .custom-btn[data-v-26d38626]:focus { background-color: #0aa07f; transform: translateY(-2px); color: #fff; outline: 2px solid rgba(13,182,145,.4); outline-offset: 2px; box-shadow: 0 4px 12px rgba(0,0,0,.2);\n}\n.custom-btn[data-v-26d38626]::after { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; background: rgba(255,255,255,.2); border-radius: 50%; transform: translate(-50%,-50%); transition: width .4s ease, height .4s ease;\n}\n.custom-btn[data-v-26d38626]:hover::after { width: 200px; height: 200px;\n}\n.scrollmenu[data-v-26d38626] {\n  white-space: nowrap;\n  overflow-x: auto;\n  scrollbar-width: thin;\n  /* Firefox */\n  scrollbar-color: transparent transparent;\n  /* Firefox */\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar {\n  width: 0px;\n}\n.scrollmenu.scrolling[data-v-26d38626]::-webkit-scrollbar {\n  width: 8px;\n}\n.scrollmenu[data-v-26d38626]::-webkit-scrollbar-thumb {\n  background-color: #888;\n  border-radius: 4px;\n}\n.scrollmenu a[data-v-26d38626] {\n  display: inline-block;\n  text-align: center;\n  text-decoration: none;\n}\n.badge[data-v-26d38626] { background-color: white; color: #000; font-size: 1em; border: 1px solid #0db69175; border-radius: 8px; padding: 8px 12px; transition: all .3s ease;\n}\n.badge.active[data-v-26d38626] { background-color: #0db691; color: #fff; transform: scale(1.05);\n}\n.badge[data-v-26d38626]:hover { background-color: #0aa07f; color: #fff; transform: scale(1.05); box-shadow: 0 2px 8px rgba(0,0,0,.15);\n}\n.shadow-lg[data-v-26d38626] {\n  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);\n}\n.hover-shadow[data-v-26d38626]:hover {\n  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);\n}\n.filter-scroll[data-v-26d38626]::-webkit-scrollbar {\n  display: none;\n  cursor: pointer;\n}\n.filter-scroll[data-v-26d38626]:focus {\n  outline: 2px solid #0db691;\n  outline-offset: 2px;\n}\n.scroll-fade[data-v-26d38626] {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  width: 40px;\n  pointer-events: none;\n  z-index: 1;\n}\n.scroll-fade-left[data-v-26d38626] {\n  left: 0;\n  background: linear-gradient(to right, rgba(255, 255, 255, 0.11), transparent);\n}\n.scroll-fade-right[data-v-26d38626] {\n  right: 0;\n  background: linear-gradient(to left, rgba(255, 255, 255, 0.11), transparent);\n}\n.pagination .page-link[data-v-26d38626] {\n  font-size: 1.1rem;\n}\n.modal-backdrop[data-v-26d38626] {\n  display: none;\n}\n.pointer[data-v-26d38626] {\n  cursor: pointer;\n}\n.ratio[data-v-26d38626] { border-radius: 20px; overflow: hidden;\n}\n.video-frame[data-v-26d38626] { height: 500px;\n}\nvideo[data-v-26d38626] { border-radius: 20px;\n}\n.card[data-v-26d38626] {\n  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);\n  content-visibility: auto;\n  contain: content;\n}\n\n/* Shared utilities to match AiComponent */\n.soft-bg[data-v-26d38626] {\n  background:\n    radial-gradient(1200px 600px at 10% -10%, rgba(13, 182, 145, 0.05), transparent 60%),\n    radial-gradient(900px 500px at 110% 10%, rgba(26, 95, 122, 0.05), transparent 60%),\n    radial-gradient(800px 400px at 50% 120%, rgba(13, 182, 145, 0.04), transparent 60%),\n    linear-gradient(180deg, #ffffff, #fafcfc),\n    repeating-linear-gradient(90deg, rgba(0,0,0,0.01) 0, rgba(0,0,0,0.01) 1px, transparent 1px, transparent 12px),\n    repeating-linear-gradient(0deg, rgba(0,0,0,0.008) 0, rgba(0,0,0,0.008) 1px, transparent 1px, transparent 12px);\n  background-size: auto, auto, auto, auto, 800px 800px, 800px 800px;\n  background-attachment: scroll, scroll, scroll, scroll, fixed, fixed;\n  position: relative;\n}\n.soft-bg[data-v-26d38626]::before,\n.soft-bg[data-v-26d38626]::after {\n  content: '';\n  position: absolute;\n  border-radius: 50%;\n  filter: blur(40px);\n  opacity: 0.35;\n  z-index: 0;\n  animation: floatBlob-26d38626 18s ease-in-out infinite;\n}\n.soft-bg[data-v-26d38626]::before { width: 340px; height: 340px; background: radial-gradient(circle at 30% 30%, rgba(13,182,145,.35), transparent 60%); top: -110px; left: -70px;\n}\n.soft-bg[data-v-26d38626]::after { width: 280px; height: 280px; background: radial-gradient(circle at 70% 70%, rgba(26,95,122,.35), transparent 60%); bottom: -90px; right: -50px; animation-delay: 6s;\n}\n@keyframes floatBlob-26d38626 {\n0%,100% { transform: translateY(0) translateX(0);\n}\n50% { transform: translateY(-14px) translateX(8px);\n}\n}\n.rounded-20[data-v-26d38626] { border-radius: 20px !important;\n}\n.card-20[data-v-26d38626] { border-radius: 20px; overflow: hidden;\n}\n.card-float[data-v-26d38626] { transition: transform .25s ease, box-shadow .25s ease;\n}\n.card-float[data-v-26d38626]:hover { transform: translateY(-4px); box-shadow: 0 8px 20px rgba(0,0,0,.15);\n}\n.glow-card[data-v-26d38626] { background: #fff; border: 1px solid rgba(13,182,145,.18); box-shadow: 0 10px 24px rgba(0,0,0,.08);\n}\n.glow-card[data-v-26d38626]:hover { box-shadow: 0 16px 30px rgba(0,0,0,.12), 0 0 0 3px rgba(13,182,145,.08) inset;\n}\n.btn-teal[data-v-26d38626] { background-color: #0db691; color: #fff; border: none; transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;\n}\n.btn-teal[data-v-26d38626]:hover { background-color: #0aa07f; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.15);\n}\n.action-row[data-v-26d38626] { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: stretch;\n}\n.action-row[data-v-26d38626] { margin-top: 12px;\n}\n.btn-action[data-v-26d38626] { font-size: 18px;\n}\n\n/* Reset default figure/article spacing and enforce column layout */\narticle.card[data-v-26d38626] { margin: 0; display: flex; flex-direction: column;\n}\n@keyframes focusPulse-26d38626 {\n0% { box-shadow: 0 0 0 0 rgba(13,182,145,.45);}\n100% { box-shadow: 0 0 0 8px rgba(13,182,145,0);}\n}\n.btn-action[data-v-26d38626]:focus-visible { outline: none; animation: focusPulse-26d38626 .6s ease;\n}\n@keyframes cardFloat-26d38626 {\n0%,100% { transform: translateY(0);}\n50% { transform: translateY(-3px);}\n}\n.video-frame[data-v-26d38626]:hover { animation: cardFloat-26d38626 3s ease-in-out infinite;\n}\n@media (prefers-reduced-motion: reduce) {\n.card-float[data-v-26d38626], .btn-teal[data-v-26d38626], .btn-action[data-v-26d38626], .video-frame[data-v-26d38626], .soft-bg[data-v-26d38626]::before, .soft-bg[data-v-26d38626]::after { transition: none !important; animation: none !important;\n}\n}\n\n/* Gradient stroke + soft fade for media */\n.media-frame[data-v-26d38626] { position: relative; z-index: 0;\n}\n.media-frame[data-v-26d38626]::before {\n  content: '';\n  position: absolute; inset: 0; border-radius: inherit; padding: 1px;\n  background: linear-gradient(135deg, rgba(13,182,145,.5), rgba(26,95,122,.4));\n  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);\n  -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none;\n}\n.media-frame[data-v-26d38626]::after {\n  content: '';\n  position: absolute; left: 0; right: 0; bottom: 0; height: 18%;\n  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,.18) 100%);\n  height: 22%; opacity: .22; pointer-events: none;\n}\n\n/* Cross-browser fallback when CSS masking isn't supported (e.g., Firefox) */\n@supports not ((-webkit-mask-composite: xor) or (mask-composite: exclude)) {\n.media-frame[data-v-26d38626] { border: 1px solid rgba(13,182,145,.18);\n}\n.media-frame[data-v-26d38626]::before { display: none;\n}\n}\n@supports not (-webkit-mask-composite: xor) {\n.media-frame[data-v-26d38626] { border: 1px solid rgba(13,182,145,.18);\n}\n.media-frame[data-v-26d38626]::before { display: none;\n}\n}\n\n/* Button icon micro-motion */\n.btn-action i[data-v-26d38626] { transition: transform .2s ease;\n}\n.btn-action:hover i[data-v-26d38626] { transform: translateY(-1px);\n}\n\n\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

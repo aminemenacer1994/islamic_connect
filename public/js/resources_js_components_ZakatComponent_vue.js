@@ -273,168 +273,204 @@ __webpack_require__.r(__webpack_exports__);
     },
     printSummary() {
       const content = this.$refs.zakatSummary.innerHTML;
-      const currentDate = new Date().toLocaleDateString('en-GB', {
-        day: 'numeric',
+      const generatedDate = new Date().toLocaleDateString('en-GB', {
+        day: '2-digit',
         month: 'long',
         year: 'numeric'
       });
-      const printWindow = window.open('', '', '');
+      const printWindow = window.open('', '', 'width=900,height=800');
       printWindow.document.write(`
-        <html>
-          <head>
-            <title>Zakat Summary</title>
-            <link rel="stylesheet" href="/css/app.css">
-            <style>
-              body {
-                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                margin: 0;
-                padding: 2.5rem;
-                color: #333;
-                background-color: #fff;
-              }
-              .print-container {
-                max-width: 900px;
-                margin: 0 auto;
-                padding: 2rem;
-                background-color: #fff;
-              }
-              .header {
-                text-align: center;
-                margin-bottom: 2.5rem;
-                padding-bottom: 1.5rem;
-                border-bottom: 2px solid #dee2e6;
-              }
-              .header h1 {
-                font-size: 2.25rem;
-                font-weight: 700;
-                margin: 0 0 0.5rem 0;
-                color: #212529;
-              }
-              .header p {
-                font-size: 1rem;
-                color: #6c757d;
-                margin: 0;
-              }
-              .summary-section {
-                margin-bottom: 2rem;
-                padding: 1.5rem;
-                border: 1px solid #e9ecef;
-                border-radius: 0.75rem;
-                background-color: #f8f9fa;
-              }
-              .summary-section h6 {
-                font-size: 1.2rem;
-                font-weight: 600;
-                margin-bottom: 1.5rem;
-                color: #343a40;
-              }
-              .summary-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 1rem;
-                font-size: 1rem;
-                line-height: 1.6;
-              }
-              .summary-item span:first-child {
-                color: #6c757d;
-                flex: 0 0 60%;
-                padding-right: 1rem;
-              }
-              .summary-item strong {
-                color: #212529;
-                flex: 0 0 40%;
-                text-align: right;
-              }
-              .progress {
-                height: 8px;
-                margin: 1rem 0 1.5rem 0;
-                background-color: #e9ecef;
-                border-radius: 4px;
-              }
-              .bg-success-light {
-                background-color: #e6f4ea !important;
-                border-color: #d4edda !important;
-                padding: 1.5rem !important;
-              }
-              .eligibility-badge {
-                text-align: center;
-                padding: 1.5rem;
-                border-radius: 0.75rem;
-                margin: 2rem 0;
-                background-color: #f8f9fa;
-              }
-              .eligibility-badge h5 {
-                font-size: 1.3rem;
-                margin-bottom: 0.75rem;
-                font-weight: 600;
-              }
-              .eligibility-badge p {
-                font-size: 0.9rem;
-                margin: 0;
-              }
-              .chart-container {
-                margin: 2.5rem 0;
-                max-width: 400px;
-                margin-left: auto;
-                margin-right: auto;
-              }
-              canvas {
-                max-width: 100%;
-                height: auto;
-                display: block;
-              }
-              @media print {
-                body {
-                  padding: 1.5cm;
-                }
-                .print-container {
-                  border: none;
-                  box-shadow: none;
-                  padding: 0;
-                }
-                .btn, .btn-outline-dark {
-                  display: none;
-                }
-                .header {
-                  border-bottom: 1px solid #000;
-                  margin-bottom: 2rem;
-                }
-                .summary-section {
-                  border: none;
-                  background-color: transparent;
-                  page-break-inside: avoid;
-                  margin-bottom: 1.5rem;
-                  padding: 1rem;
-                }
-                .chart-container {
-                  page-break-inside: avoid;
-                  max-width: 350px;
-                }
-                .progress {
-                  background-color: #f0f0f0;
-                }
-                @page {
-                  margin: 1.5cm;
-                }
-              }
-            </style>
-          </head>
-          <body>
-            <div class="print-container">
-              <div class="header">
-                <h1>Zakat Summary</h1>
-                <p>Generated on ${currentDate}</p>
-              </div>
-              ${content}
-            </div>
-          </body>
-        </html>
-      `);
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <title>Zakat Summary - ${generatedDate}</title>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+          font-family: 'Inter', system-ui, -apple-system, sans-serif;
+          background: #fff;
+          color: #1f2937;
+          line-height: 1.7;
+          padding: 60px 20px;
+        }
+        .container {
+          max-width: 820px;
+          margin: 0 auto;
+          background: white;
+          padding: 50px 60px;
+          border-radius: 16px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+        }
+        .header {
+          text-align: center;
+          margin-bottom: 60px;
+          padding-bottom: 30px;
+          border-bottom: 4px solid #f1f5f9;
+        }
+        .header h1 {
+          font-size: 36px;
+          font-weight: 800;
+          color: #111827;
+          margin-bottom: 12px;
+          letter-spacing: -0.5px;
+        }
+        .header p {
+          font-size: 18px;
+          color: #64748b;
+          font-weight: 500;
+        }
+
+        /* Hide buttons completely */
+        .btn, .el-button, button, .no-print {
+          display: none !important;
+        }
+
+        /* Asset Grid – Spacious & Clean */
+        .assets-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+          gap: 24px;
+          margin: 50px 0;
+          padding: 32px;
+          background: #f8fafc;
+          border-radius: 14px;
+          border: 1px solid #e2e8f0;
+        }
+        .asset-item {
+          background: white;
+          padding: 20px;
+          border-radius: 12px;
+          text-align: center;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+          transition: transform 0.2s;
+        }
+        .asset-label {
+          font-size: 15px;
+          color: #64748b;
+          margin-bottom: 10px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        .asset-value {
+          font-size: 22px;
+          font-weight: 700;
+          color: #111827;
+        }
+
+        /* Liabilities & Zakatables */
+        .info-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 18px 0;
+          font-size: 18px;
+          border-bottom: 1px dashed #e2e8f0;
+        }
+        .info-row:last-child { border-bottom: none; }
+        .info-label { color: #475569; font-weight: 500; }
+        .info-value { font-weight: 700; color: #111827; }
+
+        /* Total Zakat Due – Hero Section */
+        .zakat-due {
+          background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+          color: white;
+          padding: 48px 32px;
+          border-radius: 18px;
+          text-align: center;
+          margin: 60px 0;
+          box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+        }
+        .zakat-due h3 {
+          font-size: 28px;
+          font-weight: 600;
+          margin-bottom: 16px;
+          opacity: 0.95;
+        }
+        .zakat-due .amount {
+          font-size: 64px;
+          font-weight: 800;
+          letter-spacing: -2px;
+        }
+        .zakat-due .currency {
+          font-size: 32px;
+          vertical-align: top;
+          margin-right: 8px;
+        }
+
+        /* Nisab & Obligation */
+        .nisab-info {
+          text-align: center;
+          padding: 32px;
+          background: #fffbeb;
+          border: 2px solid #fbbf24;
+          border-radius: 14px;
+          margin: 50px 0;
+        }
+        .nisab-info h4 {
+          color: #92400e;
+          font-size: 20px;
+          margin-bottom: 8px;
+        }
+        .nisab-info p {
+          color: #78350f;
+          font-size: 16px;
+        }
+
+        .obligation {
+          text-align: center;
+          padding: 40px;
+          background: #fef2f2;
+          border: 3px solid #fca5a5;
+          border-radius: 18px;
+          margin: 60px 0;
+        }
+        .obligation h2 {
+          font-size: 32px;
+          color: #991b1b;
+          margin-bottom: 16px;
+          font-weight: 700;
+        }
+        .obligation p {
+          font-size: 19px;
+          color: #7f1d1d;
+          max-width: 600px;
+          margin: 0 auto;
+        }
+
+        /* Print Optimizations */
+        @media print {
+          body { padding: 0; background: white; }
+          .container {
+            box-shadow: none;
+            padding: 40px;
+            border-radius: 0;
+          }
+          @page { margin: 1.8cm; }
+          .zakat-due, .obligation, .nisab-info {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+        }
+      </style>
+    </head>
+    <body onload="window.print(); window.close()">
+      <div class="container">
+        <div class="header">
+          <h1>Zakat Summary</h1>
+          <p>Generated on ${generatedDate}</p>
+        </div>
+
+        <!-- This is your original content from zakatSummary ref -->
+        ${content}
+
+      </div>
+    </body>
+    </html>
+  `);
       printWindow.document.close();
-      printWindow.focus();
-      printWindow.print();
-      printWindow.close();
     },
     shareSummary() {
       const summaryText = `
@@ -561,7 +597,7 @@ const _hoisted_3 = {
   class: "row g-4 justify-content-center"
 };
 const _hoisted_4 = {
-  class: "card shadow-md rounded-4"
+  class: "card shadow-md rounded-20"
 };
 const _hoisted_5 = {
   class: "card-body p-lg-5"
@@ -712,7 +748,9 @@ const _hoisted_54 = {
   class: "input-group-text bg-light"
 };
 const _hoisted_55 = {
-  class: "d-flex flex-column flex-md-row gap-3 mt-5"
+  class: "action-row action-row--spaced flex-wrap mt-5",
+  role: "group",
+  "aria-label": "Zakat calculator actions"
 };
 const _hoisted_56 = ["disabled"];
 const _hoisted_57 = {
@@ -721,131 +759,118 @@ const _hoisted_57 = {
   ref: "zakatSummary"
 };
 const _hoisted_58 = {
-  class: "card shadow-md rounded-4 sticky-top"
+  class: "card shadow-md rounded-20 sticky-top"
 };
 const _hoisted_59 = {
-  class: "card-body p-4"
+  class: "card-body p-4",
+  style: {
+    "padding": "10px"
+  }
 };
 const _hoisted_60 = {
   class: "summary-item mb-4"
 };
 const _hoisted_61 = {
-  class: "text-muted"
+  class: "d-flex w-100 justify-content-between align-items-center"
 };
 const _hoisted_62 = {
-  class: "summary-item mb-4"
-};
-const _hoisted_63 = {
-  class: "d-flex justify-content-between mb-2"
-};
-const _hoisted_64 = {
-  class: "text-danger"
-};
-const _hoisted_65 = {
-  class: "summary-item mb-4"
-};
-const _hoisted_66 = {
-  class: "d-flex justify-content-between mb-2"
-};
-const _hoisted_67 = {
-  class: "text-dark"
-};
-const _hoisted_68 = {
-  key: 0,
-  class: "summary-item mb-4"
-};
-const _hoisted_69 = {
-  class: "d-flex justify-content-between"
-};
-const _hoisted_70 = {
-  class: "d-flex justify-content-between"
-};
-const _hoisted_71 = {
-  class: "summary-item bg-success-light p-3 rounded mb-4"
-};
-const _hoisted_72 = {
-  class: "d-flex justify-content-between align-items-center"
-};
-const _hoisted_73 = {
-  class: "text-success fw-bold mb-0"
-};
-const _hoisted_74 = {
-  class: "summary-item mb-3"
-};
-const _hoisted_75 = {
-  class: "form-check form-switch"
-};
-const _hoisted_76 = {
-  class: "form-check-label",
-  for: "showChartsSwitch"
-};
-const _hoisted_77 = {
-  key: 0,
-  class: "ms-2 align-middle"
-};
-const _hoisted_78 = {
-  key: 1,
-  class: "chart-container mb-4"
-};
-const _hoisted_79 = {
-  ref: "zakatChart",
-  id: "zakatChart"
-};
-const _hoisted_80 = {
-  class: "summary-item mb-4"
-};
-const _hoisted_81 = {
-  class: "d-flex justify-content-between mb-2"
-};
-const _hoisted_82 = {
   class: "text-muted"
 };
-const _hoisted_83 = {
+const _hoisted_63 = {
+  class: "summary-item mb-4"
+};
+const _hoisted_64 = {
+  class: "summary-metric mb-2"
+};
+const _hoisted_65 = {
+  class: "d-flex w-100 justify-content-between align-items-center"
+};
+const _hoisted_66 = {
+  class: "text-danger"
+};
+const _hoisted_67 = {
+  class: "summary-item mb-4"
+};
+const _hoisted_68 = {
+  class: "summary-metric mb-2"
+};
+const _hoisted_69 = {
+  class: "d-flex w-100 justify-content-between align-items-center"
+};
+const _hoisted_70 = {
+  class: "text-dark"
+};
+const _hoisted_71 = {
+  key: 0,
+  class: "summary-item mb-4"
+};
+const _hoisted_72 = {
+  class: "d-flex justify-content-between mb-2"
+};
+const _hoisted_73 = {
+  class: "d-flex justify-content-between mb-2"
+};
+const _hoisted_74 = {
+  class: "summary-item bg-success-light p-3 rounded mb-4"
+};
+const _hoisted_75 = {
+  class: "d-flex justify-content-between align-items-center"
+};
+const _hoisted_76 = {
+  class: "text-success fw-bold mb-0"
+};
+const _hoisted_77 = {
+  class: "summary-item mb-4"
+};
+const _hoisted_78 = {
+  class: "d-flex justify-content-between mb-2"
+};
+const _hoisted_79 = {
+  class: "text-muted"
+};
+const _hoisted_80 = {
   key: 0,
   class: "small mb-0"
 };
-const _hoisted_84 = {
+const _hoisted_81 = {
   key: 1,
   class: "small mb-0"
 };
-const _hoisted_85 = {
+const _hoisted_82 = {
   class: "d-flex flex-column gap-2 mt-4"
 };
-const _hoisted_86 = {
+const _hoisted_83 = {
   class: "row g-4 justify-content-center mt-4"
 };
-const _hoisted_87 = {
+const _hoisted_84 = {
   class: "col-lg-9"
 };
-const _hoisted_88 = {
+const _hoisted_85 = {
   class: "card shadow-md rounded-4"
 };
-const _hoisted_89 = {
+const _hoisted_86 = {
   class: "card-body p-lg-5"
 };
-const _hoisted_90 = {
+const _hoisted_87 = {
   class: "accordion",
   id: "zakatFaqAccordion"
 };
-const _hoisted_91 = ["id"];
-const _hoisted_92 = ["onClick", "aria-expanded", "aria-controls"];
-const _hoisted_93 = ["id", "aria-labelledby"];
-const _hoisted_94 = {
+const _hoisted_88 = ["id"];
+const _hoisted_89 = ["onClick", "aria-expanded", "aria-controls"];
+const _hoisted_90 = ["id", "aria-labelledby"];
+const _hoisted_91 = {
   class: "accordion-body"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "mb-2 text-center py-4 fw-bold display-5"
   }, "Zakat Calculator", -1 /* CACHED */)), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-center container text-dark mb-4",
-    style: {
-      "font-size": "18px"
-    }
+    class: "text-center container text-dark mb-4 hero-subtitle"
   }, " Easily calculate your Zakat obligation with our comprehensive tool. Determine if your wealth meets the Nisab threshold and calculate the 2.5% Zakat due on your eligible assets. Learn about Zakat and ensure accurate calculations. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$data.zakatCalculated ? 'col-lg-7' : 'col-lg-9', "calculator-column"])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Currency and Nisab Selection "), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
     class: "mb-4 fw-bold text-dark text-left"
-  }, "Zakat Calculator", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Zakat Calculator", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "currency",
     class: "form-label fw-bold"
   }, "Currency", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -858,7 +883,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: currency,
       value: currency
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(currency) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(symbol) + ") ", 9 /* TEXT, PROPS */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCurrency]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.selectedCurrency]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "nisab",
     class: "form-label fw-bold"
   }, "Nisab Standard", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -866,15 +891,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-select",
     "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.nisabType = $event),
     "aria-describedby": "nisabHelp"
-  }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[21] || (_cache[21] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "gold"
   }, "Gold (85g)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "silver"
-  }, "Silver (595g)", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.nisabType]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Inputs "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, "Silver (595g)", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.nisabType]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Inputs "), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mt-5 fw-bold text-dark border-bottom pb-2 mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-coin me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Your Assets ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gold Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-gem fw-bold text-warning me-2"
@@ -901,7 +926,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "goldPriceError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.goldPrice, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Silver Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-gem text-secondary me-2"
@@ -927,7 +952,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "silverPriceError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.silverPrice, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cash Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Cash Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-cash-coin text-success me-2"
@@ -942,7 +967,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "cashError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.cash, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Investments Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Investments Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-graph-up text-info me-2"
@@ -957,7 +982,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "investmentsError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.investments, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Business Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Business Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-briefcase text-dark me-2"
@@ -972,7 +997,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "businessAssetsError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.businessAssets, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Real Estate Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Real Estate Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-house text-warning me-2"
@@ -987,7 +1012,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "realEstateError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.realEstate, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Other Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Other Assets Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-plus-circle-dotted text-primary me-2"
@@ -1002,7 +1027,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "otherAssetsError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.otherAssets, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Agricultural Produce Input "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Agricultural Produce Input "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mt-5 fw-bold text-dark border-bottom pb-2 mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-wheat text-success me-2"
@@ -1023,7 +1048,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "irrigated",
     value: "irrigated",
     "onUpdate:modelValue": _cache[12] || (_cache[12] = $event => $data.agriculturalProduceType = $event)
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.agriculturalProduceType]]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.agriculturalProduceType]]), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-check-label",
     for: "irrigated"
   }, "Irrigated (5% Zakat)", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -1032,14 +1057,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "rain-fed",
     value: "rain-fed",
     "onUpdate:modelValue": _cache[13] || (_cache[13] = $event => $data.agriculturalProduceType = $event)
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.agriculturalProduceType]]), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.agriculturalProduceType]]), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-check-label",
     for: "rain-fed"
-  }, "Rain-fed (10% Zakat)", -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities Input "), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, "Rain-fed (10% Zakat)", -1 /* CACHED */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities Input "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "mt-5 fw-bold text-dark border-bottom pb-2 mb-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-credit-card text-danger me-2"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liabilities ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Liabilities ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, "Short-term Debts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
@@ -1052,7 +1077,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-describedby": "liabilitiesError"
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.liabilities, void 0, {
     number: true
-  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "col-md-3 col-form-label fw-bold"
   }, "Other Liabilities", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "number",
@@ -1066,117 +1091,114 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 2 /* CLASS */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.otherLiabilities, void 0, {
     number: true
   }]])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-dark flex-fill",
+    type: "button",
+    class: "premium-action-button premium-action-button--primary",
+    onClick: _cache[16] || (_cache[16] = (...args) => $options.calculateZakat && $options.calculateZakat(...args)),
     disabled: !$options.isFormValid,
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      opacity: $options.isFormValid ? 1 : 0.5,
-      cursor: $options.isFormValid ? 'pointer' : 'not-allowed'
-    }),
-    onClick: _cache[16] || (_cache[16] = (...args) => $options.calculateZakat && $options.calculateZakat(...args))
-  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-calculator me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Calculate Zakat", -1 /* CACHED */)]))], 12 /* STYLE, PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-outline-secondary flex-fill",
-    onClick: _cache[17] || (_cache[17] = (...args) => $options.resetCalculator && $options.resetCalculator(...args))
-  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-arrow-counterclockwise me-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Reset ", -1 /* CACHED */)]))])])])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    "aria-label": "Calculate my Zakat"
+  }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-calculator",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Calculate Zakat", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "premium-action-button premium-action-button--outline",
+    onClick: _cache[17] || (_cache[17] = (...args) => $options.resetCalculator && $options.resetCalculator(...args)),
+    "aria-label": "Reset values"
+  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__icon"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-arrow-counterclockwise",
+    "aria-hidden": "true"
+  })], -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "action-row__label"
+  }, "Reset", -1 /* CACHED */)]))])])])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Results Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "fade"
   }, {
-    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.zakatCalculated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
       class: "fw-bold text-dark"
     }, "Zakat Summary", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Asset Breakdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       class: "mb-3 fw-bold"
     }, "Asset Breakdown", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.assetBreakdown, (value, key) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: key,
-        class: "d-flex justify-content-between mb-2"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(value.toLocaleString()), 1 /* TEXT */)]);
+        class: "summary-metric mb-2"
+      }, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        class: "summary-metric__icon"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-piggy-bank",
+        "aria-hidden": "true"
+      })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(key) + ":", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(value.toLocaleString()), 1 /* TEXT */)])]);
     }), 128 /* KEYED_FRAGMENT */)), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress mb-3",
-      style: {
-        "height": "8px"
-      }
+      class: "progress mb-3 custom-progress"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress-bar bg-success",
-      role: "progressbar",
-      style: {
-        width: '100%'
-      }
-    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "progress-bar bg-success progress-bar-full",
+      role: "progressbar"
+    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liabilities "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "summary-metric__icon"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-card-list",
+      "aria-hidden": "true"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "Liabilities:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalLiabilities.toLocaleString()), 1 /* TEXT */)]), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress mb-3",
-      style: {
-        "height": "8px"
-      }
+    }, "Liabilities:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_66, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.totalLiabilities.toLocaleString()), 1 /* TEXT */)])]), _cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "progress mb-3 custom-progress"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress-bar bg-danger",
-      role: "progressbar",
-      style: {
-        width: '100%'
-      }
-    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakatable Amount "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "progress-bar bg-danger progress-bar-full",
+      role: "progressbar"
+    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakatable Amount "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      class: "summary-metric__icon"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-calculator",
+      "aria-hidden": "true"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "Zakatable Amount:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)]), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress mb-3",
-      style: {
-        "height": "8px"
-      }
+    }, "Zakatable Amount:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatableAmount.toLocaleString()), 1 /* TEXT */)])]), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "progress mb-3 custom-progress"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "progress-bar bg-dark",
-      role: "progressbar",
-      style: {
-        width: '100%'
-      }
-    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due Breakdown "), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      class: "progress-bar bg-dark progress-bar-full",
+      role: "progressbar"
+    })], -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due Breakdown "), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_71, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
       class: "mb-3 fw-bold"
-    }, "Zakat Breakdown", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, "Zakat Breakdown", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "On General Assets (2.5%):", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wealthZakat.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, "On General Assets (2.5%):", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.wealthZakat.toLocaleString()), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "text-muted"
-    }, "On Agricultural Produce:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.agriculturalZakat.toLocaleString()), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-      class: "mb-1 text-success fw-bold"
-    }, "Total Zakat Due", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString(undefined, {
+    }, "On Agricultural Produce:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.agriculturalZakat.toLocaleString()), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Zakat Due "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+      class: "mb-1 text-dark fw-bold"
+    }, "Total Zakat Due", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_76, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.zakatDue.toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    })), 1 /* TEXT */)]), _cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check-circle-fill text-success",
-      style: {
-        "font-size": "2rem"
-      }
-    }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Charts Toggle + Canvas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      class: "form-check-input",
-      type: "checkbox",
-      id: "showChartsSwitch",
-      "onUpdate:modelValue": _cache[18] || (_cache[18] = $event => $data.showCharts = $event)
-    }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelCheckbox, $data.showCharts]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", _hoisted_76, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show asset breakdown chart ", -1 /* CACHED */)), $data.isChartLibLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_77, [...(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "spinner-border spinner-border-sm text-secondary",
-      role: "status",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: "visually-hidden"
-    }, "Loading…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]), $data.showCharts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_79, null, 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Nisab Threshold "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_82, "Nisab Threshold (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel) + "):", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Eligibility "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    })), 1 /* TEXT */)]), _cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-check-circle-fill text-success summary-icon"
+    }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Charts Toggle + Canvas "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"summary-item mb-3\">\n                  <div class=\"form-check form-switch\">\n                    <input class=\"form-check-input ml-1\" type=\"checkbox\" id=\"showChartsSwitch\" v-model=\"showCharts\">\n                    <label class=\"form-check-label \" for=\"showChartsSwitch\">\n                      Show asset breakdown chart\n                      <span v-if=\"isChartLibLoading\" class=\"ms-2 align-middle\">\n                        <span class=\"spinner-border spinner-border-sm text-secondary\" role=\"status\" aria-hidden=\"true\"></span>\n                        <span class=\"visually-hidden\">Loading…</span>\n                      </span>\n                    </label>\n                  </div>\n                </div>\n                <div v-if=\"showCharts\" class=\"chart-container mb-4\">\n                  <canvas ref=\"zakatChart\" id=\"zakatChart\"></canvas>\n                </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Nisab Threshold "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_79, "Nisab Threshold (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabTypeLabel) + "):", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.currencySymbol) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.nisabThreshold.toLocaleString()), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Eligibility "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["eligibility-badge text-center p-3 rounded mt-4", $options.isEligible ? 'bg-success-light' : 'bg-light'])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'text-success' : 'text-muted', "fw-bold"])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$options.isEligible ? 'bi bi-check-circle-fill' : 'bi bi-x-circle-fill', "me-2"])
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_83, "Your assets exceed the Nisab threshold.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_84, "Your assets are below the Nisab threshold."))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.isEligible ? 'Zakat is Obligatory' : 'Below Nisab'), 1 /* TEXT */)], 2 /* CLASS */), $options.isEligible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_80, "Your assets exceed the Nisab threshold.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_81, "Your assets are below the Nisab threshold."))], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn btn-dark w-100",
-      onClick: _cache[19] || (_cache[19] = (...args) => $options.printSummary && $options.printSummary(...args))
+      onClick: _cache[18] || (_cache[18] = (...args) => $options.printSummary && $options.printSummary(...args))
     }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-download me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Download Summary", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn btn-outline-dark w-100",
-      onClick: _cache[20] || (_cache[20] = (...args) => $options.shareSummary && $options.shareSummary(...args))
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+      class: "text-center"
+    }, "Download Summary", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      class: "btn text-center btn-outline-dark w-100",
+      onClick: _cache[19] || (_cache[19] = (...args) => $options.shareSummary && $options.shareSummary(...args))
     }, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-share me-2"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Share Summary", -1 /* CACHED */)]))])])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", {
+      class: "text-center"
+    }, "Share Summary", -1 /* CACHED */)]))])])])])], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "mb-4 fw-bold text-dark text-left"
-  }, "Zakat FAQs", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
+  }, "Zakat FAQs", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "accordion-item",
       key: index
@@ -1193,14 +1215,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-controls": 'faq-collapse-' + index
     }, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "material-icons me-2"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_92)], 8 /* PROPS */, _hoisted_91), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_89)], 8 /* PROPS */, _hoisted_88), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       id: 'faq-collapse-' + index,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["accordion-collapse collapse", {
         show: faq.isOpen
       }]),
       "aria-labelledby": 'faq-heading-' + index,
       "data-bs-parent": "#zakatFaqAccordion"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_93)]);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_90)]);
   }), 128 /* KEYED_FRAGMENT */))])])])])])])]);
 }
 
@@ -1222,7 +1244,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #198754;\n  background-color: #e6f4ea;\n}\n.summary-item[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.5s ease forwards;\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.accordion-item[data-v-b319a4de] {\n  border: 1px solid #dee2e6;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n}\n.accordion-button[data-v-b319a4de] {\n  font-weight: bold;\n  color: #212529;\n  background-color: #fff;\n  padding: 1rem 1.5rem;\n  border-radius: 0.5rem;\n}\n.accordion-button[data-v-b319a4de]:hover {\n  color: #198754;\n  background-color: #f1f8f4;\n}\n.accordion-button[data-v-b319a4de]:focus {\n  border-color: rgba(25, 135, 84, 0.4);\n  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);\n}\n.accordion-body[data-v-b319a4de] {\n  background-color: #f8f9fa;\n  border-radius: 0 0 0.5rem 0.5rem;\n  padding: 1.5rem;\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n.card-teal[data-v-b319a4de] {\n  border-radius: 20px;\n  border: 1px solid rgba(20, 184, 165, 0);\n  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);\n  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);\n  transition: transform 160ms ease, box-shadow 160ms ease;\n}\n.card-teal[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);\n}\n.zakat-calculator[data-v-b319a4de] {\n  min-height: 100vh;\n  padding-bottom: 4rem;\n  background: #f7f9fc;\n}\n.premium-panel[data-v-b319a4de] {\n  border-radius: 20px;\n  padding: 12px;\n  background: linear-gradient(145deg, rgba(15, 140, 124, 0.15), rgba(11, 99, 88, 0.12));\n  border: 1px solid rgba(15, 140, 124, 0.35);\n  box-shadow: 0 25px 45px rgba(11, 73, 67, 0.2);\n}\n.card-teal[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);\n}\n.card.card-teal[data-v-b319a4de] {\n  background: linear-gradient(145deg, #e2faf5, #c6f2ec);\n  border-color: rgba(15, 140, 124, 0.25);\n  color: #0b4d44;\n}\n.card.card-teal .card-body[data-v-b319a4de] {\n  background: transparent;\n}\n.action-row[data-v-b319a4de] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 1rem;\n  justify-content: center;\n  align-items: stretch;\n}\n.action-row--spaced>button[data-v-b319a4de] {\n  flex: 1 1 170px;\n  min-width: 150px;\n  max-width: 230px;\n}\n.premium-action-button[data-v-b319a4de] {\n  border-radius: 20px;\n  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease, background 0.3s ease;\n  animation: premiumEntry-b319a4de 0.8s ease both;\n}\n.premium-action-button--primary[data-v-b319a4de] {\n  color: #fff;\n  box-shadow: 0 8px 25px rgba(15, 140, 124, 0.35);\n}\n.premium-action-button--outline[data-v-b319a4de] {\n  background: rgba(15, 140, 124, 0.08);\n  border-color: rgba(15, 140, 124, 0.55);\n  color: #0c7867;\n  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible,\n.premium-action-button[data-v-b319a4de]:hover:not(:disabled) {\n  transform: translateY(-2px);\n  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);\n}\n.premium-action-button[data-v-b319a4de]:focus-visible {\n  outline: 3px solid rgba(15, 140, 124, 0.45);\n  outline-offset: 2px;\n}\n.premium-action-button[data-v-b319a4de]:disabled {\n  cursor: not-allowed;\n  opacity: 0.6;\n  box-shadow: none;\n}\n.action-row__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  background: rgba(255, 255, 255, 0.18);\n  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.16);\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  color: inherit;\n}\n.action-row__label[data-v-b319a4de] {\n  font-size: 0.95rem;\n  letter-spacing: 0.01em;\n}\n.calculator-column[data-v-b319a4de] {\n  transition: all 0.5s ease-in-out;\n}\n.fade-enter-active[data-v-b319a4de],\n.fade-leave-active[data-v-b319a4de] {\n  transition: opacity 0.5s ease;\n}\n.fade-enter-from[data-v-b319a4de],\n.fade-leave-to[data-v-b319a4de] {\n  opacity: 0;\n}\n.accordion-button[data-v-b319a4de]:not(.collapsed) {\n  color: #198754;\n  background-color: #e6f4ea;\n}\n.summary-item[data-v-b319a4de] {\n  animation: premiumPulse-b319a4de 0.7s ease forwards;\n  background: rgba(255, 255, 255, 0.95);\n  border: 1px solid rgba(15, 23, 42, 0.07);\n  border-radius: 20px;\n  padding: 1rem;\n  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.12);\n}\n.bg-success-light[data-v-b319a4de] {\n  background-color: rgba(25, 135, 84, 0.1);\n}\n.summary-pillars[data-v-b319a4de] {\n  border-radius: 20px;\n  background: #fff;\n  border: 1px solid rgba(15, 23, 42, 0.08);\n  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);\n  padding: 1rem;\n}\n.summary-pill[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.65rem;\n  flex: 1 1 220px;\n  min-width: 220px;\n  padding: 0.35rem 0.65rem;\n  border-radius: 14px;\n  background: rgba(0, 0, 0, 0.01);\n  transition: transform 0.35s ease, box-shadow 0.35s ease, background 0.35s ease;\n}\n.summary-pill[data-v-b319a4de]:hover {\n  transform: translateY(-2px);\n  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.15);\n  background: rgba(0, 191, 166, 0.05);\n}\n.summary-pill small[data-v-b319a4de] {\n  display: block;\n  font-size: 0.75rem;\n  letter-spacing: 0.05em;\n  text-transform: uppercase;\n}\n.summary-pill .fw-semibold[data-v-b319a4de] {\n  font-size: 0.95rem;\n}\n.summary-pillars .action-row__icon[data-v-b319a4de] {\n  background: rgba(0, 191, 166, 0.15);\n  color: #0d8271;\n}\n.summary-pillars .action-row__label[data-v-b319a4de] {\n  font-size: 0.9rem;\n  font-weight: 600;\n}\n.summary-row[data-v-b319a4de] {\n  display: flex;\n  flex-direction: column;\n  gap: 0.75rem;\n}\n.summary-metric[data-v-b319a4de] {\n  display: flex;\n  align-items: center;\n  gap: 0.6rem;\n  padding: 0.75rem 0.65rem;\n  border-radius: 18px;\n  background: rgba(15, 23, 42, 0.04);\n  border: 1px solid rgba(15, 23, 42, 0.06);\n  transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;\n}\n.summary-metric[data-v-b319a4de]:hover {\n  background: rgba(0, 191, 166, 0.08);\n  transform: translateY(-1px);\n  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);\n}\n.summary-metric__icon[data-v-b319a4de] {\n  width: 36px;\n  height: 36px;\n  border-radius: 12px;\n  display: inline-flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(0, 122, 102, 0.18);\n  color: #0c7867;\n}\n.summary-metric strong[data-v-b319a4de] {\n  font-size: 1rem;\n}\n.form-control[data-v-b319a4de],\n.form-select[data-v-b319a4de] {\n  border-radius: 14px;\n  transition: border 0.3s ease, box-shadow 0.3s ease;\n}\n.form-control[data-v-b319a4de]:focus,\n.form-select[data-v-b319a4de]:focus {\n  border-color: #00bfa6;\n  box-shadow: 0 0 0 0.25rem rgba(0, 191, 166, 0.25);\n}\n.animate-entry[data-v-b319a4de] {\n  animation: fadeIn-b319a4de 0.7s ease both;\n}\n.custom-progress[data-v-b319a4de] {\n  height: 8px;\n  border-radius: 10px;\n  overflow: hidden;\n  background: rgba(15, 23, 42, 0.08);\n  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.12);\n}\n.custom-progress .progress-bar[data-v-b319a4de] {\n  border-radius: 10px;\n}\n.progress-bar-full[data-v-b319a4de] {\n  width: 100%;\n}\n.summary-icon[data-v-b319a4de] {\n  font-size: 2rem;\n}\n@keyframes fadeIn-b319a4de {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n@keyframes premiumPulse-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(16px);\n}\n65% {\n    opacity: 1;\n    transform: translateY(0);\n}\n100% {\n    box-shadow: 0 18px 38px rgba(15, 23, 42, 0.15);\n}\n}\n@keyframes premiumEntry-b319a4de {\n0% {\n    opacity: 0;\n    transform: translateY(10px) scale(0.98);\n}\n100% {\n    opacity: 1;\n    transform: translateY(0) scale(1);\n}\n}\n.accordion-item[data-v-b319a4de] {\n  border: 1px solid #dee2e6;\n  border-radius: 0.5rem;\n  margin-bottom: 1rem;\n}\n.accordion-button[data-v-b319a4de] {\n  font-weight: bold;\n  color: #212529;\n  background-color: #fff;\n  padding: 1rem 1.5rem;\n  border-radius: 0.5rem;\n}\n.accordion-button[data-v-b319a4de]:hover {\n  color: #198754;\n  background-color: #f1f8f4;\n}\n.accordion-button[data-v-b319a4de]:focus {\n  border-color: rgba(25, 135, 84, 0.4);\n  box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);\n}\n.accordion-body[data-v-b319a4de] {\n  background-color: #f8f9fa;\n  border-radius: 0 0 0.5rem 0.5rem;\n  padding: 1.5rem;\n}\n@media (min-width: 992px) {\n.results-card[data-v-b319a4de] {\n    position: static !important;\n    margin-top: 3rem;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

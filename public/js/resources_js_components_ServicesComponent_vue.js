@@ -46,225 +46,95 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   class: "container py-4"
 };
-const _hoisted_2 = {
-  class: "row g-4"
-};
-const _hoisted_3 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_4 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_5 = {
-  class: "p-3"
-};
-const _hoisted_6 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_7 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_8 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_9 = {
-  class: "p-3"
-};
-const _hoisted_10 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
-const _hoisted_11 = {
-  class: "col-md-6 col-lg-4"
-};
-const _hoisted_12 = {
-  class: "card custom-card rounded-4 overflow-hidden",
-  style: {
-    "border": "1px solid grey"
-  }
-};
-const _hoisted_13 = {
-  class: "p-3"
-};
-const _hoisted_14 = {
-  key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "text-center fw-bold display-5 mb-4"
-  }, "Services", -1 /* CACHED */)), _cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Services", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center mb-4 lead"
-  }, " Islamic Connect offers meaningful support to help Muslims strengthen their spiritual journey and engage more deeply with their faith. Our services are designed to assist individuals, families, and communities in nurturing a balanced and fulfilling Islamic life. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, " Islamic Connect offers meaningful support to help Muslims strengthen their spiritual journey and engage more deeply with their faith. Our services are designed to assist individuals, families, and communities in nurturing a balanced and fulfilling Islamic life. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "row g-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/ml.webp",
     alt: "Mosque Locator",
     class: "w-100 pt-3",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Mosque Locator", -1 /* CACHED */)), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Mosque Locator"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. ", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, " Find nearby mosques around you based on your location with directions, prayer times, and contact details. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/mosque')),
-    type: "button",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onclick: "window.location.href='/mosque'",
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button  v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/mosque')\" type=\"button\" style=\"background: rgb(11, 93, 75);box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Find a Mosque</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/food.png",
     alt: "Islamic Shops",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Halal Butchers", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Halal Butchers"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Discover delicious and certified halal butcher at your fingertips. Whether you're traveling or you're new in town.", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
+  }, "Discover delicious and certified halal butcher at your fingertips. Whether you're traveling or you're new in town."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onClick: _cache[1] || (_cache[1] = $event => $options.goTo('/shop')),
-    type: "button",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    onclick: "window.location.href='/shop'",
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" style=\"border: 1px solid grey;\">\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2"
-  }, "New", -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/shop')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Search Butchers</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" >\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" >\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card rounded-4 overflow-hidden",
+    style: {}
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/school1.png",
     alt: "Islamic Shops",
     class: "w-100",
     style: {
       "object-fit": "contain"
     }
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Schools & Centers", -1 /* CACHED */)), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam.", -1 /* CACHED */)), $props.isAuthenticated && $props.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-    key: 0,
-    class: "form-control",
-    onClick: _cache[2] || (_cache[2] = $event => $options.goTo('/school')),
-    type: "button",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
-  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Schools")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-1 text-muted small"
-  }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-    href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
-  }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), _cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "col-md-6 col-lg-4"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden",
-    style: {
-      "border": "1px solid grey"
-    }
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/donate111.png",
-    alt: "Donation",
-    class: "w-100",
-    style: {
-      "object-fit": "contain"
-    }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "p-3"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
-    class: "mb-2 fw-bold display-6 text-dark text-center"
-  }, "Donation"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Islamic Schools"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "card-text text-muted text-wrap text-center",
     style: {
       "overflow": "hidden",
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Discover trusted Islamic schools, madrassas, and educational centers near you with ease for the knowledge of islam."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
-    onclick: "window.location.href='/support'",
+    onclick: "window.location.href='/school'",
     style: {
       "background": "#0b5d4b",
       "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
@@ -275,7 +145,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Support Us")])])])])], -1 /* CACHED */))])]);
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Schools")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button v-if=\"isAuthenticated && isSubscribed\" class=\"form-control\" @click=\"goTo('/school')\" type=\"button\" style=\"background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;\">\n              <span class=\"text-center w-100\"><b>Visit Schools</b></span>\n            </button>\n            <div v-else class=\"restricted-access text-center p-2\" style=\" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;\">\n              <p class=\"mb-1 text-muted small\">You must be subscribed to access</p>\n              <a href=\"/subscribe\" class=\"text-decoration-none\" style=\"color: rgb(0, 107, 95); font-weight: bold;\">Subscribe Now</a>\n            </div> ")])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-md-6 col-lg-4"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    src: "/images/donate111.png",
+    alt: "Donation",
+    class: "w-100",
+    style: {
+      "object-fit": "contain"
+    }
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "p-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "mb-2 fw-bold text-dark text-center"
+  }, "Donation"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Your donation helps us keep Islamic knowledge accessible, ethical, and ad-free. Every contribution supports our efforts "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "form-control",
+    onclick: "window.location.href='/support'",
+    type: "submit"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "text-center w-100"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Support Us")])])])])])], -1 /* CACHED */)]))]);
 }
 
 /***/ }),
@@ -296,7 +194,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card.custom-card .card-text[data-v-1e616838] {\n    max-height: 4.5em;\n    text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1e616838] {\n    background: #0b5d4b;\n    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n    color: white;\n    height: 38px;\n    padding: 0.375rem 0.75rem;\n    border: none;\n}\n.custom-card[data-v-1e616838]:hover {\n    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n    transition: box-shadow 0.3s ease-in-out;\n}\n.custom-card[data-v-1e616838] {\n    height: 100%;\n    transition: all 0.3s ease;\n}\n.custom-card img[data-v-1e616838] {\n    height: 180px;\n    object-fit: cover;\n    transition: transform 0.3s ease;\n}\n.custom-card:hover img[data-v-1e616838] {\n    transform: scale(1.05);\n}\n@keyframes borderPulse-1e616838 {\n0% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n        border-color: rgb(0, 107, 95);\n        box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n        border-color: lightseagreen;\n        box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1e616838] {\n    animation: borderPulse-1e616838 2s infinite ease-in-out;\n}\n.restricted-access[data-v-1e616838] {\n    background: #28b66324;\n    transition: all 0.3s ease;\n}\n.restricted-access[data-v-1e616838]:hover {\n    background: #28b66324;\n    transform: translateY(-2px);\n}\n.restricted-access a[data-v-1e616838]:hover {\n    color: #009e87;\n    text-decoration: underline;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-1e616838]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container>h1.display-5[data-v-1e616838] {\n  letter-spacing: -0.01em;\n  margin-bottom: 0.75rem;\n  color: var(--text-1);\n}\n.lead[data-v-1e616838] {\n  color: var(--text-2);\n  line-height: 1.75;\n  margin-left: auto;\n  margin-right: auto;\n}\n.custom-card .display-6[data-v-1e616838] {\n  font-size: 1.4rem;\n  font-weight: 800;\n  color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-1e616838] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container>h1.display-5[data-v-1e616838] {\n    font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-1e616838] {\n    font-size: 1.1rem;\n}\n.custom-card img[data-v-1e616838] {\n    height: 160px;\n}\n.lead[data-v-1e616838] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-1e616838] {\n    height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-1e616838] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1e616838] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-1e616838]:focus-visible {\n  outline: 3px solid rgba(0, 191, 166, 0.45);\n  outline-offset: 2px;\n}\n.custom-card[data-v-1e616838] {\n  border: none;\n  border-radius: 16px;\n  background: #fff;\n  height: 100%;\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n  position: relative;\n  overflow: hidden;\n}\n.custom-card[data-v-1e616838]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);\n}\n.custom-card[data-v-1e616838]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));\n  transform: scaleX(0.4);\n  transform-origin: left;\n  transition: transform 0.3s ease;\n}\n.custom-card[data-v-1e616838]:hover::before {\n  transform: scaleX(1);\n}\n.custom-card img[data-v-1e616838] {\n  height: 180px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: transform 0.25s ease;\n  border: none;\n}\n.custom-card:hover img[data-v-1e616838] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-1e616838 {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: rgb(0, 107, 95);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1e616838] {\n  animation: none;\n}\n.restricted-access[data-v-1e616838] {\n  background: #28b66324;\n  transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-1e616838]:hover {\n  background: #28b66333;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-1e616838]:hover {\n  color: var(--brand-2);\n  text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-1e616838],\n  .custom-card img[data-v-1e616838],\n  .card.custom-card button.form-control[data-v-1e616838] {\n    transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

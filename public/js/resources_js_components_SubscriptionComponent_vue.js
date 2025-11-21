@@ -62,7 +62,7 @@ __webpack_require__.r(__webpack_exports__);
         badge: 'Free Forever',
         featured: false,
         description: 'Full access to all core Islamic resources — no payment required.',
-        features: ['Quran with Smart Search & Accessibility', 'Quran with audio recitation', 'Quran history', 'Names of Allah', 'Image gallery', 'Islamic dictionary', 'Islamic blogs', 'Dua collection', 'Prayer times', 'Hijri calendar']
+        features: ['Quran with audio recitation and translation', 'Quran history', 'Names of Allah', 'Image gallery', 'Dua collection', 'Prayer times', 'Islamic guides']
       }, {
         value: ((_window$appConfig2 = window.appConfig) === null || _window$appConfig2 === void 0 || (_window$appConfig2 = _window$appConfig2.stripePrices) === null || _window$appConfig2 === void 0 ? void 0 : _window$appConfig2.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
         name: 'Monthly',
@@ -72,7 +72,7 @@ __webpack_require__.r(__webpack_exports__);
         badge: 'Most Popular',
         featured: true,
         description: 'Unlock powerful tools that help you learn, reflect, and stay inspired every day.',
-        features: ['All of the basic features', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Islamic guides', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
+        features: ['All of the basic features', 'Quran with Smart Search & Accessibility', 'Audio podcasts', 'Reciters station', 'Islamic directory video channels', 'Short form video gallery', 'Seerah timeline', 'Interactive zakat calculator', 'Qibla finder', 'Islamic services']
       }, {
         value: ((_window$appConfig3 = window.appConfig) === null || _window$appConfig3 === void 0 || (_window$appConfig3 = _window$appConfig3.stripePrices) === null || _window$appConfig3 === void 0 ? void 0 : _window$appConfig3.yearly) || 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
         name: 'Yearly',

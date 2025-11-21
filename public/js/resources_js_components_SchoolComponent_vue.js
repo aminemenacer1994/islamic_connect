@@ -287,17 +287,10 @@ const _hoisted_3 = {
   class: "col-lg-10"
 };
 const _hoisted_4 = {
-  class: "shadow",
-  style: {
-    "border-radius": "8px",
-    "padding": "10px"
-  }
+  class: "premium-panel shadow"
 };
 const _hoisted_5 = {
-  class: "card-body container-fluid",
-  style: {
-    "padding": "5px"
-  }
+  class: "card-body container-fluid px-2 py-1"
 };
 const _hoisted_6 = {
   class: "row mb-4 justify-content-center"
@@ -339,15 +332,10 @@ const _hoisted_16 = {
 };
 const _hoisted_17 = ["aria-label", "onKeydown"];
 const _hoisted_18 = {
-  style: {
-    "padding": "15px 15px 0 15px"
-  }
+  class: "px-3 pt-3"
 };
 const _hoisted_19 = {
-  class: "card-title text-left fw-bold text-dark mb-3",
-  style: {
-    "font-size": "25px"
-  }
+  class: "card-title text-left fw-bold text-dark mb-3 title-lg"
 };
 const _hoisted_20 = {
   class: "card-body pt-0",
@@ -362,12 +350,7 @@ const _hoisted_22 = {
   class: "d-flex align-items-start"
 };
 const _hoisted_23 = {
-  class: "text-truncate",
-  style: {
-    "display": "-webkit-box",
-    "-webkit-line-clamp": "2",
-    "-webkit-box-orient": "vertical"
-  }
+  class: "text-truncate line-clamp-2"
 };
 const _hoisted_24 = {
   class: "mb-2 d-flex align-items-center"
@@ -393,19 +376,13 @@ const _hoisted_30 = {
   class: "text-muted"
 };
 const _hoisted_31 = {
-  class: "d-flex justify-content-between align-items-center gap-2",
-  style: {
-    "padding": "10px"
-  }
+  class: "action-row d-flex justify-content-between align-items-center gap-2 px-3 pb-3"
 };
 const _hoisted_32 = ["onClick"];
 const _hoisted_33 = ["href", "aria-disabled"];
 const _hoisted_34 = {
   key: 0,
-  class: "d-flex justify-content-between align-items-center",
-  style: {
-    "padding": "10px"
-  }
+  class: "d-flex justify-content-between align-items-center px-3 py-2"
 };
 const _hoisted_35 = {
   class: "text-muted",
@@ -418,46 +395,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Islamic Education Finder", -1 /* CACHED */)), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-center container mb-4 lead"
   }, " Discover trusted Islamic schools, madrassas, and education centers near you with ease! ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    class: "d-flex align-items-center mb-3",
+    class: "d-flex align-items-center mb-3 search-row",
     role: "search",
     "aria-label": "Search for schools by city",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.searchLocation && $options.searchLocation(...args), ["prevent"])),
-    style: {
-      "gap": "0.5rem"
-    }
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.searchLocation && $options.searchLocation(...args), ["prevent"]))
   }, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "school-search-input",
-    class: "card-title pr-2 fw-bold",
-    style: {
-      "font-size": "20px"
-    }
+    class: "card-title pr-2 fw-bold label-lg"
   }, "Search location:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     id: "school-search-input",
     type: "search",
-    class: "form-control",
+    class: "form-control search-input",
     placeholder: "Enter a city",
     "aria-label": "Search city",
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.searchQuery = $event),
-    autocomplete: "off",
-    style: {
-      "max-width": "300px"
-    }
+    autocomplete: "off"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn align-items-center justify-content-center",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px"
-    },
+    class: "btn btn-action btn-primary-brand align-items-center justify-content-center",
     type: "submit",
     disabled: $data.loading
   }, [!$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_8, "Search")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9))], 8 /* PROPS */, _hoisted_7)], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "spinner-border text-primary",
-    style: {
-      "width": "3rem",
-      "height": "3rem"
-    },
+    class: "spinner-border text-primary spinner-lg",
     role: "status",
     "aria-label": "Loading results"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -482,7 +440,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "col",
       key: school.id
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "card h-100",
+      class: "card h-100 premium-card animate-in",
       style: {
         "display": "flex",
         "flex-direction": "column"
@@ -499,14 +457,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getStarClass(n, school.rating || 0))
       }, null, 2 /* CLASS */);
     }), 64 /* STABLE_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_26, "(" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.rating ? school.rating.toFixed(1) : 'N/A') + "/5)", 1 /* TEXT */)]), school.type ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_28, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Type:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.type), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_school$tags = school.tags) !== null && _school$tags !== void 0 && _school$tags.opening_hours ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_30, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Opening Times:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(school.tags.opening_hours), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Button container pushed to the bottom ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "btn d-flex align-items-center justify-content-center flex-grow-1",
+      class: "btn btn-action btn-primary-brand d-flex align-items-center justify-content-center flex-grow-1",
       onClick: $event => $options.openGoogleMaps(school.lat, school.lon, school.name),
-      style: {
-        "background": "#0b5d4b",
-        "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-        "color": "white",
-        "height": "38px"
-      },
       "aria-label": "Get directions to {{ school.name }}"
     }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-geo-alt me-2"
@@ -514,14 +466,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       href: school.website,
       target: "_blank",
       rel: "noopener noreferrer",
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn d-flex align-items-center justify-content-center flex-grow-1", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-action btn-secondary-brand d-flex align-items-center justify-content-center flex-grow-1", {
         disabled: !school.website
       }]),
-      style: {
-        "background": "#1881b9",
-        "color": "white",
-        "height": "38px"
-      },
       "aria-disabled": !school.website,
       "aria-label": "Visit website for {{ school.name }}"
     }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -548,7 +495,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n.card[data-v-7fb373ce] {\n  border-radius: 8px;\n  overflow: hidden;\n  transition: transform 0.2s, box-shadow 0.2s;\n  position: relative;\n}\n.card-header[data-v-7fb373ce] {\n  padding: 1.25rem 1.5rem;\n  background-color: #2c3e50 !important;\n}\n.card-header .attribution small[data-v-7fb373ce] {\n  color: rgba(255, 255, 255, 0.7);\n  font-size: 0.7rem;\n}\n.card[data-v-7fb373ce]:hover {\n  transform: translateY(-5px);\n  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);\n}\n.badges[data-v-7fb373ce] {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 5px;\n}\n.badge[data-v-7fb373ce] {\n  font-size: 0.75rem;\n  padding: 0.25rem 0.5rem;\n  border-radius: 8px;\n}\n.bg-success[data-v-7fb373ce] {\n  background-color: #00bfa6;\n  /* Match your button color */\n}\n.bg-info[data-v-7fb373ce] {\n  background-color: #17a2b8;\n  /* Bootstrap info color for \"New\" */\n}\n.bg-primary[data-v-7fb373ce] {\n  background-color: #1881b9;\n  /* Match your website button color */\n}\n@media (max-width: 768px) {\n.card-header[data-v-7fb373ce] {\n    flex-direction: column;\n    text-align: center;\n}\n.attribution[data-v-7fb373ce] {\n    margin-top: 0.5rem;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n@keyframes fadeInUp-7fb373ce {\nfrom { opacity: 0; transform: translateY(8px);}\nto { opacity: 1; transform: translateY(0);}\n}\n.premium-panel[data-v-7fb373ce] { border-radius: 20px; padding: 12px;\n}\n.premium-card[data-v-7fb373ce] { border-radius: 20px; overflow: hidden; transition: transform 180ms ease, box-shadow 180ms ease; position: relative;\n}\n.premium-card[data-v-7fb373ce]:hover, .premium-card[data-v-7fb373ce]:focus-within { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12);\n}\n.animate-in[data-v-7fb373ce] { animation: fadeInUp-7fb373ce 320ms ease both;\n}\n.label-lg[data-v-7fb373ce] { font-size: 20px;\n}\n.title-lg[data-v-7fb373ce] { font-size: 25px;\n}\n.search-row[data-v-7fb373ce] { gap: 0.5rem; flex-wrap: wrap;\n}\n.search-input[data-v-7fb373ce] { max-width: 300px;\n}\n.line-clamp-2[data-v-7fb373ce] { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;\n}\n.action-row .btn-action[data-v-7fb373ce] { border-radius: 20px; height: 42px; box-shadow: rgba(16,24,40,0.14) 0 8px 24px;\n}\n.btn-action[data-v-7fb373ce]:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24,129,185,0.25);\n}\n.btn-primary-brand[data-v-7fb373ce] { background: #0b5d4b; color: #fff;\n}\n.btn-secondary-brand[data-v-7fb373ce] { background: #1881b9; color: #fff;\n}\n.btn-primary-brand[data-v-7fb373ce]:hover, .btn-secondary-brand[data-v-7fb373ce]:hover { filter: brightness(1.05);\n}\n.form-control[data-v-7fb373ce],\n.form-select[data-v-7fb373ce] { padding: 0.75rem 1rem; border-radius: 20px !important;\n}\n.card-header[data-v-7fb373ce] { padding: 1.25rem 1.5rem; background-color: #2c3e50 !important;\n}\n.card-header .attribution small[data-v-7fb373ce] { color: rgba(255, 255, 255, 0.7); font-size: 0.7rem;\n}\n.badges[data-v-7fb373ce] { display: flex; flex-wrap: wrap; gap: 5px;\n}\n.badge[data-v-7fb373ce] { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 20px;\n}\n.bg-success[data-v-7fb373ce] { background-color: #00bfa6;\n}\n.bg-info[data-v-7fb373ce] { background-color: #228B22;\n}\n.bg-primary[data-v-7fb373ce] { background-color: #1881b9;\n}\n@media (max-width: 768px) {\n.card-header[data-v-7fb373ce] { flex-direction: column; text-align: center;\n}\n.attribution[data-v-7fb373ce] { margin-top: 0.5rem;\n}\n}\n.spinner-lg[data-v-7fb373ce] { width: 3rem; height: 3rem;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
