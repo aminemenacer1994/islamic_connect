@@ -25,8 +25,7 @@
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="next-step-icon-circle" role="img"
-              aria-label="Gentle audio guide for new Muslims" style="
+            <div class="next-step-icon-circle" role="img" aria-label="Gentle audio guide for new Muslims" style="
                 width: 52px; height: 52px;
                 border-radius: 50%;
                 background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.18));
@@ -43,8 +42,7 @@
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
-            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1"
-              style="color: #1f2933;">
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
               <a href="/name" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
                 style="color:#0b806f;" aria-label="Open the 99 Names of Allah journey">
                 Continue to the 99 Names of Allah
@@ -71,7 +69,7 @@
                 onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
                 <span>Explore 99 Names of Allah</span>
                 <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
-                
+
                 <span class="visually-hidden">Opens the accessible 99 Names of Allah experience</span>
               </a>
             </div>
@@ -207,13 +205,36 @@
 
     <!-- Duas Display -->
     <div class="container">
-      <div v-if="filteredDuas.length === 0" class="alert alert-info text-center no-duas-message" role="status"
-        aria-live="polite">
-        <i class="bi" :class="viewMode === 'liked' ? 'bi-heart' : 'bi-search'"></i>
-        {{ viewMode === 'liked' ? 'No liked duas yet. Start liking duas' : 'No duas found' }}
-        <button v-if="viewMode === 'liked'" class="btn btn-link p-0 ms-1" @click="viewMode = 'all'; resetPagination()">
-          Explore All Duas
-        </button>
+      <div v-if="filteredDuas.length === 0" class="alert no-duas-message text-center position-relative" role="status"
+        aria-live="polite" :class="alertClass">
+        <div v-if="filteredDuas.length === 0" class="text-center py-5 rounded-4" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); 
+         border: 1px solid #99f6e4; 
+         margin: 2rem 1rem; 
+         box-shadow: 0 10px 30px rgba(20, 184, 166, 0.1);" role="status" aria-live="polite">
+          <div class="py-4">
+            <!-- Icon -->
+            <i class="bi fs-1 mb-4 d-block" :class="viewMode === 'liked' ? 'bi-heart-fill' : 'bi-search'"
+              style="color: #0d9488; text-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);"></i>
+
+            <!-- Message -->
+            <p class="mb-4 fw-medium fs-5" style="color: #0f766e; font-family: 'Inter', system-ui, sans-serif;">
+              {{ viewMode === 'liked'
+                ? 'No liked duas yet. Start liking duas to see them here'
+                : 'No duas found for your search' }}
+            </p>
+
+            <!-- Explore Button (only in liked mode) -->
+            <button v-if="viewMode === 'liked'" @click="viewMode = 'all'; resetPagination()"
+              class="btn border-0 fw-semibold px-5 py-3 rounded-pill shadow-lg text-white" style="
+        background: linear-gradient(90deg, #0d9488, #14b8a6);
+        transition: all 0.3s ease;
+        font-size: 1.05rem;
+      " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 25px rgba(13,148,136,0.4)'"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(13,148,136,0.25)'">
+              Explore All Duas
+            </button>
+          </div>
+        </div>
       </div>
 
       <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region"
@@ -714,6 +735,7 @@ export default {
   color: #0c7867;
   box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);
 }
+
 .nav-tabs {
   border-bottom: none;
 }

@@ -1460,6 +1460,16 @@ h1, h2, h3, h4, h5, h6 {
 .content-text {
   font-size: 1.1rem;
   line-height: 1.8;
+  text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.selected-content {
+  letter-spacing: 0.003em;
+  margin-top: 0.5rem;
 }
 
 .highlight-word {
@@ -2354,8 +2364,9 @@ mark {
 
 .help-text {
   color: #666;
-  line-height: 1.6;
+  line-height: 1.7;
   margin-bottom: 0;
+  font-size: 0.95rem;
 }
 
 .help-shortcuts {
@@ -2388,6 +2399,7 @@ mark {
   list-style: none;
   padding: 0;
   margin: 0;
+  line-height: 1.6;
 }
 
 .help-list li {
@@ -2395,6 +2407,7 @@ mark {
   color: #666;
   position: relative;
   padding-left: 1.5rem;
+  margin-bottom: 0.15rem;
 }
 
 .help-list li::before {
@@ -2541,6 +2554,8 @@ mark {
 
 .summary-content {
   animation: fadeInUp 0.4s ease-out;
+  line-height: 1.65;
+  text-align: justify;
 }
 
 @keyframes fadeInUp {
