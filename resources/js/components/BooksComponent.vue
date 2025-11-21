@@ -16,11 +16,12 @@
             </p>
 
             <div class="container" style="padding: 10px;">
-              <div class="mx-auto mb-4 elevated-card premium-radius next-step" >
+              <div class="mx-auto mb-4 elevated-card premium-radius next-step">
                 <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-                  :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
-                  class="next-step-toggle">
-                  <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+                  :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+                  @click="toggleNextStepMinimized" class="next-step-toggle">
+                  <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'"
+                    aria-hidden="true"></i>
                 </button>
                 <div class="d-flex align-items-start gap-3 text-start">
                   <div class="flex-shrink-0 mt-1">
@@ -34,7 +35,8 @@
                     </p>
                     <!-- Minimized teaser -->
                     <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 text-body">
-                      <a href="/finance" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-accent"
+                      <a href="/finance"
+                        class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-accent"
                         aria-label="Open the Islamic finance guide">
                         Move from definitions to Islamic finance
                         <i class="fas fa-arrow-up-right-from-square small opacity-75" aria-hidden="true"></i>
@@ -49,7 +51,8 @@
                       whenever you feel ready.
                     </p>
                     <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
-                      <a href="/finance" class="btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center cta-primary">
+                      <a href="/finance"
+                        class="btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center cta-primary">
                         <span>Explore Islamic Finance</span>
                         <i class="fas fa-coins ms-2" aria-hidden="true"></i>
                         <span class="visually-hidden">Open the accessible Islamic finance guide for new Muslims</span>
@@ -66,22 +69,23 @@
                 <div class="d-flex flex-wrap align-items-center gap-3 px-1" aria-live="polite">
                   <span class="chip">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-2">
-                      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/>
-                      <path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5" />
+                      <path d="M20 20l-4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
                     {{ filteredTerms?.length || 0 }} results
                   </span>
                   <span v-if="selectedSubject" class="chip">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-2">
-                      <path d="M4 10l8-6l8 6v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
+                      <path d="M4 10l8-6l8 6v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8z" stroke="currentColor"
+                        stroke-width="1.5" stroke-linejoin="round" />
                     </svg>
                     {{ selectedSubject }}
                   </span>
                   <button class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-2" @click="clearSearch"
                     title="Clear all filters" aria-label="Clear all filters">
                     <svg class="me-1" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/>
-                      <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                      <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5" />
+                      <path d="M9 9l6 6M15 9l-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                     </svg>
                     Clear
                   </button>
@@ -103,26 +107,30 @@
                         style="box-shadow: none;" />
                       <span class="input-group-text bg-white border-0 pe-3 ps-2 d-flex align-items-center">
                         <i class="fas fa-search fs-5" style="color: var(--brand); transition: color 0.2s;"
-                          @mouseover="this.style.color = 'var(--brand-hover)';" @mouseout="this.style.color = 'var(--brand)';"></i>
+                          @mouseover="this.style.color = 'var(--brand-hover)';"
+                          @mouseout="this.style.color = 'var(--brand)';"></i>
                       </span>
                       <span v-if="searchQuery" class="input-group-text bg-white border-0 px-2">
                         <button class="btn btn-link p-0" style="color: var(--brand); transition: color 0.2s;"
                           @click="clearSearch" aria-label="Clear search" title="Clear search"
-                          @mouseover="this.style.color = 'var(--brand-hover)';" @mouseout="this.style.color = 'var(--brand)';">
+                          @mouseover="this.style.color = 'var(--brand-hover)';"
+                          @mouseout="this.style.color = 'var(--brand)';">
                           <i class="fas fa-times fs-5"></i>
                         </button>
                       </span>
                     </div>
                     <!-- Suggestions Dropdown -->
                     <div v-if="showSuggestions && filteredSuggestions.length && searchQuery.length >= 2"
-                      class="position-absolute w-100 shadow-lg rounded-bottom premium-radius bg-white border mt-1" role="listbox"
+                      class="position-absolute w-100 shadow-lg rounded-bottom premium-radius bg-white border mt-1"
+                      role="listbox"
                       :aria-activedescendant="highlightedIndex >= 0 ? 'suggestion-' + highlightedIndex : null"
                       style="z-index: 1050; max-height: 40vh; overflow-y: auto; border-top: none;">
                       <div class="p-2 border-bottom bg-light">
                         <small class="text-muted d-inline-flex align-items-center gap-1">
                           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" class="me-1">
-                            <path d="M8 14a4 4 0 1 1 8 0c0 2-2 3-2 4v1H10v-1c0-1-2-2-2-4z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-                            <path d="M11 20h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                            <path d="M8 14a4 4 0 1 1 8 0c0 2-2 3-2 4v1H10v-1c0-1-2-2-2-4z" stroke="currentColor"
+                              stroke-width="1.5" stroke-linejoin="round" />
+                            <path d="M11 20h2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
                           </svg>
                           Search tips: Use quotes for exact
                           phrases, + for required
@@ -149,10 +157,10 @@
                         <small class="text-muted d-inline-flex align-items-center gap-2">
                           <span class="d-inline-flex align-items-center gap-1">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                              <path d="M12 6l6 6H6l6-6Z" fill="currentColor"/>
+                              <path d="M12 6l6 6H6l6-6Z" fill="currentColor" />
                             </svg>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                              <path d="M12 18l-6-6h12l-6 6Z" fill="currentColor"/>
+                              <path d="M12 18l-6-6h12l-6 6Z" fill="currentColor" />
                             </svg>
                           </span>
                           Navigate • Enter to select • Esc to clear
@@ -252,7 +260,8 @@
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mb-4" role="region" id="results-region"
             aria-label="Dictionary results" :aria-busy="isLoading ? 'true' : 'false'">
             <div v-for="term in displayedTerms" :key="term.id" class="col mb-4">
-              <div class="card card-teal h-100 shadow-sm border-3 border shadow-md elevated-card premium-radius fade-in-up"
+              <div
+                class="card card-teal h-100 shadow-sm border-3 border shadow-md elevated-card premium-radius fade-in-up"
                 :class="{ 'border-primary border-3': favorites.includes(term.id) }"
                 :style="{ fontSize: `${termFontSizes[term.id]}rem` }" @click.self="handleCardClick(term.id)"
                 tabindex="0" role="article" :aria-labelledby="'term-title-' + term.id"
@@ -277,35 +286,54 @@
                     <p class="mb-0">{{ term.reference }}</p>
                   </div>
                 </div>
-                <div class="bg-light border-top px-3 py-2 premium-radius-bottom" @click.stop>
-                  <div class="action-row">
-                    <button type="button" class="action-btn" @click="shareViaWhatsApp(term)" aria-label="Share via WhatsApp" title="Share via WhatsApp">
-                      <svg class="icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 21c4.97 0 9-3.91 9-8.73C21 7.45 17.09 3.5 12.12 3.5 7.6 3.5 4 6.98 4 11.3c0 1.3.34 2.52.95 3.58L4 21l6.36-1.67c.5.09 1.03.14 1.64.14Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
-                        <path d="M9.2 11.2c.3.7 1.2 1.8 2 2.3c.9.6 1.6.8 2.1.6c.3-.1.8-.6 1-.9c.1-.2.1-.5-.1-.7l-.8-1a.7.7 0 0 0-.7-.2l-.6.2c-.1.1-.3 0-.4-.1L10.9 9c-.1-.1-.2-.3-.1-.4l.1-.5a.7.7 0 0 0-.2-.7l-1-1c-.2-.2-.5-.2-.7-.1c-.4.2-1 .8-1.1 1.1c-.2.5-.1 1.4.3 2.5Z" fill="currentColor" opacity="0.25"/>
-                      </svg>
-                      <span class="label">Share</span>
+                <div class=" premium-radius-bottom" @click.stop>
+                  <div style="
+                      display: flex;
+                      gap: 12px;
+                      justify-content: center;
+                      background: #f0fdfa;
+                      border-radius: 16px;
+                      box-shadow: 0 4px 20px rgba(13,148,136,0.12);
+                      overflow-x: auto;
+                      -webkit-overflow-scrolling: touch;
+                    ">
+
+                    <!-- WhatsApp -->
+                    <button @click="shareViaWhatsApp(term)"
+                      style="all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:58px; padding:8px 6px; border-radius:12px; color:#0d9488; font-size:11px; font-weight:600; transition:background .2s, transform .2s"
+                      onmouseover="this.style.background='rgba(13,148,136,0.15)'; this.style.transform='scale(1.08)'"
+                      onmouseout="this.style.background=''; this.style.transform=''">
+                      <i class="bi bi-whatsapp" style="font-size:21px;"></i>
+                      Share
                     </button>
-                    <button type="button" class="action-btn" @click="adjustFontSize(term.id, -1)"
-                      :disabled="termFontSizes[term.id] <= minFontSize" aria-label="Decrease font size" title="Decrease font size">
-                      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M6 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                      </svg>
-                      <span class="label">A-</span>
+
+                    <!-- Smaller -->
+                    <button @click="adjustFontSize(term.id, -1)" :disabled="termFontSizes[term.id] <= minFontSize"
+                      style="all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:58px; padding:8px 6px; border-radius:12px; color:#0d9488; font-size:11px; font-weight:600; opacity:v-bind(termFontSizes[term.id]<=minFontSize?'0.3':'1'); transition:all .2s"
+                      onmouseover="if(!this.disabled)this.style.background='rgba(13,148,136,0.15)'; if(!this.disabled)this.style.transform='scale(1.08)'"
+                      onmouseout="if(!this.disabled)this.style.background=''; if(!this.disabled)this.style.transform=''">
+                      <i class="bi bi-dash-circle-fill" style="font-size:20px;"></i>
+                      A-
                     </button>
-                    <button type="button" class="action-btn" @click="adjustFontSize(term.id, 1)"
-                      :disabled="termFontSizes[term.id] >= maxFontSize" aria-label="Increase font size" title="Increase font size">
-                      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 6v12M6 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                      </svg>
-                      <span class="label">A+</span>
+
+                    <!-- Larger -->
+                    <button @click="adjustFontSize(term.id, 1)" :disabled="termFontSizes[term.id] >= maxFontSize"
+                      style="all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:58px; padding:8px 6px; border-radius:12px; color:#0d9488; font-size:11px; font-weight:600; opacity:v-bind(termFontSizes[term.id]>=maxFontSize?'0.3':'1'); transition:all .2s"
+                      onmouseover="if(!this.disabled)this.style.background='rgba(13,148,136,0.15)'; if(!this.disabled)this.style.transform='scale(1.08)'"
+                      onmouseout="if(!this.disabled)this.style.background=''; if(!this.disabled)this.style.transform=''">
+                      <i class="bi bi-plus-circle-fill" style="font-size:23px;"></i>
+                      A+
                     </button>
-                    <button type="button" class="action-btn" @click="copyToClipboard(term)" aria-label="Copy to clipboard" title="Copy to clipboard">
-                      <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M9 4h6a2 2 0 0 1 2 2v1h1a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1V6a2 2 0 0 1 2-2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/>
-                      </svg>
-                      <span class="label">Copy</span>
+
+                    <!-- Copy -->
+                    <button @click="copyToClipboard(term)"
+                      style="all:unset; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:4px; min-width:58px; padding:8px 6px; border-radius:12px; color:#0d9488; font-size:11px; font-weight:600; transition:background .2s, transform .2s"
+                      onmouseover="this.style.background='rgba(13,148,136,0.15)'; this.style.transform='scale(1.08)'"
+                      onmouseout="this.style.background=''; this.style.transform=''">
+                      <i class="bi bi-clipboard" style="font-size:20px;"></i>
+                      Copy
                     </button>
+
                   </div>
                 </div>
               </div>
@@ -838,7 +866,6 @@ export default {
 </script>
 
 <style scoped>
-
 .card-teal {
   border-radius: 20px;
   border: 1px solid rgba(20, 184, 166, 0.22);
@@ -846,15 +873,17 @@ export default {
   background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
   transition: transform 160ms ease, box-shadow 160ms ease;
 }
-.card-teal:hover { 
-  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+
+.card-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);
 }
 
 .premium-root {
   --radius: 20px;
   --radius-sm: 12px;
-  --shadow-sm: 0 4px 12px rgba(0,0,0,0.06);
-  --shadow-md: 0 10px 24px rgba(0,0,0,0.08);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.08);
   --brand: #0b806f;
   --brand-ink: #1a5f7a;
   --brand-accent: #00bfa6;
@@ -862,8 +891,13 @@ export default {
   --brand-soft: #e0fff8;
 }
 
-.text-brand { color: var(--brand) !important; }
-.text-brand-ink { color: var(--brand-ink) !important; }
+.text-brand {
+  color: var(--brand) !important;
+}
+
+.text-brand-ink {
+  color: var(--brand-ink) !important;
+}
 
 .premium-radius {
   border-radius: var(--radius) !important;
@@ -892,6 +926,7 @@ export default {
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -904,7 +939,7 @@ export default {
 
 .action-row {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0,1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
   align-items: center;
 }
@@ -916,7 +951,7 @@ export default {
   justify-content: center;
   gap: 4px;
   padding: 10px 8px;
-  border: 1px solid rgba(11,128,111,0.15);
+  border: 1px solid rgba(11, 128, 111, 0.15);
   background: #ffffff;
   color: #1f2933;
   border-radius: var(--radius-sm);
@@ -936,9 +971,9 @@ export default {
 
 .action-btn:hover {
   background: linear-gradient(180deg, #ffffff, #f7fbfa);
-  box-shadow: 0 6px 16px rgba(26,95,122,0.12);
+  box-shadow: 0 6px 16px rgba(26, 95, 122, 0.12);
   transform: translateY(-1px);
-  border-color: rgba(11,128,111,0.25);
+  border-color: rgba(11, 128, 111, 0.25);
 }
 
 .action-btn:hover i {
@@ -951,7 +986,7 @@ export default {
 
 .action-btn:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(11,128,111,0.18), 0 6px 16px rgba(26,95,122,0.12);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.18), 0 6px 16px rgba(26, 95, 122, 0.12);
 }
 
 .action-btn:active {
@@ -968,7 +1003,7 @@ export default {
 
 @media (max-width: 480px) {
   .action-row {
-    grid-template-columns: repeat(2, minmax(0,1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
@@ -996,21 +1031,21 @@ export default {
 }
 
 .search-shell {
-  border: 1px solid rgba(11,128,111,0.15);
+  border: 1px solid rgba(11, 128, 111, 0.15);
   background: #fff;
   box-shadow: var(--shadow-sm);
 }
 
 .search-shell:focus-within {
-  box-shadow: 0 0 0 3px rgba(11,128,111,0.18), var(--shadow-sm);
-  border-color: rgba(11,128,111,0.25);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.18), var(--shadow-sm);
+  border-color: rgba(11, 128, 111, 0.25);
 }
 
 .next-step {
   position: relative;
   background: #eaf3f1;
   border: 1px solid rgba(11, 128, 111, 0.20);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 28px rgba(26, 95, 122, 0.09);
   padding: 1.25rem 1.75rem;
 }
 
@@ -1027,12 +1062,16 @@ export default {
 }
 
 .next-step-icon-circle {
-  width: 48px; height: 48px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
-  display: flex; align-items: center; justify-content: center;
-  color: #0b806f; font-size: 1.25rem;
-  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26,95,122,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b806f;
+  font-size: 1.25rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26, 95, 122, 0.12);
 }
 
 .next-step-eyebrow {
@@ -1046,8 +1085,13 @@ export default {
   font-size: 1.02rem;
 }
 
-.link-accent { color:#0b806f; }
-.link-accent:hover { color:#0a7565; }
+.link-accent {
+  color: #0b806f;
+}
+
+.link-accent:hover {
+  color: #0a7565;
+}
 
 .cta-primary {
   color: #fff !important;
@@ -1057,8 +1101,16 @@ export default {
   box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.cta-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26); }
-.cta-primary:active { transform: translateY(0); box-shadow: 0 8px 16px rgba(26, 95, 122, 0.20); }
+
+.cta-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);
+}
+
+.cta-primary:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 16px rgba(26, 95, 122, 0.20);
+}
 
 .chip {
   display: inline-flex;
@@ -1067,8 +1119,8 @@ export default {
   border-radius: var(--radius);
   background: linear-gradient(180deg, #f7fbfa, #ffffff);
   color: var(--brand);
-  border: 1px solid rgba(11,128,111,0.20);
-  box-shadow: 0 1px 3px rgba(26,95,122,0.08) inset;
+  border: 1px solid rgba(11, 128, 111, 0.20);
+  box-shadow: 0 1px 3px rgba(26, 95, 122, 0.08) inset;
   font-size: 1rem;
 }
 
@@ -1078,7 +1130,7 @@ export default {
 }
 
 .chip:hover {
-  box-shadow: 0 0 0 3px rgba(11,128,111,0.10);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.10);
 }
 
 .empty-state-icon {
@@ -1090,15 +1142,24 @@ export default {
   background-color: var(--brand-accent);
   color: #fff;
 }
-.btn-accent:hover { background-color: var(--brand-hover); color: #fff; }
-.btn-accent:active { filter: brightness(0.95); }
+
+.btn-accent:hover {
+  background-color: var(--brand-hover);
+  color: #fff;
+}
+
+.btn-accent:active {
+  filter: brightness(0.95);
+}
 
 @media (prefers-reduced-motion: reduce) {
+
   .elevated-card,
   .fade-in-up,
   .action-btn {
     transition: none !important;
   }
+
   .fade-in-up {
     animation: none !important;
   }
