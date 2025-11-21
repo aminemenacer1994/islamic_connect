@@ -237,7 +237,7 @@
                   <div class="card h-100 section-card transition">
                     <div>
                       <span class="section-label">
-                        <i class="bi bi-dot section-label-icon"></i>{{ formatKey(key) }}:
+                        {{ formatKey(key) }}:
                       </span>
                       <div class="section-text">{{ value }}</div>
                     </div>
