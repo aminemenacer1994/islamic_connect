@@ -11,16 +11,16 @@
     </div>
 
     <!-- Sticky Dropdowns Container -->
-    <div class="sticky-dropdown card-teal" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
+    <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
       <!-- Existing template for surah, reciter, and translation selection -->
       <span @click="toggleVisibility" class="text-white mb-3" style="cursor: pointer;" aria-label="Toggle filters visibility"
         role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
-        <i v-if="isVisible" class="bi bi-x-lg mb-3" aria-hidden="true"></i>
-        <i v-else class="bi bi-plus-lg" aria-hidden="true"></i>
+        <i v-if="isVisible" class="bi bi-x-lg mb-3 text-dark" aria-hidden="true"></i>
+        <i v-else class="bi bi-plus-lg text-dark" aria-hidden="true"></i>
       </span>
       <div class="row g-3" v-show="isVisible">
         <div class="col-12 col-md-4 ">
-          <label for="surah-select" class="form-label text-white mt-2">Select Surah:</label>
+          <label for="surah-select" class="form-label mt-2">Select Surah:</label>
           <select id="surah-select" class="form-select shadow-sm " v-model="selectedSurah" @change="fetchSurahDetails">
             <option value="" disabled>Select a Surah</option>
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
@@ -29,7 +29,7 @@
           </select>
         </div>
         <div class="col-12 col-md-4">
-          <label for="reciter-select" class="form-label text-white mt-2">Select Reciter:</label>
+          <label for="reciter-select" class="form-label mt-2">Select Reciter:</label>
           <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
             <option value="" disabled>Select a reciter</option>
             <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
@@ -38,7 +38,7 @@
           </select>
         </div>
         <div class="col-12 col-md-4">
-          <label for="translation-select" class="form-label text-white mt-2">Select Translation:</label>
+          <label for="translation-select" class="form-label mt-2">Select Translation:</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translationsSorted" :key="translation.identifier"
@@ -2104,8 +2104,10 @@ h1.display-5 {
 /* Sticky filter capsule enhancements without altering markup */
 .sticky-dropdown {
   border-radius: 14px;
-  background: linear-gradient(180deg, rgba(27, 74, 89, 0.95), rgba(27, 74, 89, 0.92));
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.18);
+  background: rgb(129, 188, 176);
+    border: 1px solid rgba(33, 203, 178, 0.2);
+    border-radius: 24px;
+    box-shadow: rgba(67, 66, 66, 0.55) 0px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px -1px 0px inset, rgba(26, 95, 122, 0.09) 0px 10px 28px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -2118,12 +2120,12 @@ h1.display-5 {
   border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background-color: rgba(255, 255, 255, 0.08);
-  color: #e9f2f3;
+  color: #000;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .sticky-dropdown .form-select:focus {
-  border-color: #7fd6c9;
+  border-color: #000000;
   background-color: rgba(255, 255, 255, 0.12);
   box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);
 }
