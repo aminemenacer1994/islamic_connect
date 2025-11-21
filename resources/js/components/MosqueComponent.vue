@@ -16,7 +16,7 @@
                 <!-- Inline Search Bar with Label, Input, and Button -->
                 <form class="d-flex align-items-center mb-3 search-row" role="search" aria-label="Search for mosques by city" @submit.prevent="searchMosques">
                   <label for="mosque-search-input" class="card-title pr-2 fw-bold label-lg">Search location:</label>
-                  <input id="mosque-search-input" type="search" class="form-control search-input" placeholder="Enter city or country..."
+                  <input id="mosque-search-input" type="search" class="form-control " placeholder="Enter city or country..."
                     aria-label="Search city or country" v-model="searchQuery" @input="handleTyping" autocomplete="off" />
                   <button class="btn btn-action btn-primary-brand d-inline-flex align-items-center justify-content-center"
                     type="submit" :disabled="loading || searchTooShort">
@@ -512,10 +512,25 @@ export default {
 
 .animate-in { animation: fadeInUp 320ms ease both; }
 
-.label-lg { font-size: 20px; }
-.title-lg { font-size: 25px; }
-.search-row { gap: 0.5rem; flex-wrap: wrap; }
-.search-input { max-width: 300px; }
+  .label-lg { font-size: 20px; }
+  .title-lg { font-size: 25px; }
+  .search-row {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+  .search-row label {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .search-row button {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .search-input {
+    flex: 1 1 250px;
+    min-width: 0;
+    max-width: 300px;
+  }
 .line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 
 .action-row .btn-action { border-radius: 20px; height: 42px; box-shadow: rgba(16, 24, 40, 0.14) 0px 8px 24px 0px; }
@@ -557,7 +572,6 @@ body {
 
 .form-control,
 .form-select {
-  padding: 0.75rem 1rem;
   border-radius: 20px !important;
 }
 

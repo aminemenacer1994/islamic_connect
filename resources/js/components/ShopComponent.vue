@@ -10,8 +10,8 @@
               <!-- Search form -->
               <form class="d-flex align-items-center mb-3 search-row" role="search" aria-label="Search for halal butchers by city" @submit.prevent="searchLocation">
                 <label for="shop-search-input" class="card-title pr-2 fw-bold label-lg">Search location:</label>
-                <input id="shop-search-input" type="search" class="form-control search-input" placeholder="Enter city..."
-                  aria-label="Search city" v-model="searchQuery" autocomplete="off" ref="searchInput" />
+                <input id="mosque-search-input" type="search" class="form-control " placeholder="Enter city or country..."
+                aria-label="Search city" v-model="searchQuery" autocomplete="off" ref="searchInput" />
                 <button class="btn btn-action btn-primary-brand align-items-center justify-content-center" type="submit" :disabled="loading">
                   <span v-if="!loading">Search</span>
                   <span v-else class="spinner-border spinner-border-sm"></span>
@@ -630,10 +630,25 @@ export default {
 .premium-card:hover, .premium-card:focus-within { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
 .animate-in { animation: fadeInUp 320ms ease both; }
 
-.label-lg { font-size: 20px; }
-.title-lg { font-size: 25px; }
-.search-row { gap: 0.5rem; flex-wrap: wrap; }
-.search-input { max-width: 300px; }
+  .label-lg { font-size: 20px; }
+  .title-lg { font-size: 25px; }
+  .search-row {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+  .search-row label {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .search-row button {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .search-input {
+    flex: 1 1 250px;
+    min-width: 0;
+    max-width: 300px;
+  }
 
 .action-row .btn-action { border-radius: 20px; height: 42px; box-shadow: rgba(16,24,40,0.14) 0 8px 24px; }
 .btn-action:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24,129,185,0.25); }
@@ -642,7 +657,10 @@ export default {
 .btn-primary-brand:hover, .btn-secondary-brand:hover { filter: brightness(1.05); }
 
 .form-control,
-.form-select { padding: 0.75rem 1rem; border-radius: 20px !important; }
+.form-select {
+  border-radius: 20px !important;
+}
+
 
 .btn-outline-primary.active {
   background-color: #2c5fa8;
