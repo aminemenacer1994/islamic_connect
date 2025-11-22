@@ -143,29 +143,21 @@
       </div>
     </section> -->
 
+    <!-- HERO / SEO SECTION -->
     <section class="container-fluid premium-seo px-0" aria-labelledby="seo-heading">
       <div class="premium-seo__backdrop"></div>
       <div class="container position-relative">
         <div class="row gy-4 align-items-center">
-          <div class="col-lg-6">
-            <h2 id="seo-heading" class="display-5 fw-bold mb-3">
-              Discover Quran, Knowledge & Accessible Tools
-            </h2>
-            <p class="text-muted mb-3">
-              A premium hero-inspired narrative that balances on-brand gradients with clear headings and purposeful links.
-              The same keywords from the title are woven into the body copy, so search engines and visitors share the same
-              first impression.
-            </p>
-            <p class="text-muted mb-4">
-              Every stat, story, and interactive card here mirrors the homepage aesthetic—rounded corners, soft shadows,
-              subtle animation—to keep the experience cohesive across server-rendered and Vue-hydrated sections.
-            </p>
-            <div class="d-flex gap-3 mb-3">
+          <div class="col-lg-6 text-center text-lg-start">
+            <h2 id="seo-heading" class="display-5 fw-bold mb-3">Discover Quran, Knowledge & Accessible Tools</h2>
+            <p class="text-muted mb-3">A premium hero-inspired narrative that balances on-brand gradients with clean typography. These headings and stats reiterate the title keywords before Vue hydrates the rest of the experience.</p>
+            <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished visuals—each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
+            <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center justify-content-lg-start">
               <span class="badge badge-pill highlight-badge">Quran insights</span>
               <span class="badge badge-pill highlight-badge">Dua playlists</span>
               <span class="badge badge-pill highlight-badge">Mission stories</span>
             </div>
-            <div class="row row-cols-3 g-3 mt-4">
+            <div class="row row-cols-3 g-3">
               <div class="col" v-for="stat in seoStats" :key="stat.label">
                 <div class="p-4 premium-stat h-100 text-center">
                   <p class="h3 fw-bold mb-1">{{ stat.value }}</p>
@@ -182,9 +174,7 @@
                     <h3 class="h6 fw-semibold mb-2">{{ card.title }}</h3>
                     <p class="small text-muted mb-3">{{ card.desc }}</p>
                   </div>
-                  <a :title="card.title" class="mt-auto fw-semibold text-teal" :href="card.href">
-                    Explore →
-                  </a>
+                  <a :title="card.title" class="mt-auto fw-semibold text-teal" :href="card.href">Explore →</a>
                 </article>
               </div>
             </div>
@@ -193,58 +183,20 @@
         <div class="row mt-5 gx-lg-5 gy-4">
           <div class="col-md-6">
             <h2 class="h5 fw-semibold">External references we trust</h2>
-            <p class="text-muted mb-2">
-              High-quality partners and verified resources add credibility to the journeys promoted in this hero section.
-            </p>
+            <p class="text-muted mb-2">High-quality partners and verified resources add credibility to the journeys promoted in this hero section.</p>
             <ul class="list-unstyled mb-0">
               <li v-for="link in externalLinks" :key="link.href" class="mb-2">
-                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank" rel="noopener noreferrer">
-                  {{ link.text }}
-                </a>
+                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>
               </li>
             </ul>
           </div>
           <div class="col-md-6">
             <h2 class="h5 fw-semibold">Why we keep knowledge modern</h2>
-            <p class="text-muted">
-              Blending server-rendered structure with Vue-powered interactivity ensures search engines and LLMs capture the
-              same narrative the moment the page loads. That makes the site feel decisive, premium, and ready for spiritual journeys.
-            </p>
-            <p class="text-muted mb-0">
-              Minimal text, generous whitespace, and subdued animation keep the focus on your core keywords while respecting
-              the minimalist theme of the homepage.
-            </p>
+            <p class="text-muted bm-0">Blending server-rendered structure with Vue-powered interactivity ensures the same narrative loads instantly.</p>
           </div>
         </div>
       </div>
     </section>
-
-    <section class="container journeys-section text-center mx-auto mt-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="h4 fw-bold mb-1 text-center">Explore our most visited journeys</h2>
-                <p class="text-muted mb-4">
-                    Hand-curated pathways to Quran, dua, and mission experiences, all framed with the premium spacing, subtle
-                    animation, and rounded corners that echo the hero.
-                </p>
-            </div>
-        </div>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 justify-content-center">
-            <div class="col" v-for="journey in seoCards" :key="`journey-${journey.title}`">
-                <article class="premium-card h-100 d-flex flex-column">
-                    <div>
-                        <h3 class="h6 fw-semibold mb-2">{{ journey.title }}</h3>
-                        <p class="small text-muted mb-3">{{ journey.desc }}</p>
-                    </div>
-                    <a class="mt-auto fw-semibold text-teal" :title="journey.title" :href="journey.href">
-                        Explore →
-                    </a>
-                </article>
-            </div>
-        </div>
-    </section>
-
     <section aria-labelledby="services-heading">
       <div class="py-5" style="background: #f8f9fa;">
         <div class="container">
@@ -313,6 +265,25 @@
           </div>
         </div>
       </div>
+    </section>
+    <section class="container journeys-section text-center mx-auto my-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="h4 fw-bold mb-1 text-center">Explore our most visited journeys</h2>
+                <p class="text-muted mb-4">Hand-curated pathways to Quran, dua, and mission experiences, all adorned with premium spacing, subtle motion, and refined corners.</p>
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 justify-content-center">
+            <div class="col" v-for="journey in seoCards" :key="`journey-${journey.title}`">
+                <article class="premium-card h-100 d-flex flex-column">
+                    <div>
+                        <h3 class="h6 fw-semibold mb-2">{{ journey.title }}</h3>
+                        <p class="small text-muted mb-3">{{ journey.desc }}</p>
+                    </div>
+                    <a class="mt-auto fw-semibold text-teal" :title="journey.title" :href="journey.href">Explore →</a>
+                </article>
+            </div>
+        </div>
     </section>
     <section class="container pt-3" aria-label="Islamic Connect Features">
 
