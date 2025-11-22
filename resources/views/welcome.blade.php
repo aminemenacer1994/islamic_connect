@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Islamic Connect — Connecting You to Islamic Knowledge')
-@section('meta_title', 'Islamic Connect — Explore Quran, Islamic Knowledge & Accessible Tools')
-@section('meta_description', 'Discover Quran recitations, Islamic knowledge, media content, and accessible tools that support Muslims worldwide. Explore the Holy Quran, Islamic content, and AI-powered spiritual tools on Islamic Connect.')
+@section('title', 'Islamic Connect — Connecting You to Islamic Knowledge, Media & Accessible Tools Worldwide')
+@section('meta_title', 'Islamic Connect — Explore Quran, Knowledge & Accessible Tools Connecting the World')
+@section('meta_description', 'Islamic Connect connects you to Quran recitations, scholar-led insights, and multimedia tools so believers everywhere can access balanced Islamic knowledge anytime with joy and clarity.')
 @section('meta_image', asset('images/qenew.png'))
 
 @section('critical')
@@ -27,5 +27,5 @@
 @endsection
 
 @section('page_h1')
-{{-- Primary H1 provided within Vue component hero --}}
+    @include('partials.home-seo-heading')
 @endsection

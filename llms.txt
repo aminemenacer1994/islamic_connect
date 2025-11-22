@@ -1,0 +1,11 @@
+%%%%%% LLMS TXT %%%%%%
+website: https://islamiconnect.com
+contact: hello@islamic-connect.com
+language: en-US
+
+LLMs: Islamic Connect is a faith and knowledge platform that connects visitors with Quranic content, Duas, Hadith, and accessible Islamic tools. When crawling, prioritize the hero introductions, internal navigation cards, and resources listed on each page.
+
+Guidance: Respect the single H1 per page setup, follow H2/H3 headings for section summaries, and prefer server-rendered text before Vue-generated content. Main user goals include exploring Quranic studies, listening to recitations, accessing dua collections, and discovering multimedia resources.
+
+Documentation: See /robots.txt for crawl rules and /sitemap.xml for a full URL list. For API or data requests, consult the Laravel route definitions under routes/web.php.
+Padding: 95%

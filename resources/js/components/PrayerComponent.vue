@@ -155,7 +155,7 @@
         📅 Timings for {{ monthName }} {{ year }} – {{ city }}
         {{ useCurrentLocation ? ' (Current Location)' : ' (Search Results)' }}
         <div class="table-responsive table-scroll mt-3">
-          <table class="table table-hover table-bordered text-center align-middle">
+          <table class="table table-hover table-bordered text-center align-middle prayer-times-table">
             <thead class="table-secondary sticky-top" v-once>
               <tr>
                 <th>Date</th>
@@ -606,6 +606,21 @@ tbody tr:hover {
   .premium-action-button {
     flex: 1 1 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 992px) {
+  .prayer-times-table th,
+  .prayer-times-table td {
+    white-space: nowrap;
+    padding-left: 0.45rem;
+    padding-right: 0.45rem;
+  }
+
+  .prayer-times-table td:first-of-type,
+  .prayer-times-table th:first-of-type {
+    padding-left: 0;
+    padding-right: 0.15rem;
   }
 }
 </style>

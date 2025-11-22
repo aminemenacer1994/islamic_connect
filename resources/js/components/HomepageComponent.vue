@@ -4,13 +4,12 @@
     <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
 
       <!-- Content -->
-      <div class="container-fluid" style="position: relative; z-index: 2">
+      <div class="container-fluid" style="position: relative;">
         <!-- Enhanced Hero Section -->
         <div class="container-fluid text-center" style="position: relative; overflow: hidden;">
           <!-- Background Elements -->
           <div style="
             position: absolute;
-            top: -20%;
             right: -10%;
             width: 400px;
             height: 400px;
@@ -134,9 +133,16 @@
             </div>
             <div class="col-md-6">
               <div class="text-center">
-                <img src="/images/banner-photo.avif" class="img-fluid hero-image"
-                  alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools" loading="lazy"
-                  width="800" height="800">
+                <picture>
+                  <source srcset="/images/banner-photo.avif 800w" type="image/avif">
+                  <img src="/images/banner-photo.avif" srcset="/images/banner-photo.avif 800w"
+                    sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw"
+                    class="img-fluid hero-image"
+                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools"
+                    loading="lazy"
+                    width="800"
+                    height="800">
+                </picture>
               </div>
             </div>
           </div>
@@ -160,6 +166,103 @@
         </div>
       </div>
     </section> -->
+
+    <div class="row text-center container mt-4">
+        <div class="col-12">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
+                <div>
+                    <h2 class="h4 fw-bold mb-1">Explore our most visited journeys</h2>
+                    <p class="text-muted small mb-0">
+                        Direct links to trusted sections encourage discovery and keep internal link density growing.
+                    </p>
+                </div>
+            </div>
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-3" aria-label="Primary internal links">
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Quran Explorer</h3>
+                        <p class="small text-muted mb-3">
+                            Read translations, tafsir, and listen to recitations with built-in helpers.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/quran">Open Quran Explorer →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Dua Collections</h3>
+                        <p class="small text-muted mb-3">
+                            Search authentic supplications for every moment, from gratitude to travel.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/dua">Browse Duas →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Hadith Library</h3>
+                        <p class="small text-muted mb-3">
+                            Explore Ahadith collected from trusted narrations with context and references.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/ahadith">View Hadiths →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Guides & Articles</h3>
+                        <p class="small text-muted mb-3">
+                            Study practical guides on modern challenges, fiqh, and spirituality.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/guide">Read Guides →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Mission Stories</h3>
+                        <p class="small text-muted mb-3">
+                            Discover the impact teams and volunteers are making around the world.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/mission">Meet the Mission →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Support & Donations</h3>
+                        <p class="small text-muted mb-3">
+                            Join the recurring supporters powering the platform and community programs.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/support">Support the Cause →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Contact the Team</h3>
+                        <p class="small text-muted mb-3">
+                            Send feedback, propose collaborations, or ask for accessibility support.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/contact">Send a Message →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Media & Streaming</h3>
+                        <p class="small text-muted mb-3">
+                            Find audio, video, and radio programs curated for deeper reflection.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/media">Go to Media →</a>
+                    </article>
+                </div>
+                <div class="col">
+                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
+                        <h3 class="h6 fw-semibold text-dark mb-2">Prayer Resources</h3>
+                        <p class="small text-muted mb-3">
+                            Check prayer times, Qibla, and tools for planning worship around the globe.
+                        </p>
+                        <a class="mt-auto fw-bold text-primary" href="/prayer">See Prayer Tools →</a>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <section aria-labelledby="services-heading">
       <div class="py-5" style="background: #f8f9fa;">

@@ -3808,12 +3808,9 @@ __webpack_require__.r(__webpack_exports__);
       this.recognition.lang = 'en-US';
       this.recognition.continuous = false;
       this.recognition.onresult = e => {
-        this.searchTerm = e.results[0][0].transcript;
+        const transcript = (e.results[0][0].transcript || '').trim();
         this.isListening = false;
-        if (this.searchTerm.length > 2) this.fetchSuggestions();else {
-          this.fetchResults(this.searchTerm);
-          this.showOffcanvas();
-        }
+        if (transcript) this.handleVoiceSearchTerm(transcript);
       };
       this.recognition.onend = () => {
         this.isListening = false;
@@ -3833,6 +3830,13 @@ __webpack_require__.r(__webpack_exports__);
           this.showOffcanvas();
         }
       }
+    },
+    handleVoiceSearchTerm(term) {
+      const normalized = term && term.trim();
+      if (!normalized) return;
+      this.searchTerm = normalized;
+      this.fetchResults(normalized);
+      this.showOffcanvas();
     },
     fetchResults(query) {
       this.loading = true;

@@ -1,4 +1,8 @@
 const mix = require('laravel-mix');
+const webpack = require('webpack');
+
+mix.setPublicPath('public');
+mix.setResourceRoot(process.env.MIX_ASSET_URL || '/');
 
 mix.js('resources/js/app.js', 'public/js')
    .vue({ version: 3 })
@@ -41,6 +45,12 @@ mix.webpackConfig({
             vue$: 'vue/dist/vue.esm-bundler.js',
         },
     },
+    plugins: [
+        new webpack.DefinePlugin({
+            __VUE_PROD_DEVTOOLS__: false,
+            __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false
+        })
+    ]
 });
 
 // Enable versioning in production to add cache-busting query strings

@@ -301,7 +301,6 @@
 }
 
 .action-row__item {
-  flex: 1 1 180px;
   min-width: 150px;
 }
 

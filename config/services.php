@@ -48,6 +48,10 @@ return [
         'client_secret' => env('FACEBOOK_CLIENT_SECRET'),
         'redirect' => env('FACEBOOK_REDIRECT_URI'),
     ],
+    
+    'facebook_pixel' => [
+        'pixel_id' => env('FACEBOOK_PIXEL_ID'),
+    ],
        
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
