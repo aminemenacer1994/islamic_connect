@@ -78,32 +78,33 @@
 
                 <div class="row mb-3">
                   <div class="col-12">
-                <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                  <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
-                    <i class="fas fa-rocket me-2"></i>Get Started Free
-                  </a>
+                    <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
+                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
+                        <i class="fas fa-rocket me-2"></i>Get Started Free
+                      </a>
 
-                  <a href="/subscribe" class="btn rounded-20 fw-bold px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
-                    <i class="fas fa-heart me-2"></i>Support Our Mission
-                  </a>
-                </div>
+                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4"
+                        style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
+                        <i class="fas fa-heart me-2"></i>Support Our Mission
+                      </a>
+                    </div>
 
-                <!-- Trust Indicators -->
-                <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
-                  <div class="d-flex align-items-center">
-                    <i class="fas fa-shield-alt text-success me-2"></i>
-                    <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
+                    <!-- Trust Indicators -->
+                    <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-alt text-success me-2"></i>
+                        <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-clock text-warning me-2"></i>
+                        <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-user-check text-info me-2"></i>
+                        <small style="color: #4a5568; font-weight: 600;">No Registration</small>
+                      </div>
+                    </div>
                   </div>
-                  <div class="d-flex align-items-center">
-                    <i class="fas fa-clock text-warning me-2"></i>
-                    <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <i class="fas fa-user-check text-info me-2"></i>
-                    <small style="color: #4a5568; font-weight: 600;">No Registration</small>
-                  </div>
-                </div>
-              </div>
                 </div>
               </div>
             </div>
@@ -112,12 +113,9 @@
                 <picture>
                   <source srcset="/images/banner-photo.avif 800w" type="image/avif">
                   <img src="/images/banner-photo.avif" srcset="/images/banner-photo.avif 800w"
-                    sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw"
-                    class="img-fluid hero-image"
-                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools"
-                    loading="lazy"
-                    width="800"
-                    height="800">
+                    sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw" class="img-fluid hero-image"
+                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools" loading="lazy"
+                    width="800" height="800">
                 </picture>
               </div>
             </div>
@@ -149,13 +147,14 @@
       <div class="container position-relative">
         <div class="row gy-4 align-items-center">
           <div class="col-lg-6 text-center text-lg-start">
-            <h2 id="seo-heading" class="display-5 fw-bold mb-3">Discover Quran, Knowledge & Accessible Tools</h2>
-            <p class="text-muted mb-3">A premium hero-inspired narrative that balances on-brand gradients with clean typography. These headings and stats reiterate the title keywords before Vue hydrates the rest of the experience.</p>
-            <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished visuals—each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
+            <h2 id="text-left" class="display-5 fw-bold mb-3 text-start">Discover Quran, Knowledge & Accessible Tools</h2>
+            <p class="text-muted text-left mb-3">Dive into a fully accessible platform offering the Quran with translation, tafsir, and audio, alongside curated Islamic content, podcasts, and guides for spiritual growth.</p>
+            <p class="text-muted text-left mb-4">Explore interactive pathways, modern tools, and resources designed for every user, including features for the visually impaired and those seeking deeper understanding of Islam.</p>
             <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center justify-content-lg-start">
-              <span class="badge badge-pill highlight-badge">Quran insights</span>
-              <span class="badge badge-pill highlight-badge">Dua playlists</span>
-              <span class="badge badge-pill highlight-badge">Mission stories</span>
+              <span class="badge badge-pill highlight-badge">Quran Insights</span>
+              <span class="badge badge-pill highlight-badge">Authentic Duas</span>
+              <span class="badge badge-pill highlight-badge">Podcasts & Audio</span>
+              <span class="badge badge-pill highlight-badge">Mission Timeline</span>
             </div>
             <div class="row row-cols-3 g-3">
               <div class="col" v-for="stat in seoStats" :key="stat.label">
@@ -183,16 +182,19 @@
         <div class="row mt-5 gx-lg-5 gy-4">
           <div class="col-md-6">
             <h2 class="h5 fw-semibold">External references we trust</h2>
-            <p class="text-muted mb-2">High-quality partners and verified resources add credibility to the journeys promoted in this hero section.</p>
+            <p class="text-muted mb-2">High-quality partners and verified resources add credibility to the journeys
+              promoted in this hero section.</p>
             <ul class="list-unstyled mb-0">
               <li v-for="link in externalLinks" :key="link.href" class="mb-2">
-                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>
+                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank"
+                  rel="noopener noreferrer">{{ link.text }}</a>
               </li>
             </ul>
           </div>
           <div class="col-md-6">
             <h2 class="h5 fw-semibold">Why we keep knowledge modern</h2>
-            <p class="text-muted bm-0">Blending server-rendered structure with Vue-powered interactivity ensures the same narrative loads instantly.</p>
+            <p class="text-muted bm-0">Blending server-rendered structure with Vue-powered interactivity ensures the
+              same narrative loads instantly.</p>
           </div>
         </div>
       </div>
@@ -266,27 +268,37 @@
         </div>
       </div>
     </section>
-    <section class="container journeys-section text-center mx-auto my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="h4 fw-bold mb-1 text-center">Explore our most visited journeys</h2>
-                <p class="text-muted mb-4">Hand-curated pathways to Quran, dua, and mission experiences, all adorned with premium spacing, subtle motion, and refined corners.</p>
-            </div>
+    <section class="container journeys-section py-5">
+      <!-- Header -->
+      <div class="row justify-content-center text-center mb-5">
+        <div class="col-lg-10">
+          <h2 class="display-5 fw-bold text-dark mb-3">Explore Our Most Visited Journeys</h2>
+          <p class="lead text-muted">
+            Hand-curated pathways to Quran, dua, and mission experiences. Each journey features premium spacing,
+            soft corners, and subtle motion to create an immersive experience.
+          </p>
         </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 justify-content-center">
-            <div class="col" v-for="journey in seoCards" :key="`journey-${journey.title}`">
-                <article class="premium-card h-100 d-flex flex-column">
-                    <div>
-                        <h3 class="h6 fw-semibold mb-2">{{ journey.title }}</h3>
-                        <p class="small text-muted mb-3">{{ journey.desc }}</p>
-                    </div>
-                    <a class="mt-auto fw-semibold text-teal" :title="journey.title" :href="journey.href">Explore →</a>
-                </article>
-            </div>
-        </div>
-    </section>
-    <section class="container pt-3" aria-label="Islamic Connect Features">
+      </div>
 
+      <!-- Cards Grid -->
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+        <div class="col" v-for="journey in seoCards" :key="`journey-${journey.title}`">
+          <article class="journey-card h-100 d-flex flex-column p-4">
+            <div class="mb-3">
+              <h3 class="h5 fw-bold text-dark mb-2">{{ journey.title }}</h3>
+              <p class="text-secondary small mb-0">{{ journey.desc }}</p>
+            </div>
+            <a :href="journey.href" :title="journey.title" class="mt-auto btn btn-outline-teal btn-sm fw-semibold">
+              Explore →
+            </a>
+            <!-- Decorative Accent -->
+            <div class="card-accent"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="container pt-3" aria-label="Islamic Connect Features">
       <!-- First Row - Quran Companion -->
       <div class="row py-4 py-lg-5 align-items-center">
         <div class="col-lg-6 order-2 order-lg-1">
@@ -721,8 +733,8 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20" target="_blank" rel="noopener noreferrer"
-                    style="
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20"
+                    target="_blank" rel="noopener noreferrer" style="
                 background: linear-gradient(135deg, #25D366, #128C7E);
                 color: white;
                 font-weight: 700;
@@ -782,7 +794,8 @@
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank" rel="noopener noreferrer" style="
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank"
+                    rel="noopener noreferrer" style="
                 background: linear-gradient(135deg, #0088cc, #006699);
                 color: white;
                 font-weight: 700;
@@ -846,7 +859,7 @@
     </section>
 
 
-  
+
 
     <!-- contact -->
     <section class="py-5 contact-section" aria-labelledby="contact-heading"
@@ -943,17 +956,22 @@
 
     <!-- Remove the container if you want to extend the Footer to full width. -->
     <footer class="ic-footer text-white" role="contentinfo">
-      <div class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
+      <div
+        class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <div class="copyright text-center text-md-start">
           <span class="me-2">©</span>
           <strong>2025 Copyright: </strong>
           <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">islamiconnect.com</a>
         </div>
         <div class="social text-center text-md-end">
-          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i
+              class="fab fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"><i class="fab fa-twitter"
+              aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"><i
+              class="fab fa-linkedin" aria-hidden="true"></i></a>
+          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"><i
+              class="fab fa-instagram" aria-hidden="true"></i></a>
         </div>
       </div>
     </footer>
@@ -1442,75 +1460,105 @@
     }
   }
 }
-  /* Shared footer styles for consistent spacing across pages */
-  .ic-footer {
-    background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-  }
+
+/* Shared footer styles for consistent spacing across pages */
+.ic-footer {
+  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+}
+
+.ic-footer .footer-inner {
+  padding: 1rem 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
   .ic-footer .footer-inner {
-    padding: 1rem 1rem;
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding: 1rem 2rem;
   }
-  @media (min-width: 768px) {
-    .ic-footer .footer-inner { padding: 1rem 2rem; }
-  }
-  .ic-footer .copyright { font-weight: 700; }
+}
+
+.ic-footer .copyright {
+  font-weight: 700;
+}
+
+.ic-footer .social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: .5rem;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 8px;
+  color: #fff;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.ic-footer .social a:hover {
+  background: rgba(255, 255, 255, .1);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 575.98px) {
   .ic-footer .social a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin-left: .5rem;
-    border: 1px solid rgba(255,255,255,.5);
-    border-radius: 8px;
-    color: #fff;
-    transition: background .2s ease, border-color .2s ease, transform .2s ease;
-  }
-  .ic-footer .social a:hover { background: rgba(255,255,255,.1); border-color: #fff; transform: translateY(-1px); }
-  @media (max-width: 575.98px) {
-    .ic-footer .social a { width: 36px; height: 36px; margin: .25rem; }
-    .ic-footer .copyright { text-align: center; }
-    .ic-footer .footer-inner { gap: .75rem; }
+    width: 36px;
+    height: 36px;
+    margin: .25rem;
   }
 
-  .hero-carousel-placeholder {
-    border-radius: 32px;
-    min-height: 360px;
-    background: linear-gradient(160deg, #0b806f, #0b5d4b);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-carousel-placeholder__content {
-    color: rgba(255, 255, 255, 0.85);
+  .ic-footer .copyright {
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
   }
 
-  .hero-carousel-placeholder__ring {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 3px dashed rgba(255, 255, 255, 0.6);
-    animation: placeholder-spin 4s linear infinite;
+  .ic-footer .footer-inner {
+    gap: .75rem;
+  }
+}
+
+.hero-carousel-placeholder {
+  border-radius: 32px;
+  min-height: 360px;
+  background: linear-gradient(160deg, #0b806f, #0b5d4b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-carousel-placeholder__content {
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-carousel-placeholder__ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px dashed rgba(255, 255, 255, 0.6);
+  animation: placeholder-spin 4s linear infinite;
+}
+
+.hero-carousel-placeholder__text {
+  font-weight: 500;
+  font-size: 1rem;
+  max-width: 220px;
+}
+
+@keyframes placeholder-spin {
+  from {
+    transform: rotate(0deg);
   }
 
-  .hero-carousel-placeholder__text {
-    font-weight: 500;
-    font-size: 1rem;
-    max-width: 220px;
+  to {
+    transform: rotate(360deg);
   }
-
-  @keyframes placeholder-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
+}
 </style>
 <script defer>
 import axios from "axios";
@@ -1544,12 +1592,36 @@ export default {
         { value: "575+", label: "Cities reached" }
       ],
       seoCards: [
-        { title: "Quran Explorer", desc: "Open Quran translations, tafsir, and audio helpers.", href: "/quran" },
-        { title: "Dua Collections", desc: "Search authentic supplications for gratitude and travel.", href: "/dua" },
-        { title: "Hadith Library", desc: "Browse trusted narrations with context.", href: "/ahadith" },
-        { title: "Guides & Articles", desc: "Study modern spirituality and fiqh topics.", href: "/guide" },
-        { title: "Mission Stories", desc: "Discover global impact from teams and volunteers.", href: "/mission" },
-        { title: "Support & Donations", desc: "Fuel the platform and community programs.", href: "/support" }
+        {
+          title: "Quran Explorer",
+          desc: "Read and listen to the Quran with accurate translations, tafsir explanations, and synchronized audio tools.",
+          href: "/quran"
+        },
+        {
+          title: "Dua Collections",
+          desc: "Access authentic supplications for daily life, travel, and special occasions, all verified for accuracy.",
+          href: "/dua"
+        },
+        {
+          title: "Audio Podcasts",
+          desc: "Explore Islamic podcasts and narrations with context and commentary, perfect for learning on the go.",
+          href: "/content"
+        },
+        {
+          title: "Guides & Knowledge",
+          desc: "Discover practical guides on spirituality, fiqh, and modern Islamic living for personal growth.",
+          href: "/guide"
+        },
+        {
+          title: "Seerah Timeline",
+          desc: "Follow the life of the Prophet ﷺ and the global impact of Islamic history through an interactive timeline.",
+          href: "/mission"
+        },
+        {
+          title: "Support & Donations",
+          desc: "Contribute to the platform and help sustain community programs, educational content, and accessibility tools.",
+          href: "/support"
+        }
       ],
       externalLinks: [
         { href: "https://quran.com", title: "Quran.com complete Quran translations", text: "Quran.com — Complete Quran text and translations" },
@@ -1688,6 +1760,55 @@ export default {
 };
 </script>
 <style scoped>
+.journeys-section {
+  background: #fefefe;
+}
+
+.journey-card {
+  background: linear-gradient(145deg, #ffffff, #f0f9f9);
+  border-radius: 1.25rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+  transition: all 0.35s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.journey-card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+.btn-outline-teal {
+  color: #0d6a6f;
+  border-color: #0d6a6f;
+  transition: all 0.3s;
+}
+
+.btn-outline-teal:hover {
+  background-color: #14b8a6;
+  border-color: #14b8a6;
+  color: #fff;
+}
+
+.card-accent {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  right: -40px;
+  width: 100px;
+  height: 100px;
+  background: rgba(20, 184, 166, 0.1);
+  border-radius: 50%;
+  transition: all 0.4s;
+}
+
+.journey-card:hover .card-accent {
+  bottom: -10px;
+  right: -20px;
+  width: 120px;
+  height: 120px;
+}
+
 /* Combined Section */
 .combined-section {
   padding: 80px 0;
@@ -2076,22 +2197,60 @@ h4 {
 }
 
 /* Utilities for consistent 20px rounded aesthetic and subtle animations */
-.rounded-20 { border-radius: 20px !important; }
-.card-20 { border-radius: 20px; overflow: hidden; }
-.card-float { transition: transform .25s ease, box-shadow .25s ease; }
-.card-float:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.12) !important; }
+.rounded-20 {
+  border-radius: 20px !important;
+}
 
-.btn-teal { background-color: #0db691; color: #fff; border: none; transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease; }
-.btn-teal:hover { background-color: #0aa07f; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
-.btn-teal:focus-visible { outline: none; animation: focusPulse .6s ease; }
+.card-20 {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.card-float {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card-float:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .12) !important;
+}
+
+.btn-teal {
+  background-color: #0db691;
+  color: #fff;
+  border: none;
+  transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-teal:hover {
+  background-color: #0aa07f;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+}
+
+.btn-teal:focus-visible {
+  outline: none;
+  animation: focusPulse .6s ease;
+}
 
 @keyframes focusPulse {
-  0% { box-shadow: 0 0 0 0 rgba(13,182,145,.45); }
-  100% { box-shadow: 0 0 0 8px rgba(13,182,145,0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(13, 182, 145, .45);
+  }
+
+  100% {
+    box-shadow: 0 0 0 8px rgba(13, 182, 145, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-float, .btn-teal { transition: none !important; animation: none !important; }
+
+  .card-float,
+  .btn-teal {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 .premium-seo {
@@ -2147,9 +2306,11 @@ h4 {
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-4px);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -2177,9 +2338,11 @@ h4 {
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
+
   100% {
     transform: translateY(0);
   }
