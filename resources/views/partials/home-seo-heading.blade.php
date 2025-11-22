@@ -1,9 +1,9 @@
-<section class="container py-5" aria-labelledby="home-hero-heading">
-    <div class="row">
+<!-- <section class="container py-5" aria-labelledby="home-hero-heading"> -->
+    <!-- <div class="row">
         <div class="col-lg-8">
             <p class="text-uppercase text-muted small mb-2">Accessible faith tools</p>
             <h1 id="home-hero-heading" class="display-5 fw-bold lh-sm text-dark">
-                Islamic Connect — Seamlessly connecting you to Islamic knowledge
+                Islamic Connect — Quran, Knowledge & Accessible Tools Hub connecting you to Islamic learning
             </h1>
             <p class="lead text-muted mb-3">
                 We deliver server-rendered context so everyone, including search engines, sees the story first. From
@@ -14,10 +14,14 @@
                 Server-side sections keep the initial response lightweight while guiding invisible bots toward the same
                 destination your visitors love.
             </p>
+            <p class="text-muted small mb-0">
+                As the Quran, Knowledge & Accessible Tools Hub, Islamic Connect reiterates those keywords so the title and
+                page content stay coherent for users and search engines.
+            </p>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-4">
+    <!-- <div class="row mt-4">
         <div class="col-12">
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
                 <div>
@@ -35,7 +39,7 @@
                         <p class="small text-muted mb-3">
                             Read translations, tafsir, and listen to recitations with built-in helpers.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/quran">Open Quran Explorer →</a>
+                        <a title="Open Quran Explorer" class="mt-auto fw-bold text-primary" href="/quran">Open Quran Explorer →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -44,7 +48,7 @@
                         <p class="small text-muted mb-3">
                             Search authentic supplications for every moment, from gratitude to travel.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/dua">Browse Duas →</a>
+                        <a title="Browse Dua Collections" class="mt-auto fw-bold text-primary" href="/dua">Browse Duas →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -53,7 +57,7 @@
                         <p class="small text-muted mb-3">
                             Explore Ahadith collected from trusted narrations with context and references.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/ahadith">View Hadiths →</a>
+                        <a title="View Hadith Library" class="mt-auto fw-bold text-primary" href="/ahadith">View Hadiths →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -62,7 +66,7 @@
                         <p class="small text-muted mb-3">
                             Study practical guides on modern challenges, fiqh, and spirituality.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/guide">Read Guides →</a>
+                        <a title="Read Guides & Articles" class="mt-auto fw-bold text-primary" href="/guide">Read Guides →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -71,7 +75,7 @@
                         <p class="small text-muted mb-3">
                             Discover the impact teams and volunteers are making around the world.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/mission">Meet the Mission →</a>
+                        <a title="Meet the Mission Stories" class="mt-auto fw-bold text-primary" href="/mission">Meet the Mission →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -80,7 +84,7 @@
                         <p class="small text-muted mb-3">
                             Join the recurring supporters powering the platform and community programs.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/support">Support the Cause →</a>
+                        <a title="Support Islamic Connect" class="mt-auto fw-bold text-primary" href="/support">Support the Cause →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -89,7 +93,7 @@
                         <p class="small text-muted mb-3">
                             Send feedback, propose collaborations, or ask for accessibility support.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/contact">Send a Message →</a>
+                        <a title="Contact the Team" class="mt-auto fw-bold text-primary" href="/contact">Send a Message →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -98,7 +102,7 @@
                         <p class="small text-muted mb-3">
                             Find audio, video, and radio programs curated for deeper reflection.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/media">Go to Media →</a>
+                        <a title="Explore Media & Streaming" class="mt-auto fw-bold text-primary" href="/media">Go to Media →</a>
                     </article>
                 </div>
                 <div class="col">
@@ -107,14 +111,14 @@
                         <p class="small text-muted mb-3">
                             Check prayer times, Qibla, and tools for planning worship around the globe.
                         </p>
-                        <a class="mt-auto fw-bold text-primary" href="/prayer">See Prayer Tools →</a>
+                        <a title="View Prayer Resources" class="mt-auto fw-bold text-primary" href="/prayer">See Prayer Tools →</a>
                     </article>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-4">
+    <!-- <div class="row mt-4">
         <div class="col">
             <h2 class="h5 fw-bold mb-2">External references we trust</h2>
             <p class="text-muted small mb-2">
@@ -122,25 +126,25 @@
             </p>
             <ul class="list-unstyled mb-0">
                 <li class="mb-1">
-                    <a class="text-primary fw-semibold" href="https://quran.com" target="_blank" rel="noopener noreferrer">
+                    <a title="Quran.com complete Quran translations" class="text-primary fw-semibold" href="https://quran.com" target="_blank" rel="noopener noreferrer">
                         Quran.com — Complete Quran text and translations
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a class="text-primary fw-semibold" href="https://sunnah.com" target="_blank" rel="noopener noreferrer">
+                    <a title="Sunnah.com searchable hadiths" class="text-primary fw-semibold" href="https://sunnah.com" target="_blank" rel="noopener noreferrer">
                         Sunnah.com — Hadith collections in searchable format
                     </a>
                 </li>
                 <li>
-                    <a class="text-primary fw-semibold" href="https://islamicfinder.org" target="_blank" rel="noopener noreferrer">
+                    <a title="IslamicFinder global prayer data" class="text-primary fw-semibold" href="https://islamicfinder.org" target="_blank" rel="noopener noreferrer">
                         IslamicFinder.org — Prayer times, mosque locators, and event calendars
                     </a>
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-4">
+    <!-- <div class="row mt-4">
         <div class="col-lg-10">
             <h2 class="h4 fw-bold mb-3">Why Islamic Connect is your gateway</h2>
             <p class="text-muted">
@@ -170,9 +174,9 @@
                 connecting you to Islamic knowledge in a way that feels natural today and enduring for tomorrow.
             </p>
         </div>
-    </div>
+    </div> -->
 
-    <div class="row mt-5">
+    <!-- <div class="row mt-5">
         <div class="col-lg-10">
             <h2 class="h4 fw-bold mb-3">How we keep knowledge modern and meaningful</h2>
             <p class="text-muted">
@@ -216,5 +220,5 @@
                 high without sacrificing clarity.
             </p>
         </div>
-    </div>
-</section>
+    </div> -->
+<!-- </section> -->

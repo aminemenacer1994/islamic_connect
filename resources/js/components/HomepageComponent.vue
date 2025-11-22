@@ -75,30 +75,6 @@
                     spiritual experience anytime, anywhere.
                   </p>
                 </h2>
-                
-
-                <!-- Stats Row -->
-                <div class="row mb-4" style="
-                    background: rgba(255, 255, 255, 0.8);
-                    padding: 1.5rem;
-                    border-radius: 15px;
-                    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
-                    border: 1px solid rgba(0, 191, 166, 0.2);
-                    backdrop-filter: blur(10px);
-                  ">
-                  <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">75+</div>
-                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Countries</div>
-                  </div>
-                  <div class="col-4 text-center">
-                    <div style="color: rgb(0, 121, 107); font-weight: 800; font-size: 1.8rem; line-height: 1;">85%</div>
-                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Accessibility</div>
-                  </div>
-                  <div class="col-4 text-center">
-                    <div style="color: #1a5f7a; font-weight: 800; font-size: 1.8rem; line-height: 1;">575+</div>
-                    <div style="color: #4a5568; font-size: 0.85rem; font-weight: 600;">Cities/Towns</div>
-                  </div>
-                </div>
 
                 <div class="row mb-3">
                   <div class="col-12">
@@ -167,102 +143,107 @@
       </div>
     </section> -->
 
-    <div class="row text-center container mt-4">
-        <div class="col-12">
-            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
-                <div>
-                    <h2 class="h4 fw-bold mb-1">Explore our most visited journeys</h2>
-                    <p class="text-muted small mb-0">
-                        Direct links to trusted sections encourage discovery and keep internal link density growing.
-                    </p>
-                </div>
+    <section class="container-fluid premium-seo px-0" aria-labelledby="seo-heading">
+      <div class="premium-seo__backdrop"></div>
+      <div class="container position-relative">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-6">
+            <h2 id="seo-heading" class="display-5 fw-bold mb-3">
+              Discover Quran, Knowledge & Accessible Tools
+            </h2>
+            <p class="text-muted mb-3">
+              A premium hero-inspired narrative that balances on-brand gradients with clear headings and purposeful links.
+              The same keywords from the title are woven into the body copy, so search engines and visitors share the same
+              first impression.
+            </p>
+            <p class="text-muted mb-4">
+              Every stat, story, and interactive card here mirrors the homepage aesthetic—rounded corners, soft shadows,
+              subtle animation—to keep the experience cohesive across server-rendered and Vue-hydrated sections.
+            </p>
+            <div class="d-flex gap-3 mb-3">
+              <span class="badge badge-pill highlight-badge">Quran insights</span>
+              <span class="badge badge-pill highlight-badge">Dua playlists</span>
+              <span class="badge badge-pill highlight-badge">Mission stories</span>
             </div>
+            <div class="row row-cols-3 g-3 mt-4">
+              <div class="col" v-for="stat in seoStats" :key="stat.label">
+                <div class="p-4 premium-stat h-100 text-center">
+                  <p class="h3 fw-bold mb-1">{{ stat.value }}</p>
+                  <small class="text-muted">{{ stat.label }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+              <div class="col" v-for="card in seoCards" :key="card.title">
+                <article class="premium-card h-100 d-flex flex-column">
+                  <div>
+                    <h3 class="h6 fw-semibold mb-2">{{ card.title }}</h3>
+                    <p class="small text-muted mb-3">{{ card.desc }}</p>
+                  </div>
+                  <a :title="card.title" class="mt-auto fw-semibold text-teal" :href="card.href">
+                    Explore →
+                  </a>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-5 gx-lg-5 gy-4">
+          <div class="col-md-6">
+            <h2 class="h5 fw-semibold">External references we trust</h2>
+            <p class="text-muted mb-2">
+              High-quality partners and verified resources add credibility to the journeys promoted in this hero section.
+            </p>
+            <ul class="list-unstyled mb-0">
+              <li v-for="link in externalLinks" :key="link.href" class="mb-2">
+                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank" rel="noopener noreferrer">
+                  {{ link.text }}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-6">
+            <h2 class="h5 fw-semibold">Why we keep knowledge modern</h2>
+            <p class="text-muted">
+              Blending server-rendered structure with Vue-powered interactivity ensures search engines and LLMs capture the
+              same narrative the moment the page loads. That makes the site feel decisive, premium, and ready for spiritual journeys.
+            </p>
+            <p class="text-muted mb-0">
+              Minimal text, generous whitespace, and subdued animation keep the focus on your core keywords while respecting
+              the minimalist theme of the homepage.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3 mt-3" aria-label="Primary internal links">
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Quran Explorer</h3>
-                        <p class="small text-muted mb-3">
-                            Read translations, tafsir, and listen to recitations with built-in helpers.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/quran">Open Quran Explorer →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Dua Collections</h3>
-                        <p class="small text-muted mb-3">
-                            Search authentic supplications for every moment, from gratitude to travel.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/dua">Browse Duas →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Hadith Library</h3>
-                        <p class="small text-muted mb-3">
-                            Explore Ahadith collected from trusted narrations with context and references.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/ahadith">View Hadiths →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Guides & Articles</h3>
-                        <p class="small text-muted mb-3">
-                            Study practical guides on modern challenges, fiqh, and spirituality.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/guide">Read Guides →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Mission Stories</h3>
-                        <p class="small text-muted mb-3">
-                            Discover the impact teams and volunteers are making around the world.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/mission">Meet the Mission →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Support & Donations</h3>
-                        <p class="small text-muted mb-3">
-                            Join the recurring supporters powering the platform and community programs.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/support">Support the Cause →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Contact the Team</h3>
-                        <p class="small text-muted mb-3">
-                            Send feedback, propose collaborations, or ask for accessibility support.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/contact">Send a Message →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Media & Streaming</h3>
-                        <p class="small text-muted mb-3">
-                            Find audio, video, and radio programs curated for deeper reflection.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/media">Go to Media →</a>
-                    </article>
-                </div>
-                <div class="col">
-                    <article class="p-3 border rounded h-100 bg-white shadow-sm d-flex flex-column">
-                        <h3 class="h6 fw-semibold text-dark mb-2">Prayer Resources</h3>
-                        <p class="small text-muted mb-3">
-                            Check prayer times, Qibla, and tools for planning worship around the globe.
-                        </p>
-                        <a class="mt-auto fw-bold text-primary" href="/prayer">See Prayer Tools →</a>
-                    </article>
-                </div>
+    <section class="container journeys-section text-center mx-auto mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="h4 fw-bold mb-1 text-center">Explore our most visited journeys</h2>
+                <p class="text-muted mb-4">
+                    Hand-curated pathways to Quran, dua, and mission experiences, all framed with the premium spacing, subtle
+                    animation, and rounded corners that echo the hero.
+                </p>
             </div>
         </div>
-    </div>
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 justify-content-center">
+            <div class="col" v-for="journey in seoCards" :key="`journey-${journey.title}`">
+                <article class="premium-card h-100 d-flex flex-column">
+                    <div>
+                        <h3 class="h6 fw-semibold mb-2">{{ journey.title }}</h3>
+                        <p class="small text-muted mb-3">{{ journey.desc }}</p>
+                    </div>
+                    <a class="mt-auto fw-semibold text-teal" :title="journey.title" :href="journey.href">
+                        Explore →
+                    </a>
+                </article>
+            </div>
+        </div>
+    </section>
 
     <section aria-labelledby="services-heading">
       <div class="py-5" style="background: #f8f9fa;">
@@ -1586,6 +1567,24 @@ export default {
       chunkSize: 4,
       mailing: {},
       feedback: {},
+      seoStats: [
+        { value: "85%", label: "Accessibility score" },
+        { value: "75+", label: "Countries served" },
+        { value: "575+", label: "Cities reached" }
+      ],
+      seoCards: [
+        { title: "Quran Explorer", desc: "Open Quran translations, tafsir, and audio helpers.", href: "/quran" },
+        { title: "Dua Collections", desc: "Search authentic supplications for gratitude and travel.", href: "/dua" },
+        { title: "Hadith Library", desc: "Browse trusted narrations with context.", href: "/ahadith" },
+        { title: "Guides & Articles", desc: "Study modern spirituality and fiqh topics.", href: "/guide" },
+        { title: "Mission Stories", desc: "Discover global impact from teams and volunteers.", href: "/mission" },
+        { title: "Support & Donations", desc: "Fuel the platform and community programs.", href: "/support" }
+      ],
+      externalLinks: [
+        { href: "https://quran.com", title: "Quran.com complete Quran translations", text: "Quran.com — Complete Quran text and translations" },
+        { href: "https://sunnah.com", title: "Sunnah.com searchable hadiths", text: "Sunnah.com — Hadith collections in searchable format" },
+        { href: "https://islamicfinder.org", title: "IslamicFinder global prayer data", text: "IslamicFinder.org — Prayer times, mosque locators, and event calendars" }
+      ],
       // Unified reactive form object (avoid duplicate keys)
       form: new Form({
         firstname: "",
@@ -2122,5 +2121,105 @@ h4 {
 
 @media (prefers-reduced-motion: reduce) {
   .card-float, .btn-teal { transition: none !important; animation: none !important; }
+}
+
+.premium-seo {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 32px;
+  padding: 3rem 0 4.5rem;
+  box-shadow: 0 30px 70px rgba(13, 128, 111, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+.premium-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid #e3e8ed;
+  box-shadow: 0 25px 40px rgba(15, 76, 117, 0.08);
+  transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 35px 45px rgba(9, 70, 102, 0.15);
+}
+
+.premium-card h3 {
+  font-size: 1rem;
+}
+
+.premium-stat {
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(13, 128, 111, 0.08), rgba(12, 112, 95, 0.07));
+  border: 1px solid rgba(13, 128, 111, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  animation: pulse 6s ease-in-out infinite;
+}
+
+.text-teal {
+  color: #0db691;
+}
+
+.highlight-badge {
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  background: rgba(13, 128, 111, 0.12);
+  color: #0b806f;
+  border: 1px solid rgba(13, 128, 111, 0.2);
+}
+
+@keyframes pulse {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.premium-seo__backdrop {
+  position: absolute;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  right: -90px;
+  top: -120px;
+  background: radial-gradient(circle, rgba(13, 128, 111, 0.25), transparent 60%);
+  filter: blur(12px);
+  z-index: 0;
+  animation: float-glow 12s ease-in-out infinite;
+}
+
+.premium-seo .container {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes float-glow {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.journeys-section {
+  max-width: 1100px;
+}
+
+.journeys-section .premium-card {
+  min-height: 180px;
+  justify-content: space-between;
 }
 </style>
