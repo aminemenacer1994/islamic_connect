@@ -248,20 +248,9 @@
 
 
     <!-- Global Custom Audio Player -->
-    <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Persistent Quran audio player">
+    <div v-if="showAudioPlayer" class="audio-player-container">
       <div class="custom-audio-player">
-        <div class="player-header">
-          <div>
-            <p class="player-eyebrow">Now playing</p>
-            <p class="player-title">{{ currentPlayerTitle }}</p>
-            <p v-if="currentPlayerSubtitle" class="player-subtitle">{{ currentPlayerSubtitle }}</p>
-          </div>
-          <button @click="closeAudioPlayer" class="control-btn close-btn header-close" title="Close"
-            aria-label="Close player">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-        <div class="controls" role="group" aria-label="Audio playback controls">
+        <div class="controls">
           <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
             aria-label="Rewind 15 seconds">
             <i class="bi bi-skip-backward-fill"></i>
@@ -280,8 +269,7 @@
           <button @click="toggleVolume" class="control-btn" title="Volume" aria-label="Toggle volume slider">
             <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
           </button>
-          <button @click="cyclePlaybackSpeed" class="control-btn" :title="'Speed: ' + playbackSpeed + 'x'"
-            aria-label="Change playback speed">
+          <button @click="cyclePlaybackSpeed" class="control-btn" :title="'Speed: ' + playbackSpeed + 'x'">
             <i class="bi bi-speedometer2" :style="{ color: playbackSpeed !== 1 ? '#ff6b6b' : '#ccc' }"></i>
             <span class="speed-indicator">{{ playbackSpeed }}x</span>
           </button>
@@ -292,29 +280,27 @@
           </button>
           <div v-if="showVolumeBar" class="volume-bar-container">
             <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
-              class="volume-slider" aria-label="Adjust volume" />
+              class="volume-slider" />
           </div>
+          <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }}
+            / {{
+              formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+          <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
+            style="margin-left: auto;">
+            <i class="bi bi-x-lg mb-2"></i>
+          </button>
         </div>
-        <div class="progress-tray">
-          <div class="progress-time" aria-live="polite" aria-atomic="true">
-            <span>{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }}</span>
-            <span class="divider">/</span>
-            <span>{{ formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-          </div>
-          <div class="progress-bar" role="progressbar" aria-label="Audio playback progress"
-            :aria-valuemin="0" :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
-            :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
-            @click="seekToPosition"
-            @mousedown.prevent="onProgressDown"
-            @touchstart.prevent.passive="onProgressDown"
-            @keydown.prevent="handleProgressKeyDown"
-            tabindex="0"
-            ref="progressBar">
-            <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
-            <div class="audio-visualizer" ref="visualizer">
-              <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar"
-                :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
-              </div>
+        <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
+          :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
+          :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
+          @click="seekToPosition"
+          @mousedown.prevent="onProgressDown"
+          @touchstart.prevent.passive="onProgressDown"
+          ref="progressBar">
+          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+          <div class="audio-visualizer" ref="visualizer">
+            <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar"
+              :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
             </div>
           </div>
         </div>
@@ -444,23 +430,6 @@ export default {
       const end = Math.max(this.visibleEnd, this.visibleStart);
       const remaining = Math.max(0, (this.totalItems - end));
       return remaining * this.itemHeight;
-    },
-    currentPlayerTitle() {
-      const ayah = this.filteredAyahs[this.currentlyPlayingIndex];
-      const surah = this.surahDetails;
-      const surahLabel = surah?.englishName || surah?.name || 'Surah';
-      const ayahNumber = (ayah && (ayah.numberInSurah || ayah.number)) || (this.currentlyPlayingIndex + 1);
-      return `${surahLabel} · Ayah ${ayahNumber}`;
-    },
-    currentPlayerSubtitle() {
-      const reciter = this.reciters.find(r => r.identifier === this.selectedReciter);
-      const translation = this.translations.find(t => t.identifier === this.selectedTranslation);
-      const pieces = [];
-      if (reciter?.englishName) pieces.push(`Reciter: ${reciter.englishName}`);
-      if (translation?.englishName) pieces.push(`Translation: ${translation.englishName}`);
-      const speedLabel = Number(this.playbackSpeed.toFixed(2));
-      pieces.push(`Speed: ${speedLabel}x`);
-      return pieces.join(' · ');
     },
   },
   watch: {
@@ -1302,31 +1271,6 @@ export default {
 
       console.log(`Seeking to ${newTime.toFixed(2)}s (${(percentage * 100).toFixed(1)}%)`);
     },
-    seekRelative: function (secondsOffset) {
-      const audio = this.audioElements[this.currentlyPlayingIndex];
-      if (!audio || !audio.duration) return;
-      const target = Math.max(0, Math.min(audio.duration, audio.currentTime + secondsOffset));
-      audio.currentTime = target;
-      this.updateProgress(this.currentlyPlayingIndex);
-    },
-    seekToBoundary: function (boundary) {
-      const audio = this.audioElements[this.currentlyPlayingIndex];
-      if (!audio || !audio.duration) return;
-      audio.currentTime = boundary === 'end' ? audio.duration : 0;
-      this.updateProgress(this.currentlyPlayingIndex);
-    },
-    handleProgressKeyDown: function (event) {
-      if (!this.audioElements[this.currentlyPlayingIndex]) return;
-      const keyMap = {
-        ArrowRight: () => this.seekRelative(5),
-        ArrowLeft: () => this.seekRelative(-5),
-        Home: () => this.seekToBoundary('start'),
-        End: () => this.seekToBoundary('end'),
-      };
-      if (keyMap[event.key]) {
-        keyMap[event.key]();
-      }
-    },
     onProgressDown(e) {
       if (!this.$refs.progressBar) return;
       const isTouch = e.type === 'touchstart';
@@ -1529,7 +1473,8 @@ export default {
 }
 
 .sticky-dropdown {
-  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
+  box-shadow: 0 12px 28px rgba(125, 206, 187, 0.175);
+  background: rgba(33, 203, 178, 0.2);;
   position: sticky;
   z-index: 1000;
   padding: 10px 12px;
@@ -1570,10 +1515,10 @@ export default {
   left: 0;
   width: 100%;
   z-index: 1001;
-  padding: 18px 12px 26px;
-  border-radius: 28px 28px 0 0;
-  background: linear-gradient(180deg, rgba(5, 9, 14, 0.92), rgba(3, 6, 13, 0.98));
-  box-shadow: 0 -25px 45px rgba(3, 7, 15, 0.85);
+  background-color: rgba(25, 27, 31, 0.92);
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 15px 15px 0 0;
+  padding: 10px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -1582,181 +1527,36 @@ export default {
 }
 
 .custom-audio-player {
-  background: linear-gradient(180deg, rgba(16, 24, 35, 0.96), rgba(7, 11, 18, 0.95));
-  border-radius: 22px;
-  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 20px 40px rgba(2, 7, 16, 0.8);
-}
-
-.player-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.player-eyebrow {
-  margin: 0;
-  font-size: 0.7rem;
-  letter-spacing: 0.4em;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.55);
-}
-
-.player-title {
-  margin: 6px 0 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #f7fbff;
-}
-
-.player-subtitle {
-  margin: 4px 0 0;
-  font-size: 0.78rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.header-close {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0;
-}
-
-.header-close:hover {
-  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 6px 12px;
 }
 
 .controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
-}
-
-.audio-player-container .control-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.03);
-  color: #fff;
-  font-size: 1.3rem;
-  position: relative;
-  display: flex;
-  align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
+  margin-bottom: 10px;
 }
 
-.audio-player-container .control-btn:hover {
-  background: rgba(255, 255, 255, 0.12);
-  transform: translateY(-2px);
-}
-
-.audio-player-container .control-btn:focus-visible {
-  outline: 2px solid #00bfa6;
-  outline-offset: 3px;
-}
-
-.progress-tray {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.progress-time {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.7);
-  gap: 4px;
-}
-
-.progress-time .divider {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.progress-bar {
-  width: 100%;
-  height: 10px;
-  background-color: rgba(255, 255, 255, 0.14);
-  border-radius: 6px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
-  transition: background-color 0.2s ease;
-  outline: none;
-}
-
-.progress-bar:focus-visible {
-  outline: 2px solid #00bfa6;
-  outline-offset: 4px;
-}
-
-.progress-bar:active {
-  cursor: ew-resize;
-}
-
-.progress-bar:hover {
-  background-color: rgba(255, 255, 255, 0.28);
-}
-
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, #00bfa6, #63e0c1);
-  transition: width 0.1s linear;
-}
-
-.progress::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -6px;
-  width: 12px;
-  height: 12px;
-  transform: translateY(-50%);
-  background: #ffffff;
-  border-radius: 50%;
-  border: 2px solid #00bfa6;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-  opacity: 0.85;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-.progress-bar:hover .progress::after,
-.progress-bar:focus-within .progress::after {
-  transform: translateY(-50%) scale(1.05);
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
-}
-
-.volume-slider {
-  width: 100px;
-  height: 4px;
-}
+/* Align close button to the end on wider screens */
+.controls .control-btn[title="Close"] { margin-left: auto; }
 
 @media (max-width: 768px) {
-  .audio-player-container {
-    padding-bottom: 24px;
+
+  .controls .control-btn[title="Close"] {
+    margin-left: 0;
+    /* Remove the margin-left: auto to align with other buttons */
   }
 
-  .custom-audio-player {
-    padding: 14px 16px;
-  }
 
-  .player-header {
-    flex-wrap: wrap;
-  }
-
-  .player-title {
-    font-size: 0.95rem;
+  .time {
+    font-size: 0.8rem !important;
+    min-width: 100px;
+    text-align: center;
   }
 
   .volume-bar-container {
@@ -1772,6 +1572,95 @@ export default {
   .volume-slider {
     width: 100%;
   }
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.75rem;
+  cursor: pointer;
+  
+  transition: color 0.2s, transform 0.18s ease, background-color 0.18s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.control-btn:hover {
+  color: #00bfa6;
+  background-color: rgba(255, 255, 255, 0.06);
+  transform: translateY(-1px);
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Increase icon sizes for per-ayah actions (desktop) */
+.ayah-card-container .icon-btn i {
+  font-size: 1.6rem;
+}
+
+/* Make sticky toggle icon a bit larger */
+.sticky-dropdown>span i {
+  font-size: 1.2rem;
+  padding-bottom: 5px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s ease;
+}
+
+.progress-bar:active { cursor: ew-resize; }
+
+.progress-bar:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #00bfa6, #5fd4c4);
+  transition: width 0.1s linear;
+}
+
+/* Progress handle (visual affordance) */
+.progress::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -6px;
+  width: 12px;
+  height: 12px;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #00bfa6;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  opacity: 0.85;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.progress-bar:hover .progress::after,
+.progress-bar:focus-within .progress::after {
+  transform: translateY(-50%) scale(1.05);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
+.volume-slider {
+  width: 100px;
+  height: 4px;
 }
 
 /* removed scroll-margin to avoid scroll coupling */
@@ -2216,8 +2105,8 @@ h1.display-5 {
 /* Sticky filter capsule enhancements without altering markup */
 .sticky-dropdown {
   border-radius: 14px;
-  background: rgba(5, 160, 129, 0.285);
-    border: 1px solid rgba(86, 208, 179, 0.07);
+  background: rgb(129, 188, 176);
+    border: 1px solid rgba(33, 203, 178, 0.2);
     border-radius: 24px;
     box-shadow: rgba(67, 66, 66, 0.55) 0px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px -1px 0px inset, rgba(26, 95, 122, 0.09) 0px 10px 28px;
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -2353,4 +2242,3 @@ h1.display-5 {
   .ayah-card-container .arabic-text { font-size: 2rem; }
 }
 </style>
-```
