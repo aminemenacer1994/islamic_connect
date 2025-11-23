@@ -20,25 +20,27 @@
                 </div>
 
                 <h1 class="display-4 mt-1 fw-bold text-left hero-title">
-                  Connecting You to Islamic Knowledge Seamlessly and Accessibly
+                  Your Launchpad for Quran, Dua, and Community Guidance
                 </h1>
 
                 <h2 class="lead pt-3 text-left hero-subtitle">
                   <p>
-                    Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform
-                    to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative
-                    spiritual experience anytime, anywhere.
+                    Instantly reach recitations, tafsir, and dua libraries vetted by scholars, pair them with
+                    AI-assisted study notes,
+                    and keep your learning synced across devices without overwhelming menus.
                   </p>
                 </h2>
 
                 <div class="row mb-3">
                   <div class="col-12">
                     <div class="controls d-flex flex-row justify-content-start text-left hero-controls">
-                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4" title="Get started with the Quran Portal">
+                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4"
+                        title="Get started with the Quran Portal">
                         <i class="fas fa-rocket me-2"></i>Get Started Free
                       </a>
 
-                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4 hero-cta-outline" title="Support the Islamic Connect mission">
+                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4 hero-cta-outline"
+                        title="Support the Islamic Connect mission">
                         <i class="fas fa-heart me-2"></i>Support Our Mission
                       </a>
                     </div>
@@ -47,15 +49,15 @@
                     <div class="mt-3 d-flex align-items-center hero-trust-indicators">
                       <div class="d-flex align-items-center">
                         <i class="fas fa-shield-alt text-success me-2"></i>
-                        <small class="trust-label">Secure Platform</small>
+                        <small class="trust-label">Scholar-verified Quran & Tafsir</small>
                       </div>
                       <div class="d-flex align-items-center">
-                        <i class="fas fa-clock text-warning me-2"></i>
-                        <small class="trust-label">Instant Access</small>
+                        <i class="fas fa-microphone-lines text-warning me-2"></i>
+                        <small class="trust-label">Real-time audio & dua playlists</small>
                       </div>
                       <div class="d-flex align-items-center">
-                        <i class="fas fa-user-check text-info me-2"></i>
-                        <small class="trust-label">No Registration</small>
+                        <i class="fas fa-users text-info me-2"></i>
+                        <small class="trust-label">Community guidance & support</small>
                       </div>
                     </div>
                   </div>
@@ -65,24 +67,15 @@
             <div class="col-md-6">
               <div class="text-center">
                 <picture>
-                  <source
-                    type="image/avif"
+                  <source type="image/avif"
                     srcset="/images/banner-photo-400.avif 400w, /images/banner-photo-800.avif 800w, /images/banner-photo-1200.avif 1200w"
-                    sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
-                  />
-                  <source
-                    type="image/webp"
+                    sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw" />
+                  <source type="image/webp"
                     srcset="/images/banner-photo-400.webp 400w, /images/banner-photo-800.webp 800w, /images/banner-photo-1200.webp 1200w"
-                    sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
-                  />
-                  <img
-                    src="/images/banner-photo-1200.avif"
+                    sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw" />
+                  <img src="/images/banner-photo-1200.avif"
                     alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools"
-                    class="img-fluid hero-image"
-                    width="800"
-                    height="800"
-                    loading="lazy"
-                  />
+                    class="img-fluid hero-image" width="800" height="800" loading="lazy" />
                 </picture>
               </div>
             </div>
@@ -114,9 +107,14 @@
       <div class="container position-relative">
         <div class="row gy-4 align-items-center">
           <div class="col-lg-6 text-center text-lg-start">
-            <h2 id="text-left" class="display-5 fw-bold mb-3 text-start">Discover Quran, Knowledge & Accessible Tools</h2>
-            <p class="text-muted text-left mb-3">Dive into a fully accessible platform offering the Quran with translation, tafsir, and audio, alongside curated Islamic content, podcasts, and guides for spiritual growth.</p>
-            <p class="text-muted text-left mb-4">Explore interactive pathways, modern tools, and resources designed for every user, including features for the visually impaired and those seeking deeper understanding of Islam.</p>
+            <h2 id="text-left" class="display-5 fw-bold mb-3 text-start">Discover Quran, Knowledge & Accessible Tools
+            </h2>
+            <p class="text-muted text-left mb-3">Dive into a fully accessible platform offering the Quran with
+              translation, tafsir, and audio, alongside curated Islamic content, podcasts, and guides for spiritual
+              growth.</p>
+            <p class="text-muted text-left mb-4">Explore interactive pathways, modern tools, and resources designed for
+              every user, including features for the visually impaired and those seeking deeper understanding of Islam.
+            </p>
             <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center justify-content-lg-start">
               <span class="badge badge-pill highlight-badge">Quran Insights</span>
               <span class="badge badge-pill highlight-badge">Authentic Duas</span>
@@ -166,36 +164,89 @@
         </div>
       </div>
     </section>
-    <section class="my-5" aria-label="Islamic Connect mission insights">
+    <section class="my-5 py-5 rounded-4" aria-label="Islamic Connect mission insights"
+      style="background: linear-gradient(180deg, #e9f7f7 0%, #dff3f3 100%);">
       <div class="row container-fluid">
-        <div class="col-lg-10 mx-auto text-center">
-          <h2 class="display-6 fw-bold mb-3">Islamic Connect is where Quran clarity meets community care</h2>
-          <p class="text-muted mb-4">
-            Every paragraph on this page is intentionally aligned with the keywords our visitors search for: Quran companion, dua libraries, accessible community tools, and mindful learning. We map each sentence to a promise of practical resources—no fluff, only the trust and context scholars expect.
+        <div class="col-lg-9 mx-auto text-center">
+
+          <h2 class="display-6 fw-bold mb-4" style="color:#0f4c4c;">
+            Islamic Connect brings clarity, accessibility, and authentic knowledge into one platform
+          </h2>
+
+          <p class="mb-5 fs-5" style="max-width: 850px; margin: 0 auto; color:#376d6d;">
+            Islamic Connect is designed for Muslims seeking a clearer, more accessible experience with the Quran
+            and verified Islamic resources. Every feature—Quran recitation, translations, dua, tafsir, radio,
+            podcasts, and accessibility tools is crafted to support daily learning with ease and trust.
           </p>
-          <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 text-start">
+
+          <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-4 text-start mt-3">
+
             <li class="col-md-3">
-              <strong>Structured Quran journeys:</strong> Guided tracks and tafsir notes clarify verses for families, students, and scholars.
+              <div class="p-4 h-100 rounded-4 shadow-sm transition"
+                style="background:#ffffff; border: 1px solid #c6e6e6;">
+                <strong class="d-block mb-2 fs-6" style="color:#0f4c4c;">Personalized Quran Experience</strong>
+                <p class="m-0" style="color:#376d6d; font-size: 0.92rem;">
+                  Read and listen with synchronized audio, TTS recitation, translations, tafsir, and
+                  transliteration tailored to your study flow.
+                </p>
+              </div>
             </li>
+
             <li class="col-md-3">
-              <strong>Accessible community tools:</strong> Audio-first players, screen reader support, and bookmarking keep faith without friction.
+              <div class="p-4 h-100 rounded-4 shadow-sm transition"
+                style="background:#ffffff; border: 1px solid #c6e6e6;">
+                <strong class="d-block mb-2 fs-6" style="color:#0f4c4c;">Accessibility-Centered Tools</strong>
+                <p class="m-0" style="color:#376d6d; font-size: 0.92rem;">
+                  Gesture navigation, screen reader compatibility, large-text modes, STT voice search,
+                  and audio-first design for visually impaired and mobility-limited users.
+                </p>
+              </div>
             </li>
+
             <li class="col-md-3">
-              <strong>Verified dua and guidance:</strong> Collections curated by scholars and volunteers carry transparent sourcing for trust.
+              <div class="p-4 h-100 rounded-4 shadow-sm transition"
+                style="background:#ffffff; border: 1px solid #c6e6e6;">
+                <strong class="d-block mb-2 fs-6" style="color:#0f4c4c;">Authentic Dua & Knowledge</strong>
+                <p class="m-0" style="color:#376d6d; font-size: 0.92rem;">
+                  Verified dua collections, hadith references, and scholar-supported material with
+                  transparent sourcing for complete reliability.
+                </p>
+              </div>
             </li>
+
             <li class="col-md-3">
-              <strong>Mission stories & utility toolkit:</strong> Impact updates, calculators, and plans show how Islamic Connect serves learners worldwide.
+              <div class="p-4 h-100 rounded-4 shadow-sm transition"
+                style="background:#ffffff; border: 1px solid #c6e6e6;">
+                <strong class="d-block mb-2 fs-6" style="color:#0f4c4c;">Community Learning Ecosystem</strong>
+                <p class="m-0" style="color:#376d6d; font-size: 0.92rem;">
+                  Reciters station, podcasts, Islamic blogs, guides, and practical utilities designed
+                  to support ongoing spiritual growth.
+                </p>
+              </div>
             </li>
+
           </ul>
-          <p class="text-muted mt-4">
-            Search engines reward clarity—so we use clean semantic markup, self-describing component names, and internal links to guide crawlers to every feature. Let this section be both a welcome to readers and a roadmap for bots indexing the value you bring.
+
+          <p class="mt-5 fs-6" style="max-width: 850px; margin: 0 auto; color:#376d6d;">
+            Built with clean structure and semantic clarity, Islamic Connect ensures users and search engines
+            easily navigate every feature. Our accessibility-first approach allows everyone to benefit from
+            trusted Islamic resources without barriers.
           </p>
-          <p class="text-muted mt-3">
-            Islamic Connect is a modern hub where we explore the Quran, knowledge, and accessible tools for Muslims who expect clarity, connection, and service—every keyword in this sentence lives on this page to keep the title honest.
+
+          <p class="mt-3 fs-6" style="max-width: 850px; margin: 0 auto; color:#376d6d;">
+            As a growing hub of Quran recitation, learning, and community tools, Islamic Connect offers a modern,
+            dependable space for Muslims seeking clarity, authenticity, and simplicity grounded in a
+            user friendly teal identity.
           </p>
+
         </div>
       </div>
     </section>
+
+
+
+
+
     <section aria-labelledby="services-heading">
       <div class="py-5 services-section">
         <div class="container">
@@ -298,37 +349,30 @@
     <section class="container pt-3" aria-label="Islamic Connect Features">
       <!-- First Row - Quran Companion -->
       <div class="row py-4 py-lg-5 align-items-center">
-          <div class="col-lg-6 order-2 order-lg-1">
-            <h2 class="h1 fw-bold text-center text-lg-start mb-4">
-              Quran Companion: AI-Powered & Accessible
-            </h2>
-            <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
-              Experience the Quran with advanced AI tools for reading, listening, and understanding.
-              Featuring text-to-speech, screen reader support, and voice search for an accessible,
-              intelligent connection to the Divine.
-            </p>
-            <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/quran" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
+        <div class="col-lg-6 order-2 order-lg-1">
+          <h2 class="h1 fw-bold text-center text-lg-start mb-4">
+            Quran Companion: AI-Powered & Accessible
+          </h2>
+          <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
+            Experience the Quran with advanced AI tools for reading, listening, and understanding.
+            Featuring text-to-speech, screen reader support, and voice search for an accessible,
+            intelligent connection to the Divine.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
+            <a href="/quran"
+              class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
               title="Explore the Quran Companion">
               Explore Quran
             </a>
-            </div>
           </div>
+        </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
           <picture>
-            <source
-              type="image/webp"
-              srcset="/images/slide1-md.webp 600w, /images/slide1.webp 1200w"
-              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
-            />
-            <img
-              src="/images/slide1.png"
-              class="img-fluid rounded-20 shadow-sm"
-              alt="Quran Companion interface showing AI-powered features and accessibility tools"
-              loading="lazy"
-              width="600"
-              height="400"
-            />
+            <source type="image/webp" srcset="/images/slide1-md.webp 600w, /images/slide1.webp 1200w"
+              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw" />
+            <img src="/images/slide1.png" class="img-fluid rounded-20 shadow-sm"
+              alt="Quran Companion interface showing AI-powered features and accessibility tools" loading="lazy"
+              width="600" height="400" />
           </picture>
         </div>
       </div>
@@ -337,31 +381,23 @@
       <div class="row py-4 py-lg-5 align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
           <picture>
-            <source
-              type="image/webp"
-              srcset="/images/slide4-md.webp 600w, /images/slide4.webp 1200w"
-              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
-            />
-            <img
-              src="/images/slide4.png"
-              class="img-fluid rounded-20 shadow-sm"
-              alt="Islamic podcasts and audio content streaming interface"
-              loading="lazy"
-              width="600"
-              height="400"
-            />
+            <source type="image/webp" srcset="/images/slide4-md.webp 600w, /images/slide4.webp 1200w"
+              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw" />
+            <img src="/images/slide4.png" class="img-fluid rounded-20 shadow-sm"
+              alt="Islamic podcasts and audio content streaming interface" loading="lazy" width="600" height="400" />
           </picture>
         </div>
-          <div class="col-lg-6">
-            <h2 class="h1 fw-bold text-center text-lg-start mb-4">
-              Spiritual Content On-The-Go
-            </h2>
-            <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
-              Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place.
-              Stay spiritually connected through sound and reflection wherever you are.
-            </p>
-            <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/media" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
+        <div class="col-lg-6">
+          <h2 class="h1 fw-bold text-center text-lg-start mb-4">
+            Spiritual Content On-The-Go
+          </h2>
+          <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
+            Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place.
+            Stay spiritually connected through sound and reflection wherever you are.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
+            <a href="/media"
+              class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
               title="Browse Islamic audio, podcasts, and video">
               Browse Content
             </a>
@@ -371,36 +407,29 @@
 
       <!-- Third Row - Quran Explorer -->
       <div class="row py-4 py-lg-5 align-items-center">
-          <div class="col-lg-6 order-2 order-lg-1">
-            <h2 class="h1 fw-bold text-center text-lg-start mb-4">
-              Deep Quran Exploration
-            </h2>
-            <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
-              Search, explore, and engage with every verse effortlessly. Discover tafsir, translations,
-              and recitations with tools designed for simplicity and spiritual growth.
-            </p>
-            <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/surat" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
+        <div class="col-lg-6 order-2 order-lg-1">
+          <h2 class="h1 fw-bold text-center text-lg-start mb-4">
+            Deep Quran Exploration
+          </h2>
+          <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
+            Search, explore, and engage with every verse effortlessly. Discover tafsir, translations,
+            and recitations with tools designed for simplicity and spiritual growth.
+          </p>
+          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
+            <a href="/surat"
+              class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
               title="Start exploring Quranic passages">
               Start Exploring
             </a>
-            </div>
+          </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
           <picture>
-            <source
-              type="image/webp"
-              srcset="/images/slide2-md.webp 600w, /images/slide2.webp 1200w"
-              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
-            />
-            <img
-              src="/images/slide2.png"
-              class="img-fluid rounded-20 shadow-sm"
-              alt="Quran exploration interface with search and translation features"
-              loading="lazy"
-              width="600"
-              height="400"
-            />
+            <source type="image/webp" srcset="/images/slide2-md.webp 600w, /images/slide2.webp 1200w"
+              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw" />
+            <img src="/images/slide2.png" class="img-fluid rounded-20 shadow-sm"
+              alt="Quran exploration interface with search and translation features" loading="lazy" width="600"
+              height="400" />
           </picture>
         </div>
       </div>
@@ -462,8 +491,8 @@
 
         </div>
 
-          <div class="row pt-3 g-4 g-md-5">
-            <div class="col-12">
+        <div class="row pt-3 g-4 g-md-5">
+          <div class="col-12">
             <p class="lead text-center mb-4 tool-lead">
               At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone.
               Our tools are designed to empower individuals through inclusive, personalized learning experiences
@@ -664,7 +693,7 @@
 
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->
-        <section class="py-5 quick-join-section">
+    <section class="py-5 quick-join-section">
       <div class="quick-join-blob quick-join-blob--one"></div>
       <div class="quick-join-blob quick-join-blob--two"></div>
       <div class="quick-join-blob quick-join-blob--three"></div>
@@ -691,9 +720,8 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m"
-                    target="_blank" rel="noopener noreferrer"
-                    class="btn w-100 rounded-20 join-card-cta join-card-cta--whatsapp"
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" target="_blank"
+                    rel="noopener noreferrer" class="btn w-100 rounded-20 join-card-cta join-card-cta--whatsapp"
                     title="Join Islamic Connect WhatsApp channel">
                     <i class="fab fa-whatsapp me-2"></i>Join WhatsApp Channel
                     <span class="join-card-cta-arrow">→</span>
@@ -736,7 +764,7 @@
       </div>
     </section>
 
-<!-- contact -->
+    <!-- contact -->
     <section class="py-5 contact-section contact-section-card" aria-labelledby="contact-heading">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
@@ -832,24 +860,21 @@
     <footer class="ic-footer text-white" role="contentinfo">
       <div
         class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-          <div class="copyright text-center text-md-start">
+        <div class="copyright text-center text-md-start">
           <span class="me-2">©</span>
           <strong>2025 Copyright: </strong>
-          <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold" title="Visit Islamic Connect homepage">islamiconnect.com</a>
+          <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold"
+            title="Visit Islamic Connect homepage">islamiconnect.com</a>
         </div>
         <div class="social text-center text-md-end">
           <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"
-            title="Follow Islamic Connect on Facebook"><i
-              class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            title="Follow Islamic Connect on Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
           <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"
-            title="Follow Islamic Connect on X (Twitter)"><i class="fab fa-twitter"
-              aria-hidden="true"></i></a>
+            title="Follow Islamic Connect on X (Twitter)"><i class="fab fa-twitter" aria-hidden="true"></i></a>
           <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"
-            title="Follow Islamic Connect on LinkedIn"><i
-              class="fab fa-linkedin" aria-hidden="true"></i></a>
+            title="Follow Islamic Connect on LinkedIn"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
           <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"
-            title="Follow Islamic Connect on Instagram"><i
-              class="fab fa-instagram" aria-hidden="true"></i></a>
+            title="Follow Islamic Connect on Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
         </div>
       </div>
     </footer>
@@ -857,8 +882,6 @@
   </div>
 </template>
 <style scoped>
-
-
 .seo-benefits li strong {
   display: block;
   color: #0b5d4b;
