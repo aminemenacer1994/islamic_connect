@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class FeedbackSeeder extends Seeder
 {
@@ -24,7 +25,7 @@ class FeedbackSeeder extends Seeder
                 'email' => $faker->unique()->safeEmail(),
                 'mobile' => $faker->phoneNumber(),
                 'subject' => $faker->sentence(4),
-                'message' => $faker->paragraph(),
+                'message' => Str::limit($faker->paragraph(), 240),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);

@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
         $this->call(QuranInformationSeeder::class);
         $this->call(NoteSeeder::class);
         $this->call(BookmarkSeeder::class);
+        $this->call(AboutUsSectionsSeeder::class);
         
     }
 }

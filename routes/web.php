@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\AboutController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\DonationController;
@@ -177,6 +178,7 @@ $homeResponder = function () {
 Route::get('/welcome', $homeResponder);
 Route::get('/', $homeResponder);
 Route::get('/home', $homeResponder);
+Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // Auth Routes
 // Auth::routes();

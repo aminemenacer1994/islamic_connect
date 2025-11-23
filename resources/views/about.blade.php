@@ -1,6 +1,5 @@
 @extends('layouts.app')
 @section('title', 'Islamic Connect — About')
 @section('content')
-    <about-component></about-component>
-    {{-- @include('layouts.footer') --}}
+    <about-us-component :sections='@json($sections ?? [])'></about-us-component>
 @endsection

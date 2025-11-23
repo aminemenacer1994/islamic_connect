@@ -9,7 +9,7 @@
         $path = trim(request()->path(), '/');
         $defaultCanonical = $appUrl . ($path ? "/{$path}" : '');
         $canonicalUrl = trim($__env->yieldContent('canonical', $defaultCanonical));
-        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect — Accessible Quran & Community Tools'));
+        $metaTitle = trim($__env->yieldContent('meta_title', 'Islamic Connect, Accessible Quran & Community Tools'));
         $metaDescription = trim(
             $__env->yieldContent(
                 'meta_description',
@@ -224,9 +224,9 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
                         </li>
 
-                        <!-- <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3 pl-3" href="/bookmarks" data-path="/bookmarks" data-nav-item="primary">Bookmarks</a>
-                        </li> -->
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3 pl-3" href="/about" data-path="/about" data-nav-item="primary">About Us</a>
+                        </li>
 
                         <!-- @guest -->
                         <!-- @if (Route::has('login'))
@@ -459,6 +459,7 @@
                 '/quran': '/holy',
                 '/surat': '/holy',
                 '/history': '/holy',
+                '/about': '/about',
                 // Media center (user-specified)
                 '/media': '/media',
                 '/content': '/media',

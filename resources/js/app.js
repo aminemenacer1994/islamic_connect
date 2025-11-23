@@ -140,6 +140,7 @@ const asyncComponentLoaders = {
   "correction-component": () => import("./components/admin_panels/CorrectionComponent.vue"),
   "quran-component": () => import("./components/QuranComponent.vue"),
   "about-component": () => import("./components/AboutComponent.vue"),
+  "about-us-component": () => import("./components/AboutUsComponent.vue"),
   "bookmark-component": () => import("./components/admin_panels/BookmarkComponent.vue"),
   "updates-component": () => import("./components/UpdatesComponent.vue"),
   "join_us-component": () => import("./components/JoinUsComponent.vue"),
