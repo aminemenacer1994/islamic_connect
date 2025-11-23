@@ -10,6 +10,44 @@
 @endpush
 @push('critical')
     <link rel="preload" href="{{ asset('images/banner-photo-800.avif') }}" as="image" type="image/avif">
+    <style id="critical-hero">
+        :root {
+            color-scheme: light;
+        }
+        body {
+            margin: 0;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #fefefe;
+        }
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 3.9rem);
+            letter-spacing: -0.01em;
+            color: #0f4c4c;
+        }
+        .hero-subtitle p {
+            font-size: 1rem;
+            margin: 0;
+            color: #1f3b45;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(15, 76, 76, 0.1);
+        }
+        .hero-controls {
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .btn-teal {
+            color: #fff;
+            background: #00c4b4;
+            border: none;
+        }
+    </style>
 @endpush
 @push('structured-data')
     @php

@@ -1,32 +1,6 @@
 <template>
   <div class="salat-guide-container">
-    <!-- Liquid Glass Header -->
-    <header class="liquid-header">
-      <div class="container">
-        <div class="header-content">
-          <div class="header-text">
-            <div class="app-icon">
-              <i class="fas fa-mosque"></i>
-            </div>
-            <div>
-              <h1 class="app-title">{{ data.app.title }}</h1>
-              <p class="app-subtitle">{{ data.app.subtitle }}</p>
-            </div>
-          </div>
-          <div class="prayer-indicator">
-            <div class="prayer-bubble">
-              <div class="bubble-content">
-                <span class="prayer-label">Next Prayer</span>
-                <strong class="prayer-name">{{ data.header.nextPrayer }}</strong>
-                <span class="prayer-time">{{ data.header.prayerTime }}</span>
-              </div>
-              <div class="bubble-glow"></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="header-backdrop"></div>
-    </header>
+    
 
     <main class="container">
       <!-- Hero Section with Glass Morphism -->

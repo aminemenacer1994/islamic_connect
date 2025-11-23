@@ -61,6 +61,7 @@
     </noscript>
     <!-- App CSS last so it overrides vendor defaults -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+    <link rel="stylesheet" href="{{ mix('css/layout.css') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}" media="(prefers-color-scheme: light)">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_white.png') }}" media="(prefers-color-scheme: dark)">
@@ -81,7 +82,6 @@
         })();
     </script> -->
     <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
-    <script src="https://js.stripe.com/v3/"></script>
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWLL07EBX9"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -608,6 +608,8 @@
         });
     </script>
 
+
+    <script defer src="https://js.stripe.com/v3/"></script>
 
     @if (app()->environment('local'))
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.7.2/axe.min.js" integrity="sha512-y+Q+1e8p91bQm9b5wz9mKZ9WgSJND0bKx9D6o1XyJQPUWq2wYtGPB+8v8N+Zm0g5oY4KZq2rJb6z5m9q5y0kYQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

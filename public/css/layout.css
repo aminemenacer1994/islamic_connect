@@ -16,6 +16,9 @@
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, .06);
     --shadow-md: 0 6px 18px rgba(0, 0, 0, .10);
     --radius: 12px;
+    /* Navbar and sidebar dimensions */
+    --navbar-h: 88px;
+    --sidebar-w: 320px;
     /* Bootstrap color overrides */
     --bs-primary: #0b806f;
     --bs-primary-rgb: 11, 128, 111;
@@ -24,6 +27,15 @@
     --bs-info: #228B22;
     --bs-warning: #f59e0b;
     --bs-danger: #ef4444;
+}
+
+body {
+    padding-top: var(--navbar-h);
+    scroll-padding-top: calc(var(--navbar-h) + 0.5rem);
+}
+
+html {
+    scroll-padding-top: var(--navbar-h);
 }
 
 .hero-jumbotron {
@@ -218,10 +230,6 @@
     }
 }
 
-body {
-    padding-top: 70px;
-}
-
 /* Page shell */
 
 .app-shell {
@@ -350,19 +358,10 @@ body {
     color: #687076
 }
 
-/* Fixed sidebar layout option */
-
-:root {
-    /* Keep this in sync with actual navbar height */
-    --navbar-h: 88px;
-    --sidebar-w: 320px;
-}
-
 /* Tablet tweaks */
 
 @media (max-width: 991.98px) {
     :root { --navbar-h: 64px; }
-    body { padding-top: 64px; }
     .navbar-brand img { max-width: 160px; height: auto; }
     .page-header { flex-wrap: wrap; gap: 8px; }
     .page-header > * { flex: 1 1 auto; }
@@ -375,7 +374,6 @@ body {
 
 @media (max-width: 575.98px) {
     :root { --navbar-h: 56px; }
-    body { padding-top: 56px; }
     .navbar-brand img { max-width: 250px; height: auto; }
     .content-area { padding-inline: 8px; }
     .grid-3 { gap: 12px; }
