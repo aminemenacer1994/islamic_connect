@@ -3,10 +3,22 @@ const { VueLoaderPlugin } = require('vue-loader');
 
 module.exports = {
   mode: 'production', // Or 'development' for local testing
-  entry: './resources/js/app.js',
+  entry: {
+    app: './resources/js/app.js',
+  },
   output: {
     path: path.resolve(__dirname, 'public/js'),
-    filename: 'app.js',
+    filename: '[name].js',
+    chunkFilename: '[name].[contenthash].js',
+  },
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+      minSize: 20000,
+      maxSize: 244000,
+      automaticNameDelimiter: '~',
+    },
   },
   module: {
     rules: [

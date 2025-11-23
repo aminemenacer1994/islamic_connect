@@ -185,6 +185,7 @@
 }
 
 /* Ensure navbar links maintain sufficient contrast on .navbar-light */
+
 .navbar-light .navbar-nav .nav-link {
     color: var(--neutral-900) !important;
 }
@@ -222,6 +223,7 @@ body {
 }
 
 /* Page shell */
+
 .app-shell {
     display: flex;
     gap: 20px
@@ -286,6 +288,7 @@ body {
 }
 
 /* Refined sidebar */
+
 .vc-sidebar {
     position: sticky;
     top: var(--navbar-h);
@@ -348,6 +351,7 @@ body {
 }
 
 /* Fixed sidebar layout option */
+
 :root {
     /* Keep this in sync with actual navbar height */
     --navbar-h: 88px;
@@ -355,6 +359,7 @@ body {
 }
 
 /* Tablet tweaks */
+
 @media (max-width: 991.98px) {
     :root { --navbar-h: 64px; }
     body { padding-top: 64px; }
@@ -367,6 +372,7 @@ body {
 }
 
 /* Mobile tweaks */
+
 @media (max-width: 575.98px) {
     :root { --navbar-h: 56px; }
     body { padding-top: 56px; }
@@ -442,6 +448,7 @@ body {
 }
 
 /* Screen-reader utilities */
+
 .sr-only {
     position: absolute;
     width: 1px;
@@ -466,6 +473,7 @@ body {
 }
 
 /* Skip link */
+
 .skip-to-content {
     position: absolute;
     top: -40px;
@@ -483,6 +491,7 @@ body {
 }
 
 /* Focus visibility */
+
 :focus-visible {
     outline: 3px solid #0b5d4b;
     /* higher contrast focus outline */
@@ -490,6 +499,7 @@ body {
 }
 
 /* Reduced motion */
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.001ms !important;
@@ -500,6 +510,7 @@ body {
 }
 
 /* Class-driven reduced motion (user preference) */
+
 .reduced-motion * {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
@@ -508,6 +519,7 @@ body {
 }
 
 /* High contrast mode */
+
 .high-contrast body {
     background-color: #ffffff !important;
     color: #000000 !important;
@@ -566,6 +578,7 @@ body {
 }
 
 /* Custom Styles */
+
 .custom-nav {
     display: flex;
     direction: rtl;
@@ -598,6 +611,7 @@ body {
 }
 
 /* Custom scrollbar for WebKit browsers (Chrome, Safari) */
+
 .custom-nav::-webkit-scrollbar {
     height: 8px;
     /* Horizontal scrollbar height */
@@ -648,6 +662,7 @@ body {
 }
 
 /* Media query for smaller screens (e.g., mobile) */
+
 @media (max-width: 768px) {
     .responsive-nav {
         flex-direction: column;
@@ -676,6 +691,7 @@ body {
 }
 
 /* --- Navbar link normalization (desktop/tablet) --- */
+
 @media (min-width: 768px) {
     /* Use flex gap for even spacing instead of mixed ml/pl utilities */
     .navbar .navbar-nav { gap: 2rem; align-items: center; }
@@ -694,6 +710,12 @@ body {
 }
 
 /* Improve placeholder contrast (AA on white) */
+
+::-moz-placeholder {
+    color: #6b7280;
+    opacity: 1;
+}
+
 ::placeholder {
     color: #6b7280;
     opacity: 1;
@@ -708,6 +730,7 @@ body {
 }
 
 /* Uniform alignment for collapsed mobile menu */
+
 @media (max-width: 767.98px) {
     .navbar-collapse .navbar-nav .nav-item {
         margin-left: 0 !important;
@@ -747,14 +770,17 @@ body {
 }
 
 /* User dropdown: tidy spacing between name and caret */
+
 .navbar .dropdown-toggle {
     display: inline-flex;
     align-items: center;
     gap: 0; /* no extra gap now that icon is removed */
 }
+
 .navbar .dropdown-toggle::after { margin-left: .35rem; }
 
 /* Keep same treatment inside collapsed menu */
+
 .navbar-collapse .navbar-nav .dropdown-toggle {
     display: inline-flex;
     align-items: center;
@@ -776,6 +802,7 @@ body {
 }
 
 /* Admin mobile switcher visibility rules */
+
 @media (max-width: 991.98px) {
     body.has-admin-sidebar .navbar-toggler { display: none !important; }
     body.has-admin-sidebar #admin-mobile-switcher { display: block !important; }
@@ -799,3 +826,4 @@ body {
 .site-footer .footer-note {
     color: #64748b;
 }
+

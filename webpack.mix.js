@@ -9,6 +9,9 @@ mix.js('resources/js/app.js', 'public/js')
    .postCss('resources/css/app.css', 'public/css', [
        require('autoprefixer'),
    ])
+   .postCss('resources/css/layout.css', 'public/css', [
+       require('autoprefixer'),
+   ])
    .options({
        processCssUrls: false
    });

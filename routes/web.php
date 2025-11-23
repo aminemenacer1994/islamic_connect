@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AhadithController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FeedbackController;
@@ -161,9 +162,21 @@ Route::get('/debug/ga4', fn() => ['config' => config('services.ga4.property_id')
 // ========================================
 // Use the main home view that extends layouts.app (contains #app root)
 // Route::get('/', fn() => view('app'));
-Route::get('/welcome', fn() => view('home'));
-Route::get('/', fn() => view('home'));
-Route::get('/home', fn() => view('home'));
+/**
+ * Cache the homepage HTML so that repeated hits stay under 0.4s.
+ */
+$homeResponder = function () {
+    $rendered = Cache::remember('home.page.html', 300, function () {
+        return view('home')->render();
+    });
+
+    return response($rendered)
+        ->header('Cache-Control', 'public, max-age=300, s-maxage=600, stale-while-revalidate=60');
+};
+
+Route::get('/welcome', $homeResponder);
+Route::get('/', $homeResponder);
+Route::get('/home', $homeResponder);
 
 // Auth Routes
 // Auth::routes();

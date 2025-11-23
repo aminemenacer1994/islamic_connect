@@ -29,7 +29,7 @@ Assets such as images, fonts, and structured data are stored under `public/`, wh
 1. **Install Dependencies:** Run `composer install` for PHP packages and `npm install` for JavaScript tooling.
 2. **Environment Setup:** Create a `.env` file (copy `.env.example`), set your `APP_URL`, `DB_*`, and `STRIPE_*` values, and run `php artisan key:generate`.
 3. **Database & Cache:** Run migrations `php artisan migrate` and optionally seed data with `php artisan db:seed`. Clear caches with `php artisan config:clear` and `php artisan route:clear` after configuration changes.
-4. **Frontend Build:** Use `npm run dev` during development or `npm run build` for production. This generates the compiled CSS and JS assets loaded via `mix('css/app.css')` and `mix('js/app.js')`.
+4. **Frontend Build:** Use `npm run dev` during development (unminified, fast rebuilds) and run `npm run production` (or `npm run prod`) before deploying so Laravel Mix minifies the CSS/JS assets that `mix('css/app.css')` and `mix('js/app.js')` reference.
 5. **Serve Locally:** Use `php artisan serve` or a Valet-like environment to preview the site. For more complex local setups, use Docker containers defined by `docker-compose` and match the environment variables accordingly.
 
 ## Deployment Recommendations

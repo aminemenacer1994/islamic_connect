@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
-@section('title', 'Islamic Connect | Explore Quran, Knowledge & Accessible Tools Hub for Modern Muslims')
-@section('meta_title', 'Islamic Connect | Explore Quran, Islamic Knowledge & Accessible Tools for Modern Muslims')
-@section('meta_description', 'Islamic Connect is the Quran and knowledge hub delivering accessible media, dua wisdom, and adaptive study tools that empower Muslims across the globe with responsive spiritual insights.')
+@section('title', 'Islamic Connect — Quran & Dua Hub')
+@section('meta_title', 'Islamic Connect — Quran & Dua Hub')
+@section('meta_description', 'Islamic Connect unites Quran study, dua guidance, and accessible community tools so believers everywhere learn, listen, and serve.')
 @section('meta_image', asset('images/qenew.png'))
 @section('page_h1')
     @include('partials.home-seo-heading')

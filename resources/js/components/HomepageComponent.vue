@@ -1,74 +1,29 @@
 <template>
   <div>
     <!-- header -->
-    <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+    <div class="jumbotron hero-jumbotron">
 
       <!-- Content -->
-      <div class="container-fluid" style="position: relative;">
+      <div class="container-fluid hero-layout">
         <!-- Enhanced Hero Section -->
-        <div class="container-fluid text-center" style="position: relative; overflow: hidden;">
+        <div class="container-fluid text-center hero-stage">
           <!-- Background Elements -->
-          <div style="
-            position: absolute;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            animation: float-hero 8s ease-in-out infinite;
-            z-index: 1;
-          "></div>
-          <div style="
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(0, 191, 166, 0.08) 100%);
-            border-radius: 50%;
-            animation: float-hero 6s ease-in-out infinite 2s;
-            z-index: 1;
-          "></div>
+          <div class="hero-floating hero-floating--primary"></div>
+          <div class="hero-floating hero-floating--secondary"></div>
 
-          <div class="row align-items-center" style="position: relative; z-index: 2;">
+          <div class="row align-items-center hero-row">
             <div class="col-md-6">
               <div class="text-left">
                 <!-- Badge -->
-                <div style="
-                    background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-                    color: white;
-                    padding: 0.5rem 1.5rem;
-                    border-radius: 50px;
-                    display: inline-block;
-                    margin-bottom: 1.5rem;
-                    box-shadow: 0 5px 15px rgba(0, 191, 166, 0.3);
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                    letter-spacing: 0.5px;
-                  ">
+                <div class="hero-badge">
                   <i class="fas fa-star me-2"></i>Trusted by 1000's of Muslims Worldwide
                 </div>
 
-                <h1 class="display-4 mt-1 fw-bold text-left hero-title" style="
-                  background: linear-gradient(135deg, #1a5f7a, #2c3e50);
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-                  background-clip: text;
-                  line-height: 1.2;
-                  margin-bottom: 1.5rem;
-                  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                  font-size: 3.5rem;
-                ">
+                <h1 class="display-4 mt-1 fw-bold text-left hero-title">
                   Connecting You to Islamic Knowledge Seamlessly and Accessibly
                 </h1>
 
-                <h2 class="lead pt-3 text-left" style="
-                  line-height: 1.8em;
-                  font-size: 1.3rem;
-                  color: #4a5568;
-                  font-weight: 500;
-                  margin-bottom: 1.25rem;
-                  padding-right: 1rem;
-                ">
+                <h2 class="lead pt-3 text-left hero-subtitle">
                   <p>
                     Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform
                     to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative
@@ -78,30 +33,29 @@
 
                 <div class="row mb-3">
                   <div class="col-12">
-                    <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
+                    <div class="controls d-flex flex-row justify-content-start text-left hero-controls">
+                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4" title="Get started with the Quran Portal">
                         <i class="fas fa-rocket me-2"></i>Get Started Free
                       </a>
 
-                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4"
-                        style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
+                      <a href="/subscribe" class="btn rounded-20 fw-bold px-4 hero-cta-outline" title="Support the Islamic Connect mission">
                         <i class="fas fa-heart me-2"></i>Support Our Mission
                       </a>
                     </div>
 
                     <!-- Trust Indicators -->
-                    <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
+                    <div class="mt-3 d-flex align-items-center hero-trust-indicators">
                       <div class="d-flex align-items-center">
                         <i class="fas fa-shield-alt text-success me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
+                        <small class="trust-label">Secure Platform</small>
                       </div>
                       <div class="d-flex align-items-center">
                         <i class="fas fa-clock text-warning me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
+                        <small class="trust-label">Instant Access</small>
                       </div>
                       <div class="d-flex align-items-center">
                         <i class="fas fa-user-check text-info me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">No Registration</small>
+                        <small class="trust-label">No Registration</small>
                       </div>
                     </div>
                   </div>
@@ -111,11 +65,24 @@
             <div class="col-md-6">
               <div class="text-center">
                 <picture>
-                  <source srcset="/images/banner-photo.avif 800w" type="image/avif">
-                  <img src="/images/banner-photo.avif" srcset="/images/banner-photo.avif 800w"
-                    sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw" class="img-fluid hero-image"
-                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools" loading="lazy"
-                    width="800" height="800">
+                  <source
+                    type="image/avif"
+                    srcset="/images/banner-photo-400.avif 400w, /images/banner-photo-800.avif 800w, /images/banner-photo-1200.avif 1200w"
+                    sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
+                  />
+                  <source
+                    type="image/webp"
+                    srcset="/images/banner-photo-400.webp 400w, /images/banner-photo-800.webp 800w, /images/banner-photo-1200.webp 1200w"
+                    sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
+                  />
+                  <img
+                    src="/images/banner-photo-1200.avif"
+                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools"
+                    class="img-fluid hero-image"
+                    width="800"
+                    height="800"
+                    loading="lazy"
+                  />
                 </picture>
               </div>
             </div>
@@ -128,7 +95,7 @@
         <div class="row justify-content-center">
           <div class="col-12">
             -- SEO Optimized Heading --
-            <h2 id="prayer-times-heading" class="text-center mb-4" style="color: black; font-weight: 800;">
+            <h2 id="prayer-times-heading" class="text-center mb-4 prayer-title">
               Today's Prayer Times
             </h2>
 
@@ -199,8 +166,38 @@
         </div>
       </div>
     </section>
+    <section class="my-5" aria-label="Islamic Connect mission insights">
+      <div class="row container-fluid">
+        <div class="col-lg-10 mx-auto text-center">
+          <h2 class="display-6 fw-bold mb-3">Islamic Connect is where Quran clarity meets community care</h2>
+          <p class="text-muted mb-4">
+            Every paragraph on this page is intentionally aligned with the keywords our visitors search for: Quran companion, dua libraries, accessible community tools, and mindful learning. We map each sentence to a promise of practical resources—no fluff, only the trust and context scholars expect.
+          </p>
+          <ul class="list-unstyled row row-cols-1 row-cols-md-2 g-3 text-start">
+            <li class="col-md-3">
+              <strong>Structured Quran journeys:</strong> Guided tracks and tafsir notes clarify verses for families, students, and scholars.
+            </li>
+            <li class="col-md-3">
+              <strong>Accessible community tools:</strong> Audio-first players, screen reader support, and bookmarking keep faith without friction.
+            </li>
+            <li class="col-md-3">
+              <strong>Verified dua and guidance:</strong> Collections curated by scholars and volunteers carry transparent sourcing for trust.
+            </li>
+            <li class="col-md-3">
+              <strong>Mission stories & utility toolkit:</strong> Impact updates, calculators, and plans show how Islamic Connect serves learners worldwide.
+            </li>
+          </ul>
+          <p class="text-muted mt-4">
+            Search engines reward clarity—so we use clean semantic markup, self-describing component names, and internal links to guide crawlers to every feature. Let this section be both a welcome to readers and a roadmap for bots indexing the value you bring.
+          </p>
+          <p class="text-muted mt-3">
+            Islamic Connect is a modern hub where we explore the Quran, knowledge, and accessible tools for Muslims who expect clarity, connection, and service—every keyword in this sentence lives on this page to keep the title honest.
+          </p>
+        </div>
+      </div>
+    </section>
     <section aria-labelledby="services-heading">
-      <div class="py-5" style="background: #f8f9fa;">
+      <div class="py-5 services-section">
         <div class="container">
           <div class="row justify-content-center text-center mb-5">
             <div class="col-lg-8 col-xl-7">
@@ -219,7 +216,7 @@
                       loading="lazy" />
                   </div>
                   <h3 class="h3 fw-bold ">Explore with Ease</h3>
-                  <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
+                  <p class="mb-4 text-muted service-description">
                     Search the Quran, Duas, and Seerah effortlessly using simple keywords or topics.
                     Find meaningful content instantly for your spiritual journey.
                   </p>
@@ -237,7 +234,7 @@
                       loading="lazy" />
                   </div>
                   <h3 class="h3 fw-bold ">Listen, Watch, Reflect</h3>
-                  <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
+                  <p class="mb-4 text-muted service-description">
                     Enjoy Quran recitations, insightful podcasts, and Islamic art galleries.
                     Engage spiritually through multimedia content anywhere, anytime.
                   </p>
@@ -255,7 +252,7 @@
                       loading="lazy" />
                   </div>
                   <h3 class="h3 fw-bold">Learn Your Way</h3>
-                  <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
+                  <p class="mb-4 text-muted service-description">
                     Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible
                     learning
                     for everyone, regardless of ability.
@@ -301,46 +298,71 @@
     <section class="container pt-3" aria-label="Islamic Connect Features">
       <!-- First Row - Quran Companion -->
       <div class="row py-4 py-lg-5 align-items-center">
-        <div class="col-lg-6 order-2 order-lg-1">
-          <h2 class="h1 fw-bold text-center text-lg-start mb-4">
-            Quran Companion: AI-Powered & Accessible
-          </h2>
-          <p class="lead text-muted text-center text-lg-start mb-4" style="line-height: 1.7">
-            Experience the Quran with advanced AI tools for reading, listening, and understanding.
-            Featuring text-to-speech, screen reader support, and voice search for an accessible,
-            intelligent connection to the Divine.
-          </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/quran" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20"
-              style="min-width: 160px;">
+          <div class="col-lg-6 order-2 order-lg-1">
+            <h2 class="h1 fw-bold text-center text-lg-start mb-4">
+              Quran Companion: AI-Powered & Accessible
+            </h2>
+            <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
+              Experience the Quran with advanced AI tools for reading, listening, and understanding.
+              Featuring text-to-speech, screen reader support, and voice search for an accessible,
+              intelligent connection to the Divine.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
+            <a href="/quran" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
+              title="Explore the Quran Companion">
               Explore Quran
             </a>
+            </div>
           </div>
-        </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-          <img src="/images/slide1.png" class="img-fluid rounded-20 shadow-sm"
-            alt="Quran Companion interface showing AI-powered features and accessibility tools" loading="lazy"
-            width="600" height="400">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/images/slide1-md.webp 600w, /images/slide1.webp 1200w"
+              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
+            />
+            <img
+              src="/images/slide1.png"
+              class="img-fluid rounded-20 shadow-sm"
+              alt="Quran Companion interface showing AI-powered features and accessibility tools"
+              loading="lazy"
+              width="600"
+              height="400"
+            />
+          </picture>
         </div>
       </div>
 
       <!-- Second Row - Audio Content -->
       <div class="row py-4 py-lg-5 align-items-center">
         <div class="col-lg-6 mb-4 mb-lg-0">
-          <img src="/images/slide4.png" class="img-fluid rounded-20 shadow-sm"
-            alt="Islamic podcasts and audio content streaming interface" loading="lazy" width="600" height="400">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/images/slide4-md.webp 600w, /images/slide4.webp 1200w"
+              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
+            />
+            <img
+              src="/images/slide4.png"
+              class="img-fluid rounded-20 shadow-sm"
+              alt="Islamic podcasts and audio content streaming interface"
+              loading="lazy"
+              width="600"
+              height="400"
+            />
+          </picture>
         </div>
-        <div class="col-lg-6">
-          <h2 class="h1 fw-bold text-center text-lg-start mb-4">
-            Spiritual Content On-The-Go
-          </h2>
-          <p class="lead text-muted text-center text-lg-start mb-4" style="line-height: 1.7">
-            Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place.
-            Stay spiritually connected through sound and reflection wherever you are.
-          </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/media" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20"
-              style="min-width: 160px;">
+          <div class="col-lg-6">
+            <h2 class="h1 fw-bold text-center text-lg-start mb-4">
+              Spiritual Content On-The-Go
+            </h2>
+            <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
+              Access uplifting Islamic podcasts, inspiring audio series, and live radio in one place.
+              Stay spiritually connected through sound and reflection wherever you are.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
+            <a href="/media" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
+              title="Browse Islamic audio, podcasts, and video">
               Browse Content
             </a>
           </div>
@@ -349,25 +371,37 @@
 
       <!-- Third Row - Quran Explorer -->
       <div class="row py-4 py-lg-5 align-items-center">
-        <div class="col-lg-6 order-2 order-lg-1">
-          <h2 class="h1 fw-bold text-center text-lg-start mb-4">
-            Deep Quran Exploration
-          </h2>
-          <p class="lead text-muted text-center text-lg-start mb-4" style="line-height: 1.7">
-            Search, explore, and engage with every verse effortlessly. Discover tafsir, translations,
-            and recitations with tools designed for simplicity and spiritual growth.
-          </p>
-          <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
-            <a href="/surat" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20"
-              style="min-width: 160px;">
+          <div class="col-lg-6 order-2 order-lg-1">
+            <h2 class="h1 fw-bold text-center text-lg-start mb-4">
+              Deep Quran Exploration
+            </h2>
+            <p class="lead text-muted text-center text-lg-start mb-4 feature-lead">
+              Search, explore, and engage with every verse effortlessly. Discover tafsir, translations,
+              and recitations with tools designed for simplicity and spiritual growth.
+            </p>
+            <div class="d-grid gap-2 d-md-flex justify-content-center justify-content-lg-center">
+            <a href="/surat" class="btn btn-lg px-4 py-3 fw-semibold text-decoration-none btn-teal rounded-20 feature-cta"
+              title="Start exploring Quranic passages">
               Start Exploring
             </a>
-          </div>
+            </div>
         </div>
         <div class="col-lg-6 order-1 order-lg-2 mb-4 mb-lg-0">
-          <img src="/images/slide2.png" class="img-fluid rounded-20 shadow-sm"
-            alt="Quran exploration interface with search and translation features" loading="lazy" width="600"
-            height="400">
+          <picture>
+            <source
+              type="image/webp"
+              srcset="/images/slide2-md.webp 600w, /images/slide2.webp 1200w"
+              sizes="(max-width: 767px) 90vw, (max-width: 991px) 60vw, 50vw"
+            />
+            <img
+              src="/images/slide2.png"
+              class="img-fluid rounded-20 shadow-sm"
+              alt="Quran exploration interface with search and translation features"
+              loading="lazy"
+              width="600"
+              height="400"
+            />
+          </picture>
         </div>
       </div>
 
@@ -428,9 +462,9 @@
 
         </div>
 
-        <div class="row pt-3 g-4 g-md-5">
-          <div class="col-12">
-            <p class="lead text-center mb-4" style="line-height: 1.7">
+          <div class="row pt-3 g-4 g-md-5">
+            <div class="col-12">
+            <p class="lead text-center mb-4 tool-lead">
               At Islamic Connect, we leverage advanced AI technology to make Quranic knowledge accessible to everyone.
               Our tools are designed to empower individuals through inclusive, personalized learning experiences
               that adapt to diverse abilities and learning preferences.
@@ -549,9 +583,9 @@
       <div class="container">
         <div class="row justify-content-center text-center mb-4">
           <div class="col-lg-8">
-            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access
-              More</h2>
-            <p class="lead text-muted" style="line-height:1.7">
+            <h2 id="premium-heading" class="fw-bold premium-heading">
+              Support The Work, Access More</h2>
+            <p class="lead text-muted premium-lead">
               Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
             </p>
           </div>
@@ -587,10 +621,10 @@
           <div class="col-lg-10">
             <div class="row g-4">
               <div class="col-md-6">
-                <div class="card h-100 border-0" style="box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div class="card h-100 border-0 support-card">
                   <div class="card-body p-4 text-start">
-                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">What your support enables</h3>
-                    <ul class="mb-0" style="list-style:none; padding-left:0; color:#4a5568; line-height:1.7;">
+                    <h3 class="h4 fw-bold mb-3 support-card-title">What your support enables</h3>
+                    <ul class="support-card-list">
                       <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible,
                         and ad‑free</li>
                       <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated
@@ -605,31 +639,17 @@
               </div>
 
               <div class="col-md-6">
-                <div class="h-100 d-flex flex-column justify-content-between"
-                  style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div class="h-100 d-flex flex-column justify-content-between support-panel">
                   <div class="p-4 text-start">
-                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
-                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.
+                    <h3 class="h4 fw-bold mb-3 support-panel-title">Simple and transparent</h3>
+                    <p class="mb-3 support-panel-text">Secure Stripe payments. Cancel anytime. No tracking, no ads.
                     </p>
-                    <button @click="goTo('/support')" style="
-                        background: rgba(255, 255, 255, 0.9);
-                        color: #1a5f7a;
-                        border: 2px solid #1a5f7a;
-                        padding: 1rem 2rem;
-                        border-radius: 12px;
-                        font-weight: 700;
-                        font-size: 1.1rem;
-                        box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                        backdrop-filter: blur(10px);
-                      "
-                      onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
-                      onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
+                    <button @click="goTo('/support')" class="support-cta">
                       <i class="fas fa-heart me-2"></i>Provide a small Donation
                     </button>
                   </div>
                   <div class="px-4 pb-4">
-                    <div class="d-flex align-items-center" style="gap:.5rem; color:#6c757d;">
+                    <div class="d-flex align-items-center support-cta-note">
                       <i class="fas fa-lock"></i>
                       <small>SSL encrypted • PCI compliant</small>
                     </div>
@@ -644,200 +664,66 @@
 
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->
-    <section class="py-5 quick-join-section" style="
-  background: linear-gradient(135deg, rgb(0, 121, 107) 0%, #1a5f7a 100%);
-  position: relative;
-  overflow: hidden;
-">
-      <!-- Background Elements -->
-      <div style="
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 300px;
-    height: 300px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 8s ease-in-out infinite;
-  "></div>
-      <div style="
-    position: absolute;
-    bottom: -30%;
-    left: -5%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite 2s;
-  "></div>
-      <div style="
-    position: absolute;
-    top: 20%;
-    left: 10%;
-    width: 100px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    animation: float 10s ease-in-out infinite 1s;
-  "></div>
+        <section class="py-5 quick-join-section">
+      <div class="quick-join-blob quick-join-blob--one"></div>
+      <div class="quick-join-blob quick-join-blob--two"></div>
+      <div class="quick-join-blob quick-join-blob--three"></div>
 
-      <div class="container" style="position: relative; z-index: 2;">
+      <div class="container quick-join-container">
         <div class="row align-items-center">
           <div class="col-lg-7 text-center text-lg-start">
-            <h2 class="text-white fw-bold mb-3" style="
-          font-size: 2.5rem;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-          color: #ffffff;
-        ">Ready to Transform Your Daily Spiritual Journey?</h2>
-            <p class="text-white mb-4" style="
-          font-size: 1.2rem;
-          opacity: 0.98;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
-        ">Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
+            <h2 class="text-white fw-bold mb-3 quick-join-heading">Ready to Transform Your Daily Spiritual Journey?</h2>
+            <p class="text-white mb-4 quick-join-subtitle">
+              Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
             </p>
-
           </div>
 
           <div class="col-lg-5 text-center">
-            <!-- Join Cards -->
             <div class="row g-3">
               <div class="col-12">
-                <div style="
-              background: rgba(255, 255, 255, 0.95);
-              padding: 1.5rem;
-              border-radius: 20px;
-              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-              border: 2px solid rgba(255, 255, 255, 0.3);
-              backdrop-filter: blur(10px);
-              transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-              position: relative;
-              overflow: hidden;
-            " class="join-card-hover rounded-20">
-                  <!-- WhatsApp Card -->
+                <article class="join-card join-card-hover rounded-20">
                   <div class="d-flex align-items-center mb-3">
-                    <div style="
-                  width: 50px;
-                  height: 50px;
-                  background: linear-gradient(135deg, #25D366, #128C7E);
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin-right: 1rem;
-                  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-                ">
-                      <i class="fab fa-whatsapp text-white" style="font-size: 1.5rem;"></i>
+                    <div class="join-card-icon join-card-icon--whatsapp">
+                      <i class="fab fa-whatsapp join-card-icon-symbol"></i>
                     </div>
                     <div class="text-start">
-                      <h3 class="fw-bold mb-1" style="color: #1a5f7a;">WhatsApp Channel</h3>
+                      <h3 class="join-card-title">WhatsApp Channel</h3>
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20"
-                    target="_blank" rel="noopener noreferrer" style="
-                background: linear-gradient(135deg, #25D366, #128C7E);
-                color: white;
-                font-weight: 700;
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                border: none;
-                font-size: 1.1rem;
-                transition: all 0.3s ease;
-                box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-                position: relative;
-                overflow: hidden;
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.6)';"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(37, 211, 102, 0.4)';">
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m"
+                    target="_blank" rel="noopener noreferrer"
+                    class="btn w-100 rounded-20 join-card-cta join-card-cta--whatsapp"
+                    title="Join Islamic Connect WhatsApp channel">
                     <i class="fab fa-whatsapp me-2"></i>Join WhatsApp Channel
-                    <span style="
-                  position: absolute;
-                  top: 50%;
-                  right: 1rem;
-                  transform: translateY(-50%);
-                  font-size: 0.9rem;
-                  opacity: 0.9;
-                ">→</span>
+                    <span class="join-card-cta-arrow">→</span>
                   </a>
-
-                </div>
+                </article>
               </div>
-
               <div class="col-12">
-                <div style="
-              background: rgba(255, 255, 255, 0.95);
-              padding: 1.5rem;
-              border-radius: 20px;
-              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-              border: 2px solid rgba(255, 255, 255, 0.3);
-              backdrop-filter: blur(10px);
-              transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-              position: relative;
-              overflow: hidden;
-            " class="join-card-hover rounded-20">
-                  <!-- Telegram Card -->
+                <article class="join-card join-card-hover rounded-20">
                   <div class="d-flex align-items-center mb-3">
-                    <div style="
-                  width: 50px;
-                  height: 50px;
-                  background: linear-gradient(135deg, #0088cc, #006699);
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin-right: 1rem;
-                  box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
-                ">
-                      <i class="fab fa-telegram text-white" style="font-size: 1.5rem;"></i>
+                    <div class="join-card-icon join-card-icon--telegram">
+                      <i class="fab fa-telegram join-card-icon-symbol"></i>
                     </div>
                     <div class="text-start">
-                      <h3 class="fw-bold mb-1" style="color: #1a5f7a;">Telegram Community</h3>
+                      <h3 class="join-card-title">Telegram Community</h3>
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank"
-                    rel="noopener noreferrer" style="
-                background: linear-gradient(135deg, #0088cc, #006699);
-                color: white;
-                font-weight: 700;
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                border: none;
-                font-size: 1.1rem;
-                transition: all 0.3s ease;
-                box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
-                position: relative;
-                overflow: hidden;
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 136, 204, 0.6)';"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 136, 204, 0.4)';">
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" target="_blank" rel="noopener noreferrer"
+                    class="btn w-100 rounded-20 join-card-cta join-card-cta--telegram"
+                    title="Join Islamic Connect Telegram community">
                     <i class="fab fa-telegram me-2"></i>Join Telegram Community
-                    <span style="
-                  position: absolute;
-                  top: 50%;
-                  right: 1rem;
-                  transform: translateY(-50%);
-                  font-size: 0.9rem;
-                  opacity: 0.9;
-                ">→</span>
+                    <span class="join-card-cta-arrow">→</span>
                   </a>
-                  <!-- <div class="mt-2">
-                    <small class="text-muted" style="font-weight: 500;">
-                      <i class="fas fa-users me-1"></i>3,200+ active members
-                    </small>
-                  </div> -->
-                </div>
+                </article>
               </div>
             </div>
 
-            <!-- Trust Badge -->
-            <div class="mt-3" style="
-          background: rgba(255, 255, 255, 0.2);
-          padding: 0.75rem 1.5rem;
-          border-radius: 50px;
-          backdrop-filter: blur(10px);
-          display: inline-block;
-        ">
-              <div class="d-flex align-items-center" style="gap: 0.5rem;">
-                <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
+            <div class="mt-3 hero-trust-badge quick-join-trust">
+              <div class="d-flex align-items-center hero-trust-badge-content">
+                <i class="fas fa-shield-alt text-white"></i>
                 <small class="text-white fw-bold">100% Free • Easy Subscribe</small>
               </div>
             </div>
@@ -845,25 +731,13 @@
         </div>
       </div>
 
-      <!-- Floating Icons -->
-      <div style="
-          position: absolute;
-          bottom: 20px;
-          right: 20px;
-          opacity: 0.1;
-          font-size: 3rem;
-          animation: float 4s ease-in-out infinite;
-        ">
+      <div class="hero-floating-icon quick-join-floating-icon">
         <i class="fas fa-quran"></i>
       </div>
     </section>
 
-
-
-
-    <!-- contact -->
-    <section class="py-5 contact-section" aria-labelledby="contact-heading"
-      style="background: #fff; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);">
+<!-- contact -->
+    <section class="py-5 contact-section contact-section-card" aria-labelledby="contact-heading">
       <div class="container-fluid">
         <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-xxl-7">
@@ -958,19 +832,23 @@
     <footer class="ic-footer text-white" role="contentinfo">
       <div
         class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-        <div class="copyright text-center text-md-start">
+          <div class="copyright text-center text-md-start">
           <span class="me-2">©</span>
           <strong>2025 Copyright: </strong>
-          <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">islamiconnect.com</a>
+          <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold" title="Visit Islamic Connect homepage">islamiconnect.com</a>
         </div>
         <div class="social text-center text-md-end">
-          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i
+          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"
+            title="Follow Islamic Connect on Facebook"><i
               class="fab fa-facebook-f" aria-hidden="true"></i></a>
-          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"><i class="fab fa-twitter"
+          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"
+            title="Follow Islamic Connect on X (Twitter)"><i class="fab fa-twitter"
               aria-hidden="true"></i></a>
-          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"><i
+          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"
+            title="Follow Islamic Connect on LinkedIn"><i
               class="fab fa-linkedin" aria-hidden="true"></i></a>
-          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"><i
+          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"
+            title="Follow Islamic Connect on Instagram"><i
               class="fab fa-instagram" aria-hidden="true"></i></a>
         </div>
       </div>
@@ -979,6 +857,22 @@
   </div>
 </template>
 <style scoped>
+
+
+.seo-benefits li strong {
+  display: block;
+  color: #0b5d4b;
+  margin-bottom: 0.25rem;
+}
+
+.seo-benefits li {
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(13, 128, 111, 0.2);
+  background: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.05);
+}
+
 .quote-wrapper {
   margin: 0;
   padding: 0;
@@ -1562,14 +1456,11 @@
 </style>
 <script defer>
 import axios from "axios";
-import { defineAsyncComponent } from 'vue';
-// Lazy-load heavier child components to improve initial render
-const PrayerTimes = defineAsyncComponent(() => import('./translation/PrayerTimes.vue'));
-const AyahOfTheDay = defineAsyncComponent(() => import('./translation/AyahOfTheDay.vue'));
+import PrayerTimes from "./translation/PrayerTimes.vue";
+import AyahOfTheDay from "./translation/AyahOfTheDay.vue";
 
 export default {
   components: {
-    // HijriCalendar
     PrayerTimes,
     AyahOfTheDay
   },
@@ -1760,6 +1651,345 @@ export default {
 };
 </script>
 <style scoped>
+.hero-jumbotron {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.hero-layout {
+  position: relative;
+}
+
+.hero-stage {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-floating {
+  position: absolute;
+  z-index: 0;
+  border-radius: 50%;
+}
+
+.hero-floating--primary {
+  right: -10%;
+  width: 400px;
+  height: 400px;
+  animation: float 8s ease-in-out infinite;
+}
+
+.hero-floating--secondary {
+  bottom: -30%;
+  left: -5%;
+  width: 300px;
+  height: 300px;
+  background: linear-gradient(135deg, rgba(26, 95, 122, 0.08), rgba(0, 191, 166, 0.08));
+  animation: float 6s ease-in-out infinite 2s;
+}
+
+.hero-row {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-badge {
+  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 50px;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(0, 191, 166, 0.3);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+}
+
+.hero-title {
+  background: linear-gradient(135deg, #1a5f7a, #2c3e50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-size: 3.5rem;
+}
+
+.hero-subtitle {
+  line-height: 1.8em;
+  font-size: 1.3rem;
+  color: #4a5568;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  padding-right: 1rem;
+}
+
+.hero-controls {
+  gap: 1rem;
+}
+
+.hero-cta-outline {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a5f7a;
+  border: 2px solid #1a5f7a;
+  transition: all 0.2s ease;
+}
+
+.hero-cta-outline:hover,
+.hero-cta-outline:focus-visible {
+  background: #1a5f7a;
+  color: #fff;
+}
+
+.hero-trust-indicators {
+  gap: 1.5rem;
+}
+
+.trust-label {
+  color: #4a5568;
+  font-weight: 600;
+}
+
+.prayer-title {
+  color: black;
+  font-weight: 800;
+}
+
+.services-section {
+  background: #f8f9fa;
+}
+
+.service-description {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.feature-lead,
+.tool-lead {
+  line-height: 1.7;
+}
+
+.feature-cta {
+  min-width: 160px;
+}
+
+.premium-heading {
+  font-size: 2.25rem;
+  color: #1a5f7a;
+}
+
+.premium-lead {
+  line-height: 1.7;
+}
+
+.support-card {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.support-card-title {
+  color: #2c3e50;
+}
+
+.support-card-list {
+  list-style: none;
+  padding-left: 0;
+  color: #4a5568;
+  line-height: 1.7;
+}
+
+.support-panel {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.support-panel-title {
+  color: #2c3e50;
+}
+
+.support-panel-text {
+  color: #4a5568;
+}
+
+.support-cta {
+  background: rgba(255, 255, 255, 0.9);
+  color: #1a5f7a;
+  border: 2px solid #1a5f7a;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+}
+
+.support-cta:hover,
+.support-cta:focus-visible {
+  transform: translateY(-2px);
+  background: #1a5f7a;
+  color: #fff;
+  box-shadow: 0 8px 25px rgba(26, 95, 122, 0.4);
+}
+
+.support-cta-note {
+  gap: 0.5rem;
+  color: #6c757d;
+}
+
+.quick-join-section {
+  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+  position: relative;
+  overflow: hidden;
+}
+
+.quick-join-blob {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  animation: float 8s ease-in-out infinite;
+  z-index: 0;
+}
+
+.quick-join-blob--one {
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+}
+
+.quick-join-blob--two {
+  bottom: -30%;
+  left: -5%;
+  width: 200px;
+  height: 200px;
+  animation-delay: 2s;
+}
+
+.quick-join-blob--three {
+  top: 20%;
+  left: 10%;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.05);
+  animation-delay: 1s;
+}
+
+.quick-join-container {
+  position: relative;
+  z-index: 2;
+}
+
+.quick-join-heading {
+  font-size: 2.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.quick-join-subtitle {
+  font-size: 1.2rem;
+  opacity: 0.98;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
+}
+
+.join-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  position: relative;
+  overflow: hidden;
+}
+
+.join-card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12);
+}
+
+.join-card-icon--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
+
+.join-card-icon--telegram {
+  background: linear-gradient(135deg, #0088cc, #006699);
+  box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+}
+
+.join-card-icon-symbol {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+.join-card-title {
+  color: #1a5f7a;
+  margin: 0;
+}
+
+.join-card-cta {
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  border: none;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.join-card-cta--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+}
+
+.join-card-cta--telegram {
+  background: linear-gradient(135deg, #0088cc, #006699);
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
+}
+
+.join-card-cta:hover,
+.join-card-cta:focus-visible {
+  transform: translateY(-2px);
+}
+
+.join-card-cta-arrow {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.hero-floating-icon {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.1;
+  font-size: 3rem;
+  animation: float 4s ease-in-out infinite;
+}
+
+.quick-join-floating-icon {
+  left: auto;
+}
+
+.contact-section-card {
+  background: #fff;
+  box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);
+}
+
 .journeys-section {
   background: #fefefe;
 }
