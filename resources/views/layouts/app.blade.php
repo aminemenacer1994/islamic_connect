@@ -61,7 +61,6 @@
     </noscript>
     <!-- App CSS last so it overrides vendor defaults -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/layout.css') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}" media="(prefers-color-scheme: light)">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_white.png') }}" media="(prefers-color-scheme: dark)">
