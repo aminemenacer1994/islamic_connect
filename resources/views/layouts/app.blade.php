@@ -224,9 +224,9 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
                         </li>
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/about" data-path="/about" data-nav-item="primary">About Us</a>
-                        </li>
+                        </li> -->
 
                         <!-- @guest -->
                         <!-- @if (Route::has('login'))

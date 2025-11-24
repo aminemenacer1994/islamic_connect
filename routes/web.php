@@ -178,7 +178,7 @@ $homeResponder = function () {
 Route::get('/welcome', $homeResponder);
 Route::get('/', $homeResponder);
 Route::get('/home', $homeResponder);
-Route::get('/about', [AboutController::class, 'index'])->name('about');
+// Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // Auth Routes
 // Auth::routes();
