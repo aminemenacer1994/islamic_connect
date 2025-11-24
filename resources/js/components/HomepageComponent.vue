@@ -83,7 +83,7 @@
                     <i class="fas fa-rocket me-2"></i>Get Started Free
                   </a>
 
-                  <a href="/subscribe" class="btn rounded-20 fw-bold px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
+                  <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
                     <i class="fas fa-heart me-2"></i>Support Our Mission
                   </a>
                 </div>
