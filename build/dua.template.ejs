@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <meta name="description" content="<%= htmlWebpackPlugin.options.description %>" />
+  <link rel="canonical" href="<%= htmlWebpackPlugin.options.canonical %>" />
+  <link rel="alternate" hreflang="en" href="<%= htmlWebpackPlugin.options.canonical %>" />
+  <link rel="alternate" hreflang="x-default" href="<%= htmlWebpackPlugin.options.canonical %>" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>" />
+  <meta property="og:description" content="<%= htmlWebpackPlugin.options.description %>" />
+  <meta property="og:image" content="<%= htmlWebpackPlugin.options.ogImage %>" />
+  <meta property="og:image:alt" content="<%= htmlWebpackPlugin.options.ogImageAlt %>" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="<%= htmlWebpackPlugin.options.title %>" />
+  <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.description %>" />
+  <meta name="twitter:image" content="<%= htmlWebpackPlugin.options.ogImage %>" />
+  <% if (htmlWebpackPlugin.tags.headTags) { %>
+    <%= htmlWebpackPlugin.tags.headTags %>
+  <% } %>
+  <script type="application/ld+json">
+    <%- JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": htmlWebpackPlugin.options.articleTitle,
+      "description": htmlWebpackPlugin.options.description,
+      "image": htmlWebpackPlugin.options.ogImage,
+      "keywords": htmlWebpackPlugin.options.reference,
+      "datePublished": new Date().toISOString(),
+      "dateModified": new Date().toISOString(),
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": htmlWebpackPlugin.options.canonical
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "Islamic Connect"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Islamic Connect",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://islamicconnect.com/images/logo_main.png"
+        }
+      }
+    }, null, 2) %>
+  </script>
+</head>
+<body>
+  <div id="app">
+    <dua-component></dua-component>
+  </div>
+
+  <!-- expose the slug for the SPA to detect -->
+  <script>window.__duaSlug = "<%= htmlWebpackPlugin.options.slug %>";</script>
+
+  <!-- app's bundles will be injected by HtmlWebpackPlugin -->
+</body>
+</html>

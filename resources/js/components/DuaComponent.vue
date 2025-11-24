@@ -364,6 +364,7 @@
 </template>
 
 <script>
+const { createDuaMetadata } = require('../utils/duaSlugs');
 export default {
   data() {
     return {
@@ -407,6 +408,8 @@ export default {
       errorMessage: null,
       isLoading: true,
       nextStepMinimized: false,
+      staticDuaSlug: typeof window !== 'undefined' ? window.__duaSlug || '' : '',
+      staticDuaMatch: null,
     };
   },
   computed: {
@@ -435,6 +438,21 @@ export default {
       return validIds.length;
     },
     filteredCategories() {
+      if (this.staticDuaSlug) {
+        if (!this.staticDuaMatch) {
+          return [];
+        }
+        const target = this.staticDuaMatch;
+        return this.duaCollection
+          .map(category => {
+            if (category.id !== target.categoryId) {
+              return { ...category, duas: [] };
+            }
+            return { ...category, duas: category.duas.filter(dua => dua.slug === target.slug) };
+          })
+          .filter(category => category.duas.length > 0);
+      }
+
       let filteredCollection = this.duaCollection;
 
       if (this.viewMode === 'liked') {
@@ -673,6 +691,21 @@ export default {
         this.currentPage[category.id] = 1;
       });
     },
+    applyStaticDuaSlug() {
+      if (!this.staticDuaSlug || !this.duaCollection.length) {
+        return;
+      }
+      const metadata = createDuaMetadata({ categories: this.duaCollection }, { assignSlugToDua: true });
+      const match = metadata.find(entry => entry.slug === this.staticDuaSlug);
+      if (!match) {
+        this.staticDuaMatch = null;
+        this.errorMessage = 'The Dua you requested could not be found.';
+        return;
+      }
+      this.errorMessage = null;
+      this.staticDuaMatch = match;
+      this.selectedCategory = match.categoryId ? match.categoryId.toString() : '';
+    },
   },
   created() {
     try { console.debug('[DuaComponent] created()'); } catch (e) { }
@@ -697,10 +730,14 @@ export default {
         this.duaCollection = data.categories.map(category => ({
           ...category,
           collapsed: false,
-          duas: category.duas.map((dua, index) => ({
-            ...dua,
-            id: `${category.id}-${dua.id || index + 1}`,
-          })),
+          duas: category.duas.map((dua, index) => {
+            const originalId = dua.id || index + 1;
+            return {
+              ...dua,
+              id: `${category.id}-${originalId}`,
+              originalId,
+            };
+          }),
         }));
         const ids = new Set();
         this.duaCollection.forEach(category => {
@@ -712,6 +749,7 @@ export default {
           });
         });
         this.resetPagination();
+        this.applyStaticDuaSlug();
       })
       .catch(error => {
         console.error('Error loading dua collection:', error);

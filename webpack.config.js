@@ -1,5 +1,30 @@
 const path = require('path');
 const { VueLoaderPlugin } = require('vue-loader');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const duas = require('./build/duas');
+
+const plugins = [
+  new VueLoaderPlugin(),
+];
+
+  duas.forEach(dua => {
+    plugins.push(
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, 'build', 'dua.template.ejs'),
+        filename: path.posix.join('dua', dua.slug, 'index.html'),
+        inject: 'body',
+        minify: false,
+        title: dua.title,
+        description: dua.description,
+        articleTitle: dua.articleTitle,
+        slug: dua.slug,
+        canonical: dua.canonical,
+        ogImage: dua.ogImage,
+        ogImageAlt: dua.ogImageAlt,
+        reference: dua.reference,
+      })
+    );
+  });
 
 module.exports = {
   mode: 'production', // Or 'development' for local testing
@@ -7,9 +32,10 @@ module.exports = {
     app: './resources/js/app.js',
   },
   output: {
-    path: path.resolve(__dirname, 'public/js'),
-    filename: '[name].js',
-    chunkFilename: '[name].[contenthash].js',
+    path: path.resolve(__dirname, 'public'),
+    filename: 'js/[name].js',
+    chunkFilename: 'js/[name].[contenthash].js',
+    publicPath: '/js/',
   },
   optimization: {
     runtimeChunk: 'single',
@@ -57,7 +83,5 @@ module.exports = {
       'vue': 'vue/dist/vue.esm-bundler.js',
     },
   },
-  plugins: [
-    new VueLoaderPlugin(),
-  ],
+  plugins,
 };

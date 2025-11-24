@@ -1,22 +1,25 @@
 {
     "private": true,
     "scripts": {
-        "dev": "npm run development",
-        "development": "npx mix",
-        "watch": "npx mix watch",
-        "watch-poll": "npx mix watch -- --watch-options-poll=1000",
-        "hot": "npx mix watch --hot",
-        "prod": "npm run production",
-        "production": "npx mix --production",
-        "build": "webpack --config webpack.config.js"
-    },
-  "devDependencies": {
+    "dev": "npm run development",
+    "development": "npx mix",
+    "watch": "npx mix watch",
+    "watch-poll": "npx mix watch -- --watch-options-poll=1000",
+    "hot": "npx mix watch --hot",
+    "prod": "npm run production",
+    "production": "npx mix --production",
+    "build": "webpack --config webpack.config.js && node scripts/generate-sitemap.js",
+    "sitemap:duas": "node scripts/generate-dua-sitemap.js"
+  },
+    "devDependencies": {
+        "@babel/preset-env": "^7.28.3",
         "@vue/compiler-sfc": "^3.5.18",
         "autoprefixer": "^10.4.20",
         "axios": "^1.8.4",
         "babel-loader": "^10.0.0",
         "bootstrap": "^5.3.3",
         "css-loader": "^7.1.2",
+        "html-webpack-plugin": "^5.6.5",
         "husky": "^9.1.7",
         "laravel-mix": "^6.0.49",
         "lodash": "^4.17.21",
@@ -28,16 +31,15 @@
         "sass-loader": "^12.6.0",
         "style-loader": "^3.3.0",
         "vue": "^3.5.18",
-    "vue-loader": "^17.3.1",
-    "@babel/preset-env": "^7.28.3",
+        "vue-loader": "^17.3.1",
         "vue-sound": "^0.1.10",
         "webpack": "^5.101.3",
         "webpack-cli": "^5.1.4"
-  },
-  "browserslist": [
-    "defaults"
-  ],
-  "dependencies": {
+    },
+    "browserslist": [
+        "defaults"
+    ],
+    "dependencies": {
         "@extractus/feed-extractor": "^7.1.4",
         "@fortawesome/fontawesome-free": "^7.1.0",
         "@fortawesome/fontawesome-svg-core": "^7.1.0",
