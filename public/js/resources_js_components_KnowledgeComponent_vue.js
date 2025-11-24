@@ -176,22 +176,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read More")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden"
+    class: "card custom-card rounded-4 overflow-hidden",
+    style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/blogger.avif",
-    alt: "Blog readers",
-    class: "w-100 pt-3",
+    alt: "Islamic Finance",
+    class: "w-100",
     style: {
       "object-fit": "contain"
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "p-3 d-flex flex-column gap-3"
+    class: "p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "mb-2 fw-bold text-dark text-center"
   }, "Islamic Blogs"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "card-text text-muted text-wrap text-center pb-2 blog-card-text"
-  }, " Browse thoughtful reflections, stories, and practical reminders from trusted Islamic writers. The blog section offers accessible posts for everyday spiritual growth and community life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "form-control mt-auto",
+    class: "card-text text-muted text-wrap text-center",
+    style: {
+      "overflow": "hidden",
+      "text-overflow": "ellipsis",
+      "max-height": "4.5em"
+    }
+  }, "Browse thoughtful reflections, stories, and practical reminders. The blog section offers accessible posts for everyday spiritual growth and community life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "form-control",
     onclick: "window.location.href='/read'",
     style: {
       "background": "#0b5d4b",

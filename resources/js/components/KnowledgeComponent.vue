@@ -100,16 +100,16 @@
       </div>
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card rounded-4 overflow-hidden" >
+        <div class="card custom-card rounded-4 overflow-hidden" style=" ">
           <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-          <img src="/images/blogger.avif" alt="Blog readers" class="w-100 pt-3" style="object-fit: contain;" />
-          <div class="p-3 d-flex flex-column gap-3">
+          <img src="/images/blogger.avif" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Islamic Blogs</h1>
-            <p class="card-text text-muted text-wrap text-center pb-2 blog-card-text">
-              Browse thoughtful reflections, stories, and practical reminders from trusted Islamic writers. The blog section offers accessible posts for everyday
-              spiritual growth and community life.
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Browse thoughtful reflections, stories, and practical reminders. 
+              The blog section offers accessible posts for everyday spiritual growth and community life.
             </p>
-            <button class="form-control mt-auto" onclick="window.location.href='/read'"
+            <button class="form-control" onclick="window.location.href='/read'"
               style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
               type="submit">
               <span class="text-center w-100"><b>Search Blogs</b></span>
@@ -117,6 +117,8 @@
           </div>
         </div>
       </div>
+
+      
 
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden">
