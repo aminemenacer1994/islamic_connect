@@ -176,28 +176,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Read More")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {}
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/copywriter.png",
-    alt: "Islamic Finance",
-    class: "w-100",
+    src: "/images/blogger.avif",
+    alt: "Blog readers",
+    class: "w-100 pt-3",
     style: {
       "object-fit": "contain"
     }
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "p-3"
+    class: "p-3 d-flex flex-column gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "mb-2 fw-bold text-dark text-center"
   }, "Islamic Blogs"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "card-text text-muted text-wrap text-center",
-    style: {
-      "overflow": "hidden",
-      "text-overflow": "ellipsis",
-      "max-height": "4.5em"
-    }
-  }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "form-control",
+    class: "card-text text-muted text-wrap text-center pb-2 blog-card-text"
+  }, " Browse thoughtful reflections, stories, and practical reminders from trusted Islamic writers. The blog section offers accessible posts for everyday spiritual growth and community life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    class: "form-control mt-auto",
     onclick: "window.location.href='/read'",
     style: {
       "background": "#0b5d4b",
@@ -209,11 +203,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Seach Blogs")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Blogs")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card rounded-4 overflow-hidden",
-    style: {}
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/idic.png",
     alt: "Islamic Finance",
@@ -266,7 +259,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_laravel_mix_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-1a7b776c]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container>h1.display-5[data-v-1a7b776c] {\n  letter-spacing: -0.01em;\n  margin-bottom: 0.75rem;\n  color: var(--text-1);\n}\n.lead[data-v-1a7b776c] {\n  color: var(--text-2);\n  line-height: 1.75;\n  margin-left: auto;\n  margin-right: auto;\n}\n.custom-card .display-6[data-v-1a7b776c] {\n  font-size: 1.4rem;\n  font-weight: 800;\n  color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-1a7b776c] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container>h1.display-5[data-v-1a7b776c] {\n    font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-1a7b776c] {\n    font-size: 1.1rem;\n}\n.custom-card img[data-v-1a7b776c] {\n    height: 160px;\n}\n.lead[data-v-1a7b776c] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-1a7b776c] {\n    height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-1a7b776c] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card button.form-control[data-v-1a7b776c] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-1a7b776c]:focus-visible {\n  outline: 3px solid rgba(0, 191, 166, 0.45);\n  outline-offset: 2px;\n}\n.custom-card[data-v-1a7b776c] {\n  border: none;\n  border-radius: 16px;\n  background: #fff;\n  height: 100%;\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n  position: relative;\n  overflow: hidden;\n}\n.custom-card[data-v-1a7b776c]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);\n}\n.custom-card[data-v-1a7b776c]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));\n  transform: scaleX(0.4);\n  transform-origin: left;\n  transition: transform 0.3s ease;\n}\n.custom-card[data-v-1a7b776c]:hover::before {\n  transform: scaleX(1);\n}\n.custom-card img[data-v-1a7b776c] {\n  height: 180px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: transform 0.25s ease;\n  border: none;\n}\n.custom-card:hover img[data-v-1a7b776c] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-1a7b776c {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: rgb(0, 107, 95);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1a7b776c] {\n  animation: none;\n}\n.restricted-access[data-v-1a7b776c] {\n  background: #28b66324;\n  transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-1a7b776c]:hover {\n  background: #28b66333;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-1a7b776c]:hover {\n  color: var(--brand-2);\n  text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-1a7b776c],\n  .custom-card img[data-v-1a7b776c],\n  .card.custom-card button.form-control[data-v-1a7b776c] {\n    transition: none !important;\n}\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n/* Design tokens */\n[data-v-1a7b776c]:root {\n  --brand-1: #1a5f7a;\n  --brand-2: #0b5d4b;\n  --accent: #00bfa6;\n  --text-1: #2c3e50;\n  --text-2: #6c757d;\n  --surface: #ffffff;\n  --surface-muted: #f8f9fa;\n  --border: #e9ecef;\n  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);\n  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);\n}\n/* Typography & spacing */\n.container>h1.display-5[data-v-1a7b776c] {\n  letter-spacing: -0.01em;\n  margin-bottom: 0.75rem;\n  color: var(--text-1);\n}\n.lead[data-v-1a7b776c] {\n  color: var(--text-2);\n  line-height: 1.75;\n  margin-left: auto;\n  margin-right: auto;\n}\n.custom-card .display-6[data-v-1a7b776c] {\n  font-size: 1.4rem;\n  font-weight: 800;\n  color: var(--text-1);\n}\n.card.custom-card .card-text[data-v-1a7b776c] {\n  font-size: 0.95rem;\n  line-height: 1.6;\n  color: var(--text-2);\n}\n@media (max-width: 768px) {\n.container>h1.display-5[data-v-1a7b776c] {\n    font-size: 2rem !important;\n}\n.custom-card .display-6[data-v-1a7b776c] {\n    font-size: 1.1rem;\n}\n.custom-card img[data-v-1a7b776c] {\n    height: 160px;\n}\n.lead[data-v-1a7b776c] {\n    font-size: 1rem;\n}\n}\n@media (min-width: 992px) {\n.custom-card img[data-v-1a7b776c] {\n    height: 190px;\n}\n}\n.card.custom-card .card-text[data-v-1a7b776c] {\n  max-height: 4.5em;\n  text-overflow: ellipsis;\n}\n.card.custom-card .blog-card-text[data-v-1a7b776c] {\n  max-height: none;\n  overflow: visible;\n}\n.card.custom-card button.form-control[data-v-1a7b776c] {\n  background: #0b5d4b;\n  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\n  color: #fff;\n  height: 38px;\n  padding: 0.375rem 0.75rem;\n  border: none;\n}\n.card.custom-card button.form-control[data-v-1a7b776c]:focus-visible {\n  outline: 3px solid rgba(0, 191, 166, 0.45);\n  outline-offset: 2px;\n}\n.custom-card[data-v-1a7b776c] {\n  border: none;\n  border-radius: 16px;\n  background: #fff;\n  height: 100%;\n  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);\n  transition: transform 0.25s ease, box-shadow 0.25s ease;\n  position: relative;\n  overflow: hidden;\n}\n.custom-card[data-v-1a7b776c]:hover {\n  transform: translateY(-6px);\n  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);\n}\n.custom-card[data-v-1a7b776c]::before {\n  content: \"\";\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  height: 4px;\n  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));\n  transform: scaleX(0.4);\n  transform-origin: left;\n  transition: transform 0.3s ease;\n}\n.custom-card[data-v-1a7b776c]:hover::before {\n  transform: scaleX(1);\n}\n.custom-card img[data-v-1a7b776c] {\n  height: 180px;\n  -o-object-fit: contain;\n     object-fit: contain;\n  transition: transform 0.25s ease;\n  border: none;\n}\n.custom-card:hover img[data-v-1a7b776c] {\n  transform: scale(1.05);\n}\n@keyframes borderPulse-1a7b776c {\n0% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n50% {\n    border-color: rgb(0, 107, 95);\n    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);\n}\n100% {\n    border-color: lightseagreen;\n    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);\n}\n}\n.card.custom-card[data-v-1a7b776c] {\n  animation: none;\n}\n.restricted-access[data-v-1a7b776c] {\n  background: #28b66324;\n  transition: background-color 0.2s ease, transform 0.2s ease;\n}\n.restricted-access[data-v-1a7b776c]:hover {\n  background: #28b66333;\n  transform: translateY(-2px);\n}\n.restricted-access a[data-v-1a7b776c]:hover {\n  color: var(--brand-2);\n  text-decoration: underline;\n}\n@media (prefers-reduced-motion: reduce) {\n.custom-card[data-v-1a7b776c],\n  .custom-card img[data-v-1a7b776c],\n  .card.custom-card button.form-control[data-v-1a7b776c] {\n    transition: none !important;\n}\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

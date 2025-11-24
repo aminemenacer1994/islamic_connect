@@ -56,6 +56,13 @@ mix.webpackConfig({
     ]
 });
 
+mix.override(webpackConfig => {
+    // Drop any HtmlWebpackPlugin instances so Mix does not emit its own index.html.
+    webpackConfig.plugins = (webpackConfig.plugins || []).filter(
+        plugin => !(plugin && plugin.constructor && plugin.constructor.name === 'HtmlWebpackPlugin')
+    );
+});
+
 // Enable versioning in production to add cache-busting query strings
 if (mix.inProduction()) {
     mix.version();

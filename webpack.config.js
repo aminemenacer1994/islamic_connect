@@ -10,20 +10,11 @@ const plugins = [
   duas.forEach(dua => {
     plugins.push(
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, 'build', 'dua.template.ejs'),
-        filename: path.posix.join('dua', dua.slug, 'index.html'),
+        template: path.resolve(__dirname, 'resources', 'index.html'),
+        filename: 'index.html',
         inject: 'body',
-        minify: false,
-        title: dua.title,
-        description: dua.description,
-        articleTitle: dua.articleTitle,
-        slug: dua.slug,
-        canonical: dua.canonical,
-        ogImage: dua.ogImage,
-        ogImageAlt: dua.ogImageAlt,
-        reference: dua.reference,
       })
-    );
+    );    
   });
 
 module.exports = {
@@ -35,7 +26,7 @@ module.exports = {
     path: path.resolve(__dirname, 'public'),
     filename: 'js/[name].js',
     chunkFilename: 'js/[name].[contenthash].js',
-    publicPath: '/js/',
+    publicPath: '/',
   },
   optimization: {
     runtimeChunk: 'single',

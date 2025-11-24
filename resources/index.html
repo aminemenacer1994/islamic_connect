@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= htmlWebpackPlugin.options.title || 'Islamic Connect' %></title>
+  <meta name="description" content="<%= htmlWebpackPlugin.options.description || 'Islamic Connect delivers accessible Quran study, dua guidance, and community tools.' %>" />
+  <link rel="canonical" href="<%= htmlWebpackPlugin.options.canonical || 'https://islamicconnect.com/' %>" />
+  <% if (htmlWebpackPlugin.tags && htmlWebpackPlugin.tags.headTags) { %>
+    <%= htmlWebpackPlugin.tags.headTags %>
+  <% } %>
+</head>
+<body>
+  <div id="app"></div>
+  <!-- HtmlWebpackPlugin will inject the compiled bundles here -->
+  <% if (htmlWebpackPlugin.tags && htmlWebpackPlugin.tags.bodyTags) { %>
+    <%= htmlWebpackPlugin.tags.bodyTags %>
+  <% } %>
+</body>
+</html>

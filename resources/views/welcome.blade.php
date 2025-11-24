@@ -10,7 +10,7 @@
     <link rel="preload" as="image" href="/images/qenew.png" fetchpriority="high">
     <style>
       /* Reserve space for hero and reduce layout shifts */
-      .jumbotron{margin-bottom:0}
+      .jumbotron{margin-bottom:0;padding:0}
       .carousel{contain: content}
       .carousel-item>img{display:block;width:100%;height:auto;aspect-ratio:16/9}
       /* Reduce expensive animations for users preferring reduced motion */

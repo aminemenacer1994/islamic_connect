@@ -378,4 +378,37 @@
 }
 .content-body hr { border: none; height: 1px; background: rgba(2,8,20,0.08); margin: 1em 0; }
 .content-body code { background: rgba(2,8,20,0.06); border-radius: 6px; padding: 0.1em 0.35em; }
+/* Ensure the toolkit/service/media cards stay bright and hover consistently */
+.card.custom-card,
+.custom-card {
+  background-color: #ffffff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+}
+.card.custom-card:hover,
+.custom-card:hover {
+  background-color: #ffffff;
+}
+.card.custom-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0b5d4b, #1a5f7a);
+  transform: scaleX(0.4);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+.card.custom-card:hover::before {
+  transform: scaleX(1);
+}
+.card.custom-card img {
+  -o-object-fit: contain;
+     object-fit: contain;
+  transition: transform 0.25s ease;
+}
+.card.custom-card:hover img {
+  transform: scale(1.05);
+}
 

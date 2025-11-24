@@ -1473,8 +1473,7 @@ export default {
 }
 
 .sticky-dropdown {
-  box-shadow: 0 12px 28px rgba(125, 206, 187, 0.175);
-  background: rgba(33, 203, 178, 0.2);;
+  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
   position: sticky;
   z-index: 1000;
   padding: 10px 12px;
@@ -2242,3 +2241,4 @@ h1.display-5 {
   .ayah-card-container .arabic-text { font-size: 2rem; }
 }
 </style>
+```
