@@ -179,7 +179,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "card custom-card rounded-4 overflow-hidden",
     style: {}
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: "/images/blogger.avif",
+    src: "/images/books.webp",
     alt: "Islamic Finance",
     class: "w-100",
     style: {

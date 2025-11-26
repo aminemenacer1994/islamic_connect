@@ -102,7 +102,7 @@
       <div class="col-md-6 col-lg-4">
         <div class="card custom-card rounded-4 overflow-hidden" style=" ">
           <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-          <img src="/images/blogger.avif" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
+          <img src="/images/books.webp" alt="Islamic Finance" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Islamic Blogs</h1>
             <p class="card-text text-muted text-wrap text-center"

@@ -11,6 +11,24 @@ class Feedback extends Model
 
     protected $table = 'feedback';
 
+    public const SUBJECT_OPTIONS = [
+        'enquiry' => 'General enquiry',
+        'bug report' => 'Bug report',
+        'feature request' => 'Feature request',
+        'comment' => 'Comment',
+        'question' => 'Question',
+    ];
+
+    public static function subjectValues(): array
+    {
+        return array_keys(self::SUBJECT_OPTIONS);
+    }
+
+    public static function subjectLabel(?string $value): string
+    {
+        return self::SUBJECT_OPTIONS[$value] ?? (string) $value;
+    }
+
 
     protected $fillable = [
         'firstname',

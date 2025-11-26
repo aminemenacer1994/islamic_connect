@@ -1,4 +1,3 @@
-"use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_DuaComponent_vue"],{
 
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=script&lang=js":
@@ -7,6 +6,7 @@
   \*******************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -16,6 +16,9 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+const {
+  createDuaMetadata
+} = __webpack_require__(/*! ../utils/duaSlugs */ "./resources/js/utils/duaSlugs.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     return {
@@ -55,7 +58,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       actionFeedback: {},
       errorMessage: null,
       isLoading: true,
-      nextStepMinimized: false
+      nextStepMinimized: false,
+      staticDuaSlug: typeof window !== 'undefined' ? window.__duaSlug || '' : '',
+      staticDuaMatch: null
     };
   },
   computed: {
@@ -82,6 +87,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return validIds.length;
     },
     filteredCategories() {
+      if (this.staticDuaSlug) {
+        if (!this.staticDuaMatch) {
+          return [];
+        }
+        const target = this.staticDuaMatch;
+        return this.duaCollection.map(category => {
+          if (category.id !== target.categoryId) {
+            return _objectSpread(_objectSpread({}, category), {}, {
+              duas: []
+            });
+          }
+          return _objectSpread(_objectSpread({}, category), {}, {
+            duas: category.duas.filter(dua => dua.slug === target.slug)
+          });
+        }).filter(category => category.duas.length > 0);
+      }
       let filteredCollection = this.duaCollection;
       if (this.viewMode === 'liked') {
         filteredCollection = filteredCollection.map(category => _objectSpread(_objectSpread({}, category), {}, {
@@ -289,6 +310,25 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.duaCollection.forEach(category => {
         this.currentPage[category.id] = 1;
       });
+    },
+    applyStaticDuaSlug() {
+      if (!this.staticDuaSlug || !this.duaCollection.length) {
+        return;
+      }
+      const metadata = createDuaMetadata({
+        categories: this.duaCollection
+      }, {
+        assignSlugToDua: true
+      });
+      const match = metadata.find(entry => entry.slug === this.staticDuaSlug);
+      if (!match) {
+        this.staticDuaMatch = null;
+        this.errorMessage = 'The Dua you requested could not be found.';
+        return;
+      }
+      this.errorMessage = null;
+      this.staticDuaMatch = match;
+      this.selectedCategory = match.categoryId ? match.categoryId.toString() : '';
     }
   },
   created() {
@@ -315,9 +355,13 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       } catch (e) {}
       this.duaCollection = data.categories.map(category => _objectSpread(_objectSpread({}, category), {}, {
         collapsed: false,
-        duas: category.duas.map((dua, index) => _objectSpread(_objectSpread({}, dua), {}, {
-          id: `${category.id}-${dua.id || index + 1}`
-        }))
+        duas: category.duas.map((dua, index) => {
+          const originalId = dua.id || index + 1;
+          return _objectSpread(_objectSpread({}, dua), {}, {
+            id: `${category.id}-${originalId}`,
+            originalId
+          });
+        })
       }));
       const ids = new Set();
       this.duaCollection.forEach(category => {
@@ -329,6 +373,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         });
       });
       this.resetPagination();
+      this.applyStaticDuaSlug();
     }).catch(error => {
       console.error('Error loading dua collection:', error);
       this.errorMessage = 'Failed to load dua collection. Please try again later.';
@@ -352,6 +397,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   render: () => (/* binding */ render)
@@ -980,6 +1026,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1003,6 +1050,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "\n.premium-action-button--outline[data
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1032,6 +1080,7 @@ var update = _node_modules_laravel_mix_node_modules_style_loader_dist_runtime_in
   \**************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
@@ -1063,6 +1112,7 @@ if (false) // removed by dead control flow
   \**************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
@@ -1078,6 +1128,7 @@ __webpack_require__.r(__webpack_exports__);
   \**********************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_laravel_mix_node_modules_style_loader_dist_cjs_js_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_style_index_0_id_7926cb50_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DuaComponent.vue?vue&type=style&index=0&id=7926cb50&scoped=true&lang=css */ "./node_modules/laravel-mix/node_modules/style-loader/dist/cjs.js!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=style&index=0&id=7926cb50&scoped=true&lang=css");
 
@@ -1090,12 +1141,95 @@ __webpack_require__.r(__webpack_exports__);
   \********************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_template_id_7926cb50_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_DuaComponent_vue_vue_type_template_id_7926cb50_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./DuaComponent.vue?vue&type=template&id=7926cb50&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/DuaComponent.vue?vue&type=template&id=7926cb50&scoped=true");
 
+
+/***/ }),
+
+/***/ "./resources/js/utils/duaSlugs.js":
+/*!****************************************!*\
+  !*** ./resources/js/utils/duaSlugs.js ***!
+  \****************************************/
+/***/ ((module) => {
+
+const MAX_META_DESCRIPTION_LENGTH = 155;
+const DEFAULT_META_TITLE_SUFFIX = ' · Islamic Connect Dua';
+const slugify = value => {
+  if (!value) return '';
+  return value.toString().normalize('NFKD').replace(/[\u0300-\u036f]/g, '').replace(/[^\w\s-]/g, '').trim().toLowerCase().replace(/[\s_]+/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+};
+const normalizeDescription = (value = '', fallback = '') => {
+  const normalized = (value || fallback).toString().replace(/\s+/g, ' ').trim();
+  if (!normalized) {
+    return fallback;
+  }
+  if (normalized.length <= MAX_META_DESCRIPTION_LENGTH) {
+    return normalized;
+  }
+  return `${normalized.slice(0, MAX_META_DESCRIPTION_LENGTH - 3)}...`;
+};
+const escapeAttribute = value => (value || '').toString().replace(/"/g, '&quot;');
+const createDuaMetadata = (collection = {}, options = {}) => {
+  const {
+    metaTitleSuffix = DEFAULT_META_TITLE_SUFFIX,
+    metaDescriptionFallback = 'Discover Islamic duas with Arabic, transliteration, and translation.',
+    assignSlugToDua = false,
+    defaultOgImage = 'https://islamicconnect.com/images/banner-photo-1200.webp'
+  } = options;
+  const categories = Array.isArray(collection.categories) ? collection.categories : [];
+  const usedSlugs = new Set();
+  const metadata = [];
+  categories.forEach(category => {
+    const categoryId = category.id;
+    const categoryName = category.name || 'Islamic Dua';
+    (Array.isArray(category.duas) ? category.duas : []).forEach((dua, index) => {
+      var _ref, _dua$originalId;
+      const rawId = (_ref = (_dua$originalId = dua.originalId) !== null && _dua$originalId !== void 0 ? _dua$originalId : dua.id) !== null && _ref !== void 0 ? _ref : index + 1;
+      const base = dua.title || dua.translation || dua.arabic || categoryName;
+      const candidate = slugify(base) || `dua-${categoryId}-${rawId}`;
+      let slug = candidate;
+      let suffix = 1;
+      while (usedSlugs.has(slug)) {
+        suffix += 1;
+        slug = `${candidate}-${suffix}`;
+      }
+      usedSlugs.add(slug);
+      const reference = dua.reference || categoryName;
+      const descriptionParts = [dua.translation, dua.arabic, reference].filter(Boolean);
+      let metaDescription = normalizeDescription(descriptionParts.join(' · '), metaDescriptionFallback);
+      if (!metaDescription) {
+        metaDescription = metaDescriptionFallback;
+      }
+      const metaTitle = escapeAttribute(`${base}${metaTitleSuffix}`);
+      if (assignSlugToDua && typeof dua === 'object') {
+        dua.slug = slug;
+      }
+      const ogImage = dua.ogImage || defaultOgImage;
+      metadata.push({
+        slug,
+        title: base,
+        metaTitle,
+        metaDescription: escapeAttribute(metaDescription),
+        categoryId,
+        categoryName,
+        duaId: rawId,
+        reference,
+        ogImage,
+        ogImageAlt: dua.ogImageAlt || `${base} Dua`
+      });
+    });
+  });
+  return metadata;
+};
+module.exports = {
+  slugify,
+  createDuaMetadata
+};
 
 /***/ })
 

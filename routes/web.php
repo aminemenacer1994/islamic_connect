@@ -181,7 +181,7 @@ Route::get('/home', $homeResponder);
 // Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // Auth Routes
-// Auth::routes();
+Auth::routes();
 
 Route::get('/php-runtime-check', function () {
     return [
@@ -210,6 +210,7 @@ Route::view('/subscribe', 'subscribe')->name('subscribe');
 // Donation Routes
 Route::get('/donation/success', [SupportController::class, 'success'])->name('donation.success');
 Route::get('/donation/cancel', fn() => view('donation.cancel'))->name('donation.cancel');
+Route::get('/api/donation-insights', [SupportController::class, 'insights']);
 
 // Public API Routes
 Route::get('api/userId', [UserController::class, 'getUserId']);

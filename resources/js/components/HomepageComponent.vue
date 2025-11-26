@@ -266,7 +266,7 @@
         </div>
       </div>
     </section>
-    <section class="container journeys-section text-center mx-auto my-5">
+    <!-- <section class="container journeys-section text-center mx-auto my-5">
         <div class="row justify-content-center">
             <div class="col-lg-8">
                 <h2 class="h4 fw-bold mb-1 text-center">Explore our most visited journeys</h2>
@@ -284,7 +284,7 @@
                 </article>
             </div>
         </div>
-    </section>
+    </section> -->
     <section class="container pt-3" aria-label="Islamic Connect Features">
 
       <!-- First Row - Quran Companion -->
@@ -817,12 +817,12 @@
 
             <!-- Trust Badge -->
             <div class="mt-3" style="
-          background: rgba(255, 255, 255, 0.2);
-          padding: 0.75rem 1.5rem;
-          border-radius: 50px;
-          backdrop-filter: blur(10px);
-          display: inline-block;
-        ">
+                background: rgba(255, 255, 255, 0.2);
+                padding: 0.75rem 1.5rem;
+                border-radius: 50px;
+                backdrop-filter: blur(10px);
+                display: inline-block;
+              ">
               <div class="d-flex align-items-center" style="gap: 0.5rem;">
                 <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
                 <small class="text-white fw-bold">100% Free • Easy Subscribe</small>
@@ -849,98 +849,153 @@
   
 
     <!-- contact -->
-    <section class="py-5 contact-section" aria-labelledby="contact-heading"
-      style="background: #fff; box-shadow: 0 7px 29px rgba(100, 100, 111, 0.2);">
-      <div class="container-fluid">
+    <section class="py-5 contact-section position-relative" aria-labelledby="contact-heading">
+      <div class="contact-section__blur contact-section__blur--left"></div>
+      <div class="contact-section__blur contact-section__blur--right"></div>
+      <div class="container px-lg-4">
         <div class="row justify-content-center text-center">
-          <div class="col-lg-8 col-xxl-7">
-            <h2 id="contact-heading" class="display-5 fw-bold mb-3">Get In Touch</h2>
-            <p class="lead fw-semibold text-muted">
-              Have questions or need assistance? We're here to help! Reach out to Islamic Connect
-              for support, feedback, or inquiries about our content and services.
+          <div class="col-xl-8 col-lg-9">
+            <p class="text-teal fw-semibold small mb-2">Request a response within 24 hours</p>
+            <h2 id="contact-heading" class="display-5 fw-bold mb-3">Let’s Keep the Conversation Going</h2>
+            <p class="lead fw-semibold text-muted mb-4">
+              Share your thoughts, ask about our resources, or flag a bug. Picking the right topic helps us route your request to
+              the right team immediately.
             </p>
           </div>
         </div>
 
-        <div class="row justify-content-center">
-          <div class="col-md-10 col-lg-6 mt-4">
-            <form @reset="reset" @submit.prevent="sendMessage()" role="form" aria-label="Contact form">
-              <div class="row g-3">
-                <!-- First Name -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="firstname" class="form-label visually-hidden">First Name</label>
-                    <input id="firstname" class="form-control form-control-lg bg-light" v-model="form.firstname"
-                      name="firstname" placeholder="First name" type="text" aria-required="true" required />
-                  </div>
+        <div class="row justify-content-center mt-4">
+          <div class="col-xl-10">
+            <div class="contact-card shadow-lg rounded-4">
+              <div class="d-flex flex-column flex-md-row align-items-start justify-content-between gap-3 mb-3">
+                <div>
+                  <h3 class="fw-bold mb-1">Premium support, made personal</h3>
+                  <p class="text-muted mb-0">We review every message ourselves and respond thoughtfully.</p>
                 </div>
-
-                <!-- Last Name -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="lastname" class="form-label visually-hidden">Last Name</label>
-                    <input id="lastname" class="form-control form-control-lg bg-light" v-model="form.lastname"
-                      name="lastname" placeholder="Last name" type="text" aria-required="true" required />
-                  </div>
-                </div>
-
-                <!-- Email -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="email" class="form-label visually-hidden">Email Address</label>
-                    <input id="email" class="form-control form-control-lg bg-light" v-model="form.email" name="email"
-                      placeholder="Email address" type="email" aria-required="true" required />
-                  </div>
-                </div>
-
-                <!-- Subject -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="subject" class="form-label visually-hidden">Subject</label>
-                    <input id="subject" class="form-control form-control-lg bg-light" v-model="form.subject"
-                      name="subject" placeholder="Subject" type="text" aria-required="true" required />
-                  </div>
-                </div>
-
-                <!-- Phone Number -->
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label for="mobile" class="form-label visually-hidden">Phone Number</label>
-                    <input id="mobile" class="form-control form-control-lg bg-light" v-model="form.mobile" name="mobile"
-                      placeholder="Phone number (optional)" type="tel" pattern="[0-9]{10,15}"
-                      title="Please enter a valid phone number" />
-                  </div>
-                </div>
-
-                <!-- Message -->
-                <div class="col-12">
-                  <div class="mb-3">
-                    <label for="message" class="form-label visually-hidden">Your Message</label>
-                    <textarea id="message" class="form-control form-control-lg bg-light" v-model="form.message"
-                      name="message" placeholder="Your message" rows="5" aria-required="true" required></textarea>
-                  </div>
-                </div>
-
-                <!-- Submit Button -->
-                <div class="col-12">
-                  <div class="d-grid">
-                    <button type="submit" class="btn btn-teal rounded-20 btn-lg fw-bold py-3">
-                      <span class="d-flex align-items-center justify-content-center">
-                        <i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
-                        Send Message
-                      </span>
-                    </button>
-                  </div>
-                </div>
+                <span class="badge contact-card__badge">Priority response</span>
               </div>
-            </form>
+              <form @reset="reset" @submit.prevent="sendMessage()" role="form" aria-label="Contact form">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label for="firstname" class="form-label visually-hidden">First Name</label>
+                    <input
+                      id="firstname"
+                      class="form-control form-control-lg"
+                      v-model="form.firstname"
+                      name="firstname"
+                      placeholder="First name"
+                      type="text"
+                      aria-required="true"
+                      required
+                    />
+                  </div>
 
+                  <div class="col-md-6">
+                    <label for="lastname" class="form-label visually-hidden">Last Name</label>
+                    <input
+                      id="lastname"
+                      class="form-control form-control-lg"
+                      v-model="form.lastname"
+                      name="lastname"
+                      placeholder="Last name"
+                      type="text"
+                      aria-required="true"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="email" class="form-label visually-hidden">Email Address</label>
+                    <input
+                      id="email"
+                      class="form-control form-control-lg"
+                      v-model="form.email"
+                      name="email"
+                      placeholder="Email address"
+                      type="email"
+                      aria-required="true"
+                      required
+                    />
+                  </div>
+
+                  <div class="col-md-6">
+                    <label for="subject" class="form-label visually-hidden">Subject</label>
+                    <select
+                      id="subject"
+                      class="form-select form-select-lg"
+                      v-model="form.subject"
+                      name="subject"
+                      aria-required="true"
+                      required
+                    >
+                      <option value="" disabled>Select a subject</option>
+                      <option
+                        v-for="option in subjectOptions"
+                        :key="option.value"
+                        :value="option.value"
+                      >
+                        {{ option.label }}
+                      </option>
+                    </select>
+                    <small class="text-muted d-block mt-1">Choose whichever topic matches your message.</small>
+                  </div>
+
+                  <div class="col-12">
+                    <label for="message" class="form-label visually-hidden">Your Message</label>
+                    <textarea
+                      id="message"
+                      class="form-control form-control-lg"
+                      v-model="form.message"
+                      name="message"
+                      placeholder="Your message"
+                      rows="5"
+                      aria-required="true"
+                      required
+                    ></textarea>
+                  </div>
+
+                  <div class="col-12">
+                    <div class="d-grid">
+                      <button type="submit" class="btn btn-teal btn-lg fw-semibold contact-card__btn">
+                        <span class="d-flex align-items-center justify-content-center gap-2">
+                          <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                          Send Message
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
 
+    <transition name="premium-dialog">
+      <div v-if="confirmDialog.visible" class="premium-dialog-overlay">
+        <div class="premium-dialog-card">
+          <h3 class="premium-dialog-title">{{ confirmDialog.title }}</h3>
+          <p class="premium-dialog-message">{{ confirmDialog.message }}</p>
+          <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
+            <button class="btn btn-outline-secondary" @click="handleCancel">Cancel</button>
+            <button class="btn btn-teal contact-card__btn" @click="handleConfirm">
+              {{ confirmDialog.confirmLabel }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </transition>
+    <transition name="premium-toast">
+      <div v-if="toast.visible" class="premium-toast" :class="`premium-toast--${toast.type}`">
+        <div>
+          <p class="mb-0 fw-bold">{{ toast.title }}</p>
+          <small class="text-muted">{{ toast.message }}</small>
+        </div>
+        <button class="btn-close btn-close-white" @click="dismissToast"></button>
+      </div>
+    </transition>
     <!-- Remove the container if you want to extend the Footer to full width. -->
     <footer class="ic-footer text-white" role="contentinfo">
       <div class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
@@ -1556,15 +1611,35 @@ export default {
         { href: "https://sunnah.com", title: "Sunnah.com searchable hadiths", text: "Sunnah.com — Hadith collections in searchable format" },
         { href: "https://islamicfinder.org", title: "IslamicFinder global prayer data", text: "IslamicFinder.org — Prayer times, mosque locators, and event calendars" }
       ],
+      subjectOptions: [
+        { value: "enquiry", label: "General enquiry" },
+        { value: "bug report", label: "Bug report" },
+        { value: "feature request", label: "Feature request" },
+        { value: "comment", label: "Comment" },
+        { value: "question", label: "Question" }
+      ],
       // Unified reactive form object (avoid duplicate keys)
       form: new Form({
         firstname: "",
         lastname: "",
         email: "",
         subject: "",
-        mobile: "",
         message: "",
       }),
+      confirmDialog: {
+        visible: false,
+        title: "",
+        message: "",
+        confirmLabel: "Confirm",
+        action: null,
+      },
+      toast: {
+        visible: false,
+        title: "",
+        message: "",
+        type: "success",
+      },
+      toastTimer: null,
     };
   },
   computed: {
@@ -1618,71 +1693,78 @@ export default {
       window.location.href = this.stripeUrl;
     },
     sendMessage() {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You want to send the message !",
-        showCancelButton: true,
-        confirmButtonColor: "green",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Send message!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          axios
-            .post("/api/send-message", this.form)
-            .then((res) => {
-              if (!res.data.success) {
-                Swal.fire({
-                  position: "top-end",
-
-                  icon: "success",
-                  title: "Message sent successfully ",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                this.form.reset();
-                $("#addNew").hide();
-              } else if (res.data.success) {
-                Swal.fire("Error!", "Unable to send message.", "error");
-                this.form.reset();
-                self.close();
-              }
-            })
-            .catch(function (err) { });
-        }
+      this.showConfirm({
+        title: "Ready to send your message?",
+        message: "We'll route this message to the correct team and share a thoughtful reply within 24 hours.",
+        confirmLabel: "Send message",
+        action: () => {
+          this.postForm("/api/send-message", "Message sent successfully", "We received your message and will respond shortly.");
+        },
       });
     },
     submitMail() {
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You want to join the mailing list !",
-        showCancelButton: true,
-        confirmButtonColor: "green",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Submit",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          axios
-            .post("/api/submit-mail", this.form)
-            .then((res) => {
-              if (!res.data.success) {
-                Swal.fire({
-                  position: "top-end",
-                  icon: "success",
-                  title: "Mailing List Subscription Successful",
-                  showConfirmButton: false,
-                  timer: 1500,
-                });
-                this.form.reset();
-                $("#addNew").hide();
-              } else if (res.data.success) {
-                Swal.fire("Error!", "Unable to send message.", "error");
-                this.form.reset();
-                self.close();
-              }
-            })
-            .catch(function (err) { });
-        }
+      this.showConfirm({
+        title: "Join the mailing list?",
+        message: "Stay in the loop with updates, launches, and new resources from the Islamic Connect mission.",
+        confirmLabel: "Subscribe",
+        action: () => {
+          this.postForm("/api/submit-mail", "Mailing List Subscribed", "Thank you for joining our email community.");
+        },
       });
+    },
+    postForm(url, toastTitle, toastMessage) {
+      axios
+        .post(url, this.form)
+        .then(() => {
+          this.showToast("success", toastTitle, toastMessage);
+          this.form.reset();
+        })
+        .catch((err) => {
+          const errorMessage = err.response?.data?.message || "Please try again later.";
+          this.showToast("error", "Something went wrong", errorMessage);
+        });
+    },
+    showConfirm({ title, message, confirmLabel = "Confirm", action }) {
+      this.confirmDialog = {
+        visible: true,
+        title,
+        message,
+        confirmLabel,
+        action,
+      };
+    },
+    handleCancel() {
+      this.confirmDialog.visible = false;
+      this.confirmDialog.action = null;
+    },
+    handleConfirm() {
+      const action = this.confirmDialog.action;
+      this.handleCancel();
+      if (typeof action === "function") {
+        action();
+      }
+    },
+    showToast(type, title, message) {
+      if (this.toastTimer) {
+        clearTimeout(this.toastTimer);
+      }
+      this.toast = {
+        visible: true,
+        type,
+        title,
+        message,
+      };
+      this.toastTimer = setTimeout(() => {
+        this.toast.visible = false;
+        this.toastTimer = null;
+      }, 3200);
+    },
+    dismissToast() {
+      if (this.toastTimer) {
+        clearTimeout(this.toastTimer);
+        this.toastTimer = null;
+      }
+      this.toast.visible = false;
     },
   },
 };
@@ -1898,6 +1980,186 @@ export default {
   background: #f8f9fa;
   border-radius: 8px;
   border: 1px solid #e9ecef;
+}
+
+/* Contact section polish */
+.contact-section {
+  background: linear-gradient(180deg, #f5fbff 0%, #ffffff 60%, #ffffff 100%);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  padding: 4rem 0;
+}
+.contact-section__blur {
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  filter: blur(80px);
+  opacity: 0.45;
+  inset: auto;
+  z-index: 0;
+}
+.contact-section__blur--left {
+  top: -80px;
+  left: -60px;
+  background: rgba(13, 182, 145, 0.35);
+}
+.contact-section__blur--right {
+  bottom: -120px;
+  right: -20px;
+  background: rgba(10, 110, 255, 0.2);
+}
+.contact-card {
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 20px;
+  padding: 2.5rem;
+  border: 1px solid rgba(26, 95, 122, 0.12);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow: 0 30px 60px rgba(15, 76, 117, 0.12);
+}
+.contact-card__badge {
+  background: rgba(0, 191, 166, 0.12);
+  color: #0c6656;
+  border-radius: 999px;
+  padding: 0.45rem 1.1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border: 1px solid rgba(0, 191, 166, 0.25);
+}
+.contact-card__btn {
+  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+  border: none;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(10, 110, 111, 0.45);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: 14px;
+}
+.contact-card__btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(10, 110, 111, 0.45);
+}
+.contact-card .form-control,
+.contact-card .form-select,
+.contact-card textarea {
+  background: #f8fbff;
+  border: 1px solid #dfe6ee;
+  border-radius: 12px;
+  box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.07);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.contact-card .form-control:focus,
+.contact-card .form-select:focus,
+.contact-card textarea:focus {
+  border-color: rgba(13, 182, 145, 0.8);
+  box-shadow: 0 0 0 0.25rem rgba(13, 182, 145, 0.18);
+  outline: none;
+}
+.contact-card small {
+  font-size: 0.78rem;
+}
+.contact-card .form-label {
+  display: none;
+}
+.contact-card__meta {
+  min-width: 180px;
+  text-align: right;
+}
+.contact-card .form-select {
+  height: 3.3rem;
+  padding-right: 2.25rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.contact-card__meta span {
+  letter-spacing: 0.3px;
+}
+
+.premium-dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+  padding: 1.5rem;
+}
+.premium-dialog-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 2.25rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 25px 60px rgba(15, 76, 117, 0.25);
+}
+.premium-dialog-title {
+  margin-bottom: 0.5rem;
+}
+.premium-dialog-message {
+  color: #5c6470;
+  line-height: 1.6;
+}
+.premium-toast {
+  position: fixed;
+  right: 1.25rem;
+  bottom: 1.25rem;
+  min-width: 260px;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  box-shadow: 0 20px 45px rgba(10, 110, 111, 0.25);
+  z-index: 1080;
+}
+.premium-toast--success {
+  background: linear-gradient(135deg, #0db691, #0c6656);
+}
+.premium-toast--error {
+  background: linear-gradient(135deg, #d6333f, #922428);
+}
+.premium-toast .btn-close {
+  filter: invert(1);
+  opacity: 0.7;
+}
+.premium-toast .btn-close:hover {
+  opacity: 1;
+}
+.premium-dialog-enter-active,
+.premium-dialog-leave-active {
+  transition: opacity 0.25s ease;
+}
+.premium-dialog-enter-from,
+.premium-dialog-leave-to {
+  opacity: 0;
+}
+.premium-toast-enter-active,
+.premium-toast-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.premium-toast-enter-from,
+.premium-toast-leave-to {
+  opacity: 0;
+  transform: translateY(10px);
+}
+@media (max-width: 767px) {
+  .contact-card {
+    padding: 1.75rem;
+  }
+
+  .contact-card__meta {
+    width: 100%;
+    text-align: left;
+  }
+
+  .contact-section {
+    padding: 3rem 0;
+  }
 }
 
 .card:hover {

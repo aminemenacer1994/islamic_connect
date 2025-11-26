@@ -35,16 +35,9 @@
             </div>
 
             <div class="mr-2" style="display: flex">
-              <label class="mt-2 mr-2 col-sm-3">Phone:</label>
-              <p class="mt-2 text-dark">
-                {{ form.mobile }}
-              </p>
-            </div>
-
-            <div class="mr-2" style="display: flex">
               <label class="mt-2 mr-2 col-sm-3">subject:</label>
               <p class="mt-2 text-dark">
-                {{ form.subject }}
+                {{ subjectLabel(form.subject) }}
               </p>
             </div>
 
@@ -179,9 +172,20 @@ export default {
         subject: "",
         message: "",
       }),
+      subjectOptions: [
+        { value: "enquiry", label: "General enquiry" },
+        { value: "bug report", label: "Bug report" },
+        { value: "feature request", label: "Feature request" },
+        { value: "comment", label: "Comment" },
+        { value: "question", label: "Question" },
+      ],
     }
   },
   methods: {
+    subjectLabel(value) {
+      const option = this.subjectOptions.find((item) => item.value === value);
+      return option ? option.label : value;
+    },
     onGlobalFilter(e){ this.filters.global.value = e.target.value; },
 
     loadFeedbacks() {

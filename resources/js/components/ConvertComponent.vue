@@ -147,7 +147,10 @@
         </div>
         <div class="d-flex flex-wrap gap-3">
           <a v-for="(org, i) in organizations" :key="i" :href="org.link" class="btn btn-outline-dark btn-sm" target="_blank" :title="'Visit ' + org.name">
-            <i :class="org.icon" class="me-1"></i>{{ org.name }}
+            <span v-if="org.image" class="org-logo me-1">
+              <img :src="org.image" :alt="org.name + ' logo'" />
+            </span>
+            <i v-else :class="['me-1', org.icon]"></i>{{ org.name }}
           </a>
         </div>
       </div>
@@ -325,7 +328,7 @@ export default {
         { name: 'Discord Server', link: 'https://discord.gg/yourserver', icon: 'bi bi-discord' },
       ],
       organizations: [
-        { name: 'New Muslim Academy', link: 'https://newmuslimacademy.org/', icon: 'bi bi-globe' },
+        { name: 'New Muslim Academy', link: 'https://newmuslimacademy.org/', image: '/images/logo_black.png' },
         { name: 'WhyIslam', link: 'https://www.whyislam.org/', icon: 'bi bi-question-circle' },
         { name: 'Muslim Converts', link: 'https://muslimconverts.com/', icon: 'bi bi-people' },
         { name: 'Islamic Society of North America', link: 'https://isna.net/', icon: 'bi bi-building' },
@@ -548,6 +551,12 @@ export default {
   object-fit: cover;
   border: 2px solid rgba(34, 139, 34, 0.35);
   box-shadow: 0 12px 18px rgba(15, 23, 42, 0.2);
+}
+
+.org-logo img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
 }
 
 .fade-in {

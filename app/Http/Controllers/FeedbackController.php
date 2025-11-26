@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Feedback;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class FeedbackController extends Controller
 {
@@ -23,10 +24,10 @@ class FeedbackController extends Controller
         $this->validate($request, [
             'firstname' => 'required',
             'lastname' => 'required',
-            'email' => 'required',
-            'mobile' => 'required',
-            'subject' => 'required',
-            'message' => 'required',
+            'email' => ['required', 'email', 'max:255'],
+            'mobile' => ['nullable', 'string', 'regex:/^[0-9]{10,15}$/'],
+            'subject' => ['required', Rule::in(Feedback::subjectValues())],
+            'message' => ['required', 'string', 'max:2000'],
         ]);
 
         $feedback = new Feedback();

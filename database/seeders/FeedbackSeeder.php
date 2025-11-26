@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Feedback;
 use Faker\Factory as Faker;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -18,13 +19,13 @@ class FeedbackSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        foreach(range(1,15) as $index){
+        foreach (range(1, 15) as $index) {
             DB::table('feedback')->insert([
                 'firstname' => $faker->firstName(),
                 'lastname' => $faker->lastName(),
                 'email' => $faker->unique()->safeEmail(),
-                'mobile' => $faker->phoneNumber(),
-                'subject' => $faker->sentence(4),
+                'mobile' => $faker->numerify('##########'),
+                'subject' => $faker->randomElement(Feedback::subjectValues()),
                 'message' => Str::limit($faker->paragraph(), 240),
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),

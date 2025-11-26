@@ -94,6 +94,29 @@
                 <p class="text-muted">Your support enables us to continue our mission</p>
               </div>
 
+              <div class="progress-card mb-4" role="presentation">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <strong>Monthly support target</strong>
+                  <span class="text-muted small">{{ insights.progress ?? 0 }}% reached</span>
+                </div>
+                <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="insights.progress || 0">
+                  <div class="progress-bar" :style="progressBarStyle"></div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <span aria-live="polite">Raised: £{{ formatMoney(insights.totalRaised) }}</span>
+                  <span>Goal: £{{ formatMoney(insights.goal) }}</span>
+                </div>
+                <div class="progress-footnote mt-2 d-flex justify-content-between small text-muted">
+                  <span>{{ insights.donorCount || 0 }} donors</span>
+                  <span>Average gift: £{{ formatMoney(insights.averageDonation) }}</span>
+                </div>
+              </div>
+              <p class="text-danger small mb-3" v-if="insightError">{{ insightError }}</p>
+              <div class="history-note mb-3" v-if="historyMessage">
+                <i class="fas fa-heart"></i>
+                <span>{{ historyMessage }}</span>
+              </div>
+
               <!-- Amount Selector -->
               <div class="mb-3">
                 <label for="donation-amount" class="form-label">Choose an amount (GBP)</label>
@@ -115,11 +138,17 @@
                   Please enter a whole-number amount between £1 and £100,000.
                 </div>
                 <div class="form-text">Minimum £1. Whole numbers only.</div>
-                <div class="mt-2 d-flex gap-2 flex-wrap">
-                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 5">£5</button>
-                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 10">£10</button>
-                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 25">£25</button>
-                  <button type="button" class="btn btn-outline-secondary btn-sm" @click="amount = 50">£50</button>
+                <div class="suggested-amounts mt-2">
+                  <button
+                    v-for="value in insights.suggestedAmounts"
+                    :key="`suggestion-${value}`"
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm"
+                    :class="{ active: selectedSuggestion === value }"
+                    @click="setSuggestedAmount(value)"
+                  >
+                    £{{ formatMoney(value) }}
+                  </button>
                 </div>
               </div>
 
@@ -153,6 +182,10 @@
                   <strong>{{ impactMessage }}</strong>
                 </div>
               </div>
+              <p class="thank-you-message" v-if="thankYouMessage">
+                <i class="fas fa-star me-2"></i>
+                {{ thankYouMessage }}
+              </p>
 
               <!-- Submit Button -->
               <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
@@ -160,11 +193,29 @@
                 Proceed to Secure Payment
               </button>
 
+              <div class="email-note text-center text-muted mt-3">
+                <i class="fas fa-envelope-open-text me-1"></i>
+                We'll send a confirmation email once Stripe processes your gift.
+              </div>
+
               <div class="security-guarantee text-center mt-3">
                 <p class="small text-muted">
                   <i class="fas fa-shield-alt me-1"></i>
                   Your contribution is securely processed by Stripe. We never store your payment details.
                 </p>
+              </div>
+
+              <div class="recent-donations mt-4" v-if="insights.recentDonations.length">
+                <h6 class="mb-3 text-uppercase">Recent supporters</h6>
+                <ul>
+                  <li v-for="donor in insights.recentDonations" :key="donor.id">
+                    <span>
+                      <strong>{{ donor.label || 'Supporter' }}</strong>
+                      <small class="text-muted d-block">{{ donor.timeAgo }}</small>
+                    </span>
+                    <span>£{{ formatMoney(donor.amount) }}</span>
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
@@ -181,8 +232,23 @@
 export default {
   data() {
     return {
-      amount: 10
-    }
+      amount: 10,
+      insights: {
+        goal: 15000,
+        totalRaised: 0,
+        progress: 0,
+        presetAmounts: [10, 25, 50, 100],
+        averageDonation: 0,
+        recentDonations: [],
+        suggestedAmounts: [10, 25, 50, 100],
+        donorCount: 0,
+        lastDonation: null,
+      },
+      selectedSuggestion: 10,
+      isLoadingInsights: false,
+      insightError: '',
+      lastDonationRecord: null,
+    };
   },
   computed: {
     finalAmount() {
@@ -200,21 +266,110 @@ export default {
     },
     stripeUrl() {
       const amountInCents = Math.round(this.finalAmount * 100);
-      // Webpack Mix: read MIX_ variables via process.env
       const base = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_DONATE_URL)
         ? process.env.MIX_STRIPE_DONATE_URL
         : 'https://donate.stripe.com/6oE5kY84oc3q7fy145';
       return `${base}?amount=${amountInCents}`;
+    },
+    progressBarStyle() {
+      const width = Math.min(100, Math.max(0, this.insights.progress || 0));
+      return { width: `${width}%` };
+    },
+    historyMessage() {
+      if (this.lastDonationRecord?.amount) {
+        return `We remember your last gift of £${this.formatMoney(this.lastDonationRecord.amount)}—thank you for being part of Islamic Connect.`;
+      }
+      if (this.insights.lastDonation) {
+        const label = this.insights.lastDonation.label || 'A generous supporter';
+        return `${label} gave £${this.formatMoney(this.insights.lastDonation.amount)} recently.`;
+      }
+      return '';
+    },
+    thankYouMessage() {
+      if (this.lastDonationRecord?.amount) {
+        return `Every £${this.formatMoney(this.lastDonationRecord.amount)} you share keeps Islamic Connect ad-free.`;
+      }
+      if (this.insights.donorCount) {
+        return `You're joining ${this.insights.donorCount} supporters keeping Quranic tools accessible.`;
+      }
+      return 'Your contribution keeps authentic knowledge within reach.';
     }
   },
+  mounted() {
+    this.loadSavedDonation();
+    this.loadInsights();
+  },
   methods: {
-    onAmountInput(e){
-      // Coerce to integer pounds and clamp to range
+    async loadInsights() {
+      this.isLoadingInsights = true;
+      try {
+        const response = await fetch('/api/donation-insights', {
+          headers: { 'Accept': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Unable to load donation insights right now.');
+        const payload = await response.json();
+        this.insights = {
+          ...this.insights,
+          ...payload,
+          recentDonations: payload.recentDonations ?? [],
+          suggestedAmounts: payload.suggestedAmounts ?? this.insights.suggestedAmounts,
+          presetAmounts: payload.presetAmounts ?? this.insights.presetAmounts,
+        };
+        if (!this.selectedSuggestion && this.insights.suggestedAmounts?.length) {
+          this.setSuggestedAmount(this.insights.suggestedAmounts[0]);
+        }
+      } catch (err) {
+        console.error('Donation insights error:', err);
+        this.insightError = err?.message || 'Unable to refresh donation context.';
+      } finally {
+        this.isLoadingInsights = false;
+      }
+    },
+    loadSavedDonation() {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const stored = localStorage.getItem('islamicConnectLastDonation');
+        if (!stored) return;
+        const parsed = JSON.parse(stored);
+        if (parsed?.amount) {
+          this.lastDonationRecord = parsed;
+          this.amount = parsed.amount;
+          this.selectedSuggestion = parsed.amount;
+        }
+      } catch (err) {
+        console.warn('Failed to read donation history', err);
+      }
+    },
+    storeLocalDonation() {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem('islamicConnectLastDonation', JSON.stringify({
+          amount: this.finalAmount,
+          timestamp: Date.now(),
+        }));
+      } catch (err) {
+        console.warn('Unable to cache donation amount', err);
+      }
+    },
+    setSuggestedAmount(value) {
+      this.amount = Number(value);
+      this.selectedSuggestion = Number(value);
+    },
+    formatMoney(value) {
+      const number = Number(value) || 0;
+      const formatter = new Intl.NumberFormat('en-GB', {
+        minimumFractionDigits: number % 1 ? 2 : 0,
+        maximumFractionDigits: 2,
+      });
+      return formatter.format(number);
+    },
+    onAmountInput(e) {
       let v = parseInt(e.target.value || '');
       if (isNaN(v)) v = 0;
       if (v < 0) v = 0;
       if (v > 100000) v = 100000;
       this.amount = v;
+      this.selectedSuggestion = null;
     },
     async processDonation() {
       if (!this.isValidAmount) {
@@ -222,27 +377,26 @@ export default {
         return;
       }
 
+      this.storeLocalDonation();
+
       try {
-        // Prepare CSRF
         const tokenEl = document.querySelector('meta[name="csrf-token"]');
         const csrf = tokenEl ? tokenEl.getAttribute('content') : '';
 
-        // Create a Checkout session on the server
         const res = await fetch('/support/create-checkout-session', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'X-CSRF-TOKEN': csrf,
-            'Accept': 'application/json'
+            'Accept': 'application/json',
           },
-          body: JSON.stringify({ amount: this.finalAmount })
+          body: JSON.stringify({ amount: this.finalAmount }),
         });
 
         const data = await res.json();
         if (!res.ok) throw new Error(data?.error || 'Failed to create payment session');
 
-        // Redirect to Stripe Checkout using Stripe.js
-        const key = (document.querySelector('meta[name="stripe-key"]')||{}).getAttribute?.('content');
+        const key = (document.querySelector('meta[name="stripe-key"]') || {}).getAttribute?.('content');
         if (!key) throw new Error('Stripe publishable key missing');
         const stripe = window.Stripe ? window.Stripe(key) : null;
         if (!stripe) throw new Error('Stripe.js not loaded');
@@ -253,7 +407,6 @@ export default {
         }
       } catch (err) {
         console.error('Donation error:', err);
-        // Fallback to Payment Link if configured
         try {
           window.location.href = this.stripeUrl;
         } catch (_e) {
@@ -510,6 +663,95 @@ export default {
   background: #f8f9fa;
   border-radius: 8px;
   border: 1px solid #e9ecef;
+}
+
+.progress-card {
+  background: #eff5f9;
+  border-radius: 14px;
+  border: 1px solid #dde6ef;
+  padding: 1.25rem 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.progress-card .progress {
+  height: 10px;
+  background: #d2e5f4;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.progress-card .progress-bar {
+  background: linear-gradient(90deg, #1a5f7a, #2c3e50);
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.4s ease;
+}
+
+.progress-footnote {
+  letter-spacing: 0.01em;
+}
+
+.history-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  background: #e8fff6;
+  border-radius: 10px;
+  border: 1px solid #cfeee2;
+  color: #1b5a46;
+  font-weight: 500;
+}
+
+.suggested-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.suggested-amounts button.active {
+  background: #1a5f7a;
+  color: white;
+  border-color: #1a5f7a;
+}
+
+.email-note {
+  font-size: 0.85rem;
+}
+
+.thank-you-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  color: #1a5f7a;
+  font-weight: 600;
+}
+
+.recent-donations {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  padding: 1rem 1.25rem;
+}
+
+.recent-donations ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recent-donations li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #ebeff3;
+  font-size: 0.9rem;
+}
+
+.recent-donations li:last-child {
+  border-bottom: none;
 }
 
 /* Testimonial Section */
