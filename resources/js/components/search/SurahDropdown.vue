@@ -11,6 +11,7 @@
         :options="dropdownOptions"
         optionLabel="label"
         optionValue="value"
+        appendTo="self"
         :filter="true"
         filterBy="label,ar"
         showClear
@@ -127,15 +128,83 @@ export default {
 
 .glossy :deep(.p-dropdown) {
   width: 100%;
-  background: #ffffffcc;
-  backdrop-filter: blur(6px);
-  border-radius: 20px;
-  border: 1px solid rgba(11,128,111,.25);
-  box-shadow: 0 10px 24px rgba(11,128,111,.18);
-  transition: transform .15s ease, box-shadow .15s ease;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #aed4ff;
+  box-shadow: 0 10px 30px rgba(15, 121, 196, 0.18);
+  transition: border-color .15s ease, box-shadow .2s ease;
+  position: relative;
+  padding: 2px;
 }
-.glossy :deep(.p-dropdown:hover) { transform: translateY(-1px); box-shadow: 0 14px 32px rgba(11,128,111,.24); }
-.glossy :deep(.p-dropdown .p-inputtext) { font-size: 1.05rem; padding: .85rem 1rem; }
+.glossy :deep(.p-dropdown):hover {
+  border-color: #6db5ff;
+  box-shadow: 0 16px 40px rgba(15, 121, 196, 0.25);
+}
+.glossy :deep(.p-dropdown-label) {
+  padding-right: 32px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.glossy :deep(.p-inputtext) {
+  font-size: 1.05rem;
+  padding: .9rem 1rem;
+  border-radius: 12px;
+  border: none;
+  box-shadow: inset 0 0 0 1px rgba(15, 121, 196, 0.2);
+  background: #fff;
+  flex: 1;
+  width: auto;
+}
+.glossy :deep(.p-dropdown-trigger) {
+  height: 100%;
+}
+.glossy :deep(.p-dropdown-panel) {
+  margin-top: 6px;
+  border-radius: 16px;
+  border: 1px solid #dfe7ee;
+  box-shadow: 0 40px 60px rgba(20, 60, 120, 0.25);
+  width: calc(100% + 4px);
+  left: -2px;
+  background: #fff;
+  padding: .5rem 0;
+  z-index: 1055;
+}
+.glossy :deep(.p-dropdown-panel .p-dropdown-items) {
+  max-height: 300px;
+}
+.glossy :deep(.p-dropdown-panel .p-dropdown-item) {
+  padding: 0.7rem 1.25rem;
+  font-size: 1rem;
+  color: #0f3c52;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.glossy :deep(.p-dropdown-panel .p-dropdown-item.p-highlight) {
+  background: #f2f8ff;
+}
+.glossy :deep(.p-dropdown-panel .p-dropdown-header) {
+  padding: 0 1.25rem .25rem;
+}
+.glossy :deep(.p-dropdown-panel .p-dropdown-filter) {
+  width: calc(100% - 2.5rem);
+  margin: 0 1.25rem 0;
+  padding: .9rem 1rem;
+  border-radius: 12px;
+  border: 1px solid #dfe7ee;
+  box-shadow: none;
+  font-size: 1rem;
+}
+.glossy :deep(.p-dropdown-panel .p-dropdown-filter:focus) {
+  border-color: #83b4ff;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(131, 180, 255, 0.3);
+}
+.glossy :deep(.p-dropdown-arrow) {
+  color: #0f3c52;
+  font-size: 1.25rem;
+}
 
 .item { display: flex; align-items: baseline; gap: .6rem; }
 .item .num { font-weight: 700; color: #1a5f7a; min-width: 2ch; text-align: right; }
