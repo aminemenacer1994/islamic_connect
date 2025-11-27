@@ -1418,6 +1418,19 @@
   font-size: 16px;
 }
 
+.jumbotron {
+  margin-top: 1.25rem;
+  padding-top: 4.5rem;
+}
+.jumbotron:not(.no-spacing) .hero-title {
+  margin-top: 1rem;
+}
+@media (max-width: 768px) {
+  .jumbotron {
+    padding-top: 5.5rem;
+  }
+}
+
 .jumbotron-overlay {
   top: 0;
   left: 0;

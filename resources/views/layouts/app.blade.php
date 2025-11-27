@@ -24,6 +24,8 @@
             'https://www.linkedin.com/company/islamic-connect/',
             'https://www.instagram.com/islamicconnect24/',
         ];
+        $shouldNoIndexSubscribe = str_starts_with($path, 'subscribe');
+        $metaRobots = $shouldNoIndexSubscribe ? 'noindex,follow' : 'index,follow';
         $locale = str_replace('_', '-', app()->getLocale());
     @endphp
     <title>@yield('title', $metaTitle)</title>
@@ -37,6 +39,7 @@
     <meta property="og:image" content="{{ $metaImage }}">
     <meta property="og:image:alt" content="{{ $metaTitle }}">
     <meta property="og:locale" content="{{ $locale }}">
+    <meta name="robots" content="{{ $metaRobots }}">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@islamiconnect24">
     <meta name="twitter:title" content="{{ $metaTitle }}">
@@ -62,9 +65,10 @@
     <!-- App CSS last so it overrides vendor defaults -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/layout.css') }}">
-    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}">
-    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}" media="(prefers-color-scheme: light)">
-    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_white.png') }}" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="{{ mix('css/vue-styles.css') }}">
+    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}">
+    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}" media="(prefers-color-scheme: dark)">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo_main.png') }}">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
@@ -163,6 +167,18 @@
                  src="https://www.facebook.com/tr?id={{ $facebookPixelId }}&ev=PageView&noscript=1" />
         </noscript>
     @endif
+
+    <style>
+        body {
+            padding-top: calc(3.5rem + 1rem);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: calc(4.25rem + 1rem);
+            }
+        }
+    </style>
 
 </head>
 

@@ -5,7 +5,7 @@ mix.setPublicPath('public');
 mix.setResourceRoot(process.env.MIX_ASSET_URL || '/');
 
 mix.js('resources/js/app.js', 'public/js')
-   .vue({ version: 3 })
+   .vue({ version: 3, extractStyles: true })
    .postCss('resources/css/app.css', 'public/css', [
        require('autoprefixer'),
    ])
