@@ -304,7 +304,6 @@
         margin-top: 0.25rem;
     }
     
-    /* Skip to main content for accessibility */
     .skip-link {
         position: absolute;
         top: -40px;

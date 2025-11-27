@@ -1,10 +1,5 @@
 <template>
-  <div class="min-vh-100 bg-light p-0 m-0 premium-root" :style="{ fontSize: `${baseFontSize}rem` }">
-    <!-- Accessibility: Skip to main content -->
-    <a href="#mainContent"
-      class="visually-hidden-focusable position-absolute top-0 start-50 translate-middle-x bg-primary text-white text-decoration-none rounded p-2 opacity-0"
-      style="z-index: 1000;" @click.prevent="skipToContent">Skip to main content</a>
-
+  <div class="min-vh-100 bg-light p-0 m-0 premium-root" :style="{ fontSize: `${baseFontSize}rem` }">    
     <header class="py-4 border-bottom mb-4 px-2 px-md-4">
       <div class="container-fluid px-3 px-md-4">
         <div class="row justify-content-center mx-0">

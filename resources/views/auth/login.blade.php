@@ -302,7 +302,6 @@
         display: block;
     }
     
-    /* Skip to main content for accessibility */
     .skip-link {
         position: absolute;
         top: -40px;

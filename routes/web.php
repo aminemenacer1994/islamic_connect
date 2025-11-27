@@ -202,7 +202,7 @@ Route::get('login/linkedin', [LoginController::class, 'redirectToLinkedIn'])->na
 Route::get('login/linkedin/callback', [LoginController::class, 'handleLinkedInCallback']);
 
 // Subscription Public Routes
-Route::view('/subscribe', 'subscribe')->name('subscribe');
+// Route::view('/subscribe', 'subscribe')->name('subscribe');
 // Route::get('/subscribe/success', [SubscriptionController::class, 'success'])->name('subscribe.success');
 // Route::post('/stripe/webhook', [SubscriptionController::class, 'handleWebhook'])
 //     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);

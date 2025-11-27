@@ -16,7 +16,7 @@
                 'Islamic Connect delivers accessible Quran study, dua guidance, and community tools for Muslims seeking clarity and service.'
             )
         );
-        $metaImage = trim($__env->yieldContent('meta_image', asset('images/logo_main.png')));
+        $metaImage = trim($__env->yieldContent('meta_image', asset('images/logo_black.png')));
         $metaType = trim($__env->yieldContent('meta_type', 'website'));
         $socialProfiles = [
             'https://www.facebook.com/profile.php?id=61560313385599',
@@ -65,11 +65,11 @@
     <!-- App CSS last so it overrides vendor defaults -->
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     <link rel="stylesheet" href="{{ mix('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ mix('css/vue-styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/vue-styles.css') }}">
     <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}">
-    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}" media="(prefers-color-scheme: light)">
-    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_main.png') }}" media="(prefers-color-scheme: dark)">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo_main.png') }}">
+    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_black.png') }}" media="(prefers-color-scheme: light)">
+    <link rel="icon" type="image/png" sizes="256x256" href="{{ asset('images/logo_white.png') }}" media="(prefers-color-scheme: dark)">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/logo_black.png') }}">
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet';">
     <noscript>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -107,7 +107,7 @@
                     '@id' => $canonicalUrl . '#organization',
                     'name' => 'Islamic Connect',
                     'url' => $canonicalUrl,
-                    'logo' => asset('images/logo_main.png'),
+                    'logo' => asset('images/logo_black.png'),
                     'sameAs' => $socialProfiles,
                 ],
                 [
@@ -183,7 +183,6 @@
 </head>
 
 <body>
-    <a class="skip-to-content" href="#main-content">Skip to main content</a>
     <div>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">

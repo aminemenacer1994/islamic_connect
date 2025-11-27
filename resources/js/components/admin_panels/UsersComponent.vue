@@ -470,32 +470,3 @@ export default {
 
 }
 </script>
-
-<style>
-.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
-.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
-.modal-modern .btn-close{filter:none}
-.modal-modern .input-group-text{background:#f1f5f9; border-color:#e2e8f0}
-.modal-modern .form-control:focus{box-shadow:0 0 0 .2rem rgba(11,128,111,.15); border-color: var(--bs-primary)}
-.modern-datatable{width:100%}
-.table-toolbar{display:flex; align-items:center; gap:.75rem}
-.table-toolbar .spacer{flex:1}
-.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
-.btn-add,.btn-add.p-button{background:var(--ref-green)!important; border-color:var(--ref-green)!important; color:#fff!important; border:none; padding:.55rem .95rem; border-radius:10px; box-shadow:0 6px 14px rgba(0,191,166,.18)}
-.btn-add:hover{filter:brightness(.95)}
-/* outlined variant */
-.btn-add.outline{background:#fff!important; color:var(--ref-green)!important; border:2px solid var(--ref-green)!important; box-shadow:none}
-.btn-add.outline:hover{background:var(--ref-green)!important; color:#fff!important; box-shadow:0 6px 14px rgba(0,191,166,.18)}
-.empty{color:#6b7280; padding:1rem}
-.footer-count{color:#374151}
-/* subtle teal accent + hover animation */
-.teal-accent .p-datatable-header{background:linear-gradient(0deg, #f6faf9, #fff); border:1px solid #e2e8f0; border-radius:12px}
-.teal-accent .p-datatable-tbody > tr{transition:background .18s ease, transform .18s ease}
-.teal-accent .p-datatable-tbody > tr:hover{background:#f1fcf9}
-.teal-accent .p-button{background:var(--ref-green); border-color:var(--ref-green)}
-.teal-accent .p-paginator .p-paginator-current{color:#0f766e}
-.row-actions{display:inline-flex; align-items:center; gap:.5rem}
-.table-toolbar{display:flex; align-items:center; gap:.75rem}
-.table-toolbar .spacer{flex:1}
-.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
-</style>

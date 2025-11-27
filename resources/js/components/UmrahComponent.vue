@@ -1,7 +1,5 @@
 <template>
   <main role="main" aria-labelledby="umrah-title">
-    <!-- Skip to main content link for screen readers and keyboard users -->
-    <a href="#main-content" class="visually-hidden-focusable skip-link">Skip to main content</a>
     <div class="container-fluid py-5" id="main-content" tabindex="-1">
       <div class="text-center mb-5">
         <h2 id="umrah-title" class="display-5 fw-bold mb-4">

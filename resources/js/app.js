@@ -1,6 +1,5 @@
 console.log('[Vue] app.js start');
 require("./bootstrap");
-import "../css/premium.css";
 import { createApp, defineAsyncComponent } from "vue";
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
