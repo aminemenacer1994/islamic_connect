@@ -209,7 +209,10 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
                         </li>
-
+                       
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3" href="/revert" data-path="/revert" data-nav-item="primary">Revert corner</a>
+                        </li>
 
                         <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>

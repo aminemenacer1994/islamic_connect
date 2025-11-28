@@ -1,18 +1,19 @@
 {
     "private": true,
     "scripts": {
-    "dev": "npm run development",
-    "development": "npx mix",
-    "watch": "npx mix watch",
-    "watch-poll": "npx mix watch -- --watch-options-poll=1000",
-    "hot": "npx mix watch --hot",
-    "prod": "npm run production",
-    "production": "npx mix --production",
-    "build": "webpack --config webpack.config.js && node scripts/generate-sitemap.js",
-    "sitemap:duas": "node scripts/generate-dua-sitemap.js"
-  },
+        "dev": "npm run development",
+        "development": "npx mix",
+        "watch": "npx mix watch",
+        "watch-poll": "npx mix watch -- --watch-options-poll=1000",
+        "hot": "npx mix watch --hot",
+        "prod": "npm run production",
+        "production": "npx mix --production",
+        "build": "webpack --config webpack.config.js && node scripts/generate-sitemap.js",
+        "sitemap:duas": "node scripts/generate-dua-sitemap.js"
+    },
     "devDependencies": {
         "@babel/preset-env": "^7.28.3",
+        "@tailwindcss/postcss": "^4.1.17",
         "@vue/compiler-sfc": "^3.5.18",
         "autoprefixer": "^10.4.20",
         "axios": "^1.8.4",
@@ -30,6 +31,7 @@
         "sass": "^1.83.1",
         "sass-loader": "^12.6.0",
         "style-loader": "^3.3.0",
+        "tailwindcss": "^4.1.17",
         "vue": "^3.5.18",
         "vue-loader": "^17.3.1",
         "vue-sound": "^0.1.10",

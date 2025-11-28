@@ -91,18 +91,6 @@
       <div class="mt-2 text-muted">Loading duas…</div>
     </div>
 
-    <!-- Custom Search Tags -->
-    <!-- <div class="container mb-4">
-      <div class="search-tags d-flex overflow-auto pb-2">
-        <button v-for="tag in searchTags" :key="tag" class="tag-btn me-2"
-          :class="{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }" @click="toggleTag(tag)"
-          :aria-label="`Filter by ${tag}`">
-          <i :class="getTagIcon(tag)" class="me-1"></i>
-          {{ tag }}
-        </button>
-      </div>
-    </div> -->
-
     <!-- Search Input -->
     <div class="container mb-4">
       <div class="row g-2 align-items-stretch justify-content-center" role="search">
@@ -308,6 +296,16 @@
 
                   <!-- Action Buttons -->
                   <div class="d-flex gap-2">
+                    <!-- <button
+                      :class="getAudioButtonClasses(dua)"
+                      style="width: 36px; height: 36px;" @click="handleAudioPlayback(dua)"
+                      :aria-label="isAudioPlaying(dua) ? 'Stop Dua audio' : 'Play Dua audio'">
+                      <i :class="isAudioPlaying(dua) ? 'bi bi-stop-fill' : 'bi bi-volume-up-fill'"></i>
+                      <span class="action-tooltip">
+                        {{ isAudioPlaying(dua) ? 'Stop audio' : hasRecordedAudio(dua) ? 'Play recorded dua' : 'Play spoken dua' }}
+                      </span>
+                    </button> -->
+
                     <button
                       class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn"
                       style="width: 36px; height: 36px;" @click="toggleLike(dua.id)"
@@ -410,6 +408,11 @@ export default {
       nextStepMinimized: false,
       staticDuaSlug: typeof window !== 'undefined' ? window.__duaSlug || '' : '',
       staticDuaMatch: null,
+      currentlyPlayingAudioId: null,
+      audioElement: null,
+      speechUtterance: null,
+      speechSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
+      speechVoices: [],
     };
   },
   computed: {
@@ -617,6 +620,117 @@ export default {
       const url = `https://wa.me/?text=${encodedText}`;
       window.open(url, '_blank');
     },
+    hasRecordedAudio(dua) {
+      return Boolean(dua && dua.audio);
+    },
+    getAudioButtonClasses(dua) {
+      const base = [
+        'btn',
+        'btn-sm',
+        'rounded-circle',
+        'p-0',
+        'd-flex',
+        'align-items-center',
+        'justify-content-center',
+        'action-btn',
+      ];
+      if (this.hasRecordedAudio(dua)) {
+        base.push('btn-outline-secondary');
+      } else {
+      base.push('audio-action-btn', 'speech');
+      }
+      return base;
+    },
+    initializeSpeechVoices() {
+      if (!this.speechSupported || typeof window === 'undefined') return;
+      const updateVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length) {
+          this.speechVoices = voices;
+          window.speechSynthesis.onvoiceschanged = null;
+        }
+      };
+      window.speechSynthesis.onvoiceschanged = updateVoices;
+      updateVoices();
+    },
+    selectArabicVoice() {
+      if (!this.speechVoices.length) return null;
+      const arabicVoice = this.speechVoices.find(voice => voice.lang?.startsWith('ar'));
+      return arabicVoice || this.speechVoices[0];
+    },
+    canPlayAudio(dua) {
+      return Boolean(dua && (dua.audio || this.speechSupported));
+    },
+    isAudioPlaying(dua) {
+      return !!dua && this.currentlyPlayingAudioId === dua.id;
+    },
+    handleAudioPlayback(dua) {
+      if (!dua) return;
+      if (!this.canPlayAudio(dua)) return;
+      if (this.currentlyPlayingAudioId === dua.id) {
+        this.stopAudioPlayback();
+        return;
+      }
+      this.stopAudioPlayback();
+      if (dua.audio) {
+        const audio = new Audio(dua.audio);
+        audio.preload = 'auto';
+        audio.addEventListener('ended', () => {
+          if (this.currentlyPlayingAudioId === dua.id) {
+            this.stopAudioPlayback();
+          }
+        });
+        audio.addEventListener('error', () => this.stopAudioPlayback());
+        this.audioElement = audio;
+        this.currentlyPlayingAudioId = dua.id;
+        audio.play().catch(() => this.stopAudioPlayback());
+        return;
+      }
+      if (this.speechSupported) {
+        this.playSpeechForDua(dua);
+      }
+    },
+    playSpeechForDua(dua) {
+      if (!dua) return;
+      const text = dua.arabic || dua.transliteration || dua.translation || dua.title;
+      if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      const preferredVoice = this.selectArabicVoice();
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+        utterance.lang = preferredVoice.lang || 'ar-SA';
+      } else {
+        utterance.lang = 'ar-SA';
+      }
+      utterance.rate = 0.88;
+      utterance.pitch = 1.15;
+      utterance.volume = 0.95;
+      utterance.addEventListener('end', () => {
+        if (this.currentlyPlayingAudioId === dua.id) {
+          this.stopAudioPlayback();
+        }
+      });
+      utterance.addEventListener('error', () => {
+        if (this.currentlyPlayingAudioId === dua.id) {
+          this.stopAudioPlayback();
+        }
+      });
+      this.speechUtterance = utterance;
+      this.currentlyPlayingAudioId = dua.id;
+      window.speechSynthesis.speak(utterance);
+    },
+    stopAudioPlayback() {
+      if (this.audioElement) {
+        this.audioElement.pause();
+        this.audioElement.currentTime = 0;
+        this.audioElement = null;
+      }
+      if (this.speechUtterance && typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        this.speechUtterance = null;
+      }
+      this.currentlyPlayingAudioId = null;
+    },
     toggleLike(duaId) {
       if (!duaId) return;
       const updatedLikedDuas = [...this.likedDuas];
@@ -759,8 +873,10 @@ export default {
         this.isLoading = false;
       });
     window.addEventListener('scroll', this.handleScroll, { passive: true });
+    this.initializeSpeechVoices();
   },
   beforeDestroy() {
+    this.stopAudioPlayback();
     window.removeEventListener('scroll', this.handleScroll);
   },
 };
@@ -912,6 +1028,21 @@ mark {
 }
 
 .action-btn i {
+  transition: transform 0.2s ease;
+}
+
+.audio-action-btn {
+  background: linear-gradient(135deg, #17c7ad, #67efda);
+  border: none;
+  color: #022a24;
+  box-shadow: 0 6px 18px rgba(23, 199, 173, 0.35);
+}
+
+.audio-action-btn.speech:hover {
+  background: linear-gradient(135deg, #0fb29d, #49d9be);
+}
+
+.audio-action-btn.speech .bi {
   transition: transform 0.2s ease;
 }
 

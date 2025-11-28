@@ -66,6 +66,7 @@ use App\Http\Controllers\BooksController;
 use App\Http\Controllers\ConvertController;
 use App\Http\Controllers\HolyController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\RevertController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\ReadController;
 use App\Http\Controllers\SubscriptionController;
@@ -229,6 +230,10 @@ Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
 Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
 Route::get('/school', [SchoolController::class, 'index'])->name('school');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+
+
+Route::get('/revert', [RevertController::class, 'index'])->name('revert');
+
 
 
 

@@ -60,7 +60,12 @@ const {
       isLoading: true,
       nextStepMinimized: false,
       staticDuaSlug: typeof window !== 'undefined' ? window.__duaSlug || '' : '',
-      staticDuaMatch: null
+      staticDuaMatch: null,
+      currentlyPlayingAudioId: null,
+      audioElement: null,
+      speechUtterance: null,
+      speechSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
+      speechVoices: []
     };
   },
   computed: {
@@ -233,6 +238,111 @@ const {
       const url = `https://wa.me/?text=${encodedText}`;
       window.open(url, '_blank');
     },
+    hasRecordedAudio(dua) {
+      return Boolean(dua && dua.audio);
+    },
+    getAudioButtonClasses(dua) {
+      const base = ['btn', 'btn-sm', 'rounded-circle', 'p-0', 'd-flex', 'align-items-center', 'justify-content-center', 'action-btn'];
+      if (this.hasRecordedAudio(dua)) {
+        base.push('btn-outline-secondary');
+      } else {
+        base.push('audio-action-btn', 'speech');
+      }
+      return base;
+    },
+    initializeSpeechVoices() {
+      if (!this.speechSupported || typeof window === 'undefined') return;
+      const updateVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length) {
+          this.speechVoices = voices;
+          window.speechSynthesis.onvoiceschanged = null;
+        }
+      };
+      window.speechSynthesis.onvoiceschanged = updateVoices;
+      updateVoices();
+    },
+    selectArabicVoice() {
+      if (!this.speechVoices.length) return null;
+      const arabicVoice = this.speechVoices.find(voice => {
+        var _voice$lang;
+        return (_voice$lang = voice.lang) === null || _voice$lang === void 0 ? void 0 : _voice$lang.startsWith('ar');
+      });
+      return arabicVoice || this.speechVoices[0];
+    },
+    canPlayAudio(dua) {
+      return Boolean(dua && (dua.audio || this.speechSupported));
+    },
+    isAudioPlaying(dua) {
+      return !!dua && this.currentlyPlayingAudioId === dua.id;
+    },
+    handleAudioPlayback(dua) {
+      if (!dua) return;
+      if (!this.canPlayAudio(dua)) return;
+      if (this.currentlyPlayingAudioId === dua.id) {
+        this.stopAudioPlayback();
+        return;
+      }
+      this.stopAudioPlayback();
+      if (dua.audio) {
+        const audio = new Audio(dua.audio);
+        audio.preload = 'auto';
+        audio.addEventListener('ended', () => {
+          if (this.currentlyPlayingAudioId === dua.id) {
+            this.stopAudioPlayback();
+          }
+        });
+        audio.addEventListener('error', () => this.stopAudioPlayback());
+        this.audioElement = audio;
+        this.currentlyPlayingAudioId = dua.id;
+        audio.play().catch(() => this.stopAudioPlayback());
+        return;
+      }
+      if (this.speechSupported) {
+        this.playSpeechForDua(dua);
+      }
+    },
+    playSpeechForDua(dua) {
+      if (!dua) return;
+      const text = dua.arabic || dua.transliteration || dua.translation || dua.title;
+      if (!text || typeof window === 'undefined' || !window.speechSynthesis) return;
+      const utterance = new SpeechSynthesisUtterance(text);
+      const preferredVoice = this.selectArabicVoice();
+      if (preferredVoice) {
+        utterance.voice = preferredVoice;
+        utterance.lang = preferredVoice.lang || 'ar-SA';
+      } else {
+        utterance.lang = 'ar-SA';
+      }
+      utterance.rate = 0.88;
+      utterance.pitch = 1.15;
+      utterance.volume = 0.95;
+      utterance.addEventListener('end', () => {
+        if (this.currentlyPlayingAudioId === dua.id) {
+          this.stopAudioPlayback();
+        }
+      });
+      utterance.addEventListener('error', () => {
+        if (this.currentlyPlayingAudioId === dua.id) {
+          this.stopAudioPlayback();
+        }
+      });
+      this.speechUtterance = utterance;
+      this.currentlyPlayingAudioId = dua.id;
+      window.speechSynthesis.speak(utterance);
+    },
+    stopAudioPlayback() {
+      if (this.audioElement) {
+        this.audioElement.pause();
+        this.audioElement.currentTime = 0;
+        this.audioElement = null;
+      }
+      if (this.speechUtterance && typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        this.speechUtterance = null;
+      }
+      this.currentlyPlayingAudioId = null;
+    },
     toggleLike(duaId) {
       if (!duaId) return;
       const updatedLikedDuas = [...this.likedDuas];
@@ -383,8 +493,10 @@ const {
     window.addEventListener('scroll', this.handleScroll, {
       passive: true
     });
+    this.initializeSpeechVoices();
   },
   beforeDestroy() {
+    this.stopAudioPlayback();
     window.removeEventListener('scroll', this.handleScroll);
   }
 });
@@ -730,7 +842,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Loading"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "mt-2 text-muted"
-  }, "Loading duas…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Custom Search Tags "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"container mb-4\">\n      <div class=\"search-tags d-flex overflow-auto pb-2\">\n        <button v-for=\"tag in searchTags\" :key=\"tag\" class=\"tag-btn me-2\"\n          :class=\"{ active: selectedTag === tag || (tag === 'All' && !selectedTag) }\" @click=\"toggleTag(tag)\"\n          :aria-label=\"`Filter by ${tag}`\">\n          <i :class=\"getTagIcon(tag)\" class=\"me-1\"></i>\n          {{ tag }}\n        </button>\n      </div>\n    </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Loading duas…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "input-group-text text-white border-0",
     style: {
       "background-color": "#0db691"
@@ -949,7 +1061,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "aria-label": "Increase Font Size"
       }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-plus-circle-fill fs-5"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      :class=\"getAudioButtonClasses(dua)\"\n                      style=\"width: 36px; height: 36px;\" @click=\"handleAudioPlayback(dua)\"\n                      :aria-label=\"isAudioPlaying(dua) ? 'Stop Dua audio' : 'Play Dua audio'\">\n                      <i :class=\"isAudioPlaying(dua) ? 'bi bi-stop-fill' : 'bi bi-volume-up-fill'\"></i>\n                      <span class=\"action-tooltip\">\n                        {{ isAudioPlaying(dua) ? 'Stop audio' : hasRecordedAudio(dua) ? 'Play recorded dua' : 'Play spoken dua' }}\n                      </span>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
         style: {
           "width": "36px",

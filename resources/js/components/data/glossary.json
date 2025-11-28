@@ -1,0 +1,8 @@
+{
+  "1": [{"t": "Tawheed", "d": "The Oneness of Allah."}, {"t": "Shahada", "d": "Testimony of Faith."}, {"t": "Sunnah", "d": "The way of the Prophet."}],
+  "2": [{"t": "Iman", "d": "Faith/Belief."}, {"t": "Malaikah", "d": "Angels."}, {"t": "Qadar", "d": "Divine Destiny."}],
+  "3": [{"t": "Salah", "d": "Prayer."}, {"t": "Zakat", "d": "Charity."}, {"t": "Sawm", "d": "Fasting."}, {"t": "Hajj", "d": "Pilgrimage."}],
+  "4": [{"t": "Ayah", "d": "Verse."}, {"t": "Surah", "d": "Chapter."}, {"t": "Wahi", "d": "Revelation."}],
+  "6": [{"t": "Wudu", "d": "Ritual ablution."}, {"t": "Rakat", "d": "Unit of prayer."}, {"t": "Qibla", "d": "Direction of Makkah."}],
+  "7": [{"t": "Adab", "d": "Etiquette/Manners."}, {"t": "Salam", "d": "Peace (Greeting)."}]
+}

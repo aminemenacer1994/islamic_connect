@@ -190,6 +190,8 @@ const asyncComponentLoaders = {
   "history-component": () => import("./components/HistoryComponent.vue"),
   "payment-methods-component": () => import("./components/PaymentMethodsComponent.vue"),
   "read-component": () => import("./components/ReadComponent.vue"),
+  "revert-component": () => import("./components/RevertComponent.vue"),
+
 };
 
 const registerAsyncComponent = (name, loader) => {
