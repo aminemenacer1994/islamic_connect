@@ -60,11 +60,13 @@
           <div>
             <!-- Header Section -->
             <div class="lesson-header animated-fade-in">
-              <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4">
+              <div
+                class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4">
                 <div class="mb-3 mb-md-0">
                   <div class="d-flex align-items-center mb-2">
                     <i class="bi bi-journey me-2 text-primary"></i>
-                    <span class="text-uppercase text-muted fw-bold tracking-wide small">Chapter {{ currentLesson?.chapterId }}</span>
+                    <span class="text-uppercase text-muted fw-bold tracking-wide small">Chapter {{
+                      currentLesson?.chapterId }}</span>
                   </div>
                   <h1 class="fw-bold text-left display-6 text-dark mb-2">{{ currentLesson?.title }}</h1>
                 </div>
@@ -121,9 +123,8 @@
                     Previous Chapter
                   </button>
 
-                  <button class="btn btn-sm btn-primary order-3" 
-                    :disabled="selectedPill >= roadmapData.length || isWaitingForNext"
-                    @click="completeAndNext">
+                  <button class="btn btn-sm btn-primary order-3"
+                    :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
                     Next Chapter
                     <i class="bi bi-arrow-right ms-2"></i>
                   </button>
@@ -136,19 +137,61 @@
     </main>
   </div>
 </template>
-
 <script>
 import { defineComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
-import glossaryData from './data/glossary.json'
 import lessonsData from './data/lessons.json'
-import missionsData from './data/missions.json'
-import quizzesData from './data/quizzes.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
   if (value && value.default && Array.isArray(value.default)) return value.default
   return []
+}
+
+// FULL-SCREEN EPIC CONFETTI
+const fullScreenConfetti = () => {
+  // Left shower
+  window.confetti({
+    particleCount: 100,
+    spread: 80,
+    origin: { x: 0, y: 0.6 },
+    drift: 1.5,
+    startVelocity: 50,
+    gravity: 0.7,
+    scalar: 1.2,
+    colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5'],
+    shapes: ['square', 'circle'],
+    zIndex: 10000,
+    disableForReducedMotion: true
+  })
+
+  // Right shower
+  window.confetti({
+    particleCount: 100,
+    spread: 80,
+    origin: { x: 1, y: 0.6 },
+    drift: -1.5,
+    startVelocity: 50,
+    gravity: 0.7,
+    scalar: 1.2,
+    colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5'],
+    shapes: ['square', 'circle'],
+    zIndex: 10000,
+    disableForReducedMotion: true
+  })
+
+  // Big center explosion
+  window.confetti({
+    particleCount: 150,
+    spread: 120,
+    origin: { x: 0.5, y: 0.5 },
+    startVelocity: 60,
+    scalar: 1.4,
+    colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5', '#ffffff'],
+    shapes: ['square', 'circle'],
+    zIndex: 10000,
+    disableForReducedMotion: true
+  })
 }
 
 export default defineComponent({
@@ -157,16 +200,10 @@ export default defineComponent({
   data() {
     return {
       roadmapData: normalizeJson(roadmapData),
-      glossary: normalizeJson(glossaryData),
       lessons: normalizeJson(lessonsData),
-      missions: normalizeJson(missionsData),
-      quizzes: normalizeJson(quizzesData),
-
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
-
-      // Success alert state
       showSuccessAlert: false,
       successMessage: '',
       isWaitingForNext: false,
@@ -175,10 +212,10 @@ export default defineComponent({
 
   computed: {
     currentLesson() {
-      return this.lessons.find((entry) => entry.chapterId === this.selectedPill) || this.lessons[0]
+      return this.lessons.find(l => l.chapterId === this.selectedPill) || this.lessons[0]
     },
     progressPercentage() {
-      return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
+      return ((this.maxStepReached - 1) / this.roadmapData.length) *  100
     },
     completedChapters() {
       return this.maxStepReached - 1
@@ -191,20 +228,29 @@ export default defineComponent({
   mounted() {
     const saved = localStorage.getItem('maxStepReached')
     if (saved) {
-      const value = parseInt(saved)
+      const value = parseInt(saved, 10)
       this.maxStepReached = value
       this.selectedPill = value
     }
+    this.loadConfetti()
   },
 
   methods: {
+    loadConfetti() {
+      if (window.confetti) return
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'
+      script.onload = () => console.log('Confetti loaded & ready!')
+      document.head.appendChild(script)
+    },
+
     toggleMobileNav() {
       this.mobileNavOpen = !this.mobileNavOpen
     },
 
-    selectPill(stepId) {
-      if (stepId <= this.maxStepReached) {
-        this.selectedPill = stepId
+    selectPill(id) {
+      if (id <= this.maxStepReached) {
+        this.selectedPill = id
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
       this.mobileNavOpen = false
@@ -217,33 +263,24 @@ export default defineComponent({
         this.maxStepReached = nextId
         localStorage.setItem('maxStepReached', nextId.toString())
 
-        const chapterTitle = this.roadmapData.find(s => s.id === this.selectedPill)?.title || 'Chapter'
-        this.successMessage = `"${chapterTitle}" completed successfully!`
+        const chapter = this.roadmapData.find(c => c.id === this.selectedPill)
+        this.successMessage = `"${chapter?.title || 'Chapter'}" completed successfully!`
 
         this.showSuccessAlert = true
         this.isWaitingForNext = true
 
-        // Professional subtle confetti from top-right
-        if (window.confetti) {
-          window.confetti({
-            particleCount: 70,
-            spread: 60,
-            origin: { x: 0.92, y: 0.12 },
-            colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5'],
-            gravity: 0.6,
-            scalar: 0.85,
-            drift: 0.4,
-            ticks: 110,
-            disableForReducedMotion: true
-          })
-        }
+        // FULL-SCREEN CONFETTI PARTY!
+        this.$nextTick(() => {
+          if (window.confetti) {
+            fullScreenConfetti()       // This is where the magic happens
+            setTimeout(fullScreenConfetti, 400) // second wave for extra wow
+          }
+        })
 
-        // Auto close after 5s → then wait 3s before enabling next
+        // Auto hide toast
         setTimeout(() => {
           this.showSuccessAlert = false
-          setTimeout(() => {
-            this.isWaitingForNext = false
-          }, 3000)
+          setTimeout(() => { this.isWaitingForNext = false }, 3000)
         }, 5000)
       }
 
@@ -275,7 +312,6 @@ export default defineComponent({
   color: #065f46;
   border-radius: 16px;
   padding: 1.2rem 1.8rem;
-  font-weight: 600;
   font-size: 1.1rem;
   min-width: 360px;
   box-shadow: 0 15px 40px rgba(16, 197, 129, 0.25);
@@ -290,6 +326,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateX(120px) translateY(-40px) scale(0.9);
   }
+
   to {
     opacity: 1;
     transform: translateX(0) translateY(0) scale(1);
@@ -302,7 +339,7 @@ export default defineComponent({
   border-radius: 20px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08),
-              0 4px 10px rgba(0, 0, 0, 0.05);
+    0 4px 10px rgba(0, 0, 0, 0.05);
   overflow: hidden;
   margin-bottom: 2rem;
   transition: all 0.3s ease;
@@ -311,7 +348,7 @@ export default defineComponent({
 .section-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12),
-              0 8px 16px rgba(0, 0, 0, 0.08);
+    0 8px 16px rgba(0, 0, 0, 0.08);
 }
 
 .card-header {
@@ -438,6 +475,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -449,6 +487,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateX(-30px);
   }
+
   to {
     opacity: 1;
     transform: translateX(0);
@@ -456,9 +495,17 @@ export default defineComponent({
 }
 
 @keyframes pulse {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .animated-fade-slide {
@@ -744,6 +791,7 @@ export default defineComponent({
     opacity: 0;
     transform: translateY(30px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
