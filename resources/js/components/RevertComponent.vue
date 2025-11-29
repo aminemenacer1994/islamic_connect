@@ -11,17 +11,8 @@
     <main class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5">
       <div class="row g-4">
         <!-- Navigation Sidebar -->
-        <aside class="col-lg-3 col-xl-2" :class="{ 'mobile-open': mobileNavOpen }">
+        <aside class="col-sm-3 col-lg-3 col-xl-3" :class="{ 'mobile-open': mobileNavOpen }">
           <div class="navigation-card">
-            <div class="user-profile mb-4 d-flex align-items-center">
-              <div class="avatar me-3">
-                <i class="bi bi-person-check"></i>
-              </div>
-              <div>
-                <p class="mb-0 fw-bold fs-6">Welcome back!</p>
-                <p class="mb-0 text-muted small">Continue your journey</p>
-              </div>
-            </div>
             
             <div class="progress-indicator mb-4">
               <div class="d-flex justify-content-between align-items-center mb-2">
@@ -57,25 +48,12 @@
                 </button>
               </li>
             </ul>
-
-            <!-- Quick Actions -->
-            <div class="quick-actions mt-4 pt-3 border-top">
-              <h6 class="fw-bold small mb-3">Quick Actions</h6>
-              <div class="d-grid gap-2">
-                <button class="btn btn-outline-primary btn-sm">
-                  <i class="bi bi-journal-text me-2"></i>My Notes
-                </button>
-                <button class="btn btn-outline-primary btn-sm">
-                  <i class="bi bi-download me-2"></i>Resources
-                </button>
-              </div>
-            </div>
           </div>
         </aside>
         
         <!-- Main Content Area -->
-        <section class="col-lg-9 col-xl-10">
-          <div class="content-wrapper">
+        <section class="col-sm-9 col-lg-9 col-xl-9">
+          <div>
             <!-- Header Section -->
             <div class="lesson-header animated-fade-in">
               <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4">
@@ -84,39 +62,19 @@
                     <i class="bi bi-journey me-2 text-primary"></i>
                     <span class="text-uppercase text-muted fw-bold tracking-wide small">Chapter {{ currentLesson?.chapterId }}</span>
                   </div>
-                  <h1 class="fw-bold display-6 text-dark mb-2">{{ currentLesson?.title }}</h1>
-                  <p class="lead text-muted mb-0">
-                    <i class="bi bi-quote me-1 text-accent"></i>
-                    {{ currentLesson?.quote }}
-                  </p>
-                </div>
-                <div class="d-flex align-items-center gap-2">
-                  <span class="status-badge">
-                    <span class="status-dot"></span>
-                    <i class="bi bi-clock me-1"></i>
-                    In Progress
-                  </span>
-                  <div class="btn-group">
-                    <button class="btn btn-icon" title="Bookmark">
-                      <i class="bi bi-bookmark"></i>
-                    </button>
-                    <button class="btn btn-icon" title="Share">
-                      <i class="bi bi-share"></i>
-                    </button>
-                  </div>
+                  <h1 class="fw-bold text-left display-6 text-dark mb-2">{{ currentLesson?.title }}</h1>
                 </div>
               </div>
             </div>
 
             <!-- Learning Content -->
-            <div class="content-sections">
+            <div>
               <!-- Lesson Sections -->
               <div v-for="(section, index) in currentLesson?.sections" :key="section.title" 
                    class="content-card section-card animated-slide-up" :style="{ animationDelay: `${index * 0.1}s` }">
                 <div class="card-header d-flex align-items-center">
                   <div class="section-number">{{ index + 1 }}</div>
                   <h3 class="h4 fw-bold text-dark mb-0 ms-3">
-                    <i class="bi bi-file-text me-2 text-primary"></i>
                     {{ section.title }}
                   </h3>
                 </div>
@@ -135,7 +93,7 @@
               </div>
 
               <!-- Quiz Section -->
-              <div class="content-card quiz-card animated-slide-up" style="animation-delay: 0.3s">
+              <!-- <div class="content-card quiz-card animated-slide-up" style="animation-delay: 0.3s">
                 <div class="card-header d-flex align-items-center">
                   <i class="bi bi-patch-question me-3 text-primary fs-4"></i>
                   <h3 class="h4 fw-bold text-dark mb-0">Knowledge Check</h3>
@@ -180,7 +138,7 @@
                       </div>
                     </div>
                     
-                    <!-- Quiz Results -->
+                    -- Quiz Results --
                     <div v-else class="quiz-results text-center py-4">
                       <div class="result-icon mb-3">
                         <i class="bi bi-trophy" :class="quizScore >= 70 ? 'text-warning' : 'text-secondary'"></i>
@@ -200,7 +158,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> -->
 
               <!-- Next Steps -->
               <div class="content-card next-steps-card animated-slide-up" style="animation-delay: 0.4s">
@@ -215,41 +173,6 @@
                       <span class="step-badge me-3">{{ index + 1 }}</span>
                       <span class="step-text fs-6 text-dark flex-grow-1">{{ step }}</span>
                       <i class="bi bi-check-circle text-muted ms-2"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Revert Steps -->
-              <div class="content-card revert-steps-card animated-slide-up" style="animation-delay: 0.5s">
-                <div class="card-header d-flex align-items-center">
-                  <i class="bi bi-gear me-3 text-primary fs-4"></i>
-                  <h3 class="h4 fw-bold text-dark mb-0">Implementation Steps</h3>
-                </div>
-                <div class="card-body">
-                  <div class="revert-steps">
-                    <div v-for="(step, index) in revertSteps" :key="index" 
-                         class="revert-step d-flex align-items-start mb-4 p-3 rounded-3"
-                         :class="{ 'active-step': index === activeRevertStep }">
-                      <div class="step-number me-3">{{ index + 1 }}</div>
-                      <div class="step-content flex-grow-1">
-                        <h6 class="fw-bold text-dark mb-2">{{ step.title }}</h6>
-                        <p class="text-muted mb-2 fs-6">{{ step.description }}</p>
-                        <div class="step-actions mt-2">
-                          <button class="btn btn-sm btn-outline-primary me-2" @click="markStepComplete(index)">
-                            <i class="bi bi-check-lg me-1"></i>
-                            Mark Complete
-                          </button>
-                          <button class="btn btn-sm btn-outline-secondary">
-                            <i class="bi bi-clock me-1"></i>
-                            Remind Later
-                          </button>
-                        </div>
-                      </div>
-                      <div class="step-status">
-                        <i v-if="step.completed" class="bi bi-check-circle-fill text-success fs-5"></i>
-                        <i v-else class="bi bi-circle text-muted fs-5"></i>
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -269,23 +192,10 @@
                     Previous Chapter
                   </button>
                   
-                  <div class="d-flex gap-2 order-1 order-md-2 mb-3 mb-md-0">
-                    <button class="btn btn-lg btn-outline-secondary">
-                      <i class="bi bi-download me-2"></i>
-                      Save Progress
-                    </button>
-                    <button 
-                      class="btn btn-lg btn-success" 
-                      @click="handleStepComplete"
-                      v-if="selectedPill === maxStepReached"
-                    >
-                      <i class="bi bi-check-circle me-2"></i>
-                      Complete Chapter
-                    </button>
-                  </div>
+                  
                   
                   <button 
-                    class="btn btn-lg btn-primary order-3" 
+                    class="btn btn-sm btn-primary order-3" 
                     :disabled="selectedPill >= roadmapData.length"
                     @click="selectPill(selectedPill + 1)"
                   >
@@ -609,7 +519,7 @@ export default defineComponent({
   width: 50px;
   height: 50px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  background: linear-gradient(135deg, #eaf3f1, rgba(11, 128, 111, 0.20));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -631,7 +541,7 @@ export default defineComponent({
 
 .progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa);
+  background: linear-gradient(90deg, #eaf3f1, rgba(11, 128, 111, 0.20));
   border-radius: 10px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -657,7 +567,7 @@ export default defineComponent({
 
 .nav-link.active {
   background: rgba(59, 130, 246, 0.1);
-  color: #3b82f6;
+  color: #0b806f;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
   transform: translateX(5px);
 }
@@ -685,7 +595,7 @@ export default defineComponent({
 }
 
 .nav-link.active .step-indicator {
-  background: #3b82f6;
+  background: #0b806f;
   color: white;
 }
 
@@ -701,7 +611,7 @@ export default defineComponent({
 }
 
 .active-arrow {
-  color: #3b82f6;
+  color: #0b806f;
   font-size: 0.875rem;
 }
 
@@ -727,17 +637,13 @@ export default defineComponent({
   border-bottom: 1px solid #e5e7eb;
 }
 
-.card-body {
-  padding: 2rem;
-}
-
 .section-number {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  background: linear-gradient(135deg, #0b806f, #60a5fa);
   color: white;
   border-radius: 10px;
   font-size: 1.125rem;
@@ -805,9 +711,9 @@ export default defineComponent({
 }
 
 .btn-icon:hover {
-  background: #3b82f6;
+  background: #0b806f;
   color: white;
-  border-color: #3b82f6;
+  border-color: #0b806f;
   transform: translateY(-1px);
 }
 
@@ -829,12 +735,12 @@ export default defineComponent({
 }
 
 .option-card:hover {
-  border-color: #3b82f6;
+  border-color: #0b806f;
   background: rgba(59, 130, 246, 0.05);
 }
 
 .option-card.selected {
-  border-color: #3b82f6;
+  border-color: #0b806f;
   background: rgba(59, 130, 246, 0.1);
 }
 
@@ -868,7 +774,7 @@ export default defineComponent({
 }
 
 .option-card.selected .option-letter {
-  background: #3b82f6;
+  background: #0b806f;
   color: white;
 }
 
@@ -890,7 +796,7 @@ export default defineComponent({
 }
 
 .revert-step.active-step {
-  border-color: #3b82f6;
+  border-color: #0b806f;
   background: rgba(59, 130, 246, 0.05);
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
 }
@@ -901,7 +807,7 @@ export default defineComponent({
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: #3b82f6;
+  background: #0b806f;
   color: white;
   border-radius: 8px;
   font-weight: 600;
@@ -915,7 +821,7 @@ export default defineComponent({
   justify-content: center;
   min-width: 36px;
   height: 36px;
-  background: #3b82f6;
+  background: #0b806f;
   color: white;
   border-radius: 8px;
   font-size: 0.875rem;
@@ -942,8 +848,8 @@ export default defineComponent({
 }
 
 .btn-primary {
-  background: #3b82f6;
-  border-color: #3b82f6;
+  background: #0b806f;
+  border-color: #0b806f;
   color: white;
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
 }
@@ -1086,7 +992,7 @@ export default defineComponent({
   }
   
   .card-body {
-    padding: 1.5rem;
+    padding: 0.5rem;
   }
   
   .card-header {
