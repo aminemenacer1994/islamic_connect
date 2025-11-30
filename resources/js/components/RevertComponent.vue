@@ -1,14 +1,19 @@
 <template>
-  <div class="revert-shell">
+  <div class="revert-shell position-relative">
+
+    <!-- Background Layers -->
     <div class="page-sheen"></div>
     <div class="background-pattern"></div>
 
-    <!-- Mobile Navigation Toggle -->
-    <div class="mobile-nav-toggle d-lg-none" @click="toggleMobileNav">
+    <!-- Mobile Nav Toggle -->
+    <button
+      class="mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3"
+      @click="toggleMobileNav"
+    >
       <i class="bi" :class="mobileNavOpen ? 'bi-x-lg' : 'bi-list'"></i>
-    </div>
+    </button>
 
-    <!-- PROFESSIONAL TOP-RIGHT SUCCESS ALERT + SUBTLE CONFETTI -->
+    <!-- Success Alert -->
     <teleport to="body">
       <div v-if="showSuccessAlert" class="success-alert-container">
         <div class="alert alert-success-custom fade show shadow-lg" role="alert">
@@ -18,151 +23,229 @@
       </div>
     </teleport>
 
+    <!-- MAIN CONTENT -->
     <main class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5">
-      <div class="row g-4">
-        <!-- Navigation Sidebar -->
-        <aside class="col-sm-3 col-lg-3 col-xl-3" :class="{ 'mobile-open': mobileNavOpen }">
-          <div class="navigation-card">
 
+      <div class="row g-4">
+
+        <!-- SIDEBAR -->
+        <aside
+          class="col-12 col-md-4 col-lg-3"
+          :class="{ 'mobile-open': mobileNavOpen }"
+        >
+          <div class="navigation-card p-3 p-md-4 shadow-sm rounded-3">
+
+            <!-- Progress Section -->
             <div class="progress-indicator mb-4">
-              <div class="d-flex justify-content-between align-items-center mb-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
                 <span class="fw-bold small">Course Progress</span>
                 <span class="text-muted small">{{ completedChapters }}/{{ totalChapters }}</span>
               </div>
+
               <div class="progress-bar-container">
-                <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
+                <div
+                  class="progress-bar"
+                  :style="{ width: progressPercentage + '%' }"
+                ></div>
               </div>
-              <p class="text-muted small mt-2 mb-0">{{ Math.round(progressPercentage) }}% Complete</p>
+
+              <p class="text-muted small mt-2 mb-0">
+                {{ Math.round(progressPercentage) }}% Complete
+              </p>
             </div>
 
+            <!-- Navigation List -->
             <ul class="nav nav-pills flex-column gap-2" role="tablist">
               <li v-for="step in roadmapData" :key="step.id" class="nav-item">
-                <button type="button" class="nav-link text-start d-flex align-items-center w-100" :class="{
-                  active: selectedPill === step.id,
-                  completed: step.id < maxStepReached,
-                  locked: step.id > maxStepReached
-                }" @click="selectPill(step.id)" :disabled="step.id > maxStepReached">
-                  <span class="step-indicator me-3">
+                <button
+                  type="button"
+                  class="nav-link text-start d-flex align-items-center w-100 py-3 fs-6"
+                  :class="{
+                    active: selectedPill === step.id,
+                    completed: step.id < maxStepReached,
+                    locked: step.id > maxStepReached
+                  }"
+                  @click="selectPill(step.id)"
+                  :disabled="step.id > maxStepReached"
+                >
+                  <span class="step-indicator me-3 fs-5">
                     <i v-if="step.id < maxStepReached" class="bi bi-check-lg"></i>
                     <span v-else-if="step.id === maxStepReached" class="current-step">{{ step.id }}</span>
                     <i v-else class="bi bi-lock"></i>
                   </span>
-                  <span class="step-title flex-grow-1 text-start">{{ step.title }}</span>
-                  <i v-if="step.id === selectedPill" class="bi bi-chevron-right ms-2 active-arrow"></i>
+
+                  <span class="step-title flex-grow-1 fs-6 lh-sm">
+                    {{ step.title }}
+                  </span>
+
+                  <i
+                    v-if="step.id === selectedPill"
+                    class="bi bi-chevron-right ms-2 active-arrow"
+                  ></i>
                 </button>
               </li>
             </ul>
+
           </div>
         </aside>
 
-        <!-- Main Content Area -->
-        <section class="col-sm-9 col-lg-9 col-xl-9">
-          <div>
-            <!-- Header Section -->
-            <div class="lesson-header animated-fade-in">
-              <div
-                class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between mb-4">
-                <div class="mb-3 mb-md-0">
-                  <div class="d-flex align-items-center mb-2">
-                    <i class="bi bi-journey me-2 text-primary"></i>
-                    <span class="text-uppercase text-muted fw-bold tracking-wide small">Chapter {{
-                      currentLesson?.chapterId }}</span>
-                  </div>
-                  <h1 class="fw-bold text-left display-6 text-dark mb-2">{{ currentLesson?.title }}</h1>
-                </div>
-              </div>
-            </div>
+        <!-- MAIN CONTENT AREA -->
+        <section class="col-12 col-md-8 col-lg-9">
 
-            <!-- Learning Content -->
-            <div>
-              <!-- Lesson Sections -->
-              <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
-                class="content-card section-card animated-fade-slide" :style="{ animationDelay: `${index * 0.15}s` }">
-                <div class="card-header d-flex align-items-center">
-                  <div class="section-number">{{ index + 1 }}</div>
-                  <h4 class="h4 fw-bold text-dark mb-0 ms-3">{{ section.title }}</h4>
-                </div>
-                <div class="card-body">
-                  <div class="section-content text-dark" v-html="section.content"></div>
-                  <div v-if="section.deepDive" class="deep-dive mt-5">
-                    <div class="deep-dive-header d-flex align-items-center mb-3">
-                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-warning"></i>
-                      <h5 class="h5 fw-bold mb-0 text-dark">{{ section.deepDive.title }}</h5>
-                    </div>
-                    <div class="deep-dive-content text-dark" v-html="section.deepDive.content"></div>
-                  </div>
-                </div>
-              </div>
+          <!-- Lesson Header -->
+          <div class="lesson-header animated-fade-in mb-4">
+            <div
+              class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between"
+            >
+              <div>
 
-
-              <div v-if="currentLesson?.keyInsights?.length" class="content-card section-card animated-fade-slide"
-                :style="{ animationDelay: `${index * 0.15}s` }">
-                <div class="card-header d-flex align-items-center">
-                  <i class="fas fa-chart-line fs-4 me-3" style="color: #0b806f;"></i>
-                  <h3 class="h4 fw-bold mb-0">Key Insights</h3>
+                <!-- Mobile friendly: smaller text, better spacing -->
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-journey me-2 text-primary fs-5"></i>
+                  <span class="text-uppercase text-muted fw-bold small">
+                    Chapter {{ currentLesson?.chapterId }}
+                  </span>
                 </div>
-                <div class="card-body">
-                  <ul class="list-group insight-list">
-                    <li v-for="insight in currentLesson.keyInsights" :key="insight"
-                      class="list-group-item border-0 px-0 py-2 d-flex align-items-center gap-3">
-                      <i class="fas fa-check-circle" style="color: #0b806f;"></i>
-                      <span>{{ insight }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
 
-              <!-- Next Steps -->
-              <div class="content-card next-steps-card animated-slide-up" style="animation-delay: 0.4s">
-                <div class="card-header d-flex align-items-center">
-                  <i class="bi bi-arrow-right-circle me-3 text-primary fs-4"></i>
-                  <h3 class="h4 fw-bold text-dark mb-0">Next Steps</h3>
-                </div>
-                <div class="card-body">
-                  <div class="steps-list">
-                    <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
-                      class="step-item d-flex align-items-start mb-3">
-                      <span class="step-badge me-3">{{ index + 1 }}</span>
-                      <span class="step-text fs-6 text-dark flex-grow-1">{{ step }}</span>
-                      <i class="bi bi-check-circle text-muted ms-2"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+                <h1 class="fw-bold text-dark mb-2 lh-sm"
+                    :class="{
+                      'fs-3': true,
+                      'fs-md-2': true
+                    }">
+                  {{ currentLesson?.title }}
+                </h1>
 
-            <!-- Add this right after your content cards, before navigation -->
-            <div class="border-top pt-4 mt-4"></div>
-
-            <!-- Navigation Actions -->
-            <div class="actions-card animated-fade-in">
-              <div class="p-3 p-md-4">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 gap-md-4">
-                  <!-- Previous Button -->
-                  <button class="btn btn-md btn-outline-primary fw-500 px-4 order-2 order-md-1"
-                    :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
-                    @click="selectPill(selectedPill - 1)">
-                    <i class="bi bi-arrow-left me-2"></i>
-                    Previous Chapter
-                  </button>
-
-                  <!-- Next Button -->
-                  <button class="btn btn-md fw-600 px-5 order-5 text-white order-1 order-md-3" :class="{
-                    'bg-gradient-primary shadow-sm': !(selectedPill >= roadmapData.length || isWaitingForNext),
-                    'btn-secondary opacity-75': selectedPill >= roadmapData.length || isWaitingForNext
-                  }" :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
-                    {{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}
-                    <i class="bi bi-arrow-right ms-2"></i>
-                  </button>
-                </div>
               </div>
             </div>
           </div>
+
+          <!-- ALL SECTIONS -->
+          <div>
+
+            <!-- Lesson Sections -->
+            <div
+              v-for="(section, index) in currentLesson?.sections"
+              :key="section.title"
+              class="content-card section-card animated-fade-slide mb-4 rounded-3"
+              :style="{ animationDelay: `${index * 0.15}s` }"
+            >
+              <div class="card-header d-flex align-items-center py-3">
+                <div class="section-number fs-5">{{ index + 1 }}</div>
+                <h4 class="fw-bold text-dark mb-0 ms-3 fs-5 lh-sm">{{ section.title }}</h4>
+              </div>
+
+              <div class="card-body p-3 p-md-4">
+                <div class="section-content text-dark fs-6 lh-base" v-html="section.content"></div>
+
+                <div v-if="section.deepDive" class="deep-dive mt-4">
+                  <div class="deep-dive-header d-flex align-items-center mb-3">
+                    <i class="bi bi-lightbulb-fill me-2 fs-4 text-warning"></i>
+                    <h5 class="fw-bold mb-0 text-dark fs-5 lh-sm">{{ section.deepDive.title }}</h5>
+                  </div>
+                  <div class="deep-dive-content text-dark fs-6 lh-base" v-html="section.deepDive.content"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Key Insights -->
+            <div
+              v-if="currentLesson?.keyInsights?.length"
+              class="content-card section-card animated-fade-slide mb-4 rounded-3"
+            >
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="fas fa-chart-line fs-4 me-3" style="color: #0b806f;"></i>
+                <h3 class="fw-bold mb-0 fs-5">Key Insights</h3>
+              </div>
+
+              <div class="card-body p-3 p-md-4">
+                <ul class="list-group insight-list fs-6 lh-base">
+                  <li
+                    v-for="insight in currentLesson.keyInsights"
+                    :key="insight"
+                    class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3"
+                  >
+                    <i class="fas fa-check-circle fs-5" style="color: #0b806f;"></i>
+                    <span>{{ insight }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Next Steps -->
+            <div
+              class="content-card next-steps-card animated-slide-up rounded-3 mb-4"
+              style="animation-delay: 0.4s"
+            >
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-arrow-right-circle me-3 text-primary fs-4"></i>
+                <h3 class="fw-bold text-dark mb-0 fs-5">Next Steps</h3>
+              </div>
+
+              <div class="card-body p-3 p-md-4">
+                <div class="steps-list">
+                  <div
+                    v-for="(step, index) in currentLesson?.nextSteps"
+                    :key="step"
+                    class="step-item d-flex align-items-start mb-3"
+                  >
+                    <span class="step-badge me-3 fs-6">{{ index + 1 }}</span>
+                    <span class="step-text fs-6 lh-base flex-grow-1">{{ step }}</span>
+                    <i class="bi bi-check-circle text-muted ms-2 fs-6"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Divider -->
+          <div class="border-top pt-4 mt-4"></div>
+
+          <!-- NAVIGATION BUTTONS -->
+          <div class="actions-card animated-fade-in">
+            <div class="p-3 p-md-4">
+
+              <div
+                class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
+              >
+
+                <!-- Previous -->
+                <button
+                  class="btn btn-outline-primary fw-500 px-4 py-3 fs-6"
+                  :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }"
+                  :disabled="selectedPill <= 1"
+                  @click="selectPill(selectedPill - 1)"
+                >
+                  <i class="bi bi-arrow-left me-2"></i>
+                  Previous Chapter
+                </button>
+
+                <!-- Next -->
+                <button
+                  class="btn fw-600 px-5 py-3 fs-6 text-white"
+                  :class="{
+                    'bg-gradient-primary shadow-sm': !(selectedPill >= roadmapData.length || isWaitingForNext),
+                    'btn-secondary opacity-75': selectedPill >= roadmapData.length || isWaitingForNext
+                  }"
+                  :disabled="selectedPill >= roadmapData.length || isWaitingForNext"
+                  @click="completeAndNext"
+                >
+                  {{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}
+                  <i class="bi bi-arrow-right ms-2"></i>
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+
         </section>
       </div>
     </main>
   </div>
 </template>
+
+
 <script>
 import { defineComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
@@ -337,6 +420,8 @@ export default defineComponent({
 <style scoped>
 /* ==================== BOOTSTRAP ICONS ==================== */
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
+
+
 
 /* ==================== PROFESSIONAL TOP-RIGHT SUCCESS ALERT ==================== */
 .success-alert-container {
