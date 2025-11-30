@@ -80,7 +80,7 @@
                 class="content-card section-card animated-fade-slide" :style="{ animationDelay: `${index * 0.15}s` }">
                 <div class="card-header d-flex align-items-center">
                   <div class="section-number">{{ index + 1 }}</div>
-                  <h3 class="h4 fw-bold text-dark mb-0 ms-3">{{ section.title }}</h3>
+                  <h4 class="h4 fw-bold text-dark mb-0 ms-3">{{ section.title }}</h4>
                 </div>
                 <div class="card-body">
                   <div class="section-content text-dark" v-html="section.content"></div>
@@ -91,6 +91,24 @@
                     </div>
                     <div class="deep-dive-content text-dark" v-html="section.deepDive.content"></div>
                   </div>
+                </div>
+              </div>
+
+
+              <div v-if="currentLesson?.keyInsights?.length" class="content-card section-card animated-fade-slide"
+                :style="{ animationDelay: `${index * 0.15}s` }">
+                <div class="card-header d-flex align-items-center">
+                  <i class="fas fa-chart-line fs-4 me-3" style="color: #0b806f;"></i>
+                  <h3 class="h4 fw-bold mb-0">Key Insights</h3>
+                </div>
+                <div class="card-body">
+                  <ul class="list-group insight-list">
+                    <li v-for="insight in currentLesson.keyInsights" :key="insight"
+                      class="list-group-item border-0 px-0 py-2 d-flex align-items-center gap-3">
+                      <i class="fas fa-check-circle" style="color: #0b806f;"></i>
+                      <span>{{ insight }}</span>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -113,19 +131,27 @@
               </div>
             </div>
 
+            <!-- Add this right after your content cards, before navigation -->
+            <div class="border-top pt-4 mt-4"></div>
+
             <!-- Navigation Actions -->
-            <div class="content-card actions-card animated-fade-in mt-4">
-              <div class="card-body">
-                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
-                  <button class="btn btn-lg btn-outline-primary order-2 order-md-1" :disabled="selectedPill <= 1"
+            <div class="actions-card animated-fade-in">
+              <div class="p-3 p-md-4">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3 gap-md-4">
+                  <!-- Previous Button -->
+                  <button class="btn btn-md btn-outline-primary fw-500 px-4 order-2 order-md-1"
+                    :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
                     @click="selectPill(selectedPill - 1)">
                     <i class="bi bi-arrow-left me-2"></i>
                     Previous Chapter
                   </button>
 
-                  <button class="btn btn-sm btn-primary order-3"
-                    :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
-                    Next Chapter
+                  <!-- Next Button -->
+                  <button class="btn btn-md fw-600 px-5 order-5 text-white order-1 order-md-3" :class="{
+                    'bg-gradient-primary shadow-sm': !(selectedPill >= roadmapData.length || isWaitingForNext),
+                    'btn-secondary opacity-75': selectedPill >= roadmapData.length || isWaitingForNext
+                  }" :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
+                    {{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}
                     <i class="bi bi-arrow-right ms-2"></i>
                   </button>
                 </div>
@@ -141,6 +167,7 @@
 import { defineComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
 import lessonsData from './data/lessons.json'
+import quizzesData from './data/quizzes.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -207,6 +234,7 @@ export default defineComponent({
       showSuccessAlert: false,
       successMessage: '',
       isWaitingForNext: false,
+      faqState: {},
     }
   },
 
@@ -215,7 +243,7 @@ export default defineComponent({
       return this.lessons.find(l => l.chapterId === this.selectedPill) || this.lessons[0]
     },
     progressPercentage() {
-      return ((this.maxStepReached - 1) / this.roadmapData.length) *  100
+      return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
     },
     completedChapters() {
       return this.maxStepReached - 1
@@ -256,6 +284,19 @@ export default defineComponent({
       this.mobileNavOpen = false
     },
 
+    toggleFaq(index) {
+      const chapterKey = this.currentLesson?.chapterId
+      if (!chapterKey) return
+      const current = this.faqState[chapterKey]
+      const next = current === index ? null : index
+      this.faqState = { ...this.faqState, [chapterKey]: next }
+    },
+
+    isFaqOpen(index) {
+      const chapterKey = this.currentLesson?.chapterId
+      return this.faqState[chapterKey] === index
+    },
+
     completeAndNext() {
       const nextId = this.selectedPill + 1
 
@@ -264,7 +305,7 @@ export default defineComponent({
         localStorage.setItem('maxStepReached', nextId.toString())
 
         const chapter = this.roadmapData.find(c => c.id === this.selectedPill)
-        this.successMessage = `"${chapter?.title || 'Chapter'}" completed successfully!`
+        this.successMessage = `"${chapter?.title || 'Chapter'}" chapter has been completed successfully!`
 
         this.showSuccessAlert = true
         this.isWaitingForNext = true
@@ -281,7 +322,7 @@ export default defineComponent({
         setTimeout(() => {
           this.showSuccessAlert = false
           setTimeout(() => { this.isWaitingForNext = false }, 3000)
-        }, 5000)
+        }, 6000)
       }
 
       if (nextId <= this.roadmapData.length) {
@@ -352,8 +393,10 @@ export default defineComponent({
 }
 
 .card-header {
-  padding: 1.5rem 1.75rem 0;
   background: linear-gradient(to bottom, #f8f9fa 0%, transparent 100%);
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border-color: transparent;
 }
 
 .section-number {
@@ -581,7 +624,7 @@ export default defineComponent({
 }
 
 .nav-link.completed {
-  color: #10b981;
+  color: linear-gradient(135deg, #0b806f, #60a5fa);
 }
 
 .nav-link.locked {
@@ -608,7 +651,7 @@ export default defineComponent({
 }
 
 .nav-link.completed .step-indicator {
-  background: #10b981;
+  background: linear-gradient(135deg, #0b806f, #60a5fa);
   color: white;
 }
 
@@ -626,8 +669,8 @@ export default defineComponent({
 .content-card {
   background: #ffffff;
   border-radius: 20px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.06);
+  border: transparent;
   margin-bottom: 1.5rem;
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -638,10 +681,75 @@ export default defineComponent({
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
 }
 
+.dot-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #0b806f;
+  flex-shrink: 0;
+  margin-top: 0.35rem;
+}
+
+.insight-list .list-group-item {
+  background: transparent;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.glossary-list .list-group-item,
+.video-list .list-group-item,
+.resource-list .list-group-item {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  margin-bottom: 0.8rem;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+
+.glossary-list .list-group-item:last-child,
+.video-list .list-group-item:last-child,
+.resource-list .list-group-item:last-child {
+  margin-bottom: 0;
+}
+
+.scenario-alert {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(16, 185, 129, 0.1));
+  border-color: rgba(59, 130, 246, 0.2);
+  color: #0f172a;
+  font-weight: 600;
+}
+
+.scenario-alert .bi {
+  font-size: 1.25rem;
+}
+
+.faq-stack .faq-item+.faq-item {
+  margin-top: 0.75rem;
+}
+
+.faq-question {
+  background: rgba(15, 23, 42, 0.02);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 0.9rem 1.25rem;
+  font-weight: 600;
+  color: #0f172a;
+  transition: border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.faq-question:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.faq-answer {
+  background: rgba(59, 130, 246, 0.08);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.05);
+}
+
 .card-header {
-  background: #f8fafc;
   padding: 1.5rem 2rem;
-  border-bottom: 1px solid #e5e7eb;
 }
 
 .section-number {
@@ -784,6 +892,99 @@ export default defineComponent({
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 0.875rem;
   color: #dc2626;
+}
+
+.common-question-card,
+.insights-card,
+.faq-card,
+.glossary-card,
+.dos-card,
+.video-card,
+.scenario-card,
+.resource-card,
+.quiz-block {
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: popIn 0.6s ease;
+}
+
+.common-question-card .faq-block,
+.faq-card .faq-block {
+  margin-bottom: 1rem;
+}
+
+.insight-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.insight-pill {
+  padding: 0.8rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.glossary-line {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.glossary-line:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.dos-list {
+  padding-left: 1rem;
+}
+
+.video-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.scenario-text {
+  margin: 0;
+  line-height: 1.6;
+  color: #d6e4ff;
+}
+
+.resource-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding-bottom: 0.4rem;
+}
+
+.resource-line:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.resource-type {
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: #34d399;
+}
+
+.quiz-question {
+  font-weight: 600;
+}
+
+.quiz-options li {
+  padding: 0.7rem;
+  border-radius: 12px;
+  margin-bottom: 0.4rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 @keyframes fadeSlideUp {
