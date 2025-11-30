@@ -20859,6 +20859,36 @@ to {
 .scenario-alert .bi[data-v-1d764944] {
   font-size: 1.25rem;
 }
+.accordion-card .accordion-stack[data-v-1d764944] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.accordion-item-card[data-v-1d764944] {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  padding: 0.65rem;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.accordion-item-card[data-v-1d764944]:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+.accordion-trigger[data-v-1d764944] {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  padding: 0;
+}
+.accordion-trigger.expanded[data-v-1d764944] {
+  color: #0b806f;
+}
+.accordion-answer[data-v-1d764944] {
+  padding: 0.75rem 0.5rem 0;
+  color: #1f2937;
+  line-height: 1.6;
+}
 .faq-stack .faq-item+.faq-item[data-v-1d764944] {
   margin-top: 0.75rem;
 }

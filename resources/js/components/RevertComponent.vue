@@ -8,8 +8,7 @@
     <!-- Mobile Nav Toggle -->
     <button
       class="mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3"
-      @click="toggleMobileNav"
-    >
+      @click="toggleMobileNav">
       <i class="bi" :class="mobileNavOpen ? 'bi-x-lg' : 'bi-list'"></i>
     </button>
 
@@ -29,10 +28,7 @@
       <div class="row g-4">
 
         <!-- SIDEBAR -->
-        <aside
-          class="col-12 col-md-4 col-lg-3"
-          :class="{ 'mobile-open': mobileNavOpen }"
-        >
+        <aside class="col-12 col-md-4 col-lg-3" :class="{ 'mobile-open': mobileNavOpen }">
           <div class="navigation-card p-3 p-md-4 shadow-sm rounded-3">
 
             <!-- Progress Section -->
@@ -43,10 +39,7 @@
               </div>
 
               <div class="progress-bar-container">
-                <div
-                  class="progress-bar"
-                  :style="{ width: progressPercentage + '%' }"
-                ></div>
+                <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
               </div>
 
               <p class="text-muted small mt-2 mb-0">
@@ -57,17 +50,11 @@
             <!-- Navigation List -->
             <ul class="nav nav-pills flex-column gap-2" role="tablist">
               <li v-for="step in roadmapData" :key="step.id" class="nav-item">
-                <button
-                  type="button"
-                  class="nav-link text-start d-flex align-items-center w-100 py-3 fs-6"
-                  :class="{
-                    active: selectedPill === step.id,
-                    completed: step.id < maxStepReached,
-                    locked: step.id > maxStepReached
-                  }"
-                  @click="selectPill(step.id)"
-                  :disabled="step.id > maxStepReached"
-                >
+                <button type="button" class="nav-link text-start d-flex align-items-center w-100 py-3 fs-6" :class="{
+                  active: selectedPill === step.id,
+                  completed: step.id < maxStepReached,
+                  locked: step.id > maxStepReached
+                }" @click="selectPill(step.id)" :disabled="step.id > maxStepReached">
                   <span class="step-indicator me-3 fs-5">
                     <i v-if="step.id < maxStepReached" class="bi bi-check-lg"></i>
                     <span v-else-if="step.id === maxStepReached" class="current-step">{{ step.id }}</span>
@@ -78,10 +65,7 @@
                     {{ step.title }}
                   </span>
 
-                  <i
-                    v-if="step.id === selectedPill"
-                    class="bi bi-chevron-right ms-2 active-arrow"
-                  ></i>
+                  <i v-if="step.id === selectedPill" class="bi bi-chevron-right ms-2 active-arrow"></i>
                 </button>
               </li>
             </ul>
@@ -94,9 +78,7 @@
 
           <!-- Lesson Header -->
           <div class="lesson-header animated-fade-in mb-4">
-            <div
-              class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between"
-            >
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
               <div>
 
                 <!-- Mobile friendly: smaller text, better spacing -->
@@ -107,11 +89,10 @@
                   </span>
                 </div>
 
-                <h1 class="fw-bold text-dark mb-2 lh-sm"
-                    :class="{
-                      'fs-3': true,
-                      'fs-md-2': true
-                    }">
+                <h1 class="fw-bold text-dark mb-2 lh-sm" :class="{
+                  'fs-3': true,
+                  'fs-md-2': true
+                }">
                   {{ currentLesson?.title }}
                 </h1>
 
@@ -123,12 +104,9 @@
           <div>
 
             <!-- Lesson Sections -->
-            <div
-              v-for="(section, index) in currentLesson?.sections"
-              :key="section.title"
+            <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
               class="content-card section-card animated-fade-slide mb-4 rounded-3"
-              :style="{ animationDelay: `${index * 0.15}s` }"
-            >
+              :style="{ animationDelay: `${index * 0.15}s` }">
               <div class="card-header d-flex align-items-center py-3">
                 <div class="section-number fs-5">{{ index + 1 }}</div>
                 <h4 class="fw-bold text-dark mb-0 ms-3 fs-5 lh-sm">{{ section.title }}</h4>
@@ -148,10 +126,8 @@
             </div>
 
             <!-- Key Insights -->
-            <div
-              v-if="currentLesson?.keyInsights?.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-3"
-            >
+            <div v-if="currentLesson?.keyInsights?.length"
+              class="content-card section-card animated-fade-slide mb-4 rounded-3">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="fas fa-chart-line fs-4 me-3" style="color: #0b806f;"></i>
                 <h3 class="fw-bold mb-0 fs-5">Key Insights</h3>
@@ -159,11 +135,8 @@
 
               <div class="card-body p-3 p-md-4">
                 <ul class="list-group insight-list fs-6 lh-base">
-                  <li
-                    v-for="insight in currentLesson.keyInsights"
-                    :key="insight"
-                    class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3"
-                  >
+                  <li v-for="insight in currentLesson.keyInsights" :key="insight"
+                    class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
                     <i class="fas fa-check-circle fs-5" style="color: #0b806f;"></i>
                     <span>{{ insight }}</span>
                   </li>
@@ -171,11 +144,35 @@
               </div>
             </div>
 
+            
+            <!-- Guided Accordion -->
+            <div v-if="accordionPanels.length"
+              class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-collection-play fs-4 me-3 text-primary"></i>
+                <h3 class="fw-bold mb-0 fs-5">Guided Accordion</h3>
+              </div>
+
+              <div class="card-body p-3 p-md-4">
+                <div class="accordion-stack">
+                  <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
+                    <button type="button"
+                      class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
+                      :class="{ expanded: isAccordionOpen(index) }"
+                      @click="toggleAccordion(index)">
+                      <span>{{ panel.title }}</span>
+                      <i class="bi" :class="isAccordionOpen(index) ? 'bi-dash-lg text-success' : 'bi-plus-lg text-muted'"></i>
+                    </button>
+                    <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
+                      <div v-html="panel.body"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Next Steps -->
-            <div
-              class="content-card next-steps-card animated-slide-up rounded-3 mb-4"
-              style="animation-delay: 0.4s"
-            >
+            <div class="content-card next-steps-card animated-slide-up rounded-3 mb-4" style="animation-delay: 0.4s">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle me-3 text-primary fs-4"></i>
                 <h3 class="fw-bold text-dark mb-0 fs-5">Next Steps</h3>
@@ -183,11 +180,8 @@
 
               <div class="card-body p-3 p-md-4">
                 <div class="steps-list">
-                  <div
-                    v-for="(step, index) in currentLesson?.nextSteps"
-                    :key="step"
-                    class="step-item d-flex align-items-start mb-3"
-                  >
+                  <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
+                    class="step-item d-flex align-items-start mb-3">
                     <span class="step-badge me-3 fs-6">{{ index + 1 }}</span>
                     <span class="step-text fs-6 lh-base flex-grow-1">{{ step }}</span>
                     <i class="bi bi-check-circle text-muted ms-2 fs-6"></i>
@@ -205,31 +199,21 @@
           <div class="actions-card animated-fade-in">
             <div class="p-3 p-md-4">
 
-              <div
-                class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3"
-              >
+              <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
 
                 <!-- Previous -->
-                <button
-                  class="btn btn-outline-primary fw-500 px-4 py-3 fs-6"
-                  :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }"
-                  :disabled="selectedPill <= 1"
-                  @click="selectPill(selectedPill - 1)"
-                >
+                <button class="btn btn-outline-primary fw-500 px-4 py-3 fs-6"
+                  :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
+                  @click="selectPill(selectedPill - 1)">
                   <i class="bi bi-arrow-left me-2"></i>
                   Previous Chapter
                 </button>
 
                 <!-- Next -->
-                <button
-                  class="btn fw-600 px-5 py-3 fs-6 text-white"
-                  :class="{
-                    'bg-gradient-primary shadow-sm': !(selectedPill >= roadmapData.length || isWaitingForNext),
-                    'btn-secondary opacity-75': selectedPill >= roadmapData.length || isWaitingForNext
-                  }"
-                  :disabled="selectedPill >= roadmapData.length || isWaitingForNext"
-                  @click="completeAndNext"
-                >
+                <button class="btn fw-600 px-5 py-3 fs-6 text-white" :class="{
+                  'bg-gradient-primary shadow-sm': !(selectedPill >= roadmapData.length || isWaitingForNext),
+                  'btn-secondary opacity-75': selectedPill >= roadmapData.length || isWaitingForNext
+                }" :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
                   {{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}
                   <i class="bi bi-arrow-right ms-2"></i>
                 </button>
@@ -251,6 +235,7 @@ import { defineComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
 import lessonsData from './data/lessons.json'
 import quizzesData from './data/quizzes.json'
+import accordionContent from './data/accordionContent.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -311,6 +296,7 @@ export default defineComponent({
     return {
       roadmapData: normalizeJson(roadmapData),
       lessons: normalizeJson(lessonsData),
+      accordionPanels: normalizeJson(accordionContent),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -318,6 +304,7 @@ export default defineComponent({
       successMessage: '',
       isWaitingForNext: false,
       faqState: {},
+      accordionState: 0,
     }
   },
 
@@ -378,6 +365,18 @@ export default defineComponent({
     isFaqOpen(index) {
       const chapterKey = this.currentLesson?.chapterId
       return this.faqState[chapterKey] === index
+    },
+
+    toggleAccordion(index) {
+      this.accordionState = this.accordionState === index ? null : index
+    },
+
+    isAccordionOpen(index) {
+      if (this.accordionState === null) return false
+      if (typeof this.accordionState === 'number') {
+        return this.accordionState === index
+      }
+      return index === 0
     },
 
     completeAndNext() {
@@ -804,6 +803,42 @@ export default defineComponent({
 
 .scenario-alert .bi {
   font-size: 1.25rem;
+}
+
+.accordion-card .accordion-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.accordion-item-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  padding: 0.65rem;
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+
+.accordion-item-card:hover {
+  border-color: rgba(59, 130, 246, 0.4);
+  transform: translateY(-2px);
+}
+
+.accordion-trigger {
+  background: transparent;
+  border: none;
+  font-weight: 600;
+  padding: 0;
+}
+
+.accordion-trigger.expanded {
+  color: #0b806f;
+}
+
+.accordion-answer {
+  padding: 0.75rem 0.5rem 0;
+  color: #1f2937;
+  line-height: 1.6;
 }
 
 .faq-stack .faq-item+.faq-item {
