@@ -29,7 +29,7 @@
 
         <!-- SIDEBAR -->
         <aside class="col-12 col-md-4 col-lg-3" :class="{ 'mobile-open': mobileNavOpen }">
-          <div class="navigation-card p-3 p-md-4 shadow-sm rounded-3">
+          <div class="navigation-card p-3 p-md-4 shadow-sm rounded-4">
 
             <!-- Progress Section -->
             <div class="progress-indicator mb-4">
@@ -75,17 +75,32 @@
 
         <!-- MAIN CONTENT AREA -->
         <section class="col-12 col-md-8 col-lg-9">
+          <!-- Lesson Header -->
+          <div class="lesson-header animated-fade-in mb-4">
+            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
+              <div>
+                <!-- Mobile friendly: smaller text, better spacing -->
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-journey me-2 text-primary fs-5"></i>
+                  <span class="text-uppercase text-muted fw-bold small">
+                    Chapter {{ currentLesson?.chapterId }}
+                  </span>
+                </div>
 
+                <h1 class="fw-bold text-dark mb-2 lh-sm" :class="{
+                  'fs-3': true,
+                  'fs-md-2': true
+                }">
+                  {{ currentLesson?.title }}
+                </h1>
+              </div>
+            </div>
+          </div>
 
           <!-- ALL SECTIONS -->
           <div>
-
-            <!-- Unified Lesson Card -->
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-3" style="animation-delay: 0.05s">
-
-              <div class="card-body ">
-                
-
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
+              <div class="card-body">
                 <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
                   class="section-block mb-5">
                   <div class="d-flex align-items-start gap-3 mb-3">
@@ -93,23 +108,26 @@
                     <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
                   </div>
                   <div class="section-content text-dark fs-6 lh-lg" v-html="section.content"></div>
-                  <div v-if="section.deepDive" class="deep-dive mt-4 w-100 py-3 px-4 rounded-3 border">
+                  <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
                     <div class="deep-dive-header d-flex align-items-center mb-2">
-                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-warning"></i>
+                      <i class="bi bi-lightbulb-fill me-2 fs-4" style="color: #0b806f;"></i>
                       <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
                     </div>
                     <div class="deep-dive-content text-dark fs-6" v-html="section.deepDive.content"></div>
                   </div>
+                  <div class="pt-3 mt-3"></div>
+
                 </div>
+
               </div>
             </div>
 
             <!-- Key Insights -->
             <div v-if="currentLesson?.keyInsights?.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-3">
+              class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="fas fa-chart-line fs-4 me-3" style="color: #0b806f;"></i>
-                <h3 class="fw-bold mb-0 fs-5">Key Insights</h3>
+                <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
               </div>
 
               <div class="card-body p-3 p-md-4">
@@ -126,10 +144,10 @@
 
             <!-- Accordion -->
             <div v-if="accordionPanels.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
+              class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-info-square-fill fs-4 me-3" style="color: #0b806f;"></i>
-                <h3 class="fw-bold mb-0 fs-5">Common Asked Questions</h3>
+                <h2 class="fw-bold mb-0 fs-5">Common Asked Questions</h2>
               </div>
 
               <div class="card-body p-3 p-md-4">
@@ -152,10 +170,10 @@
 
             <!-- resources -->
             <div v-if="accordionPanels.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
+              class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-info-circle-fill fs-4 me-3" style="color: #0b806f;"></i>
-                <h3 class="fw-bold mb-0 fs-5">Resources</h3>
+                <h1 class="fw-bold mb-0 fs-5">Resources</h1>
               </div>
 
               <div class="card-body p-3 p-md-4">
@@ -176,10 +194,10 @@
 
             <!-- FAQ -->
             <div v-if="accordionPanels.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
+              class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-question-circle-fill fs-4 me-3" style="color: #0b806f;"></i>
-                <h3 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h3>
+                <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
               </div>
 
               <div class="card-body p-3 p-md-4">
@@ -201,7 +219,7 @@
             </div>
 
             <!-- Next Steps -->
-            <div class="content-card next-steps-card animated-slide-up rounded-3 mb-4" style="animation-delay: 0.4s">
+            <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle me-3 text-primary fs-4"></i>
                 <h3 class="fw-bold text-dark mb-0 fs-5">Next Steps</h3>
@@ -463,7 +481,15 @@ export default defineComponent({
 /* ==================== BOOTSTRAP ICONS ==================== */
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
 
-
+.background{
+  
+  gap: 6px;
+  padding: 6px 10px;
+  font-size: 0.9rem;
+  color: #114b5f;
+  background: #eaf3f1;
+  border: 1px solid rgba(11, 128, 111, 0.25);
+}
 
 /* ==================== PROFESSIONAL TOP-RIGHT SUCCESS ALERT ==================== */
 .success-alert-container {
@@ -794,8 +820,8 @@ export default defineComponent({
 }
 
 .content-card {
-  background: #ffffff;
-  border-radius: 20px;
+  background: #ffffff9e;
+  border-radius: 25px;
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.06);
   border: transparent;
   margin-bottom: 1.5rem;
@@ -875,11 +901,6 @@ export default defineComponent({
   column-gap: 1.5rem;
 }
 
-.section-block+.section-block {
-  border-top: 1px solid rgba(226, 232, 240, 0.6);
-  padding-top: 1.5rem;
-}
-
 .deep-dive {
   background: rgba(236, 253, 245, 0.6);
   border-radius: 16px;
@@ -897,10 +918,6 @@ export default defineComponent({
   border-bottom: 1px solid rgba(226, 232, 240, 0.7);
 }
 
-.section-block+.section-block {
-  border-top: 1px solid rgba(226, 232, 240, 0.6);
-  padding-top: 1.5rem;
-}
 
 .deep-dive {
   background: rgba(236, 253, 245, 0.6);
@@ -995,13 +1012,13 @@ export default defineComponent({
 }
 
 .h4 {
-  font-size: 1.5rem;
+  font-size: 1.7rem;
   font-weight: 700;
 }
 
-.fs-6 {
-  font-size: 1.125rem;
-}
+/* .fs-6 {
+  font-size: 1.5rem;
+} */
 
 .lh-lg {
   line-height: 1.7;
