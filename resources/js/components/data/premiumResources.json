@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Islamic Resource Library",
+    "desc": "A searchable portal of websites, houses of knowledge, and scholarly write-ups.",
+    "href": "https://example.com/resource-library"
+  },
+  {
+    "title": "Guided YouTube Series",
+    "desc": "Synchronized playlists covering each pillar with tajweed, tafsir, and scenario practice.",
+    "href": "https://www.youtube.com/playlist?list=PLpremium"
+  },
+  {
+    "title": "Articles & Reflections",
+    "desc": "Monthly essays that turn complex aqeedah topics into relatable stories.",
+    "href": "https://example.com/articles"
+  },
+  {
+    "title": "Essential Bookshelf",
+    "desc": "Downloadable PDFs and print-ready guides for their most transformative chapters.",
+    "href": "https://example.com/bookshelf"
+  }
+]

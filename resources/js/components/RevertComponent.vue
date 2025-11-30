@@ -76,51 +76,30 @@
         <!-- MAIN CONTENT AREA -->
         <section class="col-12 col-md-8 col-lg-9">
 
-          <!-- Lesson Header -->
-          <div class="lesson-header animated-fade-in mb-4">
-            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
-              <div>
-
-                <!-- Mobile friendly: smaller text, better spacing -->
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-journey me-2 text-primary fs-5"></i>
-                  <span class="text-uppercase text-muted fw-bold small">
-                    Chapter {{ currentLesson?.chapterId }}
-                  </span>
-                </div>
-
-                <h1 class="fw-bold text-dark mb-2 lh-sm" :class="{
-                  'fs-3': true,
-                  'fs-md-2': true
-                }">
-                  {{ currentLesson?.title }}
-                </h1>
-
-              </div>
-            </div>
-          </div>
 
           <!-- ALL SECTIONS -->
           <div>
 
-            <!-- Lesson Sections -->
-            <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
-              class="content-card section-card animated-fade-slide mb-4 rounded-3"
-              :style="{ animationDelay: `${index * 0.15}s` }">
-              <div class="card-header d-flex align-items-center py-3">
-                <div class="section-number fs-5">{{ index + 1 }}</div>
-                <h4 class="fw-bold text-dark mb-0 ms-3 fs-5 lh-sm">{{ section.title }}</h4>
-              </div>
+            <!-- Unified Lesson Card -->
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-3" style="animation-delay: 0.05s">
 
-              <div class="card-body p-3 p-md-4">
-                <div class="section-content text-dark fs-6 lh-base" v-html="section.content"></div>
+              <div class="card-body ">
+                
 
-                <div v-if="section.deepDive" class="deep-dive mt-4">
-                  <div class="deep-dive-header d-flex align-items-center mb-3">
-                    <i class="bi bi-lightbulb-fill me-2 fs-4 text-warning"></i>
-                    <h5 class="fw-bold mb-0 text-dark fs-5 lh-sm">{{ section.deepDive.title }}</h5>
+                <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
+                  class="section-block mb-5">
+                  <div class="d-flex align-items-start gap-3 mb-3">
+                    <div class="section-number fs-5">{{ index + 1 }}</div>
+                    <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
                   </div>
-                  <div class="deep-dive-content text-dark fs-6 lh-base" v-html="section.deepDive.content"></div>
+                  <div class="section-content text-dark fs-6 lh-lg" v-html="section.content"></div>
+                  <div v-if="section.deepDive" class="deep-dive mt-4 w-100 py-3 px-4 rounded-3 border">
+                    <div class="deep-dive-header d-flex align-items-center mb-2">
+                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-warning"></i>
+                      <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
+                    </div>
+                    <div class="deep-dive-content text-dark fs-6" v-html="section.deepDive.content"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,13 +123,13 @@
               </div>
             </div>
 
-            
-            <!-- Guided Accordion -->
+
+            <!-- Accordion -->
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-collection-play fs-4 me-3 text-primary"></i>
-                <h3 class="fw-bold mb-0 fs-5">Guided Accordion</h3>
+                <i class="bi bi-info-square-fill fs-4 me-3" style="color: #0b806f;"></i>
+                <h3 class="fw-bold mb-0 fs-5">Common Asked Questions</h3>
               </div>
 
               <div class="card-body p-3 p-md-4">
@@ -158,10 +137,60 @@
                   <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
-                      :class="{ expanded: isAccordionOpen(index) }"
-                      @click="toggleAccordion(index)">
+                      :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
                       <span>{{ panel.title }}</span>
-                      <i class="bi" :class="isAccordionOpen(index) ? 'bi-dash-lg text-success' : 'bi-plus-lg text-muted'"></i>
+                      <i class="bi"
+                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-success' : 'bi-plus-lg text-muted'"></i>
+                    </button>
+                    <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
+                      <div v-html="panel.body"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- resources -->
+            <div v-if="accordionPanels.length"
+              class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-info-circle-fill fs-4 me-3" style="color: #0b806f;"></i>
+                <h3 class="fw-bold mb-0 fs-5">Resources</h3>
+              </div>
+
+              <div class="card-body p-3 p-md-4">
+                <div v-if="premiumResources.length" class="row row-cols-1 row-cols-md-2 g-3 mb-4">
+                  <div class="col" v-for="card in premiumResources" :key="card.title">
+                    <article class="premium-card h-100 d-flex flex-column">
+                      <div>
+                        <h3 class="h6 fw-semibold mb-2">{{ card.title }}</h3>
+                        <p class="small text-muted mb-3">{{ card.desc }}</p>
+                      </div>
+                      <a :title="card.title" class="mt-auto fw-semibold text-teal" :href="card.href">Explore →</a>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- FAQ -->
+            <div v-if="accordionPanels.length"
+              class="content-card section-card animated-fade-slide mb-4 rounded-3 accordion-card">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-question-circle-fill fs-4 me-3" style="color: #0b806f;"></i>
+                <h3 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h3>
+              </div>
+
+              <div class="card-body p-3 p-md-4">
+                <div class="accordion-stack">
+                  <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
+                    <button type="button"
+                      class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
+                      :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
+                      <span>{{ panel.title }}</span>
+                      <i class="bi"
+                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-success' : 'bi-plus-lg text-muted'"></i>
                     </button>
                     <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
                       <div v-html="panel.body"></div>
@@ -197,7 +226,7 @@
 
           <!-- NAVIGATION BUTTONS -->
           <div class="actions-card animated-fade-in">
-            <div class="p-3 p-md-4">
+            <div class="p-3 p-md-1">
 
               <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
 
@@ -236,6 +265,8 @@ import roadmapData from './data/roadmap.json'
 import lessonsData from './data/lessons.json'
 import quizzesData from './data/quizzes.json'
 import accordionContent from './data/accordionContent.json'
+import faqContent from './data/faqs.json'
+import premiumResources from './data/premiumResources.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -297,6 +328,8 @@ export default defineComponent({
       roadmapData: normalizeJson(roadmapData),
       lessons: normalizeJson(lessonsData),
       accordionPanels: normalizeJson(accordionContent),
+      faqPanels: normalizeJson(faqContent),
+      premiumResources: normalizeJson(premiumResources),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -305,6 +338,7 @@ export default defineComponent({
       isWaitingForNext: false,
       faqState: {},
       accordionState: 0,
+      faqStackState: null,
     }
   },
 
@@ -377,6 +411,15 @@ export default defineComponent({
         return this.accordionState === index
       }
       return index === 0
+    },
+
+    toggleFaqStack(index) {
+      this.faqStackState = this.faqStackState === index ? null : index
+    },
+
+    isFaqStackOpen(index) {
+      if (this.faqStackState === null) return false
+      return this.faqStackState === index || (this.faqStackState === undefined && index === 0)
     },
 
     completeAndNext() {
@@ -805,6 +848,65 @@ export default defineComponent({
   font-size: 1.25rem;
 }
 
+.premium-card {
+  background: #fff;
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid #e3e8ed;
+  box-shadow: 0 25px 40px rgba(15, 76, 117, 0.08);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.premium-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 35px 45px rgba(9, 70, 102, 0.15);
+}
+
+.premium-card h3 {
+  font-size: 1rem;
+}
+
+.text-teal {
+  color: #0b806f !important;
+}
+
+.paragraph-grid {
+  column-count: 2;
+  column-gap: 1.5rem;
+}
+
+.section-block+.section-block {
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  padding-top: 1.5rem;
+}
+
+.deep-dive {
+  background: rgba(236, 253, 245, 0.6);
+  border-radius: 16px;
+}
+
+@media (max-width: 768px) {
+  .paragraph-grid {
+    column-count: 1;
+  }
+}
+
+.paragraph-grid p {
+  margin: 0;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+}
+
+.section-block+.section-block {
+  border-top: 1px solid rgba(226, 232, 240, 0.6);
+  padding-top: 1.5rem;
+}
+
+.deep-dive {
+  background: rgba(236, 253, 245, 0.6);
+  border-radius: 16px;
+}
+
 .accordion-card .accordion-stack {
   display: flex;
   flex-direction: column;
@@ -1012,6 +1114,10 @@ export default defineComponent({
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
   font-size: 0.875rem;
   color: #dc2626;
+}
+
+.paragraph-grid p {
+  margin-bottom: 1rem;
 }
 
 .common-question-card,
