@@ -20762,6 +20762,51 @@ to {
   border-radius: 10px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
+.roadmap-pillset[data-v-1d764944] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+.roadmap-pill[data-v-1d764944] {
+  border-radius: 18px;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.roadmap-pill[data-v-1d764944]:hover {
+  transform: translateY(-2px);
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+}
+.roadmap-pill.completed[data-v-1d764944] {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(251, 252, 255, 0.8));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+.roadmap-pill.active[data-v-1d764944] {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.2);
+}
+.roadmap-pill.locked[data-v-1d764944] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.dot-wrapper .dot-icon-step[data-v-1d764944] {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  font-weight: 700;
+  color: #0f172a;
+}
 .nav-link[data-v-1d764944] {
   border-radius: 12px;
   padding: 1rem 1.25rem;

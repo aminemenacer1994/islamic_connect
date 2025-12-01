@@ -48,27 +48,30 @@
             </div>
 
             <!-- Navigation List -->
-            <ul class="nav nav-pills flex-column gap-2" role="tablist">
-              <li v-for="step in roadmapData" :key="step.id" class="nav-item">
-                <button type="button" class="nav-link text-start d-flex align-items-center w-100 py-3 fs-6" :class="{
+            <div class="roadmap-pillset">
+              <div v-for="step in roadmapData" :key="step.id"
+                class="roadmap-pill d-flex align-items-center justify-content-between"
+                :class="{
                   active: selectedPill === step.id,
                   completed: step.id < maxStepReached,
                   locked: step.id > maxStepReached
-                }" @click="selectPill(step.id)" :disabled="step.id > maxStepReached">
-                  <span class="step-indicator me-3 fs-5">
+                }"
+                @click="selectPill(step.id)" :data-locked="step.id > maxStepReached">
+                <div class="dot-wrapper d-flex align-items-center gap-2">
+                  <span class="dot-icon-step">
                     <i v-if="step.id < maxStepReached" class="bi bi-check-lg"></i>
-                    <span v-else-if="step.id === maxStepReached" class="current-step">{{ step.id }}</span>
-                    <i v-else class="bi bi-lock"></i>
+                    <i v-else-if="step.id === maxStepReached" class="bi bi-star-fill"></i>
+                    <span v-else>{{ step.id }}</span>
                   </span>
-
-                  <span class="step-title flex-grow-1 fs-6 lh-sm">
-                    {{ step.title }}
-                  </span>
-
-                  <i v-if="step.id === selectedPill" class="bi bi-chevron-right ms-2 active-arrow"></i>
-                </button>
-              </li>
-            </ul>
+                  <div>
+                    <p class="mb-0 fw-semibold">{{ step.title }}</p>
+                    <small class="text-muted">{{ step.description }}</small>
+                  </div>
+                </div>
+                <i v-if="step.id === selectedPill" class="bi bi-arrow-up-right fs-5 text-teal"></i>
+                <i v-else class="bi bi-chevron-down fs-5 text-muted"></i>
+              </div>
+            </div>
 
           </div>
         </aside>
@@ -795,6 +798,58 @@ export default defineComponent({
   background: linear-gradient(90deg, #eaf3f1, rgba(11, 128, 111, 0.20));
   border-radius: 10px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.roadmap-pillset {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.roadmap-pill {
+  border-radius: 18px;
+  padding: 0.85rem 1rem;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+  cursor: pointer;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.roadmap-pill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(16, 185, 129, 0.35);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.roadmap-pill.completed {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(251, 252, 255, 0.8));
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.roadmap-pill.active {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.1));
+  border: 1px solid rgba(59, 130, 246, 0.4);
+  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.2);
+}
+
+.roadmap-pill.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dot-wrapper .dot-icon-step {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.2));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .nav-link {
