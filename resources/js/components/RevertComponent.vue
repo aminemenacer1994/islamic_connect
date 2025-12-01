@@ -29,7 +29,7 @@
 
         <!-- SIDEBAR -->
         <aside class="col-12 col-md-4 col-lg-3" :class="{ 'mobile-open': mobileNavOpen }">
-          <div class="navigation-card p-3 p-md-4 shadow-sm rounded-4">
+          <div class="navigation-card p-3  shadow-sm rounded-4">
 
             <!-- Progress Section -->
             <div class="progress-indicator mb-4">
@@ -81,18 +81,39 @@
               <div>
                 <!-- Mobile friendly: smaller text, better spacing -->
                 <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-journey me-2 text-primary fs-5"></i>
+                  <i class="bi bi-journey me-2 text-primary fs-4"></i>
                   <span class="text-uppercase text-muted fw-bold small">
                     Chapter {{ currentLesson?.chapterId }}
                   </span>
                 </div>
 
-                <h1 class="fw-bold text-dark mb-2 lh-sm" :class="{
-                  'fs-3': true,
-                  'fs-md-2': true
-                }">
+                <h1 class="fw-bold text-dark mt-5">
                   {{ currentLesson?.title }}
                 </h1>
+              </div>
+            </div>
+          </div>
+
+          <!-- Learning objectives -->
+          <div v-if="learningObjectiveColumns.length"
+            class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div class="card-header d-flex align-items-center py-3">
+              <i class="bi bi-stars fs-4 me-3" style="color: #0b806f;"></i>
+              <h2 class="fw-bold mb-0 fs-5">Learning Objectives</h2>
+            </div>
+
+            <div class="card-body px-3 px-md-4">
+              <div class="learning-objectives-grid">
+                <div v-for="(column, columnIndex) in learningObjectiveColumns" :key="columnIndex"
+                  class="objective-column">
+                  <ul class="list-group insight-list fs-6 lh-base column-list m-0">
+                    <li v-for="objective in column" :key="objective"
+                      class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
+                      <i class="fas fa-check-circle fs-5 mt-1" style="color: #0b806f;"></i>
+                      <span>{{ objective }}</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -100,6 +121,7 @@
           <!-- ALL SECTIONS -->
           <div>
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
+
               <div class="card-body">
                 <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
                   class="section-block mb-5">
@@ -130,7 +152,7 @@
                 <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
               </div>
 
-              <div class="card-body p-3 p-md-4">
+              <div class="card-body p-3 ">
                 <ul class="list-group insight-list fs-6 lh-base">
                   <li v-for="insight in currentLesson.keyInsights" :key="insight"
                     class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
@@ -150,7 +172,7 @@
                 <h2 class="fw-bold mb-0 fs-5">Common Asked Questions</h2>
               </div>
 
-              <div class="card-body p-3 p-md-4">
+              <div class="card-body p-3 ">
                 <div class="accordion-stack">
                   <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
@@ -176,7 +198,7 @@
                 <h1 class="fw-bold mb-0 fs-5">Resources</h1>
               </div>
 
-              <div class="card-body p-3 p-md-4">
+              <div class="card-body p-3 ">
                 <div v-if="premiumResources.length" class="row row-cols-1 row-cols-md-2 g-3 mb-4">
                   <div class="col" v-for="card in premiumResources" :key="card.title">
                     <article class="premium-card h-100 d-flex flex-column">
@@ -200,7 +222,7 @@
                 <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
               </div>
 
-              <div class="card-body p-3 p-md-4">
+              <div class="card-body p-3 ">
                 <div class="accordion-stack">
                   <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
@@ -225,7 +247,7 @@
                 <h3 class="fw-bold text-dark mb-0 fs-5">Next Steps</h3>
               </div>
 
-              <div class="card-body p-3 p-md-4">
+              <div class="card-body p-3 ">
                 <div class="steps-list">
                   <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
                     class="step-item d-flex align-items-start mb-3">
@@ -372,6 +394,15 @@ export default defineComponent({
     },
     totalChapters() {
       return this.roadmapData.length
+    },
+    learningObjectiveColumns() {
+      const objectives = this.currentLesson?.learningObjectives || []
+      const chunkSize = 3
+      const columns = []
+      for (let i = 0; i < objectives.length; i += chunkSize) {
+        columns.push(objectives.slice(i, i + chunkSize))
+      }
+      return columns
     },
   },
 
@@ -567,7 +598,6 @@ export default defineComponent({
 }
 
 .card-body {
-  padding: 1.75rem;
   padding-top: 1rem;
 }
 
@@ -820,7 +850,7 @@ export default defineComponent({
 }
 
 .content-card {
-  background: #ffffff9e;
+  background: #ffffff65;
   border-radius: 25px;
   box-shadow: 0 18px 30px rgba(0, 0, 0, 0.06);
   border: transparent;
@@ -899,6 +929,16 @@ export default defineComponent({
 .paragraph-grid {
   column-count: 2;
   column-gap: 1.5rem;
+}
+
+.learning-objectives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.objective-column {
+  padding: 1rem;
 }
 
 .deep-dive {
@@ -1296,7 +1336,7 @@ export default defineComponent({
   }
 
   .card-body {
-    padding: 1.25rem;
+    padding: 1rem;
   }
 
   .section-number {
