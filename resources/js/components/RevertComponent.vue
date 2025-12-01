@@ -120,7 +120,7 @@
                   <ul class="list-group insight-list fs-6 lh-base column-list m-0">
                     <li v-for="objective in column" :key="objective"
                       class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
-                    <i class="fas fa-check-circle fs-5 mt-1 text-teal"></i>
+                      <i class="fas fa-check-circle fs-5 mt-1 text-teal"></i>
                       <span>{{ objective }}</span>
                     </li>
                   </ul>
@@ -143,7 +143,7 @@
                   <div class="section-content text-dark fs-6 lh-lg" v-html="section.content"></div>
                   <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
                     <div class="deep-dive-header d-flex align-items-center mb-2">
-                  <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
+                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
                       <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
                     </div>
                     <div class="deep-dive-content text-dark fs-6" v-html="section.deepDive.content"></div>
@@ -178,7 +178,7 @@
             <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3 justify-content-between">
                 <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+                  <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
                   <div>
                     <p class="mb-0 text-muted small">Guided remembrance</p>
                     <h2 class="fw-bold mb-0 fs-5">Duas to Carry</h2>
@@ -190,7 +190,8 @@
                   <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
                     <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
                       <div class="dua-glow"></div>
-                    <p dir="rtl" class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end">
+                      <p dir="rtl"
+                        class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end">
                         {{ dua.arabic }}
                       </p>
                       <p class="mb-0 text-dark">{{ dua.english }}</p>
@@ -303,15 +304,15 @@
             </div>
 
             <!-- Next Steps -->
-          <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
-            <div class="card-header d-flex align-items-center py-3">
-              <i class="bi bi-clipboard-check-fill fs-4 me-3 text-teal"></i>
-              <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
-            </div>
+            <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-clipboard-check-fill fs-4 me-3 text-teal"></i>
+                <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
+              </div>
 
-            <div class="card-body p-3">
-              <div class="row g-3">
-                <!-- <div class="col-12 col-md-6">
+              <div class="card-body p-3">
+                <div class="row g-3">
+                  <!-- <div class="col-12 col-md-6">
                   <div class="steps-list">
                     <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
                       class="step-item d-flex align-items-start mb-3">
@@ -321,14 +322,62 @@
                     </div>
                   </div>
                 </div> -->
-                <div class="col-12 col-md-12">
-                  <div class="homework-grid">
-                    <div v-for="(task, index) in currentHomework" :key="task" class="homework-task p-3 mb-2">
-                      <div class="d-flex align-items-center gap-2 mb-1">
-                        <p class="mb-0 text-dark">{{ task }}</p>
+                  <div class="col-12 col-md-12">
+                    <div class="homework-grid">
+                      <div v-for="(task, index) in currentHomework" :key="task" class="homework-task p-3 mb-2">
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                          <p class="mb-0 text-dark">{{ task }}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quiz Card -->
+          <div v-if="currentQuestion" class="content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper">
+            <div class="card-header border-0 pb-2">
+              <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-dice-6 fs-4 text-teal"></i>
+                  <div>
+                    <p class="mb-1 text-muted small">Quiz • Answer one right to unlock the next chapter</p>
+                    <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
+                  </div>
+                </div>
+                <span class="badge bg-gradient text-white rounded-pill px-3">Question {{ currentQuestionIndex + 1 }} /
+                  {{
+                    quizQuestions.length }}</span>
+              </div>
+            </div>
+            <div class="card-body pt-0">
+              <div class="quiz-card rounded-4 p-4 h-100 position-relative">
+                <div class="progress mb-3" style="height: 8px;">
+                  <div class="progress-bar bg-gradient" role="progressbar"
+                    :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }">
+                  </div>
+                </div>
+                <h3 class="fw-semibold text-dark mb-4">{{ currentQuestion.question }}</h3>
+                <div class="d-grid gap-2">
+                  <button v-for="option in currentQuestion.options" :key="option" type="button"
+                    class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
+                      'btn-success text-white': quizStatus === 'correct' && option === currentQuestion.answer,
+                      'btn-danger text-white': quizStatus === 'incorrect' && option === selectedOption,
+                      'btn-outline-secondary': !((quizStatus === 'correct' && option === currentQuestion.answer) || (quizStatus === 'incorrect' && option === selectedOption))
+                    }" @click="answerQuiz(option)">
+                    <span>{{ option }}</span>
+                    <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
+                      class="bi bi-check-circle-fill"></i>
+                    <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
+                      class="bi bi-x-circle-fill"></i>
+                  </button>
+                </div>
+                <div class="quiz-tip mt-3 d-flex align-items-center gap-2">
+                  <i class="bi bi-info-circle-fill text-teal"></i>
+                  <p class="mb-0 small fw-medium" :class="quizStatus === 'incorrect' ? 'text-danger' : 'text-muted'">
+                    {{ quizFeedback || 'Need a refresher? Scroll up to replay the lesson or quiz again.' }}
+                  </p>
                 </div>
               </div>
             </div>
@@ -354,8 +403,9 @@
               <div class="d-flex align-items-center gap-2">
                 <span class="text-muted small">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
                 <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
-                  :class="{ 'disabled': selectedPill >= roadmapData.length || isWaitingForNext }"
-                  :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
+                  :class="{ 'disabled': selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed }"
+                  :disabled="selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed"
+                  @click="completeAndNext">
                   <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
                   <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </button>
@@ -387,9 +437,17 @@
 
             </div>
           </div>
+
         </div>
       </div>
+
+
+
     </div>
+
+
+
+
   </div>
 </template>
 
@@ -472,6 +530,12 @@ export default defineComponent({
       missions: normalizeJson(missionsData),
       duas: normalizeJson(duasData),
       homework: normalizeJson(homeworkData),
+      chapterQuizPassed: false,
+      quizQuestions: [],
+      currentQuestionIndex: 0,
+      quizStatus: null,
+      quizFeedback: '',
+      selectedOption: null,
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -521,10 +585,22 @@ export default defineComponent({
     },
     currentDuas() {
       return this.duas.find(d => d.chapterId === this.selectedPill)?.duas || []
-    }
-    ,
+    },
+    currentQuizData() {
+      return this.quizzes.find(q => q.chapterId === this.selectedPill)?.questions || []
+    },
+    currentQuestion() {
+      return this.quizQuestions[this.currentQuestionIndex]
+    },
     currentHomework() {
       return this.homework.find(h => h.chapterId === this.selectedPill)?.homework || []
+    }
+  },
+
+  watch: {
+    selectedPill() {
+      this.chapterQuizPassed = false
+      this.resetQuizSet()
     }
   },
 
@@ -536,6 +612,7 @@ export default defineComponent({
       this.selectedPill = value
     }
     this.loadConfetti()
+    this.resetQuizSet()
   },
 
   methods: {
@@ -624,6 +701,7 @@ export default defineComponent({
       if (nextId <= this.roadmapData.length) {
         this.selectedPill = nextId
         window.scrollTo({ top: 0, behavior: 'smooth' })
+        this.chapterQuizPassed = false
       }
     },
     focusMission() {
@@ -642,6 +720,34 @@ export default defineComponent({
     closeResourceModal() {
       this.showResourceModal = false
       this.activeResource = null
+    }
+    ,
+    resetQuizSet() {
+      const base = this.currentQuizData
+      this.quizQuestions = this.shuffleArray(base)
+      this.currentQuestionIndex = 0
+      this.quizStatus = null
+      this.quizFeedback = ''
+    },
+    shuffleArray(arr) {
+      return arr.slice().sort(() => Math.random() - 0.5)
+    },
+    answerQuiz(option) {
+      const question = this.currentQuestion
+      if (!question) return
+      const correct = option === question.answer
+      this.quizStatus = correct ? 'correct' : 'incorrect'
+      this.selectedOption = option
+      this.quizFeedback = correct ? 'Correct! Next round loading…' : 'Not quite, try another option.'
+      if (correct) {
+        this.chapterQuizPassed = true
+        setTimeout(() => {
+          this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length
+          this.quizStatus = null
+          this.selectedOption = null
+          this.quizFeedback = ''
+        }, 1000)
+      }
     }
   }
 })
@@ -1266,6 +1372,61 @@ export default defineComponent({
   color: #0b806f;
 }
 
+.quiz-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.quiz-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(14, 165, 233, 0.2), transparent 40%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.quiz-card:hover::after {
+  opacity: 1;
+}
+
+.quiz-wrapper {
+  overflow: hidden;
+}
+
+.progress-bar.bg-gradient {
+  background: linear-gradient(135deg, #a855f7, #ec4899);
+}
+
+.quiz-option {
+  border-radius: 18px;
+  font-weight: 600;
+  border-width: 2px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.quiz-option:hover {
+  transform: translateY(-2px);
+}
+
+.quiz-tip .bi {
+  font-size: 1rem;
+}
+
+.quiz-option {
+  border-radius: 12px;
+  font-weight: 600;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.quiz-option:hover {
+  transform: translateY(-1px);
+}
+
 .paragraph-grid {
   column-count: 2;
   column-gap: 1.5rem;
@@ -1323,7 +1484,7 @@ export default defineComponent({
   transition: opacity 0.5s ease;
 }
 
- .section-block:hover::before {
+.section-block:hover::before {
   opacity: 1;
 }
 

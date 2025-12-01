@@ -1,352 +1,132 @@
-{
-  "1": [
-    {
-      "id": 1,
-      "question": "What is the core meaning of 'Islam'?",
-      "options": [
-        "War and Conquest",
-        "Peace through Submission to God",
-        "Tradition of ancestors"
-      ],
-      "correctIndex": 1,
-      "explanation": "Islam comes from the root s-l-m, meaning peace acquired by submitting your will to the Creator."
-    },
-    {
-      "id": 2,
-      "question": "What is Tawheed?",
-      "options": [
-        "Belief in the Trinity",
-        "Belief in multiple gods",
-        "Belief in the absolute Oneness of God"
-      ],
-      "correctIndex": 2,
-      "explanation": "Tawheed is the foundational concept of Monotheism in Islam—God is One in essence, attributes, and worship."
-    },
-    {
-      "id": 3,
-      "question": "What is the Shahada?",
-      "options": [
-        "A yearly tax",
-        "The testimony of faith",
-        "A type of prayer"
-      ],
-      "correctIndex": 1,
-      "explanation": "The Shahada is the declaration: 'There is no god but Allah, and Muhammad is His Messenger'."
-    }
-  ],
-  "2": [
-    {
-      "id": 1,
-      "question": "How many Articles of Faith are there?",
-      "options": [
-        "Five",
-        "Six",
-        "Seven"
-      ],
-      "correctIndex": 1,
-      "explanation": "There are six: Belief in Allah, Angels, Books, Prophets, the Last Day, and Destiny."
-    },
-    {
-      "id": 2,
-      "question": "Do Muslims believe in Jesus?",
-      "options": [
-        "No",
-        "Yes, as a mighty Prophet",
-        "Yes, as God"
-      ],
-      "correctIndex": 1,
-      "explanation": "Muslims revere Jesus (Isa) as one of the greatest Prophets of God, but not as divine."
-    },
-    {
-      "id": 3,
-      "question": "What is Qadar?",
-      "options": [
-        "Divine Destiny",
-        "Charity",
-        "Fasting"
-      ],
-      "correctIndex": 0,
-      "explanation": "Qadar means Divine Decree—trusting that God has knowledge and control over all outcomes."
-    }
-  ],
-  "3": [
-    {
-      "id": 1,
-      "question": "Which of these is NOT one of the Five Pillars?",
-      "options": [
-        "Zakat (Charity)",
-        "Jihad (Struggle)",
-        "Sawm (Fasting)"
-      ],
-      "correctIndex": 1,
-      "explanation": "While important, Jihad is not one of the Five Pillars. The Pillars are Shahada, Salah, Zakat, Sawm, and Hajj."
-    },
-    {
-      "id": 2,
-      "question": "How many times do Muslims pray daily?",
-      "options": [
-        "Three",
-        "Five",
-        "Seven"
-      ],
-      "correctIndex": 1,
-      "explanation": "The obligatory prayers (Salah) are performed five times a day."
-    },
-    {
-      "id": 3,
-      "question": "What is Hajj?",
-      "options": [
-        "Weekly fasting",
-        "Pilgrimage to Makkah",
-        "Daily Charity"
-      ],
-      "correctIndex": 1,
-      "explanation": "Hajj is the pilgrimage to Makkah that every Muslim must perform once in their lifetime if able."
-    }
-  ],
-  "4": [
-    {
-      "id": 1,
-      "question": "Who was the Quran revealed to?",
-      "options": [
-        "Prophet Moses",
-        "Prophet Jesus",
-        "Prophet Muhammad ﷺ"
-      ],
-      "correctIndex": 2,
-      "explanation": "The Quran was revealed to the final Prophet, Muhammad ﷺ."
-    },
-    {
-      "id": 2,
-      "question": "What is a 'Surah'?",
-      "options": [
-        "A verse",
-        "A chapter",
-        "A prayer"
-      ],
-      "correctIndex": 1,
-      "explanation": "A Surah is a chapter of the Quran. There are 114 Surahs."
-    },
-    {
-      "id": 3,
-      "question": "Has the Quran been changed over time?",
-      "options": [
-        "Yes, many times",
-        "No, it is preserved",
-        "Only slightly"
-      ],
-      "correctIndex": 1,
-      "explanation": "Muslims believe the Quran is preserved word-for-word in its original Arabic since its revelation."
-    }
-  ],
-  "5": [
-    {
-      "id": 1,
-      "question": "What was the Prophet Muhammad known as before revelation?",
-      "options": [
-        "The King",
-        "Al-Amin (The Trustworthy)",
-        "The Warrior"
-      ],
-      "correctIndex": 1,
-      "explanation": "He was known for his impeccable character and honesty even by his enemies."
-    },
-    {
-      "id": 2,
-      "question": "What is the 'Sunnah'?",
-      "options": [
-        "The Quran",
-        "The way/example of the Prophet",
-        "Islamic Law"
-      ],
-      "correctIndex": 1,
-      "explanation": "Sunnah refers to the practices, habits, and teachings of the Prophet Muhammad ﷺ."
-    },
-    {
-      "id": 3,
-      "question": "Do Muslims worship Muhammad?",
-      "options": [
-        "Yes",
-        "No",
-        "Sometimes"
-      ],
-      "correctIndex": 1,
-      "explanation": "Absolutely not. Muslims worship only Allah. Muhammad ﷺ is His servant and messenger."
-    }
-  ],
-  "6": [
-    {
-      "id": 1,
-      "question": "What is the first prayer of the day?",
-      "options": [
-        "Isha",
-        "Fajr",
-        "Asr"
-      ],
-      "correctIndex": 1,
-      "explanation": "Fajr is the dawn prayer, performed before sunrise."
-    },
-    {
-      "id": 2,
-      "question": "What must you do before praying?",
-      "options": [
-        "Eat",
-        "Perform Wudu (Ablution)",
-        "Sleep"
-      ],
-      "correctIndex": 1,
-      "explanation": "Wudu is the ritual washing required to be in a state of purity for prayer."
-    },
-    {
-      "id": 3,
-      "question": "What direction do Muslims face when praying?",
-      "options": [
-        "East",
-        "West",
-        "Towards the Kaaba (Makkah)"
-      ],
-      "correctIndex": 2,
-      "explanation": "Muslims face the Qibla (direction of the Kaaba in Makkah) regardless of where they are in the world."
-    }
-  ],
-  "7": [
-    {
-      "id": 1,
-      "question": "What did the Prophet say he was sent to perfect?",
-      "options": [
-        "Architecture",
-        "Good Character",
-        "Wealth"
-      ],
-      "correctIndex": 1,
-      "explanation": "'I was sent only to perfect good character/manners.'"
-    },
-    {
-      "id": 2,
-      "question": "Is smiling considered charity?",
-      "options": [
-        "Yes",
-        "No",
-        "Only on Fridays"
-      ],
-      "correctIndex": 0,
-      "explanation": "The Prophet said, 'Your smile for your brother is charity.'"
-    },
-    {
-      "id": 3,
-      "question": "How should a Muslim treat their parents?",
-      "options": [
-        "Ignore them",
-        "With utmost kindness and respect",
-        "Argue with them"
-      ],
-      "correctIndex": 1,
-      "explanation": "Kindness to parents is one of the highest obligations in Islam, second only to worshipping God."
-    }
-  ],
-  "8": [
-    {
-      "id": 1,
-      "question": "What does 'Halal' mean?",
-      "options": [
-        "Forbidden",
-        "Permissible",
-        "Spicy"
-      ],
-      "correctIndex": 1,
-      "explanation": "Halal means lawful or permissible."
-    },
-    {
-      "id": 2,
-      "question": "Which of these is Haram (Forbidden)?",
-      "options": [
-        "Chicken",
-        "Water",
-        "Alcohol"
-      ],
-      "correctIndex": 2,
-      "explanation": "Intoxicants like alcohol are strictly forbidden in Islam."
-    },
-    {
-      "id": 3,
-      "question": "Why are things made Haram?",
-      "options": [
-        "To make life hard",
-        "To protect us from harm",
-        "No reason"
-      ],
-      "correctIndex": 1,
-      "explanation": "Limits are set by the Creator to protect our physical, spiritual, and social well-being."
-    }
-  ],
-  "9": [
-    {
-      "id": 1,
-      "question": "What is the 'Ummah'?",
-      "options": [
-        "A type of food",
-        "The global Muslim community",
-        "A prayer"
-      ],
-      "correctIndex": 1,
-      "explanation": "The Ummah refers to the worldwide community of believers, transcending race and borders."
-    },
-    {
-      "id": 2,
-      "question": "Are Muslims allowed to be racist?",
-      "options": [
-        "Yes",
-        "No",
-        "Only a little"
-      ],
-      "correctIndex": 1,
-      "explanation": "Racism is strictly forbidden. The Prophet said no Arab is superior to a non-Arab except by piety."
-    },
-    {
-      "id": 3,
-      "question": "Does Islam encourage isolation?",
-      "options": [
-        "Yes",
-        "No, it encourages community",
-        "It doesn't say"
-      ],
-      "correctIndex": 1,
-      "explanation": "Islam places great emphasis on community, congregational prayer, and visiting one another."
-    }
-  ],
-  "10": [
-    {
-      "id": 1,
-      "question": "Does learning end after the Shahada?",
-      "options": [
-        "Yes",
-        "No, it is a lifelong journey",
-        "Only for one year"
-      ],
-      "correctIndex": 1,
-      "explanation": "Seeking knowledge is an obligation for every Muslim from cradle to grave."
-    },
-    {
-      "id": 2,
-      "question": "What is 'Dua'?",
-      "options": [
-        "Pilgrimage",
-        "Supplication/Asking God",
-        "Charity"
-      ],
-      "correctIndex": 1,
-      "explanation": "Dua is the act of calling upon Allah personally to ask for your needs."
-    },
-    {
-      "id": 3,
-      "question": "What matters most in deeds?",
-      "options": [
-        "Size",
-        "Consistency",
-        "Publicity"
-      ],
-      "correctIndex": 1,
-      "explanation": "The Prophet said the most beloved deeds to Allah are those that are consistent, even if small."
-    }
-  ]
-}
+[
+  {
+    "chapterId": 1,
+    "questions": [
+      {"question": "Which statement is the Shahada?", "options": ["La ilaha illa Allah", "Allahu Akbar", "Subhan Allah", "Alhamdulillah"], "answer": "La ilaha illa Allah"},
+      {"question": "Tawheed ar-Ruboobiyyah affirms which attribute of Allah?", "options": ["His names", "His creation", "His Lordship", "His reward"], "answer": "His Lordship"},
+      {"question": "Best descriptor of Tawheed al-Uloohiyyah?", "options": ["Worship only Allah", "Study the Quran", "Respect prophets", "Give charity"], "answer": "Worship only Allah"},
+      {"question": "How many categories does Tawheed include in this lesson?", "options": ["One", "Two", "Three", "Four"], "answer": "Three"},
+      {"question": "Which act negates Tawheed?", "options": ["Prayer", "Charity", "Worshiping idols", "Fasting"], "answer": "Worshiping idols"},
+      {"question": "Complete: La ilaha ...", "options": ["illa Allah", "illallah", "ilta Allah", "illallahumma"], "answer": "illa Allah"},
+      {"question": "Which dua expresses gratitude for guidance?", "options": ["Rabbana atina", "SubhanAllah", "Bismillah", "La hawla"], "answer": "Rabbana atina"},
+      {"question": "Who testified to Allah’s oneness in the celestial gathering?", "options": ["Souls", "Angels", "Prophets", "Jinn"], "answer": "Souls"}
+    ]
+  },
+  {
+    "chapterId": 2,
+    "questions": [
+      {"question": "Belief in angels is part of which article of faith?", "options": ["Fourth", "Third", "Second", "First"], "answer": "Fourth"},
+      {"question": "Which article addresses the revelations?", "options": ["Third", "Sixth", "Second", "Fifth"], "answer": "Third"},
+      {"question": "Belief in prophethood is the...", "options": ["Fifth article", "Second pillar", "First article", "Fourth command"], "answer": "Fifth article"},
+      {"question": "Recognizing predestination is the...", "options": ["Second article", "Third pillar", "First pillar", "Fourth article"], "answer": "Second article"},
+      {"question": "What ties all articles of faith together?", "options": ["Allah’s oneness", "Prayer", "Fasting", "Knowledge"], "answer": "Allah’s oneness"},
+      {"question": "Which of these is not part of the articles?", "options": ["Belief in prophets", "Belief in angels", "Belief in the Quran", "Belief in saints"], "answer": "Belief in saints"},
+      {"question": "The books include the Quran and...", "options": ["Torah", "Poetry", "Myths", "Stories"], "answer": "Torah"},
+      {"question": "Who completed the chain of revelation?", "options": ["Muhammad ﷺ", "Moses", "Jesus", "Noah"], "answer": "Muhammad ﷺ"}
+    ]
+  },
+  {
+    "chapterId": 3,
+    "questions": [
+      {"question": "How many daily prayers are required?", "options": ["Five", "Four", "Six", "Seven"], "answer": "Five"},
+      {"question": "Which pillar requires purification before prayer?", "options": ["Sawm", "Zakat", "Wudu", "Hajj"], "answer": "Wudu"},
+      {"question": "Zakat is given to whom?", "options": ["Poor", "Neighbors", "Friends", "Leaders"], "answer": "Poor"},
+      {"question": "Hajj is performed in which city?", "options": ["Makkah", "Madina", "Jerusalem", "Taif"], "answer": "Makkah"},
+      {"question": "Fasting occurs during which month?", "options": ["Ramadan", "Shawwal", "Dhul-Hijjah", "Rajab"], "answer": "Ramadan"},
+      {"question": "Which call signals prayer time?", "options": ["Adhan", "Iqama", "Takbir", "Dua"], "answer": "Adhan"},
+      {"question": "How many pillars are there in Islam?", "options": ["Five", "Four", "Six", "Seven"], "answer": "Five"},
+      {"question": "Which pillar affirms no partners with Allah?", "options": ["Shahada", "Salah", "Sawm", "Zakat"], "answer": "Shahada"}
+    ]
+  },
+  {
+    "chapterId": 4,
+    "questions": [
+      {"question": "Which revelation begins with 'Iqra'?", "options": ["Al-Alaq", "Al-Fatiha", "Al-Kawthar", "An-Nas"], "answer": "Al-Alaq"},
+      {"question": "The angel who brought revelation is?", "options": ["Jibril", "Mikail", "Israfil", "Azrael"], "answer": "Jibril"},
+      {"question": "The Quran is described as?", "options": ["Guidance", "Story", "Law", "Poem"], "answer": "Guidance"},
+      {"question": "Which surah praises Allah for being Merciful?", "options": ["Al-Fatiha", "Al-Ikhlas", "Al-Nas", "Al-Falaq"], "answer": "Al-Fatiha"},
+      {"question": "Study of the Quran is encouraged for?", "options": ["Everyone", "Only Scholars", "Only Men", "Only Kings"], "answer": "Everyone"},
+      {"question": "Which of these is part of revelation?", "options": ["Hadith", "Poetry", "Stories", "Myths"], "answer": "Hadith"},
+      {"question": "The Quran was revealed over?", "options": ["23 years", "10 years", "30 years", "40 years"], "answer": "23 years"},
+      {"question": "Who preserved the Quran in writing?", "options": ["Scribes", "Teachers", "Poets", "Kings"], "answer": "Scribes"}
+    ]
+  },
+  {
+    "chapterId": 5,
+    "questions": [
+      {"question": "The Prophet ﷺ was known for his?", "options": ["Truthfulness", "Wealth", "Silence", "Feeding"], "answer": "Truthfulness"},
+      {"question": "He migrated to?", "options": ["Madina", "Makkah", "Taif", "Yathrib"], "answer": "Madina"},
+      {"question": "His life is recorded in the?", "options": ["Seerah", "Bible", "Torah", "Sutras"], "answer": "Seerah"},
+      {"question": "Which city hosted the Farewell pilgrimage?", "options": ["Makkah", "Madina", "Taif", "Jerusalem"], "answer": "Makkah"},
+      {"question": "Muhammad ﷺ is the final?", "options": ["Prophet", "King", "Scholar", "Judge"], "answer": "Prophet"},
+      {"question": "Which attribute best describes the Prophet?", "options": ["Mercy", "Wealth", "Power", "Silence"], "answer": "Mercy"},
+      {"question": "He taught Muslims to be?", "options": ["Just", "Harsh", "Strong", "Silent"], "answer": "Just"},
+      {"question": "His companions are known as?", "options": ["Sahaba", "Men", "Kings", "Scholars"], "answer": "Sahaba"}
+    ]
+  },
+  {
+    "chapterId": 6,
+    "questions": [
+      {"question": "Fajr prayer occurs at?", "options": ["Dawn", "Noon", "Evening", "Night"], "answer": "Dawn"},
+      {"question": "Maghrib prayer begins after?", "options": ["Sunset", "Noon", "Dawn", "Midnight"], "answer": "Sunset"},
+      {"question": "Who said prayer is light?", "options": ["Prophet ﷺ", "Companions", "Scholars", "Kings"], "answer": "Prophet ﷺ"},
+      {"question": "How many units is Maghrib?", "options": ["3", "4", "2", "1"], "answer": "3"},
+      {"question": "Prayer includes recitation and?", "options": ["Bowing", "Sleeping", "Talking", "Eating"], "answer": "Bowing"},
+      {"question": "The first pillar of Islam is?", "options": ["Shahada", "Salah", "Zakat", "Sawm"], "answer": "Shahada"},
+      {"question": "Which action refreshes Salah?", "options": ["Wudu", "Charity", "Fasting", "Travel"], "answer": "Wudu"},
+      {"question": "Prayer reminds us of?", "options": ["Allah", "People", "Money", "Celebrations"], "answer": "Allah"}
+    ]
+  },
+  {
+    "chapterId": 7,
+    "questions": [
+      {"question": "Good manners toward others are part of?", "options": ["Adab", "Hajj", "Sawm", "Zakat"], "answer": "Adab"},
+      {"question": "Which habit builds community?", "options": ["Helping others", "Ignoring", "Hoarding", "Working alone"], "answer": "Helping others"},
+      {"question": "Kindness starts with?", "options": ["Sincerity", "Noise", "Money", "Power"], "answer": "Sincerity"},
+      {"question": "Forgiveness is greater than?", "options": ["Grudges", "Strength", "Power", "Wealth"], "answer": "Grudges"},
+      {"question": "Sharing is part of?", "options": ["Leadership", "Hesitation", "Silence", "Isolation"], "answer": "Leadership"},
+      {"question": "The Prophet ﷺ said: 'The believer is...'?", "options": ["Sympathetic", "Silent", "Strong", "Angry"], "answer": "Sympathetic"},
+      {"question": "Community grows through?", "options": ["Trust", "Control", "Fear", "Debt"], "answer": "Trust"},
+      {"question": "Charity increases?", "options": ["Purity", "Debt", "Pride", "Noise"], "answer": "Purity"}
+    ]
+  },
+  {
+    "chapterId": 8,
+    "questions": [
+      {"question": "Living halal requires choosing?", "options": ["Permissible food", "Everything", "Money", "Power"], "answer": "Permissible food"},
+      {"question": "The lifestyle chapter teaches about?", "options": ["Halal & Haram", "Sports", "Politics", "Cars"], "answer": "Halal & Haram"},
+      {"question": "Which act keeps you mindful?", "options": ["Dhikr", "Chattings", "Silence", "Watching"], "answer": "Dhikr"},
+      {"question": "Avoiding haram comes from?", "options": ["Tawheed", "Fear", "Money", "Popularity"], "answer": "Tawheed"},
+      {"question": "Balance in living is called?", "options": ["Moderation", "Excess", "Hoarding", "Noise"], "answer": "Moderation"},
+      {"question": "Allah loves who?", "options": ["Those who suppress anger", "Opposers", "Wealthy", "Strong"], "answer": "Those who suppress anger"},
+      {"question": "Which is a daily habit to stay halal?", "options": ["Seeking knowledge", "Hitting others", "Idle talk", "Gossip"], "answer": "Seeking knowledge"},
+      {"question": "Freedom comes from?", "options": ["Submission to Allah", "Rebellion", "Isolation", "Chaos"], "answer": "Submission to Allah"}
+    ]
+  },
+  {
+    "chapterId": 9,
+    "questions": [
+      {"question": "Community care is expressed through?", "options": ["Helping neighbors", "Ignoring", "Yelling", "Holding grudges"], "answer": "Helping neighbors"},
+      {"question": "Ummah strength depends on?", "options": ["Unity", "Isolation", "Money", "Control"], "answer": "Unity"},
+      {"question": "Supporting others means giving?", "options": ["Time", "Fear", "Criticism", "Silence"], "answer": "Time"},
+      {"question": "Sharing guidance builds?", "options": ["Support", "Greed", "Pride", "Silence"], "answer": "Support"},
+      {"question": "Jummah prayers strengthen?", "options": ["Community", "Isolation", "Fear", "Loss"], "answer": "Community"},
+      {"question": "Good words are part of?", "options": ["Adab", "Noise", "Silence", "Victory"], "answer": "Adab"},
+      {"question": "Charity uplifts?", "options": ["Hearts", "Houses", "Noise", "Silence"], "answer": "Hearts"},
+      {"question": "What binds the Ummah?", "options": ["Love of Allah", "Debates", "Division", "Fear"], "answer": "Love of Allah"}
+    ]
+  },
+  {
+    "chapterId": 10,
+    "questions": [
+      {"question": "Continuous growth is achieved by?", "options": ["Consistency", "Rest", "Fear", "Isolation"], "answer": "Consistency"},
+      {"question": "The future belongs to those who?", "options": ["Prepare", "Wait", "Ignore", "Criticize"], "answer": "Prepare"},
+      {"question": "Scholarship requires?", "options": ["Study", "Sleep", "Money", "Noise"], "answer": "Study"},
+      {"question": "Growth is powered by?", "options": ["Sincere intention", "Laziness", "Greed", "Complaint"], "answer": "Sincere intention"},
+      {"question": "The Prophet ﷺ described excellence as?", "options": ["Ihsan", "Seo", "Zero", "Weakness"], "answer": "Ihsan"},
+      {"question": "Planning your day involves?", "options": ["Goals", "Dreams", "Fears", "Delays"], "answer": "Goals"},
+      {"question": "Knowledge should be shared with?", "options": ["Family", "Enemies", "Strangers", "Critics"], "answer": "Family"},
+      {"question": "Final success is tied to?", "options": ["Allah's approval", "People’s praise", "Money", "Fame"], "answer": "Allah's approval"}
+    ]
+  }
+]

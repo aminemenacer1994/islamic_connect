@@ -109,6 +109,12 @@ const fullScreenConfetti = () => {
       missions: normalizeJson(_data_missions_json__WEBPACK_IMPORTED_MODULE_9__),
       duas: normalizeJson(_data_duas_json__WEBPACK_IMPORTED_MODULE_7__),
       homework: normalizeJson(_data_homework_json__WEBPACK_IMPORTED_MODULE_8__),
+      chapterQuizPassed: false,
+      quizQuestions: [],
+      currentQuestionIndex: 0,
+      quizStatus: null,
+      quizFeedback: '',
+      selectedOption: null,
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -164,9 +170,22 @@ const fullScreenConfetti = () => {
       var _this$duas$find;
       return ((_this$duas$find = this.duas.find(d => d.chapterId === this.selectedPill)) === null || _this$duas$find === void 0 ? void 0 : _this$duas$find.duas) || [];
     },
+    currentQuizData() {
+      var _this$quizzes$find;
+      return ((_this$quizzes$find = this.quizzes.find(q => q.chapterId === this.selectedPill)) === null || _this$quizzes$find === void 0 ? void 0 : _this$quizzes$find.questions) || [];
+    },
+    currentQuestion() {
+      return this.quizQuestions[this.currentQuestionIndex];
+    },
     currentHomework() {
       var _this$homework$find;
       return ((_this$homework$find = this.homework.find(h => h.chapterId === this.selectedPill)) === null || _this$homework$find === void 0 ? void 0 : _this$homework$find.homework) || [];
+    }
+  },
+  watch: {
+    selectedPill() {
+      this.chapterQuizPassed = false;
+      this.resetQuizSet();
     }
   },
   mounted() {
@@ -177,6 +196,7 @@ const fullScreenConfetti = () => {
       this.selectedPill = value;
     }
     this.loadConfetti();
+    this.resetQuizSet();
   },
   methods: {
     loadConfetti() {
@@ -263,6 +283,7 @@ const fullScreenConfetti = () => {
           top: 0,
           behavior: 'smooth'
         });
+        this.chapterQuizPassed = false;
       }
     },
     focusMission() {
@@ -284,6 +305,33 @@ const fullScreenConfetti = () => {
     closeResourceModal() {
       this.showResourceModal = false;
       this.activeResource = null;
+    },
+    resetQuizSet() {
+      const base = this.currentQuizData;
+      this.quizQuestions = this.shuffleArray(base);
+      this.currentQuestionIndex = 0;
+      this.quizStatus = null;
+      this.quizFeedback = '';
+    },
+    shuffleArray(arr) {
+      return arr.slice().sort(() => Math.random() - 0.5);
+    },
+    answerQuiz(option) {
+      const question = this.currentQuestion;
+      if (!question) return;
+      const correct = option === question.answer;
+      this.quizStatus = correct ? 'correct' : 'incorrect';
+      this.selectedOption = option;
+      this.quizFeedback = correct ? 'Correct! Next round loading…' : 'Not quite, try another option.';
+      if (correct) {
+        this.chapterQuizPassed = true;
+        setTimeout(() => {
+          this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length;
+          this.quizStatus = null;
+          this.selectedOption = null;
+          this.quizFeedback = '';
+        }, 1000);
+      }
     }
   }
 }));
@@ -577,53 +625,96 @@ const _hoisted_89 = {
   class: "mb-0 text-dark"
 };
 const _hoisted_90 = {
-  class: "actions-card animated-fade-in"
+  key: 6,
+  class: "content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper"
 };
 const _hoisted_91 = {
-  class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
+  class: "card-header border-0 pb-2"
 };
-const _hoisted_92 = ["disabled"];
+const _hoisted_92 = {
+  class: "d-flex align-items-center justify-content-between"
+};
 const _hoisted_93 = {
-  class: "d-flex align-items-center gap-2"
+  class: "badge bg-gradient text-white rounded-pill px-3"
 };
 const _hoisted_94 = {
-  class: "text-muted small"
+  class: "card-body pt-0"
 };
-const _hoisted_95 = ["disabled"];
+const _hoisted_95 = {
+  class: "quiz-card rounded-4 p-4 h-100 position-relative"
+};
 const _hoisted_96 = {
-  key: 0
+  class: "progress mb-3",
+  style: {
+    "height": "8px"
+  }
 };
 const _hoisted_97 = {
+  class: "fw-semibold text-dark mb-4"
+};
+const _hoisted_98 = {
+  class: "d-grid gap-2"
+};
+const _hoisted_99 = ["onClick"];
+const _hoisted_100 = {
+  key: 0,
+  class: "bi bi-check-circle-fill"
+};
+const _hoisted_101 = {
+  key: 1,
+  class: "bi bi-x-circle-fill"
+};
+const _hoisted_102 = {
+  class: "quiz-tip mt-3 d-flex align-items-center gap-2"
+};
+const _hoisted_103 = {
+  class: "actions-card animated-fade-in"
+};
+const _hoisted_104 = {
+  class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
+};
+const _hoisted_105 = ["disabled"];
+const _hoisted_106 = {
+  class: "d-flex align-items-center gap-2"
+};
+const _hoisted_107 = {
+  class: "text-muted small"
+};
+const _hoisted_108 = ["disabled"];
+const _hoisted_109 = {
+  key: 0
+};
+const _hoisted_110 = {
   class: "modal fade show d-block",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_98 = {
+const _hoisted_111 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_99 = {
+const _hoisted_112 = {
   class: "modal-content rounded-4 shadow"
 };
-const _hoisted_100 = {
+const _hoisted_113 = {
   class: "modal-header"
 };
-const _hoisted_101 = {
+const _hoisted_114 = {
   class: "modal-title"
 };
-const _hoisted_102 = {
+const _hoisted_115 = {
   class: "modal-body"
 };
-const _hoisted_103 = {
+const _hoisted_116 = {
   class: "text-muted small"
 };
-const _hoisted_104 = {
+const _hoisted_117 = {
   class: "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$currentLesson, _ctx$currentLesson2, _ctx$currentLesson3, _ctx$currentLesson$le, _ctx$currentLesson4, _ctx$currentLesson$se, _ctx$currentLesson5, _ctx$currentLesson6, _ctx$currentLesson7, _ctx$activeResource, _ctx$activeResource2, _ctx$activeResource3;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "page-sheen"
-  }, null, -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
@@ -792,36 +883,65 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: task,
       class: "homework-task p-3 mb-2"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Divider "), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "d-flex align-items-center gap-3"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-dice-6 fs-4 text-teal"
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "mb-1 text-muted small"
+  }, "Quiz • Answer one right to unlock the next chapter"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    class: "fw-bold mb-0 fs-5"
+  }, "Chapter Quiz")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_93, "Question " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestionIndex + 1) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizQuestions.length), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "progress-bar bg-gradient",
+    role: "progressbar",
+    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+      width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
+    })
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: option,
+      type: "button",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn quiz-option text-start d-flex align-items-center justify-content-between", {
+        'btn-success text-white': _ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer,
+        'btn-danger text-white': _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption,
+        'btn-outline-secondary': !(_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer || _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption)
+      }]),
+      onClick: $event => _ctx.answerQuiz(option)
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */), _ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_100)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_101)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 10 /* CLASS, PROPS */, _hoisted_99);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-info-circle-fill text-teal"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["mb-0 small fw-medium", _ctx.quizStatus === 'incorrect' ? 'text-danger' : 'text-muted'])
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizFeedback || 'Need a refresher? Scroll up to replay the lesson or quiz again.'), 3 /* TEXT, CLASS */)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Divider "), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "border-top pt-4 mt-4"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
     disabled: _ctx.selectedPill <= 1,
     onClick: _cache[2] || (_cache[2] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
-  }, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[27] || (_cache[27] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_92), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_94, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_105), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_107, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
-      'disabled': _ctx.selectedPill >= _ctx.roadmapData.length || _ctx.isWaitingForNext
+      'disabled': _ctx.selectedPill >= _ctx.roadmapData.length || _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
     }]),
-    disabled: _ctx.selectedPill >= _ctx.roadmapData.length || _ctx.isWaitingForNext,
+    disabled: _ctx.selectedPill >= _ctx.roadmapData.length || _ctx.isWaitingForNext || !_ctx.chapterQuizPassed,
     onClick: _cache[3] || (_cache[3] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_95)])])])])])]), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_96, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_108)])])])])])]), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_109, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
     onClick: _cache[4] || (_cache[4] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-3"
-  }, "External Resource", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource2 = _ctx.activeResource) === null || _ctx$activeResource2 === void 0 ? void 0 : _ctx$activeResource2.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_103, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource3 = _ctx.activeResource) === null || _ctx$activeResource3 === void 0 ? void 0 : _ctx$activeResource3.link), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "External Resource", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource2 = _ctx.activeResource) === null || _ctx$activeResource2 === void 0 ? void 0 : _ctx$activeResource2.desc), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource3 = _ctx.activeResource) === null || _ctx$activeResource3 === void 0 ? void 0 : _ctx$activeResource3.link), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-secondary",
     onClick: _cache[5] || (_cache[5] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
@@ -991,7 +1111,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"title":"Islamic Resource Library","
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"1":[{"id":1,"question":"What is the core meaning of \'Islam\'?","options":["War and Conquest","Peace through Submission to God","Tradition of ancestors"],"correctIndex":1,"explanation":"Islam comes from the root s-l-m, meaning peace acquired by submitting your will to the Creator."},{"id":2,"question":"What is Tawheed?","options":["Belief in the Trinity","Belief in multiple gods","Belief in the absolute Oneness of God"],"correctIndex":2,"explanation":"Tawheed is the foundational concept of Monotheism in Islam—God is One in essence, attributes, and worship."},{"id":3,"question":"What is the Shahada?","options":["A yearly tax","The testimony of faith","A type of prayer"],"correctIndex":1,"explanation":"The Shahada is the declaration: \'There is no god but Allah, and Muhammad is His Messenger\'."}],"2":[{"id":1,"question":"How many Articles of Faith are there?","options":["Five","Six","Seven"],"correctIndex":1,"explanation":"There are six: Belief in Allah, Angels, Books, Prophets, the Last Day, and Destiny."},{"id":2,"question":"Do Muslims believe in Jesus?","options":["No","Yes, as a mighty Prophet","Yes, as God"],"correctIndex":1,"explanation":"Muslims revere Jesus (Isa) as one of the greatest Prophets of God, but not as divine."},{"id":3,"question":"What is Qadar?","options":["Divine Destiny","Charity","Fasting"],"correctIndex":0,"explanation":"Qadar means Divine Decree—trusting that God has knowledge and control over all outcomes."}],"3":[{"id":1,"question":"Which of these is NOT one of the Five Pillars?","options":["Zakat (Charity)","Jihad (Struggle)","Sawm (Fasting)"],"correctIndex":1,"explanation":"While important, Jihad is not one of the Five Pillars. The Pillars are Shahada, Salah, Zakat, Sawm, and Hajj."},{"id":2,"question":"How many times do Muslims pray daily?","options":["Three","Five","Seven"],"correctIndex":1,"explanation":"The obligatory prayers (Salah) are performed five times a day."},{"id":3,"question":"What is Hajj?","options":["Weekly fasting","Pilgrimage to Makkah","Daily Charity"],"correctIndex":1,"explanation":"Hajj is the pilgrimage to Makkah that every Muslim must perform once in their lifetime if able."}],"4":[{"id":1,"question":"Who was the Quran revealed to?","options":["Prophet Moses","Prophet Jesus","Prophet Muhammad ﷺ"],"correctIndex":2,"explanation":"The Quran was revealed to the final Prophet, Muhammad ﷺ."},{"id":2,"question":"What is a \'Surah\'?","options":["A verse","A chapter","A prayer"],"correctIndex":1,"explanation":"A Surah is a chapter of the Quran. There are 114 Surahs."},{"id":3,"question":"Has the Quran been changed over time?","options":["Yes, many times","No, it is preserved","Only slightly"],"correctIndex":1,"explanation":"Muslims believe the Quran is preserved word-for-word in its original Arabic since its revelation."}],"5":[{"id":1,"question":"What was the Prophet Muhammad known as before revelation?","options":["The King","Al-Amin (The Trustworthy)","The Warrior"],"correctIndex":1,"explanation":"He was known for his impeccable character and honesty even by his enemies."},{"id":2,"question":"What is the \'Sunnah\'?","options":["The Quran","The way/example of the Prophet","Islamic Law"],"correctIndex":1,"explanation":"Sunnah refers to the practices, habits, and teachings of the Prophet Muhammad ﷺ."},{"id":3,"question":"Do Muslims worship Muhammad?","options":["Yes","No","Sometimes"],"correctIndex":1,"explanation":"Absolutely not. Muslims worship only Allah. Muhammad ﷺ is His servant and messenger."}],"6":[{"id":1,"question":"What is the first prayer of the day?","options":["Isha","Fajr","Asr"],"correctIndex":1,"explanation":"Fajr is the dawn prayer, performed before sunrise."},{"id":2,"question":"What must you do before praying?","options":["Eat","Perform Wudu (Ablution)","Sleep"],"correctIndex":1,"explanation":"Wudu is the ritual washing required to be in a state of purity for prayer."},{"id":3,"question":"What direction do Muslims face when praying?","options":["East","West","Towards the Kaaba (Makkah)"],"correctIndex":2,"explanation":"Muslims face the Qibla (direction of the Kaaba in Makkah) regardless of where they are in the world."}],"7":[{"id":1,"question":"What did the Prophet say he was sent to perfect?","options":["Architecture","Good Character","Wealth"],"correctIndex":1,"explanation":"\'I was sent only to perfect good character/manners.\'"},{"id":2,"question":"Is smiling considered charity?","options":["Yes","No","Only on Fridays"],"correctIndex":0,"explanation":"The Prophet said, \'Your smile for your brother is charity.\'"},{"id":3,"question":"How should a Muslim treat their parents?","options":["Ignore them","With utmost kindness and respect","Argue with them"],"correctIndex":1,"explanation":"Kindness to parents is one of the highest obligations in Islam, second only to worshipping God."}],"8":[{"id":1,"question":"What does \'Halal\' mean?","options":["Forbidden","Permissible","Spicy"],"correctIndex":1,"explanation":"Halal means lawful or permissible."},{"id":2,"question":"Which of these is Haram (Forbidden)?","options":["Chicken","Water","Alcohol"],"correctIndex":2,"explanation":"Intoxicants like alcohol are strictly forbidden in Islam."},{"id":3,"question":"Why are things made Haram?","options":["To make life hard","To protect us from harm","No reason"],"correctIndex":1,"explanation":"Limits are set by the Creator to protect our physical, spiritual, and social well-being."}],"9":[{"id":1,"question":"What is the \'Ummah\'?","options":["A type of food","The global Muslim community","A prayer"],"correctIndex":1,"explanation":"The Ummah refers to the worldwide community of believers, transcending race and borders."},{"id":2,"question":"Are Muslims allowed to be racist?","options":["Yes","No","Only a little"],"correctIndex":1,"explanation":"Racism is strictly forbidden. The Prophet said no Arab is superior to a non-Arab except by piety."},{"id":3,"question":"Does Islam encourage isolation?","options":["Yes","No, it encourages community","It doesn\'t say"],"correctIndex":1,"explanation":"Islam places great emphasis on community, congregational prayer, and visiting one another."}],"10":[{"id":1,"question":"Does learning end after the Shahada?","options":["Yes","No, it is a lifelong journey","Only for one year"],"correctIndex":1,"explanation":"Seeking knowledge is an obligation for every Muslim from cradle to grave."},{"id":2,"question":"What is \'Dua\'?","options":["Pilgrimage","Supplication/Asking God","Charity"],"correctIndex":1,"explanation":"Dua is the act of calling upon Allah personally to ask for your needs."},{"id":3,"question":"What matters most in deeds?","options":["Size","Consistency","Publicity"],"correctIndex":1,"explanation":"The Prophet said the most beloved deeds to Allah are those that are consistent, even if small."}]}');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"questions":[{"question":"Which statement is the Shahada?","options":["La ilaha illa Allah","Allahu Akbar","Subhan Allah","Alhamdulillah"],"answer":"La ilaha illa Allah"},{"question":"Tawheed ar-Ruboobiyyah affirms which attribute of Allah?","options":["His names","His creation","His Lordship","His reward"],"answer":"His Lordship"},{"question":"Best descriptor of Tawheed al-Uloohiyyah?","options":["Worship only Allah","Study the Quran","Respect prophets","Give charity"],"answer":"Worship only Allah"},{"question":"How many categories does Tawheed include in this lesson?","options":["One","Two","Three","Four"],"answer":"Three"},{"question":"Which act negates Tawheed?","options":["Prayer","Charity","Worshiping idols","Fasting"],"answer":"Worshiping idols"},{"question":"Complete: La ilaha ...","options":["illa Allah","illallah","ilta Allah","illallahumma"],"answer":"illa Allah"},{"question":"Which dua expresses gratitude for guidance?","options":["Rabbana atina","SubhanAllah","Bismillah","La hawla"],"answer":"Rabbana atina"},{"question":"Who testified to Allah’s oneness in the celestial gathering?","options":["Souls","Angels","Prophets","Jinn"],"answer":"Souls"}]},{"chapterId":2,"questions":[{"question":"Belief in angels is part of which article of faith?","options":["Fourth","Third","Second","First"],"answer":"Fourth"},{"question":"Which article addresses the revelations?","options":["Third","Sixth","Second","Fifth"],"answer":"Third"},{"question":"Belief in prophethood is the...","options":["Fifth article","Second pillar","First article","Fourth command"],"answer":"Fifth article"},{"question":"Recognizing predestination is the...","options":["Second article","Third pillar","First pillar","Fourth article"],"answer":"Second article"},{"question":"What ties all articles of faith together?","options":["Allah’s oneness","Prayer","Fasting","Knowledge"],"answer":"Allah’s oneness"},{"question":"Which of these is not part of the articles?","options":["Belief in prophets","Belief in angels","Belief in the Quran","Belief in saints"],"answer":"Belief in saints"},{"question":"The books include the Quran and...","options":["Torah","Poetry","Myths","Stories"],"answer":"Torah"},{"question":"Who completed the chain of revelation?","options":["Muhammad ﷺ","Moses","Jesus","Noah"],"answer":"Muhammad ﷺ"}]},{"chapterId":3,"questions":[{"question":"How many daily prayers are required?","options":["Five","Four","Six","Seven"],"answer":"Five"},{"question":"Which pillar requires purification before prayer?","options":["Sawm","Zakat","Wudu","Hajj"],"answer":"Wudu"},{"question":"Zakat is given to whom?","options":["Poor","Neighbors","Friends","Leaders"],"answer":"Poor"},{"question":"Hajj is performed in which city?","options":["Makkah","Madina","Jerusalem","Taif"],"answer":"Makkah"},{"question":"Fasting occurs during which month?","options":["Ramadan","Shawwal","Dhul-Hijjah","Rajab"],"answer":"Ramadan"},{"question":"Which call signals prayer time?","options":["Adhan","Iqama","Takbir","Dua"],"answer":"Adhan"},{"question":"How many pillars are there in Islam?","options":["Five","Four","Six","Seven"],"answer":"Five"},{"question":"Which pillar affirms no partners with Allah?","options":["Shahada","Salah","Sawm","Zakat"],"answer":"Shahada"}]},{"chapterId":4,"questions":[{"question":"Which revelation begins with \'Iqra\'?","options":["Al-Alaq","Al-Fatiha","Al-Kawthar","An-Nas"],"answer":"Al-Alaq"},{"question":"The angel who brought revelation is?","options":["Jibril","Mikail","Israfil","Azrael"],"answer":"Jibril"},{"question":"The Quran is described as?","options":["Guidance","Story","Law","Poem"],"answer":"Guidance"},{"question":"Which surah praises Allah for being Merciful?","options":["Al-Fatiha","Al-Ikhlas","Al-Nas","Al-Falaq"],"answer":"Al-Fatiha"},{"question":"Study of the Quran is encouraged for?","options":["Everyone","Only Scholars","Only Men","Only Kings"],"answer":"Everyone"},{"question":"Which of these is part of revelation?","options":["Hadith","Poetry","Stories","Myths"],"answer":"Hadith"},{"question":"The Quran was revealed over?","options":["23 years","10 years","30 years","40 years"],"answer":"23 years"},{"question":"Who preserved the Quran in writing?","options":["Scribes","Teachers","Poets","Kings"],"answer":"Scribes"}]},{"chapterId":5,"questions":[{"question":"The Prophet ﷺ was known for his?","options":["Truthfulness","Wealth","Silence","Feeding"],"answer":"Truthfulness"},{"question":"He migrated to?","options":["Madina","Makkah","Taif","Yathrib"],"answer":"Madina"},{"question":"His life is recorded in the?","options":["Seerah","Bible","Torah","Sutras"],"answer":"Seerah"},{"question":"Which city hosted the Farewell pilgrimage?","options":["Makkah","Madina","Taif","Jerusalem"],"answer":"Makkah"},{"question":"Muhammad ﷺ is the final?","options":["Prophet","King","Scholar","Judge"],"answer":"Prophet"},{"question":"Which attribute best describes the Prophet?","options":["Mercy","Wealth","Power","Silence"],"answer":"Mercy"},{"question":"He taught Muslims to be?","options":["Just","Harsh","Strong","Silent"],"answer":"Just"},{"question":"His companions are known as?","options":["Sahaba","Men","Kings","Scholars"],"answer":"Sahaba"}]},{"chapterId":6,"questions":[{"question":"Fajr prayer occurs at?","options":["Dawn","Noon","Evening","Night"],"answer":"Dawn"},{"question":"Maghrib prayer begins after?","options":["Sunset","Noon","Dawn","Midnight"],"answer":"Sunset"},{"question":"Who said prayer is light?","options":["Prophet ﷺ","Companions","Scholars","Kings"],"answer":"Prophet ﷺ"},{"question":"How many units is Maghrib?","options":["3","4","2","1"],"answer":"3"},{"question":"Prayer includes recitation and?","options":["Bowing","Sleeping","Talking","Eating"],"answer":"Bowing"},{"question":"The first pillar of Islam is?","options":["Shahada","Salah","Zakat","Sawm"],"answer":"Shahada"},{"question":"Which action refreshes Salah?","options":["Wudu","Charity","Fasting","Travel"],"answer":"Wudu"},{"question":"Prayer reminds us of?","options":["Allah","People","Money","Celebrations"],"answer":"Allah"}]},{"chapterId":7,"questions":[{"question":"Good manners toward others are part of?","options":["Adab","Hajj","Sawm","Zakat"],"answer":"Adab"},{"question":"Which habit builds community?","options":["Helping others","Ignoring","Hoarding","Working alone"],"answer":"Helping others"},{"question":"Kindness starts with?","options":["Sincerity","Noise","Money","Power"],"answer":"Sincerity"},{"question":"Forgiveness is greater than?","options":["Grudges","Strength","Power","Wealth"],"answer":"Grudges"},{"question":"Sharing is part of?","options":["Leadership","Hesitation","Silence","Isolation"],"answer":"Leadership"},{"question":"The Prophet ﷺ said: \'The believer is...\'?","options":["Sympathetic","Silent","Strong","Angry"],"answer":"Sympathetic"},{"question":"Community grows through?","options":["Trust","Control","Fear","Debt"],"answer":"Trust"},{"question":"Charity increases?","options":["Purity","Debt","Pride","Noise"],"answer":"Purity"}]},{"chapterId":8,"questions":[{"question":"Living halal requires choosing?","options":["Permissible food","Everything","Money","Power"],"answer":"Permissible food"},{"question":"The lifestyle chapter teaches about?","options":["Halal & Haram","Sports","Politics","Cars"],"answer":"Halal & Haram"},{"question":"Which act keeps you mindful?","options":["Dhikr","Chattings","Silence","Watching"],"answer":"Dhikr"},{"question":"Avoiding haram comes from?","options":["Tawheed","Fear","Money","Popularity"],"answer":"Tawheed"},{"question":"Balance in living is called?","options":["Moderation","Excess","Hoarding","Noise"],"answer":"Moderation"},{"question":"Allah loves who?","options":["Those who suppress anger","Opposers","Wealthy","Strong"],"answer":"Those who suppress anger"},{"question":"Which is a daily habit to stay halal?","options":["Seeking knowledge","Hitting others","Idle talk","Gossip"],"answer":"Seeking knowledge"},{"question":"Freedom comes from?","options":["Submission to Allah","Rebellion","Isolation","Chaos"],"answer":"Submission to Allah"}]},{"chapterId":9,"questions":[{"question":"Community care is expressed through?","options":["Helping neighbors","Ignoring","Yelling","Holding grudges"],"answer":"Helping neighbors"},{"question":"Ummah strength depends on?","options":["Unity","Isolation","Money","Control"],"answer":"Unity"},{"question":"Supporting others means giving?","options":["Time","Fear","Criticism","Silence"],"answer":"Time"},{"question":"Sharing guidance builds?","options":["Support","Greed","Pride","Silence"],"answer":"Support"},{"question":"Jummah prayers strengthen?","options":["Community","Isolation","Fear","Loss"],"answer":"Community"},{"question":"Good words are part of?","options":["Adab","Noise","Silence","Victory"],"answer":"Adab"},{"question":"Charity uplifts?","options":["Hearts","Houses","Noise","Silence"],"answer":"Hearts"},{"question":"What binds the Ummah?","options":["Love of Allah","Debates","Division","Fear"],"answer":"Love of Allah"}]},{"chapterId":10,"questions":[{"question":"Continuous growth is achieved by?","options":["Consistency","Rest","Fear","Isolation"],"answer":"Consistency"},{"question":"The future belongs to those who?","options":["Prepare","Wait","Ignore","Criticize"],"answer":"Prepare"},{"question":"Scholarship requires?","options":["Study","Sleep","Money","Noise"],"answer":"Study"},{"question":"Growth is powered by?","options":["Sincere intention","Laziness","Greed","Complaint"],"answer":"Sincere intention"},{"question":"The Prophet ﷺ described excellence as?","options":["Ihsan","Seo","Zero","Weakness"],"answer":"Ihsan"},{"question":"Planning your day involves?","options":["Goals","Dreams","Fears","Delays"],"answer":"Goals"},{"question":"Knowledge should be shared with?","options":["Family","Enemies","Strangers","Critics"],"answer":"Family"},{"question":"Final success is tied to?","options":["Allah\'s approval","People’s praise","Money","Fame"],"answer":"Allah\'s approval"}]}]');
 
 /***/ }),
 
