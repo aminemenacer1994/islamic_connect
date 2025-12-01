@@ -219,7 +219,11 @@
                         <h3 class="h6 fw-semibold mb-2">{{ card.title }}</h3>
                         <p class="small text-muted mb-3">{{ card.desc }}</p>
                       </div>
-                      <a :title="card.title" class="mt-auto fw-semibold text-teal" :href="card.href">Explore →</a>
+                      <button type="button" class="mt-auto resource-link d-flex align-items-center justify-content-center gap-2"
+                        @click="openResource(card)">
+                        <span>Explore the resource</span>
+                        <i class="bi bi-arrow-up-right"></i>
+                      </button>
                     </article>
                   </div>
                 </div>
@@ -324,6 +328,29 @@
         </section>
       </div>
     </main>
+
+    <div v-if="showResourceModal">
+      <div class="modal-backdrop fade show"></div>
+      <div class="modal fade show d-block" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header">
+              <h5 class="modal-title">{{ activeResource?.title }}</h5>
+              <button type="button" class="btn-close" aria-label="Close" @click="closeResourceModal"></button>
+            </div>
+            <div class="modal-body">
+              <p class="text-muted small mb-3">External Resource</p>
+              <p>{{ activeResource?.desc }}</p>
+              <p class="text-muted small">{{ activeResource?.link }}</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" @click="closeResourceModal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -411,6 +438,8 @@ export default defineComponent({
       faqState: {},
       accordionState: 0,
       faqStackState: null,
+      showResourceModal: false,
+      activeResource: null,
     }
   },
 
@@ -555,6 +584,14 @@ export default defineComponent({
         el.classList.add('pulse-ring')
         setTimeout(() => el.classList.remove('pulse-ring'), 1600)
       }
+    },
+    openResource(resource) {
+      this.activeResource = resource
+      this.showResourceModal = true
+    },
+    closeResourceModal() {
+      this.showResourceModal = false
+      this.activeResource = null
     }
   }
 })
@@ -749,6 +786,7 @@ export default defineComponent({
   font-size: 1.25rem;
   color: #374151;
 }
+
 
 @keyframes fadeInUp {
   from {
@@ -1092,6 +1130,28 @@ export default defineComponent({
 
 .text-teal {
   color: #0b806f !important;
+}
+
+.resource-link {
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(16, 185, 129, 0.15));
+  color: #0b806f;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  cursor: pointer;
+}
+
+.resource-link i {
+  font-size: 1rem;
+}
+
+.resource-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(14, 165, 233, 0.25);
+  border-color: rgba(14, 165, 233, 0.5);
 }
 
 .paragraph-grid {

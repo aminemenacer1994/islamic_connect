@@ -20984,6 +20984,25 @@ to {
 .text-teal[data-v-1d764944] {
   color: #0b806f !important;
 }
+.resource-link[data-v-1d764944] {
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-size: 0.95rem;
+  font-weight: 600;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.15), rgba(16, 185, 129, 0.15));
+  color: #0b806f;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border 0.25s ease;
+  cursor: pointer;
+}
+.resource-link i[data-v-1d764944] {
+  font-size: 1rem;
+}
+.resource-link[data-v-1d764944]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 25px rgba(14, 165, 233, 0.25);
+  border-color: rgba(14, 165, 233, 0.5);
+}
 .paragraph-grid[data-v-1d764944] {
   -moz-column-count: 2;
        column-count: 2;
