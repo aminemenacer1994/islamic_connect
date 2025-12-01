@@ -105,6 +105,33 @@
             </div>
           </div>
 
+          <!-- Guidance Row -->
+          <div v-if="guidanceCards.length"
+            class="content-card section-card guidance-card animated-fade-slide mb-4 rounded-4">
+            <div class="card-header d-flex align-items-center py-3">
+              <i class="bi bi-compass-fill fs-4 me-3 text-teal"></i>
+              <div>
+                <p class="mb-0 text-muted small">Follow this flow</p>
+                <h2 class="fw-bold mb-0 fs-5">Learning Guidance</h2>
+              </div>
+            </div>
+            <div class="card-body px-3 px-md-4">
+              <div class="guidance-grid">
+                <article v-for="card in guidanceCards" :key="card.title" class="guidance-card-item">
+                  <div class="guidance-card-top">
+                    <span class="guidance-step">{{ card.step }}</span>
+                    <h3 class="mb-1 fw-semibold">{{ card.title }}</h3>
+                    <p class="mb-2 text-muted small">{{ card.description }}</p>
+                  </div>
+                  <div class="d-flex align-items-center gap-2 text-dark small fw-medium">
+                    <i class="bi bi-arrow-right-circle-fill text-teal fs-5"></i>
+                    <span>{{ card.action }}</span>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+
           <!-- Learning objectives -->
           <div v-if="learningObjectiveColumns.length"
             class="content-card section-card animated-fade-slide mb-4 rounded-4">
@@ -339,20 +366,18 @@
           <div v-if="currentQuestion" class="content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper">
             <div class="card-header border-0 pb-2">
               <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-3">
-                  <i class="bi bi-dice-6 fs-4 text-teal"></i>
-                  <div>
-                    <p class="mb-1 text-muted small">Quiz • Answer one right to unlock the next chapter</p>
-                    <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
-                  </div>
+                <div class="card-header d-flex align-items-center py-3">
+                  <i class="bi bi-dice-4-fill fs-4 me-3 text-teal"></i>
+                  <h1 class="fw-bold mb-0 fs-5">Chapter Quiz</h1>
                 </div>
-                <span class="badge bg-gradient text-white rounded-pill px-3">Question {{ currentQuestionIndex + 1 }} /
-                  {{
-                    quizQuestions.length }}</span>
+
+                <span class="badge bg-gradient text-secondary rounded-pill px-3">Question {{ currentQuestionIndex + 1 }} /
+                  {{ quizQuestions.length }}</span>
               </div>
             </div>
-            <div class="card-body pt-0">
-              <div class="quiz-card rounded-4 p-4 h-100 position-relative">
+            <div class="card-body pt-3">
+              <div class="quiz-card rounded-4 p-4 h-100 position-relative">              
+                <p class="mb-1 text-muted small">Quiz • Answer one question right to unlock the next chapter</p>
                 <div class="progress mb-3" style="height: 8px;">
                   <div class="progress-bar bg-gradient" role="progressbar"
                     :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }">
@@ -364,26 +389,30 @@
                     class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
                       'btn-success text-white': quizStatus === 'correct' && option === currentQuestion.answer,
                       'btn-danger text-white': quizStatus === 'incorrect' && option === selectedOption,
-                      'btn-outline-secondary': !((quizStatus === 'correct' && option === currentQuestion.answer) || (quizStatus === 'incorrect' && option === selectedOption))
-                    }" @click="answerQuiz(option)">
+                      'btn-outline-secondary': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
+                    }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
                     <span>{{ option }}</span>
-                    <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
-                      class="bi bi-check-circle-fill"></i>
-                    <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
-                      class="bi bi-x-circle-fill"></i>
+                    <i v-if="quizStatus === 'correct' && option === currentQuestion.answer" class="bi bi-check-circle-fill"></i>
+                    <i v-else-if="quizStatus === 'incorrect' && option === selectedOption" class="bi bi-x-circle-fill"></i>
                   </button>
                 </div>
                 <div class="quiz-tip mt-3 d-flex align-items-center gap-2">
                   <i class="bi bi-info-circle-fill text-teal"></i>
                   <p class="mb-0 small fw-medium" :class="quizStatus === 'incorrect' ? 'text-danger' : 'text-muted'">
-                    {{ quizFeedback || 'Need a refresher? Scroll up to replay the lesson or quiz again.' }}
+                    {{ quizFeedback || 'Need a refresher? Scroll up to replay the lesson or revisit the lesson sections.' }}
                   </p>
+                </div>
+                <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
+                  <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
+                  <div>
+                    <p class="mb-0 fw-semibold text-teal">You're ready for the next chapter.</p>
+                    <small class="text-muted">Scroll down to tap “Next Chapter” when the button lights up.</small>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
-          </div>
+        </div>
 
           <!-- Divider -->
           <div class="border-top pt-4 mt-4"></div>
@@ -400,20 +429,22 @@
                 Previous Chapter
               </button>
 
-              <div class="d-flex align-items-center gap-2">
-                <span class="text-muted small">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
+              <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+                <span class="text-muted small me-md-auto">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
+                <div v-if="chapterQuizPassed" class="text-teal small fw-semibold">Quiz cleared • Next Chapter unlocked.</div>
                 <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
-                  :class="{ 'disabled': selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed }"
+                  :class="{
+                    'next-ready': chapterQuizPassed && !(selectedPill >= roadmapData.length || isWaitingForNext),
+                    'disabled': selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed
+                  }"
                   :disabled="selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed"
                   @click="completeAndNext">
                   <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
                   <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </button>
               </div>
-
             </div>
           </div>
-
         </section>
       </div>
     </main>
@@ -434,20 +465,11 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="closeResourceModal">Close</button>
-
             </div>
           </div>
-
         </div>
       </div>
-
-
-
     </div>
-
-
-
-
   </div>
 </template>
 
@@ -595,6 +617,36 @@ export default defineComponent({
     currentHomework() {
       return this.homework.find(h => h.chapterId === this.selectedPill)?.homework || []
     }
+    ,
+    guidanceCards() {
+      const lesson = this.currentLesson
+      if (!lesson) return []
+      const cards = [
+        {
+          step: '01',
+          title: 'Absorb the Story',
+          description: `Read through ${lesson.sections?.length || 0} featured sections and soak in the core ideas`,
+          action: 'Bookmark key paragraphs and jot down a quick insight'
+        },
+        {
+          step: '02',
+          title: 'Internalize Duas & Insights',
+          description: lesson.keyInsights?.length ? `Let the ${lesson.keyInsights.length} insights guide your practice` : 'Use the duas to keep the message close to your heart',
+          action: lesson.keyInsights?.length ? 'Recite aloud and note how each insight applies today' : 'Practice the duas before sleep'
+        },
+        {
+          step: '03',
+          title: 'Take the Quiz',
+          description: 'Answer one vibrant question to unlock the next chapter and prove mastery',
+          action: 'Choose the right option then scroll to “Next Chapter”'
+        }
+      ]
+      if (!this.currentDuas.length) {
+        cards[1].description = 'Use the glossary, resources, and mission to keep the lesson alive'
+        cards[1].action = 'Pin a phrase that resonated most'
+      }
+      return cards
+    }
   },
 
   watch: {
@@ -738,15 +790,9 @@ export default defineComponent({
       const correct = option === question.answer
       this.quizStatus = correct ? 'correct' : 'incorrect'
       this.selectedOption = option
-      this.quizFeedback = correct ? 'Correct! Next round loading…' : 'Not quite, try another option.'
+      this.quizFeedback = correct ? 'Correct! Scroll down to unlock the Next Chapter button.' : 'Not quite, try another option.'
       if (correct) {
         this.chapterQuizPassed = true
-        setTimeout(() => {
-          this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length
-          this.quizStatus = null
-          this.selectedOption = null
-          this.quizFeedback = ''
-        }, 1000)
       }
     }
   }
@@ -985,15 +1031,15 @@ export default defineComponent({
 
 .animated-fade-slide {
   opacity: 0;
-  animation: fadeSlideUp 0.7s ease-out forwards;
+  animation: fadeSlideUp 0.45s ease-out forwards;
 }
 
 .animated-fade-in {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.45s ease-out;
 }
 
 .animated-slide-up {
-  animation: fadeInUp 0.6s ease-out;
+  animation: fadeInUp 0.45s ease-out;
   animation-fill-mode: both;
 }
 
@@ -1152,51 +1198,24 @@ export default defineComponent({
 }
 
 .content-card {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 245, 249, 0.85));
-  border-radius: 28px;
-  box-shadow: 0 20px 45px rgba(15, 76, 117, 0.18),
-    0 8px 25px rgba(15, 23, 42, 0.08);
-  border: 1px solid rgba(16, 185, 129, 0.12);
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   margin-bottom: 1.5rem;
   overflow: hidden;
-  transition: all 0.35s ease;
+  transition: box-shadow 0.35s ease, transform 0.35s ease;
   position: relative;
-  backdrop-filter: blur(18px);
 }
 
-.content-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent 45%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+.content-card::before,
+.content-card::after {
+  content: none;
 }
 
 .content-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 30px 50px rgba(15, 76, 117, 0.25),
-    0 10px 35px rgba(15, 23, 42, 0.12);
-}
-
-.content-card:hover::before {
-  opacity: 1;
-}
-
-.content-card::after {
-  content: '';
-  position: absolute;
-  inset: 10px;
-  border-radius: 1.5rem;
-  border: 1px solid rgba(59, 130, 246, 0.16);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-.content-card:hover::after {
-  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.15);
 }
 
 .content-card .card-header {
@@ -1204,17 +1223,7 @@ export default defineComponent({
   overflow: hidden;
 }
 
-.content-card .card-header::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 6px;
-  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.3));
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
+
 
 .content-card:hover .card-header::after {
   opacity: 1;
@@ -1372,13 +1381,7 @@ export default defineComponent({
   color: #0b806f;
 }
 
-.quiz-card {
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid rgba(14, 165, 233, 0.2);
-  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
-  position: relative;
-  overflow: hidden;
-}
+
 
 .quiz-card::after {
   content: '';
@@ -1417,6 +1420,19 @@ export default defineComponent({
   font-size: 1rem;
 }
 
+.quiz-success-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  background: rgba(16, 185, 129, 0.12);
+}
+
+.quiz-success-note .text-teal {
+  color: #0b806f;
+}
+
 .quiz-option {
   border-radius: 12px;
   font-weight: 600;
@@ -1425,6 +1441,52 @@ export default defineComponent({
 
 .quiz-option:hover {
   transform: translateY(-1px);
+}
+
+.next-btn {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background: linear-gradient(135deg, #0b806f, #16a34a);
+  box-shadow: 0 12px 30px rgba(11, 128, 111, 0.35);
+}
+
+.next-btn.disabled {
+  background: #94a3b8;
+  box-shadow: none;
+}
+
+.next-btn.next-ready:not(.disabled) {
+  border: none;
+  transform: translateY(-1px);
+}
+
+.guidance-card-item {
+  background: rgba(11, 128, 111, 0.05);
+  border-radius: 20px;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.guidance-card-item:hover {
+  transform: translateY(-3px);
+  border-color: rgba(14, 165, 233, 0.35);
+}
+
+.guidance-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.guidance-step {
+  display: inline-flex;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(11, 128, 111, 0.15);
+  color: #0b806f;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .paragraph-grid {
@@ -1472,20 +1534,10 @@ export default defineComponent({
 .section-block {
   position: relative;
   overflow: hidden;
-}
-
-.section-block::before {
-  content: '';
-  position: absolute;
-  inset: 16px;
-  border-radius: 16px;
-  border: 1px solid rgba(59, 130, 246, 0.1);
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.section-block:hover::before {
-  opacity: 1;
+  background: rgba(247, 250, 255, 0.7);
+  border-radius: 20px;
+  padding: 1.6rem;
+  border: 1px solid rgba(14, 165, 233, 0.15);
 }
 
 
