@@ -227,6 +227,26 @@
             </div>
 
 
+            <!-- Mission Spotlight -->
+            <div v-if="currentMission" id="mission-card"
+              class="content-card section-card animated-fade-slide mb-4 rounded-4 mission-card">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-flag-fill fs-4 me-3 text-success"></i>
+                <h1 class="fw-bold mb-0 fs-5">Mission Pulse</h1>
+              </div>
+              <div class="card-body p-3">
+                <p class="mb-2 text-muted small">Current mission tied to chapter {{ currentMission.chapterId }}</p>
+                <h5 class="fw-semibold">{{ currentMission.title }}</h5>
+                <p class="text-dark fs-6">{{ currentMission.summary }}</p>
+                <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
+                  <span class="badge bg-success text-white rounded-pill">{{ currentMission.focus }}</span>
+                  <button class="btn btn-outline-success btn-sm fw-semibold" @click="focusMission">
+                    View Mission ↓
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- FAQ -->
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
@@ -316,6 +336,7 @@ import quizzesData from './data/quizzes.json'
 import accordionContent from './data/accordionContent.json'
 import faqContent from './data/faqs.json'
 import premiumResources from './data/premiumResources.json'
+import missionsData from './data/missions.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -380,6 +401,7 @@ export default defineComponent({
       faqPanels: normalizeJson(faqContent),
       premiumResources: normalizeJson(premiumResources),
       quizzes: normalizeJson(quizzesData),
+      missions: normalizeJson(missionsData),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -420,6 +442,10 @@ export default defineComponent({
         { label: 'Resources', value: `${this.premiumResources.length}` },
         { label: 'Quizzes available', value: `${this.quizzes.length}` }
       ]
+    }
+    ,
+    currentMission() {
+      return this.missions.find(m => m.chapterId === this.selectedPill) || this.missions[0]
     }
   },
 
@@ -521,6 +547,15 @@ export default defineComponent({
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
     },
+    focusMission() {
+      const selector = '#mission-card'
+      const el = document.querySelector(selector)
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        el.classList.add('pulse-ring')
+        setTimeout(() => el.classList.remove('pulse-ring'), 1600)
+      }
+    }
   }
 })
 </script>
@@ -954,6 +989,49 @@ export default defineComponent({
   opacity: 1;
 }
 
+.content-card::after {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border-radius: 1.5rem;
+  border: 1px solid rgba(59, 130, 246, 0.16);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.content-card:hover::after {
+  opacity: 1;
+}
+
+.content-card .card-header {
+  position: relative;
+  overflow: hidden;
+}
+
+.content-card .card-header::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(59, 130, 246, 0.3));
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.content-card:hover .card-header::after {
+  opacity: 1;
+}
+
+.content-card .card-body {
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  padding: 1.75rem;
+  border: 1px solid rgba(16, 185, 129, 0.12);
+}
+
 .dot-icon {
   width: 12px;
   height: 12px;
@@ -1094,6 +1172,41 @@ export default defineComponent({
 
 .accordion-item-card {
   animation: pulseCard 2.5s ease-in-out infinite alternate;
+}
+
+.mission-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.mission-card::after {
+  content: '';
+  position: absolute;
+  inset: 18px;
+  border-radius: 20px;
+  border: 1px dashed rgba(16, 185, 129, 0.35);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mission-card:hover::after {
+  opacity: 1;
+}
+
+.pulse-ring {
+  animation: missionPulse 1.6s ease forwards;
+}
+
+@keyframes missionPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(16, 185, 129, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
 }
 
 .content-card.section-card {
