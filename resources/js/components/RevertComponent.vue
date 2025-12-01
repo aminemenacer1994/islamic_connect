@@ -280,7 +280,7 @@
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
-                  <i class="bi bi-question-circle-fill fs-4 me-3 text-teal"></i>
+                <i class="bi bi-question-circle-fill fs-4 me-3 text-teal"></i>
                 <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
               </div>
 
@@ -303,23 +303,36 @@
             </div>
 
             <!-- Next Steps -->
-            <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-arrow-right-circle me-3 text-primary fs-4"></i>
-                <h3 class="fw-bold text-dark mb-0 fs-5">Next Steps</h3>
-              </div>
+          <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
+            <div class="card-header d-flex align-items-center py-3">
+              <i class="bi bi-clipboard-check-fill fs-4 me-3 text-teal"></i>
+              <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
+            </div>
 
-              <div class="card-body p-3 ">
-                <div class="steps-list">
-                  <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
-                    class="step-item d-flex align-items-start mb-3">
-                    <span class="step-badge me-3 fs-6">{{ index + 1 }}</span>
-                    <span class="step-text fs-6 lh-base flex-grow-1">{{ step }}</span>
-                    <i class="bi bi-check-circle text-muted ms-2 fs-6"></i>
+            <div class="card-body p-3">
+              <div class="row g-3">
+                <!-- <div class="col-12 col-md-6">
+                  <div class="steps-list">
+                    <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
+                      class="step-item d-flex align-items-start mb-3">
+                      <span class="step-badge me-3 fs-6">{{ index + 1 }}</span>
+                      <span class="step-text fs-6 lh-base flex-grow-1">{{ step }}</span>
+                      <i class="bi bi-check-circle text-muted ms-2 fs-6"></i>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="col-12 col-md-12">
+                  <div class="homework-grid">
+                    <div v-for="(task, index) in currentHomework" :key="task" class="homework-task p-3 mb-2">
+                      <div class="d-flex align-items-center gap-2 mb-1">
+                        <p class="mb-0 text-dark">{{ task }}</p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
           </div>
 
@@ -390,6 +403,7 @@ import accordionContent from './data/accordionContent.json'
 import faqContent from './data/faqs.json'
 import premiumResources from './data/premiumResources.json'
 import duasData from './data/duas.json'
+import homeworkData from './data/homework.json'
 import missionsData from './data/missions.json'
 
 const normalizeJson = (value) => {
@@ -457,6 +471,7 @@ export default defineComponent({
       quizzes: normalizeJson(quizzesData),
       missions: normalizeJson(missionsData),
       duas: normalizeJson(duasData),
+      homework: normalizeJson(homeworkData),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -506,6 +521,10 @@ export default defineComponent({
     },
     currentDuas() {
       return this.duas.find(d => d.chapterId === this.selectedPill)?.duas || []
+    }
+    ,
+    currentHomework() {
+      return this.homework.find(h => h.chapterId === this.selectedPill)?.homework || []
     }
   },
 
@@ -1214,6 +1233,37 @@ export default defineComponent({
   transform: translateY(-2px);
   box-shadow: 0 15px 25px rgba(14, 165, 233, 0.25);
   border-color: rgba(14, 165, 233, 0.5);
+}
+
+.homework-task {
+  background: rgba(239, 246, 255, 0.8);
+  border-radius: 18px;
+  border: 1px solid rgba(11, 128, 111, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+
+.homework-task:hover {
+  transform: translateY(-3px);
+  border-color: rgba(11, 128, 111, 0.4);
+}
+
+.steps-list .step-item {
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  padding: 1rem;
+}
+
+.step-badge {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(11, 128, 111, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #0b806f;
 }
 
 .paragraph-grid {

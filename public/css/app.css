@@ -21029,6 +21029,33 @@ to {
   box-shadow: 0 15px 25px rgba(14, 165, 233, 0.25);
   border-color: rgba(14, 165, 233, 0.5);
 }
+.homework-task[data-v-1d764944] {
+  background: rgba(239, 246, 255, 0.8);
+  border-radius: 18px;
+  border: 1px solid rgba(11, 128, 111, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  transition: transform 0.3s ease, border 0.3s ease;
+}
+.homework-task[data-v-1d764944]:hover {
+  transform: translateY(-3px);
+  border-color: rgba(11, 128, 111, 0.4);
+}
+.steps-list .step-item[data-v-1d764944] {
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 18px;
+  padding: 1rem;
+}
+.step-badge[data-v-1d764944] {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(11, 128, 111, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: #0b806f;
+}
 .paragraph-grid[data-v-1d764944] {
   -moz-column-count: 2;
        column-count: 2;
