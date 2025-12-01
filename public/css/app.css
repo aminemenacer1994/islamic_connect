@@ -20868,10 +20868,10 @@ to {
   font-size: 0.875rem;
 }
 .content-card[data-v-1d764944] {
-  background: #ffffff;
+  background: linear-gradient(135deg, #fbfbfc 0%, #f2f4f7 60%, #eef6f6 100%);
   border-radius: 24px;
-  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 40px rgba(9, 30, 66, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.16);
   margin-bottom: 1.5rem;
   overflow: hidden;
   transition: box-shadow 0.35s ease, transform 0.35s ease;
@@ -21039,15 +21039,6 @@ to {
 .progress-bar.bg-gradient[data-v-1d764944] {
   background: linear-gradient(135deg, #a855f7, #ec4899);
 }
-.quiz-option[data-v-1d764944] {
-  border-radius: 18px;
-  font-weight: 600;
-  border-width: 2px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.quiz-option[data-v-1d764944]:hover {
-  transform: translateY(-2px);
-}
 .quiz-tip .bi[data-v-1d764944] {
   font-size: 1rem;
 }
@@ -21063,12 +21054,66 @@ to {
   color: #0b806f;
 }
 .quiz-option[data-v-1d764944] {
-  border-radius: 12px;
+  border-radius: 18px;
   font-weight: 600;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  padding: 1rem 1.2rem;
+  justify-content: space-between;
 }
 .quiz-option[data-v-1d764944]:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  border-color: rgba(15, 23, 42, 0.25);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+.quiz-option--correct[data-v-1d764944] {
+  background: linear-gradient(135deg, #0b806f, #16a34a);
+  border-color: grey;
+  color: #fff;
+}
+.quiz-option--incorrect[data-v-1d764944] {
+  background: linear-gradient(135deg, #dc2626, #f87171);
+  border-color: grey;
+  color: #fff;
+}
+.quiz-option--neutral[data-v-1d764944] {
+  background: #fff;
+}
+.quiz-options-grid[data-v-1d764944] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+.quiz-progress-track[data-v-1d764944] {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+.quiz-progress-fill[data-v-1d764944] {
+  height: 100%;
+  background: linear-gradient(135deg, #0b806f, #10b981);
+  transition: width 0.5s ease;
+}
+.quiz-shell[data-v-1d764944] {
+  background: linear-gradient(180deg, rgba(11, 128, 111, 0.12), rgba(239, 246, 255, 0.9));
+  border-radius: 24px;
+  border: 1px solid rgba(59, 130, 246, 0.18);
+}
+.quiz-header[data-v-1d764944] {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+.quiz-body[data-v-1d764944] {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0 0 24px 24px;
+}
+.quiz-progress-wrapper[data-v-1d764944] {
+  max-width: 320px;
+}
+.icon-stack i[data-v-1d764944] {
+  font-size: 1.1rem;
 }
 .next-btn[data-v-1d764944] {
   transition: transform 0.25s ease, box-shadow 0.25s ease;
@@ -21082,6 +21127,45 @@ to {
 .next-btn.next-ready[data-v-1d764944]:not(.disabled) {
   border: none;
   transform: translateY(-1px);
+}
+.hero-stats-row[data-v-1d764944] {
+  animation: fadeInUp-1d764944 0.45s ease-out;
+}
+.hero-stat-card[data-v-1d764944] {
+  background: rgba(15, 23, 42, 0.04);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.stat-label[data-v-1d764944] {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #475467;
+}
+.stat-value[data-v-1d764944] {
+  font-size: 1.75rem;
+  color: #0b806f;
+}
+.stat-helper[data-v-1d764944] {
+  margin-top: 0.35rem;
+}
+.transition-card[data-v-1d764944] {
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.08), rgba(255, 255, 255, 0.9));
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.1);
+}
+.transition-line[data-v-1d764944] {
+  width: 60px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b806f, #0ea5e9);
 }
 .guidance-card-item[data-v-1d764944] {
   background: rgba(11, 128, 111, 0.05);

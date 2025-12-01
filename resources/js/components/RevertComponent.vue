@@ -105,6 +105,17 @@
             </div>
           </div>
 
+          <!-- Hero Stats -->
+          <div class="row g-3 mb-4 hero-stats-row">
+            <div v-for="stat in lessonHeroStats" :key="stat.label" class="col-12 col-sm-4">
+              <article class="hero-stat-card d-flex flex-column">
+                <span class="stat-label">{{ stat.label }}</span>
+                <strong class="stat-value">{{ stat.value }}</strong>
+                <span class="stat-helper text-muted small">Premium insights</span>
+              </article>
+            </div>
+          </div>
+
           <!-- Guidance Row -->
           <div v-if="guidanceCards.length"
             class="content-card section-card guidance-card animated-fade-slide mb-4 rounded-4">
@@ -362,56 +373,78 @@
               </div>
             </div>
 
-            <!-- Quiz Card -->
+          <!-- Quiz Card -->
           <div v-if="currentQuestion" class="content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper">
-            <div class="card-header border-0 pb-2">
-              <div class="d-flex align-items-center justify-content-between">
-                <div class="card-header d-flex align-items-center py-3">
-                  <i class="bi bi-dice-4-fill fs-4 me-3 text-teal"></i>
-                  <h1 class="fw-bold mb-0 fs-5">Chapter Quiz</h1>
-                </div>
-
-                <span class="badge bg-gradient text-secondary rounded-pill px-3">Question {{ currentQuestionIndex + 1 }} /
-                  {{ quizQuestions.length }}</span>
-              </div>
-            </div>
-            <div class="card-body pt-3">
-              <div class="quiz-card rounded-4 p-4 h-100 position-relative">              
-                <p class="mb-1 text-muted small">Quiz • Answer one question right to unlock the next chapter</p>
-                <div class="progress mb-3" style="height: 8px;">
-                  <div class="progress-bar bg-gradient" role="progressbar"
-                    :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }">
+            <div class="quiz-shell p-0">
+              <div class="quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-dice-4-fill fs-4 text-teal"></i>
+                  <div>
+                    <p class="mb-1 text-muted small">Chapter quiz • One correct answer unlocks the next level</p>
+                    <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
                   </div>
                 </div>
-                <h3 class="fw-semibold text-dark mb-4">{{ currentQuestion.question }}</h3>
-                <div class="d-grid gap-2">
+                <span class="badge text-dark bg-light rounded-pill px-3 py-2">
+                  Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}
+                </span>
+              </div>
+              <div class="quiz-body px-4 py-3">
+                <div class="quiz-progress-wrapper mb-3">
+                  <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill"
+                      :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
+                  </div>
+                  <p class="text-muted small mt-2 mb-0">Progress toward mastery</p>
+                </div>
+                <h3 class="fw-semibold text-dark mb-4 quiz-question">{{ currentQuestion.question }}</h3>
+                <div class="quiz-options-grid">
                   <button v-for="option in currentQuestion.options" :key="option" type="button"
                     class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
-                      'btn-success text-white': quizStatus === 'correct' && option === currentQuestion.answer,
-                      'btn-danger text-white': quizStatus === 'incorrect' && option === selectedOption,
-                      'btn-outline-secondary': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
+                      'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
+                      'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
+                      'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
                     }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
-                    <span>{{ option }}</span>
-                    <i v-if="quizStatus === 'correct' && option === currentQuestion.answer" class="bi bi-check-circle-fill"></i>
-                    <i v-else-if="quizStatus === 'incorrect' && option === selectedOption" class="bi bi-x-circle-fill"></i>
+                    <div>
+                      <span>{{ option }}</span>
+                    </div>
+                    <div class="icon-stack">
+                      <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
+                        class="bi bi-check-circle-fill text-white"></i>
+                      <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
+                        class="bi bi-x-circle-fill text-white"></i>
+                    </div>
                   </button>
                 </div>
                 <div class="quiz-tip mt-3 d-flex align-items-center gap-2">
                   <i class="bi bi-info-circle-fill text-teal"></i>
                   <p class="mb-0 small fw-medium" :class="quizStatus === 'incorrect' ? 'text-danger' : 'text-muted'">
-                    {{ quizFeedback || 'Need a refresher? Scroll up to replay the lesson or revisit the lesson sections.' }}
+                    {{ quizFeedback || 'Need a refresher? Revisit the sections or consult the glossary to sharpen the answer.' }}
                   </p>
                 </div>
                 <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
                   <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
                   <div>
-                    <p class="mb-0 fw-semibold text-teal">You're ready for the next chapter.</p>
-                    <small class="text-muted">Scroll down to tap “Next Chapter” when the button lights up.</small>
+                    <p class="mb-0 fw-semibold text-teal">Great! Chapter quiz cleared.</p>
+                    <small class="text-muted">The Next Chapter button above is now active.</small>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
+        <div v-if="nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
+          <div class="d-flex align-items-center justify-content-between flex-wrap">
+            <div>
+              <p class="text-muted small mb-1">Up next</p>
+              <h4 class="fw-semibold mb-0">{{ nextChapterPreview.title }}</h4>
+              <p class="mb-1 text-teal small">{{ nextChapterPreview.track }}</p>
+            </div>
+            <div class="text-end">
+              <span class="badge bg-light text-dark rounded-pill px-3 py-2">Chapter {{ nextChapterPreview.id }}</span>
+              <div class="transition-line mt-2"></div>
+            </div>
+          </div>
+          <p class="text-muted mt-3 mb-0">{{ nextChapterPreview.snippet }}</p>
         </div>
 
           <!-- Divider -->
@@ -646,6 +679,20 @@ export default defineComponent({
         cards[1].action = 'Pin a phrase that resonated most'
       }
       return cards
+    }
+    ,
+    nextChapterPreview() {
+      const nextId = this.selectedPill + 1
+      if (nextId > this.roadmapData.length) return null
+      const nextChapter = this.roadmapData.find(c => c.id === nextId)
+      if (!nextChapter) return null
+      const lessonPreview = this.lessons.find(l => l.chapterId === nextId)
+      return {
+        id: nextChapter.id,
+        title: lessonPreview?.title || nextChapter.title,
+        track: nextChapter.description,
+        snippet: lessonPreview?.summary || nextChapter.description
+      }
     }
   },
 
@@ -1198,10 +1245,10 @@ export default defineComponent({
 }
 
 .content-card {
-  background: #ffffff;
+  background: linear-gradient(135deg, #fbfbfc 0%, #f2f4f7 60%, #eef6f6 100%);
   border-radius: 24px;
-  box-shadow: 0 14px 35px rgba(15, 23, 42, 0.12);
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 40px rgba(9, 30, 66, 0.12);
+  border: 1px solid rgba(22, 163, 74, 0.16);
   margin-bottom: 1.5rem;
   overflow: hidden;
   transition: box-shadow 0.35s ease, transform 0.35s ease;
@@ -1405,17 +1452,6 @@ export default defineComponent({
   background: linear-gradient(135deg, #a855f7, #ec4899);
 }
 
-.quiz-option {
-  border-radius: 18px;
-  font-weight: 600;
-  border-width: 2px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.quiz-option:hover {
-  transform: translateY(-2px);
-}
-
 .quiz-tip .bi {
   font-size: 1rem;
 }
@@ -1434,13 +1470,78 @@ export default defineComponent({
 }
 
 .quiz-option {
-  border-radius: 12px;
+  border-radius: 18px;
   font-weight: 600;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: #fff;
+  padding: 1rem 1.2rem;
+  justify-content: space-between;
 }
 
 .quiz-option:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  border-color: rgba(15, 23, 42, 0.25);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.quiz-option--correct {
+  background: linear-gradient(135deg, #0b806f, #16a34a);
+  border-color: grey;
+  color: #fff;
+}
+
+.quiz-option--incorrect {
+  background: linear-gradient(135deg, #dc2626, #f87171);
+  border-color: grey;
+  color: #fff;
+}
+
+.quiz-option--neutral {
+  background: #fff;
+}
+
+.quiz-options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.9rem;
+}
+
+.quiz-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #0b806f, #10b981);
+  transition: width 0.5s ease;
+}
+
+.quiz-shell {
+  background: linear-gradient(180deg, rgba(11, 128, 111, 0.12), rgba(239, 246, 255, 0.9));
+  border-radius: 24px;
+  border: 1px solid rgba(59, 130, 246, 0.18);
+}
+
+.quiz-header {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.quiz-body {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 0 0 24px 24px;
+}
+
+.quiz-progress-wrapper {
+  max-width: 320px;
+}
+
+.icon-stack i {
+  font-size: 1.1rem;
 }
 
 .next-btn {
@@ -1459,6 +1560,51 @@ export default defineComponent({
   transform: translateY(-1px);
 }
 
+.hero-stats-row {
+  animation: fadeInUp 0.45s ease-out;
+}
+
+.hero-stat-card {
+  background: rgba(15, 23, 42, 0.04);
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  min-height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #475467;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  color: #0b806f;
+}
+
+.stat-helper {
+  margin-top: 0.35rem;
+}
+
+.transition-card {
+  border-radius: 20px;
+  padding: 1.5rem;
+  border: 1px solid rgba(14, 165, 233, 0.2);
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.08), rgba(255, 255, 255, 0.9));
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.1);
+}
+
+.transition-line {
+  width: 60px;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0b806f, #0ea5e9);
+}
 .guidance-card-item {
   background: rgba(11, 128, 111, 0.05);
   border-radius: 20px;
