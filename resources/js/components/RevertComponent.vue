@@ -77,19 +77,29 @@
         <section class="col-12 col-md-8 col-lg-9">
           <!-- Lesson Header -->
           <div class="lesson-header animated-fade-in mb-4">
-            <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between">
-              <div>
-                <!-- Mobile friendly: smaller text, better spacing -->
+            <div class="lesson-hero position-relative overflow-hidden shadow-sm">
+              <div class="lesson-hero-gradient"></div>
+              <div class="lesson-hero-content">
                 <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-journey me-2 text-primary fs-4"></i>
-                  <span class="text-uppercase text-muted fw-bold small">
+                  <i class="bi bi-journey me-2 text-white fs-4"></i>
+                  <span class="text-uppercase text-white fw-semibold small">
                     Chapter {{ currentLesson?.chapterId }}
                   </span>
                 </div>
-
-                <h1 class="fw-bold text-dark mt-5">
+                <h1 class="fw-bold text-white text-start text-md-left mb-2">
                   {{ currentLesson?.title }}
                 </h1>
+                <p class="text-white-50 mb-0">
+                  {{ currentLesson?.summary }}
+                </p>
+              </div>
+              <div class="lesson-meta d-flex gap-3">
+                <span class="badge badge-pill bg-light text-dark fw-semibold">
+                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}
+                </span>
+                <span class="badge badge-pill bg-white text-success fw-semibold">
+                  {{ currentLesson?.sections?.length ?? 0 }} Topics
+                </span>
               </div>
             </div>
           </div>
@@ -102,7 +112,7 @@
               <h2 class="fw-bold mb-0 fs-5">Learning Objectives</h2>
             </div>
 
-            <div class="card-body px-3 px-md-4">
+            <div class="card-body card-teal px-3 px-md-4">
               <div class="learning-objectives-grid">
                 <div v-for="(column, columnIndex) in learningObjectiveColumns" :key="columnIndex"
                   class="objective-column">
@@ -152,7 +162,7 @@
                 <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
               </div>
 
-              <div class="card-body p-3 ">
+              <div class="card-body p-3">
                 <ul class="list-group insight-list fs-6 lh-base">
                   <li v-for="insight in currentLesson.keyInsights" :key="insight"
                     class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
@@ -266,27 +276,23 @@
 
           <!-- NAVIGATION BUTTONS -->
           <div class="actions-card animated-fade-in">
-            <div class="p-3 p-md-1">
+            <div class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
 
-              <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-3">
+              <button class="btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2"
+                :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
+                @click="selectPill(selectedPill - 1)">
+                <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                Previous Chapter
+              </button>
 
-                <!-- Previous -->
-                <button class="btn btn-outline-primary fw-500 px-4 py-3 fs-6"
-                  :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
-                  @click="selectPill(selectedPill - 1)">
-                  <i class="bi bi-arrow-left me-2"></i>
-                  Previous Chapter
+              <div class="d-flex align-items-center gap-2">
+                <span class="text-muted small">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
+                <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
+                  :class="{ 'disabled': selectedPill >= roadmapData.length || isWaitingForNext }"
+                  :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
+                  <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
+                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
                 </button>
-
-                <!-- Next -->
-                <button class="btn fw-600 px-5 py-3 fs-6 text-white" :class="{
-                  'bg-gradient-primary shadow-sm': !(selectedPill >= roadmapData.length || isWaitingForNext),
-                  'btn-secondary opacity-75': selectedPill >= roadmapData.length || isWaitingForNext
-                }" :disabled="selectedPill >= roadmapData.length || isWaitingForNext" @click="completeAndNext">
-                  {{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}
-                  <i class="bi bi-arrow-right ms-2"></i>
-                </button>
-
               </div>
 
             </div>
@@ -545,6 +551,8 @@ export default defineComponent({
   animation: slideInTopRight 0.6s cubic-bezier(0.25, 0.86, 0.25, 1) forwards;
   pointer-events: auto;
 }
+
+
 
 @keyframes slideInTopRight {
   from {
@@ -936,6 +944,15 @@ export default defineComponent({
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
 }
+.learning-objectives-grid::after {
+  content: '';
+  position: absolute;
+  inset: -1rem;
+  border-radius: 25px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.08));
+  filter: blur(25px);
+  z-index: -1;
+}
 
 .objective-column {
   padding: 1rem;
@@ -958,6 +975,25 @@ export default defineComponent({
   border-bottom: 1px solid rgba(226, 232, 240, 0.7);
 }
 
+.section-block {
+  position: relative;
+  overflow: hidden;
+}
+
+.section-block::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.section-block:hover::before {
+  opacity: 1;
+}
+
 
 .deep-dive {
   background: rgba(236, 253, 245, 0.6);
@@ -970,6 +1006,58 @@ export default defineComponent({
   gap: 0.75rem;
 }
 
+.learning-objectives-card .objective-column {
+  animation: floatColumn 1.8s ease-in-out infinite alternate;
+}
+
+.accordion-item-card {
+  animation: pulseCard 2.5s ease-in-out infinite alternate;
+}
+
+.content-card.section-card {
+  opacity: 0;
+  animation: cardLift 0.9s ease forwards;
+}
+
+.content-card.section-card:nth-of-type(odd) {
+  animation-delay: 0.05s;
+}
+
+.content-card.section-card:nth-of-type(even) {
+  animation-delay: 0.15s;
+}
+
+@keyframes floatColumn {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes pulseCard {
+  from {
+    box-shadow: 0 12px 18px rgba(15, 76, 117, 0.08);
+  }
+  to {
+    box-shadow: 0 22px 32px rgba(15, 76, 117, 0.18);
+  }
+}
+
+@keyframes cardLift {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  50% {
+    transform: translateY(-8px) scale(1.01);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 .accordion-item-card {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
@@ -1000,6 +1088,78 @@ export default defineComponent({
   line-height: 1.6;
 }
 
+.actions-card {
+  border-radius: 20px;
+  margin-top: 1.5rem;
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.08), rgba(59, 130, 246, 0.08));
+  box-shadow: inset 0 0 0 1px rgba(16, 185, 129, 0.2);
+}
+
+.next-btn {
+  background: linear-gradient(135deg, #0b806f, #22c55e);
+  border-radius: 12px;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.25);
+}
+
+.next-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 30px rgba(16, 185, 129, 0.35);
+}
+
+.next-btn.disabled,
+.next-btn:disabled {
+  background: #94a3b8;
+  box-shadow: none;
+}
+
+@media (max-width: 991px) {
+  .section-card {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .learning-objectives-grid::after {
+    inset: -0.5rem;
+  }
+
+  .premium-card {
+    padding: 1.25rem;
+  }
+
+  .lesson-hero {
+    padding: 1.5rem;
+  }
+
+  .lesson-meta {
+    position: static;
+    margin-top: 1rem;
+  }
+
+  .paragraph-grid {
+    column-count: 1;
+  }
+}
+
+@media (max-width: 767px) {
+  .navigation-card {
+    position: static;
+    max-height: none;
+    width: 100%;
+    border-radius: 20px;
+  }
+
+  .mobile-nav-toggle {
+    left: auto;
+    right: 1rem;
+  }
+
+  .card-body {
+    padding: 1rem;
+  }
+}
+
 .faq-stack .faq-item+.faq-item {
   margin-top: 0.75rem;
 }
@@ -1025,6 +1185,112 @@ export default defineComponent({
   padding: 0.85rem 1rem;
   border: 1px solid rgba(59, 130, 246, 0.2);
   box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.05);
+}
+
+.lesson-hero {
+  background: #0f172a;
+  border-radius: 32px;
+  padding: 2rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  min-height: 180px;
+}
+
+.lesson-hero-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.45), transparent 55%);
+  opacity: 0.4;
+  filter: blur(10px);
+}
+
+.lesson-hero::after {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.25), transparent 65%);
+  opacity: 0.6;
+  filter: blur(60px);
+  z-index: 0;
+  animation: slowPulse 6s linear infinite;
+}
+
+.section-block::before {
+  content: '';
+  position: absolute;
+  inset: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.section-block:hover::before {
+  opacity: 1;
+}
+
+.section-block:hover .section-number {
+  background: linear-gradient(135deg, #16a34a, #0b806f);
+  box-shadow: 0 8px 15px rgba(16, 185, 129, 0.4);
+}
+
+.section-number {
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.learning-objectives-grid .column-list li {
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+
+.learning-objectives-grid .column-list li:hover {
+  opacity: 1;
+}
+
+.learning-objectives-grid {
+  position: relative;
+}
+
+.learning-objectives-grid::after {
+  content: '';
+  position: absolute;
+  inset: -1rem;
+  border-radius: 25px;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.08));
+  filter: blur(25px);
+  z-index: -1;
+}
+
+@keyframes slowPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+.lesson-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.lesson-meta {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.badge {
+  padding: 0.35rem 0.95rem;
+  font-size: 0.85rem;
 }
 
 .card-header {
@@ -1304,9 +1570,14 @@ export default defineComponent({
     left: 0;
   }
 
-  .mobile-nav-open .navigation-card {
-    left: 0;
-  }
+.mobile-nav-open .navigation-card {
+  left: 0;
+}
+
+.content-card.section-card {
+  background: linear-gradient(180deg, rgba(16, 185, 129, 0.04), rgba(255, 255, 255, 0.9));
+  box-shadow: 0 18px 35px rgba(15, 76, 117, 0.1);
+}
 
   .display-6 {
     font-size: 2rem;
