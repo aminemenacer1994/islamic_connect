@@ -1,125 +1,352 @@
-
 {
   "1": [
     {
-      "id": 1, 
-      "question": "What is the core meaning of 'Islam'?", 
-      "options": ["War and Conquest", "Peace through Submission to God", "Tradition of ancestors"], 
-      "correctIndex": 1, 
+      "id": 1,
+      "question": "What is the core meaning of 'Islam'?",
+      "options": [
+        "War and Conquest",
+        "Peace through Submission to God",
+        "Tradition of ancestors"
+      ],
+      "correctIndex": 1,
       "explanation": "Islam comes from the root s-l-m, meaning peace acquired by submitting your will to the Creator."
     },
     {
-      "id": 2, 
-      "question": "What is Tawheed?", 
-      "options": ["Belief in the Trinity", "Belief in multiple gods", "Belief in the absolute Oneness of God"], 
-      "correctIndex": 2, 
+      "id": 2,
+      "question": "What is Tawheed?",
+      "options": [
+        "Belief in the Trinity",
+        "Belief in multiple gods",
+        "Belief in the absolute Oneness of God"
+      ],
+      "correctIndex": 2,
       "explanation": "Tawheed is the foundational concept of Monotheism in Islam—God is One in essence, attributes, and worship."
     },
     {
-      "id": 3, 
-      "question": "What is the Shahada?", 
-      "options": ["A yearly tax", "The testimony of faith", "A type of prayer"], 
-      "correctIndex": 1, 
+      "id": 3,
+      "question": "What is the Shahada?",
+      "options": [
+        "A yearly tax",
+        "The testimony of faith",
+        "A type of prayer"
+      ],
+      "correctIndex": 1,
       "explanation": "The Shahada is the declaration: 'There is no god but Allah, and Muhammad is His Messenger'."
     }
   ],
   "2": [
     {
-      "id": 1, "question": "How many Articles of Faith are there?", "options": ["Five", "Six", "Seven"], "correctIndex": 1, "explanation": "There are six: Belief in Allah, Angels, Books, Prophets, the Last Day, and Destiny."
+      "id": 1,
+      "question": "How many Articles of Faith are there?",
+      "options": [
+        "Five",
+        "Six",
+        "Seven"
+      ],
+      "correctIndex": 1,
+      "explanation": "There are six: Belief in Allah, Angels, Books, Prophets, the Last Day, and Destiny."
     },
     {
-      "id": 2, "question": "Do Muslims believe in Jesus?", "options": ["No", "Yes, as a mighty Prophet", "Yes, as God"], "correctIndex": 1, "explanation": "Muslims revere Jesus (Isa) as one of the greatest Prophets of God, but not as divine."
+      "id": 2,
+      "question": "Do Muslims believe in Jesus?",
+      "options": [
+        "No",
+        "Yes, as a mighty Prophet",
+        "Yes, as God"
+      ],
+      "correctIndex": 1,
+      "explanation": "Muslims revere Jesus (Isa) as one of the greatest Prophets of God, but not as divine."
     },
     {
-      "id": 3, "question": "What is Qadar?", "options": ["Divine Destiny", "Charity", "Fasting"], "correctIndex": 0, "explanation": "Qadar means Divine Decree—trusting that God has knowledge and control over all outcomes."
+      "id": 3,
+      "question": "What is Qadar?",
+      "options": [
+        "Divine Destiny",
+        "Charity",
+        "Fasting"
+      ],
+      "correctIndex": 0,
+      "explanation": "Qadar means Divine Decree—trusting that God has knowledge and control over all outcomes."
     }
   ],
   "3": [
     {
-      "id": 1, "question": "Which of these is NOT one of the Five Pillars?", "options": ["Zakat (Charity)", "Jihad (Struggle)", "Sawm (Fasting)"], "correctIndex": 1, "explanation": "While important, Jihad is not one of the Five Pillars. The Pillars are Shahada, Salah, Zakat, Sawm, and Hajj."
+      "id": 1,
+      "question": "Which of these is NOT one of the Five Pillars?",
+      "options": [
+        "Zakat (Charity)",
+        "Jihad (Struggle)",
+        "Sawm (Fasting)"
+      ],
+      "correctIndex": 1,
+      "explanation": "While important, Jihad is not one of the Five Pillars. The Pillars are Shahada, Salah, Zakat, Sawm, and Hajj."
     },
     {
-      "id": 2, "question": "How many times do Muslims pray daily?", "options": ["Three", "Five", "Seven"], "correctIndex": 1, "explanation": "The obligatory prayers (Salah) are performed five times a day."
+      "id": 2,
+      "question": "How many times do Muslims pray daily?",
+      "options": [
+        "Three",
+        "Five",
+        "Seven"
+      ],
+      "correctIndex": 1,
+      "explanation": "The obligatory prayers (Salah) are performed five times a day."
     },
     {
-      "id": 3, "question": "What is Hajj?", "options": ["Weekly fasting", "Pilgrimage to Makkah", "Daily Charity"], "correctIndex": 1, "explanation": "Hajj is the pilgrimage to Makkah that every Muslim must perform once in their lifetime if able."
+      "id": 3,
+      "question": "What is Hajj?",
+      "options": [
+        "Weekly fasting",
+        "Pilgrimage to Makkah",
+        "Daily Charity"
+      ],
+      "correctIndex": 1,
+      "explanation": "Hajj is the pilgrimage to Makkah that every Muslim must perform once in their lifetime if able."
     }
   ],
   "4": [
     {
-      "id": 1, "question": "Who was the Quran revealed to?", "options": ["Prophet Moses", "Prophet Jesus", "Prophet Muhammad ﷺ"], "correctIndex": 2, "explanation": "The Quran was revealed to the final Prophet, Muhammad ﷺ."
+      "id": 1,
+      "question": "Who was the Quran revealed to?",
+      "options": [
+        "Prophet Moses",
+        "Prophet Jesus",
+        "Prophet Muhammad ﷺ"
+      ],
+      "correctIndex": 2,
+      "explanation": "The Quran was revealed to the final Prophet, Muhammad ﷺ."
     },
     {
-      "id": 2, "question": "What is a 'Surah'?", "options": ["A verse", "A chapter", "A prayer"], "correctIndex": 1, "explanation": "A Surah is a chapter of the Quran. There are 114 Surahs."
+      "id": 2,
+      "question": "What is a 'Surah'?",
+      "options": [
+        "A verse",
+        "A chapter",
+        "A prayer"
+      ],
+      "correctIndex": 1,
+      "explanation": "A Surah is a chapter of the Quran. There are 114 Surahs."
     },
     {
-      "id": 3, "question": "Has the Quran been changed over time?", "options": ["Yes, many times", "No, it is preserved", "Only slightly"], "correctIndex": 1, "explanation": "Muslims believe the Quran is preserved word-for-word in its original Arabic since its revelation."
+      "id": 3,
+      "question": "Has the Quran been changed over time?",
+      "options": [
+        "Yes, many times",
+        "No, it is preserved",
+        "Only slightly"
+      ],
+      "correctIndex": 1,
+      "explanation": "Muslims believe the Quran is preserved word-for-word in its original Arabic since its revelation."
     }
   ],
   "5": [
     {
-      "id": 1, "question": "What was the Prophet Muhammad known as before revelation?", "options": ["The King", "Al-Amin (The Trustworthy)", "The Warrior"], "correctIndex": 1, "explanation": "He was known for his impeccable character and honesty even by his enemies."
+      "id": 1,
+      "question": "What was the Prophet Muhammad known as before revelation?",
+      "options": [
+        "The King",
+        "Al-Amin (The Trustworthy)",
+        "The Warrior"
+      ],
+      "correctIndex": 1,
+      "explanation": "He was known for his impeccable character and honesty even by his enemies."
     },
     {
-      "id": 2, "question": "What is the 'Sunnah'?", "options": ["The Quran", "The way/example of the Prophet", "Islamic Law"], "correctIndex": 1, "explanation": "Sunnah refers to the practices, habits, and teachings of the Prophet Muhammad ﷺ."
+      "id": 2,
+      "question": "What is the 'Sunnah'?",
+      "options": [
+        "The Quran",
+        "The way/example of the Prophet",
+        "Islamic Law"
+      ],
+      "correctIndex": 1,
+      "explanation": "Sunnah refers to the practices, habits, and teachings of the Prophet Muhammad ﷺ."
     },
     {
-      "id": 3, "question": "Do Muslims worship Muhammad?", "options": ["Yes", "No", "Sometimes"], "correctIndex": 1, "explanation": "Absolutely not. Muslims worship only Allah. Muhammad ﷺ is His servant and messenger."
+      "id": 3,
+      "question": "Do Muslims worship Muhammad?",
+      "options": [
+        "Yes",
+        "No",
+        "Sometimes"
+      ],
+      "correctIndex": 1,
+      "explanation": "Absolutely not. Muslims worship only Allah. Muhammad ﷺ is His servant and messenger."
     }
   ],
   "6": [
     {
-      "id": 1, "question": "What is the first prayer of the day?", "options": ["Isha", "Fajr", "Asr"], "correctIndex": 1, "explanation": "Fajr is the dawn prayer, performed before sunrise."
+      "id": 1,
+      "question": "What is the first prayer of the day?",
+      "options": [
+        "Isha",
+        "Fajr",
+        "Asr"
+      ],
+      "correctIndex": 1,
+      "explanation": "Fajr is the dawn prayer, performed before sunrise."
     },
     {
-      "id": 2, "question": "What must you do before praying?", "options": ["Eat", "Perform Wudu (Ablution)", "Sleep"], "correctIndex": 1, "explanation": "Wudu is the ritual washing required to be in a state of purity for prayer."
+      "id": 2,
+      "question": "What must you do before praying?",
+      "options": [
+        "Eat",
+        "Perform Wudu (Ablution)",
+        "Sleep"
+      ],
+      "correctIndex": 1,
+      "explanation": "Wudu is the ritual washing required to be in a state of purity for prayer."
     },
     {
-      "id": 3, "question": "What direction do Muslims face when praying?", "options": ["East", "West", "Towards the Kaaba (Makkah)"], "correctIndex": 2, "explanation": "Muslims face the Qibla (direction of the Kaaba in Makkah) regardless of where they are in the world."
+      "id": 3,
+      "question": "What direction do Muslims face when praying?",
+      "options": [
+        "East",
+        "West",
+        "Towards the Kaaba (Makkah)"
+      ],
+      "correctIndex": 2,
+      "explanation": "Muslims face the Qibla (direction of the Kaaba in Makkah) regardless of where they are in the world."
     }
   ],
   "7": [
     {
-      "id": 1, "question": "What did the Prophet say he was sent to perfect?", "options": ["Architecture", "Good Character", "Wealth"], "correctIndex": 1, "explanation": "'I was sent only to perfect good character/manners.'"
+      "id": 1,
+      "question": "What did the Prophet say he was sent to perfect?",
+      "options": [
+        "Architecture",
+        "Good Character",
+        "Wealth"
+      ],
+      "correctIndex": 1,
+      "explanation": "'I was sent only to perfect good character/manners.'"
     },
     {
-      "id": 2, "question": "Is smiling considered charity?", "options": ["Yes", "No", "Only on Fridays"], "correctIndex": 0, "explanation": "The Prophet said, 'Your smile for your brother is charity.'"
+      "id": 2,
+      "question": "Is smiling considered charity?",
+      "options": [
+        "Yes",
+        "No",
+        "Only on Fridays"
+      ],
+      "correctIndex": 0,
+      "explanation": "The Prophet said, 'Your smile for your brother is charity.'"
     },
     {
-      "id": 3, "question": "How should a Muslim treat their parents?", "options": ["Ignore them", "With utmost kindness and respect", "Argue with them"], "correctIndex": 1, "explanation": "Kindness to parents is one of the highest obligations in Islam, second only to worshipping God."
+      "id": 3,
+      "question": "How should a Muslim treat their parents?",
+      "options": [
+        "Ignore them",
+        "With utmost kindness and respect",
+        "Argue with them"
+      ],
+      "correctIndex": 1,
+      "explanation": "Kindness to parents is one of the highest obligations in Islam, second only to worshipping God."
     }
   ],
   "8": [
     {
-      "id": 1, "question": "What does 'Halal' mean?", "options": ["Forbidden", "Permissible", "Spicy"], "correctIndex": 1, "explanation": "Halal means lawful or permissible."
+      "id": 1,
+      "question": "What does 'Halal' mean?",
+      "options": [
+        "Forbidden",
+        "Permissible",
+        "Spicy"
+      ],
+      "correctIndex": 1,
+      "explanation": "Halal means lawful or permissible."
     },
     {
-      "id": 2, "question": "Which of these is Haram (Forbidden)?", "options": ["Chicken", "Water", "Alcohol"], "correctIndex": 2, "explanation": "Intoxicants like alcohol are strictly forbidden in Islam."
+      "id": 2,
+      "question": "Which of these is Haram (Forbidden)?",
+      "options": [
+        "Chicken",
+        "Water",
+        "Alcohol"
+      ],
+      "correctIndex": 2,
+      "explanation": "Intoxicants like alcohol are strictly forbidden in Islam."
     },
     {
-      "id": 3, "question": "Why are things made Haram?", "options": ["To make life hard", "To protect us from harm", "No reason"], "correctIndex": 1, "explanation": "Limits are set by the Creator to protect our physical, spiritual, and social well-being."
+      "id": 3,
+      "question": "Why are things made Haram?",
+      "options": [
+        "To make life hard",
+        "To protect us from harm",
+        "No reason"
+      ],
+      "correctIndex": 1,
+      "explanation": "Limits are set by the Creator to protect our physical, spiritual, and social well-being."
     }
   ],
   "9": [
     {
-      "id": 1, "question": "What is the 'Ummah'?", "options": ["A type of food", "The global Muslim community", "A prayer"], "correctIndex": 1, "explanation": "The Ummah refers to the worldwide community of believers, transcending race and borders."
+      "id": 1,
+      "question": "What is the 'Ummah'?",
+      "options": [
+        "A type of food",
+        "The global Muslim community",
+        "A prayer"
+      ],
+      "correctIndex": 1,
+      "explanation": "The Ummah refers to the worldwide community of believers, transcending race and borders."
     },
     {
-      "id": 2, "question": "Are Muslims allowed to be racist?", "options": ["Yes", "No", "Only a little"], "correctIndex": 1, "explanation": "Racism is strictly forbidden. The Prophet said no Arab is superior to a non-Arab except by piety."
+      "id": 2,
+      "question": "Are Muslims allowed to be racist?",
+      "options": [
+        "Yes",
+        "No",
+        "Only a little"
+      ],
+      "correctIndex": 1,
+      "explanation": "Racism is strictly forbidden. The Prophet said no Arab is superior to a non-Arab except by piety."
     },
     {
-      "id": 3, "question": "Does Islam encourage isolation?", "options": ["Yes", "No, it encourages community", "It doesn't say"], "correctIndex": 1, "explanation": "Islam places great emphasis on community, congregational prayer, and visiting one another."
+      "id": 3,
+      "question": "Does Islam encourage isolation?",
+      "options": [
+        "Yes",
+        "No, it encourages community",
+        "It doesn't say"
+      ],
+      "correctIndex": 1,
+      "explanation": "Islam places great emphasis on community, congregational prayer, and visiting one another."
     }
   ],
   "10": [
     {
-      "id": 1, "question": "Does learning end after the Shahada?", "options": ["Yes", "No, it is a lifelong journey", "Only for one year"], "correctIndex": 1, "explanation": "Seeking knowledge is an obligation for every Muslim from cradle to grave."
+      "id": 1,
+      "question": "Does learning end after the Shahada?",
+      "options": [
+        "Yes",
+        "No, it is a lifelong journey",
+        "Only for one year"
+      ],
+      "correctIndex": 1,
+      "explanation": "Seeking knowledge is an obligation for every Muslim from cradle to grave."
     },
     {
-      "id": 2, "question": "What is 'Dua'?", "options": ["Pilgrimage", "Supplication/Asking God", "Charity"], "correctIndex": 1, "explanation": "Dua is the act of calling upon Allah personally to ask for your needs."
+      "id": 2,
+      "question": "What is 'Dua'?",
+      "options": [
+        "Pilgrimage",
+        "Supplication/Asking God",
+        "Charity"
+      ],
+      "correctIndex": 1,
+      "explanation": "Dua is the act of calling upon Allah personally to ask for your needs."
     },
     {
-      "id": 3, "question": "What matters most in deeds?", "options": ["Size", "Consistency", "Publicity"], "correctIndex": 1, "explanation": "The Prophet said the most beloved deeds to Allah are those that are consistent, even if small."
+      "id": 3,
+      "question": "What matters most in deeds?",
+      "options": [
+        "Size",
+        "Consistency",
+        "Publicity"
+      ],
+      "correctIndex": 1,
+      "explanation": "The Prophet said the most beloved deeds to Allah are those that are consistent, even if small."
     }
   ]
 }

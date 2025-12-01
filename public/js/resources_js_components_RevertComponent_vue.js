@@ -99,6 +99,7 @@ const fullScreenConfetti = () => {
       accordionPanels: normalizeJson(_data_accordionContent_json__WEBPACK_IMPORTED_MODULE_4__),
       faqPanels: normalizeJson(_data_faqs_json__WEBPACK_IMPORTED_MODULE_5__),
       premiumResources: normalizeJson(_data_premiumResources_json__WEBPACK_IMPORTED_MODULE_6__),
+      quizzes: normalizeJson(_data_quizzes_json__WEBPACK_IMPORTED_MODULE_3__),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -132,6 +133,18 @@ const fullScreenConfetti = () => {
         columns.push(objectives.slice(i, i + chunkSize));
       }
       return columns;
+    },
+    lessonHeroStats() {
+      return [{
+        label: 'Chapters unlocked',
+        value: `${Math.min(this.maxStepReached, this.roadmapData.length) - 1}`
+      }, {
+        label: 'Resources',
+        value: `${this.premiumResources.length}`
+      }, {
+        label: 'Quizzes available',
+        value: `${this.quizzes.length}`
+      }];
     }
   },
   mounted() {

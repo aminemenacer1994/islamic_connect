@@ -376,6 +376,7 @@ export default defineComponent({
       accordionPanels: normalizeJson(accordionContent),
       faqPanels: normalizeJson(faqContent),
       premiumResources: normalizeJson(premiumResources),
+      quizzes: normalizeJson(quizzesData),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -410,6 +411,13 @@ export default defineComponent({
       }
       return columns
     },
+    lessonHeroStats() {
+      return [
+        { label: 'Chapters unlocked', value: `${Math.min(this.maxStepReached, this.roadmapData.length) - 1}` },
+        { label: 'Resources', value: `${this.premiumResources.length}` },
+        { label: 'Quizzes available', value: `${this.quizzes.length}` }
+      ]
+    }
   },
 
   mounted() {
@@ -757,16 +765,17 @@ export default defineComponent({
 }
 
 .navigation-card {
-  background: #ffffff;
-  border-radius: 20px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.85));
+  border-radius: 24px;
   padding: 1.5rem;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.18);
+  border: 1px solid rgba(15, 76, 117, 0.15);
   position: sticky;
   top: 2rem;
   height: fit-content;
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
+  backdrop-filter: blur(16px);
 }
 
 .progress-indicator {
@@ -858,18 +867,36 @@ export default defineComponent({
 }
 
 .content-card {
-  background: #ffffff65;
-  border-radius: 25px;
-  box-shadow: 0 18px 30px rgba(0, 0, 0, 0.06);
-  border: transparent;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(241, 245, 249, 0.85));
+  border-radius: 28px;
+  box-shadow: 0 20px 45px rgba(15, 76, 117, 0.18),
+    0 8px 25px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.12);
   margin-bottom: 1.5rem;
   overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s ease;
+  position: relative;
+  backdrop-filter: blur(18px);
+}
+
+.content-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.1), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .content-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 30px 50px rgba(15, 76, 117, 0.25),
+    0 10px 35px rgba(15, 23, 42, 0.12);
+}
+
+.content-card:hover::before {
+  opacity: 1;
 }
 
 .dot-icon {
@@ -1017,6 +1044,18 @@ export default defineComponent({
 .content-card.section-card {
   opacity: 0;
   animation: cardLift 0.9s ease forwards;
+}
+
+@keyframes softPulse {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+  100% {
+    transform: translateY(0);
+  }
 }
 
 .content-card.section-card:nth-of-type(odd) {
@@ -1188,13 +1227,15 @@ export default defineComponent({
 }
 
 .lesson-hero {
-  background: #0f172a;
+  background: linear-gradient(135deg, #111827, #0f172a 65%);
   border-radius: 32px;
   padding: 2rem;
   position: relative;
   overflow: hidden;
   margin-bottom: 1rem;
   min-height: 180px;
+  box-shadow: 0 30px 45px rgba(15, 23, 42, 0.35);
+  animation: softPulse 12s ease-in-out infinite;
 }
 
 .lesson-hero-gradient {
@@ -1291,6 +1332,25 @@ export default defineComponent({
 .badge {
   padding: 0.35rem 0.95rem;
   font-size: 0.85rem;
+}
+
+.lesson-hero-stats {
+  position: relative;
+  z-index: 1;
+}
+
+.stat-pill {
+  border-radius: 16px;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  min-width: 160px;
+}
+
+.stat-pill strong {
+  font-size: 1rem;
+  color: #0f172a;
 }
 
 .card-header {
@@ -1566,18 +1626,15 @@ export default defineComponent({
     overflow-y: auto;
   }
 
-  .navigation-card.mobile-open {
+  .navigation-card.mobile-open,
+  .mobile-nav-open .navigation-card {
     left: 0;
   }
 
-.mobile-nav-open .navigation-card {
-  left: 0;
-}
-
-.content-card.section-card {
-  background: linear-gradient(180deg, rgba(16, 185, 129, 0.04), rgba(255, 255, 255, 0.9));
-  box-shadow: 0 18px 35px rgba(15, 76, 117, 0.1);
-}
+  .content-card.section-card {
+    background: linear-gradient(180deg, rgba(16, 185, 129, 0.04), rgba(255, 255, 255, 0.9));
+    box-shadow: 0 18px 35px rgba(15, 76, 117, 0.1);
+  }
 
   .display-6 {
     font-size: 2rem;
