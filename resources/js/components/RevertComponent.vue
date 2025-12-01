@@ -50,13 +50,11 @@
             <!-- Navigation List -->
             <div class="roadmap-pillset">
               <div v-for="step in roadmapData" :key="step.id"
-                class="roadmap-pill d-flex align-items-center justify-content-between"
-                :class="{
+                class="roadmap-pill d-flex align-items-center justify-content-between" :class="{
                   active: selectedPill === step.id,
                   completed: step.id < maxStepReached,
                   locked: step.id > maxStepReached
-                }"
-                @click="selectPill(step.id)" :data-locked="step.id > maxStepReached">
+                }" @click="selectPill(step.id)" :data-locked="step.id > maxStepReached">
                 <div class="dot-wrapper d-flex align-items-center gap-2">
                   <span class="dot-icon-step">
                     <i v-if="step.id < maxStepReached" class="bi bi-check-lg"></i>
@@ -100,7 +98,7 @@
                 <span class="badge badge-pill bg-light text-dark fw-semibold">
                   Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}
                 </span>
-                <span class="badge badge-pill bg-white text-success fw-semibold">
+                <span class="badge badge-pill bg-white text-teal fw-semibold">
                   {{ currentLesson?.sections?.length ?? 0 }} Topics
                 </span>
               </div>
@@ -111,7 +109,7 @@
           <div v-if="learningObjectiveColumns.length"
             class="content-card section-card animated-fade-slide mb-4 rounded-4">
             <div class="card-header d-flex align-items-center py-3">
-              <i class="bi bi-stars fs-4 me-3" style="color: #0b806f;"></i>
+              <i class="bi bi-stars fs-4 me-3 text-teal"></i>
               <h2 class="fw-bold mb-0 fs-5">Learning Objectives</h2>
             </div>
 
@@ -122,7 +120,7 @@
                   <ul class="list-group insight-list fs-6 lh-base column-list m-0">
                     <li v-for="objective in column" :key="objective"
                       class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
-                      <i class="fas fa-check-circle fs-5 mt-1" style="color: #0b806f;"></i>
+                    <i class="fas fa-check-circle fs-5 mt-1 text-teal"></i>
                       <span>{{ objective }}</span>
                     </li>
                   </ul>
@@ -145,7 +143,7 @@
                   <div class="section-content text-dark fs-6 lh-lg" v-html="section.content"></div>
                   <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
                     <div class="deep-dive-header d-flex align-items-center mb-2">
-                      <i class="bi bi-lightbulb-fill me-2 fs-4" style="color: #0b806f;"></i>
+                  <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
                       <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
                     </div>
                     <div class="deep-dive-content text-dark fs-6" v-html="section.deepDive.content"></div>
@@ -161,7 +159,7 @@
             <div v-if="currentLesson?.keyInsights?.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
-                <i class="fas fa-chart-line fs-4 me-3" style="color: #0b806f;"></i>
+                <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
                 <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
               </div>
 
@@ -169,10 +167,36 @@
                 <ul class="list-group insight-list fs-6 lh-base">
                   <li v-for="insight in currentLesson.keyInsights" :key="insight"
                     class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                    <i class="fas fa-check-circle fs-5" style="color: #0b806f;"></i>
+                    <i class="fas fa-check-circle fs-5 text-teal"></i>
                     <span>{{ insight }}</span>
                   </li>
                 </ul>
+              </div>
+            </div>
+
+            <!-- Duas -->
+            <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3 justify-content-between">
+                <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+                  <div>
+                    <p class="mb-0 text-muted small">Guided remembrance</p>
+                    <h2 class="fw-bold mb-0 fs-5">Duas to Carry</h2>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body">
+                <div class="row g-3">
+                  <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
+                    <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
+                      <div class="dua-glow"></div>
+                    <p dir="rtl" class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end">
+                        {{ dua.arabic }}
+                      </p>
+                      <p class="mb-0 text-dark">{{ dua.english }}</p>
+                    </article>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -181,7 +205,7 @@
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-info-square-fill fs-4 me-3" style="color: #0b806f;"></i>
+                <i class="bi bi-info-square-fill fs-4 me-3 text-teal"></i>
                 <h2 class="fw-bold mb-0 fs-5">Common Asked Questions</h2>
               </div>
 
@@ -193,7 +217,7 @@
                       :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
                       <span>{{ panel.title }}</span>
                       <i class="bi"
-                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-success' : 'bi-plus-lg text-muted'"></i>
+                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
                     </button>
                     <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
                       <div v-html="panel.body"></div>
@@ -207,7 +231,7 @@
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-info-circle-fill fs-4 me-3" style="color: #0b806f;"></i>
+                <i class="bi bi-info-circle-fill fs-4 me-3 text-teal"></i>
                 <h1 class="fw-bold mb-0 fs-5">Resources</h1>
               </div>
 
@@ -219,7 +243,8 @@
                         <h3 class="h6 fw-semibold mb-2">{{ card.title }}</h3>
                         <p class="small text-muted mb-3">{{ card.desc }}</p>
                       </div>
-                      <button type="button" class="mt-auto resource-link d-flex align-items-center justify-content-center gap-2"
+                      <button type="button"
+                        class="mt-auto resource-link d-flex align-items-center justify-content-center gap-2"
                         @click="openResource(card)">
                         <span>Explore the resource</span>
                         <i class="bi bi-arrow-up-right"></i>
@@ -235,7 +260,7 @@
             <div v-if="currentMission" id="mission-card"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 mission-card">
               <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-flag-fill fs-4 me-3 text-success"></i>
+                <i class="bi bi-flag-fill fs-4 me-3 text-teal"></i>
                 <h1 class="fw-bold mb-0 fs-5">Mission Pulse</h1>
               </div>
               <div class="card-body p-3">
@@ -255,7 +280,7 @@
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-question-circle-fill fs-4 me-3" style="color: #0b806f;"></i>
+                  <i class="bi bi-question-circle-fill fs-4 me-3 text-teal"></i>
                 <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
               </div>
 
@@ -267,7 +292,7 @@
                       :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
                       <span>{{ panel.title }}</span>
                       <i class="bi"
-                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-success' : 'bi-plus-lg text-muted'"></i>
+                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
                     </button>
                     <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
                       <div v-html="panel.body"></div>
@@ -303,7 +328,8 @@
 
           <!-- NAVIGATION BUTTONS -->
           <div class="actions-card animated-fade-in">
-            <div class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
+            <div
+              class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
 
               <button class="btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2"
                 :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
@@ -345,7 +371,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" @click="closeResourceModal">Close</button>
-              
+
             </div>
           </div>
         </div>
@@ -363,6 +389,7 @@ import quizzesData from './data/quizzes.json'
 import accordionContent from './data/accordionContent.json'
 import faqContent from './data/faqs.json'
 import premiumResources from './data/premiumResources.json'
+import duasData from './data/duas.json'
 import missionsData from './data/missions.json'
 
 const normalizeJson = (value) => {
@@ -429,6 +456,7 @@ export default defineComponent({
       premiumResources: normalizeJson(premiumResources),
       quizzes: normalizeJson(quizzesData),
       missions: normalizeJson(missionsData),
+      duas: normalizeJson(duasData),
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -475,6 +503,9 @@ export default defineComponent({
     ,
     currentMission() {
       return this.missions.find(m => m.chapterId === this.selectedPill) || this.missions[0]
+    },
+    currentDuas() {
+      return this.duas.find(d => d.chapterId === this.selectedPill)?.duas || []
     }
   },
 
@@ -599,10 +630,11 @@ export default defineComponent({
 
 <style scoped>
 /* ==================== BOOTSTRAP ICONS ==================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
 
-.background{
-  
+.background {
+
   gap: 6px;
   padding: 6px 10px;
   font-size: 0.9rem;
@@ -1070,6 +1102,32 @@ export default defineComponent({
   border: 1px solid rgba(16, 185, 129, 0.12);
 }
 
+.dua-card {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 20px 30px rgba(15, 23, 42, 0.12);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.dua-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 45px rgba(15, 23, 42, 0.25);
+}
+
+.dua-card .dua-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.25), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.dua-card:hover .dua-glow {
+  opacity: 1;
+}
+
 .dot-icon {
   width: 12px;
   height: 12px;
@@ -1132,6 +1190,10 @@ export default defineComponent({
   color: #0b806f !important;
 }
 
+.border-teal {
+  border-color: rgba(11, 128, 111, 0.4) !important;
+}
+
 .resource-link {
   padding: 0.65rem 1.25rem;
   border-radius: 999px;
@@ -1164,6 +1226,7 @@ export default defineComponent({
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1.5rem;
 }
+
 .learning-objectives-grid::after {
   content: '';
   position: absolute;
@@ -1210,7 +1273,7 @@ export default defineComponent({
   transition: opacity 0.5s ease;
 }
 
-.section-block:hover::before {
+ .section-block:hover::before {
   opacity: 1;
 }
 
@@ -1227,11 +1290,15 @@ export default defineComponent({
 }
 
 .learning-objectives-card .objective-column {
-  animation: floatColumn 1.8s ease-in-out infinite alternate;
+  transition: transform 0.4s ease;
+}
+
+.learning-objectives-card .objective-column:hover {
+  transform: translateY(-4px);
 }
 
 .accordion-item-card {
-  animation: pulseCard 2.5s ease-in-out infinite alternate;
+  transition: border-color 0.3s ease, transform 0.3s ease;
 }
 
 .mission-card {
@@ -1261,9 +1328,11 @@ export default defineComponent({
   0% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
   }
+
   70% {
     box-shadow: 0 0 0 18px rgba(16, 185, 129, 0);
   }
+
   100% {
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
   }
@@ -1278,9 +1347,11 @@ export default defineComponent({
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-4px);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -1294,37 +1365,22 @@ export default defineComponent({
   animation-delay: 0.15s;
 }
 
-@keyframes floatColumn {
-  from {
-    transform: translateY(0);
-  }
-  to {
-    transform: translateY(-6px);
-  }
-}
-
-@keyframes pulseCard {
-  from {
-    box-shadow: 0 12px 18px rgba(15, 76, 117, 0.08);
-  }
-  to {
-    box-shadow: 0 22px 32px rgba(15, 76, 117, 0.18);
-  }
-}
-
 @keyframes cardLift {
   0% {
     opacity: 0;
     transform: translateY(30px);
   }
+
   50% {
     transform: translateY(-8px) scale(1.01);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
+
 .accordion-item-card {
   background: rgba(255, 255, 255, 0.03);
   border-radius: 16px;
@@ -1500,13 +1556,8 @@ export default defineComponent({
   opacity: 1;
 }
 
-.section-block:hover .section-number {
-  background: linear-gradient(135deg, #16a34a, #0b806f);
-  box-shadow: 0 8px 15px rgba(16, 185, 129, 0.4);
-}
-
 .section-number {
-  transition: background 0.4s ease, box-shadow 0.4s ease;
+  transition: none;
 }
 
 .learning-objectives-grid .column-list li {
@@ -1536,13 +1587,16 @@ export default defineComponent({
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.08);
   }
+
   100% {
     transform: scale(1);
   }
 }
+
 .lesson-hero-content {
   position: relative;
   z-index: 1;

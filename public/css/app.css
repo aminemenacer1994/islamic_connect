@@ -2,6 +2,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css);
+@import url(https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css);
 /* Local fonts with swap to improve FOIT */
 @font-face {
@@ -20528,8 +20529,8 @@ to {
 
 
 /* ==================== BOOTSTRAP ICONS ==================== */
-.background[data-v-1d764944]{
-  
+.background[data-v-1d764944] {
+
   gap: 6px;
   padding: 6px 10px;
   font-size: 0.9rem;
@@ -20932,6 +20933,28 @@ to {
   padding: 1.75rem;
   border: 1px solid rgba(16, 185, 129, 0.12);
 }
+.dua-card[data-v-1d764944] {
+  position: relative;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  box-shadow: 0 20px 30px rgba(15, 23, 42, 0.12);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.dua-card[data-v-1d764944]:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 32px 45px rgba(15, 23, 42, 0.25);
+}
+.dua-card .dua-glow[data-v-1d764944] {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.25), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.dua-card:hover .dua-glow[data-v-1d764944] {
+  opacity: 1;
+}
 .dot-icon[data-v-1d764944] {
   width: 12px;
   height: 12px;
@@ -20983,6 +21006,9 @@ to {
 }
 .text-teal[data-v-1d764944] {
   color: #0b806f !important;
+}
+.border-teal[data-v-1d764944] {
+  border-color: rgba(11, 128, 111, 0.4) !important;
 }
 .resource-link[data-v-1d764944] {
   padding: 0.65rem 1.25rem;
@@ -21067,10 +21093,13 @@ to {
   gap: 0.75rem;
 }
 .learning-objectives-card .objective-column[data-v-1d764944] {
-  animation: floatColumn-1d764944 1.8s ease-in-out infinite alternate;
+  transition: transform 0.4s ease;
+}
+.learning-objectives-card .objective-column[data-v-1d764944]:hover {
+  transform: translateY(-4px);
 }
 .accordion-item-card[data-v-1d764944] {
-  animation: pulseCard-1d764944 2.5s ease-in-out infinite alternate;
+  transition: border-color 0.3s ease, transform 0.3s ease;
 }
 .mission-card[data-v-1d764944] {
   position: relative;
@@ -21122,22 +21151,6 @@ to {
 }
 .content-card.section-card[data-v-1d764944]:nth-of-type(even) {
   animation-delay: 0.15s;
-}
-@keyframes floatColumn-1d764944 {
-from {
-    transform: translateY(0);
-}
-to {
-    transform: translateY(-6px);
-}
-}
-@keyframes pulseCard-1d764944 {
-from {
-    box-shadow: 0 12px 18px rgba(15, 76, 117, 0.08);
-}
-to {
-    box-shadow: 0 22px 32px rgba(15, 76, 117, 0.18);
-}
 }
 @keyframes cardLift-1d764944 {
 0% {
@@ -21301,12 +21314,8 @@ to {
 .section-block[data-v-1d764944]:hover::before {
   opacity: 1;
 }
-.section-block:hover .section-number[data-v-1d764944] {
-  background: linear-gradient(135deg, #16a34a, #0b806f);
-  box-shadow: 0 8px 15px rgba(16, 185, 129, 0.4);
-}
 .section-number[data-v-1d764944] {
-  transition: background 0.4s ease, box-shadow 0.4s ease;
+  transition: none;
 }
 .learning-objectives-grid .column-list li[data-v-1d764944] {
   opacity: 0.85;
