@@ -495,9 +495,16 @@
                 
                     <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
                       <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
-                      <div>
-                        <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
-                        <small class="text-muted">The Next Chapter button above is now active.</small>
+                      <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
+                        <div>
+                          <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
+                          <small class="text-muted">The Next Chapter button above is now active.</small>
+                        </div>
+                        <button type="button"
+                          class="btn btn-outline-teal btn-sm shadow-none"
+                          @click="retryQuiz">
+                          Retake quiz
+                        </button>
                       </div>
                     </div>
               </div>
@@ -987,6 +994,12 @@ export default defineComponent({
         this.chapterQuizPassed = false
       }
     },
+    retryQuiz() {
+      this.resetQuizSet()
+      this.quizFeedback = ''
+      this.quizStatus = null
+      this.selectedOption = null
+    },
     focusMission() {
       const selector = '#mission-card'
       const el = document.querySelector(selector)
@@ -1006,7 +1019,10 @@ export default defineComponent({
     }
     ,
     resetQuizSet() {
-      const base = this.currentQuizData
+      const base = this.currentQuizData.map(question => ({
+        ...question,
+        options: this.shuffleArray(question.options || [])
+      }))
       this.quizQuestions = this.shuffleArray(base)
       this.currentQuestionIndex = 0
       this.quizStatus = null
@@ -1713,6 +1729,21 @@ export default defineComponent({
 
 .quiz-success-note .text-teal {
   color: #0b806f;
+}
+
+.quiz-success-note .btn-outline-teal {
+  border-color: #0b806f;
+  color: #0b806f;
+  background: transparent;
+  font-weight: 600;
+  border-width: 1px;
+  font-size: 0.9rem;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.quiz-success-note .btn-outline-teal:hover {
+  background: #0b806f;
+  color: #ffffff;
 }
 
 .quiz-option {
