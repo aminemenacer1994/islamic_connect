@@ -23,8 +23,8 @@
     </teleport>
     <teleport to="body">
       <div v-if="showCopyAlert" class="copy-alert-container">
-        <div class="alert alert-info-copy fade show shadow-lg" role="alert">
-          <i class="bi bi-clipboard-check-fill me-2"></i>
+        <div :class="['alert', alertClass, 'alert-outline', 'alert-copy-notification']" role="status" aria-live="polite">
+          <i :class="['me-2', iconClass]"></i>
           {{ copyAlertMessage }}
         </div>
       </div>
@@ -124,31 +124,7 @@
             </div>
           </div>
 
-          <div class="accessibility-tools d-flex flex-wrap gap-2 mb-4 align-items-center">
-            <span class="me-2 text-muted small">Accessibility controls:</span>
-            <button
-              type="button"
-              class="btn btn-outline-secondary btn-sm"
-              :class="{ active: ttsActiveSection === 'lesson' }"
-              :aria-pressed="ttsActiveSection === 'lesson'"
-              @click="startTTS('lesson')">
-              TTS lesson overview
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-secondary btn-sm"
-              :class="{ active: ttsActiveSection === 'duas' }"
-              :aria-pressed="ttsActiveSection === 'duas'"
-              @click="startTTS('duas')">
-              TTS duas
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm" @click="decreaseGlobalFont">
-              A-
-            </button>
-            <button type="button" class="btn btn-outline-secondary btn-sm" @click="increaseGlobalFont">
-              A+
-            </button>
-          </div>
+          
 
           <!-- Guidance Row -->
           <div v-if="guidanceCards.length"
@@ -296,9 +272,9 @@
             <!-- ALL SECTIONS -->
             <div>
               <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
-            <div class="card-header d-flex align-items-center py-3 gap-3">
+            <div class="card-header d-flex align-items-center py-3 ">
               <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-leaf-fill fs-4 me-0 text-teal"></i>
+                <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
                 <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
               </div>
               <div class="lesson-focus-actions ms-auto">
@@ -313,14 +289,6 @@
                 <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
                   <i class="bi bi-printer fs-5"></i>
                   <span>Print</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="decreaseOverviewFontSize">
-                  <i class="bi bi-zoom-out fs-5"></i>
-                  <span>Smaller</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="increaseOverviewFontSize">
-                  <i class="bi bi-zoom-in fs-5"></i>
-                  <span>Bigger</span>
                 </span>
                 <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
               </div>
@@ -417,14 +385,6 @@
                 <span class="header-action" role="button" tabindex="0" @click="printDuas">
                   <i class="bi bi-printer fs-5"></i>
                   <span>Print</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="decreaseDuaFontSize">
-                  <i class="bi bi-zoom-out fs-5"></i>
-                  <span>Smaller</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="increaseDuaFontSize">
-                  <i class="bi bi-zoom-in fs-5"></i>
-                  <span>Bigger</span>
                 </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
@@ -910,9 +870,10 @@ export default defineComponent({
     overviewFontScale: 1,
     duaFontScale: 1,
     globalFontScale: 1,
-    copyAlertMessage: '',
-    showCopyAlert: false,
-    copyAlertTimeout: null,
+      copyAlertMessage: '',
+      copyAlertType: 'info',
+      showCopyAlert: false,
+      copyAlertTimeout: null,
     ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
     ttsActiveSection: null,
     currentUtterance: null
@@ -1003,6 +964,15 @@ export default defineComponent({
         'Avoiding judgment or cultural generalizations'
       ]
     },
+    alertClass() {
+      return this.copyAlertType === 'success' ? 'alert-success' :
+        this.copyAlertType === 'danger' ? 'alert-danger' : 'alert-info'
+    },
+    iconClass() {
+      return this.copyAlertType === 'danger' ? 'bi bi-exclamation-triangle-fill text-danger' : 'bi bi-clipboard-check-fill text-teal'
+    }
+
+    ,
 
     nextChapterPreview() {
       const nextId = this.selectedPill + 1
@@ -1307,7 +1277,7 @@ export default defineComponent({
       navigator.clipboard?.writeText(link)
         .then(() => {
           this.resourceCopyStatus = 'Link copied!'
-          this.triggerCopyAlert('Resource link copied!')
+          this.triggerCopyAlert('Resource link copied!', 'success')
           setTimeout(() => { this.resourceCopyStatus = '' }, 2500)
         })
         .catch(() => {
@@ -1492,11 +1462,12 @@ export default defineComponent({
       document.body.removeChild(textarea)
       return successful ? Promise.resolve() : Promise.reject()
     },
-    triggerCopyAlert(message) {
+    triggerCopyAlert(message, type = 'info') {
       if (this.copyAlertTimeout) {
         clearTimeout(this.copyAlertTimeout)
       }
       this.copyAlertMessage = message
+      this.copyAlertType = type
       this.showCopyAlert = true
       this.copyAlertTimeout = setTimeout(() => {
         this.showCopyAlert = false
@@ -1518,7 +1489,7 @@ export default defineComponent({
       this.copyTextToClipboard(text)
         .then(() => {
           this.setShareStatus('lesson', 'Lesson overview copied!')
-          this.triggerCopyAlert('Lesson overview copied!')
+          this.triggerCopyAlert('Lesson overview copied!', 'success')
         })
         .catch(() => {
           this.setShareStatus('lesson', 'Unable to copy.')
@@ -1542,7 +1513,7 @@ export default defineComponent({
       this.copyTextToClipboard(text)
         .then(() => {
           this.setShareStatus('dua', 'Duas copied to clipboard!')
-          this.triggerCopyAlert('Duas copied to clipboard!')
+          this.triggerCopyAlert('Duas copied to clipboard!', 'success')
         })
         .catch(() => {
           this.setShareStatus('dua', 'Unable to copy.')
@@ -1638,6 +1609,31 @@ export default defineComponent({
   right: 20px;
   z-index: 9999;
   pointer-events: none;
+}
+
+.alert-copy-notification {
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  font-size: 0.95rem;
+  min-width: 260px;
+  background: #ffffff;
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
+}
+
+.alert-outline.alert-info {
+  border-color: rgba(14, 165, 233, 0.4);
+  color: #0f172a;
+}
+
+.alert-outline.alert-success {
+  border-color: rgba(16, 185, 129, 0.6);
+  color: #065f46;
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.alert-outline .bi {
+  font-size: 1.1rem;
 }
 
 .alert-info-copy {
