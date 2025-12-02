@@ -122,17 +122,22 @@
             <div class="card-header d-flex align-items-center py-3">
               <i class="bi bi-compass-fill fs-4 me-3 text-teal"></i>
               <div>
-                <p class="mb-0 text-muted small">Follow this flow</p>
                 <h2 class="fw-bold mb-0 fs-5">Learning Guidance</h2>
               </div>
             </div>
             <div class="card-body px-3 px-md-4">
               <div class="guidance-grid">
-                <article v-for="card in guidanceCards" :key="card.title" class="guidance-card-item">
+                <article v-for="(card, index) in guidanceCards" :key="card.title" class="guidance-card-item">
                   <div class="guidance-card-top">
-                    <span class="guidance-step">{{ card.step }}</span>
-                    <h3 class="mb-1 fw-semibold">{{ card.title }}</h3>
-                    <p class="mb-2 text-muted small">{{ card.description }}</p>
+                    <div class="d-flex align-items-center gap-2">
+                      <span class="guidance-step">{{ card.step }}</span>
+                      <p class="mb-0 text-muted small">{{ index === 0 ? 'Start here' : index === 1 ? 'Deepen & personalize' : 'Finish strong' }}</p>
+                    </div>
+                    <h3 class="mt-2 fw-semibold">{{ card.title }}</h3>
+                    <p class="mt-3 text-muted small">{{ card.description }}</p>
+                  </div>
+                  <div class="guidance-line">
+                    <span></span>
                   </div>
                   <div class="d-flex align-items-center gap-2 text-dark small fw-medium">
                     <i class="bi bi-arrow-right-circle-fill text-teal fs-5"></i>
@@ -143,11 +148,51 @@
             </div>
           </div>
 
+          <!-- Onboarding Block -->
+          <div v-if="currentOnboardingSteps.length" class="content-card onboarding-card mb-4 rounded-4">
+            <div class="card-body px-4 py-3">
+              <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
+              <h3 class="fw-semibold mb-2">Simple welcome for new friends</h3>
+              <p class="text-muted small mb-3">
+                Take it slow these three ideas hold the key to remembering today’s lesson.
+              </p>
+              <ul class="simple-onboarding-list mb-0">
+                <li v-for="step in currentOnboardingSteps" :key="step.title">
+                  <span class="onboarding-bullet-icon"></span>
+                  <div>
+                    <strong class="d-block">{{ step.title }}</strong>
+                    <span>{{ step.description }}</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="lesson-focus-intro">
+            <strong class="d-block mb-1">Focus of this lesson</strong>
+            <p class="mb-0 text-muted medium">
+              {{ currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
+            </p>
+          </div>
+
+          <div v-if="focusHighlights.length" class="row focus-highlight-row mb-4 g-3">
+            <div v-for="highlight in focusHighlights" :key="highlight.label" class="col-12 col-md-4">
+              <article class="focus-pill-card p-3 rounded-4 shadow-sm h-100">
+                <div class="d-flex align-items-center justify-content-between mb-1">
+                  <span class="focus-pill-label text-muted small">{{ highlight.label }}</span>
+                  <i class="bi bi-star text-teal"></i>
+                </div>
+                <h5 class="fw-bold mb-1">{{ highlight.value }}</h5>
+                <p class="mb-0 text-muted small">{{ highlight.detail }}</p>
+              </article>
+            </div>
+          </div>
+
           <!-- Learning objectives -->
           <div v-if="learningObjectiveColumns.length"
             class="content-card section-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3">
-              <i class="bi bi-stars fs-4 me-3 text-teal"></i>
+            <div class="card-header d-flex align-items-center py-3">              
+              <i class="bi bi-database-fill-check fs-4 me-3 text-teal"></i>
               <h2 class="fw-bold mb-0 fs-5">Learning Objectives</h2>
             </div>
 
@@ -167,9 +212,13 @@
             </div>
           </div>
 
-          <!-- ALL SECTIONS -->
-          <div>
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
+            <!-- ALL SECTIONS -->
+            <div>
+              <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-leaf-fill fs-4 me-3 text-teal"></i>
+                <h2 class="fw-bold mb-0 fs-5">Learning Overview</h2>
+              </div>                
 
               <div class="card-body">
                 <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
@@ -190,6 +239,33 @@
 
                 </div>
 
+              </div>
+            </div>
+
+            <!-- Lesson Departments Focus -->
+            <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-bar-chart-line-fill fs-4 me-3 text-teal"></i>
+                <div>
+                  <h3 class="fw-bold mb-0 fs-5">Lesson Focus Across Departments</h3>
+                  <p class="text-muted mb-0 small">How this chapter aligns with every pillar of the experience</p>
+                </div>
+              </div>
+              <div class="card-body px-3 px-md-4">
+                <div class="row g-3">
+                  <div v-for="dept in lessonDepartments" :key="dept.name" class="col-12 col-md-4">
+                    <article class="dept-card h-100 p-3 rounded-3">
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="dept-icon">
+                          <i :class="dept.icon"></i>
+                        </span>
+                        <strong class="fs-6 mb-0">{{ dept.name }}</strong>
+                      </div>
+                      <p class="text-muted small mb-1">{{ dept.summary }}</p>
+                      <p class="text-dark fw-semibold mb-0">{{ dept.detail }}</p>
+                    </article>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -380,7 +456,6 @@
                 <div class="d-flex align-items-center gap-3">
                   <i class="bi bi-dice-4-fill fs-4 text-teal"></i>
                   <div>
-                    <p class="mb-1 text-muted small">Chapter quiz • One correct answer unlocks the next level</p>
                     <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
                   </div>
                 </div>
@@ -388,14 +463,17 @@
                   Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}
                 </span>
               </div>
-              <div class="quiz-body px-4 py-3">
-                <div class="quiz-progress-wrapper mb-3">
-                  <div class="quiz-progress-track">
-                    <div class="quiz-progress-fill"
-                      :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
+                <div class="quiz-body px-4 py-3">
+                  <div class="quiz-progress-wrapper mb-3">
+                    <div class="quiz-progress-track">
+                      <div class="quiz-progress-fill"
+                        :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                      <p class="text-muted small mb-0">Progress toward mastery</p>
+                      <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
+                    </div>
                   </div>
-                  <p class="text-muted small mt-2 mb-0">Progress toward mastery</p>
-                </div>
                 <h3 class="fw-semibold text-dark mb-4 quiz-question">{{ currentQuestion.question }}</h3>
                 <div class="quiz-options-grid">
                   <button v-for="option in currentQuestion.options" :key="option" type="button"
@@ -415,19 +493,14 @@
                     </div>
                   </button>
                 </div>
-                <div class="quiz-tip mt-3 d-flex align-items-center gap-2">
-                  <i class="bi bi-info-circle-fill text-teal"></i>
-                  <p class="mb-0 small fw-medium" :class="quizStatus === 'incorrect' ? 'text-danger' : 'text-muted'">
-                    {{ quizFeedback || 'Need a refresher? Revisit the sections or consult the glossary to sharpen the answer.' }}
-                  </p>
-                </div>
-                <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
-                  <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
-                  <div>
-                    <p class="mb-0 fw-semibold text-teal">Great! Chapter quiz cleared.</p>
-                    <small class="text-muted">The Next Chapter button above is now active.</small>
-                  </div>
-                </div>
+                
+                    <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
+                      <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
+                      <div>
+                        <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
+                        <small class="text-muted">The Next Chapter button above is now active.</small>
+                      </div>
+                    </div>
               </div>
             </div>
           </div>
@@ -518,6 +591,7 @@ import premiumResources from './data/premiumResources.json'
 import duasData from './data/duas.json'
 import homeworkData from './data/homework.json'
 import missionsData from './data/missions.json'
+import onboardingData from './data/onboarding.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -591,6 +665,8 @@ export default defineComponent({
       quizStatus: null,
       quizFeedback: '',
       selectedOption: null,
+      quizCorrectCount: 0,
+      quizRequiredCorrect: 2,
       mobileNavOpen: false,
       maxStepReached: 1,
       selectedPill: 1,
@@ -602,6 +678,7 @@ export default defineComponent({
       faqStackState: null,
       showResourceModal: false,
       activeResource: null,
+      onboarding: normalizeJson(onboardingData)
     }
   },
 
@@ -693,6 +770,48 @@ export default defineComponent({
         track: nextChapter.description,
         snippet: lessonPreview?.summary || nextChapter.description
       }
+    }
+    ,
+    quizProgressLabel() {
+      return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`
+    }
+    ,
+    lessonDepartments() {
+      const sections = this.currentLesson?.sections || []
+      if (!sections.length) return []
+      const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up']
+      return sections.slice(0, 3).map((section, index) => ({
+        name: section.title.split(' ').slice(0, 2).join(' '),
+        summary: section.title,
+        detail: section.deepDive?.title || 'Integrated across insights, duas, and missions.',
+        icon: icons[index % icons.length]
+      }))
+    }
+    ,
+    focusHighlights() {
+      const lesson = this.currentLesson || {}
+      const objectives = lesson.learningObjectives || []
+      return [
+        {
+          label: 'Sections',
+          value: `${lesson.sections?.length || 0}`,
+          detail: 'Read slowly, pause, and replay the explanations.'
+        },
+        {
+          label: 'First objective',
+          value: objectives[0] ?? 'Insight',
+          detail: 'Let this goal guide your dua and reflection.'
+        },
+        {
+          label: 'Tip',
+          value: lesson.keyInsights?.[0] ?? lesson.summary?.slice(0, 40) ?? 'Stay present',
+          detail: 'Keep the message close to your heart as you progress.'
+        }
+      ]
+    }
+    ,
+    currentOnboardingSteps() {
+      return this.onboarding.find(o => o.chapterId === this.selectedPill)?.steps || []
     }
   },
 
@@ -827,6 +946,20 @@ export default defineComponent({
       this.currentQuestionIndex = 0
       this.quizStatus = null
       this.quizFeedback = ''
+      this.quizCorrectCount = 0
+      this.chapterQuizPassed = false
+    },
+    advanceQuestion() {
+      if (!this.quizQuestions.length) return
+      this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length
+      this.quizStatus = null
+      this.selectedOption = null
+    },
+    scrollToNextButton() {
+      const nextBtn = document.querySelector('.next-btn')
+      if (nextBtn) {
+        nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
     },
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
@@ -837,9 +970,22 @@ export default defineComponent({
       const correct = option === question.answer
       this.quizStatus = correct ? 'correct' : 'incorrect'
       this.selectedOption = option
-      this.quizFeedback = correct ? 'Correct! Scroll down to unlock the Next Chapter button.' : 'Not quite, try another option.'
       if (correct) {
-        this.chapterQuizPassed = true
+        this.quizCorrectCount++
+        if (this.quizCorrectCount >= this.quizRequiredCorrect) {
+          this.chapterQuizPassed = true
+          this.quizFeedback = 'Nicely done! The Next Chapter button is activated.'
+          this.$nextTick(() => {
+            this.scrollToNextButton()
+          })
+        } else {
+          this.quizFeedback = `Great! ${this.quizCorrectCount}/${this.quizRequiredCorrect} saved—${this.quizRequiredCorrect - this.quizCorrectCount} to go.`
+          setTimeout(() => {
+            this.advanceQuestion()
+          }, 700)
+        }
+      } else {
+        this.quizFeedback = 'Not quite, try another option.'
       }
     }
   }
@@ -918,7 +1064,7 @@ export default defineComponent({
 }
 
 .card-header {
-  background: linear-gradient(to bottom, #f8f9fa 0%, transparent 100%);
+  background: none;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   border-color: transparent;
@@ -1470,20 +1616,43 @@ export default defineComponent({
 }
 
 .quiz-option {
-  border-radius: 18px;
+  border-radius: 20px;
   font-weight: 600;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-  border: 1px solid rgba(15, 23, 42, 0.1);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid #c4c4c4;
   background: #fff;
   padding: 1rem 1.2rem;
   justify-content: space-between;
-}
-
-.quiz-option:hover {
   transform: translateY(-2px);
-  border-color: rgba(15, 23, 42, 0.25);
+  border-color: #000;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
+
+.quiz-option {
+  border-radius: 20px;
+  font-weight: 600;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid #c4c4c4;
+  background: #fff;
+  padding: 1rem 1.2rem;
+  justify-content: space-between;
+  transform: translateY(-2px);
+  border-color: #000;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* .quiz-option:hover {
+  border-radius: 20px;
+  font-weight: 600;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  border: 1px solid #000000;
+  background: #fff;
+  padding: 1rem 1.2rem;
+  justify-content: space-between;
+  transform: translateY(-2px);
+  border-color: #000;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+} */
 
 .quiz-option--correct {
   background: linear-gradient(135deg, #0b806f, #16a34a);
@@ -1503,8 +1672,14 @@ export default defineComponent({
 
 .quiz-options-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(2, minmax(180px, 1fr));
   gap: 0.9rem;
+}
+
+@media (max-width: 575.98px) {
+  .quiz-options-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .quiz-progress-track {
@@ -1605,6 +1780,52 @@ export default defineComponent({
   border-radius: 999px;
   background: linear-gradient(135deg, #0b806f, #0ea5e9);
 }
+
+.lesson-focus-card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1) inset;
+}
+
+.lesson-focus-intro {
+  margin-bottom: 1rem;
+  padding: 1rem 1.25rem;
+  border-radius: 16px;
+  background: rgba(14, 165, 233, 0.08);
+  border: 1px solid rgba(14, 165, 233, 0.25);
+}
+
+.dept-card {
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  min-height: 140px;
+}
+
+.dept-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(59, 130, 246, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b806f;
+}
+
+.focus-pill-card {
+  background: #fff;
+  border-radius: 18px;
+  border: 1px solid rgba(11, 128, 111, 0.12);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+  min-height: 150px;
+}
+
+.focus-pill-label {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+}
 .guidance-card-item {
   background: rgba(11, 128, 111, 0.05);
   border-radius: 20px;
@@ -1634,6 +1855,51 @@ export default defineComponent({
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
+
+.guidance-line {
+  position: relative;
+  margin: 0.25rem 0;
+}
+
+.guidance-line span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(135deg, rgba(11, 128, 111, 0.6), rgba(14, 165, 233, 0.6));
+  border-radius: 999px;
+}
+
+.onboarding-card {
+  background: rgba(248, 252, 255, 0.9);
+  border-radius: 28px;
+  padding: 1.5rem;
+  border: 1px solid rgba(11, 128, 111, 0.12);
+}
+
+.simple-onboarding-list {
+  list-style: disc;
+  margin: 0;
+  padding-left: 1.25rem;
+  color: #475467;
+}
+
+.simple-onboarding-list li {
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+
+.onboarding-bullet-icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-top: 0.45rem;
+  background: linear-gradient(135deg, #0b806f, #0ea5e9);
+  box-shadow: 0 0 12px rgba(11, 128, 111, 0.35);
+  flex-shrink: 0;
+}
+
 
 .paragraph-grid {
   column-count: 2;
