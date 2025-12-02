@@ -379,18 +379,58 @@
             </div>
 
             <!-- Key Insights -->
-            <div v-if="currentLesson?.keyInsights?.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
-              </div>
+          <div v-if="currentLesson?.keyInsights?.length"
+            class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div class="card-header d-flex align-items-center py-3">
+              <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
+              <h2 class="fw-bold mb-0 fs-5">Do's and Dont's</h2>
+            </div>
 
-              <div class="card-body p-3">
-                <ul class="list-group insight-list fs-6 lh-base">
-                  <li v-for="insight in currentLesson.keyInsights" :key="insight"
-                    class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                    <i class="fas fa-check-circle fs-5 text-teal"></i>
+            <div class="card-body p-3">
+              <div v-if="currentGuidance" class="mb-3">
+                <p class="text-muted small mb-3">{{ currentGuidance.description }}</p>
+                  <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                      <article class="p-3 rounded-3 border h-100">
+                        <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
+                        <ul class="list-unstyled mb-0">
+                          <li v-for="item in currentGuidance.dos" :key="`do-${item}`"
+                            class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
+                            <span class="text-dark small mt-1">{{ item }}</span>
+                          </li>
+                        </ul>
+                      </article>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <article class="p-3 rounded-3 border h-100">
+                        <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
+                        <ul class="list-unstyled mb-0">
+                          <li v-for="item in currentGuidance.donts" :key="`dont-${item}`"
+                            class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+                            <span class="text-dark small mt-1">{{ item }}</span>
+                          </li>
+                        </ul>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              <!-- Key Insights -->
+          <div v-if="currentLesson?.keyInsights?.length"
+            class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div class="card-header d-flex align-items-center py-3">
+              <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
+              <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
+            </div>
+            <div class="card-body p-3">
+              <ul class="list-group insight-list fs-6 lh-base">
+                <li v-for="insight in currentLesson.keyInsights" :key="insight"
+                  class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
+                  <i class="fas fa-check-circle fs-5 text-teal"></i>
                     <span>{{ insight }}</span>
                   </li>
                 </ul>
@@ -760,6 +800,7 @@ import duasData from './data/duas.json'
 import homeworkData from './data/homework.json'
 import missionsData from './data/missions.json'
 import onboardingData from './data/onboarding.json'
+import guidanceData from './data/guidance.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -865,6 +906,7 @@ export default defineComponent({
       quizzes: normalizeJson(quizzesData),
       missions: normalizeJson(missionsData),
       duas: normalizeJson(duasData),
+      guidance: normalizeJson(guidanceData),
       homework: normalizeJson(homeworkData),
       lessonMap: {},
       missionMap: {},
@@ -1035,6 +1077,12 @@ export default defineComponent({
         detail: section.deepDive?.title || 'Integrated across insights, duas, and missions.',
         icon: icons[index % icons.length]
       }))
+    }
+
+    ,
+    currentGuidance() {
+      const chapterId = this.currentLesson?.chapterId
+      return this.guidance.find(entry => entry.chapterId === chapterId) || null
     }
 
     ,
