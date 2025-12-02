@@ -690,16 +690,6 @@ const fullScreenConfetti = () => {
 
 const FINAL_CHAPTER_ID = 10
 
-const SESSION_ID_KEY = 'revert-session-id'
-const SESSION_STATE_KEY = 'revert-session-state'
-
-const generateSessionId = () => {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID()
-  }
-  return 'sess-' + Math.random().toString(36).slice(2, 12)
-}
-
 const celebrateFinalChapter = () => {
   if (!window.confetti) return
   const bursts = [
@@ -756,7 +746,6 @@ export default defineComponent({
       duasMap: {},
       quizMap: {},
       homeworkMap: {},
-      sessionId: '',
       chapterQuizPassed: false,
       quizQuestions: [],
       currentQuestionIndex: 0,
@@ -929,19 +918,20 @@ export default defineComponent({
       this.chapterQuizPassed = false
       this.resetQuizSet()
       this.scrollToTop()
-      this.persistSessionState()
-    },
-    maxStepReached() {
-      this.persistSessionState()
     }
   },
 
   created() {
-    this.ensureSession()
     this.buildLookupMaps()
   },
 
   mounted() {
+    const saved = localStorage.getItem('maxStepReached')
+    if (saved) {
+      const value = parseInt(saved, 10)
+      this.maxStepReached = value
+      this.selectedPill = value
+    }
     this.resetQuizSet()
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
@@ -989,43 +979,6 @@ export default defineComponent({
           setTimeout(fullScreenConfetti, 400)
         }
       })
-    },
-
-    ensureSession() {
-      if (this.sessionId) return
-      try {
-        let sessionId = localStorage.getItem(SESSION_ID_KEY)
-        if (!sessionId) {
-          sessionId = generateSessionId()
-          localStorage.setItem(SESSION_ID_KEY, sessionId)
-        }
-        this.sessionId = sessionId
-        const stored = JSON.parse(localStorage.getItem(SESSION_STATE_KEY) || '{}')
-        const saved = stored[sessionId]
-        if (saved) {
-          if (typeof saved.maxStep === 'number') this.maxStepReached = saved.maxStep
-          if (typeof saved.selectedPill === 'number') this.selectedPill = saved.selectedPill
-        } else {
-          stored[sessionId] = { maxStep: this.maxStepReached, selectedPill: this.selectedPill }
-          localStorage.setItem(SESSION_STATE_KEY, JSON.stringify(stored))
-        }
-      } catch (error) {
-        console.error('Session storage unavailable', error)
-      }
-    },
-
-    persistSessionState() {
-      if (!this.sessionId) return
-      try {
-        const stored = JSON.parse(localStorage.getItem(SESSION_STATE_KEY) || '{}')
-        stored[this.sessionId] = {
-          maxStep: this.maxStepReached,
-          selectedPill: this.selectedPill
-        }
-        localStorage.setItem(SESSION_STATE_KEY, JSON.stringify(stored))
-      } catch (error) {
-        console.error('Unable to persist session state', error)
-      }
     },
 
     buildLookupMaps() {
@@ -1430,53 +1383,51 @@ export default defineComponent({
     overflow-y: visible;
     padding-right: 0;
   }
-}
-
-.revert-content .row.g-4 {
-  display: grid;
-  grid-template-columns: minmax(270px, 320px) minmax(0, 1fr);
-  gap: clamp(1.5rem, 2vw, 2.75rem);
-  align-items: start;
-}
-
-.revert-content .row.g-4 > aside {
-  align-self: start;
-}
-
-@media (max-width: 1199.98px) and (min-width: 992px) {
-  .revert-content .row.g-4 {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
 
   .navigation-card {
-    position: sticky;
-    top: 0;
+    position: relative;
+    top: auto;
     width: 100%;
+    border-radius: 24px;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
   }
-}
 
-@media (max-width: 767.98px) {
+  .lesson-header {
+    margin-bottom: 1rem;
+  }
+
+  .content-card {
+    margin: 0 0 1.25rem;
+  }
+
   .lesson-hero-content h1 {
-    font-size: clamp(1.75rem, 4vw, 2.2rem);
+    font-size: clamp(1.9rem, 6vw, 2.4rem);
   }
 
   .lesson-hero-content p {
     font-size: 0.95rem;
   }
 
-  .quiz-header {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
   .quiz-options-grid {
     grid-template-columns: 1fr;
   }
 
-  .section-toggle-btn span {
-    display: none;
+  .revert-content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .content-card.section-card,
+  .actions-card,
+  .quiz-shell {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .content-card .card-body,
+  .quiz-body {
+    padding: 0.9rem 0.75rem;
   }
 }
 
