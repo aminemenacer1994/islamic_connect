@@ -741,6 +741,11 @@ export default defineComponent({
       missions: normalizeJson(missionsData),
       duas: normalizeJson(duasData),
       homework: normalizeJson(homeworkData),
+      lessonMap: {},
+      missionMap: {},
+      duasMap: {},
+      quizMap: {},
+      homeworkMap: {},
       chapterQuizPassed: false,
       quizQuestions: [],
       currentQuestionIndex: 0,
@@ -766,13 +771,14 @@ export default defineComponent({
         commonQuestions: false,
         resources: false,
         faqs: false
-      }
+      },
+      confettiPromise: null
     }
   },
 
   computed: {
     currentLesson() {
-      return this.lessons.find(l => l.chapterId === this.selectedPill) || this.lessons[0]
+      return this.lessonMap[this.selectedPill] || this.lessons[0]
     },
     progressPercentage() {
       return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
@@ -801,19 +807,19 @@ export default defineComponent({
     }
     ,
     currentMission() {
-      return this.missions.find(m => m.chapterId === this.selectedPill) || this.missions[0]
+      return this.missionMap[this.selectedPill] || this.missions[0]
     },
     currentDuas() {
-      return this.duas.find(d => d.chapterId === this.selectedPill)?.duas || []
+      return this.duasMap[this.selectedPill] || []
     },
     currentQuizData() {
-      return this.quizzes.find(q => q.chapterId === this.selectedPill)?.questions || []
+      return this.quizMap[this.selectedPill] || []
     },
     currentQuestion() {
       return this.quizQuestions[this.currentQuestionIndex]
     },
     currentHomework() {
-      return this.homework.find(h => h.chapterId === this.selectedPill)?.homework || []
+      return this.homeworkMap[this.selectedPill] || []
     }
     ,
     guidanceCards() {
@@ -911,7 +917,12 @@ export default defineComponent({
     selectedPill() {
       this.chapterQuizPassed = false
       this.resetQuizSet()
+      this.scrollToTop()
     }
+  },
+
+  created() {
+    this.buildLookupMaps()
   },
 
   mounted() {
@@ -921,7 +932,6 @@ export default defineComponent({
       this.maxStepReached = value
       this.selectedPill = value
     }
-    this.loadConfetti()
     this.resetQuizSet()
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
@@ -934,12 +944,64 @@ export default defineComponent({
   },
 
   methods: {
-    loadConfetti() {
-      if (window.confetti) return
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'
-      script.onload = () => console.log('Confetti loaded & ready!')
-      document.head.appendChild(script)
+    ensureConfettiScript() {
+      if (this.confettiPromise) return this.confettiPromise
+      if (typeof window === 'undefined') {
+        this.confettiPromise = Promise.resolve()
+        return this.confettiPromise
+      }
+      if (window.confetti) {
+        this.confettiPromise = Promise.resolve()
+        return this.confettiPromise
+      }
+      this.confettiPromise = new Promise(resolve => {
+        const script = document.createElement('script')
+        script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'
+        script.onload = () => {
+          console.log('Confetti loaded & ready!')
+          resolve()
+        }
+        script.onerror = () => resolve()
+        document.head.appendChild(script)
+      })
+      return this.confettiPromise
+    },
+
+    triggerConfetti(isFinalChapter) {
+      this.scrollToTop()
+      this.ensureConfettiScript().then(() => {
+        if (!window.confetti) return
+        if (isFinalChapter) {
+          celebrateFinalChapter()
+          setTimeout(celebrateFinalChapter, 600)
+        } else {
+          fullScreenConfetti()
+          setTimeout(fullScreenConfetti, 400)
+        }
+      })
+    },
+
+    buildLookupMaps() {
+      this.lessonMap = this.lessons.reduce((map, lesson) => {
+        if (lesson?.chapterId != null) map[lesson.chapterId] = lesson
+        return map
+      }, {})
+      this.missionMap = this.missions.reduce((map, mission) => {
+        if (mission?.chapterId != null) map[mission.chapterId] = mission
+        return map
+      }, {})
+      this.duasMap = this.duas.reduce((map, dua) => {
+        if (dua?.chapterId != null) map[dua.chapterId] = dua.duas || []
+        return map
+      }, {})
+      this.quizMap = this.quizzes.reduce((map, quiz) => {
+        if (quiz?.chapterId != null) map[quiz.chapterId] = quiz.questions || []
+        return map
+      }, {})
+      this.homeworkMap = this.homework.reduce((map, task) => {
+        if (task?.chapterId != null) map[task.chapterId] = task.homework || []
+        return map
+      }, {})
     },
 
     toggleMobileNav() {
@@ -1008,15 +1070,7 @@ export default defineComponent({
 
         // FULL-SCREEN CONFETTI PARTY!
         this.$nextTick(() => {
-          if (window.confetti) {
-            if (isFinalChapter) {
-              celebrateFinalChapter()
-              setTimeout(celebrateFinalChapter, 600)
-            } else {
-              fullScreenConfetti()
-              setTimeout(fullScreenConfetti, 400)
-            }
-          }
+          this.triggerConfetti(isFinalChapter)
         })
 
         // Auto hide toast
@@ -1084,6 +1138,15 @@ export default defineComponent({
       const nextBtn = document.querySelector('.next-btn')
       if (nextBtn) {
         nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      }
+    },
+    scrollToTop() {
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+      const lessonSection = document.querySelector('.revert-content section')
+      if (lessonSection) {
+        lessonSection.scrollTo({ top: 0, behavior: 'smooth' })
       }
     },
     copyResourceLink() {
