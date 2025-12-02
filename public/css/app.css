@@ -21442,6 +21442,17 @@ to {
   flex-direction: column;
   gap: 0.75rem;
 }
+.section-toggle-btn[data-v-1d764944] {
+  font-size: 0.85rem;
+  color: #0b806f;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: color 0.2s ease;
+}
+.section-toggle-btn[data-v-1d764944]:hover {
+  color: #0f6c58;
+  text-decoration: none;
+}
 .learning-objectives-card .objective-column[data-v-1d764944] {
   transition: transform 0.4s ease;
 }

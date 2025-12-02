@@ -318,12 +318,21 @@
             <!-- Accordion -->
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-info-square-fill fs-4 me-3 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5">Common Asked Questions</h2>
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
+                  <i class="bi bi-info-square-fill fs-4 text-teal"></i>
+                  <h2 class="fw-bold mb-0 fs-5">Common Asked Questions</h2>
+                </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('commonQuestions')"
+                  :aria-expanded="!collapsedSections.commonQuestions">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.commonQuestions ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.commonQuestions ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
               </div>
 
-              <div class="card-body p-3 ">
+              <div v-show="!collapsedSections.commonQuestions" class="card-body p-3 ">
                 <div class="accordion-stack">
                   <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
@@ -344,12 +353,21 @@
             <!-- resources -->
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-info-circle-fill fs-4 me-3 text-teal"></i>
-                <h1 class="fw-bold mb-0 fs-5">Resources</h1>
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
+                  <i class="bi bi-info-circle-fill fs-4 text-teal"></i>
+                  <h1 class="fw-bold mb-0 fs-5">Resources</h1>
+                </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('resources')"
+                  :aria-expanded="!collapsedSections.resources">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.resources ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.resources ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
               </div>
 
-              <div class="card-body p-3 ">
+              <div v-show="!collapsedSections.resources" class="card-body p-3 ">
                 <div v-if="premiumResources.length" class="row row-cols-1 row-cols-md-2 g-3 mb-4">
                   <div class="col" v-for="card in premiumResources" :key="card.title">
                     <article class="premium-card h-100 d-flex flex-column">
@@ -393,12 +411,21 @@
             <!-- FAQ -->
             <div v-if="accordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-question-circle-fill fs-4 me-3 text-teal"></i>
-                <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
+                  <i class="bi bi-question-circle-fill fs-4 text-teal"></i>
+                  <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
+                </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('faqs')"
+                  :aria-expanded="!collapsedSections.faqs">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.faqs ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.faqs ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
               </div>
 
-              <div class="card-body p-3 ">
+              <div v-show="!collapsedSections.faqs" class="card-body p-3 ">
                 <div class="accordion-stack">
                   <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
@@ -734,7 +761,12 @@ export default defineComponent({
       showResourceModal: false,
       activeResource: null,
       onboarding: normalizeJson(onboardingData),
-      resourceCopyStatus: ''
+      resourceCopyStatus: '',
+      collapsedSections: {
+        commonQuestions: false,
+        resources: false,
+        faqs: false
+      }
     }
   },
 
@@ -891,6 +923,14 @@ export default defineComponent({
     }
     this.loadConfetti()
     this.resetQuizSet()
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual'
+    }
+    window.scrollTo({ top: 0, behavior: 'auto' })
+
+    window.addEventListener('beforeunload', () => {
+      window.scrollTo(0, 0)
+    })
   },
 
   methods: {
@@ -946,6 +986,10 @@ export default defineComponent({
     isFaqStackOpen(index) {
       if (this.faqStackState === null) return false
       return this.faqStackState === index || (this.faqStackState === undefined && index === 0)
+    },
+
+    toggleSection(sectionKey) {
+      this.collapsedSections[sectionKey] = !this.collapsedSections[sectionKey]
     },
 
     completeAndNext() {
@@ -2161,6 +2205,19 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.section-toggle-btn {
+  font-size: 0.85rem;
+  color: #0b806f;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: color 0.2s ease;
+}
+
+.section-toggle-btn:hover {
+  color: #0f6c58;
+  text-decoration: none;
 }
 
 .learning-objectives-card .objective-column {
