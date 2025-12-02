@@ -20560,6 +20560,26 @@ to {
   animation: slideInTopRight-1d764944 0.6s cubic-bezier(0.25, 0.86, 0.25, 1) forwards;
   pointer-events: auto;
 }
+.copy-alert-container[data-v-1d764944] {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+.alert-info-copy[data-v-1d764944] {
+  background: #fefefe;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  color: #0f172a;
+  border-radius: 16px;
+  padding: 1rem 1.4rem;
+  font-size: 1rem;
+  min-width: 300px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+  border-left: 6px solid #0ea5e9;
+  animation: slideInTopRight-1d764944 0.4s cubic-bezier(0.25, 0.86, 0.25, 1) forwards;
+  pointer-events: auto;
+}
 @keyframes slideInTopRight-1d764944 {
 from {
     opacity: 0;
@@ -21283,6 +21303,54 @@ to {
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(16, 185, 129, 0.25);
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1) inset;
+}
+.guided-section-card[data-v-1d764944] {
+  background: #f8fafc;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+}
+.guided-bullets[data-v-1d764944] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+.guided-bullet[data-v-1d764944] {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 0.5rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(14, 165, 233, 0.12);
+}
+.guided-step[data-v-1d764944] {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.tone-card[data-v-1d764944] {
+  background: #ffffff;
+  border: 1px solid rgba(14, 165, 233, 0.18);
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
+}
+.tone-guidelines li[data-v-1d764944] {
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+.accessibility-tools .btn[data-v-1d764944] {
+  min-width: 160px;
+}
+.accessibility-tools .btn.active[data-v-1d764944] {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+  color: white;
+  box-shadow: none;
 }
 .lesson-focus-intro[data-v-1d764944] {
   margin-bottom: 1rem;

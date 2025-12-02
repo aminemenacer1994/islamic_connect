@@ -21,9 +21,17 @@
         </div>
       </div>
     </teleport>
+    <teleport to="body">
+      <div v-if="showCopyAlert" class="copy-alert-container">
+        <div class="alert alert-info-copy fade show shadow-lg" role="alert">
+          <i class="bi bi-clipboard-check-fill me-2"></i>
+          {{ copyAlertMessage }}
+        </div>
+      </div>
+    </teleport>
 
     <!-- MAIN CONTENT -->
-    <main class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5">
+    <main class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5" :style="{ fontSize: `${globalFontScale}rem` }">
 
       <div class="row g-4">
 
@@ -116,6 +124,32 @@
             </div>
           </div>
 
+          <div class="accessibility-tools d-flex flex-wrap gap-2 mb-4 align-items-center">
+            <span class="me-2 text-muted small">Accessibility controls:</span>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              :class="{ active: ttsActiveSection === 'lesson' }"
+              :aria-pressed="ttsActiveSection === 'lesson'"
+              @click="startTTS('lesson')">
+              TTS lesson overview
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm"
+              :class="{ active: ttsActiveSection === 'duas' }"
+              :aria-pressed="ttsActiveSection === 'duas'"
+              @click="startTTS('duas')">
+              TTS duas
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" @click="decreaseGlobalFont">
+              A-
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-sm" @click="increaseGlobalFont">
+              A+
+            </button>
+          </div>
+
           <!-- Guidance Row -->
           <div v-if="guidanceCards.length"
             class="content-card section-card guidance-card animated-fade-slide mb-4 rounded-4">
@@ -145,6 +179,51 @@
                   </div>
                 </article>
               </div>
+            </div>
+          </div>
+
+          <div v-if="guidanceCards.length" class="content-card guided-section-card mb-4 rounded-4">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
+              <div>
+                <p class="text-teal small mb-1 fw-semibold">Guided Pathway</p>
+                <h3 class="mb-1 fw-semibold">Follow the curated steps below</h3>
+                <p class="text-muted small mb-0">Start with absorb, move through reflection, and end with mastery to keep momentum.</p>
+              </div>
+              <div class="d-flex gap-2 flex-wrap">
+                <button type="button" class="btn btn-outline-teal btn-sm fw-semibold" @click="scrollToSection(0)">
+                  Jump to Step 1
+                </button>
+                <button type="button" class="btn btn-teal btn-sm fw-semibold" @click="scrollToSection(2)">
+                  Highlight Reinforcement
+                </button>
+              </div>
+            </div>
+            <div class="guided-bullets px-3 pb-3">
+              <div v-for="(card, index) in guidanceCards" :key="card.step" class="guided-bullet">
+                <span class="guided-step">{{ card.step }}</span>
+                <div>
+                  <p class="mb-0 fw-semibold">{{ card.title }}</p>
+                  <small class="text-muted">{{ card.action }}</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="content-card tone-card section-card mb-4 rounded-4">
+            <div class="card-header d-flex align-items-center gap-3 py-3">
+              <i class="bi bi-sunrise-fill fs-4 text-teal"></i>
+              <div>
+                <h2 class="fw-bold mb-0 fs-5">Gentle Tone + Non-Judgmental Wording</h2>
+                <p class="text-muted small mb-0">Tailor your reflection for each chapter with a warm, encouraging voice that stays neutral and inclusive.</p>
+              </div>
+            </div>
+            <div class="card-body px-3">
+              <ul class="tone-guidelines list-unstyled mb-0">
+                <li v-for="tone in toneGuidelines" :key="tone" class="mb-2">
+                  <i class="bi bi-check-circle text-teal me-2"></i>
+                  <span>{{ tone }}</span>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -235,24 +314,34 @@
                   <i class="bi bi-printer fs-5"></i>
                   <span>Print</span>
                 </span>
+                <span class="header-action" role="button" tabindex="0" @click="decreaseOverviewFontSize">
+                  <i class="bi bi-zoom-out fs-5"></i>
+                  <span>Smaller</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="increaseOverviewFontSize">
+                  <i class="bi bi-zoom-in fs-5"></i>
+                  <span>Bigger</span>
+                </span>
                 <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
               </div>
             </div>
 
-              <div class="card-body">
+              <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
                 <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
                   class="section-block mb-5">
                   <div class="d-flex align-items-start gap-3 mb-3">
                     <div class="section-number fs-5">{{ index + 1 }}</div>
                     <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
                   </div>
-                  <div class="section-content text-dark fs-6 lh-lg" v-html="section.content"></div>
+                  <div class="section-content text-dark fs-6 lh-lg"
+                    :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
                   <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
                     <div class="deep-dive-header d-flex align-items-center mb-2">
                       <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
                       <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
                     </div>
-                    <div class="deep-dive-content text-dark fs-6" v-html="section.deepDive.content"></div>
+                    <div class="deep-dive-content text-dark fs-6"
+                      :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
                   </div>
                   <div class="pt-3 mt-3"></div>
 
@@ -329,19 +418,28 @@
                   <i class="bi bi-printer fs-5"></i>
                   <span>Print</span>
                 </span>
+                <span class="header-action" role="button" tabindex="0" @click="decreaseDuaFontSize">
+                  <i class="bi bi-zoom-out fs-5"></i>
+                  <span>Smaller</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="increaseDuaFontSize">
+                  <i class="bi bi-zoom-in fs-5"></i>
+                  <span>Bigger</span>
+                </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
             </div>
-              <div class="card-body">
+              <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
                 <div class="row g-3">
                   <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
                     <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
                       <div class="dua-glow"></div>
                       <p dir="rtl"
-                        class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end">
+                        class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end"
+                        :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
                         {{ dua.arabic }}
                       </p>
-                      <p class="mb-0 text-dark">{{ dua.english }}</p>
+                      <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.english }}</p>
                     </article>
                   </div>
                 </div>
@@ -807,10 +905,19 @@ export default defineComponent({
         faqs: false
       },
       confettiPromise: null,
-      lessonShareStatus: '',
-      duaShareStatus: ''
-    }
-  },
+    lessonShareStatus: '',
+    duaShareStatus: '',
+    overviewFontScale: 1,
+    duaFontScale: 1,
+    globalFontScale: 1,
+    copyAlertMessage: '',
+    showCopyAlert: false,
+    copyAlertTimeout: null,
+    ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
+    ttsActiveSection: null,
+    currentUtterance: null
+  }
+},
 
   computed: {
     currentLesson() {
@@ -888,6 +995,15 @@ export default defineComponent({
       return cards
     }
     ,
+    toneGuidelines() {
+      return [
+        'Welcoming every background without assumptions',
+        'Encouraging progress, not perfection',
+        'Keeping language simple and non-technical',
+        'Avoiding judgment or cultural generalizations'
+      ]
+    },
+
     nextChapterPreview() {
       const nextId = this.selectedPill + 1
       if (nextId > this.roadmapData.length) return null
@@ -1191,6 +1307,7 @@ export default defineComponent({
       navigator.clipboard?.writeText(link)
         .then(() => {
           this.resourceCopyStatus = 'Link copied!'
+          this.triggerCopyAlert('Resource link copied!')
           setTimeout(() => { this.resourceCopyStatus = '' }, 2500)
         })
         .catch(() => {
@@ -1208,10 +1325,42 @@ export default defineComponent({
       const shareUrl = `https://wa.me/?text=${encodeURIComponent(text)}`
       window.open(shareUrl, '_blank')
     },
-    printContent(title, body) {
-      if (typeof window === 'undefined' || typeof document === 'undefined') return
-      const printWindow = window.open('', '_blank')
-      if (!printWindow) return
+    getTtsText(section) {
+      if (section === 'lesson') {
+        return this.getLessonOverviewText()
+      }
+      if (section === 'duas') {
+        return `Duas takeaways: ${this.getDuasText()}`
+      }
+      return ''
+    },
+    startTTS(section) {
+      if (!this.ttsSupported) {
+        this.setShareStatus('lesson', 'Text-to-speech unavailable in this browser.')
+        return
+      }
+      this.stopTTS()
+      const text = this.getTtsText(section)
+      if (!text) return
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.rate = 1
+      utterance.pitch = 1
+      utterance.onend = () => {
+        this.ttsActiveSection = null
+        this.currentUtterance = null
+      }
+      this.currentUtterance = utterance
+      this.ttsActiveSection = section
+      window.speechSynthesis?.speak(utterance)
+    },
+    stopTTS() {
+      if (this.currentUtterance) {
+        window.speechSynthesis?.cancel()
+        this.ttsActiveSection = null
+        this.currentUtterance = null
+      }
+    },
+    getPrintableDocument(title, body) {
       const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
       const duaItems = body.split('\n').filter(Boolean).map(line => {
         const matches = line.match(/(.+)\s\((.+)\)$/)
@@ -1220,7 +1369,7 @@ export default defineComponent({
         }
         return `<div class="dua-card">${line}</div>`
       }).join('')
-      printWindow.document.write(`
+      return `
         <html>
           <head>
             <title>${title}</title>
@@ -1283,11 +1432,40 @@ export default defineComponent({
             <p class="footer-note">Content from Islamic Connect · www.islamic-connect.com</p>
           </body>
         </html>
-      `)
+      `
+    },
+
+    printContent(title, body) {
+      if (typeof window === 'undefined' || typeof document === 'undefined') return
+      const printWindow = window.open('', '_blank')
+      if (!printWindow) return
+      const html = this.getPrintableDocument(title, body)
+      printWindow.document.write(html)
       printWindow.document.close()
       printWindow.focus()
       printWindow.print()
       printWindow.close()
+    },
+    changeScale(target, delta, min, max) {
+      this[target] = Math.min(max, Math.max(min, this[target] + delta))
+    },
+    increaseOverviewFontSize() {
+      this.changeScale('overviewFontScale', 0.1, 0.8, 1.6)
+    },
+    decreaseOverviewFontSize() {
+      this.changeScale('overviewFontScale', -0.1, 0.8, 1.6)
+    },
+    increaseDuaFontSize() {
+      this.changeScale('duaFontScale', 0.1, 0.8, 1.6)
+    },
+    decreaseDuaFontSize() {
+      this.changeScale('duaFontScale', -0.1, 0.8, 1.6)
+    },
+    increaseGlobalFont() {
+      this.globalFontScale = Math.min(1.3, this.globalFontScale + 0.05)
+    },
+    decreaseGlobalFont() {
+      this.globalFontScale = Math.max(0.85, this.globalFontScale - 0.05)
     },
     setShareStatus(type, message) {
       if (type === 'lesson') {
@@ -1314,6 +1492,18 @@ export default defineComponent({
       document.body.removeChild(textarea)
       return successful ? Promise.resolve() : Promise.reject()
     },
+    triggerCopyAlert(message) {
+      if (this.copyAlertTimeout) {
+        clearTimeout(this.copyAlertTimeout)
+      }
+      this.copyAlertMessage = message
+      this.showCopyAlert = true
+      this.copyAlertTimeout = setTimeout(() => {
+        this.showCopyAlert = false
+        this.copyAlertMessage = ''
+        this.copyAlertTimeout = null
+      }, 3000)
+    },
     getLessonOverviewText() {
       const lesson = this.currentLesson
       if (!lesson) return ''
@@ -1328,6 +1518,7 @@ export default defineComponent({
       this.copyTextToClipboard(text)
         .then(() => {
           this.setShareStatus('lesson', 'Lesson overview copied!')
+          this.triggerCopyAlert('Lesson overview copied!')
         })
         .catch(() => {
           this.setShareStatus('lesson', 'Unable to copy.')
@@ -1351,6 +1542,7 @@ export default defineComponent({
       this.copyTextToClipboard(text)
         .then(() => {
           this.setShareStatus('dua', 'Duas copied to clipboard!')
+          this.triggerCopyAlert('Duas copied to clipboard!')
         })
         .catch(() => {
           this.setShareStatus('dua', 'Unable to copy.')
@@ -1362,6 +1554,16 @@ export default defineComponent({
     },
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
+    },
+    scrollToSection(index) {
+      this.$nextTick(() => {
+        const cards = document.querySelectorAll('.guidance-card .guidance-card-item')
+        if (cards[index]) {
+          cards[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+        } else {
+          this.scrollToTop()
+        }
+      })
     },
     answerQuiz(option) {
       const question = this.currentQuestion
@@ -1387,7 +1589,7 @@ export default defineComponent({
         this.quizFeedback = 'Not quite, try another option.'
       }
     }
-  }
+  },
 })
 </script>
 
@@ -1427,6 +1629,28 @@ export default defineComponent({
   backdrop-filter: blur(12px);
   border-left: 6px solid #10b981;
   animation: slideInTopRight 0.6s cubic-bezier(0.25, 0.86, 0.25, 1) forwards;
+  pointer-events: auto;
+}
+
+.copy-alert-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.alert-info-copy {
+  background: #fefefe;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  color: #0f172a;
+  border-radius: 16px;
+  padding: 1rem 1.4rem;
+  font-size: 1rem;
+  min-width: 300px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.25);
+  border-left: 6px solid #0ea5e9;
+  animation: slideInTopRight 0.4s cubic-bezier(0.25, 0.86, 0.25, 1) forwards;
   pointer-events: auto;
 }
 
@@ -2286,6 +2510,60 @@ export default defineComponent({
   background: rgba(255, 255, 255, 0.85);
   border: 1px solid rgba(16, 185, 129, 0.25);
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.1) inset;
+}
+
+.guided-section-card {
+  background: #f8fafc;
+  border: 1px solid rgba(14, 165, 233, 0.25);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+}
+
+.guided-bullets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.guided-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem 0.5rem;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid rgba(14, 165, 233, 0.12);
+}
+
+.guided-step {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #38bdf8);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+.tone-card {
+  background: #ffffff;
+  border: 1px solid rgba(14, 165, 233, 0.18);
+  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
+}
+.tone-guidelines li {
+  font-size: 0.95rem;
+  color: #0f172a;
+}
+
+.accessibility-tools .btn {
+  min-width: 160px;
+}
+
+.accessibility-tools .btn.active {
+  background: #0ea5e9;
+  border-color: #0ea5e9;
+  color: white;
+  box-shadow: none;
 }
 
 .lesson-focus-intro {
