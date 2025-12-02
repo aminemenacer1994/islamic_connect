@@ -1275,6 +1275,13 @@ export default defineComponent({
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
   backdrop-filter: blur(16px);
+  scrollbar-width: none; /* hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* hide scrollbar for IE/Edge */
+}
+
+.navigation-card::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 .progress-indicator {

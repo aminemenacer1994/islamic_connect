@@ -20746,6 +20746,12 @@ to {
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
   backdrop-filter: blur(16px);
+  scrollbar-width: none; /* hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* hide scrollbar for IE/Edge */
+}
+.navigation-card[data-v-1d764944]::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 .progress-indicator[data-v-1d764944] {
   padding-bottom: 1.5rem;
