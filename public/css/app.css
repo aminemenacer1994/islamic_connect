@@ -20868,7 +20868,7 @@ to {
   font-size: 0.875rem;
 }
 .content-card[data-v-1d764944] {
-  background: linear-gradient(135deg, #fbfbfc 0%, #f2f4f7 60%, #eef6f6 100%);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 24px;
   box-shadow: 0 18px 40px rgba(9, 30, 66, 0.12);
   border: 1px solid rgba(22, 163, 74, 0.16);
@@ -20876,6 +20876,19 @@ to {
   overflow: hidden;
   transition: box-shadow 0.35s ease, transform 0.35s ease;
   position: relative;
+}
+.content-card[data-v-1d764944]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.07), rgba(59, 130, 246, 0.06));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+.content-card[data-v-1d764944]:hover::after {
+  opacity: 1;
 }
 .content-card[data-v-1d764944]::before,
 .content-card[data-v-1d764944]::after {
@@ -21233,6 +21246,63 @@ to {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 0.65rem;
+}
+.custom-modal-backdrop[data-v-1d764944] {
+  backdrop-filter: blur(8px);
+}
+.custom-modal-scale[data-v-1d764944] {
+  animation: modalEntrance-1d764944 0.4s ease-out;
+}
+.custom-modal-card[data-v-1d764944] {
+  border: none;
+  overflow: hidden;
+}
+.custom-modal-card .modal-header[data-v-1d764944] {
+  gap: 1rem;
+}
+.custom-modal-card .modal-body[data-v-1d764944] {
+  background: rgba(255, 255, 255, 0.96);
+}
+.custom-modal-card .list-group-item[data-v-1d764944] {
+  border-bottom: 1px dotted rgba(59, 130, 246, 0.25);
+}
+.custom-modal-card .list-group-item[data-v-1d764944]:last-child {
+  border-bottom: none;
+}
+.custom-modal-card .modal-body-top[data-v-1d764944] {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(16, 185, 129, 0.8));
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+}
+.btn-close-custom[data-v-1d764944] {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+}
+.modal-list[data-v-1d764944] {
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.6rem;
+}
+.btn-teal[data-v-1d764944] {
+  background: linear-gradient(135deg, #0b806f, #10b981);
+  border: none;
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.2);
+}
+@keyframes modalEntrance-1d764944 {
+from {
+    transform: translateY(-25px) scale(0.95);
+    opacity: 0;
+}
+to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
 }
 .guidance-card-item[data-v-1d764944] {
   background: rgba(11, 128, 111, 0.05);

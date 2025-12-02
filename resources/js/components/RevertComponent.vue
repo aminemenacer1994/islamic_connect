@@ -294,7 +294,6 @@
                 <div class="d-flex align-items-center gap-3">
                   <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
                   <div>
-                    <p class="mb-0 text-muted small">Guided remembrance</p>
                     <h2 class="fw-bold mb-0 fs-5">Duas to Carry</h2>
                   </div>
                 </div>
@@ -505,7 +504,7 @@
             </div>
           </div>
         </div>
-        <div v-if="nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
+        <div v-if="chapterQuizPassed && nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
           <div class="d-flex align-items-center justify-content-between flex-wrap">
             <div>
               <p class="text-muted small mb-1">Up next</p>
@@ -556,21 +555,31 @@
     </main>
 
     <div v-if="showResourceModal">
-      <div class="modal-backdrop fade show"></div>
-      <div class="modal fade show d-block" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content rounded-4 shadow">
-            <div class="modal-header">
-              <h5 class="modal-title">{{ activeResource?.title }}</h5>
-              <button type="button" class="btn-close" aria-label="Close" @click="closeResourceModal"></button>
+      <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+      <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content rounded-4 shadow-lg custom-modal-card">
+            <div class="modal-header border-0 pt-4 px-4">
+              <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
             </div>
-            <div class="modal-body">
-              <p class="text-muted small mb-3">External Resource</p>
-              <p>{{ activeResource?.desc }}</p>
-              <p class="text-muted small">{{ activeResource?.link }}</p>
+            <div class="modal-body px-4 py-3">
+            
+              
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" @click="closeResourceModal">Close</button>
+            <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+              
+              <div v-if="resourceCopyStatus" class="text-success small">
+                {{ resourceCopyStatus }}
+              </div>
+              <div class="d-flex gap-2">
+                <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
+                  <i class="bi bi-link-45deg"></i>
+                  Copy Link
+                </button>
+                <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
+                  Close
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -678,7 +687,8 @@ export default defineComponent({
       faqStackState: null,
       showResourceModal: false,
       activeResource: null,
-      onboarding: normalizeJson(onboardingData)
+      onboarding: normalizeJson(onboardingData),
+      resourceCopyStatus: ''
     }
   },
 
@@ -808,6 +818,10 @@ export default defineComponent({
           detail: 'Keep the message close to your heart as you progress.'
         }
       ]
+    }
+    ,
+    modalTagline() {
+      return this.activeResource?.tagline || 'Study carefully and revisit whenever you need clarity.'
     }
     ,
     currentOnboardingSteps() {
@@ -960,6 +974,19 @@ export default defineComponent({
       if (nextBtn) {
         nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
+    },
+    copyResourceLink() {
+      const link = this.activeResource?.link
+      if (!link) return
+      navigator.clipboard?.writeText(link)
+        .then(() => {
+          this.resourceCopyStatus = 'Link copied!'
+          setTimeout(() => { this.resourceCopyStatus = '' }, 2500)
+        })
+        .catch(() => {
+          this.resourceCopyStatus = 'Unable to copy; please use your browser.'
+          setTimeout(() => { this.resourceCopyStatus = '' }, 4000)
+        })
     },
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
@@ -1391,7 +1418,7 @@ export default defineComponent({
 }
 
 .content-card {
-  background: linear-gradient(135deg, #fbfbfc 0%, #f2f4f7 60%, #eef6f6 100%);
+  background: rgba(255, 255, 255, 0.8);
   border-radius: 24px;
   box-shadow: 0 18px 40px rgba(9, 30, 66, 0.12);
   border: 1px solid rgba(22, 163, 74, 0.16);
@@ -1399,6 +1426,21 @@ export default defineComponent({
   overflow: hidden;
   transition: box-shadow 0.35s ease, transform 0.35s ease;
   position: relative;
+}
+
+.content-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.07), rgba(59, 130, 246, 0.06));
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.content-card:hover::after {
+  opacity: 1;
 }
 
 .content-card::before,
@@ -1825,6 +1867,74 @@ export default defineComponent({
   letter-spacing: 0.2em;
   text-transform: uppercase;
   font-size: 0.65rem;
+}
+
+.custom-modal-backdrop {
+  backdrop-filter: blur(8px);
+}
+
+.custom-modal-scale {
+  animation: modalEntrance 0.4s ease-out;
+}
+
+.custom-modal-card {
+  border: none;
+  overflow: hidden;
+}
+
+.custom-modal-card .modal-header {
+  gap: 1rem;
+}
+
+.custom-modal-card .modal-body {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.custom-modal-card .list-group-item {
+  border-bottom: 1px dotted rgba(59, 130, 246, 0.25);
+}
+
+.custom-modal-card .list-group-item:last-child {
+  border-bottom: none;
+}
+
+.custom-modal-card .modal-body-top {
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.8), rgba(16, 185, 129, 0.8));
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.25);
+}
+
+.btn-close-custom {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: #fff;
+}
+
+.modal-list {
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+  margin-bottom: 0.6rem;
+}
+
+.btn-teal {
+  background: linear-gradient(135deg, #0b806f, #10b981);
+  border: none;
+  color: #fff;
+  border-radius: 999px;
+  box-shadow: 0 15px 30px rgba(15, 23, 42, 0.2);
+}
+@keyframes modalEntrance {
+  from {
+    transform: translateY(-25px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
 }
 .guidance-card-item {
   background: rgba(11, 128, 111, 0.05);
