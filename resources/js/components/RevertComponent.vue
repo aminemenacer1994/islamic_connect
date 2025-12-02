@@ -1301,6 +1301,25 @@ export default defineComponent({
 .revert-content {
   position: relative;
   z-index: 1;
+  min-height: calc(100vh - 2rem);
+}
+
+.revert-content .row.g-4 {
+  min-height: calc(100vh - 2rem);
+}
+
+.revert-content section {
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+@media (max-width: 991.98px) {
+  .revert-content section {
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+  }
 }
 
 .mobile-nav-toggle {

@@ -20673,6 +20673,22 @@ to {
 .revert-content[data-v-1d764944] {
   position: relative;
   z-index: 1;
+  min-height: calc(100vh - 2rem);
+}
+.revert-content .row.g-4[data-v-1d764944] {
+  min-height: calc(100vh - 2rem);
+}
+.revert-content section[data-v-1d764944] {
+  max-height: calc(100vh - 4rem);
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+@media (max-width: 991.98px) {
+.revert-content section[data-v-1d764944] {
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+}
 }
 .mobile-nav-toggle[data-v-1d764944] {
   position: fixed;
