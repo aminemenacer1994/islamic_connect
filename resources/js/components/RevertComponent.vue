@@ -654,6 +654,45 @@ const fullScreenConfetti = () => {
   })
 }
 
+const FINAL_CHAPTER_ID = 10
+
+const celebrateFinalChapter = () => {
+  if (!window.confetti) return
+  const bursts = [
+    {
+      particleCount: 220,
+      spread: 200,
+      startVelocity: 70,
+      scalar: 1.5,
+      colors: ['#facc15', '#fb923c', '#f472b6', '#38bdf8', '#22d3ee', '#a855f7']
+    },
+    {
+      particleCount: 180,
+      spread: 160,
+      startVelocity: 50,
+      drift: 0.5,
+      colors: ['#34d399', '#a5b4fc', '#fcd34d', '#fb7185']
+    },
+    {
+      particleCount: 140,
+      spread: 190,
+      startVelocity: 80,
+      scalar: 1.6,
+      colors: ['#0ea5e9', '#f97316', '#10b981']
+    }
+  ]
+
+  bursts.forEach(config => {
+    window.confetti({
+      ...config,
+      origin: { x: Math.random(), y: Math.random() * 0.6 },
+      shapes: ['square', 'circle'],
+      zIndex: 10000,
+      disableForReducedMotion: true
+    })
+  })
+}
+
 export default defineComponent({
   name: 'App',
 
@@ -904,6 +943,7 @@ export default defineComponent({
 
     completeAndNext() {
       const nextId = this.selectedPill + 1
+      const isFinalChapter = this.selectedPill === FINAL_CHAPTER_ID
 
       if (nextId > this.maxStepReached) {
         this.maxStepReached = nextId
@@ -918,8 +958,13 @@ export default defineComponent({
         // FULL-SCREEN CONFETTI PARTY!
         this.$nextTick(() => {
           if (window.confetti) {
-            fullScreenConfetti()       // This is where the magic happens
-            setTimeout(fullScreenConfetti, 400) // second wave for extra wow
+            if (isFinalChapter) {
+              celebrateFinalChapter()
+              setTimeout(celebrateFinalChapter, 600)
+            } else {
+              fullScreenConfetti()
+              setTimeout(fullScreenConfetti, 400)
+            }
           }
         })
 
@@ -930,7 +975,13 @@ export default defineComponent({
         }, 6000)
       }
 
-      if (nextId <= this.roadmapData.length) {
+      if (isFinalChapter) {
+        setTimeout(() => {
+          this.selectedPill = 1
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          this.chapterQuizPassed = false
+        }, 900)
+      } else if (nextId <= this.roadmapData.length) {
         this.selectedPill = nextId
         window.scrollTo({ top: 0, behavior: 'smooth' })
         this.chapterQuizPassed = false
