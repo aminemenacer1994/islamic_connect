@@ -318,6 +318,39 @@
               </div>
             </div>
 
+            <!-- Chapter Videos -->
+          <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div class="card-header d-flex align-items-center py-3">
+              <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
+              <div>
+                <h2 class="fw-bold mb-0 fs-5">Lesson Videos</h2>
+                <p class="text-muted mb-0 small">Four curated clips to reinforce the chapter.</p>
+              </div>
+            </div>
+            <div class="card-body px-3 px-md-4">
+              <div class="row g-3">
+                <div v-for="video in lessonVideos" :key="video.title" class="col-12 col-md-3">
+                  <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
+                    <div class="ratio ratio-16x9">
+                      <iframe
+                        :src="formatVideoUrl(video.url)"
+                        :title="video.title"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen
+                        loading="lazy">
+                      </iframe>
+                    </div>
+                    <div class="p-3">
+                      <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
+                      <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                    </div>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
             <!-- Lesson Departments Focus -->
             <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
@@ -1003,6 +1036,12 @@ export default defineComponent({
         icon: icons[index % icons.length]
       }))
     }
+
+    ,
+    lessonVideos() {
+      const videos = this.currentLesson?.videos || []
+      return videos.slice(0, 4)
+    }
     ,
     focusHighlights() {
       const lesson = this.currentLesson || {}
@@ -1174,6 +1213,17 @@ export default defineComponent({
 
     toggleSection(sectionKey) {
       this.collapsedSections[sectionKey] = !this.collapsedSections[sectionKey]
+    },
+
+    formatVideoUrl(url) {
+      if (!url) return ''
+      if (url.includes('watch?v=')) {
+        return url.replace('watch?v=', 'embed/')
+      }
+      if (url.includes('youtu.be/')) {
+        return url.replace('youtu.be/', 'www.youtube.com/embed/')
+      }
+      return url
     },
 
     completeAndNext() {
