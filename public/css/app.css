@@ -21495,6 +21495,32 @@ to {
   flex-direction: column;
   gap: 0.75rem;
 }
+.lesson-focus-actions[data-v-1d764944] {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.header-action[data-v-1d764944] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #0f172a;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+.header-action i[data-v-1d764944] {
+  color: #059669;
+}
+.header-action[data-v-1d764944]:hover {
+  background: rgba(5, 150, 105, 0.08);
+  border-color: rgba(5, 150, 105, 0.25);
+}
 .section-toggle-btn[data-v-1d764944] {
   font-size: 0.85rem;
   color: #0b806f;

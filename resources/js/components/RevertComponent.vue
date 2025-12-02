@@ -168,11 +168,13 @@
             </div>
           </div>
 
-          <div class="lesson-focus-intro">
-            <strong class="d-block mb-1">Focus of this lesson</strong>
-            <p class="mb-0 text-muted medium">
-              {{ currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
-            </p>
+          <div class="lesson-focus-intro d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+            <div>
+              <strong class="d-block mb-1">Focus of this lesson</strong>
+              <p class="mb-0 text-muted medium">
+                {{ currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
+              </p>
+            </div>
           </div>
 
           <div v-if="focusHighlights.length" class="row focus-highlight-row mb-4 g-3">
@@ -215,10 +217,27 @@
             <!-- ALL SECTIONS -->
             <div>
               <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-leaf-fill fs-4 me-3 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5">Learning Overview</h2>
-              </div>                
+            <div class="card-header d-flex align-items-center py-3 gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-leaf-fill fs-4 me-0 text-teal"></i>
+                <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
+              </div>
+              <div class="lesson-focus-actions ms-auto">
+                <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+              </div>
+            </div>
 
               <div class="card-body">
                 <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
@@ -290,14 +309,29 @@
 
             <!-- Duas -->
             <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3 justify-content-between">
-                <div class="d-flex align-items-center gap-3">
-                  <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Duas to Carry</h2>
-                  </div>
+            <div class="card-header d-flex align-items-center py-3 gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Duas to Carry</h2>
                 </div>
               </div>
+              <div class="lesson-focus-actions ms-auto">
+                <span class="header-action" role="button" tabindex="0" @click="shareDuas">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyDuas">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printDuas">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
+              </div>
+            </div>
               <div class="card-body">
                 <div class="row g-3">
                   <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
@@ -772,7 +806,9 @@ export default defineComponent({
         resources: false,
         faqs: false
       },
-      confettiPromise: null
+      confettiPromise: null,
+      lessonShareStatus: '',
+      duaShareStatus: ''
     }
   },
 
@@ -1160,7 +1196,169 @@ export default defineComponent({
         .catch(() => {
           this.resourceCopyStatus = 'Unable to copy; please use your browser.'
           setTimeout(() => { this.resourceCopyStatus = '' }, 4000)
+      })
+    },
+    getShareLink() {
+      if (typeof window === 'undefined') return ''
+      return `${window.location.origin}${window.location.pathname}`
+    },
+    openWhatsappShare(text) {
+      if (!text) return
+      if (typeof window === 'undefined') return
+      const shareUrl = `https://wa.me/?text=${encodeURIComponent(text)}`
+      window.open(shareUrl, '_blank')
+    },
+    printContent(title, body) {
+      if (typeof window === 'undefined' || typeof document === 'undefined') return
+      const printWindow = window.open('', '_blank')
+      if (!printWindow) return
+      const now = new Date().toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' })
+      const duaItems = body.split('\n').filter(Boolean).map(line => {
+        const matches = line.match(/(.+)\s\((.+)\)$/)
+        if (matches) {
+          return `<div class="dua-card"><strong>${matches[1]}</strong><span class="english">(${matches[2]})</span></div>`
+        }
+        return `<div class="dua-card">${line}</div>`
+      }).join('')
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>${title}</title>
+            <style>
+              :root {
+                font-family: 'Inter', system-ui, -apple-system, sans-serif;
+                color: #0f172a;
+              }
+              body {
+                margin: 0;
+                padding: 24px;
+                background: #f8fafc;
+              }
+              header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 1.5rem;
+                border-bottom: 1px solid rgba(15, 23, 42, 0.12);
+                padding-bottom: 0.5rem;
+              }
+              header h1 {
+                margin: 0;
+                font-size: 1.6rem;
+              }
+              .date-label {
+                font-size: 0.9rem;
+                color: #475467;
+              }
+              .dua-list {
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                line-height: 1.6;
+                font-size: 1.05rem;
+              }
+              .dua-card {
+                margin-bottom: 1rem;
+              }
+              .dua-card span.english {
+                display: block;
+                color: #475467;
+                font-size: 0.95rem;
+              }
+              .footer-note {
+                margin-top: 2rem;
+                font-size: 0.85rem;
+                color: #94a3b8;
+              }
+            </style>
+          </head>
+          <body>
+            <header>
+              <h1>${title}</h1>
+              <div class="date-label">${now}</div>
+            </header>
+            <div class="dua-list">
+              ${duaItems}
+            </div>
+            <p class="footer-note">Content from Islamic Connect · www.islamic-connect.com</p>
+          </body>
+        </html>
+      `)
+      printWindow.document.close()
+      printWindow.focus()
+      printWindow.print()
+      printWindow.close()
+    },
+    setShareStatus(type, message) {
+      if (type === 'lesson') {
+        this.lessonShareStatus = message
+        setTimeout(() => { this.lessonShareStatus = '' }, 3000)
+      } else if (type === 'dua') {
+        this.duaShareStatus = message
+        setTimeout(() => { this.duaShareStatus = '' }, 3000)
+      }
+    },
+    copyTextToClipboard(text) {
+      if (!text || typeof document === 'undefined') return Promise.reject()
+      if (navigator.clipboard?.writeText) {
+        return navigator.clipboard.writeText(text)
+      }
+      const textarea = document.createElement('textarea')
+      textarea.value = text
+      textarea.style.position = 'fixed'
+      textarea.style.left = '-9999px'
+      document.body.appendChild(textarea)
+      textarea.select()
+      textarea.setSelectionRange(0, 99999)
+      const successful = document.execCommand('copy')
+      document.body.removeChild(textarea)
+      return successful ? Promise.resolve() : Promise.reject()
+    },
+    getLessonOverviewText() {
+      const lesson = this.currentLesson
+      if (!lesson) return ''
+      const summary = lesson.summary?.trim() || 'Read slowly, ask questions, and pause between each section.'
+      return `Lesson Overview: ${lesson.title}\n${summary}\nExplore more on Islamic Connect: ${this.getShareLink()}`
+    },
+    shareLessonOverview() {
+      this.openWhatsappShare(this.getLessonOverviewText())
+    },
+    copyLessonOverview() {
+      const text = this.getLessonOverviewText()
+      this.copyTextToClipboard(text)
+        .then(() => {
+          this.setShareStatus('lesson', 'Lesson overview copied!')
         })
+        .catch(() => {
+          this.setShareStatus('lesson', 'Unable to copy.')
+        })
+    },
+    printLessonOverview() {
+      this.printContent('Lesson Overview', this.getLessonOverviewText())
+    },
+    getDuasText() {
+      if (!this.currentDuas.length) return ''
+      return this.currentDuas
+        .map(dua => `${dua.arabic} (${dua.english})`)
+        .join('\n')
+    },
+    shareDuas() {
+      const message = `Duas to carry from ${this.currentLesson?.title || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`
+      this.openWhatsappShare(message)
+    },
+    copyDuas() {
+      const text = `Duas to carry from ${this.currentLesson?.title || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`
+      this.copyTextToClipboard(text)
+        .then(() => {
+          this.setShareStatus('dua', 'Duas copied to clipboard!')
+        })
+        .catch(() => {
+          this.setShareStatus('dua', 'Unable to copy.')
+        })
+    },
+    printDuas() {
+      const text = this.getDuasText()
+      this.printContent('Duas to Carry', text)
     },
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
@@ -2333,6 +2531,36 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.lesson-focus-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.header-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #0f172a;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.85rem;
+}
+
+.header-action i {
+  color: #059669;
+}
+
+.header-action:hover {
+  background: rgba(5, 150, 105, 0.08);
+  border-color: rgba(5, 150, 105, 0.25);
 }
 
 .section-toggle-btn {
