@@ -1432,6 +1432,54 @@ export default defineComponent({
   }
 }
 
+.revert-content .row.g-4 {
+  display: grid;
+  grid-template-columns: minmax(270px, 320px) minmax(0, 1fr);
+  gap: clamp(1.5rem, 2vw, 2.75rem);
+  align-items: start;
+}
+
+.revert-content .row.g-4 > aside {
+  align-self: start;
+}
+
+@media (max-width: 1199.98px) and (min-width: 992px) {
+  .revert-content .row.g-4 {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .navigation-card {
+    position: sticky;
+    top: 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .lesson-hero-content h1 {
+    font-size: clamp(1.75rem, 4vw, 2.2rem);
+  }
+
+  .lesson-hero-content p {
+    font-size: 0.95rem;
+  }
+
+  .quiz-header {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .quiz-options-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-toggle-btn span {
+    display: none;
+  }
+}
+
 .mobile-nav-toggle {
   position: fixed;
   top: 1rem;
