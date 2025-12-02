@@ -99,6 +99,14 @@ const fullScreenConfetti = () => {
   });
 };
 const FINAL_CHAPTER_ID = 10;
+const SESSION_ID_KEY = 'revert-session-id';
+const SESSION_STATE_KEY = 'revert-session-state';
+const generateSessionId = () => {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
+  return 'sess-' + Math.random().toString(36).slice(2, 12);
+};
 const celebrateFinalChapter = () => {
   if (!window.confetti) return;
   const bursts = [{
@@ -150,6 +158,7 @@ const celebrateFinalChapter = () => {
       duasMap: {},
       quizMap: {},
       homeworkMap: {},
+      sessionId: '',
       chapterQuizPassed: false,
       quizQuestions: [],
       currentQuestionIndex: 0,
@@ -318,18 +327,17 @@ const celebrateFinalChapter = () => {
       this.chapterQuizPassed = false;
       this.resetQuizSet();
       this.scrollToTop();
+      this.persistSessionState();
+    },
+    maxStepReached() {
+      this.persistSessionState();
     }
   },
   created() {
+    this.ensureSession();
     this.buildLookupMaps();
   },
   mounted() {
-    const saved = localStorage.getItem('maxStepReached');
-    if (saved) {
-      const value = parseInt(saved, 10);
-      this.maxStepReached = value;
-      this.selectedPill = value;
-    }
     this.resetQuizSet();
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
@@ -377,6 +385,44 @@ const celebrateFinalChapter = () => {
           setTimeout(fullScreenConfetti, 400);
         }
       });
+    },
+    ensureSession() {
+      if (this.sessionId) return;
+      try {
+        let sessionId = localStorage.getItem(SESSION_ID_KEY);
+        if (!sessionId) {
+          sessionId = generateSessionId();
+          localStorage.setItem(SESSION_ID_KEY, sessionId);
+        }
+        this.sessionId = sessionId;
+        const stored = JSON.parse(localStorage.getItem(SESSION_STATE_KEY) || '{}');
+        const saved = stored[sessionId];
+        if (saved) {
+          if (typeof saved.maxStep === 'number') this.maxStepReached = saved.maxStep;
+          if (typeof saved.selectedPill === 'number') this.selectedPill = saved.selectedPill;
+        } else {
+          stored[sessionId] = {
+            maxStep: this.maxStepReached,
+            selectedPill: this.selectedPill
+          };
+          localStorage.setItem(SESSION_STATE_KEY, JSON.stringify(stored));
+        }
+      } catch (error) {
+        console.error('Session storage unavailable', error);
+      }
+    },
+    persistSessionState() {
+      if (!this.sessionId) return;
+      try {
+        const stored = JSON.parse(localStorage.getItem(SESSION_STATE_KEY) || '{}');
+        stored[this.sessionId] = {
+          maxStep: this.maxStepReached,
+          selectedPill: this.selectedPill
+        };
+        localStorage.setItem(SESSION_STATE_KEY, JSON.stringify(stored));
+      } catch (error) {
+        console.error('Unable to persist session state', error);
+      }
     },
     buildLookupMaps() {
       this.lessonMap = this.lessons.reduce((map, lesson) => {
