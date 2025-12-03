@@ -1,17 +1,482 @@
 [
-    {
-        "id": "panelsStayOpen-collapseOne",
-        "title": "Accordion Item #1",
-        "body": "<strong>This is the first item’s accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow."
-    },
-    {
-        "id": "panelsStayOpen-collapseTwo",
-        "title": "Accordion Item #2",
-        "body": "<strong>This is the second item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow."
-    },
-    {
-        "id": "panelsStayOpen-collapseThree",
-        "title": "Accordion Item #3",
-        "body": "<strong>This is the third item’s accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It’s also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow."
-    }
+  {
+    "chapterId": 1,
+    "key": "foundation",
+    "title": "Islamic foundation",
+    "faqs": [
+      {
+        "id": "foundation-1",
+        "title": "Islamic foundation - What does the Islamic foundation chapter cover?",
+        "body": "<p>It explains Tawheed, the oneness of Allah, and how every act of worship roots itself in that testimony.</p>"
+      },
+      {
+        "id": "foundation-2",
+        "title": "Islamic foundation - Why is Tawheed considered the foundation of Islamic faith?",
+        "body": "<p>Tawheed affirms that Allah alone deserves worship, so every belief, law, and character trait rests on that unity.</p>"
+      },
+      {
+        "id": "foundation-3",
+        "title": "Islamic foundation - How should I keep the foundation alive in everyday decisions?",
+        "body": "<p>Anchor intentions in Allah, audit actions for signs of shirk, and repeat the shahada when distractions appear.</p>"
+      },
+      {
+        "id": "foundation-4",
+        "title": "Islamic foundation - What are common mistakes learners make about this chapter?",
+        "body": "<p>Treating Tawheed as abstract, idolizing culture, or neglecting accountability; the chapter warns against these errors.</p>"
+      },
+      {
+        "id": "foundation-5",
+        "title": "Islamic foundation - Which practices help strengthen the Islamic foundation?",
+        "body": "<p>Daily dhikr, Quran reflection on Allah's names, learning seerah highlights, and teaching others keeps the foundation firm.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 2,
+    "key": "beliefs",
+    "title": "Islamic beliefs",
+    "faqs": [
+      {
+        "id": "beliefs-1",
+        "title": "Islamic beliefs - What are the six articles of faith?",
+        "body": "<p>Belief in Allah, His angels, His books, His messengers, the Last Day, and divine decree of the good and the bad.</p>"
+      },
+      {
+        "id": "beliefs-2",
+        "title": "Islamic beliefs - How can I live more mindful of Allah, angels, and books?",
+        "body": "<p>Remember that angels record deeds, treat revelation with reverence, and reserve time for Quran reading and gratitude.</p>"
+      },
+      {
+        "id": "beliefs-3",
+        "title": "Islamic beliefs - What role does qadar, divine decree, play in this chapter?",
+        "body": "<p>It teaches trust by reminding us that everything happens by Allah's will, so we plan while relying on Him and thanking Him in every trial.</p>"
+      },
+      {
+        "id": "beliefs-4",
+        "title": "Islamic beliefs - How does belief in prophets connect to other articles?",
+        "body": "<p>Prophets bring the books, model submission, and confirm the unseen truths that the chapter lists, making the whole faith coherent.</p>"
+      },
+      {
+        "id": "beliefs-5",
+        "title": "Islamic beliefs - How do I strengthen my iman through the beliefs chapter?",
+        "body": "<p>Review each article, state them aloud, teach them, and act in ways that reflect trust in Allah's knowledge.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 3,
+    "key": "pillars",
+    "title": "Islamic pillars",
+    "faqs": [
+      {
+        "id": "pillars-1",
+        "title": "Islamic pillars - Why are the five pillars called pillars?",
+        "body": "<p>They uphold Muslim life: declaration of faith, prayer, charity, fasting, and pilgrimage form the stable framework.</p>"
+      },
+      {
+        "id": "pillars-2",
+        "title": "Islamic pillars - How should I balance the five pillars with work or school?",
+        "body": "<p>Schedule worship, build routines, seek accommodations for prayer, pair zakat with budgeting, and use Ramadan to rehearse.</p>"
+      },
+      {
+        "id": "pillars-3",
+        "title": "Islamic pillars - What is the easiest pillar for beginners to start practicing?",
+        "body": "<p>Shahada and salah are immediate; say the testimony, then commit to punctual prayers while learning the others.</p>"
+      },
+      {
+        "id": "pillars-4",
+        "title": "Islamic pillars - How can I keep my intention pure for each pillar?",
+        "body": "<p>Remind yourself you do it for Allah, not praise, and repeat a short dua before every act.</p>"
+      },
+      {
+        "id": "pillars-5",
+        "title": "Islamic pillars - What resources does this chapter recommend for mastering the pillars?",
+        "body": "<p>Basic guides, mentor-led classes, Quran verses on worship, and sticky-note reminders on goals keep actions consistent.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 4,
+    "key": "quran",
+    "title": "Islamic quran",
+    "faqs": [
+      {
+        "id": "quran-1",
+        "title": "Islamic quran - Why is the Quran the heart of this chapter?",
+        "body": "<p>It is Allah's final revelation, providing law, guidance, and a living connection to Him.</p>"
+      },
+      {
+        "id": "quran-2",
+        "title": "Islamic quran - How do I begin reading the Quran with meaning?",
+        "body": "<p>Start with short surahs, read translation alongside, reflect on a verse a day, and ask Allah for understanding.</p>"
+      },
+      {
+        "id": "quran-3",
+        "title": "Islamic quran - What etiquette should I observe when handling the Quran?",
+        "body": "<p>Be in a clean state, say bismillah, listen attentively, and avoid rushing through the text.</p>"
+      },
+      {
+        "id": "quran-4",
+        "title": "Islamic quran - How does studying tajweed fit the chapter?",
+        "body": "<p>Tajweed preserves beauty; practicing correct pronunciation honors the divine speech and boosts confidence.</p>"
+      },
+      {
+        "id": "quran-5",
+        "title": "Islamic quran - Which habits keep the Quran close after the chapter?",
+        "body": "<p>Memorize small portions, journal reflections, teach others, listen to recitations, and recite before sleeping.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 5,
+    "key": "prophet",
+    "title": "Islamic prophet",
+    "faqs": [
+      {
+        "id": "prophet-1",
+        "title": "Islamic prophet - What is the focus of the Prophet chapter?",
+        "body": "<p>It narrates Muhammad's life, teaching mercy, patience, and how to implement the Sunnah today.</p>"
+      },
+      {
+        "id": "prophet-2",
+        "title": "Islamic prophet - Why is following the Prophet example necessary?",
+        "body": "<p>He is the best interpreter of the Quran and shows how to worship, treat people, and stay humble.</p>"
+      },
+      {
+        "id": "prophet-3",
+        "title": "Islamic prophet - Which stories does the chapter highlight?",
+        "body": "<p>His childhood, migration, compassionate leadership, treatment of enemies, and devotion to repentance are central.</p>"
+      },
+      {
+        "id": "prophet-4",
+        "title": "Islamic prophet - How do I bring his manners into my home?",
+        "body": "<p>Practice gentle speech, serve family, forgive quickly, keep evenings with dhikr, and share meals generously.</p>"
+      },
+      {
+        "id": "prophet-5",
+        "title": "Islamic prophet - How should I send blessings upon him as the chapter teaches?",
+        "body": "<p>Say sallallahu alayhi wa sallam after his name, learn short salawat phrases, and include him in each dua.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 6,
+    "key": "prayers",
+    "title": "Islamic prayers",
+    "faqs": [
+      {
+        "id": "prayers-1",
+        "title": "Islamic prayers - How many obligatory prayers are there?",
+        "body": "<p>Five daily prayers - Fajr, Dhuhr, Asr, Maghrib, and Isha - each with a specific window of time.</p>"
+      },
+      {
+        "id": "prayers-2",
+        "title": "Islamic prayers - How do I learn wudu and salah correctly?",
+        "body": "<p>Follow step-by-step tutorials, pray with an experienced friend, memorize the words, and repeat frequently.</p>"
+      },
+      {
+        "id": "prayers-3",
+        "title": "Islamic prayers - What is khushu and how do I build it?",
+        "body": "<p>Khushu is calm focus; slow down, picture standing before Allah, and recite meanings during prayer.</p>"
+      },
+      {
+        "id": "prayers-4",
+        "title": "Islamic prayers - Where do Sunnah prayers fit this chapter?",
+        "body": "<p>They supplement obligations, deepen connection, and mirror the Prophet routine in each prayer block.</p>"
+      },
+      {
+        "id": "prayers-5",
+        "title": "Islamic prayers - What if I make mistakes during prayer?",
+        "body": "<p>Stay humble, perform sujud sahw when needed, ask Allah for forgiveness, and view mistakes as learning steps.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 7,
+    "key": "manners",
+    "title": "Islamic manners",
+    "faqs": [
+      {
+        "id": "manners-1",
+        "title": "Islamic manners - What defines Islamic manners?",
+        "body": "<p>Adab - behaving with respect, gentleness, truthfulness, and awareness of others - guides every interaction.</p>"
+      },
+      {
+        "id": "manners-2",
+        "title": "Islamic manners - How do I manage anger with good manners?",
+        "body": "<p>Pause, breathe, lower your voice, whisper a dua, and choose patience instead of a sharp response.</p>"
+      },
+      {
+        "id": "manners-3",
+        "title": "Islamic manners - How should I greet people?",
+        "body": "<p>Offer salam, smile, make eye contact, and mention their name to show care.</p>"
+      },
+      {
+        "id": "manners-4",
+        "title": "Islamic manners - What does the chapter say about speech?",
+        "body": "<p>Speak truthfully, avoid gossip, praise sincerely, and weigh words before sharing.</p>"
+      },
+      {
+        "id": "manners-5",
+        "title": "Islamic manners - How do I show manners online?",
+        "body": "<p>Keep comments kind, avoid heated debates, give the benefit of the doubt, and unplug when things turn toxic.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 8,
+    "key": "lifestyle",
+    "title": "Islamic lifestyle",
+    "faqs": [
+      {
+        "id": "lifestyle-1",
+        "title": "Islamic lifestyle - What is an Islamic lifestyle?",
+        "body": "<p>It harmonizes diet, finance, leisure, and ethics with halal choices, gratitude, and steady worship.</p>"
+      },
+      {
+        "id": "lifestyle-2",
+        "title": "Islamic lifestyle - How do I ensure my food and money stay halal?",
+        "body": "<p>Check labels, ask vendors, keep clear records, and choose halal providers even when it takes extra effort.</p>"
+      },
+      {
+        "id": "lifestyle-3",
+        "title": "Islamic lifestyle - How does the chapter explain technology use?",
+        "body": "<p>Use it for learning, connection, and good causes while setting screen-time limits and avoiding harmful content.</p>"
+      },
+      {
+        "id": "lifestyle-4",
+        "title": "Islamic lifestyle - What role does rest and self-care play?",
+        "body": "<p>Balanced rest honors the trust Allah gave us; schedule prayer breaks and go to bed early.</p>"
+      },
+      {
+        "id": "lifestyle-5",
+        "title": "Islamic lifestyle - How do I maintain modesty in lifestyle choices?",
+        "body": "<p>Dress modestly, guard your gaze, speak with humility, and distance from environments that encourage excess.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "key": "community",
+    "title": "Islamic community",
+    "faqs": [
+      {
+        "id": "community-1",
+        "title": "Islamic community - What responsibilities do Muslims have toward the Ummah?",
+        "body": "<p>Support one another, share knowledge, stand for justice, and help those in need.</p>"
+      },
+      {
+        "id": "community-2",
+        "title": "Islamic community - How can I serve my local community?",
+        "body": "<p>Volunteer at masjid events, check on neighbors, and share resources like food or skills.</p>"
+      },
+      {
+        "id": "community-3",
+        "title": "Islamic community - What does the chapter teach about conflict resolution?",
+        "body": "<p>Listen, speak calmly, seek mediation, forgive when possible, and follow Quranic principles.</p>"
+      },
+      {
+        "id": "community-4",
+        "title": "Islamic community - How do I include newcomers?",
+        "body": "<p>Greet them, introduce them to circles, invite them to study, and show hospitality.</p>"
+      },
+      {
+        "id": "community-5",
+        "title": "Islamic community - How can I lead or mentor responsibly?",
+        "body": "<p>Model compassion, stay accountable, plan inclusive programs, and keep learning.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "key": "future",
+    "title": "Islamic future",
+    "faqs": [
+      {
+        "id": "future-1",
+        "title": "Islamic future - How does this chapter frame the future?",
+        "body": "<p>As a continuous journey of growth, planning, and trusting Allah's guidance.</p>"
+      },
+      {
+        "id": "future-2",
+        "title": "Islamic future - What steps help me set spiritual goals?",
+        "body": "<p>Define measurable acts, schedule reviews, and tie each goal to Quranic reminders.</p>"
+      },
+      {
+        "id": "future-3",
+        "title": "Islamic future - How should I handle setbacks in spiritual growth?",
+        "body": "<p>Return to dua, revisit your plan, learn from mistakes, and rely on supportive friends.</p>"
+      },
+      {
+        "id": "future-4",
+        "title": "Islamic future - What habits protect my future from burnout?",
+        "body": "<p>Pace learning, take rest days, celebrate small wins, and keep a gratitude checklist.</p>"
+      },
+      {
+        "id": "future-5",
+        "title": "Islamic future - How can I mentor others while pursuing my future?",
+        "body": "<p>Share routines, offer encouragement, build accountability pairs, and pray for them.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
+    "key": "hereafter",
+    "title": "Islamic hereafter",
+    "faqs": [
+      {
+        "id": "hereafter-1",
+        "title": "Islamic hereafter - What key realities about the hereafter does the chapter cover?",
+        "body": "<p>It explains death, the grave, standing before Allah, and the scales of deeds.</p>"
+      },
+      {
+        "id": "hereafter-2",
+        "title": "Islamic hereafter - How should I prepare for the grave?",
+        "body": "<p>Live with regular repentance, maintain good deeds, and keep ties with family.</p>"
+      },
+      {
+        "id": "hereafter-3",
+        "title": "Islamic hereafter - Why is the Day of Judgment important?",
+        "body": "<p>It restores justice, rewards the patient, and reminds us that every deed is recorded.</p>"
+      },
+      {
+        "id": "hereafter-4",
+        "title": "Islamic hereafter - How do I balance fear and hope about akhirah?",
+        "body": "<p>Fear the consequences of sin, but keep hope in Allah's mercy by doing good.</p>"
+      },
+      {
+        "id": "hereafter-5",
+        "title": "Islamic hereafter - What role does charity play in the hereafter?",
+        "body": "<p>Sadaqah keeps giving after we pass, so the chapter encourages consistent giving.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 12,
+    "key": "paradise",
+    "title": "Islamic paradise and hell",
+    "faqs": [
+      {
+        "id": "paradise-1",
+        "title": "Islamic paradise and hell - How does the chapter describe paradise?",
+        "body": "<p>Gardens beneath which rivers flow, peace, reunions with loved ones, and endless pleasure.</p>"
+      },
+      {
+        "id": "paradise-2",
+        "title": "Islamic paradise and hell - What actions open the doors of paradise?",
+        "body": "<p>Faith, prayer, charity, patience, and kindness while avoiding major sins.</p>"
+      },
+      {
+        "id": "paradise-3",
+        "title": "Islamic paradise and hell - How is hell portrayed?",
+        "body": "<p>As intense fire, regret, and punishment for rejecting truth or committing injustice.</p>"
+      },
+      {
+        "id": "paradise-4",
+        "title": "Islamic paradise and hell - How do I keep hope without ignoring warnings?",
+        "body": "<p>Remember Allah's mercy daily and live in obedience to avoid the fire.</p>"
+      },
+      {
+        "id": "paradise-5",
+        "title": "Islamic paradise and hell - What reminders keep paradise and hell relevant?",
+        "body": "<p>Visualize them during dua, read verses about them, and let them motivate ethical choices.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "key": "duas",
+    "title": "Islamic dua dhkir",
+    "faqs": [
+      {
+        "id": "duas-1",
+        "title": "Islamic dua dhkir - Why are dua and dhikr called weapons?",
+        "body": "<p>They guard hearts, invite mercy, and counter shaytan whisperings.</p>"
+      },
+      {
+        "id": "duas-2",
+        "title": "Islamic dua dhkir - How do I make dua effectively?",
+        "body": "<p>Start with praise, send blessings on the Prophet, ask with humility, and close with aameen.</p>"
+      },
+      {
+        "id": "duas-3",
+        "title": "Islamic dua dhkir - What kinds of dhikr can I do daily?",
+        "body": "<p>SubhanAllah, Alhamdulillah, Allahu Akbar, La ilaha illallah, and Ayat al-Kursi repeated with focus.</p>"
+      },
+      {
+        "id": "duas-4",
+        "title": "Islamic dua dhkir - How can I keep dhikr from becoming mechanical?",
+        "body": "<p>Think of each phrase, connect to its meaning, and make it part of conversations with Allah.</p>"
+      },
+      {
+        "id": "duas-5",
+        "title": "Islamic dua dhkir - What times are best for dua and dhikr?",
+        "body": "<p>After prayers, between adhan and iqamah, during tahajjud, and in the last third of night or on journeys.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "key": "family",
+    "title": "Islamic family and marriage",
+    "faqs": [
+      {
+        "id": "family-1",
+        "title": "Islamic family and marriage - What principles guide family life in the chapter?",
+        "body": "<p>Love, mercy, respect, communication, and shared worship make the home a sanctuary.</p>"
+      },
+      {
+        "id": "family-2",
+        "title": "Islamic family and marriage - How do spouses maintain mercy and justice?",
+        "body": "<p>Treat each other gently, consult on decisions, divide work fairly, and keep dua together.</p>"
+      },
+      {
+        "id": "family-3",
+        "title": "Islamic family and marriage - What should I do before marriage?",
+        "body": "<p>Perform istikhara, seek halal introductions, discuss values, and involve guardians.</p>"
+      },
+      {
+        "id": "family-4",
+        "title": "Islamic family and marriage - How does the chapter advise raising children?",
+        "body": "<p>Teach Quran, model manners, set routines, and nurture curiosity and gratitude.</p>"
+      },
+      {
+        "id": "family-5",
+        "title": "Islamic family and marriage - What conflict resolution tips does the chapter offer?",
+        "body": "<p>Listen without interrupting, meet with cool heads, involve neutral family, and forgive.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "key": "heart",
+    "title": "Islamic heart",
+    "faqs": [
+      {
+        "id": "heart-1",
+        "title": "Islamic heart - What does the chapter say about the heart?",
+        "body": "<p>It focuses on purification, removing diseases like envy, pride, and attachment to status.</p>"
+      },
+      {
+        "id": "heart-2",
+        "title": "Islamic heart - How do I purify my heart from envy?",
+        "body": "<p>Celebrate others, count blessings, make dua for them, and remember everything belongs to Allah.</p>"
+      },
+      {
+        "id": "heart-3",
+        "title": "Islamic heart - What is muhasabah?",
+        "body": "<p>Self-accounting: reviewing your day, repenting, and planning improvements before sleep.</p>"
+      },
+      {
+        "id": "heart-4",
+        "title": "Islamic heart - How do I keep the heart soft toward Allah?",
+        "body": "<p>Recite Quran, give charity, help others, and make moments of quiet reflection.</p>"
+      },
+      {
+        "id": "heart-5",
+        "title": "Islamic heart - How does dhikr guard against spiritual diseases?",
+        "body": "<p>Frequent remembrance reinforces humility, reminds you of accountability, and calms the soul.</p>"
+      }
+    ]
+  }
 ]

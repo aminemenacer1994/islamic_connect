@@ -481,7 +481,7 @@
 
 
             <!-- Accordion -->
-            <div v-if="accordionPanels.length"
+            <div v-if="chapterAccordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -499,7 +499,7 @@
 
               <div v-show="!collapsedSections.commonQuestions" class="card-body p-3 ">
                 <div class="accordion-stack">
-                  <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
+                  <div v-for="(panel, index) in chapterAccordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
                       :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
@@ -516,7 +516,7 @@
             </div>
 
             <!-- resources -->
-            <div v-if="accordionPanels.length"
+            <div v-if="chapterAccordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -574,7 +574,7 @@
             </div>
 
             <!-- FAQ -->
-            <div v-if="accordionPanels.length"
+            <div v-if="chapterAccordionPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -592,7 +592,7 @@
 
               <div v-show="!collapsedSections.faqs" class="card-body p-3 ">
                 <div class="accordion-stack">
-                  <div v-for="(panel, index) in accordionPanels" :key="panel.id" class="accordion-item-card">
+                  <div v-for="(panel, index) in chapterAccordionPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
                       :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
@@ -794,7 +794,6 @@ import roadmapData from './data/roadmap.json'
 import lessonsData from './data/lessons.json'
 import quizzesData from './data/quizzes.json'
 import accordionContent from './data/accordionContent.json'
-import faqContent from './data/faqs.json'
 import premiumResources from './data/premiumResources.json'
 import duasData from './data/duas.json'
 import homeworkData from './data/homework.json'
@@ -900,8 +899,7 @@ export default defineComponent({
     return {
       roadmapData: normalizeJson(roadmapData),
       lessons: normalizeJson(lessonsData),
-      accordionPanels: normalizeJson(accordionContent),
-      faqPanels: normalizeJson(faqContent),
+      accordionChapters: normalizeJson(accordionContent),
       premiumResources: normalizeJson(premiumResources),
       quizzes: normalizeJson(quizzesData),
       missions: normalizeJson(missionsData),
@@ -958,6 +956,10 @@ export default defineComponent({
   computed: {
     currentLesson() {
       return this.lessonMap[this.selectedPill] || this.lessons[0]
+    },
+    chapterAccordionPanels() {
+      const chapter = this.accordionChapters.find(entry => entry.chapterId === this.selectedPill)
+      return chapter?.faqs || []
     },
     progressPercentage() {
       return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
@@ -1127,6 +1129,7 @@ export default defineComponent({
       this.chapterQuizPassed = false
       this.resetQuizSet()
       this.scrollToTop()
+      this.accordionState = null
     }
   },
 
@@ -2073,6 +2076,8 @@ export default defineComponent({
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
   cursor: pointer;
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .roadmap-pill:hover {
@@ -2087,9 +2092,38 @@ export default defineComponent({
 }
 
 .roadmap-pill.active {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.1));
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(16, 185, 129, 0.15));
+  border: 1px solid rgba(59, 130, 246, 0.55);
+  box-shadow: 0 22px 42px rgba(15, 23, 42, 0.4), inset 0 0 30px rgba(59, 130, 246, 0.35);
+  backdrop-filter: blur(30px);
+  color: #0f172a;
+  position: relative;
+  overflow: hidden;
+}
+
+.roadmap-pill.active::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(1px);
+  animation: shimmer 3.5s ease-in-out infinite;
+}
+
+.roadmap-pill.active::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  opacity: 0.4;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(0.25px);
+  animation: pulse 4s ease-in-out infinite;
 }
 
 .roadmap-pill.locked {
@@ -3253,6 +3287,37 @@ export default defineComponent({
 
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-80px);
+    opacity: 0.4;
+  }
+
+  50% {
+    transform: translateX(40px);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateX(80px);
+    opacity: 0.4;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.2;
+  }
+
+  50% {
+    opacity: 0.6;
+  }
+
+  100% {
+    opacity: 0.2;
   }
 }
 

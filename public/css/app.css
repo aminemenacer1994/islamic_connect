@@ -20877,6 +20877,8 @@ to {
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
   cursor: pointer;
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 .roadmap-pill[data-v-1d764944]:hover {
   transform: translateY(-2px);
@@ -20888,9 +20890,36 @@ to {
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 .roadmap-pill.active[data-v-1d764944] {
-  background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(16, 185, 129, 0.1));
-  border: 1px solid rgba(59, 130, 246, 0.4);
-  box-shadow: 0 12px 28px rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.25), rgba(16, 185, 129, 0.15));
+  border: 1px solid rgba(59, 130, 246, 0.55);
+  box-shadow: 0 22px 42px rgba(15, 23, 42, 0.4), inset 0 0 30px rgba(59, 130, 246, 0.35);
+  backdrop-filter: blur(30px);
+  color: #0f172a;
+  position: relative;
+  overflow: hidden;
+}
+.roadmap-pill.active[data-v-1d764944]::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.02));
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(1px);
+  animation: shimmer-1d764944 3.5s ease-in-out infinite;
+}
+.roadmap-pill.active[data-v-1d764944]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  background: radial-gradient(circle at 25% 20%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+  opacity: 0.4;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  filter: blur(0.25px);
+  animation: pulse-1d764944 4s ease-in-out infinite;
 }
 .roadmap-pill.locked[data-v-1d764944] {
   opacity: 0.5;
@@ -21874,6 +21903,31 @@ to {
 }
 100% {
     transform: scale(1);
+}
+}
+@keyframes shimmer-1d764944 {
+0% {
+    transform: translateX(-80px);
+    opacity: 0.4;
+}
+50% {
+    transform: translateX(40px);
+    opacity: 0.9;
+}
+100% {
+    transform: translateX(80px);
+    opacity: 0.4;
+}
+}
+@keyframes pulse-1d764944 {
+0% {
+    opacity: 0.2;
+}
+50% {
+    opacity: 0.6;
+}
+100% {
+    opacity: 0.2;
 }
 }
 .lesson-hero-content[data-v-1d764944] {
