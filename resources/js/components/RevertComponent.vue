@@ -270,7 +270,6 @@
           </div>
 
             <!-- ALL SECTIONS -->
-            <div>
               <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
             <div class="card-header d-flex align-items-center py-3 ">
               <div class="d-flex align-items-center gap-3">
@@ -312,9 +311,7 @@
                       :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
                   </div>
                   <div class="pt-3 mt-3"></div>
-
                 </div>
-
               </div>
             </div>
 
@@ -378,8 +375,8 @@
               </div>
             </div>
 
-            <!-- Key Insights -->
-          <div v-if="currentLesson?.keyInsights?.length"
+            <!-- Dos and Dont's -->
+          <div v-if="currentDosDonts"
             class="content-card section-card animated-fade-slide mb-4 rounded-4">
             <div class="card-header d-flex align-items-center py-3">
               <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
@@ -387,48 +384,49 @@
             </div>
 
             <div class="card-body p-3">
-              <div v-if="currentGuidance" class="mb-3">
-                <p class="text-muted small mb-3">{{ currentGuidance.description }}</p>
-                  <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                      <article class="p-3 rounded-3 border h-100">
-                        <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
-                        <ul class="list-unstyled mb-0">
-                          <li v-for="item in currentGuidance.dos" :key="`do-${item}`"
-                            class="d-flex align-items-start gap-2 mb-2">
-                            <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
-                            <span class="text-dark small mt-1">{{ item }}</span>
-                          </li>
-                        </ul>
-                      </article>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <article class="p-3 rounded-3 border h-100">
-                        <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
-                        <ul class="list-unstyled mb-0">
-                          <li v-for="item in currentGuidance.donts" :key="`dont-${item}`"
-                            class="d-flex align-items-start gap-2 mb-2">
-                            <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
-                            <span class="text-dark small mt-1">{{ item }}</span>
-                          </li>
-                        </ul>
-                      </article>
-                    </div>
+              <div class="mb-3">
+                <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <article class="p-3 rounded-3 border h-100">
+                      <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
+                      <ul class="list-unstyled mb-0">
+                        <li v-for="item in currentDosDonts.dos" :key="item.id"
+                          class="d-flex align-items-start gap-2 mb-2">
+                          <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
+                          <span class="text-dark medium mt-1">{{ item.text }}</span>
+                        </li>
+                      </ul>
+                    </article>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <article class="p-3 rounded-3 border h-100">
+                      <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
+                      <ul class="list-unstyled mb-0">
+                        <li v-for="item in currentDosDonts.donts" :key="item.id"
+                          class="d-flex align-items-start gap-2 mb-2">
+                          <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+                          <span class="text-dark medium mt-1">{{ item.text }}</span>
+                        </li>
+                      </ul>
+                    </article>
                   </div>
                 </div>
               </div>
             </div>
 
               <!-- Key Insights -->
-          <div v-if="currentLesson?.keyInsights?.length"
-            class="content-card section-card animated-fade-slide mb-4 rounded-4">
+          <div v-if="insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
             <div class="card-header d-flex align-items-center py-3">
               <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
               <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
             </div>
             <div class="card-body p-3">
+              <p class="text-muted small mb-3">
+                {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
+              </p>
               <ul class="list-group insight-list fs-6 lh-base">
-                <li v-for="insight in currentLesson.keyInsights" :key="insight"
+                <li v-for="insight in insightsToShow" :key="insight"
                   class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
                   <i class="fas fa-check-circle fs-5 text-teal"></i>
                     <span>{{ insight }}</span>
@@ -436,6 +434,8 @@
                 </ul>
               </div>
             </div>
+
+            
 
             <!-- Duas -->
             <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
@@ -617,16 +617,6 @@
 
               <div class="card-body p-3">
                 <div class="row g-3">
-                  <!-- <div class="col-12 col-md-6">
-                  <div class="steps-list">
-                    <div v-for="(step, index) in currentLesson?.nextSteps" :key="step"
-                      class="step-item d-flex align-items-start mb-3">
-                      <span class="step-badge me-3 fs-6">{{ index + 1 }}</span>
-                      <span class="step-text fs-6 lh-base flex-grow-1">{{ step }}</span>
-                      <i class="bi bi-check-circle text-muted ms-2 fs-6"></i>
-                    </div>
-                  </div>
-                </div> -->
                   <div class="col-12 col-md-12">
                     <div class="homework-grid">
                       <div v-for="(task, index) in currentHomework" :key="task" class="homework-task p-3 mb-2">
@@ -800,7 +790,8 @@ import duasData from './data/duas.json'
 import homeworkData from './data/homework.json'
 import missionsData from './data/missions.json'
 import onboardingData from './data/onboarding.json'
-import guidanceData from './data/guidance.json'
+import chapterDosDonts from './data/chapterDosDonts.json'
+import chapterKeyInsights from './data/keyInsights.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -906,7 +897,8 @@ export default defineComponent({
       quizzes: normalizeJson(quizzesData),
       missions: normalizeJson(missionsData),
       duas: normalizeJson(duasData),
-      guidance: normalizeJson(guidanceData),
+      dosDontsChapters: normalizeJson(chapterDosDonts),
+      chapterKeyInsights: normalizeJson(chapterKeyInsights),
       homework: normalizeJson(homeworkData),
       lessonMap: {},
       missionMap: {},
@@ -959,6 +951,15 @@ export default defineComponent({
   computed: {
     currentLesson() {
       return this.lessonMap[this.selectedPill] || this.lessons[0]
+    },
+    currentChapterKeyInsights() {
+      const chapterId = this.currentLesson?.chapterId
+      return this.chapterKeyInsights.find(entry => entry.chapterId === chapterId) || null
+    },
+    insightsToShow() {
+      return this.currentChapterKeyInsights?.keyInsights?.length
+        ? this.currentChapterKeyInsights.keyInsights
+        : this.currentLesson?.keyInsights || []
     },
     chapterCommonPanels() {
       const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill)
@@ -1089,9 +1090,9 @@ export default defineComponent({
     }
 
     ,
-    currentGuidance() {
+    currentDosDonts() {
       const chapterId = this.currentLesson?.chapterId
-      return this.guidance.find(entry => entry.chapterId === chapterId) || null
+      return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null
     }
 
     ,
