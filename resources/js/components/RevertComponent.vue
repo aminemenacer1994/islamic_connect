@@ -480,8 +480,8 @@
             </div>
 
 
-            <!-- Accordion -->
-            <div v-if="chapterAccordionPanels.length"
+            <!-- Common asked questions -->
+            <div v-if="chapterCommonPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -499,15 +499,15 @@
 
               <div v-show="!collapsedSections.commonQuestions" class="card-body p-3 ">
                 <div class="accordion-stack">
-                  <div v-for="(panel, index) in chapterAccordionPanels" :key="panel.id" class="accordion-item-card">
+                  <div v-for="(panel, index) in chapterCommonPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
-                      :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
+                      :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
                       <span>{{ panel.title }}</span>
                       <i class="bi"
-                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
+                        :class="isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
                     </button>
-                    <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
+                    <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
                       <div v-html="panel.body"></div>
                     </div>
                   </div>
@@ -516,7 +516,7 @@
             </div>
 
             <!-- resources -->
-            <div v-if="chapterAccordionPanels.length"
+            <div v-if="premiumResources.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -574,7 +574,7 @@
             </div>
 
             <!-- FAQ -->
-            <div v-if="chapterAccordionPanels.length"
+            <div v-if="chapterFaqPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -592,15 +592,15 @@
 
               <div v-show="!collapsedSections.faqs" class="card-body p-3 ">
                 <div class="accordion-stack">
-                  <div v-for="(panel, index) in chapterAccordionPanels" :key="panel.id" class="accordion-item-card">
+                  <div v-for="(panel, index) in chapterFaqPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
-                      :class="{ expanded: isAccordionOpen(index) }" @click="toggleAccordion(index)">
+                      :class="{ expanded: isAccordionOpen('faq', index) }" @click="toggleAccordion('faq', index)">
                       <span>{{ panel.title }}</span>
                       <i class="bi"
-                        :class="isAccordionOpen(index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
+                        :class="isAccordionOpen('faq', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
                     </button>
-                    <div v-show="isAccordionOpen(index)" class="accordion-answer mt-2">
+                    <div v-show="isAccordionOpen('faq', index)" class="accordion-answer mt-2">
                       <div v-html="panel.body"></div>
                     </div>
                   </div>
@@ -793,7 +793,8 @@ import { defineComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
 import lessonsData from './data/lessons.json'
 import quizzesData from './data/quizzes.json'
-import accordionContent from './data/accordionContent.json'
+import faqChapters from './data/faqs.json'
+import commonQuestionsData from './data/commonQuestions.json'
 import premiumResources from './data/premiumResources.json'
 import duasData from './data/duas.json'
 import homeworkData from './data/homework.json'
@@ -899,7 +900,8 @@ export default defineComponent({
     return {
       roadmapData: normalizeJson(roadmapData),
       lessons: normalizeJson(lessonsData),
-      accordionChapters: normalizeJson(accordionContent),
+      faqChapters: normalizeJson(faqChapters),
+      commonQuestionChapters: normalizeJson(commonQuestionsData),
       premiumResources: normalizeJson(premiumResources),
       quizzes: normalizeJson(quizzesData),
       missions: normalizeJson(missionsData),
@@ -926,7 +928,8 @@ export default defineComponent({
       successMessage: '',
       isWaitingForNext: false,
       faqState: {},
-      accordionState: 0,
+      faqAccordionState: 0,
+      commonAccordionState: 0,
       faqStackState: null,
       showResourceModal: false,
       activeResource: null,
@@ -957,8 +960,12 @@ export default defineComponent({
     currentLesson() {
       return this.lessonMap[this.selectedPill] || this.lessons[0]
     },
-    chapterAccordionPanels() {
-      const chapter = this.accordionChapters.find(entry => entry.chapterId === this.selectedPill)
+    chapterCommonPanels() {
+      const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill)
+      return chapter?.faqs || []
+    },
+    chapterFaqPanels() {
+      const chapter = this.faqChapters.find(entry => entry.chapterId === this.selectedPill)
       return chapter?.faqs || []
     },
     progressPercentage() {
@@ -1129,7 +1136,8 @@ export default defineComponent({
       this.chapterQuizPassed = false
       this.resetQuizSet()
       this.scrollToTop()
-      this.accordionState = null
+      this.faqAccordionState = null
+      this.commonAccordionState = null
     }
   },
 
@@ -1241,14 +1249,17 @@ export default defineComponent({
       return this.faqState[chapterKey] === index
     },
 
-    toggleAccordion(index) {
-      this.accordionState = this.accordionState === index ? null : index
+    toggleAccordion(section, index) {
+      const stateKey = section === 'faq' ? 'faqAccordionState' : 'commonAccordionState'
+      this[stateKey] = this[stateKey] === index ? null : index
     },
 
-    isAccordionOpen(index) {
-      if (this.accordionState === null) return false
-      if (typeof this.accordionState === 'number') {
-        return this.accordionState === index
+    isAccordionOpen(section, index) {
+      const stateKey = section === 'faq' ? 'faqAccordionState' : 'commonAccordionState'
+      const state = this[stateKey]
+      if (state === null) return false
+      if (typeof state === 'number') {
+        return state === index
       }
       return index === 0
     },
@@ -2124,6 +2135,20 @@ export default defineComponent({
   mix-blend-mode: screen;
   filter: blur(0.25px);
   animation: pulse 4s ease-in-out infinite;
+}
+
+.roadmap-pill.active .dot-icon-step {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+  color: #0f172a;
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease;
+}
+
+.roadmap-pill.active .dot-icon-step i {
+  color: #0f172a;
+  filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.4));
 }
 
 .roadmap-pill.locked {

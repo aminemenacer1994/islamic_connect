@@ -20921,6 +20921,18 @@ to {
   filter: blur(0.25px);
   animation: pulse-1d764944 4s ease-in-out infinite;
 }
+.roadmap-pill.active .dot-icon-step[data-v-1d764944] {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.35);
+  color: #0f172a;
+  backdrop-filter: blur(12px);
+  transition: transform 0.3s ease;
+}
+.roadmap-pill.active .dot-icon-step i[data-v-1d764944] {
+  color: #0f172a;
+  filter: drop-shadow(0 2px 6px rgba(15, 23, 42, 0.4));
+}
 .roadmap-pill.locked[data-v-1d764944] {
   opacity: 0.5;
   cursor: not-allowed;

@@ -1,17 +1,467 @@
 [
   {
-    "id": "faq-panel-1",
-    "title": "What is the purpose of the Revert lessons?",
-    "body": "<p>The Revert lessons guide new Muslims through the pillars, beliefs, and practices so you build solid foundational habits with clarity.</p>"
+    "chapter": "Islamic Foundation",
+    "faqs": [
+      {
+        "id": "islamic-foundation-1",
+        "title": "What is the Islamic foundation?",
+        "body": "<p>The Islamic foundation is rooted in belief in Allah, the prophets, the Quran, and the practices that keep you connected to Him every day.</p>"
+      },
+      {
+        "id": "islamic-foundation-2",
+        "title": "How do I begin learning the basics of Islam?",
+        "body": "<p>Start with the Shahada, learn short duas, read a beginner's Quran translation, and ask trusted teachers for guidance in bite-sized steps.</p>"
+      },
+      {
+        "id": "islamic-foundation-3",
+        "title": "Why is intention important in Islam?",
+        "body": "<p>Because Allah judges deeds by intentions, making a sincere purpose turns routines into acts of worship.</p>"
+      },
+      {
+        "id": "islamic-foundation-4",
+        "title": "Which early practices help build a strong foundation?",
+        "body": "<p>Regular prayer, brief Quran reflections, consistent charity, and daily dua keep the foundations alive.</p>"
+      },
+      {
+        "id": "islamic-foundation-5",
+        "title": "How can I keep the foundation steady when life gets busy?",
+        "body": "<p>Set reminders, combine new habits with existing ones, and stay connected to a community that encourages you.</p>"
+      }
+    ],
+    "chapterId": 1
   },
   {
-    "id": "faq-panel-2",
-    "title": "How often should I revisit a lesson?",
-    "body": "<p>We recommend reviewing a chapter weekly and journaling one key takeaway so that repetition strengthens your spiritual muscle.</p>"
+    "chapter": "Islamic Beliefs",
+    "faqs": [
+      {
+        "id": "islamic-beliefs-1",
+        "title": "What are the core beliefs of Islam?",
+        "body": "<p>The core beliefs include belief in Allah, His angels, His books, His messengers, the Last Day, and divine decree.</p>"
+      },
+      {
+        "id": "islamic-beliefs-2",
+        "title": "How does belief in Allah’s oneness affect daily life?",
+        "body": "<p>Understanding Tawhid encourages you to turn to Allah alone for help, worship, and trust in every situation.</p>"
+      },
+      {
+        "id": "islamic-beliefs-3",
+        "title": "Why do Muslims believe in angels and divine books?",
+        "body": "<p>They are part of the unseen that Allah revealed to guide humanity and remind us that we are accountable.</p>"
+      },
+      {
+        "id": "islamic-beliefs-4",
+        "title": "What role do prophets play in Islamic belief?",
+        "body": "<p>Prophets transmit Allah’s message, model obedience, and teach mercy—Muhammad is the final messenger to all people.</p>"
+      },
+      {
+        "id": "islamic-beliefs-5",
+        "title": "How can I strengthen my belief when doubts arise?",
+        "body": "<p>Study reliable sources, speak to wise mentors, maintain regular worship, and make dua for increased certainty.</p>"
+      }
+    ],
+    "chapterId": 2
   },
   {
-    "id": "faq-panel-3",
-    "title": "Can I share these notes with a mentor?",
-    "body": "<p>Yes, export your reflections and invite someone you trust to review them—accountability brings accountability.</p>"
+    "chapter": "Islamic Pillars",
+    "faqs": [
+      {
+        "id": "islamic-pillars-1",
+        "title": "What are the Five Pillars of Islam and why do they matter?",
+        "body": "<p>The pillars—Shahada, Salah, Zakat, Sawm, and Hajj—structure a Muslim's life around faith, worship, charity, fasting, and pilgrimage.</p>"
+      },
+      {
+        "id": "islamic-pillars-2",
+        "title": "How can I memorize the pillars?",
+        "body": "<p>Repeat them aloud, relate each pillar to daily actions, and quiz yourself with friends or a study group.</p>"
+      },
+      {
+        "id": "islamic-pillars-3",
+        "title": "Can I make up missed duties from the pillars?",
+        "body": "<p>Yes, missed prayers, fasts, or zakat can often be made up with sincere repentance and proper planning.</p>"
+      },
+      {
+        "id": "islamic-pillars-4",
+        "title": "How do I balance the pillars with modern schedules?",
+        "body": "<p>Use reminders, combine worship with pauses in your day, and keep the intention that every effort is for Allah.</p>"
+      },
+      {
+        "id": "islamic-pillars-5",
+        "title": "Are intentions part of fulfilling the pillars?",
+        "body": "<p>Absolutely—each pillar must be performed with a sincere intention to obey Allah for it to count fully.</p>"
+      }
+    ],
+    "chapterId": 3
+  },
+  {
+    "chapter": "Islamic Quran",
+    "faqs": [
+      {
+        "id": "islamic-quran-1",
+        "title": "Should I read the Quran in Arabic or translation?",
+        "body": "<p>Prefer Arabic when possible, but use a translation to understand the meaning; both together deepen your connection.</p>"
+      },
+      {
+        "id": "islamic-quran-2",
+        "title": "How do I get started with Quran recitation?",
+        "body": "<p>Begin with short surahs, learn basic pronunciation, and practice slowly with audio and a teacher if possible.</p>"
+      },
+      {
+        "id": "islamic-quran-3",
+        "title": "What is a practical way to reflect on the Quran?",
+        "body": "<p>Read a verse, pause to ponder its meaning, write a reflection, and apply it to your life that day.</p>"
+      },
+      {
+        "id": "islamic-quran-4",
+        "title": "How do I memorize the Quran when I'm busy?",
+        "body": "<p>Set aside a few minutes daily, repeat small portions, and revise even smaller sections to build consistency.</p>"
+      },
+      {
+        "id": "islamic-quran-5",
+        "title": "How can I protect my Quran study from distractions?",
+        "body": "<p>Study in a quiet space, disconnect from other screens, and set a gentle timer to honor your commitment.</p>"
+      }
+    ],
+    "chapterId": 4
+  },
+  {
+    "chapter": "Islamic Prophet",
+    "faqs": [
+      {
+        "id": "islamic-prophet-1",
+        "title": "Who is the Prophet Muhammad (peace be upon him)?",
+        "body": "<p>He is the final messenger of Allah, sent with mercy to teach Islam and exemplify compassionate conduct.</p>"
+      },
+      {
+        "id": "islamic-prophet-2",
+        "title": "How can I learn about his life?",
+        "body": "<p>Read authentic Seerah books or listen to trustworthy lectures that focus on his character, struggles, and guidance.</p>"
+      },
+      {
+        "id": "islamic-prophet-3",
+        "title": "Why do Muslims send blessings upon him?",
+        "body": "<p>Because Allah commanded it as a sign of love, and sending blessings brings peace to the heart and rewards.</p>"
+      },
+      {
+        "id": "islamic-prophet-4",
+        "title": "What lessons from his life help new Muslims?",
+        "body": "<p>His patience, humility, prioritizing justice, and kindness toward others provide a blueprint for daily conduct.</p>"
+      },
+      {
+        "id": "islamic-prophet-5",
+        "title": "How do I share his mercy with others?",
+        "body": "<p>Show compassion, speak the truth gently, and support others so they experience the same hope he taught.</p>"
+      }
+    ],
+    "chapterId": 5
+  },
+  {
+    "chapter": "Islamic Prayers",
+    "faqs": [
+      {
+        "id": "islamic-prayers-1",
+        "title": "How many daily prayers are there?",
+        "body": "<p>Muslims pray five times each day to stay connected to Allah and punctuate the day with remembrance.</p>"
+      },
+      {
+        "id": "islamic-prayers-2",
+        "title": "What is wudu and why is it required?",
+        "body": "<p>Wudu is a ritual purification that prepares your body and mind for direct conversation with Allah.</p>"
+      },
+      {
+        "id": "islamic-prayers-3",
+        "title": "What do I do if I miss a prayer?",
+        "body": "<p>Make it up as soon as you remember with sincerity, and ask Allah to help you stay punctual going forward.</p>"
+      },
+      {
+        "id": "islamic-prayers-4",
+        "title": "How can I stay focused during prayer?",
+        "body": "<p>Clear your space, slow down your movements, understand what you are saying, and pray with full intention.</p>"
+      },
+      {
+        "id": "islamic-prayers-5",
+        "title": "Can I pray alone when there is no mosque nearby?",
+        "body": "<p>Yes, prayer is valid anywhere you have purity, a clean space, and devotion, so carry it with you.</p>"
+      }
+    ],
+    "chapterId": 6
+  },
+  {
+    "chapter": "Islamic Manners",
+    "faqs": [
+      {
+        "id": "islamic-manners-1",
+        "title": "What is Islamic etiquette?",
+        "body": "<p>It means speaking gently, smiling, respecting elders, keeping promises, and serving others with humility.</p>"
+      },
+      {
+        "id": "islamic-manners-2",
+        "title": "How should I greet people?",
+        "body": "<p>Say 'As-salamu alaykum' sincerely, shake hands or offer a kind gesture, and ask about their well-being.</p>"
+      },
+      {
+        "id": "islamic-manners-3",
+        "title": "How can I practice patience and gratitude daily?",
+        "body": "<p>Count your blessings, pause before reacting, and remind yourself that trials build patience.</p>"
+      },
+      {
+        "id": "islamic-manners-4",
+        "title": "What does guarding the tongue and gaze look like?",
+        "body": "<p>Speak truthfully, avoid gossip, and steer your eyes toward what is pure and respectful.</p>"
+      },
+      {
+        "id": "islamic-manners-5",
+        "title": "How do I balance cultural habits with Islamic behavior?",
+        "body": "<p>Keep what aligns with Islamic morals, gently release what doesn't, and explain your choices with kindness.</p>"
+      }
+    ],
+    "chapterId": 7
+  },
+  {
+    "chapter": "Islamic Lifestyle",
+    "faqs": [
+      {
+        "id": "islamic-lifestyle-1",
+        "title": "What makes a lifestyle Islamic?",
+        "body": "<p>An Islamic lifestyle centers on halal food, honest work, regular worship, and compassion for others.</p>"
+      },
+      {
+        "id": "islamic-lifestyle-2",
+        "title": "How can I prepare halal meals easily?",
+        "body": "<p>Plan meals ahead, buy certified ingredients, and share with friends so you can keep it fun.</p>"
+      },
+      {
+        "id": "islamic-lifestyle-3",
+        "title": "Should I avoid certain entertainment?",
+        "body": "<p>Choose media that uplifts you, avoids immorality, and strengthens your faith, not weakens it.</p>"
+      },
+      {
+        "id": "islamic-lifestyle-4",
+        "title": "How do I maintain modesty in dress and behavior?",
+        "body": "<p>Dress in a way that feels comfortable yet modest, lower your gaze, and carry yourself with dignity.</p>"
+      },
+      {
+        "id": "islamic-lifestyle-5",
+        "title": "How can I add Sunnah routines to my day?",
+        "body": "<p>Start with the Prophet’s habits like drinking water in three sips, greeting others, and saying the short morning dhikr.</p>"
+      }
+    ],
+    "chapterId": 8
+  },
+  {
+    "chapter": "Islamic Community",
+    "faqs": [
+      {
+        "id": "islamic-community-1",
+        "title": "Why is community important in Islam?",
+        "body": "<p>The ummah reminds us we are not alone, and helping others multiplies rewards.</p>"
+      },
+      {
+        "id": "islamic-community-2",
+        "title": "How can I find a supportive Muslim community?",
+        "body": "<p>Attend local events, join study circles, and reach out to online groups that match your interests.</p>"
+      },
+      {
+        "id": "islamic-community-3",
+        "title": "What if I feel isolated from my community?",
+        "body": "<p>Volunteer, invite neighbors for coffee, or start a small circle where you can learn together.</p>"
+      },
+      {
+        "id": "islamic-community-4",
+        "title": "How do I build bridges with non-Muslim neighbors?",
+        "body": "<p>Share kindness, listen to their stories, and explain your faith through actions more than words.</p>"
+      },
+      {
+        "id": "islamic-community-5",
+        "title": "What is my role when someone in the community needs help?",
+        "body": "<p>Offer practical support, make dua for them, and encourage others to join you in lifting them up.</p>"
+      }
+    ],
+    "chapterId": 9
+  },
+  {
+    "chapter": "Islamic Future",
+    "faqs": [
+      {
+        "id": "islamic-future-1",
+        "title": "What does Islam say about planning for the future?",
+        "body": "<p>Islam teaches us to plan responsibly, rely on Allah, and ask for guidance in every decision.</p>"
+      },
+      {
+        "id": "islamic-future-2",
+        "title": "How can I set goals guided by Islamic values?",
+        "body": "<p>Make goals that benefit your soul, family, and community, then tie them with du'a and consistent effort.</p>"
+      },
+      {
+        "id": "islamic-future-3",
+        "title": "Is it okay to dream big while staying humble?",
+        "body": "<p>Yes, Islam encourages excellence when coupled with gratitude and the reminder that Allah controls outcomes.</p>"
+      },
+      {
+        "id": "islamic-future-4",
+        "title": "How do I guard against anxiety about tomorrow?",
+        "body": "<p>Remember Allah’s mercy, practice dhikr, and break tasks into small steps so you can breathe between plans.</p>"
+      },
+      {
+        "id": "islamic-future-5",
+        "title": "How can I leave a positive legacy?",
+        "body": "<p>Share beneficial knowledge, instill good habits in others, and support causes that outlive you.</p>"
+      }
+    ],
+    "chapterId": 10
+  },
+  {
+    "chapter": "Islamic Hereafter",
+    "faqs": [
+      {
+        "id": "islamic-hereafter-1",
+        "title": "What is the concept of the Hereafter?",
+        "body": "<p>The Hereafter includes resurrection, judgment, reward, and consequences based on how we lived.</p>"
+      },
+      {
+        "id": "islamic-hereafter-2",
+        "title": "How can I prepare for the Day of Judgment?",
+        "body": "<p>Repent sincerely, perform good deeds, and keep your intentions pure for Allah’s pleasure.</p>"
+      },
+      {
+        "id": "islamic-hereafter-3",
+        "title": "Why is accountability important?",
+        "body": "<p>Knowing that Allah sees every action reminds us to choose kindness and avoid harm.</p>"
+      },
+      {
+        "id": "islamic-hereafter-4",
+        "title": "What happens between death and resurrection?",
+        "body": "<p>Believers enter Barzakh, a waiting period where the soul experiences comfort or warning until the final day.</p>"
+      },
+      {
+        "id": "islamic-hereafter-5",
+        "title": "How does remembrance of the Hereafter change my actions?",
+        "body": "<p>It shifts your focus from temporary gains to actions that benefit the soul and others in the long run.</p>"
+      }
+    ],
+    "chapterId": 11
+  },
+  {
+    "chapter": "Islamic Paradise and Hell",
+    "faqs": [
+      {
+        "id": "islamic-paradise-hell-1",
+        "title": "What do we know about Paradise and Hell?",
+        "body": "<p>The Quran and Sunnah describe Paradise as gardens with rivers, and Hell as a place of purification or punishment for wrongdoing.</p>"
+      },
+      {
+        "id": "islamic-paradise-hell-2",
+        "title": "How can I strive for Paradise?",
+        "body": "<p>Perform good deeds, seek forgiveness, serve others, and keep your heart soft with gratitude.</p>"
+      },
+      {
+        "id": "islamic-paradise-hell-3",
+        "title": "Can Allah forgive any sin?",
+        "body": "<p>Yes, Allah forgives all sins when you turn to Him with sincere repentance and resolve not to return.</p>"
+      },
+      {
+        "id": "islamic-paradise-hell-4",
+        "title": "What kind of people does the Quran mention as entering Paradise?",
+        "body": "<p>Those who are humble, patient, charitable, truthful, and who call others to good with wisdom are promised mercy.</p>"
+      },
+      {
+        "id": "islamic-paradise-hell-5",
+        "title": "How do I avoid actions that lead to Hell?",
+        "body": "<p>Stay away from major sins, guard your tongue, keep your prayers, and seek Allah’s help when temptation arrives.</p>"
+      }
+    ],
+    "chapterId": 12
+  },
+  {
+    "chapter": "Islamic Dua Dhkir",
+    "faqs": [
+      {
+        "id": "islamic-dua-dhikr-1",
+        "title": "What is the difference between dua and dhikr?",
+        "body": "<p>Dua is asking Allah for something, while dhikr is remembering Him through phrases of praise and gratitude.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-2",
+        "title": "When should I make dua and dhikr?",
+        "body": "<p>Any time! After prayers, during moments of need, while waking up, or before sleeping—Allah loves those who remember Him.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-3",
+        "title": "How do I memorize a dua?",
+        "body": "<p>Repeat it often, write it down, understand its meaning, and attach it to daily moments so it becomes natural.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-4",
+        "title": "What are short dhikr phrases I can say daily?",
+        "body": "<p>Try 'SubhanAllah', 'Alhamdulillah', 'Allahu Akbar', and 'La ilaha illa Allah' after prayers and during breaks.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-5",
+        "title": "Can I ask Allah for personal needs while doing dhikr?",
+        "body": "<p>Yes, mix praise with personal requests; Allah loves to hear you speak to Him sincerely.</p>"
+      }
+    ],
+    "chapterId": 13
+  },
+  {
+    "chapter": "Islamic Family and Marriage",
+    "faqs": [
+      {
+        "id": "islamic-family-1",
+        "title": "What does Islam say about family ties?",
+        "body": "<p>Maintaining kinship, honoring parents, and supporting relatives are major sources of blessing.</p>"
+      },
+      {
+        "id": "islamic-family-2",
+        "title": "How do I seek a spouse according to Islamic principles?",
+        "body": "<p>Look for piety, character, and mutual compatibility while involving family and keeping intentions pure.</p>"
+      },
+      {
+        "id": "islamic-family-3",
+        "title": "What are the rights of spouses in Islam?",
+        "body": "<p>Mutual respect, clear communication, financial fairness, and emotional support are emphasized in every marriage.</p>"
+      },
+      {
+        "id": "islamic-family-4",
+        "title": "How can parents support a new Muslim in marriage?",
+        "body": "<p>Encourage learning, allow space for spiritual growth, and remind them that Allah’s mercy covers every step.</p>"
+      },
+      {
+        "id": "islamic-family-5",
+        "title": "How do I raise children with Islamic values?",
+        "body": "<p>Model kindness, teach dua, read Quran together, and celebrate small victories as families grow.</p>"
+      }
+    ],
+    "chapterId": 14
+  },
+  {
+    "chapter": "Islamic Heart",
+    "faqs": [
+      {
+        "id": "islamic-heart-1",
+        "title": "What does it mean to purify the heart?",
+        "body": "<p>Purifying the heart means removing envy, hatred, and arrogance while growing sincerity, love, and fear of Allah.</p>"
+      },
+      {
+        "id": "islamic-heart-2",
+        "title": "How can I keep my heart soft toward Allah?",
+        "body": "<p>Recite Quran, make dua, associate with gentle people, and ponder Allah’s mercy regularly.</p>"
+      },
+      {
+        "id": "islamic-heart-3",
+        "title": "What signs show a heart is spiritually healthy?",
+        "body": "<p>Patience in trials, gratitude in ease, and humility in success are healthy-heart indicators.</p>"
+      },
+      {
+        "id": "islamic-heart-4",
+        "title": "How do I deal with sadness or emptiness in my heart?",
+        "body": "<p>Reach out to supportive people, increase dhikr, and remember Allah’s plan is wise even when you feel lost.</p>"
+      },
+      {
+        "id": "islamic-heart-5",
+        "title": "What does reliance on Allah look like for the heart?",
+        "body": "<p>A heart that trusts Allah accepts what happens, stays hopeful for goodness, and keeps working without despair.</p>"
+      }
+    ],
+    "chapterId": 15
   }
 ]
