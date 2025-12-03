@@ -158,7 +158,7 @@
             </div>
           </div>
 
-          <div v-if="guidanceCards.length" class="content-card guided-section-card mb-4 rounded-4">
+        <div v-if="guidedPathwayCards.length" class="content-card guided-section-card mb-4 rounded-4">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
               <div>
                 <p class="text-teal small mb-1 fw-semibold">Guided Pathway</p>
@@ -174,8 +174,8 @@
                 </button>
               </div>
             </div>
-            <div class="guided-bullets px-3 pb-3">
-              <div v-for="(card, index) in guidanceCards" :key="card.step" class="guided-bullet">
+              <div class="guided-bullets px-3 pb-3">
+                <div v-for="(card, index) in guidedPathwayCards" :key="card.step" class="guided-bullet">
                 <span class="guided-step">{{ card.step }}</span>
                 <div>
                   <p class="mb-0 fw-semibold">{{ card.title }}</p>
@@ -204,7 +204,7 @@
           </div>
 
           <!-- Onboarding Block -->
-          <div v-if="currentOnboardingSteps.length" class="content-card onboarding-card mb-4 rounded-4">
+          <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-4">
             <div class="card-body px-4 py-3">
               <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
               <h3 class="fw-semibold mb-2">Simple welcome for new friends</h3>
@@ -212,7 +212,7 @@
                 Take it slow these three ideas hold the key to remembering today’s lesson.
               </p>
               <ul class="simple-onboarding-list mb-0">
-                <li v-for="step in currentOnboardingSteps" :key="step.title">
+                <li v-for="step in currentGentleStartSteps" :key="step.title">
                   <span class="onboarding-bullet-icon"></span>
                   <div>
                     <strong class="d-block">{{ step.title }}</strong>
@@ -795,6 +795,8 @@ import chapterKeyInsights from './data/keyInsights.json'
 import chapterGuidance from './data/chapterGuidance.json'
 import chapterToneGuidelines from './data/chapterToneGuidelines.json'
 import chapterToneFocus from './data/chapterToneFocus.json'
+import chapterGuidedPathway from './data/chapterGuidedPathway.json'
+import chapterGentleStart from './data/chapterGentleStart.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -905,6 +907,8 @@ export default defineComponent({
       guidanceTemplates: normalizeJson(chapterGuidance),
       toneGuidelinesByChapter: normalizeJson(chapterToneGuidelines),
       toneFocusEntries: normalizeJson(chapterToneFocus),
+      guidedPathways: normalizeJson(chapterGuidedPathway),
+      chapterGentleStarts: normalizeJson(chapterGentleStart),
       homework: normalizeJson(homeworkData),
       lessonMap: {},
       missionMap: {},
@@ -939,20 +943,20 @@ export default defineComponent({
         faqs: false
       },
       confettiPromise: null,
-    lessonShareStatus: '',
-    duaShareStatus: '',
-    overviewFontScale: 1,
-    duaFontScale: 1,
-    globalFontScale: 1,
+      lessonShareStatus: '',
+      duaShareStatus: '',
+      overviewFontScale: 1,
+      duaFontScale: 1,
+      globalFontScale: 1,
       copyAlertMessage: '',
       copyAlertType: 'info',
       showCopyAlert: false,
       copyAlertTimeout: null,
-    ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
-    ttsActiveSection: null,
-    currentUtterance: null
-  }
-},
+      ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
+      ttsActiveSection: null,
+      currentUtterance: null
+    }
+  },
 
   computed: {
     currentLesson() {
@@ -1069,16 +1073,23 @@ export default defineComponent({
       const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId)
       return entry?.toneFocus || ''
     },
+    guidedPathwayCards() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.guidedPathways.find(item => item.chapterId === chapterId)
+      return entry?.pathway || this.guidanceCards
+    },
+    currentGentleStartSteps() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId)
+      return entry?.steps || this.currentOnboardingSteps
+    },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' :
         this.copyAlertType === 'danger' ? 'alert-danger' : 'alert-info'
     },
     iconClass() {
       return this.copyAlertType === 'danger' ? 'bi bi-exclamation-triangle-fill text-danger' : 'bi bi-clipboard-check-fill text-teal'
-    }
-
-    ,
-
+    },
     nextChapterPreview() {
       const nextId = this.selectedPill + 1
       if (nextId > this.roadmapData.length) return null
