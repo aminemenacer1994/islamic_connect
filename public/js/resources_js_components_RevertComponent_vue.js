@@ -26,11 +26,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_keyInsights_json__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./data/keyInsights.json */ "./resources/js/components/data/keyInsights.json");
 /* harmony import */ var _data_chapterGuidance_json__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./data/chapterGuidance.json */ "./resources/js/components/data/chapterGuidance.json");
 /* harmony import */ var _data_chapterToneGuidelines_json__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./data/chapterToneGuidelines.json */ "./resources/js/components/data/chapterToneGuidelines.json");
+/* harmony import */ var _data_chapterToneFocus_json__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./data/chapterToneFocus.json */ "./resources/js/components/data/chapterToneFocus.json");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -156,6 +158,7 @@ const celebrateFinalChapter = () => {
       chapterKeyInsights: normalizeJson(_data_keyInsights_json__WEBPACK_IMPORTED_MODULE_12__),
       guidanceTemplates: normalizeJson(_data_chapterGuidance_json__WEBPACK_IMPORTED_MODULE_13__),
       toneGuidelinesByChapter: normalizeJson(_data_chapterToneGuidelines_json__WEBPACK_IMPORTED_MODULE_14__),
+      toneFocusEntries: normalizeJson(_data_chapterToneFocus_json__WEBPACK_IMPORTED_MODULE_15__),
       homework: normalizeJson(_data_homework_json__WEBPACK_IMPORTED_MODULE_8__),
       lessonMap: {},
       missionMap: {},
@@ -309,6 +312,12 @@ const celebrateFinalChapter = () => {
       }
       return ['Welcoming every background without assumptions', 'Encouraging progress, not perfection', 'Keeping language simple and non-technical', 'Avoiding judgment or cultural generalizations'];
     },
+    currentToneFocusText() {
+      var _this$currentLesson6;
+      const chapterId = (_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.chapterId;
+      const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId);
+      return (entry === null || entry === void 0 ? void 0 : entry.toneFocus) || '';
+    },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' : this.copyAlertType === 'danger' ? 'alert-danger' : 'alert-info';
     },
@@ -332,8 +341,8 @@ const celebrateFinalChapter = () => {
       return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`;
     },
     lessonDepartments() {
-      var _this$currentLesson6;
-      const sections = ((_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.sections) || [];
+      var _this$currentLesson7;
+      const sections = ((_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.sections) || [];
       if (!sections.length) return [];
       const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up'];
       return sections.slice(0, 3).map((section, index) => {
@@ -347,13 +356,13 @@ const celebrateFinalChapter = () => {
       });
     },
     currentDosDonts() {
-      var _this$currentLesson7;
-      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
+      var _this$currentLesson8;
+      const chapterId = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
       return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null;
     },
     lessonVideos() {
-      var _this$currentLesson8;
-      const videos = ((_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.videos) || [];
+      var _this$currentLesson9;
+      const videos = ((_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.videos) || [];
       return videos.slice(0, 4);
     },
     focusHighlights() {
@@ -486,8 +495,8 @@ const celebrateFinalChapter = () => {
       this.mobileNavOpen = false;
     },
     toggleFaq(index) {
-      var _this$currentLesson9;
-      const chapterKey = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
+      var _this$currentLesson0;
+      const chapterKey = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
       if (!chapterKey) return;
       const current = this.faqState[chapterKey];
       const next = current === index ? null : index;
@@ -496,8 +505,8 @@ const celebrateFinalChapter = () => {
       });
     },
     isFaqOpen(index) {
-      var _this$currentLesson0;
-      const chapterKey = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
+      var _this$currentLesson1;
+      const chapterKey = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
       return this.faqState[chapterKey] === index;
     },
     toggleAccordion(section, index) {
@@ -885,13 +894,13 @@ const celebrateFinalChapter = () => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson1;
-      const message = `Duas to carry from ${((_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson10;
+      const message = `Duas to carry from ${((_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson10;
-      const text = `Duas to carry from ${((_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson11;
+      const text = `Duas to carry from ${((_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -1723,7 +1732,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])]);
   }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "d-block mb-1"
-  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentLesson6 = _ctx.currentLesson) === null || _ctx$currentLesson6 === void 0 ? void 0 : _ctx$currentLesson6.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), _ctx.focusHighlights.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.focusHighlights, highlight => {
+  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson6 = _ctx.currentLesson) === null || _ctx$currentLesson6 === void 0 ? void 0 : _ctx$currentLesson6.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), _ctx.focusHighlights.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.focusHighlights, highlight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: highlight.label,
       class: "col-12 col-md-4"
@@ -2204,6 +2213,16 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"Islamic Fou
 /***/ ((module) => {
 
 module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","cards":[{"step":"01","title":"Anchor Tawheed","description":"Revisit the testimony of faith and map how it touches your decisions today.","action":"Note one area where sincerity must replace habit."},{"step":"02","title":"Circle with Reminders","description":"Schedule a Shahada reminder and a short dua that mentions Allah\'s oneness.","action":"Set a gentle alarm or card to repeat the phrase during the day."},{"step":"03","title":"Share the Foundation","description":"Tell someone a short insight from the chapter and listen to their take.","action":"Record one takeaway to revisit before bed."}]},{"chapterId":2,"title":"Islamic beliefs","cards":[{"step":"01","title":"Map the Articles","description":"Write down the six beliefs and share how each influences your trust in Allah.","action":"Tag one article as the focus for tomorrow\'s dua."},{"step":"02","title":"Practice the Unseen","description":"Speak aloud about how angels or decree helped you this week.","action":"Share the reflection with someone who can keep you accountable."},{"step":"03","title":"Teach the Pillar","description":"Explain the beliefs to a friend or family member and field questions.","action":"Jot your notes and keep them handy for future doubts."}]},{"chapterId":3,"title":"Islamic pillars","cards":[{"step":"01","title":"Live the Pillars","description":"Pick one pillar (prayer, zakat, fasting) to honor and monitor it daily.","action":"Check your compliance and ask Allah for consistency."},{"step":"02","title":"Document the Rhythm","description":"Track each pillar in a simple habit log for three days.","action":"Share the log with a mentor for encouragement."},{"step":"03","title":"Renew Intention","description":"Refresh your niyyah before each act of worship and charity.","action":"Repeat a short dua that acknowledges Allah\'s help."}]},{"chapterId":4,"title":"Islamic quran","cards":[{"step":"01","title":"Slow the Recitation","description":"Read an ayah with translation and write a one-sentence reflection.","action":"Circulate the reflection to someone via voice note or message."},{"step":"02","title":"Explore the Tafsir","description":"Watch or read commentary on the chapter\'s verses.","action":"Note one new lesson and plan to act on it."},{"step":"03","title":"Apply the Message","description":"Perform an action inspired by the Quran verse you studied.","action":"Journal how you felt and what you learned."}]},{"chapterId":5,"title":"Islamic prophet","cards":[{"step":"01","title":"Study His Story","description":"Focus on one Prophet event and extract its moral.","action":"Record your takeaway and imagine living it this week."},{"step":"02","title":"Send Blessings","description":"Recite salawat while picturing the Prophet\'s mercy.","action":"Share why he inspires you with a friend."},{"step":"03","title":"Mirror the Manners","description":"Respond to a tense moment with gentleness and humility.","action":"Reflect on the outcome and thank Allah."}]},{"chapterId":6,"title":"Islamic prayers","cards":[{"step":"01","title":"Structure Salah","description":"Prepare each prayer with intention and awareness.","action":"Describe one distracting thought and replace it with a purpose."},{"step":"02","title":"Slow the Quran in Prayer","description":"Understand a verse you recite and speak it softly.","action":"Write a summary to use again tomorrow."},{"step":"03","title":"Link Sunnah","description":"Add a Sunnah prayer or dua to your routine.","action":"Share the change with a partner and support one another."}]},{"chapterId":7,"title":"Islamic manners","cards":[{"step":"01","title":"Practice Adab","description":"Deliver kind words to someone you usually rush past.","action":"Note how it felt."},{"step":"02","title":"Guard the Tongue","description":"Avoid gossip for a day and fill the space with praise.","action":"Pray for patience and dignity."},{"step":"03","title":"Model Mercy","description":"Actively forgive and let go of a minor annoyance.","action":"Document how it softened your heart."}]},{"chapterId":8,"title":"Islamic lifestyle","cards":[{"step":"01","title":"Design Halal Habits","description":"Audit a routine (food, spending, rest) for halal alignment.","action":"Replace one element with an intentional choice."},{"step":"02","title":"Create Calm Time","description":"Schedule a reflective pause with dhikr midweek.","action":"Share the routine to keep yourself accountable."},{"step":"03","title":"Give Back","description":"Help someone with time or resources aligned with Islamic generosity.","action":"Pray for Allah to accept the kindness."}]},{"chapterId":9,"title":"Islamic community","cards":[{"step":"01","title":"Welcome the Ummah","description":"Connect with someone new or isolated online/offline.","action":"Offer a sincere greeting or helpful link."},{"step":"02","title":"Support Others","description":"Join a study circle or share resources with volunteers.","action":"Pray for your brother/sister and note the unity."},{"step":"03","title":"Resolve Conflict","description":"Monitor your speech during a disagreement to stay calm.","action":"Seek reconciliation if tension lingers."}]},{"chapterId":10,"title":"Islamic future","cards":[{"step":"01","title":"Sharpen Goals","description":"Define a spiritual milestone for the next month.","action":"Pair it with a dua and write it down."},{"step":"02","title":"Review Steps","description":"Schedule a weekly reflection on progress and adjustments.","action":"Share insight or challenge with an accountability partner."},{"step":"03","title":"Lift Others","description":"Encourage someone pursuing growth and pray together.","action":"Record their dua request and commit to revisiting it."}]},{"chapterId":11,"title":"Islamic hereafter","cards":[{"step":"01","title":"Grave Reminder","description":"Write a list of priorities shaped by the Hereafter.","action":"Attach a dua for mercy in Barzakh."},{"step":"02","title":"Balance Hope","description":"Read a warning from the chapter and reply with hope-filled dua.","action":"Share the contrast with a friend to rekindle optimism."},{"step":"03","title":"Sadaqah That Stays","description":"Give charity with a long-term intention.","action":"Plan one charity that continues after you pass away."}]},{"chapterId":12,"title":"Islamic paradise and hell","cards":[{"step":"01","title":"Visualize Paradise","description":"Imagine a Quranic description and thank Allah for it.","action":"Write how it felt and recite the verse daily."},{"step":"02","title":"Heed the Warnings","description":"Meditate on Hell\'s cautionary verses and note actions to avoid.","action":"Ask someone to remind you when temptation returns."},{"step":"03","title":"Supplication & Protection","description":"Make duas for Paradise and refuge from Hell every night.","action":"Share the theme with family to keep hope alive."}]},{"chapterId":13,"title":"Islamic dua dhkir","cards":[{"step":"01","title":"Speak to Allah","description":"Write a dua ranking your needs and praises.","action":"Speak it aloud while picturing Allah listening."},{"step":"02","title":"Embed Dhikr","description":"Attach short dhikr phrases to daily movements.","action":"Track which phrases calm you most."},{"step":"03","title":"Lift Others","description":"Pray for someone close and mention them by name.","action":"Ask them later how they felt."}]},{"chapterId":14,"title":"Islamic family and marriage","cards":[{"step":"01","title":"Family Circle","description":"Host a mini session with dua, gratitude, and sharing.","action":"Document one lesson to keep repeating."},{"step":"02","title":"Mercy & Justice","description":"Acts of kindness and clear boundaries keep harmony.","action":"Plan a simple mercy act for a relative."},{"step":"03","title":"Teach by Example","description":"Model manners instead of just instructing.","action":"Share a story that inspired your behaviour."}]},{"chapterId":15,"title":"Islamic heart","cards":[{"step":"01","title":"Purify the Heart","description":"End the day with muhasabah and dua.","action":"List a flaw to correct tomorrow."},{"step":"02","title":"Stay Soft","description":"Practice dhikr or charity to soften reactions.","action":"Write the emotion you replaced and thank Allah."},{"step":"03","title":"Focus on Trust","description":"Lean on Allah\'s decree when anxiety arises.","action":"Signal a reminder (note or dua) to keep returning to reliance."}]}]');
+
+/***/ }),
+
+/***/ "./resources/js/components/data/chapterToneFocus.json":
+/*!************************************************************!*\
+  !*** ./resources/js/components/data/chapterToneFocus.json ***!
+  \************************************************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","toneFocus":"Gentle reminder: reconnect every deed to the testimony of Tawheed and thank yourself for every small sincere stretch. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":2,"title":"Islamic beliefs","toneFocus":"Softly reaffirm belief by noting how unseen realities quietly guide kindness; no need to judge, just observe. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":3,"title":"Islamic pillars","toneFocus":"Describe the pillars as steady companions—they keep you grounded without demanding perfection. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":4,"title":"Islamic quran","toneFocus":"Encourage curiosity about the Qur’an by inviting slow reading, reflective pauses, and compassionate self-questioning. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":5,"title":"Islamic prophet","toneFocus":"Share the Prophet’s mercy through storytelling; highlight human softness rather than ideal standards. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":6,"title":"Islamic prayers","toneFocus":"Treat prayer as a calming rhythm; focus on presence over performance and celebrate every moment you return to Allah. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":7,"title":"Islamic manners","toneFocus":"Model kindness first when speaking about manners, acknowledging that everyone slips and starts again with a humble heart. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":8,"title":"Islamic lifestyle","toneFocus":"Position lifestyle shifts as gentle experiments; invite calm breaks and gratitude rather than pressure. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":9,"title":"Islamic community","toneFocus":"Frame community as collective care; encourage reaching out with open palms and expect gradual trust-building. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":10,"title":"Islamic future","toneFocus":"Speak about future planning as hopeful exploration—each small goal is a duet with hope and dua. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":11,"title":"Islamic hereafter","toneFocus":"Balance reminders of the Hereafter with Allah’s mercy; encourage reflection through soft questions instead of fear. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":12,"title":"Islamic paradise and hell","toneFocus":"Paint Paradise with inviting hope and describe Hell as a distant warning that simply redirects your compassion. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":13,"title":"Islamic dua dhkir","toneFocus":"Show dua as an ongoing conversation; celebrate even tiny whispers of remembrance and raw honesty. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":14,"title":"Islamic family and marriage","toneFocus":"Describe family work as a shared, compassionate journey—small acts of mercy matter more than flawless systems. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":15,"title":"Islamic heart","toneFocus":"Talk about the heart like soft soil—gentle care, regular self-accounting, and hope bring new blossoms. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."}]');
 
 /***/ }),
 

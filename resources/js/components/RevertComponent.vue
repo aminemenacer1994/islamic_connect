@@ -227,7 +227,7 @@
             <div>
               <strong class="d-block mb-1">Focus of this lesson</strong>
               <p class="mb-0 text-muted medium">
-                {{ currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
+                {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
               </p>
             </div>
           </div>
@@ -794,6 +794,7 @@ import chapterDosDonts from './data/chapterDosDonts.json'
 import chapterKeyInsights from './data/keyInsights.json'
 import chapterGuidance from './data/chapterGuidance.json'
 import chapterToneGuidelines from './data/chapterToneGuidelines.json'
+import chapterToneFocus from './data/chapterToneFocus.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -903,6 +904,7 @@ export default defineComponent({
       chapterKeyInsights: normalizeJson(chapterKeyInsights),
       guidanceTemplates: normalizeJson(chapterGuidance),
       toneGuidelinesByChapter: normalizeJson(chapterToneGuidelines),
+      toneFocusEntries: normalizeJson(chapterToneFocus),
       homework: normalizeJson(homeworkData),
       lessonMap: {},
       missionMap: {},
@@ -1061,6 +1063,11 @@ export default defineComponent({
         'Keeping language simple and non-technical',
         'Avoiding judgment or cultural generalizations'
       ]
+    },
+    currentToneFocusText() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId)
+      return entry?.toneFocus || ''
     },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' :
