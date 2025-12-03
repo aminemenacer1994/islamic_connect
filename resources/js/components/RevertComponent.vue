@@ -792,6 +792,8 @@ import missionsData from './data/missions.json'
 import onboardingData from './data/onboarding.json'
 import chapterDosDonts from './data/chapterDosDonts.json'
 import chapterKeyInsights from './data/keyInsights.json'
+import chapterGuidance from './data/chapterGuidance.json'
+import chapterToneGuidelines from './data/chapterToneGuidelines.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -899,6 +901,8 @@ export default defineComponent({
       duas: normalizeJson(duasData),
       dosDontsChapters: normalizeJson(chapterDosDonts),
       chapterKeyInsights: normalizeJson(chapterKeyInsights),
+      guidanceTemplates: normalizeJson(chapterGuidance),
+      toneGuidelinesByChapter: normalizeJson(chapterToneGuidelines),
       homework: normalizeJson(homeworkData),
       lessonMap: {},
       missionMap: {},
@@ -1012,6 +1016,10 @@ export default defineComponent({
     }
     ,
     guidanceCards() {
+      const chapterId = this.currentLesson?.chapterId
+      const template = this.guidanceTemplates.find(entry => entry.chapterId === chapterId)
+      if (template && template.cards?.length) return template.cards
+
       const lesson = this.currentLesson
       if (!lesson) return []
       const cards = [
@@ -1042,6 +1050,11 @@ export default defineComponent({
     }
     ,
     toneGuidelines() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.toneGuidelinesByChapter.find(item => item.chapterId === chapterId)
+      if (entry?.guidelines?.length) {
+        return entry.guidelines
+      }
       return [
         'Welcoming every background without assumptions',
         'Encouraging progress, not perfection',

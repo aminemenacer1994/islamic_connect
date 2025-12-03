@@ -1,0 +1,362 @@
+[
+  {
+    "chapterId": 1,
+    "title": "Islamic foundation",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Anchor Tawheed",
+        "description": "Revisit the testimony of faith and map how it touches your decisions today.",
+        "action": "Note one area where sincerity must replace habit."
+      },
+      {
+        "step": "02",
+        "title": "Circle with Reminders",
+        "description": "Schedule a Shahada reminder and a short dua that mentions Allah's oneness.",
+        "action": "Set a gentle alarm or card to repeat the phrase during the day."
+      },
+      {
+        "step": "03",
+        "title": "Share the Foundation",
+        "description": "Tell someone a short insight from the chapter and listen to their take.",
+        "action": "Record one takeaway to revisit before bed."
+      }
+    ]
+  },
+  {
+    "chapterId": 2,
+    "title": "Islamic beliefs",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Map the Articles",
+        "description": "Write down the six beliefs and share how each influences your trust in Allah.",
+        "action": "Tag one article as the focus for tomorrow's dua."
+      },
+      {
+        "step": "02",
+        "title": "Practice the Unseen",
+        "description": "Speak aloud about how angels or decree helped you this week.",
+        "action": "Share the reflection with someone who can keep you accountable."
+      },
+      {
+        "step": "03",
+        "title": "Teach the Pillar",
+        "description": "Explain the beliefs to a friend or family member and field questions.",
+        "action": "Jot your notes and keep them handy for future doubts."
+      }
+    ]
+  },
+  {
+    "chapterId": 3,
+    "title": "Islamic pillars",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Live the Pillars",
+        "description": "Pick one pillar (prayer, zakat, fasting) to honor and monitor it daily.",
+        "action": "Check your compliance and ask Allah for consistency."
+      },
+      {
+        "step": "02",
+        "title": "Document the Rhythm",
+        "description": "Track each pillar in a simple habit log for three days.",
+        "action": "Share the log with a mentor for encouragement."
+      },
+      {
+        "step": "03",
+        "title": "Renew Intention",
+        "description": "Refresh your niyyah before each act of worship and charity.",
+        "action": "Repeat a short dua that acknowledges Allah's help."
+      }
+    ]
+  },
+  {
+    "chapterId": 4,
+    "title": "Islamic quran",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Slow the Recitation",
+        "description": "Read an ayah with translation and write a one-sentence reflection.",
+        "action": "Circulate the reflection to someone via voice note or message."
+      },
+      {
+        "step": "02",
+        "title": "Explore the Tafsir",
+        "description": "Watch or read commentary on the chapter's verses.",
+        "action": "Note one new lesson and plan to act on it."
+      },
+      {
+        "step": "03",
+        "title": "Apply the Message",
+        "description": "Perform an action inspired by the Quran verse you studied.",
+        "action": "Journal how you felt and what you learned."
+      }
+    ]
+  },
+  {
+    "chapterId": 5,
+    "title": "Islamic prophet",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Study His Story",
+        "description": "Focus on one Prophet event and extract its moral.",
+        "action": "Record your takeaway and imagine living it this week."
+      },
+      {
+        "step": "02",
+        "title": "Send Blessings",
+        "description": "Recite salawat while picturing the Prophet's mercy.",
+        "action": "Share why he inspires you with a friend."
+      },
+      {
+        "step": "03",
+        "title": "Mirror the Manners",
+        "description": "Respond to a tense moment with gentleness and humility.",
+        "action": "Reflect on the outcome and thank Allah."
+      }
+    ]
+  },
+  {
+    "chapterId": 6,
+    "title": "Islamic prayers",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Structure Salah",
+        "description": "Prepare each prayer with intention and awareness.",
+        "action": "Describe one distracting thought and replace it with a purpose."
+      },
+      {
+        "step": "02",
+        "title": "Slow the Quran in Prayer",
+        "description": "Understand a verse you recite and speak it softly.",
+        "action": "Write a summary to use again tomorrow."
+      },
+      {
+        "step": "03",
+        "title": "Link Sunnah",
+        "description": "Add a Sunnah prayer or dua to your routine.",
+        "action": "Share the change with a partner and support one another."
+      }
+    ]
+  },
+  {
+    "chapterId": 7,
+    "title": "Islamic manners",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Practice Adab",
+        "description": "Deliver kind words to someone you usually rush past.",
+        "action": "Note how it felt."
+      },
+      {
+        "step": "02",
+        "title": "Guard the Tongue",
+        "description": "Avoid gossip for a day and fill the space with praise.",
+        "action": "Pray for patience and dignity."
+      },
+      {
+        "step": "03",
+        "title": "Model Mercy",
+        "description": "Actively forgive and let go of a minor annoyance.",
+        "action": "Document how it softened your heart."
+      }
+    ]
+  },
+  {
+    "chapterId": 8,
+    "title": "Islamic lifestyle",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Design Halal Habits",
+        "description": "Audit a routine (food, spending, rest) for halal alignment.",
+        "action": "Replace one element with an intentional choice."
+      },
+      {
+        "step": "02",
+        "title": "Create Calm Time",
+        "description": "Schedule a reflective pause with dhikr midweek.",
+        "action": "Share the routine to keep yourself accountable."
+      },
+      {
+        "step": "03",
+        "title": "Give Back",
+        "description": "Help someone with time or resources aligned with Islamic generosity.",
+        "action": "Pray for Allah to accept the kindness."
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "title": "Islamic community",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Welcome the Ummah",
+        "description": "Connect with someone new or isolated online/offline.",
+        "action": "Offer a sincere greeting or helpful link."
+      },
+      {
+        "step": "02",
+        "title": "Support Others",
+        "description": "Join a study circle or share resources with volunteers.",
+        "action": "Pray for your brother/sister and note the unity."
+      },
+      {
+        "step": "03",
+        "title": "Resolve Conflict",
+        "description": "Monitor your speech during a disagreement to stay calm.",
+        "action": "Seek reconciliation if tension lingers."
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "title": "Islamic future",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Sharpen Goals",
+        "description": "Define a spiritual milestone for the next month.",
+        "action": "Pair it with a dua and write it down."
+      },
+      {
+        "step": "02",
+        "title": "Review Steps",
+        "description": "Schedule a weekly reflection on progress and adjustments.",
+        "action": "Share insight or challenge with an accountability partner."
+      },
+      {
+        "step": "03",
+        "title": "Lift Others",
+        "description": "Encourage someone pursuing growth and pray together.",
+        "action": "Record their dua request and commit to revisiting it."
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
+    "title": "Islamic hereafter",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Grave Reminder",
+        "description": "Write a list of priorities shaped by the Hereafter.",
+        "action": "Attach a dua for mercy in Barzakh."
+      },
+      {
+        "step": "02",
+        "title": "Balance Hope",
+        "description": "Read a warning from the chapter and reply with hope-filled dua.",
+        "action": "Share the contrast with a friend to rekindle optimism."
+      },
+      {
+        "step": "03",
+        "title": "Sadaqah That Stays",
+        "description": "Give charity with a long-term intention.",
+        "action": "Plan one charity that continues after you pass away."
+      }
+    ]
+  },
+  {
+    "chapterId": 12,
+    "title": "Islamic paradise and hell",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Visualize Paradise",
+        "description": "Imagine a Quranic description and thank Allah for it.",
+        "action": "Write how it felt and recite the verse daily."
+      },
+      {
+        "step": "02",
+        "title": "Heed the Warnings",
+        "description": "Meditate on Hell's cautionary verses and note actions to avoid.",
+        "action": "Ask someone to remind you when temptation returns."
+      },
+      {
+        "step": "03",
+        "title": "Supplication & Protection",
+        "description": "Make duas for Paradise and refuge from Hell every night.",
+        "action": "Share the theme with family to keep hope alive."
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "title": "Islamic dua dhkir",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Speak to Allah",
+        "description": "Write a dua ranking your needs and praises.",
+        "action": "Speak it aloud while picturing Allah listening."
+      },
+      {
+        "step": "02",
+        "title": "Embed Dhikr",
+        "description": "Attach short dhikr phrases to daily movements.",
+        "action": "Track which phrases calm you most."
+      },
+      {
+        "step": "03",
+        "title": "Lift Others",
+        "description": "Pray for someone close and mention them by name.",
+        "action": "Ask them later how they felt."
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "title": "Islamic family and marriage",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Family Circle",
+        "description": "Host a mini session with dua, gratitude, and sharing.",
+        "action": "Document one lesson to keep repeating."
+      },
+      {
+        "step": "02",
+        "title": "Mercy & Justice",
+        "description": "Acts of kindness and clear boundaries keep harmony.",
+        "action": "Plan a simple mercy act for a relative."
+      },
+      {
+        "step": "03",
+        "title": "Teach by Example",
+        "description": "Model manners instead of just instructing.",
+        "action": "Share a story that inspired your behaviour."
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "title": "Islamic heart",
+    "cards": [
+      {
+        "step": "01",
+        "title": "Purify the Heart",
+        "description": "End the day with muhasabah and dua.",
+        "action": "List a flaw to correct tomorrow."
+      },
+      {
+        "step": "02",
+        "title": "Stay Soft",
+        "description": "Practice dhikr or charity to soften reactions.",
+        "action": "Write the emotion you replaced and thank Allah."
+      },
+      {
+        "step": "03",
+        "title": "Focus on Trust",
+        "description": "Lean on Allah's decree when anxiety arises.",
+        "action": "Signal a reminder (note or dua) to keep returning to reliance."
+      }
+    ]
+  }
+]

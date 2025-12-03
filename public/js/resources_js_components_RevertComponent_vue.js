@@ -24,11 +24,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_onboarding_json__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./data/onboarding.json */ "./resources/js/components/data/onboarding.json");
 /* harmony import */ var _data_chapterDosDonts_json__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./data/chapterDosDonts.json */ "./resources/js/components/data/chapterDosDonts.json");
 /* harmony import */ var _data_keyInsights_json__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./data/keyInsights.json */ "./resources/js/components/data/keyInsights.json");
+/* harmony import */ var _data_chapterGuidance_json__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./data/chapterGuidance.json */ "./resources/js/components/data/chapterGuidance.json");
+/* harmony import */ var _data_chapterToneGuidelines_json__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./data/chapterToneGuidelines.json */ "./resources/js/components/data/chapterToneGuidelines.json");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
+
 
 
 
@@ -150,6 +154,8 @@ const celebrateFinalChapter = () => {
       duas: normalizeJson(_data_duas_json__WEBPACK_IMPORTED_MODULE_7__),
       dosDontsChapters: normalizeJson(_data_chapterDosDonts_json__WEBPACK_IMPORTED_MODULE_11__),
       chapterKeyInsights: normalizeJson(_data_keyInsights_json__WEBPACK_IMPORTED_MODULE_12__),
+      guidanceTemplates: normalizeJson(_data_chapterGuidance_json__WEBPACK_IMPORTED_MODULE_13__),
+      toneGuidelinesByChapter: normalizeJson(_data_chapterToneGuidelines_json__WEBPACK_IMPORTED_MODULE_14__),
       homework: normalizeJson(_data_homework_json__WEBPACK_IMPORTED_MODULE_8__),
       lessonMap: {},
       missionMap: {},
@@ -266,7 +272,10 @@ const celebrateFinalChapter = () => {
       return this.homeworkMap[this.selectedPill] || [];
     },
     guidanceCards() {
-      var _lesson$sections, _lesson$keyInsights, _lesson$keyInsights2;
+      var _this$currentLesson4, _template$cards, _lesson$sections, _lesson$keyInsights, _lesson$keyInsights2;
+      const chapterId = (_this$currentLesson4 = this.currentLesson) === null || _this$currentLesson4 === void 0 ? void 0 : _this$currentLesson4.chapterId;
+      const template = this.guidanceTemplates.find(entry => entry.chapterId === chapterId);
+      if (template && (_template$cards = template.cards) !== null && _template$cards !== void 0 && _template$cards.length) return template.cards;
       const lesson = this.currentLesson;
       if (!lesson) return [];
       const cards = [{
@@ -292,6 +301,12 @@ const celebrateFinalChapter = () => {
       return cards;
     },
     toneGuidelines() {
+      var _this$currentLesson5, _entry$guidelines;
+      const chapterId = (_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.chapterId;
+      const entry = this.toneGuidelinesByChapter.find(item => item.chapterId === chapterId);
+      if (entry !== null && entry !== void 0 && (_entry$guidelines = entry.guidelines) !== null && _entry$guidelines !== void 0 && _entry$guidelines.length) {
+        return entry.guidelines;
+      }
       return ['Welcoming every background without assumptions', 'Encouraging progress, not perfection', 'Keeping language simple and non-technical', 'Avoiding judgment or cultural generalizations'];
     },
     alertClass() {
@@ -317,8 +332,8 @@ const celebrateFinalChapter = () => {
       return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`;
     },
     lessonDepartments() {
-      var _this$currentLesson4;
-      const sections = ((_this$currentLesson4 = this.currentLesson) === null || _this$currentLesson4 === void 0 ? void 0 : _this$currentLesson4.sections) || [];
+      var _this$currentLesson6;
+      const sections = ((_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.sections) || [];
       if (!sections.length) return [];
       const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up'];
       return sections.slice(0, 3).map((section, index) => {
@@ -332,13 +347,13 @@ const celebrateFinalChapter = () => {
       });
     },
     currentDosDonts() {
-      var _this$currentLesson5;
-      const chapterId = (_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.chapterId;
+      var _this$currentLesson7;
+      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
       return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null;
     },
     lessonVideos() {
-      var _this$currentLesson6;
-      const videos = ((_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.videos) || [];
+      var _this$currentLesson8;
+      const videos = ((_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.videos) || [];
       return videos.slice(0, 4);
     },
     focusHighlights() {
@@ -471,8 +486,8 @@ const celebrateFinalChapter = () => {
       this.mobileNavOpen = false;
     },
     toggleFaq(index) {
-      var _this$currentLesson7;
-      const chapterKey = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
+      var _this$currentLesson9;
+      const chapterKey = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
       if (!chapterKey) return;
       const current = this.faqState[chapterKey];
       const next = current === index ? null : index;
@@ -481,8 +496,8 @@ const celebrateFinalChapter = () => {
       });
     },
     isFaqOpen(index) {
-      var _this$currentLesson8;
-      const chapterKey = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
+      var _this$currentLesson0;
+      const chapterKey = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
       return this.faqState[chapterKey] === index;
     },
     toggleAccordion(section, index) {
@@ -870,13 +885,13 @@ const celebrateFinalChapter = () => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson9;
-      const message = `Duas to carry from ${((_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson1;
+      const message = `Duas to carry from ${((_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson0;
-      const text = `Duas to carry from ${((_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson10;
+      const text = `Duas to carry from ${((_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -2182,6 +2197,26 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"Islamic Fou
 
 /***/ }),
 
+/***/ "./resources/js/components/data/chapterGuidance.json":
+/*!***********************************************************!*\
+  !*** ./resources/js/components/data/chapterGuidance.json ***!
+  \***********************************************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","cards":[{"step":"01","title":"Anchor Tawheed","description":"Revisit the testimony of faith and map how it touches your decisions today.","action":"Note one area where sincerity must replace habit."},{"step":"02","title":"Circle with Reminders","description":"Schedule a Shahada reminder and a short dua that mentions Allah\'s oneness.","action":"Set a gentle alarm or card to repeat the phrase during the day."},{"step":"03","title":"Share the Foundation","description":"Tell someone a short insight from the chapter and listen to their take.","action":"Record one takeaway to revisit before bed."}]},{"chapterId":2,"title":"Islamic beliefs","cards":[{"step":"01","title":"Map the Articles","description":"Write down the six beliefs and share how each influences your trust in Allah.","action":"Tag one article as the focus for tomorrow\'s dua."},{"step":"02","title":"Practice the Unseen","description":"Speak aloud about how angels or decree helped you this week.","action":"Share the reflection with someone who can keep you accountable."},{"step":"03","title":"Teach the Pillar","description":"Explain the beliefs to a friend or family member and field questions.","action":"Jot your notes and keep them handy for future doubts."}]},{"chapterId":3,"title":"Islamic pillars","cards":[{"step":"01","title":"Live the Pillars","description":"Pick one pillar (prayer, zakat, fasting) to honor and monitor it daily.","action":"Check your compliance and ask Allah for consistency."},{"step":"02","title":"Document the Rhythm","description":"Track each pillar in a simple habit log for three days.","action":"Share the log with a mentor for encouragement."},{"step":"03","title":"Renew Intention","description":"Refresh your niyyah before each act of worship and charity.","action":"Repeat a short dua that acknowledges Allah\'s help."}]},{"chapterId":4,"title":"Islamic quran","cards":[{"step":"01","title":"Slow the Recitation","description":"Read an ayah with translation and write a one-sentence reflection.","action":"Circulate the reflection to someone via voice note or message."},{"step":"02","title":"Explore the Tafsir","description":"Watch or read commentary on the chapter\'s verses.","action":"Note one new lesson and plan to act on it."},{"step":"03","title":"Apply the Message","description":"Perform an action inspired by the Quran verse you studied.","action":"Journal how you felt and what you learned."}]},{"chapterId":5,"title":"Islamic prophet","cards":[{"step":"01","title":"Study His Story","description":"Focus on one Prophet event and extract its moral.","action":"Record your takeaway and imagine living it this week."},{"step":"02","title":"Send Blessings","description":"Recite salawat while picturing the Prophet\'s mercy.","action":"Share why he inspires you with a friend."},{"step":"03","title":"Mirror the Manners","description":"Respond to a tense moment with gentleness and humility.","action":"Reflect on the outcome and thank Allah."}]},{"chapterId":6,"title":"Islamic prayers","cards":[{"step":"01","title":"Structure Salah","description":"Prepare each prayer with intention and awareness.","action":"Describe one distracting thought and replace it with a purpose."},{"step":"02","title":"Slow the Quran in Prayer","description":"Understand a verse you recite and speak it softly.","action":"Write a summary to use again tomorrow."},{"step":"03","title":"Link Sunnah","description":"Add a Sunnah prayer or dua to your routine.","action":"Share the change with a partner and support one another."}]},{"chapterId":7,"title":"Islamic manners","cards":[{"step":"01","title":"Practice Adab","description":"Deliver kind words to someone you usually rush past.","action":"Note how it felt."},{"step":"02","title":"Guard the Tongue","description":"Avoid gossip for a day and fill the space with praise.","action":"Pray for patience and dignity."},{"step":"03","title":"Model Mercy","description":"Actively forgive and let go of a minor annoyance.","action":"Document how it softened your heart."}]},{"chapterId":8,"title":"Islamic lifestyle","cards":[{"step":"01","title":"Design Halal Habits","description":"Audit a routine (food, spending, rest) for halal alignment.","action":"Replace one element with an intentional choice."},{"step":"02","title":"Create Calm Time","description":"Schedule a reflective pause with dhikr midweek.","action":"Share the routine to keep yourself accountable."},{"step":"03","title":"Give Back","description":"Help someone with time or resources aligned with Islamic generosity.","action":"Pray for Allah to accept the kindness."}]},{"chapterId":9,"title":"Islamic community","cards":[{"step":"01","title":"Welcome the Ummah","description":"Connect with someone new or isolated online/offline.","action":"Offer a sincere greeting or helpful link."},{"step":"02","title":"Support Others","description":"Join a study circle or share resources with volunteers.","action":"Pray for your brother/sister and note the unity."},{"step":"03","title":"Resolve Conflict","description":"Monitor your speech during a disagreement to stay calm.","action":"Seek reconciliation if tension lingers."}]},{"chapterId":10,"title":"Islamic future","cards":[{"step":"01","title":"Sharpen Goals","description":"Define a spiritual milestone for the next month.","action":"Pair it with a dua and write it down."},{"step":"02","title":"Review Steps","description":"Schedule a weekly reflection on progress and adjustments.","action":"Share insight or challenge with an accountability partner."},{"step":"03","title":"Lift Others","description":"Encourage someone pursuing growth and pray together.","action":"Record their dua request and commit to revisiting it."}]},{"chapterId":11,"title":"Islamic hereafter","cards":[{"step":"01","title":"Grave Reminder","description":"Write a list of priorities shaped by the Hereafter.","action":"Attach a dua for mercy in Barzakh."},{"step":"02","title":"Balance Hope","description":"Read a warning from the chapter and reply with hope-filled dua.","action":"Share the contrast with a friend to rekindle optimism."},{"step":"03","title":"Sadaqah That Stays","description":"Give charity with a long-term intention.","action":"Plan one charity that continues after you pass away."}]},{"chapterId":12,"title":"Islamic paradise and hell","cards":[{"step":"01","title":"Visualize Paradise","description":"Imagine a Quranic description and thank Allah for it.","action":"Write how it felt and recite the verse daily."},{"step":"02","title":"Heed the Warnings","description":"Meditate on Hell\'s cautionary verses and note actions to avoid.","action":"Ask someone to remind you when temptation returns."},{"step":"03","title":"Supplication & Protection","description":"Make duas for Paradise and refuge from Hell every night.","action":"Share the theme with family to keep hope alive."}]},{"chapterId":13,"title":"Islamic dua dhkir","cards":[{"step":"01","title":"Speak to Allah","description":"Write a dua ranking your needs and praises.","action":"Speak it aloud while picturing Allah listening."},{"step":"02","title":"Embed Dhikr","description":"Attach short dhikr phrases to daily movements.","action":"Track which phrases calm you most."},{"step":"03","title":"Lift Others","description":"Pray for someone close and mention them by name.","action":"Ask them later how they felt."}]},{"chapterId":14,"title":"Islamic family and marriage","cards":[{"step":"01","title":"Family Circle","description":"Host a mini session with dua, gratitude, and sharing.","action":"Document one lesson to keep repeating."},{"step":"02","title":"Mercy & Justice","description":"Acts of kindness and clear boundaries keep harmony.","action":"Plan a simple mercy act for a relative."},{"step":"03","title":"Teach by Example","description":"Model manners instead of just instructing.","action":"Share a story that inspired your behaviour."}]},{"chapterId":15,"title":"Islamic heart","cards":[{"step":"01","title":"Purify the Heart","description":"End the day with muhasabah and dua.","action":"List a flaw to correct tomorrow."},{"step":"02","title":"Stay Soft","description":"Practice dhikr or charity to soften reactions.","action":"Write the emotion you replaced and thank Allah."},{"step":"03","title":"Focus on Trust","description":"Lean on Allah\'s decree when anxiety arises.","action":"Signal a reminder (note or dua) to keep returning to reliance."}]}]');
+
+/***/ }),
+
+/***/ "./resources/js/components/data/chapterToneGuidelines.json":
+/*!*****************************************************************!*\
+  !*** ./resources/js/components/data/chapterToneGuidelines.json ***!
+  \*****************************************************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","guidelines":["Talk about Tawheed like a journey that welcomes every question.","Focus on understanding rather than labeling someone\'s progress.","Point to gentle reminders and small acts of sincerity."]},{"chapterId":2,"title":"Islamic beliefs","guidelines":["Describe belief as a living reality, not just doctrine to memorize.","Center conversations on curiosity and humility.","Invite readers to share their doubts safely."]},{"chapterId":3,"title":"Islamic pillars","guidelines":["Let pillars feel like steady rhythm, not rigid tests.","Emphasize momentum over perfection when habits wobble.","Balance accountability with encouragement."]},{"chapterId":4,"title":"Islamic quran","guidelines":["Encourage slow, reflective reading rather than pressured mastery.","Celebrate each verse understood, even if the pace is gentle.","Use everyday language when explaining tajweed or tafsir."]},{"chapterId":5,"title":"Islamic prophet","guidelines":["Highlight mercy and patience from the Prophet\'s life.","Speak to the reader as a companion, not a sermon target.","Invite imitation through small gestures of kindness."]},{"chapterId":6,"title":"Islamic prayers","guidelines":["Frame salah as a lifeline, not a performance grade.","Acknowledge distractions with compassion.","Suggest tiny adjustments that rebuild focus."]},{"chapterId":7,"title":"Islamic manners","guidelines":["Use tone that models adab rather than demanding it.","Call attention to wins in patience instead of pointing out slips.","Appreciate the effort behind gentler speech."]},{"chapterId":8,"title":"Islamic lifestyle","guidelines":["Describe lifestyle shifts as experiments with love for halal living.","Encourage readers to swap one habit lightly instead of overhauling all.","Stay inclusive about rest, play, and self-care."]},{"chapterId":9,"title":"Islamic community","guidelines":["Talk about community through shared care, not competition.","Invite people to try a small act of service without guilt.","Offer questions that spark connection."]},{"chapterId":10,"title":"Islamic future","guidelines":["Use tone that sees future planning as hopeful exploration.","Avoid pressuring readers with unrealistic timelines.","Affirm that consistent tiny goals outpace big leaps."]},{"chapterId":11,"title":"Islamic hereafter","guidelines":["Balance reminders of judgment with Allah\'s mercy in every sentence.","Encourage reflection by asking gentle questions.","Share hope that accountability can be full of tawakkul."]},{"chapterId":12,"title":"Islamic paradise and hell","guidelines":["Highlight paradise with inspiring imagery, not intimidation.","Talk about Hell as a nudge toward kindness, not a threat.","Invite readers to pray for refuge while staying upbeat."]},{"chapterId":13,"title":"Islamic dua dhkir","guidelines":["Let dua discussions feel like warm conversations with Allah.","Celebrate even the shortest remembrance.","Open the door for honest emotions without judgment."]},{"chapterId":14,"title":"Islamic family and marriage","guidelines":["Describe family work as compassionate partnership.","Invite small acts of mercy over perfection in relationships.","Offer gentle wording that keeps dialogue calm."]},{"chapterId":15,"title":"Islamic heart","guidelines":["Position heart work as soft recovery, not harsh correction.","Celebrate humility in the wake of slip-ups.","Encourage gentle self-accounting and return to hope."]}]');
+
+/***/ }),
+
 /***/ "./resources/js/components/data/commonQuestions.json":
 /*!***********************************************************!*\
   !*** ./resources/js/components/data/commonQuestions.json ***!
@@ -2218,7 +2253,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapter":"Islamic Foundation","faqs
   \****************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"homework":["Spend 10 minutes reflecting on what Tawheed means for your daily decisions.","Journal three moments when you were tempted to compromise and how Tawheed can anchor you.","Share one insight with a study partner or mentor and ask for their perspective.","Memorize one dua from today\'s lesson and repeat it before sleep."]},{"chapterId":2,"homework":["Recite the Shahada slowly 20 times, contemplating each word.","List five actions you can remove this week that distract from worship.","Listen to a trusted lecture about the Articles of Faith and summarize it.","Practice dua before every salah asking for increased iman."]},{"chapterId":3,"homework":["Track your five daily prayers for seven days in a notebook.","Teach a family member one pillar of prayer this week.","Focus on wudu etiquette before each prayer today.","Read about a sahabi known for prayer and note their discipline."]},{"chapterId":4,"homework":["Review the names of Allah mentioned in the chapter and pick three to memorize.","Write a short reflection on how revelation changes your perspective.","Recite one ayah from the Quran with translation each day.","Visit a recitation circle or watch a tafsir for deeper context."]},{"chapterId":5,"homework":["Pick a hadith about the Prophet ﷺ and journal what it teaches you.","Memorize the short biography of the Prophet from the lesson.","Share a story from the Prophet’s life with someone and ask for their take.","Set a reminder to read one paragraph from the Seerah every evening."]},{"chapterId":6,"homework":["Create a dua list for each prayer time and rotate through it daily.","Record today’s salah start to finish and note improvements.","Pair up with a friend to encourage consistency in prayer.","Compile five reminders that keep you mindful of Allah during the day."]},{"chapterId":7,"homework":["Serve someone in your community with a small act of kindness.","Reflect on gratitude and list three people you can thank this week.","Practice patience when you feel short-tempered and note triggers.","Practice forgiveness and write a dua asking for a soft heart."]},{"chapterId":8,"homework":["Audit your media: delete or limit one thing that pulls you away from focus.","Set a weekly halal goal (e.g., meal prep, call a relative, read).","Plan one intentional moment of silence to reconnect with Allah.","Choose a healthy habit for the body and soul (fasting, charity, etc.)."]},{"chapterId":9,"homework":["Attend a local community event or share a helpful resource.","Reach out to support someone who needs a listening ear.","Organize a short session to practice dua and reminders together.","Volunteer one hour for your neighborhood or mosque."]},{"chapterId":10,"homework":["Plan a personal growth tracker for the next 30 days.","Write a dua asking for consistent growth and review it nightly.","Choose one area (worship, character, knowledge) and set micro-goals.","Reflect on progress each Friday and note lessons learned."]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"homework":["Spend 10 minutes reflecting on what Tawheed means for your daily decisions.","Journal three moments when you were tempted to compromise and how Tawheed can anchor you.","Share one insight with a study partner or mentor and ask for their perspective.","Memorize one dua from today\'s lesson and repeat it before sleep."]},{"chapterId":2,"homework":["Recite the Shahada slowly 20 times, contemplating each word.","List five actions you can remove this week that distract from worship.","Listen to a trusted lecture about the Articles of Faith and summarize it.","Practice dua before every salah asking for increased iman."]},{"chapterId":3,"homework":["Track your five daily prayers for seven days in a notebook.","Teach a family member one pillar of prayer this week.","Focus on wudu etiquette before each prayer today.","Read about a sahabi known for prayer and note their discipline."]},{"chapterId":4,"homework":["Review the names of Allah mentioned in the chapter and pick three to memorize.","Write a short reflection on how revelation changes your perspective.","Recite one ayah from the Quran with translation each day.","Visit a recitation circle or watch a tafsir for deeper context."]},{"chapterId":5,"homework":["Pick a hadith about the Prophet ﷺ and journal what it teaches you.","Memorize the short biography of the Prophet from the lesson.","Share a story from the Prophet’s life with someone and ask for their take.","Set a reminder to read one paragraph from the Seerah every evening."]},{"chapterId":6,"homework":["Create a dua list for each prayer time and rotate through it daily.","Record today’s salah start to finish and note improvements.","Pair up with a friend to encourage consistency in prayer.","Compile five reminders that keep you mindful of Allah during the day."]},{"chapterId":7,"homework":["Serve someone in your community with a small act of kindness.","Reflect on gratitude and list three people you can thank this week.","Practice patience when you feel short-tempered and note triggers.","Practice forgiveness and write a dua asking for a soft heart."]},{"chapterId":8,"homework":["Audit your media: delete or limit one thing that pulls you away from focus.","Set a weekly halal goal (e.g., meal prep, call a relative, read).","Plan one intentional moment of silence to reconnect with Allah.","Choose a healthy habit for the body and soul (fasting, charity, etc.)."]},{"chapterId":9,"homework":["Attend a local community event or share a helpful resource.","Reach out to support someone who needs a listening ear.","Organize a short session to practice dua and reminders together.","Volunteer one hour for your neighborhood or mosque."]},{"chapterId":10,"homework":["Plan a personal growth tracker for the next 30 days.","Write a dua asking for consistent growth and review it nightly.","Choose one area (worship, character, knowledge) and set micro-goals.","Reflect on progress each Friday and note lessons learned."]},{"chapterId":11,"homework":["Journal what a reminder of the Hereafter shifts for your priorities.","Perform muhasabah for three nights, noting gratitude and actions to improve.","Give charity with the intention of gaining extended reward after passing.","Share a dua for mercy on the Day of Judgment with someone you trust."]},{"chapterId":12,"homework":["Visualize Paradise while reciting a verse, then jot down how it felt.","Read a Quranic warning of Hell and list three actions you will avoid.","Ask Allah for protection from the Fire after each prayer for one week.","Invite a friend to discuss what motivates you about the hereafter."]},{"chapterId":13,"homework":["Memorize one short dua and explain its meaning to someone else.","Make a daily dhikr plan tied to waking, meals, and sleep.","Record the names of Allah you repeat most and why they matter.","Share a dua with another person and ask them to pray for you."]},{"chapterId":14,"homework":["Host a family circle that includes dua, gratitude, and salah talk.","Write down two ways to show mercy to each household member this week.","Plan an act of service for a relative or parent with sincerity.","Teach a short hadith about kindness to your family."]},{"chapterId":15,"homework":["Perform soft-hearted dhikr for five minutes before bedtime each night.","List one habit to remove pride and replace it with humility.","Do a compassion check: reach out to someone you’ve been distant with.","Write a gratitude letter framed around Allah’s blessings."]}]');
 
 /***/ }),
 
