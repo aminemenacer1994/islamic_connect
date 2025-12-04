@@ -158,7 +158,7 @@
             </div>
           </div>
 
-        <div v-if="guidedPathwayCards.length" class="content-card guided-section-card mb-4 rounded-4">
+          <div v-if="guidedPathwayCards.length" class="content-card guided-section-card mb-4 rounded-4">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
               <div>
                 <p class="text-teal small mb-1 fw-semibold">Guided Pathway</p>
@@ -269,90 +269,124 @@
             </div>
           </div>
 
-            <!-- ALL SECTIONS -->
+            <!-- main content -->
               <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
-            <div class="card-header d-flex align-items-center py-3 ">
-              <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
-              </div>
-              <div class="lesson-focus-actions ms-auto">
-                <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
-                  <i class="bi bi-whatsapp fs-5"></i>
-                  <span>Share</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
-                  <i class="bi bi-clipboard fs-5"></i>
-                  <span>Copy</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
-                  <i class="bi bi-printer fs-5"></i>
-                  <span>Print</span>
-                </span>
-                <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
-              </div>
-            </div>
-
+                <div class="card-header d-flex align-items-center py-3 ">
+                  <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
+                    <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
+                  </div>
+                  <div class="lesson-focus-actions ms-auto">
+                    <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                      <i class="bi bi-whatsapp fs-5"></i>
+                      <span>Share</span>
+                    </span>
+                    <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                      <i class="bi bi-clipboard fs-5"></i>
+                      <span>Copy</span>
+                    </span>
+                    <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                      <i class="bi bi-printer fs-5"></i>
+                      <span>Print</span>
+                    </span>
+                    <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+                  </div>
+                </div>
+                <!-- lesson overview -->
               <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
-                <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
-                  class="section-block mb-5">
-                  <div class="d-flex align-items-start gap-3 mb-3">
-                    <div class="section-number fs-5">{{ index + 1 }}</div>
-                    <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
-                  </div>
-                  <div class="section-content text-dark fs-6 lh-lg"
-                    :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
-                  <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
-                    <div class="deep-dive-header d-flex align-items-center mb-2">
-                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
-                      <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
-                    </div>
-                    <div class="deep-dive-content text-dark fs-6"
-                      :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
-                  </div>
-                  <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                    <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
-                      <strong>{{ stat.value }}</strong>
-                      <small class="text-muted">{{ stat.label }}</small>
+                <div v-if="currentLessonOverview" class="lesson-overview-summary mb-4">
+                  <h5 class="fw-semibold mb-2">Lesson overview</h5>
+                  <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p>
+                  <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
+                    <div v-for="highlight in currentLessonOverview.highlights" :key="highlight.label || highlight.heading" class="col-12 col-md-4">
+                      <article class="overview-highlight border rounded-3 p-3 h-100">
+                        <h6 class="fw-semibold mb-2">{{ highlight.label || highlight.heading }}</h6>
+                        <p class="mb-0 text-muted small">{{ highlight.description || highlight.content }}</p>
+                      </article>
                     </div>
                   </div>
-                  <div class="pt-3 mt-3"></div>
+                </div>
+                <div v-if="overviewSections.length" class="overview-section-list">
+                  <div v-for="(section, index) in overviewSections" :key="section.heading"
+                    class="section-block mb-5">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                      <div class="section-number fs-5">{{ index + 1 }}</div>
+                      <h5 class="fw-semibold mb-0 fs-5">{{ section.heading }}</h5>
+                    </div>
+                    <div class="section-content text-dark fs-6 lh-lg"
+                      :style="{ fontSize: `${overviewFontScale}rem` }">
+                      {{ section.content }}
+                    </div>
+                    <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                      <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
+                        <strong>{{ stat.value }}</strong>
+                        <small class="text-muted">{{ stat.label }}</small>
+                      </div>
+                    </div>
+                    <div class="pt-3 mt-3"></div>
+                  </div>
+                </div>
+                <div v-else-if="currentLesson?.sections?.length" class="overview-section-list">
+                  <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
+                    class="section-block mb-5">
+                    <div class="d-flex align-items-start gap-3 mb-3">
+                      <div class="section-number fs-5">{{ index + 1 }}</div>
+                      <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
+                    </div>
+                    <div class="section-content text-dark fs-6 lh-lg"
+                      :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                    <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
+                      <div class="deep-dive-header d-flex align-items-center mb-2">
+                        <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
+                        <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
+                      </div>
+                      <div class="deep-dive-content text-dark fs-6"
+                        :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
+                    </div>
+                    <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                      <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
+                        <strong>{{ stat.value }}</strong>
+                        <small class="text-muted">{{ stat.label }}</small>
+                      </div>
+                    </div>
+                    <div class="pt-3 mt-3"></div>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Chapter Videos -->
-          <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3">
-              <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
-              <div>
-                <h2 class="fw-bold mb-0 fs-5">Lesson Videos</h2>
-                <p class="text-muted mb-0 small">Four curated clips to reinforce the chapter.</p>
+            <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5">Lesson Videos</h2>
+                  <p class="text-muted mb-0 small">Four curated clips to reinforce the chapter.</p>
+                </div>
               </div>
-            </div>
-            <div class="card-body px-3 px-md-4">
-              <div class="row g-3">
-                <div v-for="video in lessonVideos" :key="video.title" class="col-12 col-md-3">
-                  <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
-                    <div class="ratio ratio-16x9">
-                      <iframe
-                        :src="formatVideoUrl(video.url)"
-                        :title="video.title"
-                        frameborder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen
-                        loading="lazy">
-                      </iframe>
-                    </div>
-                    <div class="p-3">
-                      <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
-                      <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
-                    </div>
-                  </article>
+              <div class="card-body px-3 px-md-4">
+                <div class="row g-3">
+                  <div v-for="video in lessonVideos" :key="video.title" class="col-12 col-md-3">
+                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
+                      <div class="ratio ratio-16x9">
+                        <iframe
+                          :src="formatVideoUrl(video.url)"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div class="p-3">
+                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                      </div>
+                    </article>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
             <!-- Lesson Departments Focus -->
             <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
@@ -382,92 +416,89 @@
             </div>
 
             <!-- Dos and Dont's -->
-          <div v-if="currentDosDonts"
-            class="content-card section-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3">
-              <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
-              <h2 class="fw-bold mb-0 fs-5">Do's and Dont's</h2>
-            </div>
+            <div v-if="currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
+                <h2 class="fw-bold mb-0 fs-5">Do's and Dont's</h2>
+              </div>
 
-            <div class="card-body p-3">
-              <div class="mb-3">
-                <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
-                <div class="row g-3">
-                  <div class="col-12 col-md-6">
-                    <article class="p-3 rounded-3 border h-100">
-                      <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
-                      <ul class="list-unstyled mb-0">
-                        <li v-for="item in currentDosDonts.dos" :key="item.id"
-                          class="d-flex align-items-start gap-2 mb-2">
-                          <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
-                          <span class="text-dark medium mt-1">{{ item.text }}</span>
-                        </li>
-                      </ul>
-                    </article>
-                  </div>
-                  <div class="col-12 col-md-6">
-                    <article class="p-3 rounded-3 border h-100">
-                      <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
-                      <ul class="list-unstyled mb-0">
-                        <li v-for="item in currentDosDonts.donts" :key="item.id"
-                          class="d-flex align-items-start gap-2 mb-2">
-                          <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
-                          <span class="text-dark medium mt-1">{{ item.text }}</span>
-                        </li>
-                      </ul>
-                    </article>
+              <div class="card-body p-3">
+                <div class="mb-3">
+                  <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
+                  <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                      <article class="p-3 rounded-3 border h-100">
+                        <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
+                        <ul class="list-unstyled mb-0">
+                          <li v-for="item in currentDosDonts.dos" :key="item.id"
+                            class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
+                            <span class="text-dark medium mt-1">{{ item.text }}</span>
+                          </li>
+                        </ul>
+                      </article>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <article class="p-3 rounded-3 border h-100">
+                        <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
+                        <ul class="list-unstyled mb-0">
+                          <li v-for="item in currentDosDonts.donts" :key="item.id"
+                            class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+                            <span class="text-dark medium mt-1">{{ item.text }}</span>
+                          </li>
+                        </ul>
+                      </article>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
               <!-- Key Insights -->
-          <div v-if="insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3">
-              <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
-              <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
-            </div>
-            <div class="card-body p-3">
-              <p class="text-muted small mb-3">
-                {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
-              </p>
-              <ul class="list-group insight-list fs-6 lh-base">
-                <li v-for="insight in insightsToShow" :key="insight"
-                  class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                  <i class="fas fa-check-circle fs-5 text-teal"></i>
-                    <span>{{ insight }}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            
+              <div v-if="insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+                <div class="card-header d-flex align-items-center py-3">
+                  <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
+                  <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
+                </div>
+                <div class="card-body p-3">
+                  <p class="text-muted small mb-3">
+                    {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
+                  </p>
+                  <ul class="list-group insight-list fs-6 lh-base">
+                    <li v-for="insight in insightsToShow" :key="insight"
+                      class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
+                      <i class="fas fa-check-circle fs-5 text-teal"></i>
+                        <span>{{ insight }}</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
 
             <!-- Duas -->
             <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3 gap-3">
-              <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
-                <div>
-                  <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Duas to Carry</h2>
+              <div class="card-header d-flex align-items-center py-3 gap-3">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+                  <div>
+                    <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Duas to Carry</h2>
+                  </div>
+                </div>
+                <div class="lesson-focus-actions ms-auto">
+                  <span class="header-action" role="button" tabindex="0" @click="shareDuas">
+                    <i class="bi bi-whatsapp fs-5"></i>
+                    <span>Share</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="copyDuas">
+                    <i class="bi bi-clipboard fs-5"></i>
+                    <span>Copy</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="printDuas">
+                    <i class="bi bi-printer fs-5"></i>
+                    <span>Print</span>
+                  </span>
+                  <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
                 </div>
               </div>
-              <div class="lesson-focus-actions ms-auto">
-                <span class="header-action" role="button" tabindex="0" @click="shareDuas">
-                  <i class="bi bi-whatsapp fs-5"></i>
-                  <span>Share</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="copyDuas">
-                  <i class="bi bi-clipboard fs-5"></i>
-                  <span>Copy</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="printDuas">
-                  <i class="bi bi-printer fs-5"></i>
-                  <span>Print</span>
-                </span>
-                <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
-              </div>
-            </div>
               <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
                 <div class="row g-3">
                   <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
@@ -558,7 +589,6 @@
               </div>
             </div>
 
-
             <!-- Mission Spotlight -->
             <div v-if="currentMission" id="mission-card"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 mission-card">
@@ -580,8 +610,7 @@
             </div>
 
             <!-- FAQ -->
-            <div v-if="chapterFaqPanels.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
+            <div v-if="chapterFaqPanels.length" class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="bi bi-question-circle-fill fs-4 text-teal"></i>
@@ -636,158 +665,157 @@
               </div>
             </div>
 
-          <!-- Quiz Card -->
-          <div v-if="currentQuestion" class="content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper">
-            <div class="quiz-shell p-0">
-              <div class="quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
-                <div class="d-flex align-items-center gap-3">
-                  <i class="bi bi-dice-4-fill fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
-                  </div>
-                </div>
-                <span class="badge text-dark bg-light rounded-pill px-3 py-2">
-                  Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}
-                </span>
-              </div>
-                <div class="quiz-body px-4 py-3">
-                  <div class="quiz-progress-wrapper mb-3">
-                    <div class="quiz-progress-track">
-                      <div class="quiz-progress-fill"
-                        :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center mt-2">
-                      <p class="text-muted small mb-0">Progress toward mastery</p>
-                      <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
-                    </div>
-                  </div>
-                <h3 class="fw-semibold text-dark mb-4 quiz-question">{{ currentQuestion.question }}</h3>
-                <div class="quiz-options-grid">
-                  <button v-for="option in currentQuestion.options" :key="option" type="button"
-                    class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
-                      'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
-                      'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
-                      'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
-                    }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
+            <!-- Quiz Card -->
+            <div v-if="currentQuestion" class="content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper">
+              <div class="quiz-shell p-0">
+                <div class="quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+                  <div class="d-flex align-items-center gap-3">
+                    <i class="bi bi-dice-4-fill fs-4 text-teal"></i>
                     <div>
-                      <span>{{ option }}</span>
+                      <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
                     </div>
-                    <div class="icon-stack">
-                      <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
-                        class="bi bi-check-circle-fill text-white"></i>
-                      <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
-                        class="bi bi-x-circle-fill text-white"></i>
-                    </div>
-                  </button>
+                  </div>
+                  <span class="badge text-dark bg-light rounded-pill px-3 py-2">
+                    Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}
+                  </span>
                 </div>
-                
-                    <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
-                      <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
-                      <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
-                        <div>
-                          <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
-                          <small class="text-muted">The Next Chapter button above is now active.</small>
-                        </div>
-                        <button type="button"
-                          class="btn btn-outline-teal btn-sm shadow-none"
-                          @click="retryQuiz">
-                          Retake quiz
-                        </button>
+                  <div class="quiz-body px-4 py-3">
+                    <div class="quiz-progress-wrapper mb-3">
+                      <div class="quiz-progress-track">
+                        <div class="quiz-progress-fill"
+                          :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
+                      </div>
+                      <div class="d-flex justify-content-between align-items-center mt-2">
+                        <p class="text-muted small mb-0">Progress toward mastery</p>
+                        <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
                       </div>
                     </div>
+                  <h3 class="fw-semibold text-dark mb-4 quiz-question">{{ currentQuestion.question }}</h3>
+                  <div class="quiz-options-grid">
+                    <button v-for="option in currentQuestion.options" :key="option" type="button"
+                      class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
+                        'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
+                        'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
+                        'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
+                      }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
+                      <div>
+                        <span>{{ option }}</span>
+                      </div>
+                      <div class="icon-stack">
+                        <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
+                          class="bi bi-check-circle-fill text-white"></i>
+                        <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
+                          class="bi bi-x-circle-fill text-white"></i>
+                      </div>
+                    </button>
+                  </div>
+                  
+                      <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
+                        <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
+                        <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
+                          <div>
+                            <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
+                            <small class="text-muted">The Next Chapter button above is now active.</small>
+                          </div>
+                          <button type="button"
+                            class="btn btn-outline-teal btn-sm shadow-none"
+                            @click="retryQuiz">
+                            Retake quiz
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+            <div v-if="chapterQuizPassed && nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
+              <div class="d-flex align-items-center justify-content-between flex-wrap">
+                <div>
+                  <p class="text-muted small mb-1">Up next</p>
+                  <h4 class="fw-semibold mb-0">{{ nextChapterPreview.title }}</h4>
+                  <p class="mb-1 text-teal small">{{ nextChapterPreview.track }}</p>
+                </div>
+                <div class="text-end">
+                  <span class="badge bg-light text-dark rounded-pill px-3 py-2">Chapter {{ nextChapterPreview.id }}</span>
+                  <div class="transition-line mt-2"></div>
+                </div>
+              </div>
+              <p class="text-muted mt-3 mb-0">{{ nextChapterPreview.snippet }}</p>
+            </div>
+
+            <!-- Divider -->
+            <div class="border-top pt-4 mt-4"></div>
+
+            <!-- NAVIGATION BUTTONS -->
+            <div class="actions-card animated-fade-in">
+              <div
+                class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
+
+                <button class="btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2"
+                  :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
+                  @click="selectPill(selectedPill - 1)">
+                  <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                  Previous Chapter
+                </button>
+
+                <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+                  <span class="text-muted small me-md-auto">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
+                  <div v-if="chapterQuizPassed" class="text-teal small fw-semibold">Quiz cleared • Next Chapter unlocked.</div>
+                  <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
+                    :class="{
+                      'next-ready': chapterQuizPassed && !(selectedPill >= roadmapData.length || isWaitingForNext),
+                      'disabled': selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed
+                    }"
+                    :disabled="selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed"
+                    @click="completeAndNext">
+                    <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
+                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
         </div>
-        <div v-if="chapterQuizPassed && nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
-          <div class="d-flex align-items-center justify-content-between flex-wrap">
-            <div>
-              <p class="text-muted small mb-1">Up next</p>
-              <h4 class="fw-semibold mb-0">{{ nextChapterPreview.title }}</h4>
-              <p class="mb-1 text-teal small">{{ nextChapterPreview.track }}</p>
-            </div>
-            <div class="text-end">
-              <span class="badge bg-light text-dark rounded-pill px-3 py-2">Chapter {{ nextChapterPreview.id }}</span>
-              <div class="transition-line mt-2"></div>
-            </div>
-          </div>
-          <p class="text-muted mt-3 mb-0">{{ nextChapterPreview.snippet }}</p>
-        </div>
+      </main>
 
-          <!-- Divider -->
-          <div class="border-top pt-4 mt-4"></div>
-
-          <!-- NAVIGATION BUTTONS -->
-          <div class="actions-card animated-fade-in">
-            <div
-              class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
-
-              <button class="btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2"
-                :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
-                @click="selectPill(selectedPill - 1)">
-                <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                Previous Chapter
-              </button>
-
-              <div class="d-flex flex-column flex-md-row align-items-center gap-2">
-                <span class="text-muted small me-md-auto">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
-                <div v-if="chapterQuizPassed" class="text-teal small fw-semibold">Quiz cleared • Next Chapter unlocked.</div>
-                <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
-                  :class="{
-                    'next-ready': chapterQuizPassed && !(selectedPill >= roadmapData.length || isWaitingForNext),
-                    'disabled': selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed
-                  }"
-                  :disabled="selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed"
-                  @click="completeAndNext">
-                  <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
-                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
-                </button>
+      <div v-if="showResourceModal">
+        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 shadow-lg custom-modal-card">
+              <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
               </div>
-            </div>
-          </div>
-        </section>
-      </div>
-    </main>
-
-    <div v-if="showResourceModal">
-      <div class="modal-backdrop fade show custom-modal-backdrop"></div>
-      <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-          <div class="modal-content rounded-4 shadow-lg custom-modal-card">
-            <div class="modal-header border-0 pt-4 px-4">
-              <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
-            </div>
-            <div class="modal-body px-4 py-3">
-            
+              <div class="modal-body px-4 py-3">
               
-            </div>
-            <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
-              
-              <div v-if="resourceCopyStatus" class="text-success small">
-                {{ resourceCopyStatus }}
+                
               </div>
-              <div class="d-flex gap-2">
-                <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
-                  <i class="bi bi-link-45deg"></i>
-                  Copy Link
-                </button>
-                <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
-                  Close
-                </button>
+              <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+                
+                <div v-if="resourceCopyStatus" class="text-success small">
+                  {{ resourceCopyStatus }}
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
+                    <i class="bi bi-link-45deg"></i>
+                    Copy Link
+                  </button>
+                  <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 
 <script>
 import { defineComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
-import lessonsData from './data/lessons.json'
 import quizzesData from './data/quizzes.json'
 import faqChapters from './data/faqs.json'
 import commonQuestionsData from './data/commonQuestions.json'
@@ -804,6 +832,7 @@ import chapterToneFocus from './data/chapterToneFocus.json'
 import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
+import chapterLessonOverview from './data/chapterLessonOverview.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -902,7 +931,7 @@ export default defineComponent({
   data() {
     return {
       roadmapData: normalizeJson(roadmapData),
-      lessons: normalizeJson(lessonsData),
+      chapterLessons: normalizeJson(chapterLessonOverview),
       faqChapters: normalizeJson(faqChapters),
       commonQuestionChapters: normalizeJson(commonQuestionsData),
       premiumResources: normalizeJson(premiumResources),
@@ -968,7 +997,7 @@ export default defineComponent({
 
   computed: {
     currentLesson() {
-      return this.lessonMap[this.selectedPill] || this.lessons[0]
+      return this.lessonMap[this.selectedPill] || this.chapterLessons[0]
     },
     currentChapterKeyInsights() {
       const chapterId = this.currentLesson?.chapterId
@@ -978,6 +1007,12 @@ export default defineComponent({
       return this.currentChapterKeyInsights?.keyInsights?.length
         ? this.currentChapterKeyInsights.keyInsights
         : this.currentLesson?.keyInsights || []
+    },
+    currentLessonOverview() {
+      return this.chapterLessons.find(entry => entry.chapterId === this.selectedPill) || null
+    },
+    overviewSections() {
+      return this.currentLessonOverview?.overview || []
     },
     chapterCommonPanels() {
       const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill)
@@ -1108,7 +1143,7 @@ export default defineComponent({
       if (nextId > this.roadmapData.length) return null
       const nextChapter = this.roadmapData.find(c => c.id === nextId)
       if (!nextChapter) return null
-      const lessonPreview = this.lessons.find(l => l.chapterId === nextId)
+      const lessonPreview = this.chapterLessons.find(l => l.chapterId === nextId)
       return {
         id: nextChapter.id,
         title: lessonPreview?.title || nextChapter.title,
@@ -1247,7 +1282,7 @@ export default defineComponent({
     },
 
     buildLookupMaps() {
-      this.lessonMap = this.lessons.reduce((map, lesson) => {
+      this.lessonMap = this.chapterLessons.reduce((map, lesson) => {
         if (lesson?.chapterId != null) map[lesson.chapterId] = lesson
         return map
       }, {})

@@ -74,5 +74,11 @@ module.exports = {
       'vue': 'vue/dist/vue.esm-bundler.js',
     },
   },
+  stats: {
+    children: true,
+  },
+  performance: {
+    hints: false,
+  },
   plugins,
 };
