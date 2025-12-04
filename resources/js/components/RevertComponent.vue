@@ -2554,14 +2554,16 @@ export default defineComponent({
   }
 
   .lesson-focus-actions {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.25rem;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
   }
 
   .guidance-line span {
     display: none;
   }
+
 }
 
 .steps-list .step-item {
@@ -3853,5 +3855,21 @@ export default defineComponent({
     width: 100%;
     justify-content: center;
   }
+
+  .premium-card {
+    padding: 0.85rem;
+  }
+
+  .resource-link {
+    width: 100%;
+    font-weight: 600;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .resource-link span {
+    flex: 1;
+    text-align: center;
+  }
+
 }
 </style>
