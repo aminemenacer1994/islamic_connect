@@ -1765,8 +1765,6 @@ export default defineComponent({
 
 <style scoped>
 /* ==================== BOOTSTRAP ICONS ==================== */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-@import url('https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css');
 
 .background {
 
