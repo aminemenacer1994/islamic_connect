@@ -75,7 +75,8 @@ module.exports = {
     },
   },
   stats: {
-    children: true,
+    children: false,
+    warningsFilter: [/asset size limit/, /entrypoint size limit/],
   },
   performance: {
     hints: false,

@@ -833,6 +833,7 @@ import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
+import chapterVideos from './data/chapterVideos.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -947,6 +948,7 @@ export default defineComponent({
       chapterGentleStarts: normalizeJson(chapterGentleStart),
       sectionStatsByChapter: normalizeJson(chapterSectionStats),
       homework: normalizeJson(homeworkData),
+      chapterVideos: normalizeJson(chapterVideos),
       lessonMap: {},
       missionMap: {},
       duasMap: {},
@@ -1176,8 +1178,9 @@ export default defineComponent({
 
     ,
     lessonVideos() {
-      const videos = this.currentLesson?.videos || []
-      return videos.slice(0, 4)
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
+      return (entry?.videos || []).slice(0, 4)
     }
     ,
     focusHighlights() {
