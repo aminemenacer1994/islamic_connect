@@ -310,6 +310,12 @@
                     <div class="deep-dive-content text-dark fs-6"
                       :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
                   </div>
+                  <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                    <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
+                      <strong>{{ stat.value }}</strong>
+                      <small class="text-muted">{{ stat.label }}</small>
+                    </div>
+                  </div>
                   <div class="pt-3 mt-3"></div>
                 </div>
               </div>
@@ -797,6 +803,7 @@ import chapterToneGuidelines from './data/chapterToneGuidelines.json'
 import chapterToneFocus from './data/chapterToneFocus.json'
 import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
+import chapterSectionStats from './data/chapterSectionStats.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -909,6 +916,7 @@ export default defineComponent({
       toneFocusEntries: normalizeJson(chapterToneFocus),
       guidedPathways: normalizeJson(chapterGuidedPathway),
       chapterGentleStarts: normalizeJson(chapterGentleStart),
+      sectionStatsByChapter: normalizeJson(chapterSectionStats),
       homework: normalizeJson(homeworkData),
       lessonMap: {},
       missionMap: {},
@@ -1082,6 +1090,11 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId)
       return entry?.steps || this.currentOnboardingSteps
+    },
+    sectionStatsMap() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId)
+      return entry?.sectionStats || []
     },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' :
@@ -1279,6 +1292,10 @@ export default defineComponent({
     isFaqOpen(index) {
       const chapterKey = this.currentLesson?.chapterId
       return this.faqState[chapterKey] === index
+    },
+
+    sectionStatsFor(title) {
+      return this.sectionStatsMap.find(entry => entry.title === title)?.stats || []
     },
 
     toggleAccordion(section, index) {
@@ -2449,6 +2466,64 @@ export default defineComponent({
 .homework-task:hover {
   transform: translateY(-3px);
   border-color: rgba(11, 128, 111, 0.4);
+}
+
+.section-stats {
+  margin-top: 0.25rem;
+}
+
+.section-stat-card {
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.65rem 1rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+}
+
+.section-stat-card strong {
+  display: block;
+  font-size: 0.95rem;
+  color: #0b1320;
+}
+
+@media (max-width: 768px) {
+  .guidance-grid,
+  .row.row-cols-1.row-cols-md-2.g-3.mb-4,
+  .guided-bullets {
+    flex-direction: column;
+  }
+
+  .guidance-card-item,
+  .section-card,
+  .tone-card,
+  .guided-section-card,
+  .homework-task {
+    padding: 1.25rem;
+  }
+
+  .guided-section-card .guided-bullets {
+    gap: 1rem;
+  }
+
+  .guided-bullet {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .guided-step {
+    min-width: auto;
+  }
+
+  .lesson-focus-actions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
+
+  .guidance-line span {
+    display: none;
+  }
 }
 
 .steps-list .step-item {

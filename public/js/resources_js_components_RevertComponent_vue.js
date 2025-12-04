@@ -29,11 +29,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_chapterToneFocus_json__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./data/chapterToneFocus.json */ "./resources/js/components/data/chapterToneFocus.json");
 /* harmony import */ var _data_chapterGuidedPathway_json__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./data/chapterGuidedPathway.json */ "./resources/js/components/data/chapterGuidedPathway.json");
 /* harmony import */ var _data_chapterGentleStart_json__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./data/chapterGentleStart.json */ "./resources/js/components/data/chapterGentleStart.json");
+/* harmony import */ var _data_chapterSectionStats_json__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./data/chapterSectionStats.json */ "./resources/js/components/data/chapterSectionStats.json");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -165,6 +167,7 @@ const celebrateFinalChapter = () => {
       toneFocusEntries: normalizeJson(_data_chapterToneFocus_json__WEBPACK_IMPORTED_MODULE_15__),
       guidedPathways: normalizeJson(_data_chapterGuidedPathway_json__WEBPACK_IMPORTED_MODULE_16__),
       chapterGentleStarts: normalizeJson(_data_chapterGentleStart_json__WEBPACK_IMPORTED_MODULE_17__),
+      sectionStatsByChapter: normalizeJson(_data_chapterSectionStats_json__WEBPACK_IMPORTED_MODULE_18__),
       homework: normalizeJson(_data_homework_json__WEBPACK_IMPORTED_MODULE_8__),
       lessonMap: {},
       missionMap: {},
@@ -336,6 +339,12 @@ const celebrateFinalChapter = () => {
       const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.steps) || this.currentOnboardingSteps;
     },
+    sectionStatsMap() {
+      var _this$currentLesson9;
+      const chapterId = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
+      const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId);
+      return (entry === null || entry === void 0 ? void 0 : entry.sectionStats) || [];
+    },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' : this.copyAlertType === 'danger' ? 'alert-danger' : 'alert-info';
     },
@@ -359,8 +368,8 @@ const celebrateFinalChapter = () => {
       return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`;
     },
     lessonDepartments() {
-      var _this$currentLesson9;
-      const sections = ((_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.sections) || [];
+      var _this$currentLesson0;
+      const sections = ((_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.sections) || [];
       if (!sections.length) return [];
       const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up'];
       return sections.slice(0, 3).map((section, index) => {
@@ -374,13 +383,13 @@ const celebrateFinalChapter = () => {
       });
     },
     currentDosDonts() {
-      var _this$currentLesson0;
-      const chapterId = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
+      var _this$currentLesson1;
+      const chapterId = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
       return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null;
     },
     lessonVideos() {
-      var _this$currentLesson1;
-      const videos = ((_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.videos) || [];
+      var _this$currentLesson10;
+      const videos = ((_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.videos) || [];
       return videos.slice(0, 4);
     },
     focusHighlights() {
@@ -513,8 +522,8 @@ const celebrateFinalChapter = () => {
       this.mobileNavOpen = false;
     },
     toggleFaq(index) {
-      var _this$currentLesson10;
-      const chapterKey = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
+      var _this$currentLesson11;
+      const chapterKey = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
       if (!chapterKey) return;
       const current = this.faqState[chapterKey];
       const next = current === index ? null : index;
@@ -523,9 +532,13 @@ const celebrateFinalChapter = () => {
       });
     },
     isFaqOpen(index) {
-      var _this$currentLesson11;
-      const chapterKey = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
+      var _this$currentLesson12;
+      const chapterKey = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
       return this.faqState[chapterKey] === index;
+    },
+    sectionStatsFor(title) {
+      var _this$sectionStatsMap;
+      return ((_this$sectionStatsMap = this.sectionStatsMap.find(entry => entry.title === title)) === null || _this$sectionStatsMap === void 0 ? void 0 : _this$sectionStatsMap.stats) || [];
     },
     toggleAccordion(section, index) {
       const stateKey = section === 'faq' ? 'faqAccordionState' : 'commonAccordionState';
@@ -912,13 +925,13 @@ const celebrateFinalChapter = () => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson12;
-      const message = `Duas to carry from ${((_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson13;
+      const message = `Duas to carry from ${((_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson13;
-      const text = `Duas to carry from ${((_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson14;
+      const text = `Duas to carry from ${((_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -1254,376 +1267,383 @@ const _hoisted_84 = {
 };
 const _hoisted_85 = ["innerHTML"];
 const _hoisted_86 = {
+  key: 1,
+  class: "section-stats d-flex flex-wrap gap-3 mt-3"
+};
+const _hoisted_87 = {
+  class: "text-muted"
+};
+const _hoisted_88 = {
   key: 5,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_87 = {
+const _hoisted_89 = {
   class: "card-body px-3 px-md-4"
 };
-const _hoisted_88 = {
+const _hoisted_90 = {
   class: "row g-3"
 };
-const _hoisted_89 = {
+const _hoisted_91 = {
   class: "video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden"
 };
-const _hoisted_90 = {
+const _hoisted_92 = {
   class: "ratio ratio-16x9"
 };
-const _hoisted_91 = ["src", "title"];
-const _hoisted_92 = {
+const _hoisted_93 = ["src", "title"];
+const _hoisted_94 = {
   class: "p-3"
 };
-const _hoisted_93 = {
+const _hoisted_95 = {
   class: "h6 fw-semibold mb-2"
 };
-const _hoisted_94 = {
+const _hoisted_96 = {
   key: 0,
   class: "text-muted small mb-0"
 };
-const _hoisted_95 = {
+const _hoisted_97 = {
   key: 6,
   class: "content-card lesson-focus-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_96 = {
+const _hoisted_98 = {
   class: "card-body px-3 px-md-4"
 };
-const _hoisted_97 = {
+const _hoisted_99 = {
   class: "row g-3"
 };
-const _hoisted_98 = {
+const _hoisted_100 = {
   class: "dept-card h-100 p-3 rounded-3"
 };
-const _hoisted_99 = {
+const _hoisted_101 = {
   class: "d-flex align-items-center gap-2 mb-2"
 };
-const _hoisted_100 = {
+const _hoisted_102 = {
   class: "dept-icon"
 };
-const _hoisted_101 = {
+const _hoisted_103 = {
   class: "fs-6 mb-0"
 };
-const _hoisted_102 = {
+const _hoisted_104 = {
   class: "text-muted small mb-1"
 };
-const _hoisted_103 = {
+const _hoisted_105 = {
   class: "text-dark fw-semibold mb-0"
 };
-const _hoisted_104 = {
+const _hoisted_106 = {
   key: 7,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_105 = {
+const _hoisted_107 = {
   class: "card-body p-3"
 };
-const _hoisted_106 = {
+const _hoisted_108 = {
   class: "mb-3"
 };
-const _hoisted_107 = {
+const _hoisted_109 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_108 = {
+const _hoisted_110 = {
   class: "row g-3"
 };
-const _hoisted_109 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_110 = {
-  class: "p-3 rounded-3 border h-100"
-};
 const _hoisted_111 = {
-  class: "list-unstyled mb-0"
+  class: "col-12 col-md-6"
 };
 const _hoisted_112 = {
-  class: "text-dark medium mt-1"
-};
-const _hoisted_113 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_114 = {
   class: "p-3 rounded-3 border h-100"
 };
-const _hoisted_115 = {
+const _hoisted_113 = {
   class: "list-unstyled mb-0"
 };
-const _hoisted_116 = {
+const _hoisted_114 = {
   class: "text-dark medium mt-1"
 };
+const _hoisted_115 = {
+  class: "col-12 col-md-6"
+};
+const _hoisted_116 = {
+  class: "p-3 rounded-3 border h-100"
+};
 const _hoisted_117 = {
+  class: "list-unstyled mb-0"
+};
+const _hoisted_118 = {
+  class: "text-dark medium mt-1"
+};
+const _hoisted_119 = {
   key: 0,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_118 = {
+const _hoisted_120 = {
   class: "card-body p-3"
 };
-const _hoisted_119 = {
+const _hoisted_121 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_120 = {
+const _hoisted_122 = {
   class: "list-group insight-list fs-6 lh-base"
 };
-const _hoisted_121 = {
+const _hoisted_123 = {
   key: 1,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_122 = {
+const _hoisted_124 = {
   class: "card-header d-flex align-items-center py-3 gap-3"
 };
-const _hoisted_123 = {
+const _hoisted_125 = {
   class: "lesson-focus-actions ms-auto"
 };
-const _hoisted_124 = {
+const _hoisted_126 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_125 = {
+const _hoisted_127 = {
   class: "row g-3"
 };
-const _hoisted_126 = {
+const _hoisted_128 = {
   class: "dua-card h-100 rounded-4 p-4 shadow-lg"
 };
-const _hoisted_127 = {
+const _hoisted_129 = {
   key: 2,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_128 = {
+const _hoisted_130 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_129 = ["aria-expanded"];
-const _hoisted_130 = {
+const _hoisted_131 = ["aria-expanded"];
+const _hoisted_132 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_131 = {
+const _hoisted_133 = {
   class: "card-body p-3"
 };
-const _hoisted_132 = {
+const _hoisted_134 = {
   class: "accordion-stack"
 };
-const _hoisted_133 = ["onClick"];
-const _hoisted_134 = {
+const _hoisted_135 = ["onClick"];
+const _hoisted_136 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_135 = ["innerHTML"];
-const _hoisted_136 = {
+const _hoisted_137 = ["innerHTML"];
+const _hoisted_138 = {
   key: 3,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_137 = {
+const _hoisted_139 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_138 = ["aria-expanded"];
-const _hoisted_139 = {
+const _hoisted_140 = ["aria-expanded"];
+const _hoisted_141 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_140 = {
+const _hoisted_142 = {
   class: "card-body p-3"
 };
-const _hoisted_141 = {
+const _hoisted_143 = {
   key: 0,
   class: "row row-cols-1 row-cols-md-2 g-3 mb-4"
 };
-const _hoisted_142 = {
+const _hoisted_144 = {
   class: "premium-card h-100 d-flex flex-column"
 };
-const _hoisted_143 = {
+const _hoisted_145 = {
   class: "h6 fw-semibold mb-2"
 };
-const _hoisted_144 = {
+const _hoisted_146 = {
   class: "small text-muted mb-3"
 };
-const _hoisted_145 = ["onClick"];
-const _hoisted_146 = {
+const _hoisted_147 = ["onClick"];
+const _hoisted_148 = {
   key: 4,
   id: "mission-card",
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 mission-card"
 };
-const _hoisted_147 = {
+const _hoisted_149 = {
   class: "card-body p-3"
 };
-const _hoisted_148 = {
+const _hoisted_150 = {
   class: "mb-2 text-muted small"
 };
-const _hoisted_149 = {
+const _hoisted_151 = {
   class: "fw-semibold"
 };
-const _hoisted_150 = {
+const _hoisted_152 = {
   class: "text-dark fs-6"
 };
-const _hoisted_151 = {
+const _hoisted_153 = {
   class: "d-flex flex-wrap gap-2 align-items-center mt-3"
 };
-const _hoisted_152 = {
+const _hoisted_154 = {
   class: "badge bg-success text-white rounded-pill"
 };
-const _hoisted_153 = {
+const _hoisted_155 = {
   key: 5,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_154 = {
+const _hoisted_156 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_155 = ["aria-expanded"];
-const _hoisted_156 = {
+const _hoisted_157 = ["aria-expanded"];
+const _hoisted_158 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_157 = {
+const _hoisted_159 = {
   class: "card-body p-3"
 };
-const _hoisted_158 = {
+const _hoisted_160 = {
   class: "accordion-stack"
 };
-const _hoisted_159 = ["onClick"];
-const _hoisted_160 = {
+const _hoisted_161 = ["onClick"];
+const _hoisted_162 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_161 = ["innerHTML"];
-const _hoisted_162 = {
+const _hoisted_163 = ["innerHTML"];
+const _hoisted_164 = {
   class: "content-card next-steps-card animated-slide-up rounded-4 mb-4",
   style: {
     "animation-delay": "0.4s"
   }
 };
-const _hoisted_163 = {
+const _hoisted_165 = {
   class: "card-body p-3"
 };
-const _hoisted_164 = {
+const _hoisted_166 = {
   class: "row g-3"
 };
-const _hoisted_165 = {
+const _hoisted_167 = {
   class: "col-12 col-md-12"
 };
-const _hoisted_166 = {
+const _hoisted_168 = {
   class: "homework-grid"
 };
-const _hoisted_167 = {
+const _hoisted_169 = {
   class: "d-flex align-items-center gap-2 mb-1"
 };
-const _hoisted_168 = {
+const _hoisted_170 = {
   class: "mb-0 text-dark"
 };
-const _hoisted_169 = {
+const _hoisted_171 = {
   key: 6,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper"
 };
-const _hoisted_170 = {
+const _hoisted_172 = {
   class: "quiz-shell p-0"
 };
-const _hoisted_171 = {
+const _hoisted_173 = {
   class: "quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3"
 };
-const _hoisted_172 = {
+const _hoisted_174 = {
   class: "badge text-dark bg-light rounded-pill px-3 py-2"
 };
-const _hoisted_173 = {
+const _hoisted_175 = {
   class: "quiz-body px-4 py-3"
 };
-const _hoisted_174 = {
+const _hoisted_176 = {
   class: "quiz-progress-wrapper mb-3"
 };
-const _hoisted_175 = {
+const _hoisted_177 = {
   class: "quiz-progress-track"
 };
-const _hoisted_176 = {
+const _hoisted_178 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_177 = {
+const _hoisted_179 = {
   class: "mb-0 small fw-semibold text-teal"
 };
-const _hoisted_178 = {
+const _hoisted_180 = {
   class: "fw-semibold text-dark mb-4 quiz-question"
 };
-const _hoisted_179 = {
+const _hoisted_181 = {
   class: "quiz-options-grid"
 };
-const _hoisted_180 = ["disabled", "onClick"];
-const _hoisted_181 = {
-  class: "icon-stack"
-};
-const _hoisted_182 = {
-  key: 0,
-  class: "bi bi-check-circle-fill text-white"
-};
+const _hoisted_182 = ["disabled", "onClick"];
 const _hoisted_183 = {
-  key: 1,
-  class: "bi bi-x-circle-fill text-white"
+  class: "icon-stack"
 };
 const _hoisted_184 = {
   key: 0,
-  class: "quiz-success-note mt-3"
+  class: "bi bi-check-circle-fill text-white"
 };
 const _hoisted_185 = {
-  class: "d-flex flex-column flex-md-row gap-2 align-items-start"
+  key: 1,
+  class: "bi bi-x-circle-fill text-white"
 };
 const _hoisted_186 = {
-  class: "mb-0 fw-semibold text-teal"
+  key: 0,
+  class: "quiz-success-note mt-3"
 };
 const _hoisted_187 = {
+  class: "d-flex flex-column flex-md-row gap-2 align-items-start"
+};
+const _hoisted_188 = {
+  class: "mb-0 fw-semibold text-teal"
+};
+const _hoisted_189 = {
   key: 8,
   class: "content-card transition-card text-dark rounded-4 animated-fade-slide mb-4"
 };
-const _hoisted_188 = {
+const _hoisted_190 = {
   class: "d-flex align-items-center justify-content-between flex-wrap"
 };
-const _hoisted_189 = {
+const _hoisted_191 = {
   class: "fw-semibold mb-0"
 };
-const _hoisted_190 = {
+const _hoisted_192 = {
   class: "mb-1 text-teal small"
 };
-const _hoisted_191 = {
+const _hoisted_193 = {
   class: "text-end"
 };
-const _hoisted_192 = {
+const _hoisted_194 = {
   class: "badge bg-light text-dark rounded-pill px-3 py-2"
 };
-const _hoisted_193 = {
+const _hoisted_195 = {
   class: "text-muted mt-3 mb-0"
 };
-const _hoisted_194 = {
+const _hoisted_196 = {
   class: "actions-card animated-fade-in"
 };
-const _hoisted_195 = {
+const _hoisted_197 = {
   class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
 };
-const _hoisted_196 = ["disabled"];
-const _hoisted_197 = {
+const _hoisted_198 = ["disabled"];
+const _hoisted_199 = {
   class: "d-flex flex-column flex-md-row align-items-center gap-2"
 };
-const _hoisted_198 = {
+const _hoisted_200 = {
   class: "text-muted small me-md-auto"
 };
-const _hoisted_199 = {
+const _hoisted_201 = {
   key: 0,
   class: "text-teal small fw-semibold"
 };
-const _hoisted_200 = ["disabled"];
-const _hoisted_201 = {
+const _hoisted_202 = ["disabled"];
+const _hoisted_203 = {
   key: 0
 };
-const _hoisted_202 = {
+const _hoisted_204 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_203 = {
+const _hoisted_205 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_204 = {
+const _hoisted_206 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_205 = {
+const _hoisted_207 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_206 = {
+const _hoisted_208 = {
   class: "modal-title fw-bold"
 };
-const _hoisted_207 = {
+const _hoisted_209 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_208 = {
+const _hoisted_210 = {
   key: 0,
   class: "text-success small"
 };
-const _hoisted_209 = {
+const _hoisted_211 = {
   class: "d-flex gap-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1826,10 +1846,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fontSize: `${_ctx.overviewFontScale * 0.95}rem`
       }),
       innerHTML: section.deepDive.content
-    }, null, 12 /* STYLE, PROPS */, _hoisted_85)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_85)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+        key: stat.label,
+        class: "section-stat-card"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_87, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "pt-3 mt-3"
     }, null, -1 /* CACHED */))]);
-  }), 128 /* KEYED_FRAGMENT */))], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chapter Videos "), _ctx.lessonVideos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chapter Videos "), _ctx.lessonVideos.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-collection-play fs-4 me-3 text-teal"
@@ -1837,19 +1862,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Lesson Videos"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, "Four curated clips to reinforce the chapter.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonVideos, video => {
+  }, "Four curated clips to reinforce the chapter.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonVideos, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-3"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
       src: _ctx.formatVideoUrl(video.url),
       title: video.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_91)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_93, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), _ctx.lessonDepartments.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_95, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_93)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), _ctx.lessonDepartments.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bar-chart-line-fill fs-4 me-3 text-teal"
@@ -1857,57 +1882,57 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Lesson Focus Across Departments"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, "How this chapter aligns with every pillar of the experience")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonDepartments, dept => {
+  }, "How this chapter aligns with every pillar of the experience")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonDepartments, dept => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dept.name,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(dept.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_102, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_103, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.detail), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_104, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_103, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_104, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_105, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.detail), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_106, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_107, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_110, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_109, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_112, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-teal mb-3"
-  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_111, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
+  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_113, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
     }, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill fs-5 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_114, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_116, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-danger mb-3"
-  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_115, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_117, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
     }, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill fs-5 text-danger"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_117, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_118, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_119, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-chart-line fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Key Insights")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_119, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson8 = _ctx.currentLesson) === null || _ctx$currentLesson8 === void 0 ? void 0 : _ctx$currentLesson8.title) || 'Chapter'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_120, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
+  }, "Key Insights")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_121, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson8 = _ctx.currentLesson) === null || _ctx$currentLesson8 === void 0 ? void 0 : _ctx$currentLesson8.title) || 'Chapter'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_122, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: insight,
       class: "list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3"
     }, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check-circle fs-5 text-teal"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_124, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bookmark-star-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5 flex-grow-1"
-  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
@@ -1928,17 +1953,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[8] || (_cache[8] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
   }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dua.arabic,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_126, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_128, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "dua-glow"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
@@ -1952,7 +1977,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fontSize: `${_ctx.duaFontScale}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-square-fill fs-4 text-teal"
@@ -1963,9 +1988,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[9] || (_cache[9] = $event => _ctx.toggleSection('commonQuestions')),
     "aria-expanded": !_ctx.collapsedSections.commonQuestions
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.commonQuestions ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_129)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterCommonPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_131)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterCommonPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -1977,10 +2002,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('common', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_133), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_135), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_135)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), _ctx.premiumResources.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_136, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_137)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), _ctx.premiumResources.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-circle-fill fs-4 text-teal"
@@ -1991,29 +2016,29 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[10] || (_cache[10] = $event => _ctx.toggleSection('resources')),
     "aria-expanded": !_ctx.collapsedSections.resources
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_139, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.resources ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_141, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.resources ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.resources ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_138)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [_ctx.premiumResources.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_141, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.premiumResources, card => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_140)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [_ctx.premiumResources.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_143, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.premiumResources, card => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col",
       key: card.title
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_142, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_143, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_144, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.desc), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_145, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.desc), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "mt-auto resource-link d-flex align-items-center justify-content-center gap-2",
       onClick: $event => _ctx.openResource(card)
     }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Explore the resource", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-arrow-up-right"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_145)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.resources]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_146, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_147)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.resources]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_148, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-flag-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_148, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_149, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_150, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_150, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_151, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-success btn-sm fw-semibold",
     onClick: _cache[11] || (_cache[11] = (...args) => _ctx.focusMission && _ctx.focusMission(...args))
-  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4 text-teal"
@@ -2024,9 +2049,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[12] || (_cache[12] = $event => _ctx.toggleSection('faqs')),
     "aria-expanded": !_ctx.collapsedSections.faqs
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_158, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.faqs ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_155)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterFaqPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_157)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterFaqPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -2038,34 +2063,34 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('faq', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('faq', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_159), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_161), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_161)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_163)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard-check-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Next Steps & Homework")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_166, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentHomework, (task, index) => {
+  }, "Next Steps & Homework")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_166, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentHomework, (task, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: task,
       class: "homework-task p-3 mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_168, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_169, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_170, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_170, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_171, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_172, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-dice-4-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Chapter Quiz")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_172, " Question " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestionIndex + 1) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizQuestions.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Chapter Quiz")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_174, " Question " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestionIndex + 1) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizQuestions.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_177, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_178, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_179, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_180, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
@@ -2076,22 +2101,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       disabled: _ctx.chapterQuizPassed,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_182)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_183)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_180);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_184, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_184)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_185)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_182);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_186, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_185, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_186, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_188, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
     onClick: _cache[13] || (_cache[13] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_189, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_190, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1"
-  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_189, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_190, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_192, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_191, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_192, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_193, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_194, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "transition-line mt-2"
-  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_193, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Divider "), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_195, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Divider "), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "border-top pt-4 mt-4"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_195, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
@@ -2100,7 +2125,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[70] || (_cache[70] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_196), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_198, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_199, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_198), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_200, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_201, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !(_ctx.selectedPill >= _ctx.roadmapData.length || _ctx.isWaitingForNext),
       'disabled': _ctx.selectedPill >= _ctx.roadmapData.length || _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
@@ -2110,11 +2135,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_200)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_201, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_202)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_203, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_203, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_204, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_206, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_204, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_208, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_208, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_210, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[16] || (_cache[16] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
@@ -2251,6 +2276,16 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic found
 /***/ ((module) => {
 
 module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","pathway":[{"step":"01","title":"Absorb the chapter (Islamic foundation)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic foundation)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic foundation)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":2,"title":"Islamic beliefs","pathway":[{"step":"01","title":"Absorb the chapter (Islamic beliefs)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic beliefs)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic beliefs)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":3,"title":"Islamic pillars","pathway":[{"step":"01","title":"Absorb the chapter (Islamic pillars)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic pillars)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic pillars)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":4,"title":"Islamic quran","pathway":[{"step":"01","title":"Absorb the chapter (Islamic quran)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic quran)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic quran)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":5,"title":"Islamic prophet","pathway":[{"step":"01","title":"Absorb the chapter (Islamic prophet)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic prophet)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic prophet)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":6,"title":"Islamic prayers","pathway":[{"step":"01","title":"Absorb the chapter (Islamic prayers)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic prayers)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic prayers)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":7,"title":"Islamic manners","pathway":[{"step":"01","title":"Absorb the chapter (Islamic manners)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic manners)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic manners)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":8,"title":"Islamic lifestyle","pathway":[{"step":"01","title":"Absorb the chapter (Islamic lifestyle)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic lifestyle)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic lifestyle)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":9,"title":"Islamic community","pathway":[{"step":"01","title":"Absorb the chapter (Islamic community)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic community)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic community)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":10,"title":"Islamic future","pathway":[{"step":"01","title":"Absorb the chapter (Islamic future)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic future)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic future)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":11,"title":"Islamic hereafter","pathway":[{"step":"01","title":"Absorb the chapter (Islamic hereafter)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic hereafter)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic hereafter)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":12,"title":"Islamic paradise and hell","pathway":[{"step":"01","title":"Absorb the chapter (Islamic paradise and hell)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic paradise and hell)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic paradise and hell)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":13,"title":"Islamic dua dhkir","pathway":[{"step":"01","title":"Absorb the chapter (Islamic dua dhkir)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic dua dhkir)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic dua dhkir)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":14,"title":"Islamic family and marriage","pathway":[{"step":"01","title":"Absorb the chapter (Islamic family and marriage)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic family and marriage)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic family and marriage)","action":"Translate the insight into a small habit before tomorrow."}]},{"chapterId":15,"title":"Islamic heart","pathway":[{"step":"01","title":"Absorb the chapter (Islamic heart)","action":"Read the overview and note one central idea you can carry into today."},{"step":"02","title":"Reflect deeply (Islamic heart)","action":"Pair the idea with a dua or journaling moment to give it feeling."},{"step":"03","title":"Act gently (Islamic heart)","action":"Translate the insight into a small habit before tomorrow."}]}]');
+
+/***/ }),
+
+/***/ "./resources/js/components/data/chapterSectionStats.json":
+/*!***************************************************************!*\
+  !*** ./resources/js/components/data/chapterSectionStats.json ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"sectionStats":[{"title":"Tawheed Before You Were Born: The Primordial Covenant","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Tawheed Before You Were Born: The Primordial Covenant today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"The Three Categories of Tawheed (The Standard Framework)","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Three Categories of Tawheed (The Standard Framework) today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Extended Discussions on Tawheed: Ittibaa’ and Beyond","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Extended Discussions on Tawheed: Ittibaa’ and Beyond today?"},{"label":"Confidence","value":"Confidence 70%"}]},{"title":"The Greatest Ayah in the Qur’an: Ayat al-Kursi","stats":[{"label":"Focus window","value":"18 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Greatest Ayah in the Qur’an: Ayat al-Kursi today?"},{"label":"Confidence","value":"Confidence 75%"}]},{"title":"Tawheed of the Prophets in 60 Seconds Each","stats":[{"label":"Focus window","value":"20 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Tawheed of the Prophets in 60 Seconds Each today?"},{"label":"Confidence","value":"Confidence 80%"}]},{"title":"Tawheed in the Grave, on the Sirat, and at the Hawd","stats":[{"label":"Focus window","value":"22 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Tawheed in the Grave, on the Sirat, and at the Hawd today?"},{"label":"Confidence","value":"Confidence 85%"}]},{"title":"The Ten Nullifiers of Tawheed (Nawaqid al-Islam)","stats":[{"label":"Focus window","value":"24 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Ten Nullifiers of Tawheed (Nawaqid al-Islam) today?"},{"label":"Confidence","value":"Confidence 90%"}]},{"title":"Hidden Shirk Checklist (Modern Edition)","stats":[{"label":"Focus window","value":"26 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Hidden Shirk Checklist (Modern Edition) today?"},{"label":"Confidence","value":"Confidence 95%"}]},{"title":"The Four Stages of Protecting Tawheed","stats":[{"label":"Focus window","value":"28 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Four Stages of Protecting Tawheed today?"},{"label":"Confidence","value":"Confidence 100%"}]},{"title":"Tawheed in Times of Trial: Stories from the Sahaba","stats":[{"label":"Focus window","value":"30 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Tawheed in Times of Trial: Stories from the Sahaba today?"},{"label":"Confidence","value":"Confidence 105%"}]}]},{"chapterId":2,"sectionStats":[{"title":"The Branches of Iman: Over Seventy Levels of Excellence","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Branches of Iman: Over Seventy Levels of Excellence today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Belief in Allah – The Unshakable Core","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Belief in Allah – The Unshakable Core today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Living with Angels – Your Constant Companions","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Living with Angels – Your Constant Companions today?"},{"label":"Confidence","value":"Confidence 70%"}]},{"title":"Belief in the Revealed Books – The Chain of Divine Guidance","stats":[{"label":"Focus window","value":"18 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Belief in the Revealed Books – The Chain of Divine Guidance today?"},{"label":"Confidence","value":"Confidence 75%"}]},{"title":"25 Prophets Mentioned by Name – Quick Profiles of Guidance","stats":[{"label":"Focus window","value":"20 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect 25 Prophets Mentioned by Name – Quick Profiles of Guidance today?"},{"label":"Confidence","value":"Confidence 80%"}]},{"title":"Detailed Stages of the Hereafter: From Barzakh to Eternity","stats":[{"label":"Focus window","value":"22 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Detailed Stages of the Hereafter: From Barzakh to Eternity today?"},{"label":"Confidence","value":"Confidence 85%"}]},{"title":"Qadar in Four Simple Equations: Balancing Free Will and Decree","stats":[{"label":"Focus window","value":"24 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Qadar in Four Simple Equations: Balancing Free Will and Decree today?"},{"label":"Confidence","value":"Confidence 90%"}]},{"title":"The Ten Daily Iman Boosters: Practical Integration","stats":[{"label":"Focus window","value":"26 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Ten Daily Iman Boosters: Practical Integration today?"},{"label":"Confidence","value":"Confidence 95%"}]},{"title":"Iman in the Modern World: Countering Doubt","stats":[{"label":"Focus window","value":"28 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Iman in the Modern World: Countering Doubt today?"},{"label":"Confidence","value":"Confidence 100%"}]}]},{"chapterId":3,"sectionStats":[{"title":"Shahada – The Key That Never Rusts","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Shahada – The Key That Never Rusts today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Salah – 50→5 Gift of the Night Journey","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Salah – 50→5 Gift of the Night Journey today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Zakat – Financial Detox and Social Justice","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Zakat – Financial Detox and Social Justice today?"},{"label":"Confidence","value":"Confidence 70%"}]},{"title":"Sawm – Training the Soul for 11 Months","stats":[{"label":"Focus window","value":"18 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Sawm – Training the Soul for 11 Months today?"},{"label":"Confidence","value":"Confidence 75%"}]},{"title":"Hajj – Standing Where the Prophets Stood","stats":[{"label":"Focus window","value":"20 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Hajj – Standing Where the Prophets Stood today?"},{"label":"Confidence","value":"Confidence 80%"}]},{"title":"No Sixth Pillar: Clarifying Misconceptions","stats":[{"label":"Focus window","value":"22 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect No Sixth Pillar: Clarifying Misconceptions today?"},{"label":"Confidence","value":"Confidence 85%"}]},{"title":"Daily, Weekly, Yearly, Lifetime Checklist: Building Rhythm","stats":[{"label":"Focus window","value":"24 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Daily, Weekly, Yearly, Lifetime Checklist: Building Rhythm today?"},{"label":"Confidence","value":"Confidence 90%"}]},{"title":"The Fruits of the Pillars: Transformation Stories","stats":[{"label":"Focus window","value":"26 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Fruits of the Pillars: Transformation Stories today?"},{"label":"Confidence","value":"Confidence 95%"}]}]},{"chapterId":4,"sectionStats":[{"title":"Tajweed & Presence","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Tajweed & Presence today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Meditative Reflection","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Meditative Reflection today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":5,"sectionStats":[{"title":"Prophetic Communication","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Prophetic Communication today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Balance & Routine","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Balance & Routine today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":6,"sectionStats":[{"title":"Mental Prep","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Mental Prep today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Physical Presence","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Physical Presence today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":7,"sectionStats":[{"title":"Family Adab","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Family Adab today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Digital Etiquette","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Digital Etiquette today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":8,"sectionStats":[{"title":"Halal Nutrition","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Halal Nutrition today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Digital Boundaries","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Digital Boundaries today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":9,"sectionStats":[{"title":"Hosting with Heart","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Hosting with Heart today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Conflict Resolution","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Conflict Resolution today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":10,"sectionStats":[{"title":"Spiritual Goal Setting","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Spiritual Goal Setting today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Legacy Planning","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Legacy Planning today?"},{"label":"Confidence","value":"Confidence 65%"}]}]},{"chapterId":11,"sectionStats":[{"title":"Moments Between This Life and the Next","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Moments Between This Life and the Next today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Judgment Day: Balance Fear and Hope","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Judgment Day: Balance Fear and Hope today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Charity That Continues After Passing","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Charity That Continues After Passing today?"},{"label":"Confidence","value":"Confidence 70%"}]}]},{"chapterId":12,"sectionStats":[{"title":"Gardens Below Which Rivers Flow","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Gardens Below Which Rivers Flow today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"The Fire of Hell and Lessons from the Warnings","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect The Fire of Hell and Lessons from the Warnings today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Living with Both Realities","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Living with Both Realities today?"},{"label":"Confidence","value":"Confidence 70%"}]}]},{"chapterId":13,"sectionStats":[{"title":"Dua as Conversation","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Dua as Conversation today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Dhikr Between Actions","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Dhikr Between Actions today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Protecting the Heart","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Protecting the Heart today?"},{"label":"Confidence","value":"Confidence 70%"}]}]},{"chapterId":14,"sectionStats":[{"title":"Marital Mercy","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Marital Mercy today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Parenting for the Heart","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Parenting for the Heart today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Extended Family Ties","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Extended Family Ties today?"},{"label":"Confidence","value":"Confidence 70%"}]}]},{"chapterId":15,"sectionStats":[{"title":"Detecting Heart Diseases","stats":[{"label":"Focus window","value":"12 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Detecting Heart Diseases today?"},{"label":"Confidence","value":"Confidence 60%"}]},{"title":"Softening Through Dhikr and Charity","stats":[{"label":"Focus window","value":"14 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Softening Through Dhikr and Charity today?"},{"label":"Confidence","value":"Confidence 65%"}]},{"title":"Focus Amid Distractions","stats":[{"label":"Focus window","value":"16 min focus"},{"label":"Reflection prompt","value":"Ask yourself: How does this reflect Focus Amid Distractions today?"},{"label":"Confidence","value":"Confidence 70%"}]}]}]');
 
 /***/ }),
 
