@@ -191,6 +191,7 @@ const asyncComponentLoaders = {
   "payment-methods-component": () => import("./components/PaymentMethodsComponent.vue"),
   "read-component": () => import("./components/ReadComponent.vue"),
   "revert-component": () => import("./components/RevertComponent.vue"),
+  "muslim-component": () => import("./components/MuslimComponent.vue"),
 
 };
 

@@ -1,0 +1,172 @@
+[
+  {
+    "chapterId": 1,
+    "steps": [
+      {
+        "title": "Meet the Foundations",
+        "description": "Slowly read each section so the names of Allah, the Shahada, and the meanings sink in."
+      },
+      {
+        "title": "Capture a Dua",
+        "description": "Repeat or write down a dua shared in the lesson to keep the words close."
+      },
+      {
+        "title": "Practice the quiz",
+        "description": "Answer two questions correctly to prove the lesson is alive in your heart."
+      }
+    ]
+  },
+  {
+    "chapterId": 2,
+    "steps": [
+      {
+        "title": "Slow the read",
+        "description": "Note how each article of faith connects to Allah’s mercy and plan for you."
+      },
+      {
+        "title": "Share a truth",
+        "description": "Speak one insight aloud or teach it to someone you trust."
+      },
+      {
+        "title": "Try the quiz",
+        "description": "Two right answers mean you’re ready to take the next step."
+      }
+    ]
+  },
+  {
+    "chapterId": 3,
+    "steps": [
+      {
+        "title": "Feel the rhythm",
+        "description": "Track each pillar and imagine how it fits into your daily life."
+      },
+      {
+        "title": "Practice gratitude",
+        "description": "Say a short thanks for one pillar as you recite the dua."
+      },
+      {
+        "title": "Answer the quiz",
+        "description": "Two correct replies unlock the next chapter."
+      }
+    ]
+  },
+  {
+    "chapterId": 4,
+    "steps": [
+      {
+        "title": "Embrace revelation",
+        "description": "Breathe while you read about the Quran and let its guidance calm you."
+      },
+      {
+        "title": "Write the words",
+        "description": "Copy a verse or reminder to keep practicing."
+      },
+      {
+        "title": "Take the quiz",
+        "description": "Two right answers show the message is sticking."
+      }
+    ]
+  },
+  {
+    "chapterId": 5,
+    "steps": [
+      {
+        "title": "Follow the Sunnah",
+        "description": "Read the stories of the Prophet ﷺ in the sections provided."
+      },
+      {
+        "title": "Repeat a lesson",
+        "description": "Describe one habit you will apply today."
+      },
+      {
+        "title": "Quiz gently",
+        "description": "Answer two questions and celebrate the correct choices."
+      }
+    ]
+  },
+  {
+    "chapterId": 6,
+    "steps": [
+      {
+        "title": "Feel the prayer",
+        "description": "Picture yourself in each step of Salah while you read."
+      },
+      {
+        "title": "Soft reminder",
+        "description": "Share a dua for ease before the next prayer."
+      },
+      {
+        "title": "Test with care",
+        "description": "Two correct quiz answers let you move forward."
+      }
+    ]
+  },
+  {
+    "chapterId": 7,
+    "steps": [
+      {
+        "title": "Open your heart",
+        "description": "Let the manners shine through every paragraph."
+      },
+      {
+        "title": "Speak kindly",
+        "description": "Repeat one kind action you will practice."
+      },
+      {
+        "title": "Quiz & move",
+        "description": "Answer two questions correctly to unlock the next chapter."
+      }
+    ]
+  },
+  {
+    "chapterId": 8,
+    "steps": [
+      {
+        "title": "Decide halal",
+        "description": "Let each section show you what is pure and peaceful."
+      },
+      {
+        "title": "Make a vow",
+        "description": "Choose one small habit to keep halal today."
+      },
+      {
+        "title": "Answer the quiz",
+        "description": "Two correct answers mean you understand this lesson."
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "steps": [
+      {
+        "title": "Remember community",
+        "description": "See how support and unity glow across the chapters."
+      },
+      {
+        "title": "Show care",
+        "description": "Plan one small way to help someone near you."
+      },
+      {
+        "title": "Quiz joyfully",
+        "description": "Two correct replies unlock the next chapter."
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "steps": [
+      {
+        "title": "Dream forward",
+        "description": "Read how continual growth keeps you steady."
+      },
+      {
+        "title": "Set intent",
+        "description": "Pick one action that moves you toward the future."
+      },
+      {
+        "title": "Complete the quiz",
+        "description": "Two correct answers mean the journey continues."
+      }
+    ]
+  }
+]

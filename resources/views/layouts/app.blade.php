@@ -226,6 +226,10 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
                         </li>
+
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3" href="/muslim" data-path="/muslim" data-nav-item="primary">Non-Muslim zone</a>
+                        </li>
                        
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/revert" data-path="/revert" data-nav-item="primary">Revert corner</a>
@@ -533,6 +537,7 @@
                 '/packages': '/subscribe',
                 '/pricing': '/subscribe',
                 '/bookmarks': '/bookmarks',
+                '/muslim': '/muslim',
             };
 
             const aliasKeys = Object.keys(aliasMap);
