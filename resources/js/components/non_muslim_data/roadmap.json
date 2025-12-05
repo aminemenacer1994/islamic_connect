@@ -1,17 +1,31 @@
 [
-  { "id": 1, "title": "The Foundation", "description": "Introduction to Islam & Tawheed", "icon": "auto_awesome", "color": "emerald", "videoUrl": "PDxobYt_9zM" },
-  { "id": 2, "title": "The Beliefs", "description": "Six Articles of Faith", "icon": "psychology", "color": "indigo", "videoUrl": "Jd6dIqJ6_Zg" },
-  { "id": 3, "title": "The Pillars", "description": "The Five Acts of Worship", "icon": "star", "color": "amber", "videoUrl": "TpcO0uE1r-w" },
-  { "id": 4, "title": "The Quran", "description": "Divine Revelation", "icon": "menu_book", "color": "teal", "videoUrl": "1Y72J03fK-Y" },
-  { "id": 5, "title": "The Prophet", "description": "Life of Muhammad (peace be upon him)", "icon": "history_edu", "color": "cyan", "videoUrl": "sZ3rG-aWzWw" },
-  { "id": 6, "title": "The Prayer", "description": "Connection (Salah)", "icon": "schedule", "color": "emerald", "videoUrl": "kScrL8m1qMs" },
-  { "id": 7, "title": "The Manners", "description": "Islamic Etiquette (Adab)", "icon": "handshake", "color": "rose", "videoUrl": "B1J2_1wK6tM" },
-  { "id": 8, "title": "The Lifestyle", "description": "Halal & Haram", "icon": "style", "color": "violet", "videoUrl": "XJt9r-x1qMs" },
-  { "id": 9, "title": "The Community", "description": "Ummah & Support", "icon": "groups", "color": "blue", "videoUrl": "lJt9r-x1qMs" },
-  { "id": 10, "title": "The Future", "description": "Continuous Growth", "icon": "trending_up", "color": "slate", "videoUrl": "yJt9r-x1qMs" },
-  { "id": 11, "title": "The Hereafter", "description": "Death, Grave & Beyond", "icon": "nightlight", "color": "zinc", "videoUrl": "9s3rG-aWzWw" },
-  { "id": 12, "title": "Paradise & Hell", "description": "Your Permanent Home", "icon": "park", "color": "green", "videoUrl": "JannahTour" },
-  { "id": 13, "title": "Dua & Dhikr", "description": "Weapons of the Believer", "icon": "favorite", "color": "purple", "videoUrl": "dua-weapon" },
-  { "id": 14, "title": "Family & Marriage", "description": "Building a Righteous Home", "icon": "family_restroom", "color": "pink", "videoUrl": "marriage101" },
-  { "id": 15, "title": "The Heart", "description": "Purification & Spiritual Diseases", "icon": "favorite", "color": "red", "videoUrl": "heartpurification" }
+  { "id": 1, "title": "One God", "description": "Basic belief in one Creator", "icon": "auto_awesome", "color": "emerald", "videoUrl": "basic-god" },
+
+  { "id": 2, "title": "The Qur'an", "description": "What the Qur’an is and teaches", "icon": "menu_book", "color": "indigo", "videoUrl": "basic-quran" },
+
+  { "id": 3, "title": "The Prophet", "description": "Simple intro to Prophet Muhammad", "icon": "history_edu", "color": "amber", "videoUrl": "basic-prophet" },
+
+  { "id": 4, "title": "Main Practices", "description": "Five core actions in Islam", "icon": "star", "color": "teal", "videoUrl": "basic-pillars" },
+
+  { "id": 5, "title": "Prayer", "description": "How and why Muslims pray", "icon": "schedule", "color": "cyan", "videoUrl": "basic-prayer" },
+
+  { "id": 6, "title": "Ramadan", "description": "Purpose of fasting in Ramadan", "icon": "hourglass_top", "color": "emerald", "videoUrl": "basic-ramadan" },
+
+  { "id": 7, "title": "Good Character", "description": "Importance of kindness in Islam", "icon": "handshake", "color": "rose", "videoUrl": "basic-manners" },
+
+  { "id": 8, "title": "Peace & Respect", "description": "How Islam teaches peaceful living", "icon": "emoji_people", "color": "violet", "videoUrl": "basic-peace" },
+
+  { "id": 9, "title": "The Prophets", "description": "How Muslims view all prophets", "icon": "psychology", "color": "blue", "videoUrl": "basic-prophets" },
+
+  { "id": 10, "title": "The Mosque", "description": "What happens inside a mosque", "icon": "location_city", "color": "slate", "videoUrl": "basic-mosque" },
+
+  { "id": 11, "title": "Halal Life", "description": "Simple meaning of halal living", "icon": "style", "color": "zinc", "videoUrl": "basic-halal" },
+
+  { "id": 12, "title": "Men & Women", "description": "Basic view of gender roles", "icon": "family_restroom", "color": "green", "videoUrl": "basic-gender" },
+
+  { "id": 13, "title": "Becoming Muslim", "description": "What happens when accepting Islam", "icon": "favorite", "color": "purple", "videoUrl": "basic-shahada" },
+
+  { "id": 14, "title": "Eid Festivals", "description": "How Muslims celebrate Eid days", "icon": "celebration", "color": "pink", "videoUrl": "basic-eid" },
+
+  { "id": 15, "title": "Afterlife", "description": "Intro to heaven, hell, accountability", "icon": "nightlight", "color": "red", "videoUrl": "basic-afterlife" }
 ]
