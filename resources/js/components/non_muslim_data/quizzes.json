@@ -1,3076 +1,2341 @@
 [
   {
     "chapterId": 1,
+    "chapter": "One God",
     "questions": [
       {
-        "question": "Which statement is the Shahada?",
+        "question": "Which declaration is the Shahada?",
         "options": [
           "La ilaha illa Allah",
           "Allahu Akbar",
-          "Subhan Allah",
-          "Bismillah"
+          "SubhanAllah",
+          "Alhamdulillah"
         ],
         "answer": "La ilaha illa Allah"
       },
       {
-        "question": "Tawheed al-Rububiyyah affirms which fact about Allah?",
+        "question": "Which pillar of Tawheed affirms Allah as Lord of all?",
         "options": [
-          "His Lordship over creation",
-          "His reward",
-          "His prophets",
-          "His angels"
+          "Tawheed al Uloohiyyah",
+          "Tawheed ar Rububiyyah",
+          "Tawheed al Asma wa Sifaat",
+          "Tawheed al Ittibaa"
         ],
-        "answer": "His Lordship over creation"
+        "answer": "Tawheed ar Rububiyyah"
       },
       {
-        "question": "Tawheed al-Uluhiyyah insists that worship belongs to?",
+        "question": "Which focus keeps all worship directed only to Allah?",
         "options": [
-          "Allah alone",
-          "Prophets",
-          "Saints",
-          "Nature"
+          "Tawheed al Asma wa Sifaat",
+          "Tawheed al Uloohiyyah",
+          "Tawheed ar Rububiyyah",
+          "Tawheed al Ittibaa"
         ],
-        "answer": "Allah alone"
+        "answer": "Tawheed al Uloohiyyah"
       },
       {
-        "question": "Belief in Allah's names and attributes is called?",
+        "question": "Which Tawheed category studies Allah’s names and attributes?",
         "options": [
-          "Tawheed al-Asma wa Sifat",
-          "Tawheed al-Rububiyyah",
-          "Tawheed al-Uluhiyyah",
-          "Shirk"
+          "Tawheed ar Rububiyyah",
+          "Tawheed al Uloohiyyah",
+          "Tawheed al Asma wa Sifaat",
+          "Tawheed al Ittibaa"
         ],
-        "answer": "Tawheed al-Asma wa Sifat"
+        "answer": "Tawheed al Asma wa Sifaat"
       },
       {
-        "question": "Which act contradicts Tawheed?",
+        "question": "Why does gratitude help preserve Tawheed?",
         "options": [
-          "Worshiping idols",
-          "Fasting",
-          "Giving charity",
-          "Praying on time"
+          "It creates riches",
+          "It reminds the heart Allah is the giver",
+          "It impresses people",
+          "It keeps busy"
         ],
-        "answer": "Worshiping idols"
+        "answer": "It reminds the heart Allah is the giver"
       },
       {
-        "question": "What does the Arabic word 'shirk' mean?",
+        "question": "Which action is a simple daily reminder of Tawheed?",
         "options": [
-          "Associating partners with Allah",
-          "Studying the Quran",
-          "Helping parents",
-          "Giving charity"
+          "Repeat the Shahada thoughtfully",
+          "Skip prayer",
+          "Watch movies",
+          "Argue online"
         ],
-        "answer": "Associating partners with Allah"
+        "answer": "Repeat the Shahada thoughtfully"
       },
       {
-        "question": "Reciting the Shahada daily helps a believer to?",
+        "question": "Which name of Allah emphasizes mercy?",
         "options": [
-          "Keep Allah's oneness present",
-          "Gain wealth quickly",
-          "Avoid talking to others",
-          "Win every argument"
+          "Ar-Razzaq",
+          "Ar-Rahman",
+          "Al-Malik",
+          "An-Nur"
         ],
-        "answer": "Keep Allah's oneness present"
+        "answer": "Ar-Rahman"
       },
       {
-        "question": "The primordial covenant taught that souls testified to?",
+        "question": "How do you guard against subtle shirk?",
         "options": [
-          "Allah's oneness",
-          "Worldly success",
-          "Family ties",
-          "Social media fame"
+          "Recite Allah’s names",
+          "Ignore lessons",
+          "Spend all time online",
+          "Avoid community"
         ],
-        "answer": "Allah's oneness"
+        "answer": "Recite Allah’s names"
       },
       {
-        "question": "Which habit protects Tawheed in day to day life?",
+        "question": "What phrase anchors you when doubts appear?",
         "options": [
-          "Sincere dua to Allah alone",
-          "Gossiping about friends",
-          "Ignoring prayer",
-          "Competitiveness"
+          "Bismillah",
+          "Allahu Akbar",
+          "La ilaha illa Allah",
+          "Alhamdulillah"
         ],
-        "answer": "Sincere dua to Allah alone"
+        "answer": "La ilaha illa Allah"
       },
       {
-        "question": "Tawheed urges us to rely on Allah instead of?",
+        "question": "Which practice pairs a deed with Tawheed?",
         "options": [
-          "Created beings",
-          "The Quran",
-          "Prophets",
-          "Our parents"
+          "Thanking Allah during work",
+          "Ignoring obligations",
+          "Seeking praise",
+          "Forgetting the Quran"
         ],
-        "answer": "Created beings"
+        "answer": "Thanking Allah during work"
       },
       {
-        "question": "Which Quranic verse begins with a call to remember Allah's oneness?",
+        "question": "Which is a sign that Tawheed is alive in a decision?",
         "options": [
-          "Qul Huwa Allahu Ahad",
-          "Al-Fatiha",
-          "Yaseen",
-          "An-Nas"
+          "Turning to Allah before acting",
+          "Acting hastily",
+          "Copying peers",
+          "Avoiding worship"
         ],
-        "answer": "Qul Huwa Allahu Ahad"
+        "answer": "Turning to Allah before acting"
       },
       {
-        "question": "To guard Tawheed, Muslims avoid giving divine attributes to?",
+        "question": "Which of these is a danger to Tawheed?",
         "options": [
-          "Human idols",
-          "Books",
-          "Mosques",
-          "Angels"
+          "Shirk",
+          "Zakat",
+          "Salah",
+          "Dhikr"
         ],
-        "answer": "Human idols"
+        "answer": "Shirk"
       },
       {
-        "question": "Which action shows belief in Allah's attributes?",
+        "question": "Which concept reminds you Allah alone controls everything?",
         "options": [
-          "Reciting the Names of Allah",
-          "Watching TV",
-          "Sleeping late",
-          "Eating fast food"
+          "Tawheed ar Rububiyyah",
+          "Tawheed al Uloohiyyah",
+          "Shirk",
+          "Fasting"
         ],
-        "answer": "Reciting the Names of Allah"
+        "answer": "Tawheed ar Rububiyyah"
       },
       {
-        "question": "Under Tawheed, which description applies only to Allah?",
+        "question": "Where should Tawheed be most evident?",
         "options": [
-          "Creator",
-          "Teacher",
-          "Neighbor",
-          "Friend"
+          "Daily choices",
+          "Only on weekends",
+          "Only in rituals",
+          "Only during Ramadan"
         ],
-        "answer": "Creator"
+        "answer": "Daily choices"
       },
       {
-        "question": "What should the intention be before every act of worship to keep Tawheed alive?",
+        "question": "How does sharing Tawheed help you?",
         "options": [
-          "For Allah's pleasure",
-          "To impress people",
-          "To gain fame",
-          "To compete with others"
+          "It clarifies belief",
+          "It isolates you",
+          "It confuses others",
+          "It avoids learning"
         ],
-        "answer": "For Allah's pleasure"
-      },
-      {
-        "question": "Which attitude best demonstrates Tawheed when making decisions?",
-        "options": [
-          "Seeking Allah's guidance",
-          "Following rumors",
-          "Ignoring prayer",
-          "Copying friends"
-        ],
-        "answer": "Seeking Allah's guidance"
-      },
-      {
-        "question": "Tawakkul refers to.",
-        "options": [
-          "Trusting Allah",
-          "Speaking loudly",
-          "Showing off",
-          "Competing with others"
-        ],
-        "answer": "Trusting Allah"
-      },
-      {
-        "question": "Renewing your intention before worship keeps focus on.",
-        "options": [
-          "Allah",
-          "People",
-          "Wealth",
-          "Entertainment"
-        ],
-        "answer": "Allah"
-      },
-      {
-        "question": "To avoid shirk, we should never attribute Allah's  to others.",
-        "options": [
-          "Attributes",
-          "Stories",
-          "Jobs",
-          "Debts"
-        ],
-        "answer": "Attributes"
-      },
-      {
-        "question": "When fear arises, Tawheed reminds us to rely on.",
-        "options": [
-          "Allah",
-          "Luck",
-          "Popularity",
-          "Money"
-        ],
-        "answer": "Allah"
+        "answer": "It clarifies belief"
       }
     ]
   },
   {
     "chapterId": 2,
+    "chapter": "The Qur'an",
     "questions": [
       {
-        "question": "Belief in Allah is which article of faith?",
+        "question": "What describes the Qur'an?",
         "options": [
-          "First",
-          "Second",
-          "Third",
-          "Fourth"
+          "A preserved divine speech",
+          "A myth",
+          "A historical romance",
+          "Only poetry"
         ],
-        "answer": "First"
+        "answer": "A preserved divine speech"
       },
       {
-        "question": "Belief in divine decree (Qadar) corresponds to which article?",
+        "question": "Which action helps you reflect on a verse?",
         "options": [
-          "Second",
-          "First",
-          "Third",
-          "Fifth"
+          "Ask, 'How does this apply today?'",
+          "Skip it",
+          "Criticize the messenger",
+          "Share memes"
         ],
-        "answer": "Second"
+        "answer": "Ask, 'How does this apply today?'"
       },
       {
-        "question": "Belief in the revealed books is which article?",
+        "question": "What keeps reading consistent?",
         "options": [
-          "Third",
-          "Fourth",
-          "First",
-          "Sixth"
+          "Set a manageable rhythm",
+          "Read only when inspired",
+          "Forget the meaning",
+          "Rely on others"
         ],
-        "answer": "Third"
+        "answer": "Set a manageable rhythm"
       },
       {
-        "question": "Belief in prophets is which article?",
+        "question": "Why pair dua with Quran reading?",
         "options": [
-          "Fifth",
-          "Fourth",
-          "Second",
-          "Third"
+          "To ask Allah to help you live it",
+          "To avoid it",
+          "To rush through",
+          "To brag"
         ],
-        "answer": "Fifth"
+        "answer": "To ask Allah to help you live it"
       },
       {
-        "question": "Belief in angels is which article?",
+        "question": "Which helps you slow down?",
         "options": [
-          "Fourth",
-          "First",
-          "Second",
-          "Third"
+          "Look up one word",
+          "Multitask",
+          "Skip translation",
+          "Watch TV"
         ],
-        "answer": "Fourth"
+        "answer": "Look up one word"
       },
       {
-        "question": "Belief in the Day of Judgment is which article?",
+        "question": "Which type of reading keeps phrases alive?",
         "options": [
-          "Sixth",
-          "Fifth",
-          "Fourth",
-          "Second"
+          "Memorize one verse gently",
+          "Ignore translation",
+          "Rely only on notes",
+          "Avoid commitment"
         ],
-        "answer": "Sixth"
+        "answer": "Memorize one verse gently"
       },
       {
-        "question": "Which of the following is a revealed book?",
+        "question": "How can you teach a lesson from the Qur'an?",
         "options": [
-          "Quran",
-          "Epic poem",
-          "Novel",
-          "Myth"
+          "Share a meaningful verse",
+          "Keep it private forever",
+          "Criticize others",
+          "Copy someone else"
         ],
-        "answer": "Quran"
+        "answer": "Share a meaningful verse"
       },
       {
-        "question": "The Quran was revealed to which prophet?",
+        "question": "What strengthens Tajweed?",
         "options": [
-          "Muhammad (peace be upon him)",
-          "Moses",
-          "Jesus",
-          "Noah"
+          "Practice pronunciation",
+          "Avoid the Quran",
+          "Skip recitation",
+          "Forget about it"
         ],
-        "answer": "Muhammad (peace be upon him)"
+        "answer": "Practice pronunciation"
       },
       {
-        "question": "Angels are created from what?",
+        "question": "Why treat the Qur'an as dialogue?",
         "options": [
-          "Light",
-          "Fire",
-          "Water",
-          "Clay"
+          "Because Allah invites answers",
+          "Because it is old",
+          "Because it confuses",
+          "Because it is optional"
         ],
-        "answer": "Light"
+        "answer": "Because Allah invites answers"
       },
       {
-        "question": "Divine decree reminds believers that Allah controls every.",
+        "question": "What should you do when a verse feels unclear?",
         "options": [
-          "Event",
-          "Feeling",
-          "Emotion",
-          "Memory"
+          "Ask a trusted teacher",
+          "Ignore it",
+          "Spread gossip",
+          "Copy random interpretations"
         ],
-        "answer": "Event"
+        "answer": "Ask a trusted teacher"
       },
       {
-        "question": "Prophets came to deliver Allah's.",
+        "question": "Which habit keeps listener attention?",
         "options": [
-          "Message",
-          "Business plan",
-          "Political idea",
-          "Movie"
+          "Listen to short recitation",
+          "Ignore rhythm",
+          "Frown at others",
+          "Rush reading"
         ],
-        "answer": "Message"
+        "answer": "Listen to short recitation"
       },
       {
-        "question": "Belief in the unseen includes trusting in which of these?",
+        "question": "How do you ensure verses guide decisions?",
         "options": [
-          "Angels",
-          "Computers",
-          "Mountains",
-          "Buildings"
+          "Journal a takeaway",
+          "Decline to reflect",
+          "Avoid accountability",
+          "Focus on habits only"
         ],
-        "answer": "Angels"
+        "answer": "Journal a takeaway"
       },
       {
-        "question": "Which of these books came before the Quran?",
+        "question": "What makes Quran reading gentle?",
         "options": [
-          "Torah",
-          "Dictionary",
-          "Comic",
-          "Novel"
+          "Focus on meaning",
+          "Force through pages",
+          "Compare to others",
+          "Skip translation"
         ],
-        "answer": "Torah"
+        "answer": "Focus on meaning"
       },
       {
-        "question": "Belief that Allah rewards good deeds gives hope for.",
+        "question": "How do you share curiosity?",
         "options": [
-          "Paradise",
-          "Gold",
-          "Travel",
-          "Fame"
+          "Tell a friend a verse",
+          "Keep it to yourself",
+          "Ignore the quandary",
+          "Stop reading"
         ],
-        "answer": "Paradise"
+        "answer": "Tell a friend a verse"
       },
       {
-        "question": "Belief in Allah means submitting to His.",
+        "question": "What invites hope from the Qur'an?",
         "options": [
-          "Will",
-          "Hobby",
-          "Neighbor",
-          "Story"
+          "Celebrate clarity",
+          "Avoid studying",
+          "Constanly doubt",
+          "Ruin concentration"
         ],
-        "answer": "Will"
-      },
-      {
-        "question": "Belief in the unseen includes trusting Allah knows our  before we act.",
-        "options": [
-          "Intentions",
-          "Outfits",
-          "Weather",
-          "Sports"
-        ],
-        "answer": "Intentions"
-      },
-      {
-        "question": "Divine decree encourages patience with  that Allah allows.",
-        "options": [
-          "Trials",
-          "Movies",
-          "Gossip",
-          "Shopping"
-        ],
-        "answer": "Trials"
-      },
-      {
-        "question": "Revealed books keep believers focused on Allah's.",
-        "options": [
-          "Guidance",
-          "Wealth",
-          "Noise",
-          "Fame"
-        ],
-        "answer": "Guidance"
-      },
-      {
-        "question": "Prophets came to invite people to.",
-        "options": [
-          "Allah",
-          "Power",
-          "Wealth",
-          "Sports"
-        ],
-        "answer": "Allah"
-      },
-      {
-        "question": "Remembering the Day of Judgment helps guard our.",
-        "options": [
-          "Actions",
-          "Sleeping",
-          "Shopping",
-          "Screens"
-        ],
-        "answer": "Actions"
+        "answer": "Celebrate clarity"
       }
     ]
   },
   {
     "chapterId": 3,
+    "chapter": "The Prophet",
     "questions": [
       {
-        "question": "How many pillars of Islam are there?",
+        "question": "How is Prophet Muhammad ﷺ described?",
         "options": [
-          "Five",
-          "Six",
-          "Four",
-          "Seven"
+          "Mercy to humanity",
+          "A distant idol",
+          "A political ruler only",
+          "Only a storyteller"
         ],
-        "answer": "Five"
+        "answer": "Mercy to humanity"
       },
       {
-        "question": "Which pillar is the declaration of faith?",
+        "question": "Which habit reflects his patience?",
         "options": [
-          "Shahada",
-          "Salah",
-          "Zakat",
-          "Sawm"
+          "Choose calm speech",
+          "Argue loudly",
+          "Ignore family",
+          "Rush decisions"
         ],
-        "answer": "Shahada"
+        "answer": "Choose calm speech"
       },
       {
-        "question": "Which pillar is the five daily prayers?",
+        "question": "Why model his manners?",
         "options": [
-          "Salah",
-          "Zakat",
-          "Hajj",
-          "Shahada"
+          "It shows Tawheed in action",
+          "It increases wealth",
+          "It isolates you",
+          "It avoids guidance"
         ],
-        "answer": "Salah"
+        "answer": "It shows Tawheed in action"
       },
       {
-        "question": "Which pillar gives a portion of wealth to the needy?",
+        "question": "What should you do when upset?",
         "options": [
-          "Zakat",
-          "Sawm",
-          "Hijrah",
-          "Hajj"
+          "Remember his calm with opponents",
+          "Lose control",
+          "Avoid dua",
+          "Blame others"
         ],
-        "answer": "Zakat"
+        "answer": "Remember his calm with opponents"
       },
       {
-        "question": "Which pillar involves fasting during Ramadan?",
+        "question": "How can you share a seerah moment?",
         "options": [
-          "Sawm",
-          "Zakat",
-          "Salah",
-          "Hajj"
+          "Tell a short story with a lesson",
+          "Keep stories private",
+          "Change details",
+          "Mock them"
         ],
-        "answer": "Sawm"
+        "answer": "Tell a short story with a lesson"
       },
       {
-        "question": "Which pillar is the pilgrimage to Makkah?",
+        "question": "Which Sunnah habit is easy to start?",
         "options": [
-          "Hajj",
-          "Shahada",
-          "Salah",
-          "Zakat"
+          "Greet with salam",
+          "Ignore others",
+          "Do nothing",
+          "Compete"
         ],
-        "answer": "Hajj"
+        "answer": "Greet with salam"
       },
       {
-        "question": "Zakat is primarily intended for which group?",
+        "question": "Why celebrate his mercy?",
         "options": [
-          "The poor and needy",
-          "Scholars",
-          "Kings",
-          "Visitors"
+          "It encourages kindness",
+          "It removes responsibility",
+          "It discourages learning",
+          "It justifies gossip"
         ],
-        "answer": "The poor and needy"
+        "answer": "It encourages kindness"
       },
       {
-        "question": "Which pillar may be performed only once if a Muslim is able?",
+        "question": "What balances fear and hope?",
         "options": [
-          "Hajj",
-          "Salah",
-          "Zakat",
-          "Sawm"
+          "Trust Allah and work hard",
+          "Doubt constantly",
+          "Stop worship",
+          "Ignore consequences"
         ],
-        "answer": "Hajj"
+        "answer": "Trust Allah and work hard"
       },
       {
-        "question": "Which Surah is recited in every rak'ah of prayer?",
+        "question": "How do you honor his struggles?",
         "options": [
-          "Al-Fatiha",
-          "Yaseen",
-          "Al-Kawthar",
-          "Al-Ikhlas"
+          "Study his challenges",
+          "Praise only saints",
+          "Forget his life",
+          "Criticize believers"
         ],
-        "answer": "Al-Fatiha"
+        "answer": "Study his challenges"
       },
       {
-        "question": "The fast of Ramadan begins at what time of day?",
+        "question": "Which character trait he offered?",
         "options": [
-          "Fajr",
-          "Dhuhr",
-          "Asr",
-          "Maghrib"
+          "Forgiveness",
+          "Harshness",
+          "Pride",
+          "Indifference"
         ],
-        "answer": "Fajr"
+        "answer": "Forgiveness"
       },
       {
-        "question": "Which purification is done before Salah?",
+        "question": "How do you keep consistency?",
         "options": [
-          "Wudu",
-          "Ghusl",
-          "Qurbani",
-          "Zakat"
+          "Read about his life weekly",
+          "Skip learning",
+          "Copy others",
+          "Forget accountability"
         ],
-        "answer": "Wudu"
+        "answer": "Read about his life weekly"
       },
       {
-        "question": "The call to prayer is called?",
+        "question": "What links him to Tawheed?",
         "options": [
-          "Adhan",
-          "Salam",
-          "Takbir",
-          "Dua"
+          "His actions mirrored Allah's oneness",
+          "He avoided people",
+          "He praised only himself",
+          "He prioritized time"
         ],
-        "answer": "Adhan"
+        "answer": "His actions mirrored Allah's oneness"
       },
       {
-        "question": "Giving zakat purifies a Muslim's.",
+        "question": "When sharing kindness?",
         "options": [
-          "Wealth",
-          "Speech",
-          "Sleep",
-          "Travel"
+          "Offer help while recalling his example",
+          "Ignore their need",
+          "Focus on yourself",
+          "Be impatient"
         ],
-        "answer": "Wealth"
+        "answer": "Offer help while recalling his example"
       },
       {
-        "question": "Fasting during Ramadan teaches believers.",
+        "question": "Which practice softens interactions?",
         "options": [
-          "Self-discipline",
-          "Greed",
-          "Laziness",
-          "Rudeness"
+          "Use gentle speech",
+          "Yell",
+          "Avoid people",
+          "Judge quickly"
         ],
-        "answer": "Self-discipline"
+        "answer": "Use gentle speech"
       },
       {
-        "question": "The Shahada names Muhammad (peace be upon him) as what?",
+        "question": "What daily choice honors him?",
         "options": [
-          "Messenger of Allah",
-          "King of Arabs",
-          "Scribe",
-          "Soldier"
+          "Keep a small Sunnah habit",
+          "Do nothing",
+          "Compete selfishly",
+          "Criticize quietly"
         ],
-        "answer": "Messenger of Allah"
-      },
-      {
-        "question": "The day pilgrims stand at Arafat during Hajj is called the Day of.",
-        "options": [
-          "Arafah",
-          "Eid",
-          "Ashura",
-          "Mawlid"
-        ],
-        "answer": "Arafah"
-      },
-      {
-        "question": "Fasting Ramadan helps control  besides hunger.",
-        "options": [
-          "Anger",
-          "Travel",
-          "Homework",
-          "Noise"
-        ],
-        "answer": "Anger"
-      },
-      {
-        "question": "Taraweeh prayers follow the  prayer each Ramadan night.",
-        "options": [
-          "Isha",
-          "Fajr",
-          "Dhuhr",
-          "Maghrib"
-        ],
-        "answer": "Isha"
-      },
-      {
-        "question": "When wealth reaches the nisab, Muslims give.",
-        "options": [
-          "Zakat",
-          "Salah",
-          "Sawm",
-          "Dua"
-        ],
-        "answer": "Zakat"
-      },
-      {
-        "question": "Salah anchors the believer's heart to.",
-        "options": [
-          "Allah",
-          "Leaders",
-          "Money",
-          "Friends"
-        ],
-        "answer": "Allah"
+        "answer": "Keep a small Sunnah habit"
       }
     ]
   },
   {
     "chapterId": 4,
+    "chapter": "Main Practices",
     "questions": [
       {
-        "question": "The Quran was revealed to whom?",
+        "question": "Which pillar connects belief to daily worship?",
         "options": [
-          "Muhammad (peace be upon him)",
-          "Moses",
-          "Jesus",
-          "Abraham"
-        ],
-        "answer": "Muhammad (peace be upon him)"
-      },
-      {
-        "question": "Which angel brought the revelation of the Quran?",
-        "options": [
-          "Jibril",
-          "Mikail",
-          "Israfil",
-          "Azrael"
-        ],
-        "answer": "Jibril"
-      },
-      {
-        "question": "The Quran is described as a book of.",
-        "options": [
-          "Guidance",
-          "Stories only",
-          "Songs",
-          "History of Europe"
-        ],
-        "answer": "Guidance"
-      },
-      {
-        "question": "Which Surah opens the Quran?",
-        "options": [
-          "Al-Fatiha",
-          "Al-Baqarah",
-          "An-Nas",
-          "Al-Ikhlas"
-        ],
-        "answer": "Al-Fatiha"
-      },
-      {
-        "question": "Which Surah begins with the word 'Iqra' meaning 'Read'?",
-        "options": [
-          "Al-Alaq",
-          "Al-Kawthar",
-          "An-Nas",
-          "Al-Masad"
-        ],
-        "answer": "Al-Alaq"
-      },
-      {
-        "question": "The Quran was revealed over how many years?",
-        "options": [
-          "Twenty three",
-          "Ten",
-          "Forty",
-          "Seven"
-        ],
-        "answer": "Twenty three"
-      },
-      {
-        "question": "Quranic recitation rules are called __?",
-        "options": [
-          "Tajweed",
+          "Shahada",
           "Hajj",
-          "Salah",
-          "Fasting"
+          "Sawm",
+          "Zakat"
         ],
-        "answer": "Tajweed"
+        "answer": "Shahada"
       },
       {
-        "question": "Reflecting deeply on Allah's words is known as ?",
+        "question": "Which pillar includes daily prayers?",
         "options": [
-          "Tadabbur",
-          "Tawbah",
           "Zakat",
-          "Hajj"
+          "Shahada",
+          "Sawm",
+          "Salah"
         ],
-        "answer": "Tadabbur"
+        "answer": "Salah"
       },
       {
-        "question": "The Quran was revealed in which language?",
+        "question": "How does charity fit?",
         "options": [
-          "Arabic",
-          "English",
-          "Persian",
-          "Urdu"
+          "Zakat is giving for purity",
+          "Avoid wealthy",
+          "Ignore those in need",
+          "Share gossip"
         ],
-        "answer": "Arabic"
+        "answer": "Zakat is giving for purity"
       },
       {
-        "question": "Which Surah is the shortest among these?",
+        "question": "Which pillar is a yearly fast?",
         "options": [
-          "Al-Ikhlas",
-          "Al-Baqarah",
-          "An-Nisa",
-          "Yunus"
+          "Salah",
+          "Hajj",
+          "Sawm",
+          "Shahada"
         ],
-        "answer": "Al-Ikhlas"
+        "answer": "Sawm"
       },
       {
-        "question": "The Quran calls Allah Ar-Rahman, meaning?",
+        "question": "What is the pilgrimage called?",
         "options": [
-          "The Most Merciful",
-          "The Loud One",
-          "The Athlete",
-          "The Ruler of Birds"
+          "Hajj",
+          "Zakat",
+          "Tawheed",
+          "Quran"
         ],
-        "answer": "The Most Merciful"
+        "answer": "Hajj"
       },
       {
-        "question": "The word 'Quran' literally means?",
+        "question": "How do micro rituals help?",
         "options": [
-          "Recitation",
-          "Book cover",
-          "Prayer mat",
-          "Lamp"
+          "Break them into small steps",
+          "Ignore them",
+          "Delay action",
+          "Compare to others"
         ],
-        "answer": "Recitation"
+        "answer": "Break them into small steps"
       },
       {
-        "question": "Who preserved the Quran in writing during the Prophet's lifetime?",
+        "question": "Why keep intentions clear?",
         "options": [
-          "Scribes",
-          "Merchants",
-          "Soldiers",
-          "Poets"
+          "To worship for Allah alone",
+          "To show off",
+          "To rush tasks",
+          "To avoid work"
         ],
-        "answer": "Scribes"
+        "answer": "To worship for Allah alone"
       },
       {
-        "question": "The Quran invites believers to call upon Allah using His ?",
+        "question": "Which supports service?",
         "options": [
-          "Names",
-          "Food",
-          "Movies",
-          "Music"
+          "Link charity with worship",
+          "Avoid community",
+          "Spend aimlessly",
+          "Ignore those in need"
         ],
-        "answer": "Names"
+        "answer": "Link charity with worship"
       },
       {
-        "question": "The Quran promises mercy to those who do what?",
+        "question": "How does consistency beat perfection?",
         "options": [
-          "Believe and act",
-          "Ignore the message",
-          "Take wealth only for self",
-          "Hoard food"
+          "Keeping steady habits",
+          "Striving for flaws",
+          "Comparing with others",
+          "Doing nothing"
         ],
-        "answer": "Believe and act"
+        "answer": "Keeping steady habits"
       },
       {
-        "question": "Which Surah describes Allah as the Light of the heavens and earth?",
+        "question": "What resource clarifies a practice?",
         "options": [
-          "An-Nur",
-          "Al-Fatiha",
-          "Yaseen",
-          "An-Nas"
+          "Trusted teacher",
+          "Random rumor",
+          "Anger",
+          "Isolation"
         ],
-        "answer": "An-Nur"
+        "answer": "Trusted teacher"
       },
       {
-        "question": "Who served as the Prophet's chief scribe for revelations?",
+        "question": "How do you plan support?",
         "options": [
-          "Zayd ibn Thabit",
-          "Abu Bakr",
-          "Umar",
-          "Ali"
+          "Ask mentors for clarification",
+          "Avoid mentors",
+          "Ignore guidance",
+          "Expect magic"
         ],
-        "answer": "Zayd ibn Thabit"
+        "answer": "Ask mentors for clarification"
       },
       {
-        "question": "The Quran was revealed primarily in the month of.",
+        "question": "Why include others?",
         "options": [
-          "Ramadan",
-          "Shawwal",
-          "Muharram",
-          "Dhul-Hijjah"
+          "Accountability builds stability",
+          "Isolate yourself",
+          "Compete harshly",
+          "Forget humility"
         ],
-        "answer": "Ramadan"
+        "answer": "Accountability builds stability"
       },
       {
-        "question": "Believers show reverence before touching the Quran by performing.",
+        "question": "What is a mindful micro ritual?",
         "options": [
-          "Wudu",
-          "Sleep",
-          "Eating",
-          "Shopping"
+          "A minute of focus",
+          "Ignoring duty",
+          "Multitasking",
+          "Complaining"
         ],
-        "answer": "Wudu"
+        "answer": "A minute of focus"
       },
       {
-        "question": "The Quran invites us to reflect on the  around us.",
+        "question": "How do pillars shape character?",
         "options": [
-          "Signs in creation",
-          "Movies",
-          "Jokes",
-          "Gossip"
+          "They steady worship and service",
+          "They only demand rituals",
+          "They limit joy",
+          "They remove choices"
         ],
-        "answer": "Signs in creation"
+        "answer": "They steady worship and service"
+      },
+      {
+        "question": "What supports celebration?",
+        "options": [
+          "Tiny wins",
+          "Huge perfection",
+          "Failing intentionally",
+          "Hiding progress"
+        ],
+        "answer": "Tiny wins"
       }
     ]
   },
   {
     "chapterId": 5,
+    "chapter": "Prayer",
     "questions": [
       {
-        "question": "Muhammad (peace be upon him) is known as the final ?",
+        "question": "What is salah described as?",
         "options": [
-          "Prophet",
-          "King",
-          "Scholar",
-          "Trader"
+          "A ritual pause with Allah",
+          "Just moving",
+          "A habit for others",
+          "Strict law only"
         ],
-        "answer": "Prophet"
+        "answer": "A ritual pause with Allah"
       },
       {
-        "question": "In which city was Prophet Muhammad born?",
+        "question": "How many daily prayers?",
         "options": [
-          "Makkah",
-          "Medina",
-          "Jerusalem",
-          "Cairo"
+          "Three",
+          "Five",
+          "Seven",
+          "Ten"
         ],
-        "answer": "Makkah"
+        "answer": "Five"
       },
       {
-        "question": "The migration to Madina is called?",
+        "question": "What is wudu?",
         "options": [
-          "Hijrah",
-          "Umrah",
-          "Hajj",
-          "Zakat"
+          "Ritual purification",
+          "A meal",
+          "Recitation",
+          "A lecture"
         ],
-        "answer": "Hijrah"
+        "answer": "Ritual purification"
       },
       {
-        "question": "The life story of Prophet Muhammad is known as?",
+        "question": "What is khushu?",
         "options": [
-          "Seerah",
-          "Hadith",
-          "Tafsir",
-          "Fiqh"
+          "Presence in prayer",
+          "Speeding through",
+          "Ignoring focus",
+          "Sleeping"
         ],
-        "answer": "Seerah"
+        "answer": "Presence in prayer"
       },
       {
-        "question": "His companions are called?",
+        "question": "How do you tame distractions?",
         "options": [
-          "Sahaba",
-          "Mufassir",
-          "Qadis",
-          "Imams"
+          "Create quiet space",
+          "Finish quickly",
+          "Watch others",
+          "Ignore the heart"
         ],
-        "answer": "Sahaba"
+        "answer": "Create quiet space"
       },
       {
-        "question": "Which title meant 'the trustworthy'?",
+        "question": "Which dua can follow salah?",
         "options": [
-          "Al-Amin",
-          "Al-Kabir",
-          "Al-Saud",
-          "Al-Wahid"
+          "Ask for focus and mercy",
+          "Ignore dua",
+          "Criticize others",
+          "Rush away"
         ],
-        "answer": "Al-Amin"
+        "answer": "Ask for focus and mercy"
       },
       {
-        "question": "Where did he receive the first revelation?",
+        "question": "Why count blessing in sujood?",
         "options": [
-          "Cave of Hira",
-          "Cave of Thawr",
-          "Mount Sinai",
-          "Masjid al-Haram"
+          "To thank Allah",
+          "To create worry",
+          "To impress people",
+          "To stop praying"
         ],
-        "answer": "Cave of Hira"
+        "answer": "To thank Allah"
       },
       {
-        "question": "Which mosque did he build first after migrating?",
+        "question": "What is a prayer break?",
         "options": [
-          "Masjid Quba",
-          "Masjid al-Haram",
-          "Masjid Nabawi",
-          "Masjid al-Aqsa"
+          "Mindful pause between talk and salah",
+          "Extra chores",
+          "Ignoring rest",
+          "Skipping intention"
         ],
-        "answer": "Masjid Quba"
+        "answer": "Mindful pause between talk and salah"
       },
       {
-        "question": "Which battle was the first major victory for the Muslims?",
+        "question": "What is the rhythm of prayer?",
         "options": [
-          "Badr",
-          "Uhud",
-          "Khandaq",
-          "Hunayn"
+          "Standing, bowing, prostrating",
+          "Sitting only",
+          "Running",
+          "Singing loudly"
         ],
-        "answer": "Badr"
+        "answer": "Standing, bowing, prostrating"
       },
       {
-        "question": "Prophet Muhammad taught Muslims to be kind to?",
+        "question": "How do you prepare intention?",
         "options": [
-          "Neighbors",
-          "Strangers only",
-          "Only family",
-          "Only leaders"
+          "Clarify need before takbir",
+          "Ignore meaning",
+          "Rely on ritual alone",
+          "Rush through"
         ],
-        "answer": "Neighbors"
+        "answer": "Clarify need before takbir"
       },
       {
-        "question": "The Farewell Pilgrimage took place in?",
+        "question": "Why share gratitude?",
         "options": [
-          "Makkah",
-          "Medina",
-          "Jerusalem",
-          "Taif"
+          "To encourage others",
+          "To boast",
+          "To avoid work",
+          "To hide errors"
         ],
-        "answer": "Makkah"
+        "answer": "To encourage others"
       },
       {
-        "question": "He urged Muslims to speak the truth and keep what?",
+        "question": "What track fosters consistency?",
         "options": [
-          "Promises",
-          "Secrets",
-          "Wealth",
-          "Meals"
+          "Mark each salah",
+          "Ignore gaps",
+          "Ignore prayer",
+          "Delay action"
         ],
-        "answer": "Promises"
+        "answer": "Mark each salah"
       },
       {
-        "question": "Which group did he especially remind Muslims to care for?",
+        "question": "What is the benefit of mindfulness?",
         "options": [
-          "Orphans",
-          "Celebrities",
-          "Kings",
-          "Athletes"
+          "Calms anxiety",
+          "Creates pride",
+          "Wastes time",
+          "Forces guilt"
         ],
-        "answer": "Orphans"
+        "answer": "Calms anxiety"
       },
       {
-        "question": "He told the Ummah to hold fast to the rope of?",
+        "question": "When do you pray with presence?",
         "options": [
-          "Allah",
-          "Trade",
-          "War",
-          "Health"
+          "Use mosque visits for focused dua",
+          "Skip it",
+          "Rush through",
+          "Ignore feelings"
         ],
-        "answer": "Allah"
+        "answer": "Use mosque visits for focused dua"
       },
       {
-        "question": "The Quran calls him a mercy to?",
+        "question": "What does focus shift?",
         "options": [
-          "The worlds",
-          "Only Arabs",
-          "Only kings",
-          "Only traders"
+          "Performance to presence",
+          "Judgement to boredom",
+          "Allaudah to tasks",
+          "Energy dissipates"
         ],
-        "answer": "The worlds"
-      },
-      {
-        "question": "Before prophethood, the Prophet \ufdfa earned a living as a.",
-        "options": [
-          "Trader",
-          "Farmer",
-          "Poet",
-          "Soldier"
-        ],
-        "answer": "Trader"
-      },
-      {
-        "question": "The Farewell Sermon emphasized justice and rights for.",
-        "options": [
-          "All people",
-          "Only the rich",
-          "Only leaders",
-          "Only soldiers"
-        ],
-        "answer": "All people"
-      },
-      {
-        "question": "Helping orphans is a sign of  in the Prophet's teaching.",
-        "options": [
-          "Mercy",
-          "Strength",
-          "Silence",
-          "Fame"
-        ],
-        "answer": "Mercy"
-      },
-      {
-        "question": "The Prophet \ufdfa taught that the strong believer is the one who controls.",
-        "options": [
-          "Anger",
-          "Children",
-          "Money",
-          "Power"
-        ],
-        "answer": "Anger"
-      },
-      {
-        "question": "He asked the Ummah to follow the Quran and the.",
-        "options": [
-          "Sunnah",
-          "Laws",
-          "Stories",
-          "Games"
-        ],
-        "answer": "Sunnah"
+        "answer": "Performance to presence"
       }
     ]
   },
   {
     "chapterId": 6,
+    "chapter": "Ramadan",
     "questions": [
       {
-        "question": "How many daily prayers (Salah) are obligatory for Muslims?",
+        "question": "What does fasting aim to build?",
         "options": [
-          "Five",
-          "Four",
-          "Three",
-          "Six"
+          "Empathy and mercy",
+          "Selfishness",
+          "A vacation",
+          "Sleep"
         ],
-        "answer": "Five"
+        "answer": "Empathy and mercy"
       },
       {
-        "question": "Which prayer is performed at dawn?",
+        "question": "What pairs with fasting?",
         "options": [
-          "Fajr",
-          "Dhuhr",
-          "Asr",
-          "Maghrib"
+          "Night worship",
+          "Ignoring nights",
+          "Eating nonstop",
+          "Skipping sleep"
         ],
-        "answer": "Fajr"
+        "answer": "Night worship"
       },
       {
-        "question": "Which prayer is performed after the sun passes its zenith?",
+        "question": "How can you stay generous?",
         "options": [
-          "Dhuhr",
-          "Fajr",
-          "Maghrib",
-          "Isha"
+          "Plan a simple act of giving",
+          "Avoid giving",
+          "Hoist a sign",
+          "Create gossip"
         ],
-        "answer": "Dhuhr"
+        "answer": "Plan a simple act of giving"
       },
       {
-        "question": "Which prayer is performed late afternoon before sunset?",
+        "question": "What keeps energy sustainable?",
         "options": [
-          "Asr",
-          "Fajr",
-          "Isha",
-          "Dhuhr"
+          "Intentional rest",
+          "Avoid rest",
+          "Overwork",
+          "Ignore health"
         ],
-        "answer": "Asr"
+        "answer": "Intentional rest"
       },
       {
-        "question": "Which prayer is performed just after sunset?",
+        "question": "Why connect hunger to others?",
         "options": [
-          "Maghrib",
-          "Asr",
-          "Isha",
-          "Fajr"
+          "To recall those who go without",
+          "To focus on self",
+          "To ignore charity",
+          "To start arguments"
         ],
-        "answer": "Maghrib"
+        "answer": "To recall those who go without"
       },
       {
-        "question": "Which prayer is performed after nightfall?",
+        "question": "How do you reflect daily?",
         "options": [
-          "Isha",
-          "Fajr",
-          "Dhuhr",
-          "Maghrib"
+          "Journal one feeling each night",
+          "Ignore feelings",
+          "Accuse others",
+          "Compete"
         ],
-        "answer": "Isha"
+        "answer": "Journal one feeling each night"
       },
       {
-        "question": "Which purification is performed before every Salah?",
+        "question": "What is a nightly goal?",
         "options": [
-          "Wudu",
-          "Zakat",
-          "Sawm",
-          "Hajj"
+          "Short recitation or dua",
+          "Crying only",
+          "Sleeping late",
+          "Watching shows"
         ],
-        "answer": "Wudu"
+        "answer": "Short recitation or dua"
       },
       {
-        "question": "The call to prayer is known as?",
+        "question": "How can Ramadan last?",
         "options": [
-          "Adhan",
-          "Dua",
-          "Fajr",
-          "Khutbah"
+          "Keep one habit afterward",
+          "Forget lessons",
+          "Change culture",
+          "Avoid community"
         ],
-        "answer": "Adhan"
+        "answer": "Keep one habit afterward"
       },
       {
-        "question": "Muslims face which city during prayer?",
+        "question": "What reminds why you fast?",
         "options": [
-          "Makkah",
-          "Medina",
-          "Jerusalem",
-          "Cairo"
+          "Ask why and renew intention",
+          "Ignore meaning",
+          "Focus on hunger",
+          "Compare notes"
         ],
-        "answer": "Makkah"
+        "answer": "Ask why and renew intention"
       },
       {
-        "question": "Which movement includes bending at the waist while saying 'Subhana Rabbiyal Adheem'?",
+        "question": "What fosters community?",
         "options": [
-          "Ruku",
-          "Sujud",
-          "Qiyam",
-          "Tashahhud"
+          "Share iftar",
+          "Stay isolated",
+          "Argue",
+          "Ignore others"
         ],
-        "answer": "Ruku"
+        "answer": "Share iftar"
       },
       {
-        "question": "Which movement involves placing the forehead on the ground?",
+        "question": "How to celebrate small wins?",
         "options": [
-          "Sujud",
-          "Ruku",
-          "Qiyam",
-          "Takbir"
+          "Practice gratitude",
+          "Ignore progress",
+          "Criticize others",
+          "Compete"
         ],
-        "answer": "Sujud"
+        "answer": "Practice gratitude"
       },
       {
-        "question": "Which Surah is recited in every rak'ah of Salah?",
+        "question": "What is mindful charity?",
         "options": [
-          "Al-Fatiha",
-          "Al-Baqarah",
-          "An-Nas",
-          "Al-Ikhlas"
+          "Give a kind word or dua",
+          "Hoist a brand",
+          "Bully others",
+          "Ignore need"
         ],
-        "answer": "Al-Fatiha"
+        "answer": "Give a kind word or dua"
       },
       {
-        "question": "What does the word 'Salah' literally mean?",
+        "question": "Why protect energy?",
         "options": [
-          "Prayer",
-          "Friendship",
-          "Wealth",
-          "Knowledge"
+          "So worship stays sustainable",
+          "To avoid fast",
+          "To skip rest",
+          "To degrade others"
         ],
-        "answer": "Prayer"
+        "answer": "So worship stays sustainable"
       },
       {
-        "question": "The intention made before praying is called?",
+        "question": "What does empathy training create?",
         "options": [
-          "Niyyah",
-          "Sadaqah",
-          "Tawbah",
-          "Hajj"
+          "Generosity",
+          "Apathy",
+          "Fuel for gossip",
+          "Avoidance"
         ],
-        "answer": "Niyyah"
+        "answer": "Generosity"
       },
       {
-        "question": "Prophet Muhammad (peace be upon him) described prayer as what?",
+        "question": "How to sustain mercy?",
         "options": [
-          "Light",
-          "Darkness",
-          "Noise",
-          "Speed"
+          "Remember purpose",
+          "Forget intentions",
+          "Jealousy",
+          "Disconnect"
         ],
-        "answer": "Light"
-      },
-      {
-        "question": "If someone misses a prayer, they should perform a  prayer.",
-        "options": [
-          "Qada",
-          "Jummah",
-          "Taraweeh",
-          "Eid"
-        ],
-        "answer": "Qada"
-      },
-      {
-        "question": "The congregational prayer held on Fridays is called.",
-        "options": [
-          "Jummah",
-          "Eid",
-          "Taraweeh",
-          "Tahajjud"
-        ],
-        "answer": "Jummah"
-      },
-      {
-        "question": "After Salah, Muslims send peace upon.",
-        "options": [
-          "The Prophet \ufdfa",
-          "The Quran",
-          "The imam",
-          "The mosque"
-        ],
-        "answer": "The Prophet \ufdfa"
-      },
-      {
-        "question": "During Salah, Muslims face the direction of the.",
-        "options": [
-          "Kaaba in Makkah",
-          "Medina",
-          "Jerusalem",
-          "Cairo"
-        ],
-        "answer": "Kaaba in Makkah"
-      },
-      {
-        "question": "The Takbir at the start of Salah begins with.",
-        "options": [
-          "Allahu Akbar",
-          "Alhamdulillah",
-          "SubhanAllah",
-          "Astaghfirullah"
-        ],
-        "answer": "Allahu Akbar"
+        "answer": "Remember purpose"
       }
     ]
   },
   {
     "chapterId": 7,
+    "chapter": "Good Character",
     "questions": [
       {
-        "question": "What does 'Adab' refer to in Islam?",
+        "question": "Which trait reflects Sunnah manners?",
         "options": [
-          "Good manners",
-          "Food",
-          "Wealth",
-          "Travel"
+          "Patience and kindness",
+          "Harsh speech",
+          "Indifference",
+          "Judgment"
         ],
-        "answer": "Good manners"
+        "answer": "Patience and kindness"
       },
       {
-        "question": "Being kind to neighbors is part of showing?",
+        "question": "How do you respond when tired?",
         "options": [
-          "Adab",
-          "Hajj",
-          "Sawm",
-          "Zakat"
+          "Pause, breathe, answer kindly",
+          "Shout",
+          "Ignore people",
+          "Walk away"
         ],
-        "answer": "Adab"
+        "answer": "Pause, breathe, answer kindly"
       },
       {
-        "question": "Forgiveness is greater than holding on to?",
+        "question": "Why celebrate humility?",
         "options": [
-          "Grudges",
-          "Joys",
-          "Knowledge",
-          "Food"
+          "It invites others to mirror it",
+          "It hides mistakes",
+          "It controls people",
+          "It isolates you"
         ],
-        "answer": "Grudges"
+        "answer": "It invites others to mirror it"
       },
       {
-        "question": "The Prophet (peace be upon him) said the best of you are those who are best to their?",
-        "options": [
-          "Families",
-          "Enemies",
-          "Animals",
-          "Wealth"
-        ],
-        "answer": "Families"
-      },
-      {
-        "question": "Listening carefully to others is an act of?",
-        "options": [
-          "Mercy",
-          "Speech",
-          "Silence",
-          "Prayer"
-        ],
-        "answer": "Mercy"
-      },
-      {
-        "question": "Keeping quiet when gossip begins is part of which behavior?",
-        "options": [
-          "Good manners",
-          "Competition",
-          "Pride",
-          "Sarcasm"
-        ],
-        "answer": "Good manners"
-      },
-      {
-        "question": "Which trait builds trust in the community?",
-        "options": [
-          "Honesty",
-          "Hoarding",
-          "Judging quickly",
-          "Noise"
-        ],
-        "answer": "Honesty"
-      },
-      {
-        "question": "A calm response during conflict shows?",
-        "options": [
-          "Patience",
-          "Anger",
-          "Haste",
-          "Silence"
-        ],
-        "answer": "Patience"
-      },
-      {
-        "question": "Which action protects relationships in the Ummah?",
+        "question": "What resets a hurt heart?",
         "options": [
           "Forgiveness",
-          "Criticism",
-          "Ignore",
-          "Dominate"
+          "Grudges",
+          "Retaliation",
+          "Silence"
         ],
         "answer": "Forgiveness"
       },
       {
-        "question": "Which virtue multiplies kindness?",
+        "question": "How do you model adab?",
         "options": [
-          "Generosity",
-          "Selfishness",
-          "Hoarding",
-          "Indifference"
+          "Show examples to others",
+          "Keep to yourself",
+          "Spread gossip",
+          "Avoid service"
         ],
-        "answer": "Generosity"
+        "answer": "Show examples to others"
       },
       {
-        "question": "Charity increases which quality in the heart?",
+        "question": "Which habit keeps momentum?",
         "options": [
-          "Purity",
-          "Selfishness",
-          "Noise",
-          "Pride"
+          "Record one act of kindness daily",
+          "Forget progress",
+          "Track only faults",
+          "Ignore people"
         ],
-        "answer": "Purity"
+        "answer": "Record one act of kindness daily"
       },
       {
-        "question": "How should Muslims respond when given a gift?",
+        "question": "How do you teach children manners?",
         "options": [
-          "Say 'Jazakallah'",
-          "Remain silent",
-          "Refuse",
-          "Promise to pay"
+          "Role-play and praise effort",
+          "Ignore them",
+          "Punish harshly",
+          "Compete"
         ],
-        "answer": "Say 'Jazakallah'"
+        "answer": "Role-play and praise effort"
       },
       {
-        "question": "Which of the following is not part of good manners?",
+        "question": "Why gentleness matters?",
         "options": [
-          "Gossip",
-          "Respect",
-          "Kindness",
-          "Truthfulness"
+          "Kind words heal faster",
+          "Harshness creates distance",
+          "Silence ends dialogue",
+          "Winner takes all"
         ],
-        "answer": "Gossip"
+        "answer": "Kind words heal faster"
       },
       {
-        "question": "What is the best way to begin a conversation according to Sunnah?",
+        "question": "How do you correct others gently?",
         "options": [
-          "With 'Assalamu Alaikum'",
-          "With a joke",
-          "With silence",
-          "With a critique"
+          "Balance justice with mercy",
+          "Ignore the mistake",
+          "Censor them",
+          "Criticize publicly"
         ],
-        "answer": "With 'Assalamu Alaikum'"
+        "answer": "Balance justice with mercy"
       },
       {
-        "question": "Greeting each other with 'Assalamu Alaikum' spreads?",
+        "question": "What anchors behavior?",
         "options": [
-          "Peace",
-          "Fear",
-          "Noise",
-          "Silence"
+          "Self-awareness and prayer",
+          "Comparison",
+          "Competition",
+          "Avoidance"
         ],
-        "answer": "Peace"
+        "answer": "Self-awareness and prayer"
       },
       {
-        "question": "Smiling at another Muslim counts as.",
+        "question": "Why encourage others privately?",
         "options": [
-          "Charity",
-          "Judgment",
-          "Silence",
-          "Noise"
+          "So praise feels sincere",
+          "To gossip",
+          "To boast",
+          "To show power"
         ],
-        "answer": "Charity"
+        "answer": "So praise feels sincere"
       },
       {
-        "question": "Keeping promises reflects  in Islam.",
+        "question": "What practice keeps humility?",
         "options": [
-          "Trustworthiness",
-          "Power",
-          "Money",
-          "Silence"
+          "Daily dhikr and gratitude",
+          "Rule changes",
+          "Fame",
+          "Obsessiveness"
         ],
-        "answer": "Trustworthiness"
+        "answer": "Daily dhikr and gratitude"
       },
       {
-        "question": "When insulted, Muslims are taught to respond with.",
+        "question": "How to handle conflict?",
         "options": [
-          "Goodness",
-          "Anger",
-          "Lies",
-          "Shouting"
+          "Check yourself before reacting",
+          "Escalate",
+          "Ignore",
+          "Retaliate"
         ],
-        "answer": "Goodness"
+        "answer": "Check yourself before reacting"
       },
       {
-        "question": "Listening before speaking shows.",
+        "question": "How to celebrate wins?",
         "options": [
-          "Respect",
-          "Dominance",
-          "Silence",
-          "Fame"
+          "Acknowledge progress",
+          "Boast",
+          "Neglect",
+          "Ignore"
         ],
-        "answer": "Respect"
+        "answer": "Acknowledge progress"
       },
       {
-        "question": "Forgiveness clears the heart of long held.",
+        "question": "What role does patience play?",
         "options": [
-          "Grudges",
-          "Peace",
-          "Joy",
-          "Sincerity"
+          "It keeps relationships kind",
+          "It causes weakness",
+          "It wastes time",
+          "It creates strife"
         ],
-        "answer": "Grudges"
+        "answer": "It keeps relationships kind"
       }
     ]
   },
   {
     "chapterId": 8,
+    "chapter": "Peace & Respect",
     "questions": [
       {
-        "question": "What does 'halal' mean?",
+        "question": "Where does peace begin?",
         "options": [
-          "Permissible",
-          "Forbidden",
-          "Obvious",
-          "Complicated"
+          "Respectful listening",
+          "Winning debates",
+          "Avoiding dialogue",
+          "Ordering others"
         ],
-        "answer": "Permissible"
+        "answer": "Respectful listening"
       },
       {
-        "question": "Which habit is part of a halal lifestyle?",
+        "question": "How do you show respect?",
         "options": [
-          "Eating permissible food",
-          "Ignoring zakat",
-          "Hoarding wealth",
-          "Gossiping"
+          "Ask curious questions",
+          "Interrupt",
+          "Dismiss others",
+          "Judge quickly"
         ],
-        "answer": "Eating permissible food"
+        "answer": "Ask curious questions"
       },
       {
-        "question": "Islamic lifestyle encourages  in spending.",
+        "question": "What keeps boundaries healthy?",
         "options": [
-          "Moderation",
-          "Excess",
-          "Waste",
-          "Hoarding"
+          "Clear, compassionate communication",
+          "Avoidance",
+          "Rigid rules",
+          "Harsh lectures"
         ],
-        "answer": "Moderation"
+        "answer": "Clear, compassionate communication"
       },
       {
-        "question": "Rest is considered  that helps worship feel fresh.",
+        "question": "How do you include different voices?",
         "options": [
-          "Recharge",
-          "Waste",
-          "Luxury",
-          "Punishment"
+          "Learn about cultures",
+          "Ignore differences",
+          "Justify stereotypes",
+          "Exclude others"
         ],
-        "answer": "Recharge"
+        "answer": "Learn about cultures"
       },
       {
-        "question": "Stewardship in Islam means caring for what?",
+        "question": "What defuses tension?",
         "options": [
-          "Resources and creation",
-          "Enemies",
-          "Fame",
-          "Chat groups"
+          "Take a breath before reacting",
+          "Rush replies",
+          "Raise voice",
+          "Dismiss feelings"
         ],
-        "answer": "Resources and creation"
+        "answer": "Take a breath before reacting"
       },
       {
-        "question": "Which food is not halal?",
+        "question": "Where does gratitude fit?",
         "options": [
-          "Pork",
-          "Dates",
-          "Fish",
-          "Honey"
+          "Thank someone even for small contributions",
+          "Ignore it",
+          "Downgrade them",
+          "Demand more"
         ],
-        "answer": "Pork"
+        "answer": "Thank someone even for small contributions"
       },
       {
-        "question": "Halal finance avoids charging.",
+        "question": "Why offer private apologizes?",
         "options": [
-          "Interest",
-          "Knowledge",
-          "Prayers",
-          "Charity"
+          "It keeps peace intimate",
+          "It loses strength",
+          "It draws crowds",
+          "It hides truth"
         ],
-        "answer": "Interest"
+        "answer": "It keeps peace intimate"
       },
       {
-        "question": "A believer can audit which habits through a halal filter?",
+        "question": "How does dua help peace?",
         "options": [
-          "Meals and entertainment",
-          "Movies only",
-          "Sports only",
-          "Travel alone"
+          "Pray for peaceful hearts",
+          "Accuse others",
+          "Ignore conflicts",
+          "Provoke arguments"
         ],
-        "answer": "Meals and entertainment"
+        "answer": "Pray for peaceful hearts"
       },
       {
-        "question": "Islamic lifestyle includes giving  to share blessings.",
+        "question": "What invites curiosity?",
         "options": [
-          "Charity",
-          "Secrets",
-          "Criticism",
-          "Money only to relatives"
+          "Ask open questions",
+          "Judge",
+          "Assume",
+          "Doubt constantly"
         ],
-        "answer": "Charity"
+        "answer": "Ask open questions"
       },
       {
-        "question": "Before major purchases, Muslims are reminded to ask if it brings.",
+        "question": "How other acts show peace?",
         "options": [
-          "Barakah",
-          "Noise",
-          "Confusion",
-          "Chaos"
+          "Calm responses",
+          "Loud reactions",
+          "Withholding respect",
+          "Mocking"
         ],
-        "answer": "Barakah"
+        "answer": "Calm responses"
       },
       {
-        "question": "Digital detox hours help guard  time.",
+        "question": "What role does silence play?",
         "options": [
-          "Worship",
-          "Sleep",
-          "Exercise",
-          "Work"
+          "Mindful silence keeps dialogue calm",
+          "Judgmental silence",
+          "Harsh silence",
+          "Rude silence"
         ],
-        "answer": "Worship"
+        "answer": "Mindful silence keeps dialogue calm"
       },
       {
-        "question": "Islamic lifestyle teaches a healthy relationship with possessions by promoting.",
+        "question": "How do you honor shared humanity?",
         "options": [
-          "Detachment",
-          "Greed",
-          "Envy",
-          "Attachment"
+          "Find common points",
+          "Create separation",
+          "Limit contact",
+          "Show pride"
         ],
-        "answer": "Detachment"
+        "answer": "Find common points"
       },
       {
-        "question": "Saying 'Alhamdulillah' strengthens ?",
+        "question": "What fosters trust?",
         "options": [
-          "Gratitude",
-          "Noise",
-          "Anger",
-          "Demand"
+          "Consistent care",
+          "Instant demands",
+          "Ignoring concerns",
+          "Defensiveness"
         ],
-        "answer": "Gratitude"
+        "answer": "Consistent care"
       },
       {
-        "question": "Which act is part of Islamic stewardship?",
+        "question": "Why celebrate diversity?",
         "options": [
-          "Sharing resources",
-          "Keeping everything secret",
-          "Hoards hunger",
-          "Spreading rumors"
+          "It strengthens community",
+          "It weakens identity",
+          "It causes confusion",
+          "It triggers fear"
         ],
-        "answer": "Sharing resources"
+        "answer": "It strengthens community"
       },
       {
-        "question": "Contentment in life shows which attitude?",
+        "question": "How to keep peace daily?",
         "options": [
-          "Humility",
-          "Pride",
-          "Complaint",
-          "Indifference"
+          "Include dua in routine",
+          "Neglect prayer",
+          "Slam doors",
+          "Ignore feelings"
         ],
-        "answer": "Humility"
-      },
-      {
-        "question": "Stewardship (khilafah) includes protecting the.",
-        "options": [
-          "Earth",
-          "Coins",
-          "Computers",
-          "Clothes"
-        ],
-        "answer": "Earth"
-      },
-      {
-        "question": "A halal lifestyle values purity in.",
-        "options": [
-          "Food and actions",
-          "Movies and gossip",
-          "Opinions and rumors",
-          "Competition and pride"
-        ],
-        "answer": "Food and actions"
-      },
-      {
-        "question": "Screen free time guards the hours dedicated to.",
-        "options": [
-          "Worship",
-          "Shopping",
-          "Sleeping",
-          "Movies"
-        ],
-        "answer": "Worship"
-      },
-      {
-        "question": "Halal entertainment avoids  influences.",
-        "options": [
-          "Immorality",
-          "Learning",
-          "Exercise",
-          "Prayers"
-        ],
-        "answer": "Immorality"
-      },
-      {
-        "question": "Using resources wisely demonstrates.",
-        "options": [
-          "Responsibility",
-          "Greed",
-          "Noise",
-          "Jealousy"
-        ],
-        "answer": "Responsibility"
+        "answer": "Include dua in routine"
       }
     ]
   },
   {
     "chapterId": 9,
+    "chapter": "The Prophets",
     "questions": [
       {
-        "question": "What does 'Ummah' mean?",
+        "question": "What message links all prophets?",
         "options": [
-          "Community",
-          "Fasting",
-          "Prayer",
-          "Pilgrimage"
-        ],
-        "answer": "Community"
-      },
-      {
-        "question": "Community care includes helping?",
-        "options": [
-          "Neighbors",
-          "Strangers only",
-          "Enemies only",
-          "Siblings only"
-        ],
-        "answer": "Neighbors"
-      },
-      {
-        "question": "The strength of the Ummah depends on?",
-        "options": [
-          "Unity",
-          "Competition",
-          "Isolation",
-          "Selfishness"
-        ],
-        "answer": "Unity"
-      },
-      {
-        "question": "Jummah prayer strengthens?",
-        "options": [
-          "Community",
+          "Mercy and Tawheed",
           "Wealth",
-          "Pride",
-          "Silence"
-        ],
-        "answer": "Community"
-      },
-      {
-        "question": "What binds the Ummah together?",
-        "options": [
-          "Love of Allah",
-          "Fear",
-          "Division",
-          "War"
-        ],
-        "answer": "Love of Allah"
-      },
-      {
-        "question": "Supporting others often means giving them?",
-        "options": [
-          "Time",
-          "Criticism",
-          "Fear",
+          "War",
           "Isolation"
         ],
-        "answer": "Time"
+        "answer": "Mercy and Tawheed"
       },
       {
-        "question": "Speaking calmly when conflicts arise protects?",
+        "question": "Who humbled himself beside Pharaoh?",
         "options": [
-          "Relationships",
-          "Noise",
-          "Pride",
-          "Silence"
+          "Musa",
+          "Ibrahim",
+          "Nuh",
+          "Isa"
         ],
-        "answer": "Relationships"
+        "answer": "Musa"
       },
       {
-        "question": "Sharing guidance builds what?",
+        "question": "Which prophet rescued people from arrogance?",
         "options": [
-          "Support",
+          "Ibrahim",
+          "Shuayb",
+          "Hud",
+          "Yunus"
+        ],
+        "answer": "Ibrahim"
+      },
+      {
+        "question": "Which story models patience?",
+        "options": [
+          "Nuh’s perseverance",
+          "Isa’s miracle",
+          "Hud’s prayers",
+          "Musa’s escape"
+        ],
+        "answer": "Nuh’s perseverance"
+      },
+      {
+        "question": "What encourages hope?",
+        "options": [
+          "Prophets kept trusting Allah",
+          "Focusing on problems",
+          "Avoiding dua",
+          "Judging others"
+        ],
+        "answer": "Prophets kept trusting Allah"
+      },
+      {
+        "question": "How to honor lesser-known prophets?",
+        "options": [
+          "Learn a new fact weekly",
+          "Ignore them",
+          "Discredit their tradition",
+          "Rush study"
+        ],
+        "answer": "Learn a new fact weekly"
+      },
+      {
+        "question": "Which response mirrors the prophets?",
+        "options": [
+          "Keep hope despite rejection",
+          "Break faith",
+          "Stop praying",
+          "Focus on status"
+        ],
+        "answer": "Keep hope despite rejection"
+      },
+      {
+        "question": "Which act shows gratitude to prophets?",
+        "options": [
+          "Share their stories",
+          "Forget them",
+          "Criticize others",
+          "Slander"
+        ],
+        "answer": "Share their stories"
+      },
+      {
+        "question": "How do prophets remind you today?",
+        "options": [
+          "Relate trials to modern struggles",
+          "Avoid looking back",
+          "Judge believers",
+          "Ignore lessons"
+        ],
+        "answer": "Relate trials to modern struggles"
+      },
+      {
+        "question": "What strengthens patience?",
+        "options": [
+          "Reflect on their perseverance",
+          "Rush decisions",
+          "Avoid prayer",
+          "Stay silent"
+        ],
+        "answer": "Reflect on their perseverance"
+      },
+      {
+        "question": "Why connect to Quran?",
+        "options": [
+          "Link story to verse",
+          "Skip the verse",
+          "Nothing else",
+          "Make up details"
+        ],
+        "answer": "Link story to verse"
+      },
+      {
+        "question": "How do you help others recognize prophets?",
+        "options": [
+          "Tell a short tale",
+          "Neglect storytelling",
+          "Hide research",
+          "Mock"
+        ],
+        "answer": "Tell a short tale"
+      },
+      {
+        "question": "What trait to emulate?",
+        "options": [
+          "Charity, courage, patience",
           "Greed",
-          "Pride",
-          "Silence"
+          "Arrogance",
+          "Malice"
         ],
-        "answer": "Support"
+        "answer": "Charity, courage, patience"
       },
       {
-        "question": "Charity uplifts which part of people?",
+        "question": "How do prophets keep promise?",
         "options": [
-          "Hearts",
-          "Tents",
-          "Houses",
-          "Noise"
+          "Hold on to Allah’s promise",
+          "Forget about it",
+          "Betray others",
+          "Ignore the message"
         ],
-        "answer": "Hearts"
+        "answer": "Hold on to Allah’s promise"
       },
       {
-        "question": "Who should be welcomed into gatherings?",
+        "question": "What does their resilience teach?",
         "options": [
-          "New or marginalized people",
-          "Only wealthy people",
-          "Only leaders",
-          "Only family"
+          "To keep showing up",
+          "To isolate",
+          "To avoid effort",
+          "To punish"
         ],
-        "answer": "New or marginalized people"
-      },
-      {
-        "question": "Conflict resolution in the community starts with?",
-        "options": [
-          "Listening",
-          "Shouting",
-          "Ignoring",
-          "Arguing"
-        ],
-        "answer": "Listening"
-      },
-      {
-        "question": "Consistency in service builds what?",
-        "options": [
-          "Trust",
-          "Fear",
-          "Chaos",
-          "Silence"
-        ],
-        "answer": "Trust"
-      },
-      {
-        "question": "Offering food is a part of which community trait?",
-        "options": [
-          "Hospitality",
-          "Isolation",
-          "Division",
-          "Silence"
-        ],
-        "answer": "Hospitality"
-      },
-      {
-        "question": "Technology can help the Ummah by?",
-        "options": [
-          "Uniting across oceans",
-          "Dividing families",
-          "Promoting lies",
-          "Spreading fear"
-        ],
-        "answer": "Uniting across oceans"
-      },
-      {
-        "question": "A community journal helps track?",
-        "options": [
-          "Needs",
-          "Money only",
-          "Secrets",
-          "Weather"
-        ],
-        "answer": "Needs"
-      },
-      {
-        "question": "Welcoming neighbors shows  to the Ummah.",
-        "options": [
-          "Hospitality",
-          "Grace",
-          "Silence",
-          "Wealth"
-        ],
-        "answer": "Hospitality"
-      },
-      {
-        "question": "Sharing resources uplifts community.",
-        "options": [
-          "Strength",
-          "Fame",
-          "Silence",
-          "Competition"
-        ],
-        "answer": "Strength"
-      },
-      {
-        "question": "Before reacting in conflict, we should first.",
-        "options": [
-          "Listen",
-          "Shout",
-          "Leave",
-          "Ignore"
-        ],
-        "answer": "Listen"
-      },
-      {
-        "question": "Giving charity and dua increase community.",
-        "options": [
-          "Hope",
-          "Noise",
-          "Debt",
-          "Pressure"
-        ],
-        "answer": "Hope"
-      },
-      {
-        "question": "Joint supplication keeps the Ummah.",
-        "options": [
-          "Unified",
-          "Divided",
-          "Quiet",
-          "Tired"
-        ],
-        "answer": "Unified"
+        "answer": "To keep showing up"
       }
     ]
   },
   {
     "chapterId": 10,
+    "chapter": "The Mosque",
     "questions": [
       {
-        "question": "Continuous growth is achieved through ?",
+        "question": "What is a mosque?",
         "options": [
-          "Consistency",
-          "Drama",
-          "Isolation",
-          "Neglect"
+          "A space for prayer, learning, charity",
+          "A focus on sports",
+          "A marketplace",
+          "A private home"
         ],
-        "answer": "Consistency"
+        "answer": "A space for prayer, learning, charity"
       },
       {
-        "question": "The future belongs to those who.",
+        "question": "How to prepare for a visit?",
         "options": [
-          "Prepare",
-          "Wait",
-          "Ignore",
+          "Dress modestly and hold intention",
+          "Stay home",
+          "Ignore etiquette",
+          "Dress casually"
+        ],
+        "answer": "Dress modestly and hold intention"
+      },
+      {
+        "question": "Which etiquette matters most?",
+        "options": [
+          "Silence, cleanliness, modesty",
+          "Loud voices",
+          "Messy meals",
+          "Ignoring others"
+        ],
+        "answer": "Silence, cleanliness, modesty"
+      },
+      {
+        "question": "How can you serve?",
+        "options": [
+          "Volunteer for maintenance",
+          "Argue",
+          "Sleep",
+          "Leave early"
+        ],
+        "answer": "Volunteer for maintenance"
+      },
+      {
+        "question": "Why listen to khutbah?",
+        "options": [
+          "To take away a practical lesson",
+          "To distract",
+          "To gossip",
+          "To sleep"
+        ],
+        "answer": "To take away a practical lesson"
+      },
+      {
+        "question": "How do mosques welcome new Muslims?",
+        "options": [
+          "Offer mentorship and circles",
+          "Ignore them",
+          "Criticize",
+          "Tell them they don’t belong"
+        ],
+        "answer": "Offer mentorship and circles"
+      },
+      {
+        "question": "What builds belonging?",
+        "options": [
+          "Participate in charity",
+          "Isolate",
+          "Ignore community",
+          "Hold grudges"
+        ],
+        "answer": "Participate in charity"
+      },
+      {
+        "question": "How to respect the space?",
+        "options": [
+          "Keep it clean",
+          "Leave trash",
+          "Rush",
+          "Argue"
+        ],
+        "answer": "Keep it clean"
+      },
+      {
+        "question": "What can you share with others?",
+        "options": [
+          "Explain how mosques support newcomers",
+          "Ignore questions",
+          "Argue",
+          "Pressure"
+        ],
+        "answer": "Explain how mosques support newcomers"
+      },
+      {
+        "question": "Why invite friends?",
+        "options": [
+          "They can see the mosque different than expectation",
+          "Show off",
+          "Criticize",
+          "Boast"
+        ],
+        "answer": "They can see the mosque different than expectation"
+      },
+      {
+        "question": "How do you make dua there?",
+        "options": [
+          "Focus on heartfelt requests",
+          "Rush through",
+          "Forget intention",
+          "Compete"
+        ],
+        "answer": "Focus on heartfelt requests"
+      },
+      {
+        "question": "What strengthens humility?",
+        "options": [
+          "Praying with others",
+          "Showing off",
+          "Staying home",
+          "Arguing"
+        ],
+        "answer": "Praying with others"
+      },
+      {
+        "question": "What is hospitality?",
+        "options": [
+          "Welcoming guests",
+          "Shutting door",
+          "Ignoring someone",
+          "Being unkind"
+        ],
+        "answer": "Welcoming guests"
+      },
+      {
+        "question": "How do you help keep the mosque safe?",
+        "options": [
+          "Take part in upkeep",
+          "Create chaos",
+          "Avoid cleaning",
           "Criticize"
         ],
-        "answer": "Prepare"
+        "answer": "Take part in upkeep"
       },
       {
-        "question": "Legacy planning includes  for others.",
+        "question": "Which habit centers you?",
         "options": [
-          "Service",
-          "Selfishness",
-          "Noise",
-          "Hoarding"
+          "Use mosque visits for focused dhikr",
+          "Skip visits",
+          "Neglect prayer",
+          "Argue"
         ],
-        "answer": "Service"
-      },
-      {
-        "question": "Documenting progress helps keep us.",
-        "options": [
-          "Accountable",
-          "Confused",
-          "Quiet",
-          "Passive"
-        ],
-        "answer": "Accountable"
-      },
-      {
-        "question": "Mentorship multiplies a believer's.",
-        "options": [
-          "Impact",
-          "Expense",
-          "Noise",
-          "Delay"
-        ],
-        "answer": "Impact"
-      },
-      {
-        "question": "Setting spiritual goals should include.",
-        "options": [
-          "Dua",
-          "Gossip",
-          "Fear",
-          "Silence"
-        ],
-        "answer": "Dua"
-      },
-      {
-        "question": "Reviewing goals weekly keeps  fresh.",
-        "options": [
-          "Focus",
-          "Pride",
-          "Wealth",
-          "Sleep"
-        ],
-        "answer": "Focus"
-      },
-      {
-        "question": "Hope in Allah fuels  for the future.",
-        "options": [
-          "Resilience",
-          "Complaint",
-          "Argument",
-          "Conflict"
-        ],
-        "answer": "Resilience"
-      },
-      {
-        "question": "A legacy project can include  that benefits others after you pass.",
-        "options": [
-          "Sadaqah jariyah",
-          "Discounts",
-          "Stories",
-          "Debt"
-        ],
-        "answer": "Sadaqah jariyah"
-      },
-      {
-        "question": "Final success depends on 's approval.",
-        "options": [
-          "Allah",
-          "Neighbors",
-          "Media",
-          "Employees"
-        ],
-        "answer": "Allah"
-      },
-      {
-        "question": "Reflection and dua help maintain.",
-        "options": [
-          "Growth",
-          "Leisure",
-          "Distraction",
-          "Fear"
-        ],
-        "answer": "Growth"
-      },
-      {
-        "question": "Teaching others preserves  beyond one lifetime.",
-        "options": [
-          "Knowledge",
-          "Noise",
-          "Applause",
-          "Debt"
-        ],
-        "answer": "Knowledge"
-      },
-      {
-        "question": "Which of these pairs should be part of every goal?",
-        "options": [
-          "One action and a dua",
-          "One complaint and a demand",
-          "One secret and a rumor",
-          "One rumor and a fight"
-        ],
-        "answer": "One action and a dua"
-      },
-      {
-        "question": "Writing a letter to your future self helps create a.",
-        "options": [
-          "Legacy plan",
-          "Complaint list",
-          "Shopping list",
-          "Gossip thread"
-        ],
-        "answer": "Legacy plan"
-      },
-      {
-        "question": "The Prophet (peace be upon him) described excellence as.",
-        "options": [
-          "Ihsan",
-          "Noise",
-          "Fear",
-          "Selfishness"
-        ],
-        "answer": "Ihsan"
-      },
-      {
-        "question": "Keeping a progress journal builds.",
-        "options": [
-          "Accountability",
-          "Excuses",
-          "Competition",
-          "Panic"
-        ],
-        "answer": "Accountability"
-      },
-      {
-        "question": "Weekly reviews keep your  sharp.",
-        "options": [
-          "Focus",
-          "Fears",
-          "Friends",
-          "Fasting"
-        ],
-        "answer": "Focus"
-      },
-      {
-        "question": "Mentorship multiplies your.",
-        "options": [
-          "Impact",
-          "Sleep",
-          "Plans",
-          "Noise"
-        ],
-        "answer": "Impact"
-      },
-      {
-        "question": "Pairing goals with dua keeps you close to.",
-        "options": [
-          "Allah",
-          "Stories",
-          "Games",
-          "Rivals"
-        ],
-        "answer": "Allah"
-      },
-      {
-        "question": "Legacy includes leaving ongoing.",
-        "options": [
-          "Sadaqah",
-          "Secrets",
-          "Debt",
-          "Complaints"
-        ],
-        "answer": "Sadaqah"
+        "answer": "Use mosque visits for focused dhikr"
       }
     ]
   },
   {
     "chapterId": 11,
+    "chapter": "Halal Life",
     "questions": [
       {
-        "question": "Belief in the hereafter is part of which article of faith?",
+        "question": "What is halal life about?",
         "options": [
-          "Sixth",
-          "First",
-          "Second",
-          "Third"
+          "Integrity across choices",
+          "Only diet",
+          "Avoiding worship",
+          "Rejecting rules"
         ],
-        "answer": "Sixth"
+        "answer": "Integrity across choices"
       },
       {
-        "question": "After death, the soul enters  until the Day of Judgment.",
+        "question": "Which action shows honesty?",
         "options": [
-          "Barzakh",
-          "Jannah",
-          "Medina",
-          "Cave"
+          "Speak truth with kindness",
+          "Lie",
+          "Hide mistakes",
+          "Give bribes"
         ],
-        "answer": "Barzakh"
+        "answer": "Speak truth with kindness"
       },
       {
-        "question": "Which angels question the deceased in the grave?",
+        "question": "How do you keep finance halal?",
         "options": [
-          "Munkar and Nakir",
-          "Jibril and Mikail",
-          "Israfil and Azrael",
-          "Harut and Marut"
+          "Choose transparent, interest-free dealings",
+          "Ignore terms",
+          "Chase shortcuts",
+          "Copy others"
         ],
-        "answer": "Munkar and Nakir"
+        "answer": "Choose transparent, interest-free dealings"
       },
       {
-        "question": "The Day of Judgment is called.",
+        "question": "What counts as halal speech?",
         "options": [
-          "Yawm al-Qiyamah",
-          "Yawm al-Salat",
-          "Yawm al-Jihad",
-          "Yawm al-Umrah"
+          "Gentle, honest words",
+          "Sarcastic jabs",
+          "Gossip",
+          "Complaining"
         ],
-        "answer": "Yawm al-Qiyamah"
+        "answer": "Gentle, honest words"
       },
       {
-        "question": "The balance weighing deeds is called.",
+        "question": "What does halal media look like?",
         "options": [
-          "Mizan",
-          "Rukn",
-          "Sharh",
-          "Mihrab"
+          "Content that uplifts the heart",
+          "Harsh content",
+          "Forbidden stories",
+          "Gossip"
         ],
-        "answer": "Mizan"
+        "answer": "Content that uplifts the heart"
       },
       {
-        "question": "The record of deeds is kept by the ?",
+        "question": "How do halal choices ripple?",
         "options": [
-          "Kiraman Katibin",
-          "Scribes of the world",
-          "Teachers",
-          "Judges"
+          "They build trust in community",
+          "They stay private",
+          "They reduce joy",
+          "They cause pressure"
         ],
-        "answer": "Kiraman Katibin"
+        "answer": "They build trust in community"
       },
       {
-        "question": "Repentance in Arabic is called.",
+        "question": "What if you slip?",
         "options": [
-          "Tawbah",
-          "Zakat",
-          "Sadaqah",
-          "Hajj"
+          "Repent quickly and correct it",
+          "Hide it",
+          "Repeat it",
+          "Avoid responsibility"
         ],
-        "answer": "Tawbah"
+        "answer": "Repent quickly and correct it"
       },
       {
-        "question": "Believing in the afterlife keeps hearts focused on.",
+        "question": "Why support halal businesses?",
         "options": [
-          "Good deeds",
-          "Entertainment",
-          "Work only",
-          "Hate"
+          "It keeps integrity alive",
+          "It saves money",
+          "It avoids worship",
+          "It isolates"
         ],
-        "answer": "Good deeds"
+        "answer": "It keeps integrity alive"
       },
       {
-        "question": "Fear of Allah's mercy is balanced by  on the Day of Judgment.",
+        "question": "What role does rest play?",
         "options": [
-          "Hope",
-          "Panic",
-          "Hate",
-          "Jealousy"
+          "Rest keeps heart aligned",
+          "Ignore rest",
+          "Sleep too much",
+          "Stay anxious"
         ],
-        "answer": "Hope"
+        "answer": "Rest keeps heart aligned"
       },
       {
-        "question": "Remembering death regularly encourages.",
+        "question": "How do you protect relationships?",
         "options": [
-          "Preparation",
-          "Shopping",
-          "Slumber",
-          "Jealousy"
+          "Be punctual and fair",
+          "Be late",
+          "Ignore others",
+          "Argue"
         ],
-        "answer": "Preparation"
+        "answer": "Be punctual and fair"
       },
       {
-        "question": "Those who deny the hereafter will face ?",
+        "question": "What keeps accountability in check?",
         "options": [
-          "Punishment",
-          "Fancy meals",
-          "Travel",
-          "Joy"
+          "Pray for guidance",
+          "Judge others harshly",
+          "Do nothing",
+          "Dismiss feedback"
         ],
-        "answer": "Punishment"
+        "answer": "Pray for guidance"
       },
       {
-        "question": "The hereafter is described as either Paradise or.",
+        "question": "How can you respond when tempted?",
         "options": [
-          "Hell",
-          "Desert",
-          "City",
-          "Garden"
+          "Ask Allah for strength",
+          "Give in",
+          "Blame others",
+          "Hide"
         ],
-        "answer": "Hell"
+        "answer": "Ask Allah for strength"
       },
       {
-        "question": "Seeking Allah's mercy and forgiveness is done through.",
+        "question": "What demonstrates influence?",
         "options": [
-          "Dua",
-          "Shopping",
-          "Sleeping",
-          "Arguing"
+          "Keep company that uplifts halal values",
+          "Surround yourself with critics",
+          "Avoid community",
+          "Focus on faults"
         ],
-        "answer": "Dua"
+        "answer": "Keep company that uplifts halal values"
       },
       {
-        "question": "Which habit supports hope while fearing Allah?",
+        "question": "Why practice honesty in small tasks?",
         "options": [
-          "Balanced dua",
-          "Laziness",
-          "Arguments",
-          "Jealousy"
+          "It trains character",
+          "It overwhelms",
+          "It invites bragging",
+          "It isolates"
         ],
-        "answer": "Balanced dua"
+        "answer": "It trains character"
       },
       {
-        "question": "A believer reminds themselves of death to stay.",
+        "question": "How does transparency help?",
         "options": [
-          "Humble",
-          "Boastful",
-          "Angry",
-          "Lazy"
+          "It earns trust",
+          "It hides dishonesty",
+          "It confuses",
+          "It divides"
         ],
-        "answer": "Humble"
-      },
-      {
-        "question": "Barzakh is the period between death and.",
-        "options": [
-          "Resurrection",
-          "Eid",
-          "Ramadan",
-          "Hajj"
-        ],
-        "answer": "Resurrection"
-      },
-      {
-        "question": "Belief in the hereafter makes us guard our.",
-        "options": [
-          "Actions",
-          "Status",
-          "Phones",
-          "Money"
-        ],
-        "answer": "Actions"
-      },
-      {
-        "question": "Yawm al-Qiyamah is when Allah will  all people.",
-        "options": [
-          "Judge",
-          "Reward",
-          "Gift",
-          "Ignore"
-        ],
-        "answer": "Judge"
-      },
-      {
-        "question": "Maintaining hope and fear keeps the believer's  balanced.",
-        "options": [
-          "Heart",
-          "Wallet",
-          "Schedule",
-          "Temper"
-        ],
-        "answer": "Heart"
-      },
-      {
-        "question": "Remembering the grave encourages.",
-        "options": [
-          "Preparation",
-          "Travel",
-          "Noise",
-          "Games"
-        ],
-        "answer": "Preparation"
+        "answer": "It earns trust"
       }
     ]
   },
   {
     "chapterId": 12,
+    "chapter": "Men & Women",
     "questions": [
       {
-        "question": "What is the Arabic name for Paradise?",
+        "question": "What does Islam emphasize between genders?",
         "options": [
-          "Jannah",
-          "Jahannam",
-          "Salah",
-          "Sawm"
+          "Mutual respect",
+          "Competition",
+          "Neglect",
+          "Favoritism"
         ],
-        "answer": "Jannah"
+        "answer": "Mutual respect"
       },
       {
-        "question": "What is the Arabic name for Hell?",
+        "question": "How can you support boundaries?",
         "options": [
-          "Jahannam",
-          "Jannah",
-          "Salah",
-          "Quran"
+          "Communicate respectfully",
+          "Ignore protocols",
+          "Avoid clarity",
+          "Yell"
         ],
-        "answer": "Jahannam"
+        "answer": "Communicate respectfully"
       },
       {
-        "question": "Jannah is described as gardens with.",
+        "question": "What ensures dignity?",
         "options": [
-          "Rivers",
-          "Mountains",
-          "Deserts",
-          "Lakes of oil"
+          "Honoring privacy",
+          "Gossip",
+          "Control",
+          "Mockery"
         ],
-        "answer": "Rivers"
+        "answer": "Honoring privacy"
       },
       {
-        "question": "Jahannam is described as a place of.",
+        "question": "Why celebrate cooperation?",
         "options": [
-          "Fire",
-          "Fruits",
-          "Peace",
-          "Silence"
+          "It strengthens unity",
+          "It creates hierarchy",
+          "It isolates",
+          "It confuses"
         ],
-        "answer": "Fire"
+        "answer": "It strengthens unity"
       },
       {
-        "question": "Muslims ask Allah for  from the Fire.",
+        "question": "How to teach respect to youth?",
         "options": [
-          "Refuge",
-          "Fame",
-          "Money",
-          "Power"
+          "Explain why it matters",
+          "Force compliance",
+          "Shout",
+          "Ignore"
         ],
-        "answer": "Refuge"
+        "answer": "Explain why it matters"
       },
       {
-        "question": "Who is promised Paradise?",
+        "question": "What counters stereotypes?",
         "options": [
-          "Believers with righteous deeds",
-          "Only the rich",
-          "Only scholars",
-          "Only warriors"
+          "Share facts and patience",
+          "Shout louder",
+          "Ignore evidence",
+          "Stay silent"
         ],
-        "answer": "Believers with righteous deeds"
+        "answer": "Share facts and patience"
       },
       {
-        "question": "Which highest level of Paradise is called ?",
+        "question": "How do men and women support one another?",
         "options": [
-          "Firdaws",
-          "Kabah",
-          "Masjid",
-          "Qibla"
+          "Companionate service",
+          "Avoid contact",
+          "Ignore synergy",
+          "Criticize"
         ],
-        "answer": "Firdaws"
+        "answer": "Companionate service"
       },
       {
-        "question": "Seeking forgiveness is a step toward.",
+        "question": "Why pray for equity?",
         "options": [
-          "Paradise",
-          "Sleep",
-          "Stress",
-          "Conflict"
+          "It keeps hearts sensitive",
+          "It creates competition",
+          "It avoids justice",
+          "It divides"
         ],
-        "answer": "Paradise"
+        "answer": "It keeps hearts sensitive"
       },
       {
-        "question": "Hell is for those who persist in.",
+        "question": "How to honor partnerships?",
         "options": [
-          "Shirk",
-          "Charity",
-          "Prayer",
-          "Helping"
+          "Express gratitude",
+          "Dismiss contributions",
+          "Ignore help",
+          "Brag"
         ],
-        "answer": "Shirk"
+        "answer": "Express gratitude"
       },
       {
-        "question": "Asking for Paradise and refuge from Hell is.",
+        "question": "What role do boundaries play?",
         "options": [
-          "A dua the Prophet (peace be upon him) taught",
-          "A new habit",
-          "A story",
-          "A dream"
+          "Protect dignity",
+          "Limit compassion",
+          "Separate community",
+          "Divide"
         ],
-        "answer": "A dua the Prophet (peace be upon him) taught"
+        "answer": "Protect dignity"
       },
       {
-        "question": "Charity, prayer, and repentance lighten the path to.",
+        "question": "How to handle disagreements?",
         "options": [
-          "Paradise",
-          "Fame",
-          "Profit",
-          "Noise"
+          "Respond gently",
+          "Shout",
+          "Avoid dialogue",
+          "Fight"
         ],
-        "answer": "Paradise"
+        "answer": "Respond gently"
       },
       {
-        "question": "The Quran describes Hell's fuel as ?",
+        "question": "What makes relationships healthy?",
         "options": [
-          "People and stones",
-          "Water",
-          "Flowers",
-          "Gold"
+          "Mutual respect and cooperation",
+          "Power struggles",
+          "Sarcasm",
+          "Rigid rules"
         ],
-        "answer": "People and stones"
+        "answer": "Mutual respect and cooperation"
       },
       {
-        "question": "Paradise is filled with what kind of dwellings?",
+        "question": "What invites compassion?",
         "options": [
-          "Light filled palaces",
-          "Tents",
-          "Towers of dust",
-          "Metal boxes"
+          "Model mercy",
+          "Criticize",
+          "Ignore",
+          "Dominate"
         ],
-        "answer": "Light filled palaces"
+        "answer": "Model mercy"
       },
       {
-        "question": "Which trait helps a believer avoid the Fire?",
+        "question": "Why include dua?",
         "options": [
-          "Sincere repentance",
-          "Jealousy",
-          "Anger",
-          "Silence"
+          "It seeks balance",
+          "It ignores issues",
+          "It delays action",
+          "It isolates"
         ],
-        "answer": "Sincere repentance"
+        "answer": "It seeks balance"
       },
       {
-        "question": "The Prophet (peace be upon him) asked Muslims to keep asking Allah for  ?",
+        "question": "How to keep learning?",
         "options": [
-          "Paradise and refuge from the Fire",
-          "More time",
-          "Games",
-          "Luxury"
+          "Engage with honest conversation",
+          "Avoid topics",
+          "Dismiss others",
+          "Stay closed"
         ],
-        "answer": "Paradise and refuge from the Fire"
-      },
-      {
-        "question": "Muslims ask Allah for  in Paradise.",
-        "options": [
-          "Jannah",
-          "Fame",
-          "Power",
-          "Noise"
-        ],
-        "answer": "Jannah"
-      },
-      {
-        "question": "Seeking refuge from the Fire is a hopeful.",
-        "options": [
-          "Dua",
-          "Complaint",
-          "Dress",
-          "Story"
-        ],
-        "answer": "Dua"
-      },
-      {
-        "question": "Paradise promises eternal.",
-        "options": [
-          "Joy",
-          "Debt",
-          "Noise",
-          "Silence"
-        ],
-        "answer": "Joy"
-      },
-      {
-        "question": "The Fire is reserved for those who persist in.",
-        "options": [
-          "Shirk",
-          "Giving",
-          "Listening",
-          "Loving"
-        ],
-        "answer": "Shirk"
-      },
-      {
-        "question": "Staying close to Allah's mercy guards against.",
-        "options": [
-          "The Fire",
-          "Rain",
-          "Food",
-          "Travel"
-        ],
-        "answer": "The Fire"
+        "answer": "Engage with honest conversation"
       }
     ]
   },
   {
     "chapterId": 13,
+    "chapter": "Becoming Muslim",
     "questions": [
       {
-        "question": "What does 'dhikr' mean?",
+        "question": "What comes after shahada?",
         "options": [
-          "Remembrance of Allah",
-          "Relaxation",
-          "Storytelling",
-          "Travel"
+          "Begin learning prayer and Quran",
+          "Avoid community",
+          "Stay silent",
+          "Complain"
         ],
-        "answer": "Remembrance of Allah"
+        "answer": "Begin learning prayer and Quran"
       },
       {
-        "question": "Which phrase praises Allah's perfection?",
+        "question": "How can mentors help?",
         "options": [
-          "SubhanAllah",
-          "Hi there",
-          "Goodbye",
-          "See you"
+          "Offer support and guidance",
+          "Ignore new Muslims",
+          "Criticize",
+          "Withdraw"
         ],
-        "answer": "SubhanAllah"
+        "answer": "Offer support and guidance"
       },
       {
-        "question": "Which short dua means 'All praise is due to Allah'?",
+        "question": "Why celebrate milestones?",
         "options": [
-          "Alhamdulillah",
-          "Bismillah",
-          "Astaghfirullah",
-          "Allahu Akbar"
+          "It honors courage",
+          "It isolates",
+          "It bores",
+          "It distracts"
         ],
-        "answer": "Alhamdulillah"
+        "answer": "It honors courage"
       },
       {
-        "question": "Which dua asks Allah for forgiveness?",
+        "question": "What role does community play?",
         "options": [
-          "Astaghfirullah",
-          "SubhanAllah",
-          "Alhamdulillah",
-          "InshaAllah"
+          "Provides care and accountability",
+          "Forces beliefs",
+          "Judges",
+          "Ignores"
         ],
-        "answer": "Astaghfirullah"
+        "answer": "Provides care and accountability"
       },
       {
-        "question": "Which phrase expresses trust by saying there is no might except with Allah?",
+        "question": "How do you handle doubts?",
         "options": [
-          "La hawla wa la quwwata illa billah",
-          "Bismillah",
-          "Assalamu Alaikum",
-          "SubhanAllah"
+          "Ask good questions and seek answers",
+          "Hide them",
+          "Blame others",
+          "Avoid learning"
         ],
-        "answer": "La hawla wa la quwwata illa billah"
+        "answer": "Ask good questions and seek answers"
       },
       {
-        "question": "Remembrance and dua soften the.",
+        "question": "What should new Muslims learn first?",
         "options": [
-          "Heart",
-          "Wallet",
-          "Schedule",
-          "Food"
+          "Prayer, Shahada meaning, dua basics",
+          "Ignore rituals",
+          "Mislead others",
+          "Focus on drama"
         ],
-        "answer": "Heart"
+        "answer": "Prayer, Shahada meaning, dua basics"
       },
       {
-        "question": "Which dua seeks protection from evil?",
+        "question": "How do you show support?",
         "options": [
-          "A'udhu billahi min ash-shaytan",
-          "Alhamdulillah",
-          "Astaghfirullah",
-          "SubhanAllah"
+          "Offer encouragement and practical help",
+          "Criticize",
+          "Isolate",
+          "Against instruction"
         ],
-        "answer": "A'udhu billahi min ash-shaytan"
+        "answer": "Offer encouragement and practical help"
       },
       {
-        "question": "Which dua reminds us Allah is enough for us?",
+        "question": "Why plan celebrations?",
         "options": [
-          "Hasbi Allah",
-          "Assalamu Alaikum",
-          "Noor",
-          "Zikr"
+          "It affirms their choice",
+          "It burdens them",
+          "It conflicts",
+          "It isolates"
         ],
-        "answer": "Hasbi Allah"
+        "answer": "It affirms their choice"
       },
       {
-        "question": "Daily dhikr is encouraged most in the  and evening.",
+        "question": "What fosters courage?",
         "options": [
-          "Morning",
-          "Afternoon",
-          "Night only",
-          "Midnight"
+          "Sharing goals and dua",
+          "Avoiding action",
+          "Doubting",
+          "Being loud"
         ],
-        "answer": "Morning"
+        "answer": "Sharing goals and dua"
       },
       {
-        "question": "Which short chapter is often read as part of daily dhikr for protection?",
+        "question": "How do you stay grounded?",
         "options": [
-          "Al-Ikhlas",
-          "Al-Baqarah",
-          "An-Nisa",
-          "Yusuf"
+          "Keep small routines and reflections",
+          "Chase perfection",
+          "Ignore duty",
+          "Change quickly"
         ],
-        "answer": "Al-Ikhlas"
+        "answer": "Keep small routines and reflections"
       },
       {
-        "question": "Asking Allah for others in dua shows.",
+        "question": "What expresses gratitude?",
         "options": [
-          "Support",
-          "Silence",
-          "Pride",
-          "Fear"
+          "Thank Allah regularly",
+          "Ignore Him",
+          "Challenge others",
+          "Brag"
         ],
-        "answer": "Support"
+        "answer": "Thank Allah regularly"
       },
       {
-        "question": "Multiplying dhikr after prayer keeps the  steady.",
+        "question": "How to involve family?",
         "options": [
-          "Heart",
-          "Money",
-          "Phone",
-          "Schedule"
+          "Invite them gently to learn",
+          "Push them forcibly",
+          "Avoid them",
+          "Ignore feelings"
         ],
-        "answer": "Heart"
+        "answer": "Invite them gently to learn"
       },
       {
-        "question": "Which phrase means 'Allah is the Greatest'?",
+        "question": "What strengthens identity?",
         "options": [
-          "Allahu Akbar",
-          "Alhamdulillah",
-          "SubhanAllah",
-          "Astaghfirullah"
+          "Study lessons and share progress",
+          "Hide story",
+          "Rebel",
+          "Complain"
         ],
-        "answer": "Allahu Akbar"
+        "answer": "Study lessons and share progress"
       },
       {
-        "question": "Which dua is recited before starting work, meaning 'In the name of Allah'?",
+        "question": "Why keep connection?",
         "options": [
-          "Bismillah",
-          "SubhanAllah",
-          "Alhamdulillah",
-          "Allahu Akbar"
+          "To stay motivated",
+          "To isolate",
+          "To argue",
+          "To drift"
         ],
-        "answer": "Bismillah"
+        "answer": "To stay motivated"
       },
       {
-        "question": "Which action keeps the conversation with Allah honest?",
+        "question": "What encourages questions?",
         "options": [
-          "Dua about routine matters",
-          "Ignoring prayer",
-          "Talking behind others",
-          "Hoarding wealth"
+          "Assure that curiosity is welcome",
+          "Shame them",
+          "Dismiss them",
+          "Punish them"
         ],
-        "answer": "Dua about routine matters"
-      },
-      {
-        "question": "The dua 'Rabbi zidni ilma' asks Allah for more.",
-        "options": [
-          "Knowledge",
-          "Sleep",
-          "Games",
-          "Rumors"
-        ],
-        "answer": "Knowledge"
-      },
-      {
-        "question": "Saying 'Hasbi Allah' shows  on Allah.",
-        "options": [
-          "Reliance",
-          "Confusion",
-          "Criticism",
-          "Fear"
-        ],
-        "answer": "Reliance"
-      },
-      {
-        "question": "Praying for others in dua reflects.",
-        "options": [
-          "Support",
-          "Silence",
-          "Pride",
-          "Fear"
-        ],
-        "answer": "Support"
-      },
-      {
-        "question": "Dhikr keeps the heart.",
-        "options": [
-          "Soft",
-          "Tired",
-          "Closed",
-          "Distracted"
-        ],
-        "answer": "Soft"
-      },
-      {
-        "question": "Remembering Allah's names brings  to the soul.",
-        "options": [
-          "Peace",
-          "Noise",
-          "Stress",
-          "Sleep"
-        ],
-        "answer": "Peace"
+        "answer": "Assure that curiosity is welcome"
       }
     ]
   },
   {
     "chapterId": 14,
+    "chapter": "Eid Festivals",
     "questions": [
       {
-        "question": "Islamic homes should be built on.",
+        "question": "Which Eid marks Ramadan's end?",
         "options": [
-          "Mercy and justice",
-          "Wealth only",
-          "Noise",
-          "Silence"
+          "Eid al-Fitr",
+          "Eid al-Adha",
+          "Ashura",
+          "Isra"
         ],
-        "answer": "Mercy and justice"
+        "answer": "Eid al-Fitr"
       },
       {
-        "question": "Marriage in Islam is called.",
+        "question": "Which Eid recalls Ibrahim's trust?",
         "options": [
-          "Nikah",
-          "Salah",
-          "Zakat",
-          "Hajj"
+          "Eid al-Adha",
+          "Eid al-Fitr",
+          "Ramadan",
+          "Mawlid"
         ],
-        "answer": "Nikah"
+        "answer": "Eid al-Adha"
       },
       {
-        "question": "Which surah compares spouses to garments for each other?",
+        "question": "How can gratitude shape Eid?",
         "options": [
-          "Al-Baqarah",
-          "Yaseen",
-          "Al-Ikhlas",
-          "An-Nas"
+          "Share thanks with others",
+          "Ignore gratitude",
+          "Accuse others",
+          "Limit joy"
         ],
-        "answer": "Al-Baqarah"
+        "answer": "Share thanks with others"
       },
       {
-        "question": "Fairness in sharing duties brings  at home.",
+        "question": "Why add charity on Eid?",
         "options": [
-          "Balance",
-          "Conflict",
-          "Chaos",
-          "Jealousy"
+          "To keep celebration grounded in compassion",
+          "To compete",
+          "To boast",
+          "To ignore needs"
         ],
-        "answer": "Balance"
+        "answer": "To keep celebration grounded in compassion"
       },
       {
-        "question": "Which action helps grow love within the household?",
+        "question": "How do you include those alone?",
         "options": [
-          "Gratitude",
-          "Keeping secrets",
-          "Arguing",
-          "Ignoring"
+          "Invite them and share food",
+          "Ignore them",
+          "Avoid them",
+          "Judge"
         ],
-        "answer": "Gratitude"
+        "answer": "Invite them and share food"
       },
       {
-        "question": "Parents should treat children with.",
+        "question": "What tradition helps teach kids?",
         "options": [
-          "Kindness",
-          "Anger",
-          "Silence",
-          "Harshness"
+          "Explain meaning of greetings and takbeers",
+          "Give gifts only",
+          "Scold them",
+          "Ignore questions"
         ],
-        "answer": "Kindness"
+        "answer": "Explain meaning of greetings and takbeers"
       },
       {
-        "question": "Children should obey parents as long as it does not lead to.",
+        "question": "Why celebrate mercy?",
         "options": [
-          "Disobedience to Allah",
-          "Playtime",
-          "Learning",
-          "Sharing"
+          "Use energy to renew kindness",
+          "Ignore others",
+          "Focus on gifts",
+          "Stop giving"
         ],
-        "answer": "Disobedience to Allah"
+        "answer": "Use energy to renew kindness"
       },
       {
-        "question": "Teaching the Quran at home models  for family members.",
+        "question": "What balances celebration and sacrifice?",
         "options": [
-          "The Quran and Sunnah",
-          "Travel",
-          "Games",
-          "Movies"
+          "Remember qurban story",
+          "Forget sacrifice",
+          "Focus on pomp",
+          "Compete"
         ],
-        "answer": "The Quran and Sunnah"
+        "answer": "Remember qurban story"
       },
       {
-        "question": "A peaceful home begins with.",
+        "question": "How to plan Eid calmly?",
         "options": [
-          "Gentle speech",
-          "Scolding",
-          "Noise",
-          "Isolation"
+          "Prepare logistics ahead",
+          "Wait until last minute",
+          "Rush around",
+          "Complain"
         ],
-        "answer": "Gentle speech"
+        "answer": "Prepare logistics ahead"
       },
       {
-        "question": "Planning undistracted time for family shows.",
+        "question": "What makes Eid prayers meaningful?",
         "options": [
-          "Care",
-          "Indifference",
-          "Neglect",
-          "Rashness"
+          "Focus on dua and unity",
+          "Rush through",
+          "Ignore significance",
+          "Skip"
         ],
-        "answer": "Care"
+        "answer": "Focus on dua and unity"
       },
       {
-        "question": "A balanced home includes shared.",
+        "question": "How do you spread joy?",
         "options": [
-          "Duties",
-          "Secrets",
-          "Silence",
-          "Favors"
+          "Send greetings or share treats",
+          "Hoard gifts",
+          "Criticize",
+          "Avoid"
         ],
-        "answer": "Duties"
+        "answer": "Send greetings or share treats"
       },
       {
-        "question": "Praying together strengthens  at home.",
+        "question": "Why keep mercy center?",
         "options": [
-          "Faith and connection",
-          "Debt",
-          "Noise",
-          "Confusion"
+          "Allah loves kindness",
+          "Pride doesn’t help",
+          "Isolation hurts",
+          "Neglect fosters tension"
         ],
-        "answer": "Faith and connection"
+        "answer": "Allah loves kindness"
       },
       {
-        "question": "The Prophet (peace be upon him) said the best of you are best to your.",
+        "question": "What is true celebration?",
         "options": [
-          "Families",
-          "Enemies",
-          "Strangers",
-          "Pets"
+          "Shared gratitude and service",
+          "Selfish consumption",
+          "Show off",
+          "Noise"
         ],
-        "answer": "Families"
+        "answer": "Shared gratitude and service"
       },
       {
-        "question": "Which act protects marriages?",
+        "question": "How can Eid teach humility?",
         "options": [
-          "Open communication",
-          "Noise",
-          "Isolation",
-          "Greed"
+          "Remember it is a gift of obedience",
+          "Act arrogant",
+          "Demand extravagance",
+          "Criticize others"
         ],
-        "answer": "Open communication"
+        "answer": "Remember it is a gift of obedience"
       },
       {
-        "question": "Making dua for your household is a form of.",
+        "question": "Why include dua?",
         "options": [
-          "Care",
-          "Neglect",
-          "Argument",
-          "Silence"
+          "Ask Allah to keep you grateful",
+          "Ignore Allah",
+          "Focus on things",
+          "Brag"
         ],
-        "answer": "Care"
-      },
-      {
-        "question": "Sharing duties at home builds.",
-        "options": [
-          "Balance",
-          "Drama",
-          "Silence",
-          "Chaos"
-        ],
-        "answer": "Balance"
-      },
-      {
-        "question": "Raising children requires  and kindness.",
-        "options": [
-          "Patience",
-          "Wealth",
-          "Noise",
-          "Worry"
-        ],
-        "answer": "Patience"
-      },
-      {
-        "question": "Scheduling undistracted family time shows.",
-        "options": [
-          "Care",
-          "Neglect",
-          "Anger",
-          "Jealousy"
-        ],
-        "answer": "Care"
-      },
-      {
-        "question": "Open communication protects.",
-        "options": [
-          "Marriage",
-          "Power",
-          "Fame",
-          "Wealth"
-        ],
-        "answer": "Marriage"
-      },
-      {
-        "question": "Praying together strengthens.",
-        "options": [
-          "Faith",
-          "Conflict",
-          "Silence",
-          "Stress"
-        ],
-        "answer": "Faith"
+        "answer": "Ask Allah to keep you grateful"
       }
     ]
   },
   {
     "chapterId": 15,
+    "chapter": "Afterlife",
     "questions": [
       {
-        "question": "Purifying the heart removes diseases like.",
+        "question": "What guides the afterlife view?",
         "options": [
-          "Envy",
-          "Hunger",
-          "Sleepiness",
-          "Noise"
+          "Accountability and mercy",
+          "Ignorance",
+          "Fear only",
+          "No reflection"
         ],
-        "answer": "Envy"
+        "answer": "Accountability and mercy"
       },
       {
-        "question": "Dhikr softens the.",
+        "question": "Which action invests in eternal reward?",
         "options": [
-          "Heart",
-          "Wallet",
-          "Desk",
-          "Door"
+          "Kind deeds",
+          "Short-term gain",
+          "Ignoring people",
+          "Forgetting"
         ],
-        "answer": "Heart"
+        "answer": "Kind deeds"
       },
       {
-        "question": "Self accounting each night is called.",
+        "question": "What keeps hope steady?",
         "options": [
-          "Muhasabah",
-          "Zakat",
-          "Sadaqah",
-          "Hajj"
+          "Repentance and dua",
+          "Ignoring consequences",
+          "Doubt",
+          "Procrastination"
         ],
-        "answer": "Muhasabah"
+        "answer": "Repentance and dua"
       },
       {
-        "question": "A heart filled with gratitude stays.",
+        "question": "What anchors gratitude?",
         "options": [
-          "Tender",
-          "Angry",
-          "Greedy",
-          "Silent"
+          "Thank Allah for the chance to change",
+          "Cry constantly",
+          "Avoid worship",
+          "Judge"
         ],
-        "answer": "Tender"
+        "answer": "Thank Allah for the chance to change"
       },
       {
-        "question": "Repentance helps remove  from the heart.",
+        "question": "How do you prepare practical matters?",
         "options": [
-          "Pride",
-          "Water",
-          "Sleep",
-          "Food"
+          "Pay debts and plan sadaqah jariyah",
+          "Delay",
+          "Hoard",
+          "Ignore advice"
         ],
-        "answer": "Pride"
+        "answer": "Pay debts and plan sadaqah jariyah"
       },
       {
-        "question": "Which emotion is a heart disease?",
+        "question": "What is muhasabah?",
         "options": [
-          "Jealousy",
-          "Joy",
-          "Peace",
-          "Gratitude"
+          "Self-accounting before sleep",
+          "Judging others",
+          "Avoiding reflection",
+          "Staying busy"
         ],
-        "answer": "Jealousy"
+        "answer": "Self-accounting before sleep"
       },
       {
-        "question": "Compassion keeps the heart.",
+        "question": "How does dua help?",
         "options": [
-          "Soft",
-          "Silent",
-          "Cold",
-          "Loud"
+          "Ask for mercy and forgiveness",
+          "Demand justice",
+          "Ignore mercy",
+          "Punish people"
         ],
-        "answer": "Soft"
+        "answer": "Ask for mercy and forgiveness"
       },
       {
-        "question": "When we notice blameworthy traits we should.",
+        "question": "Which reminder keeps you present?",
         "options": [
-          "Repent",
-          "Hide",
-          "Blame others",
-          "Forget"
+          "Awareness of the akhira",
+          "Ignoring future",
+          "Focusing on stress",
+          "Mimicking others"
         ],
-        "answer": "Repent"
+        "answer": "Awareness of the akhira"
       },
       {
-        "question": "Trusting Allah is known as.",
+        "question": "What does the scale measure?",
         "options": [
-          "Tawakkul",
-          "Hate",
-          "Noise",
-          "Greed"
+          "Deeds",
+          "Sunlight",
+          "Movies",
+          "Wealth"
         ],
-        "answer": "Tawakkul"
+        "answer": "Deeds"
       },
       {
-        "question": "Sincerity opposes.",
+        "question": "How do you balance hope and fear?",
         "options": [
-          "Riyah (showing off)",
-          "Kindness",
-          "Prayer",
-          "Charity"
+          "Pair hope with accountability",
+          "Fear only",
+          "Hope only",
+          "Ignore both"
         ],
-        "answer": "Riyah (showing off)"
+        "answer": "Pair hope with accountability"
       },
       {
-        "question": "A heart with constant dhikr shows  to Allah.",
+        "question": "What sustains kindness?",
         "options": [
-          "Attachment",
-          "Detachment",
-          "Hate",
-          "Falsehood"
+          "Purposeful service for eternity",
+          "Selfish plans",
+          "Criticism",
+          "Avoiding help"
         ],
-        "answer": "Attachment"
+        "answer": "Purposeful service for eternity"
       },
       {
-        "question": "Which practice keeps the heart at peace?",
+        "question": "Why memorize descriptions of paradise?",
         "options": [
-          "Dua",
-          "Shopping",
-          "Grumbling",
-          "Arguing"
+          "Keeps hope alive",
+          "Confuses",
+          "Creates fear",
+          "Distracts"
         ],
-        "answer": "Dua"
+        "answer": "Keeps hope alive"
       },
       {
-        "question": "Which emotion should we guard from to protect the heart?",
+        "question": "What is a nightly reminder?",
         "options": [
-          "Pride",
-          "Debt",
-          "Cold",
-          "Rain"
+          "A note or dua about the akhira",
+          "Procrastination",
+          "Insomnia",
+          "Random scrolling"
         ],
-        "answer": "Pride"
+        "answer": "A note or dua about the akhira"
       },
       {
-        "question": "Compassion for others comes from a heart filled with.",
+        "question": "How do you practice forgiveness?",
         "options": [
-          "Love",
-          "Silence",
-          "Noise",
-          "Tension"
+          "Forgive others and seek Allah’s forgiveness",
+          "Hold grudges",
+          "Punish",
+          "Ignore"
         ],
-        "answer": "Love"
+        "answer": "Forgive others and seek Allah’s forgiveness"
       },
       {
-        "question": "Turning every action into dua shows  in the heart.",
+        "question": "What dimension keeps the heart steady?",
         "options": [
-          "Focus",
-          "Confusion",
-          "Sleepiness",
-          "Noise"
+          "Gratitude for mercy",
+          "Comparison",
+          "Negativity",
+          "Confusion"
         ],
-        "answer": "Focus"
-      },
-      {
-        "question": "Muhasabah is the habit of.",
-        "options": [
-          "Self-accounting",
-          "Shopping",
-          "Sleeping",
-          "Ignoring"
-        ],
-        "answer": "Self-accounting"
-      },
-      {
-        "question": "Guarding the tongue keeps the  clean.",
-        "options": [
-          "Heart",
-          "Home",
-          "Wallet",
-          "Phone"
-        ],
-        "answer": "Heart"
-      },
-      {
-        "question": "Jealousy is considered a heart.",
-        "options": [
-          "Disease",
-          "Gift",
-          "Game",
-          "Noise"
-        ],
-        "answer": "Disease"
-      },
-      {
-        "question": "Trusting Allah (tawakkul) steadies the.",
-        "options": [
-          "Heart",
-          "Laptop",
-          "Bank",
-          "Friends"
-        ],
-        "answer": "Heart"
-      },
-      {
-        "question": "Dhikr and dua keep the heart.",
-        "options": [
-          "Soft",
-          "Tired",
-          "Closed",
-          "Angry"
-        ],
-        "answer": "Soft"
+        "answer": "Gratitude for mercy"
       }
     ]
   }
