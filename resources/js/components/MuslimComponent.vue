@@ -229,7 +229,7 @@
             </div>
           </div>
 
-          <div v-if="focusHighlights.length" class="row focus-highlight-row mb-4 g-3">
+          <!-- <div v-if="focusHighlights.length" class="row focus-highlight-row mb-4 g-3">
             <div v-for="highlight in focusHighlights" :key="highlight.label" class="col-12 col-md-4">
               <article class="focus-pill-card p-3 rounded-4 shadow-sm h-100">
                 <div class="d-flex align-items-center justify-content-between mb-1">
@@ -240,10 +240,10 @@
                 <p class="mb-0 text-muted small">{{ highlight.detail }}</p>
               </article>
             </div>
-          </div>
+          </div> -->
 
           <!-- Learning objectives -->
-          <div v-if="learningObjectiveColumns.length"
+          <!-- <div v-if="learningObjectiveColumns.length"
             class="content-card section-card animated-fade-slide mb-4 rounded-4">
             <div class="card-header d-flex align-items-center py-3">              
               <i class="bi bi-database-fill-check fs-4 me-3 text-teal"></i>
@@ -264,7 +264,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
             <!-- main content -->
               <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
