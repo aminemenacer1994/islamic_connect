@@ -102,19 +102,16 @@
                   {{ currentLesson?.summary }}
                 </p>
               </div>
-              <div class="lesson-meta d-flex gap-3">
+              <!-- <div class="lesson-meta d-flex gap-3">
                 <span class="badge badge-pill bg-light text-dark fw-semibold">
                   Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}
                 </span>
-                <span class="badge badge-pill bg-white text-teal fw-semibold">
-                  {{ currentLesson?.sections?.length ?? 0 }} Topics
-                </span>
-              </div>
+              </div> -->
             </div>
           </div>
 
           <!-- Hero Stats -->
-          <div class="row g-3 mb-4 hero-stats-row">
+          <!-- <div class="row g-3 mb-4 hero-stats-row">
             <div v-for="stat in lessonHeroStats" :key="stat.label" class="col-12 col-sm-4">
               <article class="hero-stat-card d-flex flex-column">
                 <span class="stat-label">{{ stat.label }}</span>
@@ -122,7 +119,7 @@
                 <span class="stat-helper text-muted small">Premium insights</span>
               </article>
             </div>
-          </div>
+          </div> -->
 
           
 
@@ -165,18 +162,18 @@
                 <h3 class="mb-1 fw-semibold">Follow the curated steps below</h3>
                 <p class="text-muted small mb-0">Start with absorb, move through reflection, and end with mastery to keep momentum.</p>
               </div>
-              <div class="d-flex gap-2 flex-wrap">
+              <!-- <div class="d-flex gap-2 flex-wrap">
                 <button type="button" class="btn btn-outline-teal btn-sm fw-semibold" @click="scrollToSection(0)">
                   Jump to Step 1
                 </button>
                 <button type="button" class="btn btn-teal btn-sm fw-semibold" @click="scrollToSection(2)">
                   Highlight Reinforcement
                 </button>
-              </div>
+              </div> -->
             </div>
               <div class="guided-bullets px-3 pb-3">
                 <div v-for="(card, index) in guidedPathwayCards" :key="card.step" class="guided-bullet">
-                <span class="guided-step">{{ card.step }}</span>
+                <!-- <span class="guided-step">{{ card.step }}</span> -->
                 <div>
                   <p class="mb-0 fw-semibold">{{ card.title }}</p>
                   <small class="text-muted">{{ card.action }}</small>
@@ -295,7 +292,6 @@
                 <!-- lesson overview -->
               <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
                 <div v-if="currentLessonOverview" class="lesson-overview-summary mb-4">
-                  <h5 class="fw-semibold mb-2">Lesson overview</h5>
                   <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p>
                   <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
                     <div v-for="highlight in currentLessonOverview.highlights" :key="highlight.label || highlight.heading" class="col-12 col-md-4">
@@ -675,9 +671,9 @@
                       <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
                     </div>
                   </div>
-                  <span class="badge text-dark bg-light rounded-pill px-3 py-2">
+                  <!-- <span class="badge text-dark bg-light rounded-pill px-3 py-2">
                     Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}
-                  </span>
+                  </span> -->
                 </div>
                   <div class="quiz-body px-4 py-3">
                     <div class="quiz-progress-wrapper mb-3">

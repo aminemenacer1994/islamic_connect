@@ -8,21 +8,37 @@
     </div>
 
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg shadow-sm sticky-top" :style="{ backgroundColor: 'var(--primary-color)' }">
-      <div class="container">
-        <a class="navbar-brand text-white fw-bold fs-4">
-          <i class="bi bi-person-arms-up me-2"></i>Tasbih Counter
-        </a>
-        <div class="d-flex align-items-center">
-          <div class="text-white me-3 d-none d-md-block fs-5">{{ formatTime(currentTime) }}</div>
-          <button class="btn btn-outline-light rounded-3 btn-sm me-2" @click="showSettings = !showSettings" 
+    <nav class="tasbih-navbar shadow sticky-top">
+      <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="nav-brand d-flex align-items-center gap-3">
+          <div class="brand-icon">
+            <i class="bi bi-hash"></i>
+          </div>
+          <div>
+            <div class="d-flex align-items-center gap-2">
+              <span class="navbar-brand mb-0">Tasbih Counter</span>
+              <span class="badge bg-white text-primary small">Live</span>
+            </div>
+            <p class="mb-0 text-white-50 small">Track your dhikr with clarity and calm.</p>
+          </div>
+        </div>
+
+        <div class="nav-actions d-flex flex-wrap align-items-center gap-2">
+          <div class="status-chip d-none d-md-flex align-items-center gap-2">
+            <i class="bi bi-clock"></i>
+            <span>{{ formatTime(currentTime) }}</span>
+          </div>
+          <button class="btn btn-outline-light rounded-3 btn-sm text-capitalize" @click="showSettings = !showSettings" 
                   title="Settings" aria-label="Toggle Settings">
-            <i class="bi bi-gear"></i>
+            <i class="bi bi-gear me-1"></i> Settings
           </button>
           <div class="dropdown">
-            <button class="btn btn-outline-light rounded-3 btn-sm dropdown-toggle" data-bs-toggle="dropdown" 
+            <button class="btn btn-sm dropdown-toggle lang-toggle" data-bs-toggle="dropdown" 
                     title="Language" aria-label="Select Language">
-              {{ currentLanguage.name }}
+              <span class="d-flex align-items-center gap-2">
+                <i class="bi bi-translate"></i>
+                {{ currentLanguage.name }}
+              </span>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
               <li v-for="lang in languages" :key="lang.code">
@@ -1683,9 +1699,74 @@ export default {
   box-shadow: 0 0 0 0.25rem rgba(13, 182, 145, 0.25);
 }
 
-.navbar {
-  backdrop-filter: blur(10px);
-  background: var(--primary-color);
+.tasbih-navbar {
+  backdrop-filter: blur(18px);
+  background: linear-gradient(135deg, rgba(14, 150, 112, 0.95), rgba(33, 93, 255, 0.85));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 16px;
+  padding: 0.25rem 0;
+  transition: transform 0.2s ease;
+}
+
+.tasbih-navbar .container {
+  align-items: center;
+}
+
+.tasbih-navbar:hover {
+  transform: translateY(-2px);
+}
+
+.tasbih-navbar .navbar-brand {
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+.nav-brand .brand-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  color: #ffffff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+}
+
+.nav-actions {
+  gap: 0.75rem;
+}
+
+.status-chip {
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  font-size: 0.9rem;
+  color: #fff;
+}
+
+.status-chip i {
+  font-size: 1rem;
+}
+
+.lang-toggle {
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  min-width: 120px;
+  display: flex;
+  justify-content: center;
+}
+
+.lang-toggle:hover,
+.lang-toggle:focus {
+  background: rgba(255, 255, 255, 0.2);
 }
 
 .dropdown-menu {
