@@ -124,7 +124,7 @@
           
 
           <!-- Guidance Row -->
-          <div v-if="guidanceCards.length"
+          <!-- <div v-if="guidanceCards.length"
             class="content-card section-card guidance-card animated-fade-slide mb-4 rounded-4">
             <div class="card-header d-flex align-items-center py-3">
               <i class="bi bi-compass-fill fs-4 me-3 text-teal"></i>
@@ -153,7 +153,7 @@
                 </article>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div v-if="guidedPathwayCards.length" class="content-card guided-section-card mb-4 rounded-4">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">

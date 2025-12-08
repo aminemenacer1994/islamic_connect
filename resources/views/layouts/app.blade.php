@@ -226,14 +226,20 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
                         </li>
-
                         <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/muslim" data-path="/muslim" data-nav-item="primary">Non-Muslim zone</a>
+                            <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Revert corner</button>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <button class="button-33" role="button" type="button" onclick="window.location.href='/muslim'">Non-Muslim zone</button>
+                        </li>
+
+                        <!-- <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3 button-91" href="/muslim" data-path="/muslim" data-nav-item="primary">Non-Muslim zone</a>
                         </li>
                        
                         <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/revert" data-path="/revert" data-nav-item="primary">Revert corner</a>
-                        </li>
+                            <a class="nav-link pt-2 ml-3" href="/revert" data-path="/revert" data-nav-item="primary">Reverts corner</a>
+                        </li> -->
 
                         <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
@@ -247,9 +253,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
                         </li>
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
@@ -259,9 +265,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
                         </li> -->
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
-                        </li>
+                        </li> -->
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/about" data-path="/about" data-nav-item="primary">About Us</a>
@@ -668,8 +674,39 @@
             }
         });
     </script>
+    
     @endif
 
 </body>
+<!-- HTML !-->
 
 </html>
+<style>
+/* CSS */
+.button-33 {
+  background-color: #c2fbd7;
+  border-radius: 11px;
+  color: green;
+  border: 2px solid rgba(194, 251, 215, 0.14);
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
+  padding: 7px 20px;
+
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  font-weight: 500;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-33:hover {
+  transform: scale(1.05);
+  box-shadow: rgba(0, 0, 0, 0.42) 0 1px 3px 0 ;
+}
+
+
+</style>
