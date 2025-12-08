@@ -226,12 +226,40 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
                         </li>
-                        <li class="nav-item mt-2">
-                            <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Revert corner</button>
+                        <!-- <li class="nav-item mt-2">
+                            <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Reverts corner</button>
                         </li>
                         <li class="nav-item mt-2">
-                            <button class="button-33" role="button" type="button" onclick="window.location.href='/muslim'">Non-Muslim zone</button>
-                        </li>
+                            <button class="button-33" role="button" type="button" onclick="window.location.href='/muslim'">Discover Islam</button>
+                        </li> -->
+
+                        <!-- From Uiverse.io by Spacious74 --> 
+                        
+
+                        <button class="button">
+                        <svg
+                                viewBox="0 0 24 24"
+                                height="24"
+                                width="24"
+                                class="mr-2"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <g fill="none">
+                                <path
+                                    d="m12.594 23.258l-.012.002l-.071.035l-.02.004l-.014-.004l-.071-.036q-.016-.004-.024.006l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.016-.018m.264-.113l-.014.002l-.184.093l-.01.01l-.003.011l.018.43l.005.012l.008.008l.201.092q.019.005.029-.008l.004-.014l-.034-.614q-.005-.019-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.003-.011l.018-.43l-.003-.012l-.01-.01z"
+                                ></path>
+                                <path
+                                    d="M9.107 5.448c.598-1.75 3.016-1.803 3.725-.159l.06.16l.807 2.36a4 4 0 0 0 2.276 2.411l.217.081l2.36.806c1.75.598 1.803 3.016.16 3.725l-.16.06l-2.36.807a4 4 0 0 0-2.412 2.276l-.081.216l-.806 2.361c-.598 1.75-3.016 1.803-3.724.16l-.062-.16l-.806-2.36a4 4 0 0 0-2.276-2.412l-.216-.081l-2.36-.806c-1.751-.598-1.804-3.016-.16-3.724l.16-.062l2.36-.806A4 4 0 0 0 8.22 8.025l.081-.216zM11 6.094l-.806 2.36a6 6 0 0 1-3.49 3.649l-.25.091l-2.36.806l2.36.806a6 6 0 0 1 3.649 3.49l.091.25l.806 2.36l.806-2.36a6 6 0 0 1 3.49-3.649l.25-.09l2.36-.807l-2.36-.806a6 6 0 0 1-3.649-3.49l-.09-.25zM19 2a1 1 0 0 1 .898.56l.048.117l.35 1.026l1.027.35a1 1 0 0 1 .118 1.845l-.118.048l-1.026.35l-.35 1.027a1 1 0 0 1-1.845.117l-.048-.117l-.35-1.026l-1.027-.35a1 1 0 0 1-.118-1.845l.118-.048l1.026-.35l.35-1.027A1 1 0 0 1 19 2"
+                                    fill="currentColor"
+                                ></path>
+                                </g>
+                            </svg>
+                            Reverts corner
+                            <div class="hoverEffect">
+                                <div></div>
+                            </div>
+                        </button>
+
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 button-91" href="/muslim" data-path="/muslim" data-nav-item="primary">Non-Muslim zone</a>
@@ -682,17 +710,144 @@
 
 </html>
 <style>
+/* From Uiverse.io by Wendell47 */ 
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: all 0.02s;
+  font-weight: bold;
+  cursor: pointer;
+  color: rgb(37, 37, 37);
+  z-index: 0;
+  box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+.button:hover {
+  background: rgb(193, 228, 248);
+  color: rgb(33, 0, 85);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.hoverEffect {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hoverEffect div {
+  background: rgb(222, 0, 75);
+  background: linear-gradient(
+    90deg,
+    rgba(222, 0, 75, 1) 0%,
+    rgba(191, 70, 255, 1) 49%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  border-radius: 40rem;
+  width: 10rem;
+  height: 10rem;
+  transition: 0.4s;
+  filter: blur(20px);
+  animation: effect infinite 3s linear;
+  opacity: 0.5;
+}
+
+.button:hover .hoverEffect div {
+  width: 8rem;
+  height: 8rem;
+}
+
+@keyframes effect {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+    
+    /* From Uiverse.io by Spacious74 */ 
+.flex {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.outer-cont {
+  padding: 12px 20px;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  position: relative;
+  background: linear-gradient(90deg, #5bfcc4, #f593e4, #71a4f0);
+  border-radius: 12px;
+  color: #fff;
+  transition: all 0.3s ease;
+  box-shadow:
+    inset 0px 0px 5px #ffffffa9,
+    inset 0px 35px 30px #000,
+    0px 5px 10px #000000cc;
+  text-shadow: 1px 1px 1px #000;
+}
+.outer-cont::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  border-radius: 12px;
+  filter: blur(0);
+  z-index: -1;
+  box-shadow: none;
+  background: conic-gradient(
+    #00000000 80deg,
+    #40baf7,
+    #f34ad7,
+    #5bfcc4,
+    #00000000 280deg
+  );
+  transition: all 0.3s ease;
+}
+.outer-cont:hover::before {
+  filter: blur(15px);
+}
+.outer-cont:active::before {
+  filter: blur(5px);
+  transform: translateY(1px);
+}
+.outer-cont:active {
+  box-shadow:
+    inset 0px 0px 5px #ffffffa9,
+    inset 0px 35px 30px #000;
+  margin-top: 3px;
+}
+
 /* CSS */
 .button-33 {
-  background-color: #c2fbd7;
+  background-color: #0b806f;
   border-radius: 11px;
-  color: green;
+  color: white;
   border: 2px solid rgba(194, 251, 215, 0.14);
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
   display: inline-block;
   font-family: CerebriSans-Regular,-apple-system,system-ui,Roboto,sans-serif;
   padding: 7px 20px;
-
   text-align: center;
   text-decoration: none;
   transition: all 250ms;
@@ -706,6 +861,33 @@
 .button-33:hover {
   transform: scale(1.05);
   box-shadow: rgba(0, 0, 0, 0.42) 0 1px 3px 0 ;
+  outline: none;
+}
+
+.button-33::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.button-33:hover::after {
+  opacity: 1;
+  animation: lightPulse 0.6s ease-out;
+}
+
+@keyframes lightPulse {
+  from {
+    transform: scale(0.8);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(1.3);
+    opacity: 0;
+  }
 }
 
 

@@ -351,38 +351,7 @@
               </div>
             </div>
 
-            <!-- Chapter Videos -->
-            <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
-                <div>
-                  <h2 class="fw-bold mb-0 fs-5">Lesson Videos</h2>
-                  <p class="text-muted mb-0 small">Four curated clips to reinforce the chapter.</p>
-                </div>
-              </div>
-              <div class="card-body px-3 px-md-4">
-                <div class="row g-3">
-                  <div v-for="video in lessonVideos" :key="video.title" class="col-12 col-md-3">
-                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
-                      <div class="ratio ratio-16x9">
-                        <iframe
-                          :src="formatVideoUrl(video.url)"
-                          :title="video.title"
-                          frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          loading="lazy">
-                        </iframe>
-                      </div>
-                      <div class="p-3">
-                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
-                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
-                      </div>
-                    </article>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
 
             <!-- Lesson Departments Focus -->
             <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
@@ -405,6 +374,39 @@
                       </div>
                       <p class="text-muted small mb-1">{{ dept.summary }}</p>
                       <p class="text-dark fw-semibold mb-0">{{ dept.detail }}</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Revert Stories -->
+            <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5">Revert stories</h2>
+                  <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
+                </div>
+              </div>
+              <div class="card-body px-3 px-md-4">
+                <div class="row g-3">
+                  <div v-for="video in lessonVideos" :key="video.title" class="col-12 col-md-3">
+                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
+                      <div class="ratio ratio-16x9">
+                        <iframe
+                          :src="formatVideoUrl(video.url)"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div class="p-3">
+                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                      </div>
                     </article>
                   </div>
                 </div>
@@ -511,7 +513,6 @@
                 </div>
               </div>
             </div>
-
 
             <!-- Common asked questions -->
             <div v-if="chapterCommonPanels.length"
@@ -1176,7 +1177,7 @@ export default defineComponent({
     lessonVideos() {
       const chapterId = this.currentLesson?.chapterId
       const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
-      return (entry?.videos || []).slice(0, 4)
+      return (entry?.videos || []).slice(0, 8)
     }
     ,
     focusHighlights() {

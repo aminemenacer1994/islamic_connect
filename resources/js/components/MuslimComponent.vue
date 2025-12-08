@@ -121,8 +121,6 @@
             </div>
           </div> -->
 
-          
-
           <!-- Guidance Row -->
           <!-- <div v-if="guidanceCards.length"
             class="content-card section-card guidance-card animated-fade-slide mb-4 rounded-4">
@@ -549,7 +547,7 @@
             </div>
 
             <!-- resources -->
-            <!-- <div v-if="premiumResources.length"
+            <div v-if="premiumResources.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -583,7 +581,7 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <!-- Mission Spotlight -->
             <div v-if="currentMission" id="mission-card"
