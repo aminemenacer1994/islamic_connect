@@ -1,5 +1,5 @@
 <template>
-  <div class="revert-shell position-relative">
+  <div class="revert-shell position-relative" v-cloak>
 
     <!-- Background Layers -->
     <div class="page-sheen"></div>
@@ -300,7 +300,7 @@
                     </div>
                   </div>
                 </div>
-                <div v-if="overviewSections.length" class="overview-section-list">
+                <div v-if="overviewSections?.length" class="overview-section-list">
                   <div v-for="(section, index) in overviewSections" :key="section.heading"
                     class="section-block mb-5">
                     <div class="d-flex align-items-start gap-3 mb-3">
@@ -311,7 +311,17 @@
                       :style="{ fontSize: `${overviewFontScale}rem` }">
                       {{ section.content }}
                     </div>
-                    <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                    <div class="mt-3 small text-muted">
+                      <p v-if="section.references" class="mb-1">
+                        <strong class="me-2">Reference:</strong>
+                        <span class="text-dark">{{ section.references }}</span>
+                      </p>
+                      <p v-if="section.resources" class="mb-0">
+                        <strong class="me-2">Resource:</strong>
+                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                      </p>
+                    </div>
+                    <div v-if="sectionStatsFor(section.heading)?.length" class="section-stats d-flex flex-wrap gap-3 mt-3">
                       <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
                         <strong>{{ stat.value }}</strong>
                         <small class="text-muted">{{ stat.label }}</small>
@@ -329,6 +339,16 @@
                     </div>
                     <div class="section-content text-dark fs-6 lh-lg"
                       :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                    <div class="mt-3 small text-muted">
+                      <p v-if="section.references" class="mb-1">
+                        <strong class="me-2">Reference:</strong>
+                        <span class="text-dark">{{ section.references }}</span>
+                      </p>
+                      <p v-if="section.resources" class="mb-0">
+                        <strong class="me-2">Resource:</strong>
+                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                      </p>
+                    </div>
                     <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
                       <div class="deep-dive-header d-flex align-items-center mb-2">
                         <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
@@ -337,7 +357,7 @@
                       <div class="deep-dive-content text-dark fs-6"
                         :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
                     </div>
-                    <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                    <div v-if="sectionStatsFor(section.title)?.length" class="section-stats d-flex flex-wrap gap-3 mt-3">
                       <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
                         <strong>{{ stat.value }}</strong>
                         <small class="text-muted">{{ stat.label }}</small>
@@ -349,8 +369,47 @@
               </div>
             </div>
 
+            <!-- Revert Stories -->
+            <div v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5">Revert stories</h2>
+                  <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
+                </div>
+              </div>
+              <div class="card-body px-3 px-md-4">
+                <div class="row g-3">
+                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
+                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
+                      <div class="ratio ratio-16x9">
+                        <iframe
+                          :src="formatVideoUrl(video.url)"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div class="p-3">
+                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
+                    See more videos
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- Chapter Videos -->
-            <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <!-- <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
                 <div>
@@ -380,7 +439,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Share with a friend -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
@@ -410,7 +469,7 @@
             </div>
 
             <!-- Lesson Departments Focus -->
-            <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
+            <!-- <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-bar-chart-line-fill fs-4 me-3 text-teal"></i>
                 <div>
@@ -434,7 +493,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Dos and Dont's -->
             <div v-if="currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
@@ -797,36 +856,76 @@
       </main>
 
       <div v-if="showResourceModal">
-        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
-        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-            <div class="modal-content rounded-4 shadow-lg custom-modal-card">
-              <div class="modal-header border-0 pt-4 px-4">
-                <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
-              </div>
-              <div class="modal-body px-4 py-3">
-              
-                
-              </div>
-              <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
-                
-                <div v-if="resourceCopyStatus" class="text-success small">
-                  {{ resourceCopyStatus }}
-                </div>
-                <div class="d-flex gap-2">
-                  <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
-                    <i class="bi bi-link-45deg"></i>
-                    Copy Link
-                  </button>
-                  <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
-                    Close
-                  </button>
+              <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+              <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                  <div class="modal-content rounded-4 shadow-lg custom-modal-card">
+                    <div class="modal-header border-0 pt-4 px-4">
+                      <h5 class="modal-title fw-bold">{{ activeResource?.title }}</h5>
+                    </div>
+                    <div class="modal-body px-4 py-3">
+                    
+                      
+                    </div>
+                    <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+                      
+                      <div v-if="resourceCopyStatus" class="text-success small">
+                        {{ resourceCopyStatus }}
+                      </div>
+                      <div class="d-flex gap-2">
+                        <button type="button" class="btn btn-outline-dark px-4" @click="copyResourceLink">
+                          <i class="bi bi-link-45deg"></i>
+                          Copy Link
+                        </button>
+                        <button type="button" class="btn btn-teal px-4" @click="closeResourceModal">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
+          <div v-if="showVideoModal">
+            <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+                <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+                  <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content rounded-4 shadow-lg custom-modal-card">
+                      <div class="modal-header border-0 pt-4 px-4">
+                        <h5 class="modal-title fw-bold">All Revert Stories</h5>
+                      </div>
+                      <div class="modal-body px-4 py-3">
+                        <div class="row g-3">
+                          <div v-for="video in revertStories" :key="video.title" class="col-12 col-md-6">
+                            <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
+                              <div class="ratio ratio-16x9">
+                                <iframe
+                                  :src="formatVideoUrl(video.url)"
+                                  :title="video.title"
+                                  frameborder="0"
+                                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"                          allowfullscreen
+                                  loading="lazy">
+                                </iframe>
+                              </div>
+                              <div class="p-3">
+                                <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
+                                <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                              </div>
+                            </article>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+                        <div class="d-flex gap-2 ms-auto">
+                          <button type="button" class="btn btn-outline-dark px-4" @click="closeVideoModal">
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
     </div>
 </template>
 
@@ -992,6 +1091,7 @@ export default defineComponent({
       faqStackState: null,
       showResourceModal: false,
       activeResource: null,
+      showVideoModal: false,
       onboarding: normalizeJson(onboardingData),
       resourceCopyStatus: '',
       collapsedSections: {
@@ -1002,6 +1102,7 @@ export default defineComponent({
       confettiPromise: null,
       lessonShareStatus: '',
       duaShareStatus: '',
+      shareFriendStatus: '',
       overviewFontScale: 1,
       duaFontScale: 1,
       globalFontScale: 1,
@@ -1199,6 +1300,18 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
       return (entry?.videos || []).slice(0, 4)
+    }
+
+    ,
+    revertStories() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
+      return entry?.videos || []
+    }
+
+    ,
+    revertStoriesPreview() {
+      return this.revertStories.slice(0, 4)
     }
     ,
     focusHighlights() {
@@ -1712,6 +1825,23 @@ export default defineComponent({
           this.setShareStatus('lesson', 'Unable to copy.')
         })
     },
+    copyShareLink() {
+      const link = this.getShareLink()
+      if (!link) return
+      this.copyTextToClipboard(link)
+        .then(() => {
+          this.shareFriendStatus = 'Link copied! Send it so a friend can explore further.'
+          this.triggerCopyAlert('Lesson link copied!', 'success')
+          setTimeout(() => { this.shareFriendStatus = '' }, 3000)
+        })
+        .catch(() => {
+          this.shareFriendStatus = 'Unable to copy; please use your browser directly.'
+          setTimeout(() => { this.shareFriendStatus = '' }, 4000)
+        })
+    },
+    closeVideoModal() {
+      this.showVideoModal = false
+    },
     printLessonOverview() {
       this.printContent('Lesson Overview', this.getLessonOverviewText())
     },
@@ -1783,7 +1913,44 @@ export default defineComponent({
 </script>
 
 <style scoped>
+:global([v-cloak]) {
+  display: none !important;
+}
 /* ==================== BOOTSTRAP ICONS ==================== */
+
+.btn-see-more {
+  border-radius: 10px;
+  padding: 0.65rem 1.75rem;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background: linear-gradient(120deg, #0b806f, #34d399);
+  box-shadow: 0 10px 25px rgba(11, 128, 111, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.btn-see-more:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(11, 128, 111, 0.45);
+}
+
+.btn-see-more .bi {
+  transition: transform 0.3s ease;
+}
+
+.btn-see-more:hover .bi {
+  transform: translateX(3px);
+}
+
+.btn-see-more:focus-visible {
+  outline: 3px solid rgba(52, 211, 153, 0.6);
+  outline-offset: 3px;
+}
 
 .background {
 
