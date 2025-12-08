@@ -20582,6 +20582,9 @@ to {
 }
 
 
+[v-cloak] {
+  display: none !important;
+}
 /* ==================== BOOTSTRAP ICONS ==================== */
 .background[data-v-1d764944] {
 
@@ -20621,7 +20624,16 @@ to {
   outline: 3px solid rgba(52, 211, 153, 0.6);
   outline-offset: 3px;
 }
-
+.visually-hidden[data-v-1d764944] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 /* ==================== PROFESSIONAL TOP-RIGHT SUCCESS ALERT ==================== */
 .success-alert-container[data-v-1d764944] {
   position: fixed;
@@ -20695,7 +20707,6 @@ to {
     transform: translateX(0) translateY(0) scale(1);
 }
 }
-
 /* ==================== ALL YOUR ORIGINAL STYLES (100% UNCHANGED) ==================== */
 .section-card[data-v-1d764944] {
   background: #ffffff;
@@ -21378,7 +21389,6 @@ to {
   border-color: #000;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
-
 /* .quiz-option:hover {
   border-radius: 20px;
   font-weight: 600;
@@ -22134,7 +22144,6 @@ to {
   font-size: 1.7rem;
   font-weight: 700;
 }
-
 /* .fs-6 {
   font-size: 1.5rem;
 } */
@@ -22327,7 +22336,6 @@ to {
     transform: translateY(0);
 }
 }
-
 /* ==================== RESPONSIVE FIXES ==================== */
 @media (max-width: 991.98px) {
 .revert-content[data-v-1d764944] {

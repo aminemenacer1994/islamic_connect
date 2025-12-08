@@ -305,9 +305,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
                         </li>
 
-                        <!-- <li class="nav-item mt-2">
+                        <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
-                        </li> -->
+                        </li>
 
                         <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>

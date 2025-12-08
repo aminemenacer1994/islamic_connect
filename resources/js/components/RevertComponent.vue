@@ -1,5 +1,5 @@
 <template>
-  <div class="revert-shell position-relative">
+  <div class="revert-shell position-relative" v-cloak>
 
     <!-- Background Layers -->
     <div class="page-sheen"></div>
@@ -313,6 +313,16 @@
                       :style="{ fontSize: `${overviewFontScale}rem` }">
                       {{ section.content }}
                     </div>
+                    <div class="mt-3 small text-muted">
+                      <p v-if="section.references" class="mb-1">
+                        <strong class="me-2">Reference:</strong>
+                        <span class="text-dark">{{ section.references }}</span>
+                      </p>
+                      <p v-if="section.resources" class="mb-0">
+                        <strong class="me-2">Resource:</strong>
+                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                      </p>
+                    </div>
                     <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
                       <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
                         <strong>{{ stat.value }}</strong>
@@ -331,6 +341,16 @@
                     </div>
                     <div class="section-content text-dark fs-6 lh-lg"
                       :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                    <div class="mt-3 medium text-muted">
+                      <p v-if="section.references" class="mb-1">
+                        <strong class="me-2">Reference:</strong>
+                        <span class="text-dark">{{ section.references }}</span>
+                      </p>
+                      <p v-if="section.resources" class="mb-0">
+                        <strong class="me-2">Resource:</strong>
+                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                      </p>
+                    </div>
                     <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
                       <div class="deep-dive-header d-flex align-items-center mb-2">
                         <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
@@ -342,7 +362,7 @@
                     <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
                       <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
                         <strong>{{ stat.value }}</strong>
-                        <small class="text-muted">{{ stat.label }}</small>
+                        <medium class="text-muted">{{ stat.label }}</medium>
                       </div>
                     </div>
                     <div class="pt-3 mt-3"></div>
@@ -529,9 +549,12 @@
                     <p class="text-muted mb-0 small">
                       Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
                     </p>
-                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0">
+                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0" aria-live="polite" role="status">
                       {{ shareFriendStatus }}
                     </p>
+                    <span class="visually-hidden" aria-hidden="false">
+                      Feel free to share every insight, dua, and revert story on this page.
+                    </span>
                   </div>
                   <div class="d-flex flex-wrap gap-2">
                     <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
@@ -774,8 +797,6 @@
               <p class="text-muted mt-3 mb-0">{{ nextChapterPreview.snippet }}</p>
             </div>
 
-            <!-- Divider -->
-            <div class="border-top pt-4 mt-4"></div>
 
             <!-- NAVIGATION BUTTONS -->
             <div class="actions-card animated-fade-in">
@@ -857,8 +878,7 @@
                           :src="formatVideoUrl(video.url)"
                           :title="video.title"
                           frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"                          allowfullscreen
                           loading="lazy">
                         </iframe>
                       </div>
@@ -1868,6 +1888,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
+:global([v-cloak]) {
+  display: none !important;
+}
 /* ==================== BOOTSTRAP ICONS ==================== */
 
 .background {
@@ -1912,6 +1935,17 @@ export default defineComponent({
 .btn-see-more:focus-visible {
   outline: 3px solid rgba(52, 211, 153, 0.6);
   outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
 /* ==================== PROFESSIONAL TOP-RIGHT SUCCESS ALERT ==================== */

@@ -382,6 +382,33 @@
               </div>
             </div>
 
+            <!-- Share with a friend -->
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
+              <div class="card-body px-3 px-md-4 py-4">
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                  <div class="flex-grow-1">
+                    <h3 class="fw-bold mb-1">Share with a friend or familiy member</h3>
+                    <p class="text-muted mb-0 small">
+                      Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                    </p>
+                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0">
+                      {{ shareFriendStatus }}
+                    </p>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
+                      <i class="bi bi-clipboard mr-2"></i>
+                      Copy link
+                    </button>
+                    <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
+                      <i class="bi bi-whatsapp mr-2"></i>
+                      Share with WhatsApp
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Lesson Departments Focus -->
             <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
@@ -547,7 +574,7 @@
             </div>
 
             <!-- resources -->
-            <div v-if="premiumResources.length"
+            <!-- <div v-if="premiumResources.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -581,7 +608,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
 
             <!-- Mission Spotlight -->
             <div v-if="currentMission" id="mission-card"
@@ -736,9 +763,6 @@
               </div>
               <p class="text-muted mt-3 mb-0">{{ nextChapterPreview.snippet }}</p>
             </div>
-
-            <!-- Divider -->
-            <div class="border-top pt-4 mt-4"></div>
 
             <!-- NAVIGATION BUTTONS -->
             <div class="actions-card animated-fade-in">
@@ -1716,6 +1740,7 @@ export default defineComponent({
       const text = this.getDuasText()
       this.printContent('Duas to Carry', text)
     },
+
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
     },
