@@ -381,7 +381,7 @@
             </div>
 
             <!-- Revert Stories -->
-            <div v-if="lessonVideos.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
                 <div>
@@ -391,7 +391,7 @@
               </div>
               <div class="card-body px-3 px-md-4">
                 <div class="row g-3">
-                  <div v-for="video in lessonVideos" :key="video.title" class="col-12 col-md-3">
+                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
                     <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
                       <div class="ratio ratio-16x9">
                         <iframe
@@ -409,6 +409,12 @@
                       </div>
                     </article>
                   </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
+                    See more videos
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -514,6 +520,33 @@
               </div>
             </div>
 
+            <!-- Share with a friend -->
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
+              <div class="card-body px-3 px-md-4 py-4">
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                  <div class="flex-grow-1">
+                    <h3 class="fw-bold mb-1">Share with a friend or familiy member</h3>
+                    <p class="text-muted mb-0 small">
+                      Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                    </p>
+                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0">
+                      {{ shareFriendStatus }}
+                    </p>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
+                      <i class="bi bi-clipboard mr-2"></i>
+                      Copy link
+                    </button>
+                    <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
+                      <i class="bi bi-whatsapp mr-2"></i>
+                      Share with WhatsApp
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Common asked questions -->
             <div v-if="chapterCommonPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
@@ -548,6 +581,7 @@
                 </div>
               </div>
             </div>
+            
 
             <!-- resources -->
             <!-- <div v-if="premiumResources.length"
@@ -806,6 +840,47 @@
           </div>
         </div>
       </div>
+      <div v-if="showVideoModal">
+        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 shadow-lg custom-modal-card">
+              <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold">All Revert Stories</h5>
+              </div>
+              <div class="modal-body px-4 py-3">
+                <div class="row g-3">
+                  <div v-for="video in revertStories" :key="video.title" class="col-12 col-md-6">
+                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
+                      <div class="ratio ratio-16x9">
+                        <iframe
+                          :src="formatVideoUrl(video.url)"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div class="p-3">
+                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
+                <div class="d-flex gap-2 ms-auto">
+                  <button type="button" class="btn btn-outline-dark px-4" @click="closeVideoModal">
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -971,6 +1046,8 @@ export default defineComponent({
       faqStackState: null,
       showResourceModal: false,
       activeResource: null,
+      showVideoModal: false,
+      shareFriendStatus: '',
       onboarding: normalizeJson(onboardingData),
       resourceCopyStatus: '',
       collapsedSections: {
@@ -1178,6 +1255,18 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
       return (entry?.videos || []).slice(0, 8)
+    }
+
+    ,
+    revertStories() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
+      return entry?.videos || []
+    }
+
+    ,
+    revertStoriesPreview() {
+      return this.revertStories.slice(0, 4)
     }
     ,
     focusHighlights() {
@@ -1432,6 +1521,10 @@ export default defineComponent({
     closeResourceModal() {
       this.showResourceModal = false
       this.activeResource = null
+    }
+    ,
+    closeVideoModal() {
+      this.showVideoModal = false
     }
     ,
     resetQuizSet() {
@@ -1719,6 +1812,20 @@ export default defineComponent({
       const text = this.getDuasText()
       this.printContent('Duas to Carry', text)
     },
+    copyShareLink() {
+      const link = this.getShareLink()
+      if (!link) return
+      this.copyTextToClipboard(link)
+        .then(() => {
+          this.shareFriendStatus = 'Link copied! Send it so a friend can join.'
+          this.triggerCopyAlert('Lesson link copied!', 'success')
+          setTimeout(() => { this.shareFriendStatus = '' }, 3000)
+        })
+        .catch(() => {
+          this.shareFriendStatus = 'Unable to copy; please use your browser directly.'
+          setTimeout(() => { this.shareFriendStatus = '' }, 4000)
+        })
+    },
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
     },
@@ -1771,6 +1878,40 @@ export default defineComponent({
   color: #114b5f;
   background: #eaf3f1;
   border: 1px solid rgba(11, 128, 111, 0.25);
+}
+
+.btn-see-more {
+  border-radius: 10px;
+  padding: 0.65rem 1.75rem;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: #fff;
+  background: linear-gradient(120deg, #0b806f, #34d399);
+  box-shadow: 0 10px 25px rgba(11, 128, 111, 0.35);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.btn-see-more:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 18px 40px rgba(11, 128, 111, 0.45);
+}
+
+.btn-see-more .bi {
+  transition: transform 0.3s ease;
+}
+
+.btn-see-more:hover .bi {
+  transform: translateX(3px);
+}
+
+.btn-see-more:focus-visible {
+  outline: 3px solid rgba(52, 211, 153, 0.6);
+  outline-offset: 3px;
 }
 
 /* ==================== PROFESSIONAL TOP-RIGHT SUCCESS ALERT ==================== */
