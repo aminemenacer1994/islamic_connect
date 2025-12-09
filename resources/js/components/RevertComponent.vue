@@ -267,7 +267,7 @@
           </div> -->
 
             <!-- main content -->
-              <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
                 <div class="card-header d-flex align-items-center py-3 ">
                   <div class="d-flex align-items-center gap-3">
                     <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
@@ -362,7 +362,7 @@
                     <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
                       <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
                         <strong>{{ stat.value }}</strong>
-                        <medium class="text-muted">{{ stat.label }}</medium>
+                        <span class="text-muted">{{ stat.label }}</span>
                       </div>
                     </div>
                     <div class="pt-3 mt-3"></div>
@@ -545,7 +545,7 @@
               <div class="card-body px-3 px-md-4 py-4">
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                   <div class="flex-grow-1">
-                    <h3 class="fw-bold mb-1">Share with a friend or familiy member</h3>
+                    <h3 class="fw-bold mb-1">Share with a friend or family member</h3>
                     <p class="text-muted mb-0 small">
                       Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
                     </p>
@@ -567,8 +567,8 @@
                     </button>
                   </div>
                 </div>
-              </div>
             </div>
+          </div>
 
             <!-- Common asked questions -->
             <div v-if="chapterCommonPanels.length"
@@ -1490,7 +1490,9 @@ export default defineComponent({
         localStorage.setItem('maxStepReached', nextId.toString())
 
         const chapter = this.roadmapData.find(c => c.id === this.selectedPill)
-        this.successMessage = `"${chapter?.title || 'Chapter'}" chapter has been completed successfully!`
+        this.successMessage = isFinalChapter
+          ? `You’ve completed the final chapter, “${chapter?.title || 'Chapter'}”! Keep practicing the insights and share them with others.`
+          : `"${chapter?.title || 'Chapter'}" chapter has been completed successfully!`
 
         this.showSuccessAlert = true
         this.isWaitingForNext = true
