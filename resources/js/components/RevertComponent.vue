@@ -462,7 +462,7 @@
             </div>
 
             <!-- Dos and Dont's -->
-            <div v-if="currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div v-if="secondarySectionsReady && currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
                 <h2 class="fw-bold mb-0 fs-5">Do's and Dont's</h2>
@@ -501,7 +501,7 @@
               </div>
 
               <!-- Key Insights -->
-              <div v-if="insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+          <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
                 <div class="card-header d-flex align-items-center py-3">
                   <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
                   <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
@@ -621,7 +621,7 @@
               </div>
             </div>
             <!-- Common asked questions -->
-            <div v-if="chapterCommonPanels.length"
+            <div v-if="secondarySectionsReady && chapterCommonPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
@@ -639,7 +639,7 @@
 
               <div v-show="!collapsedSections.commonQuestions" class="card-body p-3 ">
                 <div class="accordion-stack">
-                  <div v-for="(panel, index) in chapterCommonPanels" :key="panel.id" class="accordion-item-card">
+                  <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
                       :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
@@ -651,6 +651,11 @@
                       <div v-html="panel.body"></div>
                     </div>
                   </div>
+                </div>
+                <div v-if="commonFaqHasMore" class="text-center mt-3">
+                  <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
+                    Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
+                  </button>
                 </div>
               </div>
             </div>
@@ -686,7 +691,7 @@
             </div>
 
             <!-- FAQ -->
-            <div v-if="chapterFaqPanels.length" class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
+            <div v-if="secondarySectionsReady && chapterFaqPanels.length" class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="bi bi-question-circle-fill fs-4 text-teal"></i>
@@ -703,7 +708,7 @@
 
               <div v-show="!collapsedSections.faqs" class="card-body p-3 ">
                 <div class="accordion-stack">
-                  <div v-for="(panel, index) in chapterFaqPanels" :key="panel.id" class="accordion-item-card">
+                  <div v-for="(panel, index) in visibleFaqPanels" :key="panel.id" class="accordion-item-card">
                     <button type="button"
                       class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
                       :class="{ expanded: isAccordionOpen('faq', index) }" @click="toggleAccordion('faq', index)">
@@ -716,25 +721,46 @@
                     </div>
                   </div>
                 </div>
+                <div v-if="faqHasMore" class="text-center mt-3">
+                  <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('faq')">
+                    Show {{ chapterFaqPanels.length - faqDisplayLimit }} more
+                  </button>
+                </div>
               </div>
             </div>
 
             <!-- Next Steps -->
             <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-clipboard-check-fill fs-4 me-3 text-teal"></i>
-                <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
+              <div class="card-header d-flex align-items-center justify-content-between py-3">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="next-steps-icon">
+                    <i class="bi bi-clipboard-check-fill fs-5"></i>
+                  </div>
+                  <div>
+                    <p class="text-muted small mb-1 text-uppercase">Intentional practice</p>
+                    <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
+                  </div>
+                </div>
+                <span class="badge badge-pill bg-light text-teal fw-semibold px-3 py-2">Track progress</span>
               </div>
 
-              <div class="card-body p-3">
-                <div class="row g-3">
-                  <div class="col-12 col-md-12">
-                    <div class="homework-grid">
-                      <div v-for="(task, index) in currentHomework" :key="task" class="homework-task p-3 mb-2">
-                        <div class="d-flex align-items-center gap-2 mb-1">
-                          <p class="mb-0 text-dark">{{ task }}</p>
-                        </div>
-                      </div>
+              <div class="next-steps-body p-4">
+                <div class="next-steps-inner">
+                  <div class="next-steps-highlight">
+                    <p class="mb-1 fw-semibold">Small steps, steady heart</p>
+                    <p class="text-muted small mb-0">Refresh the lesson by acting on one small intention today.</p>
+                  </div>
+                  <div class="next-steps-list mt-3">
+                    <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
+                      <span class="next-steps-pill-icon">
+                        <i class="bi bi-check-lg"></i>
+                      </span>
+                      <p class="mb-0">{{ task }}</p>
+                    </article>
+                    <div v-if="homeworkMoreAvailable" class="text-center mt-3">
+                      <button type="button" class="btn btn-sm btn-link text-teal" @click="loadMoreHomework">
+                        Show more tasks ({{ currentHomework.length - homeworkVisibleCount }} left)
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -782,17 +808,33 @@
                       </div>
                     </button>
                   </div>
-                  <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white">
-                    <p class="mb-1"><strong>Right answer:</strong> {{ currentQuestion.answer }}</p>
-                    <p class="mb-1 text-muted">{{ quizHintExplanation }}</p>
-                    <button
-                      v-if="quizHintSectionId"
-                      type="button"
-                      class="btn btn-sm btn-link p-0"
-                      @click="scrollToSection(quizHintSectionId)"
-                    >
-                      Jump to the related lesson section
-                    </button>
+                  <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-explanation-card mt-3">
+                    <div class="quiz-explanation-header">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-lightbulb-fill fs-5 text-teal"></i>
+                        <div>
+                          <p class="mb-0 fw-semibold fs-6">Explanation</p>
+                          <small class="text-muted d-block">Why this answer fits the story</small>
+                        </div>
+                      </div>
+                      <span class="right-answer-pill text-muted">
+                        <strong>Right answer:</strong>
+                        <span class="text-dark">{{ currentQuestion.answer }}</span>
+                      </span>
+                    </div>
+                    <div class="quiz-explanation-body pt-2 text-muted">
+                      <p class="mb-0">{{ quizHintExplanation }}</p>
+                    </div>
+                    <div class="quiz-explanation-footer mt-3">
+                      <button
+                        v-if="quizHintSectionId"
+                        type="button"
+                        class="btn btn-sm btn-explanation-link"
+                        @click="scrollToSection(quizHintSectionId)"
+                      >
+                        Jump to the related lesson section
+                      </button>
+                    </div>
                   </div>
 
                   <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
@@ -979,7 +1021,6 @@ import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
-import chapterVideos from './data/chapterVideos.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -1103,7 +1144,8 @@ export default defineComponent({
       chapterGentleStarts: normalizeJson(chapterGentleStart),
       sectionStatsByChapter: normalizeJson(chapterSectionStats),
       homework: normalizeJson(homeworkData),
-      chapterVideos: normalizeJson(chapterVideos),
+      chapterVideos: [],
+      chapterVideoMap: {},
       lessonMap: {},
       missionMap: {},
       duasMap: {},
@@ -1152,7 +1194,14 @@ export default defineComponent({
       ttsActiveSection: null,
       currentUtterance: null,
       lastIncorrectExplanation: null,
-      activeVideoId: null
+      activeVideoId: null,
+      secondarySectionsReady: false,
+      guidanceCardCache: {},
+      lessonDepartmentsCache: {},
+      lessonVideosCache: {},
+      homeworkVisibleCount: 4,
+      faqDisplayLimit: 4,
+      commonFaqDisplayLimit: 4
     }
   },
 
@@ -1259,42 +1308,34 @@ export default defineComponent({
     },
     currentHomework() {
       return this.homeworkMap[this.selectedPill] || []
-    }
-    ,
+    },
+    visibleHomework() {
+      return this.currentHomework.slice(0, this.homeworkVisibleCount)
+    },
+    homeworkMoreAvailable() {
+      return this.currentHomework.length > this.homeworkVisibleCount
+    },
+    visibleFaqPanels() {
+      return this.chapterFaqPanels.slice(0, this.faqDisplayLimit)
+    },
+    visibleCommonPanels() {
+      return this.chapterCommonPanels.slice(0, this.commonFaqDisplayLimit)
+    },
+    faqHasMore() {
+      return this.chapterFaqPanels.length > this.faqDisplayLimit
+    },
+    commonFaqHasMore() {
+      return this.chapterCommonPanels.length > this.commonFaqDisplayLimit
+    },
+
     guidanceCards() {
       const chapterId = this.currentLesson?.chapterId
-      const template = this.guidanceTemplates.find(entry => entry.chapterId === chapterId)
-      if (template && template.cards?.length) return template.cards
-
-      const lesson = this.currentLesson
-      if (!lesson) return []
-      const cards = [
-        {
-          step: '01',
-          title: 'Absorb the Story',
-          description: `Read through ${lesson.sections?.length || 0} featured sections and soak in the core ideas`,
-          action: 'Bookmark key paragraphs and jot down a quick insight'
-        },
-        {
-          step: '02',
-          title: 'Internalize Duas & Insights',
-          description: lesson.keyInsights?.length ? `Let the ${lesson.keyInsights.length} insights guide your practice` : 'Use the duas to keep the message close to your heart',
-          action: lesson.keyInsights?.length ? 'Recite aloud and note how each insight applies today' : 'Practice the duas before sleep'
-        },
-        {
-          step: '03',
-          title: 'Take the Quiz',
-          description: 'Answer one vibrant question to unlock the next chapter and prove mastery',
-          action: 'Choose the right option then scroll to “Next Chapter”'
-        }
-      ]
-      if (!this.currentDuas.length) {
-        cards[1].description = 'Use the glossary, resources, and mission to keep the lesson alive'
-        cards[1].action = 'Pin a phrase that resonated most'
+      if (!chapterId) return []
+      if (!this.guidanceCardCache[chapterId]) {
+        this.guidanceCardCache[chapterId] = this.generateGuidanceCards(chapterId)
       }
-      return cards
-    }
-    ,
+      return this.guidanceCardCache[chapterId]
+    },
     toneGuidelines() {
       const chapterId = this.currentLesson?.chapterId
       const entry = this.toneGuidelinesByChapter.find(item => item.chapterId === chapterId)
@@ -1364,15 +1405,12 @@ export default defineComponent({
     }
     ,
     lessonDepartments() {
-      const sections = this.currentLesson?.sections || []
-      if (!sections.length) return []
-      const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up']
-      return sections.slice(0, 3).map((section, index) => ({
-        name: section.title.split(' ').slice(0, 2).join(' '),
-        summary: section.title,
-        detail: section.deepDive?.title || 'Integrated across insights, duas, and missions.',
-        icon: icons[index % icons.length]
-      }))
+      const chapterId = this.currentLesson?.chapterId
+      if (!chapterId) return []
+      if (!this.lessonDepartmentsCache[chapterId]) {
+        this.lessonDepartmentsCache[chapterId] = this.generateLessonDepartments(chapterId)
+      }
+      return this.lessonDepartmentsCache[chapterId]
     }
 
     ,
@@ -1382,19 +1420,25 @@ export default defineComponent({
     }
 
     ,
+    chapterVideoEntry() {
+      const chapterId = this.currentLesson?.chapterId
+      return this.chapterVideoMap[chapterId] || null
+    }
+
+    ,
     lessonVideos() {
       const chapterId = this.currentLesson?.chapterId
-      const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
-      return (entry?.videos || []).slice(0, 8)
+      if (!chapterId) return []
+      if (!this.lessonVideosCache[chapterId]) {
+        this.lessonVideosCache[chapterId] = (this.chapterVideoEntry?.videos || []).slice(0, 8)
+      }
+      return this.lessonVideosCache[chapterId]
     }
 
     ,
     revertStories() {
-      const chapterId = this.currentLesson?.chapterId
-      const entry = this.chapterVideos.find(record => record.chapterId === chapterId)
-      return entry?.videos || []
+      return this.chapterVideoEntry?.videos || []
     }
-
     ,
     revertStoriesPreview() {
       return this.revertStories.slice(0, 4)
@@ -1439,11 +1483,16 @@ export default defineComponent({
       this.faqAccordionState = null
       this.commonAccordionState = null
       this.activeVideoId = null
+      this.homeworkVisibleCount = 4
+      this.faqDisplayLimit = 4
+      this.commonFaqDisplayLimit = 4
+      this.prepareSecondarySections()
     }
   },
 
   created() {
     this.buildLookupMaps()
+    this.loadChapterVideos()
   },
 
   mounted() {
@@ -1458,6 +1507,7 @@ export default defineComponent({
       window.history.scrollRestoration = 'manual'
     }
     window.scrollTo({ top: 0, behavior: 'auto' })
+    this.prepareSecondarySections()
 
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0)
@@ -1523,6 +1573,88 @@ export default defineComponent({
         if (task?.chapterId != null) map[task.chapterId] = task.homework || []
         return map
       }, {})
+    },
+
+    async loadChapterVideos() {
+      try {
+        const module = await import('./data/chapterVideos.json')
+        const chapters = normalizeJson(module)
+        this.chapterVideos = chapters
+        this.chapterVideoMap = chapters.reduce((map, record) => {
+          if (record?.chapterId != null) {
+            map[record.chapterId] = record
+          }
+          return map
+        }, {})
+      } catch (error) {
+        console.error('Unable to load chapter videos', error)
+      }
+    },
+    prepareSecondarySections() {
+      this.secondarySectionsReady = false
+      if (typeof window !== 'undefined' && 'requestAnimationFrame' in window) {
+        window.requestAnimationFrame(() => {
+          this.secondarySectionsReady = true
+        })
+      } else {
+        this.secondarySectionsReady = true
+      }
+    },
+    loadMoreHomework() {
+      if (!this.currentHomework.length) return
+      this.homeworkVisibleCount = Math.min(this.currentHomework.length, this.homeworkVisibleCount + 4)
+    },
+    expandFaq(section) {
+      if (section === 'common') {
+        this.commonFaqDisplayLimit = this.chapterCommonPanels.length
+      } else {
+        this.faqDisplayLimit = this.chapterFaqPanels.length
+      }
+    },
+    generateGuidanceCards(chapterId) {
+      const template = this.guidanceTemplates.find(entry => entry.chapterId === chapterId)
+      if (template?.cards?.length) return template.cards
+      const lesson = this.lessonMap[chapterId]
+      if (!lesson) return []
+      const cards = [
+        {
+          step: '01',
+          title: 'Absorb the Story',
+          description: `Read through ${lesson.sections?.length || 0} featured sections and soak in the core ideas`,
+          action: 'Bookmark key paragraphs and jot down a quick insight'
+        },
+        {
+          step: '02',
+          title: 'Internalize Duas & Insights',
+          description: lesson.keyInsights?.length ? `Let the ${lesson.keyInsights.length} insights guide your practice` : 'Use the duas to keep the message close to your heart',
+          action: lesson.keyInsights?.length ? 'Recite aloud and note how each insight applies today' : 'Practice the duas before sleep'
+        },
+        {
+          step: '03',
+          title: 'Take the Quiz',
+          description: 'Answer one vibrant question to unlock the next chapter and prove mastery',
+          action: 'Choose the right option then scroll to “Next Chapter”'
+        }
+      ]
+      const hasDuas = (this.duasMap[chapterId] || []).length > 0
+      if (!hasDuas) {
+        cards[1].description = 'Use the glossary, resources, and mission to keep the lesson alive'
+        cards[1].action = 'Pin a phrase that resonated most'
+      }
+      return cards
+    },
+    generateLessonDepartments(chapterId) {
+      const lesson = this.lessonMap[chapterId]
+      if (!lesson) return []
+      const sections = lesson.sections || []
+      if (!sections.length) return []
+      const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up']
+      return sections.slice(0, 3).map((section, index) => ({
+        name: section.title.split(' ').slice(0, 2).join(' '),
+        summary: section.title,
+        detail: section.deepDive?.title || 'Integrated across insights, duas, and missions.',
+        icon: icons[index % icons.length]
+      }))
     },
 
     toggleMobileNav() {
@@ -2077,6 +2209,14 @@ export default defineComponent({
 :global([v-cloak]) {
   display: none !important;
 }
+:global(body) {
+  background: radial-gradient(circle at top, rgba(14, 165, 233, 0.08), transparent 45%),
+    radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
+    #f5f7fa;
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 /* ==================== BOOTSTRAP ICONS ==================== */
 
 .background {
@@ -2320,20 +2460,25 @@ export default defineComponent({
 
 /* ==================== ALL YOUR ORIGINAL STYLES (100% UNCHANGED) ==================== */
 .section-card {
-  background: #ffffff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #f5f9ff);
   border-radius: 20px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08),
-    0 4px 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(15, 86, 140, 0.12);
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
   overflow: hidden;
   margin-bottom: 2rem;
-  transition: all 0.3s ease;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  backdrop-filter: blur(18px);
+}
+
+.content-card {
+  background: transparent;
 }
 
 .section-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12),
-    0 8px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-6px);
+  box-shadow: 0 40px 50px rgba(15, 23, 42, 0.14),
+    0 18px 30px rgba(15, 23, 42, 0.08);
 }
 
 .card-header {
@@ -2412,8 +2557,20 @@ export default defineComponent({
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  background: linear-gradient(180deg, #f7fbff, #e8f1ff 55%, #e6effd);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.revert-shell::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.25), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.2), transparent 38%);
+  opacity: 0.6;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .page-sheen {
@@ -2650,9 +2807,143 @@ export default defineComponent({
   transform: translateY(-1px);
   box-shadow: 0 12px 20px rgba(15, 23, 42, 0.15);
 }
-.quiz-hint {
-  background: #f8fafc;
-  border-color: rgba(15, 23, 42, 0.08);
+.next-steps-card {
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 40%), #ffffff;
+  box-shadow: 0 30px 55px rgba(15, 23, 42, 0.12);
+}
+
+.next-steps-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.05);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #047857;
+  box-shadow: inset 0 0 0 1px rgba(4, 120, 87, 0.2);
+}
+
+.next-steps-body {
+  background: linear-gradient(180deg, rgba(236, 246, 255, 0.9), rgba(243, 248, 255, 0.6));
+  border-radius: 32px;
+  padding: 2rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.next-steps-inner {
+  background: #fff;
+  border: 1px solid rgba(14, 165, 233, 0.15);
+  border-radius: 26px;
+  padding: 1.75rem;
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
+}
+
+.next-steps-highlight {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.next-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.next-steps-pill {
+  padding: 0.95rem 1.25rem;
+  border-radius: 18px;
+  background: rgba(239, 246, 255, 0.9);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  font-size: 0.95rem;
+  color: #0f172a;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.next-steps-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
+}
+
+.next-steps-pill-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.quiz-explanation-card {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  padding: 1.25rem 1.5rem;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.1);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.quiz-explanation-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.25), transparent 45%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.quiz-explanation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+}
+
+.quiz-explanation-body {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.quiz-explanation-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.right-answer-pill {
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  background: rgba(16, 185, 129, 0.12);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+}
+
+.btn-explanation-link {
+  border: 0;
+  background: linear-gradient(120deg, #0b806f, #22d3ee);
+  color: #fff;
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-explanation-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
 }
 .motivation-card {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));
@@ -2994,19 +3285,6 @@ export default defineComponent({
   border-color: rgba(14, 165, 233, 0.5);
 }
 
-.homework-task {
-  background: rgba(239, 246, 255, 0.8);
-  border-radius: 18px;
-  border: 1px solid rgba(11, 128, 111, 0.2);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-  transition: transform 0.3s ease, border 0.3s ease;
-}
-
-.homework-task:hover {
-  transform: translateY(-3px);
-  border-color: rgba(11, 128, 111, 0.4);
-}
-
 .section-stats {
   margin-top: 0.25rem;
 }
@@ -3036,8 +3314,7 @@ export default defineComponent({
   .guidance-card-item,
   .section-card,
   .tone-card,
-  .guided-section-card,
-  .homework-task {
+  .guided-section-card {
     padding: 1.25rem;
   }
 
