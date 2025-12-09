@@ -550,14 +550,14 @@
                     </p>
                   </div>
                   <div class="col-md-5">
-                    <div class="d-flex flex-wrap gap-2 mb-2">
-                      <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
-                        <i class="bi bi-clipboard mr-2"></i>
-                        Copy link
+                    <div class="share-actions d-flex flex-wrap gap-2 mb-2">
+                      <button type="button" class="btn share-action-btn share-copy" @click="copyShareLink">
+                        <i class="bi bi-clipboard me-2 fs-5"></i>
+                        <span>Copy lesson link</span>
                       </button>
-                      <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
-                        <i class="bi bi-whatsapp mr-2"></i>
-                        Share via WhatsApp
+                      <button type="button" class="btn share-action-btn share-whatsapp" @click="openWhatsappShare(getShareLink())">
+                        <i class="bi bi-whatsapp me-2 fs-5"></i>
+                        <span>Share on WhatsApp</span>
                       </button>
                     </div>
                     <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
@@ -2370,6 +2370,35 @@ export default defineComponent({
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
   border: 1px solid rgba(16, 185, 129, 0.15);
+}
+.share-actions {
+  gap: 0.75rem;
+}
+.share-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.share-action-btn span {
+  font-size: 0.95rem;
+}
+.share-action-btn.share-copy {
+  background: #f8f8f8;
+  color: #0f172a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.share-action-btn.share-whatsapp {
+  background: linear-gradient(120deg, #0b806f, #10b981);
+  color: #fff;
+}
+.share-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.15);
 }
 .motivation-card {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));

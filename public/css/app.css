@@ -20967,6 +20967,35 @@ to {
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
   border: 1px solid rgba(16, 185, 129, 0.15);
 }
+.share-actions[data-v-1d764944] {
+  gap: 0.75rem;
+}
+.share-action-btn[data-v-1d764944] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.65rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.share-action-btn span[data-v-1d764944] {
+  font-size: 0.95rem;
+}
+.share-action-btn.share-copy[data-v-1d764944] {
+  background: #f8f8f8;
+  color: #0f172a;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+.share-action-btn.share-whatsapp[data-v-1d764944] {
+  background: linear-gradient(120deg, #0b806f, #10b981);
+  color: #fff;
+}
+.share-action-btn[data-v-1d764944]:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.15);
+}
 .motivation-card[data-v-1d764944] {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));
   border: 1px solid rgba(16, 185, 129, 0.25);
