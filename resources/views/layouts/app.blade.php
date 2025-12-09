@@ -236,13 +236,14 @@
                         <!-- From Uiverse.io by Spacious74 --> 
                         
 
-                        <button class="button" type="button" onclick="window.location.href='/revert'">
+                        <button class="button" type="button" onclick="window.location.href='/revert'" data-path="/revert" data-nav-item="primary">
                         <svg
                                 viewBox="0 0 24 24"
                                 height="24"
                                 width="24"
                                 class="mr-2"
                                 xmlns="http://www.w3.org/2000/svg"
+                                data-path="/revert" data-nav-item="primary"
                             >
                                 <g fill="none">
                                 <path
@@ -255,7 +256,7 @@
                                 </g>
                             </svg>
                             Reverts corner
-                            <div class="hoverEffect">
+                            <div class="hoverEffect" data-path="/revert" data-nav-item="primary">
                                 <div></div>
                             </div>
                         </button>
@@ -550,6 +551,7 @@
                 // Home
                 '/': '/',
                 '/home': '/',
+                '/revert': '/',
                 '/welcome': '/',
                 // Quran portal (user-specified)
                 '/holy': '/holy',

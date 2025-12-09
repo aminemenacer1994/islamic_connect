@@ -414,9 +414,30 @@
                 <div class="row g-3">
                   <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
                     <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
-                      <div class="ratio ratio-16x9">
+                      <div class="ratio ratio-16x9 video-preview-shell">
+                        <div
+                          v-if="!isPlayingVideo(video)"
+                          class="video-thumbnail"
+                          :style="thumbnailStyle(video)"
+                          @click="playVideo(video)">
+                          <div class="thumbnail-pattern"></div>
+                          <div class="thumbnail-content">
+                            <div class="thumbnail-avatar">
+                              <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div>
+                              <p class="thumbnail-label">Revert story</p>
+                              <h3 class="thumbnail-title">{{ video.title }}</h3>
+                            </div>
+                          </div>
+                          <button type="button" class="thumbnail-play" @click.stop="playVideo(video)">
+                            <i class="bi bi-play-circle-fill"></i>
+                            <span>Watch now</span>
+                          </button>
+                        </div>
                         <iframe
-                          :src="formatVideoUrl(video.url)"
+                          v-else
+                          :src="formatVideoUrl(video.url, true)"
                           :title="video.title"
                           frameborder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -882,14 +903,36 @@
               </div>
               <div class="modal-body px-4 py-3">
                 <div class="row g-3">
-                  <div v-for="video in revertStories" :key="video.title" class="col-12 col-md-6">
+                  <div v-for="video in revertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
                     <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
-                      <div class="ratio ratio-16x9">
+                      <div class="ratio ratio-16x9 video-preview-shell">
+                        <div
+                          v-if="!isPlayingVideo(video)"
+                          class="video-thumbnail"
+                          :style="thumbnailStyle(video)"
+                          @click="playVideo(video)">
+                          <div class="thumbnail-pattern"></div>
+                          <div class="thumbnail-content">
+                            <div class="thumbnail-avatar">
+                              <i class="bi bi-person-circle"></i>
+                            </div>
+                            <div>
+                              <p class="thumbnail-label">Revert story</p>
+                              <h3 class="thumbnail-title">{{ video.title }}</h3>
+                            </div>
+                          </div>
+                          <button type="button" class="thumbnail-play" @click.stop="playVideo(video)">
+                            <i class="bi bi-play-circle-fill"></i>
+                            <span>Watch now</span>
+                          </button>
+                        </div>
                         <iframe
-                          :src="formatVideoUrl(video.url)"
+                          v-else
+                          :src="formatVideoUrl(video.url, true)"
                           :title="video.title"
                           frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"                          allowfullscreen
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
                           loading="lazy">
                         </iframe>
                       </div>
@@ -943,6 +986,15 @@ const normalizeJson = (value) => {
   if (value && value.default && Array.isArray(value.default)) return value.default
   return []
 }
+
+const VIDEO_ACCENT_PAIRS = [
+  { primary: '#0f766e', secondary: '#5eead4' },
+  { primary: '#1d4ed8', secondary: '#a5b4fc' },
+  { primary: '#7c2d12', secondary: '#fb923c' },
+  { primary: '#1e3a8a', secondary: '#3b82f6' },
+  { primary: '#047857', secondary: '#34d399' },
+  { primary: '#4c1d95', secondary: '#c084fc' }
+]
 
 // FULL-SCREEN EPIC CONFETTI
 const fullScreenConfetti = () => {
@@ -1098,9 +1150,9 @@ export default defineComponent({
       copyAlertTimeout: null,
       ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       ttsActiveSection: null,
-      currentUtterance: null
-      ,
-      lastIncorrectExplanation: null
+      currentUtterance: null,
+      lastIncorrectExplanation: null,
+      activeVideoId: null
     }
   },
 
@@ -1386,6 +1438,7 @@ export default defineComponent({
       this.scrollToTop()
       this.faqAccordionState = null
       this.commonAccordionState = null
+      this.activeVideoId = null
     }
   },
 
@@ -1529,15 +1582,56 @@ export default defineComponent({
       this.collapsedSections[sectionKey] = !this.collapsedSections[sectionKey]
     },
 
-    formatVideoUrl(url) {
+    formatVideoUrl(url, autoplay = false) {
       if (!url) return ''
+      let embedUrl = url
       if (url.includes('watch?v=')) {
-        return url.replace('watch?v=', 'embed/')
+        embedUrl = url.replace('watch?v=', 'embed/')
+      } else if (url.includes('youtu.be/')) {
+        embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/')
       }
-      if (url.includes('youtu.be/')) {
-        return url.replace('youtu.be/', 'www.youtube.com/embed/')
+      const [base, query = ''] = embedUrl.split('?')
+      const params = new URLSearchParams(query)
+      params.set('rel', '0')
+      params.set('modestbranding', '1')
+      if (autoplay) {
+        params.set('autoplay', '1')
       }
-      return url
+      return `${base}?${params.toString()}`
+    },
+    playVideo(video) {
+      const id = this.getVideoId(video?.url)
+      if (!id) return
+      this.activeVideoId = this.activeVideoId === id ? null : id
+    },
+    isPlayingVideo(video) {
+      const id = this.getVideoId(video?.url)
+      return Boolean(id && this.activeVideoId === id)
+    },
+    getVideoId(url) {
+      if (!url) return null
+      const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/)
+      return match ? match[1] : null
+    },
+    thumbnailStyle(video) {
+      const accent = this.videoAccentPair(video)
+      return {
+        backgroundImage: `linear-gradient(145deg, ${accent.primary}, ${accent.secondary}), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%)`
+      }
+    },
+    videoAccentPair(video) {
+      const palette = VIDEO_ACCENT_PAIRS
+      const index = this.hashString(video?.title) % palette.length
+      return palette[index]
+    },
+    hashString(value) {
+      if (!value) return 0
+      let hash = 0
+      for (let i = 0; i < value.length; i++) {
+        hash = (hash << 5) - hash + value.charCodeAt(i)
+        hash |= 0
+      }
+      return Math.abs(hash)
     },
 
     completeAndNext() {
@@ -2027,6 +2121,105 @@ export default defineComponent({
 .btn-see-more:focus-visible {
   outline: 3px solid rgba(52, 211, 153, 0.6);
   outline-offset: 3px;
+}
+
+.video-preview-shell {
+  position: relative;
+}
+
+.video-preview-shell > iframe,
+.video-preview-shell > .video-thumbnail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.video-thumbnail {
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #fff;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.video-thumbnail:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+}
+
+.thumbnail-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.65;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+
+.thumbnail-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.thumbnail-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.thumbnail-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 0.1rem;
+}
+
+.thumbnail-title {
+  font-size: 1rem;
+  line-height: 1.3;
+  font-weight: 600;
+  margin: 0;
+  max-height: 4.2rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.thumbnail-play {
+  position: relative;
+  z-index: 1;
+  align-self: flex-start;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 600;
+  transition: background 0.25s ease;
+}
+
+.thumbnail-play:hover {
+  background: rgba(255, 255, 255, 0.35);
 }
 
 .visually-hidden {

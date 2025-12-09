@@ -61,6 +61,25 @@ const normalizeJson = value => {
   if (value && value.default && Array.isArray(value.default)) return value.default;
   return [];
 };
+const VIDEO_ACCENT_PAIRS = [{
+  primary: '#0f766e',
+  secondary: '#5eead4'
+}, {
+  primary: '#1d4ed8',
+  secondary: '#a5b4fc'
+}, {
+  primary: '#7c2d12',
+  secondary: '#fb923c'
+}, {
+  primary: '#1e3a8a',
+  secondary: '#3b82f6'
+}, {
+  primary: '#047857',
+  secondary: '#34d399'
+}, {
+  primary: '#4c1d95',
+  secondary: '#c084fc'
+}];
 
 // FULL-SCREEN EPIC CONFETTI
 const fullScreenConfetti = () => {
@@ -219,7 +238,8 @@ const celebrateFinalChapter = () => {
       ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       ttsActiveSection: null,
       currentUtterance: null,
-      lastIncorrectExplanation: null
+      lastIncorrectExplanation: null,
+      activeVideoId: null
     };
   },
   computed: {
@@ -486,6 +506,7 @@ const celebrateFinalChapter = () => {
       this.scrollToTop();
       this.faqAccordionState = null;
       this.commonAccordionState = null;
+      this.activeVideoId = null;
     }
   },
   created() {
@@ -623,15 +644,56 @@ const celebrateFinalChapter = () => {
     toggleSection(sectionKey) {
       this.collapsedSections[sectionKey] = !this.collapsedSections[sectionKey];
     },
-    formatVideoUrl(url) {
+    formatVideoUrl(url, autoplay = false) {
       if (!url) return '';
+      let embedUrl = url;
       if (url.includes('watch?v=')) {
-        return url.replace('watch?v=', 'embed/');
+        embedUrl = url.replace('watch?v=', 'embed/');
+      } else if (url.includes('youtu.be/')) {
+        embedUrl = url.replace('youtu.be/', 'www.youtube.com/embed/');
       }
-      if (url.includes('youtu.be/')) {
-        return url.replace('youtu.be/', 'www.youtube.com/embed/');
+      const [base, query = ''] = embedUrl.split('?');
+      const params = new URLSearchParams(query);
+      params.set('rel', '0');
+      params.set('modestbranding', '1');
+      if (autoplay) {
+        params.set('autoplay', '1');
       }
-      return url;
+      return `${base}?${params.toString()}`;
+    },
+    playVideo(video) {
+      const id = this.getVideoId(video === null || video === void 0 ? void 0 : video.url);
+      if (!id) return;
+      this.activeVideoId = this.activeVideoId === id ? null : id;
+    },
+    isPlayingVideo(video) {
+      const id = this.getVideoId(video === null || video === void 0 ? void 0 : video.url);
+      return Boolean(id && this.activeVideoId === id);
+    },
+    getVideoId(url) {
+      if (!url) return null;
+      const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      return match ? match[1] : null;
+    },
+    thumbnailStyle(video) {
+      const accent = this.videoAccentPair(video);
+      return {
+        backgroundImage: `linear-gradient(145deg, ${accent.primary}, ${accent.secondary}), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%)`
+      };
+    },
+    videoAccentPair(video) {
+      const palette = VIDEO_ACCENT_PAIRS;
+      const index = this.hashString(video === null || video === void 0 ? void 0 : video.title) % palette.length;
+      return palette[index];
+    },
+    hashString(value) {
+      if (!value) return 0;
+      let hash = 0;
+      for (let i = 0; i < value.length; i++) {
+        hash = (hash << 5) - hash + value.charCodeAt(i);
+        hash |= 0;
+      }
+      return Math.abs(hash);
     },
     completeAndNext() {
       const nextId = this.selectedPill + 1;
@@ -1411,49 +1473,45 @@ const _hoisted_93 = {
   class: "video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden"
 };
 const _hoisted_94 = {
-  class: "ratio ratio-16x9"
+  class: "ratio ratio-16x9 video-preview-shell"
 };
-const _hoisted_95 = ["src", "title"];
+const _hoisted_95 = ["onClick"];
 const _hoisted_96 = {
-  class: "p-3"
+  class: "thumbnail-content"
 };
 const _hoisted_97 = {
+  class: "thumbnail-title"
+};
+const _hoisted_98 = ["onClick"];
+const _hoisted_99 = ["src", "title"];
+const _hoisted_100 = {
+  class: "p-3"
+};
+const _hoisted_101 = {
   class: "h6 fw-semibold mb-2"
 };
-const _hoisted_98 = {
+const _hoisted_102 = {
   key: 0,
   class: "text-muted small mb-0"
 };
-const _hoisted_99 = {
+const _hoisted_103 = {
   class: "d-flex justify-content-end mt-4"
 };
-const _hoisted_100 = {
+const _hoisted_104 = {
   key: 4,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_101 = {
+const _hoisted_105 = {
   class: "card-body p-3"
 };
-const _hoisted_102 = {
+const _hoisted_106 = {
   class: "mb-3"
 };
-const _hoisted_103 = {
+const _hoisted_107 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_104 = {
-  class: "row g-3"
-};
-const _hoisted_105 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_106 = {
-  class: "p-3 rounded-3 border h-100"
-};
-const _hoisted_107 = {
-  class: "list-unstyled mb-0"
-};
 const _hoisted_108 = {
-  class: "text-dark medium mt-1"
+  class: "row g-3"
 };
 const _hoisted_109 = {
   class: "col-12 col-md-6"
@@ -1468,384 +1526,404 @@ const _hoisted_112 = {
   class: "text-dark medium mt-1"
 };
 const _hoisted_113 = {
-  key: 0,
-  class: "content-card section-card animated-fade-slide mb-4 rounded-4"
+  class: "col-12 col-md-6"
 };
 const _hoisted_114 = {
-  class: "card-body p-3"
+  class: "p-3 rounded-3 border h-100"
 };
 const _hoisted_115 = {
-  class: "text-muted small mb-3"
+  class: "list-unstyled mb-0"
 };
 const _hoisted_116 = {
-  class: "list-group insight-list fs-6 lh-base"
+  class: "text-dark medium mt-1"
 };
 const _hoisted_117 = {
-  key: 1,
+  key: 0,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
 const _hoisted_118 = {
-  class: "card-header d-flex align-items-center py-3 gap-3"
+  class: "card-body p-3"
 };
 const _hoisted_119 = {
-  class: "lesson-focus-actions ms-auto"
+  class: "text-muted small mb-3"
 };
 const _hoisted_120 = {
+  class: "list-group insight-list fs-6 lh-base"
+};
+const _hoisted_121 = {
+  key: 1,
+  class: "content-card section-card animated-fade-slide mb-4 rounded-4"
+};
+const _hoisted_122 = {
+  class: "card-header d-flex align-items-center py-3 gap-3"
+};
+const _hoisted_123 = {
+  class: "lesson-focus-actions ms-auto"
+};
+const _hoisted_124 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_121 = {
+const _hoisted_125 = {
   class: "row g-3"
 };
-const _hoisted_122 = {
+const _hoisted_126 = {
   class: "dua-card h-100 rounded-4 p-4 shadow-lg"
 };
-const _hoisted_123 = {
+const _hoisted_127 = {
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 border-teal"
 };
-const _hoisted_124 = {
+const _hoisted_128 = {
   class: "card-body px-3 px-md-4 py-4"
 };
-const _hoisted_125 = {
+const _hoisted_129 = {
   class: "row align-items-center"
 };
-const _hoisted_126 = {
+const _hoisted_130 = {
   class: "col-md-5"
 };
-const _hoisted_127 = {
+const _hoisted_131 = {
   class: "share-actions d-flex flex-wrap gap-2 mb-2"
 };
-const _hoisted_128 = {
+const _hoisted_132 = {
   key: 0,
   class: "text-success small mb-0"
 };
-const _hoisted_129 = {
+const _hoisted_133 = {
   class: "row pt-3 align-items-center"
 };
-const _hoisted_130 = {
-  class: "col-md-4"
-};
-const _hoisted_131 = {
-  class: "content-card motivation-card section-card h-100"
-};
-const _hoisted_132 = {
-  class: "card-body"
-};
-const _hoisted_133 = {
-  class: "mb-1 fs-6"
-};
 const _hoisted_134 = {
-  class: "text-teal small mb-0"
+  class: "col-md-4"
 };
 const _hoisted_135 = {
-  class: "col-md-4"
+  class: "content-card motivation-card section-card h-100"
 };
 const _hoisted_136 = {
-  class: "content-card reflection-card section-card h-100"
+  class: "card-body"
 };
 const _hoisted_137 = {
-  class: "card-body"
-};
-const _hoisted_138 = {
   class: "mb-1 fs-6"
 };
-const _hoisted_139 = {
-  class: "text-muted small mb-0"
+const _hoisted_138 = {
+  class: "text-teal small mb-0"
 };
-const _hoisted_140 = {
+const _hoisted_139 = {
   class: "col-md-4"
 };
-const _hoisted_141 = {
-  class: "content-card tip-card section-card h-100"
+const _hoisted_140 = {
+  class: "content-card reflection-card section-card h-100"
 };
-const _hoisted_142 = {
+const _hoisted_141 = {
   class: "card-body"
 };
+const _hoisted_142 = {
+  class: "mb-1 fs-6"
+};
 const _hoisted_143 = {
-  class: "mb-0 list-unstyled fs-6"
+  class: "text-muted small mb-0"
 };
 const _hoisted_144 = {
+  class: "col-md-4"
+};
+const _hoisted_145 = {
+  class: "content-card tip-card section-card h-100"
+};
+const _hoisted_146 = {
+  class: "card-body"
+};
+const _hoisted_147 = {
+  class: "mb-0 list-unstyled fs-6"
+};
+const _hoisted_148 = {
   key: 2,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_145 = {
+const _hoisted_149 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_146 = ["aria-expanded"];
-const _hoisted_147 = {
+const _hoisted_150 = ["aria-expanded"];
+const _hoisted_151 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_148 = {
+const _hoisted_152 = {
   class: "card-body p-3"
 };
-const _hoisted_149 = {
+const _hoisted_153 = {
   class: "accordion-stack"
 };
-const _hoisted_150 = ["onClick"];
-const _hoisted_151 = {
+const _hoisted_154 = ["onClick"];
+const _hoisted_155 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_152 = ["innerHTML"];
-const _hoisted_153 = {
+const _hoisted_156 = ["innerHTML"];
+const _hoisted_157 = {
   class: "content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide"
 };
-const _hoisted_154 = {
+const _hoisted_158 = {
   class: "card-body px-3 px-md-4 py-4"
 };
-const _hoisted_155 = {
+const _hoisted_159 = {
   class: "d-flex flex-column gap-2"
 };
-const _hoisted_156 = {
+const _hoisted_160 = {
   class: "text-muted medium mb-0"
 };
-const _hoisted_157 = {
+const _hoisted_161 = {
   key: 3,
   id: "mission-card",
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 mission-card"
 };
-const _hoisted_158 = {
+const _hoisted_162 = {
   class: "card-body p-3"
 };
-const _hoisted_159 = {
+const _hoisted_163 = {
   class: "mb-2 text-muted small"
 };
-const _hoisted_160 = {
+const _hoisted_164 = {
   class: "fw-semibold"
 };
-const _hoisted_161 = {
+const _hoisted_165 = {
   class: "text-dark fs-6"
 };
-const _hoisted_162 = {
+const _hoisted_166 = {
   class: "d-flex flex-wrap gap-2 align-items-center mt-3"
 };
-const _hoisted_163 = {
+const _hoisted_167 = {
   class: "badge bg-success text-white rounded-pill"
 };
-const _hoisted_164 = {
+const _hoisted_168 = {
   key: 4,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_165 = {
+const _hoisted_169 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_166 = ["aria-expanded"];
-const _hoisted_167 = {
+const _hoisted_170 = ["aria-expanded"];
+const _hoisted_171 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_168 = {
+const _hoisted_172 = {
   class: "card-body p-3"
 };
-const _hoisted_169 = {
+const _hoisted_173 = {
   class: "accordion-stack"
 };
-const _hoisted_170 = ["onClick"];
-const _hoisted_171 = {
+const _hoisted_174 = ["onClick"];
+const _hoisted_175 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_172 = ["innerHTML"];
-const _hoisted_173 = {
+const _hoisted_176 = ["innerHTML"];
+const _hoisted_177 = {
   class: "content-card next-steps-card animated-slide-up rounded-4 mb-4",
   style: {
     "animation-delay": "0.4s"
   }
 };
-const _hoisted_174 = {
+const _hoisted_178 = {
   class: "card-body p-3"
 };
-const _hoisted_175 = {
+const _hoisted_179 = {
   class: "row g-3"
 };
-const _hoisted_176 = {
+const _hoisted_180 = {
   class: "col-12 col-md-12"
 };
-const _hoisted_177 = {
+const _hoisted_181 = {
   class: "homework-grid"
 };
-const _hoisted_178 = {
+const _hoisted_182 = {
   class: "d-flex align-items-center gap-2 mb-1"
 };
-const _hoisted_179 = {
+const _hoisted_183 = {
   class: "mb-0 text-dark"
 };
-const _hoisted_180 = {
+const _hoisted_184 = {
   key: 5,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper"
 };
-const _hoisted_181 = {
+const _hoisted_185 = {
   class: "quiz-shell p-0"
 };
-const _hoisted_182 = {
+const _hoisted_186 = {
   class: "quiz-body px-4 py-3"
 };
-const _hoisted_183 = {
+const _hoisted_187 = {
   class: "quiz-progress-wrapper mb-3"
 };
-const _hoisted_184 = {
+const _hoisted_188 = {
   class: "quiz-progress-track"
 };
-const _hoisted_185 = {
+const _hoisted_189 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_186 = {
+const _hoisted_190 = {
   class: "mb-0 small fw-semibold text-teal"
 };
-const _hoisted_187 = {
+const _hoisted_191 = {
   class: "fw-semibold text-dark mb-2 quiz-question"
 };
-const _hoisted_188 = {
+const _hoisted_192 = {
   class: "quiz-options-grid"
 };
-const _hoisted_189 = ["disabled", "onClick"];
-const _hoisted_190 = {
+const _hoisted_193 = ["disabled", "onClick"];
+const _hoisted_194 = {
   class: "icon-stack"
 };
-const _hoisted_191 = {
+const _hoisted_195 = {
   key: 0,
   class: "bi bi-check-circle-fill text-white"
 };
-const _hoisted_192 = {
+const _hoisted_196 = {
   key: 1,
   class: "bi bi-x-circle-fill text-white"
 };
-const _hoisted_193 = {
+const _hoisted_197 = {
   key: 0,
   class: "quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white"
 };
-const _hoisted_194 = {
+const _hoisted_198 = {
   class: "mb-1"
 };
-const _hoisted_195 = {
+const _hoisted_199 = {
   class: "mb-1 text-muted"
 };
-const _hoisted_196 = {
+const _hoisted_200 = {
   key: 1,
   class: "quiz-success-note mt-3"
 };
-const _hoisted_197 = {
+const _hoisted_201 = {
   class: "d-flex flex-column flex-md-row gap-2 align-items-start"
 };
-const _hoisted_198 = {
+const _hoisted_202 = {
   class: "mb-0 fw-semibold text-teal"
 };
-const _hoisted_199 = {
+const _hoisted_203 = {
   key: 5,
   class: "content-card transition-card text-dark rounded-4 animated-fade-slide mb-4"
 };
-const _hoisted_200 = {
+const _hoisted_204 = {
   class: "d-flex align-items-center justify-content-between flex-wrap"
 };
-const _hoisted_201 = {
+const _hoisted_205 = {
   class: "fw-semibold mb-0"
 };
-const _hoisted_202 = {
+const _hoisted_206 = {
   class: "mb-1 text-teal small"
 };
-const _hoisted_203 = {
+const _hoisted_207 = {
   class: "text-end"
 };
-const _hoisted_204 = {
+const _hoisted_208 = {
   class: "badge bg-light text-dark rounded-pill px-3 py-2"
 };
-const _hoisted_205 = {
+const _hoisted_209 = {
   class: "text-muted mt-3 mb-0"
 };
-const _hoisted_206 = {
+const _hoisted_210 = {
   class: "actions-card animated-fade-in"
 };
-const _hoisted_207 = {
-  class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
-};
-const _hoisted_208 = ["disabled"];
-const _hoisted_209 = {
-  class: "d-flex flex-column flex-md-row align-items-center gap-2"
-};
-const _hoisted_210 = {
-  class: "text-muted small me-md-auto"
-};
 const _hoisted_211 = {
-  key: 0,
-  class: "text-teal small fw-semibold"
+  class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
 };
 const _hoisted_212 = ["disabled"];
 const _hoisted_213 = {
-  key: 0
+  class: "d-flex flex-column flex-md-row align-items-center gap-2"
 };
 const _hoisted_214 = {
+  class: "text-muted small me-md-auto"
+};
+const _hoisted_215 = {
+  key: 0,
+  class: "text-teal small fw-semibold"
+};
+const _hoisted_216 = ["disabled"];
+const _hoisted_217 = {
+  key: 0
+};
+const _hoisted_218 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_215 = {
+const _hoisted_219 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_216 = {
+const _hoisted_220 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_217 = {
+const _hoisted_221 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_218 = {
+const _hoisted_222 = {
   class: "modal-title fw-bold"
 };
-const _hoisted_219 = {
+const _hoisted_223 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_220 = {
+const _hoisted_224 = {
   key: 0,
   class: "text-success small"
 };
-const _hoisted_221 = {
+const _hoisted_225 = {
   class: "d-flex gap-2"
 };
-const _hoisted_222 = {
+const _hoisted_226 = {
   key: 1
 };
-const _hoisted_223 = {
+const _hoisted_227 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_224 = {
+const _hoisted_228 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_225 = {
+const _hoisted_229 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_226 = {
+const _hoisted_230 = {
   class: "modal-body px-4 py-3"
 };
-const _hoisted_227 = {
+const _hoisted_231 = {
   class: "row g-3"
 };
-const _hoisted_228 = {
+const _hoisted_232 = {
   class: "video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden"
 };
-const _hoisted_229 = {
-  class: "ratio ratio-16x9"
+const _hoisted_233 = {
+  class: "ratio ratio-16x9 video-preview-shell"
 };
-const _hoisted_230 = ["src", "title"];
-const _hoisted_231 = {
+const _hoisted_234 = ["onClick"];
+const _hoisted_235 = {
+  class: "thumbnail-content"
+};
+const _hoisted_236 = {
+  class: "thumbnail-title"
+};
+const _hoisted_237 = ["onClick"];
+const _hoisted_238 = ["src", "title"];
+const _hoisted_239 = {
   class: "p-3"
 };
-const _hoisted_232 = {
+const _hoisted_240 = {
   class: "h6 fw-semibold mb-2"
 };
-const _hoisted_233 = {
+const _hoisted_241 = {
   key: 0,
   class: "text-muted small mb-0"
 };
-const _hoisted_234 = {
+const _hoisted_242 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_235 = {
+const _hoisted_243 = {
   class: "d-flex gap-2 ms-auto"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$currentLesson, _ctx$currentLesson2, _ctx$currentLesson3, _ctx$currentLesson4, _ctx$currentLessonOve, _ctx$currentLesson5, _ctx$currentLesson6, _ctx$currentChapterKe, _ctx$currentLesson7, _ctx$activeResource;
   const _component_medium = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("medium");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "page-sheen"
-  }, null, -1 /* CACHED */)), _cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
@@ -2052,7 +2130,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(dept.icon)
     }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_87, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_88, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.detail), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert Stories "), _ctx.revertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert Stories "), _ctx.revertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-collection-play fs-4 me-3 text-teal"
@@ -2064,95 +2142,115 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-3"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-      src: _ctx.formatVideoUrl(video.url),
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [!_ctx.isPlayingVideo(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 0,
+      class: "video-thumbnail",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video)),
+      onClick: $event => _ctx.playVideo(video)
+    }, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "thumbnail-pattern"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "thumbnail-avatar"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-person-circle"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "thumbnail-label"
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "thumbnail-play",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.playVideo(video), ["stop"])
+    }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-play-circle-fill"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Watch now", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_98)], 12 /* STYLE, PROPS */, _hoisted_95)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("iframe", {
+      key: 1,
+      src: _ctx.formatVideoUrl(video.url, true),
       title: video.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_95)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_98, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_99))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_102, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-see-more",
     onClick: _cache[4] || (_cache[4] = $event => _ctx.showVideoModal = true)
-  }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right"
-  }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_100, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_104, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_103, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_106, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_107, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_110, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-teal mb-3"
-  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_107, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
+  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_111, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
-    }, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill fs-5 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_108, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_110, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_114, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-danger mb-3"
-  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_111, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_115, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
-    }, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill fs-5 text-danger"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_113, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_117, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-chart-line fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Key Insights")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_115, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson7 = _ctx.currentLesson) === null || _ctx$currentLesson7 === void 0 ? void 0 : _ctx$currentLesson7.title) || 'Chapter'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_116, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
+  }, "Key Insights")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_119, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson7 = _ctx.currentLesson) === null || _ctx$currentLesson7 === void 0 ? void 0 : _ctx$currentLesson7.title) || 'Chapter'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_120, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: insight,
       class: "list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3"
-    }, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check-circle fs-5 text-teal"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bookmark-star-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5 flex-grow-1"
-  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[5] || (_cache[5] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[6] || (_cache[6] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[7] || (_cache[7] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_120, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dua.arabic,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_122, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_126, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "dua-glow"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
@@ -2166,38 +2264,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fontSize: `${_ctx.duaFontScale}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_124, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-7"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-1 fs-5"
   }, "Share & uplift"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-3 fs-6"
-  }, " Spread the lesson copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_126, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Spread the lesson copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-copy",
     onClick: _cache[8] || (_cache[8] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[62] || (_cache[62] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard me-2 fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy lesson link", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-whatsapp",
     onClick: _cache[9] || (_cache[9] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[63] || (_cache[63] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp me-2 fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_128, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "fs-5 fw-semibold mb-1"
-  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_133, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_134, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_137, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_138, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "fs-5 fw-semibold mb-1"
-  }, "Reflection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_138, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionPrompt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_139, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionNote), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Reflection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionPrompt), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_143, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionNote), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_146, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "fs-5 fw-semibold mb-1"
-  }, "Keep going", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_143, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.keepGoingTips, tip => {
+  }, "Keep going", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_147, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.keepGoingTips, tip => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: tip,
       class: "mb-1 text-muted"
-    }, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-lightbulb text-teal me-2"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-square-fill fs-4 text-teal"
@@ -2208,9 +2306,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[10] || (_cache[10] = $event => _ctx.toggleSection('commonQuestions')),
     "aria-expanded": !_ctx.collapsedSections.commonQuestions
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_147, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_151, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.commonQuestions ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_146)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterCommonPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_150)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterCommonPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -2222,26 +2320,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('common', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_150), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_154), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_152)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, 8 /* PROPS */, _hoisted_156)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-bold"
-  }, "Motivation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_medium, {
+  }, "Motivation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_medium, {
     class: "text-teal fs-6"
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)]),
     _: 1 /* STABLE */
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_157, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_161, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-flag-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_159, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_163, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_163, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_164, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_165, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_166, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_167, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-success btn-sm fw-semibold",
     onClick: _cache[11] || (_cache[11] = (...args) => _ctx.focusMission && _ctx.focusMission(...args))
-  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_164, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4 text-teal"
@@ -2252,9 +2350,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[12] || (_cache[12] = $event => _ctx.toggleSection('faqs')),
     "aria-expanded": !_ctx.collapsedSections.faqs
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_167, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_171, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.faqs ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_166)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterFaqPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_170)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_172, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterFaqPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -2266,21 +2364,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('faq', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('faq', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_170), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_174), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_172)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_176)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard-check-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Next Steps & Homework")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentHomework, (task, index) => {
+  }, "Next Steps & Homework")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentHomework, (task, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: task,
       class: "homework-task p-3 mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_179, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_183, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_184, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_185, [_cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
@@ -2288,14 +2386,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-dice-4-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Chapter Quiz")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Chapter Quiz")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_186, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_185, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_189, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_186, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_187, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_190, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_191, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
@@ -2306,76 +2404,96 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       disabled: _ctx.chapterQuizPassed,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_190, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_191)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_192)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_189);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_193, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_194, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Right answer:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_195, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */), _ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_194, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_195)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_196)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_193);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_198, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Right answer:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_199, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */), _ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-link p-0",
     onClick: _cache[13] || (_cache[13] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
-  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_196, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_200, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_198, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_202, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
     onClick: _cache[14] || (_cache[14] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_199, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_203, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_204, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1"
-  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_201, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_202, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_203, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_204, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_205, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_206, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_208, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "transition-line mt-2"
-  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_205, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_209, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_210, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
     disabled: _ctx.selectedPill <= 1,
     onClick: _cache[15] || (_cache[15] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
-  }, [...(_cache[78] || (_cache[78] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[82] || (_cache[82] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_208), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_210, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_211, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_212), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_213, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_214, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_215, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !_ctx.isWaitingForNext,
       'disabled': _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
     }]),
     disabled: _ctx.isWaitingForNext || !_ctx.chapterQuizPassed,
     onClick: _cache[16] || (_cache[16] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_212)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_213, [_cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_216)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_217, [_cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_215, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_217, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_218, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_220, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_221, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_222, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_220, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_221, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_225, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[17] || (_cache[17] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
-  }, [...(_cache[80] || (_cache[80] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[84] || (_cache[84] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-link-45deg"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy Link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
     onClick: _cache[18] || (_cache[18] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_222, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_226, [_cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_224, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_225, [_cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_228, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [_cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header border-0 pt-4 px-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
-  }, "All Revert Stories")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStories, video => {
+  }, "All Revert Stories")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_230, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_231, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStories, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: video.title,
+      key: 'modal-' + video.title,
       class: "col-12 col-md-6"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_228, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
-      src: _ctx.formatVideoUrl(video.url),
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_232, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_233, [!_ctx.isPlayingVideo(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 0,
+      class: "video-thumbnail",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video)),
+      onClick: $event => _ctx.playVideo(video)
+    }, [_cache[90] || (_cache[90] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "thumbnail-pattern"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_235, [_cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "thumbnail-avatar"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-person-circle"
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "thumbnail-label"
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_236, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "thumbnail-play",
+      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.playVideo(video), ["stop"])
+    }, [...(_cache[89] || (_cache[89] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-play-circle-fill"
+    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Watch now", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_237)], 12 /* STYLE, PROPS */, _hoisted_234)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("iframe", {
+      key: 1,
+      src: _ctx.formatVideoUrl(video.url, true),
       title: video.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_230)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_231, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_232, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_233, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_234, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_235, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_238))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_239, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_240, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_241, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_243, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[19] || (_cache[19] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
@@ -2555,7 +2673,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic found
   \*********************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":2,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":3,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":4,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":5,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":6,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":7,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":8,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":9,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":10,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":11,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":12,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":13,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":14,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":15,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam — A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":2,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":3,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":4,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":5,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":6,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":7,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":8,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":9,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":10,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":11,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":12,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":13,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":14,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]},{"chapterId":15,"videos":[{"title":"British Man Converts To Islam & Becomes Step Dad To 3 Children | Extremely British Muslims","url":"https://www.youtube.com/watch?v=Dao32Ej0uEU","description":"A British father speaks directly about how Islam guided him to care for his blended family."},{"title":"How Golf Balls Led Me to Islam A Revert Story from New Jersey #newmuslim #converttoislam","url":"https://www.youtube.com/watch?v=X791O1nmNak","description":"A New Jersey man narrates the precise moment a golf conversation shifted his heart toward Islam."},{"title":"My Journey to Islam in 3 Minutes! 2021","url":"https://www.youtube.com/watch?v=Pcx4xwPXY_M","description":"Abdurahman outlines the critical steps that moved him from curiosity to saying the shahada."},{"title":"Why Feminism Lied to Me | My Journey to True Liberation Through Islam #muslimconvertstory","url":"https://www.youtube.com/watch?v=41486X9qWFM","description":"A female revert describes how Islam delivered the clarity and dignity feminism promised but never provided."},{"title":"Convert to Islam Emotional Story : American Girl Convert to Islam | Emotional Shahada Muslim Convert","url":"https://www.youtube.com/watch?v=4K30Ki8ednA","description":"An American sister shares the emotional moment she embraced Islam and whispered the shahada."},{"title":"How She Convert to Islam|| Muslim girl revert story||","url":"https://www.youtube.com/watch?v=mSjBJa7mCko","description":"A young revert tells the exact personal choices that led her toward Islam in under three minutes."},{"title":"Australian Girl Tells her Emotional Story Why She Converted to Islam","url":"https://www.youtube.com/watch?v=IqhFMvTu7Uw","description":"An Australian woman calmly recounts why Islamic teachings spoke to her core needs and values."},{"title":"Three verses removed from Bible||Christian women\'ask why|| Muslim Brooklyn","url":"https://www.youtube.com/watch?v=3sYKQnVV-DM","description":"A Brooklyn-born revert lists the precise verses and questions that pushed her toward Islam."}]}]');
 
 /***/ }),
 
