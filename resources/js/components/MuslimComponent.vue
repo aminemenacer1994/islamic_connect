@@ -302,6 +302,7 @@
                 </div>
                 <div v-if="overviewSections?.length" class="overview-section-list">
                   <div v-for="(section, index) in overviewSections" :key="section.heading"
+                    :id="`section-${selectedPill}-${index}`"
                     class="section-block mb-5">
                     <div class="d-flex align-items-start gap-3 mb-3">
                       <div class="section-number fs-5">{{ index + 1 }}</div>
@@ -332,6 +333,7 @@
                 </div>
                 <div v-else-if="currentLesson?.sections?.length" class="overview-section-list">
                   <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
+                    :id="`section-${selectedPill}-${index}`"
                     class="section-block mb-5">
                     <div class="d-flex align-items-start gap-3 mb-3">
                       <div class="section-number fs-5">{{ index + 1 }}</div>
@@ -799,6 +801,18 @@
                       </div>
                     </button>
                   </div>
+                  <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white">
+                    <p class="mb-1"><strong>Right answer:</strong> {{ currentQuestion.answer }}</p>
+                    <p class="mb-1 text-muted">{{ quizHintExplanation }}</p>
+                    <button
+                      v-if="quizHintSectionId"
+                      type="button"
+                      class="btn btn-sm btn-link p-0"
+                      @click="scrollToSection(quizHintSectionId)"
+                    >
+                      Jump to the related lesson section
+                    </button>
+                  </div>
                   
                       <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
                         <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
@@ -814,6 +828,18 @@
                           </button>
                         </div>
                       </div>
+                    </div>
+                    <div v-if="quizStatus === 'incorrect' && lastIncorrectExplanation && lastIncorrectExplanation.text" class="quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white">
+                      <p class="mb-1"><strong>Right answer:</strong> {{ currentQuestion.answer }}</p>
+                      <p class="mb-1 text-muted">{{ lastIncorrectExplanation.text }}</p>
+                      <button
+                        v-if="lastIncorrectExplanation && lastIncorrectExplanation.sectionId"
+                        type="button"
+                        class="btn btn-sm btn-link p-0"
+                        @click="scrollToSection(lastIncorrectExplanation.sectionId)"
+                      >
+                        Jump to the related lesson section
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1122,7 +1148,8 @@ export default defineComponent({
       copyAlertTimeout: null,
       ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       ttsActiveSection: null,
-      currentUtterance: null
+      currentUtterance: null,
+      lastIncorrectExplanation: null
     }
   },
 
@@ -1144,6 +1171,19 @@ export default defineComponent({
     },
     overviewSections() {
       return this.currentLessonOverview?.overview || []
+    },
+    quizHintExplanation() {
+      return this.lastIncorrectExplanation?.text || this.currentQuestion?.explanation || ''
+    },
+    quizHintSectionId() {
+      if (this.lastIncorrectExplanation?.sectionId) {
+        return this.lastIncorrectExplanation.sectionId
+      }
+      const question = this.currentQuestion
+      if (!question) return ''
+      const sectionIndex = question.sectionIndex ?? 0
+      const section = this.currentLesson?.sections?.[sectionIndex]
+      return section ? `section-${this.selectedPill}-${sectionIndex}` : ''
     },
     chapterCommonPanels() {
       const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill)
@@ -1601,12 +1641,14 @@ export default defineComponent({
       this.quizFeedback = ''
       this.quizCorrectCount = 0
       this.chapterQuizPassed = false
+      this.lastIncorrectExplanation = null
     },
     advanceQuestion() {
       if (!this.quizQuestions.length) return
       this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length
       this.quizStatus = null
       this.selectedOption = null
+      this.lastIncorrectExplanation = null
     },
     scrollToNextButton() {
       const nextBtn = document.querySelector('.next-btn')
@@ -1896,11 +1938,20 @@ export default defineComponent({
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
     },
-    scrollToSection(index) {
+    scrollToSection(target) {
       this.$nextTick(() => {
+        if (typeof target === 'string') {
+          const el = document.getElementById(target)
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            return
+          }
+          this.scrollToTop()
+          return
+        }
         const cards = document.querySelectorAll('.guidance-card .guidance-card-item')
-        if (cards[index]) {
-          cards[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+        if (cards[target]) {
+          cards[target].scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else {
           this.scrollToTop()
         }
@@ -1914,6 +1965,7 @@ export default defineComponent({
       this.selectedOption = option
       if (correct) {
         this.quizCorrectCount++
+        this.lastIncorrectExplanation = null
         if (this.quizCorrectCount >= this.quizRequiredCorrect) {
           this.chapterQuizPassed = true
           this.quizFeedback = 'Nicely done! The Next Chapter button is activated.'
@@ -1928,6 +1980,18 @@ export default defineComponent({
         }
       } else {
         this.quizFeedback = 'Not quite, try another option.'
+        const sectionIndex = question.sectionIndex ?? 0
+        const section = this.currentLesson?.sections?.[sectionIndex]
+        const sectionId = section ? `section-${this.selectedPill}-${sectionIndex}` : ''
+        const explanation = question.explanation || ''
+        if (explanation) {
+          this.lastIncorrectExplanation = {
+            text: explanation,
+            sectionId
+          }
+        } else {
+          this.lastIncorrectExplanation = null
+        }
       }
     }
   },

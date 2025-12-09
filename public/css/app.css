@@ -20996,6 +20996,10 @@ to {
   transform: translateY(-1px);
   box-shadow: 0 12px 20px rgba(15, 23, 42, 0.15);
 }
+.quiz-hint[data-v-1d764944] {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
+}
 .motivation-card[data-v-1d764944] {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));
   border: 1px solid rgba(16, 185, 129, 0.25);

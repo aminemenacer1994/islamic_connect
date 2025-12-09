@@ -304,6 +304,7 @@
                 </div>
                 <div v-if="overviewSections.length" class="overview-section-list">
                   <div v-for="(section, index) in overviewSections" :key="section.heading"
+                    :id="`section-${selectedPill}-${index}`"
                     class="section-block mb-5">
                     <div class="d-flex align-items-start gap-3 mb-3">
                       <div class="section-number fs-5">{{ index + 1 }}</div>
@@ -729,9 +730,6 @@
                       <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
                     </div>
                   </div>
-                  <!-- <span class="badge text-dark bg-light rounded-pill px-3 py-2">
-                    Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}
-                  </span> -->
                 </div>
                   <div class="quiz-body px-4 py-3">
                     <div class="quiz-progress-wrapper mb-3">
@@ -744,7 +742,7 @@
                         <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
                       </div>
                     </div>
-                  <h3 class="fw-semibold text-dark mb-4 quiz-question">{{ currentQuestion.question }}</h3>
+                  <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
                   <div class="quiz-options-grid">
                     <button v-for="option in currentQuestion.options" :key="option" type="button"
                       class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
@@ -763,25 +761,38 @@
                       </div>
                     </button>
                   </div>
-                  
-                      <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
-                        <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
-                        <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
-                          <div>
-                            <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
-                            <small class="text-muted">The Next Chapter button above is now active.</small>
-                          </div>
-                          <button type="button"
-                            class="btn btn-outline-teal btn-sm shadow-none"
-                            @click="retryQuiz">
-                            Retake quiz
-                          </button>
+                  <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white">
+                    <p class="mb-1"><strong>Right answer:</strong> {{ currentQuestion.answer }}</p>
+                    <p class="mb-1 text-muted">{{ quizHintExplanation }}</p>
+                    <button
+                      v-if="quizHintSectionId"
+                      type="button"
+                      class="btn btn-sm btn-link p-0"
+                      @click="scrollToSection(quizHintSectionId)"
+                    >
+                      Jump to the related lesson section
+                    </button>
+                  </div>
+
+                  <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
+                      <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
+                      <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
+                        <div>
+                          <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
+                          <small class="text-muted">The Next Chapter button above is now active.</small>
                         </div>
+                        <button type="button"
+                          class="btn btn-outline-teal btn-sm shadow-none"
+                          @click="retryQuiz">
+                          Retake quiz
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
+              </div>
             </div>
+
             <div v-if="chapterQuizPassed && nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
               <div class="d-flex align-items-center justify-content-between flex-wrap">
                 <div>
@@ -1088,6 +1099,8 @@ export default defineComponent({
       ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       ttsActiveSection: null,
       currentUtterance: null
+      ,
+      lastIncorrectExplanation: null
     }
   },
 
@@ -1109,6 +1122,19 @@ export default defineComponent({
     },
     overviewSections() {
       return this.currentLessonOverview?.overview || []
+    },
+    quizHintExplanation() {
+      return this.lastIncorrectExplanation?.text || this.currentQuestion?.explanation || ''
+    },
+    quizHintSectionId() {
+      if (this.lastIncorrectExplanation?.sectionId) {
+        return this.lastIncorrectExplanation.sectionId
+      }
+      const question = this.currentQuestion
+      if (!question) return ''
+      const sectionIndex = question.sectionIndex ?? 0
+      const section = this.currentLesson?.sections?.[sectionIndex]
+      return section ? `section-${this.selectedPill}-${sectionIndex}` : ''
     },
     chapterCommonPanels() {
       const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill)
@@ -1599,6 +1625,15 @@ export default defineComponent({
       this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length
       this.quizStatus = null
       this.selectedOption = null
+      this.lastIncorrectExplanation = null
+    },
+    scrollToSection(sectionId) {
+      this.$nextTick(() => {
+        const el = document.getElementById(sectionId)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
+      })
     },
     scrollToNextButton() {
       const nextBtn = document.querySelector('.next-btn')
@@ -1884,11 +1919,20 @@ export default defineComponent({
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
     },
-    scrollToSection(index) {
+    scrollToSection(target) {
       this.$nextTick(() => {
+        if (typeof target === 'string') {
+          const el = document.getElementById(target)
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            return
+          }
+          this.scrollToTop()
+          return
+        }
         const cards = document.querySelectorAll('.guidance-card .guidance-card-item')
-        if (cards[index]) {
-          cards[index].scrollIntoView({ behavior: 'smooth', block: 'center' })
+        if (cards[target]) {
+          cards[target].scrollIntoView({ behavior: 'smooth', block: 'center' })
         } else {
           this.scrollToTop()
         }
@@ -1902,6 +1946,7 @@ export default defineComponent({
       this.selectedOption = option
       if (correct) {
         this.quizCorrectCount++
+        this.lastIncorrectExplanation = null
         if (this.quizCorrectCount >= this.quizRequiredCorrect) {
           this.chapterQuizPassed = true
           this.quizFeedback = 'Nicely done! The Next Chapter button is activated.'
@@ -1916,6 +1961,18 @@ export default defineComponent({
         }
       } else {
         this.quizFeedback = 'Not quite, try another option.'
+        const sectionIndex = question.sectionIndex ?? 0
+        const section = this.currentLesson?.sections?.[sectionIndex]
+        const sectionId = section ? `section-${this.selectedPill}-${sectionIndex}` : ''
+        const explanation = question.explanation || ''
+        if (explanation) {
+          this.lastIncorrectExplanation = {
+            text: explanation,
+            sectionId
+          }
+        } else {
+          this.lastIncorrectExplanation = null
+        }
       }
     }
   },
@@ -2399,6 +2456,10 @@ export default defineComponent({
 .share-action-btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 20px rgba(15, 23, 42, 0.15);
+}
+.quiz-hint {
+  background: #f8fafc;
+  border-color: rgba(15, 23, 42, 0.08);
 }
 .motivation-card {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));

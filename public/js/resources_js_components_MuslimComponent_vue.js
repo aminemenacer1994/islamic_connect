@@ -218,7 +218,8 @@ const celebrateFinalChapter = () => {
       copyAlertTimeout: null,
       ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
       ttsActiveSection: null,
-      currentUtterance: null
+      currentUtterance: null,
+      lastIncorrectExplanation: null
     };
   },
   computed: {
@@ -241,6 +242,21 @@ const celebrateFinalChapter = () => {
       var _this$currentLessonOv;
       return ((_this$currentLessonOv = this.currentLessonOverview) === null || _this$currentLessonOv === void 0 ? void 0 : _this$currentLessonOv.overview) || [];
     },
+    quizHintExplanation() {
+      var _this$lastIncorrectEx, _this$currentQuestion;
+      return ((_this$lastIncorrectEx = this.lastIncorrectExplanation) === null || _this$lastIncorrectEx === void 0 ? void 0 : _this$lastIncorrectEx.text) || ((_this$currentQuestion = this.currentQuestion) === null || _this$currentQuestion === void 0 ? void 0 : _this$currentQuestion.explanation) || '';
+    },
+    quizHintSectionId() {
+      var _this$lastIncorrectEx2, _question$sectionInde, _this$currentLesson3;
+      if ((_this$lastIncorrectEx2 = this.lastIncorrectExplanation) !== null && _this$lastIncorrectEx2 !== void 0 && _this$lastIncorrectEx2.sectionId) {
+        return this.lastIncorrectExplanation.sectionId;
+      }
+      const question = this.currentQuestion;
+      if (!question) return '';
+      const sectionIndex = (_question$sectionInde = question.sectionIndex) !== null && _question$sectionInde !== void 0 ? _question$sectionInde : 0;
+      const section = (_this$currentLesson3 = this.currentLesson) === null || _this$currentLesson3 === void 0 || (_this$currentLesson3 = _this$currentLesson3.sections) === null || _this$currentLesson3 === void 0 ? void 0 : _this$currentLesson3[sectionIndex];
+      return section ? `section-${this.selectedPill}-${sectionIndex}` : '';
+    },
     chapterCommonPanels() {
       const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill);
       return (chapter === null || chapter === void 0 ? void 0 : chapter.faqs) || [];
@@ -259,8 +275,8 @@ const celebrateFinalChapter = () => {
       return this.roadmapData.length;
     },
     learningObjectiveColumns() {
-      var _this$currentLesson3;
-      const objectives = ((_this$currentLesson3 = this.currentLesson) === null || _this$currentLesson3 === void 0 ? void 0 : _this$currentLesson3.learningObjectives) || [];
+      var _this$currentLesson4;
+      const objectives = ((_this$currentLesson4 = this.currentLesson) === null || _this$currentLesson4 === void 0 ? void 0 : _this$currentLesson4.learningObjectives) || [];
       const chunkSize = 3;
       const columns = [];
       for (let i = 0; i < objectives.length; i += chunkSize) {
@@ -296,8 +312,8 @@ const celebrateFinalChapter = () => {
       return this.homeworkMap[this.selectedPill] || [];
     },
     guidanceCards() {
-      var _this$currentLesson4, _template$cards, _lesson$sections, _lesson$keyInsights, _lesson$keyInsights2;
-      const chapterId = (_this$currentLesson4 = this.currentLesson) === null || _this$currentLesson4 === void 0 ? void 0 : _this$currentLesson4.chapterId;
+      var _this$currentLesson5, _template$cards, _lesson$sections, _lesson$keyInsights, _lesson$keyInsights2;
+      const chapterId = (_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.chapterId;
       const template = this.guidanceTemplates.find(entry => entry.chapterId === chapterId);
       if (template && (_template$cards = template.cards) !== null && _template$cards !== void 0 && _template$cards.length) return template.cards;
       const lesson = this.currentLesson;
@@ -325,8 +341,8 @@ const celebrateFinalChapter = () => {
       return cards;
     },
     toneGuidelines() {
-      var _this$currentLesson5, _entry$guidelines;
-      const chapterId = (_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.chapterId;
+      var _this$currentLesson6, _entry$guidelines;
+      const chapterId = (_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.chapterId;
       const entry = this.toneGuidelinesByChapter.find(item => item.chapterId === chapterId);
       if (entry !== null && entry !== void 0 && (_entry$guidelines = entry.guidelines) !== null && _entry$guidelines !== void 0 && _entry$guidelines.length) {
         return entry.guidelines;
@@ -334,26 +350,26 @@ const celebrateFinalChapter = () => {
       return ['Welcoming every background without assumptions', 'Encouraging progress, not perfection', 'Keeping language simple and non-technical', 'Avoiding judgment or cultural generalizations'];
     },
     currentToneFocusText() {
-      var _this$currentLesson6;
-      const chapterId = (_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.chapterId;
+      var _this$currentLesson7;
+      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
       const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.toneFocus) || '';
     },
     guidedPathwayCards() {
-      var _this$currentLesson7;
-      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
+      var _this$currentLesson8;
+      const chapterId = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
       const entry = this.guidedPathways.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.pathway) || this.guidanceCards;
     },
     currentGentleStartSteps() {
-      var _this$currentLesson8;
-      const chapterId = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
+      var _this$currentLesson9;
+      const chapterId = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
       const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.steps) || this.currentOnboardingSteps;
     },
     sectionStatsMap() {
-      var _this$currentLesson9;
-      const chapterId = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
+      var _this$currentLesson0;
+      const chapterId = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
       const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.sectionStats) || [];
     },
@@ -386,8 +402,8 @@ const celebrateFinalChapter = () => {
       return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`;
     },
     lessonDepartments() {
-      var _this$currentLesson0;
-      const sections = ((_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.sections) || [];
+      var _this$currentLesson1;
+      const sections = ((_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.sections) || [];
       if (!sections.length) return [];
       const icons = ['bi-gem', 'bi-heart', 'bi-lightbulb', 'bi-book', 'bi-graph-up'];
       return sections.slice(0, 3).map((section, index) => {
@@ -401,19 +417,19 @@ const celebrateFinalChapter = () => {
       });
     },
     currentDosDonts() {
-      var _this$currentLesson1;
-      const chapterId = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
+      var _this$currentLesson10;
+      const chapterId = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
       return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null;
     },
     lessonVideos() {
-      var _this$currentLesson10;
-      const chapterId = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
+      var _this$currentLesson11;
+      const chapterId = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
       const entry = this.chapterVideos.find(record => record.chapterId === chapterId);
       return ((entry === null || entry === void 0 ? void 0 : entry.videos) || []).slice(0, 4);
     },
     revertStories() {
-      var _this$currentLesson11;
-      const chapterId = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
+      var _this$currentLesson12;
+      const chapterId = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
       const entry = this.chapterVideos.find(record => record.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.videos) || [];
     },
@@ -550,8 +566,8 @@ const celebrateFinalChapter = () => {
       this.mobileNavOpen = false;
     },
     toggleFaq(index) {
-      var _this$currentLesson12;
-      const chapterKey = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
+      var _this$currentLesson13;
+      const chapterKey = (_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.chapterId;
       if (!chapterKey) return;
       const current = this.faqState[chapterKey];
       const next = current === index ? null : index;
@@ -560,8 +576,8 @@ const celebrateFinalChapter = () => {
       });
     },
     isFaqOpen(index) {
-      var _this$currentLesson13;
-      const chapterKey = (_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.chapterId;
+      var _this$currentLesson14;
+      const chapterKey = (_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.chapterId;
       return this.faqState[chapterKey] === index;
     },
     sectionStatsFor(title) {
@@ -679,12 +695,14 @@ const celebrateFinalChapter = () => {
       this.quizFeedback = '';
       this.quizCorrectCount = 0;
       this.chapterQuizPassed = false;
+      this.lastIncorrectExplanation = null;
     },
     advanceQuestion() {
       if (!this.quizQuestions.length) return;
       this.currentQuestionIndex = (this.currentQuestionIndex + 1) % this.quizQuestions.length;
       this.quizStatus = null;
       this.selectedOption = null;
+      this.lastIncorrectExplanation = null;
     },
     scrollToNextButton() {
       const nextBtn = document.querySelector('.next-btn');
@@ -972,13 +990,13 @@ const celebrateFinalChapter = () => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson14;
-      const message = `Duas to carry from ${((_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson15;
+      const message = `Duas to carry from ${((_this$currentLesson15 = this.currentLesson) === null || _this$currentLesson15 === void 0 ? void 0 : _this$currentLesson15.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson15;
-      const text = `Duas to carry from ${((_this$currentLesson15 = this.currentLesson) === null || _this$currentLesson15 === void 0 ? void 0 : _this$currentLesson15.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson16;
+      const text = `Duas to carry from ${((_this$currentLesson16 = this.currentLesson) === null || _this$currentLesson16 === void 0 ? void 0 : _this$currentLesson16.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -993,11 +1011,23 @@ const celebrateFinalChapter = () => {
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5);
     },
-    scrollToSection(index) {
+    scrollToSection(target) {
       this.$nextTick(() => {
+        if (typeof target === 'string') {
+          const el = document.getElementById(target);
+          if (el) {
+            el.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+            return;
+          }
+          this.scrollToTop();
+          return;
+        }
         const cards = document.querySelectorAll('.guidance-card .guidance-card-item');
-        if (cards[index]) {
-          cards[index].scrollIntoView({
+        if (cards[target]) {
+          cards[target].scrollIntoView({
             behavior: 'smooth',
             block: 'center'
           });
@@ -1014,6 +1044,7 @@ const celebrateFinalChapter = () => {
       this.selectedOption = option;
       if (correct) {
         this.quizCorrectCount++;
+        this.lastIncorrectExplanation = null;
         if (this.quizCorrectCount >= this.quizRequiredCorrect) {
           this.chapterQuizPassed = true;
           this.quizFeedback = 'Nicely done! The Next Chapter button is activated.';
@@ -1027,7 +1058,20 @@ const celebrateFinalChapter = () => {
           }, 700);
         }
       } else {
+        var _question$sectionInde2, _this$currentLesson17;
         this.quizFeedback = 'Not quite, try another option.';
+        const sectionIndex = (_question$sectionInde2 = question.sectionIndex) !== null && _question$sectionInde2 !== void 0 ? _question$sectionInde2 : 0;
+        const section = (_this$currentLesson17 = this.currentLesson) === null || _this$currentLesson17 === void 0 || (_this$currentLesson17 = _this$currentLesson17.sections) === null || _this$currentLesson17 === void 0 ? void 0 : _this$currentLesson17[sectionIndex];
+        const sectionId = section ? `section-${this.selectedPill}-${sectionIndex}` : '';
+        const explanation = question.explanation || '';
+        if (explanation) {
+          this.lastIncorrectExplanation = {
+            text: explanation,
+            sectionId
+          };
+        } else {
+          this.lastIncorrectExplanation = null;
+        }
       }
     }
   }
@@ -1223,480 +1267,502 @@ const _hoisted_54 = {
   key: 1,
   class: "overview-section-list"
 };
-const _hoisted_55 = {
+const _hoisted_55 = ["id"];
+const _hoisted_56 = {
   class: "d-flex align-items-start gap-3 mb-3"
 };
-const _hoisted_56 = {
+const _hoisted_57 = {
   class: "section-number fs-5"
 };
-const _hoisted_57 = {
+const _hoisted_58 = {
   class: "fw-semibold mb-0 fs-5"
 };
-const _hoisted_58 = {
+const _hoisted_59 = {
   class: "mt-3 small text-muted"
 };
-const _hoisted_59 = {
+const _hoisted_60 = {
   key: 0,
   class: "mb-1"
 };
-const _hoisted_60 = {
+const _hoisted_61 = {
   class: "text-dark"
 };
-const _hoisted_61 = {
+const _hoisted_62 = {
   key: 1,
   class: "mb-0"
 };
-const _hoisted_62 = ["href"];
-const _hoisted_63 = {
+const _hoisted_63 = ["href"];
+const _hoisted_64 = {
   key: 0,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_64 = {
+const _hoisted_65 = {
   class: "text-muted"
 };
-const _hoisted_65 = {
+const _hoisted_66 = {
   key: 2,
   class: "overview-section-list"
 };
-const _hoisted_66 = {
+const _hoisted_67 = ["id"];
+const _hoisted_68 = {
   class: "d-flex align-items-start gap-3 mb-3"
 };
-const _hoisted_67 = {
+const _hoisted_69 = {
   class: "section-number fs-5"
 };
-const _hoisted_68 = {
+const _hoisted_70 = {
   class: "fw-semibold mb-0 fs-5"
 };
-const _hoisted_69 = ["innerHTML"];
-const _hoisted_70 = {
+const _hoisted_71 = ["innerHTML"];
+const _hoisted_72 = {
   class: "mt-3 small text-muted"
 };
-const _hoisted_71 = {
+const _hoisted_73 = {
   key: 0,
   class: "mb-1"
 };
-const _hoisted_72 = {
+const _hoisted_74 = {
   class: "text-dark"
 };
-const _hoisted_73 = {
+const _hoisted_75 = {
   key: 1,
   class: "mb-0"
 };
-const _hoisted_74 = ["href"];
-const _hoisted_75 = {
+const _hoisted_76 = ["href"];
+const _hoisted_77 = {
   key: 0,
   class: "background mt-4 w-100 py-3 px-4 rounded-4 border"
 };
-const _hoisted_76 = {
+const _hoisted_78 = {
   class: "deep-dive-header d-flex align-items-center mb-2"
 };
-const _hoisted_77 = {
+const _hoisted_79 = {
   class: "fw-bold mb-0 text-dark fs-6"
 };
-const _hoisted_78 = ["innerHTML"];
-const _hoisted_79 = {
+const _hoisted_80 = ["innerHTML"];
+const _hoisted_81 = {
   key: 1,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_80 = {
+const _hoisted_82 = {
   class: "text-muted"
 };
-const _hoisted_81 = {
+const _hoisted_83 = {
   key: 2,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_82 = {
+const _hoisted_84 = {
   class: "card-body px-3 px-md-4"
 };
-const _hoisted_83 = {
+const _hoisted_85 = {
   class: "row g-3"
 };
-const _hoisted_84 = {
+const _hoisted_86 = {
   class: "video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden"
 };
-const _hoisted_85 = {
+const _hoisted_87 = {
   class: "ratio ratio-16x9"
 };
-const _hoisted_86 = ["src", "title"];
-const _hoisted_87 = {
+const _hoisted_88 = ["src", "title"];
+const _hoisted_89 = {
   class: "p-3"
 };
-const _hoisted_88 = {
+const _hoisted_90 = {
   class: "h6 fw-semibold mb-2"
 };
-const _hoisted_89 = {
+const _hoisted_91 = {
   key: 0,
   class: "text-muted small mb-0"
 };
-const _hoisted_90 = {
+const _hoisted_92 = {
   class: "d-flex justify-content-end mt-4"
 };
-const _hoisted_91 = {
+const _hoisted_93 = {
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 border-teal"
 };
-const _hoisted_92 = {
+const _hoisted_94 = {
   class: "card-body px-3 px-md-4 py-4"
 };
-const _hoisted_93 = {
+const _hoisted_95 = {
   class: "d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3"
 };
-const _hoisted_94 = {
+const _hoisted_96 = {
   class: "flex-grow-1"
 };
-const _hoisted_95 = {
+const _hoisted_97 = {
   key: 0,
   class: "text-success small mt-2 mb-0"
 };
-const _hoisted_96 = {
+const _hoisted_98 = {
   class: "d-flex flex-wrap gap-2"
 };
-const _hoisted_97 = {
+const _hoisted_99 = {
   class: "content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide"
 };
-const _hoisted_98 = {
+const _hoisted_100 = {
   class: "card-body px-3 px-md-4 py-4"
 };
-const _hoisted_99 = {
+const _hoisted_101 = {
   class: "d-flex flex-column gap-2"
 };
-const _hoisted_100 = {
+const _hoisted_102 = {
   class: "text-muted small mb-0"
 };
-const _hoisted_101 = {
+const _hoisted_103 = {
   class: "text-teal fs-6"
 };
-const _hoisted_102 = {
+const _hoisted_104 = {
   key: 3,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_103 = {
+const _hoisted_105 = {
   class: "card-body p-3"
 };
-const _hoisted_104 = {
+const _hoisted_106 = {
   class: "mb-3"
 };
-const _hoisted_105 = {
+const _hoisted_107 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_106 = {
+const _hoisted_108 = {
   class: "row g-3"
 };
-const _hoisted_107 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_108 = {
-  class: "p-3 rounded-3 border h-100"
-};
 const _hoisted_109 = {
-  class: "list-unstyled mb-0"
+  class: "col-12 col-md-6"
 };
 const _hoisted_110 = {
-  class: "text-dark medium mt-1"
-};
-const _hoisted_111 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_112 = {
   class: "p-3 rounded-3 border h-100"
 };
-const _hoisted_113 = {
+const _hoisted_111 = {
   class: "list-unstyled mb-0"
 };
-const _hoisted_114 = {
+const _hoisted_112 = {
   class: "text-dark medium mt-1"
 };
+const _hoisted_113 = {
+  class: "col-12 col-md-6"
+};
+const _hoisted_114 = {
+  class: "p-3 rounded-3 border h-100"
+};
 const _hoisted_115 = {
+  class: "list-unstyled mb-0"
+};
+const _hoisted_116 = {
+  class: "text-dark medium mt-1"
+};
+const _hoisted_117 = {
   key: 0,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_116 = {
+const _hoisted_118 = {
   class: "card-body p-3"
 };
-const _hoisted_117 = {
+const _hoisted_119 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_118 = {
+const _hoisted_120 = {
   class: "list-group insight-list fs-6 lh-base"
 };
-const _hoisted_119 = {
+const _hoisted_121 = {
   key: 1,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_120 = {
+const _hoisted_122 = {
   class: "card-header d-flex align-items-center py-3 gap-3"
 };
-const _hoisted_121 = {
+const _hoisted_123 = {
   class: "lesson-focus-actions ms-auto"
 };
-const _hoisted_122 = {
+const _hoisted_124 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_123 = {
+const _hoisted_125 = {
   class: "row g-3"
 };
-const _hoisted_124 = {
+const _hoisted_126 = {
   class: "dua-card h-100 rounded-4 p-4 shadow-lg"
 };
-const _hoisted_125 = {
+const _hoisted_127 = {
   key: 2,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_126 = {
+const _hoisted_128 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_127 = ["aria-expanded"];
-const _hoisted_128 = {
+const _hoisted_129 = ["aria-expanded"];
+const _hoisted_130 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_129 = {
+const _hoisted_131 = {
   class: "card-body p-3"
 };
-const _hoisted_130 = {
+const _hoisted_132 = {
   class: "accordion-stack"
 };
-const _hoisted_131 = ["onClick"];
-const _hoisted_132 = {
+const _hoisted_133 = ["onClick"];
+const _hoisted_134 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_133 = ["innerHTML"];
-const _hoisted_134 = {
+const _hoisted_135 = ["innerHTML"];
+const _hoisted_136 = {
   key: 3,
   id: "mission-card",
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 mission-card"
 };
-const _hoisted_135 = {
+const _hoisted_137 = {
   class: "card-body p-3"
 };
-const _hoisted_136 = {
+const _hoisted_138 = {
   class: "mb-2 text-muted small"
 };
-const _hoisted_137 = {
+const _hoisted_139 = {
   class: "fw-semibold"
 };
-const _hoisted_138 = {
+const _hoisted_140 = {
   class: "text-dark fs-6"
 };
-const _hoisted_139 = {
+const _hoisted_141 = {
   class: "d-flex flex-wrap gap-2 align-items-center mt-3"
 };
-const _hoisted_140 = {
+const _hoisted_142 = {
   class: "badge bg-success text-white rounded-pill"
 };
-const _hoisted_141 = {
+const _hoisted_143 = {
   key: 4,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_142 = {
+const _hoisted_144 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_143 = ["aria-expanded"];
-const _hoisted_144 = {
+const _hoisted_145 = ["aria-expanded"];
+const _hoisted_146 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_145 = {
+const _hoisted_147 = {
   class: "card-body p-3"
 };
-const _hoisted_146 = {
+const _hoisted_148 = {
   class: "accordion-stack"
 };
-const _hoisted_147 = ["onClick"];
-const _hoisted_148 = {
+const _hoisted_149 = ["onClick"];
+const _hoisted_150 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_149 = ["innerHTML"];
-const _hoisted_150 = {
+const _hoisted_151 = ["innerHTML"];
+const _hoisted_152 = {
   class: "content-card next-steps-card animated-slide-up rounded-4 mb-4",
   style: {
     "animation-delay": "0.4s"
   }
 };
-const _hoisted_151 = {
+const _hoisted_153 = {
   class: "card-body p-3"
 };
-const _hoisted_152 = {
+const _hoisted_154 = {
   class: "row g-3"
 };
-const _hoisted_153 = {
+const _hoisted_155 = {
   class: "col-12 col-md-12"
 };
-const _hoisted_154 = {
+const _hoisted_156 = {
   class: "homework-grid"
 };
-const _hoisted_155 = {
+const _hoisted_157 = {
   class: "d-flex align-items-center gap-2 mb-1"
 };
-const _hoisted_156 = {
+const _hoisted_158 = {
   class: "mb-0 text-dark"
 };
-const _hoisted_157 = {
+const _hoisted_159 = {
   key: 5,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper"
 };
-const _hoisted_158 = {
+const _hoisted_160 = {
   class: "quiz-shell p-0"
 };
-const _hoisted_159 = {
+const _hoisted_161 = {
   class: "quiz-body px-4 py-3"
 };
-const _hoisted_160 = {
+const _hoisted_162 = {
   class: "quiz-progress-wrapper mb-3"
 };
-const _hoisted_161 = {
+const _hoisted_163 = {
   class: "quiz-progress-track"
 };
-const _hoisted_162 = {
+const _hoisted_164 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_163 = {
+const _hoisted_165 = {
   class: "mb-0 small fw-semibold text-teal"
 };
-const _hoisted_164 = {
+const _hoisted_166 = {
   class: "fw-semibold text-dark mb-4 quiz-question"
 };
-const _hoisted_165 = {
+const _hoisted_167 = {
   class: "quiz-options-grid"
 };
-const _hoisted_166 = ["disabled", "onClick"];
-const _hoisted_167 = {
-  class: "icon-stack"
-};
-const _hoisted_168 = {
-  key: 0,
-  class: "bi bi-check-circle-fill text-white"
-};
+const _hoisted_168 = ["disabled", "onClick"];
 const _hoisted_169 = {
-  key: 1,
-  class: "bi bi-x-circle-fill text-white"
+  class: "icon-stack"
 };
 const _hoisted_170 = {
   key: 0,
-  class: "quiz-success-note mt-3"
+  class: "bi bi-check-circle-fill text-white"
 };
 const _hoisted_171 = {
-  class: "d-flex flex-column flex-md-row gap-2 align-items-start"
+  key: 1,
+  class: "bi bi-x-circle-fill text-white"
 };
 const _hoisted_172 = {
-  class: "mb-0 fw-semibold text-teal"
+  key: 0,
+  class: "quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white"
 };
 const _hoisted_173 = {
+  class: "mb-1"
+};
+const _hoisted_174 = {
+  class: "mb-1 text-muted"
+};
+const _hoisted_175 = {
+  key: 1,
+  class: "quiz-success-note mt-3"
+};
+const _hoisted_176 = {
+  class: "d-flex flex-column flex-md-row gap-2 align-items-start"
+};
+const _hoisted_177 = {
+  class: "mb-0 fw-semibold text-teal"
+};
+const _hoisted_178 = {
+  key: 0,
+  class: "quiz-hint mt-3 px-3 py-2 rounded-3 border bg-white"
+};
+const _hoisted_179 = {
+  class: "mb-1"
+};
+const _hoisted_180 = {
+  class: "mb-1 text-muted"
+};
+const _hoisted_181 = {
   key: 4,
   class: "content-card transition-card text-dark rounded-4 animated-fade-slide mb-4"
 };
-const _hoisted_174 = {
+const _hoisted_182 = {
   class: "d-flex align-items-center justify-content-between flex-wrap"
 };
-const _hoisted_175 = {
+const _hoisted_183 = {
   class: "fw-semibold mb-0"
 };
-const _hoisted_176 = {
+const _hoisted_184 = {
   class: "mb-1 text-teal small"
 };
-const _hoisted_177 = {
+const _hoisted_185 = {
   class: "text-end"
 };
-const _hoisted_178 = {
+const _hoisted_186 = {
   class: "badge bg-light text-dark rounded-pill px-3 py-2"
 };
-const _hoisted_179 = {
+const _hoisted_187 = {
   class: "text-muted mt-3 mb-0"
 };
-const _hoisted_180 = {
+const _hoisted_188 = {
   class: "actions-card animated-fade-in"
 };
-const _hoisted_181 = {
+const _hoisted_189 = {
   class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
 };
-const _hoisted_182 = ["disabled"];
-const _hoisted_183 = {
+const _hoisted_190 = ["disabled"];
+const _hoisted_191 = {
   class: "d-flex flex-column flex-md-row align-items-center gap-2"
 };
-const _hoisted_184 = {
+const _hoisted_192 = {
   class: "text-muted small me-md-auto"
 };
-const _hoisted_185 = {
+const _hoisted_193 = {
   key: 0,
   class: "text-teal small fw-semibold"
 };
-const _hoisted_186 = ["disabled"];
-const _hoisted_187 = {
+const _hoisted_194 = ["disabled"];
+const _hoisted_195 = {
   key: 0
 };
-const _hoisted_188 = {
+const _hoisted_196 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_189 = {
+const _hoisted_197 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_190 = {
+const _hoisted_198 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_191 = {
+const _hoisted_199 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_192 = {
+const _hoisted_200 = {
   class: "modal-title fw-bold"
 };
-const _hoisted_193 = {
+const _hoisted_201 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_194 = {
+const _hoisted_202 = {
   key: 0,
   class: "text-success small"
 };
-const _hoisted_195 = {
+const _hoisted_203 = {
   class: "d-flex gap-2"
 };
-const _hoisted_196 = {
+const _hoisted_204 = {
   key: 1
 };
-const _hoisted_197 = {
+const _hoisted_205 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_198 = {
+const _hoisted_206 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_199 = {
+const _hoisted_207 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_200 = {
+const _hoisted_208 = {
   class: "modal-body px-4 py-3"
 };
-const _hoisted_201 = {
+const _hoisted_209 = {
   class: "row g-3"
 };
-const _hoisted_202 = {
+const _hoisted_210 = {
   class: "video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden"
 };
-const _hoisted_203 = {
+const _hoisted_211 = {
   class: "ratio ratio-16x9"
 };
-const _hoisted_204 = ["src", "title"];
-const _hoisted_205 = {
+const _hoisted_212 = ["src", "title"];
+const _hoisted_213 = {
   class: "p-3"
 };
-const _hoisted_206 = {
+const _hoisted_214 = {
   class: "h6 fw-semibold mb-2"
 };
-const _hoisted_207 = {
+const _hoisted_215 = {
   key: 0,
   class: "text-muted small mb-0"
 };
-const _hoisted_208 = {
+const _hoisted_216 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_209 = {
+const _hoisted_217 = {
   class: "d-flex gap-2 ms-auto"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$currentLesson, _ctx$currentLesson2, _ctx$currentLesson3, _ctx$currentLesson4, _ctx$currentLessonOve, _ctx$overviewSections, _ctx$currentLesson5, _ctx$currentLesson6, _ctx$currentChapterKe, _ctx$currentLesson7, _ctx$activeResource;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "page-sheen"
-  }, null, -1 /* CACHED */)), _cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
@@ -1705,9 +1771,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.mobileNavOpen ? 'bi-x-lg' : 'bi-list'])
   }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Alert "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [_ctx.showSuccessAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_ctx.showSuccessAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill me-2"
-  }, null, -1 /* CACHED */)), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Congratulations!", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.successMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, null, -1 /* CACHED */)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Congratulations!", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.successMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [_ctx.showCopyAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['alert', _ctx.alertClass, 'alert-outline', 'alert-copy-notification']),
@@ -1724,7 +1790,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-md-4 col-lg-3", {
       'mobile-open': _ctx.mobileNavOpen
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-bold small"
   }, "Course Progress", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.completedChapters) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.totalChapters), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-bar",
@@ -1742,11 +1808,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.selectPill(step.id),
       "data-locked": step.id > _ctx.maxStepReached
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [step.id < _ctx.maxStepReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_16)) : step.id === _ctx.maxStepReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])]), step.id === _ctx.selectedPill ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_21)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_22))], 10 /* CLASS, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "lesson-hero-gradient"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journey me-2 text-white fs-4"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"lesson-meta d-flex gap-3\">\n                <span class=\"badge badge-pill bg-light text-dark fw-semibold\">\n                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}\n                </span>\n              </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Stats "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row g-3 mb-4 hero-stats-row\">\n            <div v-for=\"stat in lessonHeroStats\" :key=\"stat.label\" class=\"col-12 col-sm-4\">\n              <article class=\"hero-stat-card d-flex flex-column\">\n                <span class=\"stat-label\">{{ stat.label }}</span>\n                <strong class=\"stat-value\">{{ stat.value }}</strong>\n                <span class=\"stat-helper text-muted small\">Premium insights</span>\n              </article>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guidance Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"guidanceCards.length\"\n            class=\"content-card section-card guidance-card animated-fade-slide mb-4 rounded-4\">\n            <div class=\"card-header d-flex align-items-center py-3\">\n              <i class=\"bi bi-compass-fill fs-4 me-3 text-teal\"></i>\n              <div>\n                <h2 class=\"fw-bold mb-0 fs-5\">Learning Guidance</h2>\n              </div>\n            </div>\n            <div class=\"card-body px-3 px-md-4\">\n              <div class=\"guidance-grid\">\n                <article v-for=\"(card, index) in guidanceCards\" :key=\"card.title\" class=\"guidance-card-item\">\n                  <div class=\"guidance-card-top\">\n                    <div class=\"d-flex align-items-center gap-2\">\n                      <span class=\"guidance-step\">{{ card.step }}</span>\n                      <p class=\"mb-0 text-muted small\">{{ index === 0 ? 'Start here' : index === 1 ? 'Deepen & personalize' : 'Finish strong' }}</p>\n                    </div>\n                    <h3 class=\"mt-2 fw-semibold\">{{ card.title }}</h3>\n                    <p class=\"mt-3 text-muted small\">{{ card.description }}</p>\n                  </div>\n                  <div class=\"guidance-line\">\n                    <span></span>\n                  </div>\n                  <div class=\"d-flex align-items-center gap-2 text-dark small fw-medium\">\n                    <i class=\"bi bi-arrow-right-circle-fill text-teal fs-5\"></i>\n                    <span>{{ card.action }}</span>\n                  </div>\n                </article>\n              </div>\n            </div>\n          </div> "), _ctx.guidedPathwayCards.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"lesson-meta d-flex gap-3\">\n                <span class=\"badge badge-pill bg-light text-dark fw-semibold\">\n                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}\n                </span>\n              </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Stats "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"row g-3 mb-4 hero-stats-row\">\n            <div v-for=\"stat in lessonHeroStats\" :key=\"stat.label\" class=\"col-12 col-sm-4\">\n              <article class=\"hero-stat-card d-flex flex-column\">\n                <span class=\"stat-label\">{{ stat.label }}</span>\n                <strong class=\"stat-value\">{{ stat.value }}</strong>\n                <span class=\"stat-helper text-muted small\">Premium insights</span>\n              </article>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guidance Row "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"guidanceCards.length\"\n            class=\"content-card section-card guidance-card animated-fade-slide mb-4 rounded-4\">\n            <div class=\"card-header d-flex align-items-center py-3\">\n              <i class=\"bi bi-compass-fill fs-4 me-3 text-teal\"></i>\n              <div>\n                <h2 class=\"fw-bold mb-0 fs-5\">Learning Guidance</h2>\n              </div>\n            </div>\n            <div class=\"card-body px-3 px-md-4\">\n              <div class=\"guidance-grid\">\n                <article v-for=\"(card, index) in guidanceCards\" :key=\"card.title\" class=\"guidance-card-item\">\n                  <div class=\"guidance-card-top\">\n                    <div class=\"d-flex align-items-center gap-2\">\n                      <span class=\"guidance-step\">{{ card.step }}</span>\n                      <p class=\"mb-0 text-muted small\">{{ index === 0 ? 'Start here' : index === 1 ? 'Deepen & personalize' : 'Finish strong' }}</p>\n                    </div>\n                    <h3 class=\"mt-2 fw-semibold\">{{ card.title }}</h3>\n                    <p class=\"mt-3 text-muted small\">{{ card.description }}</p>\n                  </div>\n                  <div class=\"guidance-line\">\n                    <span></span>\n                  </div>\n                  <div class=\"d-flex align-items-center gap-2 text-dark small fw-medium\">\n                    <i class=\"bi bi-arrow-right-circle-fill text-teal fs-5\"></i>\n                    <span>{{ card.action }}</span>\n                  </div>\n                </article>\n              </div>\n            </div>\n          </div> "), _ctx.guidedPathwayCards.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center justify-content-between flex-wrap gap-3 p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-teal small mb-1 fw-semibold"
@@ -1759,7 +1825,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: card.step,
       class: "guided-bullet"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"guided-step\">{{ card.step }}</span> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.action), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center gap-3 py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-sunrise-fill fs-4 text-teal"
@@ -1771,24 +1837,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: tone,
       class: "mb-2"
-    }, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle text-teal me-2"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tone), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Onboarding Block "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Onboarding Block "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 text-muted small text-uppercase"
-  }, "Gentle start", -1 /* CACHED */)), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, "Gentle start", -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-semibold mb-2"
-  }, "Simple welcome for new friends", -1 /* CACHED */)), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Simple welcome for new friends", -1 /* CACHED */)), _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-3"
   }, " Take it slow these three ideas hold the key to remembering today’s lesson. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentGentleStartSteps, step => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: step.title
-    }, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "onboarding-bullet-icon"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "d-block mb-1"
-  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"focusHighlights.length\" class=\"row focus-highlight-row mb-4 g-3\">\n            <div v-for=\"highlight in focusHighlights\" :key=\"highlight.label\" class=\"col-12 col-md-4\">\n              <article class=\"focus-pill-card p-3 rounded-4 shadow-sm h-100\">\n                <div class=\"d-flex align-items-center justify-content-between mb-1\">\n                  <span class=\"focus-pill-label text-muted small\">{{ highlight.label }}</span>\n                  <i class=\"bi bi-star text-teal\"></i>\n                </div>\n                <h5 class=\"fw-bold mb-1\">{{ highlight.value }}</h5>\n                <p class=\"mb-0 text-muted small\">{{ highlight.detail }}</p>\n              </article>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Learning objectives "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"learningObjectiveColumns.length\"\n            class=\"content-card section-card animated-fade-slide mb-4 rounded-4\">\n            <div class=\"card-header d-flex align-items-center py-3\">              \n              <i class=\"bi bi-database-fill-check fs-4 me-3 text-teal\"></i>\n              <h2 class=\"fw-bold mb-0 fs-5\">Learning Objectives</h2>\n            </div>\n\n            <div class=\"card-body card-teal px-3 px-md-4\">\n              <div class=\"learning-objectives-grid\">\n                <div v-for=\"(column, columnIndex) in learningObjectiveColumns\" :key=\"columnIndex\"\n                  class=\"objective-column\">\n                  <ul class=\"list-group insight-list fs-6 lh-base column-list m-0\">\n                    <li v-for=\"objective in column\" :key=\"objective\"\n                      class=\"list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3\">\n                      <i class=\"fas fa-check-circle fs-5 mt-1 text-teal\"></i>\n                      <span>{{ objective }}</span>\n                    </li>\n                  </ul>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"focusHighlights.length\" class=\"row focus-highlight-row mb-4 g-3\">\n            <div v-for=\"highlight in focusHighlights\" :key=\"highlight.label\" class=\"col-12 col-md-4\">\n              <article class=\"focus-pill-card p-3 rounded-4 shadow-sm h-100\">\n                <div class=\"d-flex align-items-center justify-content-between mb-1\">\n                  <span class=\"focus-pill-label text-muted small\">{{ highlight.label }}</span>\n                  <i class=\"bi bi-star text-teal\"></i>\n                </div>\n                <h5 class=\"fw-bold mb-1\">{{ highlight.value }}</h5>\n                <p class=\"mb-0 text-muted small\">{{ highlight.detail }}</p>\n              </article>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Learning objectives "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"learningObjectiveColumns.length\"\n            class=\"content-card section-card animated-fade-slide mb-4 rounded-4\">\n            <div class=\"card-header d-flex align-items-center py-3\">              \n              <i class=\"bi bi-database-fill-check fs-4 me-3 text-teal\"></i>\n              <h2 class=\"fw-bold mb-0 fs-5\">Learning Objectives</h2>\n            </div>\n\n            <div class=\"card-body card-teal px-3 px-md-4\">\n              <div class=\"learning-objectives-grid\">\n                <div v-for=\"(column, columnIndex) in learningObjectiveColumns\" :key=\"columnIndex\"\n                  class=\"objective-column\">\n                  <ul class=\"list-group insight-list fs-6 lh-base column-list m-0\">\n                    <li v-for=\"objective in column\" :key=\"objective\"\n                      class=\"list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3\">\n                      <i class=\"fas fa-check-circle fs-5 mt-1 text-teal\"></i>\n                      <span>{{ objective }}</span>\n                    </li>\n                  </ul>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-seam-fill fs-4 text-teal"
@@ -1799,21 +1865,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "button",
     tabindex: "0",
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.shareLessonOverview && _ctx.shareLessonOverview(...args))
-  }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[2] || (_cache[2] = (...args) => _ctx.copyLessonOverview && _ctx.copyLessonOverview(...args))
-  }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[3] || (_cache[3] = (...args) => _ctx.printLessonOverview && _ctx.printLessonOverview(...args))
-  }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
@@ -1830,66 +1896,68 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     var _ctx$sectionStatsFor;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.heading,
+      id: `section-${_ctx.selectedPill}-${index}`,
       class: "section-block mb-5"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "section-content text-dark fs-6 lh-lg",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.overviewFontScale}rem`
       })
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.content), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_59, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.content), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_60, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
-    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_61, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_62, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
     }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: section.resources,
       target: "_blank",
       rel: "noreferrer",
       class: "text-teal"
-    }, "View source", 8 /* PROPS */, _hoisted_62)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (_ctx$sectionStatsFor = _ctx.sectionStatsFor(section.heading)) !== null && _ctx$sectionStatsFor !== void 0 && _ctx$sectionStatsFor.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
+    }, "View source", 8 /* PROPS */, _hoisted_63)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (_ctx$sectionStatsFor = _ctx.sectionStatsFor(section.heading)) !== null && _ctx$sectionStatsFor !== void 0 && _ctx$sectionStatsFor.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: stat.label,
         class: "section-stat-card"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "pt-3 mt-3"
-    }, null, -1 /* CACHED */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (_ctx$currentLesson5 = _ctx.currentLesson) !== null && _ctx$currentLesson5 !== void 0 && (_ctx$currentLesson5 = _ctx$currentLesson5.sections) !== null && _ctx$currentLesson5 !== void 0 && _ctx$currentLesson5.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)((_ctx$currentLesson6 = _ctx.currentLesson) === null || _ctx$currentLesson6 === void 0 ? void 0 : _ctx$currentLesson6.sections, (section, index) => {
+    }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_55);
+  }), 128 /* KEYED_FRAGMENT */))])) : (_ctx$currentLesson5 = _ctx.currentLesson) !== null && _ctx$currentLesson5 !== void 0 && (_ctx$currentLesson5 = _ctx$currentLesson5.sections) !== null && _ctx$currentLesson5 !== void 0 && _ctx$currentLesson5.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)((_ctx$currentLesson6 = _ctx.currentLesson) === null || _ctx$currentLesson6 === void 0 ? void 0 : _ctx$currentLesson6.sections, (section, index) => {
     var _ctx$sectionStatsFor2;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.title,
+      id: `section-${_ctx.selectedPill}-${index}`,
       class: "section-block mb-5"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_68, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "section-content text-dark fs-6 lh-lg",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.overviewFontScale}rem`
       }),
       innerHTML: section.content
-    }, null, 12 /* STYLE, PROPS */, _hoisted_69), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_71, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_71), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_73, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
-    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_73, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_74, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_75, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
     }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: section.resources,
       target: "_blank",
       rel: "noreferrer",
       class: "text-teal"
-    }, "View source", 8 /* PROPS */, _hoisted_74)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_75, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "View source", 8 /* PROPS */, _hoisted_76)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-lightbulb-fill me-2 fs-4 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "deep-dive-content text-dark fs-6",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.overviewFontScale * 0.95}rem`
       }),
       innerHTML: section.deepDive.content
-    }, null, 12 /* STYLE, PROPS */, _hoisted_78)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_ctx$sectionStatsFor2 = _ctx.sectionStatsFor(section.title)) !== null && _ctx$sectionStatsFor2 !== void 0 && _ctx$sectionStatsFor2.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_79, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_80)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (_ctx$sectionStatsFor2 = _ctx.sectionStatsFor(section.title)) !== null && _ctx$sectionStatsFor2 !== void 0 && _ctx$sectionStatsFor2.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: stat.label,
         class: "section-stat-card"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "pt-3 mt-3"
-    }, null, -1 /* CACHED */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert Stories "), _ctx.revertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_81, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_67);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert Stories "), _ctx.revertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_83, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-collection-play fs-4 me-3 text-teal"
@@ -1897,117 +1965,117 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Revert stories"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, "Eight personal clips from men and women keeping it straight to the point.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_82, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
+  }, "Eight personal clips from men and women keeping it straight to the point.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-3"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
       src: _ctx.formatVideoUrl(video.url),
       title: video.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_86)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_88, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_88)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_90, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_91, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-see-more",
     onClick: _cache[4] || (_cache[4] = $event => _ctx.showVideoModal = true)
-  }, [...(_cache[43] || (_cache[43] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right"
-  }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chapter Videos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"lessonVideos.length\" class=\"content-card section-card animated-fade-slide mb-4 rounded-4\">\n              <div class=\"card-header d-flex align-items-center py-3\">\n                <i class=\"bi bi-collection-play fs-4 me-3 text-teal\"></i>\n                <div>\n                  <h2 class=\"fw-bold mb-0 fs-5\">Lesson Videos</h2>\n                  <p class=\"text-muted mb-0 small\">Four curated clips to reinforce the chapter.</p>\n                </div>\n              </div>\n              <div class=\"card-body px-3 px-md-4\">\n                <div class=\"row g-3\">\n                  <div v-for=\"video in lessonVideos\" :key=\"video.title\" class=\"col-12 col-md-3\">\n                    <article class=\"video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden\">\n                      <div class=\"ratio ratio-16x9\">\n                        <iframe\n                          :src=\"formatVideoUrl(video.url)\"\n                          :title=\"video.title\"\n                          frameborder=\"0\"\n                          allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"\n                          allowfullscreen\n                          loading=\"lazy\">\n                        </iframe>\n                      </div>\n                      <div class=\"p-3\">\n                        <h3 class=\"h6 fw-semibold mb-2\">{{ video.title }}</h3>\n                        <p v-if=\"video.description\" class=\"text-muted small mb-0\">{{ video.description }}</p>\n                      </div>\n                    </article>\n                  </div>\n                </div>\n              </div>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chapter Videos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"lessonVideos.length\" class=\"content-card section-card animated-fade-slide mb-4 rounded-4\">\n              <div class=\"card-header d-flex align-items-center py-3\">\n                <i class=\"bi bi-collection-play fs-4 me-3 text-teal\"></i>\n                <div>\n                  <h2 class=\"fw-bold mb-0 fs-5\">Lesson Videos</h2>\n                  <p class=\"text-muted mb-0 small\">Four curated clips to reinforce the chapter.</p>\n                </div>\n              </div>\n              <div class=\"card-body px-3 px-md-4\">\n                <div class=\"row g-3\">\n                  <div v-for=\"video in lessonVideos\" :key=\"video.title\" class=\"col-12 col-md-3\">\n                    <article class=\"video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden\">\n                      <div class=\"ratio ratio-16x9\">\n                        <iframe\n                          :src=\"formatVideoUrl(video.url)\"\n                          :title=\"video.title\"\n                          frameborder=\"0\"\n                          allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\"\n                          allowfullscreen\n                          loading=\"lazy\">\n                        </iframe>\n                      </div>\n                      <div class=\"p-3\">\n                        <h3 class=\"h6 fw-semibold mb-2\">{{ video.title }}</h3>\n                        <p v-if=\"video.description\" class=\"text-muted small mb-0\">{{ video.description }}</p>\n                      </div>\n                    </article>\n                  </div>\n                </div>\n              </div>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-1"
-  }, "Share with a friend or family member", -1 /* CACHED */)), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Share with a friend or family member", -1 /* CACHED */)), _cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, " Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. ", -1 /* CACHED */)), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. ", -1 /* CACHED */)), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal fw-semibold",
     onClick: _cache[5] || (_cache[5] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard mr-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal fw-semibold",
     onClick: _cache[6] || (_cache[6] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp mr-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-semibold"
-  }, "Motivational spark", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"lessonDepartments.length\" class=\"content-card lesson-focus-card animated-fade-slide mb-4 rounded-4\">\n              <div class=\"card-header d-flex align-items-center py-3\">\n                <i class=\"bi bi-bar-chart-line-fill fs-4 me-3 text-teal\"></i>\n                <div>\n                  <h3 class=\"fw-bold mb-0 fs-5\">Lesson Focus Across Departments</h3>\n                  <p class=\"text-muted mb-0 small\">How this chapter aligns with every pillar of the experience</p>\n                </div>\n              </div>\n              <div class=\"card-body px-3 px-md-4\">\n                <div class=\"row g-3\">\n                  <div v-for=\"dept in lessonDepartments\" :key=\"dept.name\" class=\"col-12 col-md-4\">\n                    <article class=\"dept-card h-100 p-3 rounded-3\">\n                      <div class=\"d-flex align-items-center gap-2 mb-2\">\n                        <span class=\"dept-icon\">\n                          <i :class=\"dept.icon\"></i>\n                        </span>\n                        <strong class=\"fs-6 mb-0\">{{ dept.name }}</strong>\n                      </div>\n                      <p class=\"text-muted small mb-1\">{{ dept.summary }}</p>\n                      <p class=\"text-dark fw-semibold mb-0\">{{ dept.detail }}</p>\n                    </article>\n                  </div>\n                </div>\n              </div>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_102, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Motivational spark", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_102, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_103, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"lessonDepartments.length\" class=\"content-card lesson-focus-card animated-fade-slide mb-4 rounded-4\">\n              <div class=\"card-header d-flex align-items-center py-3\">\n                <i class=\"bi bi-bar-chart-line-fill fs-4 me-3 text-teal\"></i>\n                <div>\n                  <h3 class=\"fw-bold mb-0 fs-5\">Lesson Focus Across Departments</h3>\n                  <p class=\"text-muted mb-0 small\">How this chapter aligns with every pillar of the experience</p>\n                </div>\n              </div>\n              <div class=\"card-body px-3 px-md-4\">\n                <div class=\"row g-3\">\n                  <div v-for=\"dept in lessonDepartments\" :key=\"dept.name\" class=\"col-12 col-md-4\">\n                    <article class=\"dept-card h-100 p-3 rounded-3\">\n                      <div class=\"d-flex align-items-center gap-2 mb-2\">\n                        <span class=\"dept-icon\">\n                          <i :class=\"dept.icon\"></i>\n                        </span>\n                        <strong class=\"fs-6 mb-0\">{{ dept.name }}</strong>\n                      </div>\n                      <p class=\"text-muted small mb-1\">{{ dept.summary }}</p>\n                      <p class=\"text-dark fw-semibold mb-0\">{{ dept.detail }}</p>\n                    </article>\n                  </div>\n                </div>\n              </div>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_104, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_105, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_108, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_107, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_110, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-teal mb-3"
-  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_109, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: item.id,
-      class: "d-flex align-items-start gap-2 mb-2"
-    }, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-check-circle-fill fs-5 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_110, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_112, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    class: "h6 fw-semibold text-danger mb-3"
-  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_113, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_111, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
     }, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-check-circle-fill fs-5 text-teal"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_114, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    class: "h6 fw-semibold text-danger mb-3"
+  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_115, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+      key: item.id,
+      class: "d-flex align-items-start gap-2 mb-2"
+    }, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill fs-5 text-danger"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_115, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_117, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-chart-line fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Key Insights")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_117, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson7 = _ctx.currentLesson) === null || _ctx$currentLesson7 === void 0 ? void 0 : _ctx$currentLesson7.title) || 'Chapter'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_118, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
+  }, "Key Insights")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_119, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson7 = _ctx.currentLesson) === null || _ctx$currentLesson7 === void 0 ? void 0 : _ctx$currentLesson7.title) || 'Chapter'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_120, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: insight,
       class: "list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3"
-    }, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check-circle fs-5 text-teal"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bookmark-star-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5 flex-grow-1"
-  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[7] || (_cache[7] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[56] || (_cache[56] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[8] || (_cache[8] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[9] || (_cache[9] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dua.arabic,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_124, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_126, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "dua-glow"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
@@ -2021,7 +2089,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fontSize: `${_ctx.duaFontScale}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_126, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-square-fill fs-4 text-teal"
@@ -2032,9 +2100,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[10] || (_cache[10] = $event => _ctx.toggleSection('commonQuestions')),
     "aria-expanded": !_ctx.collapsedSections.commonQuestions
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_128, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.commonQuestions ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_127)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterCommonPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_129)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterCommonPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -2046,19 +2114,19 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('common', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_131), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_133), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_133)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"premiumResources.length\"\n              class=\"content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card\">\n              <div class=\"card-header d-flex align-items-center justify-content-between py-3 gap-3\">\n                <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                  <i class=\"bi bi-info-circle-fill fs-4 text-teal\"></i>\n                  <h1 class=\"fw-bold mb-0 fs-5\">Resources</h1>\n                </div>\n                <button type=\"button\"\n                  class=\"section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1\"\n                  @click=\"toggleSection('resources')\"\n                  :aria-expanded=\"!collapsedSections.resources\">\n                  <span class=\"d-none d-sm-inline\">{{ collapsedSections.resources ? 'Show' : 'Hide' }}</span>\n                  <i class=\"bi\" :class=\"collapsedSections.resources ? 'bi-chevron-down' : 'bi-chevron-up'\"></i>\n                </button>\n              </div>\n\n              <div v-show=\"!collapsedSections.resources\" class=\"card-body p-3 \">\n                <div v-if=\"premiumResources.length\" class=\"row row-cols-1 row-cols-md-2 g-3 mb-4\">\n                  <div class=\"col\" v-for=\"card in premiumResources\" :key=\"card.title\">\n                    <article class=\"premium-card h-100 d-flex flex-column\">\n                      <div>\n                        <h3 class=\"h6 fw-semibold mb-2\">{{ card.title }}</h3>\n                        <p class=\"small text-muted mb-3\">{{ card.desc }}</p>\n                      </div>\n                      <button type=\"button\"\n                        class=\"mt-auto resource-link d-flex align-items-center justify-content-center gap-2\"\n                        @click=\"openResource(card)\">\n                        <span>Explore the resource</span>\n                        <i class=\"bi bi-arrow-up-right\"></i>\n                      </button>\n                    </article>\n                  </div>\n                </div>\n              </div>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_134, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_135)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"premiumResources.length\"\n              class=\"content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card\">\n              <div class=\"card-header d-flex align-items-center justify-content-between py-3 gap-3\">\n                <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                  <i class=\"bi bi-info-circle-fill fs-4 text-teal\"></i>\n                  <h1 class=\"fw-bold mb-0 fs-5\">Resources</h1>\n                </div>\n                <button type=\"button\"\n                  class=\"section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1\"\n                  @click=\"toggleSection('resources')\"\n                  :aria-expanded=\"!collapsedSections.resources\">\n                  <span class=\"d-none d-sm-inline\">{{ collapsedSections.resources ? 'Show' : 'Hide' }}</span>\n                  <i class=\"bi\" :class=\"collapsedSections.resources ? 'bi-chevron-down' : 'bi-chevron-up'\"></i>\n                </button>\n              </div>\n\n              <div v-show=\"!collapsedSections.resources\" class=\"card-body p-3 \">\n                <div v-if=\"premiumResources.length\" class=\"row row-cols-1 row-cols-md-2 g-3 mb-4\">\n                  <div class=\"col\" v-for=\"card in premiumResources\" :key=\"card.title\">\n                    <article class=\"premium-card h-100 d-flex flex-column\">\n                      <div>\n                        <h3 class=\"h6 fw-semibold mb-2\">{{ card.title }}</h3>\n                        <p class=\"small text-muted mb-3\">{{ card.desc }}</p>\n                      </div>\n                      <button type=\"button\"\n                        class=\"mt-auto resource-link d-flex align-items-center justify-content-center gap-2\"\n                        @click=\"openResource(card)\">\n                        <span>Explore the resource</span>\n                        <i class=\"bi bi-arrow-up-right\"></i>\n                      </button>\n                    </article>\n                  </div>\n                </div>\n              </div>\n            </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_136, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-flag-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_136, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_137, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_138, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_138, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_139, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_142, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-success btn-sm fw-semibold",
     onClick: _cache[11] || (_cache[11] = (...args) => _ctx.focusMission && _ctx.focusMission(...args))
-  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_143, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4 text-teal"
@@ -2069,9 +2137,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[12] || (_cache[12] = $event => _ctx.toggleSection('faqs')),
     "aria-expanded": !_ctx.collapsedSections.faqs
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_144, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.faqs ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_143)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_146, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterFaqPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_145)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.chapterFaqPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -2083,21 +2151,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('faq', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('faq', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_147), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_149), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_149)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_151)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard-check-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Next Steps & Homework")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentHomework, (task, index) => {
+  }, "Next Steps & Homework")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentHomework, (task, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: task,
       class: "homework-task p-3 mb-2"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_158, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_159, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
@@ -2105,14 +2173,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-dice-4-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Chapter Quiz")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge text-dark bg-light rounded-pill px-3 py-2\">\n                    Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}\n                  </span> ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Chapter Quiz")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge text-dark bg-light rounded-pill px-3 py-2\">\n                    Question {{ currentQuestionIndex + 1 }} / {{ quizQuestions.length }}\n                  </span> ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_163, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_164, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_165, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_166, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
@@ -2123,74 +2191,84 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       disabled: _ctx.chapterQuizPassed,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_168)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_169)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_166);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_170, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_170)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_171)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_168);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_172, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_173, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Right answer:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_174, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */), _ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "btn btn-sm btn-link p-0",
+    onClick: _cache[13] || (_cache[13] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_175, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_172, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_177, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
-    onClick: _cache[13] || (_cache[13] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    onClick: _cache[14] || (_cache[14] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.quizStatus === 'incorrect' && _ctx.lastIncorrectExplanation && _ctx.lastIncorrectExplanation.text ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_179, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Right answer:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_180, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lastIncorrectExplanation.text), 1 /* TEXT */), _ctx.lastIncorrectExplanation && _ctx.lastIncorrectExplanation.sectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "btn btn-sm btn-link p-0",
+    onClick: _cache[15] || (_cache[15] = $event => _ctx.scrollToSection(_ctx.lastIncorrectExplanation.sectionId))
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_181, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1"
-  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_175, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_176, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_178, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_183, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_184, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_185, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_186, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "transition-line mt-2"
-  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_179, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_187, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_189, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
     disabled: _ctx.selectedPill <= 1,
-    onClick: _cache[14] || (_cache[14] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
-  }, [...(_cache[72] || (_cache[72] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[16] || (_cache[16] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
+  }, [...(_cache[76] || (_cache[76] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_182), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_184, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_185, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_190), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_192, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_193, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !_ctx.isWaitingForNext,
       'disabled': _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
     }]),
     disabled: _ctx.isWaitingForNext || !_ctx.chapterQuizPassed,
-    onClick: _cache[15] || (_cache[15] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[17] || (_cache[17] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_186)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_187, [_cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_194)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_195, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_189, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_190, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_192, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_200, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_193, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_194, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_195, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_202, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_203, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
-    onClick: _cache[16] || (_cache[16] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
-  }, [...(_cache[74] || (_cache[74] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[18] || (_cache[18] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
+  }, [...(_cache[78] || (_cache[78] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-link-45deg"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy Link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
-    onClick: _cache[17] || (_cache[17] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_196, [_cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[19] || (_cache[19] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_204, [_cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [_cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header border-0 pt-4 px-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
-  }, "All Revert Stories")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStories, video => {
+  }, "All Revert Stories")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStories, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-6"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_203, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_210, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
       src: _ctx.formatVideoUrl(video.url),
       title: video.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_204)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_206, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_207, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_212)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_213, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_214, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_215, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_217, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
-    onClick: _cache[18] || (_cache[18] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
+    onClick: _cache[20] || (_cache[20] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
   }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
@@ -2457,7 +2535,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"title":"Islamic Resource Library","
   \**************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"One God","questions":[{"question":"Which declaration is the Shahada?","options":["La ilaha illa Allah","Allahu Akbar","SubhanAllah","Alhamdulillah"],"answer":"La ilaha illa Allah"},{"question":"Which pillar of Tawheed affirms Allah as Lord of all?","options":["Tawheed al Uloohiyyah","Tawheed ar Rububiyyah","Tawheed al Asma wa Sifaat","Tawheed al Ittibaa"],"answer":"Tawheed ar Rububiyyah"},{"question":"Which focus keeps all worship directed only to Allah?","options":["Tawheed al Asma wa Sifaat","Tawheed al Uloohiyyah","Tawheed ar Rububiyyah","Tawheed al Ittibaa"],"answer":"Tawheed al Uloohiyyah"},{"question":"Which Tawheed category studies Allah’s names and attributes?","options":["Tawheed ar Rububiyyah","Tawheed al Uloohiyyah","Tawheed al Asma wa Sifaat","Tawheed al Ittibaa"],"answer":"Tawheed al Asma wa Sifaat"},{"question":"Why does gratitude help preserve Tawheed?","options":["It creates riches","It reminds the heart Allah is the giver","It impresses people","It keeps busy"],"answer":"It reminds the heart Allah is the giver"},{"question":"Which action is a simple daily reminder of Tawheed?","options":["Repeat the Shahada thoughtfully","Skip prayer","Watch movies","Argue online"],"answer":"Repeat the Shahada thoughtfully"},{"question":"Which name of Allah emphasizes mercy?","options":["Ar-Razzaq","Ar-Rahman","Al-Malik","An-Nur"],"answer":"Ar-Rahman"},{"question":"How do you guard against subtle shirk?","options":["Recite Allah’s names","Ignore lessons","Spend all time online","Avoid community"],"answer":"Recite Allah’s names"},{"question":"What phrase anchors you when doubts appear?","options":["Bismillah","Allahu Akbar","La ilaha illa Allah","Alhamdulillah"],"answer":"La ilaha illa Allah"},{"question":"Which practice pairs a deed with Tawheed?","options":["Thanking Allah during work","Ignoring obligations","Seeking praise","Forgetting the Quran"],"answer":"Thanking Allah during work"},{"question":"Which is a sign that Tawheed is alive in a decision?","options":["Turning to Allah before acting","Acting hastily","Copying peers","Avoiding worship"],"answer":"Turning to Allah before acting"},{"question":"Which of these is a danger to Tawheed?","options":["Shirk","Zakat","Salah","Dhikr"],"answer":"Shirk"},{"question":"Which concept reminds you Allah alone controls everything?","options":["Tawheed ar Rububiyyah","Tawheed al Uloohiyyah","Shirk","Fasting"],"answer":"Tawheed ar Rububiyyah"},{"question":"Where should Tawheed be most evident?","options":["Daily choices","Only on weekends","Only in rituals","Only during Ramadan"],"answer":"Daily choices"},{"question":"How does sharing Tawheed help you?","options":["It clarifies belief","It isolates you","It confuses others","It avoids learning"],"answer":"It clarifies belief"}]},{"chapterId":2,"chapter":"The Qur\'an","questions":[{"question":"What describes the Qur\'an?","options":["A preserved divine speech","A myth","A historical romance","Only poetry"],"answer":"A preserved divine speech"},{"question":"Which action helps you reflect on a verse?","options":["Ask, \'How does this apply today?\'","Skip it","Criticize the messenger","Share memes"],"answer":"Ask, \'How does this apply today?\'"},{"question":"What keeps reading consistent?","options":["Set a manageable rhythm","Read only when inspired","Forget the meaning","Rely on others"],"answer":"Set a manageable rhythm"},{"question":"Why pair dua with Quran reading?","options":["To ask Allah to help you live it","To avoid it","To rush through","To brag"],"answer":"To ask Allah to help you live it"},{"question":"Which helps you slow down?","options":["Look up one word","Multitask","Skip translation","Watch TV"],"answer":"Look up one word"},{"question":"Which type of reading keeps phrases alive?","options":["Memorize one verse gently","Ignore translation","Rely only on notes","Avoid commitment"],"answer":"Memorize one verse gently"},{"question":"How can you teach a lesson from the Qur\'an?","options":["Share a meaningful verse","Keep it private forever","Criticize others","Copy someone else"],"answer":"Share a meaningful verse"},{"question":"What strengthens Tajweed?","options":["Practice pronunciation","Avoid the Quran","Skip recitation","Forget about it"],"answer":"Practice pronunciation"},{"question":"Why treat the Qur\'an as dialogue?","options":["Because Allah invites answers","Because it is old","Because it confuses","Because it is optional"],"answer":"Because Allah invites answers"},{"question":"What should you do when a verse feels unclear?","options":["Ask a trusted teacher","Ignore it","Spread gossip","Copy random interpretations"],"answer":"Ask a trusted teacher"},{"question":"Which habit keeps listener attention?","options":["Listen to short recitation","Ignore rhythm","Frown at others","Rush reading"],"answer":"Listen to short recitation"},{"question":"How do you ensure verses guide decisions?","options":["Journal a takeaway","Decline to reflect","Avoid accountability","Focus on habits only"],"answer":"Journal a takeaway"},{"question":"What makes Quran reading gentle?","options":["Focus on meaning","Force through pages","Compare to others","Skip translation"],"answer":"Focus on meaning"},{"question":"How do you share curiosity?","options":["Tell a friend a verse","Keep it to yourself","Ignore the quandary","Stop reading"],"answer":"Tell a friend a verse"},{"question":"What invites hope from the Qur\'an?","options":["Celebrate clarity","Avoid studying","Constanly doubt","Ruin concentration"],"answer":"Celebrate clarity"}]},{"chapterId":3,"chapter":"The Prophet","questions":[{"question":"How is Prophet Muhammad ﷺ described?","options":["Mercy to humanity","A distant idol","A political ruler only","Only a storyteller"],"answer":"Mercy to humanity"},{"question":"Which habit reflects his patience?","options":["Choose calm speech","Argue loudly","Ignore family","Rush decisions"],"answer":"Choose calm speech"},{"question":"Why model his manners?","options":["It shows Tawheed in action","It increases wealth","It isolates you","It avoids guidance"],"answer":"It shows Tawheed in action"},{"question":"What should you do when upset?","options":["Remember his calm with opponents","Lose control","Avoid dua","Blame others"],"answer":"Remember his calm with opponents"},{"question":"How can you share a seerah moment?","options":["Tell a short story with a lesson","Keep stories private","Change details","Mock them"],"answer":"Tell a short story with a lesson"},{"question":"Which Sunnah habit is easy to start?","options":["Greet with salam","Ignore others","Do nothing","Compete"],"answer":"Greet with salam"},{"question":"Why celebrate his mercy?","options":["It encourages kindness","It removes responsibility","It discourages learning","It justifies gossip"],"answer":"It encourages kindness"},{"question":"What balances fear and hope?","options":["Trust Allah and work hard","Doubt constantly","Stop worship","Ignore consequences"],"answer":"Trust Allah and work hard"},{"question":"How do you honor his struggles?","options":["Study his challenges","Praise only saints","Forget his life","Criticize believers"],"answer":"Study his challenges"},{"question":"Which character trait he offered?","options":["Forgiveness","Harshness","Pride","Indifference"],"answer":"Forgiveness"},{"question":"How do you keep consistency?","options":["Read about his life weekly","Skip learning","Copy others","Forget accountability"],"answer":"Read about his life weekly"},{"question":"What links him to Tawheed?","options":["His actions mirrored Allah\'s oneness","He avoided people","He praised only himself","He prioritized time"],"answer":"His actions mirrored Allah\'s oneness"},{"question":"When sharing kindness?","options":["Offer help while recalling his example","Ignore their need","Focus on yourself","Be impatient"],"answer":"Offer help while recalling his example"},{"question":"Which practice softens interactions?","options":["Use gentle speech","Yell","Avoid people","Judge quickly"],"answer":"Use gentle speech"},{"question":"What daily choice honors him?","options":["Keep a small Sunnah habit","Do nothing","Compete selfishly","Criticize quietly"],"answer":"Keep a small Sunnah habit"}]},{"chapterId":4,"chapter":"Main Practices","questions":[{"question":"Which pillar connects belief to daily worship?","options":["Shahada","Hajj","Sawm","Zakat"],"answer":"Shahada"},{"question":"Which pillar includes daily prayers?","options":["Zakat","Shahada","Sawm","Salah"],"answer":"Salah"},{"question":"How does charity fit?","options":["Zakat is giving for purity","Avoid wealthy","Ignore those in need","Share gossip"],"answer":"Zakat is giving for purity"},{"question":"Which pillar is a yearly fast?","options":["Salah","Hajj","Sawm","Shahada"],"answer":"Sawm"},{"question":"What is the pilgrimage called?","options":["Hajj","Zakat","Tawheed","Quran"],"answer":"Hajj"},{"question":"How do micro rituals help?","options":["Break them into small steps","Ignore them","Delay action","Compare to others"],"answer":"Break them into small steps"},{"question":"Why keep intentions clear?","options":["To worship for Allah alone","To show off","To rush tasks","To avoid work"],"answer":"To worship for Allah alone"},{"question":"Which supports service?","options":["Link charity with worship","Avoid community","Spend aimlessly","Ignore those in need"],"answer":"Link charity with worship"},{"question":"How does consistency beat perfection?","options":["Keeping steady habits","Striving for flaws","Comparing with others","Doing nothing"],"answer":"Keeping steady habits"},{"question":"What resource clarifies a practice?","options":["Trusted teacher","Random rumor","Anger","Isolation"],"answer":"Trusted teacher"},{"question":"How do you plan support?","options":["Ask mentors for clarification","Avoid mentors","Ignore guidance","Expect magic"],"answer":"Ask mentors for clarification"},{"question":"Why include others?","options":["Accountability builds stability","Isolate yourself","Compete harshly","Forget humility"],"answer":"Accountability builds stability"},{"question":"What is a mindful micro ritual?","options":["A minute of focus","Ignoring duty","Multitasking","Complaining"],"answer":"A minute of focus"},{"question":"How do pillars shape character?","options":["They steady worship and service","They only demand rituals","They limit joy","They remove choices"],"answer":"They steady worship and service"},{"question":"What supports celebration?","options":["Tiny wins","Huge perfection","Failing intentionally","Hiding progress"],"answer":"Tiny wins"}]},{"chapterId":5,"chapter":"Prayer","questions":[{"question":"What is salah described as?","options":["A ritual pause with Allah","Just moving","A habit for others","Strict law only"],"answer":"A ritual pause with Allah"},{"question":"How many daily prayers?","options":["Three","Five","Seven","Ten"],"answer":"Five"},{"question":"What is wudu?","options":["Ritual purification","A meal","Recitation","A lecture"],"answer":"Ritual purification"},{"question":"What is khushu?","options":["Presence in prayer","Speeding through","Ignoring focus","Sleeping"],"answer":"Presence in prayer"},{"question":"How do you tame distractions?","options":["Create quiet space","Finish quickly","Watch others","Ignore the heart"],"answer":"Create quiet space"},{"question":"Which dua can follow salah?","options":["Ask for focus and mercy","Ignore dua","Criticize others","Rush away"],"answer":"Ask for focus and mercy"},{"question":"Why count blessing in sujood?","options":["To thank Allah","To create worry","To impress people","To stop praying"],"answer":"To thank Allah"},{"question":"What is a prayer break?","options":["Mindful pause between talk and salah","Extra chores","Ignoring rest","Skipping intention"],"answer":"Mindful pause between talk and salah"},{"question":"What is the rhythm of prayer?","options":["Standing, bowing, prostrating","Sitting only","Running","Singing loudly"],"answer":"Standing, bowing, prostrating"},{"question":"How do you prepare intention?","options":["Clarify need before takbir","Ignore meaning","Rely on ritual alone","Rush through"],"answer":"Clarify need before takbir"},{"question":"Why share gratitude?","options":["To encourage others","To boast","To avoid work","To hide errors"],"answer":"To encourage others"},{"question":"What track fosters consistency?","options":["Mark each salah","Ignore gaps","Ignore prayer","Delay action"],"answer":"Mark each salah"},{"question":"What is the benefit of mindfulness?","options":["Calms anxiety","Creates pride","Wastes time","Forces guilt"],"answer":"Calms anxiety"},{"question":"When do you pray with presence?","options":["Use mosque visits for focused dua","Skip it","Rush through","Ignore feelings"],"answer":"Use mosque visits for focused dua"},{"question":"What does focus shift?","options":["Performance to presence","Judgement to boredom","Allaudah to tasks","Energy dissipates"],"answer":"Performance to presence"}]},{"chapterId":6,"chapter":"Ramadan","questions":[{"question":"What does fasting aim to build?","options":["Empathy and mercy","Selfishness","A vacation","Sleep"],"answer":"Empathy and mercy"},{"question":"What pairs with fasting?","options":["Night worship","Ignoring nights","Eating nonstop","Skipping sleep"],"answer":"Night worship"},{"question":"How can you stay generous?","options":["Plan a simple act of giving","Avoid giving","Hoist a sign","Create gossip"],"answer":"Plan a simple act of giving"},{"question":"What keeps energy sustainable?","options":["Intentional rest","Avoid rest","Overwork","Ignore health"],"answer":"Intentional rest"},{"question":"Why connect hunger to others?","options":["To recall those who go without","To focus on self","To ignore charity","To start arguments"],"answer":"To recall those who go without"},{"question":"How do you reflect daily?","options":["Journal one feeling each night","Ignore feelings","Accuse others","Compete"],"answer":"Journal one feeling each night"},{"question":"What is a nightly goal?","options":["Short recitation or dua","Crying only","Sleeping late","Watching shows"],"answer":"Short recitation or dua"},{"question":"How can Ramadan last?","options":["Keep one habit afterward","Forget lessons","Change culture","Avoid community"],"answer":"Keep one habit afterward"},{"question":"What reminds why you fast?","options":["Ask why and renew intention","Ignore meaning","Focus on hunger","Compare notes"],"answer":"Ask why and renew intention"},{"question":"What fosters community?","options":["Share iftar","Stay isolated","Argue","Ignore others"],"answer":"Share iftar"},{"question":"How to celebrate small wins?","options":["Practice gratitude","Ignore progress","Criticize others","Compete"],"answer":"Practice gratitude"},{"question":"What is mindful charity?","options":["Give a kind word or dua","Hoist a brand","Bully others","Ignore need"],"answer":"Give a kind word or dua"},{"question":"Why protect energy?","options":["So worship stays sustainable","To avoid fast","To skip rest","To degrade others"],"answer":"So worship stays sustainable"},{"question":"What does empathy training create?","options":["Generosity","Apathy","Fuel for gossip","Avoidance"],"answer":"Generosity"},{"question":"How to sustain mercy?","options":["Remember purpose","Forget intentions","Jealousy","Disconnect"],"answer":"Remember purpose"}]},{"chapterId":7,"chapter":"Good Character","questions":[{"question":"Which trait reflects Sunnah manners?","options":["Patience and kindness","Harsh speech","Indifference","Judgment"],"answer":"Patience and kindness"},{"question":"How do you respond when tired?","options":["Pause, breathe, answer kindly","Shout","Ignore people","Walk away"],"answer":"Pause, breathe, answer kindly"},{"question":"Why celebrate humility?","options":["It invites others to mirror it","It hides mistakes","It controls people","It isolates you"],"answer":"It invites others to mirror it"},{"question":"What resets a hurt heart?","options":["Forgiveness","Grudges","Retaliation","Silence"],"answer":"Forgiveness"},{"question":"How do you model adab?","options":["Show examples to others","Keep to yourself","Spread gossip","Avoid service"],"answer":"Show examples to others"},{"question":"Which habit keeps momentum?","options":["Record one act of kindness daily","Forget progress","Track only faults","Ignore people"],"answer":"Record one act of kindness daily"},{"question":"How do you teach children manners?","options":["Role-play and praise effort","Ignore them","Punish harshly","Compete"],"answer":"Role-play and praise effort"},{"question":"Why gentleness matters?","options":["Kind words heal faster","Harshness creates distance","Silence ends dialogue","Winner takes all"],"answer":"Kind words heal faster"},{"question":"How do you correct others gently?","options":["Balance justice with mercy","Ignore the mistake","Censor them","Criticize publicly"],"answer":"Balance justice with mercy"},{"question":"What anchors behavior?","options":["Self-awareness and prayer","Comparison","Competition","Avoidance"],"answer":"Self-awareness and prayer"},{"question":"Why encourage others privately?","options":["So praise feels sincere","To gossip","To boast","To show power"],"answer":"So praise feels sincere"},{"question":"What practice keeps humility?","options":["Daily dhikr and gratitude","Rule changes","Fame","Obsessiveness"],"answer":"Daily dhikr and gratitude"},{"question":"How to handle conflict?","options":["Check yourself before reacting","Escalate","Ignore","Retaliate"],"answer":"Check yourself before reacting"},{"question":"How to celebrate wins?","options":["Acknowledge progress","Boast","Neglect","Ignore"],"answer":"Acknowledge progress"},{"question":"What role does patience play?","options":["It keeps relationships kind","It causes weakness","It wastes time","It creates strife"],"answer":"It keeps relationships kind"}]},{"chapterId":8,"chapter":"Peace & Respect","questions":[{"question":"Where does peace begin?","options":["Respectful listening","Winning debates","Avoiding dialogue","Ordering others"],"answer":"Respectful listening"},{"question":"How do you show respect?","options":["Ask curious questions","Interrupt","Dismiss others","Judge quickly"],"answer":"Ask curious questions"},{"question":"What keeps boundaries healthy?","options":["Clear, compassionate communication","Avoidance","Rigid rules","Harsh lectures"],"answer":"Clear, compassionate communication"},{"question":"How do you include different voices?","options":["Learn about cultures","Ignore differences","Justify stereotypes","Exclude others"],"answer":"Learn about cultures"},{"question":"What defuses tension?","options":["Take a breath before reacting","Rush replies","Raise voice","Dismiss feelings"],"answer":"Take a breath before reacting"},{"question":"Where does gratitude fit?","options":["Thank someone even for small contributions","Ignore it","Downgrade them","Demand more"],"answer":"Thank someone even for small contributions"},{"question":"Why offer private apologizes?","options":["It keeps peace intimate","It loses strength","It draws crowds","It hides truth"],"answer":"It keeps peace intimate"},{"question":"How does dua help peace?","options":["Pray for peaceful hearts","Accuse others","Ignore conflicts","Provoke arguments"],"answer":"Pray for peaceful hearts"},{"question":"What invites curiosity?","options":["Ask open questions","Judge","Assume","Doubt constantly"],"answer":"Ask open questions"},{"question":"How other acts show peace?","options":["Calm responses","Loud reactions","Withholding respect","Mocking"],"answer":"Calm responses"},{"question":"What role does silence play?","options":["Mindful silence keeps dialogue calm","Judgmental silence","Harsh silence","Rude silence"],"answer":"Mindful silence keeps dialogue calm"},{"question":"How do you honor shared humanity?","options":["Find common points","Create separation","Limit contact","Show pride"],"answer":"Find common points"},{"question":"What fosters trust?","options":["Consistent care","Instant demands","Ignoring concerns","Defensiveness"],"answer":"Consistent care"},{"question":"Why celebrate diversity?","options":["It strengthens community","It weakens identity","It causes confusion","It triggers fear"],"answer":"It strengthens community"},{"question":"How to keep peace daily?","options":["Include dua in routine","Neglect prayer","Slam doors","Ignore feelings"],"answer":"Include dua in routine"}]},{"chapterId":9,"chapter":"The Prophets","questions":[{"question":"What message links all prophets?","options":["Mercy and Tawheed","Wealth","War","Isolation"],"answer":"Mercy and Tawheed"},{"question":"Who humbled himself beside Pharaoh?","options":["Musa","Ibrahim","Nuh","Isa"],"answer":"Musa"},{"question":"Which prophet rescued people from arrogance?","options":["Ibrahim","Shuayb","Hud","Yunus"],"answer":"Ibrahim"},{"question":"Which story models patience?","options":["Nuh’s perseverance","Isa’s miracle","Hud’s prayers","Musa’s escape"],"answer":"Nuh’s perseverance"},{"question":"What encourages hope?","options":["Prophets kept trusting Allah","Focusing on problems","Avoiding dua","Judging others"],"answer":"Prophets kept trusting Allah"},{"question":"How to honor lesser-known prophets?","options":["Learn a new fact weekly","Ignore them","Discredit their tradition","Rush study"],"answer":"Learn a new fact weekly"},{"question":"Which response mirrors the prophets?","options":["Keep hope despite rejection","Break faith","Stop praying","Focus on status"],"answer":"Keep hope despite rejection"},{"question":"Which act shows gratitude to prophets?","options":["Share their stories","Forget them","Criticize others","Slander"],"answer":"Share their stories"},{"question":"How do prophets remind you today?","options":["Relate trials to modern struggles","Avoid looking back","Judge believers","Ignore lessons"],"answer":"Relate trials to modern struggles"},{"question":"What strengthens patience?","options":["Reflect on their perseverance","Rush decisions","Avoid prayer","Stay silent"],"answer":"Reflect on their perseverance"},{"question":"Why connect to Quran?","options":["Link story to verse","Skip the verse","Nothing else","Make up details"],"answer":"Link story to verse"},{"question":"How do you help others recognize prophets?","options":["Tell a short tale","Neglect storytelling","Hide research","Mock"],"answer":"Tell a short tale"},{"question":"What trait to emulate?","options":["Charity, courage, patience","Greed","Arrogance","Malice"],"answer":"Charity, courage, patience"},{"question":"How do prophets keep promise?","options":["Hold on to Allah’s promise","Forget about it","Betray others","Ignore the message"],"answer":"Hold on to Allah’s promise"},{"question":"What does their resilience teach?","options":["To keep showing up","To isolate","To avoid effort","To punish"],"answer":"To keep showing up"}]},{"chapterId":10,"chapter":"The Mosque","questions":[{"question":"What is a mosque?","options":["A space for prayer, learning, charity","A focus on sports","A marketplace","A private home"],"answer":"A space for prayer, learning, charity"},{"question":"How to prepare for a visit?","options":["Dress modestly and hold intention","Stay home","Ignore etiquette","Dress casually"],"answer":"Dress modestly and hold intention"},{"question":"Which etiquette matters most?","options":["Silence, cleanliness, modesty","Loud voices","Messy meals","Ignoring others"],"answer":"Silence, cleanliness, modesty"},{"question":"How can you serve?","options":["Volunteer for maintenance","Argue","Sleep","Leave early"],"answer":"Volunteer for maintenance"},{"question":"Why listen to khutbah?","options":["To take away a practical lesson","To distract","To gossip","To sleep"],"answer":"To take away a practical lesson"},{"question":"How do mosques welcome new Muslims?","options":["Offer mentorship and circles","Ignore them","Criticize","Tell them they don’t belong"],"answer":"Offer mentorship and circles"},{"question":"What builds belonging?","options":["Participate in charity","Isolate","Ignore community","Hold grudges"],"answer":"Participate in charity"},{"question":"How to respect the space?","options":["Keep it clean","Leave trash","Rush","Argue"],"answer":"Keep it clean"},{"question":"What can you share with others?","options":["Explain how mosques support newcomers","Ignore questions","Argue","Pressure"],"answer":"Explain how mosques support newcomers"},{"question":"Why invite friends?","options":["They can see the mosque different than expectation","Show off","Criticize","Boast"],"answer":"They can see the mosque different than expectation"},{"question":"How do you make dua there?","options":["Focus on heartfelt requests","Rush through","Forget intention","Compete"],"answer":"Focus on heartfelt requests"},{"question":"What strengthens humility?","options":["Praying with others","Showing off","Staying home","Arguing"],"answer":"Praying with others"},{"question":"What is hospitality?","options":["Welcoming guests","Shutting door","Ignoring someone","Being unkind"],"answer":"Welcoming guests"},{"question":"How do you help keep the mosque safe?","options":["Take part in upkeep","Create chaos","Avoid cleaning","Criticize"],"answer":"Take part in upkeep"},{"question":"Which habit centers you?","options":["Use mosque visits for focused dhikr","Skip visits","Neglect prayer","Argue"],"answer":"Use mosque visits for focused dhikr"}]},{"chapterId":11,"chapter":"Halal Life","questions":[{"question":"What is halal life about?","options":["Integrity across choices","Only diet","Avoiding worship","Rejecting rules"],"answer":"Integrity across choices"},{"question":"Which action shows honesty?","options":["Speak truth with kindness","Lie","Hide mistakes","Give bribes"],"answer":"Speak truth with kindness"},{"question":"How do you keep finance halal?","options":["Choose transparent, interest-free dealings","Ignore terms","Chase shortcuts","Copy others"],"answer":"Choose transparent, interest-free dealings"},{"question":"What counts as halal speech?","options":["Gentle, honest words","Sarcastic jabs","Gossip","Complaining"],"answer":"Gentle, honest words"},{"question":"What does halal media look like?","options":["Content that uplifts the heart","Harsh content","Forbidden stories","Gossip"],"answer":"Content that uplifts the heart"},{"question":"How do halal choices ripple?","options":["They build trust in community","They stay private","They reduce joy","They cause pressure"],"answer":"They build trust in community"},{"question":"What if you slip?","options":["Repent quickly and correct it","Hide it","Repeat it","Avoid responsibility"],"answer":"Repent quickly and correct it"},{"question":"Why support halal businesses?","options":["It keeps integrity alive","It saves money","It avoids worship","It isolates"],"answer":"It keeps integrity alive"},{"question":"What role does rest play?","options":["Rest keeps heart aligned","Ignore rest","Sleep too much","Stay anxious"],"answer":"Rest keeps heart aligned"},{"question":"How do you protect relationships?","options":["Be punctual and fair","Be late","Ignore others","Argue"],"answer":"Be punctual and fair"},{"question":"What keeps accountability in check?","options":["Pray for guidance","Judge others harshly","Do nothing","Dismiss feedback"],"answer":"Pray for guidance"},{"question":"How can you respond when tempted?","options":["Ask Allah for strength","Give in","Blame others","Hide"],"answer":"Ask Allah for strength"},{"question":"What demonstrates influence?","options":["Keep company that uplifts halal values","Surround yourself with critics","Avoid community","Focus on faults"],"answer":"Keep company that uplifts halal values"},{"question":"Why practice honesty in small tasks?","options":["It trains character","It overwhelms","It invites bragging","It isolates"],"answer":"It trains character"},{"question":"How does transparency help?","options":["It earns trust","It hides dishonesty","It confuses","It divides"],"answer":"It earns trust"}]},{"chapterId":12,"chapter":"Men & Women","questions":[{"question":"What does Islam emphasize between genders?","options":["Mutual respect","Competition","Neglect","Favoritism"],"answer":"Mutual respect"},{"question":"How can you support boundaries?","options":["Communicate respectfully","Ignore protocols","Avoid clarity","Yell"],"answer":"Communicate respectfully"},{"question":"What ensures dignity?","options":["Honoring privacy","Gossip","Control","Mockery"],"answer":"Honoring privacy"},{"question":"Why celebrate cooperation?","options":["It strengthens unity","It creates hierarchy","It isolates","It confuses"],"answer":"It strengthens unity"},{"question":"How to teach respect to youth?","options":["Explain why it matters","Force compliance","Shout","Ignore"],"answer":"Explain why it matters"},{"question":"What counters stereotypes?","options":["Share facts and patience","Shout louder","Ignore evidence","Stay silent"],"answer":"Share facts and patience"},{"question":"How do men and women support one another?","options":["Companionate service","Avoid contact","Ignore synergy","Criticize"],"answer":"Companionate service"},{"question":"Why pray for equity?","options":["It keeps hearts sensitive","It creates competition","It avoids justice","It divides"],"answer":"It keeps hearts sensitive"},{"question":"How to honor partnerships?","options":["Express gratitude","Dismiss contributions","Ignore help","Brag"],"answer":"Express gratitude"},{"question":"What role do boundaries play?","options":["Protect dignity","Limit compassion","Separate community","Divide"],"answer":"Protect dignity"},{"question":"How to handle disagreements?","options":["Respond gently","Shout","Avoid dialogue","Fight"],"answer":"Respond gently"},{"question":"What makes relationships healthy?","options":["Mutual respect and cooperation","Power struggles","Sarcasm","Rigid rules"],"answer":"Mutual respect and cooperation"},{"question":"What invites compassion?","options":["Model mercy","Criticize","Ignore","Dominate"],"answer":"Model mercy"},{"question":"Why include dua?","options":["It seeks balance","It ignores issues","It delays action","It isolates"],"answer":"It seeks balance"},{"question":"How to keep learning?","options":["Engage with honest conversation","Avoid topics","Dismiss others","Stay closed"],"answer":"Engage with honest conversation"}]},{"chapterId":13,"chapter":"Becoming Muslim","questions":[{"question":"What comes after shahada?","options":["Begin learning prayer and Quran","Avoid community","Stay silent","Complain"],"answer":"Begin learning prayer and Quran"},{"question":"How can mentors help?","options":["Offer support and guidance","Ignore new Muslims","Criticize","Withdraw"],"answer":"Offer support and guidance"},{"question":"Why celebrate milestones?","options":["It honors courage","It isolates","It bores","It distracts"],"answer":"It honors courage"},{"question":"What role does community play?","options":["Provides care and accountability","Forces beliefs","Judges","Ignores"],"answer":"Provides care and accountability"},{"question":"How do you handle doubts?","options":["Ask good questions and seek answers","Hide them","Blame others","Avoid learning"],"answer":"Ask good questions and seek answers"},{"question":"What should new Muslims learn first?","options":["Prayer, Shahada meaning, dua basics","Ignore rituals","Mislead others","Focus on drama"],"answer":"Prayer, Shahada meaning, dua basics"},{"question":"How do you show support?","options":["Offer encouragement and practical help","Criticize","Isolate","Against instruction"],"answer":"Offer encouragement and practical help"},{"question":"Why plan celebrations?","options":["It affirms their choice","It burdens them","It conflicts","It isolates"],"answer":"It affirms their choice"},{"question":"What fosters courage?","options":["Sharing goals and dua","Avoiding action","Doubting","Being loud"],"answer":"Sharing goals and dua"},{"question":"How do you stay grounded?","options":["Keep small routines and reflections","Chase perfection","Ignore duty","Change quickly"],"answer":"Keep small routines and reflections"},{"question":"What expresses gratitude?","options":["Thank Allah regularly","Ignore Him","Challenge others","Brag"],"answer":"Thank Allah regularly"},{"question":"How to involve family?","options":["Invite them gently to learn","Push them forcibly","Avoid them","Ignore feelings"],"answer":"Invite them gently to learn"},{"question":"What strengthens identity?","options":["Study lessons and share progress","Hide story","Rebel","Complain"],"answer":"Study lessons and share progress"},{"question":"Why keep connection?","options":["To stay motivated","To isolate","To argue","To drift"],"answer":"To stay motivated"},{"question":"What encourages questions?","options":["Assure that curiosity is welcome","Shame them","Dismiss them","Punish them"],"answer":"Assure that curiosity is welcome"}]},{"chapterId":14,"chapter":"Eid Festivals","questions":[{"question":"Which Eid marks Ramadan\'s end?","options":["Eid al-Fitr","Eid al-Adha","Ashura","Isra"],"answer":"Eid al-Fitr"},{"question":"Which Eid recalls Ibrahim\'s trust?","options":["Eid al-Adha","Eid al-Fitr","Ramadan","Mawlid"],"answer":"Eid al-Adha"},{"question":"How can gratitude shape Eid?","options":["Share thanks with others","Ignore gratitude","Accuse others","Limit joy"],"answer":"Share thanks with others"},{"question":"Why add charity on Eid?","options":["To keep celebration grounded in compassion","To compete","To boast","To ignore needs"],"answer":"To keep celebration grounded in compassion"},{"question":"How do you include those alone?","options":["Invite them and share food","Ignore them","Avoid them","Judge"],"answer":"Invite them and share food"},{"question":"What tradition helps teach kids?","options":["Explain meaning of greetings and takbeers","Give gifts only","Scold them","Ignore questions"],"answer":"Explain meaning of greetings and takbeers"},{"question":"Why celebrate mercy?","options":["Use energy to renew kindness","Ignore others","Focus on gifts","Stop giving"],"answer":"Use energy to renew kindness"},{"question":"What balances celebration and sacrifice?","options":["Remember qurban story","Forget sacrifice","Focus on pomp","Compete"],"answer":"Remember qurban story"},{"question":"How to plan Eid calmly?","options":["Prepare logistics ahead","Wait until last minute","Rush around","Complain"],"answer":"Prepare logistics ahead"},{"question":"What makes Eid prayers meaningful?","options":["Focus on dua and unity","Rush through","Ignore significance","Skip"],"answer":"Focus on dua and unity"},{"question":"How do you spread joy?","options":["Send greetings or share treats","Hoard gifts","Criticize","Avoid"],"answer":"Send greetings or share treats"},{"question":"Why keep mercy center?","options":["Allah loves kindness","Pride doesn’t help","Isolation hurts","Neglect fosters tension"],"answer":"Allah loves kindness"},{"question":"What is true celebration?","options":["Shared gratitude and service","Selfish consumption","Show off","Noise"],"answer":"Shared gratitude and service"},{"question":"How can Eid teach humility?","options":["Remember it is a gift of obedience","Act arrogant","Demand extravagance","Criticize others"],"answer":"Remember it is a gift of obedience"},{"question":"Why include dua?","options":["Ask Allah to keep you grateful","Ignore Allah","Focus on things","Brag"],"answer":"Ask Allah to keep you grateful"}]},{"chapterId":15,"chapter":"Afterlife","questions":[{"question":"What guides the afterlife view?","options":["Accountability and mercy","Ignorance","Fear only","No reflection"],"answer":"Accountability and mercy"},{"question":"Which action invests in eternal reward?","options":["Kind deeds","Short-term gain","Ignoring people","Forgetting"],"answer":"Kind deeds"},{"question":"What keeps hope steady?","options":["Repentance and dua","Ignoring consequences","Doubt","Procrastination"],"answer":"Repentance and dua"},{"question":"What anchors gratitude?","options":["Thank Allah for the chance to change","Cry constantly","Avoid worship","Judge"],"answer":"Thank Allah for the chance to change"},{"question":"How do you prepare practical matters?","options":["Pay debts and plan sadaqah jariyah","Delay","Hoard","Ignore advice"],"answer":"Pay debts and plan sadaqah jariyah"},{"question":"What is muhasabah?","options":["Self-accounting before sleep","Judging others","Avoiding reflection","Staying busy"],"answer":"Self-accounting before sleep"},{"question":"How does dua help?","options":["Ask for mercy and forgiveness","Demand justice","Ignore mercy","Punish people"],"answer":"Ask for mercy and forgiveness"},{"question":"Which reminder keeps you present?","options":["Awareness of the akhira","Ignoring future","Focusing on stress","Mimicking others"],"answer":"Awareness of the akhira"},{"question":"What does the scale measure?","options":["Deeds","Sunlight","Movies","Wealth"],"answer":"Deeds"},{"question":"How do you balance hope and fear?","options":["Pair hope with accountability","Fear only","Hope only","Ignore both"],"answer":"Pair hope with accountability"},{"question":"What sustains kindness?","options":["Purposeful service for eternity","Selfish plans","Criticism","Avoiding help"],"answer":"Purposeful service for eternity"},{"question":"Why memorize descriptions of paradise?","options":["Keeps hope alive","Confuses","Creates fear","Distracts"],"answer":"Keeps hope alive"},{"question":"What is a nightly reminder?","options":["A note or dua about the akhira","Procrastination","Insomnia","Random scrolling"],"answer":"A note or dua about the akhira"},{"question":"How do you practice forgiveness?","options":["Forgive others and seek Allah’s forgiveness","Hold grudges","Punish","Ignore"],"answer":"Forgive others and seek Allah’s forgiveness"},{"question":"What dimension keeps the heart steady?","options":["Gratitude for mercy","Comparison","Negativity","Confusion"],"answer":"Gratitude for mercy"},{"question":"Which practice anchors you to the certainty of the afterlife?","options":["Reflecting on the Day of Judgment","Focusing only on this world","Avoiding quiet moments","Comparing achievements"],"answer":"Reflecting on the Day of Judgment"},{"question":"Muhasabah refers to what?","options":["Self-accounting before sleep","Gathering wealth","Avoiding reflection","Skipping goals"],"answer":"Self-accounting before sleep"},{"question":"What is the reward for keeping debts paid before passing away?","options":["Light on the Scale of Deeds","Immediate fame","Earthly luxury","No change"],"answer":"Light on the Scale of Deeds"},{"question":"Which dua helps when thinking about judgment?","options":["Asking Allah for mercy and forgiveness","Requesting worldly gain","Entering debates","Forgetting accountability"],"answer":"Asking Allah for mercy and forgiveness"},{"question":"What does sadaqah jariyah ensure?","options":["Ongoing reward after death","Short-term profit","Temporary comfort","Worldly fame"],"answer":"Ongoing reward after death"},{"question":"How does regular repentance shape the afterlife?","options":["It lightens the heart and records mercy","It delays reward","It creates doubt","It ensures dishonesty"],"answer":"It lightens the heart and records mercy"},{"question":"What keeps hope alive for the hereafter?","options":["Gratitude for Allah\'s mercy","Building walls","Withdrawing from community","Asserting superiority"],"answer":"Gratitude for Allah\'s mercy"},{"question":"Which Quranic reminder balances fear and hope?","options":["Allah is Merciful yet Just","Ignore accountability","Celebrate fears only","Avoid prayer"],"answer":"Allah is Merciful yet Just"},{"question":"What distinguishes deeds on the day of judgment?","options":["Sincerity for Allah alone","Public applause","Length of time","Quantity of words"],"answer":"Sincerity for Allah alone"},{"question":"What is a practical way to remember the graves?","options":["Visit the cemetery and make dua","Avoid going outside","Read only social posts","Keep busy with streams"],"answer":"Visit the cemetery and make dua"},{"question":"Which sign reminds you that every soul tastes death?","options":["Witnessing funerals","Watching movies","Buying luxuries","Ignoring warnings"],"answer":"Witnessing funerals"},{"question":"What does tawakkul (reliance on Allah) do for the afterlife mindset?","options":["It trusts Allah while acting responsibly","It removes effort","It avoids dua","It depend on luck"],"answer":"It trusts Allah while acting responsibly"},{"question":"Why should we keep our intentions clear for the akhira?","options":["Because intentions turn actions into worship","To impress people","To avoid schedules","To delay decisions"],"answer":"Because intentions turn actions into worship"},{"question":"Which act invests in the next life when you help others?","options":["Supporting someone in need with sincerity","Doing it for praise","Avoiding community","Focusing on competition"],"answer":"Supporting someone in need with sincerity"},{"question":"Which phrase reminds you of resurrection?","options":["Every soul will taste death","Ignore the scales","Post only happy news","Keep silent forever"],"answer":"Every soul will taste death"},{"question":"How do small routines build afterlife hope?","options":["They keep you consistent and conscious","They replace big goals","They distract from prayer","They create arrogance"],"answer":"They keep you consistent and conscious"},{"question":"Which reminder protects against despair?","options":["Allah forgives those who turn back sincerely","Ignore mistakes completely","Trust only wealth","Avoid dua"],"answer":"Allah forgives those who turn back sincerely"},{"question":"What gives meaning to funeral gatherings?","options":["They inspire dua and humility","They are occasions for gossip","They cause anger","They are excuses for parties"],"answer":"They inspire dua and humility"},{"question":"When tempted, how does the akhira mindset respond?","options":["By remembering the final account","By ignoring consequences","By acting rashly","By blaming others"],"answer":"By remembering the final account"},{"question":"What makes hopeful actions last after you die?","options":["Leaving behind beneficial knowledge","Posting selfies","Seeking recognition","Expecting immediate payoff"],"answer":"Leaving behind beneficial knowledge"},{"question":"Why keep sessions with the Quran about akhirah?","options":["Because it speaks about reward, mercy, and warning","Because it is optional","Because it discourages action","Because it isolates"],"answer":"Because it speaks about reward, mercy, and warning"},{"question":"What consistent action helps on the Day of Judgment?","options":["Seeking Allah’s mercy through dua","Avoiding others","Arguing about details","Living selfishly"],"answer":"Seeking Allah’s mercy through dua"},{"question":"How does thanking Allah daily affect the afterlife?","options":["It trains gratitude that grows into hope","It focuses on wealth","It increases stress","It replaces action"],"answer":"It trains gratitude that grows into hope"},{"question":"Which practice alleviates fear of the scale?","options":["Collecting good deeds while seeking mercy","Avoiding worship","Relying on others","Doubting Allah"],"answer":"Collecting good deeds while seeking mercy"},{"question":"What kind of reminders keep the akhira close?","options":["Gentle quotes about accountability","Only trending news","Always expecting comfort","Avoiding reflection"],"answer":"Gentle quotes about accountability"},{"question":"How can fasting anchor afterlife awareness?","options":["It instills patience and trust in Allah’s plan","It delays justice","It just controls hunger","It isolates"],"answer":"It instills patience and trust in Allah’s plan"},{"question":"What should follow sincere dua for mercy?","options":["Right action and patience","Giving up","Waiting passively","Doing nothing"],"answer":"Right action and patience"},{"question":"Why bring family into akhira conversations?","options":["So everyone can support each other’s accountability","To create worry","To burden them","To avoid truth"],"answer":"So everyone can support each other’s accountability"}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"One God","questions":[{"question":"Which declaration is the Shahada?","options":["La ilaha illa Allah","Allahu Akbar","SubhanAllah","Alhamdulillah"],"answer":"La ilaha illa Allah"},{"question":"Which pillar of Tawheed affirms Allah as Lord of all?","options":["Tawheed al Uloohiyyah","Tawheed ar Rububiyyah","Tawheed al Asma wa Sifaat","Tawheed al Ittibaa"],"answer":"Tawheed ar Rububiyyah"},{"question":"Which focus keeps all worship directed only to Allah?","options":["Tawheed al Asma wa Sifaat","Tawheed al Uloohiyyah","Tawheed ar Rububiyyah","Tawheed al Ittibaa"],"answer":"Tawheed al Uloohiyyah"},{"question":"Which Tawheed category studies Allah’s names and attributes?","options":["Tawheed ar Rububiyyah","Tawheed al Uloohiyyah","Tawheed al Asma wa Sifaat","Tawheed al Ittibaa"],"answer":"Tawheed al Asma wa Sifaat"},{"question":"Why does gratitude help preserve Tawheed?","options":["It creates riches","It reminds the heart Allah is the giver","It impresses people","It keeps busy"],"answer":"It reminds the heart Allah is the giver"},{"question":"Which action is a simple daily reminder of Tawheed?","options":["Repeat the Shahada thoughtfully","Skip prayer","Watch movies","Argue online"],"answer":"Repeat the Shahada thoughtfully"},{"question":"Which name of Allah emphasizes mercy?","options":["Ar-Razzaq","Ar-Rahman","Al-Malik","An-Nur"],"answer":"Ar-Rahman"},{"question":"How do you guard against subtle shirk?","options":["Recite Allah’s names","Ignore lessons","Spend all time online","Avoid community"],"answer":"Recite Allah’s names"},{"question":"What phrase anchors you when doubts appear?","options":["Bismillah","Allahu Akbar","La ilaha illa Allah","Alhamdulillah"],"answer":"La ilaha illa Allah"},{"question":"Which practice pairs a deed with Tawheed?","options":["Thanking Allah during work","Ignoring obligations","Seeking praise","Forgetting the Quran"],"answer":"Thanking Allah during work"},{"question":"Which is a sign that Tawheed is alive in a decision?","options":["Turning to Allah before acting","Acting hastily","Copying peers","Avoiding worship"],"answer":"Turning to Allah before acting"},{"question":"Which of these is a danger to Tawheed?","options":["Shirk","Zakat","Salah","Dhikr"],"answer":"Shirk"},{"question":"Which concept reminds you Allah alone controls everything?","options":["Tawheed ar Rububiyyah","Tawheed al Uloohiyyah","Shirk","Fasting"],"answer":"Tawheed ar Rububiyyah"},{"question":"Where should Tawheed be most evident?","options":["Daily choices","Only on weekends","Only in rituals","Only during Ramadan"],"answer":"Daily choices"},{"question":"How does sharing Tawheed help you?","options":["It clarifies belief","It isolates you","It confuses others","It avoids learning"],"answer":"It clarifies belief"}]},{"chapterId":2,"chapter":"The Qur\'an","questions":[{"question":"What describes the Qur\'an?","options":["A preserved divine speech","A myth","A historical romance","Only poetry"],"answer":"A preserved divine speech"},{"question":"Which action helps you reflect on a verse?","options":["Ask, \'How does this apply today?\'","Skip it","Criticize the messenger","Share memes"],"answer":"Ask, \'How does this apply today?\'"},{"question":"What keeps reading consistent?","options":["Set a manageable rhythm","Read only when inspired","Forget the meaning","Rely on others"],"answer":"Set a manageable rhythm"},{"question":"Why pair dua with Quran reading?","options":["To ask Allah to help you live it","To avoid it","To rush through","To brag"],"answer":"To ask Allah to help you live it"},{"question":"Which helps you slow down?","options":["Look up one word","Multitask","Skip translation","Watch TV"],"answer":"Look up one word"},{"question":"Which type of reading keeps phrases alive?","options":["Memorize one verse gently","Ignore translation","Rely only on notes","Avoid commitment"],"answer":"Memorize one verse gently"},{"question":"How can you teach a lesson from the Qur\'an?","options":["Share a meaningful verse","Keep it private forever","Criticize others","Copy someone else"],"answer":"Share a meaningful verse"},{"question":"What strengthens Tajweed?","options":["Practice pronunciation","Avoid the Quran","Skip recitation","Forget about it"],"answer":"Practice pronunciation"},{"question":"Why treat the Qur\'an as dialogue?","options":["Because Allah invites answers","Because it is old","Because it confuses","Because it is optional"],"answer":"Because Allah invites answers"},{"question":"What should you do when a verse feels unclear?","options":["Ask a trusted teacher","Ignore it","Spread gossip","Copy random interpretations"],"answer":"Ask a trusted teacher"},{"question":"Which habit keeps listener attention?","options":["Listen to short recitation","Ignore rhythm","Frown at others","Rush reading"],"answer":"Listen to short recitation"},{"question":"How do you ensure verses guide decisions?","options":["Journal a takeaway","Decline to reflect","Avoid accountability","Focus on habits only"],"answer":"Journal a takeaway"},{"question":"What makes Quran reading gentle?","options":["Focus on meaning","Force through pages","Compare to others","Skip translation"],"answer":"Focus on meaning"},{"question":"How do you share curiosity?","options":["Tell a friend a verse","Keep it to yourself","Ignore the quandary","Stop reading"],"answer":"Tell a friend a verse"},{"question":"What invites hope from the Qur\'an?","options":["Celebrate clarity","Avoid studying","Constanly doubt","Ruin concentration"],"answer":"Celebrate clarity"}]},{"chapterId":3,"chapter":"The Prophet","questions":[{"question":"How is Prophet Muhammad ﷺ described?","options":["Mercy to humanity","A distant idol","A political ruler only","Only a storyteller"],"answer":"Mercy to humanity"},{"question":"Which habit reflects his patience?","options":["Choose calm speech","Argue loudly","Ignore family","Rush decisions"],"answer":"Choose calm speech"},{"question":"Why model his manners?","options":["It shows Tawheed in action","It increases wealth","It isolates you","It avoids guidance"],"answer":"It shows Tawheed in action"},{"question":"What should you do when upset?","options":["Remember his calm with opponents","Lose control","Avoid dua","Blame others"],"answer":"Remember his calm with opponents"},{"question":"How can you share a seerah moment?","options":["Tell a short story with a lesson","Keep stories private","Change details","Mock them"],"answer":"Tell a short story with a lesson"},{"question":"Which Sunnah habit is easy to start?","options":["Greet with salam","Ignore others","Do nothing","Compete"],"answer":"Greet with salam"},{"question":"Why celebrate his mercy?","options":["It encourages kindness","It removes responsibility","It discourages learning","It justifies gossip"],"answer":"It encourages kindness"},{"question":"What balances fear and hope?","options":["Trust Allah and work hard","Doubt constantly","Stop worship","Ignore consequences"],"answer":"Trust Allah and work hard"},{"question":"How do you honor his struggles?","options":["Study his challenges","Praise only saints","Forget his life","Criticize believers"],"answer":"Study his challenges"},{"question":"Which character trait he offered?","options":["Forgiveness","Harshness","Pride","Indifference"],"answer":"Forgiveness"},{"question":"How do you keep consistency?","options":["Read about his life weekly","Skip learning","Copy others","Forget accountability"],"answer":"Read about his life weekly"},{"question":"What links him to Tawheed?","options":["His actions mirrored Allah\'s oneness","He avoided people","He praised only himself","He prioritized time"],"answer":"His actions mirrored Allah\'s oneness"},{"question":"When sharing kindness?","options":["Offer help while recalling his example","Ignore their need","Focus on yourself","Be impatient"],"answer":"Offer help while recalling his example"},{"question":"Which practice softens interactions?","options":["Use gentle speech","Yell","Avoid people","Judge quickly"],"answer":"Use gentle speech"},{"question":"What daily choice honors him?","options":["Keep a small Sunnah habit","Do nothing","Compete selfishly","Criticize quietly"],"answer":"Keep a small Sunnah habit"}]},{"chapterId":4,"chapter":"Main Practices","questions":[{"question":"Which pillar connects belief to daily worship?","options":["Shahada","Hajj","Sawm","Zakat"],"answer":"Shahada"},{"question":"Which pillar includes daily prayers?","options":["Zakat","Shahada","Sawm","Salah"],"answer":"Salah"},{"question":"How does charity fit?","options":["Zakat is giving for purity","Avoid wealthy","Ignore those in need","Share gossip"],"answer":"Zakat is giving for purity"},{"question":"Which pillar is a yearly fast?","options":["Salah","Hajj","Sawm","Shahada"],"answer":"Sawm"},{"question":"What is the pilgrimage called?","options":["Hajj","Zakat","Tawheed","Quran"],"answer":"Hajj"},{"question":"How do micro rituals help?","options":["Break them into small steps","Ignore them","Delay action","Compare to others"],"answer":"Break them into small steps"},{"question":"Why keep intentions clear?","options":["To worship for Allah alone","To show off","To rush tasks","To avoid work"],"answer":"To worship for Allah alone"},{"question":"Which supports service?","options":["Link charity with worship","Avoid community","Spend aimlessly","Ignore those in need"],"answer":"Link charity with worship"},{"question":"How does consistency beat perfection?","options":["Keeping steady habits","Striving for flaws","Comparing with others","Doing nothing"],"answer":"Keeping steady habits"},{"question":"What resource clarifies a practice?","options":["Trusted teacher","Random rumor","Anger","Isolation"],"answer":"Trusted teacher"},{"question":"How do you plan support?","options":["Ask mentors for clarification","Avoid mentors","Ignore guidance","Expect magic"],"answer":"Ask mentors for clarification"},{"question":"Why include others?","options":["Accountability builds stability","Isolate yourself","Compete harshly","Forget humility"],"answer":"Accountability builds stability"},{"question":"What is a mindful micro ritual?","options":["A minute of focus","Ignoring duty","Multitasking","Complaining"],"answer":"A minute of focus"},{"question":"How do pillars shape character?","options":["They steady worship and service","They only demand rituals","They limit joy","They remove choices"],"answer":"They steady worship and service"},{"question":"What supports celebration?","options":["Tiny wins","Huge perfection","Failing intentionally","Hiding progress"],"answer":"Tiny wins"}]},{"chapterId":5,"chapter":"Prayer","questions":[{"question":"What is salah described as?","options":["A ritual pause with Allah","Just moving","A habit for others","Strict law only"],"answer":"A ritual pause with Allah"},{"question":"How many daily prayers?","options":["Three","Five","Seven","Ten"],"answer":"Five"},{"question":"What is wudu?","options":["Ritual purification","A meal","Recitation","A lecture"],"answer":"Ritual purification"},{"question":"What is khushu?","options":["Presence in prayer","Speeding through","Ignoring focus","Sleeping"],"answer":"Presence in prayer"},{"question":"How do you tame distractions?","options":["Create quiet space","Finish quickly","Watch others","Ignore the heart"],"answer":"Create quiet space"},{"question":"Which dua can follow salah?","options":["Ask for focus and mercy","Ignore dua","Criticize others","Rush away"],"answer":"Ask for focus and mercy"},{"question":"Why count blessing in sujood?","options":["To thank Allah","To create worry","To impress people","To stop praying"],"answer":"To thank Allah"},{"question":"What is a prayer break?","options":["Mindful pause between talk and salah","Extra chores","Ignoring rest","Skipping intention"],"answer":"Mindful pause between talk and salah"},{"question":"What is the rhythm of prayer?","options":["Standing, bowing, prostrating","Sitting only","Running","Singing loudly"],"answer":"Standing, bowing, prostrating"},{"question":"How do you prepare intention?","options":["Clarify need before takbir","Ignore meaning","Rely on ritual alone","Rush through"],"answer":"Clarify need before takbir"},{"question":"Why share gratitude?","options":["To encourage others","To boast","To avoid work","To hide errors"],"answer":"To encourage others"},{"question":"What track fosters consistency?","options":["Mark each salah","Ignore gaps","Ignore prayer","Delay action"],"answer":"Mark each salah"},{"question":"What is the benefit of mindfulness?","options":["Calms anxiety","Creates pride","Wastes time","Forces guilt"],"answer":"Calms anxiety"},{"question":"When do you pray with presence?","options":["Use mosque visits for focused dua","Skip it","Rush through","Ignore feelings"],"answer":"Use mosque visits for focused dua"},{"question":"What does focus shift?","options":["Performance to presence","Judgement to boredom","Allaudah to tasks","Energy dissipates"],"answer":"Performance to presence"}]},{"chapterId":6,"chapter":"Ramadan","questions":[{"question":"What does fasting aim to build?","options":["Empathy and mercy","Selfishness","A vacation","Sleep"],"answer":"Empathy and mercy","explanation":"What does fasting aim to build. The phrase \'Empathy and mercy\' captures the concept being asked—it is the wording that matches the prompt exactly and matches the lesson focus.","sectionIndex":1},{"question":"What pairs with fasting?","options":["Night worship","Ignoring nights","Eating nonstop","Skipping sleep"],"answer":"Night worship"},{"question":"How can you stay generous?","options":["Plan a simple act of giving","Avoid giving","Hoist a sign","Create gossip"],"answer":"Plan a simple act of giving"},{"question":"What keeps energy sustainable?","options":["Intentional rest","Avoid rest","Overwork","Ignore health"],"answer":"Intentional rest"},{"question":"Why connect hunger to others?","options":["To recall those who go without","To focus on self","To ignore charity","To start arguments"],"answer":"To recall those who go without"},{"question":"How do you reflect daily?","options":["Journal one feeling each night","Ignore feelings","Accuse others","Compete"],"answer":"Journal one feeling each night"},{"question":"What is a nightly goal?","options":["Short recitation or dua","Crying only","Sleeping late","Watching shows"],"answer":"Short recitation or dua"},{"question":"How can Ramadan last?","options":["Keep one habit afterward","Forget lessons","Change culture","Avoid community"],"answer":"Keep one habit afterward"},{"question":"What reminds why you fast?","options":["Ask why and renew intention","Ignore meaning","Focus on hunger","Compare notes"],"answer":"Ask why and renew intention"},{"question":"What fosters community?","options":["Share iftar","Stay isolated","Argue","Ignore others"],"answer":"Share iftar"},{"question":"How to celebrate small wins?","options":["Practice gratitude","Ignore progress","Criticize others","Compete"],"answer":"Practice gratitude"},{"question":"What is mindful charity?","options":["Give a kind word or dua","Hoist a brand","Bully others","Ignore need"],"answer":"Give a kind word or dua"},{"question":"Why protect energy?","options":["So worship stays sustainable","To avoid fast","To skip rest","To degrade others"],"answer":"So worship stays sustainable"},{"question":"What does empathy training create?","options":["Generosity","Apathy","Fuel for gossip","Avoidance"],"answer":"Generosity"},{"question":"How to sustain mercy?","options":["Remember purpose","Forget intentions","Jealousy","Disconnect"],"answer":"Remember purpose"}]},{"chapterId":7,"chapter":"Good Character","questions":[{"question":"Which trait reflects Sunnah manners?","options":["Patience and kindness","Harsh speech","Indifference","Judgment"],"answer":"Patience and kindness"},{"question":"How do you respond when tired?","options":["Pause, breathe, answer kindly","Shout","Ignore people","Walk away"],"answer":"Pause, breathe, answer kindly"},{"question":"Why celebrate humility?","options":["It invites others to mirror it","It hides mistakes","It controls people","It isolates you"],"answer":"It invites others to mirror it"},{"question":"What resets a hurt heart?","options":["Forgiveness","Grudges","Retaliation","Silence"],"answer":"Forgiveness"},{"question":"How do you model adab?","options":["Show examples to others","Keep to yourself","Spread gossip","Avoid service"],"answer":"Show examples to others"},{"question":"Which habit keeps momentum?","options":["Record one act of kindness daily","Forget progress","Track only faults","Ignore people"],"answer":"Record one act of kindness daily"},{"question":"How do you teach children manners?","options":["Role-play and praise effort","Ignore them","Punish harshly","Compete"],"answer":"Role-play and praise effort"},{"question":"Why gentleness matters?","options":["Kind words heal faster","Harshness creates distance","Silence ends dialogue","Winner takes all"],"answer":"Kind words heal faster"},{"question":"How do you correct others gently?","options":["Balance justice with mercy","Ignore the mistake","Censor them","Criticize publicly"],"answer":"Balance justice with mercy"},{"question":"What anchors behavior?","options":["Self-awareness and prayer","Comparison","Competition","Avoidance"],"answer":"Self-awareness and prayer"},{"question":"Why encourage others privately?","options":["So praise feels sincere","To gossip","To boast","To show power"],"answer":"So praise feels sincere"},{"question":"What practice keeps humility?","options":["Daily dhikr and gratitude","Rule changes","Fame","Obsessiveness"],"answer":"Daily dhikr and gratitude"},{"question":"How to handle conflict?","options":["Check yourself before reacting","Escalate","Ignore","Retaliate"],"answer":"Check yourself before reacting"},{"question":"How to celebrate wins?","options":["Acknowledge progress","Boast","Neglect","Ignore"],"answer":"Acknowledge progress"},{"question":"What role does patience play?","options":["It keeps relationships kind","It causes weakness","It wastes time","It creates strife"],"answer":"It keeps relationships kind"}]},{"chapterId":8,"chapter":"Peace & Respect","questions":[{"question":"Where does peace begin?","options":["Respectful listening","Winning debates","Avoiding dialogue","Ordering others"],"answer":"Respectful listening"},{"question":"How do you show respect?","options":["Ask curious questions","Interrupt","Dismiss others","Judge quickly"],"answer":"Ask curious questions"},{"question":"What keeps boundaries healthy?","options":["Clear, compassionate communication","Avoidance","Rigid rules","Harsh lectures"],"answer":"Clear, compassionate communication"},{"question":"How do you include different voices?","options":["Learn about cultures","Ignore differences","Justify stereotypes","Exclude others"],"answer":"Learn about cultures"},{"question":"What defuses tension?","options":["Take a breath before reacting","Rush replies","Raise voice","Dismiss feelings"],"answer":"Take a breath before reacting"},{"question":"Where does gratitude fit?","options":["Thank someone even for small contributions","Ignore it","Downgrade them","Demand more"],"answer":"Thank someone even for small contributions"},{"question":"Why offer private apologizes?","options":["It keeps peace intimate","It loses strength","It draws crowds","It hides truth"],"answer":"It keeps peace intimate"},{"question":"How does dua help peace?","options":["Pray for peaceful hearts","Accuse others","Ignore conflicts","Provoke arguments"],"answer":"Pray for peaceful hearts"},{"question":"What invites curiosity?","options":["Ask open questions","Judge","Assume","Doubt constantly"],"answer":"Ask open questions"},{"question":"How other acts show peace?","options":["Calm responses","Loud reactions","Withholding respect","Mocking"],"answer":"Calm responses"},{"question":"What role does silence play?","options":["Mindful silence keeps dialogue calm","Judgmental silence","Harsh silence","Rude silence"],"answer":"Mindful silence keeps dialogue calm"},{"question":"How do you honor shared humanity?","options":["Find common points","Create separation","Limit contact","Show pride"],"answer":"Find common points"},{"question":"What fosters trust?","options":["Consistent care","Instant demands","Ignoring concerns","Defensiveness"],"answer":"Consistent care"},{"question":"Why celebrate diversity?","options":["It strengthens community","It weakens identity","It causes confusion","It triggers fear"],"answer":"It strengthens community"},{"question":"How to keep peace daily?","options":["Include dua in routine","Neglect prayer","Slam doors","Ignore feelings"],"answer":"Include dua in routine"}]},{"chapterId":9,"chapter":"The Prophets","questions":[{"question":"What message links all prophets?","options":["Mercy and Tawheed","Wealth","War","Isolation"],"answer":"Mercy and Tawheed"},{"question":"Who humbled himself beside Pharaoh?","options":["Musa","Ibrahim","Nuh","Isa"],"answer":"Musa"},{"question":"Which prophet rescued people from arrogance?","options":["Ibrahim","Shuayb","Hud","Yunus"],"answer":"Ibrahim"},{"question":"Which story models patience?","options":["Nuh’s perseverance","Isa’s miracle","Hud’s prayers","Musa’s escape"],"answer":"Nuh’s perseverance"},{"question":"What encourages hope?","options":["Prophets kept trusting Allah","Focusing on problems","Avoiding dua","Judging others"],"answer":"Prophets kept trusting Allah"},{"question":"How to honor lesser-known prophets?","options":["Learn a new fact weekly","Ignore them","Discredit their tradition","Rush study"],"answer":"Learn a new fact weekly"},{"question":"Which response mirrors the prophets?","options":["Keep hope despite rejection","Break faith","Stop praying","Focus on status"],"answer":"Keep hope despite rejection"},{"question":"Which act shows gratitude to prophets?","options":["Share their stories","Forget them","Criticize others","Slander"],"answer":"Share their stories"},{"question":"How do prophets remind you today?","options":["Relate trials to modern struggles","Avoid looking back","Judge believers","Ignore lessons"],"answer":"Relate trials to modern struggles"},{"question":"What strengthens patience?","options":["Reflect on their perseverance","Rush decisions","Avoid prayer","Stay silent"],"answer":"Reflect on their perseverance"},{"question":"Why connect to Quran?","options":["Link story to verse","Skip the verse","Nothing else","Make up details"],"answer":"Link story to verse"},{"question":"How do you help others recognize prophets?","options":["Tell a short tale","Neglect storytelling","Hide research","Mock"],"answer":"Tell a short tale"},{"question":"What trait to emulate?","options":["Charity, courage, patience","Greed","Arrogance","Malice"],"answer":"Charity, courage, patience"},{"question":"How do prophets keep promise?","options":["Hold on to Allah’s promise","Forget about it","Betray others","Ignore the message"],"answer":"Hold on to Allah’s promise"},{"question":"What does their resilience teach?","options":["To keep showing up","To isolate","To avoid effort","To punish"],"answer":"To keep showing up"}]},{"chapterId":10,"chapter":"The Mosque","questions":[{"question":"What is a mosque?","options":["A space for prayer, learning, charity","A focus on sports","A marketplace","A private home"],"answer":"A space for prayer, learning, charity"},{"question":"How to prepare for a visit?","options":["Dress modestly and hold intention","Stay home","Ignore etiquette","Dress casually"],"answer":"Dress modestly and hold intention"},{"question":"Which etiquette matters most?","options":["Silence, cleanliness, modesty","Loud voices","Messy meals","Ignoring others"],"answer":"Silence, cleanliness, modesty"},{"question":"How can you serve?","options":["Volunteer for maintenance","Argue","Sleep","Leave early"],"answer":"Volunteer for maintenance"},{"question":"Why listen to khutbah?","options":["To take away a practical lesson","To distract","To gossip","To sleep"],"answer":"To take away a practical lesson"},{"question":"How do mosques welcome new Muslims?","options":["Offer mentorship and circles","Ignore them","Criticize","Tell them they don’t belong"],"answer":"Offer mentorship and circles"},{"question":"What builds belonging?","options":["Participate in charity","Isolate","Ignore community","Hold grudges"],"answer":"Participate in charity"},{"question":"How to respect the space?","options":["Keep it clean","Leave trash","Rush","Argue"],"answer":"Keep it clean"},{"question":"What can you share with others?","options":["Explain how mosques support newcomers","Ignore questions","Argue","Pressure"],"answer":"Explain how mosques support newcomers"},{"question":"Why invite friends?","options":["They can see the mosque different than expectation","Show off","Criticize","Boast"],"answer":"They can see the mosque different than expectation"},{"question":"How do you make dua there?","options":["Focus on heartfelt requests","Rush through","Forget intention","Compete"],"answer":"Focus on heartfelt requests"},{"question":"What strengthens humility?","options":["Praying with others","Showing off","Staying home","Arguing"],"answer":"Praying with others"},{"question":"What is hospitality?","options":["Welcoming guests","Shutting door","Ignoring someone","Being unkind"],"answer":"Welcoming guests"},{"question":"How do you help keep the mosque safe?","options":["Take part in upkeep","Create chaos","Avoid cleaning","Criticize"],"answer":"Take part in upkeep"},{"question":"Which habit centers you?","options":["Use mosque visits for focused dhikr","Skip visits","Neglect prayer","Argue"],"answer":"Use mosque visits for focused dhikr"}]},{"chapterId":11,"chapter":"Halal Life","questions":[{"question":"What is halal life about?","options":["Integrity across choices","Only diet","Avoiding worship","Rejecting rules"],"answer":"Integrity across choices"},{"question":"Which action shows honesty?","options":["Speak truth with kindness","Lie","Hide mistakes","Give bribes"],"answer":"Speak truth with kindness"},{"question":"How do you keep finance halal?","options":["Choose transparent, interest-free dealings","Ignore terms","Chase shortcuts","Copy others"],"answer":"Choose transparent, interest-free dealings"},{"question":"What counts as halal speech?","options":["Gentle, honest words","Sarcastic jabs","Gossip","Complaining"],"answer":"Gentle, honest words"},{"question":"What does halal media look like?","options":["Content that uplifts the heart","Harsh content","Forbidden stories","Gossip"],"answer":"Content that uplifts the heart"},{"question":"How do halal choices ripple?","options":["They build trust in community","They stay private","They reduce joy","They cause pressure"],"answer":"They build trust in community"},{"question":"What if you slip?","options":["Repent quickly and correct it","Hide it","Repeat it","Avoid responsibility"],"answer":"Repent quickly and correct it"},{"question":"Why support halal businesses?","options":["It keeps integrity alive","It saves money","It avoids worship","It isolates"],"answer":"It keeps integrity alive"},{"question":"What role does rest play?","options":["Rest keeps heart aligned","Ignore rest","Sleep too much","Stay anxious"],"answer":"Rest keeps heart aligned"},{"question":"How do you protect relationships?","options":["Be punctual and fair","Be late","Ignore others","Argue"],"answer":"Be punctual and fair"},{"question":"What keeps accountability in check?","options":["Pray for guidance","Judge others harshly","Do nothing","Dismiss feedback"],"answer":"Pray for guidance"},{"question":"How can you respond when tempted?","options":["Ask Allah for strength","Give in","Blame others","Hide"],"answer":"Ask Allah for strength"},{"question":"What demonstrates influence?","options":["Keep company that uplifts halal values","Surround yourself with critics","Avoid community","Focus on faults"],"answer":"Keep company that uplifts halal values"},{"question":"Why practice honesty in small tasks?","options":["It trains character","It overwhelms","It invites bragging","It isolates"],"answer":"It trains character"},{"question":"How does transparency help?","options":["It earns trust","It hides dishonesty","It confuses","It divides"],"answer":"It earns trust"}]},{"chapterId":12,"chapter":"Men & Women","questions":[{"question":"What does Islam emphasize between genders?","options":["Mutual respect","Competition","Neglect","Favoritism"],"answer":"Mutual respect"},{"question":"How can you support boundaries?","options":["Communicate respectfully","Ignore protocols","Avoid clarity","Yell"],"answer":"Communicate respectfully"},{"question":"What ensures dignity?","options":["Honoring privacy","Gossip","Control","Mockery"],"answer":"Honoring privacy"},{"question":"Why celebrate cooperation?","options":["It strengthens unity","It creates hierarchy","It isolates","It confuses"],"answer":"It strengthens unity"},{"question":"How to teach respect to youth?","options":["Explain why it matters","Force compliance","Shout","Ignore"],"answer":"Explain why it matters"},{"question":"What counters stereotypes?","options":["Share facts and patience","Shout louder","Ignore evidence","Stay silent"],"answer":"Share facts and patience"},{"question":"How do men and women support one another?","options":["Companionate service","Avoid contact","Ignore synergy","Criticize"],"answer":"Companionate service"},{"question":"Why pray for equity?","options":["It keeps hearts sensitive","It creates competition","It avoids justice","It divides"],"answer":"It keeps hearts sensitive"},{"question":"How to honor partnerships?","options":["Express gratitude","Dismiss contributions","Ignore help","Brag"],"answer":"Express gratitude"},{"question":"What role do boundaries play?","options":["Protect dignity","Limit compassion","Separate community","Divide"],"answer":"Protect dignity"},{"question":"How to handle disagreements?","options":["Respond gently","Shout","Avoid dialogue","Fight"],"answer":"Respond gently"},{"question":"What makes relationships healthy?","options":["Mutual respect and cooperation","Power struggles","Sarcasm","Rigid rules"],"answer":"Mutual respect and cooperation"},{"question":"What invites compassion?","options":["Model mercy","Criticize","Ignore","Dominate"],"answer":"Model mercy"},{"question":"Why include dua?","options":["It seeks balance","It ignores issues","It delays action","It isolates"],"answer":"It seeks balance"},{"question":"How to keep learning?","options":["Engage with honest conversation","Avoid topics","Dismiss others","Stay closed"],"answer":"Engage with honest conversation"}]},{"chapterId":13,"chapter":"Becoming Muslim","questions":[{"question":"What comes after shahada?","options":["Begin learning prayer and Quran","Avoid community","Stay silent","Complain"],"answer":"Begin learning prayer and Quran"},{"question":"How can mentors help?","options":["Offer support and guidance","Ignore new Muslims","Criticize","Withdraw"],"answer":"Offer support and guidance"},{"question":"Why celebrate milestones?","options":["It honors courage","It isolates","It bores","It distracts"],"answer":"It honors courage"},{"question":"What role does community play?","options":["Provides care and accountability","Forces beliefs","Judges","Ignores"],"answer":"Provides care and accountability"},{"question":"How do you handle doubts?","options":["Ask good questions and seek answers","Hide them","Blame others","Avoid learning"],"answer":"Ask good questions and seek answers"},{"question":"What should new Muslims learn first?","options":["Prayer, Shahada meaning, dua basics","Ignore rituals","Mislead others","Focus on drama"],"answer":"Prayer, Shahada meaning, dua basics"},{"question":"How do you show support?","options":["Offer encouragement and practical help","Criticize","Isolate","Against instruction"],"answer":"Offer encouragement and practical help"},{"question":"Why plan celebrations?","options":["It affirms their choice","It burdens them","It conflicts","It isolates"],"answer":"It affirms their choice"},{"question":"What fosters courage?","options":["Sharing goals and dua","Avoiding action","Doubting","Being loud"],"answer":"Sharing goals and dua"},{"question":"How do you stay grounded?","options":["Keep small routines and reflections","Chase perfection","Ignore duty","Change quickly"],"answer":"Keep small routines and reflections"},{"question":"What expresses gratitude?","options":["Thank Allah regularly","Ignore Him","Challenge others","Brag"],"answer":"Thank Allah regularly"},{"question":"How to involve family?","options":["Invite them gently to learn","Push them forcibly","Avoid them","Ignore feelings"],"answer":"Invite them gently to learn"},{"question":"What strengthens identity?","options":["Study lessons and share progress","Hide story","Rebel","Complain"],"answer":"Study lessons and share progress"},{"question":"Why keep connection?","options":["To stay motivated","To isolate","To argue","To drift"],"answer":"To stay motivated"},{"question":"What encourages questions?","options":["Assure that curiosity is welcome","Shame them","Dismiss them","Punish them"],"answer":"Assure that curiosity is welcome"}]},{"chapterId":14,"chapter":"Eid Festivals","questions":[{"question":"Which Eid marks Ramadan\'s end?","options":["Eid al-Fitr","Eid al-Adha","Ashura","Isra"],"answer":"Eid al-Fitr"},{"question":"Which Eid recalls Ibrahim\'s trust?","options":["Eid al-Adha","Eid al-Fitr","Ramadan","Mawlid"],"answer":"Eid al-Adha"},{"question":"How can gratitude shape Eid?","options":["Share thanks with others","Ignore gratitude","Accuse others","Limit joy"],"answer":"Share thanks with others"},{"question":"Why add charity on Eid?","options":["To keep celebration grounded in compassion","To compete","To boast","To ignore needs"],"answer":"To keep celebration grounded in compassion"},{"question":"How do you include those alone?","options":["Invite them and share food","Ignore them","Avoid them","Judge"],"answer":"Invite them and share food"},{"question":"What tradition helps teach kids?","options":["Explain meaning of greetings and takbeers","Give gifts only","Scold them","Ignore questions"],"answer":"Explain meaning of greetings and takbeers"},{"question":"Why celebrate mercy?","options":["Use energy to renew kindness","Ignore others","Focus on gifts","Stop giving"],"answer":"Use energy to renew kindness"},{"question":"What balances celebration and sacrifice?","options":["Remember qurban story","Forget sacrifice","Focus on pomp","Compete"],"answer":"Remember qurban story"},{"question":"How to plan Eid calmly?","options":["Prepare logistics ahead","Wait until last minute","Rush around","Complain"],"answer":"Prepare logistics ahead"},{"question":"What makes Eid prayers meaningful?","options":["Focus on dua and unity","Rush through","Ignore significance","Skip"],"answer":"Focus on dua and unity"},{"question":"How do you spread joy?","options":["Send greetings or share treats","Hoard gifts","Criticize","Avoid"],"answer":"Send greetings or share treats"},{"question":"Why keep mercy center?","options":["Allah loves kindness","Pride doesn’t help","Isolation hurts","Neglect fosters tension"],"answer":"Allah loves kindness"},{"question":"What is true celebration?","options":["Shared gratitude and service","Selfish consumption","Show off","Noise"],"answer":"Shared gratitude and service"},{"question":"How can Eid teach humility?","options":["Remember it is a gift of obedience","Act arrogant","Demand extravagance","Criticize others"],"answer":"Remember it is a gift of obedience"},{"question":"Why include dua?","options":["Ask Allah to keep you grateful","Ignore Allah","Focus on things","Brag"],"answer":"Ask Allah to keep you grateful"}]},{"chapterId":15,"chapter":"Afterlife","questions":[{"question":"What guides the afterlife view?","options":["Accountability and mercy","Ignorance","Fear only","No reflection"],"answer":"Accountability and mercy"},{"question":"Which action invests in eternal reward?","options":["Kind deeds","Short-term gain","Ignoring people","Forgetting"],"answer":"Kind deeds"},{"question":"What keeps hope steady?","options":["Repentance and dua","Ignoring consequences","Doubt","Procrastination"],"answer":"Repentance and dua"},{"question":"What anchors gratitude?","options":["Thank Allah for the chance to change","Cry constantly","Avoid worship","Judge"],"answer":"Thank Allah for the chance to change"},{"question":"How do you prepare practical matters?","options":["Pay debts and plan sadaqah jariyah","Delay","Hoard","Ignore advice"],"answer":"Pay debts and plan sadaqah jariyah"},{"question":"What is muhasabah?","options":["Self-accounting before sleep","Judging others","Avoiding reflection","Staying busy"],"answer":"Self-accounting before sleep"},{"question":"How does dua help?","options":["Ask for mercy and forgiveness","Demand justice","Ignore mercy","Punish people"],"answer":"Ask for mercy and forgiveness"},{"question":"Which reminder keeps you present?","options":["Awareness of the akhira","Ignoring future","Focusing on stress","Mimicking others"],"answer":"Awareness of the akhira"},{"question":"What does the scale measure?","options":["Deeds","Sunlight","Movies","Wealth"],"answer":"Deeds"},{"question":"How do you balance hope and fear?","options":["Pair hope with accountability","Fear only","Hope only","Ignore both"],"answer":"Pair hope with accountability"},{"question":"What sustains kindness?","options":["Purposeful service for eternity","Selfish plans","Criticism","Avoiding help"],"answer":"Purposeful service for eternity"},{"question":"Why memorize descriptions of paradise?","options":["Keeps hope alive","Confuses","Creates fear","Distracts"],"answer":"Keeps hope alive"},{"question":"What is a nightly reminder?","options":["A note or dua about the akhira","Procrastination","Insomnia","Random scrolling"],"answer":"A note or dua about the akhira"},{"question":"How do you practice forgiveness?","options":["Forgive others and seek Allah’s forgiveness","Hold grudges","Punish","Ignore"],"answer":"Forgive others and seek Allah’s forgiveness"},{"question":"What dimension keeps the heart steady?","options":["Gratitude for mercy","Comparison","Negativity","Confusion"],"answer":"Gratitude for mercy"},{"question":"Which practice anchors you to the certainty of the afterlife?","options":["Reflecting on the Day of Judgment","Focusing only on this world","Avoiding quiet moments","Comparing achievements"],"answer":"Reflecting on the Day of Judgment"},{"question":"Muhasabah refers to what?","options":["Self-accounting before sleep","Gathering wealth","Avoiding reflection","Skipping goals"],"answer":"Self-accounting before sleep"},{"question":"What is the reward for keeping debts paid before passing away?","options":["Light on the Scale of Deeds","Immediate fame","Earthly luxury","No change"],"answer":"Light on the Scale of Deeds"},{"question":"Which dua helps when thinking about judgment?","options":["Asking Allah for mercy and forgiveness","Requesting worldly gain","Entering debates","Forgetting accountability"],"answer":"Asking Allah for mercy and forgiveness"},{"question":"What does sadaqah jariyah ensure?","options":["Ongoing reward after death","Short-term profit","Temporary comfort","Worldly fame"],"answer":"Ongoing reward after death"},{"question":"How does regular repentance shape the afterlife?","options":["It lightens the heart and records mercy","It delays reward","It creates doubt","It ensures dishonesty"],"answer":"It lightens the heart and records mercy"},{"question":"What keeps hope alive for the hereafter?","options":["Gratitude for Allah\'s mercy","Building walls","Withdrawing from community","Asserting superiority"],"answer":"Gratitude for Allah\'s mercy"},{"question":"Which Quranic reminder balances fear and hope?","options":["Allah is Merciful yet Just","Ignore accountability","Celebrate fears only","Avoid prayer"],"answer":"Allah is Merciful yet Just"},{"question":"What distinguishes deeds on the day of judgment?","options":["Sincerity for Allah alone","Public applause","Length of time","Quantity of words"],"answer":"Sincerity for Allah alone"},{"question":"What is a practical way to remember the graves?","options":["Visit the cemetery and make dua","Avoid going outside","Read only social posts","Keep busy with streams"],"answer":"Visit the cemetery and make dua"},{"question":"Which sign reminds you that every soul tastes death?","options":["Witnessing funerals","Watching movies","Buying luxuries","Ignoring warnings"],"answer":"Witnessing funerals"},{"question":"What does tawakkul (reliance on Allah) do for the afterlife mindset?","options":["It trusts Allah while acting responsibly","It removes effort","It avoids dua","It depend on luck"],"answer":"It trusts Allah while acting responsibly"},{"question":"Why should we keep our intentions clear for the akhira?","options":["Because intentions turn actions into worship","To impress people","To avoid schedules","To delay decisions"],"answer":"Because intentions turn actions into worship"},{"question":"Which act invests in the next life when you help others?","options":["Supporting someone in need with sincerity","Doing it for praise","Avoiding community","Focusing on competition"],"answer":"Supporting someone in need with sincerity"},{"question":"Which phrase reminds you of resurrection?","options":["Every soul will taste death","Ignore the scales","Post only happy news","Keep silent forever"],"answer":"Every soul will taste death"},{"question":"How do small routines build afterlife hope?","options":["They keep you consistent and conscious","They replace big goals","They distract from prayer","They create arrogance"],"answer":"They keep you consistent and conscious"},{"question":"Which reminder protects against despair?","options":["Allah forgives those who turn back sincerely","Ignore mistakes completely","Trust only wealth","Avoid dua"],"answer":"Allah forgives those who turn back sincerely"},{"question":"What gives meaning to funeral gatherings?","options":["They inspire dua and humility","They are occasions for gossip","They cause anger","They are excuses for parties"],"answer":"They inspire dua and humility"},{"question":"When tempted, how does the akhira mindset respond?","options":["By remembering the final account","By ignoring consequences","By acting rashly","By blaming others"],"answer":"By remembering the final account"},{"question":"What makes hopeful actions last after you die?","options":["Leaving behind beneficial knowledge","Posting selfies","Seeking recognition","Expecting immediate payoff"],"answer":"Leaving behind beneficial knowledge"},{"question":"Why keep sessions with the Quran about akhirah?","options":["Because it speaks about reward, mercy, and warning","Because it is optional","Because it discourages action","Because it isolates"],"answer":"Because it speaks about reward, mercy, and warning"},{"question":"What consistent action helps on the Day of Judgment?","options":["Seeking Allah’s mercy through dua","Avoiding others","Arguing about details","Living selfishly"],"answer":"Seeking Allah’s mercy through dua"},{"question":"How does thanking Allah daily affect the afterlife?","options":["It trains gratitude that grows into hope","It focuses on wealth","It increases stress","It replaces action"],"answer":"It trains gratitude that grows into hope"},{"question":"Which practice alleviates fear of the scale?","options":["Collecting good deeds while seeking mercy","Avoiding worship","Relying on others","Doubting Allah"],"answer":"Collecting good deeds while seeking mercy"},{"question":"What kind of reminders keep the akhira close?","options":["Gentle quotes about accountability","Only trending news","Always expecting comfort","Avoiding reflection"],"answer":"Gentle quotes about accountability"},{"question":"How can fasting anchor afterlife awareness?","options":["It instills patience and trust in Allah’s plan","It delays justice","It just controls hunger","It isolates"],"answer":"It instills patience and trust in Allah’s plan"},{"question":"What should follow sincere dua for mercy?","options":["Right action and patience","Giving up","Waiting passively","Doing nothing"],"answer":"Right action and patience"},{"question":"Why bring family into akhira conversations?","options":["So everyone can support each other’s accountability","To create worry","To burden them","To avoid truth"],"answer":"So everyone can support each other’s accountability"}]}]');
 
 /***/ }),
 

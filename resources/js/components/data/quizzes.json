@@ -10,7 +10,9 @@
           "Subhan Allah",
           "Bismillah"
         ],
-        "answer": "La ilaha illa Allah"
+        "answer": "La ilaha illa Allah",
+        "explanation": "Which statement is the Shahada. The phrase 'La ilaha illa Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Tawheed al-Rububiyyah affirms which fact about Allah?",
@@ -20,7 +22,9 @@
           "His prophets",
           "His angels"
         ],
-        "answer": "His Lordship over creation"
+        "answer": "His Lordship over creation",
+        "explanation": "Tawheed al-Rububiyyah affirms which fact about Allah. The phrase 'His Lordship over creation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Tawheed al-Uluhiyyah insists that worship belongs to?",
@@ -30,7 +34,9 @@
           "Saints",
           "Nature"
         ],
-        "answer": "Allah alone"
+        "answer": "Allah alone",
+        "explanation": "Tawheed al-Uluhiyyah insists that worship belongs to. The phrase 'Allah alone' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Belief in Allah's names and attributes is called?",
@@ -40,7 +46,9 @@
           "Tawheed al-Uluhiyyah",
           "Shirk"
         ],
-        "answer": "Tawheed al-Asma wa Sifat"
+        "answer": "Tawheed al-Asma wa Sifat",
+        "explanation": "Belief in Allah's names and attributes is called. The phrase 'Tawheed al-Asma wa Sifat' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Which act contradicts Tawheed?",
@@ -50,7 +58,9 @@
           "Giving charity",
           "Praying on time"
         ],
-        "answer": "Worshiping idols"
+        "answer": "Worshiping idols",
+        "explanation": "Which act contradicts Tawheed. The phrase 'Worshiping idols' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "What does the Arabic word 'shirk' mean?",
@@ -60,7 +70,9 @@
           "Helping parents",
           "Giving charity"
         ],
-        "answer": "Associating partners with Allah"
+        "answer": "Associating partners with Allah",
+        "explanation": "What does the Arabic word 'shirk' mean. The phrase 'Associating partners with Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Reciting the Shahada daily helps a believer to?",
@@ -70,7 +82,9 @@
           "Avoid talking to others",
           "Win every argument"
         ],
-        "answer": "Keep Allah's oneness present"
+        "answer": "Keep Allah's oneness present",
+        "explanation": "Reciting the Shahada daily helps a believer to. The phrase 'Keep Allah's oneness present' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "The primordial covenant taught that souls testified to?",
@@ -80,7 +94,9 @@
           "Family ties",
           "Social media fame"
         ],
-        "answer": "Allah's oneness"
+        "answer": "Allah's oneness",
+        "explanation": "The primordial covenant taught that souls testified to. The phrase 'Allah's oneness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Which habit protects Tawheed in day to day life?",
@@ -90,7 +106,9 @@
           "Ignoring prayer",
           "Competitiveness"
         ],
-        "answer": "Sincere dua to Allah alone"
+        "answer": "Sincere dua to Allah alone",
+        "explanation": "Which habit protects Tawheed in day to day life. The phrase 'Sincere dua to Allah alone' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Tawheed urges us to rely on Allah instead of?",
@@ -100,7 +118,9 @@
           "Prophets",
           "Our parents"
         ],
-        "answer": "Created beings"
+        "answer": "Created beings",
+        "explanation": "Tawheed urges us to rely on Allah instead of. The phrase 'Created beings' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Which Quranic verse begins with a call to remember Allah's oneness?",
@@ -110,7 +130,9 @@
           "Yaseen",
           "An-Nas"
         ],
-        "answer": "Qul Huwa Allahu Ahad"
+        "answer": "Qul Huwa Allahu Ahad",
+        "explanation": "Which Quranic verse begins with a call to remember Allah's oneness. The phrase 'Qul Huwa Allahu Ahad' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "To guard Tawheed, Muslims avoid giving divine attributes to?",
@@ -120,7 +142,9 @@
           "Mosques",
           "Angels"
         ],
-        "answer": "Human idols"
+        "answer": "Human idols",
+        "explanation": "To guard Tawheed, Muslims avoid giving divine attributes to. The phrase 'Human idols' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which action shows belief in Allah's attributes?",
@@ -130,7 +154,9 @@
           "Sleeping late",
           "Eating fast food"
         ],
-        "answer": "Reciting the Names of Allah"
+        "answer": "Reciting the Names of Allah",
+        "explanation": "Which action shows belief in Allah's attributes. The phrase 'Reciting the Names of Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Under Tawheed, which description applies only to Allah?",
@@ -140,7 +166,9 @@
           "Neighbor",
           "Friend"
         ],
-        "answer": "Creator"
+        "answer": "Creator",
+        "explanation": "Under Tawheed, which description applies only to Allah. The phrase 'Creator' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "What should the intention be before every act of worship to keep Tawheed alive?",
@@ -150,7 +178,9 @@
           "To gain fame",
           "To compete with others"
         ],
-        "answer": "For Allah's pleasure"
+        "answer": "For Allah's pleasure",
+        "explanation": "What should the intention be before every act of worship to keep Tawheed alive. The phrase 'For Allah's pleasure' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Which attitude best demonstrates Tawheed when making decisions?",
@@ -160,7 +190,9 @@
           "Ignoring prayer",
           "Copying friends"
         ],
-        "answer": "Seeking Allah's guidance"
+        "answer": "Seeking Allah's guidance",
+        "explanation": "Which attitude best demonstrates Tawheed when making decisions. The phrase 'Seeking Allah's guidance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Tawakkul refers to.",
@@ -170,7 +202,9 @@
           "Showing off",
           "Competing with others"
         ],
-        "answer": "Trusting Allah"
+        "answer": "Trusting Allah",
+        "explanation": "Tawakkul refers to. The phrase 'Trusting Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Renewing your intention before worship keeps focus on.",
@@ -180,7 +214,9 @@
           "Wealth",
           "Entertainment"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "Renewing your intention before worship keeps focus on. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "To avoid shirk, we should never attribute Allah's  to others.",
@@ -190,7 +226,9 @@
           "Jobs",
           "Debts"
         ],
-        "answer": "Attributes"
+        "answer": "Attributes",
+        "explanation": "To avoid shirk, we should never attribute Allah's  to others. The phrase 'Attributes' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "When fear arises, Tawheed reminds us to rely on.",
@@ -200,7 +238,9 @@
           "Popularity",
           "Money"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "When fear arises, Tawheed reminds us to rely on. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -215,7 +255,9 @@
           "Third",
           "Fourth"
         ],
-        "answer": "First"
+        "answer": "First",
+        "explanation": "Belief in Allah is which article of faith. The phrase 'First' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Belief in divine decree (Qadar) corresponds to which article?",
@@ -225,7 +267,9 @@
           "Third",
           "Fifth"
         ],
-        "answer": "Second"
+        "answer": "Second",
+        "explanation": "Belief in divine decree (Qadar) corresponds to which article. The phrase 'Second' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Belief in the revealed books is which article?",
@@ -235,7 +279,9 @@
           "First",
           "Sixth"
         ],
-        "answer": "Third"
+        "answer": "Third",
+        "explanation": "Belief in the revealed books is which article. The phrase 'Third' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Belief in prophets is which article?",
@@ -245,7 +291,9 @@
           "Second",
           "Third"
         ],
-        "answer": "Fifth"
+        "answer": "Fifth",
+        "explanation": "Belief in prophets is which article. The phrase 'Fifth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Belief in angels is which article?",
@@ -255,7 +303,9 @@
           "Second",
           "Third"
         ],
-        "answer": "Fourth"
+        "answer": "Fourth",
+        "explanation": "Belief in angels is which article. The phrase 'Fourth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Belief in the Day of Judgment is which article?",
@@ -265,7 +315,9 @@
           "Fourth",
           "Second"
         ],
-        "answer": "Sixth"
+        "answer": "Sixth",
+        "explanation": "Belief in the Day of Judgment is which article. The phrase 'Sixth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Which of the following is a revealed book?",
@@ -275,7 +327,9 @@
           "Novel",
           "Myth"
         ],
-        "answer": "Quran"
+        "answer": "Quran",
+        "explanation": "Which of the following is a revealed book. The phrase 'Quran' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "The Quran was revealed to which prophet?",
@@ -285,7 +339,9 @@
           "Jesus",
           "Noah"
         ],
-        "answer": "Muhammad (peace be upon him)"
+        "answer": "Muhammad (peace be upon him)",
+        "explanation": "The Quran was revealed to which prophet. The phrase 'Muhammad (peace be upon him)' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Angels are created from what?",
@@ -295,7 +351,9 @@
           "Water",
           "Clay"
         ],
-        "answer": "Light"
+        "answer": "Light",
+        "explanation": "Angels are created from what. The phrase 'Light' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Divine decree reminds believers that Allah controls every.",
@@ -305,7 +363,9 @@
           "Emotion",
           "Memory"
         ],
-        "answer": "Event"
+        "answer": "Event",
+        "explanation": "Divine decree reminds believers that Allah controls every. The phrase 'Event' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Prophets came to deliver Allah's.",
@@ -315,7 +375,9 @@
           "Political idea",
           "Movie"
         ],
-        "answer": "Message"
+        "answer": "Message",
+        "explanation": "Prophets came to deliver Allah's. The phrase 'Message' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Belief in the unseen includes trusting in which of these?",
@@ -325,7 +387,9 @@
           "Mountains",
           "Buildings"
         ],
-        "answer": "Angels"
+        "answer": "Angels",
+        "explanation": "Belief in the unseen includes trusting in which of these. The phrase 'Angels' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which of these books came before the Quran?",
@@ -335,7 +399,9 @@
           "Comic",
           "Novel"
         ],
-        "answer": "Torah"
+        "answer": "Torah",
+        "explanation": "Which of these books came before the Quran. The phrase 'Torah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Belief that Allah rewards good deeds gives hope for.",
@@ -345,7 +411,9 @@
           "Travel",
           "Fame"
         ],
-        "answer": "Paradise"
+        "answer": "Paradise",
+        "explanation": "Belief that Allah rewards good deeds gives hope for. The phrase 'Paradise' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Belief in Allah means submitting to His.",
@@ -355,7 +423,9 @@
           "Neighbor",
           "Story"
         ],
-        "answer": "Will"
+        "answer": "Will",
+        "explanation": "Belief in Allah means submitting to His. The phrase 'Will' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Belief in the unseen includes trusting Allah knows our  before we act.",
@@ -365,7 +435,9 @@
           "Weather",
           "Sports"
         ],
-        "answer": "Intentions"
+        "answer": "Intentions",
+        "explanation": "Belief in the unseen includes trusting Allah knows our  before we act. The phrase 'Intentions' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Divine decree encourages patience with  that Allah allows.",
@@ -375,7 +447,9 @@
           "Gossip",
           "Shopping"
         ],
-        "answer": "Trials"
+        "answer": "Trials",
+        "explanation": "Divine decree encourages patience with  that Allah allows. The phrase 'Trials' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Revealed books keep believers focused on Allah's.",
@@ -385,7 +459,9 @@
           "Noise",
           "Fame"
         ],
-        "answer": "Guidance"
+        "answer": "Guidance",
+        "explanation": "Revealed books keep believers focused on Allah's. The phrase 'Guidance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Prophets came to invite people to.",
@@ -395,7 +471,9 @@
           "Wealth",
           "Sports"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "Prophets came to invite people to. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Remembering the Day of Judgment helps guard our.",
@@ -405,7 +483,9 @@
           "Shopping",
           "Screens"
         ],
-        "answer": "Actions"
+        "answer": "Actions",
+        "explanation": "Remembering the Day of Judgment helps guard our. The phrase 'Actions' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -420,7 +500,9 @@
           "Four",
           "Seven"
         ],
-        "answer": "Five"
+        "answer": "Five",
+        "explanation": "How many pillars of Islam are there. The phrase 'Five' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Which pillar is the declaration of faith?",
@@ -430,7 +512,9 @@
           "Zakat",
           "Sawm"
         ],
-        "answer": "Shahada"
+        "answer": "Shahada",
+        "explanation": "Which pillar is the declaration of faith. The phrase 'Shahada' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Which pillar is the five daily prayers?",
@@ -440,7 +524,9 @@
           "Hajj",
           "Shahada"
         ],
-        "answer": "Salah"
+        "answer": "Salah",
+        "explanation": "Which pillar is the five daily prayers. The phrase 'Salah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Which pillar gives a portion of wealth to the needy?",
@@ -450,7 +536,9 @@
           "Hijrah",
           "Hajj"
         ],
-        "answer": "Zakat"
+        "answer": "Zakat",
+        "explanation": "Which pillar gives a portion of wealth to the needy. The phrase 'Zakat' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Which pillar involves fasting during Ramadan?",
@@ -460,7 +548,9 @@
           "Salah",
           "Hajj"
         ],
-        "answer": "Sawm"
+        "answer": "Sawm",
+        "explanation": "Which pillar involves fasting during Ramadan. The phrase 'Sawm' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Which pillar is the pilgrimage to Makkah?",
@@ -470,7 +560,9 @@
           "Salah",
           "Zakat"
         ],
-        "answer": "Hajj"
+        "answer": "Hajj",
+        "explanation": "Which pillar is the pilgrimage to Makkah. The phrase 'Hajj' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Zakat is primarily intended for which group?",
@@ -480,7 +572,9 @@
           "Kings",
           "Visitors"
         ],
-        "answer": "The poor and needy"
+        "answer": "The poor and needy",
+        "explanation": "Zakat is primarily intended for which group. The phrase 'The poor and needy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Which pillar may be performed only once if a Muslim is able?",
@@ -490,7 +584,9 @@
           "Zakat",
           "Sawm"
         ],
-        "answer": "Hajj"
+        "answer": "Hajj",
+        "explanation": "Which pillar may be performed only once if a Muslim is able. The phrase 'Hajj' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Which Surah is recited in every rak'ah of prayer?",
@@ -500,7 +596,9 @@
           "Al-Kawthar",
           "Al-Ikhlas"
         ],
-        "answer": "Al-Fatiha"
+        "answer": "Al-Fatiha",
+        "explanation": "Which Surah is recited in every rak'ah of prayer. The phrase 'Al-Fatiha' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "The fast of Ramadan begins at what time of day?",
@@ -510,7 +608,9 @@
           "Asr",
           "Maghrib"
         ],
-        "answer": "Fajr"
+        "answer": "Fajr",
+        "explanation": "The fast of Ramadan begins at what time of day. The phrase 'Fajr' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Which purification is done before Salah?",
@@ -520,7 +620,9 @@
           "Qurbani",
           "Zakat"
         ],
-        "answer": "Wudu"
+        "answer": "Wudu",
+        "explanation": "Which purification is done before Salah. The phrase 'Wudu' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "The call to prayer is called?",
@@ -530,7 +632,9 @@
           "Takbir",
           "Dua"
         ],
-        "answer": "Adhan"
+        "answer": "Adhan",
+        "explanation": "The call to prayer is called. The phrase 'Adhan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Giving zakat purifies a Muslim's.",
@@ -540,7 +644,9 @@
           "Sleep",
           "Travel"
         ],
-        "answer": "Wealth"
+        "answer": "Wealth",
+        "explanation": "Giving zakat purifies a Muslim's. The phrase 'Wealth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Fasting during Ramadan teaches believers.",
@@ -550,7 +656,9 @@
           "Laziness",
           "Rudeness"
         ],
-        "answer": "Self-discipline"
+        "answer": "Self-discipline",
+        "explanation": "Fasting during Ramadan teaches believers. The phrase 'Self-discipline' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "The Shahada names Muhammad (peace be upon him) as what?",
@@ -560,7 +668,9 @@
           "Scribe",
           "Soldier"
         ],
-        "answer": "Messenger of Allah"
+        "answer": "Messenger of Allah",
+        "explanation": "The Shahada names Muhammad (peace be upon him) as what. The phrase 'Messenger of Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "The day pilgrims stand at Arafat during Hajj is called the Day of.",
@@ -570,7 +680,9 @@
           "Ashura",
           "Mawlid"
         ],
-        "answer": "Arafah"
+        "answer": "Arafah",
+        "explanation": "The day pilgrims stand at Arafat during Hajj is called the Day of. The phrase 'Arafah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Fasting Ramadan helps control  besides hunger.",
@@ -580,7 +692,9 @@
           "Homework",
           "Noise"
         ],
-        "answer": "Anger"
+        "answer": "Anger",
+        "explanation": "Fasting Ramadan helps control  besides hunger. The phrase 'Anger' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Taraweeh prayers follow the  prayer each Ramadan night.",
@@ -590,7 +704,9 @@
           "Dhuhr",
           "Maghrib"
         ],
-        "answer": "Isha"
+        "answer": "Isha",
+        "explanation": "Taraweeh prayers follow the  prayer each Ramadan night. The phrase 'Isha' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "When wealth reaches the nisab, Muslims give.",
@@ -600,7 +716,9 @@
           "Sawm",
           "Dua"
         ],
-        "answer": "Zakat"
+        "answer": "Zakat",
+        "explanation": "When wealth reaches the nisab, Muslims give. The phrase 'Zakat' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Salah anchors the believer's heart to.",
@@ -610,7 +728,9 @@
           "Money",
           "Friends"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "Salah anchors the believer's heart to. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -625,7 +745,9 @@
           "Jesus",
           "Abraham"
         ],
-        "answer": "Muhammad (peace be upon him)"
+        "answer": "Muhammad (peace be upon him)",
+        "explanation": "The Quran was revealed to whom. The phrase 'Muhammad (peace be upon him)' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Which angel brought the revelation of the Quran?",
@@ -635,7 +757,9 @@
           "Israfil",
           "Azrael"
         ],
-        "answer": "Jibril"
+        "answer": "Jibril",
+        "explanation": "Which angel brought the revelation of the Quran. The phrase 'Jibril' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "The Quran is described as a book of.",
@@ -645,7 +769,9 @@
           "Songs",
           "History of Europe"
         ],
-        "answer": "Guidance"
+        "answer": "Guidance",
+        "explanation": "The Quran is described as a book of. The phrase 'Guidance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Which Surah opens the Quran?",
@@ -655,7 +781,9 @@
           "An-Nas",
           "Al-Ikhlas"
         ],
-        "answer": "Al-Fatiha"
+        "answer": "Al-Fatiha",
+        "explanation": "Which Surah opens the Quran. The phrase 'Al-Fatiha' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Which Surah begins with the word 'Iqra' meaning 'Read'?",
@@ -665,7 +793,9 @@
           "An-Nas",
           "Al-Masad"
         ],
-        "answer": "Al-Alaq"
+        "answer": "Al-Alaq",
+        "explanation": "Which Surah begins with the word 'Iqra' meaning 'Read'. The phrase 'Al-Alaq' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "The Quran was revealed over how many years?",
@@ -675,7 +805,9 @@
           "Forty",
           "Seven"
         ],
-        "answer": "Twenty three"
+        "answer": "Twenty three",
+        "explanation": "The Quran was revealed over how many years. The phrase 'Twenty three' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Quranic recitation rules are called __?",
@@ -685,7 +817,9 @@
           "Salah",
           "Fasting"
         ],
-        "answer": "Tajweed"
+        "answer": "Tajweed",
+        "explanation": "Quranic recitation rules are called __. The phrase 'Tajweed' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Reflecting deeply on Allah's words is known as ?",
@@ -695,7 +829,9 @@
           "Zakat",
           "Hajj"
         ],
-        "answer": "Tadabbur"
+        "answer": "Tadabbur",
+        "explanation": "Reflecting deeply on Allah's words is known as . The phrase 'Tadabbur' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "The Quran was revealed in which language?",
@@ -705,7 +841,9 @@
           "Persian",
           "Urdu"
         ],
-        "answer": "Arabic"
+        "answer": "Arabic",
+        "explanation": "The Quran was revealed in which language. The phrase 'Arabic' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Which Surah is the shortest among these?",
@@ -715,7 +853,9 @@
           "An-Nisa",
           "Yunus"
         ],
-        "answer": "Al-Ikhlas"
+        "answer": "Al-Ikhlas",
+        "explanation": "Which Surah is the shortest among these. The phrase 'Al-Ikhlas' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "The Quran calls Allah Ar-Rahman, meaning?",
@@ -725,7 +865,9 @@
           "The Athlete",
           "The Ruler of Birds"
         ],
-        "answer": "The Most Merciful"
+        "answer": "The Most Merciful",
+        "explanation": "The Quran calls Allah Ar-Rahman, meaning. The phrase 'The Most Merciful' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "The word 'Quran' literally means?",
@@ -735,7 +877,9 @@
           "Prayer mat",
           "Lamp"
         ],
-        "answer": "Recitation"
+        "answer": "Recitation",
+        "explanation": "The word 'Quran' literally means. The phrase 'Recitation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Who preserved the Quran in writing during the Prophet's lifetime?",
@@ -745,7 +889,9 @@
           "Soldiers",
           "Poets"
         ],
-        "answer": "Scribes"
+        "answer": "Scribes",
+        "explanation": "Who preserved the Quran in writing during the Prophet's lifetime. The phrase 'Scribes' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "The Quran invites believers to call upon Allah using His ?",
@@ -755,7 +901,9 @@
           "Movies",
           "Music"
         ],
-        "answer": "Names"
+        "answer": "Names",
+        "explanation": "The Quran invites believers to call upon Allah using His . The phrase 'Names' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "The Quran promises mercy to those who do what?",
@@ -765,7 +913,9 @@
           "Take wealth only for self",
           "Hoard food"
         ],
-        "answer": "Believe and act"
+        "answer": "Believe and act",
+        "explanation": "The Quran promises mercy to those who do what. The phrase 'Believe and act' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Which Surah describes Allah as the Light of the heavens and earth?",
@@ -775,7 +925,9 @@
           "Yaseen",
           "An-Nas"
         ],
-        "answer": "An-Nur"
+        "answer": "An-Nur",
+        "explanation": "Which Surah describes Allah as the Light of the heavens and earth. The phrase 'An-Nur' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Who served as the Prophet's chief scribe for revelations?",
@@ -785,7 +937,9 @@
           "Umar",
           "Ali"
         ],
-        "answer": "Zayd ibn Thabit"
+        "answer": "Zayd ibn Thabit",
+        "explanation": "Who served as the Prophet's chief scribe for revelations. The phrase 'Zayd ibn Thabit' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "The Quran was revealed primarily in the month of.",
@@ -795,7 +949,9 @@
           "Muharram",
           "Dhul-Hijjah"
         ],
-        "answer": "Ramadan"
+        "answer": "Ramadan",
+        "explanation": "The Quran was revealed primarily in the month of. The phrase 'Ramadan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Believers show reverence before touching the Quran by performing.",
@@ -805,7 +961,9 @@
           "Eating",
           "Shopping"
         ],
-        "answer": "Wudu"
+        "answer": "Wudu",
+        "explanation": "Believers show reverence before touching the Quran by performing. The phrase 'Wudu' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "The Quran invites us to reflect on the  around us.",
@@ -815,7 +973,9 @@
           "Jokes",
           "Gossip"
         ],
-        "answer": "Signs in creation"
+        "answer": "Signs in creation",
+        "explanation": "The Quran invites us to reflect on the  around us. The phrase 'Signs in creation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -830,7 +990,9 @@
           "Scholar",
           "Trader"
         ],
-        "answer": "Prophet"
+        "answer": "Prophet",
+        "explanation": "Muhammad (peace be upon him) is known as the final . The phrase 'Prophet' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "In which city was Prophet Muhammad born?",
@@ -840,7 +1002,9 @@
           "Jerusalem",
           "Cairo"
         ],
-        "answer": "Makkah"
+        "answer": "Makkah",
+        "explanation": "In which city was Prophet Muhammad born. The phrase 'Makkah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "The migration to Madina is called?",
@@ -850,7 +1014,9 @@
           "Hajj",
           "Zakat"
         ],
-        "answer": "Hijrah"
+        "answer": "Hijrah",
+        "explanation": "The migration to Madina is called. The phrase 'Hijrah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "The life story of Prophet Muhammad is known as?",
@@ -860,7 +1026,9 @@
           "Tafsir",
           "Fiqh"
         ],
-        "answer": "Seerah"
+        "answer": "Seerah",
+        "explanation": "The life story of Prophet Muhammad is known as. The phrase 'Seerah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "His companions are called?",
@@ -870,7 +1038,9 @@
           "Qadis",
           "Imams"
         ],
-        "answer": "Sahaba"
+        "answer": "Sahaba",
+        "explanation": "His companions are called. The phrase 'Sahaba' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Which title meant 'the trustworthy'?",
@@ -880,7 +1050,9 @@
           "Al-Saud",
           "Al-Wahid"
         ],
-        "answer": "Al-Amin"
+        "answer": "Al-Amin",
+        "explanation": "Which title meant 'the trustworthy'. The phrase 'Al-Amin' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Where did he receive the first revelation?",
@@ -890,7 +1062,9 @@
           "Mount Sinai",
           "Masjid al-Haram"
         ],
-        "answer": "Cave of Hira"
+        "answer": "Cave of Hira",
+        "explanation": "Where did he receive the first revelation. The phrase 'Cave of Hira' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Which mosque did he build first after migrating?",
@@ -900,7 +1074,9 @@
           "Masjid Nabawi",
           "Masjid al-Aqsa"
         ],
-        "answer": "Masjid Quba"
+        "answer": "Masjid Quba",
+        "explanation": "Which mosque did he build first after migrating. The phrase 'Masjid Quba' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Which battle was the first major victory for the Muslims?",
@@ -910,7 +1086,9 @@
           "Khandaq",
           "Hunayn"
         ],
-        "answer": "Badr"
+        "answer": "Badr",
+        "explanation": "Which battle was the first major victory for the Muslims. The phrase 'Badr' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Prophet Muhammad taught Muslims to be kind to?",
@@ -920,7 +1098,9 @@
           "Only family",
           "Only leaders"
         ],
-        "answer": "Neighbors"
+        "answer": "Neighbors",
+        "explanation": "Prophet Muhammad taught Muslims to be kind to. The phrase 'Neighbors' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "The Farewell Pilgrimage took place in?",
@@ -930,7 +1110,9 @@
           "Jerusalem",
           "Taif"
         ],
-        "answer": "Makkah"
+        "answer": "Makkah",
+        "explanation": "The Farewell Pilgrimage took place in. The phrase 'Makkah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "He urged Muslims to speak the truth and keep what?",
@@ -940,7 +1122,9 @@
           "Wealth",
           "Meals"
         ],
-        "answer": "Promises"
+        "answer": "Promises",
+        "explanation": "He urged Muslims to speak the truth and keep what. The phrase 'Promises' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which group did he especially remind Muslims to care for?",
@@ -950,7 +1134,9 @@
           "Kings",
           "Athletes"
         ],
-        "answer": "Orphans"
+        "answer": "Orphans",
+        "explanation": "Which group did he especially remind Muslims to care for. The phrase 'Orphans' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "He told the Ummah to hold fast to the rope of?",
@@ -960,7 +1146,9 @@
           "War",
           "Health"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "He told the Ummah to hold fast to the rope of. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "The Quran calls him a mercy to?",
@@ -970,17 +1158,21 @@
           "Only kings",
           "Only traders"
         ],
-        "answer": "The worlds"
+        "answer": "The worlds",
+        "explanation": "The Quran calls him a mercy to. The phrase 'The worlds' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
-        "question": "Before prophethood, the Prophet \ufdfa earned a living as a.",
+        "question": "Before prophethood, the Prophet ﷺ earned a living as a.",
         "options": [
           "Trader",
           "Farmer",
           "Poet",
           "Soldier"
         ],
-        "answer": "Trader"
+        "answer": "Trader",
+        "explanation": "Before prophethood, the Prophet ﷺ earned a living as a. The phrase 'Trader' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "The Farewell Sermon emphasized justice and rights for.",
@@ -990,7 +1182,9 @@
           "Only leaders",
           "Only soldiers"
         ],
-        "answer": "All people"
+        "answer": "All people",
+        "explanation": "The Farewell Sermon emphasized justice and rights for. The phrase 'All people' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Helping orphans is a sign of  in the Prophet's teaching.",
@@ -1000,17 +1194,21 @@
           "Silence",
           "Fame"
         ],
-        "answer": "Mercy"
+        "answer": "Mercy",
+        "explanation": "Helping orphans is a sign of  in the Prophet's teaching. The phrase 'Mercy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
-        "question": "The Prophet \ufdfa taught that the strong believer is the one who controls.",
+        "question": "The Prophet ﷺ taught that the strong believer is the one who controls.",
         "options": [
           "Anger",
           "Children",
           "Money",
           "Power"
         ],
-        "answer": "Anger"
+        "answer": "Anger",
+        "explanation": "The Prophet ﷺ taught that the strong believer is the one who controls. The phrase 'Anger' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "He asked the Ummah to follow the Quran and the.",
@@ -1020,13 +1218,27 @@
           "Stories",
           "Games"
         ],
-        "answer": "Sunnah"
+        "answer": "Sunnah",
+        "explanation": "He asked the Ummah to follow the Quran and the. The phrase 'Sunnah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
   {
     "chapterId": 6,
     "questions": [
+      {
+        "question": "What does fasting aim to build?",
+        "options": [
+          "Empathy and mercy",
+          "Selfishness",
+          "A vacation",
+          "Sleep"
+        ],
+        "answer": "Empathy and mercy",
+        "explanation": "What does fasting aim to build. The phrase 'Empathy and mercy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 20
+      },
       {
         "question": "How many daily prayers (Salah) are obligatory for Muslims?",
         "options": [
@@ -1035,7 +1247,9 @@
           "Three",
           "Six"
         ],
-        "answer": "Five"
+        "answer": "Five",
+        "explanation": "How many daily prayers (Salah) are obligatory for Muslims. The phrase 'Five' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Which prayer is performed at dawn?",
@@ -1045,7 +1259,9 @@
           "Asr",
           "Maghrib"
         ],
-        "answer": "Fajr"
+        "answer": "Fajr",
+        "explanation": "Which prayer is performed at dawn. The phrase 'Fajr' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Which prayer is performed after the sun passes its zenith?",
@@ -1055,7 +1271,9 @@
           "Maghrib",
           "Isha"
         ],
-        "answer": "Dhuhr"
+        "answer": "Dhuhr",
+        "explanation": "Which prayer is performed after the sun passes its zenith. The phrase 'Dhuhr' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Which prayer is performed late afternoon before sunset?",
@@ -1065,7 +1283,9 @@
           "Isha",
           "Dhuhr"
         ],
-        "answer": "Asr"
+        "answer": "Asr",
+        "explanation": "Which prayer is performed late afternoon before sunset. The phrase 'Asr' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Which prayer is performed just after sunset?",
@@ -1075,7 +1295,9 @@
           "Isha",
           "Fajr"
         ],
-        "answer": "Maghrib"
+        "answer": "Maghrib",
+        "explanation": "Which prayer is performed just after sunset. The phrase 'Maghrib' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Which prayer is performed after nightfall?",
@@ -1085,7 +1307,9 @@
           "Dhuhr",
           "Maghrib"
         ],
-        "answer": "Isha"
+        "answer": "Isha",
+        "explanation": "Which prayer is performed after nightfall. The phrase 'Isha' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Which purification is performed before every Salah?",
@@ -1095,7 +1319,9 @@
           "Sawm",
           "Hajj"
         ],
-        "answer": "Wudu"
+        "answer": "Wudu",
+        "explanation": "Which purification is performed before every Salah. The phrase 'Wudu' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "The call to prayer is known as?",
@@ -1105,7 +1331,9 @@
           "Fajr",
           "Khutbah"
         ],
-        "answer": "Adhan"
+        "answer": "Adhan",
+        "explanation": "The call to prayer is known as. The phrase 'Adhan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Muslims face which city during prayer?",
@@ -1115,7 +1343,9 @@
           "Jerusalem",
           "Cairo"
         ],
-        "answer": "Makkah"
+        "answer": "Makkah",
+        "explanation": "Muslims face which city during prayer. The phrase 'Makkah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Which movement includes bending at the waist while saying 'Subhana Rabbiyal Adheem'?",
@@ -1125,7 +1355,9 @@
           "Qiyam",
           "Tashahhud"
         ],
-        "answer": "Ruku"
+        "answer": "Ruku",
+        "explanation": "Which movement includes bending at the waist while saying 'Subhana Rabbiyal Adheem'. The phrase 'Ruku' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Which movement involves placing the forehead on the ground?",
@@ -1135,7 +1367,9 @@
           "Qiyam",
           "Takbir"
         ],
-        "answer": "Sujud"
+        "answer": "Sujud",
+        "explanation": "Which movement involves placing the forehead on the ground. The phrase 'Sujud' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Which Surah is recited in every rak'ah of Salah?",
@@ -1145,7 +1379,9 @@
           "An-Nas",
           "Al-Ikhlas"
         ],
-        "answer": "Al-Fatiha"
+        "answer": "Al-Fatiha",
+        "explanation": "Which Surah is recited in every rak'ah of Salah. The phrase 'Al-Fatiha' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "What does the word 'Salah' literally mean?",
@@ -1155,7 +1391,9 @@
           "Wealth",
           "Knowledge"
         ],
-        "answer": "Prayer"
+        "answer": "Prayer",
+        "explanation": "What does the word 'Salah' literally mean. The phrase 'Prayer' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "The intention made before praying is called?",
@@ -1165,7 +1403,9 @@
           "Tawbah",
           "Hajj"
         ],
-        "answer": "Niyyah"
+        "answer": "Niyyah",
+        "explanation": "The intention made before praying is called. The phrase 'Niyyah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Prophet Muhammad (peace be upon him) described prayer as what?",
@@ -1175,7 +1415,9 @@
           "Noise",
           "Speed"
         ],
-        "answer": "Light"
+        "answer": "Light",
+        "explanation": "Prophet Muhammad (peace be upon him) described prayer as what. The phrase 'Light' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "If someone misses a prayer, they should perform a  prayer.",
@@ -1185,7 +1427,9 @@
           "Taraweeh",
           "Eid"
         ],
-        "answer": "Qada"
+        "answer": "Qada",
+        "explanation": "If someone misses a prayer, they should perform a  prayer. The phrase 'Qada' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "The congregational prayer held on Fridays is called.",
@@ -1195,17 +1439,21 @@
           "Taraweeh",
           "Tahajjud"
         ],
-        "answer": "Jummah"
+        "answer": "Jummah",
+        "explanation": "The congregational prayer held on Fridays is called. The phrase 'Jummah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "After Salah, Muslims send peace upon.",
         "options": [
-          "The Prophet \ufdfa",
+          "The Prophet ﷺ",
           "The Quran",
           "The imam",
           "The mosque"
         ],
-        "answer": "The Prophet \ufdfa"
+        "answer": "The Prophet ﷺ",
+        "explanation": "After Salah, Muslims send peace upon. The phrase 'The Prophet ﷺ' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "During Salah, Muslims face the direction of the.",
@@ -1215,7 +1463,9 @@
           "Jerusalem",
           "Cairo"
         ],
-        "answer": "Kaaba in Makkah"
+        "answer": "Kaaba in Makkah",
+        "explanation": "During Salah, Muslims face the direction of the. The phrase 'Kaaba in Makkah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "The Takbir at the start of Salah begins with.",
@@ -1225,7 +1475,9 @@
           "SubhanAllah",
           "Astaghfirullah"
         ],
-        "answer": "Allahu Akbar"
+        "answer": "Allahu Akbar",
+        "explanation": "The Takbir at the start of Salah begins with. The phrase 'Allahu Akbar' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -1240,7 +1492,9 @@
           "Wealth",
           "Travel"
         ],
-        "answer": "Good manners"
+        "answer": "Good manners",
+        "explanation": "What does 'Adab' refer to in Islam. The phrase 'Good manners' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Being kind to neighbors is part of showing?",
@@ -1250,7 +1504,9 @@
           "Sawm",
           "Zakat"
         ],
-        "answer": "Adab"
+        "answer": "Adab",
+        "explanation": "Being kind to neighbors is part of showing. The phrase 'Adab' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Forgiveness is greater than holding on to?",
@@ -1260,7 +1516,9 @@
           "Knowledge",
           "Food"
         ],
-        "answer": "Grudges"
+        "answer": "Grudges",
+        "explanation": "Forgiveness is greater than holding on to. The phrase 'Grudges' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "The Prophet (peace be upon him) said the best of you are those who are best to their?",
@@ -1270,7 +1528,9 @@
           "Animals",
           "Wealth"
         ],
-        "answer": "Families"
+        "answer": "Families",
+        "explanation": "The Prophet (peace be upon him) said the best of you are those who are best to their. The phrase 'Families' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Listening carefully to others is an act of?",
@@ -1280,7 +1540,9 @@
           "Silence",
           "Prayer"
         ],
-        "answer": "Mercy"
+        "answer": "Mercy",
+        "explanation": "Listening carefully to others is an act of. The phrase 'Mercy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Keeping quiet when gossip begins is part of which behavior?",
@@ -1290,7 +1552,9 @@
           "Pride",
           "Sarcasm"
         ],
-        "answer": "Good manners"
+        "answer": "Good manners",
+        "explanation": "Keeping quiet when gossip begins is part of which behavior. The phrase 'Good manners' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Which trait builds trust in the community?",
@@ -1300,7 +1564,9 @@
           "Judging quickly",
           "Noise"
         ],
-        "answer": "Honesty"
+        "answer": "Honesty",
+        "explanation": "Which trait builds trust in the community. The phrase 'Honesty' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "A calm response during conflict shows?",
@@ -1310,7 +1576,9 @@
           "Haste",
           "Silence"
         ],
-        "answer": "Patience"
+        "answer": "Patience",
+        "explanation": "A calm response during conflict shows. The phrase 'Patience' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Which action protects relationships in the Ummah?",
@@ -1320,7 +1588,9 @@
           "Ignore",
           "Dominate"
         ],
-        "answer": "Forgiveness"
+        "answer": "Forgiveness",
+        "explanation": "Which action protects relationships in the Ummah. The phrase 'Forgiveness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Which virtue multiplies kindness?",
@@ -1330,7 +1600,9 @@
           "Hoarding",
           "Indifference"
         ],
-        "answer": "Generosity"
+        "answer": "Generosity",
+        "explanation": "Which virtue multiplies kindness. The phrase 'Generosity' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Charity increases which quality in the heart?",
@@ -1340,7 +1612,9 @@
           "Noise",
           "Pride"
         ],
-        "answer": "Purity"
+        "answer": "Purity",
+        "explanation": "Charity increases which quality in the heart. The phrase 'Purity' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "How should Muslims respond when given a gift?",
@@ -1350,7 +1624,9 @@
           "Refuse",
           "Promise to pay"
         ],
-        "answer": "Say 'Jazakallah'"
+        "answer": "Say 'Jazakallah'",
+        "explanation": "How should Muslims respond when given a gift. The phrase 'Say 'Jazakallah'' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which of the following is not part of good manners?",
@@ -1360,7 +1636,9 @@
           "Kindness",
           "Truthfulness"
         ],
-        "answer": "Gossip"
+        "answer": "Gossip",
+        "explanation": "Which of the following is not part of good manners. The phrase 'Gossip' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "What is the best way to begin a conversation according to Sunnah?",
@@ -1370,7 +1648,9 @@
           "With silence",
           "With a critique"
         ],
-        "answer": "With 'Assalamu Alaikum'"
+        "answer": "With 'Assalamu Alaikum'",
+        "explanation": "What is the best way to begin a conversation according to Sunnah. The phrase 'With 'Assalamu Alaikum'' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Greeting each other with 'Assalamu Alaikum' spreads?",
@@ -1380,7 +1660,9 @@
           "Noise",
           "Silence"
         ],
-        "answer": "Peace"
+        "answer": "Peace",
+        "explanation": "Greeting each other with 'Assalamu Alaikum' spreads. The phrase 'Peace' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Smiling at another Muslim counts as.",
@@ -1390,7 +1672,9 @@
           "Silence",
           "Noise"
         ],
-        "answer": "Charity"
+        "answer": "Charity",
+        "explanation": "Smiling at another Muslim counts as. The phrase 'Charity' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Keeping promises reflects  in Islam.",
@@ -1400,7 +1684,9 @@
           "Money",
           "Silence"
         ],
-        "answer": "Trustworthiness"
+        "answer": "Trustworthiness",
+        "explanation": "Keeping promises reflects  in Islam. The phrase 'Trustworthiness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "When insulted, Muslims are taught to respond with.",
@@ -1410,7 +1696,9 @@
           "Lies",
           "Shouting"
         ],
-        "answer": "Goodness"
+        "answer": "Goodness",
+        "explanation": "When insulted, Muslims are taught to respond with. The phrase 'Goodness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Listening before speaking shows.",
@@ -1420,7 +1708,9 @@
           "Silence",
           "Fame"
         ],
-        "answer": "Respect"
+        "answer": "Respect",
+        "explanation": "Listening before speaking shows. The phrase 'Respect' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Forgiveness clears the heart of long held.",
@@ -1430,7 +1720,9 @@
           "Joy",
           "Sincerity"
         ],
-        "answer": "Grudges"
+        "answer": "Grudges",
+        "explanation": "Forgiveness clears the heart of long held. The phrase 'Grudges' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -1445,7 +1737,9 @@
           "Obvious",
           "Complicated"
         ],
-        "answer": "Permissible"
+        "answer": "Permissible",
+        "explanation": "What does 'halal' mean. The phrase 'Permissible' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Which habit is part of a halal lifestyle?",
@@ -1455,7 +1749,9 @@
           "Hoarding wealth",
           "Gossiping"
         ],
-        "answer": "Eating permissible food"
+        "answer": "Eating permissible food",
+        "explanation": "Which habit is part of a halal lifestyle. The phrase 'Eating permissible food' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Islamic lifestyle encourages  in spending.",
@@ -1465,7 +1761,9 @@
           "Waste",
           "Hoarding"
         ],
-        "answer": "Moderation"
+        "answer": "Moderation",
+        "explanation": "Islamic lifestyle encourages  in spending. The phrase 'Moderation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Rest is considered  that helps worship feel fresh.",
@@ -1475,7 +1773,9 @@
           "Luxury",
           "Punishment"
         ],
-        "answer": "Recharge"
+        "answer": "Recharge",
+        "explanation": "Rest is considered  that helps worship feel fresh. The phrase 'Recharge' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Stewardship in Islam means caring for what?",
@@ -1485,7 +1785,9 @@
           "Fame",
           "Chat groups"
         ],
-        "answer": "Resources and creation"
+        "answer": "Resources and creation",
+        "explanation": "Stewardship in Islam means caring for what. The phrase 'Resources and creation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Which food is not halal?",
@@ -1495,7 +1797,9 @@
           "Fish",
           "Honey"
         ],
-        "answer": "Pork"
+        "answer": "Pork",
+        "explanation": "Which food is not halal. The phrase 'Pork' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Halal finance avoids charging.",
@@ -1505,7 +1809,9 @@
           "Prayers",
           "Charity"
         ],
-        "answer": "Interest"
+        "answer": "Interest",
+        "explanation": "Halal finance avoids charging. The phrase 'Interest' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "A believer can audit which habits through a halal filter?",
@@ -1515,7 +1821,9 @@
           "Sports only",
           "Travel alone"
         ],
-        "answer": "Meals and entertainment"
+        "answer": "Meals and entertainment",
+        "explanation": "A believer can audit which habits through a halal filter. The phrase 'Meals and entertainment' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Islamic lifestyle includes giving  to share blessings.",
@@ -1525,7 +1833,9 @@
           "Criticism",
           "Money only to relatives"
         ],
-        "answer": "Charity"
+        "answer": "Charity",
+        "explanation": "Islamic lifestyle includes giving  to share blessings. The phrase 'Charity' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Before major purchases, Muslims are reminded to ask if it brings.",
@@ -1535,7 +1845,9 @@
           "Confusion",
           "Chaos"
         ],
-        "answer": "Barakah"
+        "answer": "Barakah",
+        "explanation": "Before major purchases, Muslims are reminded to ask if it brings. The phrase 'Barakah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Digital detox hours help guard  time.",
@@ -1545,7 +1857,9 @@
           "Exercise",
           "Work"
         ],
-        "answer": "Worship"
+        "answer": "Worship",
+        "explanation": "Digital detox hours help guard  time. The phrase 'Worship' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Islamic lifestyle teaches a healthy relationship with possessions by promoting.",
@@ -1555,7 +1869,9 @@
           "Envy",
           "Attachment"
         ],
-        "answer": "Detachment"
+        "answer": "Detachment",
+        "explanation": "Islamic lifestyle teaches a healthy relationship with possessions by promoting. The phrase 'Detachment' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Saying 'Alhamdulillah' strengthens ?",
@@ -1565,7 +1881,9 @@
           "Anger",
           "Demand"
         ],
-        "answer": "Gratitude"
+        "answer": "Gratitude",
+        "explanation": "Saying 'Alhamdulillah' strengthens . The phrase 'Gratitude' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Which act is part of Islamic stewardship?",
@@ -1575,7 +1893,9 @@
           "Hoards hunger",
           "Spreading rumors"
         ],
-        "answer": "Sharing resources"
+        "answer": "Sharing resources",
+        "explanation": "Which act is part of Islamic stewardship. The phrase 'Sharing resources' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Contentment in life shows which attitude?",
@@ -1585,7 +1905,9 @@
           "Complaint",
           "Indifference"
         ],
-        "answer": "Humility"
+        "answer": "Humility",
+        "explanation": "Contentment in life shows which attitude. The phrase 'Humility' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Stewardship (khilafah) includes protecting the.",
@@ -1595,7 +1917,9 @@
           "Computers",
           "Clothes"
         ],
-        "answer": "Earth"
+        "answer": "Earth",
+        "explanation": "Stewardship (khilafah) includes protecting the. The phrase 'Earth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "A halal lifestyle values purity in.",
@@ -1605,7 +1929,9 @@
           "Opinions and rumors",
           "Competition and pride"
         ],
-        "answer": "Food and actions"
+        "answer": "Food and actions",
+        "explanation": "A halal lifestyle values purity in. The phrase 'Food and actions' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Screen free time guards the hours dedicated to.",
@@ -1615,7 +1941,9 @@
           "Sleeping",
           "Movies"
         ],
-        "answer": "Worship"
+        "answer": "Worship",
+        "explanation": "Screen free time guards the hours dedicated to. The phrase 'Worship' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Halal entertainment avoids  influences.",
@@ -1625,7 +1953,9 @@
           "Exercise",
           "Prayers"
         ],
-        "answer": "Immorality"
+        "answer": "Immorality",
+        "explanation": "Halal entertainment avoids  influences. The phrase 'Immorality' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Using resources wisely demonstrates.",
@@ -1635,7 +1965,9 @@
           "Noise",
           "Jealousy"
         ],
-        "answer": "Responsibility"
+        "answer": "Responsibility",
+        "explanation": "Using resources wisely demonstrates. The phrase 'Responsibility' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -1650,7 +1982,9 @@
           "Prayer",
           "Pilgrimage"
         ],
-        "answer": "Community"
+        "answer": "Community",
+        "explanation": "What does 'Ummah' mean. The phrase 'Community' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Community care includes helping?",
@@ -1660,7 +1994,9 @@
           "Enemies only",
           "Siblings only"
         ],
-        "answer": "Neighbors"
+        "answer": "Neighbors",
+        "explanation": "Community care includes helping. The phrase 'Neighbors' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "The strength of the Ummah depends on?",
@@ -1670,7 +2006,9 @@
           "Isolation",
           "Selfishness"
         ],
-        "answer": "Unity"
+        "answer": "Unity",
+        "explanation": "The strength of the Ummah depends on. The phrase 'Unity' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Jummah prayer strengthens?",
@@ -1680,7 +2018,9 @@
           "Pride",
           "Silence"
         ],
-        "answer": "Community"
+        "answer": "Community",
+        "explanation": "Jummah prayer strengthens. The phrase 'Community' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "What binds the Ummah together?",
@@ -1690,7 +2030,9 @@
           "Division",
           "War"
         ],
-        "answer": "Love of Allah"
+        "answer": "Love of Allah",
+        "explanation": "What binds the Ummah together. The phrase 'Love of Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Supporting others often means giving them?",
@@ -1700,7 +2042,9 @@
           "Fear",
           "Isolation"
         ],
-        "answer": "Time"
+        "answer": "Time",
+        "explanation": "Supporting others often means giving them. The phrase 'Time' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Speaking calmly when conflicts arise protects?",
@@ -1710,7 +2054,9 @@
           "Pride",
           "Silence"
         ],
-        "answer": "Relationships"
+        "answer": "Relationships",
+        "explanation": "Speaking calmly when conflicts arise protects. The phrase 'Relationships' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Sharing guidance builds what?",
@@ -1720,7 +2066,9 @@
           "Pride",
           "Silence"
         ],
-        "answer": "Support"
+        "answer": "Support",
+        "explanation": "Sharing guidance builds what. The phrase 'Support' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Charity uplifts which part of people?",
@@ -1730,7 +2078,9 @@
           "Houses",
           "Noise"
         ],
-        "answer": "Hearts"
+        "answer": "Hearts",
+        "explanation": "Charity uplifts which part of people. The phrase 'Hearts' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Who should be welcomed into gatherings?",
@@ -1740,7 +2090,9 @@
           "Only leaders",
           "Only family"
         ],
-        "answer": "New or marginalized people"
+        "answer": "New or marginalized people",
+        "explanation": "Who should be welcomed into gatherings. The phrase 'New or marginalized people' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Conflict resolution in the community starts with?",
@@ -1750,7 +2102,9 @@
           "Ignoring",
           "Arguing"
         ],
-        "answer": "Listening"
+        "answer": "Listening",
+        "explanation": "Conflict resolution in the community starts with. The phrase 'Listening' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Consistency in service builds what?",
@@ -1760,7 +2114,9 @@
           "Chaos",
           "Silence"
         ],
-        "answer": "Trust"
+        "answer": "Trust",
+        "explanation": "Consistency in service builds what. The phrase 'Trust' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Offering food is a part of which community trait?",
@@ -1770,7 +2126,9 @@
           "Division",
           "Silence"
         ],
-        "answer": "Hospitality"
+        "answer": "Hospitality",
+        "explanation": "Offering food is a part of which community trait. The phrase 'Hospitality' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Technology can help the Ummah by?",
@@ -1780,7 +2138,9 @@
           "Promoting lies",
           "Spreading fear"
         ],
-        "answer": "Uniting across oceans"
+        "answer": "Uniting across oceans",
+        "explanation": "Technology can help the Ummah by. The phrase 'Uniting across oceans' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "A community journal helps track?",
@@ -1790,7 +2150,9 @@
           "Secrets",
           "Weather"
         ],
-        "answer": "Needs"
+        "answer": "Needs",
+        "explanation": "A community journal helps track. The phrase 'Needs' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Welcoming neighbors shows  to the Ummah.",
@@ -1800,7 +2162,9 @@
           "Silence",
           "Wealth"
         ],
-        "answer": "Hospitality"
+        "answer": "Hospitality",
+        "explanation": "Welcoming neighbors shows  to the Ummah. The phrase 'Hospitality' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Sharing resources uplifts community.",
@@ -1810,7 +2174,9 @@
           "Silence",
           "Competition"
         ],
-        "answer": "Strength"
+        "answer": "Strength",
+        "explanation": "Sharing resources uplifts community. The phrase 'Strength' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Before reacting in conflict, we should first.",
@@ -1820,7 +2186,9 @@
           "Leave",
           "Ignore"
         ],
-        "answer": "Listen"
+        "answer": "Listen",
+        "explanation": "Before reacting in conflict, we should first. The phrase 'Listen' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Giving charity and dua increase community.",
@@ -1830,7 +2198,9 @@
           "Debt",
           "Pressure"
         ],
-        "answer": "Hope"
+        "answer": "Hope",
+        "explanation": "Giving charity and dua increase community. The phrase 'Hope' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Joint supplication keeps the Ummah.",
@@ -1840,7 +2210,9 @@
           "Quiet",
           "Tired"
         ],
-        "answer": "Unified"
+        "answer": "Unified",
+        "explanation": "Joint supplication keeps the Ummah. The phrase 'Unified' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -1855,7 +2227,9 @@
           "Isolation",
           "Neglect"
         ],
-        "answer": "Consistency"
+        "answer": "Consistency",
+        "explanation": "Continuous growth is achieved through . The phrase 'Consistency' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "The future belongs to those who.",
@@ -1865,7 +2239,9 @@
           "Ignore",
           "Criticize"
         ],
-        "answer": "Prepare"
+        "answer": "Prepare",
+        "explanation": "The future belongs to those who. The phrase 'Prepare' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Legacy planning includes  for others.",
@@ -1875,7 +2251,9 @@
           "Noise",
           "Hoarding"
         ],
-        "answer": "Service"
+        "answer": "Service",
+        "explanation": "Legacy planning includes  for others. The phrase 'Service' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Documenting progress helps keep us.",
@@ -1885,7 +2263,9 @@
           "Quiet",
           "Passive"
         ],
-        "answer": "Accountable"
+        "answer": "Accountable",
+        "explanation": "Documenting progress helps keep us. The phrase 'Accountable' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Mentorship multiplies a believer's.",
@@ -1895,7 +2275,9 @@
           "Noise",
           "Delay"
         ],
-        "answer": "Impact"
+        "answer": "Impact",
+        "explanation": "Mentorship multiplies a believer's. The phrase 'Impact' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Setting spiritual goals should include.",
@@ -1905,7 +2287,9 @@
           "Fear",
           "Silence"
         ],
-        "answer": "Dua"
+        "answer": "Dua",
+        "explanation": "Setting spiritual goals should include. The phrase 'Dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Reviewing goals weekly keeps  fresh.",
@@ -1915,7 +2299,9 @@
           "Wealth",
           "Sleep"
         ],
-        "answer": "Focus"
+        "answer": "Focus",
+        "explanation": "Reviewing goals weekly keeps  fresh. The phrase 'Focus' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Hope in Allah fuels  for the future.",
@@ -1925,7 +2311,9 @@
           "Argument",
           "Conflict"
         ],
-        "answer": "Resilience"
+        "answer": "Resilience",
+        "explanation": "Hope in Allah fuels  for the future. The phrase 'Resilience' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "A legacy project can include  that benefits others after you pass.",
@@ -1935,7 +2323,9 @@
           "Stories",
           "Debt"
         ],
-        "answer": "Sadaqah jariyah"
+        "answer": "Sadaqah jariyah",
+        "explanation": "A legacy project can include  that benefits others after you pass. The phrase 'Sadaqah jariyah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Final success depends on 's approval.",
@@ -1945,7 +2335,9 @@
           "Media",
           "Employees"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "Final success depends on 's approval. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Reflection and dua help maintain.",
@@ -1955,7 +2347,9 @@
           "Distraction",
           "Fear"
         ],
-        "answer": "Growth"
+        "answer": "Growth",
+        "explanation": "Reflection and dua help maintain. The phrase 'Growth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Teaching others preserves  beyond one lifetime.",
@@ -1965,7 +2359,9 @@
           "Applause",
           "Debt"
         ],
-        "answer": "Knowledge"
+        "answer": "Knowledge",
+        "explanation": "Teaching others preserves  beyond one lifetime. The phrase 'Knowledge' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which of these pairs should be part of every goal?",
@@ -1975,7 +2371,9 @@
           "One secret and a rumor",
           "One rumor and a fight"
         ],
-        "answer": "One action and a dua"
+        "answer": "One action and a dua",
+        "explanation": "Which of these pairs should be part of every goal. The phrase 'One action and a dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Writing a letter to your future self helps create a.",
@@ -1985,7 +2383,9 @@
           "Shopping list",
           "Gossip thread"
         ],
-        "answer": "Legacy plan"
+        "answer": "Legacy plan",
+        "explanation": "Writing a letter to your future self helps create a. The phrase 'Legacy plan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "The Prophet (peace be upon him) described excellence as.",
@@ -1995,7 +2395,9 @@
           "Fear",
           "Selfishness"
         ],
-        "answer": "Ihsan"
+        "answer": "Ihsan",
+        "explanation": "The Prophet (peace be upon him) described excellence as. The phrase 'Ihsan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Keeping a progress journal builds.",
@@ -2005,7 +2407,9 @@
           "Competition",
           "Panic"
         ],
-        "answer": "Accountability"
+        "answer": "Accountability",
+        "explanation": "Keeping a progress journal builds. The phrase 'Accountability' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Weekly reviews keep your  sharp.",
@@ -2015,7 +2419,9 @@
           "Friends",
           "Fasting"
         ],
-        "answer": "Focus"
+        "answer": "Focus",
+        "explanation": "Weekly reviews keep your  sharp. The phrase 'Focus' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Mentorship multiplies your.",
@@ -2025,7 +2431,9 @@
           "Plans",
           "Noise"
         ],
-        "answer": "Impact"
+        "answer": "Impact",
+        "explanation": "Mentorship multiplies your. The phrase 'Impact' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Pairing goals with dua keeps you close to.",
@@ -2035,7 +2443,9 @@
           "Games",
           "Rivals"
         ],
-        "answer": "Allah"
+        "answer": "Allah",
+        "explanation": "Pairing goals with dua keeps you close to. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Legacy includes leaving ongoing.",
@@ -2045,7 +2455,9 @@
           "Debt",
           "Complaints"
         ],
-        "answer": "Sadaqah"
+        "answer": "Sadaqah",
+        "explanation": "Legacy includes leaving ongoing. The phrase 'Sadaqah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -2060,7 +2472,9 @@
           "Second",
           "Third"
         ],
-        "answer": "Sixth"
+        "answer": "Sixth",
+        "explanation": "Belief in the hereafter is part of which article of faith. The phrase 'Sixth' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "After death, the soul enters  until the Day of Judgment.",
@@ -2070,7 +2484,9 @@
           "Medina",
           "Cave"
         ],
-        "answer": "Barzakh"
+        "answer": "Barzakh",
+        "explanation": "After death, the soul enters  until the Day of Judgment. The phrase 'Barzakh' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Which angels question the deceased in the grave?",
@@ -2080,7 +2496,9 @@
           "Israfil and Azrael",
           "Harut and Marut"
         ],
-        "answer": "Munkar and Nakir"
+        "answer": "Munkar and Nakir",
+        "explanation": "Which angels question the deceased in the grave. The phrase 'Munkar and Nakir' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "The Day of Judgment is called.",
@@ -2090,7 +2508,9 @@
           "Yawm al-Jihad",
           "Yawm al-Umrah"
         ],
-        "answer": "Yawm al-Qiyamah"
+        "answer": "Yawm al-Qiyamah",
+        "explanation": "The Day of Judgment is called. The phrase 'Yawm al-Qiyamah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "The balance weighing deeds is called.",
@@ -2100,7 +2520,9 @@
           "Sharh",
           "Mihrab"
         ],
-        "answer": "Mizan"
+        "answer": "Mizan",
+        "explanation": "The balance weighing deeds is called. The phrase 'Mizan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "The record of deeds is kept by the ?",
@@ -2110,7 +2532,9 @@
           "Teachers",
           "Judges"
         ],
-        "answer": "Kiraman Katibin"
+        "answer": "Kiraman Katibin",
+        "explanation": "The record of deeds is kept by the . The phrase 'Kiraman Katibin' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Repentance in Arabic is called.",
@@ -2120,7 +2544,9 @@
           "Sadaqah",
           "Hajj"
         ],
-        "answer": "Tawbah"
+        "answer": "Tawbah",
+        "explanation": "Repentance in Arabic is called. The phrase 'Tawbah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Believing in the afterlife keeps hearts focused on.",
@@ -2130,7 +2556,9 @@
           "Work only",
           "Hate"
         ],
-        "answer": "Good deeds"
+        "answer": "Good deeds",
+        "explanation": "Believing in the afterlife keeps hearts focused on. The phrase 'Good deeds' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Fear of Allah's mercy is balanced by  on the Day of Judgment.",
@@ -2140,7 +2568,9 @@
           "Hate",
           "Jealousy"
         ],
-        "answer": "Hope"
+        "answer": "Hope",
+        "explanation": "Fear of Allah's mercy is balanced by  on the Day of Judgment. The phrase 'Hope' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Remembering death regularly encourages.",
@@ -2150,7 +2580,9 @@
           "Slumber",
           "Jealousy"
         ],
-        "answer": "Preparation"
+        "answer": "Preparation",
+        "explanation": "Remembering death regularly encourages. The phrase 'Preparation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Those who deny the hereafter will face ?",
@@ -2160,7 +2592,9 @@
           "Travel",
           "Joy"
         ],
-        "answer": "Punishment"
+        "answer": "Punishment",
+        "explanation": "Those who deny the hereafter will face . The phrase 'Punishment' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "The hereafter is described as either Paradise or.",
@@ -2170,7 +2604,9 @@
           "City",
           "Garden"
         ],
-        "answer": "Hell"
+        "answer": "Hell",
+        "explanation": "The hereafter is described as either Paradise or. The phrase 'Hell' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Seeking Allah's mercy and forgiveness is done through.",
@@ -2180,7 +2616,9 @@
           "Sleeping",
           "Arguing"
         ],
-        "answer": "Dua"
+        "answer": "Dua",
+        "explanation": "Seeking Allah's mercy and forgiveness is done through. The phrase 'Dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Which habit supports hope while fearing Allah?",
@@ -2190,7 +2628,9 @@
           "Arguments",
           "Jealousy"
         ],
-        "answer": "Balanced dua"
+        "answer": "Balanced dua",
+        "explanation": "Which habit supports hope while fearing Allah. The phrase 'Balanced dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "A believer reminds themselves of death to stay.",
@@ -2200,7 +2640,9 @@
           "Angry",
           "Lazy"
         ],
-        "answer": "Humble"
+        "answer": "Humble",
+        "explanation": "A believer reminds themselves of death to stay. The phrase 'Humble' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Barzakh is the period between death and.",
@@ -2210,7 +2652,9 @@
           "Ramadan",
           "Hajj"
         ],
-        "answer": "Resurrection"
+        "answer": "Resurrection",
+        "explanation": "Barzakh is the period between death and. The phrase 'Resurrection' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Belief in the hereafter makes us guard our.",
@@ -2220,7 +2664,9 @@
           "Phones",
           "Money"
         ],
-        "answer": "Actions"
+        "answer": "Actions",
+        "explanation": "Belief in the hereafter makes us guard our. The phrase 'Actions' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Yawm al-Qiyamah is when Allah will  all people.",
@@ -2230,7 +2676,9 @@
           "Gift",
           "Ignore"
         ],
-        "answer": "Judge"
+        "answer": "Judge",
+        "explanation": "Yawm al-Qiyamah is when Allah will  all people. The phrase 'Judge' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Maintaining hope and fear keeps the believer's  balanced.",
@@ -2240,7 +2688,9 @@
           "Schedule",
           "Temper"
         ],
-        "answer": "Heart"
+        "answer": "Heart",
+        "explanation": "Maintaining hope and fear keeps the believer's  balanced. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Remembering the grave encourages.",
@@ -2250,7 +2700,9 @@
           "Noise",
           "Games"
         ],
-        "answer": "Preparation"
+        "answer": "Preparation",
+        "explanation": "Remembering the grave encourages. The phrase 'Preparation' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -2265,7 +2717,9 @@
           "Salah",
           "Sawm"
         ],
-        "answer": "Jannah"
+        "answer": "Jannah",
+        "explanation": "What is the Arabic name for Paradise. The phrase 'Jannah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "What is the Arabic name for Hell?",
@@ -2275,7 +2729,9 @@
           "Salah",
           "Quran"
         ],
-        "answer": "Jahannam"
+        "answer": "Jahannam",
+        "explanation": "What is the Arabic name for Hell. The phrase 'Jahannam' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Jannah is described as gardens with.",
@@ -2285,7 +2741,9 @@
           "Deserts",
           "Lakes of oil"
         ],
-        "answer": "Rivers"
+        "answer": "Rivers",
+        "explanation": "Jannah is described as gardens with. The phrase 'Rivers' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Jahannam is described as a place of.",
@@ -2295,7 +2753,9 @@
           "Peace",
           "Silence"
         ],
-        "answer": "Fire"
+        "answer": "Fire",
+        "explanation": "Jahannam is described as a place of. The phrase 'Fire' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Muslims ask Allah for  from the Fire.",
@@ -2305,7 +2765,9 @@
           "Money",
           "Power"
         ],
-        "answer": "Refuge"
+        "answer": "Refuge",
+        "explanation": "Muslims ask Allah for  from the Fire. The phrase 'Refuge' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Who is promised Paradise?",
@@ -2315,7 +2777,9 @@
           "Only scholars",
           "Only warriors"
         ],
-        "answer": "Believers with righteous deeds"
+        "answer": "Believers with righteous deeds",
+        "explanation": "Who is promised Paradise. The phrase 'Believers with righteous deeds' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Which highest level of Paradise is called ?",
@@ -2325,7 +2789,9 @@
           "Masjid",
           "Qibla"
         ],
-        "answer": "Firdaws"
+        "answer": "Firdaws",
+        "explanation": "Which highest level of Paradise is called . The phrase 'Firdaws' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Seeking forgiveness is a step toward.",
@@ -2335,7 +2801,9 @@
           "Stress",
           "Conflict"
         ],
-        "answer": "Paradise"
+        "answer": "Paradise",
+        "explanation": "Seeking forgiveness is a step toward. The phrase 'Paradise' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Hell is for those who persist in.",
@@ -2345,7 +2813,9 @@
           "Prayer",
           "Helping"
         ],
-        "answer": "Shirk"
+        "answer": "Shirk",
+        "explanation": "Hell is for those who persist in. The phrase 'Shirk' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Asking for Paradise and refuge from Hell is.",
@@ -2355,7 +2825,9 @@
           "A story",
           "A dream"
         ],
-        "answer": "A dua the Prophet (peace be upon him) taught"
+        "answer": "A dua the Prophet (peace be upon him) taught",
+        "explanation": "Asking for Paradise and refuge from Hell is. The phrase 'A dua the Prophet (peace be upon him) taught' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Charity, prayer, and repentance lighten the path to.",
@@ -2365,7 +2837,9 @@
           "Profit",
           "Noise"
         ],
-        "answer": "Paradise"
+        "answer": "Paradise",
+        "explanation": "Charity, prayer, and repentance lighten the path to. The phrase 'Paradise' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "The Quran describes Hell's fuel as ?",
@@ -2375,7 +2849,9 @@
           "Flowers",
           "Gold"
         ],
-        "answer": "People and stones"
+        "answer": "People and stones",
+        "explanation": "The Quran describes Hell's fuel as . The phrase 'People and stones' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Paradise is filled with what kind of dwellings?",
@@ -2385,7 +2861,9 @@
           "Towers of dust",
           "Metal boxes"
         ],
-        "answer": "Light filled palaces"
+        "answer": "Light filled palaces",
+        "explanation": "Paradise is filled with what kind of dwellings. The phrase 'Light filled palaces' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Which trait helps a believer avoid the Fire?",
@@ -2395,7 +2873,9 @@
           "Anger",
           "Silence"
         ],
-        "answer": "Sincere repentance"
+        "answer": "Sincere repentance",
+        "explanation": "Which trait helps a believer avoid the Fire. The phrase 'Sincere repentance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "The Prophet (peace be upon him) asked Muslims to keep asking Allah for  ?",
@@ -2405,7 +2885,9 @@
           "Games",
           "Luxury"
         ],
-        "answer": "Paradise and refuge from the Fire"
+        "answer": "Paradise and refuge from the Fire",
+        "explanation": "The Prophet (peace be upon him) asked Muslims to keep asking Allah for  . The phrase 'Paradise and refuge from the Fire' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Muslims ask Allah for  in Paradise.",
@@ -2415,7 +2897,9 @@
           "Power",
           "Noise"
         ],
-        "answer": "Jannah"
+        "answer": "Jannah",
+        "explanation": "Muslims ask Allah for  in Paradise. The phrase 'Jannah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Seeking refuge from the Fire is a hopeful.",
@@ -2425,7 +2909,9 @@
           "Dress",
           "Story"
         ],
-        "answer": "Dua"
+        "answer": "Dua",
+        "explanation": "Seeking refuge from the Fire is a hopeful. The phrase 'Dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Paradise promises eternal.",
@@ -2435,7 +2921,9 @@
           "Noise",
           "Silence"
         ],
-        "answer": "Joy"
+        "answer": "Joy",
+        "explanation": "Paradise promises eternal. The phrase 'Joy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "The Fire is reserved for those who persist in.",
@@ -2445,7 +2933,9 @@
           "Listening",
           "Loving"
         ],
-        "answer": "Shirk"
+        "answer": "Shirk",
+        "explanation": "The Fire is reserved for those who persist in. The phrase 'Shirk' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Staying close to Allah's mercy guards against.",
@@ -2455,7 +2945,9 @@
           "Food",
           "Travel"
         ],
-        "answer": "The Fire"
+        "answer": "The Fire",
+        "explanation": "Staying close to Allah's mercy guards against. The phrase 'The Fire' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -2470,7 +2962,9 @@
           "Storytelling",
           "Travel"
         ],
-        "answer": "Remembrance of Allah"
+        "answer": "Remembrance of Allah",
+        "explanation": "What does 'dhikr' mean. The phrase 'Remembrance of Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Which phrase praises Allah's perfection?",
@@ -2480,7 +2974,9 @@
           "Goodbye",
           "See you"
         ],
-        "answer": "SubhanAllah"
+        "answer": "SubhanAllah",
+        "explanation": "Which phrase praises Allah's perfection. The phrase 'SubhanAllah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Which short dua means 'All praise is due to Allah'?",
@@ -2490,7 +2986,9 @@
           "Astaghfirullah",
           "Allahu Akbar"
         ],
-        "answer": "Alhamdulillah"
+        "answer": "Alhamdulillah",
+        "explanation": "Which short dua means 'All praise is due to Allah'. The phrase 'Alhamdulillah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Which dua asks Allah for forgiveness?",
@@ -2500,7 +2998,9 @@
           "Alhamdulillah",
           "InshaAllah"
         ],
-        "answer": "Astaghfirullah"
+        "answer": "Astaghfirullah",
+        "explanation": "Which dua asks Allah for forgiveness. The phrase 'Astaghfirullah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Which phrase expresses trust by saying there is no might except with Allah?",
@@ -2510,7 +3010,9 @@
           "Assalamu Alaikum",
           "SubhanAllah"
         ],
-        "answer": "La hawla wa la quwwata illa billah"
+        "answer": "La hawla wa la quwwata illa billah",
+        "explanation": "Which phrase expresses trust by saying there is no might except with Allah. The phrase 'La hawla wa la quwwata illa billah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Remembrance and dua soften the.",
@@ -2520,7 +3022,9 @@
           "Schedule",
           "Food"
         ],
-        "answer": "Heart"
+        "answer": "Heart",
+        "explanation": "Remembrance and dua soften the. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Which dua seeks protection from evil?",
@@ -2530,7 +3034,9 @@
           "Astaghfirullah",
           "SubhanAllah"
         ],
-        "answer": "A'udhu billahi min ash-shaytan"
+        "answer": "A'udhu billahi min ash-shaytan",
+        "explanation": "Which dua seeks protection from evil. The phrase 'A'udhu billahi min ash-shaytan' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Which dua reminds us Allah is enough for us?",
@@ -2540,7 +3046,9 @@
           "Noor",
           "Zikr"
         ],
-        "answer": "Hasbi Allah"
+        "answer": "Hasbi Allah",
+        "explanation": "Which dua reminds us Allah is enough for us. The phrase 'Hasbi Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Daily dhikr is encouraged most in the  and evening.",
@@ -2550,7 +3058,9 @@
           "Night only",
           "Midnight"
         ],
-        "answer": "Morning"
+        "answer": "Morning",
+        "explanation": "Daily dhikr is encouraged most in the  and evening. The phrase 'Morning' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Which short chapter is often read as part of daily dhikr for protection?",
@@ -2560,7 +3070,9 @@
           "An-Nisa",
           "Yusuf"
         ],
-        "answer": "Al-Ikhlas"
+        "answer": "Al-Ikhlas",
+        "explanation": "Which short chapter is often read as part of daily dhikr for protection. The phrase 'Al-Ikhlas' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "Asking Allah for others in dua shows.",
@@ -2570,7 +3082,9 @@
           "Pride",
           "Fear"
         ],
-        "answer": "Support"
+        "answer": "Support",
+        "explanation": "Asking Allah for others in dua shows. The phrase 'Support' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Multiplying dhikr after prayer keeps the  steady.",
@@ -2580,7 +3094,9 @@
           "Phone",
           "Schedule"
         ],
-        "answer": "Heart"
+        "answer": "Heart",
+        "explanation": "Multiplying dhikr after prayer keeps the  steady. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which phrase means 'Allah is the Greatest'?",
@@ -2590,7 +3106,9 @@
           "SubhanAllah",
           "Astaghfirullah"
         ],
-        "answer": "Allahu Akbar"
+        "answer": "Allahu Akbar",
+        "explanation": "Which phrase means 'Allah is the Greatest'. The phrase 'Allahu Akbar' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Which dua is recited before starting work, meaning 'In the name of Allah'?",
@@ -2600,7 +3118,9 @@
           "Alhamdulillah",
           "Allahu Akbar"
         ],
-        "answer": "Bismillah"
+        "answer": "Bismillah",
+        "explanation": "Which dua is recited before starting work, meaning 'In the name of Allah'. The phrase 'Bismillah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Which action keeps the conversation with Allah honest?",
@@ -2610,7 +3130,9 @@
           "Talking behind others",
           "Hoarding wealth"
         ],
-        "answer": "Dua about routine matters"
+        "answer": "Dua about routine matters",
+        "explanation": "Which action keeps the conversation with Allah honest. The phrase 'Dua about routine matters' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "The dua 'Rabbi zidni ilma' asks Allah for more.",
@@ -2620,7 +3142,9 @@
           "Games",
           "Rumors"
         ],
-        "answer": "Knowledge"
+        "answer": "Knowledge",
+        "explanation": "The dua 'Rabbi zidni ilma' asks Allah for more. The phrase 'Knowledge' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Saying 'Hasbi Allah' shows  on Allah.",
@@ -2630,7 +3154,9 @@
           "Criticism",
           "Fear"
         ],
-        "answer": "Reliance"
+        "answer": "Reliance",
+        "explanation": "Saying 'Hasbi Allah' shows  on Allah. The phrase 'Reliance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Praying for others in dua reflects.",
@@ -2640,7 +3166,9 @@
           "Pride",
           "Fear"
         ],
-        "answer": "Support"
+        "answer": "Support",
+        "explanation": "Praying for others in dua reflects. The phrase 'Support' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Dhikr keeps the heart.",
@@ -2650,7 +3178,9 @@
           "Closed",
           "Distracted"
         ],
-        "answer": "Soft"
+        "answer": "Soft",
+        "explanation": "Dhikr keeps the heart. The phrase 'Soft' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Remembering Allah's names brings  to the soul.",
@@ -2660,7 +3190,9 @@
           "Stress",
           "Sleep"
         ],
-        "answer": "Peace"
+        "answer": "Peace",
+        "explanation": "Remembering Allah's names brings  to the soul. The phrase 'Peace' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -2675,7 +3207,9 @@
           "Noise",
           "Silence"
         ],
-        "answer": "Mercy and justice"
+        "answer": "Mercy and justice",
+        "explanation": "Islamic homes should be built on. The phrase 'Mercy and justice' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Marriage in Islam is called.",
@@ -2685,7 +3219,9 @@
           "Zakat",
           "Hajj"
         ],
-        "answer": "Nikah"
+        "answer": "Nikah",
+        "explanation": "Marriage in Islam is called. The phrase 'Nikah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Which surah compares spouses to garments for each other?",
@@ -2695,7 +3231,9 @@
           "Al-Ikhlas",
           "An-Nas"
         ],
-        "answer": "Al-Baqarah"
+        "answer": "Al-Baqarah",
+        "explanation": "Which surah compares spouses to garments for each other. The phrase 'Al-Baqarah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "Fairness in sharing duties brings  at home.",
@@ -2705,7 +3243,9 @@
           "Chaos",
           "Jealousy"
         ],
-        "answer": "Balance"
+        "answer": "Balance",
+        "explanation": "Fairness in sharing duties brings  at home. The phrase 'Balance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Which action helps grow love within the household?",
@@ -2715,7 +3255,9 @@
           "Arguing",
           "Ignoring"
         ],
-        "answer": "Gratitude"
+        "answer": "Gratitude",
+        "explanation": "Which action helps grow love within the household. The phrase 'Gratitude' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Parents should treat children with.",
@@ -2725,7 +3267,9 @@
           "Silence",
           "Harshness"
         ],
-        "answer": "Kindness"
+        "answer": "Kindness",
+        "explanation": "Parents should treat children with. The phrase 'Kindness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Children should obey parents as long as it does not lead to.",
@@ -2735,7 +3279,9 @@
           "Learning",
           "Sharing"
         ],
-        "answer": "Disobedience to Allah"
+        "answer": "Disobedience to Allah",
+        "explanation": "Children should obey parents as long as it does not lead to. The phrase 'Disobedience to Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "Teaching the Quran at home models  for family members.",
@@ -2745,7 +3291,9 @@
           "Games",
           "Movies"
         ],
-        "answer": "The Quran and Sunnah"
+        "answer": "The Quran and Sunnah",
+        "explanation": "Teaching the Quran at home models  for family members. The phrase 'The Quran and Sunnah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "A peaceful home begins with.",
@@ -2755,7 +3303,9 @@
           "Noise",
           "Isolation"
         ],
-        "answer": "Gentle speech"
+        "answer": "Gentle speech",
+        "explanation": "A peaceful home begins with. The phrase 'Gentle speech' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Planning undistracted time for family shows.",
@@ -2765,7 +3315,9 @@
           "Neglect",
           "Rashness"
         ],
-        "answer": "Care"
+        "answer": "Care",
+        "explanation": "Planning undistracted time for family shows. The phrase 'Care' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "A balanced home includes shared.",
@@ -2775,7 +3327,9 @@
           "Silence",
           "Favors"
         ],
-        "answer": "Duties"
+        "answer": "Duties",
+        "explanation": "A balanced home includes shared. The phrase 'Duties' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Praying together strengthens  at home.",
@@ -2785,7 +3339,9 @@
           "Noise",
           "Confusion"
         ],
-        "answer": "Faith and connection"
+        "answer": "Faith and connection",
+        "explanation": "Praying together strengthens  at home. The phrase 'Faith and connection' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "The Prophet (peace be upon him) said the best of you are best to your.",
@@ -2795,7 +3351,9 @@
           "Strangers",
           "Pets"
         ],
-        "answer": "Families"
+        "answer": "Families",
+        "explanation": "The Prophet (peace be upon him) said the best of you are best to your. The phrase 'Families' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Which act protects marriages?",
@@ -2805,7 +3363,9 @@
           "Isolation",
           "Greed"
         ],
-        "answer": "Open communication"
+        "answer": "Open communication",
+        "explanation": "Which act protects marriages. The phrase 'Open communication' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Making dua for your household is a form of.",
@@ -2815,7 +3375,9 @@
           "Argument",
           "Silence"
         ],
-        "answer": "Care"
+        "answer": "Care",
+        "explanation": "Making dua for your household is a form of. The phrase 'Care' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Sharing duties at home builds.",
@@ -2825,7 +3387,9 @@
           "Silence",
           "Chaos"
         ],
-        "answer": "Balance"
+        "answer": "Balance",
+        "explanation": "Sharing duties at home builds. The phrase 'Balance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Raising children requires  and kindness.",
@@ -2835,7 +3399,9 @@
           "Noise",
           "Worry"
         ],
-        "answer": "Patience"
+        "answer": "Patience",
+        "explanation": "Raising children requires  and kindness. The phrase 'Patience' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Scheduling undistracted family time shows.",
@@ -2845,7 +3411,9 @@
           "Anger",
           "Jealousy"
         ],
-        "answer": "Care"
+        "answer": "Care",
+        "explanation": "Scheduling undistracted family time shows. The phrase 'Care' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Open communication protects.",
@@ -2855,7 +3423,9 @@
           "Fame",
           "Wealth"
         ],
-        "answer": "Marriage"
+        "answer": "Marriage",
+        "explanation": "Open communication protects. The phrase 'Marriage' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
       {
         "question": "Praying together strengthens.",
@@ -2865,7 +3435,9 @@
           "Silence",
           "Stress"
         ],
-        "answer": "Faith"
+        "answer": "Faith",
+        "explanation": "Praying together strengthens. The phrase 'Faith' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
       }
     ]
   },
@@ -2880,7 +3452,9 @@
           "Sleepiness",
           "Noise"
         ],
-        "answer": "Envy"
+        "answer": "Envy",
+        "explanation": "Purifying the heart removes diseases like. The phrase 'Envy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 0
       },
       {
         "question": "Dhikr softens the.",
@@ -2890,7 +3464,9 @@
           "Desk",
           "Door"
         ],
-        "answer": "Heart"
+        "answer": "Heart",
+        "explanation": "Dhikr softens the. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 1
       },
       {
         "question": "Self accounting each night is called.",
@@ -2900,7 +3476,9 @@
           "Sadaqah",
           "Hajj"
         ],
-        "answer": "Muhasabah"
+        "answer": "Muhasabah",
+        "explanation": "Self accounting each night is called. The phrase 'Muhasabah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 2
       },
       {
         "question": "A heart filled with gratitude stays.",
@@ -2910,7 +3488,9 @@
           "Greedy",
           "Silent"
         ],
-        "answer": "Tender"
+        "answer": "Tender",
+        "explanation": "A heart filled with gratitude stays. The phrase 'Tender' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 3
       },
       {
         "question": "Repentance helps remove  from the heart.",
@@ -2920,7 +3500,9 @@
           "Sleep",
           "Food"
         ],
-        "answer": "Pride"
+        "answer": "Pride",
+        "explanation": "Repentance helps remove  from the heart. The phrase 'Pride' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 4
       },
       {
         "question": "Which emotion is a heart disease?",
@@ -2930,7 +3512,9 @@
           "Peace",
           "Gratitude"
         ],
-        "answer": "Jealousy"
+        "answer": "Jealousy",
+        "explanation": "Which emotion is a heart disease. The phrase 'Jealousy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 5
       },
       {
         "question": "Compassion keeps the heart.",
@@ -2940,7 +3524,9 @@
           "Cold",
           "Loud"
         ],
-        "answer": "Soft"
+        "answer": "Soft",
+        "explanation": "Compassion keeps the heart. The phrase 'Soft' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 6
       },
       {
         "question": "When we notice blameworthy traits we should.",
@@ -2950,7 +3536,9 @@
           "Blame others",
           "Forget"
         ],
-        "answer": "Repent"
+        "answer": "Repent",
+        "explanation": "When we notice blameworthy traits we should. The phrase 'Repent' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 7
       },
       {
         "question": "Trusting Allah is known as.",
@@ -2960,7 +3548,9 @@
           "Noise",
           "Greed"
         ],
-        "answer": "Tawakkul"
+        "answer": "Tawakkul",
+        "explanation": "Trusting Allah is known as. The phrase 'Tawakkul' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 8
       },
       {
         "question": "Sincerity opposes.",
@@ -2970,7 +3560,9 @@
           "Prayer",
           "Charity"
         ],
-        "answer": "Riyah (showing off)"
+        "answer": "Riyah (showing off)",
+        "explanation": "Sincerity opposes. The phrase 'Riyah (showing off)' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 9
       },
       {
         "question": "A heart with constant dhikr shows  to Allah.",
@@ -2980,7 +3572,9 @@
           "Hate",
           "Falsehood"
         ],
-        "answer": "Attachment"
+        "answer": "Attachment",
+        "explanation": "A heart with constant dhikr shows  to Allah. The phrase 'Attachment' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 10
       },
       {
         "question": "Which practice keeps the heart at peace?",
@@ -2990,7 +3584,9 @@
           "Grumbling",
           "Arguing"
         ],
-        "answer": "Dua"
+        "answer": "Dua",
+        "explanation": "Which practice keeps the heart at peace. The phrase 'Dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 11
       },
       {
         "question": "Which emotion should we guard from to protect the heart?",
@@ -3000,7 +3596,9 @@
           "Cold",
           "Rain"
         ],
-        "answer": "Pride"
+        "answer": "Pride",
+        "explanation": "Which emotion should we guard from to protect the heart. The phrase 'Pride' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 12
       },
       {
         "question": "Compassion for others comes from a heart filled with.",
@@ -3010,7 +3608,9 @@
           "Noise",
           "Tension"
         ],
-        "answer": "Love"
+        "answer": "Love",
+        "explanation": "Compassion for others comes from a heart filled with. The phrase 'Love' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 13
       },
       {
         "question": "Turning every action into dua shows  in the heart.",
@@ -3020,7 +3620,9 @@
           "Sleepiness",
           "Noise"
         ],
-        "answer": "Focus"
+        "answer": "Focus",
+        "explanation": "Turning every action into dua shows  in the heart. The phrase 'Focus' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 14
       },
       {
         "question": "Muhasabah is the habit of.",
@@ -3030,7 +3632,9 @@
           "Sleeping",
           "Ignoring"
         ],
-        "answer": "Self-accounting"
+        "answer": "Self-accounting",
+        "explanation": "Muhasabah is the habit of. The phrase 'Self-accounting' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 15
       },
       {
         "question": "Guarding the tongue keeps the  clean.",
@@ -3040,7 +3644,9 @@
           "Wallet",
           "Phone"
         ],
-        "answer": "Heart"
+        "answer": "Heart",
+        "explanation": "Guarding the tongue keeps the  clean. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 16
       },
       {
         "question": "Jealousy is considered a heart.",
@@ -3050,7 +3656,9 @@
           "Game",
           "Noise"
         ],
-        "answer": "Disease"
+        "answer": "Disease",
+        "explanation": "Jealousy is considered a heart. The phrase 'Disease' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 17
       },
       {
         "question": "Trusting Allah (tawakkul) steadies the.",
@@ -3060,309 +3668,370 @@
           "Bank",
           "Friends"
         ],
-        "answer": "Heart"
+        "answer": "Heart",
+        "explanation": "Trusting Allah (tawakkul) steadies the. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 18
       },
-    {
-      "question": "Dhikr and dua keep the heart.",
-      "options": [
-        "Soft",
-        "Tired",
-        "Closed",
-        "Angry"
-      ],
-      "answer": "Soft"
-    }
-    ,
-    {
-      "question": "Which habit acts as a check-up for the heart?",
-      "options": [
-        "Self-accounting (muhasabah)",
-        "Ignoring emotions",
-        "Criticizing others",
-        "Replaying news"
-      ],
-      "answer": "Self-accounting (muhasabah)"
-    },
-    {
-      "question": "Keeping good company helps the heart stay.",
-      "options": [
-        "Pure",
-        "Worried",
-        "Fickle",
-        "Distant"
-      ],
-      "answer": "Pure"
-    },
-    {
-      "question": "Which reminder guards against envy?",
-      "options": [
-        "Gratitude for Allah's blessings",
-        "Comparing achievements",
-        "Focusing on flaws",
-        "Silence only"
-      ],
-      "answer": "Gratitude for Allah's blessings"
-    },
-    {
-      "question": "Listening to the Quran soothes the.",
-      "options": [
-        "Heart",
-        "Feet",
-        "Wallet",
-        "Shoes"
-      ],
-      "answer": "Heart"
-    },
-    {
-      "question": "Which emotion fades when the heart trusts Allah?",
-      "options": [
-        "Fear",
-        "Sleep",
-        "Hunger",
-        "Noise"
-      ],
-      "answer": "Fear"
-    },
-    {
-      "question": "Patience in trials keeps the heart.",
-      "options": [
-        "Calm",
-        "Angry",
-        "Restless",
-        "Confused"
-      ],
-      "answer": "Calm"
-    },
-    {
-      "question": "Which action helps the heart forgive?",
-      "options": [
-        "Remembering Allah's mercy",
-        "Holding grudges",
-        "Seeking revenge",
-        "Avoiding others"
-      ],
-      "answer": "Remembering Allah's mercy"
-    },
-    {
-      "question": "Dua keeps the heart connected to.",
-      "options": [
-        "Allah",
-        "Entertainment",
-        "Busyness",
-        "Silence"
-      ],
-      "answer": "Allah"
-    },
-    {
-      "question": "What builds the heart’s resilience?",
-      "options": [
-        "Consistent worship",
-        "Ignoring teachings",
-        "Complain often",
-        "Sleep late"
-      ],
-      "answer": "Consistent worship"
-    },
-    {
-      "question": "Which love softens the heart?",
-      "options": [
-        "Love for Allah",
-        "Love for gossip",
-        "Love for worry",
-        "Love for comfort"
-      ],
-      "answer": "Love for Allah"
-    },
-    {
-      "question": "A jealous heart needs to remember?",
-      "options": [
-        "Allah gives what He wills",
-        "Others deserve failure",
-        "We compare wins",
-        "Silence is power"
-      ],
-      "answer": "Allah gives what He wills"
-    },
-    {
-      "question": "Gentle speech keeps the heart.",
-      "options": [
-        "Soft",
-        "Closed",
-        "Busy",
-        "Heavy"
-      ],
-      "answer": "Soft"
-    },
-    {
-      "question": "Charity protects the heart from becoming.",
-      "options": [
-        "Hard",
-        "Warm",
-        "Content",
-        "Quiet"
-      ],
-      "answer": "Hard"
-    },
-    {
-      "question": "What wakes the heart each morning?",
-      "options": [
-        "Morning dua and gratitude",
-        "Scrolling feeds",
-        "Rushing out",
-        "Skipping reflection"
-      ],
-      "answer": "Morning dua and gratitude"
-    },
-    {
-      "question": "Which reminder calms a racing heart?",
-      "options": [
-        "Allah’s presence",
-        "Loud music",
-        "Rushing tasks",
-        "Action without thought"
-      ],
-      "answer": "Allah’s presence"
-    },
-    {
-      "question": "What keeps the heart humble?",
-      "options": [
-        "Seeing one’s own faults",
-        "Boasting",
-        "Comparing greatness",
-        "Avoiding lessons"
-      ],
-      "answer": "Seeing one’s own faults"
-    },
-    {
-      "question": "Sincerity (ikhlas) protects the heart from?",
-      "options": [
-        "Riyah (showing off)",
-        "Softness",
-        "Dua",
-        "Kindness"
-      ],
-      "answer": "Riyah (showing off)"
-    },
-    {
-      "question": "Which practice opens the heart before sleep?",
-      "options": [
-        "Reciting Quran and dua",
-        "Watching videos",
-        "Overeating",
-        "Complaining"
-      ],
-      "answer": "Reciting Quran and dua"
-    },
-    {
-      "question": "Being grateful to parents shapes a.",
-      "options": [
-        "Generous heart",
-        "Reserved heart",
-        "Closed heart",
-        "Silent heart"
-      ],
-      "answer": "Generous heart"
-    },
-    {
-      "question": "Which content weakens the heart?",
-      "options": [
-        "Hateful speech",
-        "Soft recitation",
-        "Gentle reminders",
-        "Kind quotes"
-      ],
-      "answer": "Hateful speech"
-    },
-    {
-      "question": "Mindful silence gives the heart room to.",
-      "options": [
-        "Listen to Allah",
-        "Judge others",
-        "Worry more",
-        "Rush tasks"
-      ],
-      "answer": "Listen to Allah"
-    },
-    {
-      "question": "Patience with hardship keeps the heart.",
-      "options": [
-        "Strong",
-        "Lean",
-        "Soft",
-        "Busy"
-      ],
-      "answer": "Strong"
-    },
-    {
-      "question": "Which emotion reflects a healthy heart?",
-      "options": [
-        "Mercy",
-        "Envy",
-        "Pride",
-        "Hopelessness"
-      ],
-      "answer": "Mercy"
-    },
-    {
-      "question": "Dhikr of Allah in the heart is also called.",
-      "options": [
-        "Remembrance",
-        "Drama",
-        "Reminder",
-        "Noise"
-      ],
-      "answer": "Remembrance"
-    },
-    {
-      "question": "A grateful heart responds to success with.",
-      "options": [
-        "Thankfulness",
-        "Jealousy",
-        "Boasting",
-        "Ignoring others"
-      ],
-      "answer": "Thankfulness"
-    },
-    {
-      "question": "What softens the heart toward others?",
-      "options": [
-        "Compassion",
-        "Criticism",
-        "Isolation",
-        "Judgment"
-      ],
-      "answer": "Compassion"
-    },
-    {
-      "question": "Keeping the heart focused avoids feeling.",
-      "options": [
-        "Lost",
-        "Calm",
-        "Centered",
-        "Soft"
-      ],
-      "answer": "Lost"
-    },
-    {
-      "question": "Which practice brings the heart relief during stress?",
-      "options": [
-        "Turning to dua and patience",
-        "Ignoring problems",
-        "Holding grudges",
-        "Overworking"
-      ],
-      "answer": "Turning to dua and patience"
-    },
-    {
-      "question": "An open heart seeks to spread.",
-      "options": [
-        "Kindness",
-        "Rumors",
-        "Fear",
-        "Doubt"
-      ],
-      "answer": "Kindness"
-    }
-  ]
-}
+      {
+        "question": "Dhikr and dua keep the heart.",
+        "options": [
+          "Soft",
+          "Tired",
+          "Closed",
+          "Angry"
+        ],
+        "answer": "Soft",
+        "explanation": "Dhikr and dua keep the heart. The phrase 'Soft' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 19
+      },
+      {
+        "question": "Which habit acts as a check-up for the heart?",
+        "options": [
+          "Self-accounting (muhasabah)",
+          "Ignoring emotions",
+          "Criticizing others",
+          "Replaying news"
+        ],
+        "answer": "Self-accounting (muhasabah)",
+        "explanation": "Which habit acts as a check-up for the heart. The phrase 'Self-accounting (muhasabah)' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 20
+      },
+      {
+        "question": "Keeping good company helps the heart stay.",
+        "options": [
+          "Pure",
+          "Worried",
+          "Fickle",
+          "Distant"
+        ],
+        "answer": "Pure",
+        "explanation": "Keeping good company helps the heart stay. The phrase 'Pure' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 21
+      },
+      {
+        "question": "Which reminder guards against envy?",
+        "options": [
+          "Gratitude for Allah's blessings",
+          "Comparing achievements",
+          "Focusing on flaws",
+          "Silence only"
+        ],
+        "answer": "Gratitude for Allah's blessings",
+        "explanation": "Which reminder guards against envy. The phrase 'Gratitude for Allah's blessings' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 22
+      },
+      {
+        "question": "Listening to the Quran soothes the.",
+        "options": [
+          "Heart",
+          "Feet",
+          "Wallet",
+          "Shoes"
+        ],
+        "answer": "Heart",
+        "explanation": "Listening to the Quran soothes the. The phrase 'Heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 23
+      },
+      {
+        "question": "Which emotion fades when the heart trusts Allah?",
+        "options": [
+          "Fear",
+          "Sleep",
+          "Hunger",
+          "Noise"
+        ],
+        "answer": "Fear",
+        "explanation": "Which emotion fades when the heart trusts Allah. The phrase 'Fear' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 24
+      },
+      {
+        "question": "Patience in trials keeps the heart.",
+        "options": [
+          "Calm",
+          "Angry",
+          "Restless",
+          "Confused"
+        ],
+        "answer": "Calm",
+        "explanation": "Patience in trials keeps the heart. The phrase 'Calm' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 25
+      },
+      {
+        "question": "Which action helps the heart forgive?",
+        "options": [
+          "Remembering Allah's mercy",
+          "Holding grudges",
+          "Seeking revenge",
+          "Avoiding others"
+        ],
+        "answer": "Remembering Allah's mercy",
+        "explanation": "Which action helps the heart forgive. The phrase 'Remembering Allah's mercy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 26
+      },
+      {
+        "question": "Dua keeps the heart connected to.",
+        "options": [
+          "Allah",
+          "Entertainment",
+          "Busyness",
+          "Silence"
+        ],
+        "answer": "Allah",
+        "explanation": "Dua keeps the heart connected to. The phrase 'Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 27
+      },
+      {
+        "question": "What builds the heart’s resilience?",
+        "options": [
+          "Consistent worship",
+          "Ignoring teachings",
+          "Complain often",
+          "Sleep late"
+        ],
+        "answer": "Consistent worship",
+        "explanation": "What builds the heart’s resilience. The phrase 'Consistent worship' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 28
+      },
+      {
+        "question": "Which love softens the heart?",
+        "options": [
+          "Love for Allah",
+          "Love for gossip",
+          "Love for worry",
+          "Love for comfort"
+        ],
+        "answer": "Love for Allah",
+        "explanation": "Which love softens the heart. The phrase 'Love for Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 29
+      },
+      {
+        "question": "A jealous heart needs to remember?",
+        "options": [
+          "Allah gives what He wills",
+          "Others deserve failure",
+          "We compare wins",
+          "Silence is power"
+        ],
+        "answer": "Allah gives what He wills",
+        "explanation": "A jealous heart needs to remember. The phrase 'Allah gives what He wills' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 30
+      },
+      {
+        "question": "Gentle speech keeps the heart.",
+        "options": [
+          "Soft",
+          "Closed",
+          "Busy",
+          "Heavy"
+        ],
+        "answer": "Soft",
+        "explanation": "Gentle speech keeps the heart. The phrase 'Soft' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 31
+      },
+      {
+        "question": "Charity protects the heart from becoming.",
+        "options": [
+          "Hard",
+          "Warm",
+          "Content",
+          "Quiet"
+        ],
+        "answer": "Hard",
+        "explanation": "Charity protects the heart from becoming. The phrase 'Hard' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 32
+      },
+      {
+        "question": "What wakes the heart each morning?",
+        "options": [
+          "Morning dua and gratitude",
+          "Scrolling feeds",
+          "Rushing out",
+          "Skipping reflection"
+        ],
+        "answer": "Morning dua and gratitude",
+        "explanation": "What wakes the heart each morning. The phrase 'Morning dua and gratitude' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 33
+      },
+      {
+        "question": "Which reminder calms a racing heart?",
+        "options": [
+          "Allah’s presence",
+          "Loud music",
+          "Rushing tasks",
+          "Action without thought"
+        ],
+        "answer": "Allah’s presence",
+        "explanation": "Which reminder calms a racing heart. The phrase 'Allah’s presence' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 34
+      },
+      {
+        "question": "What keeps the heart humble?",
+        "options": [
+          "Seeing one’s own faults",
+          "Boasting",
+          "Comparing greatness",
+          "Avoiding lessons"
+        ],
+        "answer": "Seeing one’s own faults",
+        "explanation": "What keeps the heart humble. The phrase 'Seeing one’s own faults' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 35
+      },
+      {
+        "question": "Sincerity (ikhlas) protects the heart from?",
+        "options": [
+          "Riyah (showing off)",
+          "Softness",
+          "Dua",
+          "Kindness"
+        ],
+        "answer": "Riyah (showing off)",
+        "explanation": "Sincerity (ikhlas) protects the heart from. The phrase 'Riyah (showing off)' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 36
+      },
+      {
+        "question": "Which practice opens the heart before sleep?",
+        "options": [
+          "Reciting Quran and dua",
+          "Watching videos",
+          "Overeating",
+          "Complaining"
+        ],
+        "answer": "Reciting Quran and dua",
+        "explanation": "Which practice opens the heart before sleep. The phrase 'Reciting Quran and dua' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 37
+      },
+      {
+        "question": "Being grateful to parents shapes a.",
+        "options": [
+          "Generous heart",
+          "Reserved heart",
+          "Closed heart",
+          "Silent heart"
+        ],
+        "answer": "Generous heart",
+        "explanation": "Being grateful to parents shapes a. The phrase 'Generous heart' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 38
+      },
+      {
+        "question": "Which content weakens the heart?",
+        "options": [
+          "Hateful speech",
+          "Soft recitation",
+          "Gentle reminders",
+          "Kind quotes"
+        ],
+        "answer": "Hateful speech",
+        "explanation": "Which content weakens the heart. The phrase 'Hateful speech' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 39
+      },
+      {
+        "question": "Mindful silence gives the heart room to.",
+        "options": [
+          "Listen to Allah",
+          "Judge others",
+          "Worry more",
+          "Rush tasks"
+        ],
+        "answer": "Listen to Allah",
+        "explanation": "Mindful silence gives the heart room to. The phrase 'Listen to Allah' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 40
+      },
+      {
+        "question": "Patience with hardship keeps the heart.",
+        "options": [
+          "Strong",
+          "Lean",
+          "Soft",
+          "Busy"
+        ],
+        "answer": "Strong",
+        "explanation": "Patience with hardship keeps the heart. The phrase 'Strong' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 41
+      },
+      {
+        "question": "Which emotion reflects a healthy heart?",
+        "options": [
+          "Mercy",
+          "Envy",
+          "Pride",
+          "Hopelessness"
+        ],
+        "answer": "Mercy",
+        "explanation": "Which emotion reflects a healthy heart. The phrase 'Mercy' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 42
+      },
+      {
+        "question": "Dhikr of Allah in the heart is also called.",
+        "options": [
+          "Remembrance",
+          "Drama",
+          "Reminder",
+          "Noise"
+        ],
+        "answer": "Remembrance",
+        "explanation": "Dhikr of Allah in the heart is also called. The phrase 'Remembrance' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 43
+      },
+      {
+        "question": "A grateful heart responds to success with.",
+        "options": [
+          "Thankfulness",
+          "Jealousy",
+          "Boasting",
+          "Ignoring others"
+        ],
+        "answer": "Thankfulness",
+        "explanation": "A grateful heart responds to success with. The phrase 'Thankfulness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 44
+      },
+      {
+        "question": "What softens the heart toward others?",
+        "options": [
+          "Compassion",
+          "Criticism",
+          "Isolation",
+          "Judgment"
+        ],
+        "answer": "Compassion",
+        "explanation": "What softens the heart toward others. The phrase 'Compassion' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 45
+      },
+      {
+        "question": "Keeping the heart focused avoids feeling.",
+        "options": [
+          "Lost",
+          "Calm",
+          "Centered",
+          "Soft"
+        ],
+        "answer": "Lost",
+        "explanation": "Keeping the heart focused avoids feeling. The phrase 'Lost' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 46
+      },
+      {
+        "question": "Which practice brings the heart relief during stress?",
+        "options": [
+          "Turning to dua and patience",
+          "Ignoring problems",
+          "Holding grudges",
+          "Overworking"
+        ],
+        "answer": "Turning to dua and patience",
+        "explanation": "Which practice brings the heart relief during stress. The phrase 'Turning to dua and patience' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 47
+      },
+      {
+        "question": "An open heart seeks to spread.",
+        "options": [
+          "Kindness",
+          "Rumors",
+          "Fear",
+          "Doubt"
+        ],
+        "answer": "Kindness",
+        "explanation": "An open heart seeks to spread. The phrase 'Kindness' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "sectionIndex": 48
+      }
+    ]
+  }
 ]
