@@ -291,8 +291,8 @@
                 </div>
                 <!-- lesson overview -->
               <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
-                <div v-if="currentLessonOverview" class="lesson-overview-summary mb-4">
-                  <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p>
+                <div v-if="currentLessonOverview" class="lesson-overview-summary">
+                  <!-- <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p> -->
                   <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
                     <div v-for="highlight in currentLessonOverview.highlights" :key="highlight.label || highlight.heading" class="col-12 col-md-4">
                       <article class="overview-highlight border rounded-3 p-3 h-100">
