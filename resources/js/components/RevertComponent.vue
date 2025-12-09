@@ -540,36 +540,64 @@
               </div>
             </div>
 
-            <!-- Share with a friend -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
               <div class="card-body px-3 px-md-4 py-4">
-                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                  <div class="flex-grow-1">
-                    <h3 class="fw-bold mb-1">Share with a friend or family member</h3>
-                    <p class="text-muted mb-0 small">
-                      Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                <div class="row align-items-center">
+                  <div class="col-md-7">
+                    <h3 class="fw-bold mb-1 fs-5">Share & uplift</h3>
+                    <p class="text-muted mb-3 fs-6">
+                      Spread the lesson copy the link or share a dua so others stay inspired.
                     </p>
-                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0" aria-live="polite" role="status">
-                      {{ shareFriendStatus }}
-                    </p>
-                    <span class="visually-hidden" aria-hidden="false">
-                      Feel free to share every insight, dua, and revert story on this page.
-                    </span>
                   </div>
-                  <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
-                      <i class="bi bi-clipboard mr-2"></i>
-                      Copy link
-                    </button>
-                    <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
-                      <i class="bi bi-whatsapp mr-2"></i>
-                      Share with WhatsApp
-                    </button>
+                  <div class="col-md-5">
+                    <div class="d-flex flex-wrap gap-2 mb-2">
+                      <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
+                        <i class="bi bi-clipboard mr-2"></i>
+                        Copy link
+                      </button>
+                      <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
+                        <i class="bi bi-whatsapp mr-2"></i>
+                        Share via WhatsApp
+                      </button>
+                    </div>
+                    <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
                   </div>
                 </div>
+                </hr class="container">
+                <div class="row pt-3 align-items-center">
+                  <div class="col-md-4">
+                    <div class="content-card motivation-card section-card h-100">
+                      <div class="card-body">
+                        <p class="fs-5 fw-semibold mb-1">Momentum</p>
+                        <p class="mb-1 fs-6">{{ motivationalMessage }}</p>
+                        <p class="text-teal small mb-0">{{ motivationalHint }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="content-card reflection-card section-card h-100">
+                      <div class="card-body">
+                        <p class="fs-5 fw-semibold mb-1">Reflection</p>
+                        <p class="mb-1 fs-6">{{ reflectionPrompt }}</p>
+                        <p class="text-muted small mb-0">{{ reflectionNote }}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <div class="content-card tip-card section-card h-100">
+                        <div class="card-body">
+                          <p class="fs-5 fw-semibold mb-1">Keep going</p>
+                          <ul class="mb-0 list-unstyled fs-6">
+                            <li v-for="tip in keepGoingTips" :key="tip" class="mb-1 text-muted">
+                              <i class="bi bi-lightbulb text-teal me-2"></i>{{ tip }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-
             <!-- Common asked questions -->
             <div v-if="chapterCommonPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
@@ -604,44 +632,16 @@
                 </div>
               </div>
             </div>
-            
 
-            <!-- resources -->
-            <!-- <div v-if="premiumResources.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="bi bi-info-circle-fill fs-4 text-teal"></i>
-                  <h1 class="fw-bold mb-0 fs-5">Resources</h1>
-                </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('resources')"
-                  :aria-expanded="!collapsedSections.resources">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.resources ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.resources ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-
-              <div v-show="!collapsedSections.resources" class="card-body p-3 ">
-                <div v-if="premiumResources.length" class="row row-cols-1 row-cols-md-2 g-3 mb-4">
-                  <div class="col" v-for="card in premiumResources" :key="card.title">
-                    <article class="premium-card h-100 d-flex flex-column">
-                      <div>
-                        <h3 class="h6 fw-semibold mb-2">{{ card.title }}</h3>
-                        <p class="small text-muted mb-3">{{ card.desc }}</p>
-                      </div>
-                      <button type="button"
-                        class="mt-auto resource-link d-flex align-items-center justify-content-center gap-2"
-                        @click="openResource(card)">
-                        <span>Explore the resource</span>
-                        <i class="bi bi-arrow-up-right"></i>
-                      </button>
-                    </article>
-                  </div>
+            <div class="content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide">
+              <div class="card-body px-3 px-md-4 py-4">
+                <div class="d-flex flex-column gap-2">
+                  <p class="mb-0 fw-bold">Motivation</p>
+                  <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
+                  <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
                 </div>
               </div>
-            </div> -->
+            </div>
 
             <!-- Mission Spotlight -->
             <div v-if="currentMission" id="mission-card"
@@ -1121,6 +1121,29 @@ export default defineComponent({
     progressPercentage() {
       return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
     },
+    chapterProgressPercent() {
+      return this.chapterQuizPassed ? 100 : 0
+    },
+    overallProgressPercent() {
+      const total = this.roadmapData.length || 1
+      return Math.round((this.completedChapters / total) * 100)
+    },
+    reflectionPrompt() {
+      return this.chapterQuizPassed
+        ? 'Share one key insight from this chapter with someone who could benefit.'
+        : 'Pause and write down one question or dua that surfaced during this lesson.'
+    },
+    reflectionNote() {
+      return this.chapterQuizPassed
+        ? 'Helping others remember keeps the lesson fresh in your heart.'
+        : 'Honest questions are invitations to deeper clarity.'
+    },
+    keepGoingTips() {
+      return [
+        'Replay a short clip from today’s chapter whenever you need courage.',
+        'Bookmark a dua or verse and revisit it before sleep.'
+      ]
+    },
     completedChapters() {
       return this.maxStepReached - 1
     },
@@ -1226,6 +1249,16 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId)
       return entry?.sectionStats || []
+    },
+    motivationalMessage() {
+      return this.chapterQuizPassed
+        ? `Chapter ${this.selectedPill} cleared—your growing understanding is inviting others to join.`
+        : `You're working through Chapter ${this.selectedPill}. Stay curious, every insight builds momentum.`
+    },
+    motivationalHint() {
+      return this.chapterQuizPassed
+        ? 'Celebrate the milestone, then absorb the next lesson with the same warmth.'
+        : 'Take a few deep breaths, revisit a favorite dua, and keep exploring.'
     },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' :
@@ -2329,6 +2362,19 @@ export default defineComponent({
   background: linear-gradient(90deg, #eaf3f1, rgba(11, 128, 111, 0.20));
   border-radius: 10px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.motivation-card,
+.reflection-card,
+.tip-card,
+.encouragement-card {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+}
+.motivation-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #0f172a;
 }
 
 .roadmap-pillset {

@@ -468,6 +468,16 @@
               </div>
             </div>
 
+            <div class="content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide">
+              <div class="card-body px-3 px-md-4 py-4">
+                <div class="d-flex flex-column gap-2">
+                  <p class="mb-0 fw-semibold">Motivational spark</p>
+                  <p class="text-muted small mb-0">{{ motivationalMessage }}</p>
+                  <small class="text-teal fs-6">{{ motivationalHint }}</small>
+                </div>
+              </div>
+            </div>
+
             <!-- Lesson Departments Focus -->
             <!-- <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
@@ -1251,6 +1261,16 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId)
       return entry?.sectionStats || []
+    },
+    motivationalMessage() {
+      return this.chapterQuizPassed
+        ? `You crushed Chapter ${this.selectedPill}! Keep that momentum as you carry the message forward.`
+        : `Chapter ${this.selectedPill} is unfolding—pause, reflect, and savor each insight.`
+    },
+    motivationalHint() {
+      return this.chapterQuizPassed
+        ? 'Share a short note with a friend so the joy keeps multiplying.'
+        : 'One more dua, one more reflection; small commitments are seeds of devotion.'
     },
     alertClass() {
       return this.copyAlertType === 'success' ? 'alert-success' :
@@ -2343,6 +2363,11 @@ export default defineComponent({
   background: linear-gradient(90deg, #eaf3f1, rgba(11, 128, 111, 0.20));
   border-radius: 10px;
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.motivation-card {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(239, 246, 255, 0.9));
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #0f172a;
 }
 
 .roadmap-pillset {
