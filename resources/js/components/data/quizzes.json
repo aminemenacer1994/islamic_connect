@@ -3062,16 +3062,307 @@
         ],
         "answer": "Heart"
       },
-      {
-        "question": "Dhikr and dua keep the heart.",
-        "options": [
-          "Soft",
-          "Tired",
-          "Closed",
-          "Angry"
-        ],
-        "answer": "Soft"
-      }
-    ]
-  }
+    {
+      "question": "Dhikr and dua keep the heart.",
+      "options": [
+        "Soft",
+        "Tired",
+        "Closed",
+        "Angry"
+      ],
+      "answer": "Soft"
+    }
+    ,
+    {
+      "question": "Which habit acts as a check-up for the heart?",
+      "options": [
+        "Self-accounting (muhasabah)",
+        "Ignoring emotions",
+        "Criticizing others",
+        "Replaying news"
+      ],
+      "answer": "Self-accounting (muhasabah)"
+    },
+    {
+      "question": "Keeping good company helps the heart stay.",
+      "options": [
+        "Pure",
+        "Worried",
+        "Fickle",
+        "Distant"
+      ],
+      "answer": "Pure"
+    },
+    {
+      "question": "Which reminder guards against envy?",
+      "options": [
+        "Gratitude for Allah's blessings",
+        "Comparing achievements",
+        "Focusing on flaws",
+        "Silence only"
+      ],
+      "answer": "Gratitude for Allah's blessings"
+    },
+    {
+      "question": "Listening to the Quran soothes the.",
+      "options": [
+        "Heart",
+        "Feet",
+        "Wallet",
+        "Shoes"
+      ],
+      "answer": "Heart"
+    },
+    {
+      "question": "Which emotion fades when the heart trusts Allah?",
+      "options": [
+        "Fear",
+        "Sleep",
+        "Hunger",
+        "Noise"
+      ],
+      "answer": "Fear"
+    },
+    {
+      "question": "Patience in trials keeps the heart.",
+      "options": [
+        "Calm",
+        "Angry",
+        "Restless",
+        "Confused"
+      ],
+      "answer": "Calm"
+    },
+    {
+      "question": "Which action helps the heart forgive?",
+      "options": [
+        "Remembering Allah's mercy",
+        "Holding grudges",
+        "Seeking revenge",
+        "Avoiding others"
+      ],
+      "answer": "Remembering Allah's mercy"
+    },
+    {
+      "question": "Dua keeps the heart connected to.",
+      "options": [
+        "Allah",
+        "Entertainment",
+        "Busyness",
+        "Silence"
+      ],
+      "answer": "Allah"
+    },
+    {
+      "question": "What builds the heart’s resilience?",
+      "options": [
+        "Consistent worship",
+        "Ignoring teachings",
+        "Complain often",
+        "Sleep late"
+      ],
+      "answer": "Consistent worship"
+    },
+    {
+      "question": "Which love softens the heart?",
+      "options": [
+        "Love for Allah",
+        "Love for gossip",
+        "Love for worry",
+        "Love for comfort"
+      ],
+      "answer": "Love for Allah"
+    },
+    {
+      "question": "A jealous heart needs to remember?",
+      "options": [
+        "Allah gives what He wills",
+        "Others deserve failure",
+        "We compare wins",
+        "Silence is power"
+      ],
+      "answer": "Allah gives what He wills"
+    },
+    {
+      "question": "Gentle speech keeps the heart.",
+      "options": [
+        "Soft",
+        "Closed",
+        "Busy",
+        "Heavy"
+      ],
+      "answer": "Soft"
+    },
+    {
+      "question": "Charity protects the heart from becoming.",
+      "options": [
+        "Hard",
+        "Warm",
+        "Content",
+        "Quiet"
+      ],
+      "answer": "Hard"
+    },
+    {
+      "question": "What wakes the heart each morning?",
+      "options": [
+        "Morning dua and gratitude",
+        "Scrolling feeds",
+        "Rushing out",
+        "Skipping reflection"
+      ],
+      "answer": "Morning dua and gratitude"
+    },
+    {
+      "question": "Which reminder calms a racing heart?",
+      "options": [
+        "Allah’s presence",
+        "Loud music",
+        "Rushing tasks",
+        "Action without thought"
+      ],
+      "answer": "Allah’s presence"
+    },
+    {
+      "question": "What keeps the heart humble?",
+      "options": [
+        "Seeing one’s own faults",
+        "Boasting",
+        "Comparing greatness",
+        "Avoiding lessons"
+      ],
+      "answer": "Seeing one’s own faults"
+    },
+    {
+      "question": "Sincerity (ikhlas) protects the heart from?",
+      "options": [
+        "Riyah (showing off)",
+        "Softness",
+        "Dua",
+        "Kindness"
+      ],
+      "answer": "Riyah (showing off)"
+    },
+    {
+      "question": "Which practice opens the heart before sleep?",
+      "options": [
+        "Reciting Quran and dua",
+        "Watching videos",
+        "Overeating",
+        "Complaining"
+      ],
+      "answer": "Reciting Quran and dua"
+    },
+    {
+      "question": "Being grateful to parents shapes a.",
+      "options": [
+        "Generous heart",
+        "Reserved heart",
+        "Closed heart",
+        "Silent heart"
+      ],
+      "answer": "Generous heart"
+    },
+    {
+      "question": "Which content weakens the heart?",
+      "options": [
+        "Hateful speech",
+        "Soft recitation",
+        "Gentle reminders",
+        "Kind quotes"
+      ],
+      "answer": "Hateful speech"
+    },
+    {
+      "question": "Mindful silence gives the heart room to.",
+      "options": [
+        "Listen to Allah",
+        "Judge others",
+        "Worry more",
+        "Rush tasks"
+      ],
+      "answer": "Listen to Allah"
+    },
+    {
+      "question": "Patience with hardship keeps the heart.",
+      "options": [
+        "Strong",
+        "Lean",
+        "Soft",
+        "Busy"
+      ],
+      "answer": "Strong"
+    },
+    {
+      "question": "Which emotion reflects a healthy heart?",
+      "options": [
+        "Mercy",
+        "Envy",
+        "Pride",
+        "Hopelessness"
+      ],
+      "answer": "Mercy"
+    },
+    {
+      "question": "Dhikr of Allah in the heart is also called.",
+      "options": [
+        "Remembrance",
+        "Drama",
+        "Reminder",
+        "Noise"
+      ],
+      "answer": "Remembrance"
+    },
+    {
+      "question": "A grateful heart responds to success with.",
+      "options": [
+        "Thankfulness",
+        "Jealousy",
+        "Boasting",
+        "Ignoring others"
+      ],
+      "answer": "Thankfulness"
+    },
+    {
+      "question": "What softens the heart toward others?",
+      "options": [
+        "Compassion",
+        "Criticism",
+        "Isolation",
+        "Judgment"
+      ],
+      "answer": "Compassion"
+    },
+    {
+      "question": "Keeping the heart focused avoids feeling.",
+      "options": [
+        "Lost",
+        "Calm",
+        "Centered",
+        "Soft"
+      ],
+      "answer": "Lost"
+    },
+    {
+      "question": "Which practice brings the heart relief during stress?",
+      "options": [
+        "Turning to dua and patience",
+        "Ignoring problems",
+        "Holding grudges",
+        "Overworking"
+      ],
+      "answer": "Turning to dua and patience"
+    },
+    {
+      "question": "An open heart seeks to spread.",
+      "options": [
+        "Kindness",
+        "Rumors",
+        "Fear",
+        "Doubt"
+      ],
+      "answer": "Kindness"
+    }
+  ]
+}
 ]
