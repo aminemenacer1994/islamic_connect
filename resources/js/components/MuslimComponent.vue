@@ -840,10 +840,10 @@
                   <div v-if="chapterQuizPassed" class="text-teal small fw-semibold">Quiz cleared • Next Chapter unlocked.</div>
                   <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
                     :class="{
-                      'next-ready': chapterQuizPassed && !(selectedPill >= roadmapData.length || isWaitingForNext),
-                      'disabled': selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed
+                      'next-ready': chapterQuizPassed && !isWaitingForNext,
+                      'disabled': isWaitingForNext || !chapterQuizPassed
                     }"
-                    :disabled="selectedPill >= roadmapData.length || isWaitingForNext || !chapterQuizPassed"
+                    :disabled="isWaitingForNext || !chapterQuizPassed"
                     @click="completeAndNext">
                     <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
                     <i class="bi bi-arrow-right" aria-hidden="true"></i>
@@ -1004,7 +1004,7 @@ const fullScreenConfetti = () => {
   })
 }
 
-const FINAL_CHAPTER_ID = 10
+const FINAL_CHAPTER_ID = roadmapData.length
 
 const celebrateFinalChapter = () => {
   if (!window.confetti) return

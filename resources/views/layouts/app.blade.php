@@ -224,7 +224,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">
                         <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary">Home</a>
+                            <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
                         <!-- <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Reverts corner</button>
@@ -294,23 +294,23 @@
                         </li> -->
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary">Quran Portal</a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary"><b>Quran Portal</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/media" data-path="/media" data-nav-item="primary">Media Center</a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/media" data-path="/media" data-nav-item="primary"><b>Media Center</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary">Islamic Knowledge</a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary"><b>Islamic Knowledge</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary">Utility Toolkit</a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary"><b>Utility Toolkit</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary">Services</a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary"><b>Services</b></a>
                         </li>
 
                         <!-- <li class="nav-item mt-2">
