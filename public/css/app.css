@@ -21261,6 +21261,7 @@ to {
   font-size: 0.95rem;
   color: #0f172a;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
 }
 .next-steps-pill[data-v-1d764944]:hover {
   transform: translateY(-2px);
@@ -21275,6 +21276,11 @@ to {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 991.98px) {
+.next-steps-pill-icon[data-v-1d764944] {
+    display: none;
+}
 }
 .quiz-explanation-card[data-v-1d764944] {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
@@ -21512,6 +21518,9 @@ to {
 .content-card .card-header[data-v-1d764944] {
   position: relative;
   overflow: hidden;
+  justify-content: flex-start;
+  gap: 1rem;
+  text-align: left;
 }
 .content-card:hover .card-header[data-v-1d764944]::after {
   opacity: 1;
@@ -21555,6 +21564,17 @@ to {
 .insight-list .list-group-item[data-v-1d764944] {
   background: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-left: 0;
+}
+.insight-list .list-group-item i[data-v-1d764944] {
+  display: none;
+}
+@media (min-width: 992px) {
+.insight-list .list-group-item i[data-v-1d764944] {
+    display: inline-flex;
+    margin-right: 0.35rem;
+    color: #0f172a;
+}
 }
 .glossary-list .list-group-item[data-v-1d764944],
 .video-list .list-group-item[data-v-1d764944],

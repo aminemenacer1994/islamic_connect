@@ -1070,12 +1070,30 @@ const VIDEO_ACCENT_PAIRS = [
   { primary: '#4c1d95', secondary: '#c084fc' }
 ]
 
+const getConfettiScale = () => {
+  if (typeof window === 'undefined') return 1
+  if (window.innerWidth >= 1400) return 0.55
+  if (window.innerWidth >= 1024) return 0.7
+  return 1
+}
+
+const scaleConfettiConfig = (config) => {
+  const scale = getConfettiScale()
+  if (scale === 1) return config
+  return {
+    ...config,
+    particleCount: Math.max(12, Math.round(config.particleCount * scale)),
+    spread: Math.max(50, config.spread * (0.8 + scale / 1.25)),
+    startVelocity: Math.max(40, config.startVelocity * (0.8 + scale / 2))
+  }
+}
+
 // FULL-SCREEN EPIC CONFETTI
 const fullScreenConfetti = (confettiFn) => {
   if (!confettiFn) return
 
   // Left shower
-  confettiFn({
+  confettiFn(scaleConfettiConfig({
     particleCount: 100,
     spread: 80,
     origin: { x: 0, y: 0.6 },
@@ -1087,10 +1105,10 @@ const fullScreenConfetti = (confettiFn) => {
     shapes: ['square', 'circle'],
     zIndex: 10000,
     disableForReducedMotion: false
-  })
+  }))
 
   // Right shower
-  confettiFn({
+  confettiFn(scaleConfettiConfig({
     particleCount: 100,
     spread: 80,
     origin: { x: 1, y: 0.6 },
@@ -1102,10 +1120,10 @@ const fullScreenConfetti = (confettiFn) => {
     shapes: ['square', 'circle'],
     zIndex: 10000,
     disableForReducedMotion: false
-  })
+  }))
 
   // Big center explosion
-  confettiFn({
+  confettiFn(scaleConfettiConfig({
     particleCount: 150,
     spread: 120,
     origin: { x: 0.5, y: 0.5 },
@@ -1115,7 +1133,7 @@ const fullScreenConfetti = (confettiFn) => {
     shapes: ['square', 'circle'],
     zIndex: 10000,
     disableForReducedMotion: false
-  })
+  }))
 }
 
 const FINAL_CHAPTER_ID = roadmapData.length
@@ -1147,13 +1165,13 @@ const celebrateFinalChapter = (confettiFn) => {
   ]
 
   bursts.forEach(config => {
-    confettiFn({
+    confettiFn(scaleConfettiConfig({
       ...config,
       origin: { x: Math.random(), y: Math.random() * 0.6 },
       shapes: ['square', 'circle'],
       zIndex: 10000,
       disableForReducedMotion: false
-    })
+    }))
   })
 }
 
@@ -3042,6 +3060,7 @@ export default defineComponent({
   font-size: 0.95rem;
   color: #0f172a;
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
 }
 
 .next-steps-pill:hover {
@@ -3058,6 +3077,11 @@ export default defineComponent({
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+@media (max-width: 991.98px) {
+  .next-steps-pill-icon {
+    display: none;
+  }
 }
 .quiz-explanation-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
@@ -3330,6 +3354,9 @@ export default defineComponent({
 .content-card .card-header {
   position: relative;
   overflow: hidden;
+  justify-content: flex-start;
+  gap: 1rem;
+  text-align: left;
 }
 
 
@@ -3383,6 +3410,19 @@ export default defineComponent({
 .insight-list .list-group-item {
   background: transparent;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding-left: 0;
+}
+
+.insight-list .list-group-item i {
+  display: none;
+}
+
+@media (min-width: 992px) {
+  .insight-list .list-group-item i {
+    display: inline-flex;
+    margin-right: 0.35rem;
+    color: #0f172a;
+  }
 }
 
 .glossary-list .list-group-item,

@@ -810,7 +810,7 @@
         "sectionIndex": 5
       },
       {
-        "question": "Quranic recitation rules are called __?",
+        "question": "Quranic recitation rules are called ?",
         "options": [
           "Tajweed",
           "Hajj",
@@ -818,7 +818,7 @@
           "Fasting"
         ],
         "answer": "Tajweed",
-        "explanation": "Quranic recitation rules are called __. The phrase 'Tajweed' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
+        "explanation": "Quranic recitation rules are called. The phrase 'Tajweed' captures the concept being asked it is the wording that matches the prompt exactly and matches the lesson focus.",
         "sectionIndex": 6
       },
       {
