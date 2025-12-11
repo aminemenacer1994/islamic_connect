@@ -1,5 +1,6 @@
 <template>
   <div class="revert-shell position-relative" v-cloak>
+    <canvas ref="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
     <!-- Background Layers -->
     <div class="page-sheen"></div>
@@ -401,6 +402,8 @@
               </div>
             </div>
 
+            
+
             <!-- Revert Stories -->
             <div v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
@@ -461,6 +464,36 @@
               </div>
             </div>
 
+            <!-- Share with a friend -->
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
+              <div class="card-body px-3 px-md-4 py-4">
+                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                  <div class="flex-grow-1">
+                    <h3 class="fw-bold mb-1">Share with a friend or family member</h3>
+                    <p class="text-muted mb-0 small">
+                      Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                    </p>
+                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0" aria-live="polite" role="status">
+                      {{ shareFriendStatus }}
+                    </p>
+                    <span class="visually-hidden" aria-hidden="false">
+                      Feel free to share every insight, dua, and revert story on this page.
+                    </span>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
+                      <i class="bi bi-clipboard mr-2"></i>
+                      Copy link
+                    </button>
+                    <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
+                      <i class="bi bi-whatsapp mr-2"></i>
+                      Share with WhatsApp
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Dos and Dont's -->
             <div v-if="secondarySectionsReady && currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
@@ -501,7 +534,7 @@
               </div>
 
               <!-- Key Insights -->
-          <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
                 <div class="card-header d-flex align-items-center py-3">
                   <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
                   <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
@@ -562,6 +595,9 @@
               </div>
             </div>
 
+      
+
+            <!-- Share & uplift -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
               <div class="card-body px-3 px-md-4 py-4">
                 <div class="row align-items-center">
@@ -750,7 +786,9 @@
                   </div>
                   <div class="next-steps-list mt-3">
                     <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
-                      <span class="next-steps-pill-icon" aria-hidden="true"></span>
+                      <span class="next-steps-pill-icon">
+                        <i class="bi bi-check-lg"></i>
+                      </span>
                       <p class="mb-0">{{ task }}</p>
                     </article>
                     <div v-if="homeworkMoreAvailable" class="text-center mt-3">
@@ -1033,9 +1071,11 @@ const VIDEO_ACCENT_PAIRS = [
 ]
 
 // FULL-SCREEN EPIC CONFETTI
-const fullScreenConfetti = () => {
+const fullScreenConfetti = (confettiFn) => {
+  if (!confettiFn) return
+
   // Left shower
-  window.confetti({
+  confettiFn({
     particleCount: 100,
     spread: 80,
     origin: { x: 0, y: 0.6 },
@@ -1050,7 +1090,7 @@ const fullScreenConfetti = () => {
   })
 
   // Right shower
-  window.confetti({
+  confettiFn({
     particleCount: 100,
     spread: 80,
     origin: { x: 1, y: 0.6 },
@@ -1065,7 +1105,7 @@ const fullScreenConfetti = () => {
   })
 
   // Big center explosion
-  window.confetti({
+  confettiFn({
     particleCount: 150,
     spread: 120,
     origin: { x: 0.5, y: 0.5 },
@@ -1080,8 +1120,8 @@ const fullScreenConfetti = () => {
 
 const FINAL_CHAPTER_ID = roadmapData.length
 
-const celebrateFinalChapter = () => {
-  if (!window.confetti) return
+const celebrateFinalChapter = (confettiFn) => {
+  if (!confettiFn) return
   const bursts = [
     {
       particleCount: 220,
@@ -1107,7 +1147,7 @@ const celebrateFinalChapter = () => {
   ]
 
   bursts.forEach(config => {
-    window.confetti({
+    confettiFn({
       ...config,
       origin: { x: Math.random(), y: Math.random() * 0.6 },
       shapes: ['square', 'circle'],
@@ -1176,6 +1216,7 @@ export default defineComponent({
         faqs: false
       },
       confettiPromise: null,
+      confettiLauncher: null,
       lessonShareStatus: '',
       duaShareStatus: '',
       overviewFontScale: 1,
@@ -1503,6 +1544,7 @@ export default defineComponent({
     }
     window.scrollTo({ top: 0, behavior: 'auto' })
     this.prepareSecondarySections()
+    this.ensureConfettiScript()
 
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0)
@@ -1517,6 +1559,7 @@ export default defineComponent({
         return this.confettiPromise
       }
       if (window.confetti) {
+        this.setupConfettiLauncher()
         this.confettiPromise = Promise.resolve()
         return this.confettiPromise
       }
@@ -1525,6 +1568,7 @@ export default defineComponent({
         script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js'
         script.onload = () => {
           console.log('Confetti loaded & ready!')
+          this.setupConfettiLauncher()
           resolve()
         }
         script.onerror = () => resolve()
@@ -1533,16 +1577,30 @@ export default defineComponent({
       return this.confettiPromise
     },
 
+    setupConfettiLauncher() {
+      if (this.confettiLauncher) return
+      if (typeof window === 'undefined' || !window.confetti) return
+      const canvas = this.$refs.confettiCanvas
+      if (!canvas) return
+      this.confettiLauncher = window.confetti.create(canvas, {
+        resize: true,
+        useWorker: true,
+        disableForReducedMotion: false
+      })
+    },
+
     triggerConfetti(isFinalChapter) {
       this.scrollToTop()
       this.ensureConfettiScript().then(() => {
-        if (!window.confetti) return
+        this.setupConfettiLauncher()
+        const confettiFn = this.confettiLauncher || window.confetti
+        if (!confettiFn) return
         if (isFinalChapter) {
-          celebrateFinalChapter()
-          setTimeout(celebrateFinalChapter, 600)
+          celebrateFinalChapter(confettiFn)
+          setTimeout(() => celebrateFinalChapter(confettiFn), 600)
         } else {
-          fullScreenConfetti()
-          setTimeout(fullScreenConfetti, 400)
+          fullScreenConfetti(confettiFn)
+          setTimeout(() => fullScreenConfetti(confettiFn), 400)
         }
       })
     },
@@ -2552,7 +2610,7 @@ export default defineComponent({
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: linear-gradient(180deg, rgba(249, 250, 251, 0.85), rgba(237, 242, 247, 0.85));
+  background: linear-gradient(180deg, #f7fbff, #e8f1ff 55%, #e6effd);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -2561,9 +2619,9 @@ export default defineComponent({
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(236, 253, 245, 0.35), transparent 40%),
-    radial-gradient(circle at 85% 10%, rgba(237, 247, 255, 0.45), transparent 38%);
-  opacity: 0.4;
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.25), transparent 40%),
+    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.2), transparent 38%);
+  opacity: 0.6;
   pointer-events: none;
   z-index: 0;
 }
@@ -2583,6 +2641,15 @@ export default defineComponent({
     radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.02) 1px, transparent 0);
   background-size: 24px 24px;
   z-index: 0;
+}
+
+.confetti-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 12000;
 }
 
 .revert-content {
@@ -2982,15 +3049,16 @@ export default defineComponent({
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
 }
 
-  .next-steps-pill-icon {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #0b4c6c;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
+.next-steps-pill-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: #0f172a;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
 .quiz-explanation-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4047,22 +4115,6 @@ export default defineComponent({
 
   .card-header .lesson-focus-actions .header-action i {
     margin-right: 0;
-  }
-}
-
-.next-steps-pill-icon {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: #0b4c6c;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-@media (max-width: 600px) {
-  .next-steps-pill-icon {
-    display: none;
   }
 }
 
