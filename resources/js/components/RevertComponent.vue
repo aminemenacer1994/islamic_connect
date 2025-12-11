@@ -533,29 +533,11 @@
                 </div>
               </div>
 
-              <!-- Key Insights -->
-              <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-                <div class="card-header d-flex align-items-center py-3">
-                  <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
-                  <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
-                </div>
-                <div class="card-body p-3">
-                  <p class="text-muted small mb-3">
-                    {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
-                  </p>
-                  <ul class="list-group insight-list fs-6 lh-base">
-                    <li v-for="insight in insightsToShow" :key="insight"
-                      class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                      <i class="fas fa-check-circle fs-5 text-teal"></i>
-                        <span>{{ insight }}</span>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+              
 
             <!-- Duas -->
-            <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3 gap-3">
+            <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 mt-3 rounded-4">
+              <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
                 <div class="d-flex align-items-center gap-3">
                   <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
                   <div>
@@ -594,6 +576,28 @@
                 </div>
               </div>
             </div>
+
+            <!-- Key Insights -->
+              <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card pt-3 section-card animated-fade-slide mb-4 rounded-4">
+                <div class="card-header d-flex align-items-center py-3">
+                  <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
+                  <div>
+                    <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
+                    <p class="fs-6 text-muted mb-0">
+                      {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
+                    </p>
+                  </div>
+                </div>
+                <div class="card-body p-3">
+                  <ul class="list-group insight-list fs-6 lh-base mb-0">
+                    <li v-for="insight in insightsToShow" :key="insight"
+                      class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
+                      <i class="fas fa-check-circle fs-5 text-teal"></i>
+                      <span>{{ insight }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
 
       
 
