@@ -20513,6 +20513,8 @@ to {
     gap: 12px;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
 }
 .actions[data-v-9211e7a8] { justify-content: flex-end;
 }

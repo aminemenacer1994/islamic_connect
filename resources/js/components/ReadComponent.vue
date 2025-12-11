@@ -1488,6 +1488,8 @@ export default {
     gap: 12px;
     align-items: center;
     flex-wrap: wrap;
+    justify-content: flex-end;
+    width: 100%;
 }
 
 .actions { justify-content: flex-end; }
