@@ -737,7 +737,6 @@
                     <i class="bi bi-clipboard-check-fill fs-5"></i>
                   </div>
                   <div>
-                    <p class="text-muted small mb-1 text-uppercase">Intentional practice</p>
                     <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
                   </div>
                 </div>
@@ -751,9 +750,7 @@
                   </div>
                   <div class="next-steps-list mt-3">
                     <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
-                      <span class="next-steps-pill-icon">
-                        <i class="bi bi-check-lg"></i>
-                      </span>
+                      <span class="next-steps-pill-icon" aria-hidden="true"></span>
                       <p class="mb-0">{{ task }}</p>
                     </article>
                     <div v-if="homeworkMoreAvailable" class="text-center mt-3">
@@ -2985,16 +2982,15 @@ export default defineComponent({
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
 }
 
-.next-steps-pill-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: #0f172a;
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
+  .next-steps-pill-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #0b4c6c;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
 .quiz-explanation-card {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -4051,6 +4047,22 @@ export default defineComponent({
 
   .card-header .lesson-focus-actions .header-action i {
     margin-right: 0;
+  }
+}
+
+.next-steps-pill-icon {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0b4c6c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .next-steps-pill-icon {
+    display: none;
   }
 }
 

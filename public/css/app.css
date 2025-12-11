@@ -21259,14 +21259,13 @@ to {
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
 }
 .next-steps-pill-icon[data-v-1d764944] {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: #0f172a;
-  color: #fff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #0b4c6c;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 .quiz-explanation-card[data-v-1d764944] {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
@@ -22169,6 +22168,20 @@ to {
 }
 .card-header .lesson-focus-actions .header-action i[data-v-1d764944] {
     margin-right: 0;
+}
+}
+.next-steps-pill-icon[data-v-1d764944] {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0b4c6c;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 600px) {
+.next-steps-pill-icon[data-v-1d764944] {
+    display: none;
 }
 }
 .section-toggle-btn[data-v-1d764944] {
