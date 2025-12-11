@@ -187,6 +187,7 @@
     <style>
         body {
             padding-top: calc(3.5rem + 1rem);
+            background: linear-gradient(180deg, #fdfefe 0%, #f4f6fb 40%, #e9eef7 100%);
         }
 
         @media (max-width: 768px) {
@@ -254,7 +255,7 @@
                                 ></path>
                                 </g>
                             </svg>
-                            Reverts corner
+                            Reverts Corner
                             <div class="hoverEffect" data-path="/revert" data-nav-item="primary">
                                 <div></div>
                             </div>

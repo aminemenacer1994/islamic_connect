@@ -20889,7 +20889,7 @@ to {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: linear-gradient(180deg, #f7fbff, #e8f1ff 55%, #e6effd);
+  background: linear-gradient(180deg, rgba(249, 250, 251, 0.85), rgba(237, 242, 247, 0.85));
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 .revert-shell[data-v-1d764944]::before {
@@ -20897,9 +20897,9 @@ to {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.25), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.2), transparent 38%);
-  opacity: 0.6;
+    radial-gradient(circle at 15% 20%, rgba(236, 253, 245, 0.35), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(237, 247, 255, 0.45), transparent 38%);
+  opacity: 0.4;
   pointer-events: none;
   z-index: 0;
 }
@@ -20922,6 +20922,17 @@ to {
   position: relative;
   z-index: 1;
   min-height: calc(100vh - 2rem);
+  padding: 1.5rem clamp(1rem, 4vw, 2rem);
+  margin: 0 auto;
+  background: #fefefe;
+}
+.revert-content .container-fluid[data-v-1d764944] {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0;
+}
+.revert-shell[data-v-1d764944] {
+  padding-bottom: 2rem;
 }
 .revert-content .row.g-4[data-v-1d764944] {
   min-height: calc(100vh - 2rem);
@@ -20930,6 +20941,13 @@ to {
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+.card-header[data-v-1d764944] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 @media (max-width: 991.98px) {
 .revert-content section[data-v-1d764944] {
@@ -20974,6 +20992,35 @@ to {
   .quiz-body[data-v-1d764944] {
     padding: 0.9rem 0.75rem;
 }
+.lesson-hero[data-v-1d764944] {
+    padding: 1.75rem;
+}
+.navigation-card[data-v-1d764944] {
+    border-radius: 20px;
+    backdrop-filter: blur(18px);
+}
+.mobile-nav-toggle[data-v-1d764944] {
+    top: 1rem;
+    left: auto;
+    right: 1rem;
+}
+.next-steps-body[data-v-1d764944],
+  .quiz-shell[data-v-1d764944],
+  .content-card.section-card[data-v-1d764944] {
+    padding: 1.25rem;
+}
+.lesson-hero[data-v-1d764944] {
+    border-radius: 30px;
+}
+.guided-section-card[data-v-1d764944],
+  .tone-card[data-v-1d764944],
+  .mission-card[data-v-1d764944] {
+    border-radius: 30px;
+    padding: 1.5rem;
+}
+.course-progress[data-v-1d764944] {
+    font-size: 0.95rem;
+}
 }
 .mobile-nav-toggle[data-v-1d764944] {
   position: fixed;
@@ -20991,6 +21038,56 @@ to {
   border: 1px solid #e5e7eb;
   font-size: 1.25rem;
   color: #374151;
+}
+@media (max-width: 600px) {
+.card-header[data-v-1d764944] {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.lesson-focus-actions[data-v-1d764944] {
+    width: 100%;
+    order: 2;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+}
+.lesson-focus-actions .header-action[data-v-1d764944] {
+    flex: 1;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 0.6rem;
+    font-size: 0;
+}
+.lesson-focus-actions .header-action span[data-v-1d764944] {
+    display: none;
+}
+.lesson-focus-actions .header-action i[data-v-1d764944] {
+    margin: 0;
+}
+}
+.navigation-card[data-v-1d764944] {
+  min-height: unset;
+  border-radius: 24px;
+  padding: 1.5rem;
+}
+.lesson-header[data-v-1d764944] {
+  padding-top: 1rem;
+}
+@media (max-width: 576px) {
+.revert-shell[data-v-1d764944] {
+    padding: 0.5rem;
+}
+.navigation-card[data-v-1d764944] {
+    padding: 1rem;
+}
+.lesson-hero[data-v-1d764944],
+  .content-card.section-card[data-v-1d764944] {
+    border-radius: 28px;
+}
+.mobile-nav-toggle[data-v-1d764944] {
+    width: 44px;
+    height: 44px;
+}
 }
 @keyframes fadeInUp-1d764944 {
 from {
@@ -21208,13 +21305,6 @@ to {
 .quiz-explanation-footer[data-v-1d764944] {
   position: relative;
   z-index: 1;
-}
-.right-answer-pill[data-v-1d764944] {
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
-  background: rgba(16, 185, 129, 0.12);
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
 }
 .btn-explanation-link[data-v-1d764944] {
   border: 0;
@@ -22059,6 +22149,27 @@ to {
 .header-action[data-v-1d764944]:hover {
   background: rgba(5, 150, 105, 0.08);
   border-color: rgba(5, 150, 105, 0.25);
+}
+@media (max-width: 600px) {
+.card-header .lesson-focus-actions[data-v-1d764944] {
+    width: 100%;
+    margin-top: 1rem;
+    order: 2;
+    justify-content: space-between;
+}
+.card-header .lesson-focus-actions .header-action[data-v-1d764944] {
+    flex: 1;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+}
+.card-header .lesson-focus-actions .header-action span[data-v-1d764944] {
+    display: none;
+}
+.card-header .lesson-focus-actions .header-action i[data-v-1d764944] {
+    margin-right: 0;
+}
 }
 .section-toggle-btn[data-v-1d764944] {
   font-size: 0.85rem;

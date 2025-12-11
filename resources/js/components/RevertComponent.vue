@@ -741,7 +741,6 @@
                     <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
                   </div>
                 </div>
-                <span class="badge badge-pill bg-light text-teal fw-semibold px-3 py-2">Track progress</span>
               </div>
 
               <div class="next-steps-body p-4">
@@ -813,16 +812,15 @@
                       <div class="d-flex align-items-center gap-2">
                         <i class="bi bi-lightbulb-fill fs-5 text-teal"></i>
                         <div>
-                          <p class="mb-0 fw-semibold fs-6">Explanation</p>
-                          <small class="text-muted d-block">Why this answer fits the story</small>
+                          <p class="mb-0 fw-semibold mb-3 fs-6">Explanation</p>
                         </div>
                       </div>
-                      <span class="right-answer-pill text-muted">
-                        <strong>Right answer:</strong>
-                        <span class="text-dark">{{ currentQuestion.answer }}</span>
-                      </span>
+                      
                     </div>
-                    <div class="quiz-explanation-body pt-2 text-muted">
+                    <span class="right-answer-pill text-muted">
+                        <span class="text-dark fw-bold mt-2">Answer is: {{ currentQuestion.answer }}</span>
+                      </span>
+                    <div class=" pt-2 text-muted">
                       <p class="mb-0">{{ quizHintExplanation }}</p>
                     </div>
                     <div class="quiz-explanation-footer mt-3">
@@ -1051,7 +1049,7 @@ const fullScreenConfetti = () => {
     colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5'],
     shapes: ['square', 'circle'],
     zIndex: 10000,
-    disableForReducedMotion: true
+    disableForReducedMotion: false
   })
 
   // Right shower
@@ -1066,7 +1064,7 @@ const fullScreenConfetti = () => {
     colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5'],
     shapes: ['square', 'circle'],
     zIndex: 10000,
-    disableForReducedMotion: true
+    disableForReducedMotion: false
   })
 
   // Big center explosion
@@ -1079,7 +1077,7 @@ const fullScreenConfetti = () => {
     colors: ['#10b981', '#34d399', '#6ee7b7', '#86efac', '#d1fae5', '#ffffff'],
     shapes: ['square', 'circle'],
     zIndex: 10000,
-    disableForReducedMotion: true
+    disableForReducedMotion: false
   })
 }
 
@@ -1117,7 +1115,7 @@ const celebrateFinalChapter = () => {
       origin: { x: Math.random(), y: Math.random() * 0.6 },
       shapes: ['square', 'circle'],
       zIndex: 10000,
-      disableForReducedMotion: true
+      disableForReducedMotion: false
     })
   })
 }
@@ -2557,7 +2555,7 @@ export default defineComponent({
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: linear-gradient(180deg, #f7fbff, #e8f1ff 55%, #e6effd);
+  background: linear-gradient(180deg, rgba(249, 250, 251, 0.85), rgba(237, 242, 247, 0.85));
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -2566,9 +2564,9 @@ export default defineComponent({
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.25), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.2), transparent 38%);
-  opacity: 0.6;
+    radial-gradient(circle at 15% 20%, rgba(236, 253, 245, 0.35), transparent 40%),
+    radial-gradient(circle at 85% 10%, rgba(237, 247, 255, 0.45), transparent 38%);
+  opacity: 0.4;
   pointer-events: none;
   z-index: 0;
 }
@@ -2594,6 +2592,19 @@ export default defineComponent({
   position: relative;
   z-index: 1;
   min-height: calc(100vh - 2rem);
+  padding: 1.5rem clamp(1rem, 4vw, 2rem);
+  margin: 0 auto;
+  background: #fefefe;
+  }
+
+.revert-content .container-fluid {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+.revert-shell {
+  padding-bottom: 2rem;
 }
 
 .revert-content .row.g-4 {
@@ -2604,6 +2615,14 @@ export default defineComponent({
   max-height: calc(100vh - 4rem);
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 @media (max-width: 991.98px) {
@@ -2658,6 +2677,42 @@ export default defineComponent({
   .quiz-body {
     padding: 0.9rem 0.75rem;
   }
+
+  .lesson-hero {
+    padding: 1.75rem;
+  }
+
+  .navigation-card {
+    border-radius: 20px;
+    backdrop-filter: blur(18px);
+  }
+
+  .mobile-nav-toggle {
+    top: 1rem;
+    left: auto;
+    right: 1rem;
+  }
+
+  .next-steps-body,
+  .quiz-shell,
+  .content-card.section-card {
+    padding: 1.25rem;
+  }
+
+  .lesson-hero {
+    border-radius: 30px;
+  }
+
+  .guided-section-card,
+  .tone-card,
+  .mission-card {
+    border-radius: 30px;
+    padding: 1.5rem;
+  }
+
+  .course-progress {
+    font-size: 0.95rem;
+  }
 }
 
 .mobile-nav-toggle {
@@ -2676,6 +2731,67 @@ export default defineComponent({
   border: 1px solid #e5e7eb;
   font-size: 1.25rem;
   color: #374151;
+}
+
+@media (max-width: 600px) {
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .lesson-focus-actions {
+    width: 100%;
+    order: 2;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .lesson-focus-actions .header-action {
+    flex: 1;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 0.6rem;
+    font-size: 0;
+  }
+
+  .lesson-focus-actions .header-action span {
+    display: none;
+  }
+
+  .lesson-focus-actions .header-action i {
+    margin: 0;
+  }
+}
+
+.navigation-card {
+  min-height: unset;
+  border-radius: 24px;
+  padding: 1.5rem;
+}
+
+.lesson-header {
+  padding-top: 1rem;
+}
+
+@media (max-width: 576px) {
+  .revert-shell {
+    padding: 0.5rem;
+  }
+
+  .navigation-card {
+    padding: 1rem;
+  }
+
+  .lesson-hero,
+  .content-card.section-card {
+    border-radius: 28px;
+  }
+
+  .mobile-nav-toggle {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 
@@ -2922,13 +3038,7 @@ export default defineComponent({
   z-index: 1;
 }
 
-.right-answer-pill {
-  border-radius: 999px;
-  padding: 0.35rem 0.9rem;
-  background: rgba(16, 185, 129, 0.12);
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-}
+
 
 .btn-explanation-link {
   border: 0;
@@ -3917,6 +4027,31 @@ export default defineComponent({
 .header-action:hover {
   background: rgba(5, 150, 105, 0.08);
   border-color: rgba(5, 150, 105, 0.25);
+}
+
+@media (max-width: 600px) {
+  .card-header .lesson-focus-actions {
+    width: 100%;
+    margin-top: 1rem;
+    order: 2;
+    justify-content: space-between;
+  }
+
+  .card-header .lesson-focus-actions .header-action {
+    flex: 1;
+    justify-content: center;
+    border-radius: 14px;
+    padding: 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .card-header .lesson-focus-actions .header-action span {
+    display: none;
+  }
+
+  .card-header .lesson-focus-actions .header-action i {
+    margin-right: 0;
+  }
 }
 
 .section-toggle-btn {
