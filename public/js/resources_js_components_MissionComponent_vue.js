@@ -559,14 +559,29 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }
       }
     },
-    prev() {
-      if (this.currentIndex > 0) {
-        this.stopAudio(this.currentlyPlayingIndex);
-        this.currentIndex--;
+    scrollEventContentToTop() {
+      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
         });
+        return;
+      }
+      if (typeof document !== 'undefined') {
+        const docEl = document.documentElement || document.body;
+        if (docEl && typeof docEl.scrollTo === 'function') {
+          docEl.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      }
+    },
+    prev() {
+      if (this.currentIndex > 0) {
+        this.stopAudio(this.currentlyPlayingIndex);
+        this.currentIndex--;
+        this.scrollEventContentToTop();
         this.updateCurrentMetrics();
         this.updateDocumentTitle();
       }
@@ -575,10 +590,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (this.currentIndex < this.events.length - 1) {
         this.stopAudio(this.currentlyPlayingIndex);
         this.currentIndex++;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        this.scrollEventContentToTop();
         this.updateCurrentMetrics();
         this.updateDocumentTitle();
       }
