@@ -129,8 +129,13 @@ export default {
 .custom-card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--brand-2), var(--brand-1)); transform: scaleX(0.4); transform-origin: left; transition: transform 0.3s ease; }
 .custom-card:hover::before { transform: scaleX(1); }
 
-/* Force single-line title for Quran Companion card */
-.single-line-title { white-space: nowrap; }
+.single-line-title {
+  white-space: normal;
+  line-height: 1.15;
+  font-size: clamp(1.75rem, 2.4vw, 2.1rem);
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
 
 .custom-card img { height: 180px; object-fit: contain; transition: transform 0.25s ease; }
 .custom-card:hover img { transform: scale(1.05); }
