@@ -1,5 +1,5 @@
 <template>
-  <div class="revert-shell position-relative" v-cloak>
+  <div class="revert-shell position-relative" v-cloak :class="{ 'reduce-motion': reduceMotionEnabled }">
     <canvas ref="confettiCanvas" class="confetti-canvas" aria-hidden="true"></canvas>
 
     <!-- Background Layers -->
@@ -1255,7 +1255,10 @@ export default defineComponent({
       lessonVideosCache: {},
       homeworkVisibleCount: 4,
       faqDisplayLimit: 4,
-      commonFaqDisplayLimit: 4
+      commonFaqDisplayLimit: 4,
+      reduceMotionEnabled: false,
+      motionMediaQuery: null,
+      motionMediaListener: null
     }
   },
 
@@ -1563,10 +1566,15 @@ export default defineComponent({
     window.scrollTo({ top: 0, behavior: 'auto' })
     this.prepareSecondarySections()
     this.ensureConfettiScript()
+    this.initializeMotionPreference()
 
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0)
     })
+  },
+
+  beforeUnmount() {
+    this.teardownMotionPreference()
   },
 
   methods: {
@@ -1593,6 +1601,33 @@ export default defineComponent({
         document.head.appendChild(script)
       })
       return this.confettiPromise
+    },
+
+    initializeMotionPreference() {
+      if (typeof window === 'undefined' || !('matchMedia' in window)) return
+      const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+      const handler = (event) => {
+        this.reduceMotionEnabled = event.matches
+      }
+      this.motionMediaQuery = query
+      this.motionMediaListener = handler
+      this.reduceMotionEnabled = query.matches
+      if (typeof query.addEventListener === 'function') {
+        query.addEventListener('change', handler)
+      } else if (typeof query.addListener === 'function') {
+        query.addListener(handler)
+      }
+    },
+
+    teardownMotionPreference() {
+      if (!this.motionMediaQuery || !this.motionMediaListener) return
+      if (typeof this.motionMediaQuery.removeEventListener === 'function') {
+        this.motionMediaQuery.removeEventListener('change', this.motionMediaListener)
+      } else if (typeof this.motionMediaQuery.removeListener === 'function') {
+        this.motionMediaQuery.removeListener(this.motionMediaListener)
+      }
+      this.motionMediaQuery = null
+      this.motionMediaListener = null
     },
 
     setupConfettiLauncher() {
@@ -2668,6 +2703,28 @@ export default defineComponent({
   height: 100vh;
   pointer-events: none;
   z-index: 12000;
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0s !important;
+  animation-name: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  transition-property: none !important;
+}
+
+.reduce-motion .animated-fade-in,
+.reduce-motion .animated-fade-slider,
+.reduce-motion .animated-fade-slide,
+.reduce-motion .animated-slide-up,
+.reduce-motion .animated-slide-down,
+.reduce-motion .content-card,
+.reduce-motion .next-steps-pill,
+.reduce-motion .section-card {
+  animation: none !important;
 }
 
 .revert-content {

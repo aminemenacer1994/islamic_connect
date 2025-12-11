@@ -20926,6 +20926,26 @@ to {
   pointer-events: none;
   z-index: 12000;
 }
+.reduce-motion[data-v-1d764944] *,
+.reduce-motion[data-v-1d764944] *::before,
+.reduce-motion[data-v-1d764944] *::after {
+  animation-duration: 0.001ms !important;
+  animation-delay: 0s !important;
+  animation-name: none !important;
+  transition-duration: 0s !important;
+  transition-delay: 0s !important;
+  transition-property: none !important;
+}
+.reduce-motion .animated-fade-in[data-v-1d764944],
+.reduce-motion .animated-fade-slider[data-v-1d764944],
+.reduce-motion .animated-fade-slide[data-v-1d764944],
+.reduce-motion .animated-slide-up[data-v-1d764944],
+.reduce-motion .animated-slide-down[data-v-1d764944],
+.reduce-motion .content-card[data-v-1d764944],
+.reduce-motion .next-steps-pill[data-v-1d764944],
+.reduce-motion .section-card[data-v-1d764944] {
+  animation: none !important;
+}
 .revert-content[data-v-1d764944] {
   position: relative;
   z-index: 1;
