@@ -403,7 +403,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // No theme toggle (removed on request)
-            const navLinks = document.querySelectorAll('ul[aria-label="Primary menu"] a.nav-link');
+            const primaryNavItems = document.querySelectorAll('ul[aria-label="Primary menu"] [data-nav-item="primary"]');
             // Ensure hamburger toggler controls the collapse reliably
             try {
                 const toggler = document.getElementById('navbarToggler') || document.querySelector('.navbar-toggler');
@@ -551,7 +551,7 @@
                 // Home
                 '/': '/',
                 '/home': '/',
-                '/revert': '/',
+                '/revert': '/revert',
                 '/welcome': '/',
                 // Quran portal (user-specified)
                 '/holy': '/holy',
@@ -610,7 +610,7 @@
                 return match ? normalize(aliasMap[match]) : pathNow;
             })();
 
-            const links = Array.from(navLinks).filter(a => a.dataset && typeof a.dataset.path === 'string');
+            const links = Array.from(primaryNavItems).filter(el => el.dataset && typeof el.dataset.path === 'string');
             const candidates = links.map(a => normalize(a.dataset.path));
 
             // 1) Try group target exact
@@ -916,5 +916,48 @@
   }
 }
 
+
+/* Primary navigation highlight states */
+.navbar-nav .nav-link {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.navbar-nav .nav-link.active {
+  color: #0f62fe;
+  font-weight: 600;
+}
+.navbar-nav .nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.35rem;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #0f62fe, #6f42c1, #f45b69);
+}
+.navbar-nav .nav-link:hover:not(.active) {
+  color: #0a4dff;
+}
+
+.button[data-nav-item="primary"] {
+  position: relative;
+  transition: color 0.2s ease;
+}
+.button[data-nav-item="primary"]::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.35rem;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #0f62fe, #6f42c1, #f45b69);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.button[data-nav-item="primary"].active::after {
+  opacity: 1;
+}
 
 </style>

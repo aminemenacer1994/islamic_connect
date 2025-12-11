@@ -3908,7 +3908,9 @@ img[data-v-23ef7dd5]{
   flex: 1;
   width: auto;
 }
-
+.glossy[data-v-7416ffac] .p-dropdown-trigger {
+  height: 100%;
+}
 .glossy[data-v-7416ffac] .p-dropdown-panel {
   margin-top: 6px;
   border-radius: 16px;
