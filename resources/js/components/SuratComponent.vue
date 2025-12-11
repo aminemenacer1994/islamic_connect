@@ -2103,17 +2103,15 @@ h1.display-5 {
 
 /* Sticky filter capsule enhancements without altering markup */
 .sticky-dropdown {
-  border-radius: 14px;
-  background: rgb(129, 188, 176);
-    border: 1px solid rgba(33, 203, 178, 0.2);
-    border-radius: 24px;
-    box-shadow: rgba(67, 66, 66, 0.55) 0px 1px 0px inset, rgba(0, 0, 0, 0.03) 0px -1px 0px inset, rgba(26, 95, 122, 0.09) 0px 10px 28px;
+  background: linear-gradient(90deg, #83F5E5, #E761BD);  border-radius: 24px;
+  box-shadow: rgba(67, 66, 66, 0.55) 0px 1px 0px, rgba(0, 0, 0, 0.03) 0px -1px 0px , rgba(26, 95, 122, 0.09) 0px 10px 28px;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .sticky-dropdown label.form-label {
   font-weight: 600;
   letter-spacing: 0.02em;
+  color: #000;
 }
 
 .sticky-dropdown .form-select {
