@@ -1929,7 +1929,7 @@ const _hoisted_191 = {
 };
 const _hoisted_192 = {
   key: 5,
-  class: "content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper"
+  class: "section-card animated-fade-slide mb-4 rounded-5 quiz-wrapper"
 };
 const _hoisted_193 = {
   class: "quiz-shell p-0"

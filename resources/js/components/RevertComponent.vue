@@ -806,7 +806,7 @@
             </div>
 
             <!-- Quiz Card -->
-            <div v-if="currentQuestion" class="content-card section-card animated-fade-slide mb-4 rounded-4 quiz-wrapper">
+            <div v-if="currentQuestion" class="section-card animated-fade-slide mb-4 rounded-5 quiz-wrapper">
               <div class="quiz-shell p-0">
                 <div class="quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
                   <div class="d-flex align-items-center gap-3">
