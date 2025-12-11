@@ -2667,7 +2667,7 @@ export default defineComponent({
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
-  background: linear-gradient(180deg, #f7fbff, #e8f1ff 55%, #e6effd);
+  background: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -2675,29 +2675,17 @@ export default defineComponent({
   content: '';
   position: absolute;
   inset: 0;
-  background:
-    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.25), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(59, 130, 246, 0.2), transparent 38%);
-  opacity: 0.6;
+  background: none;
   pointer-events: none;
   z-index: 0;
 }
 
 .page-sheen {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 10% 20%, rgba(74, 144, 226, 0.08) 0%, transparent 40%),
-    radial-gradient(circle at 90% 80%, rgba(116, 184, 255, 0.05) 0%, transparent 40%);
-  z-index: 0;
+  display: none;
 }
 
 .background-pattern {
-  position: absolute;
-  inset: 0;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(0, 0, 0, 0.02) 1px, transparent 0);
-  background-size: 24px 24px;
-  z-index: 0;
+  display: none;
 }
 
 .confetti-canvas {
