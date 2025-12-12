@@ -1,0 +1,29 @@
+[
+  {
+    "streakThreshold": 7,
+    "quizPassed": true,
+    "title": "Lean into the streak",
+    "description": "Seven days of consistency unlocked. Review today’s dua and share a short reflection so the learning sticks.",
+    "actionLabel": "Share reflection",
+    "actionLinkType": "share",
+    "note": "Sharing keeps the streak joyful and invites others."
+  },
+  {
+    "streakThreshold": 3,
+    "quizPassed": true,
+    "title": "Keep the momentum",
+    "description": "You aced the quiz—pair the insight with the primary dua on today’s chapter and repeat it aloud.",
+    "actionLabel": "Repeat dua",
+    "actionLinkType": "repeat",
+    "note": "Weight the insight with a bit of vocal repetition for recall."
+  },
+  {
+    "streakThreshold": 0,
+    "quizPassed": false,
+    "title": "Revisit & try again",
+    "description": "Circle back to the most confusing section, simmer on the example, then take the quiz again to turn doubt into mastery.",
+    "actionLabel": "Review section",
+    "actionLinkType": "review",
+    "note": "Pausing before retrying keeps the streak honest and empowers the next attempt."
+  }
+]

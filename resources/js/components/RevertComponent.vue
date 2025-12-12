@@ -111,6 +111,45 @@
             </div>
           </div>
 
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 personalization-card"
+              :class="{ 'personalization-glow': personalizationGlowActive }">
+              <div class="card-header d-flex align-items-center py-3 gap-3">
+                <i class="bi bi-stars text-teal fs-4"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5 text-black">Personalized Insight</h2>
+                  <p class="text-muted small mb-0">Recommendations based on your quiz + streak.</p>
+                </div>
+              </div>
+              <div class="card-body px-3">
+                <p class="mb-2 text-muted small text-uppercase">Focus: {{ personalizationPrompt.focus }}</p>
+                <p class="mb-2 fw-semibold">{{ personalizationPrompt.recommendation }}</p>
+                <ul class="personalization-tips list-unstyled mb-0">
+                  <li v-for="tip in personalizationPrompt.tips" :key="tip" class="mb-1">
+                    <i class="bi bi-lightbulb text-teal me-2"></i>
+                    <span class="text-muted">{{ tip }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 next-step-card">
+              <div class="card-header d-flex align-items-center py-3 gap-3">
+                <i class="bi bi-flag-fill text-teal fs-4"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5 text-dark">Your Personalized Next Step</h2>
+                  <p class="text-muted small mb-0">{{ currentStreakDays }}-day streak • Quiz {{ chapterQuizPassed ? 'cleared' : 'pending' }}</p>
+                </div>
+              </div>
+              <div class="card-body px-3 text-dark">
+                <p class="mb-2 fw-semibold">{{ personalNextStep.title }}</p>
+                <p class="mb-3">{{ personalNextStep.description }}</p>
+                <button type="button" class="btn btn-sm btn-light text-teal fw-semibold" @click="executeNextStepAction(personalNextStep.actionLinkType)">
+                  {{ personalNextStep.actionLabel }}
+                </button>
+                <p v-if="personalNextStep.note" class="text-muted small mt-3 mb-0">{{ personalNextStep.note }}</p>
+              </div>
+            </div>
+
           <!-- Hero Stats -->
           <!-- <div class="row g-3 mb-4 hero-stats-row">
             <div v-for="stat in lessonHeroStats" :key="stat.label" class="col-12 col-sm-4">
@@ -155,33 +194,6 @@
               </div>
             </div>
           </div> -->
-
-          <div v-if="guidedPathwayCards.length" class="content-card guided-section-card mb-4 rounded-4">
-            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
-              <div>
-                <p class="text-teal small mb-1 fw-semibold">Guided Pathway</p>
-                <h3 class="mb-1 fw-semibold">Follow the curated steps below</h3>
-                <p class="text-muted small mb-0">Start with absorb, move through reflection, and end with mastery to keep momentum.</p>
-              </div>
-              <!-- <div class="d-flex gap-2 flex-wrap">
-                <button type="button" class="btn btn-outline-teal btn-sm fw-semibold" @click="scrollToSection(0)">
-                  Jump to Step 1
-                </button>
-                <button type="button" class="btn btn-teal btn-sm fw-semibold" @click="scrollToSection(2)">
-                  Highlight Reinforcement
-                </button>
-              </div> -->
-            </div>
-              <div class="guided-bullets px-3 pb-3">
-                <div v-for="(card, index) in guidedPathwayCards" :key="card.step" class="guided-bullet">
-                <!-- <span class="guided-step">{{ card.step }}</span> -->
-                <div>
-                  <p class="mb-0 fw-semibold">{{ card.title }}</p>
-                  <small class="text-muted">{{ card.action }}</small>
-                </div>
-              </div>
-            </div>
-          </div>
 
           <div class="content-card tone-card section-card mb-4 rounded-4">
             <div class="card-header d-flex align-items-center gap-3 py-3">
@@ -373,6 +385,73 @@
               </div>
             </div>
 
+            <div v-if="pathwayClips.length" class="content-card guided-section-card mb-4 rounded-4">
+              <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
+                <div>
+                  <p class="text-teal small mb-1 fw-semibold">Guided Pathway</p>
+                  <h3 class="mb-1 fw-semibold">Short clips to carry the lesson forward</h3>
+                  <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
+                </div>
+                <button v-if="guidedPathwayCards.length" type="button" class="btn btn-outline-teal btn-sm fw-semibold" @click="scrollToSection('revert-stories-section')">
+                  Revisit the stories
+                </button>
+              </div>
+
+              <div id="pathway-clips-section" class="content-card section-card animated-fade-slide mb-4 rounded-4 pathway-clips-card">
+                <div class="card-header d-flex align-items-center gap-3">
+                  <i class="bi bi-film fs-4 text-teal"></i>
+                  <div>
+                    <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
+                    <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
+                  </div>
+                </div>
+                <div class="card-body px-3">
+                  <div class="row g-3">
+                    <div v-for="clip in pathwayClips" :key="clip.title" class="col-12 col-md-4">
+                      <article
+                        class="clip-card h-100 rounded-4 border shadow-sm"
+                        @mouseenter="startPreview(clip)"
+                        @mouseleave="stopPreview"
+                        @click="playClip(clip)">
+                        <div v-if="isClipPlaying(clip) || isClipPreviewing(clip)" class="clip-thumbnail ratio ratio-16x9">
+                          <iframe
+                            :src="formatVideoUrl(clip.url, true, isClipPreviewing(clip))"
+                            :title="clip.title"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                          </iframe>
+                        </div>
+                        <div v-else class="clip-thumbnail ratio ratio-16x9" :style="thumbnailStyle(clip)">
+                          <div class="clip-overlay d-flex align-items-end justify-content-between p-3">
+                            <span class="clip-label badge bg-white text-dark">Clip</span>
+                            <button type="button" class="btn btn-sm btn-outline-dark text-dark" @click.stop="playClip(clip)">
+                              <i class="bi bi-play-fill"></i>
+                            </button>
+                          </div>
+                        </div>
+                        <div class="p-3">
+                          <h3 class="h6 fw-semibold mb-1">{{ clip.title }}</h3>
+                          <p class="text-muted small mb-2">{{ clip.description || 'Visual recap of today’s insight.' }}</p>
+                          <p v-if="clip.duration" class="clip-duration text-muted small mb-0">Duration: {{ clip.duration }}</p>
+                        </div>
+                      </article>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div v-if="guidedPathwayCards.length" class="guided-bullets px-3 pb-3">
+                <div v-for="(card, index) in guidedPathwayCards" :key="card.step" class="guided-bullet">
+                  <div>
+                    <p class="mb-0 fw-semibold">{{ card.title }}</p>
+                    <small class="text-muted">{{ card.action }}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             
 
             <!-- Lesson Departments Focus -->
@@ -405,64 +484,6 @@
             
 
             <!-- Revert Stories -->
-            <div v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
-                <div>
-                  <h2 class="fw-bold mb-0 fs-5">Revert stories</h2>
-                  <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
-                </div>
-              </div>
-              <div class="card-body px-3 px-md-4">
-                <div class="row g-3">
-                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
-                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
-                      <div class="ratio ratio-16x9 video-preview-shell">
-                        <div
-                          v-if="!isPlayingVideo(video)"
-                          class="video-thumbnail"
-                          :style="thumbnailStyle(video)"
-                          @click="playVideo(video)">
-                          <div class="thumbnail-pattern"></div>
-                          <div class="thumbnail-content">
-                            <div class="thumbnail-avatar">
-                              <i class="bi bi-person-circle"></i>
-                            </div>
-                            <div>
-                              <p class="thumbnail-label">Revert story</p>
-                              <h3 class="thumbnail-title">{{ video.title }}</h3>
-                            </div>
-                          </div>
-                          <button type="button" class="thumbnail-play" @click.stop="playVideo(video)">
-                            <i class="bi bi-play-circle-fill"></i>
-                            <span>Watch now</span>
-                          </button>
-                        </div>
-                        <iframe
-                          v-else
-                          :src="formatVideoUrl(video.url, true)"
-                          :title="video.title"
-                          frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          loading="lazy">
-                        </iframe>
-                      </div>
-                      <div class="p-3">
-                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
-                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
-                      </div>
-                    </article>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-end mt-4">
-                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
-                    See more videos
-                    <i class="bi bi-box-arrow-up-right"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
 
             <!-- Share with a friend -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
@@ -660,6 +681,66 @@
                 </div>
               </div>
             </div>
+            <div id="revert-stories-section" v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center py-3">
+                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5">Revert stories</h2>
+                  <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
+                </div>
+              </div>
+              <div class="card-body px-3 px-md-4">
+                <div class="row g-3">
+                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
+                    <article
+                      class="video-card rounded-3 shadow-sm overflow-hidden"
+                      @mouseenter="startPreview(video)"
+                      @mouseleave="stopPreview">
+                      <div class="ratio ratio-16x9 video-preview-shell">
+                        <div
+                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                          class="video-feature"
+                          :style="thumbnailStyle(video)">
+                          <iframe
+                            :src="formatVideoUrl(video.url, true, isVideoPreviewing(video))"
+                            :title="video.title"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                          </iframe>
+                        </div>
+                        <div
+                          v-else
+                          class="video-feature"
+                          :style="thumbnailStyle(video)"
+                          @click="playVideo(video)">
+                          <div class="video-feature-overlay">
+                            <div class="video-feature-text">
+                              <p class="video-feature-label">Revert story</p>
+                              <h3 class="video-feature-title">{{ video.title }}</h3>
+                              <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                              <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                            </div>
+                            <button type="button" class="btn-watch" @click.stop="playVideo(video)">
+                              <i class="bi bi-play-fill me-2"></i>
+                              Watch now
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
+                    See more videos
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
             <!-- Common asked questions -->
             <div v-if="secondarySectionsReady && chapterCommonPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
@@ -722,7 +803,7 @@
                 <h5 class="fw-semibold">{{ currentMission.title }}</h5>
                 <p class="text-dark fs-6">{{ currentMission.summary }}</p>
                 <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
-                  <span class="badge bg-success text-white rounded-pill">{{ currentMission.focus }}</span>
+                  <span class="badge bg-success text-dark rounded-pill">{{ currentMission.focus }}</span>
                   <button class="btn btn-outline-success btn-sm fw-semibold" @click="focusMission">
                     View Mission ↓
                   </button>
@@ -790,9 +871,7 @@
                   </div>
                   <div class="next-steps-list mt-3">
                     <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
-                      <span class="next-steps-pill-icon">
-                        <i class="bi bi-check-lg"></i>
-                      </span>
+                      
                       <p class="mb-0">{{ task }}</p>
                     </article>
                     <div v-if="homeworkMoreAvailable" class="text-center mt-3">
@@ -840,9 +919,9 @@
                       </div>
                       <div class="icon-stack">
                         <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
-                          class="bi bi-check-circle-fill text-white"></i>
+                          class="bi bi-check-circle-fill text-dark"></i>
                         <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
-                          class="bi bi-x-circle-fill text-white"></i>
+                          class="bi bi-x-circle-fill text-dark"></i>
                       </div>
                     </button>
                   </div>
@@ -991,7 +1070,6 @@
                           :style="thumbnailStyle(video)"
                           @click="playVideo(video)">
                           <div class="thumbnail-pattern"></div>
-                          <div class="thumbnail-content">
                             <div class="thumbnail-avatar">
                               <i class="bi bi-person-circle"></i>
                             </div>
@@ -999,11 +1077,6 @@
                               <p class="thumbnail-label">Revert story</p>
                               <h3 class="thumbnail-title">{{ video.title }}</h3>
                             </div>
-                          </div>
-                          <button type="button" class="thumbnail-play" @click.stop="playVideo(video)">
-                            <i class="bi bi-play-circle-fill"></i>
-                            <span>Watch now</span>
-                          </button>
                         </div>
                         <iframe
                           v-else
@@ -1058,6 +1131,8 @@ import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
+import personalizationPrompts from './data/personalizationPrompts.json'
+import nextStepPrompts from './data/nextStepPrompts.json'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -1256,13 +1331,22 @@ export default defineComponent({
       secondarySectionsReady: false,
       guidanceCardCache: {},
       lessonDepartmentsCache: {},
-      lessonVideosCache: {},
       homeworkVisibleCount: 4,
       faqDisplayLimit: 4,
       commonFaqDisplayLimit: 4,
       reduceMotionEnabled: false,
       motionMediaQuery: null,
-      motionMediaListener: null
+      motionMediaListener: null,
+      currentStreakDays: 0,
+      lastStreakDateKey: '',
+      dailyGamePoints: 0,
+      dailyChallengeStatus: {},
+      dailyChallengeDate: '',
+      confettiEnabled: false,
+      personalizationGlowActive: false,
+      clipPlayerId: null,
+      previewVideoId: null,
+      previewTimeout: null
     }
   },
 
@@ -1331,6 +1415,109 @@ export default defineComponent({
         'Replay a short clip from today’s chapter whenever you need courage.',
         'Bookmark a dua or verse and revisit it before sleep.'
       ]
+    },
+    dailyChallenges() {
+      const chapterTitle = this.currentLesson?.title || 'this chapter'
+      const prompts = [
+        {
+          id: 'insight-note',
+          title: 'Capture one insight',
+          description: `Write or voice a quick note about what stirred you in ${chapterTitle}.`
+        },
+        {
+          id: 'share-moment',
+          title: 'Share the feeling',
+          description: 'Send a verse, dua, or thought to a friend with a short encouragement.'
+        },
+        {
+          id: 'routine-tie',
+          title: 'Tie it to a routine',
+          description: 'Pair today’s learning with a familiar habit (prayer, commute, or reflection).'
+        }
+      ]
+      return prompts.map(prompt => ({
+        ...prompt,
+        completed: Boolean(this.dailyChallengeStatus[prompt.id])
+      }))
+    },
+    gamificationBadges() {
+      const streakEarned = this.currentStreakDays >= 3
+      const mediaEarned = Boolean(this.activeVideoId)
+      const totalChallenges = this.dailyChallenges.length
+      const gameEarned = this.dailyGamePoints >= totalChallenges && totalChallenges > 0
+      return [
+        {
+          id: 'quiz',
+          title: 'Quiz Champion',
+          detail: this.chapterQuizPassed
+            ? 'Quiz mastery confirmed for this chapter.'
+            : 'Answer two questions to prove today’s mastery.',
+          status: this.chapterQuizPassed ? 'Unlocked' : 'Ready',
+          earned: this.chapterQuizPassed,
+          actionLabel: 'Take quiz',
+          earnedLabel: 'Celebrate'
+        },
+        {
+          id: 'streak',
+          title: 'Momentum Score',
+          detail: this.currentStreakDays
+            ? `You have a ${this.currentStreakDays}-day streak working through chapters.`
+            : 'Finish a chapter every day to ignite your streak.',
+          status: this.currentStreakDays ? `${this.currentStreakDays} day streak` : 'Streak ready',
+          earned: streakEarned,
+          actionLabel: 'Keep streak alive',
+          earnedLabel: 'Streak locked'
+        },
+        {
+          id: 'media',
+          title: 'Media Explorer',
+          detail: 'Watch at least one revert story to unlock this badge.',
+          status: mediaEarned ? 'Clip watched' : 'Clip available',
+          earned: mediaEarned,
+          actionLabel: 'Watch stories',
+          earnedLabel: 'Replay clip'
+        },
+        {
+          id: 'game',
+          title: 'Insight Game',
+          detail: 'Complete the micro-challenges to keep the learning streak playful.',
+          status: `${this.dailyGamePoints}/${totalChallenges} complete`,
+          earned: gameEarned,
+          actionLabel: 'Play today',
+          earnedLabel: 'Game mastered'
+        }
+      ]
+    },
+    streakSummary() {
+      if (!this.currentStreakDays) {
+        return 'Start a streak by completing one chapter today.'
+      }
+      return `Current streak: ${this.currentStreakDays} day${this.currentStreakDays === 1 ? '' : 's'}.`
+    },
+    personalizationPrompt() {
+      const chapterId = this.currentLesson?.chapterId
+      const prompt = normalizeJson(personalizationPrompts).find(entry => entry.chapterId === chapterId)
+      return prompt || {
+        focus: 'Personal growth',
+        recommendation: 'Choose a dua or reflection that matches today’s learning and add it to your routine.',
+        tips: []
+      }
+    },
+    personalNextStep() {
+      const streak = this.currentStreakDays
+      return normalizeJson(nextStepPrompts)
+        .slice()
+        .sort((a, b) => b.streakThreshold - a.streakThreshold)
+        .find(prompt =>
+          streak >= prompt.streakThreshold &&
+          (prompt.quizPassed === undefined || prompt.quizPassed === this.chapterQuizPassed)
+        ) || {
+          title: 'Keep going',
+          description: 'Take a breather, read a favorite dua, and come back refreshed so the streak stays intact.',
+          actionLabel: 'Take a breath',
+          actionLinkType: 'breath',
+          note: 'Gentle pace, same smile.'
+        }
     },
     completedChapters() {
       return this.maxStepReached - 1
@@ -1487,24 +1674,17 @@ export default defineComponent({
     }
 
     ,
-    lessonVideos() {
-      const chapterId = this.currentLesson?.chapterId
-      if (!chapterId) return []
-      if (!this.lessonVideosCache[chapterId]) {
-        this.lessonVideosCache[chapterId] = (this.chapterVideoEntry?.videos || []).slice(0, 8)
-      }
-      return this.lessonVideosCache[chapterId]
-    }
-
-    ,
     revertStories() {
-      return this.chapterVideoEntry?.videos || []
+      return this.chapterVideoEntry?.revertStories || this.chapterVideoEntry?.videos || []
     }
     ,
     revertStoriesPreview() {
       return this.revertStories.slice(0, 4)
     }
     ,
+    pathwayClips() {
+      return this.chapterVideoEntry?.pathwayClips || []
+    },
     focusHighlights() {
       const lesson = this.currentLesson || {}
       const objectives = lesson.learningObjectives || []
@@ -1548,6 +1728,25 @@ export default defineComponent({
       this.faqDisplayLimit = 4
       this.commonFaqDisplayLimit = 4
       this.prepareSecondarySections()
+    },
+    chapterQuizPassed(newVal, oldVal) {
+      if (!this.confettiEnabled) return
+      if (newVal && !oldVal) {
+        this.launchMicroConfetti()
+      }
+    },
+    dailyGamePoints(newVal, oldVal) {
+      if (!this.confettiEnabled) return
+      const total = this.dailyChallenges.length
+      if (total > 0 && newVal === total && (!oldVal || oldVal < total)) {
+        this.launchMicroConfetti()
+      }
+    },
+    currentStreakDays(newVal, oldVal) {
+      if (!this.confettiEnabled) return
+      if (newVal >= 3 && (oldVal || 0) < 3) {
+        this.launchMicroConfetti()
+      }
     }
   },
 
@@ -1564,6 +1763,8 @@ export default defineComponent({
       this.selectedPill = value
     }
     this.resetQuizSet()
+    this.syncStreakFromStorage()
+    this.syncDailyChallenges()
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
     }
@@ -1574,6 +1775,11 @@ export default defineComponent({
 
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0)
+    })
+    this.$nextTick(() => {
+      this.confettiEnabled = true
+      this.personalizationGlowActive = true
+      setTimeout(() => { this.personalizationGlowActive = false }, 2600)
     })
   },
 
@@ -1605,6 +1811,15 @@ export default defineComponent({
         document.head.appendChild(script)
       })
       return this.confettiPromise
+    },
+    launchMicroConfetti() {
+      if (this.reduceMotionEnabled) return
+      this.ensureConfettiScript().then(() => {
+        this.setupConfettiLauncher()
+        const confettiFn = this.confettiLauncher || window.confetti
+        if (!confettiFn) return
+        fullScreenConfetti(confettiFn)
+      })
     },
 
     initializeMotionPreference() {
@@ -1699,6 +1914,78 @@ export default defineComponent({
       } catch (error) {
         console.error('Unable to load chapter videos', error)
       }
+    },
+    updateStreakRecord() {
+      if (typeof window === 'undefined') return
+      const todayKey = this.getTodayDateKey()
+      if (!todayKey) return
+      let nextStreak = 1
+      if (this.lastStreakDateKey === todayKey && this.currentStreakDays > 0) {
+        nextStreak = this.currentStreakDays
+      } else if (this.lastStreakDateKey) {
+        const today = new Date(todayKey)
+        const last = new Date(this.lastStreakDateKey)
+        const diffDays = Math.round((today - last) / (24 * 60 * 60 * 1000))
+        if (diffDays === 1) {
+          nextStreak = Math.max(this.currentStreakDays, 1) + 1
+        } else {
+          nextStreak = 1
+        }
+      } else if (this.currentStreakDays > 0) {
+        nextStreak = this.currentStreakDays + 1
+      }
+      this.currentStreakDays = Math.max(1, nextStreak)
+      this.lastStreakDateKey = todayKey
+      localStorage.setItem('streakDays', this.currentStreakDays.toString())
+      localStorage.setItem('lastStreakDate', todayKey)
+    },
+    getTodayDateKey() {
+      if (typeof window === 'undefined') return ''
+      return new Date().toISOString().split('T')[0]
+    },
+    syncStreakFromStorage() {
+      if (typeof window === 'undefined') return
+      const stored = Number(localStorage.getItem('streakDays') || 0)
+      this.currentStreakDays = Number.isFinite(stored) ? stored : 0
+      this.lastStreakDateKey = localStorage.getItem('lastStreakDate') || ''
+    },
+    syncDailyChallenges() {
+      if (typeof window === 'undefined') return
+      const todayKey = this.getTodayDateKey()
+      const storedDate = localStorage.getItem('dailyChallengeDate') || ''
+      if (storedDate !== todayKey) {
+        this.dailyChallengeStatus = {}
+        this.dailyGamePoints = 0
+        this.dailyChallengeDate = todayKey
+        localStorage.setItem('dailyChallengeDate', todayKey)
+        localStorage.setItem('dailyChallengeStatus', JSON.stringify({}))
+        return
+      }
+      let storedStatus = {}
+      try {
+        storedStatus = JSON.parse(localStorage.getItem('dailyChallengeStatus') || '{}')
+      } catch {
+        storedStatus = {}
+      }
+      this.dailyChallengeStatus = storedStatus
+      this.dailyGamePoints = Object.values(this.dailyChallengeStatus).filter(Boolean).length
+      this.dailyChallengeDate = storedDate || todayKey
+    },
+    toggleChallenge(id) {
+      if (typeof window === 'undefined') return
+      const todayKey = this.getTodayDateKey()
+      if (this.dailyChallengeDate !== todayKey) {
+        this.dailyChallengeStatus = {}
+      }
+      const nextValue = !this.dailyChallengeStatus[id]
+      this.dailyChallengeStatus = {
+        ...this.dailyChallengeStatus,
+        [id]: nextValue
+      }
+      this.dailyGamePoints = Object.values(this.dailyChallengeStatus).filter(Boolean).length
+      this.dailyChallengeDate = todayKey
+      localStorage.setItem('dailyChallengeStatus', JSON.stringify(this.dailyChallengeStatus))
+      localStorage.setItem('dailyChallengeDate', todayKey)
     },
     prepareSecondarySections() {
       this.secondarySectionsReady = false
@@ -1824,7 +2111,7 @@ export default defineComponent({
       this.collapsedSections[sectionKey] = !this.collapsedSections[sectionKey]
     },
 
-    formatVideoUrl(url, autoplay = false) {
+    formatVideoUrl(url, autoplay = false, muted = false) {
       if (!url) return ''
       let embedUrl = url
       if (url.includes('watch?v=')) {
@@ -1839,12 +2126,58 @@ export default defineComponent({
       if (autoplay) {
         params.set('autoplay', '1')
       }
+      if (muted) {
+        params.set('mute', '1')
+      }
       return `${base}?${params.toString()}`
+    },
+    startPreview(video) {
+      if (this.isPlayingVideo(video) || this.isClipPlaying(video)) return
+      const id = this.getVideoId(video?.url)
+      if (!id) return
+      clearTimeout(this.previewTimeout)
+      this.previewVideoId = id
+      this.previewTimeout = setTimeout(() => {
+        this.previewVideoId = null
+      }, 6000)
+    },
+    stopPreview() {
+      if (this.previewTimeout) {
+        clearTimeout(this.previewTimeout)
+        this.previewTimeout = null
+      }
+      this.previewVideoId = null
     },
     playVideo(video) {
       const id = this.getVideoId(video?.url)
       if (!id) return
+      this.stopPreview()
+      this.clipPlayerId = null
       this.activeVideoId = this.activeVideoId === id ? null : id
+    },
+    playClip(clip) {
+      const id = this.getVideoId(clip?.url)
+      if (!id) return
+      this.stopPreview()
+      this.activeVideoId = null
+      this.clipPlayerId = this.clipPlayerId === id ? null : id
+    },
+    isClipPlaying(clip) {
+      const id = this.getVideoId(clip?.url)
+      return Boolean(id && this.clipPlayerId === id)
+    },
+    isClipPreviewing(clip) {
+      const id = this.getVideoId(clip?.url)
+      return Boolean(id && this.previewVideoId === id && this.clipPlayerId !== id)
+    },
+    isVideoPreviewing(video) {
+      const id = this.getVideoId(video?.url)
+      return Boolean(
+        id &&
+        this.previewVideoId === id &&
+        this.activeVideoId !== id &&
+        this.clipPlayerId !== id
+      )
     },
     isPlayingVideo(video) {
       const id = this.getVideoId(video?.url)
@@ -1883,6 +2216,7 @@ export default defineComponent({
       if (nextId > this.maxStepReached) {
         this.maxStepReached = nextId
         localStorage.setItem('maxStepReached', nextId.toString())
+        this.updateStreakRecord()
 
         const chapter = this.roadmapData.find(c => c.id === this.selectedPill)
         this.successMessage = isFinalChapter
@@ -1931,6 +2265,24 @@ export default defineComponent({
         setTimeout(() => el.classList.remove('pulse-ring'), 1600)
       }
     },
+    jumpToMedia() {
+      this.scrollToSection('revert-stories-section')
+    },
+    launchSkimSection() {
+      const sectionId = `section-${this.selectedPill}-0`
+      this.scrollToSection(sectionId)
+    },
+    handleBadgeAction(badgeId) {
+      if (badgeId === 'quiz') {
+        this.scrollToNextButton()
+      } else if (badgeId === 'media') {
+        this.jumpToMedia()
+      } else if (badgeId === 'streak') {
+        this.scrollToTop()
+      } else if (badgeId === 'game') {
+        this.scrollToSection('daily-game-card')
+      }
+    },
     openResource(resource) {
       this.activeResource = resource
       this.showResourceModal = true
@@ -1962,14 +2314,6 @@ export default defineComponent({
       this.quizStatus = null
       this.selectedOption = null
       this.lastIncorrectExplanation = null
-    },
-    scrollToSection(sectionId) {
-      this.$nextTick(() => {
-        const el = document.getElementById(sectionId)
-        if (el) {
-          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      })
     },
     scrollToNextButton() {
       const nextBtn = document.querySelector('.next-btn')
@@ -2252,6 +2596,21 @@ export default defineComponent({
           setTimeout(() => { this.shareFriendStatus = '' }, 4000)
         })
     },
+    executeNextStepAction(type) {
+      switch (type) {
+        case 'share':
+          this.shareStreakWithFriend()
+          break
+        case 'repeat':
+          this.launchSkimSection()
+          break
+        case 'review':
+          this.scrollToSection('section-0')
+          break
+        default:
+          this.openWhatsappShare(this.getShareLink())
+      }
+    },
     shuffleArray(arr) {
       return arr.slice().sort(() => Math.random() - 0.5)
     },
@@ -2327,6 +2686,7 @@ export default defineComponent({
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
+
 /* ==================== BOOTSTRAP ICONS ==================== */
 
 .background {
@@ -2375,32 +2735,331 @@ export default defineComponent({
 
 .video-preview-shell {
   position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
 }
 
-.video-preview-shell > iframe,
-.video-preview-shell > .video-thumbnail {
+.video-card {
+  cursor: pointer;
+  border: none;
+  border-radius: 18px;
+  min-height: 220px;
+  background: linear-gradient(135deg, #0f766e, #047857);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.video-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.25);
+}
+
+.video-feature {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
+  border-radius: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
 }
 
-.video-thumbnail {
-  border-radius: 0.75rem;
-  padding: 1.25rem;
+.video-feature iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-feature-overlay {
+  position: absolute;
+  inset: 0;
+  padding: 1.8rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #fff;
-  cursor: pointer;
-  overflow: hidden;
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  color: #f8fafc;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.8));
+  box-sizing: border-box;
+  padding-bottom: 1.6rem;
+  gap: 0.5rem;
 }
 
-.video-thumbnail:hover {
-  transform: translateY(-5px) scale(1.01);
-  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.35);
+.video-feature-label {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.65rem;
+  margin-bottom: 0.15rem;
+  opacity: 0.8;
 }
+
+.video-feature-title {
+  font-size: 1.15rem;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
+}
+
+.video-feature-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.btn-watch {
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 0.35rem;
+  align-self: flex-start;
+}
+
+.pathway-clips-card {
+  border: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #f0f6ff);
+  box-shadow: 0 32px 65px rgba(15, 23, 42, 0.16);
+  position: relative;
+  overflow: hidden;
+}
+.pathway-clips-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% -10%, rgba(14, 165, 233, 0.15), transparent 55%),
+    radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.15), transparent 45%),
+    linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(79, 70, 229, 0.04));
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+.pathway-clips-card .card-body {
+  position: relative;
+  z-index: 1;
+}
+
+.clip-card {
+  background: rgba(255, 255, 255, 0.98);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.clip-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.18);
+}
+
+.clip-thumbnail {
+  border-radius: 1rem;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(145deg, rgba(14, 165, 233, 0.2), rgba(79, 70, 229, 0.25));
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.55);
+}
+
+.clip-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(5, 150, 105, 0.25), transparent 65%);
+}
+
+.clip-duration {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.65);
+  font-size: 0.65rem;
+}
+
+.gamification-card {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.streak-summary {
+  font-weight: 500;
+}
+
+.badge-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.badge-card {
+  border-radius: 0.95rem;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  min-height: 120px;
+  box-shadow: 0 14px 40px rgba(15, 23, 42, 0.08);
+  transition: border 0.25s ease, box-shadow 0.25s ease;
+}
+
+.badge-card--earned {
+  border-color: rgba(16, 185, 129, 0.6);
+  box-shadow: 0 18px 55px rgba(16, 185, 129, 0.15);
+}
+
+.badge-status {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #475467;
+}
+
+.micro-game-card {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+}
+
+.micro-game-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.micro-game-item {
+  border-radius: 0.95rem;
+  padding: 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #fff;
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.07);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.personalization-card {
+  border: 1px solid transparent;
+  border-radius: 28px;
+  overflow: hidden;
+  position: relative;
+  background: linear-gradient(160deg, rgba(14, 165, 233, 0.25), rgba(147, 51, 234, 0.45));
+  box-shadow: 0 25px 60px rgba(79, 70, 229, 0.25);
+  color: #f8fafc;
+}
+
+.personalization-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: linear-gradient(120deg, rgba(5, 150, 105, 0.8), rgba(129, 140, 248, 0.8));
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.personalization-card.personalization-glow::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 32px;
+  background: radial-gradient(circle at top, rgba(99, 102, 241, 0.6), transparent 55%);
+  opacity: 0;
+  animation: personalizationGlow 2.4s ease forwards;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.personalization-card .card-body {
+  position: relative;
+  z-index: 2;
+}
+
+.personalization-card p,
+.personalization-card small,
+.personalization-card li span {
+  color: rgba(248, 250, 252, 0.95);
+}
+
+.personalization-card i {
+  color: #f1f5f9;
+}
+
+.personalization-card .personalization-tips li {
+  gap: 0.5rem;
+}
+
+@keyframes personalizationGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.05);
+  }
+}
+
+.personalization-tips li {
+  display: flex;
+  align-items: center;
+}
+
+.next-step-card {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, rgba(14, 165, 233, 0.1), rgba(124, 58, 237, 0.14));
+  border-radius: 28px;
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  box-shadow: 0 28px 60px rgba(14, 165, 233, 0.18);
+  color: #0f172a;
+}
+
+.next-step-card .card-header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  position: relative;
+  z-index: 2;
+}
+.next-step-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 28px;
+  background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, 0.35), transparent 45%),
+    radial-gradient(circle at 90% 20%, rgba(124, 58, 237, 0.35), transparent 50%);
+  filter: blur(12px);
+  opacity: 0.8;
+  z-index: 0;
+  pointer-events: none;
+}
+.next-step-card::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 24px;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.6) 2px, transparent 2px),
+    radial-gradient(circle, rgba(14, 165, 233, 0.35) 1.5px, transparent 1.5px);
+  background-size: 20px 20px, 12px 12px;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 1;
+}
+.next-step-card .card-body {
+  position: relative;
+  z-index: 2;
+}
+
 
 .thumbnail-pattern {
   position: absolute;
@@ -3138,9 +3797,9 @@ export default defineComponent({
   box-shadow: 0 12px 20px rgba(15, 23, 42, 0.15);
 }
 .next-steps-card {
-  border: 1px solid rgba(16, 185, 129, 0.15);
-  background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 40%), #ffffff;
-  box-shadow: 0 30px 55px rgba(15, 23, 42, 0.12);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
 }
 
 .next-steps-icon {
@@ -3156,18 +3815,18 @@ export default defineComponent({
 }
 
 .next-steps-body {
-  background: linear-gradient(180deg, rgba(236, 246, 255, 0.9), rgba(243, 248, 255, 0.6));
+  background: #fff;
   border-radius: 32px;
   padding: 2rem;
-  border: 1px solid rgba(59, 130, 246, 0.2);
+  border: 1px solid rgba(15, 23, 42, 0.1);
 }
 
 .next-steps-inner {
   background: #fff;
-  border: 1px solid rgba(14, 165, 233, 0.15);
+  border: 1px solid rgba(15, 23, 42, 0.08);
   border-radius: 26px;
   padding: 1.75rem;
-  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.07);
 }
 
 .next-steps-highlight {
@@ -3184,8 +3843,8 @@ export default defineComponent({
 .next-steps-pill {
   padding: 0.95rem 1.25rem;
   border-radius: 18px;
-  background: rgba(239, 246, 255, 0.9);
-  border: 1px solid rgba(59, 130, 246, 0.25);
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
   display: flex;
   align-items: center;
   gap: 0.85rem;
