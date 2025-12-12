@@ -465,7 +465,7 @@
             </div>
 
             <!-- Share with a friend -->
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-body px-3 px-md-4 py-4">
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                   <div class="flex-grow-1">
@@ -566,7 +566,7 @@
                     <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
                       <div class="dua-glow"></div>
                       <p dir="rtl"
-                        class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end"
+                        class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end"
                         :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
                         {{ dua.arabic }}
                       </p>
@@ -602,8 +602,8 @@
       
 
             <!-- Share & uplift -->
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 border-teal">
-              <div class="card-body px-3 px-md-4 py-4">
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-body">
                 <div class="row align-items-center">
                   <div class="col-md-7">
                     <h3 class="fw-bold mb-1 fs-5">Share & uplift</h3>
@@ -2841,9 +2841,54 @@ export default defineComponent({
     padding: 1.5rem;
   }
 
+  .flat-panel__header {
+    padding: 1.05rem 1.1rem;
+    background: rgba(15, 23, 42, 0.02);
+  }
+
+  .flat-panel__body {
+    padding: 0.9rem 1rem 1rem;
+    gap: 1rem;
+  }
+
+  .share-action-btn {
+    padding: 0.55rem 1rem;
+  }
+
+  .share-boost-pill {
+    padding: 0.8rem 0.9rem;
+  }
+
+  .navigation-card {
+    padding: 1rem;
+  }
   .course-progress {
     font-size: 0.95rem;
   }
+@media (max-width: 767.98px) {
+  .flat-panel__header,
+  .flat-panel__body {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+  }
+
+  .flat-panel + .flat-panel {
+    margin-top: 0.6rem;
+  }
+
+  .revert-content section {
+    padding: 0;
+  }
+
+  .share-actions {
+    gap: 0.4rem;
+  }
+
+  .dos-donts-columns {
+    gap: 1rem;
+  }
+}
+
 }
 
 .mobile-nav-toggle {
@@ -2926,6 +2971,44 @@ export default defineComponent({
 }
 
 
+
+/* ---------- Additional responsive polish ---------- */
+@media (max-width: 992px) {
+  .flat-panel {
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+  }
+
+  .navigation-card {
+    padding: 1rem;
+  }
+
+  .flat-panel__header {
+    background: rgba(15, 23, 42, 0.02);
+  }
+
+  .flat-panel__body {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .flat-panel__body {
+    padding: 0.85rem;
+  }
+
+  .share-action-btn {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+  }
+
+  .share-boost-pill {
+    padding: 0.6rem 0.8rem;
+  }
+
+  .lesson-focus-intro {
+    padding: 0.75rem 1rem;
+  }
+}
 @keyframes fadeInUp {
   from {
     opacity: 0;

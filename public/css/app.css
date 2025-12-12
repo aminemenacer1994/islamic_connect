@@ -21365,11 +21365,11 @@ to {
     left: auto;
     right: 1rem;
 }
-/* .next-steps-body[data-v-1d764944],
+.next-steps-body[data-v-1d764944],
   .quiz-shell[data-v-1d764944],
   .content-card.section-card[data-v-1d764944] {
     padding: 1.25rem;
-} */
+}
 .lesson-hero[data-v-1d764944] {
     border-radius: 30px;
 }
@@ -21379,8 +21379,44 @@ to {
     border-radius: 30px;
     padding: 1.5rem;
 }
+.flat-panel__header[data-v-1d764944] {
+    padding: 1.05rem 1.1rem;
+    background: rgba(15, 23, 42, 0.02);
+}
+.flat-panel__body[data-v-1d764944] {
+    padding: 0.9rem 1rem 1rem;
+    gap: 1rem;
+}
+.share-action-btn[data-v-1d764944] {
+    padding: 0.55rem 1rem;
+}
+.share-boost-pill[data-v-1d764944] {
+    padding: 0.8rem 0.9rem;
+}
+.navigation-card[data-v-1d764944] {
+    padding: 1rem;
+}
 .course-progress[data-v-1d764944] {
     font-size: 0.95rem;
+}
+@media (max-width: 767.98px) {
+.flat-panel__header[data-v-1d764944],
+  .flat-panel__body[data-v-1d764944] {
+    padding-left: 0.9rem;
+    padding-right: 0.9rem;
+}
+.flat-panel + .flat-panel[data-v-1d764944] {
+    margin-top: 0.6rem;
+}
+.revert-content section[data-v-1d764944] {
+    padding: 0;
+}
+.share-actions[data-v-1d764944] {
+    gap: 0.4rem;
+}
+.dos-donts-columns[data-v-1d764944] {
+    gap: 1rem;
+}
 }
 }
 .mobile-nav-toggle[data-v-1d764944] {
@@ -21448,6 +21484,36 @@ to {
 .mobile-nav-toggle[data-v-1d764944] {
     width: 44px;
     height: 44px;
+}
+}
+/* ---------- Additional responsive polish ---------- */
+@media (max-width: 992px) {
+.flat-panel[data-v-1d764944] {
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+}
+.navigation-card[data-v-1d764944] {
+    padding: 1rem;
+}
+.flat-panel__header[data-v-1d764944] {
+    background: rgba(15, 23, 42, 0.02);
+}
+.flat-panel__body[data-v-1d764944] {
+    padding: 1rem;
+}
+}
+@media (max-width: 768px) {
+.flat-panel__body[data-v-1d764944] {
+    padding: 0.85rem;
+}
+.share-action-btn[data-v-1d764944] {
+    padding: 0.5rem 0.9rem;
+    font-size: 0.85rem;
+}
+.share-boost-pill[data-v-1d764944] {
+    padding: 0.6rem 0.8rem;
+}
+.lesson-focus-intro[data-v-1d764944] {
+    padding: 0.75rem 1rem;
 }
 }
 @keyframes fadeInUp-1d764944 {
@@ -21620,7 +21686,7 @@ to {
   transform: translateY(-2px);
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
 }
-.next-steps-pill-icon[data-v-1d764944] {
+/* .next-steps-pill-icon[data-v-1d764944] {
   width: 36px;
   height: 36px;
   border-radius: 12px;
@@ -21634,7 +21700,7 @@ to {
 .next-steps-pill-icon[data-v-1d764944] {
     display: none;
 }
-}
+} */
 .quiz-explanation-card[data-v-1d764944] {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -21878,12 +21944,12 @@ to {
 .content-card:hover .card-header[data-v-1d764944]::after {
   opacity: 1;
 }
-.content-card .card-body[data-v-1d764944] {
+/* .content-card .card-body[data-v-1d764944] {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 1.75rem;
   border: 1px solid rgba(16, 185, 129, 0.12);
-}
+} */
 .dua-card[data-v-1d764944] {
   position: relative;
   overflow: hidden;

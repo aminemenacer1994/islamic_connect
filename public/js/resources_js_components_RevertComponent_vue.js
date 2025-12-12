@@ -1658,7 +1658,7 @@ const _hoisted_103 = {
   class: "d-flex justify-content-end mt-4"
 };
 const _hoisted_104 = {
-  class: "content-card section-card animated-fade-slide mb-4 rounded-4 border-teal"
+  class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
 const _hoisted_105 = {
   class: "card-body px-3 px-md-4 py-4"
@@ -1755,10 +1755,10 @@ const _hoisted_133 = {
   class: "list-group insight-list fs-6 lh-base mb-0"
 };
 const _hoisted_134 = {
-  class: "content-card section-card animated-fade-slide mb-4 rounded-4 border-teal"
+  class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
 const _hoisted_135 = {
-  class: "card-body px-3 px-md-4 py-4"
+  class: "card-body"
 };
 const _hoisted_136 = {
   class: "row align-items-center"
@@ -2463,7 +2463,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "dua-glow"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
-      class: "fw-semibold lh-base mb-2 fs-5 text-teal border-bottom border-teal pb-2 text-end",
+      class: "fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.duaFontScale * 1.05}rem`
       })
