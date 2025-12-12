@@ -132,7 +132,8 @@
               </div>
             </div>
 
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 next-step-card">
+            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 next-step-card"
+              :class="{ 'next-step-glow': nextStepGlowActive }">
               <div class="card-header d-flex align-items-center py-3 gap-3">
                 <i class="bi bi-flag-fill text-teal fs-4"></i>
                 <div>
@@ -693,10 +694,10 @@
                 <div class="row g-3">
                   <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
                     <article
-                      class="video-card rounded-3 shadow-sm overflow-hidden"
+                      class="video-card  shadow-sm overflow-hidden"
                       @mouseenter="startPreview(video)"
                       @mouseleave="stopPreview">
-                      <div class="ratio ratio-16x9 video-preview-shell">
+                      <div>
                         <div
                           v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
                           class="video-feature"
@@ -729,6 +730,11 @@
                           </div>
                         </div>
                       </div>
+                      <!-- <div class="video-card-caption px-3 py-2">
+                        <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                        <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                      </div> -->
                     </article>
                   </div>
                 </div>
@@ -1070,13 +1076,20 @@
                           :style="thumbnailStyle(video)"
                           @click="playVideo(video)">
                           <div class="thumbnail-pattern"></div>
+                          <div class="video-thumbnail-overlay">
                             <div class="thumbnail-avatar">
                               <i class="bi bi-person-circle"></i>
                             </div>
                             <div>
                               <p class="thumbnail-label">Revert story</p>
                               <h3 class="thumbnail-title">{{ video.title }}</h3>
+                              <p v-if="video.description" class="thumbnail-subtitle">{{ video.description }}</p>
                             </div>
+                            <button type="button" class="btn-watch modal-watch" @click.stop="playVideo(video)">
+                              <i class="bi bi-play-fill me-2"></i>
+                              Watch now
+                            </button>
+                          </div>
                         </div>
                         <iframe
                           v-else
@@ -1088,9 +1101,10 @@
                           loading="lazy">
                         </iframe>
                       </div>
-                      <div class="p-3">
-                        <h3 class="h6 fw-semibold mb-2">{{ video.title }}</h3>
-                        <p v-if="video.description" class="text-muted small mb-0">{{ video.description }}</p>
+                      <div class="video-card-caption px-3 py-2">
+                        <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                        <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
                       </div>
                     </article>
                   </div>
@@ -2736,33 +2750,126 @@ export default defineComponent({
 .video-preview-shell {
   position: relative;
   width: 100%;
-  height: 220px;
   overflow: hidden;
+  border-radius: 28px;
+  min-height: 240px;
+}
+
+.video-card-caption {
+  background: #fff;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.video-card-caption h3 {
+  font-size: 0.95rem;
+}
+
+.video-card-duration {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.5rem;
+  padding-top: 1.75rem;
+}
+
+.video-thumbnail .thumbnail-pattern {
+  z-index: 0;
+}
+
+.video-thumbnail .thumbnail-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 14px 14px;
+  opacity: 0.7;
+}
+
+.video-thumbnail-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1.5rem;
+  gap: 0.75rem;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.8));
+  color: #fff;
+  text-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  box-sizing: border-box;
+}
+
+.thumbnail-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.thumbnail-label {
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.thumbnail-title {
+  font-size: 1.05rem;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.thumbnail-subtitle {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 210px;
+}
+
+.btn-watch.modal-watch {
+  width: auto;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
 .video-card {
   cursor: pointer;
-  border: none;
-  border-radius: 18px;
-  min-height: 220px;
-  background: linear-gradient(135deg, #0f766e, #047857);
+  border-radius: 28px;
+  border: 1px solid rgba(15, 23, 42, 0.07);
+  background: #fff;
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.15);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
 .video-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 28px 60px rgba(15, 23, 42, 0.25);
+  box-shadow: 0 32px 60px rgba(15, 23, 42, 0.25);
 }
 
 .video-feature {
-  position: absolute;
+  position: relative;
   inset: 0;
   width: 100%;
   height: 100%;
-  border-radius: 18px;
+  border-radius: 28px;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  align-items: stretch;
   overflow: hidden;
 }
 
@@ -2775,50 +2882,74 @@ export default defineComponent({
 }
 
 .video-feature-overlay {
-  position: absolute;
-  inset: 0;
-  padding: 1.8rem;
+  position: relative;
+  z-index: 1;
+  padding: 1.6rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  color: #f8fafc;
-  background: linear-gradient(180deg, rgba(15, 23, 42, 0.2), rgba(15, 23, 42, 0.8));
+  gap: 0.7rem;
+  height: 100%;
+  width: 100%;
   box-sizing: border-box;
-  padding-bottom: 1.6rem;
-  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+}
+
+.video-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  color: #0f172a;
 }
 
 .video-feature-label {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   font-size: 0.65rem;
-  margin-bottom: 0.15rem;
+  margin: 0;
+  color: #0f172a;
   opacity: 0.8;
 }
 
 .video-feature-title {
-  font-size: 1.15rem;
-  line-height: 1.3;
-  margin-bottom: 0.35rem;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  margin: 0;
+  font-weight: 600;
 }
 
 .video-feature-subtitle {
   font-size: 0.85rem;
-  opacity: 0.8;
+  color: #475467;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.video-feature-duration {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #64748b;
+  margin: 0;
 }
 
 .btn-watch {
   border-radius: 999px;
-  padding: 0.65rem 1.2rem;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 0.75rem 1.3rem;
+  background: #0f172a;
+  color: #ffffff;
+  border: none;
   font-weight: 600;
+  font-size: 0.95rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 0.35rem;
-  align-self: flex-start;
+  justify-content: center;
+  gap: 0.35rem;
+  align-self: stretch;
+  width: 100%;
+  text-transform: none;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
 }
 
 .pathway-clips-card {
