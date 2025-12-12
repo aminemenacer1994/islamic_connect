@@ -21647,12 +21647,12 @@ to {
   color: #047857;
   box-shadow: inset 0 0 0 1px rgba(4, 120, 87, 0.2);
 }
-/* .next-steps-body[data-v-1d764944] {
+.next-steps-body[data-v-1d764944] {
   background: linear-gradient(180deg, rgba(236, 246, 255, 0.9), rgba(243, 248, 255, 0.6));
   border-radius: 32px;
   padding: 2rem;
   border: 1px solid rgba(59, 130, 246, 0.2);
-} */
+}
 .next-steps-inner[data-v-1d764944] {
   background: #fff;
   border: 1px solid rgba(14, 165, 233, 0.15);
@@ -21686,7 +21686,7 @@ to {
   transform: translateY(-2px);
   box-shadow: 0 18px 32px rgba(15, 23, 42, 0.12);
 }
-/* .next-steps-pill-icon[data-v-1d764944] {
+.next-steps-pill-icon[data-v-1d764944] {
   width: 36px;
   height: 36px;
   border-radius: 12px;
@@ -21700,7 +21700,7 @@ to {
 .next-steps-pill-icon[data-v-1d764944] {
     display: none;
 }
-} */
+}
 .quiz-explanation-card[data-v-1d764944] {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(246, 248, 255, 0.92));
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -21802,7 +21802,7 @@ to {
   pointer-events: none;
   mix-blend-mode: screen;
   filter: blur(1px);
-  animation: shimmer-1d764944 3.5s ease-in-out infinite;
+  animation: shimmer-1d764944 3.5s ease-in-out 1 both;
 }
 .roadmap-pill.active[data-v-1d764944]::after {
   content: '';
@@ -21814,7 +21814,7 @@ to {
   pointer-events: none;
   mix-blend-mode: screen;
   filter: blur(0.25px);
-  animation: pulse-1d764944 4s ease-in-out infinite;
+  animation: pulse-1d764944 4s ease-in-out 1 both;
 }
 .roadmap-pill.active .dot-icon-step[data-v-1d764944] {
   background: rgba(255, 255, 255, 0.3);
@@ -21944,12 +21944,12 @@ to {
 .content-card:hover .card-header[data-v-1d764944]::after {
   opacity: 1;
 }
-/* .content-card .card-body[data-v-1d764944] {
+.content-card .card-body[data-v-1d764944] {
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 1.75rem;
   border: 1px solid rgba(16, 185, 129, 0.12);
-} */
+}
 .dua-card[data-v-1d764944] {
   position: relative;
   overflow: hidden;
@@ -22819,7 +22819,7 @@ to {
   margin-bottom: 1rem;
   min-height: 180px;
   box-shadow: 0 30px 45px rgba(15, 23, 42, 0.35);
-  animation: softPulse-1d764944 12s ease-in-out infinite;
+  animation: softPulse-1d764944 6s ease-in-out 1 both;
 }
 .lesson-hero-gradient[data-v-1d764944] {
   position: absolute;
@@ -22836,7 +22836,7 @@ to {
   opacity: 0.6;
   filter: blur(60px);
   z-index: 0;
-  animation: slowPulse-1d764944 6s linear infinite;
+  animation: slowPulse-1d764944 6s linear 1 both;
 }
 .section-block[data-v-1d764944]::before {
   content: '';
@@ -22991,7 +22991,7 @@ to {
   height: 8px;
   border-radius: 50%;
   background: #10b981;
-  animation: pulse-1d764944 2s infinite;
+  animation: pulse-1d764944 2s ease-in-out 3 both;
 }
 .btn[data-v-1d764944] {
   border-radius: 12px;

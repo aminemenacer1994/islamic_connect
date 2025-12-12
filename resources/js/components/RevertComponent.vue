@@ -3330,7 +3330,7 @@ export default defineComponent({
   pointer-events: none;
   mix-blend-mode: screen;
   filter: blur(1px);
-  animation: shimmer 3.5s ease-in-out infinite;
+  animation: shimmer 3.5s ease-in-out 1 both;
 }
 
 .roadmap-pill.active::after {
@@ -3343,7 +3343,7 @@ export default defineComponent({
   pointer-events: none;
   mix-blend-mode: screen;
   filter: blur(0.25px);
-  animation: pulse 4s ease-in-out infinite;
+  animation: pulse 4s ease-in-out 1 both;
 }
 
 .roadmap-pill.active .dot-icon-step {
@@ -4533,7 +4533,7 @@ export default defineComponent({
   margin-bottom: 1rem;
   min-height: 180px;
   box-shadow: 0 30px 45px rgba(15, 23, 42, 0.35);
-  animation: softPulse 12s ease-in-out infinite;
+  animation: softPulse 6s ease-in-out 1 both;
 }
 
 .lesson-hero-gradient {
@@ -4552,7 +4552,7 @@ export default defineComponent({
   opacity: 0.6;
   filter: blur(60px);
   z-index: 0;
-  animation: slowPulse 6s linear infinite;
+  animation: slowPulse 6s linear 1 both;
 }
 
 .section-block::before {
@@ -4738,7 +4738,7 @@ export default defineComponent({
   height: 8px;
   border-radius: 50%;
   background: #10b981;
-  animation: pulse 2s infinite;
+  animation: pulse 2s ease-in-out 3 both;
 }
 
 .btn {
