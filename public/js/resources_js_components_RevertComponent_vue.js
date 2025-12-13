@@ -1800,21 +1800,28 @@ const celebrateFinalChapter = confettiFn => {
           unit: 'pt',
           format: 'letter'
         });
+        const margin = 40;
+        const pageHeight = doc.internal.pageSize.getHeight();
+        let cursorY = 50;
+        const addText = (text, fontSize = 12, fontStyle = 'normal') => {
+          doc.setFontSize(fontSize);
+          doc.setFont('helvetica', fontStyle);
+          const lines = doc.splitTextToSize(text, doc.internal.pageSize.getWidth() - margin * 2);
+          const lineHeight = fontSize + 4;
+          const heightNeeded = lines.length * lineHeight;
+          if (cursorY + heightNeeded > pageHeight - margin) {
+            doc.addPage();
+            cursorY = margin;
+          }
+          doc.text(lines, margin, cursorY);
+          cursorY += heightNeeded + 12;
+        };
         const titleText = `${plan.title} • ${((_this$currentLesson23 = this.currentLesson) === null || _this$currentLesson23 === void 0 ? void 0 : _this$currentLesson23.title) || 'Chapter'}`;
-        doc.setFontSize(18);
-        doc.setFont('helvetica', 'bold');
-        doc.text(titleText, 40, 50);
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'normal');
-        const descriptionY = 70;
-        const descriptionLines = doc.splitTextToSize(plan.description, 520);
-        doc.text(descriptionLines, 40, descriptionY);
-        let highlightY = descriptionY + descriptionLines.length * 16 + 20;
+        addText(titleText, 18, 'bold');
+        addText(plan.description, 12, 'normal');
         (_plan$highlights2 = plan.highlights) === null || _plan$highlights2 === void 0 || _plan$highlights2.forEach((line, index) => {
           const text = `${index + 1}. ${line}`;
-          const highlightLines = doc.splitTextToSize(text, 520);
-          doc.text(highlightLines, 40, highlightY);
-          highlightY += highlightLines.length * 16 + 4;
+          addText(text, 11, 'normal');
         });
         const slug = (((_this$currentLesson24 = this.currentLesson) === null || _this$currentLesson24 === void 0 ? void 0 : _this$currentLesson24.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
         doc.save(`${plan.planId}-${slug || 'plan'}.pdf`);

@@ -2903,27 +2903,38 @@ export default defineComponent({
     },
     downloadPlanAsPdf(plan) {
       try {
-        const doc = new jsPDF({
-          unit: 'pt',
-          format: 'letter'
-        })
+        const doc = new jsPDF({ unit: 'pt', format: 'letter' })
+        const margin = 40
+        const pageHeight = doc.internal.pageSize.getHeight()
+        let cursorY = 50
+
+        const addText = (text, fontSize = 12, fontStyle = 'normal') => {
+          doc.setFontSize(fontSize)
+          doc.setFont('helvetica', fontStyle)
+          const lines = doc.splitTextToSize(text, doc.internal.pageSize.getWidth() - margin * 2)
+          const lineHeight = fontSize + 4
+          const heightNeeded = lines.length * lineHeight
+          if (cursorY + heightNeeded > pageHeight - margin) {
+            doc.addPage()
+            cursorY = margin
+          }
+          doc.text(lines, margin, cursorY)
+          cursorY += heightNeeded + 12
+        }
+
         const titleText = `${plan.title} • ${this.currentLesson?.title || 'Chapter'}`
-        doc.setFontSize(18)
-        doc.setFont('helvetica', 'bold')
-        doc.text(titleText, 40, 50)
-        doc.setFontSize(12)
-        doc.setFont('helvetica', 'normal')
-        const descriptionY = 70
-        const descriptionLines = doc.splitTextToSize(plan.description, 520)
-        doc.text(descriptionLines, 40, descriptionY)
-        let highlightY = descriptionY + descriptionLines.length * 16 + 20
+        addText(titleText, 18, 'bold')
+        addText(plan.description, 12, 'normal')
+
         plan.highlights?.forEach((line, index) => {
           const text = `${index + 1}. ${line}`
-          const highlightLines = doc.splitTextToSize(text, 520)
-          doc.text(highlightLines, 40, highlightY)
-          highlightY += highlightLines.length * 16 + 4
+          addText(text, 11, 'normal')
         })
-        const slug = (this.currentLesson?.title || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '')
+
+        const slug = (this.currentLesson?.title || 'chapter')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/-+$/, '')
         doc.save(`${plan.planId}-${slug || 'plan'}.pdf`)
       } catch (error) {
         console.error('Unable to create PDF', error)
