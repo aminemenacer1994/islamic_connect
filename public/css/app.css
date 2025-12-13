@@ -21759,8 +21759,9 @@ to {
   position: relative;
   z-index: 1;
   min-height: calc(100vh - 2rem);
-  /* padding: 1.5rem clamp(1rem, 4vw, 2rem); */
+  padding: 1.5rem clamp(1rem, 4vw, 2rem);
   margin: 0 auto;
+  background: #fefefe;
 }
 .revert-content .container-fluid[data-v-1d764944] {
   max-width: 1300px;
@@ -22227,6 +22228,68 @@ to {
 .btn-explanation-link[data-v-1d764944]:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+}
+.chapter-plan-card[data-v-1d764944] {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.1);
+}
+.plan-card[data-v-1d764944] {
+  background: #f9fafc;
+  border-radius: 26px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+.plan-badge[data-v-1d764944] {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0f172a;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  padding: 0.25rem 0.8rem;
+}
+.plan-highlights[data-v-1d764944] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+.plan-highlight[data-v-1d764944] {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+.plan-action-row[data-v-1d764944] {
+  margin-top: 0.5rem;
+}
+.plan-action-icons[data-v-1d764944] {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.plan-action-icon[data-v-1d764944] {
+  min-width: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: transparent;
+  color: #111;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+.plan-action-icon i[data-v-1d764944] {
+  font-size: 1.35rem;
+  color: inherit;
+}
+.plan-action-icon[data-v-1d764944]:hover {
+  transform: translateY(-2px);
+  border-color: rgba(15, 23, 42, 0.35);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
 }
 .motivation-card[data-v-1d764944] {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));

@@ -383,8 +383,6 @@
               </div>
             </div>
 
-            
-
             <!-- Lesson Departments Focus -->
             <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
@@ -750,6 +748,58 @@
               </div>
             </div>
 
+            <div v-if="currentChapterPlans.length" class="content-card chapter-plan-card section-card animated-fade-slide mb-4 rounded-4">
+              <div class="card-header d-flex align-items-center justify-content-between py-3">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-calendar-week fs-4 text-teal"></i>
+                  <div>
+                    <h2 class="fw-bold mb-0 fs-5">Curated Weekly Plans</h2>
+                    <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
+                  </div>
+                </div>
+              </div>
+              <div class="card-body px-4 pb-0 pt-0">
+                <div class="row g-3">
+                  <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
+                    <article class="plan-card rounded-4 p-4 shadow-sm border">
+                      <div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3">
+                        <div>
+                          <p class="text-muted small mb-1">{{ plan.duration }}</p>
+                          <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
+                          <p class="text-dark small mb-0">{{ plan.description }}</p>
+                        </div>
+                        <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
+                      </div>
+                      <ul class="plan-highlights list-unstyled mb-3">
+                        <li v-for="highlight in plan.highlights" :key="highlight" class="plan-highlight">
+                          <i class="bi bi-chevron-right text-teal"></i>
+                          <span>{{ highlight }}</span>
+                        </li>
+                      </ul>
+                      <div class="plan-action-icons" role="group" aria-label="Plan actions">
+                        <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
+                          <i class="bi bi-whatsapp"></i>
+                          <span class="visually-hidden">Share plan</span>
+                        </button>
+                        <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
+                          <i class="bi bi-clipboard"></i>
+                          <span class="visually-hidden">Copy plan</span>
+                        </button>
+                        <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
+                          <i class="bi bi-printer"></i>
+                          <span class="visually-hidden">Print plan</span>
+                        </button>
+                        <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
+                          <i class="bi bi-file-earmark-pdf"></i>
+                          <span class="visually-hidden">Download plan</span>
+                        </button>
+                      </div>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Next Steps -->
             <div class="content-card next-steps-card animated-slide-up rounded-5 mb-4" style="animation-delay: 0.4s">
               <div class="card-header d-flex align-items-center justify-content-between py-3">
@@ -1107,6 +1157,8 @@ import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
 import personalizationPrompts from './data/personalizationPrompts.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
+import chapterPlanGuides from './data/chapterPlanGuides.json'
+import { jsPDF } from 'jspdf'
 
 const normalizeJson = (value) => {
   if (value && Array.isArray(value)) return value
@@ -1310,6 +1362,7 @@ export default defineComponent({
       guidedPathways: normalizeJson(chapterGuidedPathway),
       chapterGentleStarts: normalizeJson(chapterGentleStart),
       sectionStatsByChapter: normalizeJson(chapterSectionStats),
+      chapterPlanGuides: normalizeJson(chapterPlanGuides),
       homework: normalizeJson(homeworkData),
       chapterVideos: [],
       chapterVideoMap: {},
@@ -1411,6 +1464,11 @@ export default defineComponent({
     },
     currentLessonOverview() {
       return this.chapterLessons.find(entry => entry.chapterId === this.selectedPill) || null
+    },
+    currentChapterPlans() {
+      const chapterId = this.currentLesson?.chapterId
+      const entry = this.chapterPlanGuides.find(guide => guide.chapterId === chapterId)
+      return entry?.plans || []
     },
     overviewSections() {
       return this.currentLessonOverview?.overview || []
@@ -2815,6 +2873,62 @@ export default defineComponent({
           this.shareFriendStatus = 'Unable to copy; please use your browser directly.'
           setTimeout(() => { this.shareFriendStatus = '' }, 4000)
         })
+    },
+    formatPlanMessage(plan) {
+      const chapterTitle = this.currentLesson?.title || 'this chapter'
+      const highlights = plan.highlights?.map((item, index) => `${index + 1}. ${item}`).join('\n') || ''
+      return `${plan.title} (${plan.duration}) for ${chapterTitle}\n${plan.description}\n\nHighlights:\n${highlights}`
+    },
+    sharePlan(plan) {
+      const message = this.formatPlanMessage(plan)
+      this.openWhatsappShare(message)
+    },
+    copyPlan(plan) {
+      const message = this.formatPlanMessage(plan)
+      this.copyTextToClipboard(message)
+        .then(() => {
+          this.triggerCopyAlert('Plan copied to clipboard!', 'success')
+        })
+        .catch(() => {
+          this.triggerCopyAlert('Unable to copy the plan.', 'danger')
+        })
+    },
+    executePlanPrint(plan) {
+      const title = `${plan.title} • ${this.currentLesson?.title || 'Chapter'}`
+      const body = this.formatPlanMessage(plan)
+      this.printContent(title, body)
+    },
+    printPlan(plan) {
+      this.executePlanPrint(plan)
+    },
+    downloadPlanAsPdf(plan) {
+      try {
+        const doc = new jsPDF({
+          unit: 'pt',
+          format: 'letter'
+        })
+        const titleText = `${plan.title} • ${this.currentLesson?.title || 'Chapter'}`
+        doc.setFontSize(18)
+        doc.setFont('helvetica', 'bold')
+        doc.text(titleText, 40, 50)
+        doc.setFontSize(12)
+        doc.setFont('helvetica', 'normal')
+        const descriptionY = 70
+        const descriptionLines = doc.splitTextToSize(plan.description, 520)
+        doc.text(descriptionLines, 40, descriptionY)
+        let highlightY = descriptionY + descriptionLines.length * 16 + 20
+        plan.highlights?.forEach((line, index) => {
+          const text = `${index + 1}. ${line}`
+          const highlightLines = doc.splitTextToSize(text, 520)
+          doc.text(highlightLines, 40, highlightY)
+          highlightY += highlightLines.length * 16 + 4
+        })
+        const slug = (this.currentLesson?.title || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '')
+        doc.save(`${plan.planId}-${slug || 'plan'}.pdf`)
+      } catch (error) {
+        console.error('Unable to create PDF', error)
+        this.triggerCopyAlert('Unable to download the plan right now.', 'danger')
+      }
     },
     executeNextStepAction(type) {
       switch (type) {
@@ -4392,6 +4506,78 @@ export default defineComponent({
 .btn-explanation-link:hover {
   transform: translateY(-1px);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+}
+.chapter-plan-card {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #fff;
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.1);
+}
+
+.plan-card {
+  background: #f9fafc;
+  border-radius: 26px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.plan-badge {
+  background: rgba(14, 165, 233, 0.1);
+  color: #0f172a;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  padding: 0.25rem 0.8rem;
+}
+
+.plan-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.plan-highlight {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  color: #0f172a;
+}
+
+.plan-action-row {
+  margin-top: 0.5rem;
+}
+
+.plan-action-icons {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.plan-action-icon {
+  flex: 1 1 18%;
+  min-width: 52px;
+  border-radius: 50%;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: transparent;
+  color: #111;
+  padding: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+}
+
+.plan-action-icon i {
+  font-size: 1.35rem;
+  color: inherit;
+}
+
+.plan-action-icon:hover {
+  transform: translateY(-2px);
+  border-color: rgba(15, 23, 42, 0.35);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
 }
 .motivation-card {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));
