@@ -147,27 +147,6 @@
               </div>
             </div>
 
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 next-step-card"
-              :class="{ 'next-step-glow': nextStepGlowActive }">
-              <div class="card-header d-flex align-items-center py-3 gap-3">
-                <i class="bi bi-flag-fill text-teal fs-4"></i>
-                <div>
-                  <h2 class="fw-bold mb-0 fs-5 text-dark">Your Personalized Next Step</h2>
-                  <p class="text-muted small mb-0">{{ currentStreakDays }}-day streak • Quiz {{ chapterQuizPassed ? 'cleared' : 'pending' }}</p>
-                </div>
-              </div>
-              <div class="card-body px-3 text-dark">
-                <p class="mb-2 fw-semibold">{{ personalNextStep.title }}</p>
-                <p class="mb-3">{{ personalNextStep.description }}</p>
-                <button type="button" class="btn btn-sm btn-light text-teal fw-semibold" @click="executeNextStepAction(personalNextStep.actionLinkType)">
-                  {{ personalNextStep.actionLabel }}
-                </button>
-                <p v-if="personalNextStep.note" class="text-muted small mt-3 mb-0">{{ personalNextStep.note }}</p>
-              </div>
-            </div>
-
-          
-
           <div class="content-card tone-card section-card mb-4 rounded-4">
             <div class="card-header d-flex align-items-center gap-3 py-3">
               <i class="bi bi-sunrise-fill fs-4 text-teal"></i>
@@ -194,19 +173,10 @@
                   <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
                   <h3 class="fw-semibold mb-1">Simple welcome for new friends</h3>
                 </div>
-                <div class="gentle-progress-summary text-md-end">
-                  <span class="fs-5 fw-semibold">{{ gentleStartProgress.percent }}%</span>
-                  <p class="text-muted small mb-0">
-                    {{ gentleStartProgress.completed }} of {{ gentleStartProgress.total }} steps steady
-                  </p>
-                </div>
               </div>
               <p class="text-muted small mb-3">
                 Take it slow these reflections anchor today’s lesson and help you stay curious.
               </p>
-              <div v-if="gentleStartProgress.total" class="gentle-progress-track mb-3" aria-hidden="true">
-                <div class="gentle-progress-fill" :style="{ width: `${gentleStartProgress.percent}%` }"></div>
-              </div>
               <ul class="simple-onboarding-list mb-0">
                 <li v-for="(step, index) in currentGentleStartSteps" :key="step.title"
                   :class="{ completed: isGentleStepCompleted(index) }">
@@ -603,39 +573,8 @@
                     <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
                   </div>
                 </div>
-                <hr class="container muted-divider my-3" />
-                <div class="row pt-3 align-items-center">
-                  <div class="col-md-4">
-                    <div class="content-card motivation-card section-card h-100">
-                      <div class="card-body">
-                        <p class="fs-5 fw-semibold mb-1">Momentum</p>
-                        <p class="mb-1 fs-6">{{ motivationalMessage }}</p>
-                        <p class="text-teal small mb-0">{{ motivationalHint }}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="content-card reflection-card section-card h-100">
-                      <div class="card-body">
-                        <p class="fs-5 fw-semibold mb-1">Reflection</p>
-                        <p class="mb-1 fs-6">{{ reflectionPrompt }}</p>
-                        <p class="text-muted small mb-0">{{ reflectionNote }}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="content-card tip-card section-card h-100">
-                        <div class="card-body">
-                          <p class="fs-5 fw-semibold mb-1">Keep going</p>
-                          <ul class="mb-0 list-unstyled fs-6">
-                            <li v-for="tip in keepGoingTips" :key="tip" class="mb-1 text-muted">
-                              <i class="bi bi-lightbulb text-teal me-2"></i>{{ tip }}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                  </div>
-                </div>
+                
+                
               </div>
             </div>
             <div id="revert-stories-section" v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
@@ -1021,8 +960,48 @@
                 <h5 class="modal-title fw-bold">All Revert Stories</h5>
               </div>
               <div class="modal-body px-4 py-3">
+                <div v-if="hasStoryFilters" class="mb-3 video-modal-filters">
+                  <div class="filter-grid">
+                    <div class="filter-column">
+                      <label class="filter-label">Search stories</label>
+                      <input
+                        type="text"
+                        class="form-control form-control-sm"
+                        placeholder="Search by title or theme"
+                        v-model="videoSearchTerm"
+                      />
+                    </div>
+                    <div class="filter-column">
+                      <label class="filter-label">Duration</label>
+                      <select class="form-select form-select-sm" v-model="videoDurationFilter">
+                        <option v-for="option in durationFilters" :key="option.value" :value="option.value">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="filter-column">
+                      <label class="filter-label">Gender</label>
+                      <select class="form-select form-select-sm" v-model="videoGenderFilter">
+                        <option v-for="option in genderFilters" :key="option.value" :value="option.value">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="filter-column">
+                      <label class="filter-label">Background</label>
+                      <select class="form-select form-select-sm" v-model="videoBackgroundFilter">
+                        <option v-for="option in backgroundFilterOptions" :key="option.value" :value="option.value">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                  <p v-if="!filteredRevertStories.length" class="filter-empty text-muted small mt-2 mb-0">
+                    No stories match those filters yet. Try resetting or broadening your search.
+                  </p>
+                </div>
                 <div class="row g-3 video-grid-row">
-                  <div v-for="video in revertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
+                  <div v-for="video in filteredRevertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
                     <article
                       class="video-card shadow-sm overflow-hidden h-100"
                       @mouseenter="startPreview(video)"
@@ -1174,6 +1153,21 @@ const VIDEO_TAG_RULES = [
     keywords: ['inspiring', 'hope', 'resilience', 'strength', 'courage', 'powerful']
   }
 ]
+
+const MIN_STORIES_FOR_FILTERS = 20
+const DURATION_FILTERS = [
+  { value: 'all', label: 'All durations' },
+  { value: 'short', label: 'Short (< 2.5 min)' },
+  { value: 'medium', label: 'Medium (2.5 - 4 min)' },
+  { value: 'long', label: 'Long (> 4 min)' }
+]
+const GENDER_FILTERS = [
+  { value: 'all', label: 'All genders' },
+  { value: 'female', label: 'Female stories' },
+  { value: 'male', label: 'Male stories' },
+  { value: 'other', label: 'Other' }
+]
+const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win']
 
 const REVERTS_GUIDE_STEPS = [
   {
@@ -1393,6 +1387,12 @@ export default defineComponent({
       clipPlayerId: null,
       previewVideoId: null,
       gentleStepCompletion: {},
+      videoSearchTerm: '',
+      videoDurationFilter: 'all',
+      videoGenderFilter: 'all',
+      videoBackgroundFilter: 'all',
+      durationFilters: DURATION_FILTERS,
+      genderFilters: GENDER_FILTERS,
     }
   },
 
@@ -1737,6 +1737,53 @@ export default defineComponent({
       return this.chapterVideoEntry?.revertStories || this.chapterVideoEntry?.videos || []
     }
     ,
+    hasStoryFilters() {
+      return this.revertStories.length >= MIN_STORIES_FOR_FILTERS
+    }
+    ,
+    filteredRevertStories() {
+      const stories = this.revertStories || []
+      const term = this.videoSearchTerm.trim().toLowerCase()
+      return stories.filter(video => {
+        const text = `${video.title || ''} ${video.description || ''}`.toLowerCase()
+        if (term && !text.includes(term)) return false
+        if (this.videoDurationFilter !== 'all') {
+          const seconds = this.parseDurationInSeconds(video.duration)
+          if (seconds <= 0) return false
+          if (this.videoDurationFilter === 'short' && seconds >= 150) return false
+          if (this.videoDurationFilter === 'medium' && (seconds < 150 || seconds > 240)) return false
+          if (this.videoDurationFilter === 'long' && seconds <= 240) return false
+        }
+        if (this.videoGenderFilter !== 'all') {
+          const gender = this.deriveVideoGender(video)
+          if (gender !== this.videoGenderFilter) return false
+        }
+        if (this.videoBackgroundFilter !== 'all') {
+          const tags = this.videoTags(video)
+          if (!tags.includes(this.videoBackgroundFilter)) return false
+        }
+        return true
+      })
+    }
+    ,
+    backgroundFilterOptions() {
+      const tags = new Set()
+      this.revertStories.forEach(video => {
+        this.videoTags(video).forEach(tag => {
+          if (tag) tags.add(tag)
+        })
+      })
+      const orderedTags = Array.from(tags).sort((a, b) => {
+        const aIndex = BACKGROUND_TAG_PRIORITY.indexOf(a)
+        const bIndex = BACKGROUND_TAG_PRIORITY.indexOf(b)
+        if (aIndex === -1 && bIndex === -1) return a.localeCompare(b)
+        if (aIndex === -1) return 1
+        if (bIndex === -1) return -1
+        return aIndex - bIndex
+      })
+      return [{ value: 'all', label: 'All backgrounds' }, ...orderedTags.map(tag => ({ value: tag, label: tag }))]
+    }
+    ,
     revertStoriesPreview() {
       return this.revertStories.slice(0, 4)
     }
@@ -1805,6 +1852,11 @@ export default defineComponent({
       if (!this.confettiEnabled) return
       if (newVal >= 3 && (oldVal || 0) < 3) {
         this.launchMicroConfetti()
+      }
+    },
+    showVideoModal(newVal) {
+      if (newVal) {
+        this.resetVideoFilters()
       }
     }
   },
@@ -2346,6 +2398,23 @@ export default defineComponent({
       return matches.length ? matches : [fallbackTag]
     },
 
+    parseDurationInSeconds(duration) {
+      if (!duration) return 0
+      const cleaned = `${duration}`.replace(/[^\d:]/g, '').trim()
+      if (!cleaned) return 0
+      const parts = cleaned.split(':').map(segment => Number(segment.trim()))
+      if (parts.some(part => Number.isNaN(part))) return 0
+      return parts.reduce((total, part) => total * 60 + part, 0)
+    },
+    deriveVideoGender(video) {
+      const text = `${video.title || ''} ${video.description || ''}`.toLowerCase()
+      const femaleKeywords = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
+      const maleKeywords = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male']
+      if (femaleKeywords.some(keyword => text.includes(keyword))) return 'female'
+      if (maleKeywords.some(keyword => text.includes(keyword))) return 'male'
+      return 'other'
+    },
+
     completeAndNext() {
       const nextId = this.selectedPill + 1
       const isFinalChapter = this.selectedPill === FINAL_CHAPTER_ID
@@ -2431,6 +2500,13 @@ export default defineComponent({
     ,
     closeVideoModal() {
       this.showVideoModal = false
+    }
+    ,
+    resetVideoFilters() {
+      this.videoSearchTerm = ''
+      this.videoDurationFilter = 'all'
+      this.videoGenderFilter = 'all'
+      this.videoBackgroundFilter = 'all'
     }
     ,
     openHelpModal() {
@@ -3160,6 +3236,48 @@ export default defineComponent({
   width: 100%;
   text-transform: none;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
+}
+
+.video-modal-filters {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 1.2rem;
+  padding: 1.3rem 1.5rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(243, 247, 250, 0.9));
+  box-shadow: 0 25px 60px rgba(15, 23, 42, 0.09);
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.1rem;
+}
+
+.filter-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.filter-label {
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+  color: #475467;
+}
+
+.video-modal-filters .form-control-sm,
+.video-modal-filters .form-select-sm {
+  border-radius: 0.9rem;
+  border-color: rgba(15, 23, 42, 0.2);
+  box-shadow: none;
+  background: #fff;
+  padding: 0.55rem 0.85rem;
+  font-size: 0.95rem;
+}
+
+.filter-empty {
+  letter-spacing: 0.08em;
+  margin-left: 0.5rem;
 }
 
 /* .pathway-clips-card {
