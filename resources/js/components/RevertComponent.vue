@@ -102,6 +102,12 @@
                 <p class="text-white-50 mb-0">
                   {{ currentLesson?.summary }}
                 </p>
+                <div class="hero-subheader mt-3">
+                  <span class="premium-pill">Premium insight</span>
+                  <p class="hero-subtitle text-white-75 mb-0">
+                    {{ heroTagline }}
+                  </p>
+                </div>
               </div>
               <!-- <div class="lesson-meta d-flex gap-3">
                 <span class="badge badge-pill bg-light text-dark fw-semibold">
@@ -122,7 +128,7 @@
               </div>
               <div class="card-body px-3">
                 <p class="mb-2 text-muted small text-uppercase">Focus: {{ personalizationPrompt.focus }}</p>
-                <p class="mb-2 fw-semibold">{{ personalizationPrompt.recommendation }}</p>
+                <p class="mb-2 fw-semibold text-black">{{ personalizationPrompt.recommendation }}</p>
                 <ul class="personalization-tips list-unstyled mb-0">
                   <li v-for="tip in personalizationPrompt.tips" :key="tip" class="mb-1">
                     <i class="bi bi-lightbulb text-teal me-2"></i>
@@ -161,8 +167,6 @@
               </article>
             </div>
           </div> -->
-
-          
 
           <!-- Guidance Row -->
           <!-- <div v-if="guidanceCards.length"
@@ -482,10 +486,6 @@
               </div>
             </div>
 
-            
-
-            <!-- Revert Stories -->
-
             <!-- Share with a friend -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-body px-3 px-md-4 py-4">
@@ -647,7 +647,7 @@
                     <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
                   </div>
                 </div>
-                </hr class="container">
+                <hr class="container muted-divider my-3" />
                 <div class="row pt-3 align-items-center">
                   <div class="col-md-4">
                     <div class="content-card motivation-card section-card h-100">
@@ -691,48 +691,48 @@
                 </div>
               </div>
               <div class="card-body">
-                <div class="video-grid">
-                  <article
-                    v-for="video in revertStoriesPreview"
-                    :key="video.title"
-                    class="video-card shadow-sm overflow-hidden"
-                    @mouseenter="startPreview(video)"
-                    @mouseleave="stopPreview">
-                    <div>
-                      <div
-                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
-                        class="video-feature"
-                        :style="thumbnailStyle(video)">
-                        <iframe
-                          :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
-                          :title="video.title"
-                          frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          loading="lazy">
-                        </iframe>
-                      </div>
-                      <div
-                        v-else
-                        class="video-feature"
-                        :style="thumbnailStyle(video)"
-                        @click="playVideo(video)">
-                        <div class="video-feature-overlay">
-                          <div class="video-feature-text">
-                            <p class="video-feature-label">Revert story</p>
-                            <h3 class="video-feature-title">{{ video.title }}</h3>
-                            <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                            <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                <div class="row g-3 video-grid-row">
+                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
+                    <article
+                      class="video-card shadow-sm overflow-hidden h-100"
+                      @mouseenter="startPreview(video)"
+                      @mouseleave="stopPreview">
+                      <div class="video-card-media">
+                        <div
+                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                          class="video-feature"
+                          :style="thumbnailStyle(video)">
+                          <iframe
+                            :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
+                            :title="video.title"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                          </iframe>
+                        </div>
+                        <div
+                          v-else
+                          class="video-feature"
+                          :style="thumbnailStyle(video)"
+                          @click="playVideo(video)">
+                          <div class="video-feature-overlay">
+                            <div class="video-feature-text">
+                              <p class="video-feature-label">Revert story</p>
+                              <h3 class="video-feature-title">{{ video.title }}</h3>
+                              <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                              <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="video-card-caption px-3 py-2">
-                      <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                      <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                      <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                    </div>
-                  </article>
+                      <div class="video-card-caption px-3 py-2">
+                        <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                        <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                        <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                      </div>
+                    </article>
+                  </div>
                 </div>
                 <div class="d-flex justify-content-end mt-4">
                   <button type="button" class="btn-see-more" @click="showVideoModal = true">
@@ -853,7 +853,7 @@
             </div>
 
             <!-- Next Steps -->
-            <div class="content-card next-steps-card animated-slide-up rounded-4 mb-4" style="animation-delay: 0.4s">
+            <div class="content-card next-steps-card animated-slide-up rounded-5 mb-4" style="animation-delay: 0.4s">
               <div class="card-header d-flex align-items-center justify-content-between py-3">
                 <div class="d-flex align-items-center gap-3">
                   <div class="next-steps-icon">
@@ -1062,48 +1062,43 @@
                 <h5 class="modal-title fw-bold">All Revert Stories</h5>
               </div>
               <div class="modal-body px-4 py-3">
-                <div class="video-grid video-grid-modal">
-                  <article
-                    v-for="video in revertStories"
-                    :key="'modal-' + video.title"
-                    class="video-card shadow-sm overflow-hidden"
-                    @mouseenter="startPreview(video)"
-                    @mouseleave="stopPreview">
-                    <div>
-                      <div
-                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
-                        class="video-feature"
-                        :style="thumbnailStyle(video)">
-                        <iframe
-                          :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
-                          :title="video.title"
-                          frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          loading="lazy">
-                        </iframe>
-                      </div>
-                      <div
-                        v-else
-                        class="video-feature"
-                        :style="thumbnailStyle(video)"
-                        @click="playVideo(video)">
-                        <div class="video-feature-overlay">
-                          <div class="video-feature-text">
-                            <p class="video-feature-label">Revert story</p>
-                            <h3 class="video-feature-title">{{ video.title }}</h3>
-                            <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                            <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                <div class="row g-3 video-grid-row">
+                  <div v-for="video in revertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
+                    <article
+                      class="video-card shadow-sm overflow-hidden h-100"
+                      @mouseenter="startPreview(video)"
+                      @mouseleave="stopPreview">
+                      <div class="video-card-media">
+                        <div
+                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                          class="video-feature"
+                          :style="thumbnailStyle(video)">
+                          <iframe
+                            :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
+                            :title="video.title"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                          </iframe>
+                        </div>
+                        <div
+                          v-else
+                          class="video-feature"
+                          :style="thumbnailStyle(video)"
+                          @click="playVideo(video)">
+                          <div class="video-feature-overlay">
+                            <div class="video-feature-text">
+                              <p class="video-feature-label">Revert story</p>
+                              <h3 class="video-feature-title">{{ video.title }}</h3>
+                              <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                              <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                    <div class="video-card-caption px-3 py-2">
-                      <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                      <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                      <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                    </div>
-                  </article>
+                    </article>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
@@ -1505,6 +1500,11 @@ export default defineComponent({
         return 'Start a streak by completing one chapter today.'
       }
       return `Current streak: ${this.currentStreakDays} day${this.currentStreakDays === 1 ? '' : 's'}.`
+    },
+    heroTagline() {
+      const lesson = this.currentLesson
+      if (!lesson) return 'Deep reflections curated for caring hearts.'
+      return lesson.tagline || lesson.summary || 'Deep reflections curated for caring hearts.'
     },
     personalizationPrompt() {
       const chapterId = this.currentLesson?.chapterId
@@ -2721,6 +2721,43 @@ export default defineComponent({
   min-height: 100vh;
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+:global(:root) {
+  --brand-teal: #0b806f;
+  --brand-slate: #0f172a;
+  --brand-gradient: linear-gradient(135deg, rgba(11, 128, 111, 0.9), rgba(16, 185, 129, 0.9));
+}
+
+.hero-subheader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.premium-pill {
+  align-self: flex-start;
+  padding: 0.25rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(248, 250, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 600;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.muted-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.25);
 }
 
 /* ==================== BOOTSTRAP ICONS ==================== */
@@ -4313,7 +4350,6 @@ export default defineComponent({
   background: rgba(255, 255, 255, 0.85);
   border-radius: 16px;
   padding: 1.75rem;
-  border: 1px solid rgba(16, 185, 129, 0.12);
 }
 
 .dua-card {
