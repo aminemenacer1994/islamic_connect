@@ -189,18 +189,41 @@
           <!-- Onboarding Block -->
           <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-4">
             <div class="card-body px-4 py-3">
-              <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
-              <h3 class="fw-semibold mb-2">Simple welcome for new friends</h3>
+              <div class="d-flex flex-column flex-md-row align-items-start align-items-md-end justify-content-between gap-3 mb-2">
+                <div>
+                  <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
+                  <h3 class="fw-semibold mb-1">Simple welcome for new friends</h3>
+                </div>
+                <div class="gentle-progress-summary text-md-end">
+                  <span class="fs-5 fw-semibold">{{ gentleStartProgress.percent }}%</span>
+                  <p class="text-muted small mb-0">
+                    {{ gentleStartProgress.completed }} of {{ gentleStartProgress.total }} steps steady
+                  </p>
+                </div>
+              </div>
               <p class="text-muted small mb-3">
-                Take it slow these three ideas hold the key to remembering today’s lesson.
+                Take it slow these reflections anchor today’s lesson and help you stay curious.
               </p>
+              <div v-if="gentleStartProgress.total" class="gentle-progress-track mb-3" aria-hidden="true">
+                <div class="gentle-progress-fill" :style="{ width: `${gentleStartProgress.percent}%` }"></div>
+              </div>
               <ul class="simple-onboarding-list mb-0">
-                <li v-for="step in currentGentleStartSteps" :key="step.title">
-                  <span class="onboarding-bullet-icon"></span>
-                  <div>
-                    <strong class="d-block">{{ step.title }}</strong>
-                    <span>{{ step.description }}</span>
-                  </div>
+                <li v-for="(step, index) in currentGentleStartSteps" :key="step.title"
+                  :class="{ completed: isGentleStepCompleted(index) }">
+                  <button
+                    type="button"
+                    class="onboarding-step-button"
+                    :class="{ completed: isGentleStepCompleted(index) }"
+                    @click="toggleGentleStepCompletion(index)"
+                    :aria-pressed="isGentleStepCompleted(index)">
+                    <span class="onboarding-bullet-icon" :class="{ completed: isGentleStepCompleted(index) }">
+                      <i v-if="isGentleStepCompleted(index)" class="bi bi-check-lg"></i>
+                    </span>
+                    <div>
+                      <strong class="d-block">{{ step.title }}</strong>
+                      <span>{{ step.description }}</span>
+                    </div>
+                  </button>
                 </li>
               </ul>
             </div>
@@ -330,9 +353,6 @@
                   <h3 class="mb-1 fw-semibold">Short clips to carry the lesson forward</h3>
                   <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
                 </div>
-                <button v-if="guidedPathwayCards.length" type="button" class="btn btn-outline-teal btn-sm fw-semibold" @click="scrollToSection('revert-stories-section')">
-                  Revisit the stories
-                </button>
               </div>
 
               <div id="pathway-clips-section" class="content-card section-card animated-fade-slide mb-4 rounded-4 pathway-clips-card">
@@ -369,13 +389,16 @@
                             </button>
                           </div>
                         </div>
-                        <div class="p-3">
-                          <h3 class="h6 fw-semibold mb-1">{{ clip.title }}</h3>
-                          <p class="text-muted small mb-2">{{ clip.description || 'Visual recap of today’s insight.' }}</p>
+                          <div class="p-3">
+                            <h3 class="h6 fw-semibold mb-1">{{ clip.title }}</h3>
+                            <p class="text-muted small mb-2">{{ clip.description || 'Visual recap of today’s insight.' }}</p>
+                          <div v-if="videoTags(clip, 'Pathway Clip').length" class="video-card-tags mb-2">
+                            <span v-for="tag in videoTags(clip, 'Pathway Clip')" :key="tag" class="video-tag-badge">{{ tag }}</span>
+                          </div>
                           <p v-if="clip.duration" class="clip-duration text-muted small mb-0">Duration: {{ clip.duration }}</p>
-                        </div>
-                      </article>
-                    </div>
+                          </div>
+                        </article>
+                      </div>
                   </div>
                 </div>
               </div>
@@ -651,19 +674,22 @@
                           @click="playVideo(video)">
                           <div class="video-feature-overlay">
                             <div class="video-feature-text">
-                              <p class="video-feature-label">Revert story</p>
-                              <h3 class="video-feature-title">{{ video.title }}</h3>
-                              <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                              <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div class="video-card-caption px-3 py-2">
-                        <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                        <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                        <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                      </div>
+                           <p class="video-feature-label">Revert story</p>
+                           <h3 class="video-feature-title">{{ video.title }}</h3>
+                           <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                           <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="video-card-caption px-3 py-2">
+                     <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                     <div v-if="videoTags(video).length" class="video-card-tags mb-2">
+                       <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
+                     </div>
+                     <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                     <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                   </div>
                     </article>
                   </div>
                 </div>
@@ -1030,6 +1056,11 @@
                           </div>
                         </div>
                       </div>
+                      <div class="video-card-caption px-3 py-2">
+                        <div v-if="videoTags(video).length" class="video-card-tags mb-0">
+                          <span v-for="tag in videoTags(video)" :key="tag + '-modal'" class="video-tag-badge">{{ tag }}</span>
+                        </div>
+                      </div>
                     </article>
                   </div>
                 </div>
@@ -1111,6 +1142,37 @@ const VIDEO_ACCENT_PAIRS = [
   { primary: '#1e3a8a', secondary: '#3b82f6' },
   { primary: '#047857', secondary: '#34d399' },
   { primary: '#4c1d95', secondary: '#c084fc' }
+]
+
+const VIDEO_TAG_RULES = [
+  {
+    tag: 'Family Struggle',
+    keywords: ['family', 'parent', 'parents', 'mother', 'father', 'children', 'kids', 'sister', 'brother', 'pressure', 'shame']
+  },
+  {
+    tag: 'Ex-Christian',
+    keywords: ['christian', 'jesus', 'bible', 'church', 'catholic', 'protestant', 'faith', 'christianity']
+  },
+  {
+    tag: 'Funny',
+    keywords: ['funny', 'comedy', 'comedian', 'laugh', 'humor', 'stand up', 'stand-up']
+  },
+  {
+    tag: 'Quick Win',
+    keywords: ['quick', 'short', 'minutes', '2 minutes', '3 minutes', 'mini', 'fast', 'brief', '90 seconds']
+  },
+  {
+    tag: 'Community',
+    keywords: ['community', 'tribe', 'friends', 'circle', 'mosque', 'support']
+  },
+  {
+    tag: 'Faith Journey',
+    keywords: ['revert', 'convert', 'conversion', 'shahada', 'journey to islam', 'found islam', 'embraced islam']
+  },
+  {
+    tag: 'Inspiration',
+    keywords: ['inspiring', 'hope', 'resilience', 'strength', 'courage', 'powerful']
+  }
 ]
 
 const REVERTS_GUIDE_STEPS = [
@@ -1329,7 +1391,8 @@ export default defineComponent({
       confettiEnabled: false,
       personalizationGlowActive: false,
       clipPlayerId: null,
-      previewVideoId: null
+      previewVideoId: null,
+      gentleStepCompletion: {},
     }
   },
 
@@ -1600,6 +1663,14 @@ export default defineComponent({
       const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId)
       return entry?.steps || this.currentOnboardingSteps
     },
+    gentleStartProgress() {
+      const steps = this.currentGentleStartSteps || []
+      const total = steps.length
+      if (!total) return { total: 0, completed: 0, percent: 0 }
+      const completed = steps.reduce((count, _, index) => count + (this.isGentleStepCompleted(index) ? 1 : 0), 0)
+      const percent = total ? Math.round((completed / total) * 100) : 0
+      return { total, completed, percent }
+    },
     sectionStatsMap() {
       const chapterId = this.currentLesson?.chapterId
       const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId)
@@ -1753,6 +1824,7 @@ export default defineComponent({
     this.resetQuizSet()
     this.syncStreakFromStorage()
     this.syncDailyChallenges()
+    this.loadGentleStepCompletion()
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
     }
@@ -2004,6 +2076,39 @@ export default defineComponent({
       localStorage.setItem('dailyChallengeStatus', JSON.stringify(this.dailyChallengeStatus))
       localStorage.setItem('dailyChallengeDate', todayKey)
     },
+    gentleStepCompletionKey(chapterId, stepIndex) {
+      if (chapterId == null) return null
+      return `gentle-${chapterId}-${stepIndex}`
+    },
+    isGentleStepCompleted(stepIndex) {
+      const chapterId = this.currentLesson?.chapterId
+      const key = this.gentleStepCompletionKey(chapterId, stepIndex)
+      return Boolean(key && this.gentleStepCompletion[key])
+    },
+    toggleGentleStepCompletion(stepIndex) {
+      const chapterId = this.currentLesson?.chapterId
+      const key = this.gentleStepCompletionKey(chapterId, stepIndex)
+      if (!key) return
+      const nextValue = !this.gentleStepCompletion[key]
+      this.gentleStepCompletion = {
+        ...this.gentleStepCompletion,
+        [key]: nextValue
+      }
+      this.persistGentleStepCompletion()
+    },
+    persistGentleStepCompletion() {
+      if (typeof window === 'undefined') return
+      localStorage.setItem('gentleStepCompletion', JSON.stringify(this.gentleStepCompletion))
+    },
+    loadGentleStepCompletion() {
+      if (typeof window === 'undefined') return
+      try {
+        const stored = JSON.parse(localStorage.getItem('gentleStepCompletion') || '{}')
+        this.gentleStepCompletion = stored
+      } catch {
+        this.gentleStepCompletion = {}
+      }
+    },
     prepareSecondarySections() {
       this.secondarySectionsReady = false
       if (typeof window !== 'undefined' && 'requestAnimationFrame' in window) {
@@ -2219,6 +2324,26 @@ export default defineComponent({
         hash |= 0
       }
       return Math.abs(hash)
+    },
+    videoTags(video, fallbackTag = 'Revert Story') {
+      if (!video) return []
+      const explicitTags = (video.tags || []).filter(Boolean)
+      if (explicitTags.length) {
+        return explicitTags
+      }
+      const text = `${video.title || ''} ${video.description || ''}`.toLowerCase()
+      const matches = []
+      const seen = new Set()
+      for (const rule of VIDEO_TAG_RULES) {
+        if (matches.length >= 2) break
+        if (seen.has(rule.tag)) continue
+        const keywordFound = rule.keywords.some(keyword => text.includes(keyword))
+        if (keywordFound) {
+          matches.push(rule.tag)
+          seen.add(rule.tag)
+        }
+      }
+      return matches.length ? matches : [fallbackTag]
     },
 
     completeAndNext() {
@@ -2836,6 +2961,24 @@ export default defineComponent({
   text-transform: uppercase;
 }
 
+.video-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+
+.video-tag-badge {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  color: #0f172a;
+  font-weight: 600;
+}
+
 .video-thumbnail {
   width: 100%;
   height: 100%;
@@ -3019,13 +3162,13 @@ export default defineComponent({
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
 }
 
-.pathway-clips-card {
+/* .pathway-clips-card {
   border: none;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #f0f6ff);
   box-shadow: 0 32px 65px rgba(15, 23, 42, 0.16);
   position: relative;
   overflow: hidden;
-}
+} */
 .pathway-clips-card::before {
   content: '';
   position: absolute;
@@ -5025,6 +5168,55 @@ export default defineComponent({
   background: linear-gradient(135deg, #0b806f, #0ea5e9);
   box-shadow: 0 0 12px rgba(11, 128, 111, 0.35);
   flex-shrink: 0;
+}
+
+.gentle-progress-summary {
+  min-width: 110px;
+  text-align: right;
+}
+
+.gentle-progress-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.gentle-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.9), rgba(16, 185, 129, 0.9));
+  transition: width 0.4s ease;
+}
+
+.onboarding-step-button {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+}
+
+.onboarding-step-button.completed {
+  color: #0b806f;
+}
+
+.simple-onboarding-list li.completed strong {
+  color: #0b806f;
+}
+
+.onboarding-bullet-icon.completed {
+  background: #10b981;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 0.55rem;
 }
 
 

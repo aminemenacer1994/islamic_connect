@@ -21050,6 +21050,22 @@ body {
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
+.video-card-tags[data-v-1d764944] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.35rem;
+}
+.video-tag-badge[data-v-1d764944] {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(14, 165, 233, 0.35);
+  color: #0f172a;
+  font-weight: 600;
+}
 .video-thumbnail[data-v-1d764944] {
   width: 100%;
   height: 100%;
@@ -21213,13 +21229,13 @@ body {
   text-transform: none;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.35);
 }
-.pathway-clips-card[data-v-1d764944] {
+/* .pathway-clips-card {
   border: none;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), #f0f6ff);
   box-shadow: 0 32px 65px rgba(15, 23, 42, 0.16);
   position: relative;
   overflow: hidden;
-}
+} */
 .pathway-clips-card[data-v-1d764944]::before {
   content: '';
   position: absolute;
@@ -22938,6 +22954,48 @@ to {
   background: linear-gradient(135deg, #0b806f, #0ea5e9);
   box-shadow: 0 0 12px rgba(11, 128, 111, 0.35);
   flex-shrink: 0;
+}
+.gentle-progress-summary[data-v-1d764944] {
+  min-width: 110px;
+  text-align: right;
+}
+.gentle-progress-track[data-v-1d764944] {
+  width: 100%;
+  height: 6px;
+  background: rgba(15, 23, 42, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.gentle-progress-fill[data-v-1d764944] {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(14, 165, 233, 0.9), rgba(16, 185, 129, 0.9));
+  transition: width 0.4s ease;
+}
+.onboarding-step-button[data-v-1d764944] {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0;
+  border: none;
+  background: transparent;
+  text-align: left;
+  color: inherit;
+}
+.onboarding-step-button.completed[data-v-1d764944] {
+  color: #0b806f;
+}
+.simple-onboarding-list li.completed strong[data-v-1d764944] {
+  color: #0b806f;
+}
+.onboarding-bullet-icon.completed[data-v-1d764944] {
+  background: #10b981;
+  box-shadow: none;
+  display: grid;
+  place-items: center;
+  color: #ffffff;
+  font-size: 0.55rem;
 }
 .paragraph-grid[data-v-1d764944] {
   -moz-column-count: 2;
