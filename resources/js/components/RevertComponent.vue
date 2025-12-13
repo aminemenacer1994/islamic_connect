@@ -109,6 +109,15 @@
                   </p>
                 </div>
               </div>
+              <button
+                type="button"
+                class="lesson-help-button"
+                aria-label="Open Reverts Corner guide"
+                @click="openHelpModal"
+              >
+                <i class="bi bi-question-circle-fill fs-4"></i>
+                <span class="visually-hidden">Open guide</span>
+              </button>
               <!-- <div class="lesson-meta d-flex gap-3">
                 <span class="badge badge-pill bg-light text-dark fw-semibold">
                   Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}
@@ -157,48 +166,7 @@
               </div>
             </div>
 
-          <!-- Hero Stats -->
-          <!-- <div class="row g-3 mb-4 hero-stats-row">
-            <div v-for="stat in lessonHeroStats" :key="stat.label" class="col-12 col-sm-4">
-              <article class="hero-stat-card d-flex flex-column">
-                <span class="stat-label">{{ stat.label }}</span>
-                <strong class="stat-value">{{ stat.value }}</strong>
-                <span class="stat-helper text-muted small">Premium insights</span>
-              </article>
-            </div>
-          </div> -->
-
-          <!-- Guidance Row -->
-          <!-- <div v-if="guidanceCards.length"
-            class="content-card section-card guidance-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3">
-              <i class="bi bi-compass-fill fs-4 me-3 text-teal"></i>
-              <div>
-                <h2 class="fw-bold mb-0 fs-5">Learning Guidance</h2>
-              </div>
-            </div>
-            <div class="card-body px-3 px-md-4">
-              <div class="guidance-grid">
-                <article v-for="(card, index) in guidanceCards" :key="card.title" class="guidance-card-item">
-                  <div class="guidance-card-top">
-                    <div class="d-flex align-items-center gap-2">
-                      <span class="guidance-step">{{ card.step }}</span>
-                      <p class="mb-0 text-muted small">{{ index === 0 ? 'Start here' : index === 1 ? 'Deepen & personalize' : 'Finish strong' }}</p>
-                    </div>
-                    <h3 class="mt-2 fw-semibold">{{ card.title }}</h3>
-                    <p class="mt-3 text-muted small">{{ card.description }}</p>
-                  </div>
-                  <div class="guidance-line">
-                    <span></span>
-                  </div>
-                  <div class="d-flex align-items-center gap-2 text-dark small fw-medium">
-                    <i class="bi bi-arrow-right-circle-fill text-teal fs-5"></i>
-                    <span>{{ card.action }}</span>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div> -->
+          
 
           <div class="content-card tone-card section-card mb-4 rounded-4">
             <div class="card-header d-flex align-items-center gap-3 py-3">
@@ -247,42 +215,7 @@
             </div>
           </div>
 
-          <!-- <div v-if="focusHighlights.length" class="row focus-highlight-row mb-4 g-3">
-            <div v-for="highlight in focusHighlights" :key="highlight.label" class="col-12 col-md-4">
-              <article class="focus-pill-card p-3 rounded-4 shadow-sm h-100">
-                <div class="d-flex align-items-center justify-content-between mb-1">
-                  <span class="focus-pill-label text-muted small">{{ highlight.label }}</span>
-                  <i class="bi bi-star text-teal"></i>
-                </div>
-                <h5 class="fw-bold mb-1">{{ highlight.value }}</h5>
-                <p class="mb-0 text-muted small">{{ highlight.detail }}</p>
-              </article>
-            </div>
-          </div> -->
-
-          <!-- Learning objectives -->
-          <!-- <div v-if="learningObjectiveColumns.length"
-            class="content-card section-card animated-fade-slide mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center py-3">              
-              <i class="bi bi-database-fill-check fs-4 me-3 text-teal"></i>
-              <h2 class="fw-bold mb-0 fs-5">Learning Objectives</h2>
-            </div>
-
-            <div class="card-body card-teal px-3 px-md-4">
-              <div class="learning-objectives-grid">
-                <div v-for="(column, columnIndex) in learningObjectiveColumns" :key="columnIndex"
-                  class="objective-column">
-                  <ul class="list-group insight-list fs-6 lh-base column-list m-0">
-                    <li v-for="objective in column" :key="objective"
-                      class="list-group-item border-0 px-0 py-3 d-flex align-items-start gap-3">
-                      <i class="fas fa-check-circle fs-5 mt-1 text-teal"></i>
-                      <span>{{ objective }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div> -->
+          
 
             <!-- main content -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
@@ -1112,6 +1045,32 @@
           </div>
         </div>
       </div>
+      <div v-if="showHelpModal">
+        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 shadow-lg custom-modal-card">
+              <div class="modal-header border-0 pt-4 px-4">
+                <div>
+                  <h5 class="modal-title fw-bold mb-1">Reverts Corner Guide</h5>
+                  <p class="text-muted small mb-0">A quick walkthrough of how this page keeps your reflections grounded.</p>
+                </div>
+                <button type="button" class="btn-close" aria-label="Close guide" @click="closeHelpModal"></button>
+              </div>
+              <div class="modal-body px-4 pb-4">
+                <div v-for="(step, index) in helpGuideSteps" :key="step.title" class="guide-step-card">
+                  <div class="guide-step-index">Step {{ index + 1 }}</div>
+                  <h6 class="fw-semibold mb-1">{{ step.title }}</h6>
+                  <p class="text-muted mb-0">{{ step.description }}</p>
+                </div>
+              </div>
+              <div class="modal-footer border-0 px-4 pb-4 pt-2">
+                <button type="button" class="btn btn-teal px-4" @click="closeHelpModal">Got it</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -1152,6 +1111,21 @@ const VIDEO_ACCENT_PAIRS = [
   { primary: '#1e3a8a', secondary: '#3b82f6' },
   { primary: '#047857', secondary: '#34d399' },
   { primary: '#4c1d95', secondary: '#c084fc' }
+]
+
+const REVERTS_GUIDE_STEPS = [
+  {
+    title: 'Explore the roadmap',
+    description: 'Each pill maps to a chapter tap to revisit that lesson, see what’s complete, and unlock the next insight.'
+  },
+  {
+    title: 'Personalize your pace',
+    description: 'The right column surfaces your tone, personalization prompts, and next-step cues so every repeat feels intentional.'
+  },
+  {
+    title: 'Use the media & sharing tools',
+    description: 'Play revert stories, copy or share lesson summaries, and keep the reflections alive with dua cards and guided clips.'
+  }
 ]
 
 const getConfettiScale = () => {
@@ -1309,6 +1283,8 @@ export default defineComponent({
       showResourceModal: false,
       activeResource: null,
       showVideoModal: false,
+      showHelpModal: false,
+      helpGuideSteps: REVERTS_GUIDE_STEPS,
       shareFriendStatus: '',
       onboarding: normalizeJson(onboardingData),
       resourceCopyStatus: '',
@@ -1631,7 +1607,7 @@ export default defineComponent({
     },
     motivationalMessage() {
       return this.chapterQuizPassed
-        ? `Chapter ${this.selectedPill} cleared—your growing understanding is inviting others to join.`
+        ? `Chapter ${this.selectedPill} cleared your growing understanding is inviting others to join.`
         : `You're working through Chapter ${this.selectedPill}. Stay curious, every insight builds momentum.`
     },
     motivationalHint() {
@@ -2332,6 +2308,13 @@ export default defineComponent({
       this.showVideoModal = false
     }
     ,
+    openHelpModal() {
+      this.showHelpModal = true
+    },
+    closeHelpModal() {
+      this.showHelpModal = false
+    }
+    ,
     resetQuizSet() {
       const base = this.currentQuizData.map(question => ({
         ...question,
@@ -2685,7 +2668,7 @@ export default defineComponent({
             this.scrollToNextButton()
           })
         } else {
-          this.quizFeedback = `Great! ${this.quizCorrectCount}/${this.quizRequiredCorrect} saved—${this.quizRequiredCorrect - this.quizCorrectCount} to go.`
+          this.quizFeedback = `Great! ${this.quizCorrectCount}/${this.quizRequiredCorrect} saved ${this.quizRequiredCorrect - this.quizCorrectCount} to go.`
           setTimeout(() => {
             this.advanceQuestion()
           }, 700)
@@ -5893,5 +5876,60 @@ export default defineComponent({
     text-align: center;
   }
 
+}
+
+.lesson-help-button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(2, 132, 199, 0.4);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 3;
+}
+
+.lesson-help-button:hover,
+.lesson-help-button:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.35);
+}
+
+.guide-step-card {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  background: rgba(248, 250, 252, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 12px 25px rgba(15, 23, 42, 0.08);
+}
+
+.guide-step-card:last-child {
+  margin-bottom: 0;
+}
+
+.guide-step-index {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.5);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+@media (max-width: 767.98px) {
+  .lesson-help-button {
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
+  }
 }
 </style>

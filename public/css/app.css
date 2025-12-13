@@ -3908,7 +3908,9 @@ img[data-v-23ef7dd5]{
   flex: 1;
   width: auto;
 }
-
+.glossy[data-v-7416ffac] .p-dropdown-trigger {
+  height: 100%;
+}
 .glossy[data-v-7416ffac] .p-dropdown-panel {
   margin-top: 6px;
   border-radius: 16px;
@@ -9786,6 +9788,7 @@ to   { opacity: 1; transform: translateY(0);
   border: 1px solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  height: 100%;
   position: relative;
   padding: 1.25rem 1.25rem;
   /* Performance hints for large lists */
@@ -23646,6 +23649,55 @@ to {
 .resource-link span[data-v-1d764944] {
     flex: 1;
     text-align: center;
+}
+}
+.lesson-help-button[data-v-1d764944] {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  background: rgba(2, 132, 199, 0.4);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 3;
+}
+.lesson-help-button[data-v-1d764944]:hover,
+.lesson-help-button[data-v-1d764944]:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.35);
+}
+.guide-step-card[data-v-1d764944] {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  background: rgba(248, 250, 252, 0.9);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 12px 25px rgba(15, 23, 42, 0.08);
+}
+.guide-step-card[data-v-1d764944]:last-child {
+  margin-bottom: 0;
+}
+.guide-step-index[data-v-1d764944] {
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.5);
+  margin-bottom: 0.35rem;
+  display: block;
+}
+@media (max-width: 767.98px) {
+.lesson-help-button[data-v-1d764944] {
+    top: 1rem;
+    right: 1rem;
+    width: 44px;
+    height: 44px;
 }
 }
 
