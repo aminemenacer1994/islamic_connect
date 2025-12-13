@@ -416,7 +416,7 @@
                         @click="playClip(clip)">
                         <div v-if="isClipPlaying(clip) || isClipPreviewing(clip)" class="clip-thumbnail ratio ratio-16x9">
                           <iframe
-                            :src="formatVideoUrl(clip.url, true, isClipPreviewing(clip))"
+                            :src="formatVideoUrl(clip.url, shouldAutoplayVideo(), isClipPreviewing(clip))"
                             :title="clip.title"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -690,53 +690,49 @@
                   <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
                 </div>
               </div>
-              <div class="card-body px-3 px-md-4">
-                <div class="row g-3">
-                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
-                    <article
-                      class="video-card  shadow-sm overflow-hidden"
-                      @mouseenter="startPreview(video)"
-                      @mouseleave="stopPreview">
-                      <div>
-                        <div
-                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
-                          class="video-feature"
-                          :style="thumbnailStyle(video)">
-                          <iframe
-                            :src="formatVideoUrl(video.url, true, isVideoPreviewing(video))"
-                            :title="video.title"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            loading="lazy">
-                          </iframe>
-                        </div>
-                        <div
-                          v-else
-                          class="video-feature"
-                          :style="thumbnailStyle(video)"
-                          @click="playVideo(video)">
-                          <div class="video-feature-overlay">
-                            <div class="video-feature-text">
-                              <p class="video-feature-label">Revert story</p>
-                              <h3 class="video-feature-title">{{ video.title }}</h3>
-                              <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                              <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
-                            </div>
-                            <button type="button" class="btn-watch" @click.stop="playVideo(video)">
-                              <i class="bi bi-play-fill me-2"></i>
-                              Watch now
-                            </button>
+              <div class="card-body">
+                <div class="video-grid">
+                  <article
+                    v-for="video in revertStoriesPreview"
+                    :key="video.title"
+                    class="video-card shadow-sm overflow-hidden"
+                    @mouseenter="startPreview(video)"
+                    @mouseleave="stopPreview">
+                    <div>
+                      <div
+                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                        class="video-feature"
+                        :style="thumbnailStyle(video)">
+                        <iframe
+                          :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div
+                        v-else
+                        class="video-feature"
+                        :style="thumbnailStyle(video)"
+                        @click="playVideo(video)">
+                        <div class="video-feature-overlay">
+                          <div class="video-feature-text">
+                            <p class="video-feature-label">Revert story</p>
+                            <h3 class="video-feature-title">{{ video.title }}</h3>
+                            <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                            <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
                           </div>
                         </div>
                       </div>
-                      <!-- <div class="video-card-caption px-3 py-2">
-                        <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                        <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                        <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                      </div> -->
-                    </article>
-                  </div>
+                    </div>
+                    <div class="video-card-caption px-3 py-2">
+                      <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                      <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                      <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                    </div>
+                  </article>
                 </div>
                 <div class="d-flex justify-content-end mt-4">
                   <button type="button" class="btn-see-more" @click="showVideoModal = true">
@@ -1066,34 +1062,20 @@
                 <h5 class="modal-title fw-bold">All Revert Stories</h5>
               </div>
               <div class="modal-body px-4 py-3">
-                <div class="row g-3">
-                  <div v-for="video in revertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
-                    <article class="video-card h-100 d-flex flex-column rounded-3 border shadow-sm overflow-hidden">
-                      <div class="ratio ratio-16x9 video-preview-shell">
-                        <div
-                          v-if="!isPlayingVideo(video)"
-                          class="video-thumbnail"
-                          :style="thumbnailStyle(video)"
-                          @click="playVideo(video)">
-                          <div class="thumbnail-pattern"></div>
-                          <div class="video-thumbnail-overlay">
-                            <div class="thumbnail-avatar">
-                              <i class="bi bi-person-circle"></i>
-                            </div>
-                            <div>
-                              <p class="thumbnail-label">Revert story</p>
-                              <h3 class="thumbnail-title">{{ video.title }}</h3>
-                              <p v-if="video.description" class="thumbnail-subtitle">{{ video.description }}</p>
-                            </div>
-                            <button type="button" class="btn-watch modal-watch" @click.stop="playVideo(video)">
-                              <i class="bi bi-play-fill me-2"></i>
-                              Watch now
-                            </button>
-                          </div>
-                        </div>
+                <div class="video-grid video-grid-modal">
+                  <article
+                    v-for="video in revertStories"
+                    :key="'modal-' + video.title"
+                    class="video-card shadow-sm overflow-hidden"
+                    @mouseenter="startPreview(video)"
+                    @mouseleave="stopPreview">
+                    <div>
+                      <div
+                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                        class="video-feature"
+                        :style="thumbnailStyle(video)">
                         <iframe
-                          v-else
-                          :src="formatVideoUrl(video.url, true)"
+                          :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
                           :title="video.title"
                           frameborder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1101,13 +1083,27 @@
                           loading="lazy">
                         </iframe>
                       </div>
-                      <div class="video-card-caption px-3 py-2">
-                        <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                        <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                        <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                      <div
+                        v-else
+                        class="video-feature"
+                        :style="thumbnailStyle(video)"
+                        @click="playVideo(video)">
+                        <div class="video-feature-overlay">
+                          <div class="video-feature-text">
+                            <p class="video-feature-label">Revert story</p>
+                            <h3 class="video-feature-title">{{ video.title }}</h3>
+                            <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                            <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                          </div>
+                        </div>
                       </div>
-                    </article>
-                  </div>
+                    </div>
+                    <div class="video-card-caption px-3 py-2">
+                      <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                      <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                      <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                    </div>
+                  </article>
                 </div>
               </div>
               <div class="modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3">
@@ -1351,6 +1347,9 @@ export default defineComponent({
       reduceMotionEnabled: false,
       motionMediaQuery: null,
       motionMediaListener: null,
+      previewDesktopMediaQuery: null,
+      previewDesktopListener: null,
+      previewAutoplayEnabled: false,
       currentStreakDays: 0,
       lastStreakDateKey: '',
       dailyGamePoints: 0,
@@ -1359,8 +1358,7 @@ export default defineComponent({
       confettiEnabled: false,
       personalizationGlowActive: false,
       clipPlayerId: null,
-      previewVideoId: null,
-      previewTimeout: null
+      previewVideoId: null
     }
   },
 
@@ -1786,6 +1784,7 @@ export default defineComponent({
     this.prepareSecondarySections()
     this.ensureConfettiScript()
     this.initializeMotionPreference()
+    this.initializePreviewAutoplayPreference()
 
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0)
@@ -1799,6 +1798,7 @@ export default defineComponent({
 
   beforeUnmount() {
     this.teardownMotionPreference()
+    this.teardownPreviewAutoplayPreference()
   },
 
   methods: {
@@ -1852,6 +1852,22 @@ export default defineComponent({
       }
     },
 
+    initializePreviewAutoplayPreference() {
+      if (typeof window === 'undefined' || !('matchMedia' in window)) return
+      const query = window.matchMedia('(min-width: 992px)')
+      const handler = (event) => {
+        this.previewAutoplayEnabled = event.matches
+      }
+      this.previewDesktopMediaQuery = query
+      this.previewDesktopListener = handler
+      this.previewAutoplayEnabled = query.matches
+      if (typeof query.addEventListener === 'function') {
+        query.addEventListener('change', handler)
+      } else if (typeof query.addListener === 'function') {
+        query.addListener(handler)
+      }
+    },
+
     teardownMotionPreference() {
       if (!this.motionMediaQuery || !this.motionMediaListener) return
       if (typeof this.motionMediaQuery.removeEventListener === 'function') {
@@ -1861,6 +1877,17 @@ export default defineComponent({
       }
       this.motionMediaQuery = null
       this.motionMediaListener = null
+    },
+
+    teardownPreviewAutoplayPreference() {
+      if (!this.previewDesktopMediaQuery || !this.previewDesktopListener) return
+      if (typeof this.previewDesktopMediaQuery.removeEventListener === 'function') {
+        this.previewDesktopMediaQuery.removeEventListener('change', this.previewDesktopListener)
+      } else if (typeof this.previewDesktopMediaQuery.removeListener === 'function') {
+        this.previewDesktopMediaQuery.removeListener(this.previewDesktopListener)
+      }
+      this.previewDesktopMediaQuery = null
+      this.previewDesktopListener = null
     },
 
     setupConfettiLauncher() {
@@ -2145,21 +2172,16 @@ export default defineComponent({
       }
       return `${base}?${params.toString()}`
     },
+    shouldAutoplayVideo() {
+      return this.previewAutoplayEnabled && !this.reduceMotionEnabled
+    },
     startPreview(video) {
       if (this.isPlayingVideo(video) || this.isClipPlaying(video)) return
       const id = this.getVideoId(video?.url)
       if (!id) return
-      clearTimeout(this.previewTimeout)
       this.previewVideoId = id
-      this.previewTimeout = setTimeout(() => {
-        this.previewVideoId = null
-      }, 6000)
     },
     stopPreview() {
-      if (this.previewTimeout) {
-        clearTimeout(this.previewTimeout)
-        this.previewTimeout = null
-      }
       this.previewVideoId = null
     },
     playVideo(video) {
