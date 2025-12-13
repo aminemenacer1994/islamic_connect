@@ -4514,9 +4514,10 @@ export default defineComponent({
 }
 
 .plan-card {
-  background: #f9fafc;
+  background: #fff;
   border-radius: 26px;
   border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.08);
 }
 
 .plan-badge {
@@ -4551,33 +4552,39 @@ export default defineComponent({
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.75rem;
+  align-items: center;
 }
 
 .plan-action-icon {
-  flex: 1 1 18%;
-  min-width: 52px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  border: 1px solid rgba(15, 23, 42, 0.15);
+  border: none;
   background: transparent;
-  color: #111;
-  padding: 0.75rem;
+  color: #0f172a;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.08);
+  transition: color 0.2s ease, transform 0.2s ease;
+  box-shadow: none;
+  cursor: pointer;
 }
 
 .plan-action-icon i {
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   color: inherit;
 }
 
 .plan-action-icon:hover {
+  color: #0b7285;
   transform: translateY(-2px);
-  border-color: rgba(15, 23, 42, 0.35);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+}
+
+.plan-action-icon:focus-visible {
+  outline: 2px solid rgba(15, 118, 110, 0.45);
+  outline-offset: 3px;
 }
 .motivation-card {
   background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(234, 242, 255, 0.9));
