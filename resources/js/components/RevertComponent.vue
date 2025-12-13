@@ -2760,6 +2760,31 @@ export default defineComponent({
   background: rgba(255, 255, 255, 0.25);
 }
 
+.borderless-card {
+  border: none !important;
+  box-shadow: 0 25px 55px rgba(15, 23, 42, 0.12);
+  background-clip: padding-box;
+}
+
+.section-card,
+.content-card,
+.guided-section-card,
+.next-step-card,
+.personalization-card,
+.tone-card,
+.next-steps-card,
+.mission-card,
+.motivation-card,
+.reflection-card,
+.tip-card,
+.accordion-card,
+.quiz-shell,
+.actions-card,
+.video-card,
+.clip-card {
+  border: none !important;
+}
+
 /* ==================== BOOTSTRAP ICONS ==================== */
 
 .background {

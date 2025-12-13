@@ -20970,6 +20970,29 @@ body {
   height: 1px;
   background: rgba(255, 255, 255, 0.25);
 }
+.borderless-card[data-v-1d764944] {
+  border: none !important;
+  box-shadow: 0 25px 55px rgba(15, 23, 42, 0.12);
+  background-clip: padding-box;
+}
+.section-card[data-v-1d764944],
+.content-card[data-v-1d764944],
+.guided-section-card[data-v-1d764944],
+.next-step-card[data-v-1d764944],
+.personalization-card[data-v-1d764944],
+.tone-card[data-v-1d764944],
+.next-steps-card[data-v-1d764944],
+.mission-card[data-v-1d764944],
+.motivation-card[data-v-1d764944],
+.reflection-card[data-v-1d764944],
+.tip-card[data-v-1d764944],
+.accordion-card[data-v-1d764944],
+.quiz-shell[data-v-1d764944],
+.actions-card[data-v-1d764944],
+.video-card[data-v-1d764944],
+.clip-card[data-v-1d764944] {
+  border: none !important;
+}
 /* ==================== BOOTSTRAP ICONS ==================== */
 .background[data-v-1d764944] {
 
