@@ -346,9 +346,6 @@ const celebrateFinalChapter = confettiFn => {
       copyAlertType: 'info',
       showCopyAlert: false,
       copyAlertTimeout: null,
-      ttsSupported: typeof window !== 'undefined' && 'speechSynthesis' in window,
-      ttsActiveSection: null,
-      currentUtterance: null,
       lastIncorrectExplanation: null,
       activeVideoId: null,
       secondarySectionsReady: false,
@@ -432,22 +429,6 @@ const celebrateFinalChapter = confettiFn => {
     progressPercentage() {
       return (this.maxStepReached - 1) / this.roadmapData.length * 100;
     },
-    chapterProgressPercent() {
-      return this.chapterQuizPassed ? 100 : 0;
-    },
-    overallProgressPercent() {
-      const total = this.roadmapData.length || 1;
-      return Math.round(this.completedChapters / total * 100);
-    },
-    reflectionPrompt() {
-      return this.chapterQuizPassed ? 'Share one key insight from this chapter with someone who could benefit.' : 'Pause and write down one question or dua that surfaced during this lesson.';
-    },
-    reflectionNote() {
-      return this.chapterQuizPassed ? 'Helping others remember keeps the lesson fresh in your heart.' : 'Honest questions are invitations to deeper clarity.';
-    },
-    keepGoingTips() {
-      return ['Replay a short clip from today’s chapter whenever you need courage.', 'Bookmark a dua or verse and revisit it before sleep.'];
-    },
     dailyChallenges() {
       var _this$currentLesson5;
       const chapterTitle = ((_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.title) || 'this chapter';
@@ -468,93 +449,11 @@ const celebrateFinalChapter = confettiFn => {
         completed: Boolean(this.dailyChallengeStatus[prompt.id])
       }));
     },
-    gamificationBadges() {
-      const streakEarned = this.currentStreakDays >= 3;
-      const mediaEarned = Boolean(this.activeVideoId);
-      const totalChallenges = this.dailyChallenges.length;
-      const gameEarned = this.dailyGamePoints >= totalChallenges && totalChallenges > 0;
-      return [{
-        id: 'quiz',
-        title: 'Quiz Champion',
-        detail: this.chapterQuizPassed ? 'Quiz mastery confirmed for this chapter.' : 'Answer two questions to prove today’s mastery.',
-        status: this.chapterQuizPassed ? 'Unlocked' : 'Ready',
-        earned: this.chapterQuizPassed,
-        actionLabel: 'Take quiz',
-        earnedLabel: 'Celebrate'
-      }, {
-        id: 'streak',
-        title: 'Momentum Score',
-        detail: this.currentStreakDays ? `You have a ${this.currentStreakDays}-day streak working through chapters.` : 'Finish a chapter every day to ignite your streak.',
-        status: this.currentStreakDays ? `${this.currentStreakDays} day streak` : 'Streak ready',
-        earned: streakEarned,
-        actionLabel: 'Keep streak alive',
-        earnedLabel: 'Streak locked'
-      }, {
-        id: 'media',
-        title: 'Media Explorer',
-        detail: 'Watch at least one revert story to unlock this badge.',
-        status: mediaEarned ? 'Clip watched' : 'Clip available',
-        earned: mediaEarned,
-        actionLabel: 'Watch stories',
-        earnedLabel: 'Replay clip'
-      }, {
-        id: 'game',
-        title: 'Insight Game',
-        detail: 'Complete the micro-challenges to keep the learning streak playful.',
-        status: `${this.dailyGamePoints}/${totalChallenges} complete`,
-        earned: gameEarned,
-        actionLabel: 'Play today',
-        earnedLabel: 'Game mastered'
-      }];
-    },
-    streakSummary() {
-      if (!this.currentStreakDays) {
-        return 'Start a streak by completing one chapter today.';
-      }
-      return `Current streak: ${this.currentStreakDays} day${this.currentStreakDays === 1 ? '' : 's'}.`;
-    },
-    heroTagline() {
-      const lesson = this.currentLesson;
-      if (!lesson) return 'Deep reflections curated for caring hearts.';
-      return lesson.tagline || lesson.summary || 'Deep reflections curated for caring hearts.';
-    },
-    personalNextStep() {
-      const streak = this.currentStreakDays;
-      return normalizeJson(_data_nextStepPrompts_json__WEBPACK_IMPORTED_MODULE_18__).slice().sort((a, b) => b.streakThreshold - a.streakThreshold).find(prompt => streak >= prompt.streakThreshold && (prompt.quizPassed === undefined || prompt.quizPassed === this.chapterQuizPassed)) || {
-        title: 'Keep going',
-        description: 'Take a breather, read a favorite dua, and come back refreshed so the streak stays intact.',
-        actionLabel: 'Take a breath',
-        actionLinkType: 'breath',
-        note: 'Gentle pace, same smile.'
-      };
-    },
     completedChapters() {
       return this.maxStepReached - 1;
     },
     totalChapters() {
       return this.roadmapData.length;
-    },
-    learningObjectiveColumns() {
-      var _this$currentLesson6;
-      const objectives = ((_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.learningObjectives) || [];
-      const chunkSize = 3;
-      const columns = [];
-      for (let i = 0; i < objectives.length; i += chunkSize) {
-        columns.push(objectives.slice(i, i + chunkSize));
-      }
-      return columns;
-    },
-    lessonHeroStats() {
-      return [{
-        label: 'Chapters unlocked',
-        value: `${Math.min(this.maxStepReached, this.roadmapData.length) - 1}`
-      }, {
-        label: 'Resources',
-        value: `${this.premiumResources.length}`
-      }, {
-        label: 'Quizzes available',
-        value: `${this.quizzes.length}`
-      }];
     },
     currentMission() {
       return this.missionMap[this.selectedPill] || this.missions[0];
@@ -590,8 +489,8 @@ const celebrateFinalChapter = confettiFn => {
       return this.chapterCommonPanels.length > this.commonFaqDisplayLimit;
     },
     guidanceCards() {
-      var _this$currentLesson7;
-      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
+      var _this$currentLesson6;
+      const chapterId = (_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.chapterId;
       if (!chapterId) return [];
       if (!this.guidanceCardCache[chapterId]) {
         this.guidanceCardCache[chapterId] = this.generateGuidanceCards(chapterId);
@@ -599,20 +498,20 @@ const celebrateFinalChapter = confettiFn => {
       return this.guidanceCardCache[chapterId];
     },
     currentToneFocusText() {
-      var _this$currentLesson8;
-      const chapterId = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
+      var _this$currentLesson7;
+      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
       const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.toneFocus) || '';
     },
     guidedPathwayCards() {
-      var _this$currentLesson9;
-      const chapterId = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
+      var _this$currentLesson8;
+      const chapterId = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
       const entry = this.guidedPathways.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.pathway) || this.guidanceCards;
     },
     currentGentleStartSteps() {
-      var _this$currentLesson0;
-      const chapterId = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
+      var _this$currentLesson9;
+      const chapterId = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
       const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.steps) || this.currentOnboardingSteps;
     },
@@ -633,8 +532,8 @@ const celebrateFinalChapter = confettiFn => {
       };
     },
     sectionStatsMap() {
-      var _this$currentLesson1;
-      const chapterId = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
+      var _this$currentLesson0;
+      const chapterId = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
       const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.sectionStats) || [];
     },
@@ -667,8 +566,8 @@ const celebrateFinalChapter = confettiFn => {
       return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`;
     },
     lessonDepartments() {
-      var _this$currentLesson10;
-      const chapterId = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
+      var _this$currentLesson1;
+      const chapterId = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
       if (!chapterId) return [];
       if (!this.lessonDepartmentsCache[chapterId]) {
         this.lessonDepartmentsCache[chapterId] = this.generateLessonDepartments(chapterId);
@@ -676,13 +575,13 @@ const celebrateFinalChapter = confettiFn => {
       return this.lessonDepartmentsCache[chapterId];
     },
     currentDosDonts() {
-      var _this$currentLesson11;
-      const chapterId = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
+      var _this$currentLesson10;
+      const chapterId = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
       return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null;
     },
     chapterVideoEntry() {
-      var _this$currentLesson12;
-      const chapterId = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
+      var _this$currentLesson11;
+      const chapterId = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
       return this.chapterVideoMap[chapterId] || null;
     },
     revertStories() {
@@ -746,24 +645,6 @@ const celebrateFinalChapter = confettiFn => {
       var _this$chapterVideoEnt3;
       return ((_this$chapterVideoEnt3 = this.chapterVideoEntry) === null || _this$chapterVideoEnt3 === void 0 ? void 0 : _this$chapterVideoEnt3.pathwayClips) || [];
     },
-    focusHighlights() {
-      var _lesson$sections, _objectives$, _ref, _lesson$keyInsights$, _lesson$keyInsights, _lesson$summary;
-      const lesson = this.currentLesson || {};
-      const objectives = lesson.learningObjectives || [];
-      return [{
-        label: 'Sections',
-        value: `${((_lesson$sections = lesson.sections) === null || _lesson$sections === void 0 ? void 0 : _lesson$sections.length) || 0}`,
-        detail: 'Read slowly, pause, and replay the explanations.'
-      }, {
-        label: 'First objective',
-        value: (_objectives$ = objectives[0]) !== null && _objectives$ !== void 0 ? _objectives$ : 'Insight',
-        detail: 'Let this goal guide your dua and reflection.'
-      }, {
-        label: 'Tip',
-        value: (_ref = (_lesson$keyInsights$ = (_lesson$keyInsights = lesson.keyInsights) === null || _lesson$keyInsights === void 0 ? void 0 : _lesson$keyInsights[0]) !== null && _lesson$keyInsights$ !== void 0 ? _lesson$keyInsights$ : (_lesson$summary = lesson.summary) === null || _lesson$summary === void 0 ? void 0 : _lesson$summary.slice(0, 40)) !== null && _ref !== void 0 ? _ref : 'Stay present',
-        detail: 'Keep the message close to your heart as you progress.'
-      }];
-    },
     modalTagline() {
       var _this$activeResource;
       return ((_this$activeResource = this.activeResource) === null || _this$activeResource === void 0 ? void 0 : _this$activeResource.tagline) || 'Study carefully and revisit whenever you need clarity.';
@@ -775,6 +656,7 @@ const celebrateFinalChapter = confettiFn => {
   },
   watch: {
     selectedPill() {
+      // Reload the chapter experience whenever navigation moves to another pill.
       this.chapterQuizPassed = false;
       this.resetQuizSet();
       this.scrollToTop();
@@ -787,11 +669,13 @@ const celebrateFinalChapter = confettiFn => {
       this.prepareSecondarySections();
     },
     chapterQuizPassed(newVal, oldVal) {
+      // Celebrate quiz completion with confetti if global settings allow it.
       if (!this.confettiEnabled) return;
       if (newVal && !oldVal) {
         this.launchMicroConfetti();
       }
     },
+    // Celebrate finishing the curated micro-challenges for the day.
     dailyGamePoints(newVal, oldVal) {
       if (!this.confettiEnabled) return;
       const total = this.dailyChallenges.length;
@@ -799,6 +683,7 @@ const celebrateFinalChapter = confettiFn => {
         this.launchMicroConfetti();
       }
     },
+    // Reward streak milestones to keep the momentum visually engaging.
     currentStreakDays(newVal, oldVal) {
       if (!this.confettiEnabled) return;
       if (newVal >= 3 && (oldVal || 0) < 3) {
@@ -861,6 +746,7 @@ const celebrateFinalChapter = confettiFn => {
         return this.confettiPromise;
       }
       this.confettiPromise = new Promise(resolve => {
+        // Injects the confetti bundle on demand so we only pay for it when needed.
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js';
         script.onload = () => {
@@ -874,6 +760,7 @@ const celebrateFinalChapter = confettiFn => {
       return this.confettiPromise;
     },
     launchMicroConfetti() {
+      // Skip celebration when the user prefers reduced motion.
       if (this.reduceMotionEnabled) return;
       this.ensureConfettiScript().then(() => {
         this.setupConfettiLauncher();
@@ -980,6 +867,7 @@ const celebrateFinalChapter = confettiFn => {
         return map;
       }, {});
     },
+    // Lazy-loads chapter videos to avoid bloating the initial bundle.
     async loadChapterVideos() {
       try {
         const module = await __webpack_require__.e(/*! import() */ "resources_js_components_data_chapterVideos_json").then(__webpack_require__.t.bind(__webpack_require__, /*! ./data/chapterVideos.json */ "./resources/js/components/data/chapterVideos.json", 19));
@@ -1071,14 +959,14 @@ const celebrateFinalChapter = confettiFn => {
       return `gentle-${chapterId}-${stepIndex}`;
     },
     isGentleStepCompleted(stepIndex) {
-      var _this$currentLesson13;
-      const chapterId = (_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.chapterId;
+      var _this$currentLesson12;
+      const chapterId = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
       const key = this.gentleStepCompletionKey(chapterId, stepIndex);
       return Boolean(key && this.gentleStepCompletion[key]);
     },
     toggleGentleStepCompletion(stepIndex) {
-      var _this$currentLesson14;
-      const chapterId = (_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.chapterId;
+      var _this$currentLesson13;
+      const chapterId = (_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.chapterId;
       const key = this.gentleStepCompletionKey(chapterId, stepIndex);
       if (!key) return;
       const nextValue = !this.gentleStepCompletion[key];
@@ -1122,7 +1010,7 @@ const celebrateFinalChapter = confettiFn => {
       }
     },
     generateGuidanceCards(chapterId) {
-      var _template$cards, _lesson$sections2, _lesson$keyInsights2, _lesson$keyInsights3;
+      var _template$cards, _lesson$sections, _lesson$keyInsights, _lesson$keyInsights2;
       const template = this.guidanceTemplates.find(entry => entry.chapterId === chapterId);
       if (template !== null && template !== void 0 && (_template$cards = template.cards) !== null && _template$cards !== void 0 && _template$cards.length) return template.cards;
       const lesson = this.lessonMap[chapterId];
@@ -1130,13 +1018,13 @@ const celebrateFinalChapter = confettiFn => {
       const cards = [{
         step: '01',
         title: 'Absorb the Story',
-        description: `Read through ${((_lesson$sections2 = lesson.sections) === null || _lesson$sections2 === void 0 ? void 0 : _lesson$sections2.length) || 0} featured sections and soak in the core ideas`,
+        description: `Read through ${((_lesson$sections = lesson.sections) === null || _lesson$sections === void 0 ? void 0 : _lesson$sections.length) || 0} featured sections and soak in the core ideas`,
         action: 'Bookmark key paragraphs and jot down a quick insight'
       }, {
         step: '02',
         title: 'Internalize Duas & Insights',
-        description: (_lesson$keyInsights2 = lesson.keyInsights) !== null && _lesson$keyInsights2 !== void 0 && _lesson$keyInsights2.length ? `Let the ${lesson.keyInsights.length} insights guide your practice` : 'Use the duas to keep the message close to your heart',
-        action: (_lesson$keyInsights3 = lesson.keyInsights) !== null && _lesson$keyInsights3 !== void 0 && _lesson$keyInsights3.length ? 'Recite aloud and note how each insight applies today' : 'Practice the duas before sleep'
+        description: (_lesson$keyInsights = lesson.keyInsights) !== null && _lesson$keyInsights !== void 0 && _lesson$keyInsights.length ? `Let the ${lesson.keyInsights.length} insights guide your practice` : 'Use the duas to keep the message close to your heart',
+        action: (_lesson$keyInsights2 = lesson.keyInsights) !== null && _lesson$keyInsights2 !== void 0 && _lesson$keyInsights2.length ? 'Recite aloud and note how each insight applies today' : 'Practice the duas before sleep'
       }, {
         step: '03',
         title: 'Take the Quiz',
@@ -1180,8 +1068,8 @@ const celebrateFinalChapter = confettiFn => {
       this.mobileNavOpen = false;
     },
     toggleFaq(index) {
-      var _this$currentLesson15;
-      const chapterKey = (_this$currentLesson15 = this.currentLesson) === null || _this$currentLesson15 === void 0 ? void 0 : _this$currentLesson15.chapterId;
+      var _this$currentLesson14;
+      const chapterKey = (_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.chapterId;
       if (!chapterKey) return;
       const current = this.faqState[chapterKey];
       const next = current === index ? null : index;
@@ -1190,8 +1078,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     isFaqOpen(index) {
-      var _this$currentLesson16;
-      const chapterKey = (_this$currentLesson16 = this.currentLesson) === null || _this$currentLesson16 === void 0 ? void 0 : _this$currentLesson16.chapterId;
+      var _this$currentLesson15;
+      const chapterKey = (_this$currentLesson15 = this.currentLesson) === null || _this$currentLesson15 === void 0 ? void 0 : _this$currentLesson15.chapterId;
       return this.faqState[chapterKey] === index;
     },
     sectionStatsFor(title) {
@@ -1469,6 +1357,7 @@ const celebrateFinalChapter = confettiFn => {
     closeHelpModal() {
       this.showHelpModal = false;
     },
+    // Randomizes the quiz payload so each attempt feels fresh.
     resetQuizSet() {
       const base = this.currentQuizData.map(question => _objectSpread(_objectSpread({}, question), {}, {
         options: this.shuffleArray(question.options || [])
@@ -1537,43 +1426,6 @@ const celebrateFinalChapter = confettiFn => {
       if (typeof window === 'undefined') return;
       const shareUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(shareUrl, '_blank');
-    },
-    getTtsText(section) {
-      if (section === 'lesson') {
-        return this.getLessonOverviewText();
-      }
-      if (section === 'duas') {
-        return `Duas takeaways: ${this.getDuasText()}`;
-      }
-      return '';
-    },
-    startTTS(section) {
-      var _window$speechSynthes;
-      if (!this.ttsSupported) {
-        this.setShareStatus('lesson', 'Text-to-speech unavailable in this browser.');
-        return;
-      }
-      this.stopTTS();
-      const text = this.getTtsText(section);
-      if (!text) return;
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.rate = 1;
-      utterance.pitch = 1;
-      utterance.onend = () => {
-        this.ttsActiveSection = null;
-        this.currentUtterance = null;
-      };
-      this.currentUtterance = utterance;
-      this.ttsActiveSection = section;
-      (_window$speechSynthes = window.speechSynthesis) === null || _window$speechSynthes === void 0 || _window$speechSynthes.speak(utterance);
-    },
-    stopTTS() {
-      if (this.currentUtterance) {
-        var _window$speechSynthes2;
-        (_window$speechSynthes2 = window.speechSynthesis) === null || _window$speechSynthes2 === void 0 || _window$speechSynthes2.cancel();
-        this.ttsActiveSection = null;
-        this.currentUtterance = null;
-      }
     },
     getPrintableDocument(title, body) {
       const now = new Date().toLocaleString('en-US', {
@@ -1728,10 +1580,10 @@ const celebrateFinalChapter = confettiFn => {
       }, 3000);
     },
     getLessonOverviewText() {
-      var _lesson$summary2;
+      var _lesson$summary;
       const lesson = this.currentLesson;
       if (!lesson) return '';
-      const summary = ((_lesson$summary2 = lesson.summary) === null || _lesson$summary2 === void 0 ? void 0 : _lesson$summary2.trim()) || 'Read slowly, ask questions, and pause between each section.';
+      const summary = ((_lesson$summary = lesson.summary) === null || _lesson$summary === void 0 ? void 0 : _lesson$summary.trim()) || 'Read slowly, ask questions, and pause between each section.';
       return `Lesson Overview: ${lesson.title}\n${summary}\nExplore more on Islamic Connect: ${this.getShareLink()}`;
     },
     shareLessonOverview() {
@@ -1754,13 +1606,13 @@ const celebrateFinalChapter = confettiFn => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson17;
-      const message = `Duas to carry from ${((_this$currentLesson17 = this.currentLesson) === null || _this$currentLesson17 === void 0 ? void 0 : _this$currentLesson17.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson16;
+      const message = `Duas to carry from ${((_this$currentLesson16 = this.currentLesson) === null || _this$currentLesson16 === void 0 ? void 0 : _this$currentLesson16.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson18;
-      const text = `Duas to carry from ${((_this$currentLesson18 = this.currentLesson) === null || _this$currentLesson18 === void 0 ? void 0 : _this$currentLesson18.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson17;
+      const text = `Duas to carry from ${((_this$currentLesson17 = this.currentLesson) === null || _this$currentLesson17 === void 0 ? void 0 : _this$currentLesson17.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -1789,8 +1641,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     formatPlanMessage(plan) {
-      var _this$currentLesson19, _plan$highlights;
-      const chapterTitle = ((_this$currentLesson19 = this.currentLesson) === null || _this$currentLesson19 === void 0 ? void 0 : _this$currentLesson19.title) || 'this chapter';
+      var _this$currentLesson18, _plan$highlights;
+      const chapterTitle = ((_this$currentLesson18 = this.currentLesson) === null || _this$currentLesson18 === void 0 ? void 0 : _this$currentLesson18.title) || 'this chapter';
       const highlights = ((_plan$highlights = plan.highlights) === null || _plan$highlights === void 0 ? void 0 : _plan$highlights.map((item, index) => `${index + 1}. ${item}`).join('\n')) || '';
       return `${plan.title} (${plan.duration}) for ${chapterTitle}\n${plan.description}\n\nHighlights:\n${highlights}`;
     },
@@ -1807,8 +1659,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     executePlanPrint(plan) {
-      var _this$currentLesson20;
-      const title = `${plan.title} • ${((_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.title) || 'Chapter'}`;
+      var _this$currentLesson19;
+      const title = `${plan.title} • ${((_this$currentLesson19 = this.currentLesson) === null || _this$currentLesson19 === void 0 ? void 0 : _this$currentLesson19.title) || 'Chapter'}`;
       const body = this.formatPlanMessage(plan);
       this.printContent(title, body);
     },
@@ -1817,7 +1669,7 @@ const celebrateFinalChapter = confettiFn => {
     },
     downloadPlanAsPdf(plan) {
       try {
-        var _this$currentLesson21, _plan$highlights2, _this$currentLesson22;
+        var _this$currentLesson20, _plan$highlights2, _this$currentLesson21;
         const doc = new jspdf__WEBPACK_IMPORTED_MODULE_20__.jsPDF({
           unit: 'pt',
           format: 'letter'
@@ -1838,33 +1690,18 @@ const celebrateFinalChapter = confettiFn => {
           doc.text(lines, margin, cursorY);
           cursorY += heightNeeded + 12;
         };
-        const titleText = `${plan.title} • ${((_this$currentLesson21 = this.currentLesson) === null || _this$currentLesson21 === void 0 ? void 0 : _this$currentLesson21.title) || 'Chapter'}`;
+        const titleText = `${plan.title} • ${((_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.title) || 'Chapter'}`;
         addText(titleText, 18, 'bold');
         addText(plan.description, 12, 'normal');
         (_plan$highlights2 = plan.highlights) === null || _plan$highlights2 === void 0 || _plan$highlights2.forEach((line, index) => {
           const text = `${index + 1}. ${line}`;
           addText(text, 11, 'normal');
         });
-        const slug = (((_this$currentLesson22 = this.currentLesson) === null || _this$currentLesson22 === void 0 ? void 0 : _this$currentLesson22.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+        const slug = (((_this$currentLesson21 = this.currentLesson) === null || _this$currentLesson21 === void 0 ? void 0 : _this$currentLesson21.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
         doc.save(`${plan.planId}-${slug || 'plan'}.pdf`);
       } catch (error) {
         console.error('Unable to create PDF', error);
         this.triggerCopyAlert('Unable to download the plan right now.', 'danger');
-      }
-    },
-    executeNextStepAction(type) {
-      switch (type) {
-        case 'share':
-          this.shareStreakWithFriend();
-          break;
-        case 'repeat':
-          this.launchSkimSection();
-          break;
-        case 'review':
-          this.scrollToSection('section-0');
-          break;
-        default:
-          this.openWhatsappShare(this.getShareLink());
       }
     },
     shuffleArray(arr) {
@@ -1917,10 +1754,10 @@ const celebrateFinalChapter = confettiFn => {
           }, 700);
         }
       } else {
-        var _question$sectionInde2, _this$currentLesson23;
+        var _question$sectionInde2, _this$currentLesson22;
         this.quizFeedback = 'Not quite, try another option.';
         const sectionIndex = (_question$sectionInde2 = question.sectionIndex) !== null && _question$sectionInde2 !== void 0 ? _question$sectionInde2 : 0;
-        const section = (_this$currentLesson23 = this.currentLesson) === null || _this$currentLesson23 === void 0 || (_this$currentLesson23 = _this$currentLesson23.sections) === null || _this$currentLesson23 === void 0 ? void 0 : _this$currentLesson23[sectionIndex];
+        const section = (_this$currentLesson22 = this.currentLesson) === null || _this$currentLesson22 === void 0 || (_this$currentLesson22 = _this$currentLesson22.sections) === null || _this$currentLesson22 === void 0 ? void 0 : _this$currentLesson22[sectionIndex];
         const sectionId = section ? `section-${this.selectedPill}-${sectionIndex}` : '';
         const explanation = question.explanation || '';
         if (explanation) {
@@ -2902,7 +2739,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "page-sheen"
   }, null, -1 /* CACHED */)), _cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle (only visible in small screens) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
     "aria-label": _ctx.mobileNavOpen ? 'Close chapter navigation' : 'Open chapter navigation',
     "aria-expanded": _ctx.mobileNavOpen ? 'true' : 'false',
@@ -2932,7 +2769,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.globalFontScale}rem`
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" SIDEBAR "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("aside", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" SIDEBAR (chapter progress + roadmap navigation) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("aside", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["navigation-card p-3 shadow-sm rounded-4", {
       'mobile-open': _ctx.mobileNavOpen
     }]),
@@ -2957,7 +2794,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.selectPill(step.id),
       "data-locked": step.id > _ctx.maxStepReached
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [step.id < _ctx.maxStepReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_17)) : step.id === _ctx.maxStepReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_18)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])]), step.id === _ctx.selectedPill ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_22)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_23))], 10 /* CLASS, PROPS */, _hoisted_14);
-  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA (lesson overview + resources) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header + tone summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "lesson-hero-gradient"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journey me-2 text-white fs-4"
@@ -2970,7 +2807,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-question-circle-fill fs-4"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Open guide", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"lesson-meta d-flex gap-3\">\n                <span class=\"badge badge-pill bg-light text-dark fw-semibold\">\n                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}\n                </span>\n              </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Onboarding Block "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Open guide", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"lesson-meta d-flex gap-3\">\n                <span class=\"badge badge-pill bg-light text-dark fw-semibold\">\n                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}\n                </span>\n              </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Gentle start onboarding for newcomers "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex flex-column flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 text-muted small text-uppercase"
@@ -3005,7 +2842,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [_ctx.isGentleStepCompleted(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_39)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])], 10 /* CLASS, PROPS */, _hoisted_38)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.gentleStart]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "d-block mb-1"
-  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_42, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content (learning overview, highlights, sections) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-seam-fill fs-4 text-teal"
@@ -3105,7 +2942,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "pt-3 mt-3"
     }, null, -1 /* CACHED */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guided pathway clips and action cards "), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center justify-content-between flex-wrap gap-3 p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-teal small mb-1 fw-semibold"
@@ -3160,7 +2997,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: card.step,
       class: "guided-bullet"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.action), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), _ctx.lessonDepartments.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson focus cards summarizing how insights map to departments "), _ctx.lessonDepartments.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bar-chart-line-fill fs-4 me-3 text-teal"
@@ -3194,7 +3031,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[9] || (_cache[9] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
   }, [...(_cache[71] || (_cache[71] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp mr-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.secondarySectionsReady && _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_112, [_cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Chapter-specific dos and don’ts "), _ctx.secondarySectionsReady && _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_112, [_cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"
@@ -3739,14 +3576,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css":
-/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css ***!
-  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./resources/js/components/RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external":
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./resources/js/components/RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/js/components/RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external":
+/*!**********************************************************************************************************************!*\
+  !*** ./resources/js/components/RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external ***!
+  \**********************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_clonedRuleSet_10_use_0_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_RevertComponent_css_vue_type_style_index_0_id_1d764944_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external */ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./resources/js/components/RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external");
 
 
 /***/ }),
@@ -3763,7 +3612,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _RevertComponent_vue_vue_type_template_id_1d764944_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./RevertComponent.vue?vue&type=template&id=1d764944&scoped=true */ "./resources/js/components/RevertComponent.vue?vue&type=template&id=1d764944&scoped=true");
 /* harmony import */ var _RevertComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./RevertComponent.vue?vue&type=script&lang=js */ "./resources/js/components/RevertComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _RevertComponent_vue_vue_type_style_index_0_id_1d764944_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css */ "./resources/js/components/RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css");
+/* harmony import */ var _RevertComponent_css_vue_type_style_index_0_id_1d764944_scoped_true_lang_css_external__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external */ "./resources/js/components/RevertComponent.css?vue&type=style&index=0&id=1d764944&scoped=true&lang=css&external");
 /* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
@@ -3794,18 +3643,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RevertComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RevertComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RevertComponent.vue?vue&type=script&lang=js");
  
-
-/***/ }),
-
-/***/ "./resources/js/components/RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css":
-/*!*************************************************************************************************************!*\
-  !*** ./resources/js/components/RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css ***!
-  \*************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_clonedRuleSet_10_use_0_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_RevertComponent_vue_vue_type_style_index_0_id_1d764944_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css */ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/RevertComponent.vue?vue&type=style&index=0&id=1d764944&scoped=true&lang=css");
-
 
 /***/ }),
 
