@@ -4430,6 +4430,9 @@ export default defineComponent({
 .plan-card__body {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .plan-badge {
@@ -4452,13 +4455,13 @@ export default defineComponent({
 .plan-highlight {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   color: #0f172a;
   background: rgba(15, 23, 42, 0.05);
   border-radius: 12px;
-  padding: 0.45rem 0.75rem;
-  line-height: 1.6;
+  padding: 0.7rem 0.95rem;
+  line-height: 1.8;
+  gap: 0.85rem;
 }
 
 .plan-highlight-icon {
