@@ -120,45 +120,6 @@
             </div>
           </div>
 
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4 personalization-card"
-              :class="{ 'personalization-glow': personalizationGlowActive }">
-              <div class="card-header d-flex align-items-center py-3 gap-3">
-                <i class="bi bi-stars text-teal fs-4"></i>
-                <div>
-                  <h2 class="fw-bold mb-0 fs-5 text-black">Personalized Insight</h2>
-                  <p class="text-muted small mb-0">Recommendations based on your quiz + streak.</p>
-                </div>
-              </div>
-              <div class="card-body px-3">
-                <p class="mb-2 text-muted small text-uppercase">Focus: {{ personalizationPrompt.focus }}</p>
-                <p class="mb-2 fw-semibold text-black">{{ personalizationPrompt.recommendation }}</p>
-                <ul class="personalization-tips list-unstyled mb-0">
-                  <li v-for="tip in personalizationPrompt.tips" :key="tip" class="mb-1">
-                    <i class="bi bi-lightbulb text-teal me-2"></i>
-                    <span class="text-muted">{{ tip }}</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-          <div class="content-card tone-card section-card mb-4 rounded-4">
-            <div class="card-header d-flex align-items-center gap-3 py-3">
-              <i class="bi bi-sunrise-fill fs-4 text-teal"></i>
-              <div>
-                <h2 class="fw-bold mb-0 fs-5">Gentle Tone + Non-Judgmental Wording</h2>
-                <p class="text-muted small mb-0">Tailor your reflection for each chapter with a warm, encouraging voice that stays neutral and inclusive.</p>
-              </div>
-            </div>
-            <div class="card-body px-3">
-              <ul class="tone-guidelines list-unstyled mb-0">
-                <li v-for="tone in toneGuidelines" :key="tone" class="mb-2">
-                  <i class="bi bi-check-circle text-teal me-2"></i>
-                  <span>{{ tone }}</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
           <!-- Onboarding Block -->
           <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-4">
             <div class="card-body px-4 py-3">
@@ -1151,13 +1112,11 @@ import onboardingData from './data/onboarding.json'
 import chapterDosDonts from './data/chapterDosDonts.json'
 import chapterKeyInsights from './data/keyInsights.json'
 import chapterGuidance from './data/chapterGuidance.json'
-import chapterToneGuidelines from './data/chapterToneGuidelines.json'
 import chapterToneFocus from './data/chapterToneFocus.json'
 import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
-import personalizationPrompts from './data/personalizationPrompts.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
 import chapterPlanGuides from './data/chapterPlanGuides.json'
 import { jsPDF } from 'jspdf'
@@ -1230,7 +1189,7 @@ const REVERTS_GUIDE_STEPS = [
   },
   {
     title: 'Personalize your pace',
-    description: 'The right column surfaces your tone, personalization prompts, and next-step cues so every repeat feels intentional.'
+    description: 'The right column surfaces your tone, guided cues, and next-step reminders so every repeat feels intentional.'
   },
   {
     title: 'Use the media & sharing tools',
@@ -1359,7 +1318,6 @@ export default defineComponent({
       dosDontsChapters: normalizeJson(chapterDosDonts),
       chapterKeyInsights: normalizeJson(chapterKeyInsights),
       guidanceTemplates: normalizeJson(chapterGuidance),
-      toneGuidelinesByChapter: normalizeJson(chapterToneGuidelines),
       toneFocusEntries: normalizeJson(chapterToneFocus),
       guidedPathways: normalizeJson(chapterGuidedPathway),
       chapterGentleStarts: normalizeJson(chapterGentleStart),
@@ -1438,7 +1396,6 @@ export default defineComponent({
       dailyChallengeStatus: {},
       dailyChallengeDate: '',
       confettiEnabled: false,
-      personalizationGlowActive: false,
       clipPlayerId: null,
       previewVideoId: null,
       gentleStepCompletion: {},
@@ -1605,15 +1562,6 @@ export default defineComponent({
       if (!lesson) return 'Deep reflections curated for caring hearts.'
       return lesson.tagline || lesson.summary || 'Deep reflections curated for caring hearts.'
     },
-    personalizationPrompt() {
-      const chapterId = this.currentLesson?.chapterId
-      const prompt = normalizeJson(personalizationPrompts).find(entry => entry.chapterId === chapterId)
-      return prompt || {
-        focus: 'Personal growth',
-        recommendation: 'Choose a dua or reflection that matches today’s learning and add it to your routine.',
-        tips: []
-      }
-    },
     personalNextStep() {
       const streak = this.currentStreakDays
       return normalizeJson(nextStepPrompts)
@@ -1694,19 +1642,6 @@ export default defineComponent({
         this.guidanceCardCache[chapterId] = this.generateGuidanceCards(chapterId)
       }
       return this.guidanceCardCache[chapterId]
-    },
-    toneGuidelines() {
-      const chapterId = this.currentLesson?.chapterId
-      const entry = this.toneGuidelinesByChapter.find(item => item.chapterId === chapterId)
-      if (entry?.guidelines?.length) {
-        return entry.guidelines
-      }
-      return [
-        'Welcoming every background without assumptions',
-        'Encouraging progress, not perfection',
-        'Keeping language simple and non-technical',
-        'Avoiding judgment or cultural generalizations'
-      ]
     },
     currentToneFocusText() {
       const chapterId = this.currentLesson?.chapterId
@@ -1951,8 +1886,6 @@ export default defineComponent({
     })
     this.$nextTick(() => {
       this.confettiEnabled = true
-      this.personalizationGlowActive = true
-      setTimeout(() => { this.personalizationGlowActive = false }, 2600)
     })
   },
 
@@ -3081,8 +3014,6 @@ export default defineComponent({
 .content-card,
 .guided-section-card,
 .next-step-card,
-.personalization-card,
-.tone-card,
 .next-steps-card,
 .mission-card,
 .motivation-card,
@@ -3520,86 +3451,6 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-.personalization-card {
-  border: 1px solid transparent;
-  border-radius: 28px;
-  overflow: hidden;
-  position: relative;
-  background: linear-gradient(160deg, rgba(14, 165, 233, 0.25), rgba(147, 51, 234, 0.45));
-  box-shadow: 0 25px 60px rgba(79, 70, 229, 0.25);
-  color: #f8fafc;
-}
-
-.personalization-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 28px;
-  padding: 1px;
-  background: linear-gradient(120deg, rgba(5, 150, 105, 0.8), rgba(129, 140, 248, 0.8));
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask-composite: exclude;
-  -webkit-mask-composite: xor;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.personalization-card.personalization-glow::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border-radius: 32px;
-  background: radial-gradient(circle at top, rgba(99, 102, 241, 0.6), transparent 55%);
-  opacity: 0;
-  animation: personalizationGlow 2.4s ease forwards;
-  pointer-events: none;
-  z-index: 0;
-}
-
-.personalization-card .card-body {
-  position: relative;
-  z-index: 2;
-}
-
-.personalization-card p,
-.personalization-card small,
-.personalization-card li span {
-  color: rgba(248, 250, 252, 0.95);
-}
-
-.personalization-card i {
-  color: #f1f5f9;
-}
-
-.personalization-card .personalization-tips li {
-  gap: 0.5rem;
-}
-
-@keyframes personalizationGlow {
-  0% {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.05);
-  }
-}
-
-.personalization-tips li {
-  display: flex;
-  align-items: center;
 }
 
 .next-step-card {
@@ -4080,7 +3931,6 @@ export default defineComponent({
   }
 
   .guided-section-card,
-  .tone-card,
   .mission-card {
     border-radius: 30px;
     padding: 1.5rem;
@@ -5050,7 +4900,6 @@ export default defineComponent({
 
   .guidance-card-item,
   .section-card,
-  .tone-card,
   .guided-section-card {
     padding: 1.25rem;
   }
@@ -5360,16 +5209,6 @@ export default defineComponent({
   justify-content: center;
   font-weight: 700;
 }
-.tone-card {
-  background: #ffffff;
-  border: 1px solid rgba(14, 165, 233, 0.18);
-  box-shadow: 0 10px 20px rgba(14, 165, 233, 0.1);
-}
-.tone-guidelines li {
-  font-size: 0.95rem;
-  color: #0f172a;
-}
-
 .accessibility-tools .btn {
   min-width: 160px;
 }
