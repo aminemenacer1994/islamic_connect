@@ -102,12 +102,6 @@
                 <p class="text-white-50 mb-0">
                   {{ currentLesson?.summary }}
                 </p>
-                <div class="hero-subheader mt-3">
-                  <span class="premium-pill">Premium insight</span>
-                  <p class="hero-subtitle text-white-75 mb-0">
-                    {{ heroTagline }}
-                  </p>
-                </div>
               </div>
               <button
                 type="button"
@@ -762,37 +756,45 @@
                 <div class="row g-3">
                   <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
                     <article class="plan-card rounded-4 p-4 shadow-sm border">
-                      <div class="d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3">
+                      <div class="plan-card__header d-flex align-items-start justify-content-between gap-3">
                         <div>
-                          <p class="text-muted small mb-1">{{ plan.duration }}</p>
+                          <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
                           <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
-                          <p class="text-dark small mb-0">{{ plan.description }}</p>
+                          <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p>
                         </div>
                         <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
                       </div>
-                      <ul class="plan-highlights list-unstyled mb-3">
-                        <li v-for="highlight in plan.highlights" :key="highlight" class="plan-highlight">
-                          <i class="bi bi-chevron-right text-teal"></i>
-                          <span>{{ highlight }}</span>
-                        </li>
-                      </ul>
-                      <div class="plan-action-icons" role="group" aria-label="Plan actions">
-                        <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
-                          <i class="bi bi-whatsapp"></i>
-                          <span class="visually-hidden">Share plan</span>
-                        </button>
-                        <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
-                          <i class="bi bi-clipboard"></i>
-                          <span class="visually-hidden">Copy plan</span>
-                        </button>
-                        <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
-                          <i class="bi bi-printer"></i>
-                          <span class="visually-hidden">Print plan</span>
-                        </button>
-                        <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
-                          <i class="bi bi-file-earmark-pdf"></i>
-                          <span class="visually-hidden">Download plan</span>
-                        </button>
+                      <div class="plan-card__divider" aria-hidden="true"></div>
+                      <div class="plan-card__body">
+                        <ul class="plan-highlights list-unstyled mb-3">
+                          <li v-for="highlight in plan.highlights" :key="highlight" class="plan-highlight">
+                            <span class="plan-highlight-icon" aria-hidden="true"></span>
+                            <span>{{ highlight }}</span>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                        <p class="mb-0 text-muted small plan-card__meta">
+                          Crafted for the {{ plan.duration.toLowerCase() }} rhythm.
+                        </p>
+                        <div class="plan-action-icons" role="group" aria-label="Plan actions">
+                          <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
+                            <i class="bi bi-whatsapp"></i>
+                            <span class="visually-hidden">Share plan</span>
+                          </button>
+                          <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
+                            <i class="bi bi-clipboard"></i>
+                            <span class="visually-hidden">Copy plan</span>
+                          </button>
+                          <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
+                            <i class="bi bi-printer"></i>
+                            <span class="visually-hidden">Print plan</span>
+                          </button>
+                          <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
+                            <i class="bi bi-file-earmark-pdf"></i>
+                            <span class="visually-hidden">Download plan</span>
+                          </button>
+                        </div>
                       </div>
                     </article>
                   </div>
@@ -4521,28 +4523,78 @@ export default defineComponent({
 .chapter-plan-card {
   border: 1px solid rgba(15, 23, 42, 0.08);
   background: #fff;
-  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.1);
+  box-shadow: 0 26px 45px rgba(15, 23, 42, 0.08);
 }
 
 .plan-card {
-  background: #fff;
-  border-radius: 26px;
+  background: linear-gradient(180deg, #fff, #f8fafc);
+  border-radius: 32px;
   border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 25px 45px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
+  position: relative;
+  min-height: 320px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 40px rgba(15, 23, 42, 0.12);
+}
+
+.plan-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% -10%, rgba(14, 165, 233, 0.08), transparent 55%);
+  pointer-events: none;
+}
+
+.plan-card__header {
+  position: relative;
+  z-index: 1;
+  gap: 1rem;
+  line-height: 1.6;
+}
+
+.plan-card__duration {
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(15, 23, 42, 0.65);
+  margin-bottom: 0.5rem;
+}
+
+.plan-card__summary {
+  color: rgba(15, 23, 42, 0.75);
+  line-height: 1.75;
+}
+
+.plan-card__divider {
+  height: 1px;
+  background: linear-gradient(90deg, rgba(14, 165, 233, 0), rgba(14, 165, 233, 0.35), rgba(14, 165, 233, 0));
+  margin: 1rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.plan-card__body {
+  position: relative;
+  z-index: 1;
 }
 
 .plan-badge {
-  background: rgba(14, 165, 233, 0.1);
-  color: #0f172a;
+  background: rgba(16, 185, 129, 0.12);
+  color: #065f46;
   font-size: 0.65rem;
   letter-spacing: 0.25em;
-  padding: 0.25rem 0.8rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
 }
 
 .plan-highlights {
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
+  gap: 0.9rem;
   padding-left: 0;
   margin-bottom: 0;
 }
@@ -4550,51 +4602,69 @@ export default defineComponent({
 .plan-highlight {
   display: flex;
   align-items: center;
-  gap: 0.45rem;
+  gap: 0.6rem;
   font-size: 0.9rem;
   color: #0f172a;
+  background: rgba(15, 23, 42, 0.05);
+  border-radius: 12px;
+  padding: 0.45rem 0.75rem;
+  line-height: 1.6;
 }
 
-.plan-action-row {
-  margin-top: 0.5rem;
+.plan-highlight-icon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ea5e9, #22d3ee);
+  flex-shrink: 0;
+  display: inline-block;
+}
+
+.plan-card__footer {
+  position: relative;
+  z-index: 1;
+}
+
+.plan-card__meta {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(15, 23, 42, 0.6);
 }
 
 .plan-action-icons {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  align-items: center;
+  gap: 0.5rem;
 }
 
 .plan-action-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: none;
-  background: transparent;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: rgba(255, 255, 255, 0.8);
   color: #0f172a;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: color 0.2s ease, transform 0.2s ease;
-  box-shadow: none;
+  transition: color 0.2s ease, transform 0.2s ease, border 0.2s ease;
   cursor: pointer;
 }
 
 .plan-action-icon i {
-  font-size: 1.25rem;
-  color: inherit;
+  font-size: 1.15rem;
 }
 
 .plan-action-icon:hover {
-  color: #0b7285;
+  color: #0ea5e9;
+  border-color: rgba(14, 165, 233, 0.6);
   transform: translateY(-2px);
 }
 
 .plan-action-icon:focus-visible {
-  outline: 2px solid rgba(15, 118, 110, 0.45);
+  outline: 2px solid rgba(14, 165, 233, 0.45);
   outline-offset: 3px;
 }
 .motivation-card {

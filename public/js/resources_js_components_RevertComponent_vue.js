@@ -2026,825 +2026,828 @@ const _hoisted_30 = {
   class: "text-white-50 mb-0"
 };
 const _hoisted_31 = {
-  class: "hero-subheader mt-3"
+  class: "card-body px-3"
 };
 const _hoisted_32 = {
-  class: "hero-subtitle text-white-75 mb-0"
-};
-const _hoisted_33 = {
-  class: "card-body px-3"
-};
-const _hoisted_34 = {
   class: "mb-2 text-muted small text-uppercase"
 };
-const _hoisted_35 = {
+const _hoisted_33 = {
   class: "mb-2 fw-semibold text-black"
 };
-const _hoisted_36 = {
+const _hoisted_34 = {
   class: "personalization-tips list-unstyled mb-0"
 };
-const _hoisted_37 = {
+const _hoisted_35 = {
   class: "text-muted"
 };
-const _hoisted_38 = {
+const _hoisted_36 = {
   class: "content-card tone-card section-card mb-4 rounded-4"
 };
-const _hoisted_39 = {
+const _hoisted_37 = {
   class: "card-body px-3"
 };
-const _hoisted_40 = {
+const _hoisted_38 = {
   class: "tone-guidelines list-unstyled mb-0"
 };
-const _hoisted_41 = {
+const _hoisted_39 = {
   key: 0,
   class: "content-card onboarding-card mb-4 rounded-4"
 };
-const _hoisted_42 = {
+const _hoisted_40 = {
   class: "card-body px-4 py-3"
 };
-const _hoisted_43 = {
+const _hoisted_41 = {
   class: "simple-onboarding-list mb-0"
 };
-const _hoisted_44 = ["onClick", "aria-pressed"];
-const _hoisted_45 = {
+const _hoisted_42 = ["onClick", "aria-pressed"];
+const _hoisted_43 = {
   key: 0,
   class: "bi bi-check-lg"
 };
-const _hoisted_46 = {
+const _hoisted_44 = {
   class: "d-block"
 };
-const _hoisted_47 = {
+const _hoisted_45 = {
   class: "lesson-focus-intro d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3"
 };
-const _hoisted_48 = {
+const _hoisted_46 = {
   class: "mb-0 text-muted medium"
 };
-const _hoisted_49 = {
+const _hoisted_47 = {
   class: "content-card section-card animated-fade-slide mb-4 rounded-4",
   style: {
     "animation-delay": "0.05s"
   }
 };
-const _hoisted_50 = {
+const _hoisted_48 = {
   class: "card-header d-flex align-items-center py-3"
 };
-const _hoisted_51 = {
+const _hoisted_49 = {
   class: "lesson-focus-actions ms-auto"
 };
-const _hoisted_52 = {
+const _hoisted_50 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_53 = {
+const _hoisted_51 = {
   key: 0,
   class: "lesson-overview-summary"
 };
-const _hoisted_54 = {
+const _hoisted_52 = {
   key: 0,
   class: "row g-3"
 };
-const _hoisted_55 = {
+const _hoisted_53 = {
   class: "overview-highlight border rounded-3 p-3 h-100"
 };
-const _hoisted_56 = {
+const _hoisted_54 = {
   class: "fw-semibold mb-2"
 };
-const _hoisted_57 = {
+const _hoisted_55 = {
   class: "mb-0 text-muted small"
 };
-const _hoisted_58 = {
+const _hoisted_56 = {
   key: 1,
   class: "overview-section-list"
 };
-const _hoisted_59 = ["id"];
-const _hoisted_60 = {
+const _hoisted_57 = ["id"];
+const _hoisted_58 = {
   class: "d-flex align-items-start gap-3 mb-3"
 };
-const _hoisted_61 = {
+const _hoisted_59 = {
   class: "section-number fs-5"
 };
-const _hoisted_62 = {
+const _hoisted_60 = {
   class: "fw-semibold mb-0 fs-5"
 };
-const _hoisted_63 = {
+const _hoisted_61 = {
   class: "mt-3 small text-muted"
 };
-const _hoisted_64 = {
+const _hoisted_62 = {
   key: 0,
   class: "mb-1"
 };
-const _hoisted_65 = {
+const _hoisted_63 = {
   class: "text-dark"
 };
-const _hoisted_66 = {
+const _hoisted_64 = {
   key: 1,
   class: "mb-0"
 };
-const _hoisted_67 = ["href"];
-const _hoisted_68 = {
+const _hoisted_65 = ["href"];
+const _hoisted_66 = {
   key: 0,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_69 = {
+const _hoisted_67 = {
   class: "text-muted"
 };
-const _hoisted_70 = {
+const _hoisted_68 = {
   key: 2,
   class: "overview-section-list"
 };
-const _hoisted_71 = {
+const _hoisted_69 = {
   class: "d-flex align-items-start gap-3 mb-3"
 };
-const _hoisted_72 = {
+const _hoisted_70 = {
   class: "section-number fs-5"
 };
-const _hoisted_73 = {
+const _hoisted_71 = {
   class: "fw-semibold mb-0 fs-5"
 };
-const _hoisted_74 = ["innerHTML"];
-const _hoisted_75 = {
+const _hoisted_72 = ["innerHTML"];
+const _hoisted_73 = {
   class: "mt-3 medium text-muted"
 };
-const _hoisted_76 = {
+const _hoisted_74 = {
   key: 0,
   class: "mb-1"
 };
-const _hoisted_77 = {
+const _hoisted_75 = {
   class: "text-dark"
 };
-const _hoisted_78 = {
+const _hoisted_76 = {
   key: 1,
   class: "mb-0"
 };
-const _hoisted_79 = ["href"];
-const _hoisted_80 = {
+const _hoisted_77 = ["href"];
+const _hoisted_78 = {
   key: 0,
   class: "background mt-4 w-100 py-3 px-4 rounded-4 border"
 };
-const _hoisted_81 = {
+const _hoisted_79 = {
   class: "deep-dive-header d-flex align-items-center mb-2"
 };
-const _hoisted_82 = {
+const _hoisted_80 = {
   class: "fw-bold mb-0 text-dark fs-6"
 };
-const _hoisted_83 = ["innerHTML"];
-const _hoisted_84 = {
+const _hoisted_81 = ["innerHTML"];
+const _hoisted_82 = {
   key: 1,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_85 = {
+const _hoisted_83 = {
   class: "text-muted"
 };
-const _hoisted_86 = {
+const _hoisted_84 = {
   key: 1,
   class: "content-card guided-section-card mb-4 rounded-4"
 };
-const _hoisted_87 = {
+const _hoisted_85 = {
   id: "pathway-clips-section",
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 pathway-clips-card"
 };
-const _hoisted_88 = {
+const _hoisted_86 = {
   class: "card-body px-3"
 };
-const _hoisted_89 = {
+const _hoisted_87 = {
   class: "row g-3"
 };
-const _hoisted_90 = ["onMouseenter", "onClick"];
-const _hoisted_91 = {
+const _hoisted_88 = ["onMouseenter", "onClick"];
+const _hoisted_89 = {
   key: 0,
   class: "clip-thumbnail ratio ratio-16x9"
 };
-const _hoisted_92 = ["src", "title"];
-const _hoisted_93 = {
+const _hoisted_90 = ["src", "title"];
+const _hoisted_91 = {
   class: "clip-overlay d-flex align-items-end justify-content-between p-3"
 };
-const _hoisted_94 = ["onClick"];
-const _hoisted_95 = {
+const _hoisted_92 = ["onClick"];
+const _hoisted_93 = {
   class: "p-3"
 };
-const _hoisted_96 = {
+const _hoisted_94 = {
   class: "h6 fw-semibold mb-1"
 };
-const _hoisted_97 = {
+const _hoisted_95 = {
   class: "text-muted small mb-2"
 };
-const _hoisted_98 = {
+const _hoisted_96 = {
   key: 0,
   class: "video-card-tags mb-2"
 };
-const _hoisted_99 = {
+const _hoisted_97 = {
   key: 1,
   class: "clip-duration text-muted small mb-0"
 };
-const _hoisted_100 = {
+const _hoisted_98 = {
   key: 0,
   class: "guided-bullets px-3 pb-3"
 };
-const _hoisted_101 = {
+const _hoisted_99 = {
   class: "mb-0 fw-semibold"
 };
-const _hoisted_102 = {
+const _hoisted_100 = {
   class: "text-muted"
 };
-const _hoisted_103 = {
+const _hoisted_101 = {
   key: 2,
   class: "content-card lesson-focus-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_104 = {
+const _hoisted_102 = {
   class: "card-body px-3 px-md-4"
 };
-const _hoisted_105 = {
+const _hoisted_103 = {
   class: "row g-3"
 };
-const _hoisted_106 = {
+const _hoisted_104 = {
   class: "dept-card h-100 p-3 rounded-3"
 };
-const _hoisted_107 = {
+const _hoisted_105 = {
   class: "d-flex align-items-center gap-2 mb-2"
 };
-const _hoisted_108 = {
+const _hoisted_106 = {
   class: "dept-icon"
 };
-const _hoisted_109 = {
+const _hoisted_107 = {
   class: "fs-6 mb-0"
 };
-const _hoisted_110 = {
+const _hoisted_108 = {
   class: "text-muted small mb-1"
 };
-const _hoisted_111 = {
+const _hoisted_109 = {
   class: "text-dark fw-semibold mb-0"
 };
-const _hoisted_112 = {
+const _hoisted_110 = {
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_113 = {
+const _hoisted_111 = {
   class: "card-body px-3 px-md-4 py-4"
 };
-const _hoisted_114 = {
+const _hoisted_112 = {
   class: "d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3"
 };
-const _hoisted_115 = {
+const _hoisted_113 = {
   class: "flex-grow-1"
 };
-const _hoisted_116 = {
+const _hoisted_114 = {
   key: 0,
   class: "text-success small mt-2 mb-0",
   "aria-live": "polite",
   role: "status"
 };
-const _hoisted_117 = {
+const _hoisted_115 = {
   class: "d-flex flex-wrap gap-2"
 };
-const _hoisted_118 = {
+const _hoisted_116 = {
   key: 3,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_119 = {
+const _hoisted_117 = {
   class: "card-body p-3"
 };
-const _hoisted_120 = {
+const _hoisted_118 = {
   class: "mb-3"
 };
-const _hoisted_121 = {
+const _hoisted_119 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_122 = {
+const _hoisted_120 = {
   class: "row g-3"
 };
-const _hoisted_123 = {
+const _hoisted_121 = {
   class: "col-12 col-md-6"
+};
+const _hoisted_122 = {
+  class: "p-3 rounded-3 border h-100"
+};
+const _hoisted_123 = {
+  class: "list-unstyled mb-0"
 };
 const _hoisted_124 = {
-  class: "p-3 rounded-3 border h-100"
+  class: "text-dark medium mt-1"
 };
 const _hoisted_125 = {
-  class: "list-unstyled mb-0"
-};
-const _hoisted_126 = {
-  class: "text-dark medium mt-1"
-};
-const _hoisted_127 = {
   class: "col-12 col-md-6"
 };
-const _hoisted_128 = {
+const _hoisted_126 = {
   class: "p-3 rounded-3 border h-100"
 };
-const _hoisted_129 = {
+const _hoisted_127 = {
   class: "list-unstyled mb-0"
 };
-const _hoisted_130 = {
+const _hoisted_128 = {
   class: "text-dark medium mt-1"
 };
-const _hoisted_131 = {
+const _hoisted_129 = {
   key: 0,
   class: "content-card section-card animated-fade-slide mb-4 mt-3 rounded-4"
 };
-const _hoisted_132 = {
+const _hoisted_130 = {
   class: "card-header d-flex align-items-center mt-3 py-3 gap-3"
 };
-const _hoisted_133 = {
+const _hoisted_131 = {
   class: "lesson-focus-actions ms-auto"
 };
-const _hoisted_134 = {
+const _hoisted_132 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_135 = {
+const _hoisted_133 = {
   class: "row g-3"
 };
-const _hoisted_136 = {
+const _hoisted_134 = {
   class: "dua-card h-100 rounded-4 p-4 shadow-lg"
 };
-const _hoisted_137 = {
+const _hoisted_135 = {
   key: 1,
   class: "content-card pt-3 section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_138 = {
+const _hoisted_136 = {
   class: "card-header d-flex align-items-center py-3"
 };
-const _hoisted_139 = {
+const _hoisted_137 = {
   class: "fs-6 text-muted mb-0"
 };
-const _hoisted_140 = {
+const _hoisted_138 = {
   class: "card-body p-3"
 };
-const _hoisted_141 = {
+const _hoisted_139 = {
   class: "list-group insight-list fs-6 lh-base mb-0"
 };
-const _hoisted_142 = {
+const _hoisted_140 = {
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_143 = {
+const _hoisted_141 = {
   class: "card-body"
 };
-const _hoisted_144 = {
+const _hoisted_142 = {
   class: "row align-items-center"
 };
-const _hoisted_145 = {
+const _hoisted_143 = {
   class: "col-md-5"
 };
-const _hoisted_146 = {
+const _hoisted_144 = {
   class: "share-actions d-flex flex-wrap gap-2 mb-2"
 };
-const _hoisted_147 = {
+const _hoisted_145 = {
   key: 0,
   class: "text-success small mb-0"
 };
-const _hoisted_148 = {
+const _hoisted_146 = {
   key: 2,
   id: "revert-stories-section",
   class: "content-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_149 = {
+const _hoisted_147 = {
   class: "card-body"
 };
-const _hoisted_150 = {
+const _hoisted_148 = {
   class: "row g-3 video-grid-row"
 };
-const _hoisted_151 = ["onMouseenter"];
-const _hoisted_152 = {
+const _hoisted_149 = ["onMouseenter"];
+const _hoisted_150 = {
   class: "video-card-media"
 };
-const _hoisted_153 = ["src", "title"];
-const _hoisted_154 = ["onClick"];
-const _hoisted_155 = {
+const _hoisted_151 = ["src", "title"];
+const _hoisted_152 = ["onClick"];
+const _hoisted_153 = {
   class: "video-feature-overlay"
 };
-const _hoisted_156 = {
+const _hoisted_154 = {
   class: "video-feature-text"
 };
-const _hoisted_157 = {
+const _hoisted_155 = {
   class: "video-feature-title"
 };
-const _hoisted_158 = {
+const _hoisted_156 = {
   key: 0,
   class: "video-feature-subtitle"
 };
-const _hoisted_159 = {
+const _hoisted_157 = {
   key: 1,
   class: "video-feature-duration"
 };
-const _hoisted_160 = {
+const _hoisted_158 = {
   class: "video-card-caption px-3 py-2"
 };
-const _hoisted_161 = {
+const _hoisted_159 = {
   class: "h6 fw-semibold mb-1 text-dark"
 };
-const _hoisted_162 = {
+const _hoisted_160 = {
   key: 0,
   class: "video-card-tags mb-2"
 };
-const _hoisted_163 = {
+const _hoisted_161 = {
   key: 1,
   class: "text-muted small mb-1"
 };
-const _hoisted_164 = {
+const _hoisted_162 = {
   key: 2,
   class: "video-card-duration text-muted small mb-0"
 };
-const _hoisted_165 = {
+const _hoisted_163 = {
   class: "d-flex justify-content-end mt-4"
 };
-const _hoisted_166 = {
+const _hoisted_164 = {
   key: 3,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_167 = {
+const _hoisted_165 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_168 = ["aria-expanded"];
-const _hoisted_169 = {
+const _hoisted_166 = ["aria-expanded"];
+const _hoisted_167 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_170 = {
+const _hoisted_168 = {
   class: "card-body p-3"
 };
-const _hoisted_171 = {
+const _hoisted_169 = {
   class: "accordion-stack"
 };
-const _hoisted_172 = ["onClick"];
-const _hoisted_173 = {
+const _hoisted_170 = ["onClick"];
+const _hoisted_171 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_174 = ["innerHTML"];
-const _hoisted_175 = {
+const _hoisted_172 = ["innerHTML"];
+const _hoisted_173 = {
   key: 0,
   class: "text-center mt-3"
 };
-const _hoisted_176 = {
+const _hoisted_174 = {
   class: "content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide"
 };
-const _hoisted_177 = {
+const _hoisted_175 = {
   class: "card-body px-3 px-md-4 py-4"
 };
-const _hoisted_178 = {
+const _hoisted_176 = {
   class: "d-flex flex-column gap-2"
 };
-const _hoisted_179 = {
+const _hoisted_177 = {
   class: "text-muted medium mb-0"
 };
-const _hoisted_180 = {
+const _hoisted_178 = {
   key: 4,
   id: "mission-card",
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 mission-card"
 };
-const _hoisted_181 = {
+const _hoisted_179 = {
   class: "card-body p-3"
 };
-const _hoisted_182 = {
+const _hoisted_180 = {
   class: "mb-2 text-muted small"
 };
-const _hoisted_183 = {
+const _hoisted_181 = {
   class: "fw-semibold"
 };
-const _hoisted_184 = {
+const _hoisted_182 = {
   class: "text-dark fs-6"
 };
-const _hoisted_185 = {
+const _hoisted_183 = {
   class: "d-flex flex-wrap gap-2 align-items-center mt-3"
 };
-const _hoisted_186 = {
+const _hoisted_184 = {
   class: "badge bg-success text-dark rounded-pill"
 };
-const _hoisted_187 = {
+const _hoisted_185 = {
   key: 5,
   class: "content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card"
 };
-const _hoisted_188 = {
+const _hoisted_186 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_189 = ["aria-expanded"];
-const _hoisted_190 = {
+const _hoisted_187 = ["aria-expanded"];
+const _hoisted_188 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_191 = {
+const _hoisted_189 = {
   class: "card-body p-3"
 };
-const _hoisted_192 = {
+const _hoisted_190 = {
   class: "accordion-stack"
 };
-const _hoisted_193 = ["onClick"];
-const _hoisted_194 = {
+const _hoisted_191 = ["onClick"];
+const _hoisted_192 = {
   class: "accordion-answer mt-2"
 };
-const _hoisted_195 = ["innerHTML"];
-const _hoisted_196 = {
+const _hoisted_193 = ["innerHTML"];
+const _hoisted_194 = {
   key: 0,
   class: "text-center mt-3"
 };
-const _hoisted_197 = {
+const _hoisted_195 = {
   key: 6,
   class: "content-card chapter-plan-card section-card animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_198 = {
+const _hoisted_196 = {
   class: "card-body px-4 pb-0 pt-0"
 };
-const _hoisted_199 = {
+const _hoisted_197 = {
   class: "row g-3"
 };
-const _hoisted_200 = {
+const _hoisted_198 = {
   class: "plan-card rounded-4 p-4 shadow-sm border"
 };
+const _hoisted_199 = {
+  class: "plan-card__header d-flex align-items-start justify-content-between gap-3"
+};
+const _hoisted_200 = {
+  class: "text-muted small mb-1 plan-card__duration"
+};
 const _hoisted_201 = {
-  class: "d-flex align-items-start justify-content-between flex-wrap gap-2 mb-3"
-};
-const _hoisted_202 = {
-  class: "text-muted small mb-1"
-};
-const _hoisted_203 = {
   class: "fw-semibold mb-2 fs-5"
 };
-const _hoisted_204 = {
-  class: "text-dark small mb-0"
+const _hoisted_202 = {
+  class: "text-dark small mb-0 plan-card__summary"
 };
-const _hoisted_205 = {
+const _hoisted_203 = {
   class: "badge badge-pill plan-badge text-uppercase"
 };
-const _hoisted_206 = {
+const _hoisted_204 = {
+  class: "plan-card__body"
+};
+const _hoisted_205 = {
   class: "plan-highlights list-unstyled mb-3"
 };
+const _hoisted_206 = {
+  class: "plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3"
+};
 const _hoisted_207 = {
+  class: "mb-0 text-muted small plan-card__meta"
+};
+const _hoisted_208 = {
   class: "plan-action-icons",
   role: "group",
   "aria-label": "Plan actions"
 };
-const _hoisted_208 = ["onClick", "title"];
 const _hoisted_209 = ["onClick", "title"];
 const _hoisted_210 = ["onClick", "title"];
 const _hoisted_211 = ["onClick", "title"];
-const _hoisted_212 = {
+const _hoisted_212 = ["onClick", "title"];
+const _hoisted_213 = {
   class: "content-card next-steps-card animated-slide-up rounded-5 mb-4",
   style: {
     "animation-delay": "0.4s"
   }
 };
-const _hoisted_213 = {
+const _hoisted_214 = {
   class: "next-steps-body p-4"
 };
-const _hoisted_214 = {
+const _hoisted_215 = {
   class: "next-steps-inner"
 };
-const _hoisted_215 = {
+const _hoisted_216 = {
   class: "next-steps-list mt-3"
 };
-const _hoisted_216 = {
+const _hoisted_217 = {
   class: "mb-0"
 };
-const _hoisted_217 = {
+const _hoisted_218 = {
   key: 0,
   class: "text-center mt-3"
 };
-const _hoisted_218 = {
+const _hoisted_219 = {
   key: 7,
   class: "section-card animated-fade-slide mb-4 rounded-5 quiz-wrapper"
 };
-const _hoisted_219 = {
+const _hoisted_220 = {
   class: "quiz-shell p-0"
 };
-const _hoisted_220 = {
+const _hoisted_221 = {
   class: "quiz-body px-4 py-3"
 };
-const _hoisted_221 = {
+const _hoisted_222 = {
   class: "quiz-progress-wrapper mb-3"
 };
-const _hoisted_222 = {
+const _hoisted_223 = {
   class: "quiz-progress-track"
 };
-const _hoisted_223 = {
+const _hoisted_224 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_224 = {
+const _hoisted_225 = {
   class: "mb-0 small fw-semibold text-teal"
 };
-const _hoisted_225 = {
+const _hoisted_226 = {
   class: "fw-semibold text-dark mb-2 quiz-question"
 };
-const _hoisted_226 = {
+const _hoisted_227 = {
   class: "quiz-options-grid"
 };
-const _hoisted_227 = ["disabled", "onClick"];
-const _hoisted_228 = {
+const _hoisted_228 = ["disabled", "onClick"];
+const _hoisted_229 = {
   class: "icon-stack"
 };
-const _hoisted_229 = {
+const _hoisted_230 = {
   key: 0,
   class: "bi bi-check-circle-fill text-dark"
 };
-const _hoisted_230 = {
+const _hoisted_231 = {
   key: 1,
   class: "bi bi-x-circle-fill text-dark"
 };
-const _hoisted_231 = {
+const _hoisted_232 = {
   key: 0,
   class: "quiz-explanation-card mt-3"
 };
-const _hoisted_232 = {
+const _hoisted_233 = {
   class: "right-answer-pill text-muted"
 };
-const _hoisted_233 = {
+const _hoisted_234 = {
   class: "text-dark fw-bold mt-2"
 };
-const _hoisted_234 = {
+const _hoisted_235 = {
   class: "pt-2 text-muted"
 };
-const _hoisted_235 = {
+const _hoisted_236 = {
   class: "mb-0"
 };
-const _hoisted_236 = {
+const _hoisted_237 = {
   class: "quiz-explanation-footer mt-3"
 };
-const _hoisted_237 = {
+const _hoisted_238 = {
   key: 1,
   class: "quiz-success-note mt-3"
 };
-const _hoisted_238 = {
+const _hoisted_239 = {
   class: "d-flex flex-column flex-md-row gap-2 align-items-start"
 };
-const _hoisted_239 = {
+const _hoisted_240 = {
   class: "mb-0 fw-semibold text-teal"
 };
-const _hoisted_240 = {
+const _hoisted_241 = {
   key: 4,
   class: "content-card transition-card text-dark rounded-4 animated-fade-slide mb-4"
 };
-const _hoisted_241 = {
+const _hoisted_242 = {
   class: "d-flex align-items-center justify-content-between flex-wrap"
 };
-const _hoisted_242 = {
+const _hoisted_243 = {
   class: "fw-semibold mb-0"
 };
-const _hoisted_243 = {
+const _hoisted_244 = {
   class: "mb-1 text-teal small"
 };
-const _hoisted_244 = {
+const _hoisted_245 = {
   class: "text-end"
 };
-const _hoisted_245 = {
+const _hoisted_246 = {
   class: "badge bg-light text-dark rounded-pill px-3 py-2"
 };
-const _hoisted_246 = {
+const _hoisted_247 = {
   class: "text-muted mt-3 mb-0"
 };
-const _hoisted_247 = {
+const _hoisted_248 = {
   class: "actions-card animated-fade-in"
 };
-const _hoisted_248 = {
+const _hoisted_249 = {
   class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
 };
-const _hoisted_249 = ["disabled"];
-const _hoisted_250 = {
+const _hoisted_250 = ["disabled"];
+const _hoisted_251 = {
   class: "d-flex flex-column flex-md-row align-items-center gap-2"
 };
-const _hoisted_251 = {
+const _hoisted_252 = {
   class: "text-muted small me-md-auto"
 };
-const _hoisted_252 = {
+const _hoisted_253 = {
   key: 0,
   class: "text-teal small fw-semibold"
 };
-const _hoisted_253 = ["disabled"];
-const _hoisted_254 = {
+const _hoisted_254 = ["disabled"];
+const _hoisted_255 = {
   key: 0
 };
-const _hoisted_255 = {
+const _hoisted_256 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_256 = {
+const _hoisted_257 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_257 = {
+const _hoisted_258 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_258 = {
+const _hoisted_259 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_259 = {
+const _hoisted_260 = {
   class: "modal-title fw-bold"
 };
-const _hoisted_260 = {
+const _hoisted_261 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_261 = {
+const _hoisted_262 = {
   key: 0,
   class: "text-success small"
 };
-const _hoisted_262 = {
+const _hoisted_263 = {
   class: "d-flex gap-2"
 };
-const _hoisted_263 = {
+const _hoisted_264 = {
   key: 1
 };
-const _hoisted_264 = {
+const _hoisted_265 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_265 = {
+const _hoisted_266 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_266 = {
+const _hoisted_267 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_267 = {
+const _hoisted_268 = {
   class: "modal-body px-4 py-3"
 };
-const _hoisted_268 = {
+const _hoisted_269 = {
   key: 0,
   class: "mb-3 video-modal-filters"
 };
-const _hoisted_269 = {
-  class: "filter-grid"
-};
 const _hoisted_270 = {
-  class: "filter-column"
+  class: "filter-grid"
 };
 const _hoisted_271 = {
   class: "filter-column"
 };
-const _hoisted_272 = ["value"];
-const _hoisted_273 = {
+const _hoisted_272 = {
   class: "filter-column"
 };
-const _hoisted_274 = ["value"];
-const _hoisted_275 = {
+const _hoisted_273 = ["value"];
+const _hoisted_274 = {
   class: "filter-column"
 };
-const _hoisted_276 = ["value"];
-const _hoisted_277 = {
+const _hoisted_275 = ["value"];
+const _hoisted_276 = {
+  class: "filter-column"
+};
+const _hoisted_277 = ["value"];
+const _hoisted_278 = {
   key: 0,
   class: "filter-empty text-muted small mt-2 mb-0"
 };
-const _hoisted_278 = {
+const _hoisted_279 = {
   class: "row g-3 video-grid-row"
 };
-const _hoisted_279 = ["onMouseenter"];
-const _hoisted_280 = {
+const _hoisted_280 = ["onMouseenter"];
+const _hoisted_281 = {
   class: "video-card-media"
 };
-const _hoisted_281 = ["src", "title"];
-const _hoisted_282 = ["onClick"];
-const _hoisted_283 = {
+const _hoisted_282 = ["src", "title"];
+const _hoisted_283 = ["onClick"];
+const _hoisted_284 = {
   class: "video-feature-overlay"
 };
-const _hoisted_284 = {
+const _hoisted_285 = {
   class: "video-feature-text"
 };
-const _hoisted_285 = {
+const _hoisted_286 = {
   class: "video-feature-title"
 };
-const _hoisted_286 = {
+const _hoisted_287 = {
   key: 0,
   class: "video-feature-subtitle"
 };
-const _hoisted_287 = {
+const _hoisted_288 = {
   key: 1,
   class: "video-feature-duration"
 };
-const _hoisted_288 = {
+const _hoisted_289 = {
   class: "video-card-caption px-3 py-2"
 };
-const _hoisted_289 = {
+const _hoisted_290 = {
   key: 0,
   class: "video-card-tags mb-0"
 };
-const _hoisted_290 = {
+const _hoisted_291 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_291 = {
+const _hoisted_292 = {
   class: "d-flex gap-2 ms-auto"
 };
-const _hoisted_292 = {
+const _hoisted_293 = {
   key: 2
 };
-const _hoisted_293 = {
+const _hoisted_294 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_294 = {
+const _hoisted_295 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_295 = {
+const _hoisted_296 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_296 = {
+const _hoisted_297 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_297 = {
+const _hoisted_298 = {
   class: "modal-body px-4 pb-4"
 };
-const _hoisted_298 = {
+const _hoisted_299 = {
   class: "guide-step-index"
 };
-const _hoisted_299 = {
+const _hoisted_300 = {
   class: "fw-semibold mb-1"
 };
-const _hoisted_300 = {
+const _hoisted_301 = {
   class: "text-muted mb-0"
 };
-const _hoisted_301 = {
+const _hoisted_302 = {
   class: "modal-footer border-0 px-4 pb-4 pt-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -2902,18 +2905,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.selectPill(step.id),
       "data-locked": step.id > _ctx.maxStepReached
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [step.id < _ctx.maxStepReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_16)) : step.id === _ctx.maxStepReached ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id), 1 /* TEXT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])]), step.id === _ctx.selectedPill ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_21)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_22))], 10 /* CLASS, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "lesson-hero-gradient"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journey me-2 text-white fs-4"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "premium-pill"
-  }, "Premium insight", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.heroTagline), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_28, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "lesson-help-button",
     "aria-label": "Open Reverts Corner guide",
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.openHelpModal && _ctx.openHelpModal(...args))
-  }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
@@ -2921,7 +2922,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["content-card section-card animated-fade-slide mb-4 rounded-4 personalization-card", {
       'personalization-glow': _ctx.personalizationGlowActive
     }])
-  }, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3 gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stars text-teal fs-4"
@@ -2929,14 +2930,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5 text-black"
   }, "Personalized Insight"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Recommendations based on your quiz + streak.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_34, "Focus: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.personalizationPrompt.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.personalizationPrompt.recommendation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.personalizationPrompt.tips, tip => {
+  }, "Recommendations based on your quiz + streak.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, "Focus: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.personalizationPrompt.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.personalizationPrompt.recommendation), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_34, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.personalizationPrompt.tips, tip => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: tip,
       class: "mb-1"
-    }, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-lightbulb text-teal me-2"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tip), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center gap-3 py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-sunrise-fill fs-4 text-teal"
@@ -2944,22 +2945,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Gentle Tone + Non-Judgmental Wording"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Tailor your reflection for each chapter with a warm, encouraging voice that stays neutral and inclusive.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_40, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.toneGuidelines, tone => {
+  }, "Tailor your reflection for each chapter with a warm, encouraging voice that stays neutral and inclusive.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.toneGuidelines, tone => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: tone,
       class: "mb-2"
-    }, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle text-teal me-2"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tone), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Onboarding Block "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Onboarding Block "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex flex-column flex-md-row align-items-start align-items-md-end justify-content-between gap-3 mb-2"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 text-muted small text-uppercase"
   }, "Gentle start"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-semibold mb-1"
-  }, "Simple welcome for new friends")])], -1 /* CACHED */)), _cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Simple welcome for new friends")])], -1 /* CACHED */)), _cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-3"
-  }, " Take it slow these reflections anchor today’s lesson and help you stay curious. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_43, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentGentleStartSteps, (step, index) => {
+  }, " Take it slow these reflections anchor today’s lesson and help you stay curious. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_41, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentGentleStartSteps, (step, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: step.title,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
@@ -2976,110 +2977,110 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["onboarding-bullet-icon", {
         completed: _ctx.isGentleStepCompleted(index)
       }])
-    }, [_ctx.isGentleStepCompleted(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])], 10 /* CLASS, PROPS */, _hoisted_44)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[48] || (_cache[48] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, [_ctx.isGentleStepCompleted(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_43)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])], 10 /* CLASS, PROPS */, _hoisted_42)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[47] || (_cache[47] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "d-block mb-1"
-  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_48, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Focus of this lesson", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-seam-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5 flex-grow-1"
-  }, "Learning Overview")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Learning Overview")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[2] || (_cache[2] = (...args) => _ctx.shareLessonOverview && _ctx.shareLessonOverview(...args))
-  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[3] || (_cache[3] = (...args) => _ctx.copyLessonOverview && _ctx.copyLessonOverview(...args))
-  }, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[4] || (_cache[4] = (...args) => _ctx.printLessonOverview && _ctx.printLessonOverview(...args))
-  }, [...(_cache[51] || (_cache[51] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.overviewFontScale}em`,
       lineHeight: 1.6
     })
-  }, [_ctx.currentLessonOverview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-muted small mb-3\">{{ currentLessonOverview.summary }}</p> "), (_ctx$currentLessonOve = _ctx.currentLessonOverview.highlights) !== null && _ctx$currentLessonOve !== void 0 && _ctx$currentLessonOve.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentLessonOverview.highlights, highlight => {
+  }, [_ctx.currentLessonOverview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-muted small mb-3\">{{ currentLessonOverview.summary }}</p> "), (_ctx$currentLessonOve = _ctx.currentLessonOverview.highlights) !== null && _ctx$currentLessonOve !== void 0 && _ctx$currentLessonOve.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentLessonOverview.highlights, highlight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: highlight.label || highlight.heading,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.label || highlight.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.description || highlight.content), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.overviewSections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_58, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.overviewSections, (section, index) => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.label || highlight.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.description || highlight.content), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.overviewSections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.overviewSections, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.heading,
       id: `section-${_ctx.selectedPill}-${index}`,
       class: "section-block mb-5"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_60, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "section-content text-dark fs-6 lh-lg",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.overviewFontScale}rem`
       })
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.content), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_64, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.content), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_62, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
-    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_66, [_cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_64, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
     }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: section.resources,
       target: "_blank",
       rel: "noreferrer",
       class: "text-teal"
-    }, "View source", 8 /* PROPS */, _hoisted_67)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.sectionStatsFor(section.heading).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
+    }, "View source", 8 /* PROPS */, _hoisted_65)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.sectionStatsFor(section.heading).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: stat.label,
         class: "section-stat-card"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_67, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[54] || (_cache[54] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "pt-3 mt-3"
-    }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_59);
-  }), 128 /* KEYED_FRAGMENT */))])) : (_ctx$currentLesson5 = _ctx.currentLesson) !== null && _ctx$currentLesson5 !== void 0 && (_ctx$currentLesson5 = _ctx$currentLesson5.sections) !== null && _ctx$currentLesson5 !== void 0 && _ctx$currentLesson5.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_70, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)((_ctx$currentLesson6 = _ctx.currentLesson) === null || _ctx$currentLesson6 === void 0 ? void 0 : _ctx$currentLesson6.sections, (section, index) => {
+    }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_57);
+  }), 128 /* KEYED_FRAGMENT */))])) : (_ctx$currentLesson5 = _ctx.currentLesson) !== null && _ctx$currentLesson5 !== void 0 && (_ctx$currentLesson5 = _ctx$currentLesson5.sections) !== null && _ctx$currentLesson5 !== void 0 && _ctx$currentLesson5.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)((_ctx$currentLesson6 = _ctx.currentLesson) === null || _ctx$currentLesson6 === void 0 ? void 0 : _ctx$currentLesson6.sections, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.title,
       class: "section-block mb-5"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "section-content text-dark fs-6 lh-lg",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.overviewFontScale}rem`
       }),
       innerHTML: section.content
-    }, null, 12 /* STYLE, PROPS */, _hoisted_74), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_76, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_72), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_74, [_cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
-    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_78, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+    }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_76, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
       class: "me-2"
     }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
       href: section.resources,
       target: "_blank",
       rel: "noreferrer",
       class: "text-teal"
-    }, "View source", 8 /* PROPS */, _hoisted_79)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, "View source", 8 /* PROPS */, _hoisted_77)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-lightbulb-fill me-2 fs-4 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "deep-dive-content text-dark fs-6",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.overviewFontScale * 0.95}rem`
       }),
       innerHTML: section.deepDive.content
-    }, null, 12 /* STYLE, PROPS */, _hoisted_83)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_84, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_81)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: stat.label,
         class: "section-stat-card"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_83, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "pt-3 mt-3"
     }, null, -1 /* CACHED */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */)]), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_84, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center justify-content-between flex-wrap gap-3 p-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-teal small mb-1 fw-semibold"
@@ -3087,7 +3088,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "mb-1 fw-semibold"
   }, "Short clips to carry the lesson forward"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Pair a quick clip with your streak to keep the learning playful.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Pair a quick clip with your streak to keep the learning playful.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-film fs-4 text-teal"
@@ -3095,7 +3096,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Pathway Clips"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Short visual cues to keep each insight gripping.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pathwayClips, clip => {
+  }, "Short visual cues to keep each insight gripping.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pathwayClips, clip => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: clip.title,
       class: "col-12 col-md-4"
@@ -3104,37 +3105,37 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseenter: $event => _ctx.startPreview(clip),
       onMouseleave: _cache[5] || (_cache[5] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.playClip(clip)
-    }, [_ctx.isClipPlaying(clip) || _ctx.isClipPreviewing(clip) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    }, [_ctx.isClipPlaying(clip) || _ctx.isClipPreviewing(clip) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_89, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
       src: _ctx.formatVideoUrl(clip.url, _ctx.shouldAutoplayVideo(), _ctx.isClipPreviewing(clip)),
       title: clip.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_92)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_90)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "clip-thumbnail ratio ratio-16x9",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(clip))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "clip-label badge bg-white text-dark"
     }, "Clip", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-dark text-dark",
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.playClip(clip), ["stop"])
-    }, [...(_cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-play-fill"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_94)])], 4 /* STYLE */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.description || 'Visual recap of today’s insight.'), 1 /* TEXT */), _ctx.videoTags(clip, 'Pathway Clip').length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_98, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(clip, 'Pathway Clip'), tag => {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_92)])], 4 /* STYLE */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_94, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_95, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.description || 'Visual recap of today’s insight.'), 1 /* TEXT */), _ctx.videoTags(clip, 'Pathway Clip').length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_96, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(clip, 'Pathway Clip'), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), clip.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_99, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_90)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), _ctx.guidedPathwayCards.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_100, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.guidedPathwayCards, (card, index) => {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), clip.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_97, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_88)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), _ctx.guidedPathwayCards.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_98, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.guidedPathwayCards, (card, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: card.step,
       class: "guided-bullet"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_102, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.action), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), _ctx.lessonDepartments.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_103, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_99, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.action), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Departments Focus "), _ctx.lessonDepartments.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_101, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bar-chart-line-fill fs-4 me-3 text-teal"
@@ -3142,94 +3143,94 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Lesson Focus Across Departments"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, "How this chapter aligns with every pillar of the experience")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonDepartments, dept => {
+  }, "How this chapter aligns with every pillar of the experience")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonDepartments, dept => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dept.name,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_106, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(dept.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_110, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_111, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.detail), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_107, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_108, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dept.detail), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-1"
-  }, "Share with a friend or family member", -1 /* CACHED */)), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Share with a friend or family member", -1 /* CACHED */)), _cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, " Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. ", -1 /* CACHED */)), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_116, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. ", -1 /* CACHED */)), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden",
     "aria-hidden": "false"
-  }, " Feel free to share every insight, dua, and revert story on this page. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Feel free to share every insight, dua, and revert story on this page. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal fw-semibold",
     onClick: _cache[6] || (_cache[6] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard mr-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal fw-semibold",
     onClick: _cache[7] || (_cache[7] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[69] || (_cache[69] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp mr-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.secondarySectionsReady && _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_118, [_cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Dos and Dont's "), _ctx.secondarySectionsReady && _ctx.currentDosDonts ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_116, [_cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_121, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_124, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, "Do's and Dont's")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_119, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_121, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_122, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-teal mb-3"
-  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_125, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
+  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_123, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
-    }, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill fs-5 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_128, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_124, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_126, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-danger mb-3"
-  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_129, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_127, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-start gap-2 mb-2"
-    }, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill fs-5 text-danger"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_128, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Duas "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [_cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bookmark-star-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5 flex-grow-1"
-  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Duas to Carry")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[8] || (_cache[8] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[74] || (_cache[74] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[73] || (_cache[73] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[9] || (_cache[9] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[75] || (_cache[75] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[74] || (_cache[74] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
     onClick: _cache[10] || (_cache[10] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[76] || (_cache[76] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[75] || (_cache[75] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_134, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_132, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dua.arabic,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_136, [_cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_134, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "dua-glow"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
@@ -3243,36 +3244,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fontSize: `${_ctx.duaFontScale}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.secondarySectionsReady && _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_137, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Key Insights "), _ctx.secondarySectionsReady && _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-chart-line fs-4 me-3 text-teal"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Key Insights", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_139, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson7 = _ctx.currentLesson) === null || _ctx$currentLesson7 === void 0 ? void 0 : _ctx$currentLesson7.title) || 'Chapter'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_141, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
+  }, "Key Insights", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_137, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentChapterKe = _ctx.currentChapterKeyInsights) === null || _ctx$currentChapterKe === void 0 ? void 0 : _ctx$currentChapterKe.chapter) || ((_ctx$currentLesson7 = _ctx.currentLesson) === null || _ctx$currentLesson7 === void 0 ? void 0 : _ctx$currentLesson7.title) || 'Chapter'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_139, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, insight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: insight,
       class: "list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3"
-    }, [_cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-check-circle fs-5 text-teal"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share & uplift "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share & uplift "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [_cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-7"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-1 fs-5"
   }, "Share & uplift"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-3 fs-6"
-  }, " Spread the lesson copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_145, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_146, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Spread the lesson copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-copy",
     onClick: _cache[11] || (_cache[11] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[82] || (_cache[82] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[81] || (_cache[81] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard me-2 fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy lesson link", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-whatsapp",
     onClick: _cache[12] || (_cache[12] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[83] || (_cache[83] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[82] || (_cache[82] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp me-2 fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_147, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), _ctx.revertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_148, [_cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_145, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), _ctx.revertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_146, [_cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-collection-play fs-4 me-3 text-teal"
@@ -3280,7 +3281,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0 fs-5"
   }, "Revert stories"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-0 small"
-  }, "Eight personal clips from men and women keeping it straight to the point.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_149, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
+  }, "Eight personal clips from men and women keeping it straight to the point.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-3"
@@ -3288,7 +3289,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "video-card shadow-sm overflow-hidden h-100",
       onMouseenter: $event => _ctx.startPreview(video),
       onMouseleave: _cache[13] || (_cache[13] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -3299,26 +3300,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_153)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_151)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video)),
       onClick: $event => _ctx.playVideo(video)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_157, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_158, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_159, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 12 /* STYLE, PROPS */, _hoisted_154))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), _ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_162, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_155, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_157, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 12 /* STYLE, PROPS */, _hoisted_152))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_159, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), _ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_160, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_163, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_164, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_151)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_162, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_149)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-see-more",
     onClick: _cache[14] || (_cache[14] = $event => _ctx.showVideoModal = true)
-  }, [...(_cache[86] || (_cache[86] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[85] || (_cache[85] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right"
-  }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.secondarySectionsReady && _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_166, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [_cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Common asked questions "), _ctx.secondarySectionsReady && _ctx.chapterCommonPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_164, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [_cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-info-square-fill fs-4 text-teal"
@@ -3329,9 +3330,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[15] || (_cache[15] = $event => _ctx.toggleSection('commonQuestions')),
     "aria-expanded": !_ctx.collapsedSections.commonQuestions
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_169, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_167, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.commonQuestions ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.commonQuestions ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_168)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_170, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCommonPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_166)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCommonPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -3343,30 +3344,30 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('common', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_172), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_170), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_174)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.commonFaqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_172)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.commonFaqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-sm btn-link text-teal",
     onClick: _cache[16] || (_cache[16] = $event => _ctx.expandFaq('common'))
-  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, [_cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.commonQuestions]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [_cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-bold"
-  }, "Motivation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_179, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_medium, {
+  }, "Motivation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_177, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_medium, {
     class: "text-teal fs-6"
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)]),
     _: 1 /* STABLE */
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_180, [_cache[90] || (_cache[90] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mission Spotlight "), _ctx.currentMission ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_178, [_cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header d-flex align-items-center py-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-flag-fill fs-4 me-3 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     class: "fw-bold mb-0 fs-5"
-  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_182, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_183, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_184, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_185, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_186, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Mission Pulse")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_180, "Current mission tied to chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.chapterId), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_181, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_182, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.summary), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_184, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentMission.focus), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-success btn-sm fw-semibold",
     onClick: _cache[17] || (_cache[17] = (...args) => _ctx.focusMission && _ctx.focusMission(...args))
-  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.secondarySectionsReady && _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [_cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " View Mission ↓ ")])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ "), _ctx.secondarySectionsReady && _ctx.chapterFaqPanels.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_185, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_186, [_cache[90] || (_cache[90] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4 text-teal"
@@ -3377,9 +3378,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1",
     onClick: _cache[18] || (_cache[18] = $event => _ctx.toggleSection('faqs')),
     "aria-expanded": !_ctx.collapsedSections.faqs
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_190, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_188, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.collapsedSections.faqs ? 'Show' : 'Hide'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.collapsedSections.faqs ? 'bi-chevron-down' : 'bi-chevron-up'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_189)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleFaqPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_187)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_189, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_190, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleFaqPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -3391,77 +3392,81 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('faq', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('faq', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_193), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_191), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_195)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.faqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_193)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('faq', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.faqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-sm btn-link text-teal",
     onClick: _cache[19] || (_cache[19] = $event => _ctx.expandFaq('faq'))
-  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterFaqPanels.length - _ctx.faqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.currentChapterPlans.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_197, [_cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between py-3\" data-v-1d764944><div class=\"d-flex align-items-center gap-3\" data-v-1d764944><i class=\"bi bi-calendar-week fs-4 text-teal\" data-v-1d764944></i><div data-v-1d764944><h2 class=\"fw-bold mb-0 fs-5\" data-v-1d764944>Curated Weekly Plans</h2><p class=\"text-muted small mb-0\" data-v-1d764944>Pick the timeline that fits your current rhythm.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterPlans, plan => {
+  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterFaqPanels.length - _ctx.faqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.collapsedSections.faqs]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.currentChapterPlans.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_195, [_cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between py-3\" data-v-1d764944><div class=\"d-flex align-items-center gap-3\" data-v-1d764944><i class=\"bi bi-calendar-week fs-4 text-teal\" data-v-1d764944></i><div data-v-1d764944><h2 class=\"fw-bold mb-0 fs-5\" data-v-1d764944>Curated Weekly Plans</h2><p class=\"text-muted small mb-0\" data-v-1d764944>Pick the timeline that fits your current rhythm.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterPlans, plan => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: plan.planId,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_202, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_204, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_205, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.planId.replace('-', ' ')), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_206, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.highlights, highlight => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_200, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_201, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_202, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.planId.replace('-', ' ')), 1 /* TEXT */)]), _cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "plan-card__divider",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_204, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_205, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.highlights, highlight => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: highlight,
         class: "plan-highlight"
-      }, [_cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "bi bi-chevron-right text-teal"
+      }, [_cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        class: "plan-highlight-icon",
+        "aria-hidden": "true"
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_207, " Crafted for the " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration.toLowerCase()) + " rhythm. ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-share",
       onClick: $event => _ctx.sharePlan(plan),
       title: 'Share ' + plan.title
-    }, [...(_cache[93] || (_cache[93] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[92] || (_cache[92] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Share plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_208), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Share plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_209), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-copy",
       onClick: $event => _ctx.copyPlan(plan),
       title: 'Copy ' + plan.title
-    }, [...(_cache[94] || (_cache[94] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[93] || (_cache[93] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Copy plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_209), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Copy plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_210), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-print",
       onClick: $event => _ctx.printPlan(plan),
       title: 'Print ' + plan.title
-    }, [...(_cache[95] || (_cache[95] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[94] || (_cache[94] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-printer"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Print plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_210), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Print plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_211), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-download",
       onClick: $event => _ctx.downloadPlanAsPdf(plan),
       title: 'Download ' + plan.title
-    }, [...(_cache[96] || (_cache[96] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[95] || (_cache[95] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-file-earmark-pdf"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Download plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_211)])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [_cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between py-3\" data-v-1d764944><div class=\"d-flex align-items-center gap-3\" data-v-1d764944><div class=\"next-steps-icon\" data-v-1d764944><i class=\"bi bi-clipboard-check-fill fs-5\" data-v-1d764944></i></div><div data-v-1d764944><h1 class=\"fw-bold mb-0 fs-5\" data-v-1d764944>Next Steps &amp; Homework</h1></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_213, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [_cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, "Download plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_212)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Steps "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_213, [_cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between py-3\" data-v-1d764944><div class=\"d-flex align-items-center gap-3\" data-v-1d764944><div class=\"next-steps-icon\" data-v-1d764944><i class=\"bi bi-clipboard-check-fill fs-5\" data-v-1d764944></i></div><div data-v-1d764944><h1 class=\"fw-bold mb-0 fs-5\" data-v-1d764944>Next Steps &amp; Homework</h1></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_215, [_cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "next-steps-highlight"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 fw-semibold"
   }, "Small steps, steady heart"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Refresh the lesson by acting on one small intention today.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_215, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleHomework, (task, index) => {
+  }, "Refresh the lesson by acting on one small intention today.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleHomework, (task, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: task,
       class: "next-steps-pill"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_216, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */)), _ctx.homeworkMoreAvailable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_217, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_217, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(task), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */)), _ctx.homeworkMoreAvailable ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-sm btn-link text-teal",
     onClick: _cache[20] || (_cache[20] = (...args) => _ctx.loadMoreHomework && _ctx.loadMoreHomework(...args))
-  }, " Show more tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentHomework.length - _ctx.homeworkVisibleCount) + " left) ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [_cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Show more tasks (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentHomework.length - _ctx.homeworkVisibleCount) + " left) ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Quiz Card "), _ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_219, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_220, [_cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
@@ -3469,14 +3474,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-dice-4-fill fs-4 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
-  }, "Chapter Quiz")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_220, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_221, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_222, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Chapter Quiz")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_221, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_222, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [_cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_224, [_cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_225, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_225, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_226, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
@@ -3487,8 +3492,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       disabled: _ctx.chapterQuizPassed,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_228, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_229)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_230)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_227);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_231, [_cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_230)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_231)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_228);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_232, [_cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-explanation-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-2"
@@ -3496,24 +3501,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-lightbulb-fill fs-5 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-semibold mb-3 fs-6"
-  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_232, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_233, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_234, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_235, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_236, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_233, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_234, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_235, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_236, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_237, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-explanation-link",
     onClick: _cache[21] || (_cache[21] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
-  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_237, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_238, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_238, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_239, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_239, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_240, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
     onClick: _cache[22] || (_cache[22] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_240, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.chapterQuizPassed && _ctx.nextChapterPreview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1"
-  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_242, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_243, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_244, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_245, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Up next", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_243, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_244, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.track), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_245, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_246, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.id), 1 /* TEXT */), _cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "transition-line mt-2"
-  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_246, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_247, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_248, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_247, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.nextChapterPreview.snippet), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_248, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_249, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
@@ -3522,7 +3527,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[108] || (_cache[108] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_249), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_250, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_251, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_252, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_250), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_251, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_252, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_253, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !_ctx.isWaitingForNext,
       'disabled': _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
@@ -3532,11 +3537,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_253)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_254, [_cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_254)])])])])])], 4 /* STYLE */), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_255, [_cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_255, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_256, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_257, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_259, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_256, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_257, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_259, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_260, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_260, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_261, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_261, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_262, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_263, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[25] || (_cache[25] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
@@ -3546,20 +3551,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "btn btn-teal px-4",
     onClick: _cache[26] || (_cache[26] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_263, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_264, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_264, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_265, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_266, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_265, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_266, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_267, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header border-0 pt-4 px-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
-  }, "All Revert Stories")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_267, [_ctx.hasStoryFilters ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_268, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_269, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_270, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "All Revert Stories")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_268, [_ctx.hasStoryFilters ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_269, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_270, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_271, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Search stories", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     class: "form-control form-control-sm",
     placeholder: "Search by title or theme",
     "onUpdate:modelValue": _cache[27] || (_cache[27] = $event => _ctx.videoSearchTerm = $event)
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_271, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_272, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Duration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
@@ -3568,8 +3573,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_272);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_273, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_273);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_274, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Gender", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
@@ -3578,8 +3583,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_274);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [_cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_275);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_276, [_cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Background", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
@@ -3588,8 +3593,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_276);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_277, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_278, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_277);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_278, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_279, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 'modal-' + video.title,
       class: "col-12 col-md-6"
@@ -3597,7 +3602,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "video-card shadow-sm overflow-hidden h-100",
       onMouseenter: $event => _ctx.startPreview(video),
       onMouseleave: _cache[31] || (_cache[31] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_280, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_281, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -3608,26 +3613,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_281)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_282)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video)),
       onClick: $event => _ctx.playVideo(video)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_283, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_285, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_285, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_286, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_287, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 12 /* STYLE, PROPS */, _hoisted_282))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_288, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_289, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_286, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_287, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_288, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 12 /* STYLE, PROPS */, _hoisted_283))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_289, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_290, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag + '-modal',
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_279)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_291, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_280)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_291, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[32] || (_cache[32] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_292, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_293, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_294, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_295, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_296, [_cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_294, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_295, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_296, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, [_cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold mb-1"
   }, "Reverts Corner Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
@@ -3636,12 +3641,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "aria-label": "Close guide",
     onClick: _cache[33] || (_cache[33] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_298, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: step.title,
       class: "guide-step-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_298, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_299, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_300, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_301, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_299, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_300, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_301, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
     onClick: _cache[34] || (_cache[34] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
@@ -3781,7 +3786,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic found
   \*****************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundation: Tawheed, The Eternal Truth That Created You and Will Resurrect You","summary":"Tawheed is the beginning, the middle, and the end of Islam. It is the reason the universe exists, the reason you breathe, the reason the prophets were sent, the reason Jannah was created, and the only sentence that will save you when the sky is split open. Mastering Tawheed is not optional it is the lifeline that connects every moment of your life to its ultimate purpose.","learningObjectives":["Reconnect every decision to the covenant of Tawheed.","Distinguish Rububiyyah, Uloohiyyah, and Asma wa Sifaat through the stories of the prophets.","Set a daily routine of shahada, duas, and self audit that keeps Tawheed alive.","Anchor your emotions in gratitude through the Shahada.","Spot everyday moments of Tehweed rather than relying on rituals alone."],"overview":[{"heading":"Allah Alone is the Creator","content":"Tawhid teaches that Allah alone is the Creator, Sustainer, and ultimate authority. Recognizing His perfection frees the heart from dependence on creation and anchors life firmly upon divine purpose and truth.","references":"Quran 51:56","resources":"https://quran.com/51/56"},{"heading":"Allah Has No Partners","content":"Allah’s knowledge encompasses everything in existence past, present, and future. Nothing escapes His awareness. This understanding builds trust, humility, and certainty, reminding believers that their lives unfold within perfect divine wisdom.","references":"Quran 4:171","resources":"https://quran.com/4/171"},{"heading":"Allah’s Knowledge Encompasses All","content":"Life is a purposeful test designed by Allah to develop faith, patience, and gratitude. Every moment offers opportunities for growth, reflection, and spiritual elevation, shaping the heart toward obedience and sincerity.","references":"Quran 2:155-156","resources":"https://quran.com/2/155-156"},{"heading":"Life is a Purposeful Test","content":"Worship must be directed only to Allah without partners. Supplications, acts of devotion, and inner reliance are reserved exclusively for Him. This clears the heart from misguidance, superstition, and spiritual confusion entirely.","references":"Hadith: Sahih Muslim 1","resources":"https://sunnah.com/muslim:1"},{"heading":"All Blessings Come from Allah","content":"Every blessing, big or small, originates from Allah’s mercy. Recognizing His favors nurtures gratitude, encourages humility, prevents arrogance, and inspires believers to use their blessings responsibly while remembering the Source granting them.","references":"Quran 16:18","resources":"https://quran.com/16/18"},{"heading":"Trust in Allah Brings Peace","content":"True reliance on Allah brings profound peace. Believers understand that outcomes occur through His perfect decree. Trusting Him calms anxiety, strengthens patience, and empowers the heart to move confidently through life’s challenges.","references":"Quran 3:159","resources":"https://yaqeeninstitute.org"},{"heading":"Allah’s Names Reflect His Perfection","content":"Tawhid liberates people from dependence on worldly powers, false beliefs, and unhealthy attachments. Recognizing Allah as the only One worthy of trust and submission establishes emotional freedom, spiritual clarity, and unwavering personal strength.","references":"Quran 59:22-24","resources":"https://quran.com/59/22-24"},{"heading":"Guidance Comes Only from Allah","content":"Reflecting on Allah’s names deepens understanding of His mercy, power, wisdom, and generosity. These names guide worship and strengthen faith by shaping how believers experience life, seek comfort, and rely upon divine attributes.","references":"Quran 2:2","resources":"https://quran.com/2/2"}]},{"chapterId":2,"title":"The Beliefs: The Six Pillars of Iman, Your Invisible Reality Stronger Than Steel","summary":"While the body lives in the seen world, the heart lives permanently in the unseen (ghayb). The six pillars of Iman are the oxygen of the soul   without them you suffocate spiritually even while walking around healthy. They transform abstract belief into a lived certainty that reshapes every decision.","learningObjectives":["Map the six pillars of Iman onto everyday actions.","Recognize unseen realities (angels, books, prophets, qadar) that shape belief.","Develop nightly reflections that affirm gratitude for the unseen.","List the six pillars whenever doubt creeps in and counter it with evidence.","Practice narrating one unseen reality to a friend this week."],"overview":[{"heading":"Belief in Allah is the core of all belief","content":"Faith in Allah shapes all understanding, intentions, and actions. Recognizing His oneness, power, and mercy directs the heart to obedience, reliance, and purpose, ensuring all aspects of life are aligned.","references":"Quran 2:163","resources":"https://quran.com/2/163"},{"heading":"Angels are honorable beings who serve Allah without error","content":"Belief in angels reminds the believer that every action is observed. They convey divine messages, record deeds, and enforce commands, strengthening awareness of accountability and the unseen aspects of reality.","references":"Quran 35:1","resources":"https://quran.com/35/1"},{"heading":"Divine books were sent to guide humanity through different eras","content":"Revealed scriptures provide moral clarity, knowledge, and spiritual guidance. Studying them fosters wisdom, righteous behavior, and understanding of Allah’s commands, ensuring humanity receives instructions suitable for each time and context.","references":"Quran 3:3","resources":"https://quran.com/3/3"},{"heading":"Prophets were sent as perfect guides and role models","content":"Prophets exemplify obedience, patience, and moral excellence. Following their teachings ensures guidance, strengthens faith, and demonstrates how belief translates into practical action in daily life and decision-making.","references":"Quran 6:90","resources":"https://quran.com/6/90"},{"heading":"Muhammad ﷺ is the final messenger for all mankind","content":"Belief in the Prophet ﷺ ensures understanding of the complete message. Emulating his character, mercy, and guidance transforms faith into practical ethical behavior and connects believers to Allah’s final revelation.","references":"Quran 33:40","resources":"https://quran.com/33/40"},{"heading":"The Last Day is inevitable and must be prepared for","content":"Believing in the Day of Judgment encourages mindfulness, accountability, and righteous deeds. Awareness of resurrection and divine justice motivates moral conduct, patience, and perseverance throughout life’s trials.","references":"Quran 101:1-3","resources":"https://quran.com/101/1-3"},{"heading":"Divine decree (qadr) encompasses good and bad as part of Allah’s wisdom","content":"Understanding qadr fosters trust, patience, and acceptance. Believers recognize that life’s outcomes are part of Allah’s wisdom, ensuring resilience during hardship and gratitude during ease, anchored in divine knowledge.","references":"Quran 57:22","resources":"https://quran.com/57/22"},{"heading":"Belief in the unseen strengthens trust in Allah","content":"Faith in unseen realities such as angels, destiny, and the afterlife deepens reliance on Allah. It strengthens patience, shapes behavior, and anchors the heart in the certainty of divine truth.","references":"Quran 2:3","resources":"https://quran.com/2/3"},{"heading":"Iman increases with good deeds and decreases with sin","content":"Faith is dynamic: righteous acts elevate it, while sins diminish it. Conscious practice, reflection, and repentance ensure growth, balance, and the continuous strengthening of the believer’s connection with Allah.","references":"Hadith: Sahih Muslim 1","resources":"https://sunnah.com/muslim:1"},{"heading":"Certainty (yaqeen) transforms faith into a lived reality","content":"Deep conviction strengthens action, decision-making, and perseverance. Yaqeen protects the heart from doubt, stabilizes spiritual life, and turns belief into practical guidance that shapes everyday behavior and intentions.","references":"Quran 33:3","resources":"https://quran.com/33/3"},{"heading":"Belief is expressed through actions, not only words","content":"True faith manifests in ethical conduct, compassion, worship, and accountability. Words alone are insufficient; actions demonstrate the sincerity of belief, influencing personal integrity and community trust.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Accountability begins with intention","content":"Every action is measured by its purpose. Sincere intentions transform ordinary deeds into worship, fostering mindfulness, spiritual awareness, and alignment of daily behavior with Allah’s commands.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Doubt can be overcome by knowledge and reflection","content":"Uncertainty weakens faith, but learning, reflection, and remembrance of Allah fortify conviction. Engaging the mind and heart ensures clarity, spiritual stability, and confident reliance on divine truth.","references":"Quran 47:17","resources":"https://quran.com/47/17"},{"heading":"True belief manifests in humility and gratitude","content":"Faith is reflected in modesty, thankfulness, and acknowledgment of Allah’s favors. Humility nurtures obedience, while gratitude strengthens joy, contentment, and awareness of divine blessings in everyday life.","references":"Quran 31:18-19","resources":"https://quran.com/31/18-19"},{"heading":"Belief must be renewed and strengthened regularly","content":"Faith requires continuous nourishment through worship, reflection, dhikr, and good deeds. Consistent renewal maintains spiritual vitality, deepens conviction, and ensures the heart remains connected to Allah throughout life.","references":"Hadith: Sahih Muslim 2749","resources":"https://sunnah.com/muslim:2749"}]},{"chapterId":3,"title":"The Pillars: The Five Pillars, Your Direct Phone Line to Allah","summary":"These five actions are the bare minimum Allah asks in return for Jannah. They are gifts wrapped as obligations. Miss them and everything else collapses; perfect them and every nafl act becomes mountains of reward. The Prophet ﷺ called them the \'framework of Islam\' build your life upon them.","learningObjectives":["Master the five pillars as practical rituals, not chores.","Create a checklist for Salah, Zakat, Sawm, Hajj, and Shahada commitments.","Pair each pillar with one challenge and one celebration plan.","Simulate the pillars by planning a short role play for each.","Notice how each pillar influences your schedule after Ramadan."],"overview":[{"heading":"Shahada: Testimony of Faith","content":"Declaring that Allah is One and Muhammad ﷺ is His messenger establishes the foundation of belief. This testimony guides intentions, actions, and devotion, connecting the heart firmly to divine truth.","references":"Quran 47:19","resources":"https://quran.com/47/19"},{"heading":"Salah: Establishing Prayer","content":"Regular prayer strengthens mindfulness, discipline, and connection with Allah. Performing salah attentively cultivates gratitude, patience, and spiritual growth while anchoring daily life in worship and obedience.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Zakat: Obligatory Charity","content":"Giving zakat purifies wealth, helps the needy, and nurtures compassion. It transforms possessions into blessings, reinforces social responsibility, and strengthens the believer’s relationship with Allah through sincere giving.","references":"Quran 9:103","resources":"https://quran.com/9/103"},{"heading":"Sawm: Fasting for Spiritual Growth","content":"Fasting during Ramadan cultivates self-discipline, empathy, and gratitude. It strengthens spiritual awareness, encourages reflection, and enhances connection with Allah through restraint and devotion.","references":"Quran 2:183","resources":"https://quran.com/2/183"},{"heading":"Hajj: Pilgrimage to Allah","content":"The pilgrimage teaches unity, patience, humility, and submission. Participating in Hajj, even spiritually, reinforces devotion, strengthens community bonds, and exemplifies the commitment of the believer to Allah.","references":"Quran 22:27","resources":"https://quran.com/22/27"},{"heading":"Intentionality in Worship","content":"Every pillar should be performed with clear intention. Purifying intentions ensures deeds are accepted, transforms routine acts into worship, and reinforces sincerity in obedience to Allah.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Purification Before Prayer","content":"Performing wudu attentively cleanses both body and spirit. Purification prepares the believer for worship, enhances focus, and reminds the heart of the importance of cleanliness and spiritual readiness.","references":"Quran 5:6","resources":"https://quran.com/5/6"},{"heading":"Focus and Khushu in Prayer","content":"Concentration in salah deepens connection with Allah. Removing distractions allows reflection, strengthens devotion, and turns ritual movements into meaningful spiritual engagement.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Secret Charity","content":"Giving privately purifies intentions, strengthens sincerity, and enhances humility. Hidden acts of generosity demonstrate true compassion and cultivate spiritual reward from Allah alone.","references":"Quran 2:271","resources":"https://quran.com/2/271"},{"heading":"Empathy Through Fasting","content":"Experiencing hunger fosters empathy for the less fortunate. Mindful reflection during fasting nurtures compassion, gratitude, and increased spiritual awareness in everyday life.","references":"Quran 2:185","resources":"https://quran.com/2/185"},{"heading":"Spiritual Transformation Through Pillars","content":"Practicing the pillars consistently shapes character, strengthens faith, and develops discipline. They transform the believer’s heart, aligning intentions, actions, and priorities with Allah’s guidance.","references":"Quran 29:69","resources":"https://quran.com/29/69"},{"heading":"Community and Brotherhood","content":"Pillars unite the ummah through shared devotion, collective worship, and mutual support. Participation fosters social responsibility, empathy, and strengthens the bonds between believers.","references":"Quran 49:10","resources":"https://quran.com/49/10"},{"heading":"Purposeful Worship","content":"Before performing a pillar, remind yourself of its purpose. Awareness transforms obligatory acts into conscious devotion, enhancing spiritual focus and intentionality.","references":"Quran 51:56","resources":"https://quran.com/51/56"},{"heading":"Accountability in Pillars","content":"Regularly review performance of obligatory acts. Correct errors and renew intentions. Accountability strengthens discipline, enhances sincerity, and nurtures a stronger relationship with Allah.","references":"Quran 59:19","resources":"https://quran.com/59/19"},{"heading":"Joy and Contentment in Worship","content":"Experiencing joy in performing pillars increases motivation and devotion. Recognizing blessings and fulfillment in worship encourages consistency and deepens the spiritual connection to Allah.","references":"Quran 13:28","resources":"https://quran.com/13/28"}]},{"chapterId":4,"title":"The Quran: Heartbeat of Revelation and Living Library","summary":"Each letter of the Qur\'an is alive; it lights, heals, and anchors you in divine goodness.","learningObjectives":["Make the Qur’an a daily companion with tajweed, tafsir, and reflection.","Identify three verses that speak to your current season and act on their lessons.","Build a routine for journaling insights from each surah you read.","Pair a verse with dua to turn word into worship.","Teach a family member one tajweed rule this week."],"overview":[{"heading":"The Quran is Allah’s Final Revelation","content":"The Quran provides guidance for all aspects of life. Believers are encouraged to read, reflect, and act upon its teachings to align their hearts and actions with divine wisdom.","references":"Quran 5:48","resources":"https://quran.com/5/48"},{"heading":"The Quran Guides Humanity","content":"Through clear instructions, moral teachings, and stories of past nations, the Quran teaches lessons that foster faith, patience, justice, and ethical conduct for spiritual and worldly success.","references":"Quran 2:2","resources":"https://quran.com/2/2"},{"heading":"The Quran Clarifies Belief","content":"It explains the core principles of Tawhid, prophecy, and the Hereafter, strengthening faith and helping believers understand the purpose of life and the path to pleasing Allah.","references":"Quran 6:19","resources":"https://quran.com/6/19"},{"heading":"The Quran is a Source of Mercy","content":"Reading and reflecting on the Quran brings peace, guidance, and comfort. It reminds believers of Allah’s mercy, encouraging hope, gratitude, and reliance upon Him in all circumstances.","references":"Quran 17:82","resources":"https://quran.com/17/82"},{"heading":"The Quran Requires Reflection","content":"Understanding its meanings strengthens belief. Believers are urged to ponder verses, seek knowledge, and apply lessons practically, transforming reading into action and guidance into daily living.","references":"Quran 47:24","resources":"https://quran.com/47/24"},{"heading":"Recitation Elevates the Heart","content":"Reciting the Quran aloud with focus and reverence nourishes the soul, instills tranquility, and enhances spiritual connection with Allah, making worship more heartfelt and intentional.","references":"Quran 73:4","resources":"https://quran.com/73/4"},{"heading":"The Quran Guides Morality","content":"It teaches ethics, justice, and compassion. Applying these principles in personal conduct fosters integrity, humility, and a harmonious life aligned with divine expectations.","references":"Quran 16:90","resources":"https://quran.com/16/90"},{"heading":"The Quran Encourages Knowledge","content":"Believers are instructed to seek understanding, reflect, and learn. Knowledge nurtures wisdom, strengthens conviction, and enables proper application of divine guidance in all aspects of life.","references":"Quran 20:114","resources":"https://quran.com/20/114"},{"heading":"The Quran Protects from Misguidance","content":"Following its teachings shields believers from false beliefs, moral corruption, and spiritual deviation. Its guidance creates a firm foundation for ethical living and trust in Allah’s commands.","references":"Quran 6:155","resources":"https://quran.com/6/155"},{"heading":"The Quran Promotes Justice","content":"It emphasizes fairness, honesty, and equality. Implementing these principles in daily life nurtures ethical behavior, protects rights, and establishes social harmony in accordance with divine instruction.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"The Quran Encourages Patience","content":"Its stories and guidance teach resilience in adversity. Reflecting on divine wisdom strengthens perseverance, hope, and trust in Allah’s plan, fostering spiritual growth and emotional balance.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"The Quran Strengthens Faith","content":"Regular study and reflection deepen Iman. Understanding its wisdom and applying lessons encourages moral behavior, ethical decisions, and a heart aligned with Allah’s guidance.","references":"Quran 33:34","resources":"https://quran.com/33/34"},{"heading":"The Quran Encourages Worship","content":"It calls believers to prayer, remembrance, and righteous deeds. Following its commands transforms spiritual devotion into everyday actions, connecting the heart and life to Allah’s pleasure.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"The Quran is a Source of Healing","content":"Its words bring comfort, guidance, and reassurance. Reflecting and acting upon them nurtures mental, emotional, and spiritual well-being while strengthening reliance on Allah’s wisdom.","references":"Quran 17:82","resources":"https://quran.com/17/82"},{"heading":"The Quran Must Be Applied","content":"Understanding alone is insufficient; believers must implement its guidance in daily life. Action transforms knowledge into practice, faith into ethics, and devotion into tangible obedience.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":5,"title":"The Prophet: Muhammad ﷺ Mirror of Mercy","summary":"Studying the Prophet\'s life unlocks Islam\'s character code, showing clarity, humility, and compassionate leadership.","learningObjectives":["Study the Prophet’s character and identify manners to adopt.","Trace his leadership habits across worship, family, and community.","Practice one Prophetic routine (e.g., tahajjud or fasting) for a week.","Identify one Prophetic character trait you wish to model this month.","Create a mini journal entry describing how mercy reshaped your language."],"overview":[{"heading":"Prophets Are Guides for Humanity","content":"Prophets exemplify obedience, patience, and morality. Following their guidance helps believers navigate life, strengthens faith, and provides clear examples of applying divine teachings in daily choices and actions.","references":"Quran 6:90","resources":"https://quran.com/6/90"},{"heading":"Muhammad ﷺ is the Final Messenger","content":"Belief in Muhammad ﷺ unites Muslims and completes divine revelation. Emulating his character, mercy, and teachings ensures the proper application of faith and strengthens connection with Allah.","references":"Quran 33:40","resources":"https://quran.com/33/40"},{"heading":"Following the Prophet Strengthens Faith","content":"Emulating his behavior, speech, and ethics nurtures personal integrity, deepens understanding of divine guidance, and ensures that belief is reflected in both intention and action.","references":"Quran 33:21","resources":"https://quran.com/33/21"},{"heading":"Prophetic Teachings Are Universal","content":"The Prophet ﷺ taught principles applicable across all times and cultures. Studying his Sunnah equips believers to navigate contemporary challenges while maintaining obedience and moral excellence.","references":"Quran 7:157","resources":"https://quran.com/7/157"},{"heading":"Prophets Bring Clarity to Belief","content":"They provide clear guidance regarding Tawhid, worship, ethics, and accountability. Following them removes confusion, strengthens conviction, and guides practical application of faith in everyday life.","references":"Quran 21:7","resources":"https://quran.com/21/7"},{"heading":"The Prophet’s Mercy","content":"His mercy toward believers and non-believers exemplifies divine compassion. Reflecting on his character nurtures kindness, patience, and ethical behavior in personal and communal life.","references":"Quran 9:128","resources":"https://quran.com/9/128"},{"heading":"Prophets Encourage Justice","content":"They model fairness and integrity, teaching believers to uphold justice in decisions and interactions. Applying these lessons builds ethical communities aligned with Allah’s commands.","references":"Quran 4:105","resources":"https://quran.com/4/105"},{"heading":"Prophets Teach Patience","content":"Their lives demonstrate perseverance during trials. Following their example strengthens resilience, patience, and trust in Allah while encouraging steadfastness in faith.","references":"Quran 16:127","resources":"https://quran.com/16/127"},{"heading":"Prophetic Wisdom Guides Decisions","content":"Studying their guidance helps believers make ethical and informed choices. Wisdom from their lives aligns actions with divine guidance in practical daily situations.","references":"Quran 21:73","resources":"https://quran.com/21/73"},{"heading":"Prophetic Example Inspires Character","content":"His conduct inspires humility, honesty, and compassion. Internalizing these traits transforms personal behavior, strengthens community relations, and elevates spiritual growth.","references":"Hadith: Sahih Muslim 2326","resources":"https://sunnah.com/muslim:2326"},{"heading":"Prophets Teach Worship","content":"They guide proper prayer, supplication, and devotion. Practicing worship according to their teachings ensures sincerity, spiritual connection, and the acceptance of deeds by Allah.","references":"Quran 6:162","resources":"https://quran.com/6/162"},{"heading":"Prophetic Patience in Adversity","content":"Enduring trials with patience models trust in Allah. Applying this approach fosters resilience, emotional stability, and reliance on divine wisdom during difficulties.","references":"Quran 3:186","resources":"https://quran.com/3/186"},{"heading":"Prophetic Justice in Society","content":"His guidance emphasizes fair treatment, protection of rights, and ethical leadership. Following these principles strengthens social cohesion and moral responsibility in communities.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"Prophets Teach Gratitude","content":"Acknowledging Allah’s favors mirrors the Prophet’s practice of gratitude. Regular reflection fosters contentment, spiritual growth, and ethical appreciation of divine blessings.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Prophetic Sunnah Guides Conduct","content":"Applying Sunnah in behavior, speech, and worship ensures that belief manifests in action. It bridges knowledge and practice, reinforcing faith and moral excellence.","references":"Hadith: Sahih Bukhari 7","resources":"https://sunnah.com/bukhari:7"}]},{"chapterId":6,"title":"The Prayer: Salah as Your Soul\'s Sync","summary":"Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.","learningObjectives":["Deepen khushu by aligning breath, posture, and remembrance in each salah.","Learn key intentions before standing and dua after sujood.","Use salah as a daily reset to calm anxiety and plan service.","Set a weekly accountability check in for your five prayers.","Note how khushu’ shifts when you prep mentally before standing."],"overview":[{"heading":"Prayer Connects to Allah","content":"Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Five Daily Prayers","content":"Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.","references":"Quran 11:114","resources":"https://quran.com/11/114"},{"heading":"Prayer Requires Purity","content":"Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.","references":"Quran 5:6","resources":"https://quran.com/5/6"},{"heading":"Concentration Strengthens Prayer","content":"Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Supplication Complements Prayer","content":"Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.","references":"Hadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"},{"heading":"Prayer Brings Tranquility","content":"Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.","references":"Quran 20:14","resources":"https://quran.com/20/14"},{"heading":"Consistency is Key","content":"Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Prayer Elevates Character","content":"Salah instills patience, humility, and self-discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Prayer as Reminder","content":"Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Facing Challenges with Prayer","content":"Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.","references":"Quran 2:45","resources":"https://quran.com/2/45"},{"heading":"Prayer Inspires Gratitude","content":"Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Prayer Strengthens Community","content":"Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.","references":"Quran 9:71","resources":"https://quran.com/9/71"},{"heading":"Salah Enhances Reflection","content":"Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Intentions Matter","content":"Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Prayer Nourishes the Heart","content":"Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.","references":"Quran 30:17-18","resources":"https://quran.com/30/17-18"}]},{"chapterId":7,"title":"The Manners: Adab That Elevates Every Encounter","summary":"Adab is the fragrance of iman; it makes every interaction sacred and every apology sincere.","learningObjectives":["Define practical adab when speaking, eating, and sharing space.","Craft a family etiquette reminder (greeting, listening, gratitude).","Compare digital interactions to the Prophet’s mercy and adjust accordingly.","Celebrate small acts of adab with family thank you notes.","Practice digital kindness by correcting or uplifting one comment daily."],"overview":[{"heading":"Good Character is Central to Faith","content":"Islam emphasizes ethical behavior, kindness, and integrity. Good manners reflect belief, influence community harmony, and strengthen relationships while demonstrating obedience to Allah’s guidance.","references":"Quran 68:4","resources":"https://quran.com/68/4"},{"heading":"Honesty and Truthfulness","content":"Speaking truthfully nurtures trust, strengthens community bonds, and aligns behavior with divine guidance. Honesty is a reflection of sincere faith and moral responsibility.","references":"Quran 33:70","resources":"https://quran.com/33/70"},{"heading":"Respect for Parents","content":"Kindness and obedience to parents earn Allah’s pleasure. Treating parents with care, gratitude, and humility strengthens family bonds and exemplifies ethical conduct.","references":"Quran 17:23","resources":"https://quran.com/17/23"},{"heading":"Politeness in Speech","content":"Gentle and respectful speech fosters understanding, prevents conflict, and reflects the believer’s ethical and spiritual maturity.","references":"Quran 31:18-19","resources":"https://quran.com/31/18-19"},{"heading":"Avoiding Backbiting and Gossip","content":"Speaking ill of others damages trust and soul. Avoiding gossip preserves honor, nurtures community harmony, and aligns behavior with Allah’s commands.","references":"Quran 49:12","resources":"https://quran.com/49/12"},{"heading":"Patience and Tolerance","content":"Exercising patience and tolerance in interactions fosters peace, reduces conflict, and strengthens spiritual resilience.","references":"Quran 16:126","resources":"https://quran.com/16/126"},{"heading":"Generosity and Kindness","content":"Acts of giving and compassion reflect faith, improve community welfare, and strengthen the heart’s connection to Allah.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Humility in Conduct","content":"Humility prevents arrogance and encourages sincere service. A humble heart aligns behavior with Allah’s guidance and promotes social harmony.","references":"Quran 25:63","resources":"https://quran.com/25/63"},{"heading":"Forgiveness and Reconciliation","content":"Forgiving others nurtures inner peace and strengthens bonds. Reconciliation restores trust, fulfills moral duty, and earns Allah’s pleasure.","references":"Quran 42:40","resources":"https://quran.com/42/40"},{"heading":"Respecting Elders and Teachers","content":"Honoring those with knowledge and experience fosters learning, ethical behavior, and communal respect while embodying Islamic moral principles.","references":"Quran 4:36","resources":"https://quran.com/4/36"},{"heading":"Moderation in Behavior","content":"Avoiding extremes ensures ethical balance and harmony. Moderation in speech, actions, and desires strengthens character and spiritual integrity.","references":"Quran 25:67","resources":"https://quran.com/25/67"},{"heading":"Truthful Speech Reflects Faith","content":"Every word should reflect honesty and integrity. Speaking truth builds trust and aligns actions with Islamic values.","references":"Quran 61:2-3","resources":"https://quran.com/61/2-3"},{"heading":"Kindness Toward Neighbors","content":"Good conduct toward neighbors strengthens social cohesion, nurtures compassion, and fulfills religious and ethical duties.","references":"Quran 4:36","resources":"https://quran.com/4/36"},{"heading":"Avoiding Anger and Retaliation","content":"Controlling anger ensures justice, reduces harm, and nurtures patience. Responding ethically strengthens moral character and earns Allah’s pleasure.","references":"Quran 3:134","resources":"https://quran.com/3/134"},{"heading":"Manners Must Be Practiced Consistently","content":"Ethical behavior requires continuous practice in all aspects of life. Consistency reinforces character, faith, and positive influence in society.","references":"Hadith: Sahih Muslim 55","resources":"https://sunnah.com/muslim:55"}]},{"chapterId":8,"title":"The Lifestyle: Halal Living, Habits, and Harmony","summary":"Islam is a lifestyle; this chapter helps you align food, finances, and rest with halal intention.","learningObjectives":["Design a halal lifestyle blueprint covering food, finance, and rest.","Introduce two intentional boundaries that protect worship time.","Swap one unhealthy habit for a sunnah inspired alternative each week.","Design a halal budget with a charity and rest category.","Share one restful habit with a friend to keep each other accountable."],"overview":[{"heading":"A Balanced Life Pleases Allah","content":"Living with moderation in worship, work, and leisure ensures spiritual, mental, and physical well-being, aligning daily habits with divine guidance.","references":"Quran 2:143","resources":"https://quran.com/2/143"},{"heading":"Healthy Habits Are Encouraged","content":"Maintaining hygiene, proper diet, and exercise honors the body Allah entrusted, strengthens resilience, and enables consistent worship.","references":"Hadith: Sahih Bukhari 535","resources":"https://sunnah.com/bukhari:535"},{"heading":"Time Management Is Important","content":"Efficient use of time ensures balance between worship, work, and rest. Proper scheduling nurtures discipline, productivity, and spiritual growth.","references":"Quran 103:1-3","resources":"https://quran.com/103/1-3"},{"heading":"Moderation in Spending","content":"Avoid extravagance and wastefulness. Balanced financial management nurtures gratitude, charity, and sustainable living according to divine guidance.","references":"Quran 17:26-27","resources":"https://quran.com/17/26-27"},{"heading":"Work Ethic Reflects Faith","content":"Honest effort and responsibility in work are forms of worship. Ethical labor benefits self, family, and society while earning Allah’s pleasure.","references":"Hadith: Sahih Bukhari 2075","resources":"https://sunnah.com/bukhari:2075"},{"heading":"Leisure with Purpose","content":"Balanced recreation refreshes the mind and body. Engaging in permissible activities enhances focus, creativity, and spiritual well-being.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Seeking Knowledge Is a Lifestyle","content":"Continuous learning fosters personal growth, wisdom, and ethical application. Knowledge strengthens faith and enhances community contribution.","references":"Hadith: Sahih Muslim 2699","resources":"https://sunnah.com/muslim:2699"},{"heading":"Family Life Requires Balance","content":"Providing, caring, and nurturing family relationships while maintaining personal worship ensures harmony and fulfills responsibilities according to Islamic principles.","references":"Quran 2:233","resources":"https://quran.com/2/233"},{"heading":"Avoiding Excess in Lifestyle","content":"Overindulgence in food, wealth, or entertainment distracts from worship. Moderation fosters mindfulness, gratitude, and ethical living.","references":"Quran 7:31","resources":"https://quran.com/7/31"},{"heading":"Mindful Consumption","content":"Eating and drinking in moderation sustains health, strengthens spiritual focus, and reflects gratitude to Allah.","references":"Quran 2:172","resources":"https://quran.com/2/172"},{"heading":"Ethical Entertainment","content":"Choose activities that nurture virtue, knowledge, and social cohesion. Ethical recreation enhances personal and community well-being.","references":"Quran 31:19","resources":"https://quran.com/31/19"},{"heading":"Daily Worship Integrates Lifestyle","content":"Incorporating prayer, dhikr, and reflection into daily routines transforms ordinary life into ongoing worship, deepening spiritual connection.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Environment and Stewardship","content":"Caring for the earth and resources reflects obedience to Allah. Responsible stewardship ensures sustainability and benefits the community.","references":"Quran 6:141","resources":"https://quran.com/6/141"},{"heading":"Lifestyle Shapes Character","content":"Daily routines influence spiritual and moral development. Aligning lifestyle with divine guidance ensures ethical behavior and holistic well-being.","references":"Quran 2:286","resources":"https://quran.com/2/286"},{"heading":"Consistency Builds Habits","content":"Regular practice of balanced habits fosters discipline, spiritual growth, and ethical living. Consistency strengthens connection to Allah and personal character.","references":"Hadith: Sahih Bukhari 6512","resources":"https://sunnah.com/bukhari:6512"}]},{"chapterId":9,"title":"The Community: Building Ummah, Support, and Uplift","summary":"Islam thrives in community; this chapter explores solidarity, hospitality, and shared purpose.","learningObjectives":["Build community by hosting, serving, and mentoring with sincerity.","Create a checklist for respectful conflict resolution and mutual aid.","Document one story of service each week to inspire others.","Plan a community service action plan with clear dua goals.","Document how supporting another renewed your own heart."],"overview":[{"heading":"Community Strengthens Faith","content":"Engaging in a righteous community fosters support, accountability, and shared worship. Collective action strengthens faith and promotes ethical behavior among members.","references":"Quran 3:104","resources":"https://quran.com/3/104"},{"heading":"Supporting One Another","content":"Mutual assistance in times of need nurtures compassion, unity, and social responsibility while reflecting divine guidance in action.","references":"Quran 5:2","resources":"https://quran.com/5/2"},{"heading":"Justice in Society","content":"Fair treatment of all community members ensures harmony, prevents conflict, and aligns society with Allah’s principles.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"Inclusivity and Brotherhood","content":"Welcoming diversity and fostering equality strengthens social bonds. Unity and brotherhood reflect ethical conduct and divine guidance.","references":"Quran 49:13","resources":"https://quran.com/49/13"},{"heading":"Resolving Conflicts Peacefully","content":"Encouraging dialogue and reconciliation maintains harmony, prevents injustice, and strengthens communal trust in accordance with Islamic principles.","references":"Quran 49:9","resources":"https://quran.com/49/9"},{"heading":"Collective Worship","content":"Praying, fasting, and performing acts of charity together nurtures unity, strengthens faith, and fosters shared responsibility.","references":"Quran 9:71","resources":"https://quran.com/9/71"},{"heading":"Charity Strengthens Community","content":"Giving zakat and sadaqah supports the needy, reduces inequality, and enhances social cohesion, reflecting ethical and spiritual responsibility.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Mentorship and Education","content":"Sharing knowledge and guidance empowers individuals, fosters ethical development, and strengthens community resilience and faith.","references":"Hadith: Sahih Muslim 2699","resources":"https://sunnah.com/muslim:2699"},{"heading":"Respecting Leaders","content":"Honoring just leadership nurtures stability, accountability, and obedience to ethical principles while ensuring communal well-being.","references":"Quran 4:59","resources":"https://quran.com/4/59"},{"heading":"Caring for the Vulnerable","content":"Protecting orphans, the poor, and the marginalized reflects divine mercy and strengthens community bonds.","references":"Quran 2:220","resources":"https://quran.com/2/220"},{"heading":"Promoting Peace and Security","content":"Encouraging lawfulness, justice, and peaceful interactions ensures community safety, stability, and moral integrity.","references":"Quran 5:32","resources":"https://quran.com/5/32"},{"heading":"Collaboration and Cooperation","content":"Working together in permissible endeavors nurtures mutual support, ethical behavior, and collective growth, reflecting shared responsibility to Allah.","references":"Quran 5:2","resources":"https://quran.com/5/2"},{"heading":"Accountability Within the Community","content":"Members should encourage righteous behavior and discourage wrongdoing. Mutual accountability strengthens morality, unity, and shared faith.","references":"Quran 3:104","resources":"https://quran.com/3/104"},{"heading":"Community Celebrations","content":"Shared worship, festivals, and gatherings enhance spiritual bonds, reinforce ethical teachings, and foster joy, gratitude, and unity.","references":"Hadith: Sahih Bukhari 967","resources":"https://sunnah.com/bukhari:967"},{"heading":"Continuous Support","content":"Consistently helping and uplifting members builds resilience, strengthens faith, and ensures that community remains a source of guidance, compassion, and ethical growth.","references":"Quran 2:177","resources":"https://quran.com/2/177"}]},{"chapterId":10,"title":"The Future: Continuous Growth and Legacy","summary":"This chapter helps you set spiritual goals, document progress, and leave enduring impact.","learningObjectives":["Set spiritual goals for 30/90/365 days and review them weekly.","Plan a legacy project that benefits others beyond your lifetime.","Commit to mentoring or teaching to multiply your impact.","Sketch a 20 year impact vision and add one action for this year.","Pair each goal with a dua to keep hope alive."],"overview":[{"heading":"The Future is Known to Allah","content":"Believers understand that only Allah knows what lies ahead. Trusting His wisdom nurtures patience, reduces anxiety, and encourages reliance on divine guidance.","references":"Quran 31:34","resources":"https://quran.com/31/34"},{"heading":"Planning with Reliance","content":"While planning for the future is important, ultimate outcomes rest with Allah. Combining effort with reliance ensures balance, humility, and spiritual mindfulness.","references":"Quran 18:23-24","resources":"https://quran.com/18/23-24"},{"heading":"Avoiding Worry About the Unknown","content":"Trust in Allah alleviates fear and anxiety. Faith in divine decree strengthens resilience and peace while facing uncertainty.","references":"Quran 65:2-3","resources":"https://quran.com/65/2-3"},{"heading":"Preparation Through Good Deeds","content":"Actions in this life shape the future. Ethical behavior, worship, and righteous deeds ensure spiritual and worldly benefits.","references":"Quran 2:110","resources":"https://quran.com/2/110"},{"heading":"Faith Guides Decisions","content":"Belief in Allah’s plan influences choices, ensuring ethical, informed, and purposeful action while trusting in divine wisdom.","references":"Quran 3:159","resources":"https://quran.com/3/159"},{"heading":"Hope Anchors the Heart","content":"Believers remain hopeful in Allah’s mercy and plan. This optimism nurtures perseverance, patience, and resilience in life’s trials.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Actions Determine Outcomes","content":"While the future is known to Allah, human effort shapes results. Sincere action, intention, and planning are rewarded by divine decree.","references":"Quran 3:145","resources":"https://quran.com/3/145"},{"heading":"Rely on Allah, Not Fear","content":"Fear of the future diminishes faith. Reliance on Allah instills courage, patience, and calmness in all circumstances.","references":"Quran 3:173","resources":"https://quran.com/3/173"},{"heading":"Accountability in the Future","content":"Every action will be judged. Awareness of divine accountability motivates ethical conduct and spiritual mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Future Depends on Intention","content":"Sincere intentions influence the impact of actions. Aligning purpose with Allah’s pleasure ensures that efforts are rewarded.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Trust in Divine Wisdom","content":"Believers accept outcomes with understanding that Allah’s knowledge surpasses human perception, fostering contentment and resilience.","references":"Quran 2:216","resources":"https://quran.com/2/216"},{"heading":"Patience Shapes the Future","content":"Enduring trials with patience and faith ensures spiritual growth and prepares believers for divine reward in both this life and the Hereafter.","references":"Quran 103:2-3","resources":"https://quran.com/103/2-3"},{"heading":"Optimism Strengthens Action","content":"Positive expectation in Allah’s plan encourages proactive effort, ethical decision-making, and resilience in adversity.","references":"Quran 3:139","resources":"https://quran.com/3/139"},{"heading":"Prayers Influence the Future","content":"Supplication and consistent dhikr invite divine guidance, protection, and blessings, shaping both spiritual and worldly outcomes.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Faith Reduces Anxiety","content":"Belief in Allah’s control over the future fosters calmness, reliance, and contentment, even when facing uncertainty.","references":"Quran 65:3","resources":"https://quran.com/65/3"}]},{"chapterId":11,"title":"Hereafter Realities, Death, Resurrection, and Mercy","summary":"The Hereafter pulls the heart toward lasting priorities; remembering death, the grave, and accountability strengthens every moment of obedience.","learningObjectives":["Describe the stages of the soul between death and resurrection.","Balance fear and hope in Allah\'s justice and mercy.","Implement a nightly muhasabah routine.","Identify three forms of ongoing charity (sadaqah jariyah).","Share the message of accountability with one trusted friend."],"overview":[{"heading":"The Hereafter is Certain","content":"Belief in life after death shapes moral conduct, encourages ethical behavior, and reminds believers that every action has eternal significance.","references":"Quran 3:185","resources":"https://quran.com/3/185"},{"heading":"Preparation Begins Now","content":"Righteous deeds, sincere worship, and ethical behavior prepare for the Hereafter, ensuring spiritual success and divine reward.","references":"Quran 6:132","resources":"https://quran.com/6/132"},{"heading":"Accountability is Inevitable","content":"Every action, word, and intention will be judged. Awareness of accountability motivates ethical living and mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"The Hereafter Motivates Patience","content":"Belief in eternal reward encourages perseverance through hardships, strengthening trust in Allah’s wisdom and cultivating spiritual growth.","references":"Quran 31:34","resources":"https://quran.com/31/34"},{"heading":"Justice Will Be Perfect","content":"Allah’s judgment is fair and precise. Belief in divine justice instills hope, discourages wrongdoing, and encourages ethical behavior.","references":"Quran 4:40","resources":"https://quran.com/4/40"},{"heading":"Reward for Good Deeds","content":"Every act of worship, charity, and righteousness is recorded. Believers are assured of recompense in the eternal life.","references":"Quran 2:277","resources":"https://quran.com/2/277"},{"heading":"Consequences of Sin","content":"Wrongdoing carries accountability in the Hereafter. Awareness of consequences encourages repentance, ethical behavior, and spiritual mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Repentance Prepares the Soul","content":"Sincere repentance purifies the heart and protects from punishment. Regular self-reflection aligns actions with Allah’s guidance.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"The Hereafter Brings Justice","content":"Divine judgment restores balance, corrects injustice, and ensures that moral accountability is fulfilled perfectly.","references":"Quran 45:22","resources":"https://quran.com/45/22"},{"heading":"Life is a Test","content":"This world is temporary; belief in the Hereafter reminds believers that challenges are trials shaping spiritual growth and divine reward.","references":"Quran 67:2","resources":"https://quran.com/67/2"},{"heading":"The Hereafter Encourages Gratitude","content":"Awareness of eternal consequences fosters appreciation for Allah’s blessings, ethical living, and mindful worship.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Hope Strengthens Action","content":"Belief in Paradise motivates righteous deeds, ethical behavior, and perseverance, ensuring spiritual alignment with Allah’s pleasure.","references":"Quran 3:139","resources":"https://quran.com/3/139"},{"heading":"Fear Prevents Wrongdoing","content":"Belief in divine punishment discourages sins, fosters self-restraint, and aligns life with moral and spiritual guidance.","references":"Quran 67:2","resources":"https://quran.com/67/2"},{"heading":"Life is Temporary","content":"This world is fleeting; the eternal Hereafter defines true success. Focus on ethical behavior and worship ensures spiritual fulfillment.","references":"Quran 57:20","resources":"https://quran.com/57/20"},{"heading":"Continuous Reflection is Key","content":"Regular contemplation of the Hereafter strengthens faith, guides ethical conduct, and ensures preparedness for eternal life.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":12,"title":"Paradise and Hell, Rewards, Warnings and Motivation","summary":"Visualize the eternal abodes so gratitude grows and warnings keep you humble.","learningObjectives":["Recall five Quranic descriptions of Paradise.","Explain how the warnings of Hell aim to correct, not condemn.","Apply hope and fear in a practical dua routine.","Identify three actions that increase the chance of entering Jannah.","Share one lesson about the afterlife that inspired your own focus."],"overview":[{"heading":"Paradise is Eternal Reward","content":"Believers who follow Allah’s guidance are promised eternal bliss in Paradise, a place of peace, happiness, and divine pleasure.","references":"Quran 18:107","resources":"https://quran.com/18/107"},{"heading":"Hell is a Consequence of Sin","content":"Those who reject guidance and persist in wrongdoing face punishment. Awareness of Hell encourages ethical behavior and sincere repentance.","references":"Quran 4:56","resources":"https://quran.com/4/56"},{"heading":"Paradise Rewards Faith and Deeds","content":"Good deeds, worship, and sincere intentions lead to Paradise. Belief motivates ethical actions and spiritual mindfulness in daily life.","references":"Quran 2:82","resources":"https://quran.com/2/82"},{"heading":"Hell Warns Against Disobedience","content":"Knowledge of divine punishment deters sins, encourages repentance, and strengthens commitment to ethical and spiritual conduct.","references":"Quran 67:6","resources":"https://quran.com/67/6"},{"heading":"Paradise is a Source of Hope","content":"Aspiration for eternal reward inspires patience, perseverance, and consistent worship, guiding believers toward Allah’s pleasure.","references":"Quran 9:72","resources":"https://quran.com/9/72"},{"heading":"Hell Encourages Mindfulness","content":"Awareness of punishment cultivates vigilance in deeds, honesty, and accountability to Allah in all actions.","references":"Quran 78:21-30","resources":"https://quran.com/78/21-30"},{"heading":"Paradise is Attained Through Mercy","content":"Allah’s mercy enables entry into Paradise. Faith, worship, and sincere intentions invite divine pleasure and eternal reward.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Hell is Just Punishment","content":"Divine justice ensures that wrongdoing is appropriately addressed. Awareness strengthens moral behavior and encourages ethical decision-making.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Rewards are Proportional to Deeds","content":"Every action, small or large, influences eternal outcome. Ethical conduct and worship ensure reward and closeness to Allah.","references":"Quran 6:160","resources":"https://quran.com/6/160"},{"heading":"Hell is Avoided Through Repentance","content":"Sincere repentance and ethical correction prevent punishment, ensuring spiritual growth and alignment with divine guidance.","references":"Quran 25:70","resources":"https://quran.com/25/70"},{"heading":"Paradise Inspires Ethical Living","content":"Hope for eternal reward motivates righteous deeds, patience, gratitude, and compassionate interactions with others.","references":"Quran 3:133","resources":"https://quran.com/3/133"},{"heading":"Hell Encourages Reflection","content":"Considering consequences of sin strengthens mindfulness, self-restraint, and ethical alignment with Allah’s commands.","references":"Quran 74:26-30","resources":"https://quran.com/74/26-30"},{"heading":"Paradise is Beyond Imagination","content":"Descriptions of eternal bliss inspire devotion and reinforce that ultimate fulfillment comes from Allah, motivating ethical and spiritual perseverance.","references":"Quran 76:12-14","resources":"https://quran.com/76/12-14"},{"heading":"Hell Warns of Neglect","content":"Neglecting guidance leads to punishment. Awareness encourages responsibility, repentance, and continuous effort to align life with divine instruction.","references":"Quran 6:128","resources":"https://quran.com/6/128"},{"heading":"Continuous Effort Ensures Reward","content":"Regular worship, ethical behavior, and sincere intention are keys to Paradise, while avoiding sin prevents Hell, reinforcing accountability in daily life.","references":"Quran 2:277","resources":"https://quran.com/2/277"}]},{"chapterId":13,"title":"Dua and Dhikr, Weapons of the Heart","summary":"Remembering Allah and asking Him builds resilience and softens every trial.","learningObjectives":["Memorize five short du\'as with meaning.","Link dhikr phrases to different daily moments.","Explain why dua is both hope and humility.","Build a dua routine you can maintain for a month.","Invite at least one friend to participate in dhikr with you."],"overview":[{"heading":"Dua Connects the Heart to Allah","content":"Supplication fosters intimate connection with Allah, expressing dependence, gratitude, and humility, while strengthening faith and reliance on divine guidance in daily life.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Dhikr Purifies the Soul","content":"Remembering Allah through dhikr cleanses the heart, reinforces mindfulness, and cultivates spiritual resilience, guiding ethical actions and sustained devotion.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Consistency in Dua is Rewarded","content":"Regular supplication demonstrates sincerity, strengthens faith, and invites Allah’s mercy, guidance, and protection in all aspects of life.","references":"Hadith: Sahih Bukhari 6345","resources":"https://sunnah.com/bukhari:6345"},{"heading":"Sincere Intention Matters","content":"Dua accepted by Allah depends on sincerity. Pure intentions align actions and worship with divine guidance, ensuring spiritual reward.","references":"Hadith: Sahih Muslim 2734","resources":"https://sunnah.com/muslim:2734"},{"heading":"Dhikr Brings Peace","content":"Regular remembrance of Allah alleviates anxiety, calms the heart, and strengthens resilience in facing challenges.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Supplication Reflects Dependence","content":"Dua acknowledges human reliance on Allah’s mercy and guidance, fostering humility, gratitude, and ethical living.","references":"Quran 40:60","resources":"https://quran.com/40/60"},{"heading":"Dhikr Enhances Mindfulness","content":"Remembering Allah in daily life develops awareness, discipline, and spiritual focus, guiding ethical and intentional actions.","references":"Quran 33:41-42","resources":"https://quran.com/33/41-42"},{"heading":"Dua is a Form of Worship","content":"Supplication is an act of obedience. Regular dua nurtures devotion, ethical conduct, and reliance on divine mercy.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Gratitude in Dhikr","content":"Remembering Allah’s favors cultivates thankfulness, ethical behavior, and spiritual contentment.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Repentance Through Dua","content":"Supplication facilitates sincere repentance, purifying the heart and aligning life with divine guidance.","references":"Quran 25:70","resources":"https://quran.com/25/70"},{"heading":"Dhikr Strengthens Faith","content":"Frequent remembrance increases certainty in Allah, enhances moral resolve, and nurtures inner peace.","references":"Quran 33:41-42","resources":"https://quran.com/33/41-42"},{"heading":"Prayers Influence Outcomes","content":"Dua and dhikr invite divine guidance, protection, and blessings, shaping spiritual, ethical, and worldly outcomes.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Dua Encourages Patience","content":"Supplication reinforces endurance during trials, strengthens reliance on Allah, and cultivates resilience.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"Dhikr Nurtures Gratitude","content":"Regular remembrance fosters appreciation for Allah’s blessings, ethical conduct, and spiritual mindfulness.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Dua is Accessible Anytime","content":"Supplication can be offered in all circumstances, fostering continuous connection, humility, and reliance on Allah’s mercy and guidance.","references":"Hadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"}]},{"chapterId":14,"title":"Family, Marriage, Mercy, Dialogue and Legacy","summary":"Homes rooted in mercy, equity, and collective worship mirror the Prophet’s model.","learningObjectives":["Create a family worship routine with dua and Quran time.","Describe three practices that keep marital mercy alive.","Plan a reconciliation step after a misunderstanding.","List two ways to honor parents within your schedule.","Share a nurture plan for the next generation."],"overview":[{"heading":"Marriage is a Sacred Bond","content":"Marriage fosters companionship, love, and mutual support, reflecting divine guidance and strengthening family and societal cohesion.","references":"Quran 30:21","resources":"https://quran.com/30/21"},{"heading":"Rights and Responsibilities","content":"Spouses must honor mutual rights and responsibilities, fostering harmony, ethical behavior, and fulfillment of divine guidance.","references":"Quran 2:228","resources":"https://quran.com/2/228"},{"heading":"Parenting Requires Wisdom","content":"Raising children with faith, ethics, and love ensures moral development and strengthens familial bonds in line with Allah’s guidance.","references":"Quran 31:14","resources":"https://quran.com/31/14"},{"heading":"Mutual Respect is Essential","content":"Respect between spouses nurtures trust, harmony, and spiritual growth, reflecting Islamic ethical principles.","references":"Quran 4:19","resources":"https://quran.com/4/19"},{"heading":"Family Supports Spiritual Growth","content":"A supportive family fosters worship, ethical behavior, and faith, ensuring guidance and accountability within the household.","references":"Quran 66:6","resources":"https://quran.com/66/6"},{"heading":"Love and Compassion","content":"Mutual affection nurtures emotional well-being, strengthens family bonds, and aligns relationships with Allah’s teachings.","references":"Quran 30:21","resources":"https://quran.com/30/21"},{"heading":"Fairness in Treatment","content":"Equity between family members prevents injustice, strengthens cohesion, and fulfills ethical responsibilities.","references":"Quran 4:3","resources":"https://quran.com/4/3"},{"heading":"Maintaining Family Ties","content":"Regular contact, support, and respect strengthen kinship, build social cohesion, and fulfill divine guidance.","references":"Quran 4:1","resources":"https://quran.com/4/1"},{"heading":"Communication is Key","content":"Open, respectful dialogue nurtures understanding, prevents conflict, and strengthens emotional bonds in the family.","references":"Quran 2:187","resources":"https://quran.com/2/187"},{"heading":"Resolving Conflicts Peacefully","content":"Ethical dispute resolution ensures harmony, models patience, and strengthens marital and familial bonds.","references":"Quran 4:35","resources":"https://quran.com/4/35"},{"heading":"Family Encourages Ethical Conduct","content":"Strong family values nurture honesty, kindness, and responsibility, fostering ethical behavior aligned with divine guidance.","references":"Quran 66:6","resources":"https://quran.com/66/6"},{"heading":"Mutual Support During Trials","content":"Family offers emotional, spiritual, and practical support during challenges, reinforcing faith and resilience.","references":"Quran 2:286","resources":"https://quran.com/2/286"},{"heading":"Balanced Roles Enhance Harmony","content":"Understanding and fulfilling complementary roles ensures equity, respect, and cooperation within the household.","references":"Quran 2:228","resources":"https://quran.com/2/228"},{"heading":"Gratitude Strengthens Relationships","content":"Appreciating family members’ efforts nurtures respect, patience, and love, reflecting ethical and spiritual principles.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Spiritual Leadership at Home","content":"Guiding family in worship and ethical conduct ensures holistic growth, strong bonds, and alignment with Allah’s guidance.","references":"Quran 66:6","resources":"https://quran.com/66/6"}]},{"chapterId":15,"title":"Purifying the Hearts Softness, Humility and Focus","summary":"A heart free from envy, pride, and doubt responds to Allah with trust and love.","learningObjectives":["Implement a three day muhasabah habit.","Recognize two signs that the heart is hardening.","Apply dhikr to calm stress and restore focus.","Plan a charitable act that softens the heart.","Practice gratitude to counter envy."],"overview":[{"heading":"Purity of Heart is Essential","content":"A pure heart nurtures faith, compassion, and ethical behavior. Inner cleanliness ensures sincerity in worship and daily conduct.","references":"Quran 91:9","resources":"https://quran.com/91/9"},{"heading":"Love for Allah","content":"A heart connected to Allah guides actions, strengthens resilience, and cultivates gratitude, humility, and ethical behavior.","references":"Quran 2:165","resources":"https://quran.com/2/165"},{"heading":"Sincerity in Intention","content":"Purity of intent ensures that actions are accepted and that deeds reflect true faith, ethical alignment, and devotion.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Patience Cultivates Strength","content":"A patient heart overcomes trials, maintains trust in Allah, and fosters resilience and spiritual growth.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"Gratitude Softens the Heart","content":"Thankfulness nurtures humility, contentment, and ethical behavior while deepening spiritual connection with Allah.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Forgiveness Cleanses the Heart","content":"Forgiving others fosters peace, emotional balance, and ethical conduct, reflecting divine mercy.","references":"Quran 24:22","resources":"https://quran.com/24/22"},{"heading":"Repentance Purifies the Heart","content":"Sincere repentance cleanses sins, strengthens faith, and nurtures ethical and spiritual growth.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Trust in Allah Strengthens Heart","content":"Relying on divine guidance nurtures peace, courage, and ethical decision-making in all circumstances.","references":"Quran 3:159","resources":"https://quran.com/3/159"},{"heading":"Humility Shapes the Heart","content":"A humble heart reflects awareness of Allah’s greatness, fostering compassion, ethical behavior, and spiritual mindfulness.","references":"Quran 25:63","resources":"https://quran.com/25/63"},{"heading":"Love for People","content":"A heart filled with compassion nurtures strong relationships, ethical behavior, and communal harmony.","references":"Quran 3:134","resources":"https://quran.com/3/134"},{"heading":"Avoiding Hardness of Heart","content":"Neglecting spiritual and ethical duties hardens the heart. Reflection, worship, and ethical action maintain softness and receptivity.","references":"Quran 57:16","resources":"https://quran.com/57/16"},{"heading":"Hope Strengthens the Heart","content":"Belief in Allah’s mercy and guidance nurtures resilience, ethical conduct, and perseverance in challenges.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Fear Encourages Reflection","content":"Fear of divine displeasure fosters accountability, ethical living, and mindfulness in both worship and everyday actions.","references":"Quran 59:18","resources":"https://quran.com/59/18"},{"heading":"Contentment Purifies the Heart","content":"Being satisfied with Allah’s decree fosters gratitude, patience, and inner peace, guiding ethical and spiritual development.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Continuous Reflection Strengthens Heart","content":"Regular contemplation of faith, deeds, and divine guidance ensures a soft, ethical, and spiritually connected heart.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundation: Tawheed, The Eternal Truth That Created You and Will Resurrect You","summary":"Tawheed is the beginning, the middle, and the end of Islam. It is the reason the universe exists, the reason you breathe, the reason the prophets were sent, the reason Jannah was created, and the only sentence that will save you when the sky is split open. Mastering Tawheed is not optional it is the lifeline that connects every moment of your life to its ultimate purpose.","learningObjectives":["Reconnect every decision to the covenant of Tawheed.","Distinguish Rububiyyah, Uloohiyyah, and Asma wa Sifaat through the stories of the prophets.","Set a daily routine of shahada, duas, and self audit that keeps Tawheed alive.","Anchor your emotions in gratitude through the Shahada.","Spot everyday moments of Tehweed rather than relying on rituals alone."],"overview":[{"heading":"Allah Alone is the Creator","content":"Tawhid teaches that Allah alone is the Creator, Sustainer, and ultimate authority. Recognizing His perfection frees the heart from dependence on creation and anchors life firmly upon divine purpose and truth.","references":"Quran 51:56","resources":"https://quran.com/51/56"},{"heading":"Allah Has No Partners","content":"Allah’s knowledge encompasses everything in existence—past, present, and future. Nothing escapes His awareness. This understanding builds trust, humility, and certainty, reminding believers that their lives unfold within perfect divine wisdom.","references":"Quran 4:171","resources":"https://quran.com/4/171"},{"heading":"Allah’s Knowledge Encompasses All","content":"Life is a purposeful test designed by Allah to develop faith, patience, and gratitude. Every moment offers opportunities for growth, reflection, and spiritual elevation, shaping the heart toward obedience and sincerity.","references":"Quran 2:155-156","resources":"https://quran.com/2/155-156"},{"heading":"Life is a Purposeful Test","content":"Worship must be directed only to Allah without partners. Supplications, acts of devotion, and inner reliance are reserved exclusively for Him. This clears the heart from misguidance, superstition, and spiritual confusion entirely.","references":"Hadith: Sahih Muslim 1","resources":"https://sunnah.com/muslim:1"},{"heading":"All Blessings Come from Allah","content":"Every blessing, big or small, originates from Allah’s mercy. Recognizing His favors nurtures gratitude, encourages humility, prevents arrogance, and inspires believers to use their blessings responsibly while remembering the Source granting them.","references":"Quran 16:18","resources":"https://quran.com/16/18"},{"heading":"Trust in Allah Brings Peace","content":"True reliance on Allah brings profound peace. Believers understand that outcomes occur through His perfect decree. Trusting Him calms anxiety, strengthens patience, and empowers the heart to move confidently through life’s challenges.","references":"Quran 3:159","resources":"https://yaqeeninstitute.org"},{"heading":"Allah’s Names Reflect His Perfection","content":"Tawhid liberates people from dependence on worldly powers, false beliefs, and unhealthy attachments. Recognizing Allah as the only One worthy of trust and submission establishes emotional freedom, spiritual clarity, and unwavering personal strength.","references":"Quran 59:22-24","resources":"https://quran.com/59/22-24"},{"heading":"Guidance Comes Only from Allah","content":"Reflecting on Allah’s names deepens understanding of His mercy, power, wisdom, and generosity. These names guide worship and strengthen faith by shaping how believers experience life, seek comfort, and rely upon divine attributes.","references":"Quran 2:2","resources":"https://quran.com/2/2"}]},{"chapterId":2,"title":"The Beliefs: The Six Pillars of Iman, Your Invisible Reality Stronger Than Steel","summary":"While the body lives in the seen world, the heart lives permanently in the unseen (ghayb). The six pillars of Iman are the oxygen of the soul   without them you suffocate spiritually even while walking around healthy. They transform abstract belief into a lived certainty that reshapes every decision.","learningObjectives":["Map the six pillars of Iman onto everyday actions.","Recognize unseen realities (angels, books, prophets, qadar) that shape belief.","Develop nightly reflections that affirm gratitude for the unseen.","List the six pillars whenever doubt creeps in and counter it with evidence.","Practice narrating one unseen reality to a friend this week."],"overview":[{"heading":"Belief in Allah is the core of all belief","content":"Faith in Allah shapes all understanding, intentions, and actions. Recognizing His oneness, power, and mercy directs the heart to obedience, reliance, and purpose, ensuring all aspects of life are aligned.","references":"Quran 2:163","resources":"https://quran.com/2/163"},{"heading":"Angels are honorable beings who serve Allah without error","content":"Belief in angels reminds the believer that every action is observed. They convey divine messages, record deeds, and enforce commands, strengthening awareness of accountability and the unseen aspects of reality.","references":"Quran 35:1","resources":"https://quran.com/35/1"},{"heading":"Divine books were sent to guide humanity through different eras","content":"Revealed scriptures provide moral clarity, knowledge, and spiritual guidance. Studying them fosters wisdom, righteous behavior, and understanding of Allah’s commands, ensuring humanity receives instructions suitable for each time and context.","references":"Quran 3:3","resources":"https://quran.com/3/3"},{"heading":"Prophets were sent as perfect guides and role models","content":"Prophets exemplify obedience, patience, and moral excellence. Following their teachings ensures guidance, strengthens faith, and demonstrates how belief translates into practical action in daily life and decision-making.","references":"Quran 6:90","resources":"https://quran.com/6/90"},{"heading":"Muhammad ﷺ is the final messenger for all mankind","content":"Belief in the Prophet ﷺ ensures understanding of the complete message. Emulating his character, mercy, and guidance transforms faith into practical ethical behavior and connects believers to Allah’s final revelation.","references":"Quran 33:40","resources":"https://quran.com/33/40"},{"heading":"The Last Day is inevitable and must be prepared for","content":"Believing in the Day of Judgment encourages mindfulness, accountability, and righteous deeds. Awareness of resurrection and divine justice motivates moral conduct, patience, and perseverance throughout life’s trials.","references":"Quran 101:1-3","resources":"https://quran.com/101/1-3"},{"heading":"Divine decree (qadr) encompasses good and bad as part of Allah’s wisdom","content":"Understanding qadr fosters trust, patience, and acceptance. Believers recognize that life’s outcomes are part of Allah’s wisdom, ensuring resilience during hardship and gratitude during ease, anchored in divine knowledge.","references":"Quran 57:22","resources":"https://quran.com/57/22"},{"heading":"Belief in the unseen strengthens trust in Allah","content":"Faith in unseen realities such as angels, destiny, and the afterlife deepens reliance on Allah. It strengthens patience, shapes behavior, and anchors the heart in the certainty of divine truth.","references":"Quran 2:3","resources":"https://quran.com/2/3"},{"heading":"Iman increases with good deeds and decreases with sin","content":"Faith is dynamic: righteous acts elevate it, while sins diminish it. Conscious practice, reflection, and repentance ensure growth, balance, and the continuous strengthening of the believer’s connection with Allah.","references":"Hadith: Sahih Muslim 1","resources":"https://sunnah.com/muslim:1"},{"heading":"Certainty (yaqeen) transforms faith into a lived reality","content":"Deep conviction strengthens action, decision-making, and perseverance. Yaqeen protects the heart from doubt, stabilizes spiritual life, and turns belief into practical guidance that shapes everyday behavior and intentions.","references":"Quran 33:3","resources":"https://quran.com/33/3"},{"heading":"Belief is expressed through actions, not only words","content":"True faith manifests in ethical conduct, compassion, worship, and accountability. Words alone are insufficient; actions demonstrate the sincerity of belief, influencing personal integrity and community trust.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Accountability begins with intention","content":"Every action is measured by its purpose. Sincere intentions transform ordinary deeds into worship, fostering mindfulness, spiritual awareness, and alignment of daily behavior with Allah’s commands.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Doubt can be overcome by knowledge and reflection","content":"Uncertainty weakens faith, but learning, reflection, and remembrance of Allah fortify conviction. Engaging the mind and heart ensures clarity, spiritual stability, and confident reliance on divine truth.","references":"Quran 47:17","resources":"https://quran.com/47/17"},{"heading":"True belief manifests in humility and gratitude","content":"Faith is reflected in modesty, thankfulness, and acknowledgment of Allah’s favors. Humility nurtures obedience, while gratitude strengthens joy, contentment, and awareness of divine blessings in everyday life.","references":"Quran 31:18-19","resources":"https://quran.com/31/18-19"},{"heading":"Belief must be renewed and strengthened regularly","content":"Faith requires continuous nourishment through worship, reflection, dhikr, and good deeds. Consistent renewal maintains spiritual vitality, deepens conviction, and ensures the heart remains connected to Allah throughout life.","references":"Hadith: Sahih Muslim 2749","resources":"https://sunnah.com/muslim:2749"}]},{"chapterId":3,"title":"The Pillars: The Five Pillars, Your Direct Phone Line to Allah","summary":"These five actions are the bare minimum Allah asks in return for Jannah. They are gifts wrapped as obligations. Miss them and everything else collapses; perfect them and every nafl act becomes mountains of reward. The Prophet ﷺ called them the \'framework of Islam\' build your life upon them.","learningObjectives":["Master the five pillars as practical rituals, not chores.","Create a checklist for Salah, Zakat, Sawm, Hajj, and Shahada commitments.","Pair each pillar with one challenge and one celebration plan.","Simulate the pillars by planning a short role play for each.","Notice how each pillar influences your schedule after Ramadan."],"overview":[{"heading":"Shahada: Testimony of Faith","content":"Declaring that Allah is One and Muhammad ﷺ is His messenger establishes the foundation of belief. This testimony guides intentions, actions, and devotion, connecting the heart firmly to divine truth.","references":"Quran 47:19","resources":"https://quran.com/47/19"},{"heading":"Salah: Establishing Prayer","content":"Regular prayer strengthens mindfulness, discipline, and connection with Allah. Performing salah attentively cultivates gratitude, patience, and spiritual growth while anchoring daily life in worship and obedience.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Zakat: Obligatory Charity","content":"Giving zakat purifies wealth, helps the needy, and nurtures compassion. It transforms possessions into blessings, reinforces social responsibility, and strengthens the believer’s relationship with Allah through sincere giving.","references":"Quran 9:103","resources":"https://quran.com/9/103"},{"heading":"Sawm: Fasting for Spiritual Growth","content":"Fasting during Ramadan cultivates self-discipline, empathy, and gratitude. It strengthens spiritual awareness, encourages reflection, and enhances connection with Allah through restraint and devotion.","references":"Quran 2:183","resources":"https://quran.com/2/183"},{"heading":"Hajj: Pilgrimage to Allah","content":"The pilgrimage teaches unity, patience, humility, and submission. Participating in Hajj, even spiritually, reinforces devotion, strengthens community bonds, and exemplifies the commitment of the believer to Allah.","references":"Quran 22:27","resources":"https://quran.com/22/27"},{"heading":"Intentionality in Worship","content":"Every pillar should be performed with clear intention. Purifying intentions ensures deeds are accepted, transforms routine acts into worship, and reinforces sincerity in obedience to Allah.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Purification Before Prayer","content":"Performing wudu attentively cleanses both body and spirit. Purification prepares the believer for worship, enhances focus, and reminds the heart of the importance of cleanliness and spiritual readiness.","references":"Quran 5:6","resources":"https://quran.com/5/6"},{"heading":"Focus and Khushu in Prayer","content":"Concentration in salah deepens connection with Allah. Removing distractions allows reflection, strengthens devotion, and turns ritual movements into meaningful spiritual engagement.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Secret Charity","content":"Giving privately purifies intentions, strengthens sincerity, and enhances humility. Hidden acts of generosity demonstrate true compassion and cultivate spiritual reward from Allah alone.","references":"Quran 2:271","resources":"https://quran.com/2/271"},{"heading":"Empathy Through Fasting","content":"Experiencing hunger fosters empathy for the less fortunate. Mindful reflection during fasting nurtures compassion, gratitude, and increased spiritual awareness in everyday life.","references":"Quran 2:185","resources":"https://quran.com/2/185"},{"heading":"Spiritual Transformation Through Pillars","content":"Practicing the pillars consistently shapes character, strengthens faith, and develops discipline. They transform the believer’s heart, aligning intentions, actions, and priorities with Allah’s guidance.","references":"Quran 29:69","resources":"https://quran.com/29/69"},{"heading":"Community and Brotherhood","content":"Pillars unite the ummah through shared devotion, collective worship, and mutual support. Participation fosters social responsibility, empathy, and strengthens the bonds between believers.","references":"Quran 49:10","resources":"https://quran.com/49/10"},{"heading":"Purposeful Worship","content":"Before performing a pillar, remind yourself of its purpose. Awareness transforms obligatory acts into conscious devotion, enhancing spiritual focus and intentionality.","references":"Quran 51:56","resources":"https://quran.com/51/56"},{"heading":"Accountability in Pillars","content":"Regularly review performance of obligatory acts. Correct errors and renew intentions. Accountability strengthens discipline, enhances sincerity, and nurtures a stronger relationship with Allah.","references":"Quran 59:19","resources":"https://quran.com/59/19"},{"heading":"Joy and Contentment in Worship","content":"Experiencing joy in performing pillars increases motivation and devotion. Recognizing blessings and fulfillment in worship encourages consistency and deepens the spiritual connection to Allah.","references":"Quran 13:28","resources":"https://quran.com/13/28"}]},{"chapterId":4,"title":"The Quran: Heartbeat of Revelation and Living Library","summary":"Each letter of the Qur\'an is alive; it lights, heals, and anchors you in divine goodness.","learningObjectives":["Make the Qur’an a daily companion with tajweed, tafsir, and reflection.","Identify three verses that speak to your current season and act on their lessons.","Build a routine for journaling insights from each surah you read.","Pair a verse with dua to turn word into worship.","Teach a family member one tajweed rule this week."],"overview":[{"heading":"The Quran is Allah’s Final Revelation","content":"The Quran provides guidance for all aspects of life. Believers are encouraged to read, reflect, and act upon its teachings to align their hearts and actions with divine wisdom.","references":"Quran 5:48","resources":"https://quran.com/5/48"},{"heading":"The Quran Guides Humanity","content":"Through clear instructions, moral teachings, and stories of past nations, the Quran teaches lessons that foster faith, patience, justice, and ethical conduct for spiritual and worldly success.","references":"Quran 2:2","resources":"https://quran.com/2/2"},{"heading":"The Quran Clarifies Belief","content":"It explains the core principles of Tawhid, prophecy, and the Hereafter, strengthening faith and helping believers understand the purpose of life and the path to pleasing Allah.","references":"Quran 6:19","resources":"https://quran.com/6/19"},{"heading":"The Quran is a Source of Mercy","content":"Reading and reflecting on the Quran brings peace, guidance, and comfort. It reminds believers of Allah’s mercy, encouraging hope, gratitude, and reliance upon Him in all circumstances.","references":"Quran 17:82","resources":"https://quran.com/17/82"},{"heading":"The Quran Requires Reflection","content":"Understanding its meanings strengthens belief. Believers are urged to ponder verses, seek knowledge, and apply lessons practically, transforming reading into action and guidance into daily living.","references":"Quran 47:24","resources":"https://quran.com/47/24"},{"heading":"Recitation Elevates the Heart","content":"Reciting the Quran aloud with focus and reverence nourishes the soul, instills tranquility, and enhances spiritual connection with Allah, making worship more heartfelt and intentional.","references":"Quran 73:4","resources":"https://quran.com/73/4"},{"heading":"The Quran Guides Morality","content":"It teaches ethics, justice, and compassion. Applying these principles in personal conduct fosters integrity, humility, and a harmonious life aligned with divine expectations.","references":"Quran 16:90","resources":"https://quran.com/16/90"},{"heading":"The Quran Encourages Knowledge","content":"Believers are instructed to seek understanding, reflect, and learn. Knowledge nurtures wisdom, strengthens conviction, and enables proper application of divine guidance in all aspects of life.","references":"Quran 20:114","resources":"https://quran.com/20/114"},{"heading":"The Quran Protects from Misguidance","content":"Following its teachings shields believers from false beliefs, moral corruption, and spiritual deviation. Its guidance creates a firm foundation for ethical living and trust in Allah’s commands.","references":"Quran 6:155","resources":"https://quran.com/6/155"},{"heading":"The Quran Promotes Justice","content":"It emphasizes fairness, honesty, and equality. Implementing these principles in daily life nurtures ethical behavior, protects rights, and establishes social harmony in accordance with divine instruction.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"The Quran Encourages Patience","content":"Its stories and guidance teach resilience in adversity. Reflecting on divine wisdom strengthens perseverance, hope, and trust in Allah’s plan, fostering spiritual growth and emotional balance.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"The Quran Strengthens Faith","content":"Regular study and reflection deepen Iman. Understanding its wisdom and applying lessons encourages moral behavior, ethical decisions, and a heart aligned with Allah’s guidance.","references":"Quran 33:34","resources":"https://quran.com/33/34"},{"heading":"The Quran Encourages Worship","content":"It calls believers to prayer, remembrance, and righteous deeds. Following its commands transforms spiritual devotion into everyday actions, connecting the heart and life to Allah’s pleasure.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"The Quran is a Source of Healing","content":"Its words bring comfort, guidance, and reassurance. Reflecting and acting upon them nurtures mental, emotional, and spiritual well-being while strengthening reliance on Allah’s wisdom.","references":"Quran 17:82","resources":"https://quran.com/17/82"},{"heading":"The Quran Must Be Applied","content":"Understanding alone is insufficient; believers must implement its guidance in daily life. Action transforms knowledge into practice, faith into ethics, and devotion into tangible obedience.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":5,"title":"The Prophet: Muhammad ﷺ Mirror of Mercy","summary":"Studying the Prophet\'s life unlocks Islam\'s character code, showing clarity, humility, and compassionate leadership.","learningObjectives":["Study the Prophet’s character and identify manners to adopt.","Trace his leadership habits across worship, family, and community.","Practice one Prophetic routine (e.g., tahajjud or fasting) for a week.","Identify one Prophetic character trait you wish to model this month.","Create a mini journal entry describing how mercy reshaped your language."],"overview":[{"heading":"Prophets Are Guides for Humanity","content":"Prophets exemplify obedience, patience, and morality. Following their guidance helps believers navigate life, strengthens faith, and provides clear examples of applying divine teachings in daily choices and actions.","references":"Quran 6:90","resources":"https://quran.com/6/90"},{"heading":"Muhammad ﷺ is the Final Messenger","content":"Belief in Muhammad ﷺ unites Muslims and completes divine revelation. Emulating his character, mercy, and teachings ensures the proper application of faith and strengthens connection with Allah.","references":"Quran 33:40","resources":"https://quran.com/33/40"},{"heading":"Following the Prophet Strengthens Faith","content":"Emulating his behavior, speech, and ethics nurtures personal integrity, deepens understanding of divine guidance, and ensures that belief is reflected in both intention and action.","references":"Quran 33:21","resources":"https://quran.com/33/21"},{"heading":"Prophetic Teachings Are Universal","content":"The Prophet ﷺ taught principles applicable across all times and cultures. Studying his Sunnah equips believers to navigate contemporary challenges while maintaining obedience and moral excellence.","references":"Quran 7:157","resources":"https://quran.com/7/157"},{"heading":"Prophets Bring Clarity to Belief","content":"They provide clear guidance regarding Tawhid, worship, ethics, and accountability. Following them removes confusion, strengthens conviction, and guides practical application of faith in everyday life.","references":"Quran 21:7","resources":"https://quran.com/21/7"},{"heading":"The Prophet’s Mercy","content":"His mercy toward believers and non-believers exemplifies divine compassion. Reflecting on his character nurtures kindness, patience, and ethical behavior in personal and communal life.","references":"Quran 9:128","resources":"https://quran.com/9/128"},{"heading":"Prophets Encourage Justice","content":"They model fairness and integrity, teaching believers to uphold justice in decisions and interactions. Applying these lessons builds ethical communities aligned with Allah’s commands.","references":"Quran 4:105","resources":"https://quran.com/4/105"},{"heading":"Prophets Teach Patience","content":"Their lives demonstrate perseverance during trials. Following their example strengthens resilience, patience, and trust in Allah while encouraging steadfastness in faith.","references":"Quran 16:127","resources":"https://quran.com/16/127"},{"heading":"Prophetic Wisdom Guides Decisions","content":"Studying their guidance helps believers make ethical and informed choices. Wisdom from their lives aligns actions with divine guidance in practical daily situations.","references":"Quran 21:73","resources":"https://quran.com/21/73"},{"heading":"Prophetic Example Inspires Character","content":"His conduct inspires humility, honesty, and compassion. Internalizing these traits transforms personal behavior, strengthens community relations, and elevates spiritual growth.","references":"Hadith: Sahih Muslim 2326","resources":"https://sunnah.com/muslim:2326"},{"heading":"Prophets Teach Worship","content":"They guide proper prayer, supplication, and devotion. Practicing worship according to their teachings ensures sincerity, spiritual connection, and the acceptance of deeds by Allah.","references":"Quran 6:162","resources":"https://quran.com/6/162"},{"heading":"Prophetic Patience in Adversity","content":"Enduring trials with patience models trust in Allah. Applying this approach fosters resilience, emotional stability, and reliance on divine wisdom during difficulties.","references":"Quran 3:186","resources":"https://quran.com/3/186"},{"heading":"Prophetic Justice in Society","content":"His guidance emphasizes fair treatment, protection of rights, and ethical leadership. Following these principles strengthens social cohesion and moral responsibility in communities.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"Prophets Teach Gratitude","content":"Acknowledging Allah’s favors mirrors the Prophet’s practice of gratitude. Regular reflection fosters contentment, spiritual growth, and ethical appreciation of divine blessings.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Prophetic Sunnah Guides Conduct","content":"Applying Sunnah in behavior, speech, and worship ensures that belief manifests in action. It bridges knowledge and practice, reinforcing faith and moral excellence.","references":"Hadith: Sahih Bukhari 7","resources":"https://sunnah.com/bukhari:7"}]},{"chapterId":6,"title":"The Prayer: Salah as Your Soul\'s Sync","summary":"Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.","learningObjectives":["Deepen khushu by aligning breath, posture, and remembrance in each salah.","Learn key intentions before standing and dua after sujood.","Use salah as a daily reset to calm anxiety and plan service.","Set a weekly accountability check in for your five prayers.","Note how khushu’ shifts when you prep mentally before standing."],"overview":[{"heading":"Prayer Connects to Allah","content":"Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Five Daily Prayers","content":"Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.","references":"Quran 11:114","resources":"https://quran.com/11/114"},{"heading":"Prayer Requires Purity","content":"Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.","references":"Quran 5:6","resources":"https://quran.com/5/6"},{"heading":"Concentration Strengthens Prayer","content":"Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Supplication Complements Prayer","content":"Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.","references":"Hadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"},{"heading":"Prayer Brings Tranquility","content":"Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.","references":"Quran 20:14","resources":"https://quran.com/20/14"},{"heading":"Consistency is Key","content":"Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Prayer Elevates Character","content":"Salah instills patience, humility, and self-discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Prayer as Reminder","content":"Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Facing Challenges with Prayer","content":"Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.","references":"Quran 2:45","resources":"https://quran.com/2/45"},{"heading":"Prayer Inspires Gratitude","content":"Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Prayer Strengthens Community","content":"Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.","references":"Quran 9:71","resources":"https://quran.com/9/71"},{"heading":"Salah Enhances Reflection","content":"Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Intentions Matter","content":"Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Prayer Nourishes the Heart","content":"Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.","references":"Quran 30:17-18","resources":"https://quran.com/30/17-18"}]},{"chapterId":7,"title":"The Manners: Adab That Elevates Every Encounter","summary":"Adab is the fragrance of iman; it makes every interaction sacred and every apology sincere.","learningObjectives":["Define practical adab when speaking, eating, and sharing space.","Craft a family etiquette reminder (greeting, listening, gratitude).","Compare digital interactions to the Prophet’s mercy and adjust accordingly.","Celebrate small acts of adab with family thank you notes.","Practice digital kindness by correcting or uplifting one comment daily."],"overview":[{"heading":"Good Character is Central to Faith","content":"Islam emphasizes ethical behavior, kindness, and integrity. Good manners reflect belief, influence community harmony, and strengthen relationships while demonstrating obedience to Allah’s guidance.","references":"Quran 68:4","resources":"https://quran.com/68/4"},{"heading":"Honesty and Truthfulness","content":"Speaking truthfully nurtures trust, strengthens community bonds, and aligns behavior with divine guidance. Honesty is a reflection of sincere faith and moral responsibility.","references":"Quran 33:70","resources":"https://quran.com/33/70"},{"heading":"Respect for Parents","content":"Kindness and obedience to parents earn Allah’s pleasure. Treating parents with care, gratitude, and humility strengthens family bonds and exemplifies ethical conduct.","references":"Quran 17:23","resources":"https://quran.com/17/23"},{"heading":"Politeness in Speech","content":"Gentle and respectful speech fosters understanding, prevents conflict, and reflects the believer’s ethical and spiritual maturity.","references":"Quran 31:18-19","resources":"https://quran.com/31/18-19"},{"heading":"Avoiding Backbiting and Gossip","content":"Speaking ill of others damages trust and soul. Avoiding gossip preserves honor, nurtures community harmony, and aligns behavior with Allah’s commands.","references":"Quran 49:12","resources":"https://quran.com/49/12"},{"heading":"Patience and Tolerance","content":"Exercising patience and tolerance in interactions fosters peace, reduces conflict, and strengthens spiritual resilience.","references":"Quran 16:126","resources":"https://quran.com/16/126"},{"heading":"Generosity and Kindness","content":"Acts of giving and compassion reflect faith, improve community welfare, and strengthen the heart’s connection to Allah.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Humility in Conduct","content":"Humility prevents arrogance and encourages sincere service. A humble heart aligns behavior with Allah’s guidance and promotes social harmony.","references":"Quran 25:63","resources":"https://quran.com/25/63"},{"heading":"Forgiveness and Reconciliation","content":"Forgiving others nurtures inner peace and strengthens bonds. Reconciliation restores trust, fulfills moral duty, and earns Allah’s pleasure.","references":"Quran 42:40","resources":"https://quran.com/42/40"},{"heading":"Respecting Elders and Teachers","content":"Honoring those with knowledge and experience fosters learning, ethical behavior, and communal respect while embodying Islamic moral principles.","references":"Quran 4:36","resources":"https://quran.com/4/36"},{"heading":"Moderation in Behavior","content":"Avoiding extremes ensures ethical balance and harmony. Moderation in speech, actions, and desires strengthens character and spiritual integrity.","references":"Quran 25:67","resources":"https://quran.com/25/67"},{"heading":"Truthful Speech Reflects Faith","content":"Every word should reflect honesty and integrity. Speaking truth builds trust and aligns actions with Islamic values.","references":"Quran 61:2-3","resources":"https://quran.com/61/2-3"},{"heading":"Kindness Toward Neighbors","content":"Good conduct toward neighbors strengthens social cohesion, nurtures compassion, and fulfills religious and ethical duties.","references":"Quran 4:36","resources":"https://quran.com/4/36"},{"heading":"Avoiding Anger and Retaliation","content":"Controlling anger ensures justice, reduces harm, and nurtures patience. Responding ethically strengthens moral character and earns Allah’s pleasure.","references":"Quran 3:134","resources":"https://quran.com/3/134"},{"heading":"Manners Must Be Practiced Consistently","content":"Ethical behavior requires continuous practice in all aspects of life. Consistency reinforces character, faith, and positive influence in society.","references":"Hadith: Sahih Muslim 55","resources":"https://sunnah.com/muslim:55"}]},{"chapterId":8,"title":"The Lifestyle: Halal Living, Habits, and Harmony","summary":"Islam is a lifestyle; this chapter helps you align food, finances, and rest with halal intention.","learningObjectives":["Design a halal lifestyle blueprint covering food, finance, and rest.","Introduce two intentional boundaries that protect worship time.","Swap one unhealthy habit for a sunnah inspired alternative each week.","Design a halal budget with a charity and rest category.","Share one restful habit with a friend to keep each other accountable."],"overview":[{"heading":"A Balanced Life Pleases Allah","content":"Living with moderation in worship, work, and leisure ensures spiritual, mental, and physical well-being, aligning daily habits with divine guidance.","references":"Quran 2:143","resources":"https://quran.com/2/143"},{"heading":"Healthy Habits Are Encouraged","content":"Maintaining hygiene, proper diet, and exercise honors the body Allah entrusted, strengthens resilience, and enables consistent worship.","references":"Hadith: Sahih Bukhari 535","resources":"https://sunnah.com/bukhari:535"},{"heading":"Time Management Is Important","content":"Efficient use of time ensures balance between worship, work, and rest. Proper scheduling nurtures discipline, productivity, and spiritual growth.","references":"Quran 103:1-3","resources":"https://quran.com/103/1-3"},{"heading":"Moderation in Spending","content":"Avoid extravagance and wastefulness. Balanced financial management nurtures gratitude, charity, and sustainable living according to divine guidance.","references":"Quran 17:26-27","resources":"https://quran.com/17/26-27"},{"heading":"Work Ethic Reflects Faith","content":"Honest effort and responsibility in work are forms of worship. Ethical labor benefits self, family, and society while earning Allah’s pleasure.","references":"Hadith: Sahih Bukhari 2075","resources":"https://sunnah.com/bukhari:2075"},{"heading":"Leisure with Purpose","content":"Balanced recreation refreshes the mind and body. Engaging in permissible activities enhances focus, creativity, and spiritual well-being.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Seeking Knowledge Is a Lifestyle","content":"Continuous learning fosters personal growth, wisdom, and ethical application. Knowledge strengthens faith and enhances community contribution.","references":"Hadith: Sahih Muslim 2699","resources":"https://sunnah.com/muslim:2699"},{"heading":"Family Life Requires Balance","content":"Providing, caring, and nurturing family relationships while maintaining personal worship ensures harmony and fulfills responsibilities according to Islamic principles.","references":"Quran 2:233","resources":"https://quran.com/2/233"},{"heading":"Avoiding Excess in Lifestyle","content":"Overindulgence in food, wealth, or entertainment distracts from worship. Moderation fosters mindfulness, gratitude, and ethical living.","references":"Quran 7:31","resources":"https://quran.com/7/31"},{"heading":"Mindful Consumption","content":"Eating and drinking in moderation sustains health, strengthens spiritual focus, and reflects gratitude to Allah.","references":"Quran 2:172","resources":"https://quran.com/2/172"},{"heading":"Ethical Entertainment","content":"Choose activities that nurture virtue, knowledge, and social cohesion. Ethical recreation enhances personal and community well-being.","references":"Quran 31:19","resources":"https://quran.com/31/19"},{"heading":"Daily Worship Integrates Lifestyle","content":"Incorporating prayer, dhikr, and reflection into daily routines transforms ordinary life into ongoing worship, deepening spiritual connection.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Environment and Stewardship","content":"Caring for the earth and resources reflects obedience to Allah. Responsible stewardship ensures sustainability and benefits the community.","references":"Quran 6:141","resources":"https://quran.com/6/141"},{"heading":"Lifestyle Shapes Character","content":"Daily routines influence spiritual and moral development. Aligning lifestyle with divine guidance ensures ethical behavior and holistic well-being.","references":"Quran 2:286","resources":"https://quran.com/2/286"},{"heading":"Consistency Builds Habits","content":"Regular practice of balanced habits fosters discipline, spiritual growth, and ethical living. Consistency strengthens connection to Allah and personal character.","references":"Hadith: Sahih Bukhari 6512","resources":"https://sunnah.com/bukhari:6512"}]},{"chapterId":9,"title":"The Community: Building Ummah, Support, and Uplift","summary":"Islam thrives in community; this chapter explores solidarity, hospitality, and shared purpose.","learningObjectives":["Build community by hosting, serving, and mentoring with sincerity.","Create a checklist for respectful conflict resolution and mutual aid.","Document one story of service each week to inspire others.","Plan a community service action plan with clear dua goals.","Document how supporting another renewed your own heart."],"overview":[{"heading":"Community Strengthens Faith","content":"Engaging in a righteous community fosters support, accountability, and shared worship. Collective action strengthens faith and promotes ethical behavior among members.","references":"Quran 3:104","resources":"https://quran.com/3/104"},{"heading":"Supporting One Another","content":"Mutual assistance in times of need nurtures compassion, unity, and social responsibility while reflecting divine guidance in action.","references":"Quran 5:2","resources":"https://quran.com/5/2"},{"heading":"Justice in Society","content":"Fair treatment of all community members ensures harmony, prevents conflict, and aligns society with Allah’s principles.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"Inclusivity and Brotherhood","content":"Welcoming diversity and fostering equality strengthens social bonds. Unity and brotherhood reflect ethical conduct and divine guidance.","references":"Quran 49:13","resources":"https://quran.com/49/13"},{"heading":"Resolving Conflicts Peacefully","content":"Encouraging dialogue and reconciliation maintains harmony, prevents injustice, and strengthens communal trust in accordance with Islamic principles.","references":"Quran 49:9","resources":"https://quran.com/49/9"},{"heading":"Collective Worship","content":"Praying, fasting, and performing acts of charity together nurtures unity, strengthens faith, and fosters shared responsibility.","references":"Quran 9:71","resources":"https://quran.com/9/71"},{"heading":"Charity Strengthens Community","content":"Giving zakat and sadaqah supports the needy, reduces inequality, and enhances social cohesion, reflecting ethical and spiritual responsibility.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Mentorship and Education","content":"Sharing knowledge and guidance empowers individuals, fosters ethical development, and strengthens community resilience and faith.","references":"Hadith: Sahih Muslim 2699","resources":"https://sunnah.com/muslim:2699"},{"heading":"Respecting Leaders","content":"Honoring just leadership nurtures stability, accountability, and obedience to ethical principles while ensuring communal well-being.","references":"Quran 4:59","resources":"https://quran.com/4/59"},{"heading":"Caring for the Vulnerable","content":"Protecting orphans, the poor, and the marginalized reflects divine mercy and strengthens community bonds.","references":"Quran 2:220","resources":"https://quran.com/2/220"},{"heading":"Promoting Peace and Security","content":"Encouraging lawfulness, justice, and peaceful interactions ensures community safety, stability, and moral integrity.","references":"Quran 5:32","resources":"https://quran.com/5/32"},{"heading":"Collaboration and Cooperation","content":"Working together in permissible endeavors nurtures mutual support, ethical behavior, and collective growth, reflecting shared responsibility to Allah.","references":"Quran 5:2","resources":"https://quran.com/5/2"},{"heading":"Accountability Within the Community","content":"Members should encourage righteous behavior and discourage wrongdoing. Mutual accountability strengthens morality, unity, and shared faith.","references":"Quran 3:104","resources":"https://quran.com/3/104"},{"heading":"Community Celebrations","content":"Shared worship, festivals, and gatherings enhance spiritual bonds, reinforce ethical teachings, and foster joy, gratitude, and unity.","references":"Hadith: Sahih Bukhari 967","resources":"https://sunnah.com/bukhari:967"},{"heading":"Continuous Support","content":"Consistently helping and uplifting members builds resilience, strengthens faith, and ensures that community remains a source of guidance, compassion, and ethical growth.","references":"Quran 2:177","resources":"https://quran.com/2/177"}]},{"chapterId":10,"title":"The Future: Continuous Growth and Legacy","summary":"This chapter helps you set spiritual goals, document progress, and leave enduring impact.","learningObjectives":["Set spiritual goals for 30/90/365 days and review them weekly.","Plan a legacy project that benefits others beyond your lifetime.","Commit to mentoring or teaching to multiply your impact.","Sketch a 20 year impact vision and add one action for this year.","Pair each goal with a dua to keep hope alive."],"overview":[{"heading":"The Future is Known to Allah","content":"Believers understand that only Allah knows what lies ahead. Trusting His wisdom nurtures patience, reduces anxiety, and encourages reliance on divine guidance.","references":"Quran 31:34","resources":"https://quran.com/31/34"},{"heading":"Planning with Reliance","content":"While planning for the future is important, ultimate outcomes rest with Allah. Combining effort with reliance ensures balance, humility, and spiritual mindfulness.","references":"Quran 18:23-24","resources":"https://quran.com/18/23-24"},{"heading":"Avoiding Worry About the Unknown","content":"Trust in Allah alleviates fear and anxiety. Faith in divine decree strengthens resilience and peace while facing uncertainty.","references":"Quran 65:2-3","resources":"https://quran.com/65/2-3"},{"heading":"Preparation Through Good Deeds","content":"Actions in this life shape the future. Ethical behavior, worship, and righteous deeds ensure spiritual and worldly benefits.","references":"Quran 2:110","resources":"https://quran.com/2/110"},{"heading":"Faith Guides Decisions","content":"Belief in Allah’s plan influences choices, ensuring ethical, informed, and purposeful action while trusting in divine wisdom.","references":"Quran 3:159","resources":"https://quran.com/3/159"},{"heading":"Hope Anchors the Heart","content":"Believers remain hopeful in Allah’s mercy and plan. This optimism nurtures perseverance, patience, and resilience in life’s trials.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Actions Determine Outcomes","content":"While the future is known to Allah, human effort shapes results. Sincere action, intention, and planning are rewarded by divine decree.","references":"Quran 3:145","resources":"https://quran.com/3/145"},{"heading":"Rely on Allah, Not Fear","content":"Fear of the future diminishes faith. Reliance on Allah instills courage, patience, and calmness in all circumstances.","references":"Quran 3:173","resources":"https://quran.com/3/173"},{"heading":"Accountability in the Future","content":"Every action will be judged. Awareness of divine accountability motivates ethical conduct and spiritual mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Future Depends on Intention","content":"Sincere intentions influence the impact of actions. Aligning purpose with Allah’s pleasure ensures that efforts are rewarded.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Trust in Divine Wisdom","content":"Believers accept outcomes with understanding that Allah’s knowledge surpasses human perception, fostering contentment and resilience.","references":"Quran 2:216","resources":"https://quran.com/2/216"},{"heading":"Patience Shapes the Future","content":"Enduring trials with patience and faith ensures spiritual growth and prepares believers for divine reward in both this life and the Hereafter.","references":"Quran 103:2-3","resources":"https://quran.com/103/2-3"},{"heading":"Optimism Strengthens Action","content":"Positive expectation in Allah’s plan encourages proactive effort, ethical decision-making, and resilience in adversity.","references":"Quran 3:139","resources":"https://quran.com/3/139"},{"heading":"Prayers Influence the Future","content":"Supplication and consistent dhikr invite divine guidance, protection, and blessings, shaping both spiritual and worldly outcomes.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Faith Reduces Anxiety","content":"Belief in Allah’s control over the future fosters calmness, reliance, and contentment, even when facing uncertainty.","references":"Quran 65:3","resources":"https://quran.com/65/3"}]},{"chapterId":11,"title":"Hereafter Realities, Death, Resurrection, and Mercy","summary":"The Hereafter pulls the heart toward lasting priorities; remembering death, the grave, and accountability strengthens every moment of obedience.","learningObjectives":["Describe the stages of the soul between death and resurrection.","Balance fear and hope in Allah\'s justice and mercy.","Implement a nightly muhasabah routine.","Identify three forms of ongoing charity (sadaqah jariyah).","Share the message of accountability with one trusted friend."],"overview":[{"heading":"The Hereafter is Certain","content":"Belief in life after death shapes moral conduct, encourages ethical behavior, and reminds believers that every action has eternal significance.","references":"Quran 3:185","resources":"https://quran.com/3/185"},{"heading":"Preparation Begins Now","content":"Righteous deeds, sincere worship, and ethical behavior prepare for the Hereafter, ensuring spiritual success and divine reward.","references":"Quran 6:132","resources":"https://quran.com/6/132"},{"heading":"Accountability is Inevitable","content":"Every action, word, and intention will be judged. Awareness of accountability motivates ethical living and mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"The Hereafter Motivates Patience","content":"Belief in eternal reward encourages perseverance through hardships, strengthening trust in Allah’s wisdom and cultivating spiritual growth.","references":"Quran 31:34","resources":"https://quran.com/31/34"},{"heading":"Justice Will Be Perfect","content":"Allah’s judgment is fair and precise. Belief in divine justice instills hope, discourages wrongdoing, and encourages ethical behavior.","references":"Quran 4:40","resources":"https://quran.com/4/40"},{"heading":"Reward for Good Deeds","content":"Every act of worship, charity, and righteousness is recorded. Believers are assured of recompense in the eternal life.","references":"Quran 2:277","resources":"https://quran.com/2/277"},{"heading":"Consequences of Sin","content":"Wrongdoing carries accountability in the Hereafter. Awareness of consequences encourages repentance, ethical behavior, and spiritual mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Repentance Prepares the Soul","content":"Sincere repentance purifies the heart and protects from punishment. Regular self-reflection aligns actions with Allah’s guidance.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"The Hereafter Brings Justice","content":"Divine judgment restores balance, corrects injustice, and ensures that moral accountability is fulfilled perfectly.","references":"Quran 45:22","resources":"https://quran.com/45/22"},{"heading":"Life is a Test","content":"This world is temporary; belief in the Hereafter reminds believers that challenges are trials shaping spiritual growth and divine reward.","references":"Quran 67:2","resources":"https://quran.com/67/2"},{"heading":"The Hereafter Encourages Gratitude","content":"Awareness of eternal consequences fosters appreciation for Allah’s blessings, ethical living, and mindful worship.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Hope Strengthens Action","content":"Belief in Paradise motivates righteous deeds, ethical behavior, and perseverance, ensuring spiritual alignment with Allah’s pleasure.","references":"Quran 3:139","resources":"https://quran.com/3/139"},{"heading":"Fear Prevents Wrongdoing","content":"Belief in divine punishment discourages sins, fosters self-restraint, and aligns life with moral and spiritual guidance.","references":"Quran 67:2","resources":"https://quran.com/67/2"},{"heading":"Life is Temporary","content":"This world is fleeting; the eternal Hereafter defines true success. Focus on ethical behavior and worship ensures spiritual fulfillment.","references":"Quran 57:20","resources":"https://quran.com/57/20"},{"heading":"Continuous Reflection is Key","content":"Regular contemplation of the Hereafter strengthens faith, guides ethical conduct, and ensures preparedness for eternal life.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":12,"title":"Paradise and Hell, Rewards, Warnings and Motivation","summary":"Visualize the eternal abodes so gratitude grows and warnings keep you humble.","learningObjectives":["Recall five Quranic descriptions of Paradise.","Explain how the warnings of Hell aim to correct, not condemn.","Apply hope and fear in a practical dua routine.","Identify three actions that increase the chance of entering Jannah.","Share one lesson about the afterlife that inspired your own focus."],"overview":[{"heading":"Paradise is Eternal Reward","content":"Believers who follow Allah’s guidance are promised eternal bliss in Paradise, a place of peace, happiness, and divine pleasure.","references":"Quran 18:107","resources":"https://quran.com/18/107"},{"heading":"Hell is a Consequence of Sin","content":"Those who reject guidance and persist in wrongdoing face punishment. Awareness of Hell encourages ethical behavior and sincere repentance.","references":"Quran 4:56","resources":"https://quran.com/4/56"},{"heading":"Paradise Rewards Faith and Deeds","content":"Good deeds, worship, and sincere intentions lead to Paradise. Belief motivates ethical actions and spiritual mindfulness in daily life.","references":"Quran 2:82","resources":"https://quran.com/2/82"},{"heading":"Hell Warns Against Disobedience","content":"Knowledge of divine punishment deters sins, encourages repentance, and strengthens commitment to ethical and spiritual conduct.","references":"Quran 67:6","resources":"https://quran.com/67/6"},{"heading":"Paradise is a Source of Hope","content":"Aspiration for eternal reward inspires patience, perseverance, and consistent worship, guiding believers toward Allah’s pleasure.","references":"Quran 9:72","resources":"https://quran.com/9/72"},{"heading":"Hell Encourages Mindfulness","content":"Awareness of punishment cultivates vigilance in deeds, honesty, and accountability to Allah in all actions.","references":"Quran 78:21-30","resources":"https://quran.com/78/21-30"},{"heading":"Paradise is Attained Through Mercy","content":"Allah’s mercy enables entry into Paradise. Faith, worship, and sincere intentions invite divine pleasure and eternal reward.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Hell is Just Punishment","content":"Divine justice ensures that wrongdoing is appropriately addressed. Awareness strengthens moral behavior and encourages ethical decision-making.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Rewards are Proportional to Deeds","content":"Every action, small or large, influences eternal outcome. Ethical conduct and worship ensure reward and closeness to Allah.","references":"Quran 6:160","resources":"https://quran.com/6/160"},{"heading":"Hell is Avoided Through Repentance","content":"Sincere repentance and ethical correction prevent punishment, ensuring spiritual growth and alignment with divine guidance.","references":"Quran 25:70","resources":"https://quran.com/25/70"},{"heading":"Paradise Inspires Ethical Living","content":"Hope for eternal reward motivates righteous deeds, patience, gratitude, and compassionate interactions with others.","references":"Quran 3:133","resources":"https://quran.com/3/133"},{"heading":"Hell Encourages Reflection","content":"Considering consequences of sin strengthens mindfulness, self-restraint, and ethical alignment with Allah’s commands.","references":"Quran 74:26-30","resources":"https://quran.com/74/26-30"},{"heading":"Paradise is Beyond Imagination","content":"Descriptions of eternal bliss inspire devotion and reinforce that ultimate fulfillment comes from Allah, motivating ethical and spiritual perseverance.","references":"Quran 76:12-14","resources":"https://quran.com/76/12-14"},{"heading":"Hell Warns of Neglect","content":"Neglecting guidance leads to punishment. Awareness encourages responsibility, repentance, and continuous effort to align life with divine instruction.","references":"Quran 6:128","resources":"https://quran.com/6/128"},{"heading":"Continuous Effort Ensures Reward","content":"Regular worship, ethical behavior, and sincere intention are keys to Paradise, while avoiding sin prevents Hell, reinforcing accountability in daily life.","references":"Quran 2:277","resources":"https://quran.com/2/277"}]},{"chapterId":13,"title":"Dua and Dhikr, Weapons of the Heart","summary":"Remembering Allah and asking Him builds resilience and softens every trial.","learningObjectives":["Memorize five short du\'as with meaning.","Link dhikr phrases to different daily moments.","Explain why dua is both hope and humility.","Build a dua routine you can maintain for a month.","Invite at least one friend to participate in dhikr with you."],"overview":[{"heading":"Dua Connects the Heart to Allah","content":"Supplication fosters intimate connection with Allah, expressing dependence, gratitude, and humility, while strengthening faith and reliance on divine guidance in daily life.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Dhikr Purifies the Soul","content":"Remembering Allah through dhikr cleanses the heart, reinforces mindfulness, and cultivates spiritual resilience, guiding ethical actions and sustained devotion.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Consistency in Dua is Rewarded","content":"Regular supplication demonstrates sincerity, strengthens faith, and invites Allah’s mercy, guidance, and protection in all aspects of life.","references":"Hadith: Sahih Bukhari 6345","resources":"https://sunnah.com/bukhari:6345"},{"heading":"Sincere Intention Matters","content":"Dua accepted by Allah depends on sincerity. Pure intentions align actions and worship with divine guidance, ensuring spiritual reward.","references":"Hadith: Sahih Muslim 2734","resources":"https://sunnah.com/muslim:2734"},{"heading":"Dhikr Brings Peace","content":"Regular remembrance of Allah alleviates anxiety, calms the heart, and strengthens resilience in facing challenges.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Supplication Reflects Dependence","content":"Dua acknowledges human reliance on Allah’s mercy and guidance, fostering humility, gratitude, and ethical living.","references":"Quran 40:60","resources":"https://quran.com/40/60"},{"heading":"Dhikr Enhances Mindfulness","content":"Remembering Allah in daily life develops awareness, discipline, and spiritual focus, guiding ethical and intentional actions.","references":"Quran 33:41-42","resources":"https://quran.com/33/41-42"},{"heading":"Dua is a Form of Worship","content":"Supplication is an act of obedience. Regular dua nurtures devotion, ethical conduct, and reliance on divine mercy.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Gratitude in Dhikr","content":"Remembering Allah’s favors cultivates thankfulness, ethical behavior, and spiritual contentment.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Repentance Through Dua","content":"Supplication facilitates sincere repentance, purifying the heart and aligning life with divine guidance.","references":"Quran 25:70","resources":"https://quran.com/25/70"},{"heading":"Dhikr Strengthens Faith","content":"Frequent remembrance increases certainty in Allah, enhances moral resolve, and nurtures inner peace.","references":"Quran 33:41-42","resources":"https://quran.com/33/41-42"},{"heading":"Prayers Influence Outcomes","content":"Dua and dhikr invite divine guidance, protection, and blessings, shaping spiritual, ethical, and worldly outcomes.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Dua Encourages Patience","content":"Supplication reinforces endurance during trials, strengthens reliance on Allah, and cultivates resilience.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"Dhikr Nurtures Gratitude","content":"Regular remembrance fosters appreciation for Allah’s blessings, ethical conduct, and spiritual mindfulness.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Dua is Accessible Anytime","content":"Supplication can be offered in all circumstances, fostering continuous connection, humility, and reliance on Allah’s mercy and guidance.","references":"Hadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"}]},{"chapterId":14,"title":"Family, Marriage, Mercy, Dialogue and Legacy","summary":"Homes rooted in mercy, equity, and collective worship mirror the Prophet’s model.","learningObjectives":["Create a family worship routine with dua and Quran time.","Describe three practices that keep marital mercy alive.","Plan a reconciliation step after a misunderstanding.","List two ways to honor parents within your schedule.","Share a nurture plan for the next generation."],"overview":[{"heading":"Marriage is a Sacred Bond","content":"Marriage fosters companionship, love, and mutual support, reflecting divine guidance and strengthening family and societal cohesion.","references":"Quran 30:21","resources":"https://quran.com/30/21"},{"heading":"Rights and Responsibilities","content":"Spouses must honor mutual rights and responsibilities, fostering harmony, ethical behavior, and fulfillment of divine guidance.","references":"Quran 2:228","resources":"https://quran.com/2/228"},{"heading":"Parenting Requires Wisdom","content":"Raising children with faith, ethics, and love ensures moral development and strengthens familial bonds in line with Allah’s guidance.","references":"Quran 31:14","resources":"https://quran.com/31/14"},{"heading":"Mutual Respect is Essential","content":"Respect between spouses nurtures trust, harmony, and spiritual growth, reflecting Islamic ethical principles.","references":"Quran 4:19","resources":"https://quran.com/4/19"},{"heading":"Family Supports Spiritual Growth","content":"A supportive family fosters worship, ethical behavior, and faith, ensuring guidance and accountability within the household.","references":"Quran 66:6","resources":"https://quran.com/66/6"},{"heading":"Love and Compassion","content":"Mutual affection nurtures emotional well-being, strengthens family bonds, and aligns relationships with Allah’s teachings.","references":"Quran 30:21","resources":"https://quran.com/30/21"},{"heading":"Fairness in Treatment","content":"Equity between family members prevents injustice, strengthens cohesion, and fulfills ethical responsibilities.","references":"Quran 4:3","resources":"https://quran.com/4/3"},{"heading":"Maintaining Family Ties","content":"Regular contact, support, and respect strengthen kinship, build social cohesion, and fulfill divine guidance.","references":"Quran 4:1","resources":"https://quran.com/4/1"},{"heading":"Communication is Key","content":"Open, respectful dialogue nurtures understanding, prevents conflict, and strengthens emotional bonds in the family.","references":"Quran 2:187","resources":"https://quran.com/2/187"},{"heading":"Resolving Conflicts Peacefully","content":"Ethical dispute resolution ensures harmony, models patience, and strengthens marital and familial bonds.","references":"Quran 4:35","resources":"https://quran.com/4/35"},{"heading":"Family Encourages Ethical Conduct","content":"Strong family values nurture honesty, kindness, and responsibility, fostering ethical behavior aligned with divine guidance.","references":"Quran 66:6","resources":"https://quran.com/66/6"},{"heading":"Mutual Support During Trials","content":"Family offers emotional, spiritual, and practical support during challenges, reinforcing faith and resilience.","references":"Quran 2:286","resources":"https://quran.com/2/286"},{"heading":"Balanced Roles Enhance Harmony","content":"Understanding and fulfilling complementary roles ensures equity, respect, and cooperation within the household.","references":"Quran 2:228","resources":"https://quran.com/2/228"},{"heading":"Gratitude Strengthens Relationships","content":"Appreciating family members’ efforts nurtures respect, patience, and love, reflecting ethical and spiritual principles.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Spiritual Leadership at Home","content":"Guiding family in worship and ethical conduct ensures holistic growth, strong bonds, and alignment with Allah’s guidance.","references":"Quran 66:6","resources":"https://quran.com/66/6"}]},{"chapterId":15,"title":"Purifying the Hearts Softness, Humility and Focus","summary":"A heart free from envy, pride, and doubt responds to Allah with trust and love.","learningObjectives":["Implement a three day muhasabah habit.","Recognize two signs that the heart is hardening.","Apply dhikr to calm stress and restore focus.","Plan a charitable act that softens the heart.","Practice gratitude to counter envy."],"overview":[{"heading":"Purity of Heart is Essential","content":"A pure heart nurtures faith, compassion, and ethical behavior. Inner cleanliness ensures sincerity in worship and daily conduct.","references":"Quran 91:9","resources":"https://quran.com/91/9"},{"heading":"Love for Allah","content":"A heart connected to Allah guides actions, strengthens resilience, and cultivates gratitude, humility, and ethical behavior.","references":"Quran 2:165","resources":"https://quran.com/2/165"},{"heading":"Sincerity in Intention","content":"Purity of intent ensures that actions are accepted and that deeds reflect true faith, ethical alignment, and devotion.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Patience Cultivates Strength","content":"A patient heart overcomes trials, maintains trust in Allah, and fosters resilience and spiritual growth.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"Gratitude Softens the Heart","content":"Thankfulness nurtures humility, contentment, and ethical behavior while deepening spiritual connection with Allah.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Forgiveness Cleanses the Heart","content":"Forgiving others fosters peace, emotional balance, and ethical conduct, reflecting divine mercy.","references":"Quran 24:22","resources":"https://quran.com/24/22"},{"heading":"Repentance Purifies the Heart","content":"Sincere repentance cleanses sins, strengthens faith, and nurtures ethical and spiritual growth.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Trust in Allah Strengthens Heart","content":"Relying on divine guidance nurtures peace, courage, and ethical decision-making in all circumstances.","references":"Quran 3:159","resources":"https://quran.com/3/159"},{"heading":"Humility Shapes the Heart","content":"A humble heart reflects awareness of Allah’s greatness, fostering compassion, ethical behavior, and spiritual mindfulness.","references":"Quran 25:63","resources":"https://quran.com/25/63"},{"heading":"Love for People","content":"A heart filled with compassion nurtures strong relationships, ethical behavior, and communal harmony.","references":"Quran 3:134","resources":"https://quran.com/3/134"},{"heading":"Avoiding Hardness of Heart","content":"Neglecting spiritual and ethical duties hardens the heart. Reflection, worship, and ethical action maintain softness and receptivity.","references":"Quran 57:16","resources":"https://quran.com/57/16"},{"heading":"Hope Strengthens the Heart","content":"Belief in Allah’s mercy and guidance nurtures resilience, ethical conduct, and perseverance in challenges.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Fear Encourages Reflection","content":"Fear of divine displeasure fosters accountability, ethical living, and mindfulness in both worship and everyday actions.","references":"Quran 59:18","resources":"https://quran.com/59/18"},{"heading":"Contentment Purifies the Heart","content":"Being satisfied with Allah’s decree fosters gratitude, patience, and inner peace, guiding ethical and spiritual development.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Continuous Reflection Strengthens Heart","content":"Regular contemplation of faith, deeds, and divine guidance ensures a soft, ethical, and spiritually connected heart.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]}]');
 
 /***/ }),
 
