@@ -132,15 +132,37 @@ const GENDER_FILTERS = [{
   label: 'Other'
 }];
 const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win'];
+const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female'];
+const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male'];
+const videoTagCache = new WeakMap();
+const videoGenderCache = new WeakMap();
+const videoDurationCache = new WeakMap();
+const videoUrlIdCache = new Map();
 const REVERTS_GUIDE_STEPS = [{
-  title: 'Explore the roadmap',
-  description: 'Each pill maps to a chapter tap to revisit that lesson, see what’s complete, and unlock the next insight.'
+  title: 'Start with the roadmap',
+  description: 'Scan the pills to understand the chapter flow—completed lessons glow teal, the next gate glows gold, and locked chapters are gently dimmed.',
+  actions: ['Tap the chapter you want to revisit to refresh context before diving back in.', 'Use the completion badges to remind yourself how much you have already accomplished.'],
+  notes: 'Remember: unlocking a new chapter is simply a matter of feeling ready; the progress bar keeps you honest with milestones.'
 }, {
-  title: 'Personalize your pace',
-  description: 'The right column surfaces your tone, guided cues, and next-step reminders so every repeat feels intentional.'
+  title: 'Refine your tone & pace',
+  description: 'The right column curates tone cues, guided prompts, and next-step reminders so every repetition feels intentionally paced.',
+  actions: ['Set your breathing with the tone prompt and note whether you need space to pause or a rhythm to steady.', 'Bookmark any reflection that resonates so it surfaces in your next gentle review.'],
+  notes: 'Switch between “slow listen” and “active reflection” modes to keep the experience varied.'
 }, {
-  title: 'Use the media & sharing tools',
-  description: 'Play revert stories, copy or share lesson summaries, and keep the reflections alive with dua cards and guided clips.'
+  title: 'Use layered lesson insights',
+  description: 'Each lesson contains an overview, highlight capsules, family-friendly dos/don’ts, and guided pathways that map practice to real life.',
+  actions: ['Open the highlight cards to see the “why” behind each concept.', 'Pin a key insight to keep it visible while you work through exercises or mission prompts.'],
+  notes: 'Look for the encouragement badges—these spotlight resilient reverts and remind you that struggle is part of the story.'
+}, {
+  title: 'Tap into the sharing & media toolkit',
+  description: 'Play short revert stories, copy or share summaries, and keep the reflections alive with dua cards and guided clips.',
+  actions: ['Use the share buttons to send a single lesson card or the entire overview to a friend or mentor.', 'Queue the guided clips as a “reset” track when you need a calming pause mid-study.'],
+  notes: 'The copy action also captures the tone you selected, so teammates understand how you want to be supported.'
+}, {
+  title: 'Capture progress and reflect',
+  description: 'Mark steps complete, celebrate confetti milestones, and document what you learned to keep the momentum going.',
+  actions: ['Use the gentle-start toggles to confirm that each soft landing moment has been honored.', 'When you finish a chapter, share what moved you in the reflection modal to lock it into memory.'],
+  notes: 'Confetti triggers are subtle; the real celebration is the new insight you can carry forward.'
 }];
 const getConfettiScale = () => {
   if (typeof window === 'undefined') return 1;
@@ -671,7 +693,7 @@ const celebrateFinalChapter = confettiFn => {
         const text = `${video.title || ''} ${video.description || ''}`.toLowerCase();
         if (term && !text.includes(term)) return false;
         if (this.videoDurationFilter !== 'all') {
-          const seconds = this.parseDurationInSeconds(video.duration);
+          const seconds = this.getVideoDurationSeconds(video);
           if (seconds <= 0) return false;
           if (this.videoDurationFilter === 'short' && seconds >= 150) return false;
           if (this.videoDurationFilter === 'medium' && (seconds < 150 || seconds > 240)) return false;
@@ -1257,8 +1279,15 @@ const celebrateFinalChapter = confettiFn => {
     },
     getVideoId(url) {
       if (!url) return null;
-      const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
-      return match ? match[1] : null;
+      const normalizedUrl = url.trim();
+      if (!normalizedUrl) return null;
+      if (videoUrlIdCache.has(normalizedUrl)) {
+        return videoUrlIdCache.get(normalizedUrl);
+      }
+      const match = normalizedUrl.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+      const id = match ? match[1] : null;
+      videoUrlIdCache.set(normalizedUrl, id);
+      return id;
     },
     thumbnailStyle(video) {
       const accent = this.videoAccentPair(video);
@@ -1282,8 +1311,10 @@ const celebrateFinalChapter = confettiFn => {
     },
     videoTags(video, fallbackTag = 'Revert Story') {
       if (!video) return [];
+      if (videoTagCache.has(video)) return videoTagCache.get(video);
       const explicitTags = (video.tags || []).filter(Boolean);
       if (explicitTags.length) {
+        videoTagCache.set(video, explicitTags);
         return explicitTags;
       }
       const text = `${video.title || ''} ${video.description || ''}`.toLowerCase();
@@ -1298,7 +1329,9 @@ const celebrateFinalChapter = confettiFn => {
           seen.add(rule.tag);
         }
       }
-      return matches.length ? matches : [fallbackTag];
+      const resolved = matches.length ? matches : [fallbackTag];
+      videoTagCache.set(video, resolved);
+      return resolved;
     },
     parseDurationInSeconds(duration) {
       if (!duration) return 0;
@@ -1308,13 +1341,25 @@ const celebrateFinalChapter = confettiFn => {
       if (parts.some(part => Number.isNaN(part))) return 0;
       return parts.reduce((total, part) => total * 60 + part, 0);
     },
+    getVideoDurationSeconds(video) {
+      if (!video) return 0;
+      if (videoDurationCache.has(video)) return videoDurationCache.get(video);
+      const seconds = this.parseDurationInSeconds(video.duration);
+      videoDurationCache.set(video, seconds);
+      return seconds;
+    },
     deriveVideoGender(video) {
+      if (!video) return 'other';
+      if (videoGenderCache.has(video)) return videoGenderCache.get(video);
       const text = `${video.title || ''} ${video.description || ''}`.toLowerCase();
-      const femaleKeywords = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female'];
-      const maleKeywords = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male'];
-      if (femaleKeywords.some(keyword => text.includes(keyword))) return 'female';
-      if (maleKeywords.some(keyword => text.includes(keyword))) return 'male';
-      return 'other';
+      let gender = 'other';
+      if (FEMALE_KEYWORDS.some(keyword => text.includes(keyword))) {
+        gender = 'female';
+      } else if (MALE_KEYWORDS.some(keyword => text.includes(keyword))) {
+        gender = 'male';
+      }
+      videoGenderCache.set(video, gender);
+      return gender;
     },
     completeAndNext() {
       const nextId = this.selectedPill + 1;
