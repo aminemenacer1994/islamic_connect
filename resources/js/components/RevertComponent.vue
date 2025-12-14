@@ -9,9 +9,17 @@
     <!-- Mobile Nav Toggle -->
     <button
       class="mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3"
+      :aria-label="mobileNavOpen ? 'Close chapter navigation' : 'Open chapter navigation'"
+      :aria-expanded="mobileNavOpen ? 'true' : 'false'"
+      aria-controls="revert-navigation"
       @click="toggleMobileNav">
       <i class="bi" :class="mobileNavOpen ? 'bi-x-lg' : 'bi-list'"></i>
     </button>
+    <div
+      v-if="mobileNavOpen"
+      class="mobile-nav-backdrop"
+      role="presentation"
+      @click="toggleMobileNav"></div>
 
     <!-- Success Alert -->
     <teleport to="body">
@@ -37,8 +45,13 @@
       <div class="row g-4">
 
         <!-- SIDEBAR -->
-        <aside class="col-12 col-md-4 col-lg-3" :class="{ 'mobile-open': mobileNavOpen }">
-          <div class="navigation-card p-3  shadow-sm rounded-4">
+        <aside class="col-12 col-md-4 col-lg-3 mobile-nav-frame">
+          <div
+            class="navigation-card p-3 shadow-sm rounded-4"
+            :class="{ 'mobile-open': mobileNavOpen }"
+            id="revert-navigation"
+            role="navigation"
+            aria-label="Chapter navigation">
 
             <!-- Progress Section -->
             <div class="progress-indicator mb-4">
@@ -122,13 +135,21 @@
 
           <!-- Onboarding Block -->
           <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-4">
-            <div class="card-body px-4 py-3">
-              <div class="d-flex flex-column flex-md-row align-items-start align-items-md-end justify-content-between gap-3 mb-2">
-                <div>
-                  <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
-                  <h3 class="fw-semibold mb-1">Simple welcome for new friends</h3>
-                </div>
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
+                <h3 class="fw-semibold mb-0">Simple welcome for new friends</h3>
               </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
+            </div>
+            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
               <p class="text-muted small mb-3">
                 Take it slow these reflections anchor today’s lesson and help you stay curious.
               </p>
@@ -480,7 +501,8 @@
 
             <!-- Key Insights -->
               <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card pt-3 section-card animated-fade-slide mb-4 rounded-4">
-                <div class="card-header d-flex align-items-center py-3">
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
                   <div>
                     <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
@@ -489,7 +511,15 @@
                     </p>
                   </div>
                 </div>
-                <div class="card-body p-3">
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('keyInsights')"
+                  :aria-expanded="!collapsedSections.keyInsights">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.keyInsights ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.keyInsights ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
+              </div>
+              <div v-show="!collapsedSections.keyInsights" class="card-body p-3">
                   <ul class="list-group insight-list fs-6 lh-base mb-0">
                     <li v-for="insight in insightsToShow" :key="insight"
                       class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
@@ -504,10 +534,24 @@
 
             <!-- Share & uplift -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-body">
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
+                  <i class="bi bi-share-fill fs-4 text-teal"></i>
+                  <div>
+                    <h2 class="fw-bold mb-0 fs-5">Share & uplift</h2>
+                  </div>
+                </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('shareUplift')"
+                  :aria-expanded="!collapsedSections.shareUplift">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.shareUplift ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.shareUplift ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
+              </div>
+              <div v-show="!collapsedSections.shareUplift" class="card-body">
                 <div class="row align-items-center">
                   <div class="col-md-7">
-                    <h3 class="fw-bold mb-1 fs-5">Share & uplift</h3>
                     <p class="text-muted mb-3 fs-6">
                       Spread the lesson copy the link or share a dua so others stay inspired.
                     </p>
@@ -526,8 +570,6 @@
                     <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
                   </div>
                 </div>
-                
-                
               </div>
             </div>
             <div id="revert-stories-section" v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
@@ -635,9 +677,23 @@
             </div>
 
             <div class="content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide">
-              <div class="card-body px-3 px-md-4 py-4">
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
+                  <i class="bi bi-emoji-smile fs-4 text-teal"></i>
+                  <div>
+                    <h2 class="fw-bold mb-0 fs-5">Motivation</h2>
+                  </div>
+                </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('motivation')"
+                  :aria-expanded="!collapsedSections.motivation">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.motivation ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.motivation ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
+              </div>
+              <div v-show="!collapsedSections.motivation" class="card-body px-3 px-md-4 py-4">
                 <div class="d-flex flex-column gap-2">
-                  <p class="mb-0 fw-bold">Motivation</p>
                   <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
                   <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
                 </div>
@@ -704,16 +760,23 @@
             </div>
 
             <div v-if="currentChapterPlans.length" class="content-card chapter-plan-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center justify-content-between py-3">
-                <div class="d-flex align-items-center gap-3">
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="bi bi-calendar-week fs-4 text-teal"></i>
                   <div>
                     <h2 class="fw-bold mb-0 fs-5">Curated Weekly Plans</h2>
                     <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
                   </div>
                 </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('curatedPlans')"
+                  :aria-expanded="!collapsedSections.curatedPlans">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.curatedPlans ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.curatedPlans ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
               </div>
-              <div class="card-body px-4 pb-0 pt-0">
+              <div v-show="!collapsedSections.curatedPlans" class="card-body px-4 pb-0 pt-0">
                 <div class="row g-3">
                   <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
                     <article class="plan-card rounded-4 p-4 shadow-sm border">
@@ -765,8 +828,8 @@
 
             <!-- Next Steps -->
             <div class="content-card next-steps-card animated-slide-up rounded-5 mb-4" style="animation-delay: 0.4s">
-              <div class="card-header d-flex align-items-center justify-content-between py-3">
-                <div class="d-flex align-items-center gap-3">
+              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <div class="next-steps-icon">
                     <i class="bi bi-clipboard-check-fill fs-5"></i>
                   </div>
@@ -774,9 +837,16 @@
                     <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
                   </div>
                 </div>
+                <button type="button"
+                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                  @click="toggleSection('nextSteps')"
+                  :aria-expanded="!collapsedSections.nextSteps">
+                  <span class="d-none d-sm-inline">{{ collapsedSections.nextSteps ? 'Show' : 'Hide' }}</span>
+                  <i class="bi" :class="collapsedSections.nextSteps ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                </button>
               </div>
 
-              <div class="next-steps-body p-4">
+              <div v-show="!collapsedSections.nextSteps" class="next-steps-body p-4">
                 <div class="next-steps-inner">
                   <div class="next-steps-highlight">
                     <p class="mb-1 fw-semibold">Small steps, steady heart</p>
@@ -1406,7 +1476,13 @@ export default defineComponent({
       collapsedSections: {
         commonQuestions: false,
         resources: false,
-        faqs: false
+        faqs: false,
+        curatedPlans: false,
+        keyInsights: false,
+        shareUplift: false,
+        nextSteps: false,
+        motivation: false,
+        gentleStart: false
       },
       confettiPromise: null,
       confettiLauncher: null,
@@ -6425,6 +6501,98 @@ export default defineComponent({
     right: 1rem;
     width: 44px;
     height: 44px;
+  }
+}
+
+.mobile-nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 991.98px) {
+  .mobile-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    z-index: 1060;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-nav-frame {
+    pointer-events: none;
+  }
+
+  .navigation-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: min(320px, 85vw);
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    padding: clamp(1rem, 2vw, 1.5rem);
+    transform: translateX(-120%);
+    transition: transform 0.32s ease, box-shadow 0.32s ease;
+    z-index: 1075;
+    pointer-events: none;
+  }
+
+  .navigation-card.mobile-open {
+    transform: translateX(0);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
+    pointer-events: auto;
+  }
+
+  .revert-content {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+
+  .revert-content .row {
+    gap: 1.5rem;
+  }
+
+  .lesson-focus-intro {
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .share-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .share-action-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .share-action-btn span {
+    font-size: 0.95rem;
+  }
+
+  .next-steps-body,
+  .next-steps-inner {
+    padding: 1.25rem;
+  }
+
+  .lesson-help-button {
+    top: 0.9rem;
+    right: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .share-actions {
+    gap: 0.5rem;
+  }
+
+  .share-action-btn {
+    padding: 0.75rem 1rem;
+  }
+
+  .navigation-card {
+    width: 100%;
   }
 }
 </style>
