@@ -45,7 +45,7 @@
       <div class="row g-4">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-12 col-md-4 col-lg-3 mobile-nav-frame">
+        <aside class="col-12 col-md-3 col-lg-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -302,7 +302,7 @@
                 </div>
               </div>
 
-              <div id="pathway-clips-section" class="content-card section-card animated-fade-slide mb-4 rounded-4 pathway-clips-card">
+              <div id="pathway-clips-section" class=" animated-fade-slide mb-4 rounded-4 pathway-clips-card">
                 <div class="card-header d-flex align-items-center gap-3">
                   <i class="bi bi-film fs-4 text-teal"></i>
                   <div>
@@ -346,15 +346,6 @@
                           </div>
                         </article>
                       </div>
-                  </div>
-                </div>
-              </div>
-
-              <div v-if="guidedPathwayCards.length" class="guided-bullets px-3 pb-3">
-                <div v-for="(card, index) in guidedPathwayCards" :key="card.step" class="guided-bullet">
-                  <div>
-                    <p class="mb-0 fw-semibold">{{ card.title }}</p>
-                    <small class="text-muted">{{ card.action }}</small>
                   </div>
                 </div>
               </div>
@@ -420,7 +411,7 @@
 
             <!-- Do's and Don'ts -->
             <!-- Chapter-specific dos and don’ts -->
-            <div v-if="secondarySectionsReady && currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
+            <div v-if="secondarySectionsReady && currentDosDonts" class="mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
                 <h2 class="fw-bold mb-0 fs-5">Do's and Don'ts</h2>

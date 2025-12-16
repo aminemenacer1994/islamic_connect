@@ -2,18 +2,19 @@
   display: none !important;
 }
 :global(body) {
-  background: radial-gradient(circle at top, rgba(14, 165, 233, 0.08), transparent 45%),
-    radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.08), transparent 40%),
-    #f5f7fa;
+  background: #ffffff;
   min-height: 100vh;
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #0f172a;
 }
 
 :global(:root) {
-  --brand-teal: #0b806f;
+  --brand-teal: #0d7d64;
   --brand-slate: #0f172a;
-  --brand-gradient: linear-gradient(135deg, rgba(11, 128, 111, 0.9), rgba(16, 185, 129, 0.9));
+  --brand-soft: #f5f7fb;
+  --brand-gradient: linear-gradient(150deg, rgba(13, 125, 100, 0.9), rgba(37, 155, 128, 0.45));
+  --brand-border: rgba(15, 23, 42, 0.1);
 }
 
 .hero-subheader {
@@ -51,23 +52,6 @@
   border: none !important;
   box-shadow: 0 25px 55px rgba(15, 23, 42, 0.12);
   background-clip: padding-box;
-}
-
-.section-card,
-.content-card,
-.guided-section-card,
-.next-step-card,
-.next-steps-card,
-.mission-card,
-.motivation-card,
-.reflection-card,
-.tip-card,
-.accordion-card,
-.quiz-shell,
-.actions-card,
-.video-card,
-.clip-card {
-  border: none !important;
 }
 
 /* ==================== BOOTSTRAP ICONS ==================== */
@@ -715,9 +699,11 @@
   box-shadow: 0 25px 45px rgba(15, 23, 42, 0.08),
     inset 0 1px 0 rgba(255, 255, 255, 0.6);
   overflow: hidden;
-  margin-bottom: 2rem;
+  margin-bottom: 1.25rem;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   backdrop-filter: blur(18px);
+  position: relative;
+  padding: 0;
 }
 
 .content-card {
@@ -731,14 +717,19 @@
 }
 
 .card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1.3rem 1.6rem;
   background: none;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
   border-color: transparent;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
 }
 
 .card-body {
-  padding-top: 1rem;
+  padding: 1rem 1.2rem;
 }
 
 .section-content {
@@ -801,15 +792,7 @@
   overflow-x: hidden;
   background: #ffffff;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.revert-shell::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: none;
-  pointer-events: none;
-  z-index: 0;
+  padding-bottom: 3rem;
 }
 
 .page-sheen {
@@ -854,30 +837,25 @@
 .revert-content {
   position: relative;
   z-index: 1;
-  min-height: calc(100vh - 2rem);
-  padding: 1.5rem clamp(1rem, 4vw, 2rem);
-  margin: 0 auto;
-  background: #fefefe;
-  }
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 2.5rem clamp(1rem, 3vw, 2.5rem) 3rem;
+  background: transparent;
+}
 
 .revert-content .container-fluid {
-  max-width: 1300px;
-  margin: 0 auto;
   padding: 0;
 }
 
-.revert-shell {
-  padding-bottom: 2rem;
-}
-
 .revert-content .row.g-4 {
-  min-height: calc(100vh - 2rem);
+  gap: clamp(1.5rem, 2vw, 2.75rem);
 }
 
 .revert-content section {
-  max-height: calc(100vh - 4rem);
-  overflow-y: auto;
-  padding-right: 0.5rem;
+  max-height: none;
+  overflow-y: visible;
+  padding-right: 0;
 }
 
 .card-header {
@@ -912,12 +890,33 @@
     margin: 0 0 1.25rem;
   }
 
-  .lesson-hero-content h1 {
-    font-size: clamp(1.9rem, 6vw, 2.4rem);
-  }
-
   .lesson-hero-content p {
     font-size: 0.95rem;
+  }
+
+  .revert-content h1,
+  .revert-content h2,
+  .revert-content h3,
+  .revert-content .card-header h2,
+  .revert-content .card-header h3 {
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: 0.02em;
+  }
+
+  .revert-content .card-header h2 {
+    font-size: clamp(1.4rem, 2.2vw, 1.7rem);
+  }
+
+  .revert-content .card-header h3 {
+    font-size: clamp(1.15rem, 1.8vw, 1.3rem);
+  }
+
+  .lesson-hero-content h1 {
+    font-size: clamp(2.4rem, 4vw, 3rem);
+    letter-spacing: 0.04em;
+    line-height: 1.2;
+    color: #f8fafc;
   }
 
   .quiz-options-grid {
@@ -937,12 +936,14 @@
   }
 
   .content-card .card-body,
-  .quiz-body {
-    padding: 0.9rem 0.75rem;
+  .quiz-body,
+  .guided-section-card .card-body,
+  .mission-card .card-body {
+    padding: 1rem 1rem;
   }
 
   .lesson-hero {
-    padding: 1.75rem;
+    padding: 1.3rem;
   }
 
   .navigation-card {
@@ -959,7 +960,7 @@
   .next-steps-body,
   .quiz-shell,
   .content-card.section-card {
-    padding: 1.25rem;
+    padding: 1rem;
   }
 
   .lesson-hero {
@@ -969,7 +970,7 @@
   .guided-section-card,
   .mission-card {
     border-radius: 30px;
-    padding: 1.5rem;
+    padding: 1rem;
   }
 
   .flat-panel__header {
@@ -2842,16 +2843,24 @@
   box-shadow: inset 0 2px 4px rgba(15, 23, 42, 0.05);
 }
 
+.lesson-header {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
 .lesson-hero {
   background: linear-gradient(135deg, #111827, #0f172a 65%);
   border-radius: 32px;
   padding: 2rem;
   position: relative;
   overflow: hidden;
-  margin-bottom: 1rem;
+  margin: 0 auto 1.5rem;
   min-height: 180px;
   box-shadow: 0 30px 45px rgba(15, 23, 42, 0.35);
   animation: softPulse 6s ease-in-out 1 both;
+  width: 100%;
+  max-width: none;
 }
 
 .lesson-hero-gradient {
@@ -3286,11 +3295,24 @@
   }
 
   .card-body {
-    padding: 0.5rem;
+    padding: 0.6rem 0.85rem;
   }
 
   .card-header {
     padding: 1.25rem 1.5rem;
+  }
+
+  .section-card .card-body,
+  .guided-section-card .card-body,
+  .mission-card .card-body,
+  .next-steps-body,
+  .quiz-shell,
+  .content-card.section-card {
+    padding: 0.75rem 1rem;
+  }
+
+  .lesson-hero {
+    padding: 1rem;
   }
 
   .btn-lg {
@@ -3494,4 +3516,48 @@
   .navigation-card {
     width: 100%;
   }
+}
+
+/* Unified card system */
+.section-card,
+.guided-section-card,
+.next-steps-card,
+.next-step-card,
+.chapter-plan-card,
+.motivation-card,
+.accordion-card,
+.actions-card,
+.quiz-shell,
+.quiz-wrapper,
+.transition-card,
+.content-card {
+  background: #ffffff;
+  border: 1px solid var(--brand-border);
+  border-radius: 32px;
+  box-shadow: 0 32px 65px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+}
+
+.content-card .card-body,
+.section-card .card-body,
+.guided-section-card .card-body,
+.chapter-plan-card .card-body,
+.motivation-card .card-body,
+.next-steps-card .next-steps-body,
+.actions-card .card-body,
+.quiz-shell .card-body {
+  padding: 1.5rem 1.75rem 2rem;
+  background: transparent;
+}
+
+.revert-content .content-card,
+.revert-content .section-card,
+.revert-content .guided-section-card,
+.revert-content .next-steps-card,
+.revert-content .chapter-plan-card,
+.revert-content .motivation-card,
+.revert-content .actions-card,
+.revert-content .quiz-shell,
+.revert-content .quiz-wrapper {
+  margin-bottom: clamp(1.25rem, 2vw, 1.75rem);
 }
