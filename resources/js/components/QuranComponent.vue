@@ -191,85 +191,9 @@
                             <div class="container-fluid ">
                                 <div class="row">
                                     <NavTabs />
-                                    <!-- toogle between basic/advanced -->
-                                    <!-- <div class="container text-center">
-                                        <div
-                                            class="row form-check form-switch d-flex justify-content-center align-items-center p-3 border rounded shadow-sm bg-light">
-                                            -- Advanced Label --
-                                            <div class="col">
-                                                <span class="fw-semibold text-muted">Advanced</span>
-                                            </div>
-
-                                            -- Switch --
-                                            <div class="col">
-                                                <div
-                                                    class="form-check form-switch d-flex justify-content-center align-items-center">
-                                                    <input class="form-check-input h4 pr-5 shadow-lg text-center"
-                                                        style="background-color: rgba(0, 191, 166); border-color: grey;"
-                                                        type="checkbox" role="switch" id="flexSwitchCheckDefault"
-                                                        v-model="isVisible" @change="saveToggleState" />
-                                                </div>
-                                            </div>
-
-                                            -- Basic Label --
-                                            <div class="col">
-                                                <span class="fw-semibold text-muted">Basic</span>
-                                            </div>
-                                        </div>
-                                    </div> -->
+                                    
                                 </div>
-                                <!-- Surah info Modal -->
-                                <!-- <div class="modal fade" id="translationInfo" tabindex="-1"
-                                    aria-labelledby="surahInfoModalLabel" aria-hidden="true" @click.self="closeModal">
-                                    <div class="modal-dialog modal-dialog-centered modal-lg">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="surahInfoModalLabel">
-                                                    <strong>Surah Information</strong>
-                                                </h1>
-                                                <button type="button" class="btn-close" @click="closeModal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <form class=" text-left">
-                                                    <div class="mb-3 " v-if="
-                                                        information.ayah &&
-                                                        information.ayah.surah
-                                                    ">
-                                                        <label for="formGroupExampleInput" class="form-label">Surah Name
-                                                            (English):</label>
-                                                        <p class="mt-2 text-dark text-left">
-                                                            {{
-                                                                information.ayah
-                                                                    .surah.name_en
-                                                            }}
-                                                        </p>
-                                                    </div>
-                                                    <div class="mb-3 " v-if="
-                                                        information.ayah &&
-                                                        information.ayah.surah
-                                                    ">
-                                                        <label for="formGroupExampleInput"
-                                                            class="form-label text-left">Surah
-                                                            Information:</label>
-                                                        <p class="text-left">
-                                                            {{
-                                                                information.ayah
-                                                                    .surah.text
-                                                            }}
-                                                        </p>
-                                                    </div>
-                                                </form>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                                                    @click="closeModal">
-                                                    Close
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> -->
+                                
                             </div>
 
                             <div class="card-body content card-teal"
@@ -367,13 +291,7 @@
                                                                 title="Bookmark verse"></i>
                                                             <div class="icon-text pt-2">Bookmark</div>
                                                         </div>
-                                                        <!-- <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i class="bi bi-info-circle h4 mr-2 pl-2"
-                                                                data-bs-toggle="modal" data-bs-target="#translationInfo"
-                                                                aria-expanded="false" data-bs-placement="top"
-                                                                title="Surah info"></i>
-                                                            <div class="icon-text pt-2">Surah Info</div>
-                                                        </div> -->
+                                                    
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i title="Give feedback" data-bs-toggle="modal"
                                                                 data-bs-target="#exampleModal"
@@ -381,11 +299,7 @@
                                                                 data-bs-placement="top"></i>
                                                             <div class="icon-text pt-2">Feedback</div>
                                                         </div>
-                                                        <!-- <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i class="bi bi-arrows-fullscreen h4"
-                                                                @click="toggleFullScreen" title="Full screen"></i>
-                                                            <div class="icon-text pt-2 mb-2">Full Screen</div>
-                                                        </div> -->
+                                                        
                                                     </div>
 
                                                 </div>

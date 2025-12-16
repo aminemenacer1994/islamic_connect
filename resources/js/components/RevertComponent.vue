@@ -418,12 +418,12 @@
               </div>
             </div>
 
-            <!-- Dos and Dont's -->
+            <!-- Do's and Don'ts -->
             <!-- Chapter-specific dos and don’ts -->
             <div v-if="secondarySectionsReady && currentDosDonts" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5">Do's and Dont's</h2>
+                <h2 class="fw-bold mb-0 fs-5">Do's and Don'ts</h2>
               </div>
 
               <div class="card-body p-3">
@@ -639,13 +639,13 @@
               </div>
             </div>
 
-            <!-- Common asked questions -->
+            <!-- Commonly asked questions -->
             <div v-if="secondarySectionsReady && chapterCommonPanels.length"
               class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="bi bi-info-square-fill fs-4 text-teal"></i>
-                  <h2 class="fw-bold mb-0 fs-5">Common Asked Questions</h2>
+                  <h2 class="fw-bold mb-0 fs-5">Commonly Asked Questions</h2>
                 </div>
                 <button type="button"
                   class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
