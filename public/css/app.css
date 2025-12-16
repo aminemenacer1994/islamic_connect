@@ -21584,6 +21584,12 @@ to {
   line-height: 1.75;
   color: #333;
 }
+.revert-content .card-body p[data-v-1d764944],
+.revert-content .card-body li[data-v-1d764944],
+.revert-content .card-body small[data-v-1d764944] {
+  margin-bottom: 0.8rem;
+  line-height: 1.7;
+}
 .deep-dive[data-v-1d764944] {
   background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
   border-left: 5px solid #ffb302;
@@ -23744,6 +23750,14 @@ to {
 .btn-lg[data-v-1d764944] {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
+}
+}
+@media (max-width: 991.98px) {
+.revert-content .card-body p[data-v-1d764944],
+  .revert-content .card-body li[data-v-1d764944],
+  .revert-content .card-body small[data-v-1d764944] {
+    margin-bottom: 0.7rem;
+    line-height: 1.6;
 }
 }
 @media (max-width: 767.98px) {

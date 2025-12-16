@@ -747,6 +747,13 @@
   color: #333;
 }
 
+.revert-content .card-body p,
+.revert-content .card-body li,
+.revert-content .card-body small {
+  margin-bottom: 0.8rem;
+  line-height: 1.7;
+}
+
 .deep-dive {
   background: linear-gradient(135deg, #fff8e1 0%, #fff3e0 100%);
   border-left: 5px solid #ffb302;
@@ -3289,6 +3296,15 @@
   .btn-lg {
     padding: 0.875rem 1.5rem;
     font-size: 1rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .revert-content .card-body p,
+  .revert-content .card-body li,
+  .revert-content .card-body small {
+    margin-bottom: 0.7rem;
+    line-height: 1.6;
   }
 }
 
