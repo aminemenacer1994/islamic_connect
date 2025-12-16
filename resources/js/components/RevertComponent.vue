@@ -138,7 +138,7 @@
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
               <div class="d-flex flex-column flex-grow-1">
                 <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
-                <h3 class="fw-semibold mb-0">Simple welcome for new friends</h3>
+                <h3 class="fw-semibold mb-0">Simple Welcome for New Friends</h3>
               </div>
               <button
                 type="button"
@@ -177,7 +177,7 @@
 
           <div class="lesson-focus-intro d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
             <div>
-              <strong class="d-block mb-1">Focus of this lesson</strong>
+              <strong class="d-block mb-1">Focus of This Lesson</strong>
               <p class="mb-0 text-muted medium">
                 {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
               </p>
@@ -393,7 +393,7 @@
               <div class="card-body px-3 px-md-4 py-4">
                 <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                   <div class="flex-grow-1">
-                    <h3 class="fw-bold mb-1">Share with a friend or family member</h3>
+                    <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
                     <p class="text-muted mb-0 small">
                       Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
                     </p>
@@ -535,13 +535,13 @@
 
       
 
-            <!-- Share & uplift -->
+            <!-- Share & Uplift -->
             <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="bi bi-share-fill fs-4 text-teal"></i>
                   <div>
-                    <h2 class="fw-bold mb-0 fs-5">Share & uplift</h2>
+                    <h2 class="fw-bold mb-0 fs-5">Share & Uplift</h2>
                   </div>
                 </div>
                 <button type="button"
@@ -556,7 +556,7 @@
                 <div class="row align-items-center">
                   <div class="col-md-7">
                     <p class="text-muted mb-3 fs-6">
-                      Spread the lesson copy the link or share a dua so others stay inspired.
+                      Spread the lesson: copy the link or share a dua so others stay inspired.
                     </p>
                   </div>
                   <div class="col-md-5">
@@ -579,7 +579,7 @@
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
                 <div>
-                  <h2 class="fw-bold mb-0 fs-5">Revert stories</h2>
+                  <h2 class="fw-bold mb-0 fs-5">Revert Stories</h2>
                   <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
                 </div>
               </div>
