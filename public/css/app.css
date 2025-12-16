@@ -21576,19 +21576,6 @@ to {
   border-top-right-radius: 20px;
   border-color: transparent;
 }
-.section-number[data-v-1d764944] {
-  width: 46px;
-  height: 46px;
-  background: var(--bs-primary, #0d6efd);
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 1.1rem;
-  flex-shrink: 0;
-}
 .card-body[data-v-1d764944] {
   padding-top: 1rem;
 }
