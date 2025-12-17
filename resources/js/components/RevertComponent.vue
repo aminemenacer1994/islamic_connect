@@ -41,7 +41,6 @@
 
     <!-- MAIN CONTENT -->
     <main class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5" :style="{ fontSize: `${globalFontScale}rem` }">
-
       <div class="row g-4">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
@@ -106,7 +105,7 @@
               <div class="lesson-hero-content">
                 <div class="d-flex align-items-center mb-2">
                   <i class="bi bi-journey me-2 text-white fs-4"></i>
-                  <span class="text-uppercase text-white fw-semibold small">
+                  <span class="text-uppercase text-white fw-bold small">
                     Chapter {{ currentLesson?.chapterId }}
                   </span>
                 </div>
@@ -180,7 +179,7 @@
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
               <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-semibold mb-0">Focus of This Lesson</h3>
+                <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
               </div>
               <button
                 type="button"
@@ -203,7 +202,7 @@
             <div class="card-header d-flex align-items-center py-3 ">
               <div class="d-flex align-items-center gap-3">
                 <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
+                <h3 class="fw-bold mb-0">Learning Overview</h3>
               </div>
               <div class="lesson-focus-actions ms-auto">
                 <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
@@ -308,8 +307,8 @@
           <div v-if="pathwayClips.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
               <div>
-                <p class="text-teal small mb-1 fw-semibold flex-grow-1">Guided Pathway</p>
-                <h3 class="mb-1 fs-4 fw-semibold">Short clips to carry the lesson forward</h3>
+                <p class="text-teal small mb-1 fw-bold flex-grow-1">Guided Pathway</p>
+                <h3 class="mb-1 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
                 <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
               </div>
             </div>
@@ -679,623 +678,279 @@
             </div>
           </div>
 
-
-
-
-
-
-            <!-- Do's and Don'ts -->
-            <!-- Chapter-specific dos and don’ts -->
-            <div v-if="secondarySectionsReady && currentDosDonts" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5">Share & Uplift</h2>
+          <!-- focus of the lesson -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
               </div>
-
-              <div class="card-body p-3">
-                <div class="mb-3">
-                  <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
-                  <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                      <article class="p-3 rounded-3 border h-100">
-                        <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
-                        <ul class="list-unstyled mb-0">
-                          <li v-for="item in currentDosDonts.dos" :key="item.id"
-                            class="d-flex align-items-start gap-2 mb-2">
-                            <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
-                            <span class="text-dark medium mt-1">{{ item.text }}</span>
-                          </li>
-                        </ul>
-                      </article>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <article class="p-3 rounded-3 border h-100">
-                        <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
-                        <ul class="list-unstyled mb-0">
-                          <li v-for="item in currentDosDonts.donts" :key="item.id"
-                            class="d-flex align-items-start gap-2 mb-2">
-                            <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
-                            <span class="text-dark medium mt-1">{{ item.text }}</span>
-                          </li>
-                        </ul>
-                      </article>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            <!-- Duas -->
-            <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 mt-3 rounded-4">
-              <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
-                <div class="d-flex align-items-center gap-3">
-                  <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Duas to Carry</h2>
-                  </div>
-                </div>
-                <div class="lesson-focus-actions ms-auto">
-                  <span class="header-action" role="button" tabindex="0" @click="shareDuas">
-                    <i class="bi bi-whatsapp fs-5"></i>
-                    <span>Share</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="copyDuas">
-                    <i class="bi bi-clipboard fs-5"></i>
-                    <span>Copy</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="printDuas">
-                    <i class="bi bi-printer fs-5"></i>
-                    <span>Print</span>
-                  </span>
-                  <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
-                </div>
-              </div>
-              <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
-                <div class="row g-3">
-                  <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
-                    <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
-                      <div class="dua-glow"></div>
-                      <p dir="rtl"
-                        class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end"
-                        :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
-                        {{ dua.arabic }}
-                      </p>
-                      <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.english }}</p>
-                    </article>
-                  </div>
-                </div>
-              </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
             </div>
-
-            <!-- Key Insights -->
-              <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card pt-3 section-card animated-fade-slide mb-4 rounded-4">
-                <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                  <div class="d-flex align-items-center gap-3 flex-grow-1">
-                    <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
-                    <div>
-                      <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
-                      <p class="fs-6 text-muted mb-0">
-                        {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
-                      </p>
-                    </div>
-                  </div>
-                  <button type="button"
-                    class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                    @click="toggleSection('keyInsights')"
-                    :aria-expanded="!collapsedSections.keyInsights">
-                    <span class="d-none d-sm-inline">{{ collapsedSections.keyInsights ? 'Show' : 'Hide' }}</span>
-                    <i class="bi" :class="collapsedSections.keyInsights ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                  </button>
-                </div>
-                <div v-show="!collapsedSections.keyInsights" class="card-body p-3">
-                  <ul class="list-group insight-list fs-6 lh-base mb-0">
-                    <li v-for="insight in insightsToShow" :key="insight"
-                      class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                      <i class="fas fa-check-circle fs-5 text-teal"></i>
-                      <span>{{ insight }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-
-      
-
-            <!-- Share & Uplift -->
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="bi bi-share-fill fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Revert Stories</h2>
-                  </div>
-                </div>
-              </div>
-              <div v-show="!collapsedSections.shareUplift" class="card-body">
-                <div class="row g-3 video-grid-row">
-                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
-                    <article
-                      class="video-card shadow-sm overflow-hidden h-100"
-                      @mouseenter="startPreview(video)"
-                      @mouseleave="stopPreview">
-                      <div class="video-card-media">
-                        <div
-                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
-                          class="video-feature"
-                          :style="thumbnailStyle(video)">
-                          <iframe
-                            :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
-                            :title="video.title"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            loading="lazy">
-                          </iframe>
-                        </div>
-                        <div
-                          v-else
-                          class="video-feature"
-                          :style="thumbnailStyle(video)"
-                          @click="playVideo(video)">
-                          <div class="video-feature-overlay">
-                            <div class="video-feature-text">
-                           <p class="video-feature-label">Revert story</p>
-                           <h3 class="video-feature-title">{{ video.title }}</h3>
-                           <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                           <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
-                         </div>
-                       </div>
-                     </div>
-                   </div>
-                   <div class="video-card-caption px-3 py-2">
-                     <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                     <div v-if="videoTags(video).length" class="video-card-tags mb-2">
-                       <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
-                     </div>
-                     <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                     <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                   </div>
-                    </article>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-end mt-4">
-                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
-                    See more videos
-                    <i class="bi bi-box-arrow-up-right"></i>
-                  </button>
-                </div>
-              </div>
+            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
+              <p class="text-muted medium mb-3">
+                {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
+              </p>
             </div>
+          </div>
 
-
-            <div id="revert-stories-section" v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
-                <div>
-                  <h2 class="fw-bold mb-0 fs-5">Revert Stories</h2>
-                  <p class="text-muted mb-0 small">Eight personal clips from men and women keeping it straight to the point.</p>
-                </div>
+          <!-- motivation -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-bold mb-0">Motivation</h3>
               </div>
-              <div class="card-body">
-                <div class="row g-3 video-grid-row">
-                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
-                    <article
-                      class="video-card shadow-sm overflow-hidden h-100"
-                      @mouseenter="startPreview(video)"
-                      @mouseleave="stopPreview">
-                      <div class="video-card-media">
-                        <div
-                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
-                          class="video-feature"
-                          :style="thumbnailStyle(video)">
-                          <iframe
-                            :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
-                            :title="video.title"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            loading="lazy">
-                          </iframe>
-                        </div>
-                        <div
-                          v-else
-                          class="video-feature"
-                          :style="thumbnailStyle(video)"
-                          @click="playVideo(video)">
-                          <div class="video-feature-overlay">
-                            <div class="video-feature-text">
-                           <p class="video-feature-label">Revert story</p>
-                           <h3 class="video-feature-title">{{ video.title }}</h3>
-                           <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                           <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
-                         </div>
-                       </div>
-                     </div>
-                   </div>
-                   <div class="video-card-caption px-3 py-2">
-                     <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                     <div v-if="videoTags(video).length" class="video-card-tags mb-2">
-                       <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
-                     </div>
-                     <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                     <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                   </div>
-                    </article>
-                  </div>
-                </div>
-                <div class="d-flex justify-content-end mt-4">
-                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
-                    See more videos
-                    <i class="bi bi-box-arrow-up-right"></i>
-                  </button>
-                </div>
-              </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
             </div>
-
-            <!-- Commonly asked questions -->
-            <div v-if="secondarySectionsReady && chapterCommonPanels.length"
-              class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="bi bi-info-square-fill fs-4 text-teal"></i>
-                  <h2 class="fw-bold mb-0 fs-5">Commonly Asked Questions</h2>
-                </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('commonQuestions')"
-                  :aria-expanded="!collapsedSections.commonQuestions">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.commonQuestions ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.commonQuestions ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-
-              <div v-show="!collapsedSections.commonQuestions" class="card-body p-3 ">
-                <div class="accordion-stack">
-                  <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
-                    <button type="button"
-                      class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
-                      :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
-                      <span>{{ panel.title }}</span>
-                      <i class="bi"
-                        :class="isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
-                    </button>
-                    <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
-                      <div v-html="panel.body"></div>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="commonFaqHasMore" class="text-center mt-3">
-                  <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
-                    Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div class="content-card motivation-card section-card mb-4 rounded-4 animated-fade-slide">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="bi bi-emoji-smile fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Motivation</h2>
-                  </div>
-                </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('motivation')"
-                  :aria-expanded="!collapsedSections.motivation">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.motivation ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.motivation ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-              <div v-show="!collapsedSections.motivation" class="card-body px-3 px-md-4 py-4">
+            <div v-show="!collapsedSections.commonQuestions">
+              <div v-show="!collapsedSections.motivation" class=" px-3 px-md-4 py-4">
                 <div class="d-flex flex-column gap-2">
                   <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
                   <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Mission Spotlight -->
-            <div v-if="currentMission" id="mission-card"
-              class="content-card section-card animated-fade-slide mb-4 rounded-4 mission-card">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-flag-fill fs-4 me-3 text-teal"></i>
-                <h1 class="fw-bold mb-0 fs-5">Mission Pulse</h1>
-              </div>
-              <div class="card-body p-3">
-                <p class="mb-2 text-muted small">Current mission tied to chapter {{ currentMission.chapterId }}</p>
-                <h5 class="fw-semibold">{{ currentMission.title }}</h5>
-                <p class="text-dark fs-6">{{ currentMission.summary }}</p>
-                <div class="d-flex flex-wrap gap-2 align-items-center mt-3">
-                  <span class="badge bg-success text-dark rounded-pill">{{ currentMission.focus }}</span>
-                  <button class="btn btn-outline-success btn-sm fw-semibold" @click="focusMission">
-                    View Mission ↓
-                  </button>
-                </div>
+          <!-- plans -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-bold mb-0">Curated Weekly & Monthly Plans</h3>
+                <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
               </div>
             </div>
-
-            <!-- FAQ -->
-            <div v-if="secondarySectionsReady && chapterFaqPanels.length" class="content-card section-card animated-fade-slide mb-4 rounded-4 accordion-card">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="bi bi-question-circle-fill fs-4 text-teal"></i>
-                  <h1 class="fw-bold mb-0 fs-5">Frequently Asked Questions</h1>
-                </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('faqs')"
-                  :aria-expanded="!collapsedSections.faqs">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.faqs ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.faqs ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-
-              <div v-show="!collapsedSections.faqs" class="card-body p-3 ">
-                <div class="accordion-stack">
-                  <div v-for="(panel, index) in visibleFaqPanels" :key="panel.id" class="accordion-item-card">
+            <div v-show="!collapsedSections.commonQuestions">
+              <div v-if="secondarySectionsReady && chapterFaqPanels.length">
+                <div v-if="currentChapterPlans.length" >
+                  <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                    <!-- <div class="d-flex align-items-center gap-3 flex-grow-1">
+                      <i class="bi bi-calendar-week fs-4 text-teal"></i>
+                    </div> -->
                     <button type="button"
-                      class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
-                      :class="{ expanded: isAccordionOpen('faq', index) }" @click="toggleAccordion('faq', index)">
-                      <span>{{ panel.title }}</span>
-                      <i class="bi"
-                        :class="isAccordionOpen('faq', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
+                      class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                      @click="toggleSection('curatedPlans')"
+                      :aria-expanded="!collapsedSections.curatedPlans">
+                      <span class="d-none d-sm-inline">{{ collapsedSections.curatedPlans ? 'Show' : 'Hide' }}</span>
+                      <i class="bi" :class="collapsedSections.curatedPlans ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
                     </button>
-                    <div v-show="isAccordionOpen('faq', index)" class="accordion-answer mt-2">
-                      <div v-html="panel.body"></div>
-                    </div>
                   </div>
-                </div>
-                <div v-if="faqHasMore" class="text-center mt-3">
-                  <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('faq')">
-                    Show {{ chapterFaqPanels.length - faqDisplayLimit }} more
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="currentChapterPlans.length" class="content-card chapter-plan-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="bi bi-calendar-week fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Curated Weekly Plans</h2>
-                    <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
-                  </div>
-                </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('curatedPlans')"
-                  :aria-expanded="!collapsedSections.curatedPlans">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.curatedPlans ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.curatedPlans ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-              <div v-show="!collapsedSections.curatedPlans" class="card-body px-4 pb-0 pt-0">
-                <div class="row g-3">
-                  <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
-                    <article class="plan-card rounded-4 p-4 shadow-sm border">
-                      <div class="plan-card__header d-flex align-items-start justify-content-between gap-3">
-                        <div>
-                          <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
-                          <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
-                          <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p>
-                        </div>
-                        <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
+                  <div v-show="!collapsedSections.curatedPlans" class="card-body px-4 pb-0 pt-0">
+                    <div class="row g-3">
+                      <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
+                        <article class="plan-card rounded-5 p-4 ">
+                          <div class="plan-card__header d-flex align-items-start justify-content-between gap-3">
+                            <div>
+                              <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
+                              <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
+                              <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p>
+                            </div>
+                            <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
+                          </div>
+                          <div class="plan-card__divider" aria-hidden="true"></div>
+                          <div class="plan-card__body">
+                            <ul class="plan-highlights list-unstyled mb-3">
+                              <li v-for="highlight in plan.highlights" :key="highlight" class="plan-highlight">
+                                <span class="plan-highlight-icon" aria-hidden="true"></span>
+                                <span>{{ highlight }}</span>
+                              </li>
+                            </ul>
+                          </div>
+                          <div class="plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                            <p class="mb-0 text-muted small plan-card__meta">
+                              Crafted for the {{ plan.duration.toLowerCase() }} rhythm.
+                            </p>
+                            <div class="plan-action-icons" role="group" aria-label="Plan actions">
+                              <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
+                                <i class="bi bi-whatsapp"></i>
+                                <span class="visually-hidden">Share plan</span>
+                              </button>
+                              <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
+                                <i class="bi bi-clipboard"></i>
+                                <span class="visually-hidden">Copy plan</span>
+                              </button>
+                              <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
+                                <i class="bi bi-printer"></i>
+                                <span class="visually-hidden">Print plan</span>
+                              </button>
+                              <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
+                                <i class="bi bi-file-earmark-pdf"></i>
+                                <span class="visually-hidden">Download plan</span>
+                              </button>
+                            </div>
+                          </div>
+                        </article>
                       </div>
-                      <div class="plan-card__divider" aria-hidden="true"></div>
-                      <div class="plan-card__body">
-                        <ul class="plan-highlights list-unstyled mb-3">
-                          <li v-for="highlight in plan.highlights" :key="highlight" class="plan-highlight">
-                            <span class="plan-highlight-icon" aria-hidden="true"></span>
-                            <span>{{ highlight }}</span>
-                          </li>
-                        </ul>
-                      </div>
-                      <div class="plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-                        <p class="mb-0 text-muted small plan-card__meta">
-                          Crafted for the {{ plan.duration.toLowerCase() }} rhythm.
-                        </p>
-                        <div class="plan-action-icons" role="group" aria-label="Plan actions">
-                          <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
-                            <i class="bi bi-whatsapp"></i>
-                            <span class="visually-hidden">Share plan</span>
-                          </button>
-                          <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
-                            <i class="bi bi-clipboard"></i>
-                            <span class="visually-hidden">Copy plan</span>
-                          </button>
-                          <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
-                            <i class="bi bi-printer"></i>
-                            <span class="visually-hidden">Print plan</span>
-                          </button>
-                          <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
-                            <i class="bi bi-file-earmark-pdf"></i>
-                            <span class="visually-hidden">Download plan</span>
-                          </button>
-                        </div>
-                      </div>
-                    </article>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Next Steps -->
-            <div class="content-card next-steps-card animated-slide-up rounded-5 mb-4" style="animation-delay: 0.4s">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <div class="next-steps-icon">
-                    <i class="bi bi-clipboard-check-fill fs-5"></i>
-                  </div>
-                  <div>
-                    <h1 class="fw-bold mb-0 fs-5">Next Steps & Homework</h1>
-                  </div>
-                </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('nextSteps')"
-                  :aria-expanded="!collapsedSections.nextSteps">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.nextSteps ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.nextSteps ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-
-              <div v-show="!collapsedSections.nextSteps" class="next-steps-body p-4">
-                <div class="next-steps-inner">
-                  <div class="next-steps-highlight">
-                    <p class="mb-1 fw-semibold">Small steps, steady heart</p>
-                    <p class="text-muted small mb-0">Refresh the lesson by acting on one small intention today.</p>
-                  </div>
-                  <div class="next-steps-list mt-3">
-                    <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
-                      
-                      <p class="mb-0">{{ task }}</p>
-                    </article>
-                    <div v-if="homeworkMoreAvailable" class="text-center mt-3">
-                      <button type="button" class="btn btn-sm btn-link text-teal" @click="loadMoreHomework">
-                        Show more tasks ({{ currentHomework.length - homeworkVisibleCount }} left)
-                      </button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
-            <!-- Quiz Card -->
-            <div v-if="currentQuestion" class="section-card animated-fade-slide mb-4 rounded-5 quiz-wrapper">
-              <div class="quiz-shell p-0">
-                <div class="quiz-header px-4 py-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
-                  <div class="d-flex align-items-center gap-3">
-                    <i class="bi bi-dice-4-fill fs-4 text-teal"></i>
+          <!-- Next Steps & Homework -->
+          <div class="content-card onboarding-card mb-4 rounded-5 ">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-bold mb-0">Next Steps & Homework</h3>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
+            </div>
+            <div v-show="!collapsedSections.nextSteps" class="next-steps-body text-black p-4">
+              <div class="next-steps-inner">
+                <div class="next-steps-highlight">
+                  <p class="mb-1 fw-semibold">Small steps, steady heart</p>
+                  <p class="text-muted small mb-0">Refresh the lesson by acting on one small intention today.</p>
+                </div>
+                <div class="next-steps-list mt-3">
+                  <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
+                    
+                    <p class="mb-0">{{ task }}</p>
+                  </article>
+                  <div v-if="homeworkMoreAvailable" class="text-center mt-3">
+                    <button type="button" class="btn btn-sm btn-link text-teal" @click="loadMoreHomework">
+                      Show more tasks ({{ currentHomework.length - homeworkVisibleCount }} left)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- quiz -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-bold mb-0">Chapter Quiz</h3>
+              </div>
+            </div>
+            <div v-if="currentQuestion">
+              <div class="quiz-body px-4 py-3">
+                <div class="quiz-progress-wrapper mb-3">
+                  <div class="quiz-progress-track">
+                    <div class="quiz-progress-fill"
+                      :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mt-2">
+                    <p class="text-muted small mb-0">Progress toward mastery</p>
+                    <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
+                  </div>
+                </div>
+                <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
+                <div class="quiz-options-grid">
+                  <button v-for="option in currentQuestion.options" :key="option" type="button"
+                    class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
+                      'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
+                      'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
+                      'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
+                    }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
                     <div>
-                      <h2 class="fw-bold mb-0 fs-5">Chapter Quiz</h2>
+                      <span>{{ option }}</span>
                     </div>
-                  </div>
-                </div>
-                  <div class="quiz-body px-4 py-3">
-                    <div class="quiz-progress-wrapper mb-3">
-                      <div class="quiz-progress-track">
-                        <div class="quiz-progress-fill"
-                          :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
-                      </div>
-                      <div class="d-flex justify-content-between align-items-center mt-2">
-                        <p class="text-muted small mb-0">Progress toward mastery</p>
-                        <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
-                      </div>
+                    <div class="icon-stack">
+                      <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
+                        class="bi bi-check-circle-fill text-dark"></i>
+                      <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
+                        class="bi bi-x-circle-fill text-dark"></i>
                     </div>
-                  <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
-                  <div class="quiz-options-grid">
-                    <button v-for="option in currentQuestion.options" :key="option" type="button"
-                      class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
-                        'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
-                        'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
-                        'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
-                      }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
-                      <div>
-                        <span>{{ option }}</span>
-                      </div>
-                      <div class="icon-stack">
-                        <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
-                          class="bi bi-check-circle-fill text-dark"></i>
-                        <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
-                          class="bi bi-x-circle-fill text-dark"></i>
-                      </div>
-                    </button>
-                  </div>
-                  <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-explanation-card mt-3">
-                    <div class="quiz-explanation-header">
-                      <div class="d-flex align-items-center gap-2">
-                        <i class="bi bi-lightbulb-fill fs-5 text-teal"></i>
-                        <div>
-                          <p class="mb-0 fw-semibold mb-3 fs-6">Explanation</p>
-                        </div>
-                      </div>
-                      
-                    </div>
-                    <span class="right-answer-pill text-muted">
-                        <span class="text-dark fw-bold mt-2">Answer is: {{ currentQuestion.answer }}</span>
-                      </span>
-                    <div class=" pt-2 text-muted">
-                      <p class="mb-0">{{ quizHintExplanation }}</p>
-                    </div>
-                    <div class="quiz-explanation-footer mt-3">
-                      <button
-                        v-if="quizHintSectionId"
-                        type="button"
-                        class="btn btn-sm btn-explanation-link"
-                        @click="scrollToSection(quizHintSectionId)"
-                      >
-                        Jump to the related lesson section
-                      </button>
-                    </div>
-                  </div>
-
-                  <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
-                      <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
-                      <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
-                        <div>
-                          <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
-                          <small class="text-muted">The Next Chapter button above is now active.</small>
-                        </div>
-                        <button type="button"
-                          class="btn btn-outline-teal btn-sm shadow-none"
-                          @click="retryQuiz">
-                          Retake quiz
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="chapterQuizPassed && nextChapterPreview" class="content-card transition-card text-dark rounded-4 animated-fade-slide mb-4">
-              <div class="d-flex align-items-center justify-content-between flex-wrap">
-                <div>
-                  <p class="text-muted small mb-1">Up next</p>
-                  <h4 class="fw-semibold mb-0">{{ nextChapterPreview.title }}</h4>
-                  <p class="mb-1 text-teal small">{{ nextChapterPreview.track }}</p>
-                </div>
-                <div class="text-end">
-                  <span class="badge bg-light text-dark rounded-pill px-3 py-2">Chapter {{ nextChapterPreview.id }}</span>
-                  <div class="transition-line mt-2"></div>
-                </div>
-              </div>
-              <p class="text-muted mt-3 mb-0">{{ nextChapterPreview.snippet }}</p>
-            </div>
-
-
-            <!-- NAVIGATION BUTTONS -->
-            <div class="actions-card animated-fade-in">
-              <div
-                class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
-
-                <button class="btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2"
-                  :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
-                  @click="selectPill(selectedPill - 1)">
-                  <i class="bi bi-arrow-left" aria-hidden="true"></i>
-                  Previous Chapter
-                </button>
-
-                <div class="d-flex flex-column flex-md-row align-items-center gap-2">
-                  <span class="text-muted small me-md-auto">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
-                  <div v-if="chapterQuizPassed" class="text-teal small fw-semibold">Quiz cleared • Next Chapter unlocked.</div>
-                  <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
-                    :class="{
-                      'next-ready': chapterQuizPassed && !isWaitingForNext,
-                      'disabled': isWaitingForNext || !chapterQuizPassed
-                    }"
-                    :disabled="isWaitingForNext || !chapterQuizPassed"
-                    @click="completeAndNext">
-                    <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
-                    <i class="bi bi-arrow-right" aria-hidden="true"></i>
                   </button>
                 </div>
+                <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-explanation-card mt-3">
+                  <div class="quiz-explanation-header">
+                    <div class="d-flex align-items-center gap-2">
+                      <i class="bi bi-lightbulb-fill fs-5 text-teal"></i>
+                      <div>
+                        <p class="mb-0 fw-semibold mb-3 fs-6">Explanation</p>
+                      </div>
+                    </div>
+                    
+                  </div>
+                  <span class="right-answer-pill text-muted">
+                      <span class="text-dark fw-bold mt-2">Answer is: {{ currentQuestion.answer }}</span>
+                    </span>
+                  <div class=" pt-2 text-muted">
+                    <p class="mb-0">{{ quizHintExplanation }}</p>
+                  </div>
+                  <div class="quiz-explanation-footer mt-3">
+                    <button
+                      v-if="quizHintSectionId"
+                      type="button"
+                      class="btn btn-sm btn-explanation-link"
+                      @click="scrollToSection(quizHintSectionId)">
+                      Jump to the related lesson section
+                    </button>
+                  </div>
+                </div>
+
+                <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
+                  <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
+                  <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
+                    <div>
+                      <p class="mb-0 fw-semibold text-teal">Great! {{ quizRequiredCorrect }} correct answers recorded.</p>
+                      <small class="text-muted">The Next Chapter button above is now active.</small>
+                    </div>
+                    <button type="button"
+                      class="btn btn-outline-teal btn-sm shadow-none"
+                      @click="retryQuiz">
+                      Retake quiz
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
-          </section>
-        </div>
-      </main>
+          </div>
+
+          <!-- NAVIGATION BUTTONS -->
+          <div class="actions-card animated-fade-in">
+            <div
+              class="p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3">
+
+              <button class="btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2"
+                :class="{ 'opacity-50 cursor-not-allowed': selectedPill <= 1 }" :disabled="selectedPill <= 1"
+                @click="selectPill(selectedPill - 1)">
+                <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                Previous Chapter
+              </button>
+
+              <div class="d-flex flex-column flex-md-row align-items-center gap-2">
+                <span class="text-muted small me-md-auto">Chapter {{ selectedPill }} of {{ roadmapData.length }}</span>
+                <div v-if="chapterQuizPassed" class="text-teal small fw-semibold">Quiz cleared • Next Chapter unlocked.</div>
+                <button class="btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2"
+                  :class="{
+                    'next-ready': chapterQuizPassed && !isWaitingForNext,
+                    'disabled': isWaitingForNext || !chapterQuizPassed
+                  }"
+                  :disabled="isWaitingForNext || !chapterQuizPassed"
+                  @click="completeAndNext">
+                  <span>{{ isWaitingForNext ? 'Processing...' : 'Next Chapter' }}</span>
+                  <i class="bi bi-arrow-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
 
       <div v-if="showResourceModal">
         <div class="modal-backdrop fade show custom-modal-backdrop"></div>
