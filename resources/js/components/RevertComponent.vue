@@ -176,9 +176,7 @@
             </div>
           </div>
 
-          --------------------
-
-<!-- Gentle start onboarding for newcomers -->
+          <!-- Focus of the lesson -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
               <div class="d-flex flex-column flex-grow-1">
@@ -200,39 +198,29 @@
             </div>
           </div>
 
-          ----------------------
-
-          <!-- Lesson Focus Intro -->
-          <div class="content-card mb-4 rounded-5 shadow-lg">
-            <h5 class="fw-bold mb-1">Focus of This Lesson</h5>
-            <p class="mb-0 text-muted medium">
-              {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
-            </p>
-          </div>
-
           <!-- main content (learning overview, highlights, sections) -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg" style="animation-delay: 0.05s">
-              <div class="card-header d-flex align-items-center py-3 ">
-                <div class="d-flex align-items-center gap-3">
-                  <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
-                  <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
-                </div>
-                <div class="lesson-focus-actions ms-auto">
-                  <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
-                    <i class="bi bi-whatsapp fs-5"></i>
-                    <span>Share</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
-                    <i class="bi bi-clipboard fs-5"></i>
-                    <span>Copy</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
-                    <i class="bi bi-printer fs-5"></i>
-                    <span>Print</span>
-                  </span>
-                  <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
-                </div>
+            <div class="card-header d-flex align-items-center py-3 ">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
+                <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
               </div>
+              <div class="lesson-focus-actions ms-auto">
+                <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+              </div>
+            </div>
               <!-- lesson overview -->
             <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
               <div v-if="currentLessonOverview" class="lesson-overview-summary">
@@ -405,7 +393,6 @@
             </div>
           </div>
 
-
           <!-- do's and don't -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-body px-3 px-md-3 py-3">
@@ -521,7 +508,6 @@
             </div>
           </div>
 
-
           <!-- share and uplift -->
           <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
@@ -581,6 +567,118 @@
               </div>
             </div>
           </div>
+
+          <!-- Gentle start onboarding for newcomers -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <div class="flex-grow-1">
+                  <h3 class="fw-bold mb-1">Reverts Stories</h3>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
+            </div>
+            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
+              <div class="row g-3 video-grid-row">
+                <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
+                  <article
+                    class="video-card shadow-sm overflow-hidden h-100"
+                    @mouseenter="startPreview(video)"
+                    @mouseleave="stopPreview">
+                    <div class="video-card-media">
+                      <div
+                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                        class="video-feature"
+                        :style="thumbnailStyle(video)">
+                        <iframe
+                          :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div
+                        v-else
+                        class="video-feature"
+                        :style="thumbnailStyle(video)"
+                        @click="playVideo(video)">
+                        <div class="video-feature-overlay">
+                          <div class="video-feature-text">
+                          <p class="video-feature-label">Revert story</p>
+                          <h3 class="video-feature-title">{{ video.title }}</h3>
+                          <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                          <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="video-card-caption px-3 py-2">
+                    <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                    <div v-if="videoTags(video).length" class="video-card-tags mb-2">
+                      <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
+                    </div>
+                    <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                    <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                  </div>
+                  </article>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mt-4">
+                <button type="button" class="btn-see-more" @click="showVideoModal = true">
+                  See more videos
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- common asked questions -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-bold mb-0">Commonly Asked Questions</h3>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
+            </div>
+            <div v-show="!collapsedSections.commonQuestions">
+              <div class="accordion-stack">
+                <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
+                  <button type="button"
+                    class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
+                    :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
+                    <span>{{ panel.title }}</span>
+                    <i class="bi"
+                      :class="isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
+                  </button>
+                  <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
+                    <div v-html="panel.body"></div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="commonFaqHasMore" class="text-center mt-3">
+                <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
+                  Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
+                </button>
+              </div>
+            </div>
+          </div>
+
 
 
 
@@ -707,40 +805,67 @@
                 <div class="d-flex align-items-center gap-3 flex-grow-1">
                   <i class="bi bi-share-fill fs-4 text-teal"></i>
                   <div>
-                    <h2 class="fw-bold mb-0 fs-5">Share & Uplift</h2>
+                    <h2 class="fw-bold mb-0 fs-5">Revert Stories</h2>
                   </div>
                 </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('shareUplift')"
-                  :aria-expanded="!collapsedSections.shareUplift">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.shareUplift ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.shareUplift ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
               </div>
               <div v-show="!collapsedSections.shareUplift" class="card-body">
-                <div class="row align-items-center">
-                  <div class="col-md-7">
-                    <p class="text-muted mb-3 fs-6">
-                      Spread the lesson: copy the link or share a dua so others stay inspired.
-                    </p>
+                <div class="row g-3 video-grid-row">
+                  <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
+                    <article
+                      class="video-card shadow-sm overflow-hidden h-100"
+                      @mouseenter="startPreview(video)"
+                      @mouseleave="stopPreview">
+                      <div class="video-card-media">
+                        <div
+                          v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                          class="video-feature"
+                          :style="thumbnailStyle(video)">
+                          <iframe
+                            :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
+                            :title="video.title"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen
+                            loading="lazy">
+                          </iframe>
+                        </div>
+                        <div
+                          v-else
+                          class="video-feature"
+                          :style="thumbnailStyle(video)"
+                          @click="playVideo(video)">
+                          <div class="video-feature-overlay">
+                            <div class="video-feature-text">
+                           <p class="video-feature-label">Revert story</p>
+                           <h3 class="video-feature-title">{{ video.title }}</h3>
+                           <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                           <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                         </div>
+                       </div>
+                     </div>
+                   </div>
+                   <div class="video-card-caption px-3 py-2">
+                     <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                     <div v-if="videoTags(video).length" class="video-card-tags mb-2">
+                       <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
+                     </div>
+                     <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                     <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                   </div>
+                    </article>
                   </div>
-                  <div class="col-md-5">
-                    <div class="share-actions d-flex flex-wrap gap-2 mb-2">
-                      <button type="button" class="btn share-action-btn share-copy" @click="copyShareLink">
-                        <i class="bi bi-clipboard me-2 fs-5"></i>
-                        <span>Copy lesson link</span>
-                      </button>
-                      <button type="button" class="btn share-action-btn share-whatsapp" @click="openWhatsappShare(getShareLink())">
-                        <i class="bi bi-whatsapp me-2 fs-5"></i>
-                        <span>Share on WhatsApp</span>
-                      </button>
-                    </div>
-                    <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
-                  </div>
+                </div>
+                <div class="d-flex justify-content-end mt-4">
+                  <button type="button" class="btn-see-more" @click="showVideoModal = true">
+                    See more videos
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </button>
                 </div>
               </div>
             </div>
+
+
             <div id="revert-stories-section" v-if="revertStories.length" class="content-card section-card animated-fade-slide mb-4 rounded-4">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-collection-play fs-4 me-3 text-teal"></i>
