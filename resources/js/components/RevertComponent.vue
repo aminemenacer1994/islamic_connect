@@ -153,14 +153,14 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('gentleStart')"
+                :aria-expanded="isCardVisible('gentleStart')"
+                :aria-label="isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'">
+                <i class="bi" :class="isCardVisible('gentleStart') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
+            <div v-show="isCardVisible('gentleStart')" class="card-body px-4 py-3">
               <p class="text-muted small mb-3">
                 Take it slow these reflections anchor today’s lesson and help you stay curious.
               </p>
@@ -194,14 +194,14 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('lessonFocus')"
+                :aria-expanded="isCardVisible('lessonFocus')"
+                :aria-label="isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'">
+                <i class="bi" :class="isCardVisible('lessonFocus') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
+            <div v-show="isCardVisible('lessonFocus')" class="card-body px-4 py-3">
               <p class="text-muted medium mb-3">
                 {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
               </p>
@@ -215,24 +215,34 @@
                 <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
                 <h3 class="fw-bold mb-0">Learning Overview</h3>
               </div>
-              <div class="lesson-focus-actions ms-auto">
-                <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
-                  <i class="bi bi-whatsapp fs-5"></i>
-                  <span>Share</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
-                  <i class="bi bi-clipboard fs-5"></i>
-                  <span>Copy</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
-                  <i class="bi bi-printer fs-5"></i>
-                  <span>Print</span>
-                </span>
-                <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+              <div class="d-flex align-items-center gap-2 ms-auto">
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn"
+                  @click="toggleCardVisibility('learningOverview')"
+                  :aria-expanded="isCardVisible('learningOverview')"
+                  :aria-label="isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'">
+                  <i class="bi" :class="isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
+                <div class="lesson-focus-actions">
+                  <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                    <i class="bi bi-whatsapp fs-5"></i>
+                    <span>Share</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                    <i class="bi bi-clipboard fs-5"></i>
+                    <span>Copy</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                    <i class="bi bi-printer fs-5"></i>
+                    <span>Print</span>
+                  </span>
+                  <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+                </div>
               </div>
             </div>
               <!-- lesson overview -->
-            <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
+            <div v-show="isCardVisible('learningOverview')" class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
               <div v-if="currentLessonOverview" class="lesson-overview-summary">
                 <!-- <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p> -->
                 <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
@@ -244,71 +254,112 @@
                   </div>
                 </div>
               </div>
-              <div v-if="overviewSections.length" class="overview-section-list">
-                <div v-for="(section, index) in overviewSections" :key="section.heading"
+              <div v-if="overviewSectionsWithKeys.length" class="overview-section-list">
+                <div
+                  v-for="(section, index) in overviewSectionsWithKeys"
+                  :key="section.toggleKey"
                   :id="`section-${selectedPill}-${index}`"
-                  class="section-block mb-5">
-                  <div class="d-flex align-items-start gap-3 mb-3">
+                  class="section-block mb-5"
+                  :class="{ 'section-collapsed': !isSectionVisible(section.toggleKey) }">
+                  <div class="section-header align-items-start gap-3 mb-3">
                     <div class="section-number fs-5">{{ index + 1 }}</div>
-                    <h5 class="fw-semibold mb-0 fs-5">{{ section.heading }}</h5>
-                  </div>
-                  <div class="section-content text-dark fs-6 lh-lg"
-                    :style="{ fontSize: `${overviewFontScale}rem` }">
-                    {{ section.content }}
-                  </div>
-                  <div class="mt-3 small text-muted">
-                    <p v-if="section.references" class="mb-1">
-                      <strong class="me-2">Reference:</strong>
-                      <span class="text-dark">{{ section.references }}</span>
-                    </p>
-                    <p v-if="section.resources" class="mb-0">
-                      <strong class="me-2">Resource:</strong>
-                      <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
-                    </p>
-                  </div>
-                  <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                    <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
-                      <strong>{{ stat.value }}</strong>
-                      <small class="text-muted">{{ stat.label }}</small>
+                    <div class="section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap">
+                      <h5 class="fw-semibold mb-0 fs-5 text-truncate">{{ section.heading }}</h5>
+                      <button
+                        type="button"
+                        class="section-toggle-btn"
+                        :class="{ collapsed: !isSectionVisible(section.toggleKey) }"
+                        @click="toggleSectionVisibility(section.toggleKey)"
+                        :aria-expanded="isSectionVisible(section.toggleKey)"
+                        :aria-controls="`section-content-${section.toggleKey}`"
+                        :aria-label="isSectionVisible(section.toggleKey) ? 'Collapse section' : 'Expand section'">
+                        <i class="bi" :class="isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                      </button>
                     </div>
                   </div>
-                  <div class="pt-3 mt-3"></div>
+                  <div
+                    v-show="isSectionVisible(section.toggleKey)"
+                    :id="`section-content-${section.toggleKey}`"
+                    class="section-content-wrapper">
+                    <div class="section-content text-dark fs-6 lh-lg"
+                      :style="{ fontSize: `${overviewFontScale}rem` }">
+                      {{ section.content }}
+                    </div>
+                    <div class="mt-3 small text-muted">
+                      <p v-if="section.references" class="mb-1">
+                        <strong class="me-2">Reference:</strong>
+                        <span class="text-dark">{{ section.references }}</span>
+                      </p>
+                      <p v-if="section.resources" class="mb-0">
+                        <strong class="me-2">Resource:</strong>
+                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                      </p>
+                    </div>
+                    <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                      <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
+                        <strong>{{ stat.value }}</strong>
+                        <small class="text-muted">{{ stat.label }}</small>
+                      </div>
+                    </div>
+                    <div class="pt-3 mt-3"></div>
+                  </div>
                 </div>
               </div>
-              <div v-else-if="currentLesson?.sections?.length" class="overview-section-list">
-                <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
-                  class="section-block mb-5">
-                  <div class="d-flex align-items-start gap-3 mb-3">
+              <div v-else-if="lessonSectionsWithKeys.length" class="overview-section-list">
+                <div
+                  v-for="(section, index) in lessonSectionsWithKeys"
+                  :key="section.toggleKey"
+                  :id="`section-${selectedPill}-${index}`"
+                  class="section-block mb-5"
+                  :class="{ 'section-collapsed': !isSectionVisible(section.toggleKey) }">
+                  <div class="section-header align-items-start gap-3 mb-3">
                     <div class="section-number fs-5">{{ index + 1 }}</div>
-                    <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
-                  </div>
-                  <div class="section-content text-dark fs-6 lh-lg"
-                    :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
-                  <div class="mt-3 medium text-muted">
-                    <p v-if="section.references" class="mb-1">
-                      <strong class="me-2">Reference:</strong>
-                      <span class="text-dark">{{ section.references }}</span>
-                    </p>
-                    <p v-if="section.resources" class="mb-0">
-                      <strong class="me-2">Resource:</strong>
-                      <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
-                    </p>
-                  </div>
-                  <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
-                    <div class="deep-dive-header d-flex align-items-center mb-2">
-                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
-                      <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
-                    </div>
-                    <div class="deep-dive-content text-dark fs-6"
-                      :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
-                  </div>
-                  <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                    <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
-                      <strong>{{ stat.value }}</strong>
-                      <span class="text-muted">{{ stat.label }}</span>
+                    <div class="section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap">
+                      <h5 class="fw-semibold mb-0 fs-5 text-truncate">{{ section.title }}</h5>
+                      <button
+                        type="button"
+                        class="section-toggle-btn"
+                        :class="{ collapsed: !isSectionVisible(section.toggleKey) }"
+                        @click="toggleSectionVisibility(section.toggleKey)"
+                        :aria-expanded="isSectionVisible(section.toggleKey)"
+                        :aria-controls="`section-content-${section.toggleKey}`"
+                        :aria-label="isSectionVisible(section.toggleKey) ? 'Collapse section' : 'Expand section'">
+                        <i class="bi" :class="isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                      </button>
                     </div>
                   </div>
-                  <div class="pt-3 mt-3"></div>
+                  <div
+                    v-show="isSectionVisible(section.toggleKey)"
+                    :id="`section-content-${section.toggleKey}`"
+                    class="section-content-wrapper">
+                    <div class="section-content text-dark fs-6 lh-lg"
+                      :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                    <div class="mt-3 medium text-muted">
+                      <p v-if="section.references" class="mb-1">
+                        <strong class="me-2">Reference:</strong>
+                        <span class="text-dark">{{ section.references }}</span>
+                      </p>
+                      <p v-if="section.resources" class="mb-0">
+                        <strong class="me-2">Resource:</strong>
+                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                      </p>
+                    </div>
+                    <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
+                      <div class="deep-dive-header d-flex align-items-center mb-2">
+                        <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
+                        <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
+                      </div>
+                      <div class="deep-dive-content text-dark fs-6"
+                        :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
+                    </div>
+                    <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                      <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
+                        <strong>{{ stat.value }}</strong>
+                        <span class="text-muted">{{ stat.label }}</span>
+                      </div>
+                    </div>
+                    <div class="pt-3 mt-3"></div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -331,8 +382,16 @@
                   <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
                   <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
                 </div>
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn ms-auto"
+                  @click="toggleCardVisibility('pathwayClips')"
+                  :aria-expanded="isCardVisible('pathwayClips')"
+                  :aria-label="isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'">
+                  <i class="bi" :class="isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
               </div>
-              <div class="card-body px-3">
+              <div v-show="isCardVisible('pathwayClips')" class="card-body px-3">
                 <div class="row g-3">
                   <div v-for="clip in pathwayClips" :key="clip.title" class="col-12 col-md-4">
                     <article
@@ -375,13 +434,25 @@
 
           <!-- Share with a friend -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-body px-3 px-md-3 py-3">
+            <div class="card-header d-flex align-items-start justify-content-between py-3 px-3 px-md-3 gap-3">
+              <div class="flex-grow-1">
+                <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
+                <p class="text-muted mb-0 medium">
+                  Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                </p>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('shareFriend')"
+                :aria-expanded="isCardVisible('shareFriend')"
+                :aria-label="isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'">
+                <i class="bi" :class="isCardVisible('shareFriend') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('shareFriend')" class="card-body px-3 px-md-3 py-3">
               <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
                 <div class="flex-grow-1">
-                  <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
-                  <p class="text-muted mb-0 medium">
-                    Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
-                  </p>
                   <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0" aria-live="polite" role="status">
                     {{ shareFriendStatus }}
                   </p>
@@ -405,40 +476,46 @@
 
           <!-- do's and don't -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-body px-3 px-md-3 py-3">
-              <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                <div class="flex-grow-1">
-                  <h3 class="fw-bold mb-1">Do's and Don'ts</h3>
-                </div>
+            <div class="card-header d-flex align-items-center justify-content-between py-3 px-3 px-md-3 gap-3">
+              <div class="flex-grow-1">
+                <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
               </div>
-              <div class="card-body p-3">
-                <div class="mb-3">
-                  <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
-                  <div class="row g-3">
-                    <div class="col-12 col-md-6">
-                      <article class="p-3 rounded-3 border h-100">
-                        <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
-                        <ul class="list-unstyled mb-0">
-                          <li v-for="item in currentDosDonts.dos" :key="item.id"
-                            class="d-flex align-items-start gap-2 mb-2">
-                            <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
-                            <span class="text-dark medium mt-1">{{ item.text }}</span>
-                          </li>
-                        </ul>
-                      </article>
-                    </div>
-                    <div class="col-12 col-md-6">
-                      <article class="p-3 rounded-3 border h-100">
-                        <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
-                        <ul class="list-unstyled mb-0">
-                          <li v-for="item in currentDosDonts.donts" :key="item.id"
-                            class="d-flex align-items-start gap-2 mb-2">
-                            <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
-                            <span class="text-dark medium mt-1">{{ item.text }}</span>
-                          </li>
-                        </ul>
-                      </article>
-                    </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('dosDonts')"
+                :aria-expanded="isCardVisible('dosDonts')"
+                :aria-label="isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'">
+                <i class="bi" :class="isCardVisible('dosDonts') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('dosDonts')" class="card-body px-3 px-md-3 py-3">
+              <div class="mb-3">
+                <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <article class="p-3 rounded-3 border h-100">
+                      <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
+                      <ul class="list-unstyled mb-0">
+                        <li v-for="item in currentDosDonts.dos" :key="item.id"
+                          class="d-flex align-items-start gap-2 mb-2">
+                          <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
+                          <span class="text-dark medium mt-1">{{ item.text }}</span>
+                        </li>
+                      </ul>
+                    </article>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <article class="p-3 rounded-3 border h-100">
+                      <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
+                      <ul class="list-unstyled mb-0">
+                        <li v-for="item in currentDosDonts.donts" :key="item.id"
+                          class="d-flex align-items-start gap-2 mb-2">
+                          <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+                          <span class="text-dark medium mt-1">{{ item.text }}</span>
+                        </li>
+                      </ul>
+                    </article>
                   </div>
                 </div>
               </div>
@@ -454,23 +531,33 @@
                   <h3 class="fw-bold mb-1">Duas to Carry</h3>
                 </div>
               </div>
-              <div class="lesson-focus-actions ms-auto">
-                <span class="header-action" role="button" tabindex="0" @click="shareDuas">
-                  <i class="bi bi-whatsapp fs-5"></i>
-                  <span>Share</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="copyDuas">
-                  <i class="bi bi-clipboard fs-5"></i>
-                  <span>Copy</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="printDuas">
-                  <i class="bi bi-printer fs-5"></i>
-                  <span>Print</span>
-                </span>
-                <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
+              <div class="d-flex align-items-center gap-2 ms-auto">
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn"
+                  @click="toggleCardVisibility('duas')"
+                  :aria-expanded="isCardVisible('duas')"
+                  :aria-label="isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'">
+                  <i class="bi" :class="isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
+                <div class="lesson-focus-actions">
+                  <span class="header-action" role="button" tabindex="0" @click="shareDuas">
+                    <i class="bi bi-whatsapp fs-5"></i>
+                    <span>Share</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="copyDuas">
+                    <i class="bi bi-clipboard fs-5"></i>
+                    <span>Copy</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="printDuas">
+                    <i class="bi bi-printer fs-5"></i>
+                    <span>Print</span>
+                  </span>
+                  <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
+                </div>
               </div>
             </div>
-            <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
+            <div v-show="isCardVisible('duas')" class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
               <div class="row g-3">
                 <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
                   <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
@@ -488,33 +575,30 @@
           </div>
 
           <!-- key insights -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-body px-3 px-md-3 py-3">
-              <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                <div class="flex-grow-1">
-                  <h3 class="fw-bold mb-1">Key Insight's</h3>
-                </div>
+          <div
+            v-if="secondarySectionsReady && insightsToShow.length"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="flex-grow-1">
+                <h3 class="fw-bold mb-1">Key Insight's</h3>
               </div>
-              <div v-if="secondarySectionsReady && insightsToShow.length">
-                <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                  <button type="button"
-                    class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                    @click="toggleSection('keyInsights')"
-                    :aria-expanded="!collapsedSections.keyInsights">
-                    <span class="d-none d-sm-inline">{{ collapsedSections.keyInsights ? 'Show' : 'Hide' }}</span>
-                    <i class="bi" :class="collapsedSections.keyInsights ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                  </button>
-                </div>
-                <div v-show="!collapsedSections.keyInsights" class="card-body p-3">
-                  <ul class="list-group insight-list fs-6 lh-base mb-0">
-                    <li v-for="insight in insightsToShow" :key="insight"
-                      class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                      <i class="fas fa-check-circle fs-5 text-teal"></i>
-                      <span>{{ insight }}</span>
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('keyInsights')"
+                :aria-expanded="isCardVisible('keyInsights')"
+                :aria-label="isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'">
+                <i class="bi" :class="isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('keyInsights')" class="card-body px-3 px-md-3 py-3">
+              <ul class="list-group insight-list fs-6 lh-base mb-0">
+                <li v-for="insight in insightsToShow" :key="insight"
+                  class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
+                  <i class="fas fa-check-circle fs-5 text-teal"></i>
+                  <span>{{ insight }}</span>
+                </li>
+              </ul>
             </div>
           </div>
 
@@ -528,11 +612,11 @@
                 </div>
               </div>
               <button type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('shareUplift')"
-                :aria-expanded="!collapsedSections.shareUplift">
-                <span class="d-none d-sm-inline">{{ collapsedSections.shareUplift ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.shareUplift ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('shareUplift')"
+                :aria-expanded="isCardVisible('shareUplift')"
+                :aria-label="isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'">
+                <i class="bi" :class="isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
               <div class="lesson-focus-actions ms-auto">
                 <span class="header-action" role="button" tabindex="0" @click="shareDuas">
@@ -550,29 +634,25 @@
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
             </div>
-            <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
-              <div class="row g-3">
-                <div v-show="!collapsedSections.shareUplift" class="card-body">
-                  <div class="row align-items-center">
-                    <div class="col-md-6">
-                      <p class="text-muted mb-3 fs-6 large">
-                        Spread the lesson: copy the link or share a dua so others stay inspired.
-                      </p>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="">
-                        <button type="button" class="btn share-action-btn share-copy pr-2" @click="copyShareLink">
-                          <i class="bi bi-clipboard me-2 fs-5"></i>
-                          <span>Copy lesson link</span>
-                        </button>
-                        <button type="button" class="btn share-action-btn share-whatsapp" @click="openWhatsappShare(getShareLink())">
-                          <i class="bi bi-whatsapp me-2 fs-5"></i>
-                          <span>Share on WhatsApp</span>
-                        </button>
-                      </div>
-                      <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
-                    </div>
+            <div v-show="isCardVisible('shareUplift')" class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
+              <div class="row align-items-center gy-3">
+                <div class="col-md-6">
+                  <p class="text-muted mb-3 fs-6 large">
+                    Spread the lesson: copy the link or share a dua so others stay inspired.
+                  </p>
+                </div>
+                <div class="col-md-6">
+                  <div class="">
+                    <button type="button" class="btn share-action-btn share-copy pr-2" @click="copyShareLink">
+                      <i class="bi bi-clipboard me-2 fs-5"></i>
+                      <span>Copy lesson link</span>
+                    </button>
+                    <button type="button" class="btn share-action-btn share-whatsapp" @click="openWhatsappShare(getShareLink())">
+                      <i class="bi bi-whatsapp me-2 fs-5"></i>
+                      <span>Share on WhatsApp</span>
+                    </button>
                   </div>
+                  <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0 mt-sm-0">{{ shareFriendStatus }}</p>
                 </div>
               </div>
             </div>
@@ -588,14 +668,14 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('revertStories')"
+                :aria-expanded="isCardVisible('revertStories')"
+                :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
+                <i class="bi" :class="isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
+            <div v-show="isCardVisible('revertStories')" class="card-body px-4 py-3">
               <div class="row g-3 video-grid-row">
                 <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
                   <article
@@ -659,14 +739,14 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('commonQuestions')"
+                :aria-expanded="isCardVisible('commonQuestions')"
+                :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
+                <i class="bi" :class="isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="!collapsedSections.commonQuestions">
+            <div v-show="isCardVisible('commonQuestions')">
               <div class="accordion-stack">
                 <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
                   <button type="button"
@@ -689,28 +769,6 @@
             </div>
           </div>
 
-          <!-- focus of the lesson -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
-              </div>
-              <button
-                type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-              </button>
-            </div>
-            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
-              <p class="text-muted medium mb-3">
-                {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
-              </p>
-            </div>
-          </div>
-
           <!-- motivation -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
@@ -719,19 +777,17 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('motivation')"
+                :aria-expanded="isCardVisible('motivation')"
+                :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
+                <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="!collapsedSections.commonQuestions">
-              <div v-show="!collapsedSections.motivation" class=" px-3 px-md-4 py-4">
-                <div class="d-flex flex-column gap-2">
-                  <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
-                  <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
-                </div>
+            <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
+              <div class="d-flex flex-column gap-2">
+                <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
+                <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
               </div>
             </div>
           </div>
@@ -743,23 +799,19 @@
                 <h3 class="fw-bold mb-0">Curated Weekly & Monthly Plans</h3>
                 <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
               </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('curatedPlans')"
+                :aria-expanded="isCardVisible('curatedPlans')"
+                :aria-label="isCardVisible('curatedPlans') ? 'Collapse curated plans' : 'Expand curated plans'">
+                <i class="bi" :class="isCardVisible('curatedPlans') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
             </div>
-            <div v-show="!collapsedSections.commonQuestions">
+            <div v-show="isCardVisible('curatedPlans')">
               <div v-if="secondarySectionsReady && chapterFaqPanels.length">
-                <div v-if="currentChapterPlans.length" >
-                  <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                    <!-- <div class="d-flex align-items-center gap-3 flex-grow-1">
-                      <i class="bi bi-calendar-week fs-4 text-teal"></i>
-                    </div> -->
-                    <button type="button"
-                      class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                      @click="toggleSection('curatedPlans')"
-                      :aria-expanded="!collapsedSections.curatedPlans">
-                      <span class="d-none d-sm-inline">{{ collapsedSections.curatedPlans ? 'Show' : 'Hide' }}</span>
-                      <i class="bi" :class="collapsedSections.curatedPlans ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                    </button>
-                  </div>
-                  <div v-show="!collapsedSections.curatedPlans" class="card-body px-4 pb-0 pt-0">
+                <div v-if="currentChapterPlans.length">
+                  <div class="card-body px-4 pb-0 pt-0">
                     <div class="row g-3">
                       <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
                         <article class="plan-card rounded-5 p-4 ">
@@ -820,14 +872,14 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                @click="toggleSection('gentleStart')"
-                :aria-expanded="!collapsedSections.gentleStart">
-                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
-                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('nextSteps')"
+                :aria-expanded="isCardVisible('nextSteps')"
+                :aria-label="isCardVisible('nextSteps') ? 'Collapse next steps' : 'Expand next steps'">
+                <i class="bi" :class="isCardVisible('nextSteps') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="!collapsedSections.nextSteps" class="next-steps-body text-black p-4">
+            <div v-show="isCardVisible('nextSteps')" class="next-steps-body text-black p-4">
               <div class="next-steps-inner">
                 <div class="next-steps-highlight">
                   <p class="mb-1 fw-semibold">Small steps, steady heart</p>
@@ -854,11 +906,20 @@
               <div class="d-flex flex-column flex-grow-1">
                 <h3 class="fw-bold mb-0">Chapter Quiz</h3>
               </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('chapterQuiz')"
+                :aria-expanded="isCardVisible('chapterQuiz')"
+                :aria-label="isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'">
+                <i class="bi" :class="isCardVisible('chapterQuiz') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
             </div>
-            <div v-if="currentQuestion">
-              <div class="quiz-body px-4 py-3">
-                <div class="quiz-progress-wrapper mb-3">
-                  <div class="quiz-progress-track">
+            <div v-show="isCardVisible('chapterQuiz')">
+              <div v-if="currentQuestion">
+                <div class="quiz-body px-4 py-3">
+                  <div class="quiz-progress-wrapper mb-3">
+                    <div class="quiz-progress-track">
                     <div class="quiz-progress-fill"
                       :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
                   </div>
@@ -929,6 +990,7 @@
                 </div>
               </div>
             </div>
+          </div>
           </div>
 
           <!-- NAVIGATION BUTTONS -->
@@ -1433,17 +1495,6 @@ export default defineComponent({
       shareFriendStatus: '',
       onboarding: normalizeJson(onboardingData),
       resourceCopyStatus: '',
-      collapsedSections: {
-        commonQuestions: false,
-        resources: false,
-        faqs: false,
-        curatedPlans: false,
-        keyInsights: false,
-        shareUplift: false,
-        nextSteps: false,
-        motivation: false,
-        gentleStart: false
-      },
       confettiPromise: null,
       confettiLauncher: null,
       lessonShareStatus: '',
@@ -1451,6 +1502,8 @@ export default defineComponent({
       overviewFontScale: 1,
       duaFontScale: 1,
       globalFontScale: 1,
+      sectionVisibility: {},
+      cardVisibility: {},
       copyAlertMessage: '',
       copyAlertType: 'info',
       showCopyAlert: false,
@@ -1510,6 +1563,19 @@ export default defineComponent({
     },
     overviewSections() {
       return this.currentLessonOverview?.overview || []
+    },
+    overviewSectionsWithKeys() {
+      return this.overviewSections.map((section, index) => ({
+        ...section,
+        toggleKey: this.sectionToggleId('overview', section, index)
+      }))
+    },
+    lessonSectionsWithKeys() {
+      const sections = this.currentLesson?.sections || []
+      return sections.map((section, index) => ({
+        ...section,
+        toggleKey: this.sectionToggleId('lesson', section, index)
+      }))
     },
     quizHintExplanation() {
       return this.lastIncorrectExplanation?.text || this.currentQuestion?.explanation || ''
@@ -1771,6 +1837,8 @@ export default defineComponent({
       this.homeworkVisibleCount = 4
       this.faqDisplayLimit = 4
       this.commonFaqDisplayLimit = 4
+      this.sectionVisibility = {}
+      this.cardVisibility = {}
       this.prepareSecondarySections()
     },
     chapterQuizPassed(newVal, oldVal) {
@@ -2205,6 +2273,48 @@ export default defineComponent({
       return this.sectionStatsMap.find(entry => entry.title === title)?.stats || []
     },
 
+    sectionToggleId(prefix = 'section', section = {}, index = 0) {
+      const heading = section?.heading || section?.title || `section-${index + 1}`
+      const label = `${heading}`.toLowerCase()
+      const slug = label
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-+|-+$)/g, '')
+      const suffix = slug || index
+      return `${prefix}-${this.selectedPill}-${suffix}`
+    },
+    isSectionVisible(sectionKey) {
+      if (!sectionKey) return true
+      if (Object.prototype.hasOwnProperty.call(this.sectionVisibility, sectionKey)) {
+        return Boolean(this.sectionVisibility[sectionKey])
+      }
+      return true
+    },
+    toggleSectionVisibility(sectionKey) {
+      if (!sectionKey) return
+      const currentlyVisible = this.isSectionVisible(sectionKey)
+      this.sectionVisibility = {
+        ...this.sectionVisibility,
+        [sectionKey]: !currentlyVisible
+      }
+    },
+
+    isCardVisible(cardKey) {
+      if (!cardKey) return true
+      if (Object.prototype.hasOwnProperty.call(this.cardVisibility, cardKey)) {
+        return Boolean(this.cardVisibility[cardKey])
+      }
+      return true
+    },
+    toggleCardVisibility(cardKey) {
+      if (!cardKey) return
+      const currentlyVisible = this.isCardVisible(cardKey)
+      this.cardVisibility = {
+        ...this.cardVisibility,
+        [cardKey]: !currentlyVisible
+      }
+    },
+
     toggleAccordion(section, index) {
       const stateKey = section === 'faq' ? 'faqAccordionState' : 'commonAccordionState'
       this[stateKey] = this[stateKey] === index ? null : index
@@ -2227,10 +2337,6 @@ export default defineComponent({
     isFaqStackOpen(index) {
       if (this.faqStackState === null) return false
       return this.faqStackState === index || (this.faqStackState === undefined && index === 0)
-    },
-
-    toggleSection(sectionKey) {
-      this.collapsedSections[sectionKey] = !this.collapsedSections[sectionKey]
     },
 
     formatVideoUrl(url, autoplay = false, muted = false) {
