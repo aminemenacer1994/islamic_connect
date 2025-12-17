@@ -44,28 +44,30 @@
       <div class="row g-4">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-12 col-md-3 mobile-nav-frame">
+        <aside class="col-12 col-md-3 mobile-nav-frame bg-white">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
             id="revert-navigation"
             role="navigation"
             aria-label="Chapter navigation">
-
             <!-- Progress Section -->
-            <div class="progress-indicator mb-4">
+            <div class="progress-indicator mb-3">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <span class="fw-bold small">Course Progress</span>
                 <span class="text-muted small">{{ completedChapters }}/{{ totalChapters }}</span>
               </div>
-
               <div class="progress-bar-container">
                 <div class="progress-bar" :style="{ width: progressPercentage + '%' }"></div>
               </div>
-
-              <p class="text-muted small mt-2 mb-0">
+              <p class="text-muted small mb-0">
                 {{ Math.round(progressPercentage) }}% Complete
               </p>
+            </div>
+
+            <div class="roadmap-header d-flex align-items-center justify-content-between mt-4 mb-2">
+              <span class="fw-semibold small">Navigate the chapters</span>
+              <span class="text-muted small">{{ completedChapters }} done</span>
             </div>
 
             <!-- Navigation List -->
@@ -84,7 +86,16 @@
                   </span>
                   <div>
                     <p class="mb-0 fw-semibold">{{ step.title }}</p>
-                    <small class="text-muted">{{ step.description }}</small>
+                    <small class="text-muted d-block">{{ step.description }}</small>
+                    <small
+                      class="status-chip mt-1"
+                      :class="{
+                        completed: step.id < maxStepReached,
+                        current: step.id === maxStepReached,
+                        locked: step.id > maxStepReached
+                      }">
+                      {{ stepStatusLabel(step) }}
+                    </small>
                   </div>
                 </div>
                 <i v-if="step.id === selectedPill" class="bi bi-arrow-up-right fs-5 text-teal"></i>
@@ -2169,6 +2180,12 @@ export default defineComponent({
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
       this.mobileNavOpen = false
+    },
+
+    stepStatusLabel(step) {
+      if (step.id < this.maxStepReached) return 'Completed'
+      if (step.id === this.maxStepReached) return 'In progress'
+      return 'Locked'
     },
 
     toggleFaq(index) {
