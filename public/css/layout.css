@@ -361,7 +361,7 @@ html {
 /* Tablet tweaks */
 
 @media (max-width: 991.98px) {
-    :root { --navbar-h: 4px; }
+    :root { --navbar-h: 64px; }
     .navbar-brand img { max-width: 160px; height: auto; }
     .page-header { flex-wrap: wrap; gap: 8px; }
     .page-header > * { flex: 1 1 auto; }

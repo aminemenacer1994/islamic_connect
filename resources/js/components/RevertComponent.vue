@@ -176,14 +176,38 @@
             </div>
           </div>
 
-          <!-- Lesson Focus Intro -->
-          <div class="lesson-focus-intro d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div>
-              <strong class="d-block mb-1">Focus of This Lesson</strong>
-              <p class="mb-0 text-muted medium">
+          --------------------
+
+<!-- Gentle start onboarding for newcomers -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex flex-column flex-grow-1">
+                <h3 class="fw-semibold mb-0">Focus of This Lesson</h3>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('gentleStart')"
+                :aria-expanded="!collapsedSections.gentleStart">
+                <span class="d-none d-sm-inline">{{ collapsedSections.gentleStart ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.gentleStart ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
+            </div>
+            <div v-show="!collapsedSections.gentleStart" class="card-body px-4 py-3">
+              <p class="text-muted medium mb-3">
                 {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
               </p>
             </div>
+          </div>
+
+          ----------------------
+
+          <!-- Lesson Focus Intro -->
+          <div class="content-card mb-4 rounded-5 shadow-lg">
+            <h5 class="fw-bold mb-1">Focus of This Lesson</h5>
+            <p class="mb-0 text-muted medium">
+              {{ currentToneFocusText || currentLesson?.summary || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.' }}
+            </p>
           </div>
 
           <!-- main content (learning overview, highlights, sections) -->
@@ -424,12 +448,150 @@
             </div>
           </div>
 
+          <!-- dua to carry -->
+          <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+                <div class="flex-grow-1">
+                  <h3 class="fw-bold mb-1">Duas to Carry</h3>
+                </div>
+              </div>
+              <div class="lesson-focus-actions ms-auto">
+                <span class="header-action" role="button" tabindex="0" @click="shareDuas">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyDuas">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printDuas">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
+              </div>
+            </div>
+            <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
+              <div class="row g-3">
+                <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
+                  <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
+                    <div class="dua-glow"></div>
+                    <p dir="rtl"
+                      class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end"
+                      :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
+                      {{ dua.arabic }}
+                    </p>
+                    <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.english }}</p>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- key insights -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-body px-3 px-md-3 py-3">
+              <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                <div class="flex-grow-1">
+                  <h3 class="fw-bold mb-1">Key Insight's</h3>
+                </div>
+              </div>
+              <div v-if="secondarySectionsReady && insightsToShow.length">
+                <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                  <button type="button"
+                    class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                    @click="toggleSection('keyInsights')"
+                    :aria-expanded="!collapsedSections.keyInsights">
+                    <span class="d-none d-sm-inline">{{ collapsedSections.keyInsights ? 'Show' : 'Hide' }}</span>
+                    <i class="bi" :class="collapsedSections.keyInsights ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                  </button>
+                </div>
+                <div v-show="!collapsedSections.keyInsights" class="card-body p-3">
+                  <ul class="list-group insight-list fs-6 lh-base mb-0">
+                    <li v-for="insight in insightsToShow" :key="insight"
+                      class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
+                      <i class="fas fa-check-circle fs-5 text-teal"></i>
+                      <span>{{ insight }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- share and uplift -->
+          <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+                <div class="flex-grow-1">
+                  <h3 class="fw-bold mb-1">Share & Uplift</h3>
+                </div>
+              </div>
+              <button type="button"
+                class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                @click="toggleSection('shareUplift')"
+                :aria-expanded="!collapsedSections.shareUplift">
+                <span class="d-none d-sm-inline">{{ collapsedSections.shareUplift ? 'Show' : 'Hide' }}</span>
+                <i class="bi" :class="collapsedSections.shareUplift ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+              </button>
+              <div class="lesson-focus-actions ms-auto">
+                <span class="header-action" role="button" tabindex="0" @click="shareDuas">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyDuas">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printDuas">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
+              </div>
+            </div>
+            <div class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
+              <div class="row g-3">
+                <div v-show="!collapsedSections.shareUplift" class="card-body">
+                  <div class="row align-items-center">
+                    <div class="col-md-6">
+                      <p class="text-muted mb-3 fs-6 large">
+                        Spread the lesson: copy the link or share a dua so others stay inspired.
+                      </p>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="">
+                        <button type="button" class="btn share-action-btn share-copy pr-2" @click="copyShareLink">
+                          <i class="bi bi-clipboard me-2 fs-5"></i>
+                          <span>Copy lesson link</span>
+                        </button>
+                        <button type="button" class="btn share-action-btn share-whatsapp" @click="openWhatsappShare(getShareLink())">
+                          <i class="bi bi-whatsapp me-2 fs-5"></i>
+                          <span>Share on WhatsApp</span>
+                        </button>
+                      </div>
+                      <p v-if="shareFriendStatus" class="text-success small mb-0">{{ shareFriendStatus }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
             <!-- Do's and Don'ts -->
             <!-- Chapter-specific dos and don’ts -->
             <div v-if="secondarySectionsReady && currentDosDonts" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
-                <h2 class="fw-bold mb-0 fs-5">Do's and Don'ts</h2>
+                <h2 class="fw-bold mb-0 fs-5">Share & Uplift</h2>
               </div>
 
               <div class="card-body p-3">
@@ -463,8 +625,6 @@
                   </div>
                 </div>
               </div>
-
-              
 
             <!-- Duas -->
             <div v-if="currentDuas.length" class="content-card section-card animated-fade-slide mb-4 mt-3 rounded-4">
@@ -510,25 +670,25 @@
 
             <!-- Key Insights -->
               <div v-if="secondarySectionsReady && insightsToShow.length" class="content-card pt-3 section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-                <div class="d-flex align-items-center gap-3 flex-grow-1">
-                  <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
-                    <p class="fs-6 text-muted mb-0">
-                      {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
-                    </p>
+                <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+                  <div class="d-flex align-items-center gap-3 flex-grow-1">
+                    <i class="fas fa-chart-line fs-4 me-3 text-teal"></i>
+                    <div>
+                      <h2 class="fw-bold mb-0 fs-5">Key Insights</h2>
+                      <p class="fs-6 text-muted mb-0">
+                        {{ currentChapterKeyInsights?.chapter || currentLesson?.title || 'Chapter' }}
+                      </p>
+                    </div>
                   </div>
+                  <button type="button"
+                    class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
+                    @click="toggleSection('keyInsights')"
+                    :aria-expanded="!collapsedSections.keyInsights">
+                    <span class="d-none d-sm-inline">{{ collapsedSections.keyInsights ? 'Show' : 'Hide' }}</span>
+                    <i class="bi" :class="collapsedSections.keyInsights ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
+                  </button>
                 </div>
-                <button type="button"
-                  class="section-toggle-btn btn btn-link px-0 py-0 d-flex align-items-center gap-1"
-                  @click="toggleSection('keyInsights')"
-                  :aria-expanded="!collapsedSections.keyInsights">
-                  <span class="d-none d-sm-inline">{{ collapsedSections.keyInsights ? 'Show' : 'Hide' }}</span>
-                  <i class="bi" :class="collapsedSections.keyInsights ? 'bi-chevron-down' : 'bi-chevron-up'"></i>
-                </button>
-              </div>
-              <div v-show="!collapsedSections.keyInsights" class="card-body p-3">
+                <div v-show="!collapsedSections.keyInsights" class="card-body p-3">
                   <ul class="list-group insight-list fs-6 lh-base mb-0">
                     <li v-for="insight in insightsToShow" :key="insight"
                       class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
