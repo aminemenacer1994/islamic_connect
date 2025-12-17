@@ -45,7 +45,7 @@
       <div class="row g-4">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-12 col-md-3 col-lg-3 mobile-nav-frame">
+        <aside class="col-12 col-md-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -97,7 +97,8 @@
         </aside>
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
-        <section class="col-12 col-md-8 col-lg-9">
+        <section class="col-12 col-md-8 col-lg-8">
+
           <!-- Lesson Header + tone summary -->
           <div class="lesson-header animated-fade-in mb-4">
             <div class="lesson-hero position-relative overflow-hidden shadow-sm">
@@ -134,7 +135,7 @@
           </div>
 
           <!-- Gentle start onboarding for newcomers -->
-          <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-4">
+          <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
               <div class="d-flex flex-column flex-grow-1">
                 <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
@@ -175,7 +176,8 @@
             </div>
           </div>
 
-          <div class="lesson-focus-intro d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+          <!-- Lesson Focus Intro -->
+          <div class="lesson-focus-intro d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3 content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div>
               <strong class="d-block mb-1">Focus of This Lesson</strong>
               <p class="mb-0 text-muted medium">
@@ -184,234 +186,247 @@
             </div>
           </div>
 
-          
-
-            <!-- main content (learning overview, highlights, sections) -->
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4" style="animation-delay: 0.05s">
-                <div class="card-header d-flex align-items-center py-3 ">
-                  <div class="d-flex align-items-center gap-3">
-                    <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
-                    <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
-                  </div>
-                  <div class="lesson-focus-actions ms-auto">
-                    <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
-                      <i class="bi bi-whatsapp fs-5"></i>
-                      <span>Share</span>
-                    </span>
-                    <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
-                      <i class="bi bi-clipboard fs-5"></i>
-                      <span>Copy</span>
-                    </span>
-                    <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
-                      <i class="bi bi-printer fs-5"></i>
-                      <span>Print</span>
-                    </span>
-                    <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
-                  </div>
+          <!-- main content (learning overview, highlights, sections) -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg" style="animation-delay: 0.05s">
+              <div class="card-header d-flex align-items-center py-3 ">
+                <div class="d-flex align-items-center gap-3">
+                  <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
+                  <h2 class="fw-bold mb-0 fs-5 flex-grow-1">Learning Overview</h2>
                 </div>
-                <!-- lesson overview -->
-              <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
-                <div v-if="currentLessonOverview" class="lesson-overview-summary">
-                  <!-- <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p> -->
-                  <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
-                    <div v-for="highlight in currentLessonOverview.highlights" :key="highlight.label || highlight.heading" class="col-12 col-md-4">
-                      <article class="overview-highlight border rounded-3 p-3 h-100">
-                        <h6 class="fw-semibold mb-2">{{ highlight.label || highlight.heading }}</h6>
-                        <p class="mb-0 text-muted small">{{ highlight.description || highlight.content }}</p>
-                      </article>
-                    </div>
-                  </div>
-                </div>
-                <div v-if="overviewSections.length" class="overview-section-list">
-                  <div v-for="(section, index) in overviewSections" :key="section.heading"
-                    :id="`section-${selectedPill}-${index}`"
-                    class="section-block mb-5">
-                    <div class="d-flex align-items-start gap-3 mb-3">
-                      <div class="section-number fs-5">{{ index + 1 }}</div>
-                      <h5 class="fw-semibold mb-0 fs-5">{{ section.heading }}</h5>
-                    </div>
-                    <div class="section-content text-dark fs-6 lh-lg"
-                      :style="{ fontSize: `${overviewFontScale}rem` }">
-                      {{ section.content }}
-                    </div>
-                    <div class="mt-3 small text-muted">
-                      <p v-if="section.references" class="mb-1">
-                        <strong class="me-2">Reference:</strong>
-                        <span class="text-dark">{{ section.references }}</span>
-                      </p>
-                      <p v-if="section.resources" class="mb-0">
-                        <strong class="me-2">Resource:</strong>
-                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
-                      </p>
-                    </div>
-                    <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                      <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
-                        <strong>{{ stat.value }}</strong>
-                        <small class="text-muted">{{ stat.label }}</small>
-                      </div>
-                    </div>
-                    <div class="pt-3 mt-3"></div>
-                  </div>
-                </div>
-                <div v-else-if="currentLesson?.sections?.length" class="overview-section-list">
-                  <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
-                    class="section-block mb-5">
-                    <div class="d-flex align-items-start gap-3 mb-3">
-                      <div class="section-number fs-5">{{ index + 1 }}</div>
-                      <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
-                    </div>
-                    <div class="section-content text-dark fs-6 lh-lg"
-                      :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
-                    <div class="mt-3 medium text-muted">
-                      <p v-if="section.references" class="mb-1">
-                        <strong class="me-2">Reference:</strong>
-                        <span class="text-dark">{{ section.references }}</span>
-                      </p>
-                      <p v-if="section.resources" class="mb-0">
-                        <strong class="me-2">Resource:</strong>
-                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
-                      </p>
-                    </div>
-                    <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
-                      <div class="deep-dive-header d-flex align-items-center mb-2">
-                        <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
-                        <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
-                      </div>
-                      <div class="deep-dive-content text-dark fs-6"
-                        :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
-                    </div>
-                    <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                      <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
-                        <strong>{{ stat.value }}</strong>
-                        <span class="text-muted">{{ stat.label }}</span>
-                      </div>
-                    </div>
-                    <div class="pt-3 mt-3"></div>
-                  </div>
+                <div class="lesson-focus-actions ms-auto">
+                  <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                    <i class="bi bi-whatsapp fs-5"></i>
+                    <span>Share</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                    <i class="bi bi-clipboard fs-5"></i>
+                    <span>Copy</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                    <i class="bi bi-printer fs-5"></i>
+                    <span>Print</span>
+                  </span>
+                  <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
                 </div>
               </div>
-            </div>
-
-            <!-- Guided pathway clips and action cards -->
-            <div v-if="pathwayClips.length" class="content-card guided-section-card mb-4 rounded-4">
-              <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
-                <div>
-                  <p class="text-teal small mb-1 fw-semibold">Guided Pathway</p>
-                  <h3 class="mb-1 fw-semibold">Short clips to carry the lesson forward</h3>
-                  <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
-                </div>
-              </div>
-
-              <div id="pathway-clips-section" class=" animated-fade-slide mb-4 rounded-4 pathway-clips-card">
-                <div class="card-header d-flex align-items-center gap-3">
-                  <i class="bi bi-film fs-4 text-teal"></i>
-                  <div>
-                    <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
-                    <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
-                  </div>
-                </div>
-                <div class="card-body px-3">
-                  <div class="row g-3">
-                    <div v-for="clip in pathwayClips" :key="clip.title" class="col-12 col-md-4">
-                      <article
-                        class="clip-card h-100 rounded-4 border shadow-sm"
-                        @mouseenter="startPreview(clip)"
-                        @mouseleave="stopPreview"
-                        @click="playClip(clip)">
-                        <div v-if="isClipPlaying(clip) || isClipPreviewing(clip)" class="clip-thumbnail ratio ratio-16x9">
-                          <iframe
-                            :src="formatVideoUrl(clip.url, shouldAutoplayVideo(), isClipPreviewing(clip))"
-                            :title="clip.title"
-                            frameborder="0"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowfullscreen
-                            loading="lazy">
-                          </iframe>
-                        </div>
-                        <div v-else class="clip-thumbnail ratio ratio-16x9" :style="thumbnailStyle(clip)">
-                          <div class="clip-overlay d-flex align-items-end justify-content-between p-3">
-                            <span class="clip-label badge bg-white text-dark">Clip</span>
-                            <button type="button" class="btn btn-sm btn-outline-dark text-dark" @click.stop="playClip(clip)">
-                              <i class="bi bi-play-fill"></i>
-                            </button>
-                          </div>
-                        </div>
-                          <div class="p-3">
-                            <h3 class="h6 fw-semibold mb-1">{{ clip.title }}</h3>
-                            <p class="text-muted small mb-2">{{ clip.description || 'Visual recap of today’s insight.' }}</p>
-                          <div v-if="videoTags(clip, 'Pathway Clip').length" class="video-card-tags mb-2">
-                            <span v-for="tag in videoTags(clip, 'Pathway Clip')" :key="tag" class="video-tag-badge">{{ tag }}</span>
-                          </div>
-                          <p v-if="clip.duration" class="clip-duration text-muted small mb-0">Duration: {{ clip.duration }}</p>
-                          </div>
-                        </article>
-                      </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Lesson Departments Focus -->
-            <!-- Lesson focus cards summarizing how insights map to departments -->
-            <div v-if="lessonDepartments.length" class="content-card lesson-focus-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-header d-flex align-items-center py-3">
-                <i class="bi bi-bar-chart-line-fill fs-4 me-3 text-teal"></i>
-                <div>
-                  <h3 class="fw-bold mb-0 fs-5">Lesson Focus Across Departments</h3>
-                  <p class="text-muted mb-0 small">How this chapter aligns with every pillar of the experience</p>
-                </div>
-              </div>
-              <div class="card-body px-3 px-md-4">
-                <div class="row g-3">
-                  <div v-for="dept in lessonDepartments" :key="dept.name" class="col-12 col-md-4">
-                    <article class="dept-card h-100 p-3 rounded-3">
-                      <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="dept-icon">
-                          <i :class="dept.icon"></i>
-                        </span>
-                        <strong class="fs-6 mb-0">{{ dept.name }}</strong>
-                      </div>
-                      <p class="text-muted small mb-1">{{ dept.summary }}</p>
-                      <p class="text-dark fw-semibold mb-0">{{ dept.detail }}</p>
+              <!-- lesson overview -->
+            <div class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
+              <div v-if="currentLessonOverview" class="lesson-overview-summary">
+                <!-- <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p> -->
+                <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
+                  <div v-for="highlight in currentLessonOverview.highlights" :key="highlight.label || highlight.heading" class="col-12 col-md-4">
+                    <article class="overview-highlight border rounded-3 p-3 h-100">
+                      <h6 class="fw-semibold mb-2">{{ highlight.label || highlight.heading }}</h6>
+                      <p class="mb-0 text-muted small">{{ highlight.description || highlight.content }}</p>
                     </article>
                   </div>
                 </div>
               </div>
+              <div v-if="overviewSections.length" class="overview-section-list">
+                <div v-for="(section, index) in overviewSections" :key="section.heading"
+                  :id="`section-${selectedPill}-${index}`"
+                  class="section-block mb-5">
+                  <div class="d-flex align-items-start gap-3 mb-3">
+                    <div class="section-number fs-5">{{ index + 1 }}</div>
+                    <h5 class="fw-semibold mb-0 fs-5">{{ section.heading }}</h5>
+                  </div>
+                  <div class="section-content text-dark fs-6 lh-lg"
+                    :style="{ fontSize: `${overviewFontScale}rem` }">
+                    {{ section.content }}
+                  </div>
+                  <div class="mt-3 small text-muted">
+                    <p v-if="section.references" class="mb-1">
+                      <strong class="me-2">Reference:</strong>
+                      <span class="text-dark">{{ section.references }}</span>
+                    </p>
+                    <p v-if="section.resources" class="mb-0">
+                      <strong class="me-2">Resource:</strong>
+                      <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                    </p>
+                  </div>
+                  <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                    <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
+                      <strong>{{ stat.value }}</strong>
+                      <small class="text-muted">{{ stat.label }}</small>
+                    </div>
+                  </div>
+                  <div class="pt-3 mt-3"></div>
+                </div>
+              </div>
+              <div v-else-if="currentLesson?.sections?.length" class="overview-section-list">
+                <div v-for="(section, index) in currentLesson?.sections" :key="section.title"
+                  class="section-block mb-5">
+                  <div class="d-flex align-items-start gap-3 mb-3">
+                    <div class="section-number fs-5">{{ index + 1 }}</div>
+                    <h5 class="fw-semibold mb-0 fs-5">{{ section.title }}</h5>
+                  </div>
+                  <div class="section-content text-dark fs-6 lh-lg"
+                    :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                  <div class="mt-3 medium text-muted">
+                    <p v-if="section.references" class="mb-1">
+                      <strong class="me-2">Reference:</strong>
+                      <span class="text-dark">{{ section.references }}</span>
+                    </p>
+                    <p v-if="section.resources" class="mb-0">
+                      <strong class="me-2">Resource:</strong>
+                      <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                    </p>
+                  </div>
+                  <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
+                    <div class="deep-dive-header d-flex align-items-center mb-2">
+                      <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
+                      <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
+                    </div>
+                    <div class="deep-dive-content text-dark fs-6"
+                      :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
+                  </div>
+                  <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                    <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
+                      <strong>{{ stat.value }}</strong>
+                      <span class="text-muted">{{ stat.label }}</span>
+                    </div>
+                  </div>
+                  <div class="pt-3 mt-3"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Guided pathway clips and action cards -->
+          <div v-if="pathwayClips.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
+              <div>
+                <p class="text-teal small mb-1 fw-semibold flex-grow-1">Guided Pathway</p>
+                <h3 class="mb-1 fs-4 fw-semibold">Short clips to carry the lesson forward</h3>
+                <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
+              </div>
             </div>
 
-            <!-- Share with a friend -->
-            <div class="content-card section-card animated-fade-slide mb-4 rounded-4">
-              <div class="card-body px-3 px-md-4 py-4">
-                <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
-                  <div class="flex-grow-1">
-                    <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
-                    <p class="text-muted mb-0 small">
-                      Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
-                    </p>
-                    <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0" aria-live="polite" role="status">
-                      {{ shareFriendStatus }}
-                    </p>
-                    <span class="visually-hidden" aria-hidden="false">
-                      Feel free to share every insight, dua, and revert story on this page.
-                    </span>
-                  </div>
-                  <div class="d-flex flex-wrap gap-2">
-                    <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
-                      <i class="bi bi-clipboard mr-2"></i>
-                      Copy link
-                    </button>
-                    <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
-                      <i class="bi bi-whatsapp mr-2"></i>
-                      Share with WhatsApp
-                    </button>
+            <div id="pathway-clips-section" class=" animated-fade-slide mb-4 rounded-4 ">
+              <div class="card-header d-flex align-items-center gap-3">
+                <i class="bi bi-film fs-4 text-teal"></i>
+                <div>
+                  <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
+                  <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
+                </div>
+              </div>
+              <div class="card-body px-3">
+                <div class="row g-3">
+                  <div v-for="clip in pathwayClips" :key="clip.title" class="col-12 col-md-4">
+                    <article
+                      class="clip-card h-100 rounded-4 border shadow-sm"
+                      @mouseenter="startPreview(clip)"
+                      @mouseleave="stopPreview"
+                      @click="playClip(clip)">
+                      <div v-if="isClipPlaying(clip) || isClipPreviewing(clip)" class="clip-thumbnail ratio ratio-16x9">
+                        <iframe
+                          :src="formatVideoUrl(clip.url, shouldAutoplayVideo(), isClipPreviewing(clip))"
+                          :title="clip.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div v-else class="clip-thumbnail ratio ratio-16x9" :style="thumbnailStyle(clip)">
+                        <div class="clip-overlay d-flex align-items-end justify-content-between p-3">
+                          <span class="clip-label badge bg-white text-dark">Clip</span>
+                          <button type="button" class="btn btn-sm btn-outline-dark text-dark" @click.stop="playClip(clip)">
+                            <i class="bi bi-play-fill h2 me-2 text-white text-dark-outline"></i>
+                          </button>
+                        </div>
+                      </div>
+                        <div class="p-3">
+                          <h3 class="h6 fw-semibold mb-1">{{ clip.title }}</h3>
+                          <p class="text-muted small mb-2">{{ clip.description || 'Visual recap of today’s insight.' }}</p>
+                        <div v-if="videoTags(clip, 'Pathway Clip').length" class="video-card-tags mb-2">
+                          <span v-for="tag in videoTags(clip, 'Pathway Clip')" :key="tag" class="video-tag-badge">{{ tag }}</span>
+                        </div>
+                        <p v-if="clip.duration" class="clip-duration text-muted small mb-0">Duration: {{ clip.duration }}</p>
+                        </div>
+                      </article>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Share with a friend -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-body px-3 px-md-3 py-3">
+              <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                <div class="flex-grow-1">
+                  <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
+                  <p class="text-muted mb-0 medium">
+                    Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                  </p>
+                  <p v-if="shareFriendStatus" class="text-success small mt-2 mb-0" aria-live="polite" role="status">
+                    {{ shareFriendStatus }}
+                  </p>
+                  <span class="visually-hidden" aria-hidden="false">
+                    Feel free to share every insight, dua, and revert story on this page.
+                  </span>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                  <button type="button" class="btn btn-outline-teal fw-semibold" @click="copyShareLink">
+                    <i class="bi bi-clipboard mr-2"></i>
+                    Copy link
+                  </button>
+                  <button type="button" class="btn btn-teal fw-semibold" @click="openWhatsappShare(getShareLink())">
+                    <i class="bi bi-whatsapp mr-2"></i>
+                    Share with WhatsApp
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- do's and don't -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-body px-3 px-md-3 py-3">
+              <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
+                <div class="flex-grow-1">
+                  <h3 class="fw-bold mb-1">Do's and Don'ts</h3>
+                </div>
+              </div>
+              <div class="card-body p-3">
+                <div class="mb-3">
+                  <p class="text-muted small mb-3">Guidance for {{ currentDosDonts.chapter }}</p>
+                  <div class="row g-3">
+                    <div class="col-12 col-md-6">
+                      <article class="p-3 rounded-3 border h-100">
+                        <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
+                        <ul class="list-unstyled mb-0">
+                          <li v-for="item in currentDosDonts.dos" :key="item.id"
+                            class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
+                            <span class="text-dark medium mt-1">{{ item.text }}</span>
+                          </li>
+                        </ul>
+                      </article>
+                    </div>
+                    <div class="col-12 col-md-6">
+                      <article class="p-3 rounded-3 border h-100">
+                        <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
+                        <ul class="list-unstyled mb-0">
+                          <li v-for="item in currentDosDonts.donts" :key="item.id"
+                            class="d-flex align-items-start gap-2 mb-2">
+                            <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+                            <span class="text-dark medium mt-1">{{ item.text }}</span>
+                          </li>
+                        </ul>
+                      </article>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
 
             <!-- Do's and Don'ts -->
             <!-- Chapter-specific dos and don’ts -->
-            <div v-if="secondarySectionsReady && currentDosDonts" class="mb-4 rounded-4">
+            <div v-if="secondarySectionsReady && currentDosDonts" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
               <div class="card-header d-flex align-items-center py-3">
                 <i class="bi bi-arrow-right-circle-fill fs-4 me-3 text-teal"></i>
                 <h2 class="fw-bold mb-0 fs-5">Do's and Don'ts</h2>

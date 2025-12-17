@@ -22048,6 +22048,29 @@ to {
   padding: 2rem;
   border: 1px solid rgba(15, 23, 42, 0.1);
 }
+.card[data-v-1d764944] {
+  background-color: #ffffff;
+  border-radius: 10px;
+  font-family: 'Manrope', sans-serif;
+}
+#head1[data-v-1d764944]{
+  color: #b5b4b9;
+}
+p[data-v-1d764944]{
+  color: #837e92;
+}
+.btn[data-v-1d764944]{
+  margin: 0px;
+  /* background-color: #5854ff; */
+  border-radius: 5px;
+}
+.btn[data-v-1d764944]:hover{
+  /* background-color: #3f5dd5; */
+}
+.btn[data-v-1d764944]:focus{
+  box-shadow: none;
+  outline: none;
+}
 .next-steps-inner[data-v-1d764944] {
   background: #fff;
   border: 1px solid rgba(15, 23, 42, 0.08);
@@ -23962,10 +23985,8 @@ to {
 .motivation-card .card-body[data-v-1d764944],
 .next-steps-card .next-steps-body[data-v-1d764944],
 .actions-card .card-body[data-v-1d764944],
-.quiz-shell .card-body[data-v-1d764944] {
-  padding: 1.5rem 1.75rem 2rem;
-  background: transparent;
-}
+
+
 .revert-content .content-card[data-v-1d764944],
 .revert-content .section-card[data-v-1d764944],
 .revert-content .guided-section-card[data-v-1d764944],
