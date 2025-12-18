@@ -107,7 +107,7 @@
         </aside>
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
-        <section class="col-12 col-md-8 col-lg-8">
+        <section class="col-12 col-md-8 col-lg-8 lesson-pane">
 
           <!-- Lesson Header + tone summary -->
           <div class="lesson-header animated-fade-in mb-4">
@@ -136,17 +136,12 @@
                 <i class="bi bi-question-circle-fill fs-4"></i>
                 <span class="visually-hidden">Open guide</span>
               </button>
-              <!-- <div class="lesson-meta d-flex gap-3">
-                <span class="badge badge-pill bg-light text-dark fw-semibold">
-                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}
-                </span>
-              </div> -->
             </div>
           </div>
 
           <!-- Revert stories -->
           <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
                   <i class="bi bi-sunrise-fill"></i>
@@ -158,7 +153,7 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('gentleStart')"
                 :aria-expanded="isCardVisible('gentleStart')"
                 :aria-label="isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'">
@@ -193,18 +188,18 @@
 
           <!-- Focus of the lesson -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-          <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
-                <i class="bi bi-brightness-high-fill"></i>
-              </span>
-              <div>
-                <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
+                  <i class="bi bi-brightness-high-fill"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
+                </div>
               </div>
-            </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('lessonFocus')"
                 :aria-expanded="isCardVisible('lessonFocus')"
                 :aria-label="isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'">
@@ -669,7 +664,7 @@
                   </p>
                 </div>
                 <div class="col-md-6">
-                  <div class="">
+                <div class="share-actions d-flex flex-wrap align-items-center">
                     <button type="button" class="btn share-action-btn share-copy pr-2" @click="copyShareLink">
                       <i class="bi bi-clipboard me-2 fs-5"></i>
                       <span>Copy lesson link</span>
@@ -808,7 +803,7 @@
 
           <!-- motivation -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
                   <i class="bi bi-rocket-takeoff-fill"></i>
@@ -819,7 +814,7 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('motivation')"
                 :aria-expanded="isCardVisible('motivation')"
                 :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
@@ -913,7 +908,7 @@
 
           <!-- Next Steps & Homework -->
           <div class="content-card onboarding-card mb-4 rounded-5 ">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
                   <i class="bi bi-pencil-square"></i>
@@ -924,7 +919,7 @@
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('nextSteps')"
                 :aria-expanded="isCardVisible('nextSteps')"
                 :aria-label="isCardVisible('nextSteps') ? 'Collapse next steps' : 'Expand next steps'">

@@ -1910,7 +1910,7 @@ const _hoisted_25 = {
   class: "bi bi-chevron-down fs-5 text-muted"
 };
 const _hoisted_26 = {
-  class: "col-12 col-md-8 col-lg-8"
+  class: "col-12 col-md-8 col-lg-8 lesson-pane"
 };
 const _hoisted_27 = {
   class: "lesson-header animated-fade-in mb-4"
@@ -1938,7 +1938,7 @@ const _hoisted_34 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
 const _hoisted_35 = {
-  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
 };
 const _hoisted_36 = ["aria-expanded", "aria-label"];
 const _hoisted_37 = {
@@ -1959,7 +1959,7 @@ const _hoisted_42 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
 const _hoisted_43 = {
-  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
 };
 const _hoisted_44 = ["aria-expanded", "aria-label"];
 const _hoisted_45 = {
@@ -2262,7 +2262,7 @@ const _hoisted_147 = {
   class: "col-md-6"
 };
 const _hoisted_148 = {
-  class: ""
+  class: "share-actions d-flex flex-wrap align-items-center"
 };
 const _hoisted_149 = {
   key: 0,
@@ -2348,7 +2348,7 @@ const _hoisted_178 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
 const _hoisted_179 = {
-  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
 };
 const _hoisted_180 = ["aria-expanded", "aria-label"];
 const _hoisted_181 = {
@@ -2422,7 +2422,7 @@ const _hoisted_206 = {
   class: "content-card onboarding-card mb-4 rounded-5"
 };
 const _hoisted_207 = {
-  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
 };
 const _hoisted_208 = ["aria-expanded", "aria-label"];
 const _hoisted_209 = {
@@ -2762,9 +2762,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-question-circle-fill fs-4"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Open guide", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"lesson-meta d-flex gap-3\">\n                <span class=\"badge badge-pill bg-light text-dark fw-semibold\">\n                  Objectives: {{ currentLesson?.learningObjectives?.length ?? 0 }}\n                </span>\n              </div> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert stories "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-sunrise-fill\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"mb-1 text-muted small text-uppercase\" data-v-1d764944>Gentle start</p><h3 class=\"fw-semibold mb-0\" data-v-1d764944>Simple Welcome for New Friends</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Open guide", -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert stories "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-sunrise-fill\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"mb-1 text-muted small text-uppercase\" data-v-1d764944>Gentle start</p><h3 class=\"fw-semibold mb-0\" data-v-1d764944>Simple Welcome for New Friends</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "section-toggle-btn card-toggle-btn",
+    class: "section-toggle-btn card-toggle-btn ms-auto",
     onClick: _cache[3] || (_cache[3] = $event => _ctx.toggleCardVisibility('gentleStart')),
     "aria-expanded": _ctx.isCardVisible('gentleStart'),
     "aria-label": _ctx.isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'
@@ -2800,7 +2800,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0"
   }, "Focus of This Lesson")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "section-toggle-btn card-toggle-btn",
+    class: "section-toggle-btn card-toggle-btn ms-auto",
     onClick: _cache[4] || (_cache[4] = $event => _ctx.toggleCardVisibility('lessonFocus')),
     "aria-expanded": _ctx.isCardVisible('lessonFocus'),
     "aria-label": _ctx.isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'
@@ -3262,7 +3262,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0"
   }, "Motivation")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "section-toggle-btn card-toggle-btn",
+    class: "section-toggle-btn card-toggle-btn ms-auto",
     onClick: _cache[31] || (_cache[31] = $event => _ctx.toggleCardVisibility('motivation')),
     "aria-expanded": _ctx.isCardVisible('motivation'),
     "aria-label": _ctx.isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'
@@ -3343,7 +3343,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fw-bold mb-0"
   }, "Next Steps & Homework")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "section-toggle-btn card-toggle-btn",
+    class: "section-toggle-btn card-toggle-btn ms-auto",
     onClick: _cache[33] || (_cache[33] = $event => _ctx.toggleCardVisibility('nextSteps')),
     "aria-expanded": _ctx.isCardVisible('nextSteps'),
     "aria-label": _ctx.isCardVisible('nextSteps') ? 'Collapse next steps' : 'Expand next steps'
