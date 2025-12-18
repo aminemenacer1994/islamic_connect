@@ -1605,6 +1605,60 @@ p{
   display: inline-block;
 }
 
+.plan-highlight-body {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.plan-highlight-text {
+  flex: 1;
+  min-width: 0;
+  display: block;
+  color: inherit;
+}
+
+.plan-highlight.completed {
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.plan-highlight.completed .plan-highlight-text {
+  text-decoration: line-through;
+  color: #475569;
+}
+
+.plan-highlight-action {
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: rgba(255, 255, 255, 0.8);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.plan-highlight-action.completed {
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(16, 185, 129, 0.15);
+  color: #0d7d64;
+}
+
+.plan-highlight-action-text {
+  display: inline-block;
+}
+
+.plan-highlight-action:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.6);
+  outline-offset: 2px;
+}
+
 .plan-card__footer {
   position: relative;
   z-index: 1;
@@ -1735,6 +1789,11 @@ p{
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+
+.roadmap-pill:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.7);
+  outline-offset: 4px;
 }
 
 .roadmap-pill::before {
@@ -2579,6 +2638,42 @@ p{
   border-radius: 999px;
   box-shadow: 0 15px 30px rgba(15, 23, 42, 0.2);
 }
+.btn-outline-teal {
+  background: linear-gradient(135deg, #0b806f, #14b8a6);
+  color: #ffffff;
+  border: none;
+  border-radius: 999px;
+  padding: 0.55rem 1.2rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  box-shadow: 0 10px 25px rgba(11, 128, 111, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+.btn-outline-teal:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+  background: linear-gradient(135deg, #0b806f, #34d399);
+  box-shadow: 0 12px 28px rgba(11, 128, 111, 0.35);
+}
+.btn-outline-teal:focus-visible {
+  outline: 3px solid rgba(16, 185, 129, 0.8);
+  outline-offset: 3px;
+}
+.btn-outline-teal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.btn-outline-teal.marked {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #065f46;
+  box-shadow: 0 6px 15px rgba(6, 95, 70, 0.25);
+}
+.btn-outline-teal.marked:hover:not(:disabled) {
+  background: linear-gradient(135deg, #a7f3d0, #6ee7b7);
+  transform: translateY(-1px) scale(1.01);
+}
 @keyframes modalEntrance {
   from {
     transform: translateY(-25px) scale(0.95);
@@ -2938,6 +3033,10 @@ p{
   align-items: center;
   gap: 0.75rem;
   flex-wrap: wrap;
+}
+
+.overview-actions {
+  gap: 0.75rem;
 }
 
 .header-action {

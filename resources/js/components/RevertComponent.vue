@@ -72,12 +72,19 @@
 
             <!-- Navigation List -->
             <div class="roadmap-pillset">
-              <div v-for="step in roadmapData" :key="step.id"
-                class="roadmap-pill d-flex align-items-center justify-content-between" :class="{
+              <button
+                v-for="step in roadmapData"
+                :key="step.id"
+                type="button"
+                class="roadmap-pill d-flex align-items-center justify-content-between"
+                :class="{
                   active: selectedPill === step.id,
                   completed: step.id < maxStepReached,
                   locked: step.id > maxStepReached
-                }" @click="selectPill(step.id)" :data-locked="step.id > maxStepReached">
+                }"
+                :data-locked="step.id > maxStepReached"
+                :aria-disabled="step.id > maxStepReached"
+                @click="selectPill(step.id)">
                 <div class="dot-wrapper d-flex align-items-center gap-2">
                   <span class="dot-icon-step">
                     <i v-if="step.id < maxStepReached" class="bi bi-check-lg"></i>
@@ -100,7 +107,7 @@
                 </div>
                 <i v-if="step.id === selectedPill" class="bi bi-arrow-up-right fs-5 text-teal"></i>
                 <i v-else class="bi bi-chevron-down fs-5 text-muted"></i>
-              </div>
+              </button>
             </div>
 
           </div>
@@ -222,20 +229,33 @@
                 </span>
                 <h3 class="fw-bold mb-0">Learning Overview</h3>
               </div>
-              <div class="lesson-focus-actions">
-                <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
-                  <i class="bi bi-whatsapp fs-5"></i>
-                  <span>Share</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
-                  <i class="bi bi-clipboard fs-5"></i>
-                  <span>Copy</span>
-                </span>
-                <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
-                  <i class="bi bi-printer fs-5"></i>
-                  <span>Print</span>
-                </span>
-                <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+              <div class="overview-actions d-flex align-items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  class="btn btn-outline-teal btn-sm"
+                  :class="{ marked: isCurrentLessonOverviewRead }"
+                  @click="toggleLessonOverviewRead"
+                  :aria-pressed="isCurrentLessonOverviewRead"
+                  :aria-label="isCurrentLessonOverviewRead ? 'Unmark lesson overview as read' : 'Mark lesson overview as read'"
+                >
+                  <i class="bi" :class="isCurrentLessonOverviewRead ? 'bi-bookmark-x' : 'bi-bookmark'"></i>
+                  <span>{{ isCurrentLessonOverviewRead ? 'Unmark read' : 'Mark as read' }}</span>
+                </button>
+                <div class="lesson-focus-actions">
+                  <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                    <i class="bi bi-whatsapp fs-5"></i>
+                    <span>Share</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                    <i class="bi bi-clipboard fs-5"></i>
+                    <span>Copy</span>
+                  </span>
+                  <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                    <i class="bi bi-printer fs-5"></i>
+                    <span>Print</span>
+                  </span>
+                  <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
+                </div>
               </div>
               <button
                 type="button"
@@ -868,9 +888,29 @@
                           <div class="plan-card__divider" aria-hidden="true"></div>
                           <div class="plan-card__body">
                             <ul class="plan-highlights list-unstyled mb-3">
-                              <li v-for="highlight in plan.highlights" :key="highlight" class="plan-highlight">
-                                <span class="plan-highlight-icon" aria-hidden="true"></span>
-                                <span>{{ highlight }}</span>
+                              <li
+                                v-for="(highlight, index) in plan.highlights"
+                                :key="`${plan.planId}-${index}`"
+                                class="plan-highlight"
+                                :class="{ completed: isCuratedHighlightCompleted(plan.planId, index) }"
+                              >
+                                <div class="plan-highlight-body">
+                                  <span class="plan-highlight-icon" aria-hidden="true"></span>
+                                  <span class="plan-highlight-text">{{ highlight }}</span>
+                                </div>
+                                <button
+                                  type="button"
+                                  class="plan-highlight-action"
+                                  :class="{ completed: isCuratedHighlightCompleted(plan.planId, index) }"
+                                  :aria-pressed="isCuratedHighlightCompleted(plan.planId, index)"
+                                  :aria-label="isCuratedHighlightCompleted(plan.planId, index) ? 'Highlight completed' : 'Mark highlight as complete'"
+                                  @click="toggleCuratedHighlightCompletion(plan.planId, index, plan.title, plan.highlights?.length || 0)"
+                                >
+                                  <i class="bi" :class="isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'"></i>
+                                  <span class="plan-highlight-action-text">
+                                    {{ isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete' }}
+                                  </span>
+                                </button>
                               </li>
                             </ul>
                           </div>
@@ -948,7 +988,7 @@
           </div>
 
           <!-- Next Steps & Homework -->
-          <div class="content-card onboarding-card mb-4 rounded-5 ">
+          <!-- <div class="content-card onboarding-card mb-4 rounded-5 ">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -986,7 +1026,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- daily micro challenges -->
           <div v-if="dailyChallenges.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
@@ -1119,7 +1159,7 @@
                       <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
                     </div>
                   </div>
-                  <div class="quiz-focus-panel mb-3">
+                  <!-- <div class="quiz-focus-panel mb-3">
                     <div class="quiz-focus-detail">
                       <p class="text-muted small mb-1 text-uppercase">Section focus</p>
                       <p class="fw-semibold mb-0">{{ currentQuizSectionTitle }}</p>
@@ -1133,7 +1173,7 @@
                         <span :style="{ width: `${quizMomentumPercent}%` }"></span>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                   <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
                   <div class="quiz-options-grid">
                     <button v-for="option in currentQuestion.options" :key="option" type="button"
@@ -1414,10 +1454,7 @@ import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
-import flexiblePlanTracks from './date/flexiblePlanTracks.json'
 import chapterPlanGuides from './data/chapterPlanGuides.json'
-import flexibleChapterNotes from './date/flexibleChapterNotes.json'
-import dailyMicroChallenges from './date/dailyMicroChallenges.json'
 import { jsPDF } from 'jspdf'
 
 const normalizeJson = (value) => {
@@ -1686,9 +1723,13 @@ export default defineComponent({
       chapterGentleStarts: normalizeJson(chapterGentleStart),
       sectionStatsByChapter: normalizeJson(chapterSectionStats),
       chapterPlanGuides: normalizeJson(chapterPlanGuides),
-      flexiblePlanTracks: normalizeJson(flexiblePlanTracks),
-      flexibleChapterNotes: normalizeJson(flexibleChapterNotes),
+      flexiblePlanTracks: [],
+      flexibleChapterNotes: [],
       homework: normalizeJson(homeworkData),
+      dailyMicroChallenges: {},
+      flexibleTracksRequest: null,
+      flexibleNotesRequest: null,
+      dailyChallengesRequest: null,
       chapterVideos: [],
       chapterVideoMap: {},
       lessonMap: {},
@@ -1696,6 +1737,8 @@ export default defineComponent({
       duasMap: {},
       quizMap: {},
       homeworkMap: {},
+      homeworkCache: {},
+      homeworkSliceCache: {},
       chapterQuizPassed: false,
       quizQuestions: [],
       currentQuestionIndex: 0,
@@ -1729,6 +1772,8 @@ export default defineComponent({
       overviewFontScale: 1,
       duaFontScale: 1,
       globalFontScale: 1,
+      lessonOverviewRead: {},
+      curatedHighlightCompletion: {},
       sectionVisibility: {},
       cardVisibility: {},
       copyAlertMessage: '',
@@ -1765,7 +1810,8 @@ export default defineComponent({
       genderFilters: GENDER_FILTERS,
       reflectionNotes: {},
       reflectionInput: '',
-      reflectionStatus: ''
+      reflectionStatus: '',
+      successAlertTimeout: null
     }
   },
 
@@ -1789,6 +1835,10 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.chapterPlanGuides.find(guide => guide.chapterId === chapterId)
       return entry?.plans || []
+    },
+    isCurrentLessonOverviewRead() {
+      const chapterId = this.currentLesson?.chapterId
+      return Boolean(chapterId && this.lessonOverviewRead[chapterId])
     },
     overviewSections() {
       return this.currentLessonOverview?.overview || []
@@ -1831,8 +1881,9 @@ export default defineComponent({
       return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
     },
     dailyChallenges() {
+      this.ensureDailyMicroChallengesLoaded()
       const chapterId = this.currentLesson?.chapterId
-      const prompts = dailyMicroChallenges[chapterId] || DEFAULT_DAILY_CHALLENGES
+      const prompts = this.dailyMicroChallenges[chapterId] || DEFAULT_DAILY_CHALLENGES
       return prompts.map(prompt => {
         const key = this.dailyChallengeStorageKey(prompt.id, chapterId)
         return {
@@ -1881,10 +1932,10 @@ export default defineComponent({
       return this.quizQuestions[this.currentQuestionIndex]
     },
     currentHomework() {
-      return this.homeworkMap[this.selectedPill] || []
+      return this.getHomeworkContentForChapter(this.selectedPill)
     },
     visibleHomework() {
-      return this.currentHomework.slice(0, this.homeworkVisibleCount)
+      return this.getVisibleHomeworkForChapter(this.selectedPill, this.homeworkVisibleCount)
     },
     homeworkMoreAvailable() {
       return this.currentHomework.length > this.homeworkVisibleCount
@@ -1921,10 +1972,12 @@ export default defineComponent({
       return entry?.pathway || this.guidanceCards
     },
     currentFlexibleTracks() {
+      this.ensureFlexiblePlanTracksLoaded()
       const chapterId = this.currentLesson?.chapterId
       return this.flexiblePlanTracks.find(entry => entry.chapterId === chapterId)?.tracks || []
     },
     currentFlexibleNote() {
+      this.ensureFlexibleChapterNotesLoaded()
       const chapterId = this.currentLesson?.chapterId
       return this.flexibleChapterNotes.find(item => item.chapterId === chapterId) || null
     },
@@ -2130,6 +2183,28 @@ export default defineComponent({
       if (newVal) {
         this.resetVideoFilters()
       }
+    },
+    lessonOverviewRead: {
+      handler(value) {
+        if (typeof window === 'undefined') return
+        try {
+          localStorage.setItem('lessonOverviewRead', JSON.stringify(value || {}))
+        } catch (err) {
+          console.error('Unable to persist lesson overview read state', err)
+        }
+      },
+      deep: true
+    },
+    curatedHighlightCompletion: {
+      handler(value) {
+        if (typeof window === 'undefined') return
+        try {
+          localStorage.setItem('curatedHighlightCompletion', JSON.stringify(value || {}))
+        } catch (err) {
+          console.error('Unable to persist curated highlight state', err)
+        }
+      },
+      deep: true
     }
   },
 
@@ -2150,6 +2225,8 @@ export default defineComponent({
     this.syncDailyChallenges()
     this.loadGentleStepCompletion()
     this.loadReflectionNotes()
+    this.loadLessonOverviewRead()
+    this.loadCuratedHighlightCompletion()
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
     }
@@ -2275,8 +2352,11 @@ export default defineComponent({
       })
     },
 
-    triggerConfetti(isFinalChapter) {
-      this.scrollToTop()
+    triggerConfetti(isFinalChapter, options = {}) {
+      const { skipScroll = false } = options
+      if (!skipScroll) {
+        this.scrollToTop()
+      }
       this.ensureConfettiScript().then(() => {
         this.setupConfettiLauncher()
         const confettiFn = this.confettiLauncher || window.confetti
@@ -2312,6 +2392,7 @@ export default defineComponent({
         if (task?.chapterId != null) map[task.chapterId] = task.homework || []
         return map
       }, {})
+      this.resetHomeworkCache()
     },
 
     // Lazy-loads chapter videos to avoid bloating the initial bundle.
@@ -2329,6 +2410,68 @@ export default defineComponent({
       } catch (error) {
         console.error('Unable to load chapter videos', error)
       }
+    },
+
+    // Cache homework slices per chapter to avoid recomputing on repeated renders.
+    resetHomeworkCache() {
+      this.homeworkCache = {}
+      this.homeworkSliceCache = {}
+    },
+    getHomeworkContentForChapter(chapterId) {
+      if (!chapterId) return []
+      if (!this.homeworkCache[chapterId]) {
+        this.homeworkCache[chapterId] = this.homeworkMap[chapterId] || []
+      }
+      return this.homeworkCache[chapterId]
+    },
+    getVisibleHomeworkForChapter(chapterId, visibleCount) {
+      const tasks = this.getHomeworkContentForChapter(chapterId)
+      if (!visibleCount || visibleCount >= tasks.length) {
+        return tasks
+      }
+      if (!this.homeworkSliceCache[chapterId]) {
+        this.homeworkSliceCache[chapterId] = {}
+      }
+      const sliceCache = this.homeworkSliceCache[chapterId]
+      if (!sliceCache[visibleCount]) {
+        sliceCache[visibleCount] = tasks.slice(0, visibleCount)
+      }
+      return sliceCache[visibleCount]
+    },
+
+    // Lazy-load additional chapter resources only when the user opens those cards.
+    ensureFlexiblePlanTracksLoaded() {
+      if (this.flexibleTracksRequest) return this.flexibleTracksRequest
+      this.flexibleTracksRequest = import('./date/flexiblePlanTracks.json')
+        .then(module => {
+          this.flexiblePlanTracks = normalizeJson(module)
+        })
+        .catch(error => {
+          console.error('Unable to load flexible plan tracks', error)
+        })
+      return this.flexibleTracksRequest
+    },
+    ensureFlexibleChapterNotesLoaded() {
+      if (this.flexibleNotesRequest) return this.flexibleNotesRequest
+      this.flexibleNotesRequest = import('./date/flexibleChapterNotes.json')
+        .then(module => {
+          this.flexibleChapterNotes = normalizeJson(module)
+        })
+        .catch(error => {
+          console.error('Unable to load flexible chapter notes', error)
+        })
+      return this.flexibleNotesRequest
+    },
+    ensureDailyMicroChallengesLoaded() {
+      if (this.dailyChallengesRequest) return this.dailyChallengesRequest
+      this.dailyChallengesRequest = import('./date/dailyMicroChallenges.json')
+        .then(module => {
+          this.dailyMicroChallenges = module?.default || module || {}
+        })
+        .catch(error => {
+          console.error('Unable to load daily micro challenges', error)
+        })
+      return this.dailyChallengesRequest
     },
     updateStreakRecord() {
       if (typeof window === 'undefined') return
@@ -2445,6 +2588,24 @@ export default defineComponent({
         this.reflectionNotes = {}
       }
       this.syncReflectionInput()
+    },
+    loadLessonOverviewRead() {
+      if (typeof window === 'undefined') return
+      try {
+        const stored = JSON.parse(localStorage.getItem('lessonOverviewRead') || '{}')
+        this.lessonOverviewRead = stored
+      } catch {
+        this.lessonOverviewRead = {}
+      }
+    },
+    loadCuratedHighlightCompletion() {
+      if (typeof window === 'undefined') return
+      try {
+        const stored = JSON.parse(localStorage.getItem('curatedHighlightCompletion') || '{}')
+        this.curatedHighlightCompletion = stored
+      } catch {
+        this.curatedHighlightCompletion = {}
+      }
     },
     syncReflectionInput() {
       const chapterId = this.currentLesson?.chapterId
@@ -2626,6 +2787,62 @@ export default defineComponent({
         ...this.cardVisibility,
         [cardKey]: !currentlyVisible
       }
+    },
+    toggleLessonOverviewRead() {
+      const chapterId = this.currentLesson?.chapterId
+      if (!chapterId) return
+      const nextValue = !Boolean(this.lessonOverviewRead[chapterId])
+      this.lessonOverviewRead = {
+        ...this.lessonOverviewRead,
+        [chapterId]: nextValue
+      }
+      const message = nextValue ? 'Lesson overview marked as read.' : 'Lesson overview unmarked.'
+      this.showSuccessFeedback(message, { duration: 4000 })
+    },
+    toggleCuratedHighlightCompletion(planId, index, planTitle = '', totalHighlights = 0) {
+      if (!planId || index == null) return
+      const key = `${planId}-${index}`
+      const nextState = {
+        ...this.curatedHighlightCompletion,
+        [key]: !Boolean(this.curatedHighlightCompletion[key])
+      }
+      const completed = Boolean(nextState[key])
+      this.curatedHighlightCompletion = nextState
+      if (!completed || totalHighlights <= 0) return
+
+      const allComplete = Array.from({ length: totalHighlights }, (_, idx) =>
+        Boolean(nextState[`${planId}-${idx}`])
+      ).every(Boolean)
+
+      if (allComplete) {
+        const title = planTitle || 'plan'
+        this.showSuccessFeedback(`Congratulations! "${title}" is complete.`, {
+          duration: 5000,
+          confetti: true,
+          skipScroll: true
+        })
+      }
+    },
+    isCuratedHighlightCompleted(planId, index) {
+      if (!planId || index == null) return false
+      const key = `${planId}-${index}`
+      return Boolean(this.curatedHighlightCompletion[key])
+    },
+    showSuccessFeedback(message = '', options = {}) {
+      const { duration = 4000, confetti = false, skipScroll = false } = options
+      this.successMessage = message
+      this.showSuccessAlert = true
+      if (this.successAlertTimeout) {
+        clearTimeout(this.successAlertTimeout)
+        this.successAlertTimeout = null
+      }
+      if (confetti) {
+        this.$nextTick(() => this.triggerConfetti(false, { skipScroll }))
+      }
+      this.successAlertTimeout = setTimeout(() => {
+        this.showSuccessAlert = false
+        this.successAlertTimeout = null
+      }, duration)
     },
 
     toggleAccordion(section, index) {
