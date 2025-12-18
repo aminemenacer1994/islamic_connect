@@ -7,6 +7,12 @@
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #0f172a;
+  scrollbar-width: none;
+}
+
+:global(body::-webkit-scrollbar) {
+  width: 0;
+  height: 0;
 }
 
 :global(:root) {
