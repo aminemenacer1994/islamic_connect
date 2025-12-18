@@ -1070,60 +1070,74 @@
                 <div class="quiz-body px-4 py-3">
                   <div class="quiz-progress-wrapper mb-3">
                     <div class="quiz-progress-track">
-                    <div class="quiz-progress-fill"
-                      :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center mt-2">
-                    <p class="text-muted small mb-0">Progress toward mastery</p>
-                    <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
-                  </div>
-                </div>
-                <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
-                <div class="quiz-options-grid">
-                  <button v-for="option in currentQuestion.options" :key="option" type="button"
-                    class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
-                      'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
-                      'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
-                      'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
-                    }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
-                    <div>
-                      <span>{{ option }}</span>
+                      <div class="quiz-progress-fill"
+                        :style="{ width: ((currentQuestionIndex + (quizStatus === 'correct' ? 1 : 0)) / quizQuestions.length) * 100 + '%' }"></div>
                     </div>
-                    <div class="icon-stack">
-                      <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
-                        class="bi bi-check-circle-fill text-dark"></i>
-                      <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
-                        class="bi bi-x-circle-fill text-dark"></i>
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+                      <p class="text-muted small mb-0">Progress toward mastery</p>
+                      <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
                     </div>
-                  </button>
-                </div>
-                <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-explanation-card mt-3">
-                  <div class="quiz-explanation-header">
-                    <div class="d-flex align-items-center gap-2">
-                      <i class="bi bi-lightbulb-fill fs-5 text-teal"></i>
-                      <div>
-                        <p class="mb-0 fw-semibold mb-3 fs-6">Explanation</p>
+                  </div>
+                  <div class="quiz-focus-panel mb-3">
+                    <div class="quiz-focus-detail">
+                      <p class="text-muted small mb-1 text-uppercase">Section focus</p>
+                      <p class="fw-semibold mb-0">{{ currentQuizSectionTitle }}</p>
+                    </div>
+                    <div class="quiz-momentum">
+                      <div class="d-flex align-items-center gap-2 mb-2">
+                        <span class="text-muted small text-uppercase">Momentum</span>
+                        <span class="quiz-momentum-value">{{ quizMomentumPercent }}%</span>
+                      </div>
+                      <div class="quiz-momentum-bar">
+                        <span :style="{ width: `${quizMomentumPercent}%` }"></span>
                       </div>
                     </div>
-                    
                   </div>
-                  <span class="right-answer-pill text-muted">
-                      <span class="text-dark fw-bold mt-2">Answer is: {{ currentQuestion.answer }}</span>
-                    </span>
-                  <div class=" pt-2 text-muted">
-                    <p class="mb-0">{{ quizHintExplanation }}</p>
-                  </div>
-                  <div class="quiz-explanation-footer mt-3">
-                    <button
-                      v-if="quizHintSectionId"
-                      type="button"
-                      class="btn btn-sm btn-explanation-link"
-                      @click="scrollToSection(quizHintSectionId)">
-                      Jump to the related lesson section
+                  <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
+                  <div class="quiz-options-grid">
+                    <button v-for="option in currentQuestion.options" :key="option" type="button"
+                      class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
+                        'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
+                        'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
+                        'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
+                      }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
+                      <div>
+                        <span>{{ option }}</span>
+                      </div>
+                      <div class="icon-stack">
+                        <i v-if="quizStatus === 'correct' && option === currentQuestion.answer"
+                          class="bi bi-check-circle-fill text-dark"></i>
+                        <i v-else-if="quizStatus === 'incorrect' && option === selectedOption"
+                          class="bi bi-x-circle-fill text-dark"></i>
+                      </div>
                     </button>
                   </div>
+                  <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-explanation-card mt-3">
+                    <div class="quiz-explanation-header">
+                      <div class="d-flex align-items-center gap-2">
+                        <i class="bi bi-lightbulb-fill fs-5 text-teal"></i>
+                        <div>
+                          <p class="mb-0 fw-semibold mb-3 fs-6">Explanation</p>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="right-answer-pill text-muted">
+                      <span class="text-dark fw-bold mt-2">Answer is: {{ currentQuestion.answer }}</span>
+                    </span>
+                    <div class="pt-2 text-muted">
+                      <p class="mb-0">{{ quizHintExplanation }}</p>
+                    </div>
+                    <div class="quiz-explanation-footer mt-3">
+                      <button
+                        v-if="quizHintSectionId"
+                        type="button"
+                        class="btn btn-sm btn-explanation-link"
+                        @click="scrollToSection(quizHintSectionId)">
+                        Jump to the related lesson section
+                      </button>
+                    </div>
+                  </div>
                 </div>
-
                 <div v-if="chapterQuizPassed" class="quiz-success-note mt-3">
                   <i class="bi bi-badge-check-fill text-teal me-2 fs-5"></i>
                   <div class="d-flex flex-column flex-md-row gap-2 align-items-start">
@@ -1140,7 +1154,6 @@
                 </div>
               </div>
             </div>
-          </div>
           </div>
 
           <!-- NAVIGATION BUTTONS -->
@@ -1913,6 +1926,23 @@ export default defineComponent({
     ,
     quizProgressLabel() {
       return `${this.quizCorrectCount}/${this.quizRequiredCorrect} correct answers`
+    },
+    quizStageLabel() {
+      if (!this.currentQuestion) return 'Quiz ready'
+      return `Question ${this.currentQuestionIndex + 1} / ${this.quizQuestions.length}`
+    },
+    quizMomentumPercent() {
+      const total = this.quizQuestions.length
+      if (!total) return 0
+      const stageValue = this.currentQuestionIndex + (this.quizStatus === 'correct' ? 1 : 0)
+      return Math.min(100, Math.round((stageValue / total) * 100))
+    },
+    currentQuizSectionTitle() {
+      const question = this.currentQuestion
+      if (!question) return 'Guided insights'
+      const sectionIndex = question.sectionIndex ?? 0
+      const section = this.currentLesson?.sections?.[sectionIndex]
+      return section?.title || section?.heading || this.currentLesson?.title || 'Guided insights'
     }
     ,
     lessonDepartments() {
