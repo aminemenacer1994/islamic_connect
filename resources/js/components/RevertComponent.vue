@@ -947,6 +947,103 @@
             </div>
           </div>
 
+          <!-- daily micro challenges -->
+          <div v-if="dailyChallenges.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
+              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-stars"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-1">Daily Micro Challenges</h3>
+                  <p class="text-muted small mb-0">Mark what you completed and keep the lesson in motion.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn ms-auto"
+                @click="toggleCardVisibility('dailyChallenges')"
+                :aria-expanded="isCardVisible('dailyChallenges')"
+                :aria-label="isCardVisible('dailyChallenges') ? 'Collapse micro challenges' : 'Expand micro challenges'">
+                <i class="bi" :class="isCardVisible('dailyChallenges') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('dailyChallenges')" class="card-body px-4 py-3">
+              <div class="daily-challenge-progress mb-3">
+                <div class="progress" role="progressbar" :aria-valuenow="dailyChallengeProgressPercent" aria-valuemin="0" aria-valuemax="100">
+                  <div class="progress-bar" :style="{ width: dailyChallengeProgressPercent + '%' }"></div>
+                </div>
+                <div class="d-flex justify-content-between mt-1">
+                  <small class="text-muted">{{ dailyChallengeCompletionLabel }}</small>
+                  <small class="text-teal fw-semibold">{{ dailyChallengeProgressPercent }}%</small>
+                </div>
+              </div>
+                <div class="daily-challenge-grid">
+                  <button
+                    v-for="challenge in dailyChallenges"
+                    :key="challenge.id"
+                    type="button"
+                    class="daily-challenge-pill"
+                    :class="{ completed: challenge.completed }"
+                    @click="toggleChallenge(challenge.storageKey)"
+                    :aria-pressed="challenge.completed"
+                  >
+                  <span class="challenge-icon" aria-hidden="true">
+                    <i class="bi" :class="challenge.completed ? 'bi-check-lg' : 'bi-circle'"></i>
+                  </span>
+                  <div class="challenge-details text-start">
+                    <strong class="d-block">{{ challenge.title }}</strong>
+                    <small class="text-muted">{{ challenge.description }}</small>
+                  </div>
+                </button>
+              </div>
+              <div class="reflection-box mt-4">
+                <div class="d-flex align-items-center justify-content-between mb-2">
+                  <p class="fw-semibold mb-0">Reflection note</p>
+                  <small class="text-muted">{{ currentLesson?.title }}</small>
+                </div>
+                <div class="reflection-actions mb-3">
+                  <button
+                    type="button"
+                    class="btn reflection-action-btn reflection-action-primary btn-sm shadow-none"
+                    @click="createNewReflectionNote"
+                  >
+                    Create new note
+                  </button>
+                  <button
+                    type="button"
+                    class="btn reflection-action-btn reflection-action-secondary btn-sm shadow-none"
+                    @click="clearReflectionNote"
+                    :disabled="!currentReflectionNote"
+                  >
+                    Clear note
+                  </button>
+                </div>
+                <div v-if="reflectionStatus" class="reflection-status-pill">
+                  <i class="bi bi-check-circle-fill"></i>
+                  <span>{{ reflectionStatus }}</span>
+                </div>
+                <textarea
+                  class="form-control reflection-input"
+                  rows="3"
+                  v-model="reflectionInput"
+                  placeholder="Jot down a moment, dua, or action you want to remember..."
+                ></textarea>
+                <div class="d-flex align-items-center justify-content-between mt-2 gap-2 flex-wrap">
+                  <small v-if="reflectionStatus" class="text-success mb-0">{{ reflectionStatus }}</small>
+                  <button
+                    type="button"
+                    class="btn btn-teal btn-sm shadow-none"
+                    :disabled="!reflectionInput.trim() && !currentReflectionNote"
+                    @click="saveReflectionNote"
+                  >
+                    Save note
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- quiz -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
@@ -1264,6 +1361,7 @@ import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
 import chapterPlanGuides from './data/chapterPlanGuides.json'
+import dailyMicroChallenges from './date/dailyMicroChallenges.json'
 import { jsPDF } from 'jspdf'
 
 const normalizeJson = (value) => {
@@ -1330,6 +1428,24 @@ const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journ
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male']
 
+const DEFAULT_DAILY_CHALLENGES = [
+  {
+    id: 'insight-note',
+    title: 'Capture today’s insight',
+    description: 'Note how the lesson landed for you today.'
+  },
+  {
+    id: 'share-moment',
+    title: 'Share the tone',
+    description: 'Send one short update or dua to someone who inspires you.'
+  },
+  {
+    id: 'routine-tie',
+    title: 'Tie it to routine',
+    description: 'Attach today’s insight to a prayer, commute, or quiet moment.'
+  }
+]
+
 const videoTagCache = new WeakMap()
 const videoGenderCache = new WeakMap()
 const videoDurationCache = new WeakMap()
@@ -1339,7 +1455,7 @@ const REVERTS_GUIDE_STEPS = [
   {
     title: 'Start with the roadmap',
     description:
-      'Scan the pills to understand the chapter flow—completed lessons glow teal, the next gate glows gold, and locked chapters are gently dimmed.',
+      'Scan the pills to understand the chapter flow completed lessons glow teal, the next gate glows gold, and locked chapters are gently dimmed.',
     actions: [
       'Tap the chapter you want to revisit to refresh context before diving back in.',
       'Use the completion badges to remind yourself how much you have already accomplished.'
@@ -1364,7 +1480,7 @@ const REVERTS_GUIDE_STEPS = [
       'Open the highlight cards to see the “why” behind each concept.',
       'Pin a key insight to keep it visible while you work through exercises or mission prompts.'
     ],
-    notes: 'Look for the encouragement badges—these spotlight resilient reverts and remind you that struggle is part of the story.'
+    notes: 'Look for the encouragement badges these spotlight resilient reverts and remind you that struggle is part of the story.'
   },
   {
     title: 'Tap into the sharing & media toolkit',
@@ -1577,7 +1693,6 @@ export default defineComponent({
       previewAutoplayEnabled: false,
       currentStreakDays: 0,
       lastStreakDateKey: '',
-      dailyGamePoints: 0,
       dailyChallengeStatus: {},
       dailyChallengeDate: '',
       confettiEnabled: false,
@@ -1590,6 +1705,9 @@ export default defineComponent({
       videoBackgroundFilter: 'all',
       durationFilters: DURATION_FILTERS,
       genderFilters: GENDER_FILTERS,
+      reflectionNotes: {},
+      reflectionInput: '',
+      reflectionStatus: ''
     }
   },
 
@@ -1655,28 +1773,36 @@ export default defineComponent({
       return ((this.maxStepReached - 1) / this.roadmapData.length) * 100
     },
     dailyChallenges() {
-      const chapterTitle = this.currentLesson?.title || 'this chapter'
-      const prompts = [
-        {
-          id: 'insight-note',
-          title: 'Capture one insight',
-          description: `Write or voice a quick note about what stirred you in ${chapterTitle}.`
-        },
-        {
-          id: 'share-moment',
-          title: 'Share the feeling',
-          description: 'Send a verse, dua, or thought to a friend with a short encouragement.'
-        },
-        {
-          id: 'routine-tie',
-          title: 'Tie it to a routine',
-          description: 'Pair today’s learning with a familiar habit (prayer, commute, or reflection).'
+      const chapterId = this.currentLesson?.chapterId
+      const prompts = dailyMicroChallenges[chapterId] || DEFAULT_DAILY_CHALLENGES
+      return prompts.map(prompt => {
+        const key = this.dailyChallengeStorageKey(prompt.id, chapterId)
+        return {
+          ...prompt,
+          storageKey: key,
+          completed: Boolean(this.dailyChallengeStatus[key])
         }
-      ]
-      return prompts.map(prompt => ({
-        ...prompt,
-        completed: Boolean(this.dailyChallengeStatus[prompt.id])
-      }))
+      })
+    },
+    dailyChallengeProgressPercent() {
+      const total = this.dailyChallenges.length
+      if (!total) return 0
+      const completed = this.dailyChallenges.filter(challenge => challenge.completed).length
+      return Math.round((completed / total) * 100)
+    },
+    dailyChallengeCompletionLabel() {
+      const total = this.dailyChallenges.length
+      if (!total) return 'Micro-challenges are loading'
+      const completed = this.dailyChallenges.filter(challenge => challenge.completed).length
+      if (completed === total) return 'All challenges marked complete today'
+      return `${completed}/${total} completed`
+    },
+    dailyChallengeCompletionCount() {
+      return this.dailyChallenges.filter(challenge => challenge.completed).length
+    },
+    currentReflectionNote() {
+      const chapterId = this.currentLesson?.chapterId
+      return chapterId ? this.reflectionNotes[chapterId] || '' : ''
     },
     completedChapters() {
       return this.maxStepReached - 1
@@ -1893,6 +2019,7 @@ export default defineComponent({
       this.sectionVisibility = {}
       this.cardVisibility = {}
       this.prepareSecondarySections()
+      this.syncReflectionInput()
     },
     chapterQuizPassed(newVal, oldVal) {
       // Celebrate quiz completion with confetti if global settings allow it.
@@ -1902,7 +2029,7 @@ export default defineComponent({
       }
     },
     // Celebrate finishing the curated micro-challenges for the day.
-    dailyGamePoints(newVal, oldVal) {
+    dailyChallengeCompletionCount(newVal, oldVal) {
       if (!this.confettiEnabled) return
       const total = this.dailyChallenges.length
       if (total > 0 && newVal === total && (!oldVal || oldVal < total)) {
@@ -1939,6 +2066,7 @@ export default defineComponent({
     this.syncStreakFromStorage()
     this.syncDailyChallenges()
     this.loadGentleStepCompletion()
+    this.loadReflectionNotes()
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual'
     }
@@ -2159,7 +2287,6 @@ export default defineComponent({
       const storedDate = localStorage.getItem('dailyChallengeDate') || ''
       if (storedDate !== todayKey) {
         this.dailyChallengeStatus = {}
-        this.dailyGamePoints = 0
         this.dailyChallengeDate = todayKey
         localStorage.setItem('dailyChallengeDate', todayKey)
         localStorage.setItem('dailyChallengeStatus', JSON.stringify({}))
@@ -2172,24 +2299,26 @@ export default defineComponent({
         storedStatus = {}
       }
       this.dailyChallengeStatus = storedStatus
-      this.dailyGamePoints = Object.values(this.dailyChallengeStatus).filter(Boolean).length
       this.dailyChallengeDate = storedDate || todayKey
     },
-    toggleChallenge(id) {
+    toggleChallenge(storageKey) {
       if (typeof window === 'undefined') return
       const todayKey = this.getTodayDateKey()
       if (this.dailyChallengeDate !== todayKey) {
         this.dailyChallengeStatus = {}
       }
-      const nextValue = !this.dailyChallengeStatus[id]
+      const nextValue = !this.dailyChallengeStatus[storageKey]
       this.dailyChallengeStatus = {
         ...this.dailyChallengeStatus,
-        [id]: nextValue
+        [storageKey]: nextValue
       }
-      this.dailyGamePoints = Object.values(this.dailyChallengeStatus).filter(Boolean).length
       this.dailyChallengeDate = todayKey
       localStorage.setItem('dailyChallengeStatus', JSON.stringify(this.dailyChallengeStatus))
       localStorage.setItem('dailyChallengeDate', todayKey)
+    },
+    dailyChallengeStorageKey(promptId, chapterId = this.currentLesson?.chapterId) {
+      if (chapterId == null) return promptId
+      return `${chapterId}-${promptId}`
     },
     gentleStepCompletionKey(chapterId, stepIndex) {
       if (chapterId == null) return null
@@ -2223,6 +2352,54 @@ export default defineComponent({
       } catch {
         this.gentleStepCompletion = {}
       }
+    },
+    loadReflectionNotes() {
+      if (typeof window === 'undefined') return
+      try {
+        const stored = JSON.parse(localStorage.getItem('reflectionNotes') || '{}')
+        this.reflectionNotes = stored
+      } catch {
+        this.reflectionNotes = {}
+      }
+      this.syncReflectionInput()
+    },
+    syncReflectionInput() {
+      const chapterId = this.currentLesson?.chapterId
+      if (!chapterId) {
+        this.reflectionInput = ''
+        return
+      }
+      this.reflectionInput = this.reflectionNotes[chapterId] || ''
+    },
+    createNewReflectionNote() {
+      this.reflectionInput = ''
+      this.reflectionStatus = 'Create a fresh note'
+      setTimeout(() => {
+        this.reflectionStatus = ''
+      }, 2200)
+    },
+    clearReflectionNote() {
+      this.reflectionInput = ''
+      this.saveReflectionNote()
+    },
+    saveReflectionNote() {
+      const chapterId = this.currentLesson?.chapterId
+      if (!chapterId) return
+      const text = this.reflectionInput.trim()
+      const nextNotes = { ...this.reflectionNotes }
+      if (text) {
+        nextNotes[chapterId] = text
+      } else {
+        delete nextNotes[chapterId]
+      }
+      this.reflectionNotes = nextNotes
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('reflectionNotes', JSON.stringify(nextNotes))
+      }
+      this.reflectionStatus = text ? 'Saved for this chapter' : 'Reflection cleared'
+      setTimeout(() => {
+        this.reflectionStatus = ''
+      }, 2800)
     },
     prepareSecondarySections() {
       this.secondarySectionsReady = false
