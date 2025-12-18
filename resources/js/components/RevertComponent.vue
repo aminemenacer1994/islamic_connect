@@ -906,6 +906,47 @@
             </div>
           </div>
 
+          <!-- flexible plan tracks -->
+          <div v-if="currentFlexibleTracks.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
+                <span class="card-header-icon">
+                  <i class="bi bi-shuffle"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">{{ currentFlexibleNote?.title || 'Flexible Pathway Tracks' }}</h3>
+                  <p class="text-muted small mb-0">
+                    {{ currentFlexibleNote?.description || 'Mix and match these companion routines to keep each chapter feeling fresh.' }}
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn"
+                @click="toggleCardVisibility('flexibleTracks')"
+                :aria-expanded="isCardVisible('flexibleTracks')"
+                :aria-label="isCardVisible('flexibleTracks') ? 'Collapse flexible tracks' : 'Expand flexible tracks'">
+                <i class="bi" :class="isCardVisible('flexibleTracks') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('flexibleTracks')" class="card-body px-4 py-3">
+              <div class="row g-3">
+                <div v-for="track in currentFlexibleTracks" :key="track.id" class="col-12 col-md-4">
+                  <article class="flexible-track-card rounded-4 p-4 h-100">
+                    <h4 class="fw-semibold mb-2 fs-5">{{ track.title }}</h4>
+                    <p class="text-muted small mb-3">{{ track.description }}</p>
+                    <ul class="flexible-track-steps list-unstyled mb-0">
+                      <li v-for="step in track.steps" :key="step">
+                        <span class="flex-step-icon" aria-hidden="true"></span>
+                        <span>{{ step }}</span>
+                      </li>
+                    </ul>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Next Steps & Homework -->
           <div class="content-card onboarding-card mb-4 rounded-5 ">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
@@ -1373,7 +1414,9 @@ import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
+import flexiblePlanTracks from './date/flexiblePlanTracks.json'
 import chapterPlanGuides from './data/chapterPlanGuides.json'
+import flexibleChapterNotes from './date/flexibleChapterNotes.json'
 import dailyMicroChallenges from './date/dailyMicroChallenges.json'
 import { jsPDF } from 'jspdf'
 
@@ -1643,6 +1686,8 @@ export default defineComponent({
       chapterGentleStarts: normalizeJson(chapterGentleStart),
       sectionStatsByChapter: normalizeJson(chapterSectionStats),
       chapterPlanGuides: normalizeJson(chapterPlanGuides),
+      flexiblePlanTracks: normalizeJson(flexiblePlanTracks),
+      flexibleChapterNotes: normalizeJson(flexibleChapterNotes),
       homework: normalizeJson(homeworkData),
       chapterVideos: [],
       chapterVideoMap: {},
@@ -1874,6 +1919,14 @@ export default defineComponent({
       const chapterId = this.currentLesson?.chapterId
       const entry = this.guidedPathways.find(item => item.chapterId === chapterId)
       return entry?.pathway || this.guidanceCards
+    },
+    currentFlexibleTracks() {
+      const chapterId = this.currentLesson?.chapterId
+      return this.flexiblePlanTracks.find(entry => entry.chapterId === chapterId)?.tracks || []
+    },
+    currentFlexibleNote() {
+      const chapterId = this.currentLesson?.chapterId
+      return this.flexibleChapterNotes.find(item => item.chapterId === chapterId) || null
     },
     currentGentleStartSteps() {
       const chapterId = this.currentLesson?.chapterId
