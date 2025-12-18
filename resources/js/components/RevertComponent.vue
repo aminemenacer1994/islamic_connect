@@ -378,10 +378,15 @@
           <!-- Guided pathway clips and action cards -->
           <div v-if="pathwayClips.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
-              <div>
-                <p class="text-teal small mb-1 fw-bold flex-grow-1">Guided Pathway</p>
-                <h3 class="mb-1 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
-                <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
+              <div class="d-flex align-items-start gap-3">
+                <span class="card-header-icon">
+                  <i class="bi bi-controller"></i>
+                </span>
+                <div>
+                  <p class="text-teal small mb-1 fw-bold flex-grow-1">Guided Pathway</p>
+                  <h3 class="mb-1 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
+                  <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
+                </div>
               </div>
             </div>
 
@@ -422,11 +427,8 @@
                         </iframe>
                       </div>
                       <div v-else class="clip-thumbnail ratio ratio-16x9" :style="thumbnailStyle(clip)">
-                        <div class="clip-overlay d-flex align-items-end justify-content-between p-3">
+                        <div class="clip-overlay d-flex align-items-end justify-content-start p-3">
                           <span class="clip-label badge bg-white text-dark">Clip</span>
-                          <button type="button" class="btn btn-sm btn-outline-dark text-dark" @click.stop="playClip(clip)">
-                            <i class="bi bi-play-fill h2 me-2 text-white text-dark-outline"></i>
-                          </button>
                         </div>
                       </div>
                         <div class="p-3">
@@ -518,7 +520,7 @@
                       <h3 class="h6 fw-semibold text-dark mb-3">Do's</h3>
                       <ul class="list-unstyled mb-0">
                         <li v-for="item in currentDosDonts.dos" :key="item.id"
-                          class="d-flex align-items-start gap-2 mb-2">
+                          class="d-flex align-items-center gap-2 mb-2">
                           <i class="bi bi-check-circle-fill fs-5 text-teal"></i>
                           <span class="text-dark medium mt-1">{{ item.text }}</span>
                         </li>
@@ -530,7 +532,7 @@
                       <h3 class="h6 fw-semibold text-dark mb-3">Don'ts</h3>
                       <ul class="list-unstyled mb-0">
                         <li v-for="item in currentDosDonts.donts" :key="item.id"
-                          class="d-flex align-items-start gap-2 mb-2">
+                          class="d-flex align-items-center gap-2 mb-2">
                           <i class="bi bi-x-circle-fill fs-5 text-muted"></i>
                           <span class="text-dark medium mt-1">{{ item.text }}</span>
                         </li>
