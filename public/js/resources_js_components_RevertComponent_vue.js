@@ -1848,10 +1848,10 @@ const _hoisted_5 = {
   class: "copy-alert-container"
 };
 const _hoisted_6 = {
-  class: "row g-4"
+  class: "row g-3"
 };
 const _hoisted_7 = {
-  class: "col-12 col-md-3 mobile-nav-frame bg-white"
+  class: "col-lg-3 col-md-3 mobile-nav-frame"
 };
 const _hoisted_8 = {
   class: "progress-indicator mb-3"
@@ -1910,7 +1910,7 @@ const _hoisted_25 = {
   class: "bi bi-chevron-down fs-5 text-muted"
 };
 const _hoisted_26 = {
-  class: "col-12 col-md-8 col-lg-8 lesson-pane"
+  class: "col-md-9 lesson-pane"
 };
 const _hoisted_27 = {
   class: "lesson-header animated-fade-in mb-4"
@@ -1956,7 +1956,7 @@ const _hoisted_41 = {
   class: "d-block"
 };
 const _hoisted_42 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card"
 };
 const _hoisted_43 = {
   class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"

@@ -41,10 +41,10 @@
 
     <!-- MAIN CONTENT -->
     <main class="container-fluid revert-content px-3 px-md-4 py-4 py-md-5" :style="{ fontSize: `${globalFontScale}rem` }">
-      <div class="row g-4">
+      <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-12 col-md-3 mobile-nav-frame bg-white">
+        <aside class="col-lg-3 col-md-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -107,7 +107,7 @@
         </aside>
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
-        <section class="col-12 col-md-8 col-lg-8 lesson-pane">
+        <section class="col-md-9 lesson-pane">
 
           <!-- Lesson Header + tone summary -->
           <div class="lesson-header animated-fade-in mb-4">
@@ -187,7 +187,7 @@
           </div>
 
           <!-- Focus of the lesson -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
