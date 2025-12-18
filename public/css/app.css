@@ -20935,11 +20935,6 @@ body {
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #0f172a;
-  scrollbar-width: none;
-}
-body::-webkit-scrollbar {
-  width: 0;
-  height: 0;
 }
 :root {
   --brand-teal: #0d7d64;
@@ -22484,6 +22479,23 @@ p[data-v-1d764944]{
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+.roadmap-pill[data-v-1d764944] {
+  justify-content: flex-start;
+}
+.roadmap-pill .dot-wrapper[data-v-1d764944] {
+  flex: 1;
+  align-items: center;
+}
+.roadmap-pill .dot-wrapper > div[data-v-1d764944] {
+  flex: 1;
+  text-align: left;
+}
+.roadmap-pill > i[data-v-1d764944] {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 .roadmap-pill[data-v-1d764944]:focus-visible {
   outline: 3px solid rgba(16, 185, 129, 0.7);

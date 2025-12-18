@@ -7,12 +7,6 @@
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   color: #0f172a;
-  scrollbar-width: none;
-}
-
-:global(body::-webkit-scrollbar) {
-  width: 0;
-  height: 0;
 }
 
 :global(:root) {
@@ -1795,6 +1789,27 @@ p{
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
   position: relative;
   overflow: hidden;
+}
+
+.roadmap-pill {
+  justify-content: flex-start;
+}
+
+.roadmap-pill .dot-wrapper {
+  flex: 1;
+  align-items: center;
+}
+
+.roadmap-pill .dot-wrapper > div {
+  flex: 1;
+  text-align: left;
+}
+
+.roadmap-pill > i {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .roadmap-pill:focus-visible {
