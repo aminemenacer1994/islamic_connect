@@ -144,12 +144,17 @@
             </div>
           </div>
 
-          <!-- Gentle start onboarding for newcomers -->
+          <!-- Revert stories -->
           <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
-                <h3 class="fw-semibold mb-0">Simple Welcome for New Friends</h3>
+              <div class="d-flex align-items-center gap-3">
+                <span class="card-header-icon">
+                  <i class="bi bi-sunrise-fill"></i>
+                </span>
+                <div>
+                  <p class="mb-1 text-muted small text-uppercase">Gentle start</p>
+                  <h3 class="fw-semibold mb-0">Simple Welcome for New Friends</h3>
+                </div>
               </div>
               <button
                 type="button"
@@ -188,10 +193,15 @@
 
           <!-- Focus of the lesson -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
+          <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <span class="card-header-icon">
+                <i class="bi bi-brightness-high-fill"></i>
+              </span>
+              <div>
                 <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
               </div>
+            </div>
               <button
                 type="button"
                 class="section-toggle-btn card-toggle-btn"
@@ -210,36 +220,36 @@
 
           <!-- main content (learning overview, highlights, sections) -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg" style="animation-delay: 0.05s">
-            <div class="card-header d-flex align-items-center py-3 ">
-              <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-box-seam-fill fs-4 text-teal"></i>
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+              <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-box-seam-fill"></i>
+                </span>
                 <h3 class="fw-bold mb-0">Learning Overview</h3>
               </div>
-              <div class="d-flex align-items-center gap-2 ms-auto">
-                <button
-                  type="button"
-                  class="section-toggle-btn card-toggle-btn"
-                  @click="toggleCardVisibility('learningOverview')"
-                  :aria-expanded="isCardVisible('learningOverview')"
-                  :aria-label="isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'">
-                  <i class="bi" :class="isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                </button>
-                <div class="lesson-focus-actions">
-                  <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
-                    <i class="bi bi-whatsapp fs-5"></i>
-                    <span>Share</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
-                    <i class="bi bi-clipboard fs-5"></i>
-                    <span>Copy</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
-                    <i class="bi bi-printer fs-5"></i>
-                    <span>Print</span>
-                  </span>
-                  <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
-                </div>
+              <div class="lesson-focus-actions">
+                <span class="header-action" role="button" tabindex="0" @click="shareLessonOverview">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyLessonOverview">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printLessonOverview">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
               </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn ms-auto"
+                @click="toggleCardVisibility('learningOverview')"
+                :aria-expanded="isCardVisible('learningOverview')"
+                :aria-label="isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'">
+                <i class="bi" :class="isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
             </div>
               <!-- lesson overview -->
             <div v-show="isCardVisible('learningOverview')" class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
@@ -377,7 +387,9 @@
 
             <div id="pathway-clips-section" class=" animated-fade-slide mb-4 rounded-4 ">
               <div class="card-header d-flex align-items-center gap-3">
-                <i class="bi bi-film fs-4 text-teal"></i>
+                <span class="card-header-icon">
+                  <i class="bi bi-film"></i>
+                </span>
                 <div>
                   <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
                   <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
@@ -434,16 +446,21 @@
 
           <!-- Share with a friend -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-start justify-content-between py-3 px-3 px-md-3 gap-3">
-              <div class="flex-grow-1">
-                <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
-                <p class="text-muted mb-0 medium">
-                  Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
-                </p>
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3">
+              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-share-fill"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-1">Share With a Friend or Family Member</h3>
+                  <p class="text-muted mb-0 medium">
+                    Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content.
+                  </p>
+                </div>
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('shareFriend')"
                 :aria-expanded="isCardVisible('shareFriend')"
                 :aria-label="isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'">
@@ -476,13 +493,16 @@
 
           <!-- do's and don't -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 px-3 px-md-3 gap-3">
-              <div class="flex-grow-1">
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3">
+              <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-shield-fill-check"></i>
+                </span>
                 <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('dosDonts')"
                 :aria-expanded="isCardVisible('dosDonts')"
                 :aria-label="isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'">
@@ -495,11 +515,11 @@
                 <div class="row g-3">
                   <div class="col-12 col-md-6">
                     <article class="p-3 rounded-3 border h-100">
-                      <h3 class="h6 fw-semibold text-teal mb-3">Do's</h3>
+                      <h3 class="h6 fw-semibold text-dark mb-3">Do's</h3>
                       <ul class="list-unstyled mb-0">
                         <li v-for="item in currentDosDonts.dos" :key="item.id"
                           class="d-flex align-items-start gap-2 mb-2">
-                          <i class="bi bi-check-circle-fill fs-5 text-teal "></i>
+                          <i class="bi bi-check-circle-fill fs-5 text-teal"></i>
                           <span class="text-dark medium mt-1">{{ item.text }}</span>
                         </li>
                       </ul>
@@ -507,11 +527,11 @@
                   </div>
                   <div class="col-12 col-md-6">
                     <article class="p-3 rounded-3 border h-100">
-                      <h3 class="h6 fw-semibold text-danger mb-3">Don'ts</h3>
+                      <h3 class="h6 fw-semibold text-dark mb-3">Don'ts</h3>
                       <ul class="list-unstyled mb-0">
                         <li v-for="item in currentDosDonts.donts" :key="item.id"
                           class="d-flex align-items-start gap-2 mb-2">
-                          <i class="bi bi-x-circle-fill fs-5 text-danger"></i>
+                          <i class="bi bi-x-circle-fill fs-5 text-muted"></i>
                           <span class="text-dark medium mt-1">{{ item.text }}</span>
                         </li>
                       </ul>
@@ -524,38 +544,38 @@
 
           <!-- dua to carry -->
           <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
-              <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3">
+              <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-bookmark-star-fill"></i>
+                </span>
                 <div class="flex-grow-1">
                   <h3 class="fw-bold mb-1">Duas to Carry</h3>
                 </div>
               </div>
-              <div class="d-flex align-items-center gap-2 ms-auto">
-                <button
-                  type="button"
-                  class="section-toggle-btn card-toggle-btn"
-                  @click="toggleCardVisibility('duas')"
-                  :aria-expanded="isCardVisible('duas')"
-                  :aria-label="isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'">
-                  <i class="bi" :class="isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                </button>
-                <div class="lesson-focus-actions">
-                  <span class="header-action" role="button" tabindex="0" @click="shareDuas">
-                    <i class="bi bi-whatsapp fs-5"></i>
-                    <span>Share</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="copyDuas">
-                    <i class="bi bi-clipboard fs-5"></i>
-                    <span>Copy</span>
-                  </span>
-                  <span class="header-action" role="button" tabindex="0" @click="printDuas">
-                    <i class="bi bi-printer fs-5"></i>
-                    <span>Print</span>
-                  </span>
-                  <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
-                </div>
+              <div class="lesson-focus-actions">
+                <span class="header-action" role="button" tabindex="0" @click="shareDuas">
+                  <i class="bi bi-whatsapp fs-5"></i>
+                  <span>Share</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="copyDuas">
+                  <i class="bi bi-clipboard fs-5"></i>
+                  <span>Copy</span>
+                </span>
+                <span class="header-action" role="button" tabindex="0" @click="printDuas">
+                  <i class="bi bi-printer fs-5"></i>
+                  <span>Print</span>
+                </span>
+                <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn ms-auto"
+                @click="toggleCardVisibility('duas')"
+                :aria-expanded="isCardVisible('duas')"
+                :aria-label="isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'">
+                <i class="bi" :class="isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
             </div>
             <div v-show="isCardVisible('duas')" class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
               <div class="row g-3">
@@ -579,7 +599,10 @@
             v-if="secondarySectionsReady && insightsToShow.length"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="flex-grow-1">
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
+                <span class="card-header-icon">
+                  <i class="bi bi-lightbulb-fill"></i>
+                </span>
                 <h3 class="fw-bold mb-1">Key Insight's</h3>
               </div>
               <button
@@ -604,21 +627,16 @@
 
           <!-- share and uplift -->
           <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center mt-3 py-3 gap-3">
-              <div class="d-flex align-items-center gap-3">
-                <i class="bi bi-bookmark-star-fill fs-4 text-teal"></i>
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3">
+              <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-share"></i>
+                </span>
                 <div class="flex-grow-1">
                   <h3 class="fw-bold mb-1">Share & Uplift</h3>
                 </div>
               </div>
-              <button type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('shareUplift')"
-                :aria-expanded="isCardVisible('shareUplift')"
-                :aria-label="isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'">
-                <i class="bi" :class="isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
-              <div class="lesson-focus-actions ms-auto">
+              <div class="lesson-focus-actions">
                 <span class="header-action" role="button" tabindex="0" @click="shareDuas">
                   <i class="bi bi-whatsapp fs-5"></i>
                   <span>Share</span>
@@ -633,6 +651,13 @@
                 </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
+              <button type="button"
+                class="section-toggle-btn card-toggle-btn ms-auto"
+                @click="toggleCardVisibility('shareUplift')"
+                :aria-expanded="isCardVisible('shareUplift')"
+                :aria-label="isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'">
+                <i class="bi" :class="isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
             </div>
             <div v-show="isCardVisible('shareUplift')" class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
               <div class="row align-items-center gy-3">
@@ -660,15 +685,19 @@
 
           <!-- Gentle start onboarding for newcomers -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <div class="flex-grow-1">
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-people-fill"></i>
+                </span>
+                <div>
                   <h3 class="fw-bold mb-1">Reverts Stories</h3>
+                  <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
                 </div>
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('revertStories')"
                 :aria-expanded="isCardVisible('revertStories')"
                 :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
@@ -733,13 +762,19 @@
 
           <!-- common asked questions -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-bold mb-0">Commonly Asked Questions</h3>
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-question-circle-fill"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
+                  <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
+                </div>
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('commonQuestions')"
                 :aria-expanded="isCardVisible('commonQuestions')"
                 :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
@@ -772,8 +807,13 @@
           <!-- motivation -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-bold mb-0">Motivation</h3>
+              <div class="d-flex align-items-center gap-3">
+                <span class="card-header-icon">
+                  <i class="bi bi-rocket-takeoff-fill"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">Motivation</h3>
+                </div>
               </div>
               <button
                 type="button"
@@ -795,9 +835,14 @@
           <!-- plans -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-bold mb-0">Curated Weekly & Monthly Plans</h3>
-                <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
+                <span class="card-header-icon">
+                  <i class="bi bi-calendar3-range"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">Curated Weekly & Monthly Plans</h3>
+                  <p class="text-muted small mb-0">Pick the timeline that fits your current rhythm.</p>
+                </div>
               </div>
               <button
                 type="button"
@@ -867,8 +912,13 @@
           <!-- Next Steps & Homework -->
           <div class="content-card onboarding-card mb-4 rounded-5 ">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-bold mb-0">Next Steps & Homework</h3>
+              <div class="d-flex align-items-center gap-3">
+                <span class="card-header-icon">
+                  <i class="bi bi-pencil-square"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">Next Steps & Homework</h3>
+                </div>
               </div>
               <button
                 type="button"
@@ -902,13 +952,19 @@
 
           <!-- quiz -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex flex-column flex-grow-1">
-                <h3 class="fw-bold mb-0">Chapter Quiz</h3>
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-journal-check"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-1">Chapter Quiz</h3>
+                  <p class="text-muted small mb-0">Attempt the curated quiz to move to the next chapter.</p>
+                </div>
               </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn"
+                class="section-toggle-btn card-toggle-btn ms-auto"
                 @click="toggleCardVisibility('chapterQuiz')"
                 :aria-expanded="isCardVisible('chapterQuiz')"
                 :aria-label="isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'">
