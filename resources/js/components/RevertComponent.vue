@@ -697,32 +697,45 @@
           <div
             v-if="secondarySectionsReady && insightsToShow.length"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
-              <div class="d-flex align-items-center gap-3 flex-grow-1">
-                <span class="card-header-icon">
-                  <i class="bi bi-lightbulb-fill"></i>
-                </span>
-                <h3 class="fw-bold mb-1">Key Insight's</h3>
+          <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap">
+            <div class="d-flex align-items-center gap-3 flex-grow-1">
+              <span class="card-header-icon">
+                <i class="bi bi-lightbulb-fill"></i>
+              </span>
+              <div class="d-flex flex-column">
+                <h3 class="fw-bold mb-1">Key Insights</h3>
+                <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('keyInsights')"
-                :aria-expanded="isCardVisible('keyInsights')"
-                :aria-label="isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'">
-                <i class="bi" :class="isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
-            <div v-show="isCardVisible('keyInsights')" class="card-body px-3 px-md-3 py-3">
-              <ul class="list-group insight-list fs-6 lh-base mb-0">
-                <li v-for="insight in insightsToShow" :key="insight"
-                  class="list-group-item border-0 px-0 py-3 d-flex align-items-center gap-3">
-                  <i class="fas fa-check-circle fs-5 text-teal"></i>
-                  <span>{{ insight }}</span>
-                </li>
-              </ul>
+            <button
+              type="button"
+              class="section-toggle-btn card-toggle-btn"
+              @click="toggleCardVisibility('keyInsights')"
+              :aria-expanded="isCardVisible('keyInsights')"
+              :aria-label="isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'">
+              <i class="bi" :class="isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+            </button>
+          </div>
+            <div v-show="isCardVisible('keyInsights')" class="card-body px-3 px-md-4 py-4">
+              <div class="insight-hero mb-3">
+                <strong class="text-dark d-block mb-1">Carry these sparks into your day</strong>
+                <p class="text-muted small mb-0">
+                  Pick the insight that feels timely and let it guide your next pause, prayer, or action.
+                </p>
+              </div>
+            <div class="insight-grid-wrapper">
+              <div class="insight-grid">
+                  <article v-for="(insight, index) in insightsToShow" :key="`${insight}-${index}`" class="insight-card">
+                    <div class="insight-card-accent" aria-hidden="true"></div>
+                    <div class="insight-card-header">
+                      <span class="insight-number">{{ index + 1 }}</span>
+                    </div>
+                    <p class="insight-card-text mb-0">{{ insight }}</p>
+                  </article>
+              </div>
             </div>
           </div>
+        </div>
 
           <!-- share and uplift -->
           <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
