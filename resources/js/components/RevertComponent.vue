@@ -44,7 +44,7 @@
       <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-lg-3 col-md-3 mobile-nav-frame">
+        <aside class="col-lg-3 col-md-3 mobile-nav-frame shadow-lg rounded-4">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -611,6 +611,88 @@
             </div>
           </div>
 
+          <!-- Reverts Stories videos -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                <span class="card-header-icon">
+                  <i class="bi bi-people-fill"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-1">Reverts Stories</h3>
+                  <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn ms-auto"
+                @click="toggleCardVisibility('revertStories')"
+                :aria-expanded="isCardVisible('revertStories')"
+                :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
+                <i class="bi" :class="isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('revertStories')" class="card-body px-4 py-3">
+              <div class="row g-3 video-grid-row">
+                <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
+                  <article
+                    class="video-card shadow-sm overflow-hidden h-100"
+                    @mouseenter="startPreview(video)"
+                    @mouseleave="stopPreview"
+                    @click="handleVideoCardClick(video)"
+                    @touchstart.stop="handleVideoCardTouch(video)">
+                    <div class="video-card-media">
+                      <div
+                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
+                        class="video-feature"
+                        :style="thumbnailStyle(video)">
+                        <iframe
+                          :src="formatVideoUrl(
+                            video.url,
+                            isPlayingVideo(video) || shouldAutoplayVideo(),
+                            isVideoPreviewing(video) || (!shouldAutoplayVideo() && isPlayingVideo(video))
+                          )"
+                          :title="video.title"
+                          frameborder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy">
+                        </iframe>
+                      </div>
+                      <div
+                        v-else
+                        class="video-feature"
+                        :style="thumbnailStyle(video)">
+                        <div class="video-feature-overlay">
+                          <div class="video-feature-text">
+                          <p class="video-feature-label">Revert story</p>
+                          <h3 class="video-feature-title">{{ video.title }}</h3>
+                          <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
+                          <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="video-card-caption px-3 py-2">
+                    <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
+                    <div v-if="videoTags(video).length" class="video-card-tags mb-2">
+                      <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
+                    </div>
+                    <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
+                    <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
+                  </div>
+                  </article>
+                </div>
+              </div>
+              <div class="d-flex justify-content-end mt-4">
+                <button type="button" class="btn-see-more" @click="showVideoModal = true">
+                  See more videos
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
           <!-- key insights -->
           <div
             v-if="secondarySectionsReady && insightsToShow.length"
@@ -700,86 +782,10 @@
             </div>
           </div>
 
-          <!-- Gentle start onboarding for newcomers -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
-              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
-                <span class="card-header-icon">
-                  <i class="bi bi-people-fill"></i>
-                </span>
-                <div>
-                  <h3 class="fw-bold mb-1">Reverts Stories</h3>
-                  <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
-                @click="toggleCardVisibility('revertStories')"
-                :aria-expanded="isCardVisible('revertStories')"
-                :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
-                <i class="bi" :class="isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
-            </div>
-            <div v-show="isCardVisible('revertStories')" class="card-body px-4 py-3">
-              <div class="row g-3 video-grid-row">
-                <div v-for="video in revertStoriesPreview" :key="video.title" class="col-12 col-md-3">
-                  <article
-                    class="video-card shadow-sm overflow-hidden h-100"
-                    @mouseenter="startPreview(video)"
-                    @mouseleave="stopPreview"
-                    @click="handleVideoCardClick(video)"
-                    @touchstart.stop.prevent="handleVideoCardTouch(video)">
-                    <div class="video-card-media">
-                      <div
-                        v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
-                        class="video-feature"
-                        :style="thumbnailStyle(video)">
-                        <iframe
-                          :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
-                          :title="video.title"
-                          frameborder="0"
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          loading="lazy">
-                        </iframe>
-                      </div>
-                      <div
-                        v-else
-                        class="video-feature"
-                        :style="thumbnailStyle(video)">
-                        <div class="video-feature-overlay">
-                          <div class="video-feature-text">
-                          <p class="video-feature-label">Revert story</p>
-                          <h3 class="video-feature-title">{{ video.title }}</h3>
-                          <p v-if="video.description" class="video-feature-subtitle">{{ video.description }}</p>
-                          <p v-if="video.duration" class="video-feature-duration">Duration: {{ video.duration }}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="video-card-caption px-3 py-2">
-                    <h3 class="h6 fw-semibold mb-1 text-dark">{{ video.title }}</h3>
-                    <div v-if="videoTags(video).length" class="video-card-tags mb-2">
-                      <span v-for="tag in videoTags(video)" :key="tag" class="video-tag-badge">{{ tag }}</span>
-                    </div>
-                    <p v-if="video.description" class="text-muted small mb-1">{{ video.description }}</p>
-                    <p v-if="video.duration" class="video-card-duration text-muted small mb-0">Duration: {{ video.duration }}</p>
-                  </div>
-                  </article>
-                </div>
-              </div>
-              <div class="d-flex justify-content-end mt-4">
-                <button type="button" class="btn-see-more" @click="showVideoModal = true">
-                  See more videos
-                  <i class="bi bi-box-arrow-up-right"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+          
 
-          <!-- common asked questions -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+        <!-- common asked questions -->
+        <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
               <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -856,32 +862,32 @@
         </div>
 
         <!-- motivation -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
-              <div class="d-flex align-items-center gap-3">
-                <span class="card-header-icon">
-                  <i class="bi bi-rocket-takeoff-fill"></i>
-                </span>
-                <div>
-                  <h3 class="fw-bold mb-0">Motivation</h3>
-                </div>
+        <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
+            <div class="d-flex align-items-center gap-3">
+              <span class="card-header-icon">
+                <i class="bi bi-rocket-takeoff-fill"></i>
+              </span>
+              <div>
+                <h3 class="fw-bold mb-0">Motivation</h3>
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
-                @click="toggleCardVisibility('motivation')"
-                :aria-expanded="isCardVisible('motivation')"
-                :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
-                <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
-            <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
-              <div class="d-flex flex-column gap-2">
-                <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
-                <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
-              </div>
+            <button
+              type="button"
+              class="section-toggle-btn card-toggle-btn ms-auto"
+              @click="toggleCardVisibility('motivation')"
+              :aria-expanded="isCardVisible('motivation')"
+              :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
+              <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+            </button>
+          </div>
+          <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
+            <div class="d-flex flex-column gap-2">
+              <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
+              <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
             </div>
           </div>
+        </div>
 
           <!-- plans -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
@@ -1020,47 +1026,6 @@
               </div>
             </div>
           </div>
-
-          <!-- Next Steps & Homework -->
-          <!-- <div class="content-card onboarding-card mb-4 rounded-5 ">
-            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
-              <div class="d-flex align-items-center gap-3">
-                <span class="card-header-icon">
-                  <i class="bi bi-pencil-square"></i>
-                </span>
-                <div>
-                  <h3 class="fw-bold mb-0">Next Steps & Homework</h3>
-                </div>
-              </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
-                @click="toggleCardVisibility('nextSteps')"
-                :aria-expanded="isCardVisible('nextSteps')"
-                :aria-label="isCardVisible('nextSteps') ? 'Collapse next steps' : 'Expand next steps'">
-                <i class="bi" :class="isCardVisible('nextSteps') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
-            </div>
-            <div v-show="isCardVisible('nextSteps')" class="next-steps-body text-black p-4">
-              <div class="next-steps-inner">
-                <div class="next-steps-highlight">
-                  <p class="mb-1 fw-semibold">Small steps, steady heart</p>
-                  <p class="text-muted small mb-0">Refresh the lesson by acting on one small intention today.</p>
-                </div>
-                <div class="next-steps-list mt-3">
-                  <article v-for="(task, index) in visibleHomework" :key="task" class="next-steps-pill">
-                    
-                    <p class="mb-0">{{ task }}</p>
-                  </article>
-                  <div v-if="homeworkMoreAvailable" class="text-center mt-3">
-                    <button type="button" class="btn btn-sm btn-link text-teal" @click="loadMoreHomework">
-                      Show more tasks ({{ currentHomework.length - homeworkVisibleCount }} left)
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> -->
 
           <!-- daily micro challenges -->
           <div v-if="dailyChallenges.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
@@ -1340,9 +1305,19 @@
             <div class="modal-content rounded-4 shadow-lg custom-modal-card">
               <div class="modal-header border-0 pt-4 px-4">
                 <h5 class="modal-title fw-bold">All Revert Stories</h5>
+                <button
+                  v-if="hasStoryFilters"
+                  type="button"
+                  class="btn btn-sm btn-outline-dark ms-auto d-flex align-items-center gap-2"
+                  @click="toggleVideoFilters"
+                  :aria-pressed="showVideoFilters"
+                  :aria-label="showVideoFilters ? 'Hide story filters' : 'Show story filters'">
+                  <i class="bi" :class="showVideoFilters ? 'bi-eye-slash' : 'bi-eye'"></i>
+                  <span class="d-none d-sm-inline">{{ showVideoFilters ? 'Hide filters' : 'Show filters' }}</span>
+                </button>
               </div>
               <div class="modal-body px-4 py-3">
-                <div v-if="hasStoryFilters" class="mb-3 video-modal-filters">
+                <div v-if="hasStoryFilters" class="mb-3 video-modal-filters" v-show="showVideoFilters">
                   <div class="filter-grid">
                     <div class="filter-column">
                       <label class="filter-label">Search stories</label>
@@ -1384,19 +1359,23 @@
                 </div>
                 <div class="row g-3 video-grid-row">
                   <div v-for="video in filteredRevertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
-                  <article
-                    class="video-card shadow-sm overflow-hidden h-100"
-                    @mouseenter="startPreview(video)"
-                    @mouseleave="stopPreview"
-                    @click="handleVideoCardClick(video)"
-                    @touchstart.stop.prevent="handleVideoCardTouch(video)">
+                    <article
+                      class="video-card shadow-sm overflow-hidden h-100"
+                      @mouseenter="startPreview(video)"
+                      @mouseleave="stopPreview"
+                      @click="handleVideoCardClick(video)"
+                      @touchstart.stop.prevent="handleVideoCardTouch(video)">
                       <div class="video-card-media">
                         <div
                           v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
                           class="video-feature"
                           :style="thumbnailStyle(video)">
                           <iframe
-                            :src="formatVideoUrl(video.url, shouldAutoplayVideo(), isVideoPreviewing(video))"
+                            :src="formatVideoUrl(
+                              video.url,
+                              isPlayingVideo(video) || shouldAutoplayVideo(),
+                              isVideoPreviewing(video) || (!shouldAutoplayVideo() && isPlayingVideo(video))
+                            )"
                             :title="video.title"
                             frameborder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

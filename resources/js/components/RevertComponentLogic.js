@@ -399,6 +399,7 @@ export default defineComponent({
       videoBackgroundFilter: 'all',
       durationFilters: DURATION_FILTERS,
       genderFilters: GENDER_FILTERS,
+      showVideoFilters: true,
       reflectionNotes: {},
       reflectionInput: '',
       reflectionStatus: '',
@@ -776,6 +777,7 @@ export default defineComponent({
     showVideoModal(newVal) {
       if (newVal) {
         this.resetVideoFilters()
+        this.showVideoFilters = true
       }
     },
     lessonOverviewRead: {
@@ -1373,6 +1375,9 @@ export default defineComponent({
         [cardKey]: !currentlyVisible
       }
     },
+    toggleVideoFilters() {
+      this.showVideoFilters = !this.showVideoFilters
+    },
     toggleLessonOverviewRead() {
       const chapterId = this.currentLesson?.chapterId
       if (!chapterId) return
@@ -1492,7 +1497,14 @@ export default defineComponent({
       this.clipPlayerId = this.clipPlayerId === id ? null : id
     },
     handleVideoCardClick(video) {
-      if (this.touchPlaybackTriggered) return
+      if (this.touchPlaybackTriggered) {
+        this.touchPlaybackTriggered = false
+        if (this.touchPlaybackTimer) {
+          clearTimeout(this.touchPlaybackTimer)
+          this.touchPlaybackTimer = null
+        }
+        return
+      }
       this.playVideo(video)
     },
     handleVideoCardTouch(video) {
@@ -1505,7 +1517,7 @@ export default defineComponent({
       this.touchPlaybackTimer = timerTarget.setTimeout(() => {
         this.touchPlaybackTriggered = false
         this.touchPlaybackTimer = null
-      }, 400)
+      }, 800)
     },
     isClipPlaying(clip) {
       const id = this.getVideoId(clip?.url)
