@@ -44,7 +44,7 @@
       <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-lg-3 col-md-3 mobile-nav-frame shadow-lg rounded-4">
+        <aside class="col-lg-3 col-md-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -784,110 +784,110 @@
 
           
 
-        <!-- common asked questions -->
-        <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
-              <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+          <!-- common asked questions -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+              <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+                <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                  <span class="card-header-icon">
+                    <i class="bi bi-question-circle-fill"></i>
+                  </span>
+                  <div>
+                    <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
+                    <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn ms-auto"
+                  @click="toggleCardVisibility('commonQuestions')"
+                  :aria-expanded="isCardVisible('commonQuestions')"
+                  :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
+                  <i class="bi" :class="isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
+              </div>
+            <div v-show="isCardVisible('commonQuestions')">
+              <div class="accordion-stack">
+                <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
+                  <button type="button"
+                    class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
+                      :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
+                      <span>{{ panel.title }}</span>
+                      <i class="bi"
+                        :class="isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
+                    </button>
+                    <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
+                      <div v-html="panel.body"></div>
+                  </div>
+                </div>
+              </div>
+              <div v-if="commonFaqHasMore" class="text-center mt-3">
+                <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
+                  Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- troubleshooting guides -->
+          <div v-if="troubleshootingGuides.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap">
+              <div class="d-flex align-items-center gap-3 flex-grow-1">
                 <span class="card-header-icon">
-                  <i class="bi bi-question-circle-fill"></i>
+                  <i class="bi bi-tools"></i>
                 </span>
                 <div>
-                  <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
-                  <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
+                  <h3 class="fw-bold mb-1">Troubleshooting Guides</h3>
+                  <p class="text-muted small mb-0">Quick fixes for the most common experience bumps.</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body px-3 px-md-4 py-3">
+              <div class="row g-3">
+                <div v-for="guide in troubleshootingGuides" :key="guide.title" class="col-12 col-md-4">
+                  <article class="troubleshooting-guide-card h-100 p-3 rounded-4 border">
+                    <h4 class="fw-semibold mb-2 fs-6">{{ guide.title }}</h4>
+                    <p class="text-muted small mb-3">{{ guide.description }}</p>
+                    <ul class="list-unstyled mb-0 troubleshooting-steps">
+                      <li v-for="step in guide.steps" :key="step">
+                        <span class="step-icon">
+                          <i class="bi bi-caret-right-fill"></i>
+                        </span>
+                        <span>{{ step }}</span>
+                      </li>
+                    </ul>
+                  </article>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- motivation -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
+              <div class="d-flex align-items-center gap-3">
+                <span class="card-header-icon">
+                  <i class="bi bi-rocket-takeoff-fill"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">Motivation</h3>
                 </div>
               </div>
               <button
                 type="button"
                 class="section-toggle-btn card-toggle-btn ms-auto"
-                @click="toggleCardVisibility('commonQuestions')"
-                :aria-expanded="isCardVisible('commonQuestions')"
-                :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
-                <i class="bi" :class="isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                @click="toggleCardVisibility('motivation')"
+                :aria-expanded="isCardVisible('motivation')"
+                :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
+                <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-          <div v-show="isCardVisible('commonQuestions')">
-            <div class="accordion-stack">
-              <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
-                <button type="button"
-                  class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
-                    :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
-                    <span>{{ panel.title }}</span>
-                    <i class="bi"
-                      :class="isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
-                  </button>
-                  <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
-                    <div v-html="panel.body"></div>
-                </div>
-              </div>
-            </div>
-            <div v-if="commonFaqHasMore" class="text-center mt-3">
-              <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
-                Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- troubleshooting guides -->
-        <div v-if="troubleshootingGuides.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card">
-          <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap">
-            <div class="d-flex align-items-center gap-3 flex-grow-1">
-              <span class="card-header-icon">
-                <i class="bi bi-tools"></i>
-              </span>
-              <div>
-                <h3 class="fw-bold mb-1">Troubleshooting Guides</h3>
-                <p class="text-muted small mb-0">Quick fixes for the most common experience bumps.</p>
+            <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
+              <div class="d-flex flex-column gap-2">
+                <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
+                <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
               </div>
             </div>
           </div>
-          <div class="card-body px-3 px-md-4 py-3">
-            <div class="row g-3">
-              <div v-for="guide in troubleshootingGuides" :key="guide.title" class="col-12 col-md-4">
-                <article class="troubleshooting-guide-card h-100 p-3 rounded-4 border">
-                  <h4 class="fw-semibold mb-2 fs-6">{{ guide.title }}</h4>
-                  <p class="text-muted small mb-3">{{ guide.description }}</p>
-                  <ul class="list-unstyled mb-0 troubleshooting-steps">
-                    <li v-for="step in guide.steps" :key="step">
-                      <span class="step-icon">
-                        <i class="bi bi-caret-right-fill"></i>
-                      </span>
-                      <span>{{ step }}</span>
-                    </li>
-                  </ul>
-                </article>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- motivation -->
-        <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-          <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
-            <div class="d-flex align-items-center gap-3">
-              <span class="card-header-icon">
-                <i class="bi bi-rocket-takeoff-fill"></i>
-              </span>
-              <div>
-                <h3 class="fw-bold mb-0">Motivation</h3>
-              </div>
-            </div>
-            <button
-              type="button"
-              class="section-toggle-btn card-toggle-btn ms-auto"
-              @click="toggleCardVisibility('motivation')"
-              :aria-expanded="isCardVisible('motivation')"
-              :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
-              <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-            </button>
-          </div>
-          <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
-            <div class="d-flex flex-column gap-2">
-              <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
-              <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
-            </div>
-          </div>
-        </div>
 
           <!-- plans -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">

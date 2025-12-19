@@ -51,7 +51,7 @@ const _hoisted_6 = {
   class: "row g-3"
 };
 const _hoisted_7 = {
-  class: "col-lg-3 col-md-3 mobile-nav-frame shadow-lg rounded-4"
+  class: "col-lg-3 col-md-3 mobile-nav-frame"
 };
 const _hoisted_8 = {
   class: "progress-indicator mb-3"
