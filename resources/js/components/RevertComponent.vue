@@ -798,7 +798,7 @@
           <!-- common asked questions -->
           <!-- chapter-specific tool -->
           <div v-if="chapterTool" class="content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card">
-            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
+            <div class="card-header d-flex align-items-center gap-3 flex-wrap py-2 position-relative">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon" aria-hidden="true">
                   <i :class="chapterTool.icon || 'bi bi-tools'"></i>
@@ -808,27 +808,38 @@
                   <p class="text-muted small mb-0">{{ chapterTool.description }}</p>
                 </div>
               </div>
+              <div class="chapter-tool-header-actions">
+                <button
+                  type="button"
+                  class="chapter-tool-open"
+                  @click="openChapterToolNewTab"
+                  aria-label="Open {{ chapterTool.title }} in a new tab">
+                  <i class="bi bi-box-arrow-up-right"></i>
+                </button>
+              </div>
             </div>
-            <div class="card-body px-3 px-md-4 py-4">
+            <div class="card-body px-2 px-md-3 py-3">
               <div class="chapter-tool-content" @click.stop @mousedown.stop @touchstart.stop @keydown.stop>
                 <div class="chapter-tool-scroll">
-                  <Suspense>
-                    <template #default>
-                      <component
-                        v-if="chapterToolComponent"
-                        :is="chapterToolComponent"
-                        class="chapter-tool-embed">
-                      </component>
-                      <div v-else class="chapter-tool-fallback text-center">
-                        <p class="text-muted mb-3">Unable to load this tool right now.</p>
-                      </div>
-                    </template>
-                    <template #fallback>
-                      <div class="text-center text-muted py-5">
-                        Loading {{ chapterTool.title }}…
-                      </div>
-                    </template>
-                  </Suspense>
+                  <div class="chapter-tool-zoom">
+                    <Suspense>
+                      <template #default>
+                        <component
+                          v-if="chapterToolComponent"
+                          :is="chapterToolComponent"
+                          class="chapter-tool-embed">
+                        </component>
+                        <div v-else class="chapter-tool-fallback text-center">
+                          <p class="text-muted mb-3">Unable to load this tool right now.</p>
+                        </div>
+                      </template>
+                      <template #fallback>
+                        <div class="text-center text-muted py-5">
+                          Loading {{ chapterTool.title }}…
+                        </div>
+                      </template>
+                    </Suspense>
+                  </div>
                 </div>
               </div>
             </div>
