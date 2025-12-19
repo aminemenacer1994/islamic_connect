@@ -398,6 +398,7 @@ export default defineComponent({
       videoGenderFilter: 'all',
       videoBackgroundFilter: 'all',
       durationFilters: DURATION_FILTERS,
+      showScrollFab: false,
       genderFilters: GENDER_FILTERS,
       showVideoFilters: true,
       reflectionNotes: {},
@@ -835,12 +836,15 @@ export default defineComponent({
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0)
     })
+    window.addEventListener('scroll', this.updateScrollFab, { passive: true })
+    this.updateScrollFab()
     this.$nextTick(() => {
       this.confettiEnabled = true
     })
   },
 
   beforeUnmount() {
+    window.removeEventListener('scroll', this.updateScrollFab)
     this.teardownMotionPreference()
     this.teardownPreviewAutoplayPreference()
     if (this.touchPlaybackTimer) {
@@ -884,6 +888,25 @@ export default defineComponent({
         if (!confettiFn) return
         fullScreenConfetti(confettiFn)
       })
+    },
+
+    updateScrollFab() {
+      if (typeof window === 'undefined') {
+        this.showScrollFab = false
+        return
+      }
+      const doc = document.documentElement
+      const scrollableHeight = doc.scrollHeight - window.innerHeight
+      if (scrollableHeight <= 0) {
+        this.showScrollFab = false
+        return
+      }
+      this.showScrollFab = window.scrollY / scrollableHeight > (1 / 6)
+    },
+
+    scrollToTop() {
+      if (typeof window === 'undefined') return
+      window.scrollTo({ top: 0, behavior: 'smooth' })
     },
 
     initializeMotionPreference() {

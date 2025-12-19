@@ -44,7 +44,7 @@
       <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-lg-3 col-md-3 mobile-nav-frame">
+        <aside class="col-lg-3 col-md-3 mobile-nav-frame" style="border:1px solid #000; border-radius:16px;">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
@@ -1266,6 +1266,17 @@
         </section>
       </div>
     </main>
+
+    <transition name="scroll-fab" appear>
+      <button
+        v-if="showScrollFab"
+        class="scroll-top-fab d-flex align-items-center justify-content-center shadow"
+        type="button"
+        aria-label="Scroll to top"
+        @click="scrollToTop">
+        <i class="bi bi-arrow-up-short fs-1 text-white"></i>
+      </button>
+    </transition>
 
       <div v-if="showResourceModal">
         <div class="modal-backdrop fade show custom-modal-backdrop"></div>

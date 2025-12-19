@@ -4429,6 +4429,47 @@ p{
   color: #0ea5e9;
 }
 
+.scroll-top-fab {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom, 0) + clamp(1.5rem, 3.5vw, 2.5rem));
+  right: calc(env(safe-area-inset-right, 0) + clamp(1.5rem, 3.5vw, 2.5rem));
+  width: clamp(44px, 3vw, 56px);
+  height: clamp(44px, 3vw, 56px);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  background: linear-gradient(135deg, #0f766e, #28d3b7);
+  color: #fff;
+  z-index: 1200;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 20px 48px rgba(15, 23, 42, 0.38), 0 8px 18px rgba(15, 23, 42, 0.32);
+  backdrop-filter: blur(18px);
+}
+
+.scroll-fab-enter-active,
+.scroll-fab-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.scroll-fab-enter-from,
+.scroll-fab-leave-to {
+  opacity: 0;
+  transform: translateY(1rem) scale(0.95);
+}
+
+.scroll-top-fab:hover {
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 24px 55px rgba(15, 23, 42, 0.45), 0 10px 25px rgba(15, 23, 42, 0.28);
+}
+
+.scroll-top-fab:focus-visible {
+  outline: 3px solid rgba(94, 234, 212, 0.9);
+  outline-offset: 2px;
+}
+
 .revert-shell * {
   border: none !important;
 }
