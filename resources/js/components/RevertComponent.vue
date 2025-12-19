@@ -814,7 +814,7 @@
                   class="chapter-tool-open"
                   @click="openChapterToolNewTab"
                   aria-label="Open {{ chapterTool.title }} in a new tab">
-                  <i class="bi bi-box-arrow-up-right"></i>
+                  <i class="bi bi-box-arrow-up-right fs-4"></i>
                 </button>
               </div>
             </div>
