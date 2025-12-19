@@ -1,4 +1,4 @@
-import { defineComponent } from 'vue'
+import { defineComponent, defineAsyncComponent } from 'vue'
 import roadmapData from './data/roadmap.json'
 import quizzesData from './data/quizzes.json'
 import faqChapters from './data/faqs.json'
@@ -101,6 +101,45 @@ const DEFAULT_DAILY_CHALLENGES = [
     description: 'Attach today’s insight to a prayer, commute, or quiet moment.'
   }
 ]
+
+const CHAPTER_TOOL_MAP = {
+  1: {
+    title: 'Islamic Glossary',
+    description: 'Look up unfamiliar terms while the foundation is still fresh.',
+    icon: 'bi-book',
+    component: defineAsyncComponent(() => import('./MuslimComponent.vue'))
+  },
+  3: {
+    title: 'Zakat Calculator',
+    description: 'Estimate your obligatory charity as you explore the pillars.',
+    icon: 'bi-cash-stack',
+    component: defineAsyncComponent(() => import('./ZakatComponent.vue'))
+  },
+  4: {
+    title: 'Surah Explorer',
+    description: 'Search the Qur’an text and recitations without leaving the chapter.',
+    icon: 'bi-menu-book',
+    component: defineAsyncComponent(() => import('./SuratComponent.vue'))
+  },
+  5: {
+    title: 'Seerah Timeline',
+    description: 'Trace the Prophet ﷺ’s story while the lessons stay anchored.',
+    icon: 'bi-people-fill',
+    component: defineAsyncComponent(() => import('./MissionComponent.vue'))
+  },
+  6: {
+    title: 'Mosque Locator',
+    description: 'Find a welcoming mosque near you as you learn about prayer.',
+    icon: 'bi-geo-alt-fill',
+    component: defineAsyncComponent(() => import('./MosqueComponent.vue'))
+  },
+  7: {
+    title: 'Prayer Times & Timetable',
+    description: 'Check today’s Salah times and the monthly schedule in one glance.',
+    icon: 'bi-clock',
+    component: defineAsyncComponent(() => import('./PrayerComponent.vue'))
+  }
+}
 
 const videoTagCache = new WeakMap()
 const videoGenderCache = new WeakMap()
@@ -552,7 +591,12 @@ export default defineComponent({
     commonFaqHasMore() {
       return this.chapterCommonPanels.length > this.commonFaqDisplayLimit
     },
-
+    chapterTool() {
+      return CHAPTER_TOOL_MAP[this.selectedPill] || null
+    },
+    chapterToolComponent() {
+      return this.chapterTool?.component || null
+    },
     guidanceCards() {
       const chapterId = this.currentLesson?.chapterId
       if (!chapterId) return []
@@ -1346,7 +1390,6 @@ export default defineComponent({
       }
       this.mobileNavOpen = false
     },
-
     stepStatusLabel(step) {
       if (step.id < this.maxStepReached) return 'Completed'
       if (step.id === this.maxStepReached) return 'In progress'
