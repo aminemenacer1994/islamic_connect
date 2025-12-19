@@ -1170,7 +1170,19 @@
                       <p class="mb-0 small fw-semibold text-teal">{{ quizProgressLabel }}</p>
                     </div>
                   </div>
-                  <!-- <div class="quiz-focus-panel mb-3">
+                  <div class="quiz-motivation-panel mb-3 shadow-sm rounded-4">
+                    <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
+                      <div class="quiz-motivation-icon d-flex align-items-center justify-content-center">
+                        <i class="bi bi-lightning-charge-fill fs-5"></i>
+                      </div>
+                      <div class="flex-grow-1">
+                        <p class="mb-0 fw-semibold">{{ motivationalMessage }}</p>
+                        <p class="text-muted small mb-0">{{ motivationalHint }}</p>
+                      </div>
+                    </div>
+                    <span class="quiz-stage-pill mt-2">{{ quizStageLabel }}</span>
+                  </div>
+                  <div class="quiz-focus-panel mb-3">
                     <div class="quiz-focus-detail">
                       <p class="text-muted small mb-1 text-uppercase">Section focus</p>
                       <p class="fw-semibold mb-0">{{ currentQuizSectionTitle }}</p>
@@ -1184,7 +1196,7 @@
                         <span :style="{ width: `${quizMomentumPercent}%` }"></span>
                       </div>
                     </div>
-                  </div> -->
+                  </div>
                   <h3 class="fw-semibold text-dark mb-2 quiz-question">{{ currentQuestion.question }}</h3>
                   <div class="quiz-options-grid">
                     <button v-for="option in currentQuestion.options" :key="option" type="button"
