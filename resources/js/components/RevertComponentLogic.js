@@ -103,47 +103,33 @@ const DEFAULT_DAILY_CHALLENGES = [
 ]
 
 const CHAPTER_TOOL_MAP = {
-  1: {
-    title: 'Islamic Glossary',
-    description: 'Look up unfamiliar terms while the foundation is still fresh.',
-    icon: 'bi-book',
-    component: defineAsyncComponent(() => import('./MuslimComponent.vue'))
-    , route: '/muslim'
-  },
-  3: {
-    title: 'Zakat Calculator',
-    description: 'Estimate your obligatory charity as you explore the pillars.',
-    icon: 'bi-cash-stack',
-    component: defineAsyncComponent(() => import('./ZakatComponent.vue'))
-    , route: '/zakat'
-  },
   4: {
     title: 'Surah Explorer',
     description: 'Search the Qur’an text and recitations without leaving the chapter.',
     icon: 'bi-menu-book',
-    component: defineAsyncComponent(() => import('./SuratComponent.vue'))
-    , route: '/surat'
+    component: defineAsyncComponent(() => import('./SuratComponent.vue')),
+    route: '/surat'
   },
   5: {
     title: 'Seerah Timeline',
     description: 'Trace the Prophet ﷺ’s story while the lessons stay anchored.',
     icon: 'bi-people-fill',
-    component: defineAsyncComponent(() => import('./MissionComponent.vue'))
-    , route: '/mission'
+    component: defineAsyncComponent(() => import('./MissionComponent.vue')),
+    route: '/mission'
   },
   6: {
-    title: 'Mosque Locator',
-    description: 'Find a welcoming mosque near you as you learn about prayer.',
-    icon: 'bi-geo-alt-fill',
-    component: defineAsyncComponent(() => import('./MosqueComponent.vue'))
-    , route: '/mosque'
+    title: 'Prayer Calendar',
+    description: 'Review the upcoming Salah schedule and special nights.',
+    icon: 'bi-calendar3',
+    component: defineAsyncComponent(() => import('./CalendarComponent.vue')),
+    route: '/calendar'
   },
   7: {
-    title: 'Prayer Times & Timetable',
-    description: 'Check today’s Salah times and the monthly schedule in one glance.',
-    icon: 'bi-clock',
-    component: defineAsyncComponent(() => import('./PrayerComponent.vue'))
-    , route: '/prayer'
+    title: 'Dua & Dhikr Suite',
+    description: 'Access curated duas and reminders while studying the Dua chapter.',
+    icon: 'bi-heart',
+    component: defineAsyncComponent(() => import('./DuaComponent.vue')),
+    route: '/dua'
   }
 }
 

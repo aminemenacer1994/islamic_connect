@@ -2335,20 +2335,6 @@ const DEFAULT_DAILY_CHALLENGES = [{
   description: 'Attach today’s insight to a prayer, commute, or quiet moment.'
 }];
 const CHAPTER_TOOL_MAP = {
-  1: {
-    title: 'Islamic Glossary',
-    description: 'Look up unfamiliar terms while the foundation is still fresh.',
-    icon: 'bi-book',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_MuslimComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./MuslimComponent.vue */ "./resources/js/components/MuslimComponent.vue"))),
-    route: '/muslim'
-  },
-  3: {
-    title: 'Zakat Calculator',
-    description: 'Estimate your obligatory charity as you explore the pillars.',
-    icon: 'bi-cash-stack',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_ZakatComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./ZakatComponent.vue */ "./resources/js/components/ZakatComponent.vue"))),
-    route: '/zakat'
-  },
   4: {
     title: 'Surah Explorer',
     description: 'Search the Qur’an text and recitations without leaving the chapter.',
@@ -2364,18 +2350,18 @@ const CHAPTER_TOOL_MAP = {
     route: '/mission'
   },
   6: {
-    title: 'Mosque Locator',
-    description: 'Find a welcoming mosque near you as you learn about prayer.',
-    icon: 'bi-geo-alt-fill',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_MosqueComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./MosqueComponent.vue */ "./resources/js/components/MosqueComponent.vue"))),
-    route: '/mosque'
+    title: 'Prayer Calendar',
+    description: 'Review the upcoming Salah schedule and special nights.',
+    icon: 'bi-calendar3',
+    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_CalendarComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./CalendarComponent.vue */ "./resources/js/components/CalendarComponent.vue"))),
+    route: '/calendar'
   },
   7: {
-    title: 'Prayer Times & Timetable',
-    description: 'Check today’s Salah times and the monthly schedule in one glance.',
-    icon: 'bi-clock',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_PrayerComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./PrayerComponent.vue */ "./resources/js/components/PrayerComponent.vue"))),
-    route: '/prayer'
+    title: 'Dua & Dhikr Suite',
+    description: 'Access curated duas and reminders while studying the Dua chapter.',
+    icon: 'bi-heart',
+    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_DuaComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./DuaComponent.vue */ "./resources/js/components/DuaComponent.vue"))),
+    route: '/dua'
   }
 };
 const videoTagCache = new WeakMap();
