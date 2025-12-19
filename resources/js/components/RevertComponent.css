@@ -278,6 +278,11 @@
   transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
+.video-card-media,
+.clip-thumbnail {
+  min-height: 220px;
+}
+
 .video-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 32px 60px rgba(15, 23, 42, 0.25);
@@ -672,7 +677,9 @@
   border-radius: 16px;
   padding: 1.2rem 1.8rem;
   font-size: 1.1rem;
-  min-width: 360px;
+  width: min(90vw, 360px);
+  max-width: 360px;
+  box-sizing: border-box;
   box-shadow: 0 15px 40px rgba(16, 197, 129, 0.25);
   backdrop-filter: blur(12px);
   border-left: 6px solid #10b981;
@@ -692,7 +699,9 @@
   border-radius: 12px;
   padding: 0.85rem 1rem;
   font-size: 0.95rem;
-  min-width: 260px;
+  width: min(85vw, 280px);
+  max-width: 280px;
+  box-sizing: border-box;
   background: #ffffff;
   border: 1px solid rgba(59, 130, 246, 0.35);
   box-shadow: 0 4px 15px rgba(15, 23, 42, 0.15);
@@ -1615,6 +1624,29 @@ p{
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+}
+
+@media (min-width: 992px) {
+  .plan-card__body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .plan-highlight {
+    flex-direction: column;
+  }
+
+  .plan-highlight-body {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .plan-highlight-action {
+    align-self: flex-end;
+    margin-top: 0.35rem;
+  }
 }
 
 .plan-badge {
@@ -4003,6 +4035,9 @@ p{
     transition: transform 0.32s ease, box-shadow 0.32s ease;
     z-index: 1075;
     pointer-events: none;
+    max-height: 100vh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   .navigation-card.mobile-open {
@@ -4011,22 +4046,21 @@ p{
     pointer-events: auto;
   }
 
-.revert-content {
+  .revert-content {
     padding-left: 0.75rem;
     padding-right: 0.75rem;
-    min-height: 100vh;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: stretch;
+    min-height: auto;
+    height: auto;
+    overflow: visible;
+    display: block;
   }
 
   .revert-content .row {
     gap: 1.5rem;
-    min-height: 100vh;
-    flex: 1;
+    min-height: auto;
+    flex: none;
     margin: 0;
-    align-items: stretch;
+    align-items: flex-start;
     --bs-gutter-x: 0;
   }
   .revert-content .row > [class*='col-'] {
@@ -4100,6 +4134,57 @@ p{
 
   .navigation-card {
     width: 100%;
+  }
+
+.revert-content {
+  padding-top: 0.8rem !important;
+  padding-bottom: 0.8rem !important;
+}
+
+.revert-content .row {
+  gap: clamp(0.8rem, 1vw, 1.2rem);
+}
+}
+
+@media (max-width: 767.98px) {
+  .section-heading-actions h5.text-truncate {
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .section-heading-actions h5,
+  .content-card .card-header h3,
+  .content-card .card-header h2,
+  .plan-card__header h3 {
+    text-align: left;
+  }
+
+  .plan-card {
+    padding: 1.5rem;
+  }
+
+  .plan-card__header {
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .plan-card__meta {
+    text-align: left;
+  }
+
+  .plan-highlight {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .plan-highlight-body {
+    width: 100%;
+  }
+
+  .plan-highlight-action {
+    align-self: flex-start;
+    margin-top: 0.35rem;
   }
 }
 

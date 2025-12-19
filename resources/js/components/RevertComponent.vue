@@ -727,7 +727,9 @@
                   <article
                     class="video-card shadow-sm overflow-hidden h-100"
                     @mouseenter="startPreview(video)"
-                    @mouseleave="stopPreview">
+                    @mouseleave="stopPreview"
+                    @click="handleVideoCardClick(video)"
+                    @touchstart.stop.prevent="handleVideoCardTouch(video)">
                     <div class="video-card-media">
                       <div
                         v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
@@ -745,8 +747,7 @@
                       <div
                         v-else
                         class="video-feature"
-                        :style="thumbnailStyle(video)"
-                        @click="playVideo(video)">
+                        :style="thumbnailStyle(video)">
                         <div class="video-feature-overlay">
                           <div class="video-feature-text">
                           <p class="video-feature-label">Revert story</p>
@@ -1114,7 +1115,6 @@
               <div class="reflection-box mt-4">
                 <div class="d-flex align-items-center justify-content-between mb-2">
                   <p class="fw-semibold mb-0">Reflection note</p>
-                  <small class="text-muted">{{ currentLesson?.title }}</small>
                 </div>
                 <div class="reflection-actions mb-3">
                   <button
@@ -1384,10 +1384,12 @@
                 </div>
                 <div class="row g-3 video-grid-row">
                   <div v-for="video in filteredRevertStories" :key="'modal-' + video.title" class="col-12 col-md-6">
-                    <article
-                      class="video-card shadow-sm overflow-hidden h-100"
-                      @mouseenter="startPreview(video)"
-                      @mouseleave="stopPreview">
+                  <article
+                    class="video-card shadow-sm overflow-hidden h-100"
+                    @mouseenter="startPreview(video)"
+                    @mouseleave="stopPreview"
+                    @click="handleVideoCardClick(video)"
+                    @touchstart.stop.prevent="handleVideoCardTouch(video)">
                       <div class="video-card-media">
                         <div
                           v-if="isPlayingVideo(video) || isVideoPreviewing(video)"
@@ -1404,9 +1406,8 @@
                         </div>
                         <div
                           v-else
-                          class="video-feature"
-                          :style="thumbnailStyle(video)"
-                          @click="playVideo(video)">
+                        class="video-feature"
+                        :style="thumbnailStyle(video)">
                           <div class="video-feature-overlay">
                             <div class="video-feature-text">
                               <p class="video-feature-label">Revert story</p>
@@ -1816,10 +1817,8 @@ export default defineComponent({
       showSuccessAlert: false,
       successMessage: '',
       isWaitingForNext: false,
-      faqState: {},
       faqAccordionState: 0,
       commonAccordionState: 0,
-      faqStackState: null,
       showResourceModal: false,
       activeResource: null,
       showVideoModal: false,
@@ -1879,7 +1878,9 @@ export default defineComponent({
       sessionId: '',
       sessionReturning: false,
       previousSessionChapter: null,
-      sessionBannerVisible: false
+      sessionBannerVisible: false,
+      touchPlaybackTriggered: false,
+      touchPlaybackTimer: null
     }
   },
 
@@ -2199,10 +2200,6 @@ export default defineComponent({
     pathwayClips() {
       return this.chapterVideoEntry?.pathwayClips || []
     },
-    modalTagline() {
-      return this.activeResource?.tagline || 'Study carefully and revisit whenever you need clarity.'
-    }
-    ,
     currentOnboardingSteps() {
       return this.onboarding.find(o => o.chapterId === this.selectedPill)?.steps || []
     }
@@ -2315,6 +2312,10 @@ export default defineComponent({
   beforeUnmount() {
     this.teardownMotionPreference()
     this.teardownPreviewAutoplayPreference()
+    if (this.touchPlaybackTimer) {
+      clearTimeout(this.touchPlaybackTimer)
+      this.touchPlaybackTimer = null
+    }
   },
 
   methods: {
@@ -2798,19 +2799,6 @@ export default defineComponent({
       return 'Locked'
     },
 
-    toggleFaq(index) {
-      const chapterKey = this.currentLesson?.chapterId
-      if (!chapterKey) return
-      const current = this.faqState[chapterKey]
-      const next = current === index ? null : index
-      this.faqState = { ...this.faqState, [chapterKey]: next }
-    },
-
-    isFaqOpen(index) {
-      const chapterKey = this.currentLesson?.chapterId
-      return this.faqState[chapterKey] === index
-    },
-
     sectionStatsFor(title) {
       return this.sectionStatsMap.find(entry => entry.title === title)?.stats || []
     },
@@ -2928,15 +2916,6 @@ export default defineComponent({
       return index === 0
     },
 
-    toggleFaqStack(index) {
-      this.faqStackState = this.faqStackState === index ? null : index
-    },
-
-    isFaqStackOpen(index) {
-      if (this.faqStackState === null) return false
-      return this.faqStackState === index || (this.faqStackState === undefined && index === 0)
-    },
-
     formatVideoUrl(url, autoplay = false, muted = false) {
       if (!url) return ''
       let embedUrl = url
@@ -2982,6 +2961,22 @@ export default defineComponent({
       this.stopPreview()
       this.activeVideoId = null
       this.clipPlayerId = this.clipPlayerId === id ? null : id
+    },
+    handleVideoCardClick(video) {
+      if (this.touchPlaybackTriggered) return
+      this.playVideo(video)
+    },
+    handleVideoCardTouch(video) {
+      if (this.touchPlaybackTimer) {
+        clearTimeout(this.touchPlaybackTimer)
+      }
+      this.touchPlaybackTriggered = true
+      this.playVideo(video)
+      const timerTarget = typeof window !== 'undefined' ? window : globalThis
+      this.touchPlaybackTimer = timerTarget.setTimeout(() => {
+        this.touchPlaybackTriggered = false
+        this.touchPlaybackTimer = null
+      }, 400)
     },
     isClipPlaying(clip) {
       const id = this.getVideoId(clip?.url)
@@ -3136,33 +3131,6 @@ export default defineComponent({
       this.quizFeedback = ''
       this.quizStatus = null
       this.selectedOption = null
-    },
-    focusMission() {
-      const selector = '#mission-card'
-      const el = document.querySelector(selector)
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
-        el.classList.add('pulse-ring')
-        setTimeout(() => el.classList.remove('pulse-ring'), 1600)
-      }
-    },
-    jumpToMedia() {
-      this.scrollToSection('revert-stories-section')
-    },
-    launchSkimSection() {
-      const sectionId = `section-${this.selectedPill}-0`
-      this.scrollToSection(sectionId)
-    },
-    handleBadgeAction(badgeId) {
-      if (badgeId === 'quiz') {
-        this.scrollToNextButton()
-      } else if (badgeId === 'media') {
-        this.jumpToMedia()
-      } else if (badgeId === 'streak') {
-        this.scrollToTop()
-      } else if (badgeId === 'game') {
-        this.scrollToSection('daily-game-card')
-      }
     },
     openResource(resource) {
       this.activeResource = resource
