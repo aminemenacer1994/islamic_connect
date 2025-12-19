@@ -837,7 +837,7 @@
                 </span>
                 <div>
                   <h3 class="fw-bold mb-1">Troubleshooting Guides</h3>
-                  <p class="text-muted small mb-0">Quick fixes for the most common experience bumps.</p>
+                  <p class="text-muted small mb-0">Straightforward tips to smooth out the common hiccups.</p>
                 </div>
               </div>
             </div>

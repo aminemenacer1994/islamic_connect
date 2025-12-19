@@ -163,29 +163,29 @@ const REVERTS_GUIDE_STEPS = [
 const TROUBLESHOOTING_GUIDES = [
   {
     title: 'Chapters are locked',
-    description: 'Progress only unlocks once you pass the quiz for the current chapter.',
+    description: 'The next lessons open up once you finish the quiz for this chapter.',
     steps: [
-      'Confirm you answered at least 2 questions correctly.',
-      'Wait a few seconds for the Next Chapter button to become active.',
-      'If the quiz still locks, refresh the page and try the same chapter again.'
+      'Choose at least two correct answers before you leave the quiz.',
+      'Wait a few seconds so the Next Chapter button can turn on.',
+      'Still locked? Refresh the page and go through the chapter again.'
     ]
   },
   {
     title: 'Reflections not saving',
-    description: 'Reflection drafts are stored in your browser storage.',
+    description: 'Your thoughts stay right here so you can return to them anytime.',
     steps: [
-      'Ensure you have entered text in the reflection field before clicking Save.',
-      'Check your browser’s storage permissions; private mode may clear entries quickly.',
-      'Use the “Create new note” button to start fresh and save again.'
+      'Type your reflection before you tap Save.',
+      'Switch to regular browsing (not private) so the note can stay.',
+      'Want a fresh start? Tap “Create new note” and save again.'
     ]
   },
   {
     title: 'Video or clips won’t play',
-    description: 'Embedded media can be sensitive to autoplay and preview restrictions.',
+    description: 'Videos might wait for you to let the page know you are ready.',
     steps: [
-      'Allow browser autoplay by interacting with the page once.',
-      'Disable high-contrast or reduced-motion preferences temporarily while playing.',
-      'Reload the page if the clip preview still freezes, then retry the playback.'
+      'Tap anywhere on the page so it knows you are there.',
+      'Turn off high-contrast or reduced motion settings while the clip plays.',
+      'If it still freezes, refresh the page and try again.'
     ]
   }
 ]
@@ -1494,7 +1494,8 @@ export default defineComponent({
       return `${base}?${params.toString()}`
     },
     shouldAutoplayVideo() {
-      return this.previewAutoplayEnabled && !this.reduceMotionEnabled
+      // Force autoplay for every video experience regardless of motion prefs.
+      return true
     },
     startPreview(video) {
       if (this.isPlayingVideo(video) || this.isClipPlaying(video)) return

@@ -1582,7 +1582,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "btn btn-sm btn-link text-teal",
     onClick: _cache[31] || (_cache[31] = $event => _ctx.expandFaq('common'))
-  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('commonQuestions')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" troubleshooting guides "), _ctx.troubleshootingGuides.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_179, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap\" data-v-1d764944><div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-tools\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Troubleshooting Guides</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Quick fixes for the most common experience bumps.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.troubleshootingGuides, guide => {
+  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('commonQuestions')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" troubleshooting guides "), _ctx.troubleshootingGuides.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_179, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap\" data-v-1d764944><div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-tools\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Troubleshooting Guides</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Straightforward tips to smooth out the common hiccups.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.troubleshootingGuides, guide => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: guide.title,
       class: "col-12 col-md-4"
@@ -2241,16 +2241,16 @@ const REVERTS_GUIDE_STEPS = [{
 }];
 const TROUBLESHOOTING_GUIDES = [{
   title: 'Chapters are locked',
-  description: 'Progress only unlocks once you pass the quiz for the current chapter.',
-  steps: ['Confirm you answered at least 2 questions correctly.', 'Wait a few seconds for the Next Chapter button to become active.', 'If the quiz still locks, refresh the page and try the same chapter again.']
+  description: 'The next lessons open up once you finish the quiz for this chapter.',
+  steps: ['Choose at least two correct answers before you leave the quiz.', 'Wait a few seconds so the Next Chapter button can turn on.', 'Still locked? Refresh the page and go through the chapter again.']
 }, {
   title: 'Reflections not saving',
-  description: 'Reflection drafts are stored in your browser storage.',
-  steps: ['Ensure you have entered text in the reflection field before clicking Save.', 'Check your browser’s storage permissions; private mode may clear entries quickly.', 'Use the “Create new note” button to start fresh and save again.']
+  description: 'Your thoughts stay right here so you can return to them anytime.',
+  steps: ['Type your reflection before you tap Save.', 'Switch to regular browsing (not private) so the note can stay.', 'Want a fresh start? Tap “Create new note” and save again.']
 }, {
   title: 'Video or clips won’t play',
-  description: 'Embedded media can be sensitive to autoplay and preview restrictions.',
-  steps: ['Allow browser autoplay by interacting with the page once.', 'Disable high-contrast or reduced-motion preferences temporarily while playing.', 'Reload the page if the clip preview still freezes, then retry the playback.']
+  description: 'Videos might wait for you to let the page know you are ready.',
+  steps: ['Tap anywhere on the page so it knows you are there.', 'Turn off high-contrast or reduced motion settings while the clip plays.', 'If it still freezes, refresh the page and try again.']
 }];
 const getConfettiScale = () => {
   if (typeof window === 'undefined') return 1;
@@ -3552,7 +3552,8 @@ const celebrateFinalChapter = confettiFn => {
       return `${base}?${params.toString()}`;
     },
     shouldAutoplayVideo() {
-      return this.previewAutoplayEnabled && !this.reduceMotionEnabled;
+      // Force autoplay for every video experience regardless of motion prefs.
+      return true;
     },
     startPreview(video) {
       if (this.isPlayingVideo(video) || this.isClipPlaying(video)) return;
