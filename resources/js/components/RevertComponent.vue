@@ -798,11 +798,11 @@
                 <i class="bi" :class="isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="isCardVisible('commonQuestions')">
-              <div class="accordion-stack">
-                <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
-                  <button type="button"
-                    class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
+          <div v-show="isCardVisible('commonQuestions')">
+            <div class="accordion-stack">
+              <div v-for="(panel, index) in visibleCommonPanels" :key="panel.id" class="accordion-item-card">
+                <button type="button"
+                  class="faq-question accordion-trigger d-flex justify-content-between align-items-center w-100"
                     :class="{ expanded: isAccordionOpen('common', index) }" @click="toggleAccordion('common', index)">
                     <span>{{ panel.title }}</span>
                     <i class="bi"
@@ -810,18 +810,51 @@
                   </button>
                   <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
                     <div v-html="panel.body"></div>
-                  </div>
                 </div>
               </div>
-              <div v-if="commonFaqHasMore" class="text-center mt-3">
-                <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
-                  Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
-                </button>
+            </div>
+            <div v-if="commonFaqHasMore" class="text-center mt-3">
+              <button type="button" class="btn btn-sm btn-link text-teal" @click="expandFaq('common')">
+                Show {{ chapterCommonPanels.length - commonFaqDisplayLimit }} more
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- troubleshooting guides -->
+        <div v-if="troubleshootingGuides.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card">
+          <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap">
+            <div class="d-flex align-items-center gap-3 flex-grow-1">
+              <span class="card-header-icon">
+                <i class="bi bi-tools"></i>
+              </span>
+              <div>
+                <h3 class="fw-bold mb-1">Troubleshooting Guides</h3>
+                <p class="text-muted small mb-0">Quick fixes for the most common experience bumps.</p>
               </div>
             </div>
           </div>
+          <div class="card-body px-3 px-md-4 py-3">
+            <div class="row g-3">
+              <div v-for="guide in troubleshootingGuides" :key="guide.title" class="col-12 col-md-4">
+                <article class="troubleshooting-guide-card h-100 p-3 rounded-4 border">
+                  <h4 class="fw-semibold mb-2 fs-6">{{ guide.title }}</h4>
+                  <p class="text-muted small mb-3">{{ guide.description }}</p>
+                  <ul class="list-unstyled mb-0 troubleshooting-steps">
+                    <li v-for="step in guide.steps" :key="step">
+                      <span class="step-icon">
+                        <i class="bi bi-caret-right-fill"></i>
+                      </span>
+                      <span>{{ step }}</span>
+                    </li>
+                  </ul>
+                </article>
+              </div>
+            </div>
+          </div>
+        </div>
 
-          <!-- motivation -->
+        <!-- motivation -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
@@ -1597,6 +1630,36 @@ const REVERTS_GUIDE_STEPS = [
   }
 ]
 
+const TROUBLESHOOTING_GUIDES = [
+  {
+    title: 'Chapters are locked',
+    description: 'Progress only unlocks once you pass the quiz for the current chapter.',
+    steps: [
+      'Confirm you answered at least 2 questions correctly.',
+      'Wait a few seconds for the Next Chapter button to become active.',
+      'If the quiz still locks, refresh the page and try the same chapter again.'
+    ]
+  },
+  {
+    title: 'Reflections not saving',
+    description: 'Reflection drafts are stored in your browser storage.',
+    steps: [
+      'Ensure you have entered text in the reflection field before clicking Save.',
+      'Check your browser’s storage permissions; private mode may clear entries quickly.',
+      'Use the “Create new note” button to start fresh and save again.'
+    ]
+  },
+  {
+    title: 'Video or clips won’t play',
+    description: 'Embedded media can be sensitive to autoplay and preview restrictions.',
+    steps: [
+      'Allow browser autoplay by interacting with the page once.',
+      'Disable high-contrast or reduced-motion preferences temporarily while playing.',
+      'Reload the page if the clip preview still freezes, then retry the playback.'
+    ]
+  }
+]
+
 const getConfettiScale = () => {
   if (typeof window === 'undefined') return 1
   if (window.innerWidth >= 1400) return 0.55
@@ -1811,7 +1874,12 @@ export default defineComponent({
       reflectionNotes: {},
       reflectionInput: '',
       reflectionStatus: '',
-      successAlertTimeout: null
+      successAlertTimeout: null,
+      troubleshootingGuides: TROUBLESHOOTING_GUIDES,
+      sessionId: '',
+      sessionReturning: false,
+      previousSessionChapter: null,
+      sessionBannerVisible: false
     }
   },
 
