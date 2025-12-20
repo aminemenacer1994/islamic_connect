@@ -943,7 +943,7 @@
             <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
               <div class="d-flex flex-column gap-2">
                 <p class="text-muted medium mb-0">{{ motivationalMessage }}</p>
-                <medium class="text-teal fs-6">{{ motivationalHint }}</medium>
+                <span class="text-teal fs-6">{{ motivationalHint }}</span>
               </div>
             </div>
           </div>
@@ -970,76 +970,78 @@
               </button>
             </div>
             <div v-show="isCardVisible('curatedPlans')">
-              <div v-if="secondarySectionsReady && chapterFaqPanels.length">
+              <div class="card-body px-4 pb-0 pt-0">
                 <div v-if="currentChapterPlans.length">
-                  <div class="card-body px-4 pb-0 pt-0">
-                    <div class="row g-3">
-                      <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
-                        <article class="plan-card rounded-5 p-4 ">
-                          <div class="plan-card__header d-flex align-items-start justify-content-between gap-3">
-                            <div>
-                              <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
-                              <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
-                              <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p>
-                            </div>
-                            <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
+                  <div class="row g-3">
+                    <div v-for="plan in currentChapterPlans" :key="plan.planId" class="col-12 col-md-4">
+                      <article class="plan-card rounded-5 p-4 ">
+                        <div class="plan-card__header d-flex align-items-start justify-content-between gap-3">
+                          <div>
+                            <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
+                            <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
+                            <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p>
                           </div>
-                          <div class="plan-card__divider" aria-hidden="true"></div>
-                          <div class="plan-card__body">
-                            <ul class="plan-highlights list-unstyled mb-3">
-                              <li
-                                v-for="(highlight, index) in plan.highlights"
-                                :key="`${plan.planId}-${index}`"
-                                class="plan-highlight"
+                          <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
+                        </div>
+                        <div class="plan-card__divider" aria-hidden="true"></div>
+                        <div class="plan-card__body">
+                          <ul class="plan-highlights list-unstyled mb-3">
+                            <li
+                              v-for="(highlight, index) in plan.highlights"
+                              :key="`${plan.planId}-${index}`"
+                              class="plan-highlight"
+                              :class="{ completed: isCuratedHighlightCompleted(plan.planId, index) }"
+                            >
+                              <div class="plan-highlight-body">
+                                <span class="plan-highlight-icon" aria-hidden="true"></span>
+                                <span class="plan-highlight-text">{{ highlight }}</span>
+                              </div>
+                              <button
+                                type="button"
+                                class="plan-highlight-action"
                                 :class="{ completed: isCuratedHighlightCompleted(plan.planId, index) }"
+                                :aria-pressed="isCuratedHighlightCompleted(plan.planId, index)"
+                                :aria-label="isCuratedHighlightCompleted(plan.planId, index) ? 'Highlight completed' : 'Mark highlight as complete'"
+                                @click="toggleCuratedHighlightCompletion(plan.planId, index, plan.title, plan.highlights?.length || 0)"
                               >
-                                <div class="plan-highlight-body">
-                                  <span class="plan-highlight-icon" aria-hidden="true"></span>
-                                  <span class="plan-highlight-text">{{ highlight }}</span>
-                                </div>
-                                <button
-                                  type="button"
-                                  class="plan-highlight-action"
-                                  :class="{ completed: isCuratedHighlightCompleted(plan.planId, index) }"
-                                  :aria-pressed="isCuratedHighlightCompleted(plan.planId, index)"
-                                  :aria-label="isCuratedHighlightCompleted(plan.planId, index) ? 'Highlight completed' : 'Mark highlight as complete'"
-                                  @click="toggleCuratedHighlightCompletion(plan.planId, index, plan.title, plan.highlights?.length || 0)"
-                                >
-                                  <i class="bi" :class="isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'"></i>
-                                  <span class="plan-highlight-action-text">
-                                    {{ isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete' }}
-                                  </span>
-                                </button>
-                              </li>
-                            </ul>
+                                <i class="bi" :class="isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'"></i>
+                                <span class="plan-highlight-action-text">
+                                  {{ isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete' }}
+                                </span>
+                              </button>
+                            </li>
+                          </ul>
+                        </div>
+                        <div class="plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
+                          <p class="mb-0 text-muted small plan-card__meta">
+                            Crafted for the {{ plan.duration.toLowerCase() }} rhythm.
+                          </p>
+                          <div class="plan-action-icons" role="group" aria-label="Plan actions">
+                            <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
+                              <i class="bi bi-whatsapp"></i>
+                              <span class="visually-hidden">Share plan</span>
+                            </button>
+                            <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
+                              <i class="bi bi-clipboard"></i>
+                              <span class="visually-hidden">Copy plan</span>
+                            </button>
+                            <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
+                              <i class="bi bi-printer"></i>
+                              <span class="visually-hidden">Print plan</span>
+                            </button>
+                            <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
+                              <i class="bi bi-file-earmark-pdf"></i>
+                              <span class="visually-hidden">Download plan</span>
+                            </button>
                           </div>
-                          <div class="plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3">
-                            <p class="mb-0 text-muted small plan-card__meta">
-                              Crafted for the {{ plan.duration.toLowerCase() }} rhythm.
-                            </p>
-                            <div class="plan-action-icons" role="group" aria-label="Plan actions">
-                              <button type="button" class="plan-action-icon plan-action-share" @click="sharePlan(plan)" :title="'Share ' + plan.title">
-                                <i class="bi bi-whatsapp"></i>
-                                <span class="visually-hidden">Share plan</span>
-                              </button>
-                              <button type="button" class="plan-action-icon plan-action-copy" @click="copyPlan(plan)" :title="'Copy ' + plan.title">
-                                <i class="bi bi-clipboard"></i>
-                                <span class="visually-hidden">Copy plan</span>
-                              </button>
-                              <button type="button" class="plan-action-icon plan-action-print" @click="printPlan(plan)" :title="'Print ' + plan.title">
-                                <i class="bi bi-printer"></i>
-                                <span class="visually-hidden">Print plan</span>
-                              </button>
-                              <button type="button" class="plan-action-icon plan-action-download" @click="downloadPlanAsPdf(plan)" :title="'Download ' + plan.title">
-                                <i class="bi bi-file-earmark-pdf"></i>
-                                <span class="visually-hidden">Download plan</span>
-                              </button>
-                            </div>
-                          </div>
-                        </article>
-                      </div>
+                        </div>
+                      </article>
                     </div>
                   </div>
+                </div>
+                <div v-else class="text-muted small pt-3">
+                  <p class="mb-1">Curated plans are loading, or new guides are being prepared for this chapter.</p>
+                  <p class="mb-0">Check back after you visit the lesson overview and guided pathways.</p>
                 </div>
               </div>
             </div>
