@@ -2649,7 +2649,8 @@ const celebrateFinalChapter = confettiFn => {
       previousSessionChapter: null,
       sessionBannerVisible: false,
       touchPlaybackTriggered: false,
-      touchPlaybackTimer: null
+      touchPlaybackTimer: null,
+      scrollTopRetryTimer: null
     };
   },
   computed: {
@@ -2999,6 +3000,7 @@ const celebrateFinalChapter = confettiFn => {
       this.chapterQuizPassed = false;
       this.resetQuizSet();
       this.scrollToTop();
+      this.scheduleScrollTopRetry();
       this.faqAccordionState = null;
       this.commonAccordionState = null;
       this.activeVideoId = null;
@@ -3105,6 +3107,10 @@ const celebrateFinalChapter = confettiFn => {
     window.removeEventListener('scroll', this.updateScrollFab);
     this.teardownMotionPreference();
     this.teardownPreviewAutoplayPreference();
+    if (this.scrollTopRetryTimer) {
+      clearTimeout(this.scrollTopRetryTimer);
+      this.scrollTopRetryTimer = null;
+    }
     if (this.touchPlaybackTimer) {
       clearTimeout(this.touchPlaybackTimer);
       this.touchPlaybackTimer = null;
@@ -3168,6 +3174,21 @@ const celebrateFinalChapter = confettiFn => {
         top: 0,
         behavior: 'smooth'
       });
+    },
+    /**
+     * Resets the scroll position again after the initial navigation to cooperate with any
+     * late DOM changes (e.g., accordion expansion or video loading) that might push the
+     * viewport downward.
+     */
+    scheduleScrollTopRetry(delay = 220) {
+      if (typeof window === 'undefined') return;
+      if (this.scrollTopRetryTimer) {
+        clearTimeout(this.scrollTopRetryTimer);
+      }
+      this.scrollTopRetryTimer = window.setTimeout(() => {
+        this.scrollToTop();
+        this.scrollTopRetryTimer = null;
+      }, delay);
     },
     initializeMotionPreference() {
       if (typeof window === 'undefined' || !('matchMedia' in window)) return;
