@@ -133,6 +133,13 @@ const CHAPTER_TOOL_MAP = {
   }
 }
 
+const CONFETTI_EXCLUDED_CHAPTERS = new Set([9])
+
+const shouldCelebrateChapter = (chapterId) => {
+  if (chapterId == null) return true
+  return !CONFETTI_EXCLUDED_CHAPTERS.has(chapterId)
+}
+
 const videoTagCache = new WeakMap()
 const videoGenderCache = new WeakMap()
 const videoDurationCache = new WeakMap()
@@ -918,6 +925,8 @@ export default defineComponent({
     launchMicroConfetti() {
       // Skip celebration when the user prefers reduced motion.
       if (this.reduceMotionEnabled) return
+      const chapterId = this.currentLesson?.chapterId
+      if (!shouldCelebrateChapter(chapterId)) return
       this.ensureConfettiScript().then(() => {
         this.setupConfettiLauncher()
         const confettiFn = this.confettiLauncher || window.confetti
@@ -1012,7 +1021,9 @@ export default defineComponent({
     },
 
     triggerConfetti(isFinalChapter, options = {}) {
-      const { skipScroll = false } = options
+      const { skipScroll = false, celebrationChapterId = null } = options
+      const chapterId = celebrationChapterId ?? this.currentLesson?.chapterId ?? this.selectedPill
+      if (!shouldCelebrateChapter(chapterId)) return
       if (!skipScroll) {
         this.scrollToTop()
       }
@@ -1731,8 +1742,9 @@ export default defineComponent({
         this.isWaitingForNext = true
 
         // FULL-SCREEN CONFETTI PARTY!
+        const celebratingChapterId = this.selectedPill
         this.$nextTick(() => {
-          this.triggerConfetti(isFinalChapter)
+          this.triggerConfetti(isFinalChapter, { celebrationChapterId: celebratingChapterId })
         })
 
         // Auto hide toast

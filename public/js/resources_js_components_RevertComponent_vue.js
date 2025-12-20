@@ -2380,6 +2380,11 @@ const CHAPTER_TOOL_MAP = {
     route: '/dua'
   }
 };
+const CONFETTI_EXCLUDED_CHAPTERS = new Set([9]);
+const shouldCelebrateChapter = chapterId => {
+  if (chapterId == null) return true;
+  return !CONFETTI_EXCLUDED_CHAPTERS.has(chapterId);
+};
 const videoTagCache = new WeakMap();
 const videoGenderCache = new WeakMap();
 const videoDurationCache = new WeakMap();
@@ -3132,8 +3137,11 @@ const celebrateFinalChapter = confettiFn => {
       return this.confettiPromise;
     },
     launchMicroConfetti() {
+      var _this$currentLesson19;
       // Skip celebration when the user prefers reduced motion.
       if (this.reduceMotionEnabled) return;
+      const chapterId = (_this$currentLesson19 = this.currentLesson) === null || _this$currentLesson19 === void 0 ? void 0 : _this$currentLesson19.chapterId;
+      if (!shouldCelebrateChapter(chapterId)) return;
       this.ensureConfettiScript().then(() => {
         this.setupConfettiLauncher();
         const confettiFn = this.confettiLauncher || window.confetti;
@@ -3223,9 +3231,13 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     triggerConfetti(isFinalChapter, options = {}) {
+      var _ref, _this$currentLesson20;
       const {
-        skipScroll = false
+        skipScroll = false,
+        celebrationChapterId = null
       } = options;
+      const chapterId = (_ref = celebrationChapterId !== null && celebrationChapterId !== void 0 ? celebrationChapterId : (_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.chapterId) !== null && _ref !== void 0 ? _ref : this.selectedPill;
+      if (!shouldCelebrateChapter(chapterId)) return;
       if (!skipScroll) {
         this.scrollToTop();
       }
@@ -3403,7 +3415,7 @@ const celebrateFinalChapter = confettiFn => {
       localStorage.setItem('dailyChallengeStatus', JSON.stringify(this.dailyChallengeStatus));
       localStorage.setItem('dailyChallengeDate', todayKey);
     },
-    dailyChallengeStorageKey(promptId, chapterId = (_this$currentLesson19 => (_this$currentLesson19 = this.currentLesson) === null || _this$currentLesson19 === void 0 ? void 0 : _this$currentLesson19.chapterId)()) {
+    dailyChallengeStorageKey(promptId, chapterId = (_this$currentLesson21 => (_this$currentLesson21 = this.currentLesson) === null || _this$currentLesson21 === void 0 ? void 0 : _this$currentLesson21.chapterId)()) {
       if (chapterId == null) return promptId;
       return `${chapterId}-${promptId}`;
     },
@@ -3412,14 +3424,14 @@ const celebrateFinalChapter = confettiFn => {
       return `gentle-${chapterId}-${stepIndex}`;
     },
     isGentleStepCompleted(stepIndex) {
-      var _this$currentLesson20;
-      const chapterId = (_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.chapterId;
+      var _this$currentLesson22;
+      const chapterId = (_this$currentLesson22 = this.currentLesson) === null || _this$currentLesson22 === void 0 ? void 0 : _this$currentLesson22.chapterId;
       const key = this.gentleStepCompletionKey(chapterId, stepIndex);
       return Boolean(key && this.gentleStepCompletion[key]);
     },
     toggleGentleStepCompletion(stepIndex) {
-      var _this$currentLesson21;
-      const chapterId = (_this$currentLesson21 = this.currentLesson) === null || _this$currentLesson21 === void 0 ? void 0 : _this$currentLesson21.chapterId;
+      var _this$currentLesson23;
+      const chapterId = (_this$currentLesson23 = this.currentLesson) === null || _this$currentLesson23 === void 0 ? void 0 : _this$currentLesson23.chapterId;
       const key = this.gentleStepCompletionKey(chapterId, stepIndex);
       if (!key) return;
       const nextValue = !this.gentleStepCompletion[key];
@@ -3470,8 +3482,8 @@ const celebrateFinalChapter = confettiFn => {
       }
     },
     syncReflectionInput() {
-      var _this$currentLesson22;
-      const chapterId = (_this$currentLesson22 = this.currentLesson) === null || _this$currentLesson22 === void 0 ? void 0 : _this$currentLesson22.chapterId;
+      var _this$currentLesson24;
+      const chapterId = (_this$currentLesson24 = this.currentLesson) === null || _this$currentLesson24 === void 0 ? void 0 : _this$currentLesson24.chapterId;
       if (!chapterId) {
         this.reflectionInput = '';
         return;
@@ -3490,8 +3502,8 @@ const celebrateFinalChapter = confettiFn => {
       this.saveReflectionNote();
     },
     saveReflectionNote() {
-      var _this$currentLesson23;
-      const chapterId = (_this$currentLesson23 = this.currentLesson) === null || _this$currentLesson23 === void 0 ? void 0 : _this$currentLesson23.chapterId;
+      var _this$currentLesson25;
+      const chapterId = (_this$currentLesson25 = this.currentLesson) === null || _this$currentLesson25 === void 0 ? void 0 : _this$currentLesson25.chapterId;
       if (!chapterId) return;
       const text = this.reflectionInput.trim();
       const nextNotes = _objectSpread({}, this.reflectionNotes);
@@ -3641,8 +3653,8 @@ const celebrateFinalChapter = confettiFn => {
       this.showVideoFilters = !this.showVideoFilters;
     },
     toggleLessonOverviewRead() {
-      var _this$currentLesson24;
-      const chapterId = (_this$currentLesson24 = this.currentLesson) === null || _this$currentLesson24 === void 0 ? void 0 : _this$currentLesson24.chapterId;
+      var _this$currentLesson26;
+      const chapterId = (_this$currentLesson26 = this.currentLesson) === null || _this$currentLesson26 === void 0 ? void 0 : _this$currentLesson26.chapterId;
       if (!chapterId) return;
       const nextValue = !Boolean(this.lessonOverviewRead[chapterId]);
       this.lessonOverviewRead = _objectSpread(_objectSpread({}, this.lessonOverviewRead), {}, {
@@ -3914,8 +3926,11 @@ const celebrateFinalChapter = confettiFn => {
         this.isWaitingForNext = true;
 
         // FULL-SCREEN CONFETTI PARTY!
+        const celebratingChapterId = this.selectedPill;
         this.$nextTick(() => {
-          this.triggerConfetti(isFinalChapter);
+          this.triggerConfetti(isFinalChapter, {
+            celebrationChapterId: celebratingChapterId
+          });
         });
 
         // Auto hide toast
@@ -4222,13 +4237,13 @@ const celebrateFinalChapter = confettiFn => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson25;
-      const message = `Duas to carry from ${((_this$currentLesson25 = this.currentLesson) === null || _this$currentLesson25 === void 0 ? void 0 : _this$currentLesson25.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson27;
+      const message = `Duas to carry from ${((_this$currentLesson27 = this.currentLesson) === null || _this$currentLesson27 === void 0 ? void 0 : _this$currentLesson27.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson26;
-      const text = `Duas to carry from ${((_this$currentLesson26 = this.currentLesson) === null || _this$currentLesson26 === void 0 ? void 0 : _this$currentLesson26.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson28;
+      const text = `Duas to carry from ${((_this$currentLesson28 = this.currentLesson) === null || _this$currentLesson28 === void 0 ? void 0 : _this$currentLesson28.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -4257,8 +4272,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     formatPlanMessage(plan) {
-      var _this$currentLesson27, _plan$highlights;
-      const chapterTitle = ((_this$currentLesson27 = this.currentLesson) === null || _this$currentLesson27 === void 0 ? void 0 : _this$currentLesson27.title) || 'this chapter';
+      var _this$currentLesson29, _plan$highlights;
+      const chapterTitle = ((_this$currentLesson29 = this.currentLesson) === null || _this$currentLesson29 === void 0 ? void 0 : _this$currentLesson29.title) || 'this chapter';
       const highlights = ((_plan$highlights = plan.highlights) === null || _plan$highlights === void 0 ? void 0 : _plan$highlights.map((item, index) => `${index + 1}. ${item}`).join('\n')) || '';
       return `${plan.title} (${plan.duration}) for ${chapterTitle}\n${plan.description}\n\nHighlights:\n${highlights}`;
     },
@@ -4275,8 +4290,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     executePlanPrint(plan) {
-      var _this$currentLesson28;
-      const title = `${plan.title} • ${((_this$currentLesson28 = this.currentLesson) === null || _this$currentLesson28 === void 0 ? void 0 : _this$currentLesson28.title) || 'Chapter'}`;
+      var _this$currentLesson30;
+      const title = `${plan.title} • ${((_this$currentLesson30 = this.currentLesson) === null || _this$currentLesson30 === void 0 ? void 0 : _this$currentLesson30.title) || 'Chapter'}`;
       const body = this.formatPlanMessage(plan);
       this.printContent(title, body);
     },
@@ -4285,7 +4300,7 @@ const celebrateFinalChapter = confettiFn => {
     },
     downloadPlanAsPdf(plan) {
       try {
-        var _this$currentLesson29, _plan$highlights2, _this$currentLesson30;
+        var _this$currentLesson31, _plan$highlights2, _this$currentLesson32;
         const doc = new jspdf__WEBPACK_IMPORTED_MODULE_20__.jsPDF({
           unit: 'pt',
           format: 'letter'
@@ -4306,14 +4321,14 @@ const celebrateFinalChapter = confettiFn => {
           doc.text(lines, margin, cursorY);
           cursorY += heightNeeded + 12;
         };
-        const titleText = `${plan.title} • ${((_this$currentLesson29 = this.currentLesson) === null || _this$currentLesson29 === void 0 ? void 0 : _this$currentLesson29.title) || 'Chapter'}`;
+        const titleText = `${plan.title} • ${((_this$currentLesson31 = this.currentLesson) === null || _this$currentLesson31 === void 0 ? void 0 : _this$currentLesson31.title) || 'Chapter'}`;
         addText(titleText, 18, 'bold');
         addText(plan.description, 12, 'normal');
         (_plan$highlights2 = plan.highlights) === null || _plan$highlights2 === void 0 || _plan$highlights2.forEach((line, index) => {
           const text = `${index + 1}. ${line}`;
           addText(text, 11, 'normal');
         });
-        const slug = (((_this$currentLesson30 = this.currentLesson) === null || _this$currentLesson30 === void 0 ? void 0 : _this$currentLesson30.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+        const slug = (((_this$currentLesson32 = this.currentLesson) === null || _this$currentLesson32 === void 0 ? void 0 : _this$currentLesson32.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
         doc.save(`${plan.planId}-${slug || 'plan'}.pdf`);
       } catch (error) {
         console.error('Unable to create PDF', error);
@@ -4370,10 +4385,10 @@ const celebrateFinalChapter = confettiFn => {
           }, 700);
         }
       } else {
-        var _question$sectionInde3, _this$currentLesson31;
+        var _question$sectionInde3, _this$currentLesson33;
         this.quizFeedback = 'Not quite, try another option.';
         const sectionIndex = (_question$sectionInde3 = question.sectionIndex) !== null && _question$sectionInde3 !== void 0 ? _question$sectionInde3 : 0;
-        const section = (_this$currentLesson31 = this.currentLesson) === null || _this$currentLesson31 === void 0 || (_this$currentLesson31 = _this$currentLesson31.sections) === null || _this$currentLesson31 === void 0 ? void 0 : _this$currentLesson31[sectionIndex];
+        const section = (_this$currentLesson33 = this.currentLesson) === null || _this$currentLesson33 === void 0 || (_this$currentLesson33 = _this$currentLesson33.sections) === null || _this$currentLesson33 === void 0 ? void 0 : _this$currentLesson33[sectionIndex];
         const sectionId = section ? `section-${this.selectedPill}-${sectionIndex}` : '';
         const explanation = question.explanation || '';
         if (explanation) {
