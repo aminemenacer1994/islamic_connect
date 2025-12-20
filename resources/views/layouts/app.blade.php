@@ -262,7 +262,7 @@
                         </button>
 
                         <!-- <button class="button" type="button" onclick="window.location.href='/muslim'">
-                        <svg
+                            <svg
                                 viewBox="0 0 24 24"
                                 height="24"
                                 width="24"
@@ -314,30 +314,30 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary"><b>Services</b></a>
                         </li>
 
-                        <!-- <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary">Packages</a>
-                        </li> -->
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary"><b>Packages</b></a>
+                        </li> 
 
-                        <!-- <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary">Donations</a>
-                        </li> -->
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary"><b>Donations</b></a>
+                        </li>
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/about" data-path="/about" data-nav-item="primary">About Us</a>
                         </li> -->
 
                         <!-- @guest -->
-                        <!-- @if (Route::has('login'))
-                        <li class="nav-item  pl-3 mt-2">
-                            <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary">{{ __('Login') }}</a>
+                        @if (Route::has('login'))
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary"><b>{{ __('Login') }}</b></a>
                         </li>
-                        @endif -->
-                        <!-- @if (Route::has('register'))
-                    <li class="nav-item display-6 pl-3 mt-2">
+                        @endif
+                        @if (Route::has('register'))
+                    <!-- <li class="nav-item display-6 pl-3 mt-2">
                         <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
-                    </li>
-                    @endif -->
-                        <!-- @else
+                    </li> -->
+                    @endif
+                        @else
                         <li class="nav-item dropdown pl-3 mt-2">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" aria-label="User menu" data-nav-item="primary" v-pre>
@@ -356,7 +356,7 @@
                                 </form>
                             </div>
                         </li>
-                        @endguest -->
+                        @endguest
                         <!-- <li class="pl-4 pb-2 pt-3"> 
                         <button class="button-36" role="button">
                             <span>
