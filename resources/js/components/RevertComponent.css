@@ -4724,3 +4724,99 @@ p{
   transform: scale(0.92);
   transform-origin: top center;
 }
+
+/* subtle animation helpers */
+.section-content-wrapper {
+  overflow: hidden;
+}
+
+.section-collapse-enter-active,
+.section-collapse-leave-active {
+  transition: opacity 0.36s cubic-bezier(0.4, 0, 0.2, 1), transform 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: top;
+}
+
+.section-collapse-enter-from,
+.section-collapse-leave-to {
+  opacity: 0;
+  transform: translateY(-6px) scaleY(0.98);
+}
+
+.section-collapse-enter-to,
+.section-collapse-leave-from {
+  opacity: 1;
+  transform: translateY(0) scaleY(1);
+}
+
+.content-card,
+.lesson-header,
+.actions-card {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: cardFadeIn 0.6s ease-out forwards;
+  animation-delay: 0.08s;
+  will-change: opacity, transform;
+}
+
+.lesson-header {
+  animation-delay: 0.02s;
+}
+
+.actions-card {
+  animation-delay: 0.12s;
+}
+
+.clip-card,
+.video-card,
+.troubleshooting-guide-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clip-card:hover,
+.video-card:hover,
+.troubleshooting-guide-card:hover {
+  transform: translateY(-4px);
+}
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-collapse-enter-active,
+  .section-collapse-leave-active,
+  .content-card,
+  .lesson-header,
+  .actions-card,
+  .clip-card,
+  .video-card,
+  .troubleshooting-guide-card {
+    animation: none !important;
+    transition: none !important;
+  }
+  .content-card,
+  .lesson-header,
+  .actions-card {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+.reduce-motion .section-content-wrapper {
+  transition: none !important;
+}
+
+.revert-shell.reduce-motion .content-card,
+.revert-shell.reduce-motion .lesson-header,
+.revert-shell.reduce-motion .actions-card {
+  opacity: 1 !important;
+  transform: none !important;
+  animation: none !important;
+}

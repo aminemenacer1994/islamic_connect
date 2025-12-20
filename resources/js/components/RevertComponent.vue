@@ -302,32 +302,34 @@
                       </button>
                     </div>
                   </div>
-                  <div
-                    v-show="isSectionVisible(section.toggleKey)"
-                    :id="`section-content-${section.toggleKey}`"
-                    class="section-content-wrapper">
-                    <div class="section-content text-dark fs-6 lh-lg"
-                      :style="{ fontSize: `${overviewFontScale}rem` }">
-                      {{ section.content }}
-                    </div>
-                    <div class="mt-3 small text-muted">
-                      <p v-if="section.references" class="mb-1">
-                        <strong class="me-2">Reference:</strong>
-                        <span class="text-dark">{{ section.references }}</span>
-                      </p>
-                      <p v-if="section.resources" class="mb-0">
-                        <strong class="me-2">Resource:</strong>
-                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
-                      </p>
-                    </div>
-                    <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                      <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
-                        <strong>{{ stat.value }}</strong>
-                        <small class="text-muted">{{ stat.label }}</small>
+                  <transition name="section-collapse" appear>
+                    <div
+                      v-if="isSectionVisible(section.toggleKey)"
+                      :id="`section-content-${section.toggleKey}`"
+                      class="section-content-wrapper">
+                      <div class="section-content text-dark fs-6 lh-lg"
+                        :style="{ fontSize: `${overviewFontScale}rem` }">
+                        {{ section.content }}
                       </div>
+                      <div class="mt-3 small text-muted">
+                        <p v-if="section.references" class="mb-1">
+                          <strong class="me-2">Reference:</strong>
+                          <span class="text-dark">{{ section.references }}</span>
+                        </p>
+                        <p v-if="section.resources" class="mb-0">
+                          <strong class="me-2">Resource:</strong>
+                          <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                        </p>
+                      </div>
+                      <div v-if="sectionStatsFor(section.heading).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                        <div v-for="stat in sectionStatsFor(section.heading)" :key="stat.label" class="section-stat-card">
+                          <strong>{{ stat.value }}</strong>
+                          <small class="text-muted">{{ stat.label }}</small>
+                        </div>
+                      </div>
+                      <div class="pt-3 mt-3"></div>
                     </div>
-                    <div class="pt-3 mt-3"></div>
-                  </div>
+                  </transition>
                 </div>
               </div>
               <div v-else-if="lessonSectionsWithKeys.length" class="overview-section-list">
@@ -353,38 +355,40 @@
                       </button>
                     </div>
                   </div>
-                  <div
-                    v-show="isSectionVisible(section.toggleKey)"
-                    :id="`section-content-${section.toggleKey}`"
-                    class="section-content-wrapper">
-                    <div class="section-content text-dark fs-6 lh-lg"
-                      :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
-                    <div class="mt-3 medium text-muted">
-                      <p v-if="section.references" class="mb-1">
-                        <strong class="me-2">Reference:</strong>
-                        <span class="text-dark">{{ section.references }}</span>
-                      </p>
-                      <p v-if="section.resources" class="mb-0">
-                        <strong class="me-2">Resource:</strong>
-                        <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
-                      </p>
-                    </div>
-                    <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
-                      <div class="deep-dive-header d-flex align-items-center mb-2">
-                        <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
-                        <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
+                  <transition name="section-collapse" appear>
+                    <div
+                      v-if="isSectionVisible(section.toggleKey)"
+                      :id="`section-content-${section.toggleKey}`"
+                      class="section-content-wrapper">
+                      <div class="section-content text-dark fs-6 lh-lg"
+                        :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                      <div class="mt-3 medium text-muted">
+                        <p v-if="section.references" class="mb-1">
+                          <strong class="me-2">Reference:</strong>
+                          <span class="text-dark">{{ section.references }}</span>
+                        </p>
+                        <p v-if="section.resources" class="mb-0">
+                          <strong class="me-2">Resource:</strong>
+                          <a :href="section.resources" target="_blank" rel="noreferrer" class="text-teal">View source</a>
+                        </p>
                       </div>
-                      <div class="deep-dive-content text-dark fs-6"
-                        :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
-                    </div>
-                    <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
-                      <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
-                        <strong>{{ stat.value }}</strong>
-                        <span class="text-muted">{{ stat.label }}</span>
+                      <div v-if="section.deepDive" class="background mt-4 w-100 py-3 px-4 rounded-4 border">
+                        <div class="deep-dive-header d-flex align-items-center mb-2">
+                          <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
+                          <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
+                        </div>
+                        <div class="deep-dive-content text-dark fs-6"
+                          :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
                       </div>
+                      <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
+                        <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
+                          <strong>{{ stat.value }}</strong>
+                          <span class="text-muted">{{ stat.label }}</span>
+                        </div>
+                      </div>
+                      <div class="pt-3 mt-3"></div>
                     </div>
-                    <div class="pt-3 mt-3"></div>
-                  </div>
+                  </transition>
                 </div>
               </div>
             </div>
