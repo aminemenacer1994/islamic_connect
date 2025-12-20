@@ -1616,9 +1616,32 @@ export default defineComponent({
       videoUrlIdCache.set(normalizedUrl, id)
       return id
     },
+    youTubeThumbnailUrls(video) {
+      const videoId = this.getVideoId(video?.url)
+      if (!videoId) return []
+      return [
+        `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`,
+        `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`,
+        `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+      ]
+    },
     thumbnailStyle(video) {
+      const thumbnails = this.youTubeThumbnailUrls(video)
+      const baseStyle = {
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }
+      if (thumbnails.length) {
+        const overlay = 'linear-gradient(180deg, rgba(5, 150, 105, 0.25), rgba(5, 23, 42, 0))'
+        return {
+          ...baseStyle,
+          backgroundImage: [overlay, ...thumbnails.map(url => `url(${url})`)].join(', ')
+        }
+      }
       const accent = this.videoAccentPair(video)
       return {
+        ...baseStyle,
         backgroundImage: `linear-gradient(145deg, ${accent.primary}, ${accent.secondary}), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%)`
       }
     },

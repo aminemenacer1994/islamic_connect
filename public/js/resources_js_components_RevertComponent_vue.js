@@ -3798,11 +3798,28 @@ const celebrateFinalChapter = confettiFn => {
       videoUrlIdCache.set(normalizedUrl, id);
       return id;
     },
+    youTubeThumbnailUrls(video) {
+      const videoId = this.getVideoId(video === null || video === void 0 ? void 0 : video.url);
+      if (!videoId) return [];
+      return [`https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`, `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`, `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`];
+    },
     thumbnailStyle(video) {
-      const accent = this.videoAccentPair(video);
-      return {
-        backgroundImage: `linear-gradient(145deg, ${accent.primary}, ${accent.secondary}), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%)`
+      const thumbnails = this.youTubeThumbnailUrls(video);
+      const baseStyle = {
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
       };
+      if (thumbnails.length) {
+        const overlay = 'linear-gradient(180deg, rgba(5, 150, 105, 0.25), rgba(5, 23, 42, 0))';
+        return _objectSpread(_objectSpread({}, baseStyle), {}, {
+          backgroundImage: [overlay, ...thumbnails.map(url => `url(${url})`)].join(', ')
+        });
+      }
+      const accent = this.videoAccentPair(video);
+      return _objectSpread(_objectSpread({}, baseStyle), {}, {
+        backgroundImage: `linear-gradient(145deg, ${accent.primary}, ${accent.secondary}), radial-gradient(circle at 20% 20%, rgba(255,255,255,0.35), transparent 45%)`
+      });
     },
     videoAccentPair(video) {
       const palette = VIDEO_ACCENT_PAIRS;
