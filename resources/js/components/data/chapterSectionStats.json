@@ -594,274 +594,6 @@
     "chapterId": 7,
     "sectionStats": [
       {
-        "title": "Family Adab",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "12 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Family Adab today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 60%"
-          }
-        ]
-      },
-      {
-        "title": "Digital Etiquette",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "14 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Digital Etiquette today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 65%"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "chapterId": 8,
-    "sectionStats": [
-      {
-        "title": "Halal Nutrition",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "12 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Halal Nutrition today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 60%"
-          }
-        ]
-      },
-      {
-        "title": "Digital Boundaries",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "14 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Digital Boundaries today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 65%"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "chapterId": 9,
-    "sectionStats": [
-      {
-        "title": "Hosting with Heart",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "12 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Hosting with Heart today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 60%"
-          }
-        ]
-      },
-      {
-        "title": "Conflict Resolution",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "14 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Conflict Resolution today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 65%"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "chapterId": 10,
-    "sectionStats": [
-      {
-        "title": "Spiritual Goal Setting",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "12 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Spiritual Goal Setting today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 60%"
-          }
-        ]
-      },
-      {
-        "title": "Legacy Planning",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "14 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Legacy Planning today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 65%"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "chapterId": 11,
-    "sectionStats": [
-      {
-        "title": "Moments Between This Life and the Next",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "12 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Moments Between This Life and the Next today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 60%"
-          }
-        ]
-      },
-      {
-        "title": "Judgment Day: Balance Fear and Hope",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "14 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Judgment Day: Balance Fear and Hope today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 65%"
-          }
-        ]
-      },
-      {
-        "title": "Charity That Continues After Passing",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "16 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Charity That Continues After Passing today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 70%"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "chapterId": 12,
-    "sectionStats": [
-      {
-        "title": "Gardens Below Which Rivers Flow",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "12 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Gardens Below Which Rivers Flow today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 60%"
-          }
-        ]
-      },
-      {
-        "title": "The Fire of Hell and Lessons from the Warnings",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "14 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect The Fire of Hell and Lessons from the Warnings today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 65%"
-          }
-        ]
-      },
-      {
-        "title": "Living with Both Realities",
-        "stats": [
-          {
-            "label": "Focus window",
-            "value": "16 min focus"
-          },
-          {
-            "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Living with Both Realities today?"
-          },
-          {
-            "label": "Confidence",
-            "value": "Confidence 70%"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "chapterId": 13,
-    "sectionStats": [
-      {
         "title": "Dua as Conversation",
         "stats": [
           {
@@ -915,7 +647,141 @@
     ]
   },
   {
-    "chapterId": 14,
+    "chapterId": 8,
+    "sectionStats": [
+      {
+        "title": "Detecting Heart Diseases",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "12 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Detecting Heart Diseases today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 60%"
+          }
+        ]
+      },
+      {
+        "title": "Softening Through Dhikr and Charity",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "14 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Softening Through Dhikr and Charity today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 65%"
+          }
+        ]
+      },
+      {
+        "title": "Focus Amid Distractions",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "16 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Focus Amid Distractions today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 70%"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "sectionStats": [
+      {
+        "title": "Family Adab",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "12 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Family Adab today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 60%"
+          }
+        ]
+      },
+      {
+        "title": "Digital Etiquette",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "14 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Digital Etiquette today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 65%"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "sectionStats": [
+      {
+        "title": "Halal Nutrition",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "12 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Halal Nutrition today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 60%"
+          }
+        ]
+      },
+      {
+        "title": "Digital Boundaries",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "14 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Digital Boundaries today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 65%"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
     "sectionStats": [
       {
         "title": "Marital Mercy",
@@ -971,10 +837,10 @@
     ]
   },
   {
-    "chapterId": 15,
+    "chapterId": 12,
     "sectionStats": [
       {
-        "title": "Detecting Heart Diseases",
+        "title": "Hosting with Heart",
         "stats": [
           {
             "label": "Focus window",
@@ -982,7 +848,7 @@
           },
           {
             "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Detecting Heart Diseases today?"
+            "value": "Ask yourself: How does this reflect Hosting with Heart today?"
           },
           {
             "label": "Confidence",
@@ -991,7 +857,7 @@
         ]
       },
       {
-        "title": "Softening Through Dhikr and Charity",
+        "title": "Conflict Resolution",
         "stats": [
           {
             "label": "Focus window",
@@ -999,7 +865,85 @@
           },
           {
             "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Softening Through Dhikr and Charity today?"
+            "value": "Ask yourself: How does this reflect Conflict Resolution today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 65%"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "sectionStats": [
+      {
+        "title": "Spiritual Goal Setting",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "12 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Spiritual Goal Setting today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 60%"
+          }
+        ]
+      },
+      {
+        "title": "Legacy Planning",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "14 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Legacy Planning today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 65%"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "sectionStats": [
+      {
+        "title": "Moments Between This Life and the Next",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "12 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Moments Between This Life and the Next today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 60%"
+          }
+        ]
+      },
+      {
+        "title": "Judgment Day: Balance Fear and Hope",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "14 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Judgment Day: Balance Fear and Hope today?"
           },
           {
             "label": "Confidence",
@@ -1008,7 +952,7 @@
         ]
       },
       {
-        "title": "Focus Amid Distractions",
+        "title": "Charity That Continues After Passing",
         "stats": [
           {
             "label": "Focus window",
@@ -1016,7 +960,63 @@
           },
           {
             "label": "Reflection prompt",
-            "value": "Ask yourself: How does this reflect Focus Amid Distractions today?"
+            "value": "Ask yourself: How does this reflect Charity That Continues After Passing today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 70%"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "sectionStats": [
+      {
+        "title": "Gardens Below Which Rivers Flow",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "12 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Gardens Below Which Rivers Flow today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 60%"
+          }
+        ]
+      },
+      {
+        "title": "The Fire of Hell and Lessons from the Warnings",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "14 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect The Fire of Hell and Lessons from the Warnings today?"
+          },
+          {
+            "label": "Confidence",
+            "value": "Confidence 65%"
+          }
+        ]
+      },
+      {
+        "title": "Living with Both Realities",
+        "stats": [
+          {
+            "label": "Focus window",
+            "value": "16 min focus"
+          },
+          {
+            "label": "Reflection prompt",
+            "value": "Ask yourself: How does this reflect Living with Both Realities today?"
           },
           {
             "label": "Confidence",

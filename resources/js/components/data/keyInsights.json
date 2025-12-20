@@ -67,72 +67,6 @@
   },
   {
     "chapterId": 7,
-    "chapter": "The Manners: Adab That Elevates Every Encounter",
-    "keyInsights": [
-      "Good manners invite Allah's mercy.",
-      "Gentle speech wins hearts.",
-      "Adab is silent da'wah.",
-      "Consistency rewrites culture.",
-      "Service humbles the soul."
-    ]
-  },
-  {
-    "chapterId": 8,
-    "chapter": "The Lifestyle: Halal Living, Habits, and Harmony",
-    "keyInsights": [
-      "Halal choices shield your heart.",
-      "Rest is fuel, not laziness.",
-      "Simplicity invites creativity.",
-      "Mindful meals raise gratitude.",
-      "Discipline invites barakah."
-    ]
-  },
-  {
-    "chapterId": 9,
-    "chapter": "The Community: Building Ummah, Support, and Uplift",
-    "keyInsights": [
-      "Shared meals nourish hearts.",
-      "Service multiplies iman.",
-      "Mentorship keeps wisdom alive.",
-      "Compassion is contagious.",
-      "Consistency builds trust."
-    ]
-  },
-  {
-    "chapterId": 10,
-    "chapter": "The Future: Continuous Growth and Legacy",
-    "keyInsights": [
-      "Consistency compounds like interest.",
-      "Legacy is service, not prize.",
-      "Vision paired with dua outruns fear.",
-      "Documenting progress keeps you accountable.",
-      "Hope in Allah outlives discomfort."
-    ]
-  },
-  {
-    "chapterId": 11,
-    "chapter": "Hereafter Realities Death, Resurrection, and Mercy",
-    "keyInsights": [
-      "Remembering the grave rewires our priorities toward meaningful actions.",
-      "Every deed carries weight on the Day of Judgment; intentions matter more than appearances.",
-      "Sadaqah and dua can continue rewarding you after you leave this world.",
-      "Hope in Allah's mercy keeps the heart from despair even when accountability feels heavy.",
-      "Consistent muhasabah is the compass that keeps you on the straight path."
-    ]
-  },
-  {
-    "chapterId": 12,
-    "chapter": "Paradise and Hell Rewards, Warnings, and Motivation",
-    "keyInsights": [
-      "Paradise is as real as the hope you nurture in your dua.",
-      "Hell serves as a necessary boundary that sharpens your covenant with Allah.",
-      "Balance gratitude with caution so hope doesn't turn into complacency.",
-      "Visual reminders of Jannah and Jahannam make daily choices meaningful.",
-      "Supplications requesting Paradise and refuge from fire keep the heart soft."
-    ]
-  },
-  {
-    "chapterId": 13,
     "chapter": "Dua and Dhikr, Weapons of the Heart",
     "keyInsights": [
       "Dua strengthens the bond between you and Allah more than any ritual.",
@@ -143,7 +77,40 @@
     ]
   },
   {
-    "chapterId": 14,
+    "chapterId": 8,
+    "chapter": "Purifying the Heart softness, Humility and Focus",
+    "keyInsights": [
+      "A purified heart changes every external routine into worship.",
+      "Envy and pride fade when you celebrate others and thank Allah.",
+      "Self-accounting keeps your focus on the straight path.",
+      "Softness comes through consistent dhikr, dua, and service.",
+      "Reliance on Allah steadies the heart amid trials."
+    ]
+  },
+  {
+    "chapterId": 9,
+    "chapter": "The Manners: Adab That Elevates Every Encounter",
+    "keyInsights": [
+      "Good manners invite Allah's mercy.",
+      "Gentle speech wins hearts.",
+      "Adab is silent da'wah.",
+      "Consistency rewrites culture.",
+      "Service humbles the soul."
+    ]
+  },
+  {
+    "chapterId": 10,
+    "chapter": "The Lifestyle: Halal Living, Habits, and Harmony",
+    "keyInsights": [
+      "Halal choices shield your heart.",
+      "Rest is fuel, not laziness.",
+      "Simplicity invites creativity.",
+      "Mindful meals raise gratitude.",
+      "Discipline invites barakah."
+    ]
+  },
+  {
+    "chapterId": 11,
     "chapter": "Family, Marriage, Mercy, Dialogue and Legacy",
     "keyInsights": [
       "Mercy and patience are more foundational than compatibility alone.",
@@ -154,14 +121,47 @@
     ]
   },
   {
-    "chapterId": 15,
-    "chapter": "Purifying the Heart softness, Humility and Focus",
+    "chapterId": 12,
+    "chapter": "The Community: Building Ummah, Support, and Uplift",
     "keyInsights": [
-      "A purified heart changes every external routine into worship.",
-      "Envy and pride fade when you celebrate others and thank Allah.",
-      "Self-accounting keeps your focus on the straight path.",
-      "Softness comes through consistent dhikr, dua, and service.",
-      "Reliance on Allah steadies the heart amid trials."
+      "Shared meals nourish hearts.",
+      "Service multiplies iman.",
+      "Mentorship keeps wisdom alive.",
+      "Compassion is contagious.",
+      "Consistency builds trust."
+    ]
+  },
+  {
+    "chapterId": 13,
+    "chapter": "The Future: Continuous Growth and Legacy",
+    "keyInsights": [
+      "Consistency compounds like interest.",
+      "Legacy is service, not prize.",
+      "Vision paired with dua outruns fear.",
+      "Documenting progress keeps you accountable.",
+      "Hope in Allah outlives discomfort."
+    ]
+  },
+  {
+    "chapterId": 14,
+    "chapter": "Hereafter Realities Death, Resurrection, and Mercy",
+    "keyInsights": [
+      "Remembering the grave rewires our priorities toward meaningful actions.",
+      "Every deed carries weight on the Day of Judgment; intentions matter more than appearances.",
+      "Sadaqah and dua can continue rewarding you after you leave this world.",
+      "Hope in Allah's mercy keeps the heart from despair even when accountability feels heavy.",
+      "Consistent muhasabah is the compass that keeps you on the straight path."
+    ]
+  },
+  {
+    "chapterId": 15,
+    "chapter": "Paradise and Hell Rewards, Warnings, and Motivation",
+    "keyInsights": [
+      "Paradise is as real as the hope you nurture in your dua.",
+      "Hell serves as a necessary boundary that sharpens your covenant with Allah.",
+      "Balance gratitude with caution so hope doesn't turn into complacency.",
+      "Visual reminders of Jannah and Jahannam make daily choices meaningful.",
+      "Supplications requesting Paradise and refuge from fire keep the heart soft."
     ]
   }
 ]

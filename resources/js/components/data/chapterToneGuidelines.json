@@ -55,60 +55,6 @@
   },
   {
     "chapterId": 7,
-    "title": "Islamic manners",
-    "guidelines": [
-      "Use tone that models adab rather than demanding it.",
-      "Call attention to wins in patience instead of pointing out slips.",
-      "Appreciate the effort behind gentler speech."
-    ]
-  },
-  {
-    "chapterId": 8,
-    "title": "Islamic lifestyle",
-    "guidelines": [
-      "Describe lifestyle shifts as experiments with love for halal living.",
-      "Encourage readers to swap one habit lightly instead of overhauling all.",
-      "Stay inclusive about rest, play, and self-care."
-    ]
-  },
-  {
-    "chapterId": 9,
-    "title": "Islamic community",
-    "guidelines": [
-      "Talk about community through shared care, not competition.",
-      "Invite people to try a small act of service without guilt.",
-      "Offer questions that spark connection."
-    ]
-  },
-  {
-    "chapterId": 10,
-    "title": "Islamic future",
-    "guidelines": [
-      "Use tone that sees future planning as hopeful exploration.",
-      "Avoid pressuring readers with unrealistic timelines.",
-      "Affirm that consistent tiny goals outpace big leaps."
-    ]
-  },
-  {
-    "chapterId": 11,
-    "title": "Islamic hereafter",
-    "guidelines": [
-      "Balance reminders of judgment with Allah's mercy in every sentence.",
-      "Encourage reflection by asking gentle questions.",
-      "Share hope that accountability can be full of tawakkul."
-    ]
-  },
-  {
-    "chapterId": 12,
-    "title": "Islamic paradise and hell",
-    "guidelines": [
-      "Highlight paradise with inspiring imagery, not intimidation.",
-      "Talk about Hell as a nudge toward kindness, not a threat.",
-      "Invite readers to pray for refuge while staying upbeat."
-    ]
-  },
-  {
-    "chapterId": 13,
     "title": "Islamic dua dhkir",
     "guidelines": [
       "Let dua discussions feel like warm conversations with Allah.",
@@ -117,7 +63,34 @@
     ]
   },
   {
-    "chapterId": 14,
+    "chapterId": 8,
+    "title": "Islamic heart",
+    "guidelines": [
+      "Position heart work as soft recovery, not harsh correction.",
+      "Celebrate humility in the wake of slip-ups.",
+      "Encourage gentle self-accounting and return to hope."
+    ]
+  },
+  {
+    "chapterId": 9,
+    "title": "Islamic manners",
+    "guidelines": [
+      "Use tone that models adab rather than demanding it.",
+      "Call attention to wins in patience instead of pointing out slips.",
+      "Appreciate the effort behind gentler speech."
+    ]
+  },
+  {
+    "chapterId": 10,
+    "title": "Islamic lifestyle",
+    "guidelines": [
+      "Describe lifestyle shifts as experiments with love for halal living.",
+      "Encourage readers to swap one habit lightly instead of overhauling all.",
+      "Stay inclusive about rest, play, and self-care."
+    ]
+  },
+  {
+    "chapterId": 11,
     "title": "Islamic family and marriage",
     "guidelines": [
       "Describe family work as compassionate partnership.",
@@ -126,12 +99,39 @@
     ]
   },
   {
-    "chapterId": 15,
-    "title": "Islamic heart",
+    "chapterId": 12,
+    "title": "Islamic community",
     "guidelines": [
-      "Position heart work as soft recovery, not harsh correction.",
-      "Celebrate humility in the wake of slip-ups.",
-      "Encourage gentle self-accounting and return to hope."
+      "Talk about community through shared care, not competition.",
+      "Invite people to try a small act of service without guilt.",
+      "Offer questions that spark connection."
+    ]
+  },
+  {
+    "chapterId": 13,
+    "title": "Islamic future",
+    "guidelines": [
+      "Use tone that sees future planning as hopeful exploration.",
+      "Avoid pressuring readers with unrealistic timelines.",
+      "Affirm that consistent tiny goals outpace big leaps."
+    ]
+  },
+  {
+    "chapterId": 14,
+    "title": "Islamic hereafter",
+    "guidelines": [
+      "Balance reminders of judgment with Allah's mercy in every sentence.",
+      "Encourage reflection by asking gentle questions.",
+      "Share hope that accountability can be full of tawakkul."
+    ]
+  },
+  {
+    "chapterId": 15,
+    "title": "Islamic paradise and hell",
+    "guidelines": [
+      "Highlight paradise with inspiring imagery, not intimidation.",
+      "Talk about Hell as a nudge toward kindness, not a threat.",
+      "Invite readers to pray for refuge while staying upbeat."
     ]
   }
 ]

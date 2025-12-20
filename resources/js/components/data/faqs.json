@@ -186,6 +186,68 @@
     "chapterId": 6
   },
   {
+    "chapter": "Islamic Dua Dhkir",
+    "faqs": [
+      {
+        "id": "islamic-dua-dhikr-1",
+        "title": "What is the difference between dua and dhikr?",
+        "body": "<p>Dua is asking Allah for something, while dhikr is remembering Him through phrases of praise and gratitude.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-2",
+        "title": "When should I make dua and dhikr?",
+        "body": "<p>Any time! After prayers, during moments of need, while waking up, or before sleeping Allah loves those who remember Him.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-3",
+        "title": "How do I memorize a dua?",
+        "body": "<p>Repeat it often, write it down, understand its meaning, and attach it to daily moments so it becomes natural.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-4",
+        "title": "What are short dhikr phrases I can say daily?",
+        "body": "<p>Try 'SubhanAllah', 'Alhamdulillah', 'Allahu Akbar', and 'La ilaha illa Allah' after prayers and during breaks.</p>"
+      },
+      {
+        "id": "islamic-dua-dhikr-5",
+        "title": "Can I ask Allah for personal needs while doing dhikr?",
+        "body": "<p>Yes, mix praise with personal requests; Allah loves to hear you speak to Him sincerely.</p>"
+      }
+    ],
+    "chapterId": 7
+  },
+  {
+    "chapter": "Islamic Heart",
+    "faqs": [
+      {
+        "id": "islamic-heart-1",
+        "title": "What does it mean to purify the heart?",
+        "body": "<p>Purifying the heart means removing envy, hatred, and arrogance while growing sincerity, love, and fear of Allah.</p>"
+      },
+      {
+        "id": "islamic-heart-2",
+        "title": "How can I keep my heart soft toward Allah?",
+        "body": "<p>Recite Quran, make dua, associate with gentle people, and ponder Allah’s mercy regularly.</p>"
+      },
+      {
+        "id": "islamic-heart-3",
+        "title": "What signs show a heart is spiritually healthy?",
+        "body": "<p>Patience in trials, gratitude in ease, and humility in success are healthy-heart indicators.</p>"
+      },
+      {
+        "id": "islamic-heart-4",
+        "title": "How do I deal with sadness or emptiness in my heart?",
+        "body": "<p>Reach out to supportive people, increase dhikr, and remember Allah’s plan is wise even when you feel lost.</p>"
+      },
+      {
+        "id": "islamic-heart-5",
+        "title": "What does reliance on Allah look like for the heart?",
+        "body": "<p>A heart that trusts Allah accepts what happens, stays hopeful for goodness, and keeps working without despair.</p>"
+      }
+    ],
+    "chapterId": 8
+  },
+  {
     "chapter": "Islamic Manners",
     "faqs": [
       {
@@ -214,7 +276,7 @@
         "body": "<p>Keep what aligns with Islamic morals, gently release what doesn't, and explain your choices with kindness.</p>"
       }
     ],
-    "chapterId": 7
+    "chapterId": 9
   },
   {
     "chapter": "Islamic Lifestyle",
@@ -245,162 +307,7 @@
         "body": "<p>Start with the Prophet’s habits like drinking water in three sips, greeting others, and saying the short morning dhikr.</p>"
       }
     ],
-    "chapterId": 8
-  },
-  {
-    "chapter": "Islamic Community",
-    "faqs": [
-      {
-        "id": "islamic-community-1",
-        "title": "Why is community important in Islam?",
-        "body": "<p>The ummah reminds us we are not alone, and helping others multiplies rewards.</p>"
-      },
-      {
-        "id": "islamic-community-2",
-        "title": "How can I find a supportive Muslim community?",
-        "body": "<p>Attend local events, join study circles, and reach out to online groups that match your interests.</p>"
-      },
-      {
-        "id": "islamic-community-3",
-        "title": "What if I feel isolated from my community?",
-        "body": "<p>Volunteer, invite neighbors for coffee, or start a small circle where you can learn together.</p>"
-      },
-      {
-        "id": "islamic-community-4",
-        "title": "How do I build bridges with non-Muslim neighbors?",
-        "body": "<p>Share kindness, listen to their stories, and explain your faith through actions more than words.</p>"
-      },
-      {
-        "id": "islamic-community-5",
-        "title": "What is my role when someone in the community needs help?",
-        "body": "<p>Offer practical support, make dua for them, and encourage others to join you in lifting them up.</p>"
-      }
-    ],
-    "chapterId": 9
-  },
-  {
-    "chapter": "Islamic Future",
-    "faqs": [
-      {
-        "id": "islamic-future-1",
-        "title": "What does Islam say about planning for the future?",
-        "body": "<p>Islam teaches us to plan responsibly, rely on Allah, and ask for guidance in every decision.</p>"
-      },
-      {
-        "id": "islamic-future-2",
-        "title": "How can I set goals guided by Islamic values?",
-        "body": "<p>Make goals that benefit your soul, family, and community, then tie them with du'a and consistent effort.</p>"
-      },
-      {
-        "id": "islamic-future-3",
-        "title": "Is it okay to dream big while staying humble?",
-        "body": "<p>Yes, Islam encourages excellence when coupled with gratitude and the reminder that Allah controls outcomes.</p>"
-      },
-      {
-        "id": "islamic-future-4",
-        "title": "How do I guard against anxiety about tomorrow?",
-        "body": "<p>Remember Allah’s mercy, practice dhikr, and break tasks into small steps so you can breathe between plans.</p>"
-      },
-      {
-        "id": "islamic-future-5",
-        "title": "How can I leave a positive legacy?",
-        "body": "<p>Share beneficial knowledge, instill good habits in others, and support causes that outlive you.</p>"
-      }
-    ],
     "chapterId": 10
-  },
-  {
-    "chapter": "Islamic Hereafter",
-    "faqs": [
-      {
-        "id": "islamic-hereafter-1",
-        "title": "What is the concept of the Hereafter?",
-        "body": "<p>The Hereafter includes resurrection, judgment, reward, and consequences based on how we lived.</p>"
-      },
-      {
-        "id": "islamic-hereafter-2",
-        "title": "How can I prepare for the Day of Judgment?",
-        "body": "<p>Repent sincerely, perform good deeds, and keep your intentions pure for Allah’s pleasure.</p>"
-      },
-      {
-        "id": "islamic-hereafter-3",
-        "title": "Why is accountability important?",
-        "body": "<p>Knowing that Allah sees every action reminds us to choose kindness and avoid harm.</p>"
-      },
-      {
-        "id": "islamic-hereafter-4",
-        "title": "What happens between death and resurrection?",
-        "body": "<p>Believers enter Barzakh, a waiting period where the soul experiences comfort or warning until the final day.</p>"
-      },
-      {
-        "id": "islamic-hereafter-5",
-        "title": "How does remembrance of the Hereafter change my actions?",
-        "body": "<p>It shifts your focus from temporary gains to actions that benefit the soul and others in the long run.</p>"
-      }
-    ],
-    "chapterId": 11
-  },
-  {
-    "chapter": "Islamic Paradise and Hell",
-    "faqs": [
-      {
-        "id": "islamic-paradise-hell-1",
-        "title": "What do we know about Paradise and Hell?",
-        "body": "<p>The Quran and Sunnah describe Paradise as gardens with rivers, and Hell as a place of purification or punishment for wrongdoing.</p>"
-      },
-      {
-        "id": "islamic-paradise-hell-2",
-        "title": "How can I strive for Paradise?",
-        "body": "<p>Perform good deeds, seek forgiveness, serve others, and keep your heart soft with gratitude.</p>"
-      },
-      {
-        "id": "islamic-paradise-hell-3",
-        "title": "Can Allah forgive any sin?",
-        "body": "<p>Yes, Allah forgives all sins when you turn to Him with sincere repentance and resolve not to return.</p>"
-      },
-      {
-        "id": "islamic-paradise-hell-4",
-        "title": "What kind of people does the Quran mention as entering Paradise?",
-        "body": "<p>Those who are humble, patient, charitable, truthful, and who call others to good with wisdom are promised mercy.</p>"
-      },
-      {
-        "id": "islamic-paradise-hell-5",
-        "title": "How do I avoid actions that lead to Hell?",
-        "body": "<p>Stay away from major sins, guard your tongue, keep your prayers, and seek Allah’s help when temptation arrives.</p>"
-      }
-    ],
-    "chapterId": 12
-  },
-  {
-    "chapter": "Islamic Dua Dhkir",
-    "faqs": [
-      {
-        "id": "islamic-dua-dhikr-1",
-        "title": "What is the difference between dua and dhikr?",
-        "body": "<p>Dua is asking Allah for something, while dhikr is remembering Him through phrases of praise and gratitude.</p>"
-      },
-      {
-        "id": "islamic-dua-dhikr-2",
-        "title": "When should I make dua and dhikr?",
-        "body": "<p>Any time! After prayers, during moments of need, while waking up, or before sleeping Allah loves those who remember Him.</p>"
-      },
-      {
-        "id": "islamic-dua-dhikr-3",
-        "title": "How do I memorize a dua?",
-        "body": "<p>Repeat it often, write it down, understand its meaning, and attach it to daily moments so it becomes natural.</p>"
-      },
-      {
-        "id": "islamic-dua-dhikr-4",
-        "title": "What are short dhikr phrases I can say daily?",
-        "body": "<p>Try 'SubhanAllah', 'Alhamdulillah', 'Allahu Akbar', and 'La ilaha illa Allah' after prayers and during breaks.</p>"
-      },
-      {
-        "id": "islamic-dua-dhikr-5",
-        "title": "Can I ask Allah for personal needs while doing dhikr?",
-        "body": "<p>Yes, mix praise with personal requests; Allah loves to hear you speak to Him sincerely.</p>"
-      }
-    ],
-    "chapterId": 13
   },
   {
     "chapter": "Islamic Family and Marriage",
@@ -431,35 +338,128 @@
         "body": "<p>Model kindness, teach dua, read Quran together, and celebrate small victories as families grow.</p>"
       }
     ],
+    "chapterId": 11
+  },
+  {
+    "chapter": "Islamic Community",
+    "faqs": [
+      {
+        "id": "islamic-community-1",
+        "title": "Why is community important in Islam?",
+        "body": "<p>The ummah reminds us we are not alone, and helping others multiplies rewards.</p>"
+      },
+      {
+        "id": "islamic-community-2",
+        "title": "How can I find a supportive Muslim community?",
+        "body": "<p>Attend local events, join study circles, and reach out to online groups that match your interests.</p>"
+      },
+      {
+        "id": "islamic-community-3",
+        "title": "What if I feel isolated from my community?",
+        "body": "<p>Volunteer, invite neighbors for coffee, or start a small circle where you can learn together.</p>"
+      },
+      {
+        "id": "islamic-community-4",
+        "title": "How do I build bridges with non-Muslim neighbors?",
+        "body": "<p>Share kindness, listen to their stories, and explain your faith through actions more than words.</p>"
+      },
+      {
+        "id": "islamic-community-5",
+        "title": "What is my role when someone in the community needs help?",
+        "body": "<p>Offer practical support, make dua for them, and encourage others to join you in lifting them up.</p>"
+      }
+    ],
+    "chapterId": 12
+  },
+  {
+    "chapter": "Islamic Future",
+    "faqs": [
+      {
+        "id": "islamic-future-1",
+        "title": "What does Islam say about planning for the future?",
+        "body": "<p>Islam teaches us to plan responsibly, rely on Allah, and ask for guidance in every decision.</p>"
+      },
+      {
+        "id": "islamic-future-2",
+        "title": "How can I set goals guided by Islamic values?",
+        "body": "<p>Make goals that benefit your soul, family, and community, then tie them with du'a and consistent effort.</p>"
+      },
+      {
+        "id": "islamic-future-3",
+        "title": "Is it okay to dream big while staying humble?",
+        "body": "<p>Yes, Islam encourages excellence when coupled with gratitude and the reminder that Allah controls outcomes.</p>"
+      },
+      {
+        "id": "islamic-future-4",
+        "title": "How do I guard against anxiety about tomorrow?",
+        "body": "<p>Remember Allah’s mercy, practice dhikr, and break tasks into small steps so you can breathe between plans.</p>"
+      },
+      {
+        "id": "islamic-future-5",
+        "title": "How can I leave a positive legacy?",
+        "body": "<p>Share beneficial knowledge, instill good habits in others, and support causes that outlive you.</p>"
+      }
+    ],
+    "chapterId": 13
+  },
+  {
+    "chapter": "Islamic Hereafter",
+    "faqs": [
+      {
+        "id": "islamic-hereafter-1",
+        "title": "What is the concept of the Hereafter?",
+        "body": "<p>The Hereafter includes resurrection, judgment, reward, and consequences based on how we lived.</p>"
+      },
+      {
+        "id": "islamic-hereafter-2",
+        "title": "How can I prepare for the Day of Judgment?",
+        "body": "<p>Repent sincerely, perform good deeds, and keep your intentions pure for Allah’s pleasure.</p>"
+      },
+      {
+        "id": "islamic-hereafter-3",
+        "title": "Why is accountability important?",
+        "body": "<p>Knowing that Allah sees every action reminds us to choose kindness and avoid harm.</p>"
+      },
+      {
+        "id": "islamic-hereafter-4",
+        "title": "What happens between death and resurrection?",
+        "body": "<p>Believers enter Barzakh, a waiting period where the soul experiences comfort or warning until the final day.</p>"
+      },
+      {
+        "id": "islamic-hereafter-5",
+        "title": "How does remembrance of the Hereafter change my actions?",
+        "body": "<p>It shifts your focus from temporary gains to actions that benefit the soul and others in the long run.</p>"
+      }
+    ],
     "chapterId": 14
   },
   {
-    "chapter": "Islamic Heart",
+    "chapter": "Islamic Paradise and Hell",
     "faqs": [
       {
-        "id": "islamic-heart-1",
-        "title": "What does it mean to purify the heart?",
-        "body": "<p>Purifying the heart means removing envy, hatred, and arrogance while growing sincerity, love, and fear of Allah.</p>"
+        "id": "islamic-paradise-hell-1",
+        "title": "What do we know about Paradise and Hell?",
+        "body": "<p>The Quran and Sunnah describe Paradise as gardens with rivers, and Hell as a place of purification or punishment for wrongdoing.</p>"
       },
       {
-        "id": "islamic-heart-2",
-        "title": "How can I keep my heart soft toward Allah?",
-        "body": "<p>Recite Quran, make dua, associate with gentle people, and ponder Allah’s mercy regularly.</p>"
+        "id": "islamic-paradise-hell-2",
+        "title": "How can I strive for Paradise?",
+        "body": "<p>Perform good deeds, seek forgiveness, serve others, and keep your heart soft with gratitude.</p>"
       },
       {
-        "id": "islamic-heart-3",
-        "title": "What signs show a heart is spiritually healthy?",
-        "body": "<p>Patience in trials, gratitude in ease, and humility in success are healthy-heart indicators.</p>"
+        "id": "islamic-paradise-hell-3",
+        "title": "Can Allah forgive any sin?",
+        "body": "<p>Yes, Allah forgives all sins when you turn to Him with sincere repentance and resolve not to return.</p>"
       },
       {
-        "id": "islamic-heart-4",
-        "title": "How do I deal with sadness or emptiness in my heart?",
-        "body": "<p>Reach out to supportive people, increase dhikr, and remember Allah’s plan is wise even when you feel lost.</p>"
+        "id": "islamic-paradise-hell-4",
+        "title": "What kind of people does the Quran mention as entering Paradise?",
+        "body": "<p>Those who are humble, patient, charitable, truthful, and who call others to good with wisdom are promised mercy.</p>"
       },
       {
-        "id": "islamic-heart-5",
-        "title": "What does reliance on Allah look like for the heart?",
-        "body": "<p>A heart that trusts Allah accepts what happens, stays hopeful for goodness, and keeps working without despair.</p>"
+        "id": "islamic-paradise-hell-5",
+        "title": "How do I avoid actions that lead to Hell?",
+        "body": "<p>Stay away from major sins, guard your tongue, keep your prayers, and seek Allah’s help when temptation arrives.</p>"
       }
     ],
     "chapterId": 15

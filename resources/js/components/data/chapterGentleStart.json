@@ -109,114 +109,6 @@
   },
   {
     "chapterId": 7,
-    "title": "Islamic manners",
-    "steps": [
-      {
-        "title": "Greet the lesson",
-        "description": "Welcome Islamic Manners by reading its summary with calm attention."
-      },
-      {
-        "title": "Set a soft intention",
-        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
-      },
-      {
-        "title": "Schedule tiny pauses",
-        "description": "Plan brief reflection stops between sections to keep learning gentle."
-      }
-    ]
-  },
-  {
-    "chapterId": 8,
-    "title": "Islamic lifestyle",
-    "steps": [
-      {
-        "title": "Greet the lesson",
-        "description": "Welcome Islamic Lifestyle by reading its summary with calm attention."
-      },
-      {
-        "title": "Set a soft intention",
-        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
-      },
-      {
-        "title": "Schedule tiny pauses",
-        "description": "Plan brief reflection stops between sections to keep learning gentle."
-      }
-    ]
-  },
-  {
-    "chapterId": 9,
-    "title": "Islamic community",
-    "steps": [
-      {
-        "title": "Greet the lesson",
-        "description": "Welcome Islamic Community by reading its summary with calm attention."
-      },
-      {
-        "title": "Set a soft intention",
-        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
-      },
-      {
-        "title": "Schedule tiny pauses",
-        "description": "Plan brief reflection stops between sections to keep learning gentle."
-      }
-    ]
-  },
-  {
-    "chapterId": 10,
-    "title": "Islamic future",
-    "steps": [
-      {
-        "title": "Greet the lesson",
-        "description": "Welcome Islamic Future by reading its summary with calm attention."
-      },
-      {
-        "title": "Set a soft intention",
-        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
-      },
-      {
-        "title": "Schedule tiny pauses",
-        "description": "Plan brief reflection stops between sections to keep learning gentle."
-      }
-    ]
-  },
-  {
-    "chapterId": 11,
-    "title": "Islamic hereafter",
-    "steps": [
-      {
-        "title": "Greet the lesson",
-        "description": "Welcome Islamic Hereafter by reading its summary with calm attention."
-      },
-      {
-        "title": "Set a soft intention",
-        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
-      },
-      {
-        "title": "Schedule tiny pauses",
-        "description": "Plan brief reflection stops between sections to keep learning gentle."
-      }
-    ]
-  },
-  {
-    "chapterId": 12,
-    "title": "Islamic paradise and hell",
-    "steps": [
-      {
-        "title": "Greet the lesson",
-        "description": "Welcome Islamic Paradise And Hell by reading its summary with calm attention."
-      },
-      {
-        "title": "Set a soft intention",
-        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
-      },
-      {
-        "title": "Schedule tiny pauses",
-        "description": "Plan brief reflection stops between sections to keep learning gentle."
-      }
-    ]
-  },
-  {
-    "chapterId": 13,
     "title": "Islamic dua dhkir",
     "steps": [
       {
@@ -234,7 +126,61 @@
     ]
   },
   {
-    "chapterId": 14,
+    "chapterId": 8,
+    "title": "Islamic heart",
+    "steps": [
+      {
+        "title": "Greet the lesson",
+        "description": "Welcome Islamic Heart by reading its summary with calm attention."
+      },
+      {
+        "title": "Set a soft intention",
+        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
+      },
+      {
+        "title": "Schedule tiny pauses",
+        "description": "Plan brief reflection stops between sections to keep learning gentle."
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "title": "Islamic manners",
+    "steps": [
+      {
+        "title": "Greet the lesson",
+        "description": "Welcome Islamic Manners by reading its summary with calm attention."
+      },
+      {
+        "title": "Set a soft intention",
+        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
+      },
+      {
+        "title": "Schedule tiny pauses",
+        "description": "Plan brief reflection stops between sections to keep learning gentle."
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "title": "Islamic lifestyle",
+    "steps": [
+      {
+        "title": "Greet the lesson",
+        "description": "Welcome Islamic Lifestyle by reading its summary with calm attention."
+      },
+      {
+        "title": "Set a soft intention",
+        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
+      },
+      {
+        "title": "Schedule tiny pauses",
+        "description": "Plan brief reflection stops between sections to keep learning gentle."
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
     "title": "Islamic family and marriage",
     "steps": [
       {
@@ -252,12 +198,66 @@
     ]
   },
   {
-    "chapterId": 15,
-    "title": "Islamic heart",
+    "chapterId": 12,
+    "title": "Islamic community",
     "steps": [
       {
         "title": "Greet the lesson",
-        "description": "Welcome Islamic Heart by reading its summary with calm attention."
+        "description": "Welcome Islamic Community by reading its summary with calm attention."
+      },
+      {
+        "title": "Set a soft intention",
+        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
+      },
+      {
+        "title": "Schedule tiny pauses",
+        "description": "Plan brief reflection stops between sections to keep learning gentle."
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "title": "Islamic future",
+    "steps": [
+      {
+        "title": "Greet the lesson",
+        "description": "Welcome Islamic Future by reading its summary with calm attention."
+      },
+      {
+        "title": "Set a soft intention",
+        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
+      },
+      {
+        "title": "Schedule tiny pauses",
+        "description": "Plan brief reflection stops between sections to keep learning gentle."
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "title": "Islamic hereafter",
+    "steps": [
+      {
+        "title": "Greet the lesson",
+        "description": "Welcome Islamic Hereafter by reading its summary with calm attention."
+      },
+      {
+        "title": "Set a soft intention",
+        "description": "Ask Allah for clarity, humility, and heart ease before diving deeper."
+      },
+      {
+        "title": "Schedule tiny pauses",
+        "description": "Plan brief reflection stops between sections to keep learning gentle."
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "title": "Islamic paradise and hell",
+    "steps": [
+      {
+        "title": "Greet the lesson",
+        "description": "Welcome Islamic Paradise And Hell by reading its summary with calm attention."
       },
       {
         "title": "Set a soft intention",

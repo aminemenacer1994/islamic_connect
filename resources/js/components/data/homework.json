@@ -56,6 +56,24 @@
   {
     "chapterId": 7,
     "homework": [
+      "Memorize one short dua and explain its meaning to someone else.",
+      "Make a daily dhikr plan tied to waking, meals, and sleep.",
+      "Record the names of Allah you repeat most and why they matter.",
+      "Share a dua with another person and ask them to pray for you."
+    ]
+  },
+  {
+    "chapterId": 8,
+    "homework": [
+      "Perform soft-hearted dhikr for five minutes before bedtime each night.",
+      "List one habit to remove pride and replace it with humility.",
+      "Do a compassion check: reach out to someone you’ve been distant with.",
+      "Write a gratitude letter framed around Allah’s blessings."
+    ]
+  },
+  {
+    "chapterId": 9,
+    "homework": [
       "Serve someone in your community with a small act of kindness.",
       "Reflect on gratitude and list three people you can thank this week.",
       "Practice patience when you feel short-tempered and note triggers.",
@@ -63,7 +81,7 @@
     ]
   },
   {
-    "chapterId": 8,
+    "chapterId": 10,
     "homework": [
       "Audit your media: delete or limit one thing that pulls you away from focus.",
       "Set a weekly halal goal (e.g., meal prep, call a relative, read).",
@@ -72,53 +90,7 @@
     ]
   },
   {
-    "chapterId": 9,
-    "homework": [
-      "Attend a local community event or share a helpful resource.",
-      "Reach out to support someone who needs a listening ear.",
-      "Organize a short session to practice dua and reminders together.",
-      "Volunteer one hour for your neighborhood or mosque."
-    ]
-  },
-  {
-    "chapterId": 10,
-    "homework": [
-      "Plan a personal growth tracker for the next 30 days.",
-      "Write a dua asking for consistent growth and review it nightly.",
-      "Choose one area (worship, character, knowledge) and set micro-goals.",
-      "Reflect on progress each Friday and note lessons learned."
-    ]
-  }
-,
-  {
     "chapterId": 11,
-    "homework": [
-      "Journal what a reminder of the Hereafter shifts for your priorities.",
-      "Perform muhasabah for three nights, noting gratitude and actions to improve.",
-      "Give charity with the intention of gaining extended reward after passing.",
-      "Share a dua for mercy on the Day of Judgment with someone you trust."
-    ]
-  },
-  {
-    "chapterId": 12,
-    "homework": [
-      "Visualize Paradise while reciting a verse, then jot down how it felt.",
-      "Read a Quranic warning of Hell and list three actions you will avoid.",
-      "Ask Allah for protection from the Fire after each prayer for one week.",
-      "Invite a friend to discuss what motivates you about the hereafter."
-    ]
-  },
-  {
-    "chapterId": 13,
-    "homework": [
-      "Memorize one short dua and explain its meaning to someone else.",
-      "Make a daily dhikr plan tied to waking, meals, and sleep.",
-      "Record the names of Allah you repeat most and why they matter.",
-      "Share a dua with another person and ask them to pray for you."
-    ]
-  },
-  {
-    "chapterId": 14,
     "homework": [
       "Host a family circle that includes dua, gratitude, and salah talk.",
       "Write down two ways to show mercy to each household member this week.",
@@ -127,12 +99,39 @@
     ]
   },
   {
+    "chapterId": 12,
+    "homework": [
+      "Attend a local community event or share a helpful resource.",
+      "Reach out to support someone who needs a listening ear.",
+      "Organize a short session to practice dua and reminders together.",
+      "Volunteer one hour for your neighborhood or mosque."
+    ]
+  },
+  {
+    "chapterId": 13,
+    "homework": [
+      "Plan a personal growth tracker for the next 30 days.",
+      "Write a dua asking for consistent growth and review it nightly.",
+      "Choose one area (worship, character, knowledge) and set micro-goals.",
+      "Reflect on progress each Friday and note lessons learned."
+    ]
+  },
+  {
+    "chapterId": 14,
+    "homework": [
+      "Journal what a reminder of the Hereafter shifts for your priorities.",
+      "Perform muhasabah for three nights, noting gratitude and actions to improve.",
+      "Give charity with the intention of gaining extended reward after passing.",
+      "Share a dua for mercy on the Day of Judgment with someone you trust."
+    ]
+  },
+  {
     "chapterId": 15,
     "homework": [
-      "Perform soft-hearted dhikr for five minutes before bedtime each night.",
-      "List one habit to remove pride and replace it with humility.",
-      "Do a compassion check: reach out to someone you’ve been distant with.",
-      "Write a gratitude letter framed around Allah’s blessings."
+      "Visualize Paradise while reciting a verse, then jot down how it felt.",
+      "Read a Quranic warning of Hell and list three actions you will avoid.",
+      "Ask Allah for protection from the Fire after each prayer for one week.",
+      "Invite a friend to discuss what motivates you about the hereafter."
     ]
   }
 ]

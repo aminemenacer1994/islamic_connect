@@ -193,198 +193,6 @@
   },
   {
     "chapterId": 7,
-    "key": "manners",
-    "title": "Islamic manners",
-    "faqs": [
-      {
-        "id": "manners-1",
-        "title": "What defines Islamic manners?",
-        "body": "<p>Adab - behaving with respect, gentleness, truthfulness, and awareness of others - guides every interaction.</p>"
-      },
-      {
-        "id": "manners-2",
-        "title": "How do I manage anger with good manners?",
-        "body": "<p>Pause, breathe, lower your voice, whisper a dua, and choose patience instead of a sharp response.</p>"
-      },
-      {
-        "id": "manners-3",
-        "title": "How should I greet people?",
-        "body": "<p>Offer salam, smile, make eye contact, and mention their name to show care.</p>"
-      },
-      {
-        "id": "manners-4",
-        "title": "What does the chapter say about speech?",
-        "body": "<p>Speak truthfully, avoid gossip, praise sincerely, and weigh words before sharing.</p>"
-      },
-      {
-        "id": "manners-5",
-        "title": "How do I show manners online?",
-        "body": "<p>Keep comments kind, avoid heated debates, give the benefit of the doubt, and unplug when things turn toxic.</p>"
-      }
-    ]
-  },
-  {
-    "chapterId": 8,
-    "key": "lifestyle",
-    "title": "Islamic lifestyle",
-    "faqs": [
-      {
-        "id": "lifestyle-1",
-        "title": "What is an Islamic lifestyle?",
-        "body": "<p>It harmonizes diet, finance, leisure, and ethics with halal choices, gratitude, and steady worship.</p>"
-      },
-      {
-        "id": "lifestyle-2",
-        "title": "How do I ensure my food and money stay halal?",
-        "body": "<p>Check labels, ask vendors, keep clear records, and choose halal providers even when it takes extra effort.</p>"
-      },
-      {
-        "id": "lifestyle-3",
-        "title": "How does the chapter explain technology use?",
-        "body": "<p>Use it for learning, connection, and good causes while setting screen-time limits and avoiding harmful content.</p>"
-      },
-      {
-        "id": "lifestyle-4",
-        "title": "What role does rest and self-care play?",
-        "body": "<p>Balanced rest honors the trust Allah gave us; schedule prayer breaks and go to bed early.</p>"
-      },
-      {
-        "id": "lifestyle-5",
-        "title": "How do I maintain modesty in lifestyle choices?",
-        "body": "<p>Dress modestly, guard your gaze, speak with humility, and distance from environments that encourage excess.</p>"
-      }
-    ]
-  },
-  {
-    "chapterId": 9,
-    "key": "community",
-    "title": "Islamic community",
-    "faqs": [
-      {
-        "id": "community-1",
-        "title": "What responsibilities do Muslims have toward the Ummah?",
-        "body": "<p>Support one another, share knowledge, stand for justice, and help those in need.</p>"
-      },
-      {
-        "id": "community-2",
-        "title": "How can I serve my local community?",
-        "body": "<p>Volunteer at masjid events, check on neighbors, and share resources like food or skills.</p>"
-      },
-      {
-        "id": "community-3",
-        "title": "What does the chapter teach about conflict resolution?",
-        "body": "<p>Listen, speak calmly, seek mediation, forgive when possible, and follow Quranic principles.</p>"
-      },
-      {
-        "id": "community-4",
-        "title": "How do I include newcomers?",
-        "body": "<p>Greet them, introduce them to circles, invite them to study, and show hospitality.</p>"
-      },
-      {
-        "id": "community-5",
-        "title": "How can I lead or mentor responsibly?",
-        "body": "<p>Model compassion, stay accountable, plan inclusive programs, and keep learning.</p>"
-      }
-    ]
-  },
-  {
-    "chapterId": 10,
-    "key": "future",
-    "title": "Islamic future",
-    "faqs": [
-      {
-        "id": "future-1",
-        "title": "How does this chapter frame the future?",
-        "body": "<p>As a continuous journey of growth, planning, and trusting Allah's guidance.</p>"
-      },
-      {
-        "id": "future-2",
-        "title": "What steps help me set spiritual goals?",
-        "body": "<p>Define measurable acts, schedule reviews, and tie each goal to Quranic reminders.</p>"
-      },
-      {
-        "id": "future-3",
-        "title": "How should I handle setbacks in spiritual growth?",
-        "body": "<p>Return to dua, revisit your plan, learn from mistakes, and rely on supportive friends.</p>"
-      },
-      {
-        "id": "future-4",
-        "title": "What habits protect my future from burnout?",
-        "body": "<p>Pace learning, take rest days, celebrate small wins, and keep a gratitude checklist.</p>"
-      },
-      {
-        "id": "future-5",
-        "title": "How can I mentor others while pursuing my future?",
-        "body": "<p>Share routines, offer encouragement, build accountability pairs, and pray for them.</p>"
-      }
-    ]
-  },
-  {
-    "chapterId": 11,
-    "key": "hereafter",
-    "title": "Islamic hereafter",
-    "faqs": [
-      {
-        "id": "hereafter-1",
-        "title": "What key realities about the hereafter does the chapter cover?",
-        "body": "<p>It explains death, the grave, standing before Allah, and the scales of deeds.</p>"
-      },
-      {
-        "id": "hereafter-2",
-        "title": "How should I prepare for the grave?",
-        "body": "<p>Live with regular repentance, maintain good deeds, and keep ties with family.</p>"
-      },
-      {
-        "id": "hereafter-3",
-        "title": "Why is the Day of Judgment important?",
-        "body": "<p>It restores justice, rewards the patient, and reminds us that every deed is recorded.</p>"
-      },
-      {
-        "id": "hereafter-4",
-        "title": "How do I balance fear and hope about akhirah?",
-        "body": "<p>Fear the consequences of sin, but keep hope in Allah's mercy by doing good.</p>"
-      },
-      {
-        "id": "hereafter-5",
-        "title": "What role does charity play in the hereafter?",
-        "body": "<p>Sadaqah keeps giving after we pass, so the chapter encourages consistent giving.</p>"
-      }
-    ]
-  },
-  {
-    "chapterId": 12,
-    "key": "paradise",
-    "title": "Islamic paradise and hell",
-    "faqs": [
-      {
-        "id": "paradise-1",
-        "title": "How does the chapter describe paradise?",
-        "body": "<p>Gardens beneath which rivers flow, peace, reunions with loved ones, and endless pleasure.</p>"
-      },
-      {
-        "id": "paradise-2",
-        "title": "What actions open the doors of paradise?",
-        "body": "<p>Faith, prayer, charity, patience, and kindness while avoiding major sins.</p>"
-      },
-      {
-        "id": "paradise-3",
-        "title": "How is hell portrayed?",
-        "body": "<p>As intense fire, regret, and punishment for rejecting truth or committing injustice.</p>"
-      },
-      {
-        "id": "paradise-4",
-        "title": "How do I keep hope without ignoring warnings?",
-        "body": "<p>Remember Allah's mercy daily and live in obedience to avoid the fire.</p>"
-      },
-      {
-        "id": "paradise-5",
-        "title": "What reminders keep paradise and hell relevant?",
-        "body": "<p>Visualize them during dua, read verses about them, and let them motivate ethical choices.</p>"
-      }
-    ]
-  },
-  {
-    "chapterId": 13,
     "key": "duas",
     "title": "Islamic dua dhkir",
     "faqs": [
@@ -416,7 +224,103 @@
     ]
   },
   {
-    "chapterId": 14,
+    "chapterId": 8,
+    "key": "heart",
+    "title": "Islamic heart",
+    "faqs": [
+      {
+        "id": "heart-1",
+        "title": "What does the chapter say about the heart?",
+        "body": "<p>It focuses on purification, removing diseases like envy, pride, and attachment to status.</p>"
+      },
+      {
+        "id": "heart-2",
+        "title": "How do I purify my heart from envy?",
+        "body": "<p>Celebrate others, count blessings, make dua for them, and remember everything belongs to Allah.</p>"
+      },
+      {
+        "id": "heart-3",
+        "title": "What is muhasabah?",
+        "body": "<p>Self-accounting: reviewing your day, repenting, and planning improvements before sleep.</p>"
+      },
+      {
+        "id": "heart-4",
+        "title": "How do I keep the heart soft toward Allah?",
+        "body": "<p>Recite Quran, give charity, help others, and make moments of quiet reflection.</p>"
+      },
+      {
+        "id": "heart-5",
+        "title": "How does dhikr guard against spiritual diseases?",
+        "body": "<p>Frequent remembrance reinforces humility, reminds you of accountability, and calms the soul.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "key": "manners",
+    "title": "Islamic manners",
+    "faqs": [
+      {
+        "id": "manners-1",
+        "title": "What defines Islamic manners?",
+        "body": "<p>Adab - behaving with respect, gentleness, truthfulness, and awareness of others - guides every interaction.</p>"
+      },
+      {
+        "id": "manners-2",
+        "title": "How do I manage anger with good manners?",
+        "body": "<p>Pause, breathe, lower your voice, whisper a dua, and choose patience instead of a sharp response.</p>"
+      },
+      {
+        "id": "manners-3",
+        "title": "How should I greet people?",
+        "body": "<p>Offer salam, smile, make eye contact, and mention their name to show care.</p>"
+      },
+      {
+        "id": "manners-4",
+        "title": "What does the chapter say about speech?",
+        "body": "<p>Speak truthfully, avoid gossip, praise sincerely, and weigh words before sharing.</p>"
+      },
+      {
+        "id": "manners-5",
+        "title": "How do I show manners online?",
+        "body": "<p>Keep comments kind, avoid heated debates, give the benefit of the doubt, and unplug when things turn toxic.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "key": "lifestyle",
+    "title": "Islamic lifestyle",
+    "faqs": [
+      {
+        "id": "lifestyle-1",
+        "title": "What is an Islamic lifestyle?",
+        "body": "<p>It harmonizes diet, finance, leisure, and ethics with halal choices, gratitude, and steady worship.</p>"
+      },
+      {
+        "id": "lifestyle-2",
+        "title": "How do I ensure my food and money stay halal?",
+        "body": "<p>Check labels, ask vendors, keep clear records, and choose halal providers even when it takes extra effort.</p>"
+      },
+      {
+        "id": "lifestyle-3",
+        "title": "How does the chapter explain technology use?",
+        "body": "<p>Use it for learning, connection, and good causes while setting screen-time limits and avoiding harmful content.</p>"
+      },
+      {
+        "id": "lifestyle-4",
+        "title": "What role does rest and self-care play?",
+        "body": "<p>Balanced rest honors the trust Allah gave us; schedule prayer breaks and go to bed early.</p>"
+      },
+      {
+        "id": "lifestyle-5",
+        "title": "How do I maintain modesty in lifestyle choices?",
+        "body": "<p>Dress modestly, guard your gaze, speak with humility, and distance from environments that encourage excess.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
     "key": "family",
     "title": "Islamic family and marriage",
     "faqs": [
@@ -448,34 +352,130 @@
     ]
   },
   {
-    "chapterId": 15,
-    "key": "heart",
-    "title": "Islamic heart",
+    "chapterId": 12,
+    "key": "community",
+    "title": "Islamic community",
     "faqs": [
       {
-        "id": "heart-1",
-        "title": "What does the chapter say about the heart?",
-        "body": "<p>It focuses on purification, removing diseases like envy, pride, and attachment to status.</p>"
+        "id": "community-1",
+        "title": "What responsibilities do Muslims have toward the Ummah?",
+        "body": "<p>Support one another, share knowledge, stand for justice, and help those in need.</p>"
       },
       {
-        "id": "heart-2",
-        "title": "How do I purify my heart from envy?",
-        "body": "<p>Celebrate others, count blessings, make dua for them, and remember everything belongs to Allah.</p>"
+        "id": "community-2",
+        "title": "How can I serve my local community?",
+        "body": "<p>Volunteer at masjid events, check on neighbors, and share resources like food or skills.</p>"
       },
       {
-        "id": "heart-3",
-        "title": "What is muhasabah?",
-        "body": "<p>Self-accounting: reviewing your day, repenting, and planning improvements before sleep.</p>"
+        "id": "community-3",
+        "title": "What does the chapter teach about conflict resolution?",
+        "body": "<p>Listen, speak calmly, seek mediation, forgive when possible, and follow Quranic principles.</p>"
       },
       {
-        "id": "heart-4",
-        "title": "How do I keep the heart soft toward Allah?",
-        "body": "<p>Recite Quran, give charity, help others, and make moments of quiet reflection.</p>"
+        "id": "community-4",
+        "title": "How do I include newcomers?",
+        "body": "<p>Greet them, introduce them to circles, invite them to study, and show hospitality.</p>"
       },
       {
-        "id": "heart-5",
-        "title": "How does dhikr guard against spiritual diseases?",
-        "body": "<p>Frequent remembrance reinforces humility, reminds you of accountability, and calms the soul.</p>"
+        "id": "community-5",
+        "title": "How can I lead or mentor responsibly?",
+        "body": "<p>Model compassion, stay accountable, plan inclusive programs, and keep learning.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "key": "future",
+    "title": "Islamic future",
+    "faqs": [
+      {
+        "id": "future-1",
+        "title": "How does this chapter frame the future?",
+        "body": "<p>As a continuous journey of growth, planning, and trusting Allah's guidance.</p>"
+      },
+      {
+        "id": "future-2",
+        "title": "What steps help me set spiritual goals?",
+        "body": "<p>Define measurable acts, schedule reviews, and tie each goal to Quranic reminders.</p>"
+      },
+      {
+        "id": "future-3",
+        "title": "How should I handle setbacks in spiritual growth?",
+        "body": "<p>Return to dua, revisit your plan, learn from mistakes, and rely on supportive friends.</p>"
+      },
+      {
+        "id": "future-4",
+        "title": "What habits protect my future from burnout?",
+        "body": "<p>Pace learning, take rest days, celebrate small wins, and keep a gratitude checklist.</p>"
+      },
+      {
+        "id": "future-5",
+        "title": "How can I mentor others while pursuing my future?",
+        "body": "<p>Share routines, offer encouragement, build accountability pairs, and pray for them.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "key": "hereafter",
+    "title": "Islamic hereafter",
+    "faqs": [
+      {
+        "id": "hereafter-1",
+        "title": "What key realities about the hereafter does the chapter cover?",
+        "body": "<p>It explains death, the grave, standing before Allah, and the scales of deeds.</p>"
+      },
+      {
+        "id": "hereafter-2",
+        "title": "How should I prepare for the grave?",
+        "body": "<p>Live with regular repentance, maintain good deeds, and keep ties with family.</p>"
+      },
+      {
+        "id": "hereafter-3",
+        "title": "Why is the Day of Judgment important?",
+        "body": "<p>It restores justice, rewards the patient, and reminds us that every deed is recorded.</p>"
+      },
+      {
+        "id": "hereafter-4",
+        "title": "How do I balance fear and hope about akhirah?",
+        "body": "<p>Fear the consequences of sin, but keep hope in Allah's mercy by doing good.</p>"
+      },
+      {
+        "id": "hereafter-5",
+        "title": "What role does charity play in the hereafter?",
+        "body": "<p>Sadaqah keeps giving after we pass, so the chapter encourages consistent giving.</p>"
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "key": "paradise",
+    "title": "Islamic paradise and hell",
+    "faqs": [
+      {
+        "id": "paradise-1",
+        "title": "How does the chapter describe paradise?",
+        "body": "<p>Gardens beneath which rivers flow, peace, reunions with loved ones, and endless pleasure.</p>"
+      },
+      {
+        "id": "paradise-2",
+        "title": "What actions open the doors of paradise?",
+        "body": "<p>Faith, prayer, charity, patience, and kindness while avoiding major sins.</p>"
+      },
+      {
+        "id": "paradise-3",
+        "title": "How is hell portrayed?",
+        "body": "<p>As intense fire, regret, and punishment for rejecting truth or committing injustice.</p>"
+      },
+      {
+        "id": "paradise-4",
+        "title": "How do I keep hope without ignoring warnings?",
+        "body": "<p>Remember Allah's mercy daily and live in obedience to avoid the fire.</p>"
+      },
+      {
+        "id": "paradise-5",
+        "title": "What reminders keep paradise and hell relevant?",
+        "body": "<p>Visualize them during dua, read verses about them, and let them motivate ethical choices.</p>"
       }
     ]
   }

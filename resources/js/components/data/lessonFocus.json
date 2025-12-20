@@ -115,120 +115,6 @@
   },
   {
     "chapterId": 7,
-    "title": "Islamic manners",
-    "subTitle": "Adab softens every interaction and keeps hearts connected.",
-    "departments": [
-      {
-        "title": "Speech Department",
-        "subTitle": "Choose kind phrases, avoid gossip, and speak the truth gently."
-      },
-      {
-        "title": "Listening Department",
-        "subTitle": "Give attention first; listening is an act of mercy."
-      },
-      {
-        "title": "Calm Department",
-        "subTitle": "Pause before reacting so patience, not emotion, shapes your words."
-      }
-    ]
-  },
-  {
-    "chapterId": 8,
-    "title": "Islamic lifestyle",
-    "subTitle": "Every routine food, money, rest can mirror halal intention.",
-    "departments": [
-      {
-        "title": "Habits Department",
-        "subTitle": "Audit meals, spending, and entertainment through a halal filter."
-      },
-      {
-        "title": "Rest Department",
-        "subTitle": "Schedule screen-free, reflective pauses so worship stays fresh."
-      },
-      {
-        "title": "Stewardship Department",
-        "subTitle": "Share resources or time to practice Islamic generosity."
-      }
-    ]
-  },
-  {
-    "chapterId": 9,
-    "title": "Islamic community",
-    "subTitle": "Serve the Ummah with consistent hospitality and support.",
-    "departments": [
-      {
-        "title": "Welcome Department",
-        "subTitle": "Invite someone new or marginalized into your learning circle."
-      },
-      {
-        "title": "Care Department",
-        "subTitle": "Offer skills, food, or simply dua to ease others' burdens."
-      },
-      {
-        "title": "Justice Department",
-        "subTitle": "Speak calmly when conflicts arise and seek reconciliation."
-      }
-    ]
-  },
-  {
-    "chapterId": 10,
-    "title": "Islamic future",
-    "subTitle": "Design your spiritual future with goals, review, and legacy.",
-    "departments": [
-      {
-        "title": "Goal Department",
-        "subTitle": "Set short- and long-term spiritual milestones and revisit them weekly."
-      },
-      {
-        "title": "Accountability Department",
-        "subTitle": "Partner with someone to celebrate progress and pray together."
-      },
-      {
-        "title": "Legacy Department",
-        "subTitle": "Imagine the impact you want to leave and take one small step today."
-      }
-    ]
-  },
-  {
-    "chapterId": 11,
-    "title": "Islamic hereafter",
-    "subTitle": "Remember death, the grave, and judgment to stay focused.",
-    "departments": [
-      {
-        "title": "Reminder Department",
-        "subTitle": "Mention the grave or akhirah often to keep priorities aligned."
-      },
-      {
-        "title": "Repentance Department",
-        "subTitle": "Turn back quickly when you slip, then move forward without despair."
-      },
-      {
-        "title": "Hope Department",
-        "subTitle": "Balance fear with optimism in Allah's mercy in every dua."
-      }
-    ]
-  },
-  {
-    "chapterId": 12,
-    "title": "Islamic paradise and hell",
-    "subTitle": "Visualize the final abodes to fuel your obedience and gratitude.",
-    "departments": [
-      {
-        "title": "Vision Department",
-        "subTitle": "Reflect on Quranic descriptions of Jannah and Jahannam for motivation."
-      },
-      {
-        "title": "Action Department",
-        "subTitle": "Let the contrast inspire sadaqah, prayer, and avoiding sin."
-      },
-      {
-        "title": "Supplication Department",
-        "subTitle": "Ask Allah explicitly for Paradise and refuge from the Fire."
-      }
-    ]
-  },
-  {
-    "chapterId": 13,
     "title": "Islamic dua dhkir",
     "subTitle": "Duas and dhikr are potent weapons that soften and protect hearts.",
     "departments": [
@@ -247,7 +133,64 @@
     ]
   },
   {
-    "chapterId": 14,
+    "chapterId": 8,
+    "title": "Islamic heart",
+    "subTitle": "Purify the heart from diseases so your deeds stay sincere.",
+    "departments": [
+      {
+        "title": "Purity Department",
+        "subTitle": "Do self-accounting nightly to catch envy, pride, and attachment."
+      },
+      {
+        "title": "Softness Department",
+        "subTitle": "Use dhikr, sadaqah, or compassion to keep the heart tender."
+      },
+      {
+        "title": "Focus Department",
+        "subTitle": "Turn every action into a dua so distractions fade."
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "title": "Islamic manners",
+    "subTitle": "Adab softens every interaction and keeps hearts connected.",
+    "departments": [
+      {
+        "title": "Speech Department",
+        "subTitle": "Choose kind phrases, avoid gossip, and speak the truth gently."
+      },
+      {
+        "title": "Listening Department",
+        "subTitle": "Give attention first; listening is an act of mercy."
+      },
+      {
+        "title": "Calm Department",
+        "subTitle": "Pause before reacting so patience, not emotion, shapes your words."
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "title": "Islamic lifestyle",
+    "subTitle": "Every routine food, money, rest can mirror halal intention.",
+    "departments": [
+      {
+        "title": "Habits Department",
+        "subTitle": "Audit meals, spending, and entertainment through a halal filter."
+      },
+      {
+        "title": "Rest Department",
+        "subTitle": "Schedule screen-free, reflective pauses so worship stays fresh."
+      },
+      {
+        "title": "Stewardship Department",
+        "subTitle": "Share resources or time to practice Islamic generosity."
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
     "title": "Islamic family and marriage",
     "subTitle": "Homes built on mercy, justice, and shared devotion stay strong.",
     "departments": [
@@ -266,21 +209,78 @@
     ]
   },
   {
-    "chapterId": 15,
-    "title": "Islamic heart",
-    "subTitle": "Purify the heart from diseases so your deeds stay sincere.",
+    "chapterId": 12,
+    "title": "Islamic community",
+    "subTitle": "Serve the Ummah with consistent hospitality and support.",
     "departments": [
       {
-        "title": "Purity Department",
-        "subTitle": "Do self-accounting nightly to catch envy, pride, and attachment."
+        "title": "Welcome Department",
+        "subTitle": "Invite someone new or marginalized into your learning circle."
       },
       {
-        "title": "Softness Department",
-        "subTitle": "Use dhikr, sadaqah, or compassion to keep the heart tender."
+        "title": "Care Department",
+        "subTitle": "Offer skills, food, or simply dua to ease others' burdens."
       },
       {
-        "title": "Focus Department",
-        "subTitle": "Turn every action into a dua so distractions fade."
+        "title": "Justice Department",
+        "subTitle": "Speak calmly when conflicts arise and seek reconciliation."
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "title": "Islamic future",
+    "subTitle": "Design your spiritual future with goals, review, and legacy.",
+    "departments": [
+      {
+        "title": "Goal Department",
+        "subTitle": "Set short- and long-term spiritual milestones and revisit them weekly."
+      },
+      {
+        "title": "Accountability Department",
+        "subTitle": "Partner with someone to celebrate progress and pray together."
+      },
+      {
+        "title": "Legacy Department",
+        "subTitle": "Imagine the impact you want to leave and take one small step today."
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "title": "Islamic hereafter",
+    "subTitle": "Remember death, the grave, and judgment to stay focused.",
+    "departments": [
+      {
+        "title": "Reminder Department",
+        "subTitle": "Mention the grave or akhirah often to keep priorities aligned."
+      },
+      {
+        "title": "Repentance Department",
+        "subTitle": "Turn back quickly when you slip, then move forward without despair."
+      },
+      {
+        "title": "Hope Department",
+        "subTitle": "Balance fear with optimism in Allah's mercy in every dua."
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "title": "Islamic paradise and hell",
+    "subTitle": "Visualize the final abodes to fuel your obedience and gratitude.",
+    "departments": [
+      {
+        "title": "Vision Department",
+        "subTitle": "Reflect on Quranic descriptions of Jannah and Jahannam for motivation."
+      },
+      {
+        "title": "Action Department",
+        "subTitle": "Let the contrast inspire sadaqah, prayer, and avoiding sin."
+      },
+      {
+        "title": "Supplication Department",
+        "subTitle": "Ask Allah explicitly for Paradise and refuge from the Fire."
       }
     ]
   }
