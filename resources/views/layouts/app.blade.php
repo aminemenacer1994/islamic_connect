@@ -333,9 +333,9 @@
                         </li>
                         @endif
                         @if (Route::has('register'))
-                    <!-- <li class="nav-item display-6 pl-3 mt-2">
+                    <li class="nav-item display-6 pl-3 mt-2">
                         <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
-                    </li> -->
+                    </li>
                     @endif
                         @else
                         <li class="nav-item dropdown pl-3 mt-2">
