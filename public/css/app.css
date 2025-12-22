@@ -1985,41 +1985,7 @@ input[type="checkbox"][data-v-406910d0] {
 .ai-suggestions[data-v-300b761a] {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
-}
-.ai-welcome[data-v-300b761a] {
-  margin-top: 1rem;
-  margin-bottom: 0.75rem;
-  padding: 1rem 1.25rem;
-  background: linear-gradient(135deg, rgba(13, 182, 145, 0.08), rgba(255, 255, 255, 0.95));
-  border-radius: 20px;
-  border: 1px solid rgba(13, 182, 145, 0.2);
-  box-shadow: 0 12px 25px rgba(15, 111, 112, 0.12);
-  color: #0f4d56;
-  text-align: center;
-}
-.ai-welcome-title[data-v-300b761a] {
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-  color: #0f5f5f;
-}
-.ai-welcome-copy[data-v-300b761a] {
-  margin: 0;
-  line-height: 1.6;
-  font-size: 0.95rem;
-  color: #0b4a4e;
-}
-.ai-welcome[data-v-300b761a] {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 18px;
-  border: 1px solid rgba(13, 182, 145, 0.2);
-  box-shadow: 0 10px 30px rgba(13, 182, 145, 0.08);
-  font-size: 0.95rem;
-  color: #0f4d56;
-  line-height: 1.6;
-  text-align: center;
+  min-height: 120px;
 }
 .ai-suggestions-label[data-v-300b761a] {
   font-size: 0.85rem;
@@ -2030,27 +1996,18 @@ input[type="checkbox"][data-v-406910d0] {
 .ai-suggestions-list[data-v-300b761a] {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(218, 240, 235, 0.9));
-  border-radius: 28px;
-  padding: 1rem;
-  box-shadow:
-    0 10px 20px rgba(15, 111, 112, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
-}
-.ai-suggestion-row[data-v-300b761a] {
-  overflow: hidden;
-  border-radius: 999px;
+  gap: 0.35rem;
+  border-radius: 26px;
+  padding: 0.75rem;
+  background: #f9fdfd;
   border: 1px solid rgba(13, 182, 145, 0.15);
-  padding: 0.45rem 0.65rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
 }
 .ai-suggestion-row[data-v-300b761a] {
   overflow: hidden;
   border-radius: 999px;
-  border: 1px solid rgba(13, 182, 145, 0.08);
-  padding: 0.25rem 0.45rem;
+  border: 1px solid rgba(13, 182, 145, 0.1);
+  padding: 0.35rem 0.5rem;
+  background: rgba(255, 255, 255, 0.9);
 }
 .ai-suggestion-track[data-v-300b761a] {
   display: flex;
@@ -2060,6 +2017,7 @@ input[type="checkbox"][data-v-406910d0] {
   animation-delay: calc(var(--row, 0) * -4s);
   will-change: transform;
   padding-bottom: 0.1rem;
+  white-space: nowrap;
 }
 .ai-suggestion[data-v-300b761a] {
   border: 1px solid rgba(13, 182, 145, 0.35);
@@ -2124,25 +2082,62 @@ input[type="checkbox"][data-v-406910d0] {
   z-index: 1;
 }
 .ai-chat-window[data-v-300b761a] {
-  max-height: 360px;
+  max-height: 420px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  border-radius: 22px;
-  /* background: #f7fbfd; */
-  border: 1px solid rgba(13, 182, 145, 0.08);
+  gap: 1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(13, 182, 145, 0.15);
   padding: 1.25rem;
-  position: relative;
-  z-index: 1;
+  background: #ffffff;
 }
-.ai-chat-window[data-v-300b761a]::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 1px solid rgba(13, 182, 145, 0.03);
-  pointer-events: none;
+.chat-entry[data-v-300b761a] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 20px;
+  animation: bubbleRise-300b761a 0.45s ease;
+}
+.chat-entry.assistant[data-v-300b761a] {
+  align-self: flex-start;
+  background: rgba(13, 182, 145, 0.05);
+  border: 1px solid rgba(13, 182, 145, 0.1);
+}
+.chat-entry.user[data-v-300b761a] {
+  align-self: flex-end;
+  background: rgba(15, 111, 112, 0.08);
+  border: 1px solid rgba(15, 111, 112, 0.2);
+}
+.chat-entry-header[data-v-300b761a] {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: #0f4d56;
+}
+.chat-entry.user .chat-entry-header[data-v-300b761a] {
+  color: #0b5b5a;
+}
+.chat-bubble[data-v-300b761a] {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: #0a3a3e;
+}
+.chat-timestamp[data-v-300b761a] {
+  color: #7c8d8f;
+}
+@keyframes bubbleRise-300b761a {
+from {
+    transform: translateY(6px);
+    opacity: 0;
+}
+to {
+    transform: translateY(0);
+    opacity: 1;
+}
 }
 .ai-chat-window[data-v-300b761a]::-webkit-scrollbar {
   width: 6px;

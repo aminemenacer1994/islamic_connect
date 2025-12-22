@@ -1,9 +1,9 @@
 <template>
-  <section  aria-label="Islamic chatbot">
+  <section ref="aiRoot" aria-label="Islamic chatbot">
     <div >
       <header >
         <div>
-          <h2 class="fw-bold">Ask trusted Islamic questions</h2>
+          <h2 class="fw-bold">Ask Trusted Islamic Questions</h2>
           <p class="ai-description">
             This open-source chatbot stays within Islamic teachings, referencing the Quran, Sunnah, and respected scholarship.
           </p>
@@ -11,15 +11,7 @@
         </div>
       </header>
 
-      <div v-if="chatHistory.length === 0" class="ai-welcome">
-        <p class="ai-welcome-title">Salaam! I'm Scholar Bot.</p>
-        <p class="ai-welcome-copy">
-          Ask about Quranic reflections, dua habits, or everyday worship—I'll respond gently with sources that comfort
-          and guide your journey.
-        </p>
-      </div>
-
-      <div class="ai-suggestions" aria-label="Suggested questions">
+        <div class="ai-suggestions" aria-label="Suggested questions">
         <h6 class="ai-suggestions-label fw-bold">Need inspiration?</h6>
         <div class="ai-suggestions-list">
           <div
@@ -44,22 +36,22 @@
         </div>
       </div>
 
-      <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
+      <div ref="chatWindow" class="py-5" role="log" aria-live="polite">
         
-        <article
-          v-for="(entry, idx) in chatHistory"
-          :key="`chat-${idx}-${entry.role}`"
-          :class="entry.role"
-        >
-          <div >
-            <strong>{{ entry.role === 'assistant' ? 'Scholar Bot' : 'You' }}</strong>
-            <small v-if="entry.displayTime">{{ entry.displayTime }}</small>
-          </div>
-          <p>{{ entry.text }}</p>
-        </article>
-      </div>
+          <article
+            v-for="(entry, idx) in chatHistory"
+            :key="`chat-${idx}-${entry.role}`"
+            :class="['chat-entry', entry.role]"
+          >
+            <div class="chat-entry-header">
+              <span class="chat-role">{{ entry.role === 'assistant' ? 'Scholar Bot' : 'You' }}</span>
+              <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
+            </div>
+            <div class="chat-bubble">{{ entry.text }}</div>
+          </article>
+        </div>
 
-      <form  @submit.prevent="sendChatMessage">
+      <form ref="aiForm" @submit.prevent="sendChatMessage">
         <label class="visually-hidden" for="aiChatInput">Ask the chatbot</label>
         <textarea
           id="aiChatInput"
@@ -143,6 +135,7 @@ export default {
         text,
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+        displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
       };
     },
     getConversationForRequest() {
@@ -207,9 +200,17 @@ export default {
       if (this.chatLoading) return;
       this.chatDraft = question;
       this.$nextTick(() => {
+        const root = this.$refs.aiRoot;
+        if (root) {
+          root.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
         const textarea = this.$refs.aiChatInput;
         if (textarea) {
           textarea.focus();
+        }
+        const form = this.$refs.aiForm;
+        if (form) {
+          form.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
       });
     },
@@ -278,45 +279,7 @@ export default {
 .ai-suggestions {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
-}
-
-.ai-welcome {
-  margin-top: 1rem;
-  margin-bottom: 0.75rem;
-  padding: 1rem 1.25rem;
-  background: linear-gradient(135deg, rgba(13, 182, 145, 0.08), rgba(255, 255, 255, 0.95));
-  border-radius: 20px;
-  border: 1px solid rgba(13, 182, 145, 0.2);
-  box-shadow: 0 12px 25px rgba(15, 111, 112, 0.12);
-  color: #0f4d56;
-  text-align: center;
-}
-
-.ai-welcome-title {
-  font-weight: 600;
-  margin-bottom: 0.35rem;
-  color: #0f5f5f;
-}
-
-.ai-welcome-copy {
-  margin: 0;
-  line-height: 1.6;
-  font-size: 0.95rem;
-  color: #0b4a4e;
-}
-
-.ai-welcome {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
-  padding: 1rem 1.25rem;
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 18px;
-  border: 1px solid rgba(13, 182, 145, 0.2);
-  box-shadow: 0 10px 30px rgba(13, 182, 145, 0.08);
-  font-size: 0.95rem;
-  color: #0f4d56;
-  line-height: 1.6;
-  text-align: center;
+  min-height: 120px;
 }
 
 .ai-suggestions-label {
@@ -329,28 +292,19 @@ export default {
 .ai-suggestions-list {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(218, 240, 235, 0.9));
-  border-radius: 28px;
-  padding: 1rem;
-  box-shadow:
-    0 10px 20px rgba(15, 111, 112, 0.08),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  gap: 0.35rem;
+  border-radius: 26px;
+  padding: 0.75rem;
+  background: #f9fdfd;
+  border: 1px solid rgba(13, 182, 145, 0.15);
 }
 
 .ai-suggestion-row {
   overflow: hidden;
   border-radius: 999px;
-  border: 1px solid rgba(13, 182, 145, 0.15);
-  padding: 0.45rem 0.65rem;
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
-}
-.ai-suggestion-row {
-  overflow: hidden;
-  border-radius: 999px;
-  border: 1px solid rgba(13, 182, 145, 0.08);
-  padding: 0.25rem 0.45rem;
+  border: 1px solid rgba(13, 182, 145, 0.1);
+  padding: 0.35rem 0.5rem;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .ai-suggestion-track {
@@ -361,6 +315,7 @@ export default {
   animation-delay: calc(var(--row, 0) * -4s);
   will-change: transform;
   padding-bottom: 0.1rem;
+  white-space: nowrap;
 }
 
 .ai-suggestion {
@@ -434,26 +389,70 @@ export default {
 }
 
 .ai-chat-window {
-  max-height: 360px;
+  max-height: 420px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  border-radius: 22px;
-  /* background: #f7fbfd; */
-  border: 1px solid rgba(13, 182, 145, 0.08);
+  gap: 1rem;
+  border-radius: 24px;
+  border: 1px solid rgba(13, 182, 145, 0.15);
   padding: 1.25rem;
-  position: relative;
-  z-index: 1;
+  background: #ffffff;
 }
 
-.ai-chat-window::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  border: 1px solid rgba(13, 182, 145, 0.03);
-  pointer-events: none;
+.chat-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 20px;
+  animation: bubbleRise 0.45s ease;
+}
+
+.chat-entry.assistant {
+  align-self: flex-start;
+  background: rgba(13, 182, 145, 0.05);
+  border: 1px solid rgba(13, 182, 145, 0.1);
+}
+
+.chat-entry.user {
+  align-self: flex-end;
+  background: rgba(15, 111, 112, 0.08);
+  border: 1px solid rgba(15, 111, 112, 0.2);
+}
+
+.chat-entry-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: #0f4d56;
+}
+
+.chat-entry.user .chat-entry-header {
+  color: #0b5b5a;
+}
+
+.chat-bubble {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: #0a3a3e;
+}
+
+.chat-timestamp {
+  color: #7c8d8f;
+}
+
+@keyframes bubbleRise {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .ai-chat-window::-webkit-scrollbar {

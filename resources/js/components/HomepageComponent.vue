@@ -144,7 +144,7 @@
     </section> -->
 
     <section class="container-fluid px-0 py-5 welcome-chat-shell" aria-label="Islamic chatbot preview">
-      <div class="welcome-chat-frame">
+      <div class="welcome-chat-frame mb-2">
         <ai-component></ai-component>
       </div>
     </section>
