@@ -12,7 +12,7 @@
       </header>
 
       <div class="ai-suggestions" aria-label="Suggested questions">
-        <p class="ai-suggestions-label">Need inspiration?</p>
+        <h6 class="ai-suggestions-label fw-bold">Need inspiration?</h6>
         <div class="ai-suggestions-list">
           <div
             v-for="row in suggestionRows"
@@ -20,17 +20,18 @@
             class="ai-suggestion-row"
             :style="{ '--row': row.index }"
           >
-            <button
-              v-for="(question, idx) in row.items"
-              :key="question"
-              type="button"
-              class="ai-suggestion"
-              :style="{ '--i': idx }"
-              @click="selectSuggestedQuestion(question)"
-              :disabled="chatLoading"
-            >
-              {{ question }}
-            </button>
+            <div class="ai-suggestion-track">
+              <button
+                v-for="(question, idx) in row.loopItems"
+                :key="`row-${row.index}-${idx}-${question}`"
+                type="button"
+                class="ai-suggestion"
+                @click="selectSuggestedQuestion(question)"
+                :disabled="chatLoading"
+              >
+                <span class="ai-suggestion-text">{{ question }}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -61,10 +62,10 @@
           placeholder="Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values."
           :disabled="chatLoading"
         ></textarea>
-        <div class="ai-form-meta">
-          <small>
+        <div class="ai-form-meta pt-2 text-muted">
+          <medium>
             The assistant declines off-topic, inappropriate, or speculative prompts and keeps answers rooted in Islamic sources.
-          </small>
+          </medium>
           <button
             type="submit"
             class="ai-submit"
@@ -101,6 +102,9 @@ export default {
         '📝 What are respectful ways to ask scholars about complex issues?',
         '🕊️ How do I practice patience during tough family moments?',
         '🧭 What principles help select reliable Islamic content online?',
+        '🕌 How can I memorize a new surah efficiently?',
+        '🪔 Tell me about a dua for seeking knowledge.',
+        '🌟 What are uplifting reminders for kids before bedtime?',
       ],
     };
   },
@@ -108,14 +112,18 @@ export default {
     suggestionRows() {
       const rows = [];
       const perRow = Math.ceil(this.suggestedQuestions.length / 3);
-      for (let rowIndex = 0; rowIndex < 3; rowIndex += 1) {
-        const start = rowIndex * perRow;
-        const end = start + perRow;
-        const row = this.suggestedQuestions.slice(start, end);
-        if (row.length) {
-          rows.push({ items: row, index: rowIndex });
-        }
-      }
+      rows.push(
+        ...[0, 1, 2].map((rowIndex) => {
+          const start = rowIndex * perRow;
+          const rowItems = this.suggestedQuestions.slice(start, start + perRow);
+          if (!rowItems.length) return null;
+          return {
+            index: rowIndex,
+            items: rowItems,
+            loopItems: [...rowItems, ...rowItems],
+          };
+        }).filter(Boolean),
+      );
       return rows;
     },
   },
@@ -274,18 +282,29 @@ export default {
 .ai-suggestions-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(221, 241, 238, 0.8));
+  border-radius: 26px;
+  padding: 0.9rem;
+  box-shadow: 0 3px 20px rgba(13, 182, 145, 0.15);
 }
 
 .ai-suggestion-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.45rem;
-  animation: rowSlide 20s ease-in-out infinite;
-  animation-delay: calc(var(--row, 0) * -0.8s);
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 182, 145, 0.08);
+  padding: 0.25rem 0.45rem;
 }
 
-/* suggestion chips fade horizontally along each row */
+.ai-suggestion-track {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
+  animation: trackScroll 30s linear infinite;
+  animation-delay: calc(var(--row, 0) * -4s);
+  will-change: transform;
+}
+
 .ai-suggestion {
   border: 1px solid rgba(13, 182, 145, 0.35);
   border-radius: 999px;
@@ -295,9 +314,18 @@ export default {
   color: #0b4a4f;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
-  opacity: 0;
-  animation: suggestionFade 8s ease-in-out infinite;
-  animation-delay: calc(var(--i, 0) * 0.35s);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.3;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.ai-suggestion-text {
+  width: 100%;
+  white-space: nowrap;
 }
 
 .ai-suggestion:disabled {
@@ -306,34 +334,17 @@ export default {
 }
 
 .ai-suggestion:not(:disabled):hover {
-  background: rgba(13, 182, 145, 0.08);
-  border-color: rgba(13, 182, 145, 0.65);
-  box-shadow: 0 4px 10px rgba(13, 182, 145, 0.15);
+  background: rgba(13, 182, 145, 0.12);
+  border-color: rgba(13, 182, 145, 0.75);
+  box-shadow: 0 6px 12px rgba(13, 182, 145, 0.2);
 }
 
-@keyframes suggestionFade {
+@keyframes trackScroll {
   0% {
-    opacity: 0.2;
-    transform: translateX(-6px);
-  }
-  20%,
-  60% {
-    opacity: 1;
     transform: translateX(0);
   }
   100% {
-    opacity: 0.2;
-    transform: translateX(6px);
-  }
-}
-
-@keyframes rowSlide {
-  0%,
-  100% {
-    transform: translateX(-3%);
-  }
-  50% {
-    transform: translateX(3%);
+    transform: translateX(-50%);
   }
 }
 
