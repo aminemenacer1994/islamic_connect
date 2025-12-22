@@ -196,6 +196,7 @@ export default {
         }
         const response = await fetch('/ai/chat', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

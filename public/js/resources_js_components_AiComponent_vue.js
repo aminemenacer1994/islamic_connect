@@ -118,6 +118,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }
         const response = await fetch('/ai/chat', {
           method: 'POST',
+          credentials: 'same-origin',
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
