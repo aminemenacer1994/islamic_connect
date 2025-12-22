@@ -49,6 +49,11 @@
           <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
             :class="['chat-entry', entry.role]">
             <div class="chat-entry-header">
+              <i
+                :class="entry.role === 'assistant' ? 'fas fa-robot chat-icon' : 'fas fa-user chat-icon'"
+                aria-hidden="true"
+                title="Sender"
+              ></i>
               <span class="chat-role mr-2"><b>{{ entry.role === 'assistant' ? 'Assistant' : 'You' }}</b></span>
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
@@ -574,6 +579,22 @@ export default {
   align-items: flex-start;
 }
 
+.chat-entry-header {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #425b5d;
+}
+
+.chat-entry-header .chat-icon {
+  font-size: 1rem;
+  color: #0db691;
+  background: rgba(13, 182, 145, 0.15);
+  padding: 0.15rem;
+  border-radius: 50%;
+}
+
 /* .chat-entry {
   width: 100%;
   display: flex;
@@ -596,8 +617,6 @@ export default {
   border-radius: 4px;
 }
 
-<<<<<<< ours
-=======
 .chat-loading-overlay {
   position: absolute;
   inset: 0;
@@ -633,7 +652,6 @@ export default {
   color: #0d4b4b;
 }
 
->>>>>>> theirs
 .chat-empty {
   padding: 1.5rem;
   text-align: center;

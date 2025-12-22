@@ -2207,6 +2207,20 @@ input[type="checkbox"][data-v-406910d0] {
 .chat-entry.assistant[data-v-300b761a] {
   align-items: flex-start;
 }
+.chat-entry-header[data-v-300b761a] {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  color: #425b5d;
+}
+.chat-entry-header .chat-icon[data-v-300b761a] {
+  font-size: 1rem;
+  color: #0db691;
+  background: rgba(13, 182, 145, 0.15);
+  padding: 0.15rem;
+  border-radius: 50%;
+}
 
 /* .chat-entry {
   width: 100%;
@@ -2226,8 +2240,6 @@ input[type="checkbox"][data-v-406910d0] {
   background: rgba(13, 182, 145, 0.5);
   border-radius: 4px;
 }
-<<<<<<< ours
-=======
 .chat-loading-overlay[data-v-300b761a] {
   position: absolute;
   inset: 0;
@@ -2259,7 +2271,6 @@ input[type="checkbox"][data-v-406910d0] {
   font-weight: 600;
   color: #0d4b4b;
 }
->>>>>>> theirs
 .chat-empty[data-v-300b761a] {
   padding: 1.5rem;
   text-align: center;
