@@ -1,34 +1,39 @@
 <template>
   <section ref="aiRoot" aria-label="Islamic chatbot">
-    <div >
-      <header >
+    <div>
+      <header>
         <div>
           <h2 class="fw-bold">Ask Trusted Islamic Questions</h2>
           <p class="ai-description">
-            This open-source chatbot stays within Islamic teachings, referencing the Quran, Sunnah, and respected scholarship.
+            This open-source chatbot stays within Islamic teachings, referencing the Quran, Sunnah, and respected
+            scholarship.
           </p>
-          
+
         </div>
       </header>
 
-        <div class="ai-suggestions" aria-label="Suggested questions">
-        <h6 class="ai-suggestions-label fw-bold">Need inspiration?</h6>
+      <div v-if="chatHistory.length === 0" class="ai-welcome" aria-live="polite">
+        <div class="ai-welcome-icon" aria-hidden="true">
+          <i class="fas fa-infinity" aria-hidden="true"></i>
+        </div>
+        <div class="ai-welcome-text pt-3">
+          <p class="ai-welcome-title">How can I assist your journey today?</p>
+          <p class="ai-welcome-copy">
+            Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship
+            and
+            I’ll respond with balanced, source-rooted clarity.
+          </p>
+        </div>
+      </div>
+
+      <div class="ai-suggestions" aria-label="Suggested questions">
+        <h6 class="fw-bold">Need inspiration ?</h6>
         <div class="ai-suggestions-list">
-          <div
-            v-for="row in suggestionRows"
-            :key="`row-${row.index}`"
-            class="ai-suggestion-row"
-            :style="{ '--row': row.index }"
-          >
+          <div v-for="row in suggestionRows" :key="`row-${row.index}`" class="ai-suggestion-row"
+            :style="{ '--row': row.index }">
             <div class="ai-suggestion-track">
-              <button
-                v-for="(question, idx) in row.loopItems"
-                :key="`row-${row.index}-${idx}-${question}`"
-                type="button"
-                class="ai-suggestion"
-                @click="selectSuggestedQuestion(question)"
-                :disabled="chatLoading"
-              >
+              <button v-for="(question, idx) in row.loopItems" :key="`row-${row.index}-${idx}-${question}`"
+                type="button" class="ai-suggestion" @click="selectSuggestedQuestion(question)" :disabled="chatLoading">
                 <span class="ai-suggestion-text">{{ question }}</span>
               </button>
             </div>
@@ -36,41 +41,30 @@
         </div>
       </div>
 
-      <div ref="chatWindow" class="py-5" role="log" aria-live="polite">
-        
-          <article
-            v-for="(entry, idx) in chatHistory"
-            :key="`chat-${idx}-${entry.role}`"
-            :class="['chat-entry', entry.role]"
-          >
+      <div ref="chatShell" class="ai-chat-shell">
+        <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
+          <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
+            :class="['chat-entry', entry.role]">
             <div class="chat-entry-header">
-              <span class="chat-role">{{ entry.role === 'assistant' ? 'Scholar Bot' : 'You' }}</span>
+              <span class="chat-role mr-2"><b>{{ entry.role === 'assistant' ? 'Scholar Bot' : 'You' }}</b></span>
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
-            <div class="chat-bubble">{{ entry.text }}</div>
+            <p class="chat-bubble">{{ entry.text }}</p>
           </article>
         </div>
+      </div>
 
-      <form ref="aiForm" @submit.prevent="sendChatMessage">
+      <form ref="aiForm" class="ai-form pt-3" @submit.prevent="sendChatMessage">
         <label class="visually-hidden" for="aiChatInput">Ask the chatbot</label>
-        <textarea
-          id="aiChatInput"
-          ref="aiChatInput"
-          v-model="chatDraft"
-          class="ai-textarea"
-          rows="2"
+        <textarea id="aiChatInput" ref="aiChatInput" v-model="chatDraft" class="ai-textarea" rows="2"
           placeholder="Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values."
-          :disabled="chatLoading"
-        ></textarea>
+          :disabled="chatLoading"></textarea>
         <div class="ai-form-meta pt-2 text-muted">
           <medium>
-            The assistant declines off-topic, inappropriate, or speculative prompts and keeps answers rooted in Islamic sources.
+            The assistant declines off-topic, inappropriate, or speculative prompts and keeps answers rooted in Islamic
+            sources.
           </medium>
-          <button
-            type="submit"
-            class="ai-submit"
-            :disabled="chatLoading || !chatDraft.trim()"
-          >
+          <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span>{{ chatLoading ? 'Thinking...' : 'Ask the bot' }}</span>
           </button>
@@ -146,7 +140,7 @@ export default {
     },
     scrollChatWindow() {
       this.$nextTick(() => {
-        const container = this.$refs.chatWindow;
+        const container = this.$refs.chatShell || this.$refs.chatWindow;
         if (container) {
           container.scrollTop = container.scrollHeight;
         }
@@ -212,6 +206,7 @@ export default {
         if (form) {
           form.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
+        this.sendChatMessage();
       });
     },
   },
@@ -280,6 +275,69 @@ export default {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
   min-height: 120px;
+}
+
+.ai-welcome {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem 1rem 0.75rem;
+  border-radius: 22px;
+  border: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(229, 241, 250, 0.85));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-size: 0.95rem;
+  color: #0f4d56;
+  box-shadow: 0 20px 40px rgba(15, 111, 112, 0.12);
+  gap: 0.25rem;
+}
+
+.ai-welcome-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.7rem;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(13, 182, 145, 0.2);
+  color: #0db691;
+  margin-bottom: 0.25rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.pb-2 {
+  padding-bottom: 0.5rem;
+}
+
+.ai-welcome-icon svg {
+  width: 75%;
+  height: 75%;
+}
+
+.ai-welcome-icon i {
+  font-size: 1.8rem;
+  line-height: 1;
+  display: block;
+}
+
+.ai-welcome-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.ai-welcome-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ai-welcome-copy {
+  margin: 0.15rem 0 0;
+  color: #0b4b4a;
+  line-height: 1.5;
 }
 
 .ai-suggestions-label {
@@ -356,6 +414,7 @@ export default {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -388,72 +447,34 @@ export default {
   z-index: 1;
 }
 
-.ai-chat-window {
-  max-height: 420px;
+.ai-chat-shell {
+  max-height: 430px;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  border-radius: 24px;
-  border: 1px solid rgba(13, 182, 145, 0.15);
-  padding: 1.25rem;
-  background: #ffffff;
+  border-radius: 28px;
+  border: 1px solid rgba(13, 182, 145, 0.25);
+  background: rgba(245, 250, 248, 0.95);
+  padding: 1rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
-.chat-entry {
+.ai-chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* .chat-entry {
+  width: 100%;
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  padding: 0.65rem 0.85rem;
-  border-radius: 20px;
+  padding: 0.85rem;
+  border-radius: 24px;
   animation: bubbleRise 0.45s ease;
-}
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(172, 202, 197, 0.4);
+} */
 
-.chat-entry.assistant {
-  align-self: flex-start;
-  background: rgba(13, 182, 145, 0.05);
-  border: 1px solid rgba(13, 182, 145, 0.1);
-}
-
-.chat-entry.user {
-  align-self: flex-end;
-  background: rgba(15, 111, 112, 0.08);
-  border: 1px solid rgba(15, 111, 112, 0.2);
-}
-
-.chat-entry-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.75rem;
-  letter-spacing: 0.06em;
-  color: #0f4d56;
-}
-
-.chat-entry.user .chat-entry-header {
-  color: #0b5b5a;
-}
-
-.chat-bubble {
-  margin: 0;
-  font-size: 0.98rem;
-  line-height: 1.55;
-  color: #0a3a3e;
-}
-
-.chat-timestamp {
-  color: #7c8d8f;
-}
-
-@keyframes bubbleRise {
-  from {
-    transform: translateY(6px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
 
 .ai-chat-window::-webkit-scrollbar {
   width: 6px;
@@ -588,10 +609,12 @@ export default {
   .ai-panel {
     padding: 1.5rem;
   }
+
   .ai-header {
     flex-direction: column;
     align-items: flex-start;
   }
+
   .chat-bubble {
     max-width: 100%;
   }
