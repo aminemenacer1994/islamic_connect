@@ -2226,6 +2226,40 @@ input[type="checkbox"][data-v-406910d0] {
   background: rgba(13, 182, 145, 0.5);
   border-radius: 4px;
 }
+<<<<<<< ours
+=======
+.chat-loading-overlay[data-v-300b761a] {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  pointer-events: all;
+}
+.chat-loading-content[data-v-300b761a] {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(15, 111, 112, 0.07);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+.chat-loading-content .spinner-border[data-v-300b761a] {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25rem;
+}
+.chat-loading-text[data-v-300b761a] {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0d4b4b;
+}
+>>>>>>> theirs
 .chat-empty[data-v-300b761a] {
   padding: 1.5rem;
   text-align: center;

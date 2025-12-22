@@ -52,7 +52,7 @@
               <span class="chat-role mr-2"><b>{{ entry.role === 'assistant' ? 'Assistant' : 'You' }}</b></span>
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
-            <p :class="['chat-bubble', entry.role]">{{ entry.text }}</p>
+            <div :class="['chat-bubble', entry.role]" v-html="formatChatText(entry.text)"></div>
           </article>
         </div>
       </div>
@@ -137,6 +137,30 @@ export default {
         role: entry.role,
         content: entry.text,
       }));
+    },
+    escapeHtml(value) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      };
+      return value.replace(/[&<>"']/g, (char) => map[char]);
+    },
+    formatChatText(text) {
+      if (!text) return '';
+      const cleaned = text
+        .replace(/\r\n?/g, '\n')
+        .replace(/[^\x20-\x7E\n]/g, ' ')
+        .replace(/[ \t]{2,}/g, ' ')
+        .trim();
+      const normalized = cleaned.replace(/\*\*/g, '');
+      const paragraphs = normalized.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+      if (!paragraphs.length) {
+        return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
+      }
+      return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
     },
     scrollChatWindow() {
       this.$nextTick(() => {
@@ -572,6 +596,44 @@ export default {
   border-radius: 4px;
 }
 
+<<<<<<< ours
+=======
+.chat-loading-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: rgba(255, 255, 255, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  backdrop-filter: blur(4px);
+  pointer-events: all;
+}
+
+.chat-loading-content {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(15, 111, 112, 0.07);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.chat-loading-content .spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25rem;
+}
+
+.chat-loading-text {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0d4b4b;
+}
+
+>>>>>>> theirs
 .chat-empty {
   padding: 1.5rem;
   text-align: center;
