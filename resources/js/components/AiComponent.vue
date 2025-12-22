@@ -1,7 +1,7 @@
 <template>
   <section ref="aiRoot" aria-label="Islamic chatbot">
     <div>
-      <div v-if="chatHistory.length === 0" class="ai-welcome" aria-live="polite">
+      <div class="ai-welcome" aria-live="polite">
         <div class="ai-welcome-icon" aria-hidden="true">
           <i class="fas fa-infinity" aria-hidden="true"></i>
         </div>
@@ -44,7 +44,7 @@
         </div>
       </div>
 
-      <div ref="chatShell" class="ai-chat-shell">
+      <div v-if="chatHistory.length" ref="chatShell" class="ai-chat-shell">
         <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
           <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
             :class="['chat-entry', entry.role]">
