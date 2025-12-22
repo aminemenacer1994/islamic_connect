@@ -1,29 +1,32 @@
 <template>
   <section ref="aiRoot" aria-label="Islamic chatbot">
     <div>
-      <header>
-        <div>
-          <h2 class="fw-bold">Ask Trusted Islamic Questions</h2>
-          <p class="ai-description">
-            This open-source chatbot stays within Islamic teachings, referencing the Quran, Sunnah, and respected
-            scholarship.
-          </p>
-
-        </div>
-      </header>
-
       <div v-if="chatHistory.length === 0" class="ai-welcome" aria-live="polite">
         <div class="ai-welcome-icon" aria-hidden="true">
           <i class="fas fa-infinity" aria-hidden="true"></i>
         </div>
-        <div class="ai-welcome-text pt-3">
-          <p class="ai-welcome-title">How can I assist your journey today?</p>
-          <p class="ai-welcome-copy">
+        <div class="ai-welcome-text">
+          <h2 class="fw-bold">How can I assist your journey today?</h2>
+          <p class="container ai-welcome-copy">
             Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship
             and
             I’ll respond with balanced, source-rooted clarity.
           </p>
         </div>
+      </div>
+
+      <div class="ai-controls" role="toolbar" aria-label="Chat controls">
+        <button type="button" class="ai-control-btn ai-control-btn--primary" @click="startNewChat">
+          <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
+        </button>
+        <button
+          type="button"
+          class="ai-control-btn"
+          :disabled="!chatHistory.length"
+          @click="clearHistory"
+        >
+          <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
+        </button>
       </div>
 
       <div class="ai-suggestions" aria-label="Suggested questions">
@@ -46,10 +49,10 @@
           <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
             :class="['chat-entry', entry.role]">
             <div class="chat-entry-header">
-              <span class="chat-role mr-2"><b>{{ entry.role === 'assistant' ? 'Scholar Bot' : 'You' }}</b></span>
+              <span class="chat-role mr-2"><b>{{ entry.role === 'assistant' ? 'Assistant' : 'You' }}</b></span>
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
-            <p class="chat-bubble">{{ entry.text }}</p>
+            <p :class="['chat-bubble', entry.role]">{{ entry.text }}</p>
           </article>
         </div>
       </div>
@@ -60,13 +63,9 @@
           placeholder="Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values."
           :disabled="chatLoading"></textarea>
         <div class="ai-form-meta pt-2 text-muted">
-          <medium>
-            The assistant declines off-topic, inappropriate, or speculative prompts and keeps answers rooted in Islamic
-            sources.
-          </medium>
           <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span>{{ chatLoading ? 'Thinking...' : 'Ask the bot' }}</span>
+            <span>{{ chatLoading ? 'Thinking...' : 'Ask your Assistant' }}</span>
           </button>
         </div>
         <p v-if="chatError" class="ai-error">{{ chatError }}</p>
@@ -83,6 +82,7 @@ export default {
       chatHistory: [],
       chatLoading: false,
       chatError: null,
+      sessionId: null,
       suggestedQuestions: [
         '🕌 What steps can I take to prepare for Jumuah prayer?',
         '📖 Explain one verse that highlights mercy in the Quran.',
@@ -160,6 +160,7 @@ export default {
       };
       try {
         this.chatLoading = true;
+        const session = this.sessionId || this.resetSession();
         const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
         if (!csrfToken) {
           throw new Error('Unable to send the question right now.');
@@ -171,7 +172,7 @@ export default {
             'Accept': 'application/json',
             'X-CSRF-TOKEN': csrfToken,
           },
-          body: JSON.stringify(payload),
+          body: JSON.stringify({ ...payload, sessionId: session }),
         });
         const responseData = await response.json().catch(() => ({}));
         if (!response.ok) {
@@ -209,6 +210,24 @@ export default {
         this.sendChatMessage();
       });
     },
+    resetSession() {
+      this.sessionId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+      return this.sessionId;
+    },
+    startNewChat() {
+      this.chatHistory = [];
+      this.chatDraft = '';
+      this.chatError = null;
+      this.resetSession();
+    },
+    clearHistory() {
+      this.chatHistory = [];
+      this.chatError = null;
+      this.resetSession();
+    },
+  },
+  mounted() {
+    this.resetSession();
   },
 };
 </script>
@@ -270,6 +289,57 @@ export default {
   color: #4f6166;
   line-height: 1.6;
 }
+
+.ai-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.ai-control-btn {
+  border: 1px solid rgba(13, 182, 145, 0.35);
+  background: #fff;
+  color: #0d4b4b;
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ai-control-btn i {
+  font-size: 0.9rem;
+}
+
+.ai-control-btn:hover:not(:disabled) {
+  border-color: #0db691;
+}
+
+.ai-control-btn--primary {
+  background: linear-gradient(135deg, #0db691, #0c5b9a);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(13, 182, 145, 0.3);
+}
+
+.ai-control-btn--primary:hover:not(:disabled) {
+  border-color: transparent;
+  opacity: 0.95;
+}
+
+.ai-control-btn.active {
+  background: rgba(13, 182, 145, 0.12);
+}
+
+.ai-control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 
 .ai-suggestions {
   margin-top: 1.5rem;
@@ -448,7 +518,8 @@ export default {
 }
 
 .ai-chat-shell {
-  max-height: 430px;
+  min-height: 520px;
+  max-height: 580px;
   overflow-y: auto;
   border-radius: 28px;
   border: 1px solid rgba(13, 182, 145, 0.25);
@@ -461,6 +532,22 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+/* Align user bubbles to the right while keeping assistant text on the left */
+.chat-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.chat-entry.user {
+  align-items: flex-end;
+}
+
+.chat-entry.assistant {
+  align-items: flex-start;
 }
 
 /* .chat-entry {
@@ -510,8 +597,10 @@ export default {
 
 .chat-bubble.user {
   align-self: flex-end;
-  background: rgba(13, 182, 145, 0.2);
-  border-color: rgba(13, 182, 145, 0.42);
+  background: linear-gradient(135deg, rgba(13, 182, 145, 0.85), rgba(12, 91, 154, 0.9));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(12, 91, 154, 0.35);
 }
 
 .chat-bubble-meta {
