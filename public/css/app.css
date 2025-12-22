@@ -1982,6 +1982,76 @@ input[type="checkbox"][data-v-406910d0] {
   color: #4f6166;
   line-height: 1.6;
 }
+.ai-suggestions[data-v-300b761a] {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+.ai-suggestions-label[data-v-300b761a] {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f5658;
+  margin-bottom: 0.35rem;
+}
+.ai-suggestions-list[data-v-300b761a] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.ai-suggestion-row[data-v-300b761a] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  animation: rowSlide-300b761a 20s ease-in-out infinite;
+  animation-delay: calc(var(--row, 0) * -0.8s);
+}
+
+/* suggestion chips fade horizontally along each row */
+.ai-suggestion[data-v-300b761a] {
+  border: 1px solid rgba(13, 182, 145, 0.35);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  background: #fff;
+  font-size: 0.92rem;
+  color: #0b4a4f;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  animation: suggestionFade-300b761a 8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.35s);
+}
+.ai-suggestion[data-v-300b761a]:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+.ai-suggestion[data-v-300b761a]:not(:disabled):hover {
+  background: rgba(13, 182, 145, 0.08);
+  border-color: rgba(13, 182, 145, 0.65);
+  box-shadow: 0 4px 10px rgba(13, 182, 145, 0.15);
+}
+@keyframes suggestionFade-300b761a {
+0% {
+    opacity: 0.2;
+    transform: translateX(-6px);
+}
+20%,
+  60% {
+    opacity: 1;
+    transform: translateX(0);
+}
+100% {
+    opacity: 0.2;
+    transform: translateX(6px);
+}
+}
+@keyframes rowSlide-300b761a {
+0%,
+  100% {
+    transform: translateX(-3%);
+}
+50% {
+    transform: translateX(3%);
+}
+}
 .ai-meta-chips[data-v-300b761a] {
   display: flex;
   flex-wrap: wrap;
@@ -2643,20 +2713,10 @@ to { transform: rotate(360deg);
 }
 }
 .welcome-chat-shell[data-v-2ba25654] {
-    background:
-      radial-gradient(circle at 20% 10%, rgba(13, 182, 145, 0.18), transparent 45%),
-      radial-gradient(circle at 80% 0%, rgba(15, 115, 134, 0.16), transparent 40%),
-      linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
+    background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
     padding: 4rem 0;
     position: relative;
     overflow: hidden;
-}
-.welcome-chat-shell[data-v-2ba25654]::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95), transparent 70%);
-    pointer-events: none;
 }
 .welcome-chat-frame[data-v-2ba25654] {
     position: relative;

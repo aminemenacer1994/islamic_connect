@@ -11,6 +11,30 @@
         </div>
       </header>
 
+      <div class="ai-suggestions" aria-label="Suggested questions">
+        <p class="ai-suggestions-label">Need inspiration?</p>
+        <div class="ai-suggestions-list">
+          <div
+            v-for="row in suggestionRows"
+            :key="`row-${row.index}`"
+            class="ai-suggestion-row"
+            :style="{ '--row': row.index }"
+          >
+            <button
+              v-for="(question, idx) in row.items"
+              :key="question"
+              type="button"
+              class="ai-suggestion"
+              :style="{ '--i': idx }"
+              @click="selectSuggestedQuestion(question)"
+              :disabled="chatLoading"
+            >
+              {{ question }}
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
         
         <article
@@ -30,6 +54,7 @@
         <label class="visually-hidden" for="aiChatInput">Ask the chatbot</label>
         <textarea
           id="aiChatInput"
+          ref="aiChatInput"
           v-model="chatDraft"
           class="ai-textarea"
           rows="2"
@@ -63,7 +88,36 @@ export default {
       chatHistory: [],
       chatLoading: false,
       chatError: null,
+      suggestedQuestions: [
+        '🕌 What steps can I take to prepare for Jumuah prayer?',
+        '📖 Explain one verse that highlights mercy in the Quran.',
+        '🤲 How can I keep my dua consistent during exams?',
+        '🌙 What practical tips help me benefit from Ramadan nights?',
+        '📿 Recommend a short dhikr routine for busy days.',
+        '🕋 Why is visiting the Prophet’s Mosque special?',
+        '📜 Share a dua for starting a new project.',
+        '📚 Where can I find authentic stories of the companions?',
+        '🌗 How can I adapt worship during travel or busy weeks?',
+        '📝 What are respectful ways to ask scholars about complex issues?',
+        '🕊️ How do I practice patience during tough family moments?',
+        '🧭 What principles help select reliable Islamic content online?',
+      ],
     };
+  },
+  computed: {
+    suggestionRows() {
+      const rows = [];
+      const perRow = Math.ceil(this.suggestedQuestions.length / 3);
+      for (let rowIndex = 0; rowIndex < 3; rowIndex += 1) {
+        const start = rowIndex * perRow;
+        const end = start + perRow;
+        const row = this.suggestedQuestions.slice(start, end);
+        if (row.length) {
+          rows.push({ items: row, index: rowIndex });
+        }
+      }
+      return rows;
+    },
   },
   methods: {
     createChatEntry(role, text) {
@@ -133,6 +187,16 @@ export default {
         this.chatLoading = false;
       }
     },
+    selectSuggestedQuestion(question) {
+      if (this.chatLoading) return;
+      this.chatDraft = question;
+      this.$nextTick(() => {
+        const textarea = this.$refs.aiChatInput;
+        if (textarea) {
+          textarea.focus();
+        }
+      });
+    },
   },
 };
 </script>
@@ -193,6 +257,84 @@ export default {
   margin: 0.35rem 0 0;
   color: #4f6166;
   line-height: 1.6;
+}
+
+.ai-suggestions {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ai-suggestions-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f5658;
+  margin-bottom: 0.35rem;
+}
+
+.ai-suggestions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.ai-suggestion-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  animation: rowSlide 20s ease-in-out infinite;
+  animation-delay: calc(var(--row, 0) * -0.8s);
+}
+
+/* suggestion chips fade horizontally along each row */
+.ai-suggestion {
+  border: 1px solid rgba(13, 182, 145, 0.35);
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  background: #fff;
+  font-size: 0.92rem;
+  color: #0b4a4f;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  opacity: 0;
+  animation: suggestionFade 8s ease-in-out infinite;
+  animation-delay: calc(var(--i, 0) * 0.35s);
+}
+
+.ai-suggestion:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.ai-suggestion:not(:disabled):hover {
+  background: rgba(13, 182, 145, 0.08);
+  border-color: rgba(13, 182, 145, 0.65);
+  box-shadow: 0 4px 10px rgba(13, 182, 145, 0.15);
+}
+
+@keyframes suggestionFade {
+  0% {
+    opacity: 0.2;
+    transform: translateX(-6px);
+  }
+  20%,
+  60% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0.2;
+    transform: translateX(6px);
+  }
+}
+
+@keyframes rowSlide {
+  0%,
+  100% {
+    transform: translateX(-3%);
+  }
+  50% {
+    transform: translateX(3%);
+  }
 }
 
 .ai-meta-chips {

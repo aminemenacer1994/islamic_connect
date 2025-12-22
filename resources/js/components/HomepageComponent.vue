@@ -1586,20 +1586,10 @@
     to { transform: rotate(360deg); }
   }
   .welcome-chat-shell {
-    background:
-      radial-gradient(circle at 20% 10%, rgba(13, 182, 145, 0.18), transparent 45%),
-      radial-gradient(circle at 80% 0%, rgba(15, 115, 134, 0.16), transparent 40%),
-      linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
+    background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
     padding: 4rem 0;
     position: relative;
     overflow: hidden;
-  }
-  .welcome-chat-shell::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95), transparent 70%);
-    pointer-events: none;
   }
   .welcome-chat-frame {
     position: relative;
