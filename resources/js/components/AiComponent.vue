@@ -1,19 +1,13 @@
 <template>
   <section  aria-label="Islamic chatbot">
-    <div class="ai-panel">
-      <span class="ai-panel-orb" aria-hidden="true"></span>
-      <header class="ai-header">
+    <div >
+      <header >
         <div>
-          <p class="ai-label">AI guidance</p>
-          <h2 class="ai-title">Ask trusted Islamic questions</h2>
+          <h2 class="fw-bold">Ask trusted Islamic questions</h2>
           <p class="ai-description">
             This open-source chatbot stays within Islamic teachings, referencing the Quran, Sunnah, and respected scholarship.
           </p>
-          <div class="ai-meta-chips">
-            <span>Quran &amp; Sunnah</span>
-            <span>Guided by scholars</span>
-            <span>No speculation</span>
-          </div>
+          
         </div>
       </header>
 
@@ -22,10 +16,9 @@
         <article
           v-for="(entry, idx) in chatHistory"
           :key="`chat-${idx}-${entry.role}`"
-          class="chat-bubble"
           :class="entry.role"
         >
-          <div class="chat-bubble-meta">
+          <div >
             <strong>{{ entry.role === 'assistant' ? 'Scholar Bot' : 'You' }}</strong>
             <small v-if="entry.displayTime">{{ entry.displayTime }}</small>
           </div>
@@ -33,7 +26,7 @@
         </article>
       </div>
 
-      <form class="ai-form" @submit.prevent="sendChatMessage">
+      <form  @submit.prevent="sendChatMessage">
         <label class="visually-hidden" for="aiChatInput">Ask the chatbot</label>
         <textarea
           id="aiChatInput"
@@ -148,26 +141,9 @@ export default {
 .ai-section {
   min-height: 520px;
   padding: 2.75rem 1.25rem 2rem;
-  background: radial-gradient(circle at 18% 30%, rgba(13, 182, 145, 0.12), transparent 55%),
-    radial-gradient(circle at 82% 5%, rgba(9, 112, 138, 0.09), transparent 50%),
-    #f3f8fb;
   display: flex;
   justify-content: center;
   width: 100%;
-}
-
-.ai-panel {
-  width: min(1050px, 100%);
-  background: #ffffff;
-  border-radius: 36px;
-  padding: 2rem;
-  box-shadow: 0 20px 50px rgba(6, 40, 61, 0.18);
-  border: 1px solid rgba(11, 98, 102, 0.11);
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  position: relative;
-  overflow: hidden;
 }
 
 .ai-panel::before {
@@ -247,13 +223,13 @@ export default {
 }
 
 .ai-chat-window {
-  max-height: 330px;
+  max-height: 360px;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
   border-radius: 22px;
-  background: #f7fbfd;
+  /* background: #f7fbfd; */
   border: 1px solid rgba(13, 182, 145, 0.08);
   padding: 1.25rem;
   position: relative;
