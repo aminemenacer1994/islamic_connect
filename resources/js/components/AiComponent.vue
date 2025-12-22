@@ -11,6 +11,14 @@
         </div>
       </header>
 
+      <div v-if="chatHistory.length === 0" class="ai-welcome">
+        <p class="ai-welcome-title">Salaam! I'm Scholar Bot.</p>
+        <p class="ai-welcome-copy">
+          Ask about Quranic reflections, dua habits, or everyday worship—I'll respond gently with sources that comfort
+          and guide your journey.
+        </p>
+      </div>
+
       <div class="ai-suggestions" aria-label="Suggested questions">
         <h6 class="ai-suggestions-label fw-bold">Need inspiration?</h6>
         <div class="ai-suggestions-list">
@@ -211,7 +219,7 @@ export default {
 
 <style scoped>
 .ai-section {
-  min-height: 520px;
+  min-height: 640px;
   padding: 2.75rem 1.25rem 2rem;
   display: flex;
   justify-content: center;
@@ -272,6 +280,45 @@ export default {
   margin-bottom: 1rem;
 }
 
+.ai-welcome {
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(13, 182, 145, 0.08), rgba(255, 255, 255, 0.95));
+  border-radius: 20px;
+  border: 1px solid rgba(13, 182, 145, 0.2);
+  box-shadow: 0 12px 25px rgba(15, 111, 112, 0.12);
+  color: #0f4d56;
+  text-align: center;
+}
+
+.ai-welcome-title {
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+  color: #0f5f5f;
+}
+
+.ai-welcome-copy {
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #0b4a4e;
+}
+
+.ai-welcome {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 18px;
+  border: 1px solid rgba(13, 182, 145, 0.2);
+  box-shadow: 0 10px 30px rgba(13, 182, 145, 0.08);
+  font-size: 0.95rem;
+  color: #0f4d56;
+  line-height: 1.6;
+  text-align: center;
+}
+
 .ai-suggestions-label {
   font-size: 0.85rem;
   font-weight: 600;
@@ -283,12 +330,22 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.8), rgba(221, 241, 238, 0.8));
-  border-radius: 26px;
-  padding: 0.9rem;
-  box-shadow: 0 3px 20px rgba(13, 182, 145, 0.15);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(218, 240, 235, 0.9));
+  border-radius: 28px;
+  padding: 1rem;
+  box-shadow:
+    0 10px 20px rgba(15, 111, 112, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.6);
 }
 
+.ai-suggestion-row {
+  overflow: hidden;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 182, 145, 0.15);
+  padding: 0.45rem 0.65rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+}
 .ai-suggestion-row {
   overflow: hidden;
   border-radius: 999px;
@@ -303,6 +360,7 @@ export default {
   animation: trackScroll 30s linear infinite;
   animation-delay: calc(var(--row, 0) * -4s);
   will-change: transform;
+  padding-bottom: 0.1rem;
 }
 
 .ai-suggestion {
