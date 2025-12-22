@@ -1762,7 +1762,6 @@ export default {
   border: 1px solid rgba(0, 0, 0, 0.06);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
-  height: 100%;
   position: relative;
   padding: 1.25rem 1.25rem;
   /* Performance hints for large lists */

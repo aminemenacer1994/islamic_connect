@@ -12,409 +12,85 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: {
-    cacheLimitOverride: {
-      type: Number,
-      default: null
-    }
-  },
   data() {
     return {
-      downloading: false,
-      searchTerm: '',
-      selectedImage: null,
-      allImages: [],
-      images: [],
-      // Infinite scroll state
-      apiPage: 1,
-      perPage: 18,
-      hasMore: true,
-      isLoadingMore: false,
-      lastLoadMoreTs: 0,
-      observer: null,
-      activeFilter: 'Islamic',
-      isModalOpen: false,
-      loading: true,
-      apiKey: 'dhOLH00j9E1bBV53cMmEpaHPnrRR3WGzl3vRGXnPNbquONCjpZeKEr3f',
-      // request controllers and caching to avoid wasted work
-      fetchAborter: null,
-      loadMoreAborter: null,
-      cache: new Map(),
-      cacheLimit: 60,
-      // virtualization state
-      startIndex: 0,
-      endIndex: 0,
-      itemsPerRow: 1,
-      rowHeight: 620,
-      rafId: null,
-      resizeRafId: null,
-      filters: ['Islamic', 'Mosque', 'Calligraphy', 'Quran', 'Kaaba', 'Mecca', 'Madina', 'Hijab', 'Ramadan', 'Eid', 'Arabic Art', 'Islamic Architecture']
+      chatDraft: '',
+      chatHistory: [],
+      chatLoading: false,
+      chatError: null
     };
   },
-  computed: {
-    visibleImages() {
-      return this.allImages.slice(this.startIndex, this.endIndex);
-    },
-    topSpacerHeight() {
-      const perRow = this.itemsPerRow || 1;
-      const startRow = Math.floor(this.startIndex / perRow);
-      return startRow * this.rowHeight;
-    },
-    bottomSpacerHeight() {
-      const perRow = this.itemsPerRow || 1;
-      const totalRows = Math.ceil((this.allImages.length || 0) / perRow);
-      const endRow = Math.ceil((this.endIndex || 0) / perRow);
-      const remaining = Math.max(0, totalRows - endRow);
-      return remaining * this.rowHeight;
-    }
-  },
-  mounted() {
-    // set cache limit: prop override > adaptive heuristic
-    try {
-      this.cacheLimit = this.cacheLimitOverride != null ? this.cacheLimitOverride : this.computeAdaptiveCacheLimit();
-    } catch (_) {}
-    // compute initial layout once
-    this.itemsPerRow = this.computeItemsPerRow();
-    this.$nextTick(() => {
-      this.measureRowHeight();
-      this.computeVirtualWindow();
-    });
-    this.fetchGallery();
-    window.addEventListener('scroll', this.onScroll, {
-      passive: true
-    });
-    window.addEventListener('resize', this.onResize, {
-      passive: true
-    });
-    // listen to network changes if available
-    if (navigator && navigator.connection && navigator.connection.addEventListener) {
-      try {
-        navigator.connection.addEventListener('change', this.onConnectionChange);
-      } catch (_) {}
-    }
-  },
-  beforeUnmount() {
-    if (this.observer) {
-      try {
-        this.observer.disconnect();
-      } catch (e) {}
-      this.observer = null;
-    }
-    if (this.fetchAborter) {
-      try {
-        this.fetchAborter.abort();
-      } catch (_) {}
-    }
-    if (this.loadMoreAborter) {
-      try {
-        this.loadMoreAborter.abort();
-      } catch (_) {}
-    }
-    window.removeEventListener('scroll', this.onScroll);
-    window.removeEventListener('resize', this.onResize);
-    if (navigator && navigator.connection && navigator.connection.removeEventListener) {
-      try {
-        navigator.connection.removeEventListener('change', this.onConnectionChange);
-      } catch (_) {}
-    }
-  },
   methods: {
-    computeAdaptiveCacheLimit() {
-      const mem = navigator && navigator.deviceMemory ? navigator.deviceMemory : undefined; // in GB
-      const conn = navigator && navigator.connection && navigator.connection.effectiveType ? navigator.connection.effectiveType : undefined;
-      // Baseline
-      let limit = 60;
-      // Memory-based tuning
-      if (mem !== undefined) {
-        if (mem <= 1) limit = 24;else if (mem <= 2) limit = 40;else if (mem >= 8) limit = 120;else if (mem >= 4) limit = 90;
-      }
-      // Network-based tuning (bias down on slow links)
-      if (conn) {
-        if (conn === 'slow-2g' || conn === '2g') limit = Math.min(limit, 24);else if (conn === '3g') limit = Math.min(limit, 40);
-      }
-      // Viewport hint: small screens tend to scroll fewer items
-      const vw = window && window.innerWidth ? window.innerWidth : 1024;
-      if (vw < 576) limit = Math.min(limit, 48);
-      return limit;
-    },
-    onConnectionChange() {
-      // honor explicit override
-      if (this.cacheLimitOverride != null) return;
-      try {
-        this.cacheLimit = this.computeAdaptiveCacheLimit();
-      } catch (_) {}
-    },
-    // Simple LRU cache helpers
-    cacheGet(key) {
-      if (!this.cache) return undefined;
-      const has = this.cache.has(key);
-      if (!has) return undefined;
-      const value = this.cache.get(key);
-      // refresh recency
-      this.cache.delete(key);
-      this.cache.set(key, value);
-      return value;
-    },
-    cacheSet(key, value) {
-      if (!this.cache) this.cache = new Map();
-      if (this.cache.has(key)) this.cache.delete(key);
-      this.cache.set(key, value);
-      if (this.cache.size > this.cacheLimit) {
-        const oldestKey = this.cache.keys().next().value;
-        this.cache.delete(oldestKey);
-      }
-    },
-    focusPrevFilter(idx) {
-      const prev = idx > 0 ? idx - 1 : this.filters.length - 1;
-      this.activeFilter = this.filters[prev];
-      this.$nextTick(() => {
-        const buttons = this.$el.querySelectorAll('[role="radiogroup"] [role="radio"]');
-        if (buttons[prev]) buttons[prev].focus();
-      });
-      this.applyFilter(this.activeFilter);
-    },
-    focusNextFilter(idx) {
-      const next = idx < this.filters.length - 1 ? idx + 1 : 0;
-      this.activeFilter = this.filters[next];
-      this.$nextTick(() => {
-        const buttons = this.$el.querySelectorAll('[role="radiogroup"] [role="radio"]');
-        if (buttons[next]) buttons[next].focus();
-      });
-      this.applyFilter(this.activeFilter);
-    },
-    async downloadImage(url, filename) {
-      this.downloading = true;
-      try {
-        const response = await fetch(url, {
-          method: 'GET',
-          mode: 'cors'
-        });
-        if (!response.ok) throw new Error('Failed to fetch image');
-        const blob = await response.blob();
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(blob);
-        link.download = filename;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(link.href);
-      } catch (error) {
-        console.error('Download failed:', error);
-        alert('Unable to download the image. Please try again later.');
-      } finally {
-        this.downloading = false;
-      }
-    },
-    async fetchGallery() {
-      this.loading = true;
-      this.allImages = [];
-      this.apiPage = 1;
-      this.hasMore = true;
-      try {
-        const query = `Islamic ${this.searchTerm}`.trim();
-        const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${this.apiPage}`;
-        const cacheKey = `${query}:1:${this.perPage}`;
-        // abort any in-flight fetch
-        if (this.fetchAborter) {
-          try {
-            this.fetchAborter.abort();
-          } catch (_) {}
-        }
-        this.fetchAborter = new AbortController();
-        const cached = this.cacheGet(cacheKey);
-        if (cached) {
-          this.allImages = cached.photos || [];
-          this.hasMore = Boolean(cached.hasMore);
-        } else {
-          const response = await fetch(url, {
-            headers: {
-              Authorization: this.apiKey
-            },
-            signal: this.fetchAborter.signal
-          });
-          const data = await response.json();
-          this.allImages = data.photos || [];
-          this.hasMore = Boolean(data.next_page);
-          this.cacheSet(cacheKey, {
-            photos: this.allImages.slice(),
-            hasMore: this.hasMore
-          });
-        }
-        // Ensure observer is set up after first paint
-        this.$nextTick(() => {
-          if (!this.observer) this.setupObserver();
-          this.measureRowHeight();
-          this.computeVirtualWindow();
-        });
-      } catch (error) {
-        console.error('Error fetching images:', error);
-      } finally {
-        this.loading = false;
-      }
-    },
-    setupObserver() {
-      const target = this.$refs.loadMoreTrigger;
-      if (!target) return;
-      this.observer = new IntersectionObserver(entries => {
-        const entry = entries[0];
-        if (entry && entry.isIntersecting) {
-          this.loadMore();
-        }
-      }, {
-        root: null,
-        rootMargin: '0px 0px 600px 0px',
-        threshold: 0
-      });
-      this.observer.observe(target);
-    },
-    async loadMore() {
-      if (this.loading || this.isLoadingMore || !this.hasMore) return;
-      const now = Date.now();
-      if (now - this.lastLoadMoreTs < 800) return; // throttle
-      this.lastLoadMoreTs = now;
-      this.isLoadingMore = true;
-      try {
-        const query = `Islamic ${this.searchTerm}`.trim();
-        const nextPage = this.apiPage + 1;
-        const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(query)}&per_page=${this.perPage}&page=${nextPage}`;
-        const cacheKey = `${query}:${nextPage}:${this.perPage}`;
-        // abort any in-flight load-more request
-        if (this.loadMoreAborter) {
-          try {
-            this.loadMoreAborter.abort();
-          } catch (_) {}
-        }
-        this.loadMoreAborter = new AbortController();
-        let photos = [];
-        let nextHasMore = true;
-        const cached = this.cacheGet(cacheKey);
-        if (cached) {
-          photos = cached.photos || [];
-          nextHasMore = Boolean(cached.hasMore);
-        } else {
-          const response = await fetch(url, {
-            headers: {
-              Authorization: this.apiKey
-            },
-            signal: this.loadMoreAborter.signal
-          });
-          const data = await response.json();
-          photos = data.photos || [];
-          nextHasMore = Boolean(data.next_page);
-          this.cacheSet(cacheKey, {
-            photos: photos.slice(),
-            hasMore: nextHasMore
-          });
-        }
-        if (photos.length) {
-          this.allImages.push(...photos);
-          this.apiPage = nextPage;
-        }
-        this.hasMore = Boolean(nextHasMore);
-        this.$nextTick(() => {
-          this.measureRowHeight();
-          this.computeVirtualWindow();
-        });
-      } catch (error) {
-        console.error('Error loading more images:', error);
-      } finally {
-        this.isLoadingMore = false;
-      }
-    },
-    // Virtualization helpers
-    computeItemsPerRow() {
-      const w = window.innerWidth || 1024;
-      return w < 576 ? 1 : 3;
-    },
-    computeVirtualWindow() {
-      const total = this.allImages.length;
-      if (!total) {
-        this.startIndex = 0;
-        this.endIndex = 0;
-        return;
-      }
-      const perRow = this.itemsPerRow;
-      const rowH = this.rowHeight;
-      const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
-      const viewportH = window.innerHeight || 800;
-      const totalRows = Math.ceil(total / perRow);
-      const bufferRows = 2;
-      const startRow = Math.max(0, Math.floor(scrollTop / rowH) - bufferRows);
-      const endRow = Math.min(totalRows - 1, Math.ceil((scrollTop + viewportH) / rowH) + bufferRows);
-      this.startIndex = startRow * perRow;
-      this.endIndex = Math.min(total, (endRow + 1) * perRow);
-    },
-    measureRowHeight() {
-      try {
-        const el = this.$el.querySelector('.card');
-        if (el) {
-          const h = el.offsetHeight;
-          if (h && Math.abs(h - this.rowHeight) > 20) this.rowHeight = h + 20; // add small buffer
-        }
-      } catch (_) {}
-    },
-    onScroll() {
-      if (this.rafId) return;
-      this.rafId = requestAnimationFrame(() => {
-        this.computeVirtualWindow();
-        this.rafId = null;
-      });
-    },
-    onResize() {
-      if (this.resizeRafId) return;
-      this.resizeRafId = requestAnimationFrame(() => {
-        const newPerRow = this.computeItemsPerRow();
-        if (newPerRow !== this.itemsPerRow) {
-          this.itemsPerRow = newPerRow;
-          this.measureRowHeight();
-        }
-        this.computeVirtualWindow();
-        this.resizeRafId = null;
-      });
-    },
-    applyFilter(keyword) {
-      this.activeFilter = keyword;
-      this.searchTerm = keyword;
-      this.fetchGallery();
-    },
-    openModal(image) {
-      this.selectedImage = image;
-      this.isModalOpen = true;
-    },
-    closeModal() {
-      this.isModalOpen = false;
-    },
-    // Pagination removed in favor of infinite scroll
-    hoverCard(index) {
-      const card = document.querySelectorAll('.card')[index];
-      if (card) {
-        card.style.transform = 'scale(1.03)';
-        card.style.boxShadow = '0 8px 24px rgba(0,0,0,0.15)';
-      }
-    },
-    leaveCard(index) {
-      const card = document.querySelectorAll('.card')[index];
-      if (card) {
-        card.style.transform = 'scale(1)';
-        card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)';
-      }
-    },
-    getFilterIcon(filter) {
-      const iconMap = {
-        'Islamic': 'bi-star-fill',
-        'Mosque': 'bi-building',
-        'Calligraphy': 'bi-pen-nib',
-        'Quran': 'bi-book',
-        'Kaaba': 'bi-box',
-        'Mecca': 'bi-geo-alt',
-        'Madina': 'bi-geo-alt-fill',
-        'Hijab': 'bi-person',
-        'Ramadan': 'bi-moon-stars',
-        'Eid': 'bi-gift',
-        'Arabic Art': 'bi-brush',
-        'Islamic Architecture': 'bi-columns'
+    createChatEntry(role, text) {
+      const now = new Date();
+      return {
+        role,
+        text,
+        time: now.toISOString(),
+        displayTime: now.toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit'
+        })
       };
-      return iconMap[filter] || 'bi-image';
+    },
+    getConversationForRequest() {
+      return this.chatHistory.slice(-6).map(entry => ({
+        role: entry.role,
+        content: entry.text
+      }));
+    },
+    scrollChatWindow() {
+      this.$nextTick(() => {
+        const container = this.$refs.chatWindow;
+        if (container) {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
+    },
+    async sendChatMessage() {
+      if (this.chatLoading) return;
+      const message = this.chatDraft.trim();
+      if (!message) return;
+      this.chatError = null;
+      this.chatDraft = '';
+      this.chatHistory.push(this.createChatEntry('user', message));
+      this.scrollChatWindow();
+      const payload = {
+        message,
+        history: this.getConversationForRequest()
+      };
+      try {
+        var _document$querySelect;
+        this.chatLoading = true;
+        const csrfToken = (_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content');
+        if (!csrfToken) {
+          throw new Error('Unable to send the question right now.');
+        }
+        const response = await fetch('/ai/chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrfToken
+          },
+          body: JSON.stringify(payload)
+        });
+        const responseData = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(responseData.error || 'Unable to get a response right now.');
+        }
+        const answer = (responseData.answer || '').trim();
+        if (!answer) {
+          throw new Error('The assistant did not return an answer. Please try again.');
+        }
+        this.chatHistory.push(this.createChatEntry('assistant', answer));
+        this.scrollChatWindow();
+      } catch (error) {
+        console.error('Chat error:', error);
+        this.chatError = (error === null || error === void 0 ? void 0 : error.message) || 'The assistant is temporarily unavailable.';
+      } finally {
+        this.chatLoading = false;
+      }
     }
   }
 });
@@ -434,239 +110,62 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "soft-bg"
+  "aria-label": "Islamic chatbot"
 };
 const _hoisted_2 = {
-  class: "container py-5"
+  class: "ai-panel"
 };
 const _hoisted_3 = {
-  class: "row container justify-content-center mb-3"
+  ref: "chatWindow",
+  class: "ai-chat-window",
+  role: "log",
+  "aria-live": "polite"
 };
 const _hoisted_4 = {
-  class: "col-12 col-md-12"
+  class: "chat-bubble-meta"
 };
 const _hoisted_5 = {
-  class: "col-12 col-md-11"
+  key: 0
 };
-const _hoisted_6 = {
-  class: "mb-4 text-center"
-};
+const _hoisted_6 = ["disabled"];
 const _hoisted_7 = {
-  class: "d-flex text-center overflow-x-auto gap-2 px-1 py-2 filter-scroll",
-  role: "radiogroup",
-  "aria-label": "Filter images",
-  style: {
-    "cursor": "pointer",
-    "white-space": "nowrap"
-  }
+  class: "ai-form-meta"
 };
-const _hoisted_8 = ["aria-checked", "tabindex", "onClick", "onKeydown"];
+const _hoisted_8 = ["disabled"];
 const _hoisted_9 = {
   key: 0,
-  class: "text-center my-5",
+  class: "spinner-border spinner-border-sm",
   role: "status",
-  "aria-live": "polite"
-};
-const _hoisted_10 = {
-  key: 1
-};
-const _hoisted_11 = {
-  class: "row g-3"
-};
-const _hoisted_12 = {
-  class: "card card-teal d-flex flex-column shadow-md p-2 w-100 h-100 card-20 card-float"
-};
-const _hoisted_13 = {
-  class: "image-wrapper rounded-20 overflow-hidden media-frame"
-};
-const _hoisted_14 = ["src", "srcset", "alt", "aria-label", "onClick", "onKeydown"];
-const _hoisted_15 = {
-  class: "mt-2 text-center figcaption-compact"
-};
-const _hoisted_16 = {
-  class: "action-row mt-auto px-2 pt-2 pb-2"
-};
-const _hoisted_17 = ["href", "aria-label"];
-const _hoisted_18 = ["onClick", "aria-label"];
-const _hoisted_19 = {
-  class: "mt-4 d-flex justify-content-center",
-  "aria-live": "polite"
-};
-const _hoisted_20 = {
-  key: 0,
-  class: "text-center my-3",
-  role: "status"
-};
-const _hoisted_21 = {
-  key: 1,
-  class: "text-muted",
-  role: "status"
-};
-const _hoisted_22 = {
-  ref: "loadMoreTrigger",
-  style: {
-    "height": "1px"
-  }
-};
-const _hoisted_23 = {
-  class: "modal fade",
-  id: "imageModal",
-  tabindex: "-1",
-  "aria-labelledby": "imageModalLabel",
   "aria-hidden": "true"
 };
-const _hoisted_24 = {
-  class: "modal-dialog modal-dialog-centered modal-lg",
-  role: "dialog",
-  "aria-modal": "true"
-};
-const _hoisted_25 = {
-  class: "modal-content"
-};
-const _hoisted_26 = {
-  class: "modal-body"
-};
-const _hoisted_27 = ["src", "alt"];
-const _hoisted_28 = {
-  class: "mt-2 text-center",
-  style: {
-    "padding": "0 5px",
-    "font-size": "20px",
-    "color": "#444"
-  }
+const _hoisted_10 = {
+  key: 0,
+  class: "ai-error"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title "), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    class: "mb-2 text-center fw-bold display-5 display-md-4"
-  }, "Islamic Gallery", -1 /* CACHED */)), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-center text-muted mb-4",
-    style: {
-      "font-size": "18px"
-    }
-  }, " Explore beautiful Islamic visuals including majestic mosques, intricate calligraphy, Quranic themes, serene landscapes, timeless architecture, vibrant traditions, cultural festivals, spiritual gatherings, historical sites, daily life, artistic expressions, and more. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
-    id: "ai-gallery-search-label",
-    class: "fw-bold text-left pt-2 pb-2 container"
-  }, "Search Images in Gallery:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    class: "row g-2 align-items-stretch",
-    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.fetchGallery && $options.fetchGallery(...args), ["prevent"])),
-    role: "search",
-    "aria-labelledby": "ai-gallery-search-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    id: "ai-gallery-search-input",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.searchTerm = $event),
-    type: "text",
-    class: "form-control h-100 rounded-20",
-    "aria-label": 'Search Islamic images',
-    placeholder: "Search for Islamic images..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchTerm]])]), _cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "col-12 col-md-1 d-grid"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn w-100 h-100 btn-teal rounded-20",
-    type: "submit"
-  }, " Search ")], -1 /* CACHED */))], 32 /* NEED_HYDRATION */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Filters "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.filters, (filter, idx) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: filter,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["badge flex-shrink-0 text-center px-3 py-2 d-flex align-items-center gap-2", {
-        'active': $data.activeFilter === filter,
-        'bg-light text-dark': $data.activeFilter !== filter
-      }]),
-      role: "radio",
-      "aria-checked": String($data.activeFilter === filter),
-      tabindex: $data.activeFilter === filter ? 0 : -1,
-      type: "button",
-      onClick: $event => $options.applyFilter(filter),
-      onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusPrevFilter(idx), ["prevent"]), ["left"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.focusNextFilter(idx), ["prevent"]), ["right"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.applyFilter(filter), ["prevent"]), ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.applyFilter(filter), ["prevent"]), ["space"])]
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getFilterIcon(filter))
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(filter), 1 /* TEXT */)], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_8);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Image Grid "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "spinner-border text-success mb-3",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "fw-semibold fs-4 text-muted"
-  }, "Images loading, please wait...", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      height: $options.topSpacerHeight + 'px'
-    })
-  }, null, 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.visibleImages, (image, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: image.id || $data.startIndex + index,
-      class: "col-12 col-sm-6 col-md-6 col-lg-4 d-flex"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figure", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-      src: image.src.medium,
-      srcset: `${image.src.small} 400w, ${image.src.medium} 800w, ${image.src.large} 1200w`,
-      sizes: "(max-width: 576px) 100vw, (max-width: 992px) 33vw, 33vw",
-      alt: image.alt || 'Islamic image',
-      class: "img-fluid image-zoom gallery-img",
-      loading: "lazy",
-      decoding: "async",
-      fetchpriority: "low",
-      "data-bs-toggle": "modal",
-      "data-bs-target": "#imageModal",
-      tabindex: "0",
-      "aria-label": (image.alt || 'Islamic image') + '. Press Enter to enlarge',
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $data.selectedImage = image, ["stop"]),
-      onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $data.selectedImage = image, ["stop", "prevent"]), ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $data.selectedImage = image, ["stop", "prevent"]), ["space"])]
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_14)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("figcaption", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(image.alt || 'Islamic Image'), 1 /* TEXT */), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "flex-grow-1",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
-      href: `https://wa.me/?text=${encodeURIComponent(image.src.original)}`,
-      target: "_blank",
-      class: "btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2",
-      "aria-label": 'Share image: ' + (image.alt || 'Islamic image') + ' via WhatsApp'
-    }, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-share-fill",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.downloadImage(image.src.original, `image-${image.id}.jpg`), ["prevent"]),
-      class: "pt-2 btn btn-sm w-100 custom-btn btn-action rounded-20 d-flex align-items-center justify-content-center gap-2",
-      "aria-label": 'Download image: ' + (image.alt || 'Islamic image')
-    }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: "bi bi-download",
-      "aria-hidden": "true"
-    }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)('Download'), -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_18)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      height: $options.bottomSpacerHeight + 'px'
-    })
-  }, null, 4 /* STYLE */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Infinite Scroll Sentinel / Status "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$data.isLoadingMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "spinner-border text-success",
-    "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "ms-2"
-  }, "Loading more images…", -1 /* CACHED */)]))])) : !$data.hasMore && $data.allImages.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, "No more results")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    id: "imageModalLabel",
-    class: "modal-title",
-    style: {
-      "font-size": "24px",
-      "font-weight": "bold"
-    }
-  }, "Islamic Image"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn-close",
-    "data-bs-dismiss": "modal",
-    "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-    src: $data.selectedImage && $data.selectedImage.src ? $data.selectedImage.src.original : '',
-    alt: $data.selectedImage && $data.selectedImage.alt ? $data.selectedImage.alt : 'Islamic Image',
-    class: "img-fluid mx-auto d-block",
-    style: {
-      "max-width": "100%",
-      "max-height": "80vh",
-      "object-fit": "contain",
-      "padding": "5px"
-    }
-  }, null, 8 /* PROPS */, _hoisted_27), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedImage && $data.selectedImage.alt ? $data.selectedImage.alt : 'Islamic Image'), 1 /* TEXT */)]), _cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-footer"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-secondary",
-    "data-bs-dismiss": "modal"
-  }, "Close")], -1 /* CACHED */))])])])])]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<span class=\"ai-panel-orb\" aria-hidden=\"true\" data-v-300b761a></span><header class=\"ai-header\" data-v-300b761a><div data-v-300b761a><p class=\"ai-label\" data-v-300b761a>AI guidance</p><h2 class=\"ai-title\" data-v-300b761a>Ask trusted Islamic questions</h2><p class=\"ai-description\" data-v-300b761a> This open-source chatbot stays within Islamic teachings, referencing the Quran, Sunnah, and respected scholarship. </p><div class=\"ai-meta-chips\" data-v-300b761a><span data-v-300b761a>Quran &amp; Sunnah</span><span data-v-300b761a>Guided by scholars</span><span data-v-300b761a>No speculation</span></div></div></header>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, (entry, idx) => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
+      key: `chat-${idx}-${entry.role}`,
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["chat-bubble", entry.role])
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Scholar Bot' : 'You'), 1 /* TEXT */), entry.displayTime ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.text), 1 /* TEXT */)], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    class: "ai-form",
+    onSubmit: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.sendChatMessage && $options.sendChatMessage(...args), ["prevent"]))
+  }, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "visually-hidden",
+    for: "aiChatInput"
+  }, "Ask the chatbot", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
+    id: "aiChatInput",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.chatDraft = $event),
+    class: "ai-textarea",
+    rows: "2",
+    placeholder: "Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values.",
+    disabled: $data.chatLoading
+  }, null, 8 /* PROPS */, _hoisted_6), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", null, " The assistant declines off-topic, inappropriate, or speculative prompts and keeps answers rooted in Islamic sources. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "submit",
+    class: "ai-submit",
+    disabled: $data.chatLoading || !$data.chatDraft.trim()
+  }, [$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_9)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Ask the bot'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_8)]), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 32 /* NEED_HYDRATION */)])]);
 }
 
 /***/ }),

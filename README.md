@@ -27,7 +27,7 @@ Assets such as images, fonts, and structured data are stored under `public/`, wh
 ## Running Locally
 
 1. **Install Dependencies:** Run `composer install` for PHP packages and `npm install` for JavaScript tooling.
-2. **Environment Setup:** Create a `.env` file (copy `.env.example`), set your `APP_URL`, `DB_*`, and `STRIPE_*` values, and run `php artisan key:generate`.
+2. **Environment Setup:** Create a `.env` file (copy `.env.example`), set your `APP_URL`, `DB_*`, `STRIPE_*`, `HUGGINGFACE_API_TOKEN`, and (optionally) `HUGGINGFACE_ROUTER_PROVIDER` / `HUGGINGFACE_CHAT_MODEL` values, and run `php artisan key:generate`. The Hugging Face token powers the Islamic chatbot so it can proxy questions securely without exposing secrets in the browser. The provider determines which inference partner the router uses—`novita` is the default and works with models such as `meta-llama/Llama-3.1-8B-Instruct`.
 3. **Database & Cache:** Run migrations `php artisan migrate` and optionally seed data with `php artisan db:seed`. Clear caches with `php artisan config:clear` and `php artisan route:clear` after configuration changes.
 4. **Frontend Build:** Use `npm run dev` during development (unminified, fast rebuilds) and run `npm run production` (or `npm run prod`) before deploying so Laravel Mix minifies the CSS/JS assets that `mix('css/app.css')` and `mix('js/app.js')` reference.
 5. **Serve Locally:** Use `php artisan serve` or a Valet-like environment to preview the site. For more complex local setups, use Docker containers defined by `docker-compose` and match the environment variables accordingly.

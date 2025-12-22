@@ -331,6 +331,7 @@ Route::get('/history', [HistoryController::class, 'index'])->name('history');
 Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::get('/gallery', action: [AiController::class, 'index'])->name('gallery');
+Route::post('/ai/chat', action: [AiController::class, 'chat'])->name('ai.chat');
 
 // ========================================
 // AUTHENTICATED ROUTES (No Subscription Required)

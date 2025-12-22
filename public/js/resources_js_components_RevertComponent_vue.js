@@ -2235,11 +2235,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _data_nextStepPrompts_json__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./data/nextStepPrompts.json */ "./resources/js/components/data/nextStepPrompts.json");
 /* harmony import */ var _data_chapterPlanGuides_json__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./data/chapterPlanGuides.json */ "./resources/js/components/data/chapterPlanGuides.json");
 /* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+const _excluded = ["loader"];
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var n = Object.getOwnPropertySymbols(e); for (r = 0; r < n.length; r++) o = n[r], -1 === t.indexOf(o) && {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) if ({}.hasOwnProperty.call(r, n)) { if (-1 !== e.indexOf(n)) continue; t[n] = r[n]; } return t; }
 
 
 
@@ -2350,35 +2353,55 @@ const DEFAULT_DAILY_CHALLENGES = [{
   title: 'Tie it to routine',
   description: 'Attach today’s insight to a prayer, commute, or quiet moment.'
 }];
+const createChapterToolEntry = _ref => {
+  let {
+      loader
+    } = _ref,
+    config = _objectWithoutProperties(_ref, _excluded);
+  let loadPromise;
+  const loadModule = () => {
+    if (!loadPromise) {
+      loadPromise = loader();
+    }
+    return loadPromise;
+  };
+  return _objectSpread(_objectSpread({}, config), {}, {
+    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)({
+      loader: loadModule,
+      suspensible: true
+    }),
+    preload: loadModule
+  });
+};
 const CHAPTER_TOOL_MAP = {
-  4: {
+  4: createChapterToolEntry({
     title: 'Surah Explorer',
     description: 'Search the Qur’an text and recitations without leaving the chapter.',
     icon: 'bi-menu-book',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_SuratComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./SuratComponent.vue */ "./resources/js/components/SuratComponent.vue"))),
+    loader: () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_SuratComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./SuratComponent.vue */ "./resources/js/components/SuratComponent.vue")),
     route: '/surat'
-  },
-  5: {
+  }),
+  5: createChapterToolEntry({
     title: 'Seerah Timeline',
     description: 'Trace the Prophet ﷺ’s story while the lessons stay anchored.',
     icon: 'bi-people-fill',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_MissionComponent_vue-_e1d31")]).then(__webpack_require__.bind(__webpack_require__, /*! ./MissionComponent.vue */ "./resources/js/components/MissionComponent.vue"))),
+    loader: () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_MissionComponent_vue-_e1d31")]).then(__webpack_require__.bind(__webpack_require__, /*! ./MissionComponent.vue */ "./resources/js/components/MissionComponent.vue")),
     route: '/mission'
-  },
-  6: {
+  }),
+  6: createChapterToolEntry({
     title: 'Prayer Calendar',
     description: 'Review the upcoming Salah schedule and special nights.',
     icon: 'bi-calendar3',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_CalendarComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./CalendarComponent.vue */ "./resources/js/components/CalendarComponent.vue"))),
+    loader: () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_CalendarComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./CalendarComponent.vue */ "./resources/js/components/CalendarComponent.vue")),
     route: '/calendar'
-  },
-  7: {
+  }),
+  7: createChapterToolEntry({
     title: 'Dua & Dhikr Suite',
     description: 'Access curated duas and reminders while studying the Dua chapter.',
     icon: 'bi-heart',
-    component: (0,vue__WEBPACK_IMPORTED_MODULE_0__.defineAsyncComponent)(() => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_DuaComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./DuaComponent.vue */ "./resources/js/components/DuaComponent.vue"))),
+    loader: () => Promise.all(/*! import() */[__webpack_require__.e("css/app"), __webpack_require__.e("resources_js_components_DuaComponent_vue")]).then(__webpack_require__.bind(__webpack_require__, /*! ./DuaComponent.vue */ "./resources/js/components/DuaComponent.vue")),
     route: '/dua'
-  }
+  })
 };
 const CONFETTI_EXCLUDED_CHAPTERS = new Set([9]);
 const shouldCelebrateChapter = chapterId => {
@@ -3011,6 +3034,8 @@ const celebrateFinalChapter = confettiFn => {
       this.cardVisibility = {};
       this.prepareSecondarySections();
       this.syncReflectionInput();
+      this.scheduleChapterToolPreload(this.selectedPill);
+      this.scheduleChapterToolPreload(this.selectedPill + 1);
     },
     chapterQuizPassed(newVal, oldVal) {
       // Celebrate quiz completion with confetti if global settings allow it.
@@ -3092,6 +3117,8 @@ const celebrateFinalChapter = confettiFn => {
     this.ensureConfettiScript();
     this.initializeMotionPreference();
     this.initializePreviewAutoplayPreference();
+    this.scheduleChapterToolPreload(this.selectedPill);
+    this.scheduleChapterToolPreload(this.selectedPill + 1);
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0);
     });
@@ -3154,6 +3181,22 @@ const celebrateFinalChapter = confettiFn => {
         if (!confettiFn) return;
         fullScreenConfetti(confettiFn);
       });
+    },
+    preloadChapterTool(chapterId) {
+      const tool = CHAPTER_TOOL_MAP[chapterId];
+      if (!(tool !== null && tool !== void 0 && tool.preload)) return;
+      tool.preload().catch(() => {});
+    },
+    scheduleChapterToolPreload(chapterId) {
+      if (!chapterId) return;
+      const run = () => this.preloadChapterTool(chapterId);
+      if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(run, {
+          timeout: 1000
+        });
+      } else {
+        setTimeout(run, 150);
+      }
     },
     updateScrollFab() {
       if (typeof window === 'undefined') {
@@ -3252,12 +3295,12 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     triggerConfetti(isFinalChapter, options = {}) {
-      var _ref, _this$currentLesson20;
+      var _ref2, _this$currentLesson20;
       const {
         skipScroll = false,
         celebrationChapterId = null
       } = options;
-      const chapterId = (_ref = celebrationChapterId !== null && celebrationChapterId !== void 0 ? celebrationChapterId : (_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.chapterId) !== null && _ref !== void 0 ? _ref : this.selectedPill;
+      const chapterId = (_ref2 = celebrationChapterId !== null && celebrationChapterId !== void 0 ? celebrationChapterId : (_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.chapterId) !== null && _ref2 !== void 0 ? _ref2 : this.selectedPill;
       if (!shouldCelebrateChapter(chapterId)) return;
       if (!skipScroll) {
         this.scrollToTop();

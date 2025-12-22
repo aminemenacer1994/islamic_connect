@@ -332,11 +332,11 @@
                             <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary"><b>{{ __('Login') }}</b></a>
                         </li>
                         @endif
-                        @if (Route::has('register'))
-                    <li class="nav-item display-6 pl-3 mt-2">
-                        <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
-                    </li>
-                    @endif
+                        <!-- @if (Route::has('register'))
+                            <li class="nav-item display-6 pl-3 mt-2">
+                                <h6><a class="nav-link pt-2" href="{{ route('register') }}" data-path="/register"><b style="color:black">{{ __('Register') }}</b></a></h6>
+                            </li>
+                        @endif -->
                         @else
                         <li class="nav-item dropdown pl-3 mt-2">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle pt-2" href="#" role="button"

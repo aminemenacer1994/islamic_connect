@@ -102,35 +102,54 @@ const DEFAULT_DAILY_CHALLENGES = [
   }
 ]
 
+const createChapterToolEntry = ({ loader, ...config }) => {
+  let loadPromise
+  const loadModule = () => {
+    if (!loadPromise) {
+      loadPromise = loader()
+    }
+    return loadPromise
+  }
+
+  return {
+    ...config,
+    component: defineAsyncComponent({
+      loader: loadModule,
+      suspensible: true
+    }),
+    preload: loadModule
+  }
+}
+
 const CHAPTER_TOOL_MAP = {
-  4: {
+  4: createChapterToolEntry({
     title: 'Surah Explorer',
     description: 'Search the Qur’an text and recitations without leaving the chapter.',
     icon: 'bi-menu-book',
-    component: defineAsyncComponent(() => import('./SuratComponent.vue')),
+    loader: () => import('./SuratComponent.vue'),
     route: '/surat'
-  },
-  5: {
+  }),
+  5: createChapterToolEntry({
     title: 'Seerah Timeline',
     description: 'Trace the Prophet ﷺ’s story while the lessons stay anchored.',
     icon: 'bi-people-fill',
-    component: defineAsyncComponent(() => import('./MissionComponent.vue')),
+    loader: () => import('./MissionComponent.vue'),
     route: '/mission'
-  },
-  6: {
+  }),
+  6: createChapterToolEntry({
     title: 'Prayer Calendar',
     description: 'Review the upcoming Salah schedule and special nights.',
     icon: 'bi-calendar3',
-    component: defineAsyncComponent(() => import('./CalendarComponent.vue')),
+    loader: () => import('./CalendarComponent.vue'),
     route: '/calendar'
-  },
-  7: {
+  }),
+  7: createChapterToolEntry({
     title: 'Dua & Dhikr Suite',
     description: 'Access curated duas and reminders while studying the Dua chapter.',
     icon: 'bi-heart',
-    component: defineAsyncComponent(() => import('./DuaComponent.vue')),
+    loader: () => import('./DuaComponent.vue'),
     route: '/dua'
-  }
+  })
 }
 
 const CONFETTI_EXCLUDED_CHAPTERS = new Set([9])
@@ -797,6 +816,8 @@ export default defineComponent({
       this.cardVisibility = {}
       this.prepareSecondarySections()
       this.syncReflectionInput()
+      this.scheduleChapterToolPreload(this.selectedPill)
+      this.scheduleChapterToolPreload(this.selectedPill + 1)
     },
     chapterQuizPassed(newVal, oldVal) {
       // Celebrate quiz completion with confetti if global settings allow it.
@@ -855,32 +876,34 @@ export default defineComponent({
     this.loadChapterVideos()
   },
 
-  mounted() {
-    const saved = localStorage.getItem('maxStepReached')
-    if (saved) {
-      const value = parseInt(saved, 10)
-      this.maxStepReached = value
-      this.selectedPill = value
-    }
-    this.resetQuizSet()
-    this.syncStreakFromStorage()
-    this.syncDailyChallenges()
-    this.loadGentleStepCompletion()
-    this.loadReflectionNotes()
-    this.loadLessonOverviewRead()
-    this.loadCuratedHighlightCompletion()
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual'
-    }
-    window.scrollTo({ top: 0, behavior: 'auto' })
-    this.prepareSecondarySections()
-    this.ensureConfettiScript()
-    this.initializeMotionPreference()
-    this.initializePreviewAutoplayPreference()
+    mounted() {
+      const saved = localStorage.getItem('maxStepReached')
+      if (saved) {
+        const value = parseInt(saved, 10)
+        this.maxStepReached = value
+        this.selectedPill = value
+      }
+      this.resetQuizSet()
+      this.syncStreakFromStorage()
+      this.syncDailyChallenges()
+      this.loadGentleStepCompletion()
+      this.loadReflectionNotes()
+      this.loadLessonOverviewRead()
+      this.loadCuratedHighlightCompletion()
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual'
+      }
+      window.scrollTo({ top: 0, behavior: 'auto' })
+      this.prepareSecondarySections()
+      this.ensureConfettiScript()
+      this.initializeMotionPreference()
+      this.initializePreviewAutoplayPreference()
+      this.scheduleChapterToolPreload(this.selectedPill)
+      this.scheduleChapterToolPreload(this.selectedPill + 1)
 
-    window.addEventListener('beforeunload', () => {
-      window.scrollTo(0, 0)
-    })
+      window.addEventListener('beforeunload', () => {
+        window.scrollTo(0, 0)
+      })
     window.addEventListener('scroll', this.updateScrollFab, { passive: true })
     this.updateScrollFab()
     this.$nextTick(() => {
@@ -939,6 +962,22 @@ export default defineComponent({
         if (!confettiFn) return
         fullScreenConfetti(confettiFn)
       })
+    },
+
+    preloadChapterTool(chapterId) {
+      const tool = CHAPTER_TOOL_MAP[chapterId]
+      if (!tool?.preload) return
+      tool.preload().catch(() => {})
+    },
+
+    scheduleChapterToolPreload(chapterId) {
+      if (!chapterId) return
+      const run = () => this.preloadChapterTool(chapterId)
+      if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+        window.requestIdleCallback(run, { timeout: 1000 })
+      } else {
+        setTimeout(run, 150)
+      }
     },
 
     updateScrollFab() {

@@ -143,6 +143,12 @@
       </div>
     </section> -->
 
+    <section class="container-fluid px-0 py-5 welcome-chat-shell" aria-label="Islamic chatbot preview">
+      <div class="welcome-chat-frame">
+        <ai-component></ai-component>
+      </div>
+    </section>
+
     <!-- HERO / SEO SECTION -->
     <section class="container-fluid premium-seo px-0" aria-labelledby="seo-heading">
       <div class="premium-seo__backdrop"></div>
@@ -1579,10 +1585,45 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
   }
+  .welcome-chat-shell {
+    background:
+      radial-gradient(circle at 20% 10%, rgba(13, 182, 145, 0.18), transparent 45%),
+      radial-gradient(circle at 80% 0%, rgba(15, 115, 134, 0.16), transparent 40%),
+      linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
+    padding: 4rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome-chat-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.95), transparent 70%);
+    pointer-events: none;
+  }
+  .welcome-chat-frame {
+    position: relative;
+    width: min(1200px, 100%);
+    margin: 0 auto;
+    padding: 2rem;
+    border-radius: 28px;
+    background: #ffffff;
+    box-shadow: 0 30px 60px rgba(15, 101, 94, 0.15);
+    border: 1px solid rgba(13, 182, 145, 0.15);
+  }
+  @media (max-width: 767px) {
+    .welcome-chat-frame {
+      padding: 1.25rem;
+    }
+    .welcome-chat-shell {
+      padding: 2.5rem 0;
+    }
+  }
 </style>
 <script defer>
 import axios from "axios";
 import { defineAsyncComponent } from 'vue';
+import AiComponent from "./AiComponent.vue";
 // Lazy-load heavier child components to improve initial render
 const PrayerTimes = defineAsyncComponent(() => import('./translation/PrayerTimes.vue'));
 const AyahOfTheDay = defineAsyncComponent(() => import('./translation/AyahOfTheDay.vue'));
@@ -1591,7 +1632,8 @@ export default {
   components: {
     // HijriCalendar
     PrayerTimes,
-    AyahOfTheDay
+    AyahOfTheDay,
+    AiComponent,
   },
   data() {
     return {

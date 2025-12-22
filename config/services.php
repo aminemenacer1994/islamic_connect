@@ -76,6 +76,11 @@ return [
         ],
         'model' => App\Models\User::class,
     ],
+    'huggingface' => [
+        'model' => env('HUGGINGFACE_CHAT_MODEL', 'meta-llama/Llama-3.1-8B-Instruct'),
+        'token' => env('HUGGINGFACE_API_TOKEN'),
+        'router_provider' => env('HUGGINGFACE_ROUTER_PROVIDER', 'novita'),
+    ],
     
     // GA4 analytics config removed
 
