@@ -13,48 +13,6 @@
           </p>
         </div>
       </div>
-      
-      <div class="ai-controls" role="toolbar" aria-label="Chat controls">
-        <button
-          type="button"
-          class="ai-control-btn ai-control-btn--primary"
-          @click="startNewChat"
-          :disabled="!isNewChatAvailable"
-        >
-          <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
-        </button>
-        <button
-          type="button"
-          class="ai-control-btn"
-          :disabled="!chatHistory.length"
-          @click="clearHistory"
-        >
-          <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
-        </button>
-      </div>
-      
-
-      <div
-        v-if="chatError"
-        class="ai-error-banner"
-        role="alert"
-        aria-live="assertive"
-        aria-atomic="true"
-      >
-        <i class="fas fa-exclamation-triangle ai-error-icon" aria-hidden="true"></i>
-        <div>
-          <p class="ai-error-title text-left">Need some redirection?</p>
-          <p class="ai-error-message">{{ chatError }}</p>
-          <button
-            v-if="sessionExpired"
-            type="button"
-            class="ai-error-clear"
-            @click="reloadPage"
-          >
-            Reload page
-          </button>
-        </div>
-      </div>
 
       <div class="ai-suggestions text-start" aria-label="Suggested questions">
         <div class="ai-suggestions-header">
@@ -113,6 +71,56 @@
         <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
           <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
           <p class="mb-0 fw-semibold">Assistant is consulting trusted sources...</p>
+        </div>
+      </div>
+
+      <div class="ai-controls" role="toolbar" aria-label="Chat controls">
+        <button
+          type="button"
+          class="ai-control-btn ai-control-btn--primary"
+          @click="startNewChat"
+          :disabled="!isNewChatAvailable"
+        >
+          <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
+        </button>
+        <button
+          type="button"
+          class="ai-control-btn"
+          :disabled="!chatHistory.length"
+          @click="clearHistory"
+        >
+          <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
+        </button>
+        <button
+          type="button"
+          class="ai-control-btn ai-control-btn--whatsapp"
+          :disabled="!chatHistory.length"
+          @click="shareConversationOnWhatsApp"
+        >
+          <i class="fab fa-whatsapp" aria-hidden="true"></i> Share full Convo via WhatsApp
+        </button>
+      </div>
+      
+
+      <div
+        v-if="chatError"
+        class="ai-error-banner"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+        >
+        <i class="fas fa-exclamation-triangle ai-error-icon" aria-hidden="true"></i>
+        <div>
+          <p class="ai-error-title text-left">Need some redirection?</p>
+          <p class="ai-error-message">{{ chatError }}</p>
+          <button
+            v-if="sessionExpired"
+            type="button"
+            class="ai-error-clear"
+            @click="reloadPage"
+          >
+            Reload page
+          </button>
         </div>
       </div>
 
@@ -332,6 +340,34 @@ export default {
       }
       return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
     },
+    toPlainText(value = '') {
+      if (!value) return '';
+      if (typeof document === 'undefined') {
+        return value.replace(/<\/?[^>]+(>|$)/g, '');
+      }
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = value;
+      const text = wrapper.textContent || wrapper.innerText || '';
+      wrapper.remove();
+      return text;
+    },
+    sanitizeShareText(value) {
+      return this.toPlainText(value).replace(/\s+/g, ' ').trim();
+    },
+    composeChatShareMessage(limit = 6) {
+      const entries = this.chatHistory.slice(-limit);
+      const lines = entries
+        .map((entry) => {
+          const label = entry.role === 'assistant' ? 'Assistant' : 'You';
+          const plain = this.sanitizeShareText(entry.text);
+          return plain ? `${label}: ${plain}` : null;
+        })
+        .filter(Boolean);
+      if (!lines.length) {
+        return '';
+      }
+      return `Islamic Connect chat\n\n${lines.join('\n\n')}`;
+    },
     isLongMessage(text) {
       if (!text) return false;
       const cleaned = text.trim();
@@ -444,6 +480,20 @@ export default {
       } finally {
         this.chatLoading = false;
       }
+    },
+    shareConversationOnWhatsApp() {
+      if (!this.chatHistory.length) {
+        return;
+      }
+      const shareText = this.composeChatShareMessage(6);
+      if (!shareText) {
+        return;
+      }
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+      window.open(whatsappUrl, '_blank');
     },
     selectSuggestedQuestion(question) {
       if (this.chatLoading) return;
@@ -697,6 +747,17 @@ export default {
 
 .ai-control-btn--primary:hover:not(:disabled) {
   border-color: transparent;
+  opacity: 0.95;
+}
+
+.ai-control-btn--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(37, 211, 102, 0.35);
+}
+
+.ai-control-btn--whatsapp:hover:not(:disabled) {
   opacity: 0.95;
 }
 
