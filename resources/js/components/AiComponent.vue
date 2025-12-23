@@ -97,8 +97,25 @@
           :disabled="!chatHistory.length"
           @click="shareConversationOnWhatsApp"
         >
-          <i class="fab fa-whatsapp" aria-hidden="true"></i> Share full Convo via WhatsApp
+          <i class="fab fa-whatsapp" aria-hidden="true"></i> Share Full Conversation via WhatsApp
         </button>
+        <button
+          type="button"
+          class="ai-control-btn ai-control-btn--copy"
+          :disabled="!chatHistory.length"
+          @click="copyConversationToClipboard"
+        >
+          <i class="fas fa-copy" aria-hidden="true"></i> Copy Full Conversation to Clipboard
+        </button>
+      </div>
+      <div
+        v-if="copyNotice"
+        class="ai-copy-notice"
+        role="status"
+        aria-live="polite"
+      >
+        <i class="fas fa-check-circle me-1" aria-hidden="true"></i>
+        {{ copyNotice }}
       </div>
       
 
@@ -155,6 +172,15 @@
                 >
                   <i class="fab fa-whatsapp" aria-hidden="true"></i>
                   <span class="d-none d-md-inline ms-1">Share answer</span>
+                </button>
+                <button
+                  type="button"
+                  class="chat-copy-btn ms-2"
+                  @click="copyEntryToClipboard(entry)"
+                  :aria-label="'Copy this answer'"
+                >
+                  <i class="fas fa-copy" aria-hidden="true"></i>
+                  <span class="d-none d-md-inline ms-1">Copy answer</span>
                 </button>
               </div>
               <div
@@ -260,6 +286,8 @@ export default {
       sessionExpired: false,
       isCompactMode: false,
       resizeListener: null,
+      copyNotice: '',
+      copyNoticeTimeout: null,
       suggestionsExpanded: true,
       suggestionCategories: [
         {
@@ -506,6 +534,17 @@ export default {
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
       window.open(whatsappUrl, '_blank');
     },
+    copyConversationToClipboard() {
+      const shareText = this.composeChatShareMessage(6);
+      if (!shareText) {
+        return;
+      }
+      this.copyTextToClipboard(shareText)
+        .then(() => this.showCopyNotice('Conversation copied to clipboard.'))
+        .catch((err) => {
+          console.error('Copy conversation failed:', err);
+        });
+    },
     shareEntryOnWhatsApp(entry) {
       if (!entry?.text) {
         return;
@@ -521,6 +560,63 @@ export default {
         entry.role === 'assistant' ? 'Islamic Connect answer' : 'Islamic Connect chat';
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${header}\n\n${content}`)}`;
       window.open(whatsappUrl, '_blank');
+    },
+    copyEntryToClipboard(entry) {
+      if (!entry?.text) {
+        return;
+      }
+      const content = this.sanitizeShareText(entry.text);
+      if (!content) {
+        return;
+      }
+      this.copyTextToClipboard(content)
+        .then(() => this.showCopyNotice('Answer copied to clipboard.'))
+        .catch((err) => {
+          console.error('Copy answer failed:', err);
+        });
+    },
+    copyTextToClipboard(text) {
+      if (!text) {
+        return Promise.resolve();
+      }
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      if (typeof document === 'undefined') {
+        return Promise.resolve();
+      }
+      return new Promise((resolve, reject) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+          const successful = document.execCommand('copy');
+          if (successful) {
+            resolve();
+          } else {
+            reject(new Error('Copy command was unsuccessful'));
+          }
+        } catch (err) {
+          reject(err);
+        } finally {
+          document.body.removeChild(textarea);
+        }
+      });
+    },
+    showCopyNotice(message) {
+      if (!message) return;
+      this.copyNotice = message;
+      if (this.copyNoticeTimeout) {
+        clearTimeout(this.copyNoticeTimeout);
+      }
+      this.copyNoticeTimeout = setTimeout(() => {
+        this.copyNotice = '';
+        this.copyNoticeTimeout = null;
+      }, 3000);
     },
     selectSuggestedQuestion(question) {
       if (this.chatLoading) return;
@@ -674,6 +770,10 @@ export default {
     if (this.resizeListener) {
       window.removeEventListener('resize', this.resizeListener);
     }
+    if (this.copyNoticeTimeout) {
+      clearTimeout(this.copyNoticeTimeout);
+      this.copyNoticeTimeout = null;
+    }
   },
 };
 </script>
@@ -788,6 +888,26 @@ export default {
   opacity: 0.95;
 }
 
+.ai-control-btn--copy {
+  background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+  border-color: transparent;
+  color: #0f172a;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+}
+
+.ai-copy-notice {
+  margin-top: 0.65rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 14px;
+  background: #e0f4ef;
+  border: 1px solid rgba(13, 182, 145, 0.4);
+  color: #0c5b4f;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
 .chat-entry-actions {
   margin-top: 0.5rem;
   display: flex;
@@ -814,6 +934,29 @@ export default {
 }
 
 .chat-share-btn i {
+  font-size: 0.9rem;
+}
+
+.chat-copy-btn {
+  border: none;
+  background: rgba(14, 165, 233, 0.15);
+  color: #0f4a72;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.chat-copy-btn:hover {
+  background: rgba(14, 165, 233, 0.25);
+  transform: translateY(-1px);
+}
+
+.chat-copy-btn i {
   font-size: 0.9rem;
 }
 
