@@ -16,6 +16,7 @@ function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t =
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+const MOBILE_BREAKPOINT = 768;
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     return {
@@ -26,6 +27,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       sessionId: null,
       errorTimeout: null,
       sessionExpired: false,
+      isCompactMode: false,
+      resizeListener: null,
       suggestedQuestions: ['🕌 What does the Quran teach about Allah’s mercy in hard times?', '🕋 How can I make the five daily prayers feel more meaningful?', '🤲 Share a dua from the Sunnah for asking Allah for guidance.', '📜 Explain a hadith about patience and perseverance.', '🌿 What habits help preserve gratitude in everyday life?', '✨ How should I renew my intention when starting a new deed?', '🕯️ Describe the etiquette of making dua after Salah.', '📚 What advice do the companions give on seeking knowledge?', '⚖️ How can I balance worldly duties with Islamic priorities?', '🛡️ What are ways to protect my heart from envy and gossip?', '📖 Share a Quranic story that encourages hope and trust.', '📿 How can I increase consistency in dhikr and remembrance?', '🤝 Explain the importance of community in Islamic life.', '🕊️ What actions earn barakah in daily routines?', '🌟 What reminders help me stay humble during success?']
     };
   },
@@ -49,10 +52,16 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   methods: {
     createChatEntry(role, text, references = []) {
       const now = new Date();
+      const summaryBullets = this.extractSummaryBulletPoints(text);
+      const allowCollapse = summaryBullets.length && this.isLongMessage(text);
       return {
         role,
         text,
         references,
+        summaryBullets,
+        allowCollapse,
+        collapsed: allowCollapse && this.isCompactMode,
+        userToggled: false,
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], {
           hour: 'numeric',
@@ -90,6 +99,24 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
       }
       return paragraphs.map(paragraph => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
+    },
+    isLongMessage(text) {
+      if (!text) return false;
+      const cleaned = text.trim();
+      const paragraphCount = cleaned.split(/\n+/).filter(Boolean).length;
+      return cleaned.length > 360 || paragraphCount >= 3;
+    },
+    extractSummaryBulletPoints(text, limit = 3) {
+      if (!text) return [];
+      const cleaned = text.replace(/\r\n?/g, ' ').replace(/\s{2,}/g, ' ').trim();
+      if (!cleaned) return [];
+      const sentenceMatches = cleaned.match(/[^.!?]+[.!?]+/g) || [];
+      const normalized = sentenceMatches.length ? sentenceMatches : cleaned.split(/[,;]+/);
+      const sanitized = normalized.map(piece => piece.replace(/^[\s*-]+/, '').trim()).filter(piece => piece.length > 12);
+      if (!sanitized.length) {
+        return (normalized || []).slice(0, limit).map(piece => piece.trim()).filter(Boolean);
+      }
+      return sanitized.slice(0, limit);
     },
     normalizeReferences(input) {
       if (!input) return [];
@@ -239,6 +266,23 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     clearHistory() {
       this.clearConversationState();
       this.chatError = null;
+    },
+    toggleEntryCollapse(entry) {
+      if (!entry.allowCollapse || !this.isCompactMode) {
+        return;
+      }
+      entry.collapsed = !entry.collapsed;
+      entry.userToggled = true;
+    },
+    updateCompactMode() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const isCompact = window.innerWidth <= MOBILE_BREAKPOINT;
+      if (this.isCompactMode === isCompact) {
+        return;
+      }
+      this.isCompactMode = isCompact;
     }
   },
   watch: {
@@ -256,10 +300,34 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.chatError = null;
         this.errorTimeout = null;
       }, 5000);
+    },
+    isCompactMode(value) {
+      this.chatHistory.forEach(entry => {
+        if (!entry.allowCollapse) {
+          return;
+        }
+        if (!value) {
+          entry.collapsed = false;
+          entry.userToggled = false;
+          return;
+        }
+        if (entry.userToggled) {
+          return;
+        }
+        entry.collapsed = entry.allowCollapse;
+      });
     }
   },
   mounted() {
     this.resetSession();
+    this.updateCompactMode();
+    this.resizeListener = () => this.updateCompactMode();
+    window.addEventListener('resize', this.resizeListener);
+  },
+  beforeUnmount() {
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 });
 
@@ -346,26 +414,40 @@ const _hoisted_18 = {
 const _hoisted_19 = ["innerHTML"];
 const _hoisted_20 = {
   key: 0,
+  class: "chat-summary"
+};
+const _hoisted_21 = {
+  class: "chat-summary-title"
+};
+const _hoisted_22 = ["onClick"];
+const _hoisted_23 = {
+  key: 0
+};
+const _hoisted_24 = {
+  key: 1
+};
+const _hoisted_25 = {
+  key: 2,
   class: "chat-references-wrapper",
   "aria-label": "Sources that informed this answer"
 };
-const _hoisted_21 = {
+const _hoisted_26 = {
   class: "chat-references",
   role: "list"
 };
-const _hoisted_22 = ["href"];
-const _hoisted_23 = ["disabled"];
-const _hoisted_24 = {
+const _hoisted_27 = ["href"];
+const _hoisted_28 = ["disabled"];
+const _hoisted_29 = {
   class: "ai-form-meta pt-2 text-muted"
 };
-const _hoisted_25 = ["disabled"];
-const _hoisted_26 = {
+const _hoisted_30 = ["disabled"];
+const _hoisted_31 = {
   key: 0,
   class: "spinner-border spinner-border-sm",
   role: "status",
   "aria-hidden": "true"
 };
-const _hoisted_27 = ["disabled"];
+const _hoisted_32 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-welcome\" aria-live=\"polite\" data-v-300b761a><div class=\"ai-welcome-icon\" aria-hidden=\"true\" data-v-300b761a><i class=\"fas fa-infinity\" aria-hidden=\"true\" data-v-300b761a></i></div><div class=\"ai-welcome-text\" data-v-300b761a><h2 class=\"fw-bold\" data-v-300b761a>How can I assist your journey today?</h2><p class=\"container ai-welcome-copy\" data-v-300b761a> Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship and I’ll respond with balanced, source rooted clarity. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -424,11 +506,22 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true",
       title: "Sender"
     }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-bubble', entry.role]),
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-bubble', entry.role, {
+        'chat-bubble--collapsed': entry.role === 'assistant' && entry.collapsed
+      }]),
       innerHTML: $options.formatChatText(entry.text)
-    }, null, 10 /* CLASS, PROPS */, _hoisted_19), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_19), entry.collapsed && entry.summaryBullets.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Quick summary' : 'Question snapshot'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.summaryBullets, (bullet, bulletIndex) => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: `summary-${idx}-${bulletIndex}`
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bullet), 1 /* TEXT */);
+    }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.allowCollapse && $data.isCompactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+      key: 1,
+      type: "button",
+      class: "chat-collapse-toggle",
+      onClick: $event => $options.toggleEntryCollapse(entry)
+    }, [entry.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, " Show full " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'response' : 'question'), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_24, " Collapse to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'summary' : 'preview'), 1 /* TEXT */))], 8 /* PROPS */, _hoisted_22)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "chat-references-heading"
-    }, "References", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_21, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
+    }, "References", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `ref-${idx}-${refIndex}-${reference.label}`
       }, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
@@ -436,7 +529,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         href: reference.url,
         target: "_blank",
         rel: "noopener noreferrer"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_22)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_27)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         key: 1
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)], 64 /* STABLE_FRAGMENT */))]);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 2 /* CLASS */);
@@ -455,16 +548,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "2",
     placeholder: "Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values.",
     disabled: $data.chatLoading
-  }, null, 8 /* PROPS */, _hoisted_23), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_28), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "ai-submit",
     disabled: $data.chatLoading || !$data.chatDraft.trim()
-  }, [$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Ask your Assistant'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_31)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Ask your Assistant'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_30), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-clear-input",
     disabled: $data.chatLoading || !$data.chatDraft.trim(),
     onClick: _cache[4] || (_cache[4] = (...args) => $options.clearDraft && $options.clearDraft(...args))
-  }, " Clear input ", 8 /* PROPS */, _hoisted_27)]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Clear input ", 8 /* PROPS */, _hoisted_32)]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-trust-note",
     role: "note",
     "aria-live": "polite"

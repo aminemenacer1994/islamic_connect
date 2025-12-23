@@ -75,7 +75,7 @@
 
         <div v-if="chatHistory.length" ref="chatShell" class="ai-chat-shell">
           <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
-            <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
+          <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
             :class="['chat-entry', entry.role]">
             <div class="chat-entry-header">
               <i
@@ -87,7 +87,40 @@
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
             <div class="chat-bubble-container">
-              <div :class="['chat-bubble', entry.role]" v-html="formatChatText(entry.text)"></div>
+              <div
+                :class="[
+                  'chat-bubble',
+                  entry.role,
+                  { 'chat-bubble--collapsed': entry.role === 'assistant' && entry.collapsed },
+                ]"
+                v-html="formatChatText(entry.text)"
+              ></div>
+              <div
+                v-if="entry.collapsed && entry.summaryBullets.length"
+                class="chat-summary"
+              >
+                <p class="chat-summary-title">
+                  {{ entry.role === 'assistant' ? 'Quick summary' : 'Question snapshot' }}
+                </p>
+                <ul>
+                  <li v-for="(bullet, bulletIndex) in entry.summaryBullets" :key="`summary-${idx}-${bulletIndex}`">
+                    {{ bullet }}
+                  </li>
+                </ul>
+              </div>
+              <button
+                v-if="entry.allowCollapse && isCompactMode"
+                type="button"
+                class="chat-collapse-toggle"
+                @click="toggleEntryCollapse(entry)"
+              >
+                <span v-if="entry.collapsed">
+                  Show full {{ entry.role === 'assistant' ? 'response' : 'question' }}
+                </span>
+                <span v-else>
+                  Collapse to {{ entry.role === 'assistant' ? 'summary' : 'preview' }}
+                </span>
+              </button>
               <div
                 v-if="entry.references && entry.references.length"
                 class="chat-references-wrapper"
@@ -151,6 +184,8 @@
 </template>
 
 <script>
+const MOBILE_BREAKPOINT = 768;
+
 export default {
   data() {
     return {
@@ -161,6 +196,8 @@ export default {
       sessionId: null,
       errorTimeout: null,
       sessionExpired: false,
+      isCompactMode: false,
+      resizeListener: null,
       suggestedQuestions: [
         '🕌 What does the Quran teach about Allah’s mercy in hard times?',
         '🕋 How can I make the five daily prayers feel more meaningful?',
@@ -202,10 +239,16 @@ export default {
   methods: {
     createChatEntry(role, text, references = []) {
       const now = new Date();
+      const summaryBullets = this.extractSummaryBulletPoints(text);
+      const allowCollapse = summaryBullets.length && this.isLongMessage(text);
       return {
         role,
         text,
         references,
+        summaryBullets,
+        allowCollapse,
+        collapsed: allowCollapse && this.isCompactMode,
+        userToggled: false,
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
         displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
@@ -240,6 +283,29 @@ export default {
         return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
       }
       return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
+    },
+    isLongMessage(text) {
+      if (!text) return false;
+      const cleaned = text.trim();
+      const paragraphCount = cleaned.split(/\n+/).filter(Boolean).length;
+      return cleaned.length > 360 || paragraphCount >= 3;
+    },
+    extractSummaryBulletPoints(text, limit = 3) {
+      if (!text) return [];
+      const cleaned = text
+        .replace(/\r\n?/g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+      if (!cleaned) return [];
+      const sentenceMatches = cleaned.match(/[^.!?]+[.!?]+/g) || [];
+      const normalized = sentenceMatches.length ? sentenceMatches : cleaned.split(/[,;]+/);
+      const sanitized = normalized
+        .map((piece) => piece.replace(/^[\s*-]+/, '').trim())
+        .filter((piece) => piece.length > 12);
+      if (!sanitized.length) {
+        return (normalized || []).slice(0, limit).map((piece) => piece.trim()).filter(Boolean);
+      }
+      return sanitized.slice(0, limit);
     },
     normalizeReferences(input) {
       if (!input) return [];
@@ -416,6 +482,23 @@ export default {
       this.clearConversationState();
       this.chatError = null;
     },
+    toggleEntryCollapse(entry) {
+      if (!entry.allowCollapse || !this.isCompactMode) {
+        return;
+      }
+      entry.collapsed = !entry.collapsed;
+      entry.userToggled = true;
+    },
+    updateCompactMode() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const isCompact = window.innerWidth <= MOBILE_BREAKPOINT;
+      if (this.isCompactMode === isCompact) {
+        return;
+      }
+      this.isCompactMode = isCompact;
+    },
   },
   watch: {
     chatError(value) {
@@ -433,9 +516,33 @@ export default {
         this.errorTimeout = null;
       }, 5000);
     },
+    isCompactMode(value) {
+      this.chatHistory.forEach((entry) => {
+        if (!entry.allowCollapse) {
+          return;
+        }
+        if (!value) {
+          entry.collapsed = false;
+          entry.userToggled = false;
+          return;
+        }
+        if (entry.userToggled) {
+          return;
+        }
+        entry.collapsed = entry.allowCollapse;
+      });
+    },
   },
   mounted() {
     this.resetSession();
+    this.updateCompactMode();
+    this.resizeListener = () => this.updateCompactMode();
+    window.addEventListener('resize', this.resizeListener);
+  },
+  beforeUnmount() {
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   },
 };
 </script>
@@ -889,6 +996,24 @@ export default {
   text-align: left;
 }
 
+.chat-bubble--collapsed {
+  max-height: 10rem;
+  overflow: hidden;
+  text-align: left;
+}
+
+.chat-bubble--collapsed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3.5rem;
+  border-radius: 0 0 18px 18px;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(14, 118, 120, 0.25));
+}
+
 .chat-bubble.assistant {
   align-self: flex-start;
   background: rgba(13, 182, 145, 0.12);
@@ -907,6 +1032,58 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+}
+
+.chat-summary {
+  background: #fff;
+  border: 1px solid rgba(13, 182, 145, 0.26);
+  border-radius: 16px;
+  padding: 0.65rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: #0f5658;
+  text-align: left;
+}
+
+.chat-summary-title {
+  margin: 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #0c4f47;
+}
+
+.chat-summary ul {
+  margin: 0;
+  padding-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chat-summary li {
+  list-style-type: disc;
+  line-height: 1.4;
+}
+
+.chat-collapse-toggle {
+  align-self: flex-start;
+  border: none;
+  background: none;
+  color: #0d4b4b;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.chat-collapse-toggle:focus-visible {
+  outline: 2px solid #0db691;
+  outline-offset: 2px;
 }
 
 .chat-references-wrapper {
