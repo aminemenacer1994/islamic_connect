@@ -40,6 +40,14 @@
           <div>
             <p class="ai-error-title">Need some redirection?</p>
             <p class="ai-error-message">{{ chatError }}</p>
+            <button
+              v-if="sessionExpired"
+              type="button"
+              class="ai-error-clear"
+              @click="reloadPage"
+            >
+              Reload page
+            </button>
           </div>
         </div>
 
@@ -110,6 +118,7 @@ export default {
       chatError: null,
       sessionId: null,
       errorTimeout: null,
+      sessionExpired: false,
       suggestedQuestions: [
         '🕌 What steps can I take to prepare for Jumuah prayer?',
         '📖 Explain one verse that highlights mercy in the Quran.',
@@ -231,6 +240,10 @@ export default {
           body: JSON.stringify({ ...payload, sessionId: session }),
         });
         const responseData = await response.json().catch(() => ({}));
+        if (response.status === 419) {
+          this.handleSessionExpiry();
+          return;
+        }
         if (!response.ok) {
           throw new Error(responseData.error || 'Unable to get a response right now.');
         }
@@ -274,6 +287,15 @@ export default {
       this.chatHistory = [];
       this.chatDraft = '';
       this.resetSession();
+    },
+    handleSessionExpiry() {
+      this.sessionExpired = true;
+      this.chatError = 'Session expired — refresh the page to continue.';
+    },
+    reloadPage() {
+      if (typeof window !== 'undefined' && window.location) {
+        window.location.reload();
+      }
     },
     isIslamicQuestion(message) {
       if (!message) return false;
@@ -336,13 +358,15 @@ export default {
         clearTimeout(this.errorTimeout);
         this.errorTimeout = null;
       }
-      if (value) {
-        this.clearConversationState();
-        this.errorTimeout = setTimeout(() => {
-          this.chatError = null;
-          this.errorTimeout = null;
-        }, 5000);
+      if (!value) {
+        this.sessionExpired = false;
+        return;
       }
+      this.clearConversationState();
+      this.errorTimeout = setTimeout(() => {
+        this.chatError = null;
+        this.errorTimeout = null;
+      }, 5000);
     },
   },
   mounted() {
@@ -911,6 +935,23 @@ export default {
   color: #4c2b2d;
   font-size: 0.92rem;
   line-height: 1.4;
+}
+
+.ai-error-clear {
+  margin-top: 0.5rem;
+  padding: 0.35rem 0.95rem;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 1px solid rgba(13, 182, 145, 0.5);
+  background: transparent;
+  color: #0d4b4b;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ai-error-clear:hover {
+  background: rgba(13, 182, 145, 0.12);
+  border-color: rgba(13, 182, 145, 0.9);
 }
 
 @media (max-width: 900px) {
