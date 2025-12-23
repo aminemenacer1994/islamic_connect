@@ -197,7 +197,7 @@
       <form ref="aiForm" class="ai-form pt-3" @submit.prevent="sendChatMessage">
         <label class="visually-hidden" for="aiChatInput">Ask the chatbot</label>
         <textarea id="aiChatInput" ref="aiChatInput" v-model="chatDraft" class="ai-textarea" rows="2"
-          placeholder="Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values."
+        placeholder="Ask something that brings you closer to Allah..."
           :disabled="chatLoading"></textarea>
       
         <div class="ai-form-meta pt-2 text-muted">
