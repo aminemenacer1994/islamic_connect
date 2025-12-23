@@ -2026,6 +2026,31 @@ input[type="checkbox"][data-v-406910d0] {
 .ai-control-btn--whatsapp[data-v-300b761a]:hover:not(:disabled) {
   opacity: 0.95;
 }
+.chat-entry-actions[data-v-300b761a] {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.chat-share-btn[data-v-300b761a] {
+  border: none;
+  background: rgba(37, 211, 102, 0.15);
+  color: #0b6733;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.chat-share-btn[data-v-300b761a]:hover {
+  background: rgba(37, 211, 102, 0.25);
+  transform: translateY(-1px);
+}
+.chat-share-btn i[data-v-300b761a] {
+  font-size: 0.9rem;
+}
 .ai-control-btn.active[data-v-300b761a] {
   background: rgba(13, 182, 145, 0.12);
 }

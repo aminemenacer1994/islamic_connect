@@ -146,6 +146,17 @@
                 ]"
                 v-html="formatChatText(entry.text)"
               ></div>
+              <div v-if="entry.role === 'assistant'" class="chat-entry-actions">
+                <button
+                  type="button"
+                  class="chat-share-btn"
+                  @click="shareEntryOnWhatsApp(entry)"
+                  :aria-label="'Share this answer via WhatsApp'"
+                >
+                  <i class="fab fa-whatsapp" aria-hidden="true"></i>
+                  <span class="d-none d-md-inline ms-1">Share answer</span>
+                </button>
+              </div>
               <div
                 v-if="entry.collapsed && entry.summaryBullets.length"
                 class="chat-summary"
@@ -495,6 +506,22 @@ export default {
       const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
       window.open(whatsappUrl, '_blank');
     },
+    shareEntryOnWhatsApp(entry) {
+      if (!entry?.text) {
+        return;
+      }
+      const content = this.sanitizeShareText(entry.text);
+      if (!content) {
+        return;
+      }
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const header =
+        entry.role === 'assistant' ? 'Islamic Connect answer' : 'Islamic Connect chat';
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${header}\n\n${content}`)}`;
+      window.open(whatsappUrl, '_blank');
+    },
     selectSuggestedQuestion(question) {
       if (this.chatLoading) return;
       this.chatDraft = question;
@@ -759,6 +786,35 @@ export default {
 
 .ai-control-btn--whatsapp:hover:not(:disabled) {
   opacity: 0.95;
+}
+
+.chat-entry-actions {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat-share-btn {
+  border: none;
+  background: rgba(37, 211, 102, 0.15);
+  color: #0b6733;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.chat-share-btn:hover {
+  background: rgba(37, 211, 102, 0.25);
+  transform: translateY(-1px);
+}
+
+.chat-share-btn i {
+  font-size: 0.9rem;
 }
 
 .ai-control-btn.active {
