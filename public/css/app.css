@@ -2090,6 +2090,48 @@ input[type="checkbox"][data-v-406910d0] {
 .chat-copy-btn i[data-v-300b761a] {
   font-size: 0.9rem;
 }
+.chat-voice-wrapper[data-v-300b761a] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.chat-voice-trigger[data-v-300b761a] {
+  border: none;
+  background: rgba(14, 165, 233, 0.15);
+  color: #042a40;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-voice-controls[data-v-300b761a] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(15, 111, 112, 0.08);
+  border-radius: 12px;
+  padding: 0.25rem 0.4rem;
+}
+.chat-voice-control-btn[data-v-300b761a] {
+  border: none;
+  background: transparent;
+  color: #0b4a4f;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.chat-voice-control-btn[data-v-300b761a]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.chat-voice-status[data-v-300b761a] {
+  font-size: 0.75rem;
+  color: #0b4a4f;
+}
 .ai-control-btn.active[data-v-300b761a] {
   background: rgba(13, 182, 145, 0.12);
 }

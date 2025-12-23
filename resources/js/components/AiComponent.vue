@@ -67,13 +67,6 @@
         </div>
       </div>
 
-      <div class="ai-metadata">
-        <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
-          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-          <p class="mb-0 fw-semibold">Assistant is consulting trusted sources...</p>
-        </div>
-      </div>
-
       <div class="ai-controls" role="toolbar" aria-label="Chat controls">
         <button
           v-if="hasAssistantResponse"
@@ -143,6 +136,12 @@
       </div>
 
         <div v-if="chatHistory.length" ref="chatShell" class="ai-chat-shell">
+          <div class="ai-metadata">
+            <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
+              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              <p class="mb-0 fw-semibold">Assistant is consulting trusted sources...</p>
+            </div>
+          </div>
           <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
           <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
             :class="['chat-entry', entry.role]">
@@ -183,6 +182,55 @@
                   <i class="fas fa-copy" aria-hidden="true"></i>
                   <span class="d-none d-md-inline ms-1">Copy answer</span>
                 </button>
+                <div class="chat-voice-wrapper ms-2">
+                  <button
+                    type="button"
+                    class="chat-voice-trigger"
+                    @click="toggleSpeechControls(entry)"
+                    :aria-expanded="entry.speechControlsVisible ? 'true' : 'false'"
+                  >
+                    <i class="fas fa-volume-up" aria-hidden="true"></i>
+                    <span class="visually-hidden">Read this answer aloud</span>
+                  </button>
+                  <div
+                    v-if="entry.speechControlsVisible"
+                    class="chat-voice-controls"
+                    role="group"
+                    aria-label="Speech controls"
+                    aria-live="polite"
+                  >
+                    <button
+                      type="button"
+                      class="chat-voice-control-btn"
+                      @click="playEntrySpeech(entry)"
+                      :disabled="entry.speechStatus === 'loading'"
+                      aria-label="Play answer"
+                    >
+                      <i class="fas fa-play" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="chat-voice-control-btn"
+                      @click="pauseEntrySpeech(entry)"
+                      :disabled="entry.speechStatus !== 'playing'"
+                      aria-label="Pause answer"
+                    >
+                      <i class="fas fa-pause" aria-hidden="true"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="chat-voice-control-btn"
+                      @click="stopEntrySpeech(entry)"
+                      :disabled="entry.speechStatus === 'stopped'"
+                      aria-label="Stop answer"
+                    >
+                      <i class="fas fa-stop" aria-hidden="true"></i>
+                    </button>
+                    <span class="chat-voice-status" aria-live="polite">
+                      {{ entry.speechStatus === 'loading' ? 'Preparing…' : entry.speechStatus }}
+                    </span>
+                  </div>
+                </div>
               </div>
               <div
                 v-if="entry.collapsed && entry.summaryBullets.length"
@@ -289,6 +337,11 @@ export default {
       resizeListener: null,
       copyNotice: '',
       copyNoticeTimeout: null,
+      availableVoices: [],
+      preferredVoice: null,
+      speechVoicesChanged: null,
+      activeSpeechEntryKey: null,
+      activeUtterance: null,
       suggestionsExpanded: true,
       suggestionCategories: [
         {
@@ -348,6 +401,8 @@ export default {
         allowCollapse,
         collapsed: allowCollapse && this.isCompactMode,
         userToggled: false,
+        speechControlsVisible: false,
+        speechStatus: 'stopped',
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
         displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
@@ -468,6 +523,163 @@ export default {
     },
     toggleSuggestions() {
       this.suggestionsExpanded = !this.suggestionsExpanded;
+    },
+    initializeSpeechSynthesis() {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        return;
+      }
+      const refreshVoices = () => {
+        const voices = window.speechSynthesis.getVoices() || [];
+        this.availableVoices = voices;
+        this.updatePreferredVoice();
+      };
+      refreshVoices();
+      this.speechVoicesChanged = refreshVoices;
+      window.speechSynthesis.addEventListener('voiceschanged', refreshVoices);
+    },
+    chooseNaturalVoice(voices) {
+      if (!voices || !voices.length) {
+        return null;
+      }
+      const preferredNames = [
+        'Google UK English Female',
+        'Google UK English Male',
+        'Google US English',
+        'Microsoft Zira Desktop - English (United States)',
+        'Samantha',
+        'Alex',
+      ];
+      for (const preferred of preferredNames) {
+        const match = voices.find((voice) => voice.name === preferred);
+        if (match) {
+          return match;
+        }
+      }
+      const englishVoice = voices.find((voice) => voice.lang?.startsWith('en'));
+      return englishVoice || voices[0];
+    },
+    updatePreferredVoice() {
+      if (!this.availableVoices.length) {
+        this.preferredVoice = null;
+        return;
+      }
+      this.preferredVoice = this.chooseNaturalVoice(this.availableVoices);
+    },
+    getEntrySpeechKey(entry) {
+      if (!entry) return null;
+      return `${entry.role}-${entry.time}`;
+    },
+    findEntryBySpeechKey(key) {
+      if (!key) {
+        return null;
+      }
+      return this.chatHistory.find((entry) => this.getEntrySpeechKey(entry) === key) || null;
+    },
+    toggleSpeechControls(entry) {
+      if (!entry) {
+        return;
+      }
+      const isVisible = !entry.speechControlsVisible;
+      this.chatHistory.forEach((other) => {
+        if (other !== entry) {
+          other.speechControlsVisible = false;
+        }
+      });
+      entry.speechControlsVisible = isVisible;
+    },
+    playEntrySpeech(entry) {
+      if (!entry?.text || typeof window === 'undefined' || !window.speechSynthesis) {
+        return;
+      }
+      const entryKey = this.getEntrySpeechKey(entry);
+      if (this.activeSpeechEntryKey === entryKey && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        entry.speechStatus = 'playing';
+        return;
+      }
+      this.stopSpeech();
+      const plainText = this.toPlainText(entry.text);
+      if (!plainText) {
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(plainText);
+      const voice = this.preferredVoice;
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang || utterance.lang;
+      }
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      this.activeUtterance = utterance;
+      this.activeSpeechEntryKey = entryKey;
+      utterance.onstart = () => {
+        entry.speechStatus = 'playing';
+      };
+      utterance.onend = () => {
+        this.finishSpeech(entry);
+      };
+      utterance.onerror = () => {
+        this.finishSpeech(entry);
+      };
+      utterance.onpause = () => {
+        entry.speechStatus = 'paused';
+      };
+      utterance.onresume = () => {
+        entry.speechStatus = 'playing';
+      };
+      entry.speechStatus = 'loading';
+      window.speechSynthesis.speak(utterance);
+    },
+    pauseEntrySpeech(entry) {
+      if (
+        typeof window === 'undefined' ||
+        !window.speechSynthesis ||
+        !window.speechSynthesis.speaking ||
+        window.speechSynthesis.paused
+      ) {
+        return;
+      }
+      if (this.activeSpeechEntryKey !== this.getEntrySpeechKey(entry)) {
+        return;
+      }
+      window.speechSynthesis.pause();
+      entry.speechStatus = 'paused';
+    },
+    stopEntrySpeech(entry) {
+      if (!entry) {
+        return;
+      }
+      if (this.activeSpeechEntryKey === this.getEntrySpeechKey(entry)) {
+        this.stopSpeech();
+        return;
+      }
+      entry.speechStatus = 'stopped';
+    },
+    finishSpeech(entry) {
+      if (!entry) {
+        return;
+      }
+      entry.speechStatus = 'stopped';
+      const entryKey = this.getEntrySpeechKey(entry);
+      if (this.activeSpeechEntryKey === entryKey) {
+        this.activeSpeechEntryKey = null;
+      }
+      this.activeUtterance = null;
+    },
+    stopSpeech() {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        return;
+      }
+      window.speechSynthesis.cancel();
+      if (this.activeSpeechEntryKey) {
+        const entry = this.findEntryBySpeechKey(this.activeSpeechEntryKey);
+        if (entry) {
+          entry.speechStatus = 'stopped';
+        }
+      }
+      this.activeSpeechEntryKey = null;
+      this.activeUtterance = null;
     },
     async sendChatMessage() {
       if (this.chatLoading) return;
@@ -767,6 +979,7 @@ export default {
   mounted() {
     this.resetSession();
     this.updateCompactMode();
+    this.initializeSpeechSynthesis();
     this.resizeListener = () => this.updateCompactMode();
     window.addEventListener('resize', this.resizeListener);
   },
@@ -778,6 +991,11 @@ export default {
       clearTimeout(this.copyNoticeTimeout);
       this.copyNoticeTimeout = null;
     }
+    if (typeof window !== 'undefined' && window.speechSynthesis && this.speechVoicesChanged) {
+      window.speechSynthesis.removeEventListener('voiceschanged', this.speechVoicesChanged);
+      this.speechVoicesChanged = null;
+    }
+    this.stopSpeech();
   },
 };
 </script>
@@ -963,6 +1181,54 @@ export default {
 
 .chat-copy-btn i {
   font-size: 0.9rem;
+}
+
+.chat-voice-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.chat-voice-trigger {
+  border: none;
+  background: rgba(14, 165, 233, 0.15);
+  color: #042a40;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-voice-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(15, 111, 112, 0.08);
+  border-radius: 12px;
+  padding: 0.25rem 0.4rem;
+}
+
+.chat-voice-control-btn {
+  border: none;
+  background: transparent;
+  color: #0b4a4f;
+  cursor: pointer;
+  padding: 0.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chat-voice-control-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat-voice-status {
+  font-size: 0.75rem;
+  color: #0b4a4f;
 }
 
 .ai-control-btn.active {
