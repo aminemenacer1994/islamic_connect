@@ -28,12 +28,7 @@
           <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
         </button>
       </div>
-      <div class="ai-metadata">
-        <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
-          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
-          <span>Assistant is gathering your response...</span>
-        </div>
-      </div>
+      
 
       <div
         v-if="chatError"
@@ -69,6 +64,13 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div class="ai-metadata">
+        <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          <p class="mb-0 fw-semibold">Assistant is consulting trusted sources...</p>
         </div>
       </div>
 
@@ -510,6 +512,28 @@ export default {
 
 .ai-trust-note i {
   font-size: 1.1rem;
+}
+
+.ai-metadata {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.ai-loading-indicator {
+  background: rgba(15, 111, 112, 0.08);
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #0b4a4f;
+  text-align: center;
+  width: 100%;
 }
 
 

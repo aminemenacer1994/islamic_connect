@@ -2040,6 +2040,26 @@ input[type="checkbox"][data-v-406910d0] {
 .ai-trust-note i[data-v-300b761a] {
   font-size: 1.1rem;
 }
+.ai-metadata[data-v-300b761a] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.ai-loading-indicator[data-v-300b761a] {
+  background: rgba(15, 111, 112, 0.08);
+  border-radius: 12px;
+  padding: 0.65rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  color: #0b4a4f;
+  text-align: center;
+  width: 100%;
+}
 .ai-suggestions[data-v-300b761a] {
   margin-top: 1.5rem;
   margin-bottom: 1rem;
