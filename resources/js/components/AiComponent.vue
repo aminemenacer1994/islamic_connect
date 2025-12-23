@@ -15,7 +15,12 @@
       </div>
       
       <div class="ai-controls" role="toolbar" aria-label="Chat controls">
-        <button type="button" class="ai-control-btn ai-control-btn--primary" @click="startNewChat">
+        <button
+          type="button"
+          class="ai-control-btn ai-control-btn--primary"
+          @click="startNewChat"
+          :disabled="!isNewChatAvailable"
+        >
           <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
         </button>
         <button
@@ -273,6 +278,11 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    isNewChatAvailable() {
+      return this.chatDraft.trim().length > 0;
+    },
   },
   methods: {
     createChatEntry(role, text, references = []) {
