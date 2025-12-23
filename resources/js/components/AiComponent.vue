@@ -1122,7 +1122,8 @@ export default {
 }
 
 .chat-bubble {
-  max-width: 78%;
+  max-width: 100%;
+  width: 100%;
   padding: 0.95rem 1rem;
   border-radius: 18px;
   position: relative;
@@ -1130,6 +1131,19 @@ export default {
   background: #fefefe;
   box-shadow: 0 6px 14px rgba(15, 111, 112, 0.08);
   text-align: left;
+  transition: max-width 0.2s ease;
+}
+
+.chat-entry.user .chat-bubble {
+  text-align: left;
+}
+
+@media (min-width: 768px) {
+  .chat-entry.user .chat-bubble {
+    white-space: nowrap;
+    overflow-wrap: normal;
+    word-break: keep-all;
+  }
 }
 
 .chat-bubble--collapsed {
