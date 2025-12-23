@@ -76,6 +76,7 @@
 
       <div class="ai-controls" role="toolbar" aria-label="Chat controls">
         <button
+          v-if="hasAssistantResponse"
           type="button"
           class="ai-control-btn ai-control-btn--primary"
           @click="startNewChat"
@@ -328,7 +329,10 @@ export default {
   },
   computed: {
     isNewChatAvailable() {
-      return this.chatDraft.trim().length > 0;
+      return this.chatDraft.trim().length > 0 || this.hasAssistantResponse;
+    },
+    hasAssistantResponse() {
+      return this.chatHistory.some((entry) => entry.role === 'assistant');
     },
   },
   methods: {
@@ -785,6 +789,7 @@ export default {
   display: flex;
   justify-content: center;
   width: 100%;
+  font-size: 0.9rem;
 }
 
 .ai-panel::before {
@@ -819,20 +824,20 @@ export default {
 .ai-label {
   letter-spacing: 0.25em;
   text-transform: uppercase;
-  font-size: 0.65rem;
-  color: #3e7c7a;
+  font-size: 0.72rem;
+  color: #0a2a2d;
   margin-bottom: 0.35rem;
 }
 
 .ai-title {
   font-size: clamp(1.85rem, 3vw, 2.6rem);
   margin: 0;
-  color: #0f2632;
+  color: #07121a;
 }
 
 .ai-description {
   margin: 0.35rem 0 0;
-  color: #4f6166;
+  color: #0b1a20;
   line-height: 1.6;
 }
 
@@ -846,14 +851,14 @@ export default {
 .ai-control-btn {
   border: 1px solid rgba(13, 182, 145, 0.35);
   background: #fff;
-  color: #0d4b4b;
+  color: #041b20;
   padding: 0.5rem 0.9rem;
   border-radius: 999px;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
 
@@ -902,7 +907,7 @@ export default {
   background: #e0f4ef;
   border: 1px solid rgba(13, 182, 145, 0.4);
   color: #0c5b4f;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -917,10 +922,10 @@ export default {
 .chat-share-btn {
   border: none;
   background: rgba(37, 211, 102, 0.15);
-  color: #0b6733;
+  color: #041b20;
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -940,10 +945,10 @@ export default {
 .chat-copy-btn {
   border: none;
   background: rgba(14, 165, 233, 0.15);
-  color: #0f4a72;
+  color: #042a40;
   padding: 0.35rem 0.85rem;
   border-radius: 999px;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
@@ -978,13 +983,18 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 0.6rem;
-  color: #0c4f47;
-  font-size: 0.95rem;
+  color: #041b21;
+  font-size: 0.9rem;
   margin-bottom: 1rem;
 }
 
 .ai-trust-note i {
   font-size: 1.1rem;
+}
+
+.ai-trust-note p {
+  color: #041b21;
+  margin: 0;
 }
 
 .ai-metadata {
@@ -1022,7 +1032,7 @@ export default {
   align-items: center;
   text-align: center;
   font-size: 0.95rem;
-  color: #0f4d56;
+  color: #062029;
   box-shadow: 0 20px 40px rgba(15, 111, 112, 0.12);
   gap: 0.25rem;
 }
@@ -1069,7 +1079,7 @@ export default {
 
 .ai-welcome-copy {
   margin: 0.15rem 0 0;
-  color: #0b4b4a;
+  color: #041b1f;
   line-height: 1.5;
 }
 
@@ -1091,11 +1101,17 @@ export default {
   flex-wrap: wrap;
 }
 
+.ai-suggestions-header h6 {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #041b21;
+}
+
 .ai-suggestions-toggle {
   border-radius: 999px;
   border: 1px solid rgba(15, 182, 145, 0.5);
   background: #fff;
-  color: #0c4f47;
+  color: #062224;
   width: 40px;
   height: 40px;
   display: inline-flex;
@@ -1136,9 +1152,9 @@ export default {
 }
 
 .ai-suggestion-category-label {
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 700;
-  color: #0e4b4a;
+  color: #041b21;
   margin: 0;
 }
 
@@ -1212,8 +1228,8 @@ export default {
   border-radius: 999px;
   padding: 0.45rem 1rem;
   background: #fff;
-  font-size: 0.92rem;
-  color: #0b4a4f;
+  font-size: 0.95rem;
+  color: #041b21;
   cursor: pointer;
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   display: inline-flex;
@@ -1226,6 +1242,7 @@ export default {
 }
 
 .ai-suggestion-text {
+  font-size: 0.95rem;
   width: 100%;
   white-space: normal;
 }
@@ -1305,8 +1322,8 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.85rem;
-  color: #425b5d;
+  font-size: 0.9rem;
+  color: #031b21;
 }
 
 .chat-entry-header .chat-icon {
@@ -1384,7 +1401,7 @@ export default {
 .chat-bubble {
   max-width: 100%;
   width: 100%;
-  padding: 0.95rem 1rem;
+  padding: 0.95rem;
   border-radius: 18px;
   position: relative;
   border: 1px solid rgba(13, 182, 145, 0.16);
@@ -1452,18 +1469,18 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  font-size: 0.9rem;
-  color: #0f5658;
+  font-size: 0.95rem;
+  color: #041b21;
   text-align: left;
 }
 
 .chat-summary-title {
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.95rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
   font-weight: 600;
-  color: #0c4f47;
+  color: #062a2b;
 }
 
 .chat-summary ul {
@@ -1477,15 +1494,16 @@ export default {
 .chat-summary li {
   list-style-type: disc;
   line-height: 1.4;
+  font-size: 0.95rem;
 }
 
 .chat-collapse-toggle {
   align-self: flex-start;
   border: none;
   background: none;
-  color: #0d4b4b;
+  color: #041b20;
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   padding: 0;
   cursor: pointer;
   text-decoration: underline;
@@ -1507,7 +1525,7 @@ export default {
 .chat-references-heading {
   font-size: 0.75rem;
   font-weight: 600;
-  color: #0c4f47;
+  color: #041d22;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   display: block;
@@ -1521,8 +1539,8 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
-  font-size: 0.87rem;
-  color: #0d4b4b;
+  font-size: 0.9rem;
+  color: #041a20;
 }
 
 .chat-references li {
@@ -1532,7 +1550,7 @@ export default {
 }
 
 .chat-references a {
-  color: #0c6b62;
+  color: #043039;
   font-weight: 600;
 }
 
@@ -1555,8 +1573,8 @@ export default {
 
 .chat-bubble p {
   margin: 0;
-  font-size: 1rem;
-  color: #13212b;
+  font-size: 0.95rem;
+  color: #041b20;
   line-height: 1.5;
 }
 
@@ -1573,7 +1591,7 @@ export default {
   border: 1px solid rgba(13, 182, 145, 0.3);
   padding: 1rem 1.25rem;
   resize: none;
-  font-size: 1rem;
+  font-size: 0.95rem;
   min-height: 120px;
   background: #fafdfd;
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
@@ -1595,8 +1613,9 @@ export default {
 }
 
 .ai-form-meta small {
-  color: #4c5b5f;
-  line-height: 1.3;
+  color: #081b22;
+  line-height: 1.4;
+  font-size: 0.9rem;
 }
 
 .ai-submit {
@@ -1604,7 +1623,7 @@ export default {
   border: none;
   border-radius: 999px;
   padding: 0.9rem 2.5rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
   color: #fff;
   background: linear-gradient(135deg, #0db691, #0a9080);
   box-shadow: 0 16px 28px rgba(13, 182, 145, 0.28);
@@ -1630,7 +1649,7 @@ export default {
   border-radius: 999px;
   border: 1px solid rgba(13, 182, 145, 0.4);
   background: transparent;
-  color: #0d4b4b;
+  color: #041b20;
   padding: 0.8rem 1.8rem;
   font-size: 0.95rem;
   cursor: pointer;
@@ -1670,13 +1689,13 @@ export default {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 600;
-  color: #84272b;
+  color: #0c1c20;
 }
 
 .ai-error-message {
   margin: 0.1rem 0 0;
-  color: #4c2b2d;
-  font-size: 0.92rem;
+  color: #231212;
+  font-size: 0.95rem;
   line-height: 1.4;
 }
 
