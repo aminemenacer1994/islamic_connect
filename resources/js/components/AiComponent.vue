@@ -28,29 +28,34 @@
           <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
         </button>
       </div>
-      
-
-        <div
-          v-if="chatError"
-          class="ai-error-banner"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <i class="fas fa-exclamation-triangle ai-error-icon" aria-hidden="true"></i>
-          <div>
-            <p class="ai-error-title text-left">Need some redirection?</p>
-            <p class="ai-error-message">{{ chatError }}</p>
-            <button
-              v-if="sessionExpired"
-              type="button"
-              class="ai-error-clear"
-              @click="reloadPage"
-            >
-              Reload page
-            </button>
-          </div>
+      <div class="ai-metadata">
+        <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
+          <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+          <span>Assistant is gathering your response...</span>
         </div>
+      </div>
+
+      <div
+        v-if="chatError"
+        class="ai-error-banner"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
+        <i class="fas fa-exclamation-triangle ai-error-icon" aria-hidden="true"></i>
+        <div>
+          <p class="ai-error-title text-left">Need some redirection?</p>
+          <p class="ai-error-message">{{ chatError }}</p>
+          <button
+            v-if="sessionExpired"
+            type="button"
+            class="ai-error-clear"
+            @click="reloadPage"
+          >
+            Reload page
+          </button>
+        </div>
+      </div>
 
       <div class="ai-suggestions text-start" aria-label="Suggested questions">
         <h6 class="fw-bold">Need inspiration ?</h6>

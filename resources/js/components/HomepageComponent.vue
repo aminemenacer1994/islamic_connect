@@ -103,6 +103,7 @@
                     <small style="color: #4a5568; font-weight: 600;">No Registration</small>
                   </div>
                 </div>
+
               </div>
                 </div>
               </div>
