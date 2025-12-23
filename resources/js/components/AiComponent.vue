@@ -52,15 +52,53 @@
       </div>
 
       <div class="ai-suggestions text-start" aria-label="Suggested questions">
-        <h6 class="fw-bold">Need inspiration ?</h6>
-        <div class="ai-suggestions-list">
-          <div v-for="row in suggestionRows" :key="`row-${row.index}`" class="ai-suggestion-row"
-            :style="{ '--row': row.index }">
-            <div class="ai-suggestion-track">
-              <button v-for="(question, idx) in row.loopItems" :key="`row-${row.index}-${idx}-${question}`"
-                type="button" class="ai-suggestion text-start" @click="selectSuggestedQuestion(question)" :disabled="chatLoading">
-                <span class="ai-suggestion-text">{{ question }}</span>
-              </button>
+        <div class="ai-suggestions-header">
+          <h6 class="fw-bold">Need inspiration ?</h6>
+          <button
+            type="button"
+            class="ai-suggestions-toggle"
+            @click="toggleSuggestions"
+            :aria-expanded="suggestionsExpanded.toString()"
+          >
+            <span class="sr-only">
+              {{ suggestionsExpanded ? 'Collapse suggestion categories' : 'Expand suggestion categories' }}
+            </span>
+            <i :class="suggestionsExpanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div v-show="suggestionsExpanded" class="ai-suggestions-list">
+          <div class="ai-suggestion-grid">
+            <div
+              v-for="category in suggestionCategories"
+              :key="category.label"
+            :class="['ai-suggestion-category', { 'ai-suggestion-category--collapsed': !category.expanded }]"
+            >
+              <div class="ai-suggestion-category-header">
+                <p class="ai-suggestion-category-label">{{ category.label }}</p>
+                <button
+                  type="button"
+                  class="ai-category-toggle"
+                  @click="toggleCategory(category)"
+                  :aria-expanded="category.expanded.toString()"
+                >
+                  <span class="sr-only">
+                    {{ category.expanded ? 'Collapse category' : 'Expand category' }}
+                  </span>
+                  <i :class="category.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'" aria-hidden="true"></i>
+                </button>
+              </div>
+              <div class="ai-suggestion-category-chips" v-show="category.expanded">
+                <button
+                  v-for="(question, idx) in category.questions"
+                  :key="`category-${category.label}-${idx}-${question}`"
+                  type="button"
+                  class="ai-suggestion text-start"
+                  @click="selectSuggestedQuestion(question)"
+                  :disabled="chatLoading"
+                >
+                  <span class="ai-suggestion-text">{{ question }}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -198,43 +236,43 @@ export default {
       sessionExpired: false,
       isCompactMode: false,
       resizeListener: null,
-      suggestedQuestions: [
-        '🕌 What does the Quran teach about Allah’s mercy in hard times?',
-        '🕋 How can I make the five daily prayers feel more meaningful?',
-        '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
-        '📜 Explain a hadith about patience and perseverance.',
-        '🌿 What habits help preserve gratitude in everyday life?',
-        '✨ How should I renew my intention when starting a new deed?',
-        '🕯️ Describe the etiquette of making dua after Salah.',
-        '📚 What advice do the companions give on seeking knowledge?',
-        '⚖️ How can I balance worldly duties with Islamic priorities?',
-        '🛡️ What are ways to protect my heart from envy and gossip?',
-        '📖 Share a Quranic story that encourages hope and trust.',
-        '📿 How can I increase consistency in dhikr and remembrance?',
-        '🤝 Explain the importance of community in Islamic life.',
-        '🕊️ What actions earn barakah in daily routines?',
-        '🌟 What reminders help me stay humble during success?',
+      suggestionsExpanded: true,
+      suggestionCategories: [
+        {
+          label: 'Daily worship',
+          expanded: true,
+          questions: [
+            '🕋 How can I make the five daily prayers feel more meaningful?',
+            '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
+            '🕯️ Describe the etiquette of making dua after Salah.',
+            '📿 How can I increase consistency in dhikr and remembrance?',
+            '🕊️ What actions earn barakah in daily routines?',
+          ],
+        },
+        {
+          label: 'Study & exams',
+          expanded: true,
+          questions: [
+            '📚 What advice do the companions give on seeking knowledge?',
+            '📖 Share a Quranic story that encourages hope and trust.',
+            '📜 Explain a hadith about patience and perseverance.',
+            '✨ How should I renew my intention when starting a new deed?',
+            '🌟 What reminders help me stay humble during success?',
+          ],
+        },
+        {
+          label: 'Life events',
+          expanded: true,
+          questions: [
+            '🕌 What does the Quran teach about Allah’s mercy in hard times?',
+            '🌿 What habits help preserve gratitude in everyday life?',
+            '⚖️ How can I balance worldly duties with Islamic priorities?',
+            '🛡️ What are ways to protect my heart from envy and gossip?',
+            '🤝 Explain the importance of community in Islamic life.',
+          ],
+        },
       ],
     };
-  },
-  computed: {
-    suggestionRows() {
-      const rows = [];
-      const perRow = Math.ceil(this.suggestedQuestions.length / 3);
-      rows.push(
-        ...[0, 1, 2].map((rowIndex) => {
-          const start = rowIndex * perRow;
-          const rowItems = this.suggestedQuestions.slice(start, start + perRow);
-          if (!rowItems.length) return null;
-          return {
-            index: rowIndex,
-            items: rowItems,
-            loopItems: [...rowItems, ...rowItems],
-          };
-        }).filter(Boolean),
-      );
-      return rows;
-    },
   },
   methods: {
     createChatEntry(role, text, references = []) {
@@ -335,6 +373,12 @@ export default {
           container.scrollTop = container.scrollHeight;
         }
       });
+    },
+    toggleCategory(category) {
+      category.expanded = !category.expanded;
+    },
+    toggleSuggestions() {
+      this.suggestionsExpanded = !this.suggestionsExpanded;
     },
     async sendChatMessage() {
       if (this.chatLoading) return;
@@ -696,12 +740,6 @@ export default {
 }
 
 
-.ai-suggestions {
-  margin-top: 1.5rem;
-  margin-bottom: 1rem;
-  min-height: 120px;
-}
-
 .ai-welcome {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
@@ -765,40 +803,138 @@ export default {
   line-height: 1.5;
 }
 
-.ai-suggestions-label {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #0f5658;
-  margin-bottom: 0.35rem;
+.ai-suggestions {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  border-radius: 32px;
+  border: 1px solid rgba(13, 182, 145, 0.25);
+  background: linear-gradient(180deg, rgba(246, 251, 251, 0.95), rgba(255, 255, 255, 0.9));
+  padding: 1.25rem;
+  box-shadow: 0 20px 40px rgba(13, 182, 145, 0.12);
+}
+
+.ai-suggestions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+}
+
+.ai-suggestions-toggle {
+  border-radius: 999px;
+  border: 1px solid rgba(15, 182, 145, 0.5);
+  background: #fff;
+  color: #0c4f47;
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(13, 182, 145, 0.3);
+  transition: border-color 0.2s ease, background 0.15s ease, transform 0.2s ease;
+}
+
+.ai-suggestions-toggle:hover {
+  border-color: rgba(15, 182, 145, 1);
+  transform: translateY(-1px);
+}
+
+.ai-suggestion-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  align-items: start;
 }
 
 .ai-suggestions-list {
+  margin-top: 0.8rem;
+}
+
+.ai-suggestion-category {
+  border-radius: 22px;
+  padding: 1rem 1.25rem 0.9rem;
+  background: #fff;
+  border: 1px solid rgba(13, 182, 145, 0.2);
   display: flex;
   flex-direction: column;
-  gap: 0.35rem;
-  border-radius: 26px;
-  padding: 0.75rem;
-  background: #f9fdfd;
-  border: 1px solid rgba(13, 182, 145, 0.15);
-}
-
-.ai-suggestion-row {
+  gap: 0.45rem;
   overflow: hidden;
-  border-radius: 999px;
-  border: 1px solid rgba(13, 182, 145, 0.1);
-  padding: 0.35rem 0.5rem;
-  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 30px rgba(13, 182, 145, 0.08);
+  transition: padding 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, max-height 0.3s ease;
 }
 
-.ai-suggestion-track {
+.ai-suggestion-category-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #0e4b4a;
+  margin: 0;
+}
+
+.ai-suggestion-category-chips {
   display: flex;
-  gap: 0.35rem;
-  flex-wrap: nowrap;
-  animation: trackScroll 30s linear infinite;
-  animation-delay: calc(var(--row, 0) * -4s);
-  will-change: transform;
-  padding-bottom: 0.1rem;
+  flex-direction: column;
+  gap: 0.45rem;
+  max-height: 1200px;
+  overflow: hidden;
+  transition: opacity 0.2s ease, transform 0.25s ease;
+}
+
+.ai-suggestion-category--collapsed {
+  padding-bottom: 0.5rem;
+  padding-top: 0;
+  box-shadow: inset 0 -1px 0 rgba(13, 182, 145, 0.2);
+  gap: 0;
+  width: 100%;
+  max-height: 76px;
+}
+
+.ai-suggestion-category--collapsed .ai-suggestion-category-chips {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ai-suggestion-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.15rem;
+}
+
+.ai-category-toggle {
+  border-radius: 50%;
+  border: 1px solid rgba(15, 182, 145, 0.4);
+  background: #fff;
+  color: #0c4f47;
+  width: 36px;
+  height: 36px;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.15s ease, transform 0.2s ease;
+  padding: 0;
+}
+
+.ai-category-toggle:hover {
+  border-color: rgba(15, 182, 145, 0.9);
+  background: rgba(13, 182, 145, 0.08);
+  transform: translateY(-1px);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
   white-space: nowrap;
+  border: 0;
 }
 
 .ai-suggestion {
@@ -816,12 +952,12 @@ export default {
   text-align: left;
   line-height: 1.3;
   flex: 0 0 auto;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .ai-suggestion-text {
   width: 100%;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .ai-suggestion:disabled {
@@ -833,16 +969,6 @@ export default {
   background: rgba(13, 182, 145, 0.12);
   border-color: rgba(13, 182, 145, 0.75);
   box-shadow: 0 6px 12px rgba(13, 182, 145, 0.2);
-}
-
-@keyframes trackScroll {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(-50%);
-  }
 }
 
 .ai-meta-chips {
@@ -873,8 +999,8 @@ export default {
 }
 
 .ai-chat-shell {
-  min-height: 520px;
-  max-height: 580px;
+  min-height: 640px;
+  max-height: 760px;
   overflow-y: auto;
   border-radius: 28px;
   border: 1px solid rgba(13, 182, 145, 0.25);
