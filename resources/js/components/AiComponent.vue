@@ -9,8 +9,7 @@
           <h2 class="fw-bold">How can I assist your journey today?</h2>
           <p class="container ai-welcome-copy">
             Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship
-            and
-            I’ll respond with balanced, source-rooted clarity.
+            and I’ll respond with balanced, source rooted clarity.
           </p>
         </div>
       </div>
@@ -139,10 +138,11 @@
             Clear input
           </button>
         </div>
-        <div role="status" aria-live="polite">
-          <i class="fas fa-badge-check" aria-hidden="true"></i>
+        <div class="ai-trust-note" role="note" aria-live="polite">
+          <i class="fas fa-shield-alt" aria-hidden="true"></i>
           <p class="mb-0 text-muted">
-            Each answer now surfaces references to the Quran, authentic Sunnah, and classical scholarship so you can follow verified guidance.
+            Religious guidance needs clear boundaries this is educational content, so consult a qualified scholar for
+            fatwas.
           </p>
         </div>
       </form>
