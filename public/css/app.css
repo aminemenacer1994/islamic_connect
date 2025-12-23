@@ -2335,6 +2335,49 @@ input[type="checkbox"][data-v-406910d0] {
   color: #fff;
   box-shadow: 0 12px 24px rgba(12, 91, 154, 0.35);
 }
+.chat-bubble-container[data-v-300b761a] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+.chat-references-wrapper[data-v-300b761a] {
+  background: rgba(15, 182, 145, 0.12);
+  border: 1px solid rgba(15, 182, 145, 0.3);
+  border-radius: 16px;
+  padding: 0.5rem 0.75rem;
+  max-width: 80%;
+}
+.chat-references-heading[data-v-300b761a] {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0c4f47;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.chat-references[data-v-300b761a] {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.87rem;
+  color: #0d4b4b;
+}
+.chat-references li[data-v-300b761a] {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+.chat-references a[data-v-300b761a] {
+  color: #0c6b62;
+  font-weight: 600;
+}
+.chat-references a[data-v-300b761a]:hover {
+  text-decoration: underline;
+}
 .chat-bubble-meta[data-v-300b761a] {
   display: flex;
   justify-content: space-between;

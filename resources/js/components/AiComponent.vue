@@ -87,7 +87,34 @@
               <span class="chat-role mr-2"><b>{{ entry.role === 'assistant' ? 'Assistant' : 'You' }}</b></span>
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
-            <div :class="['chat-bubble', entry.role]" v-html="formatChatText(entry.text)"></div>
+            <div class="chat-bubble-container">
+              <div :class="['chat-bubble', entry.role]" v-html="formatChatText(entry.text)"></div>
+              <div
+                v-if="entry.references && entry.references.length"
+                class="chat-references-wrapper"
+                aria-label="Sources that informed this answer"
+              >
+                <span class="chat-references-heading">References</span>
+                <ul class="chat-references" role="list">
+                  <li
+                    v-for="(reference, refIndex) in entry.references"
+                    :key="`ref-${idx}-${refIndex}-${reference.label}`"
+                  >
+                    <template v-if="reference.url">
+                      <a
+                        :href="reference.url"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        >{{ reference.label }}</a
+                      >
+                    </template>
+                    <template v-else>
+                      {{ reference.label }}
+                    </template>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </article>
         </div>
       </div>
@@ -114,7 +141,9 @@
         </div>
         <div role="status" aria-live="polite">
           <i class="fas fa-badge-check" aria-hidden="true"></i>
-          <p class="mb-0 text-muted">Answers reference the Quran, authentic Sunnah, and classical scholarship to keep guidance trustworthy.</p>
+          <p class="mb-0 text-muted">
+            Each answer now surfaces references to the Quran, authentic Sunnah, and classical scholarship so you can follow verified guidance.
+          </p>
         </div>
       </form>
     </div>
@@ -133,21 +162,21 @@ export default {
       errorTimeout: null,
       sessionExpired: false,
       suggestedQuestions: [
-        '🕌 What steps can I take to prepare for Jumuah prayer?',
-        '📖 Explain one verse that highlights mercy in the Quran.',
-        '🤲 How can I keep my dua consistent during exams?',
-        '🌙 What practical tips help me benefit from Ramadan nights?',
-        '📿 Recommend a short dhikr routine for busy days.',
-        '🕋 Why is visiting the Prophet’s Mosque special?',
-        '📜 Share a dua for starting a new project.',
-        '📚 Where can I find authentic stories of the companions?',
-        '🌗 How can I adapt worship during travel or busy weeks?',
-        '📝 What are respectful ways to ask scholars about complex issues?',
-        '🕊️ How do I practice patience during tough family moments?',
-        '🧭 What principles help select reliable Islamic content online?',
-        '🕌 How can I memorize a new surah efficiently?',
-        '🪔 Tell me about a dua for seeking knowledge.',
-        '🌟 What are uplifting reminders for kids before bedtime?',
+        '🕌 What does the Quran teach about Allah’s mercy in hard times?',
+        '🕋 How can I make the five daily prayers feel more meaningful?',
+        '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
+        '📜 Explain a hadith about patience and perseverance.',
+        '🌿 What habits help preserve gratitude in everyday life?',
+        '✨ How should I renew my intention when starting a new deed?',
+        '🕯️ Describe the etiquette of making dua after Salah.',
+        '📚 What advice do the companions give on seeking knowledge?',
+        '⚖️ How can I balance worldly duties with Islamic priorities?',
+        '🛡️ What are ways to protect my heart from envy and gossip?',
+        '📖 Share a Quranic story that encourages hope and trust.',
+        '📿 How can I increase consistency in dhikr and remembrance?',
+        '🤝 Explain the importance of community in Islamic life.',
+        '🕊️ What actions earn barakah in daily routines?',
+        '🌟 What reminders help me stay humble during success?',
       ],
     };
   },
@@ -171,11 +200,12 @@ export default {
     },
   },
   methods: {
-    createChatEntry(role, text) {
+    createChatEntry(role, text, references = []) {
       const now = new Date();
       return {
         role,
         text,
+        references,
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
         displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
@@ -210,6 +240,27 @@ export default {
         return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
       }
       return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
+    },
+    normalizeReferences(input) {
+      if (!input) return [];
+      const items = Array.isArray(input) ? input : [input];
+      return items
+        .map((item) => {
+          if (!item) {
+            return null;
+          }
+          if (typeof item === 'string') {
+            return { label: item, url: '' };
+          }
+          if (typeof item === 'object') {
+            return {
+              label: item.label || item.title || item.text || '',
+              url: item.url || item.link || item.href || '',
+            };
+          }
+          return null;
+        })
+        .filter((item) => item && item.label.trim());
     },
     scrollChatWindow() {
       this.$nextTick(() => {
@@ -264,7 +315,8 @@ export default {
         if (!answer) {
           throw new Error('The assistant did not return an answer. Please try again.');
         }
-        this.chatHistory.push(this.createChatEntry('assistant', answer));
+        const references = this.normalizeReferences(responseData.references);
+        this.chatHistory.push(this.createChatEntry('assistant', answer, references));
         this.scrollChatWindow();
       } catch (error) {
         console.error('Chat error:', error);
@@ -849,6 +901,56 @@ export default {
   border-color: transparent;
   color: #fff;
   box-shadow: 0 12px 24px rgba(12, 91, 154, 0.35);
+}
+
+.chat-bubble-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.chat-references-wrapper {
+  background: rgba(15, 182, 145, 0.12);
+  border: 1px solid rgba(15, 182, 145, 0.3);
+  border-radius: 16px;
+  padding: 0.5rem 0.75rem;
+  max-width: 80%;
+}
+
+.chat-references-heading {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #0c4f47;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.chat-references {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.87rem;
+  color: #0d4b4b;
+}
+
+.chat-references li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+}
+
+.chat-references a {
+  color: #0c6b62;
+  font-weight: 600;
+}
+
+.chat-references a:hover {
+  text-decoration: underline;
 }
 
 .chat-bubble-meta {
