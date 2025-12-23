@@ -6,7 +6,7 @@
       <!-- Content -->
       <div class="container-fluid" style="position: relative;">
         <!-- Enhanced Hero Section -->
-        <div class="container-fluid text-center" style="position: relative; overflow: hidden;">
+        <div class="container-fluid hero-wrapper text-center" style="position: relative; overflow: hidden;">
           <!-- Background Elements -->
           <div style="
             position: absolute;
@@ -1426,7 +1426,8 @@
 
 .jumbotron {
   margin-top: 1.25rem;
-  padding-top: 4.5rem;
+  padding-top: clamp(3rem, 4vw, 4rem);
+  padding-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
 }
 .jumbotron:not(.no-spacing) .hero-title {
   margin-top: 1rem;
@@ -1434,6 +1435,16 @@
 @media (max-width: 768px) {
   .jumbotron {
     padding-top: 5.5rem;
+  }
+}
+
+.hero-wrapper {
+  padding: clamp(2rem, 3.5vw, 3rem) 0 2rem;
+}
+
+@media (min-width: 992px) {
+  .hero-wrapper {
+    padding: clamp(2.5rem, 3vw, 3.25rem) 0 2.5rem;
   }
 }
 

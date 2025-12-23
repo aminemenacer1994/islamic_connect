@@ -29,6 +29,20 @@
         </button>
       </div>
 
+        <div
+          v-if="chatError"
+          class="ai-error-banner"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <i class="fas fa-exclamation-triangle ai-error-icon" aria-hidden="true"></i>
+          <div>
+            <p class="ai-error-title">Need some redirection?</p>
+            <p class="ai-error-message">{{ chatError }}</p>
+          </div>
+        </div>
+
       <div class="ai-suggestions" aria-label="Suggested questions">
         <h6 class="fw-bold">Need inspiration ?</h6>
         <div class="ai-suggestions-list">
@@ -81,7 +95,6 @@
             Clear input
           </button>
         </div>
-        <p v-if="chatError" class="ai-error">{{ chatError }}</p>
       </form>
     </div>
   </section>
@@ -96,6 +109,7 @@ export default {
       chatLoading: false,
       chatError: null,
       sessionId: null,
+      errorTimeout: null,
       suggestedQuestions: [
         '🕌 What steps can I take to prepare for Jumuah prayer?',
         '📖 Explain one verse that highlights mercy in the Quran.',
@@ -188,6 +202,10 @@ export default {
       const message = this.chatDraft.trim();
       if (!message) return;
       this.chatError = null;
+      if (!this.isIslamicQuestion(message)) {
+        this.chatError = 'Please ask something related to Islamic teachings or practice.';
+        return;
+      }
       this.chatDraft = '';
       this.chatHistory.push(this.createChatEntry('user', message));
       this.scrollChatWindow();
@@ -250,21 +268,81 @@ export default {
     },
     clearDraft() {
       this.chatDraft = '';
+      this.chatError = null;
+    },
+    clearConversationState() {
+      this.chatHistory = [];
+      this.chatDraft = '';
+      this.resetSession();
+    },
+    isIslamicQuestion(message) {
+      if (!message) return false;
+      const normalized = message.toLowerCase();
+      const keywords = [
+        'islam',
+        'muslim',
+        'quran',
+        'hadith',
+        'sunnah',
+        'dua',
+        'salah',
+        'prayer',
+        'ramadan',
+        'hajj',
+        'umrah',
+        'fajr',
+        'dhuhr',
+        'asr',
+        'maghrib',
+        'isha',
+        'zakat',
+        'halal',
+        'haram',
+        'allah',
+        'prophet',
+        'fiqh',
+        'tafsir',
+        'imam',
+        'masjid',
+        'mosque',
+        'ayah',
+        'surah',
+        'tafseer',
+        'aqeedah',
+        'taqwa',
+        'sufism',
+        'istikhara',
+        'nikah',
+        'shahada',
+      ];
+      return keywords.some((keyword) => normalized.includes(keyword));
     },
     resetSession() {
       this.sessionId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
       return this.sessionId;
     },
     startNewChat() {
-      this.chatHistory = [];
-      this.chatDraft = '';
+      this.clearConversationState();
       this.chatError = null;
-      this.resetSession();
     },
     clearHistory() {
-      this.chatHistory = [];
+      this.clearConversationState();
       this.chatError = null;
-      this.resetSession();
+    },
+  },
+  watch: {
+    chatError(value) {
+      if (this.errorTimeout) {
+        clearTimeout(this.errorTimeout);
+        this.errorTimeout = null;
+      }
+      if (value) {
+        this.clearConversationState();
+        this.errorTimeout = setTimeout(() => {
+          this.chatError = null;
+          this.errorTimeout = null;
+        }, 5000);
+      }
     },
   },
   mounted() {
@@ -802,10 +880,37 @@ export default {
   background: rgba(13, 182, 145, 0.1);
 }
 
-.ai-error {
-  color: #bb1e2d;
-  font-size: 0.9rem;
+.ai-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  padding: 1rem 1.25rem;
+  border-radius: 18px;
+  margin-top: 1rem;
+  margin-bottom: 1.25rem;
+  border: 1px solid rgba(187, 30, 45, 0.25);
+  background: linear-gradient(135deg, rgba(255, 235, 238, 0.9), rgba(255, 255, 255, 0.8));
+  box-shadow: 0 10px 24px rgba(187, 30, 45, 0.08);
+}
+
+.ai-error-icon {
+  font-size: 1.3rem;
+  color: #c42a25;
+  margin-top: 0.2rem;
+}
+
+.ai-error-title {
   margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #84272b;
+}
+
+.ai-error-message {
+  margin: 0.1rem 0 0;
+  color: #4c2b2d;
+  font-size: 0.92rem;
+  line-height: 1.4;
 }
 
 @media (max-width: 900px) {

@@ -24,6 +24,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       chatLoading: false,
       chatError: null,
       sessionId: null,
+      errorTimeout: null,
       suggestedQuestions: ['🕌 What steps can I take to prepare for Jumuah prayer?', '📖 Explain one verse that highlights mercy in the Quran.', '🤲 How can I keep my dua consistent during exams?', '🌙 What practical tips help me benefit from Ramadan nights?', '📿 Recommend a short dhikr routine for busy days.', '🕋 Why is visiting the Prophet’s Mosque special?', '📜 Share a dua for starting a new project.', '📚 Where can I find authentic stories of the companions?', '🌗 How can I adapt worship during travel or busy weeks?', '📝 What are respectful ways to ask scholars about complex issues?', '🕊️ How do I practice patience during tough family moments?', '🧭 What principles help select reliable Islamic content online?', '🕌 How can I memorize a new surah efficiently?', '🪔 Tell me about a dua for seeking knowledge.', '🌟 What are uplifting reminders for kids before bedtime?']
     };
   },
@@ -101,6 +102,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const message = this.chatDraft.trim();
       if (!message) return;
       this.chatError = null;
+      if (!this.isIslamicQuestion(message)) {
+        this.chatError = 'Please ask something related to Islamic teachings or practice.';
+        return;
+      }
       this.chatDraft = '';
       this.chatHistory.push(this.createChatEntry('user', message));
       this.scrollChatWindow();
@@ -172,21 +177,45 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     clearDraft() {
       this.chatDraft = '';
+      this.chatError = null;
+    },
+    clearConversationState() {
+      this.chatHistory = [];
+      this.chatDraft = '';
+      this.resetSession();
+    },
+    isIslamicQuestion(message) {
+      if (!message) return false;
+      const normalized = message.toLowerCase();
+      const keywords = ['islam', 'muslim', 'quran', 'hadith', 'sunnah', 'dua', 'salah', 'prayer', 'ramadan', 'hajj', 'umrah', 'fajr', 'dhuhr', 'asr', 'maghrib', 'isha', 'zakat', 'halal', 'haram', 'allah', 'prophet', 'fiqh', 'tafsir', 'imam', 'masjid', 'mosque', 'ayah', 'surah', 'tafseer', 'aqeedah', 'taqwa', 'sufism', 'istikhara', 'nikah', 'shahada'];
+      return keywords.some(keyword => normalized.includes(keyword));
     },
     resetSession() {
       this.sessionId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
       return this.sessionId;
     },
     startNewChat() {
-      this.chatHistory = [];
-      this.chatDraft = '';
+      this.clearConversationState();
       this.chatError = null;
-      this.resetSession();
     },
     clearHistory() {
-      this.chatHistory = [];
+      this.clearConversationState();
       this.chatError = null;
-      this.resetSession();
+    }
+  },
+  watch: {
+    chatError(value) {
+      if (this.errorTimeout) {
+        clearTimeout(this.errorTimeout);
+        this.errorTimeout = null;
+      }
+      if (value) {
+        this.clearConversationState();
+        this.errorTimeout = setTimeout(() => {
+          this.chatError = null;
+          this.errorTimeout = null;
+        }, 5000);
+      }
     }
   },
   mounted() {
@@ -485,58 +514,64 @@ const _hoisted_2 = {
 };
 const _hoisted_3 = ["disabled"];
 const _hoisted_4 = {
+  key: 0,
+  class: "ai-error-banner",
+  role: "alert",
+  "aria-live": "assertive",
+  "aria-atomic": "true"
+};
+const _hoisted_5 = {
+  class: "ai-error-message"
+};
+const _hoisted_6 = {
   class: "ai-suggestions",
   "aria-label": "Suggested questions"
 };
-const _hoisted_5 = {
+const _hoisted_7 = {
   class: "ai-suggestions-list"
 };
-const _hoisted_6 = {
+const _hoisted_8 = {
   class: "ai-suggestion-track"
 };
-const _hoisted_7 = ["onClick", "disabled"];
-const _hoisted_8 = {
+const _hoisted_9 = ["onClick", "disabled"];
+const _hoisted_10 = {
   class: "ai-suggestion-text"
 };
-const _hoisted_9 = {
-  key: 0,
+const _hoisted_11 = {
+  key: 1,
   ref: "chatShell",
   class: "ai-chat-shell"
 };
-const _hoisted_10 = {
+const _hoisted_12 = {
   ref: "chatWindow",
   class: "ai-chat-window",
   role: "log",
   "aria-live": "polite"
 };
-const _hoisted_11 = {
+const _hoisted_13 = {
   class: "chat-entry-header"
 };
-const _hoisted_12 = {
+const _hoisted_14 = {
   class: "chat-role mr-2"
 };
-const _hoisted_13 = {
+const _hoisted_15 = {
   class: "chat-timestamp"
 };
-const _hoisted_14 = ["innerHTML"];
-const _hoisted_15 = ["disabled"];
-const _hoisted_16 = {
-  class: "ai-form-meta pt-2 text-muted"
-};
+const _hoisted_16 = ["innerHTML"];
 const _hoisted_17 = ["disabled"];
 const _hoisted_18 = {
+  class: "ai-form-meta pt-2 text-muted"
+};
+const _hoisted_19 = ["disabled"];
+const _hoisted_20 = {
   key: 0,
   class: "spinner-border spinner-border-sm",
   role: "status",
   "aria-hidden": "true"
 };
-const _hoisted_19 = ["disabled"];
-const _hoisted_20 = {
-  key: 0,
-  class: "ai-error"
-};
+const _hoisted_21 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-welcome\" aria-live=\"polite\" data-v-300b761a><div class=\"ai-welcome-icon\" aria-hidden=\"true\" data-v-300b761a><i class=\"fas fa-infinity\" aria-hidden=\"true\" data-v-300b761a></i></div><div class=\"ai-welcome-text\" data-v-300b761a><h2 class=\"fw-bold\" data-v-300b761a>How can I assist your journey today?</h2><p class=\"container ai-welcome-copy\" data-v-300b761a> Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship and I’ll respond with balanced, source-rooted clarity. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-welcome\" aria-live=\"polite\" data-v-300b761a><div class=\"ai-welcome-icon\" aria-hidden=\"true\" data-v-300b761a><i class=\"fas fa-infinity\" aria-hidden=\"true\" data-v-300b761a></i></div><div class=\"ai-welcome-text\" data-v-300b761a><h2 class=\"fw-bold\" data-v-300b761a>How can I assist your journey today?</h2><p class=\"container ai-welcome-copy\" data-v-300b761a> Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship and I’ll respond with balanced, source-rooted clarity. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-control-btn ai-control-btn--primary",
     onClick: _cache[0] || (_cache[0] = (...args) => $options.startNewChat && $options.startNewChat(...args))
@@ -551,41 +586,46 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-trash-alt",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Clear history ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_3)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Clear history ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_3)]), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "fas fa-exclamation-triangle ai-error-icon",
+    "aria-hidden": "true"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "ai-error-title"
+  }, "Need some redirection?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatError), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     class: "fw-bold"
-  }, "Need inspiration ?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.suggestionRows, row => {
+  }, "Need inspiration ?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.suggestionRows, row => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: `row-${row.index}`,
       class: "ai-suggestion-row",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         '--row': row.index
       })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(row.loopItems, (question, idx) => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(row.loopItems, (question, idx) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
         key: `row-${row.index}-${idx}-${question}`,
         type: "button",
         class: "ai-suggestion",
         onClick: $event => $options.selectSuggestedQuestion(question),
         disabled: $data.chatLoading
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_7);
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(question), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_9);
     }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))])]), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_9, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, (entry, idx) => {
+  }), 128 /* KEYED_FRAGMENT */))])]), $data.chatHistory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.chatHistory, (entry, idx) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: `chat-${idx}-${entry.role}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-entry', entry.role])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(entry.role === 'assistant' ? 'fas fa-robot chat-icon' : 'fas fa-user chat-icon'),
       "aria-hidden": "true",
       title: "Sender"
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-bubble', entry.role]),
       innerHTML: $options.formatChatText(entry.text)
-    }, null, 10 /* CLASS, PROPS */, _hoisted_14)], 2 /* CLASS */);
+    }, null, 10 /* CLASS, PROPS */, _hoisted_16)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 512 /* NEED_PATCH */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
     ref: "aiForm",
     class: "ai-form pt-3",
     onSubmit: _cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.sendChatMessage && $options.sendChatMessage(...args), ["prevent"]))
-  }, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "aiChatInput"
   }, "Ask the chatbot", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -596,16 +636,16 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "2",
     placeholder: "Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values.",
     disabled: $data.chatLoading
-  }, null, 8 /* PROPS */, _hoisted_15), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_17), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "ai-submit",
     disabled: $data.chatLoading || !$data.chatDraft.trim()
-  }, [$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_18)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Ask your Assistant'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [$data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_20)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Thinking...' : 'Ask your Assistant'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_19), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-clear-input",
     disabled: $data.chatLoading || !$data.chatDraft.trim(),
     onClick: _cache[3] || (_cache[3] = (...args) => $options.clearDraft && $options.clearDraft(...args))
-  }, " Clear input ", 8 /* PROPS */, _hoisted_19)]), $data.chatError ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatError), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 544 /* NEED_HYDRATION, NEED_PATCH */)])], 512 /* NEED_PATCH */);
+  }, " Clear input ", 8 /* PROPS */, _hoisted_21)])], 544 /* NEED_HYDRATION, NEED_PATCH */)])], 512 /* NEED_PATCH */);
 }
 
 /***/ }),
@@ -771,7 +811,7 @@ const _hoisted_47 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_ai_component = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ai-component");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"jumbotron\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><!-- Content --><div class=\"container-fluid\" style=\"position:relative;\" data-v-2ba25654><!-- Enhanced Hero Section --><div class=\"container-fluid text-center\" style=\"position:relative;overflow:hidden;\" data-v-2ba25654><!-- Background Elements --><div style=\"position:absolute;right:-10%;width:400px;height:400px;border-radius:50%;animation:float-hero 8s ease-in-out infinite;z-index:1;\" data-v-2ba25654></div><div style=\"position:absolute;bottom:-30%;left:-5%;width:300px;height:300px;background:linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(0, 191, 166, 0.08) 100%);border-radius:50%;animation:float-hero 6s ease-in-out infinite 2s;z-index:1;\" data-v-2ba25654></div><div class=\"row align-items-center\" style=\"position:relative;z-index:2;\" data-v-2ba25654><div class=\"col-md-6\" data-v-2ba25654><div class=\"text-left\" data-v-2ba25654><!-- Badge --><div style=\"background:linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);color:white;padding:0.5rem 1.5rem;border-radius:50px;display:inline-block;margin-bottom:1.5rem;box-shadow:0 5px 15px rgba(0, 191, 166, 0.3);font-weight:600;font-size:0.9rem;letter-spacing:0.5px;\" data-v-2ba25654><i class=\"fas fa-star me-2\" data-v-2ba25654></i>Trusted by 1000&#39;s of Muslims Worldwide </div><h1 class=\"display-4 mt-1 fw-bold text-left hero-title\" style=\"background:linear-gradient(135deg, #1a5f7a, #2c3e50);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:1.5rem;text-shadow:0 2px 10px rgba(0, 0, 0, 0.1);font-size:3.5rem;\" data-v-2ba25654> Connecting You to Islamic Knowledge Seamlessly and Accessibly </h1><h2 class=\"lead pt-3 text-left\" style=\"line-height:1.8em;font-size:1.3rem;color:#4a5568;font-weight:500;margin-bottom:1.25rem;padding-right:1rem;\" data-v-2ba25654><p data-v-2ba25654> Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative spiritual experience anytime, anywhere. </p></h2><div class=\"row mb-3\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><div class=\"controls d-flex flex-row justify-content-start text-left\" style=\"gap:1rem;\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-lg btn-teal rounded-20 fw-bold px-4\" data-v-2ba25654><i class=\"fas fa-rocket me-2\" data-v-2ba25654></i>Get Started Free </a><a href=\"/subscribe\" class=\"btn btn-lg rounded-20 fw-bold pt-2 px-4\" style=\"background:rgba(255,255,255,0.9);color:#1a5f7a;border:2px solid #1a5f7a;\" data-v-2ba25654><i class=\"fas fa-heart me-2\" data-v-2ba25654></i>Support Our Mission </a></div><!-- Trust Indicators --><div class=\"mt-3 d-flex align-items-center\" style=\"gap:1.5rem;\" data-v-2ba25654><div class=\"d-flex align-items-center\" data-v-2ba25654><i class=\"fas fa-shield-alt text-success me-2\" data-v-2ba25654></i><small style=\"color:#4a5568;font-weight:600;\" data-v-2ba25654>Secure Platform</small></div><div class=\"d-flex align-items-center\" data-v-2ba25654><i class=\"fas fa-clock text-warning me-2\" data-v-2ba25654></i><small style=\"color:#4a5568;font-weight:600;\" data-v-2ba25654>Instant Access</small></div><div class=\"d-flex align-items-center\" data-v-2ba25654><i class=\"fas fa-user-check text-info me-2\" data-v-2ba25654></i><small style=\"color:#4a5568;font-weight:600;\" data-v-2ba25654>No Registration</small></div></div></div></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"text-center\" data-v-2ba25654><picture data-v-2ba25654><source srcset=\"/images/banner-photo.avif 800w\" type=\"image/avif\" data-v-2ba25654><img src=\"/images/banner-photo.avif\" srcset=\"/images/banner-photo.avif 800w\" sizes=\"(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw\" class=\"img-fluid hero-image\" alt=\"Islamic Connect platform showcasing Quran exploration and AI-powered tools\" loading=\"lazy\" width=\"800\" height=\"800\" data-v-2ba25654></picture></div></div></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section aria-labelledby=\"prayer-times-heading\">\n      <div class=\"container-fluid\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-12\">\n            -- SEO Optimized Heading --\n            <h2 id=\"prayer-times-heading\" class=\"text-center mb-4\" style=\"color: black; font-weight: 800;\">\n              Today's Prayer Times\n            </h2>\n\n            -- Performance & Accessibility Enhanced Component --\n            <PrayerTimes class=\"mb-3 prayer-times-enhanced\" :lazy-load=\"true\" :reduce-motion=\"true\" aria-live=\"polite\"\n              aria-atomic=\"true\" />\n\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ai_component)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" HERO / SEO SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" header "), _cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"jumbotron\" style=\"box-shadow:rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;\" data-v-2ba25654><!-- Content --><div class=\"container-fluid\" style=\"position:relative;\" data-v-2ba25654><!-- Enhanced Hero Section --><div class=\"container-fluid hero-wrapper text-center\" style=\"position:relative;overflow:hidden;\" data-v-2ba25654><!-- Background Elements --><div style=\"position:absolute;right:-10%;width:400px;height:400px;border-radius:50%;animation:float-hero 8s ease-in-out infinite;z-index:1;\" data-v-2ba25654></div><div style=\"position:absolute;bottom:-30%;left:-5%;width:300px;height:300px;background:linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(0, 191, 166, 0.08) 100%);border-radius:50%;animation:float-hero 6s ease-in-out infinite 2s;z-index:1;\" data-v-2ba25654></div><div class=\"row align-items-center\" style=\"position:relative;z-index:2;\" data-v-2ba25654><div class=\"col-md-6\" data-v-2ba25654><div class=\"text-left\" data-v-2ba25654><!-- Badge --><div style=\"background:linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);color:white;padding:0.5rem 1.5rem;border-radius:50px;display:inline-block;margin-bottom:1.5rem;box-shadow:0 5px 15px rgba(0, 191, 166, 0.3);font-weight:600;font-size:0.9rem;letter-spacing:0.5px;\" data-v-2ba25654><i class=\"fas fa-star me-2\" data-v-2ba25654></i>Trusted by 1000&#39;s of Muslims Worldwide </div><h1 class=\"display-4 mt-1 fw-bold text-left hero-title\" style=\"background:linear-gradient(135deg, #1a5f7a, #2c3e50);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:1.5rem;text-shadow:0 2px 10px rgba(0, 0, 0, 0.1);font-size:3.5rem;\" data-v-2ba25654> Connecting You to Islamic Knowledge Seamlessly and Accessibly </h1><h2 class=\"lead pt-3 text-left\" style=\"line-height:1.8em;font-size:1.3rem;color:#4a5568;font-weight:500;margin-bottom:1.25rem;padding-right:1rem;\" data-v-2ba25654><p data-v-2ba25654> Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative spiritual experience anytime, anywhere. </p></h2><div class=\"row mb-3\" data-v-2ba25654><div class=\"col-12\" data-v-2ba25654><div class=\"controls d-flex flex-row justify-content-start text-left\" style=\"gap:1rem;\" data-v-2ba25654><a href=\"/surat\" class=\"btn btn-lg btn-teal rounded-20 fw-bold px-4\" data-v-2ba25654><i class=\"fas fa-rocket me-2\" data-v-2ba25654></i>Get Started Free </a><a href=\"/subscribe\" class=\"btn btn-lg rounded-20 fw-bold pt-2 px-4\" style=\"background:rgba(255,255,255,0.9);color:#1a5f7a;border:2px solid #1a5f7a;\" data-v-2ba25654><i class=\"fas fa-heart me-2\" data-v-2ba25654></i>Support Our Mission </a></div><!-- Trust Indicators --><div class=\"mt-3 d-flex align-items-center\" style=\"gap:1.5rem;\" data-v-2ba25654><div class=\"d-flex align-items-center\" data-v-2ba25654><i class=\"fas fa-shield-alt text-success me-2\" data-v-2ba25654></i><small style=\"color:#4a5568;font-weight:600;\" data-v-2ba25654>Secure Platform</small></div><div class=\"d-flex align-items-center\" data-v-2ba25654><i class=\"fas fa-clock text-warning me-2\" data-v-2ba25654></i><small style=\"color:#4a5568;font-weight:600;\" data-v-2ba25654>Instant Access</small></div><div class=\"d-flex align-items-center\" data-v-2ba25654><i class=\"fas fa-user-check text-info me-2\" data-v-2ba25654></i><small style=\"color:#4a5568;font-weight:600;\" data-v-2ba25654>No Registration</small></div></div></div></div></div></div><div class=\"col-md-6\" data-v-2ba25654><div class=\"text-center\" data-v-2ba25654><picture data-v-2ba25654><source srcset=\"/images/banner-photo.avif 800w\" type=\"image/avif\" data-v-2ba25654><img src=\"/images/banner-photo.avif\" srcset=\"/images/banner-photo.avif 800w\" sizes=\"(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw\" class=\"img-fluid hero-image\" alt=\"Islamic Connect platform showcasing Quran exploration and AI-powered tools\" loading=\"lazy\" width=\"800\" height=\"800\" data-v-2ba25654></picture></div></div></div></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <section aria-labelledby=\"prayer-times-heading\">\n      <div class=\"container-fluid\">\n        <div class=\"row justify-content-center\">\n          <div class=\"col-12\">\n            -- SEO Optimized Heading --\n            <h2 id=\"prayer-times-heading\" class=\"text-center mb-4\" style=\"color: black; font-weight: 800;\">\n              Today's Prayer Times\n            </h2>\n\n            -- Performance & Accessibility Enhanced Component --\n            <PrayerTimes class=\"mb-3 prayer-times-enhanced\" :lazy-load=\"true\" :reduce-motion=\"true\" aria-live=\"polite\"\n              aria-atomic=\"true\" />\n\n          </div>\n        </div>\n      </div>\n    </section> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_ai_component)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" HERO / SEO SECTION "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_3, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "premium-seo__backdrop"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h2 id=\"seo-heading\" class=\"display-5 fw-bold mb-3\" data-v-2ba25654>Discover Quran, Knowledge &amp; Accessible Tools</h2><p class=\"text-muted mb-3\" data-v-2ba25654>A premium hero-inspired narrative that balances on-brand gradients with clean typography. These headings and stats reiterate the title keywords before Vue hydrates the rest of the experience.</p><p class=\"text-muted mb-4\" data-v-2ba25654>Explore curated pathways with subtle motion, modern gradients, and polished visuals—each insight is crafted to feel alive, centered, and spiritually uplifting.</p><div class=\"d-flex flex-wrap gap-3 mb-4 justify-content-center justify-content-lg-start\" data-v-2ba25654><span class=\"badge badge-pill highlight-badge\" data-v-2ba25654>Quran insights</span><span class=\"badge badge-pill highlight-badge\" data-v-2ba25654>Dua playlists</span><span class=\"badge badge-pill highlight-badge\" data-v-2ba25654>Mission stories</span></div>", 4)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.seoStats, stat => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
