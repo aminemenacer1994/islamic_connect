@@ -2,14 +2,14 @@
   <section ref="aiRoot" aria-label="Islamic chatbot">
     <div>
       <div class="ai-welcome" aria-live="polite">
-        <div class="ai-welcome-icon" aria-hidden="true">
-          <i class="fas fa-infinity" aria-hidden="true"></i>
+        <div class="ai-welcome-icon " aria-hidden="true">
+          <i class="fas fa-star-and-crescent " aria-hidden="true"></i>
         </div>
-        <div class="ai-welcome-text">
-          <h2 class="fw-bold">How can I assist your journey today?</h2>
+        <div class="ai-welcome-text pt-2">
+          <h2 class="fw-bold ">Introducing Noor, Your AI Companion</h2>
           <p class="container ai-welcome-copy">
-            Tap a suggested question or type anything about Quranic inspiration, prophetic guidance, or daily worship
-            and I’ll respond with balanced, source rooted clarity.
+            Noor listens first, then gently responds with Quran rooted insight and prophetic kindness so every exchange
+            feels like encouragement from a trusted companion. Ask for dua ideas, reminders, or reflections tuned to your day.
           </p>
         </div>
       </div>
@@ -297,7 +297,7 @@
         <div class="ai-form-meta pt-2 text-muted">
           <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span>{{ chatLoading ? 'Thinking...' : 'Ask your Assistant' }}</span>
+            <span>{{ chatLoading ? 'Noor is Thinking...' : 'Ask Noor' }}</span>
           </button>
           <button
             type="button"
@@ -1008,6 +1008,12 @@ export default {
   justify-content: center;
   width: 100%;
   font-size: 0.9rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+.ai-section > div {
+  width: min(100%, 1650px);
 }
 
 .ai-panel::before {

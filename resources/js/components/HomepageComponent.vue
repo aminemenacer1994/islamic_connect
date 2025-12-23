@@ -61,7 +61,7 @@
                   Connecting You to Islamic Knowledge Seamlessly and Accessibly
                 </h1>
 
-                <h2 class="lead pt-3 text-left" style="
+                <div class="lead pt-3 text-left" style="
                   line-height: 1.8em;
                   font-size: 1.3rem;
                   color: #4a5568;
@@ -74,8 +74,7 @@
                     to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative
                     spiritual experience anytime, anywhere.
                   </p>
-                </h2>
-
+                </div>
                 <div class="row mb-3">
                   <div class="col-12">
                 <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
@@ -122,12 +121,13 @@
                 </picture>
               </div>
             </div>
+            <section id="ai-persona-section" class="container-fluid" aria-label="Islamic chatbot preview">
+              <div class="welcome-chat-frame">
+                <ai-component></ai-component>
+              </div>
+            </section>
           </div>
-          <section class="container-fluid" aria-label="Islamic chatbot preview">
-            <div class="welcome-chat-frame">
-              <ai-component></ai-component>
-            </div>
-          </section>
+          
         </div>
       </div>
     </div>

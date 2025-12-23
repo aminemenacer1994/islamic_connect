@@ -1939,6 +1939,11 @@ input[type="checkbox"][data-v-406910d0] {
   justify-content: center;
   width: 100%;
   font-size: 0.9rem;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.ai-section > div[data-v-300b761a] {
+  width: min(100%, 1650px);
 }
 .ai-panel[data-v-300b761a]::before {
   content: '';
