@@ -14,7 +14,7 @@
           </p>
         </div>
       </div>
-
+      
       <div class="ai-controls" role="toolbar" aria-label="Chat controls">
         <button type="button" class="ai-control-btn ai-control-btn--primary" @click="startNewChat">
           <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
@@ -28,6 +28,7 @@
           <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
         </button>
       </div>
+      
 
         <div
           v-if="chatError"
@@ -38,7 +39,7 @@
         >
           <i class="fas fa-exclamation-triangle ai-error-icon" aria-hidden="true"></i>
           <div>
-            <p class="ai-error-title">Need some redirection?</p>
+            <p class="ai-error-title text-left">Need some redirection?</p>
             <p class="ai-error-message">{{ chatError }}</p>
             <button
               v-if="sessionExpired"
@@ -51,14 +52,14 @@
           </div>
         </div>
 
-      <div class="ai-suggestions" aria-label="Suggested questions">
+      <div class="ai-suggestions text-start" aria-label="Suggested questions">
         <h6 class="fw-bold">Need inspiration ?</h6>
         <div class="ai-suggestions-list">
           <div v-for="row in suggestionRows" :key="`row-${row.index}`" class="ai-suggestion-row"
             :style="{ '--row': row.index }">
             <div class="ai-suggestion-track">
               <button v-for="(question, idx) in row.loopItems" :key="`row-${row.index}-${idx}-${question}`"
-                type="button" class="ai-suggestion" @click="selectSuggestedQuestion(question)" :disabled="chatLoading">
+                type="button" class="ai-suggestion text-start" @click="selectSuggestedQuestion(question)" :disabled="chatLoading">
                 <span class="ai-suggestion-text">{{ question }}</span>
               </button>
             </div>
@@ -66,9 +67,9 @@
         </div>
       </div>
 
-      <div v-if="chatHistory.length" ref="chatShell" class="ai-chat-shell">
-        <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
-          <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
+        <div v-if="chatHistory.length" ref="chatShell" class="ai-chat-shell">
+          <div ref="chatWindow" class="ai-chat-window" role="log" aria-live="polite">
+            <article v-for="(entry, idx) in chatHistory" :key="`chat-${idx}-${entry.role}`"
             :class="['chat-entry', entry.role]">
             <div class="chat-entry-header">
               <i
@@ -89,6 +90,7 @@
         <textarea id="aiChatInput" ref="aiChatInput" v-model="chatDraft" class="ai-textarea" rows="2"
           placeholder="Ask about Quranic verses, dua etiquette, prophetic stories, daily worship, or Islamic values."
           :disabled="chatLoading"></textarea>
+      
         <div class="ai-form-meta pt-2 text-muted">
           <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -102,6 +104,10 @@
           >
             Clear input
           </button>
+        </div>
+        <div role="status" aria-live="polite">
+          <i class="fas fa-badge-check" aria-hidden="true"></i>
+          <p class="mb-0 text-muted">Answers reference the Quran, authentic Sunnah, and classical scholarship to keep guidance trustworthy.</p>
         </div>
       </form>
     </div>
@@ -483,6 +489,24 @@ export default {
   cursor: not-allowed;
 }
 
+.ai-trust-note {
+  background: #e9f8f3;
+  border: 1px solid rgba(14, 138, 120, 0.4);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  color: #0c4f47;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.ai-trust-note i {
+  font-size: 1.1rem;
+}
+
 
 .ai-suggestions {
   margin-top: 1.5rem;
@@ -600,8 +624,8 @@ export default {
   transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  text-align: center;
+  justify-content: flex-start;
+  text-align: left;
   line-height: 1.3;
   flex: 0 0 auto;
   white-space: nowrap;
@@ -781,6 +805,7 @@ export default {
   border: 1px solid rgba(13, 182, 145, 0.16);
   background: #fefefe;
   box-shadow: 0 6px 14px rgba(15, 111, 112, 0.08);
+  text-align: left;
 }
 
 .chat-bubble.assistant {

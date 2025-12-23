@@ -122,6 +122,11 @@
               </div>
             </div>
           </div>
+          <section class="container-fluid" aria-label="Islamic chatbot preview">
+            <div class="welcome-chat-frame">
+              <ai-component></ai-component>
+            </div>
+          </section>
         </div>
       </div>
     </div>
@@ -143,11 +148,7 @@
       </div>
     </section> -->
 
-    <section class="container-fluid px-0 py-5 welcome-chat-shell" aria-label="Islamic chatbot preview">
-      <div class="welcome-chat-frame mb-2">
-        <ai-component></ai-component>
-      </div>
-    </section>
+    
 
     <!-- HERO / SEO SECTION -->
     <section class="container-fluid premium-seo px-0" aria-labelledby="seo-heading">
@@ -2510,5 +2511,15 @@ h4 {
 .journeys-section .premium-card {
   min-height: 180px;
   justify-content: space-between;
+}
+.trust-guidance {
+  background: rgba(26, 95, 122, 0.05);
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(26, 95, 122, 0.15);
+}
+.trust-guidance .fas {
+  font-size: 1.3rem;
+  color: #1a5f7a;
 }
 </style>
