@@ -73,7 +73,7 @@
               :key="category.label"
             :class="['ai-suggestion-category', { 'ai-suggestion-category--collapsed': !category.expanded }]"
             >
-              <div class="ai-suggestion-category-header">
+              <div class="pt-2 ai-suggestion-category-header">
                 <p class="ai-suggestion-category-label">{{ category.label }}</p>
                 <button
                   type="button"
@@ -84,7 +84,7 @@
                   <span class="sr-only">
                     {{ category.expanded ? 'Collapse category' : 'Expand category' }}
                   </span>
-                  <i :class="category.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'" aria-hidden="true"></i>
+                  <i :class="category.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down '" aria-hidden="true"></i>
                 </button>
               </div>
               <div class="ai-suggestion-category-chips" v-show="category.expanded">
@@ -246,18 +246,18 @@ export default {
             '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
             '🕯️ Describe the etiquette of making dua after Salah.',
             '📿 How can I increase consistency in dhikr and remembrance?',
-            '🕊️ What actions earn barakah in daily routines?',
+            '🕊️ How can I invite barakah into my daily salah and routines?',
           ],
         },
         {
           label: 'Study & exams',
           expanded: true,
           questions: [
-            '📚 What advice do the companions give on seeking knowledge?',
+            '📚 Which hadith guides me in seeking knowledge with sincerity?',
             '📖 Share a Quranic story that encourages hope and trust.',
             '📜 Explain a hadith about patience and perseverance.',
-            '✨ How should I renew my intention when starting a new deed?',
-            '🌟 What reminders help me stay humble during success?',
+            '✨ How should I renew my intention before each salah or act of worship?',
+            '🌟 Which Quranic reminders help me stay humble during success?',
           ],
         },
         {
@@ -265,9 +265,9 @@ export default {
           expanded: true,
           questions: [
             '🕌 What does the Quran teach about Allah’s mercy in hard times?',
-            '🌿 What habits help preserve gratitude in everyday life?',
+            '🌿 Which duas help me keep gratitude in everyday life?',
             '⚖️ How can I balance worldly duties with Islamic priorities?',
-            '🛡️ What are ways to protect my heart from envy and gossip?',
+            '🛡️ Which Quranic reminders guard my heart from envy and gossip?',
             '🤝 Explain the importance of community in Islamic life.',
           ],
         },

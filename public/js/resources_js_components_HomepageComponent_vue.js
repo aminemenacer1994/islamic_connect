@@ -33,15 +33,15 @@ const MOBILE_BREAKPOINT = 768;
       suggestionCategories: [{
         label: 'Daily worship',
         expanded: true,
-        questions: ['🕋 How can I make the five daily prayers feel more meaningful?', '🤲 Share a dua from the Sunnah for asking Allah for guidance.', '🕯️ Describe the etiquette of making dua after Salah.', '📿 How can I increase consistency in dhikr and remembrance?', '🕊️ What actions earn barakah in daily routines?']
+        questions: ['🕋 How can I make the five daily prayers feel more meaningful?', '🤲 Share a dua from the Sunnah for asking Allah for guidance.', '🕯️ Describe the etiquette of making dua after Salah.', '📿 How can I increase consistency in dhikr and remembrance?', '🕊️ How can I invite barakah into my daily salah and routines?']
       }, {
         label: 'Study & exams',
         expanded: true,
-        questions: ['📚 What advice do the companions give on seeking knowledge?', '📖 Share a Quranic story that encourages hope and trust.', '📜 Explain a hadith about patience and perseverance.', '✨ How should I renew my intention when starting a new deed?', '🌟 What reminders help me stay humble during success?']
+        questions: ['📚 Which hadith guides me in seeking knowledge with sincerity?', '📖 Share a Quranic story that encourages hope and trust.', '📜 Explain a hadith about patience and perseverance.', '✨ How should I renew my intention before each salah or act of worship?', '🌟 Which Quranic reminders help me stay humble during success?']
       }, {
         label: 'Life events',
         expanded: true,
-        questions: ['🕌 What does the Quran teach about Allah’s mercy in hard times?', '🌿 What habits help preserve gratitude in everyday life?', '⚖️ How can I balance worldly duties with Islamic priorities?', '🛡️ What are ways to protect my heart from envy and gossip?', '🤝 Explain the importance of community in Islamic life.']
+        questions: ['🕌 What does the Quran teach about Allah’s mercy in hard times?', '🌿 Which duas help me keep gratitude in everyday life?', '⚖️ How can I balance worldly duties with Islamic priorities?', '🛡️ Which Quranic reminders guard my heart from envy and gossip?', '🤝 Explain the importance of community in Islamic life.']
       }]
     };
   },
@@ -651,7 +651,7 @@ const _hoisted_11 = {
   class: "ai-suggestion-grid"
 };
 const _hoisted_12 = {
-  class: "ai-suggestion-category-header"
+  class: "pt-2 ai-suggestion-category-header"
 };
 const _hoisted_13 = {
   class: "ai-suggestion-category-label"
@@ -784,7 +784,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.toggleCategory(category),
       "aria-expanded": category.expanded.toString()
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(category.expanded ? 'Collapse category' : 'Expand category'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down'),
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(category.expanded ? 'fas fa-chevron-up' : 'fas fa-chevron-down '),
       "aria-hidden": "true"
     }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_14)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(category.questions, (question, idx) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
