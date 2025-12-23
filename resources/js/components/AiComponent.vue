@@ -72,6 +72,14 @@
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span>{{ chatLoading ? 'Thinking...' : 'Ask your Assistant' }}</span>
           </button>
+          <button
+            type="button"
+            class="ai-clear-input"
+            :disabled="chatLoading || !chatDraft.trim()"
+            @click="clearDraft"
+          >
+            Clear input
+          </button>
         </div>
         <p v-if="chatError" class="ai-error">{{ chatError }}</p>
       </form>
@@ -239,6 +247,9 @@ export default {
         }
         this.sendChatMessage();
       });
+    },
+    clearDraft() {
+      this.chatDraft = '';
     },
     resetSession() {
       this.sessionId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
@@ -732,9 +743,10 @@ export default {
 
 .ai-form-meta {
   display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
-  align-items: stretch;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 .ai-form-meta small {
@@ -767,6 +779,27 @@ export default {
 .ai-submit:not(:disabled):hover {
   transform: translateY(-1px);
   box-shadow: 0 18px 32px rgba(13, 182, 145, 0.35);
+}
+
+.ai-clear-input {
+  border-radius: 999px;
+  border: 1px solid rgba(13, 182, 145, 0.4);
+  background: transparent;
+  color: #0d4b4b;
+  padding: 0.8rem 1.8rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ai-clear-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-clear-input:not(:disabled):hover {
+  border-color: #0db691;
+  background: rgba(13, 182, 145, 0.1);
 }
 
 .ai-error {
