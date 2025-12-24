@@ -121,8 +121,8 @@
                 </picture>
               </div>
             </div>
-            <section>
-              <div >
+            <section id="ai-persona-section" class="container-fluid" aria-label="Islamic chatbot preview">
+              <div class="welcome-chat-frame">
                 <ai-component></ai-component>
               </div>
             </section>
@@ -1606,13 +1606,13 @@
   }
   .welcome-chat-frame {
     position: relative;
-    width: min(1200px, 100%);
+    width: min(1400px, 100%);
     margin: 0 auto;
     padding: 2rem;
-    border-radius: 28px;
+    border-radius: 20px;
     background: #ffffff;
-    box-shadow: 0 30px 60px rgba(15, 101, 94, 0.15);
-    border: 1px solid rgba(13, 182, 145, 0.15);
+    /* box-shadow: 0 30px 60px rgba(15, 101, 94, 0.15); */
+    /* border: 1px solid rgba(13, 182, 145, 0.15); */
   }
   @media (max-width: 767px) {
     .welcome-chat-frame {

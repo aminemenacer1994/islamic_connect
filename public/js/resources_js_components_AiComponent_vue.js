@@ -55,7 +55,11 @@ const MOBILE_BREAKPOINT = 768;
       voiceStatus: '',
       voiceStatusTransient: false,
       voiceStatusTimeout: null,
-      voiceAutoSubmitTimer: null
+      voiceAutoSubmitTimer: null,
+      voiceFinalTranscript: '',
+      voiceInterimTranscript: '',
+      voiceDraftPending: '',
+      voiceDraftFrame: null
     };
   },
   computed: {
@@ -530,6 +534,39 @@ const MOBILE_BREAKPOINT = 768;
       this.chatDraft = '';
       this.chatError = null;
     },
+    resetVoiceTranscriptState() {
+      this.voiceFinalTranscript = '';
+      this.voiceInterimTranscript = '';
+    },
+    cancelVoiceDraftUpdate() {
+      if (this.voiceDraftFrame) {
+        if (typeof window !== 'undefined' && window.cancelAnimationFrame) {
+          window.cancelAnimationFrame(this.voiceDraftFrame);
+        }
+        this.voiceDraftFrame = null;
+      }
+      this.voiceDraftPending = '';
+    },
+    updateVoiceDraft(displayTranscript) {
+      if (!displayTranscript) {
+        return;
+      }
+      if (displayTranscript === this.chatDraft) {
+        return;
+      }
+      if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+        this.voiceDraftPending = displayTranscript;
+        if (!this.voiceDraftFrame) {
+          this.voiceDraftFrame = window.requestAnimationFrame(() => {
+            this.chatDraft = this.voiceDraftPending;
+            this.voiceDraftFrame = null;
+            this.voiceDraftPending = '';
+          });
+        }
+      } else {
+        this.chatDraft = displayTranscript;
+      }
+    },
     toggleVoiceSearch() {
       if (this.voiceListening) {
         this.stopVoiceSearch();
@@ -549,6 +586,8 @@ const MOBILE_BREAKPOINT = 768;
         this.setTransientVoiceStatus('Voice search requires a supported browser.');
         return;
       }
+      this.resetVoiceTranscriptState();
+      this.cancelVoiceDraftUpdate();
       try {
         const recognition = new SpeechRecognition();
         recognition.continuous = true;
@@ -568,7 +607,7 @@ const MOBILE_BREAKPOINT = 768;
         recognition.onresult = event => {
           const results = event.results;
           let interimTranscript = '';
-          let finalTranscript = '';
+          let finalTranscriptChunk = '';
           for (let i = event.resultIndex; i < results.length; i += 1) {
             var _result$;
             const result = results[i];
@@ -577,18 +616,25 @@ const MOBILE_BREAKPOINT = 768;
               continue;
             }
             if (result.isFinal) {
-              finalTranscript += `${text} `;
+              finalTranscriptChunk += `${text} `;
             } else {
               interimTranscript += `${text} `;
             }
           }
-          const displayTranscript = (interimTranscript || finalTranscript).trim();
-          if (displayTranscript) {
-            this.chatDraft = displayTranscript;
+          const finalChunkTrimmed = finalTranscriptChunk.trim();
+          if (finalChunkTrimmed) {
+            this.voiceFinalTranscript = `${this.voiceFinalTranscript} ${finalChunkTrimmed}`.trim();
+            this.voiceInterimTranscript = '';
           }
-          if (finalTranscript.trim()) {
-            this.scheduleVoiceSubmission(finalTranscript.trim());
-          } else if (interimTranscript.trim()) {
+          const interimTrimmed = interimTranscript.trim();
+          if (interimTrimmed) {
+            this.voiceInterimTranscript = interimTrimmed;
+          }
+          const displayTranscript = [this.voiceFinalTranscript, this.voiceInterimTranscript].filter(Boolean).join(' ').trim();
+          this.updateVoiceDraft(displayTranscript);
+          if (finalChunkTrimmed) {
+            this.scheduleVoiceSubmission(this.voiceFinalTranscript.trim());
+          } else if (interimTrimmed) {
             this.voiceStatus = 'Listening — feel free to continue speaking.';
             this.voiceStatusTransient = false;
           }
@@ -626,6 +672,7 @@ const MOBILE_BREAKPOINT = 768;
       if (!transcript) {
         return;
       }
+      this.cancelVoiceDraftUpdate();
       this.chatDraft = transcript;
       this.voiceStatus = 'Captured your question — sending it shortly.';
       this.voiceStatusTransient = false;
@@ -664,6 +711,8 @@ const MOBILE_BREAKPOINT = 768;
       if (this.voiceListening) {
         this.voiceListening = false;
       }
+      this.cancelVoiceDraftUpdate();
+      this.resetVoiceTranscriptState();
       if (!this.voiceStatusTransient && !this.voiceAutoSubmitTimer) {
         this.voiceStatus = '';
       }
