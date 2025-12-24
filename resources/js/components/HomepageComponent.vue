@@ -1608,7 +1608,7 @@
     position: relative;
     width: min(1600px, 100%);
     margin: 0 auto;
-    padding: 2rem;
+    padding: 0.3rem;
     border-radius: 20px;
     background: #ffffff;
     /* box-shadow: 0 30px 60px rgba(15, 101, 94, 0.15); */
@@ -1616,7 +1616,7 @@
   }
   @media (max-width: 767px) {
     .welcome-chat-frame {
-      padding: 1.25rem;
+      padding: 0.3rem;
     }
     .welcome-chat-shell {
       padding: 2.5rem 0;
