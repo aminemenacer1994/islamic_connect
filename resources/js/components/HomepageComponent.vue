@@ -1606,7 +1606,7 @@
   }
   .welcome-chat-frame {
     position: relative;
-    width: min(1400px, 100%);
+    width: min(1600px, 100%);
     margin: 0 auto;
     padding: 2rem;
     border-radius: 20px;

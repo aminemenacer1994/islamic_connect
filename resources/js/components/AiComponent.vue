@@ -67,40 +67,74 @@
         </div>
       </div>
 
-      <div class="ai-controls" role="toolbar" aria-label="Chat controls">
-        <button
-          v-if="hasAssistantResponse"
-          type="button"
-          class="ai-control-btn ai-control-btn--primary"
-          @click="startNewChat"
-          :disabled="!isNewChatAvailable"
-        >
-          <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
-        </button>
-        <button
-          type="button"
-          class="ai-control-btn"
-          :disabled="!chatHistory.length"
-          @click="clearHistory"
-        >
-          <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
-        </button>
-        <button
-          type="button"
-          class="ai-control-btn ai-control-btn--whatsapp"
-          :disabled="!chatHistory.length"
-          @click="shareConversationOnWhatsApp"
-        >
-          <i class="fab fa-whatsapp" aria-hidden="true"></i> Share Full Conversation via WhatsApp
-        </button>
-        <button
-          type="button"
-          class="ai-control-btn ai-control-btn--copy"
-          :disabled="!chatHistory.length"
-          @click="copyConversationToClipboard"
-        >
-          <i class="fas fa-copy" aria-hidden="true"></i> Copy Full Conversation to Clipboard
-        </button>
+      <div class="ai-toolbar">
+        <div class="ai-controls" role="toolbar" aria-label="Chat controls">
+          <button
+            v-if="hasAssistantResponse"
+            type="button"
+            class="ai-control-btn ai-control-btn--primary"
+            @click="startNewChat"
+            :disabled="!isNewChatAvailable"
+          >
+            <i class="fas fa-plus-circle" aria-hidden="true"></i> New chat
+          </button>
+          <button
+            type="button"
+            class="ai-control-btn"
+            :disabled="!chatHistory.length"
+            @click="clearHistory"
+          >
+            <i class="fas fa-trash-alt" aria-hidden="true"></i> Clear history
+          </button>
+          <button
+            type="button"
+            class="ai-control-btn ai-control-btn--whatsapp"
+            :disabled="!chatHistory.length"
+            @click="shareConversationOnWhatsApp"
+          >
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Share Full Conversation via WhatsApp
+          </button>
+          <button
+            type="button"
+            class="ai-control-btn ai-control-btn--copy"
+            :disabled="!chatHistory.length"
+            @click="copyConversationToClipboard"
+          >
+            <i class="fas fa-copy" aria-hidden="true"></i> Copy Full Conversation to Clipboard
+          </button>
+          <button
+            type="button"
+            class="ai-control-btn ai-session-inline__button"
+            :disabled="!chatSessions.length"
+            @click="toggleSessionDropdown"
+            aria-haspopup="listbox"
+            aria-expanded="sessionDropdownOpen ? 'true' : 'false'"
+          >
+            <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+            <span>
+              {{ chatSessions.length ? `Saved chats (${chatSessions.length})` : 'No saved chats yet' }}
+            </span>
+          </button>
+          
+          
+        </div>
+        <div
+            v-if="sessionDropdownOpen"
+            class="ai-session-inline__dropdown"
+            role="listbox"
+            aria-label="Recent chats"
+          >
+            <button
+              v-for="session in chatSessions"
+              :key="session.id"
+              type="button"
+              class="ai-session-inline__dropdown-item"
+              @click="selectSessionFromList(session.id)"
+            >
+              <span>{{ formatSessionLabel(session) }}</span>
+              <small>{{ formatSessionTimestamp(session.updatedAt) }}</small>
+            </button>
+          </div>
       </div>
       <div
         v-if="copyNotice"
@@ -336,6 +370,7 @@
 
 <script>
 const MOBILE_BREAKPOINT = 768;
+const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
 
 export default {
   data() {
@@ -402,6 +437,10 @@ export default {
       voiceInterimTranscript: '',
       voiceDraftPending: '',
       voiceDraftFrame: null,
+      chatSessions: [],
+      selectedSessionId: '',
+      sessionStartedAt: null,
+      sessionDropdownOpen: false,
     };
   },
   computed: {
@@ -410,6 +449,22 @@ export default {
     },
     hasAssistantResponse() {
       return this.chatHistory.some((entry) => entry.role === 'assistant');
+    },
+    selectedSessionInfo() {
+      if (!this.chatSessions.length) {
+        return '';
+      }
+      const session = this.chatSessions.find((entry) => entry.id === this.selectedSessionId) || this.chatSessions[0];
+      if (!session) {
+        return '';
+      }
+      const updatedLabel = this.formatSessionTimestamp(session.updatedAt);
+      const messageCount = session.history?.length || 0;
+      const lastEntry = session.history?.[session.history.length - 1];
+      const lastSpeaker =
+        lastEntry?.role === 'assistant' ? 'Noor' : lastEntry?.role === 'user' ? 'You' : 'Someone';
+      const speakerText = lastEntry ? ` · last spoke: ${lastSpeaker}` : '';
+      return `Last updated ${updatedLabel} · ${messageCount} msg${messageCount === 1 ? '' : 's'}${speakerText}`;
     },
   },
   methods: {
@@ -769,6 +824,7 @@ export default {
         this.chatHistory.push(this.createChatEntry('assistant', answer, references));
         this.scrollChatWindow();
         this.scrollComponentToBottom();
+        this.syncCurrentSessionHistory();
       } catch (error) {
         console.error('Chat error:', error);
         this.chatError = error?.message || 'The assistant is temporarily unavailable.';
@@ -892,6 +948,114 @@ export default {
     resetVoiceTranscriptState() {
       this.voiceFinalTranscript = '';
       this.voiceInterimTranscript = '';
+    },
+    persistSessionsStorage() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        window.localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, JSON.stringify(this.chatSessions));
+      } catch (error) {
+        console.error('Unable to save chat sessions', error);
+      }
+    },
+    loadStoredSessions() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        const stored = JSON.parse(window.localStorage.getItem(CHAT_HISTORY_STORAGE_KEY) || '[]');
+        if (!Array.isArray(stored)) {
+          this.chatSessions = [];
+          return;
+        }
+        const sessions = stored
+          .filter((session) => session && session.id && Array.isArray(session.history) && session.history.length)
+          .map((session) => ({
+            id: session.id,
+            history: session.history.map((entry) => ({ ...entry })),
+            createdAt: session.createdAt || session.updatedAt || Date.now(),
+            updatedAt: session.updatedAt || Date.now(),
+          }))
+          .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        this.chatSessions = sessions;
+        if (!this.selectedSessionId && sessions.length) {
+          this.selectedSessionId = sessions[0].id;
+        }
+      } catch (error) {
+        console.error('Unable to load saved chats', error);
+        this.chatSessions = [];
+      }
+    },
+    syncCurrentSessionHistory() {
+      if (!this.sessionId || !this.chatHistory.length) {
+        return;
+      }
+      const record = {
+        id: this.sessionId,
+        history: this.chatHistory.map((entry) => ({ ...entry })),
+        createdAt: this.sessionStartedAt || Date.now(),
+        updatedAt: Date.now(),
+      };
+      const existingIndex = this.chatSessions.findIndex((session) => session.id === this.sessionId);
+      if (existingIndex >= 0) {
+        this.chatSessions.splice(existingIndex, 1);
+      }
+      this.chatSessions.unshift(record);
+      this.persistSessionsStorage();
+    },
+    loadSession(sessionId) {
+      if (!sessionId) {
+        return;
+      }
+      const session = this.chatSessions.find((entry) => entry.id === sessionId);
+      if (!session) {
+        return;
+      }
+      this.chatHistory = session.history.map((entry) => ({ ...entry }));
+      this.sessionId = session.id;
+      this.sessionStartedAt = session.createdAt || Date.now();
+      this.selectedSessionId = session.id;
+      this.chatDraft = '';
+      this.chatError = null;
+      this.scrollChatWindow();
+      this.scrollComponentToBottom();
+      this.sessionDropdownOpen = false;
+    },
+    toggleSessionDropdown() {
+      if (!this.chatSessions.length) {
+        return;
+      }
+      this.sessionDropdownOpen = !this.sessionDropdownOpen;
+    },
+    selectSessionFromList(sessionId) {
+      if (!sessionId) {
+        return;
+      }
+      this.loadSession(sessionId);
+    },
+    formatSessionLabel(session) {
+      if (!session) {
+        return '';
+      }
+      const timestamp = session.createdAt || session.updatedAt;
+      const formatted = this.formatSessionTimestamp(timestamp);
+      const messageCount = session.history?.length || 0;
+      const lastEntry = session.history?.[session.history.length - 1];
+      const lastRole = lastEntry?.role === 'assistant' ? 'Noor' : lastEntry?.role === 'user' ? 'You' : '';
+      const suffix = [`${messageCount} msg${messageCount === 1 ? '' : 's'}`];
+      if (lastRole) {
+        suffix.push(`last: ${lastRole}`);
+      }
+      return `${formatted} · ${suffix.join(' · ')}`;
+    },
+    formatSessionTimestamp(timestamp) {
+      const value = typeof timestamp === 'string' ? Date.parse(timestamp) : timestamp;
+      const date = new Date(!Number.isNaN(value) ? value : Date.now());
+      return `${date.toLocaleDateString([], { month: 'short', day: 'numeric' })} · ${date.toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+      })}`;
     },
     cancelVoiceDraftUpdate() {
       if (this.voiceDraftFrame) {
@@ -1090,6 +1254,7 @@ export default {
       }, duration);
     },
     clearConversationState() {
+      this.syncCurrentSessionHistory();
       this.chatHistory = [];
       this.chatDraft = '';
       this.resetSession();
@@ -1146,7 +1311,10 @@ export default {
       return keywords.some((keyword) => normalized.includes(keyword));
     },
     resetSession() {
-      this.sessionId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+      const newId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+      this.sessionId = newId;
+      this.sessionStartedAt = Date.now();
+      this.selectedSessionId = '';
       return this.sessionId;
     },
     startNewChat() {
@@ -1209,6 +1377,7 @@ export default {
     },
   },
   mounted() {
+    this.loadStoredSessions();
     this.resetSession();
     this.updateCompactMode();
     this.initializeSpeechSynthesis();
@@ -1453,6 +1622,76 @@ export default {
 .ai-trust-note p {
   color: #041b21;
   margin: 0;
+}
+
+.ai-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  align-items: flex-start;
+  padding-bottom: 0.5rem;
+}
+
+.ai-session-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ai-session-inline__button {
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ai-session-inline__button i {
+  font-size: 0.85rem;
+}
+
+.ai-session-inline__dropdown {
+  margin-top: 0.35rem;
+  border-radius: 12px;
+  border: 1px solid rgba(9, 151, 124, 0.2);
+  background: #fff;
+  box-shadow: 0 20px 35px rgba(4, 27, 32, 0.08);
+  padding: 0.4rem;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.ai-session-inline__dropdown-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.5rem 0.6rem;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  font-size: 0.9rem;
+  color: #0b4a4f;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.ai-session-inline__dropdown-item small {
+  font-size: 0.75rem;
+  color: #0a3d3f;
+}
+
+.ai-session-inline__dropdown-item:hover {
+  background: rgba(13, 182, 145, 0.08);
+}
+
+.ai-session-inline__meta {
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+  color: #0a3d3f;
 }
 
 .ai-metadata {
