@@ -2751,6 +2751,44 @@ input[type="checkbox"][data-v-406910d0] {
   border-color: #0db691;
   background: rgba(13, 182, 145, 0.1);
 }
+.ai-voice-btn[data-v-300b761a] {
+  border-radius: 999px;
+  border: 1px solid rgba(13, 182, 145, 0.4);
+  background: transparent;
+  color: #041b20;
+  padding: 0.8rem 1.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+.ai-voice-btn i[data-v-300b761a] {
+  font-size: 0.95rem;
+}
+.ai-voice-btn--active[data-v-300b761a] {
+  background: rgba(13, 182, 145, 0.12);
+  border-color: rgba(13, 182, 145, 0.9);
+}
+.ai-voice-btn[data-v-300b761a]:not(:disabled):hover {
+  border-color: #0db691;
+  transform: translateY(-1px);
+}
+.ai-voice-btn[data-v-300b761a]:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.ai-voice-status[data-v-300b761a] {
+  margin: 0;
+  padding-left: 0.3rem;
+  font-size: 0.9rem;
+  color: #0b4a4f;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
+}
 .ai-error-banner[data-v-300b761a] {
   display: flex;
   align-items: flex-start;

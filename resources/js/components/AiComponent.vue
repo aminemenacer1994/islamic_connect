@@ -301,6 +301,17 @@
           </button>
           <button
             type="button"
+            class="ai-voice-btn"
+            :class="{ 'ai-voice-btn--active': voiceListening }"
+            :disabled="chatLoading"
+            @click="toggleVoiceSearch"
+            :aria-pressed="voiceListening.toString()"
+          >
+            <i class="fas fa-microphone" aria-hidden="true"></i>
+            <span>{{ voiceListening ? 'Listening…' : 'Voice search' }}</span>
+          </button>
+          <button
+            type="button"
             class="ai-clear-input"
             :disabled="chatLoading || !chatDraft.trim()"
             @click="clearDraft"
@@ -308,6 +319,10 @@
             Clear input
           </button>
         </div>
+        <p v-if="voiceStatus" class="ai-voice-status" role="status" aria-live="polite">
+          <i class="fas fa-microphone me-1" aria-hidden="true"></i>
+          {{ voiceStatus }}
+        </p>
         <div class="ai-trust-note" role="note" aria-live="polite">
           <i class="fas fa-shield-alt" aria-hidden="true"></i>
           <p class="mb-0 text-muted">
@@ -378,6 +393,12 @@ export default {
           ],
         },
       ],
+      voiceListening: false,
+      voiceRecognition: null,
+      voiceStatus: '',
+      voiceStatusTransient: false,
+      voiceStatusTimeout: null,
+      voiceAutoSubmitTimer: null,
     };
   },
   computed: {
@@ -857,6 +878,158 @@ export default {
       this.chatDraft = '';
       this.chatError = null;
     },
+    toggleVoiceSearch() {
+      if (this.voiceListening) {
+        this.stopVoiceSearch();
+        return;
+      }
+      this.startVoiceSearch();
+    },
+    startVoiceSearch() {
+      if (this.voiceListening || this.chatLoading) {
+        return;
+      }
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        this.setTransientVoiceStatus('Voice search requires a supported browser.');
+        return;
+      }
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = (typeof navigator !== 'undefined' && navigator.language) ? navigator.language : 'en-US';
+        recognition.maxAlternatives = 1;
+        recognition.onstart = () => {
+          this.voiceListening = true;
+          this.voiceStatusTransient = false;
+          if (this.voiceStatusTimeout) {
+            clearTimeout(this.voiceStatusTimeout);
+            this.voiceStatusTimeout = null;
+          }
+          this.voiceStatus = 'Voice search activated — listening for your question.';
+          this.clearVoiceAutoSubmitTimer();
+        };
+        recognition.onresult = (event) => {
+          const results = event.results;
+          let interimTranscript = '';
+          let finalTranscript = '';
+          for (let i = event.resultIndex; i < results.length; i += 1) {
+            const result = results[i];
+            const text = result?.[0]?.transcript?.trim();
+            if (!text) {
+              continue;
+            }
+            if (result.isFinal) {
+              finalTranscript += `${text} `;
+            } else {
+              interimTranscript += `${text} `;
+            }
+          }
+          const displayTranscript = (interimTranscript || finalTranscript).trim();
+          if (displayTranscript) {
+            this.chatDraft = displayTranscript;
+          }
+          if (finalTranscript.trim()) {
+            this.scheduleVoiceSubmission(finalTranscript.trim());
+          } else if (interimTranscript.trim()) {
+            this.voiceStatus = 'Listening — feel free to continue speaking.';
+            this.voiceStatusTransient = false;
+          }
+        };
+        recognition.onerror = (event) => {
+          this.setTransientVoiceStatus(`Voice search error: ${event.error || 'unknown error'}`);
+          this.cleanupVoiceSearch();
+        };
+        recognition.onend = () => {
+          this.cleanupVoiceSearch();
+        };
+        this.voiceRecognition = recognition;
+        recognition.start();
+      } catch (error) {
+        console.error('Voice search failed to start', error);
+        this.setTransientVoiceStatus('Voice search failed to start.');
+        this.cleanupVoiceSearch();
+      }
+    },
+    stopVoiceSearch() {
+      if (this.voiceRecognition) {
+        try {
+          this.voiceRecognition.onresult = null;
+          this.voiceRecognition.onerror = null;
+          this.voiceRecognition.onend = null;
+          this.voiceRecognition.stop();
+        } catch (error) {
+          console.warn('Failed to stop voice recognition', error);
+        }
+      }
+      this.clearVoiceAutoSubmitTimer();
+      this.cleanupVoiceSearch();
+    },
+    scheduleVoiceSubmission(transcript) {
+      if (!transcript) {
+        return;
+      }
+      this.chatDraft = transcript;
+      this.voiceStatus = 'Captured your question — sending it shortly.';
+      this.voiceStatusTransient = false;
+      if (this.voiceAutoSubmitTimer) {
+        clearTimeout(this.voiceAutoSubmitTimer);
+      }
+      this.voiceAutoSubmitTimer = setTimeout(() => {
+        this.sendVoiceDraft();
+      }, 1400);
+    },
+    sendVoiceDraft() {
+      if (this.voiceAutoSubmitTimer) {
+        clearTimeout(this.voiceAutoSubmitTimer);
+        this.voiceAutoSubmitTimer = null;
+      }
+      if (!this.chatDraft.trim()) {
+        return;
+      }
+      this.setTransientVoiceStatus('Sending your question…');
+      this.stopVoiceSearch();
+      this.sendChatMessage();
+    },
+    clearVoiceAutoSubmitTimer() {
+      if (this.voiceAutoSubmitTimer) {
+        clearTimeout(this.voiceAutoSubmitTimer);
+        this.voiceAutoSubmitTimer = null;
+      }
+    },
+    cleanupVoiceSearch() {
+      if (this.voiceRecognition) {
+        this.voiceRecognition.onresult = null;
+        this.voiceRecognition.onerror = null;
+        this.voiceRecognition.onend = null;
+      }
+      this.voiceRecognition = null;
+      if (this.voiceListening) {
+        this.voiceListening = false;
+      }
+      if (!this.voiceStatusTransient && !this.voiceAutoSubmitTimer) {
+        this.voiceStatus = '';
+      }
+    },
+    setTransientVoiceStatus(message, duration = 4000) {
+      if (!message) {
+        return;
+      }
+      this.voiceStatus = message;
+      this.voiceStatusTransient = true;
+      if (this.voiceStatusTimeout) {
+        clearTimeout(this.voiceStatusTimeout);
+      }
+      this.voiceStatusTimeout = setTimeout(() => {
+        this.voiceStatus = '';
+        this.voiceStatusTransient = false;
+        this.voiceStatusTimeout = null;
+      }, duration);
+    },
     clearConversationState() {
       this.chatHistory = [];
       this.chatDraft = '';
@@ -994,6 +1167,11 @@ export default {
     if (typeof window !== 'undefined' && window.speechSynthesis && this.speechVoicesChanged) {
       window.speechSynthesis.removeEventListener('voiceschanged', this.speechVoicesChanged);
       this.speechVoicesChanged = null;
+    }
+    this.stopVoiceSearch();
+    if (this.voiceStatusTimeout) {
+      clearTimeout(this.voiceStatusTimeout);
+      this.voiceStatusTimeout = null;
     }
     this.stopSpeech();
   },
@@ -1936,6 +2114,50 @@ export default {
 .ai-clear-input:not(:disabled):hover {
   border-color: #0db691;
   background: rgba(13, 182, 145, 0.1);
+}
+
+.ai-voice-btn {
+  border-radius: 999px;
+  border: 1px solid rgba(13, 182, 145, 0.4);
+  background: transparent;
+  color: #041b20;
+  padding: 0.8rem 1.4rem;
+  font-size: 0.95rem;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.ai-voice-btn i {
+  font-size: 0.95rem;
+}
+
+.ai-voice-btn--active {
+  background: rgba(13, 182, 145, 0.12);
+  border-color: rgba(13, 182, 145, 0.9);
+}
+
+.ai-voice-btn:not(:disabled):hover {
+  border-color: #0db691;
+  transform: translateY(-1px);
+}
+
+.ai-voice-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.ai-voice-status {
+  margin: 0;
+  padding-left: 0.3rem;
+  font-size: 0.9rem;
+  color: #0b4a4f;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-weight: 500;
 }
 
 .ai-error-banner {
