@@ -1,6 +1,6 @@
 <template>
-  <section ref="aiRoot" aria-label="Islamic chatbot">
-    <div>
+<section class="ai-section" ref="aiRoot" aria-label="Islamic chatbot">
+  <div class="ai-panel">
       <div class="ai-welcome" aria-live="polite">
         <div class="ai-welcome-icon " aria-hidden="true">
           <i class="fas fa-star-and-crescent " aria-hidden="true"></i>
@@ -111,7 +111,6 @@
         <i class="fas fa-check-circle me-1" aria-hidden="true"></i>
         {{ copyNotice }}
       </div>
-      
 
       <div
         v-if="chatError"
@@ -293,7 +292,7 @@
         <textarea id="aiChatInput" ref="aiChatInput" v-model="chatDraft" class="ai-textarea" rows="2"
         placeholder="Ask something that brings you closer to Allah..."
           :disabled="chatLoading"></textarea>
-      
+
         <div class="ai-form-meta pt-2 text-muted">
           <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -539,6 +538,20 @@ export default {
         }
       });
     },
+    scrollComponentToBottom() {
+      this.$nextTick(() => {
+        const root = this.$refs.aiRoot;
+        if (!root || typeof root.scrollIntoView !== 'function') {
+          return;
+        }
+        const prefersReducedMotion =
+          typeof window !== 'undefined' &&
+          typeof window.matchMedia === 'function' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const behavior = prefersReducedMotion ? 'auto' : 'smooth';
+        root.scrollIntoView({ behavior, block: 'end' });
+      });
+    },
     toggleCategory(category) {
       category.expanded = !category.expanded;
     },
@@ -714,6 +727,7 @@ export default {
       this.chatDraft = '';
       this.chatHistory.push(this.createChatEntry('user', message));
       this.scrollChatWindow();
+      this.scrollComponentToBottom();
       const payload = {
         message,
         history: this.getConversationForRequest(),
@@ -750,6 +764,7 @@ export default {
         const references = this.normalizeReferences(responseData.references);
         this.chatHistory.push(this.createChatEntry('assistant', answer, references));
         this.scrollChatWindow();
+        this.scrollComponentToBottom();
       } catch (error) {
         console.error('Chat error:', error);
         this.chatError = error?.message || 'The assistant is temporarily unavailable.';
@@ -859,17 +874,9 @@ export default {
       if (this.chatLoading) return;
       this.chatDraft = question;
       this.$nextTick(() => {
-        const root = this.$refs.aiRoot;
-        if (root) {
-          root.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
         const textarea = this.$refs.aiChatInput;
         if (textarea) {
           textarea.focus();
-        }
-        const form = this.$refs.aiForm;
-        if (form) {
-          form.scrollIntoView({ behavior: 'smooth', block: 'end' });
         }
         this.sendChatMessage();
       });
@@ -1179,57 +1186,6 @@ export default {
 </script>
 
 <style scoped>
-.ai-section {
-  min-height: 640px;
-  padding: 2.75rem 1.25rem 2rem;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  font-size: 0.9rem;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-.ai-section > div {
-  width: min(100%, 1650px);
-}
-
-.ai-panel::before {
-  content: '';
-  position: absolute;
-  inset: 18px;
-  border-radius: inherit;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  pointer-events: none;
-}
-
-.ai-panel-orb {
-  position: absolute;
-  top: -50px;
-  right: -40px;
-  width: 180px;
-  height: 180px;
-  /* background: radial-gradient(circle, rgba(13, 182, 145, 0.35), transparent 60%); */
-  filter: blur(6px);
-  pointer-events: none;
-  z-index: 0;
-}
-
-.ai-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  z-index: 1;
-}
-
-.ai-label {
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  font-size: 0.72rem;
-  color: #0a2a2d;
-  margin-bottom: 0.35rem;
-}
 
 .ai-title {
   font-size: clamp(1.85rem, 3vw, 2.6rem);
@@ -1485,6 +1441,13 @@ export default {
   color: #062029;
   box-shadow: 0 20px 40px rgba(15, 111, 112, 0.12);
   gap: 0.25rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  animation: gentleFloat 22s ease-in-out infinite;
+}
+
+.ai-welcome:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 30px 50px rgba(15, 111, 112, 0.2);
 }
 
 .ai-welcome-icon {
@@ -1539,8 +1502,17 @@ export default {
   border-radius: 32px;
   border: 1px solid rgba(13, 182, 145, 0.25);
   background: linear-gradient(180deg, rgba(246, 251, 251, 0.95), rgba(255, 255, 255, 0.9));
+  background-size: 220% 220%;
+  background-position: 0% 50%;
   padding: 1.25rem;
   box-shadow: 0 20px 40px rgba(13, 182, 145, 0.12);
+  transition: transform 0.45s ease, box-shadow 0.45s ease;
+  animation: lightSweep 18s ease-in-out infinite;
+}
+
+.ai-suggestions:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 28px 50px rgba(13, 182, 145, 0.18);
 }
 
 .ai-suggestions-header {
@@ -1744,6 +1716,13 @@ export default {
   background: rgba(245, 250, 248, 0.95);
   padding: 1rem;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.5s ease, box-shadow 0.5s ease;
+  animation: calmDrift 26s ease-in-out infinite;
+}
+
+.ai-chat-shell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 35px 60px rgba(3, 12, 15, 0.25);
 }
 
 .ai-chat-window {
@@ -1758,6 +1737,10 @@ export default {
   flex-direction: column;
   gap: 0.35rem;
   width: 100%;
+  transition: transform 0.35s ease;
+}
+.chat-entry:hover {
+  transform: translateY(-1px);
 }
 
 .chat-entry.user {
@@ -1858,7 +1841,12 @@ export default {
   background: #fefefe;
   box-shadow: 0 6px 14px rgba(15, 111, 112, 0.08);
   text-align: left;
-  transition: max-width 0.2s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, max-width 0.2s ease;
+}
+
+.chat-bubble:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(15, 111, 112, 0.18);
 }
 
 .chat-entry.user .chat-bubble {
@@ -2033,6 +2021,8 @@ export default {
   flex-direction: column;
   gap: 0.7rem;
   z-index: 1;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  animation: calmDrift 26s ease-in-out infinite;
 }
 
 .ai-textarea {
@@ -2208,6 +2198,95 @@ export default {
 .ai-error-clear:hover {
   background: rgba(13, 182, 145, 0.12);
   border-color: rgba(13, 182, 145, 0.9);
+}
+
+@keyframes ambientGlow {
+  0% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 0.22;
+    transform: scale(1);
+  }
+}
+
+@keyframes drift {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.01);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes haloShift {
+  0% {
+    opacity: 0.5;
+    transform: translate(-5px, -3px) scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: translate(5px, 4px) scale(1.02);
+  }
+  100% {
+    opacity: 0.5;
+    transform: translate(-5px, -3px) scale(1);
+  }
+}
+
+@keyframes calmDrift {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes gentleFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes lightSweep {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ai-section::before,
+  .ai-panel,
+  .ai-panel::after,
+  .ai-welcome,
+  .ai-suggestions,
+  .ai-chat-shell,
+  .ai-form {
+    animation: none !important;
+    transition: none !important;
+  }
 }
 
 @media (max-width: 900px) {
