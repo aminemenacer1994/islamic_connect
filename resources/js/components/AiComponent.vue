@@ -91,7 +91,7 @@
             :disabled="!chatHistory.length"
             @click="shareConversationOnWhatsApp"
           >
-            <i class="fab fa-whatsapp" aria-hidden="true"></i> Share Full Conversation via WhatsApp
+            <i class="fab fa-whatsapp" aria-hidden="true"></i> Share Full Convo
           </button>
           <button
             type="button"
@@ -99,7 +99,7 @@
             :disabled="!chatHistory.length"
             @click="copyConversationToClipboard"
           >
-            <i class="fas fa-copy" aria-hidden="true"></i> Copy Full Conversation to Clipboard
+            <i class="fas fa-copy" aria-hidden="true"></i> Copy Full Convo
           </button>
         </div>
         <div
@@ -2453,7 +2453,18 @@
     }
 
     .ai-controls {
-      flex-direction: column;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.4rem;
+    }
+
+    .ai-control-btn {
+      flex: 1 1 calc(50% - 0.5rem);
+      max-width: calc(50% - 0.5rem);
+      text-align: center;
+      font-size: 0.75rem;
+      padding: 0.5rem;
     }
 
     .ai-form {
@@ -2471,6 +2482,18 @@
 
     .ai-suggestions-header {
       gap: 0.35rem;
+    }
+  }
+
+  @media (min-width: 768px) and (max-width: 991px) {
+    .ai-controls {
+      flex-wrap: wrap;
+      gap: 0.35rem;
+    }
+
+    .ai-control-btn {
+      flex: 1 1 calc(33.333% - 0.35rem);
+      max-width: calc(33.333% - 0.35rem);
     }
   }
   </style>
