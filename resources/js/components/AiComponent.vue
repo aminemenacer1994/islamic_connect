@@ -101,6 +101,77 @@
           >
             <i class="fas fa-copy" aria-hidden="true"></i> Copy Full Convo
           </button>
+          <button
+            type="button"
+            class="ai-control-btn ai-session-inline__button"
+            :disabled="!chatSessions.length"
+            @click="toggleSessionDropdown"
+            aria-haspopup="listbox"
+            :aria-expanded="sessionDropdownOpen ? 'true' : 'false'"
+          >
+            <i class="fas fa-clipboard-list" aria-hidden="true"></i>
+            <span>
+              {{ chatSessions.length ? `Saved chats (${chatSessions.length})` : 'No saved chats yet' }}
+            </span>
+          </button>
+        </div>
+        <div class="ai-session-inline">
+          <div
+            v-if="sessionDropdownOpen"
+            class="ai-session-inline__dropdown"
+            role="listbox"
+            aria-label="Recent chats"
+          >
+            <button
+              v-if="chatSessions.length"
+              type="button"
+              class="ai-session-inline__clear-all"
+              @click.stop.prevent="prepareClearAllSessions"
+            >
+              <i class="fas fa-trash-alt me-1" aria-hidden="true"></i>
+              Remove all saved chats
+            </button>
+            <div
+              v-if="pendingClearAll"
+              class="ai-session-inline__alert ai-session-inline__alert--danger"
+              role="alert"
+            >
+              <span class="m-0">Delete all saved chats?</span>
+              <div>
+                <button type="button" class="ai-session-inline__action-btn" @click.stop="cancelPendingClearAll">Cancel</button>
+                <button type="button" class="ai-session-inline__action-btn ai-session-inline__action-btn--danger" @click.stop="doClearAllSessions">Delete</button>
+              </div>
+            </div>
+            <button
+              v-for="session in chatSessions"
+              :key="session.id"
+              type="button"
+              class="ai-session-inline__dropdown-item"
+              @click="selectSessionFromList(session.id)"
+            >
+              <span>{{ formatSessionLabel(session) }}</span>
+              <small>{{ formatSessionTimestamp(session.updatedAt) }}</small>
+              <button
+                type="button"
+                class="ai-session-inline__dropdown-remove"
+                @click.stop="prepareDeleteSession(session.id)"
+                aria-label="Delete this saved chat"
+              >
+                <i class="fas fa-times" aria-hidden="true"></i>
+              </button>
+            </button>
+          </div>
+          <div
+            v-if="pendingDeleteSessionId"
+            class="ai-session-inline__alert ai-session-inline__alert--warning"
+            role="alert"
+          >
+            <span class="m-0">Delete “{{ pendingDeleteSessionLabel }}”?</span>
+            <div>
+              <button type="button" class="ai-session-inline__action-btn" @click.stop="cancelPendingDelete">Cancel</button>
+              <button type="button" class="ai-session-inline__action-btn ai-session-inline__action-btn--warning" @click.stop="doDeleteSession">Delete</button>
+            </div>
+          </div>
         </div>
         <div
           v-if="copyNotice"
@@ -299,17 +370,20 @@
             <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
             <span>{{ chatLoading ? 'Noor is Thinking...' : 'Ask Noor' }}</span>
           </button>
-            <button
-              type="button"
-              class="ai-voice-btn"
-              :class="{ 'ai-voice-btn--active': voiceListening }"
-              :disabled="chatLoading"
-              @click="toggleVoiceSearch"
-              :aria-pressed="voiceListening.toString()"
-            >
-              <i class="fas fa-microphone" aria-hidden="true"></i>
-              <span>{{ voiceListening ? 'Listening…' : 'Voice search' }}</span>
-            </button>
+        <button
+          type="button"
+          class="ai-voice-btn text-center"
+          :class="{ 'ai-voice-btn--active': voiceListening }"
+          :disabled="chatLoading"
+          @click="toggleVoiceSearch"
+          :aria-pressed="voiceListening.toString()"
+        >
+          <i class="fas fa-microphone" aria-hidden="true"></i>
+          <span>{{ voiceListening ? 'Listening…' : 'Voice search' }}</span>
+        </button>
+        <div v-if="voiceAlertMessage" class="alert alert-info mt-2 py-1 mb-0 text-center voice-alert" role="status">
+          {{ voiceAlertMessage }}
+        </div>
           <button
             type="button"
             class="ai-clear-input"
@@ -336,908 +410,1121 @@
     </section>
   </template>
   
-  <script>
-  const MOBILE_BREAKPOINT = 768;
-  
-  export default {
-    data() {
+ <script>
+const MOBILE_BREAKPOINT = 768;
+const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
+
+export default {
+  data() {
+    return {
+      chatDraft: '',
+      chatHistory: [],
+      chatLoading: false,
+      chatError: null,
+      sessionId: null,
+      errorTimeout: null,
+      sessionExpired: false,
+      isCompactMode: false,
+      resizeListener: null,
+      copyNotice: '',
+      copyNoticeTimeout: null,
+      availableVoices: [],
+      preferredVoice: null,
+      speechVoicesChanged: null,
+      activeSpeechEntryKey: null,
+      activeUtterance: null,
+      suggestionsExpanded: true,
+      voiceAlertMessage: '',
+      voiceAlertTimeout: null,
+      pendingClearAll: false,
+      pendingDeleteSessionId: '',
+      suggestionCategories: [
+        {
+          label: 'Daily worship',
+          expanded: true,
+          questions: [
+            '🕋 How can I make the five daily prayers feel more meaningful?',
+            '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
+            '🕯️ Describe the etiquette of making dua after Salah.',
+            '📿 How can I increase consistency in dhikr and remembrance?',
+            '🕊️ How can I invite barakah into my daily salah and routines?',
+          ],
+        },
+        {
+          label: 'Study & exams',
+          expanded: true,
+          questions: [
+            '📚 Which hadith guides me in seeking knowledge with sincerity?',
+            '📖 Share a Quranic story that encourages hope and trust.',
+            '📜 Explain a hadith about patience and perseverance.',
+            '✨ How should I renew my intention before each salah or act of worship?',
+            '🌟 Which Quranic reminders help me stay humble during success?',
+          ],
+        },
+        {
+          label: 'Life events',
+          expanded: true,
+          questions: [
+            '🕌 What does the Quran teach about Allah’s mercy in hard times?',
+            '🌿 Which duas help me keep gratitude in everyday life?',
+            '⚖️ How can I balance worldly duties with Islamic priorities?',
+            '🛡️ Which Quranic reminders guard my heart from envy and gossip?',
+            '🤝 Explain the importance of community in Islamic life.',
+          ],
+        },
+      ],
+      voiceListening: false,
+      voiceRecognition: null,
+      voiceStatus: '',
+      voiceStatusTransient: false,
+      voiceStatusTimeout: null,
+      voiceAutoSubmitTimer: null,
+      voiceFinalTranscript: '',
+      voiceInterimTranscript: '',
+      voiceDraftPending: '',
+      voiceDraftFrame: null,
+      chatSessions: [],
+      selectedSessionId: '',
+      sessionStartedAt: null,
+      sessionDropdownOpen: false,
+    };
+  },
+  computed: {
+    isNewChatAvailable() {
+      return this.chatDraft.trim().length > 0 || this.hasAssistantResponse;
+    },
+    hasAssistantResponse() {
+      return this.chatHistory.some((entry) => entry.role === 'assistant');
+    },
+    selectedSessionInfo() {
+      if (!this.chatSessions.length) {
+        return '';
+      }
+      const session = this.chatSessions.find((entry) => entry.id === this.selectedSessionId) || this.chatSessions[0];
+      if (!session) {
+        return '';
+      }
+      const updatedLabel = this.formatSessionTimestamp(session.updatedAt);
+      const messageCount = session.history?.length || 0;
+      return `Last updated ${updatedLabel} · ${messageCount} msg${messageCount === 1 ? '' : 's'}`;
+    },
+    pendingDeleteSessionLabel() {
+      if (!this.pendingDeleteSessionId) {
+        return '';
+      }
+      const session = this.chatSessions.find((entry) => entry.id === this.pendingDeleteSessionId);
+      if (!session) {
+        return '';
+      }
+      return this.formatSessionLabel(session);
+    },
+  },
+  methods: {
+    createChatEntry(role, text, references = []) {
+      const now = new Date();
+      const summaryBullets = this.extractSummaryBulletPoints(text);
+      const allowCollapse = summaryBullets.length && this.isLongMessage(text);
       return {
-        chatDraft: '',
-        chatHistory: [],
-        chatLoading: false,
-        chatError: null,
-        sessionId: null,
-        errorTimeout: null,
-        sessionExpired: false,
-        isCompactMode: false,
-        resizeListener: null,
-        copyNotice: '',
-        copyNoticeTimeout: null,
-        availableVoices: [],
-        preferredVoice: null,
-        speechVoicesChanged: null,
-        activeSpeechEntryKey: null,
-        activeUtterance: null,
-        suggestionsExpanded: true,
-        suggestionCategories: [
-          {
-            label: 'Daily worship',
-            expanded: true,
-            questions: [
-              '🕋 How can I make the five daily prayers feel more meaningful?',
-              '🤲 Share a dua from the Sunnah for asking Allah for guidance.',
-              '🕯️ Describe the etiquette of making dua after Salah.',
-              '📿 How can I increase consistency in dhikr and remembrance?',
-              '🕊️ How can I invite barakah into my daily salah and routines?',
-            ],
-          },
-          {
-            label: 'Study & exams',
-            expanded: true,
-            questions: [
-              '📚 Which hadith guides me in seeking knowledge with sincerity?',
-              '📖 Share a Quranic story that encourages hope and trust.',
-              '📜 Explain a hadith about patience and perseverance.',
-              '✨ How should I renew my intention before each salah or act of worship?',
-              '🌟 Which Quranic reminders help me stay humble during success?',
-            ],
-          },
-          {
-            label: 'Life events',
-            expanded: true,
-            questions: [
-              '🕌 What does the Quran teach about Allah’s mercy in hard times?',
-              '🌿 Which duas help me keep gratitude in everyday life?',
-              '⚖️ How can I balance worldly duties with Islamic priorities?',
-              '🛡️ Which Quranic reminders guard my heart from envy and gossip?',
-              '🤝 Explain the importance of community in Islamic life.',
-            ],
-          },
-        ],
-        voiceListening: false,
-        voiceRecognition: null,
-        voiceStatus: '',
-        voiceStatusTransient: false,
-        voiceStatusTimeout: null,
-        voiceAutoSubmitTimer: null,
-        voiceFinalTranscript: '',
-        voiceInterimTranscript: '',
-        voiceDraftPending: '',
-        voiceDraftFrame: null,
+        role,
+        text,
+        references,
+        summaryBullets,
+        allowCollapse,
+        collapsed: allowCollapse && this.isCompactMode,
+        userToggled: false,
+        speechControlsVisible: false,
+        speechStatus: 'stopped',
+        time: now.toISOString(),
+        displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+        displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
       };
     },
-    computed: {
-      isNewChatAvailable() {
-        return this.chatDraft.trim().length > 0 || this.hasAssistantResponse;
-      },
-      hasAssistantResponse() {
-        return this.chatHistory.some((entry) => entry.role === 'assistant');
-      },
+    getConversationForRequest() {
+      return this.chatHistory.slice(-6).map((entry) => ({
+        role: entry.role,
+        content: entry.text,
+      }));
     },
-    methods: {
-      createChatEntry(role, text, references = []) {
-        const now = new Date();
-        const summaryBullets = this.extractSummaryBulletPoints(text);
-        const allowCollapse = summaryBullets.length && this.isLongMessage(text);
-        return {
-          role,
-          text,
-          references,
-          summaryBullets,
-          allowCollapse,
-          collapsed: allowCollapse && this.isCompactMode,
-          userToggled: false,
-          speechControlsVisible: false,
-          speechStatus: 'stopped',
-          time: now.toISOString(),
-          displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
-          displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
-        };
-      },
-      getConversationForRequest() {
-        return this.chatHistory.slice(-6).map((entry) => ({
-          role: entry.role,
-          content: entry.text,
-        }));
-      },
-      escapeHtml(value) {
-        const map = {
-          '&': '&amp;',
-          '<': '&lt;',
-          '>': '&gt;',
-          '"': '&quot;',
-          "'": '&#39;',
-        };
-        return value.replace(/[&<>"']/g, (char) => map[char]);
-      },
-      formatChatText(text) {
-        if (!text) return '';
-        const cleaned = text
-          .replace(/\r\n?/g, '\n')
-          .replace(/[^\x20-\x7E\n]/g, ' ')
-          .replace(/[ \t]{2,}/g, ' ')
-          .trim();
-        const normalized = cleaned.replace(/\*\*/g, '');
-        const paragraphs = normalized.split(/\n+/).map((line) => line.trim()).filter(Boolean);
-        if (!paragraphs.length) {
-          return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
-        }
-        return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
-      },
-      toPlainText(value = '') {
-        if (!value) return '';
-        if (typeof document === 'undefined') {
-          return value.replace(/<\/?[^>]+(>|$)/g, '');
-        }
-        const wrapper = document.createElement('div');
-        wrapper.innerHTML = value;
-        const text = wrapper.textContent || wrapper.innerText || '';
-        wrapper.remove();
-        return text;
-      },
-      sanitizeShareText(value) {
-        return this.toPlainText(value).replace(/\s+/g, ' ').trim();
-      },
-      composeChatShareMessage(limit = 6) {
-        const entries = this.chatHistory.slice(-limit);
-        const lines = entries
-          .map((entry) => {
-            const label = entry.role === 'assistant' ? 'Assistant' : 'You';
-            const plain = this.sanitizeShareText(entry.text);
-            return plain ? `${label}: ${plain}` : null;
-          })
-          .filter(Boolean);
-        if (!lines.length) {
-          return '';
-        }
-        return `Islamic Connect chat\n\n${lines.join('\n\n')}`;
-      },
-      isLongMessage(text) {
-        if (!text) return false;
-        const cleaned = text.trim();
-        const paragraphCount = cleaned.split(/\n+/).filter(Boolean).length;
-        return cleaned.length > 360 || paragraphCount >= 3;
-      },
-      extractSummaryBulletPoints(text, limit = 3) {
-        if (!text) return [];
-        const cleaned = text
-          .replace(/\r\n?/g, ' ')
-          .replace(/\s{2,}/g, ' ')
-          .trim();
-        if (!cleaned) return [];
-        const sentenceMatches = cleaned.match(/[^.!?]+[.!?]+/g) || [];
-        const normalized = sentenceMatches.length ? sentenceMatches : cleaned.split(/[,;]+/);
-        const sanitized = normalized
-          .map((piece) => piece.replace(/^[\s*-]+/, '').trim())
-          .filter((piece) => piece.length > 12);
-        if (!sanitized.length) {
-          return (normalized || []).slice(0, limit).map((piece) => piece.trim()).filter(Boolean);
-        }
-        return sanitized.slice(0, limit);
-      },
-      normalizeReferences(input) {
-        if (!input) return [];
-        const items = Array.isArray(input) ? input : [input];
-        return items
-          .map((item) => {
-            if (!item) {
-              return null;
-            }
-            if (typeof item === 'string') {
-              return { label: item, url: '' };
-            }
-            if (typeof item === 'object') {
-              return {
-                label: item.label || item.title || item.text || '',
-                url: item.url || item.link || item.href || '',
-              };
-            }
+    escapeHtml(value) {
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;',
+      };
+      return value.replace(/[&<>"']/g, (char) => map[char]);
+    },
+    formatChatText(text) {
+      if (!text) return '';
+      const cleaned = text
+        .replace(/\r\n?/g, '\n')
+        .replace(/[^\x20-\x7E\n]/g, ' ')
+        .replace(/[ \t]{2,}/g, ' ')
+        .trim();
+      const normalized = cleaned.replace(/\*\*/g, '');
+      const paragraphs = normalized.split(/\n+/).map((line) => line.trim()).filter(Boolean);
+      if (!paragraphs.length) {
+        return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
+      }
+      return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
+    },
+    toPlainText(value = '') {
+      if (!value) return '';
+      if (typeof document === 'undefined') {
+        return value.replace(/<\/?[^>]+(>|$)/g, '');
+      }
+      const wrapper = document.createElement('div');
+      wrapper.innerHTML = value;
+      const text = wrapper.textContent || wrapper.innerText || '';
+      wrapper.remove();
+      return text;
+    },
+    sanitizeShareText(value) {
+      return this.toPlainText(value).replace(/\s+/g, ' ').trim();
+    },
+    composeChatShareMessage(limit = 6) {
+      const entries = this.chatHistory.slice(-limit);
+      const lines = entries
+        .map((entry) => {
+          const label = entry.role === 'assistant' ? 'Assistant' : 'You';
+          const plain = this.sanitizeShareText(entry.text);
+          return plain ? `${label}: ${plain}` : null;
+        })
+        .filter(Boolean);
+      if (!lines.length) {
+        return '';
+      }
+      return `Islamic Connect chat\n\n${lines.join('\n\n')}`;
+    },
+    isLongMessage(text) {
+      if (!text) return false;
+      const cleaned = text.trim();
+      const paragraphCount = cleaned.split(/\n+/).filter(Boolean).length;
+      return cleaned.length > 360 || paragraphCount >= 3;
+    },
+    extractSummaryBulletPoints(text, limit = 3) {
+      if (!text) return [];
+      const cleaned = text
+        .replace(/\r\n?/g, ' ')
+        .replace(/\s{2,}/g, ' ')
+        .trim();
+      if (!cleaned) return [];
+      const sentenceMatches = cleaned.match(/[^.!?]+[.!?]+/g) || [];
+      const normalized = sentenceMatches.length ? sentenceMatches : cleaned.split(/[,;]+/);
+      const sanitized = normalized
+        .map((piece) => piece.replace(/^[\s*-]+/, '').trim())
+        .filter((piece) => piece.length > 12);
+      if (!sanitized.length) {
+        return (normalized || []).slice(0, limit).map((piece) => piece.trim()).filter(Boolean);
+      }
+      return sanitized.slice(0, limit);
+    },
+    normalizeReferences(input) {
+      if (!input) return [];
+      const items = Array.isArray(input) ? input : [input];
+      return items
+        .map((item) => {
+          if (!item) {
             return null;
-          })
-          .filter((item) => item && item.label.trim());
-      },
-      scrollChatWindow() {
-        this.$nextTick(() => {
-          const container = this.$refs.chatShell || this.$refs.chatWindow;
-          if (container) {
-            container.scrollTop = container.scrollHeight;
           }
-        });
-      },
-      scrollComponentToBottom() {
-        this.$nextTick(() => {
-          const root = this.$refs.aiRoot;
-          if (!root || typeof root.scrollIntoView !== 'function') {
-            return;
+          if (typeof item === 'string') {
+            return { label: item, url: '' };
           }
-          const prefersReducedMotion =
-            typeof window !== 'undefined' &&
-            typeof window.matchMedia === 'function' &&
-            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-          const behavior = prefersReducedMotion ? 'auto' : 'smooth';
-          root.scrollIntoView({ behavior, block: 'end' });
-        });
-      },
-      toggleCategory(category) {
-        category.expanded = !category.expanded;
-      },
-      toggleSuggestions() {
-        this.suggestionsExpanded = !this.suggestionsExpanded;
-      },
-      initializeSpeechSynthesis() {
-        if (typeof window === 'undefined' || !window.speechSynthesis) {
-          return;
-        }
-        const refreshVoices = () => {
-          const voices = window.speechSynthesis.getVoices() || [];
-          this.availableVoices = voices;
-          this.updatePreferredVoice();
-        };
-        refreshVoices();
-        this.speechVoicesChanged = refreshVoices;
-        window.speechSynthesis.addEventListener('voiceschanged', refreshVoices);
-      },
-      chooseNaturalVoice(voices) {
-        if (!voices || !voices.length) {
+          if (typeof item === 'object') {
+            return {
+              label: item.label || item.title || item.text || '',
+              url: item.url || item.link || item.href || '',
+            };
+          }
           return null;
+        })
+        .filter((item) => item && item.label.trim());
+    },
+    scrollChatWindow() {
+      this.$nextTick(() => {
+        const container = this.$refs.chatShell || this.$refs.chatWindow;
+        if (container) {
+          container.scrollTop = container.scrollHeight;
         }
-        const preferredNames = [
-          'Google UK English Female',
-          'Google UK English Male',
-          'Google US English',
-          'Microsoft Zira Desktop - English (United States)',
-          'Samantha',
-          'Alex',
-        ];
-        for (const preferred of preferredNames) {
-          const match = voices.find((voice) => voice.name === preferred);
-          if (match) {
-            return match;
-          }
-        }
-        const englishVoice = voices.find((voice) => voice.lang?.startsWith('en'));
-        return englishVoice || voices[0];
-      },
-      updatePreferredVoice() {
-        if (!this.availableVoices.length) {
-          this.preferredVoice = null;
+      });
+    },
+    scrollComponentToBottom() {
+      this.$nextTick(() => {
+        const root = this.$refs.aiRoot;
+        if (!root || typeof root.scrollIntoView !== 'function') {
           return;
         }
-        this.preferredVoice = this.chooseNaturalVoice(this.availableVoices);
-      },
-      getEntrySpeechKey(entry) {
-        if (!entry) return null;
-        return `${entry.role}-${entry.time}`;
-      },
-      findEntryBySpeechKey(key) {
-        if (!key) {
-          return null;
+        const prefersReducedMotion =
+          typeof window !== 'undefined' &&
+          typeof window.matchMedia === 'function' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const behavior = prefersReducedMotion ? 'auto' : 'smooth';
+        root.scrollIntoView({ behavior, block: 'end' });
+      });
+    },
+    toggleCategory(category) {
+      category.expanded = !category.expanded;
+    },
+    toggleSuggestions() {
+      this.suggestionsExpanded = !this.suggestionsExpanded;
+    },
+    initializeSpeechSynthesis() {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        return;
+      }
+      const refreshVoices = () => {
+        const voices = window.speechSynthesis.getVoices() || [];
+        this.availableVoices = voices;
+        this.updatePreferredVoice();
+      };
+      refreshVoices();
+      this.speechVoicesChanged = refreshVoices;
+      window.speechSynthesis.addEventListener('voiceschanged', refreshVoices);
+    },
+    chooseNaturalVoice(voices) {
+      if (!voices || !voices.length) {
+        return null;
+      }
+      const preferredNames = [
+        'Google UK English Female',
+        'Google UK English Male',
+        'Google US English',
+        'Microsoft Zira Desktop - English (United States)',
+        'Samantha',
+        'Alex',
+      ];
+      for (const preferred of preferredNames) {
+        const match = voices.find((voice) => voice.name === preferred);
+        if (match) {
+          return match;
         }
-        return this.chatHistory.find((entry) => this.getEntrySpeechKey(entry) === key) || null;
-      },
-      toggleSpeechControls(entry) {
-        if (!entry) {
-          return;
+      }
+      const englishVoice = voices.find((voice) => voice.lang?.startsWith('en'));
+      return englishVoice || voices[0];
+    },
+    updatePreferredVoice() {
+      if (!this.availableVoices.length) {
+        this.preferredVoice = null;
+        return;
+      }
+      this.preferredVoice = this.chooseNaturalVoice(this.availableVoices);
+    },
+    getEntrySpeechKey(entry) {
+      if (!entry) return null;
+      return `${entry.role}-${entry.time}`;
+    },
+    findEntryBySpeechKey(key) {
+      if (!key) {
+        return null;
+      }
+      return this.chatHistory.find((entry) => this.getEntrySpeechKey(entry) === key) || null;
+    },
+    toggleSpeechControls(entry) {
+      if (!entry) {
+        return;
+      }
+      const isVisible = !entry.speechControlsVisible;
+      this.chatHistory.forEach((other) => {
+        if (other !== entry) {
+          other.speechControlsVisible = false;
         }
-        const isVisible = !entry.speechControlsVisible;
-        this.chatHistory.forEach((other) => {
-          if (other !== entry) {
-            other.speechControlsVisible = false;
-          }
-        });
-        entry.speechControlsVisible = isVisible;
-      },
-      playEntrySpeech(entry) {
-        if (!entry?.text || typeof window === 'undefined' || !window.speechSynthesis) {
-          return;
-        }
-        const entryKey = this.getEntrySpeechKey(entry);
-        if (this.activeSpeechEntryKey === entryKey && window.speechSynthesis.paused) {
-          window.speechSynthesis.resume();
-          entry.speechStatus = 'playing';
-          return;
-        }
-        this.stopSpeech();
-        const plainText = this.toPlainText(entry.text);
-        if (!plainText) {
-          return;
-        }
-        const utterance = new SpeechSynthesisUtterance(plainText);
-        const voice = this.preferredVoice;
-        if (voice) {
-          utterance.voice = voice;
-          utterance.lang = voice.lang || utterance.lang;
-        }
-        utterance.rate = 0.95;
-        utterance.pitch = 1;
-        utterance.volume = 1;
-        this.activeUtterance = utterance;
-        this.activeSpeechEntryKey = entryKey;
-        utterance.onstart = () => {
-          entry.speechStatus = 'playing';
-        };
-        utterance.onend = () => {
-          this.finishSpeech(entry);
-        };
-        utterance.onerror = () => {
-          this.finishSpeech(entry);
-        };
-        utterance.onpause = () => {
-          entry.speechStatus = 'paused';
-        };
-        utterance.onresume = () => {
-          entry.speechStatus = 'playing';
-        };
-        entry.speechStatus = 'loading';
-        window.speechSynthesis.speak(utterance);
-      },
-      pauseEntrySpeech(entry) {
-        if (
-          typeof window === 'undefined' ||
-          !window.speechSynthesis ||
-          !window.speechSynthesis.speaking ||
-          window.speechSynthesis.paused
-        ) {
-          return;
-        }
-        if (this.activeSpeechEntryKey !== this.getEntrySpeechKey(entry)) {
-          return;
-        }
-        window.speechSynthesis.pause();
+      });
+      entry.speechControlsVisible = isVisible;
+    },
+    playEntrySpeech(entry) {
+      if (!entry?.text || typeof window === 'undefined' || !window.speechSynthesis) {
+        return;
+      }
+      const entryKey = this.getEntrySpeechKey(entry);
+      if (this.activeSpeechEntryKey === entryKey && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+        entry.speechStatus = 'playing';
+        return;
+      }
+      this.stopSpeech();
+      const plainText = this.toPlainText(entry.text);
+      if (!plainText) {
+        return;
+      }
+      const utterance = new SpeechSynthesisUtterance(plainText);
+      const voice = this.preferredVoice;
+      if (voice) {
+        utterance.voice = voice;
+        utterance.lang = voice.lang || utterance.lang;
+      }
+      utterance.rate = 0.95;
+      utterance.pitch = 1;
+      utterance.volume = 1;
+      this.activeUtterance = utterance;
+      this.activeSpeechEntryKey = entryKey;
+      utterance.onstart = () => {
+        entry.speechStatus = 'playing';
+      };
+      utterance.onend = () => {
+        this.finishSpeech(entry);
+      };
+      utterance.onerror = () => {
+        this.finishSpeech(entry);
+      };
+      utterance.onpause = () => {
         entry.speechStatus = 'paused';
-      },
-      stopEntrySpeech(entry) {
-        if (!entry) {
-          return;
-        }
-        if (this.activeSpeechEntryKey === this.getEntrySpeechKey(entry)) {
-          this.stopSpeech();
-          return;
-        }
-        entry.speechStatus = 'stopped';
-      },
-      finishSpeech(entry) {
-        if (!entry) {
-          return;
-        }
-        entry.speechStatus = 'stopped';
-        const entryKey = this.getEntrySpeechKey(entry);
-        if (this.activeSpeechEntryKey === entryKey) {
-          this.activeSpeechEntryKey = null;
-        }
-        this.activeUtterance = null;
-      },
-      stopSpeech() {
-        if (typeof window === 'undefined' || !window.speechSynthesis) {
-          return;
-        }
-        window.speechSynthesis.cancel();
-        if (this.activeSpeechEntryKey) {
-          const entry = this.findEntryBySpeechKey(this.activeSpeechEntryKey);
-          if (entry) {
-            entry.speechStatus = 'stopped';
-          }
-        }
+      };
+      utterance.onresume = () => {
+        entry.speechStatus = 'playing';
+      };
+      entry.speechStatus = 'loading';
+      window.speechSynthesis.speak(utterance);
+    },
+    pauseEntrySpeech(entry) {
+      if (
+        typeof window === 'undefined' ||
+        !window.speechSynthesis ||
+        !window.speechSynthesis.speaking ||
+        window.speechSynthesis.paused
+      ) {
+        return;
+      }
+      if (this.activeSpeechEntryKey !== this.getEntrySpeechKey(entry)) {
+        return;
+      }
+      window.speechSynthesis.pause();
+      entry.speechStatus = 'paused';
+    },
+    stopEntrySpeech(entry) {
+      if (!entry) {
+        return;
+      }
+      if (this.activeSpeechEntryKey === this.getEntrySpeechKey(entry)) {
+        this.stopSpeech();
+        return;
+      }
+      entry.speechStatus = 'stopped';
+    },
+    finishSpeech(entry) {
+      if (!entry) {
+        return;
+      }
+      entry.speechStatus = 'stopped';
+      const entryKey = this.getEntrySpeechKey(entry);
+      if (this.activeSpeechEntryKey === entryKey) {
         this.activeSpeechEntryKey = null;
-        this.activeUtterance = null;
-      },
-      async sendChatMessage() {
-        if (this.chatLoading) return;
-        const message = this.chatDraft.trim();
-        if (!message) return;
-        this.chatError = null;
-        if (!this.isIslamicQuestion(message)) {
-          this.chatError = 'Please ask something related to Islamic teachings or practice.';
+      }
+      this.activeUtterance = null;
+    },
+    stopSpeech() {
+      if (typeof window === 'undefined' || !window.speechSynthesis) {
+        return;
+      }
+      window.speechSynthesis.cancel();
+      if (this.activeSpeechEntryKey) {
+        const entry = this.findEntryBySpeechKey(this.activeSpeechEntryKey);
+        if (entry) {
+          entry.speechStatus = 'stopped';
+        }
+      }
+      this.activeSpeechEntryKey = null;
+      this.activeUtterance = null;
+    },
+    async sendChatMessage() {
+      if (this.chatLoading) return;
+      const message = this.chatDraft.trim();
+      if (!message) return;
+      this.chatError = null;
+      if (!this.isIslamicQuestion(message)) {
+        this.chatError = 'Please ask something related to Islamic teachings or practice.';
+        return;
+      }
+      this.chatDraft = '';
+      this.chatHistory.push(this.createChatEntry('user', message));
+      this.scrollChatWindow();
+      this.scrollComponentToBottom();
+      const payload = {
+        message,
+        history: this.getConversationForRequest(),
+      };
+      try {
+        this.chatLoading = true;
+        const session = this.sessionId || this.resetSession();
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+        if (!csrfToken) {
+          throw new Error('Unable to send the question right now.');
+        }
+        const response = await fetch('/ai/chat', {
+          method: 'POST',
+          credentials: 'same-origin',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'X-CSRF-TOKEN': csrfToken,
+          },
+          body: JSON.stringify({ ...payload, sessionId: session }),
+        });
+        const responseData = await response.json().catch(() => ({}));
+        if (response.status === 419) {
+          this.handleSessionExpiry();
           return;
         }
-        this.chatDraft = '';
-        this.chatHistory.push(this.createChatEntry('user', message));
+        if (!response.ok) {
+          throw new Error(responseData.error || 'Unable to get a response right now.');
+        }
+        const answer = (responseData.answer || '').trim();
+        if (!answer) {
+          throw new Error('The assistant did not return an answer. Please try again.');
+        }
+        const references = this.normalizeReferences(responseData.references);
+        this.chatHistory.push(this.createChatEntry('assistant', answer, references));
         this.scrollChatWindow();
         this.scrollComponentToBottom();
-        const payload = {
-          message,
-          history: this.getConversationForRequest(),
-        };
+        this.syncCurrentSessionHistory();
+      } catch (error) {
+        console.error('Chat error:', error);
+        this.chatError = error?.message || 'The assistant is temporarily unavailable.';
+      } finally {
+        this.chatLoading = false;
+      }
+    },
+    shareConversationOnWhatsApp() {
+      if (!this.chatHistory.length) {
+        return;
+      }
+      const shareText = this.composeChatShareMessage(6);
+      if (!shareText) {
+        return;
+      }
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+      window.open(whatsappUrl, '_blank');
+    },
+    copyConversationToClipboard() {
+      const shareText = this.composeChatShareMessage(6);
+      if (!shareText) {
+        return;
+      }
+      this.copyTextToClipboard(shareText)
+        .then(() => this.showCopyNotice('Conversation copied to clipboard.'))
+        .catch((err) => {
+          console.error('Copy conversation failed:', err);
+        });
+    },
+    shareEntryOnWhatsApp(entry) {
+      if (!entry?.text) {
+        return;
+      }
+      const content = this.sanitizeShareText(entry.text);
+      if (!content) {
+        return;
+      }
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const header =
+        entry.role === 'assistant' ? 'Islamic Connect answer' : 'Islamic Connect chat';
+      const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${header}\n\n${content}`)}`;
+      window.open(whatsappUrl, '_blank');
+    },
+    copyEntryToClipboard(entry) {
+      if (!entry?.text) {
+        return;
+      }
+      const content = this.sanitizeShareText(entry.text);
+      if (!content) {
+        return;
+      }
+      this.copyTextToClipboard(content)
+        .then(() => this.showCopyNotice('Answer copied to clipboard.'))
+        .catch((err) => {
+          console.error('Copy answer failed:', err);
+        });
+    },
+    copyTextToClipboard(text) {
+      if (!text) {
+        return Promise.resolve();
+      }
+      if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+        return navigator.clipboard.writeText(text);
+      }
+      if (typeof document === 'undefined') {
+        return Promise.resolve();
+      }
+      return new Promise((resolve, reject) => {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'absolute';
+        textarea.style.left = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
         try {
-          this.chatLoading = true;
-          const session = this.sessionId || this.resetSession();
-          const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
-          if (!csrfToken) {
-            throw new Error('Unable to send the question right now.');
+          const successful = document.execCommand('copy');
+          if (successful) {
+            resolve();
+          } else {
+            reject(new Error('Copy command was unsuccessful'));
           }
-          const response = await fetch('/ai/chat', {
-            method: 'POST',
-            credentials: 'same-origin',
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-              'X-CSRF-TOKEN': csrfToken,
-            },
-            body: JSON.stringify({ ...payload, sessionId: session }),
-          });
-          const responseData = await response.json().catch(() => ({}));
-          if (response.status === 419) {
-            this.handleSessionExpiry();
-            return;
-          }
-          if (!response.ok) {
-            throw new Error(responseData.error || 'Unable to get a response right now.');
-          }
-          const answer = (responseData.answer || '').trim();
-          if (!answer) {
-            throw new Error('The assistant did not return an answer. Please try again.');
-          }
-          const references = this.normalizeReferences(responseData.references);
-          this.chatHistory.push(this.createChatEntry('assistant', answer, references));
-          this.scrollChatWindow();
-          this.scrollComponentToBottom();
-        } catch (error) {
-          console.error('Chat error:', error);
-          this.chatError = error?.message || 'The assistant is temporarily unavailable.';
+        } catch (err) {
+          reject(err);
         } finally {
-          this.chatLoading = false;
+          document.body.removeChild(textarea);
         }
-      },
-      shareConversationOnWhatsApp() {
-        if (!this.chatHistory.length) {
-          return;
+      });
+    },
+    showCopyNotice(message) {
+      if (!message) return;
+      this.copyNotice = message;
+      if (this.copyNoticeTimeout) {
+        clearTimeout(this.copyNoticeTimeout);
+      }
+      this.copyNoticeTimeout = setTimeout(() => {
+        this.copyNotice = '';
+        this.copyNoticeTimeout = null;
+      }, 3000);
+    },
+    selectSuggestedQuestion(question) {
+      if (this.chatLoading) return;
+      this.chatDraft = question;
+      this.$nextTick(() => {
+        const textarea = this.$refs.aiChatInput;
+        if (textarea) {
+          textarea.focus();
         }
-        const shareText = this.composeChatShareMessage(6);
-        if (!shareText) {
-          return;
-        }
-        if (typeof window === 'undefined') {
-          return;
-        }
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
-        window.open(whatsappUrl, '_blank');
-      },
-      copyConversationToClipboard() {
-        const shareText = this.composeChatShareMessage(6);
-        if (!shareText) {
-          return;
-        }
-        this.copyTextToClipboard(shareText)
-          .then(() => this.showCopyNotice('Conversation copied to clipboard.'))
-          .catch((err) => {
-            console.error('Copy conversation failed:', err);
-          });
-      },
-      shareEntryOnWhatsApp(entry) {
-        if (!entry?.text) {
-          return;
-        }
-        const content = this.sanitizeShareText(entry.text);
-        if (!content) {
-          return;
-        }
-        if (typeof window === 'undefined') {
-          return;
-        }
-        const header =
-          entry.role === 'assistant' ? 'Islamic Connect answer' : 'Islamic Connect chat';
-        const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(`${header}\n\n${content}`)}`;
-        window.open(whatsappUrl, '_blank');
-      },
-      copyEntryToClipboard(entry) {
-        if (!entry?.text) {
-          return;
-        }
-        const content = this.sanitizeShareText(entry.text);
-        if (!content) {
-          return;
-        }
-        this.copyTextToClipboard(content)
-          .then(() => this.showCopyNotice('Answer copied to clipboard.'))
-          .catch((err) => {
-            console.error('Copy answer failed:', err);
-          });
-      },
-      copyTextToClipboard(text) {
-        if (!text) {
-          return Promise.resolve();
-        }
-        if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-          return navigator.clipboard.writeText(text);
-        }
-        if (typeof document === 'undefined') {
-          return Promise.resolve();
-        }
-        return new Promise((resolve, reject) => {
-          const textarea = document.createElement('textarea');
-          textarea.value = text;
-          textarea.setAttribute('readonly', '');
-          textarea.style.position = 'absolute';
-          textarea.style.left = '-9999px';
-          document.body.appendChild(textarea);
-          textarea.select();
-          try {
-            const successful = document.execCommand('copy');
-            if (successful) {
-              resolve();
-            } else {
-              reject(new Error('Copy command was unsuccessful'));
-            }
-          } catch (err) {
-            reject(err);
-          } finally {
-            document.body.removeChild(textarea);
-          }
-        });
-      },
-      showCopyNotice(message) {
-        if (!message) return;
-        this.copyNotice = message;
-        if (this.copyNoticeTimeout) {
-          clearTimeout(this.copyNoticeTimeout);
-        }
-        this.copyNoticeTimeout = setTimeout(() => {
-          this.copyNotice = '';
-          this.copyNoticeTimeout = null;
-        }, 3000);
-      },
-      selectSuggestedQuestion(question) {
-        if (this.chatLoading) return;
-        this.chatDraft = question;
-        this.$nextTick(() => {
-          const textarea = this.$refs.aiChatInput;
-          if (textarea) {
-            textarea.focus();
-          }
-          this.sendChatMessage();
-        });
-      },
-      clearDraft() {
-        this.chatDraft = '';
-        this.chatError = null;
-      },
-      resetVoiceTranscriptState() {
-        this.voiceFinalTranscript = '';
-        this.voiceInterimTranscript = '';
-      },
-      cancelVoiceDraftUpdate() {
-        if (this.voiceDraftFrame) {
-          if (typeof window !== 'undefined' && window.cancelAnimationFrame) {
-            window.cancelAnimationFrame(this.voiceDraftFrame);
-          }
-          this.voiceDraftFrame = null;
-        }
-        this.voiceDraftPending = '';
-      },
-      updateVoiceDraft(displayTranscript) {
-        if (!displayTranscript) {
-          return;
-        }
-        if (displayTranscript === this.chatDraft) {
-          return;
-        }
-        if (typeof window !== 'undefined' && window.requestAnimationFrame) {
-          this.voiceDraftPending = displayTranscript;
-          if (!this.voiceDraftFrame) {
-            this.voiceDraftFrame = window.requestAnimationFrame(() => {
-              this.chatDraft = this.voiceDraftPending;
-              this.voiceDraftFrame = null;
-              this.voiceDraftPending = '';
-            });
-          }
-        } else {
-          this.chatDraft = displayTranscript;
-        }
-      },
-      toggleVoiceSearch() {
-        if (this.voiceListening) {
-          this.stopVoiceSearch();
-          return;
-        }
-        this.startVoiceSearch();
-      },
-      startVoiceSearch() {
-        if (this.voiceListening || this.chatLoading) {
-          return;
-        }
-        if (typeof window === 'undefined') {
-          return;
-        }
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-          this.setTransientVoiceStatus('Voice search requires a supported browser.');
-          return;
-        }
-        this.resetVoiceTranscriptState();
-        this.cancelVoiceDraftUpdate();
-        try {
-          const recognition = new SpeechRecognition();
-          recognition.continuous = true;
-          recognition.interimResults = true;
-          recognition.lang = (typeof navigator !== 'undefined' && navigator.language) ? navigator.language : 'en-US';
-          recognition.maxAlternatives = 1;
-          recognition.onstart = () => {
-            this.voiceListening = true;
-            this.voiceStatusTransient = false;
-            if (this.voiceStatusTimeout) {
-              clearTimeout(this.voiceStatusTimeout);
-              this.voiceStatusTimeout = null;
-            }
-            this.voiceStatus = 'Voice search activated — listening for your question.';
-            this.clearVoiceAutoSubmitTimer();
-          };
-          recognition.onresult = (event) => {
-            const results = event.results;
-            let interimTranscript = '';
-            let finalTranscriptChunk = '';
-            for (let i = event.resultIndex; i < results.length; i += 1) {
-              const result = results[i];
-              const text = result?.[0]?.transcript?.trim();
-              if (!text) {
-                continue;
-              }
-              if (result.isFinal) {
-                finalTranscriptChunk += `${text} `;
-              } else {
-                interimTranscript += `${text} `;
-              }
-            }
-            const finalChunkTrimmed = finalTranscriptChunk.trim();
-            if (finalChunkTrimmed) {
-              this.voiceFinalTranscript = `${this.voiceFinalTranscript} ${finalChunkTrimmed}`.trim();
-              this.voiceInterimTranscript = '';
-            }
-            const interimTrimmed = interimTranscript.trim();
-            if (interimTrimmed) {
-              this.voiceInterimTranscript = interimTrimmed;
-            }
-            const displayTranscript = [this.voiceFinalTranscript, this.voiceInterimTranscript]
-              .filter(Boolean)
-              .join(' ')
-              .trim();
-            this.updateVoiceDraft(displayTranscript);
-            if (finalChunkTrimmed) {
-              this.scheduleVoiceSubmission(this.voiceFinalTranscript.trim());
-            } else if (interimTrimmed) {
-              this.voiceStatus = 'Listening — feel free to continue speaking.';
-              this.voiceStatusTransient = false;
-            }
-          };
-          recognition.onerror = (event) => {
-            this.setTransientVoiceStatus(`Voice search error: ${event.error || 'unknown error'}`);
-            this.cleanupVoiceSearch();
-          };
-          recognition.onend = () => {
-            this.cleanupVoiceSearch();
-          };
-          this.voiceRecognition = recognition;
-          recognition.start();
-        } catch (error) {
-          console.error('Voice search failed to start', error);
-          this.setTransientVoiceStatus('Voice search failed to start.');
-          this.cleanupVoiceSearch();
-        }
-      },
-      stopVoiceSearch() {
-        if (this.voiceRecognition) {
-          try {
-            this.voiceRecognition.onresult = null;
-            this.voiceRecognition.onerror = null;
-            this.voiceRecognition.onend = null;
-            this.voiceRecognition.stop();
-          } catch (error) {
-            console.warn('Failed to stop voice recognition', error);
-          }
-        }
-        this.clearVoiceAutoSubmitTimer();
-        this.cleanupVoiceSearch();
-      },
-      scheduleVoiceSubmission(transcript) {
-        if (!transcript) {
-          return;
-        }
-        this.cancelVoiceDraftUpdate();
-        this.chatDraft = transcript;
-        this.voiceStatus = 'Captured your question — sending it shortly.';
-        this.voiceStatusTransient = false;
-        if (this.voiceAutoSubmitTimer) {
-          clearTimeout(this.voiceAutoSubmitTimer);
-        }
-        this.voiceAutoSubmitTimer = setTimeout(() => {
-          this.sendVoiceDraft();
-        }, 1400);
-      },
-      sendVoiceDraft() {
-        if (this.voiceAutoSubmitTimer) {
-          clearTimeout(this.voiceAutoSubmitTimer);
-          this.voiceAutoSubmitTimer = null;
-        }
-        if (!this.chatDraft.trim()) {
-          return;
-        }
-        this.setTransientVoiceStatus('Sending your question…');
-        this.stopVoiceSearch();
         this.sendChatMessage();
-      },
-      clearVoiceAutoSubmitTimer() {
-        if (this.voiceAutoSubmitTimer) {
-          clearTimeout(this.voiceAutoSubmitTimer);
-          this.voiceAutoSubmitTimer = null;
+      });
+    },
+    clearDraft() {
+      this.chatDraft = '';
+      this.chatError = null;
+    },
+    resetVoiceTranscriptState() {
+      this.voiceFinalTranscript = '';
+      this.voiceInterimTranscript = '';
+    },
+    persistSessionsStorage() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        window.localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, JSON.stringify(this.chatSessions));
+      } catch (error) {
+        console.error('Unable to save chat sessions', error);
+      }
+    },
+    loadStoredSessions() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      try {
+        const stored = JSON.parse(window.localStorage.getItem(CHAT_HISTORY_STORAGE_KEY) || '[]');
+        if (!Array.isArray(stored)) {
+          this.chatSessions = [];
+          return;
         }
-      },
-      cleanupVoiceSearch() {
-        if (this.voiceRecognition) {
+        const sessions = stored
+          .filter((session) => session && session.id && Array.isArray(session.history) && session.history.length)
+          .map((session) => ({
+            id: session.id,
+            history: session.history.map((entry) => ({ ...entry })),
+            createdAt: session.createdAt || session.updatedAt || Date.now(),
+            updatedAt: session.updatedAt || Date.now(),
+          }))
+          .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        this.chatSessions = sessions;
+        if (!this.selectedSessionId && sessions.length) {
+          this.selectedSessionId = sessions[0].id;
+        }
+      } catch (error) {
+        console.error('Unable to load saved chats', error);
+        this.chatSessions = [];
+      }
+    },
+    syncCurrentSessionHistory() {
+      if (!this.sessionId || !this.chatHistory.length) {
+        return;
+      }
+      const record = {
+        id: this.sessionId,
+        history: this.chatHistory.map((entry) => ({ ...entry })),
+        createdAt: this.sessionStartedAt || Date.now(),
+        updatedAt: Date.now(),
+      };
+      const existingIndex = this.chatSessions.findIndex((session) => session.id === this.sessionId);
+      if (existingIndex >= 0) {
+        this.chatSessions.splice(existingIndex, 1);
+      }
+      this.chatSessions.unshift(record);
+      this.persistSessionsStorage();
+    },
+    loadSession(sessionId) {
+      if (!sessionId) {
+        return;
+      }
+      const session = this.chatSessions.find((entry) => entry.id === sessionId);
+      if (!session) {
+        return;
+      }
+      this.chatHistory = session.history.map((entry) => ({ ...entry }));
+      this.sessionId = session.id;
+      this.sessionStartedAt = session.createdAt || Date.now();
+      this.selectedSessionId = session.id;
+      this.chatDraft = '';
+      this.chatError = null;
+      this.scrollChatWindow();
+      this.scrollComponentToBottom();
+      this.sessionDropdownOpen = false;
+    },
+    toggleSessionDropdown() {
+      if (!this.chatSessions.length) {
+        return;
+      }
+      this.sessionDropdownOpen = !this.sessionDropdownOpen;
+    },
+    prepareClearAllSessions() {
+      this.pendingClearAll = true;
+      this.pendingDeleteSessionId = '';
+    },
+    cancelPendingClearAll() {
+      this.pendingClearAll = false;
+    },
+    doClearAllSessions() {
+      this.pendingClearAll = false;
+      this.clearAllSessions();
+    },
+    prepareDeleteSession(sessionId) {
+      this.pendingDeleteSessionId = sessionId;
+      this.pendingClearAll = false;
+    },
+    cancelPendingDelete() {
+      this.pendingDeleteSessionId = '';
+    },
+    doDeleteSession() {
+      const sessionId = this.pendingDeleteSessionId;
+      this.pendingDeleteSessionId = '';
+      if (!sessionId) {
+        return;
+      }
+      this.deleteSession(sessionId);
+    },
+    selectSessionFromList(sessionId) {
+      if (!sessionId) {
+        return;
+      }
+      this.loadSession(sessionId);
+    },
+    deleteSession(sessionId) {
+      if (!sessionId) {
+        return;
+      }
+      const index = this.chatSessions.findIndex((session) => session.id === sessionId);
+      if (index === -1) {
+        return;
+      }
+      this.chatSessions.splice(index, 1);
+      if (this.selectedSessionId === sessionId) {
+        this.selectedSessionId = this.chatSessions[0]?.id || '';
+      }
+      if (!this.chatSessions.length) {
+        this.sessionDropdownOpen = false;
+      }
+      this.persistSessionsStorage();
+    },
+    clearAllSessions() {
+      this.chatSessions = [];
+      this.selectedSessionId = '';
+      this.sessionDropdownOpen = false;
+      this.chatHistory = [];
+      this.chatDraft = '';
+      this.chatError = null;
+      this.persistSessionsStorage();
+    },
+    formatSessionLabel(session) {
+      if (!session) {
+        return '';
+      }
+      const timestamp = session.createdAt || session.updatedAt;
+      const formatted = this.formatSessionTimestamp(timestamp);
+      const messageCount = session.history?.length || 0;
+      const lastEntry = session.history?.[session.history.length - 1];
+      const lastRole = lastEntry?.role === 'assistant' ? 'Noor' : lastEntry?.role === 'user' ? 'You' : '';
+      const suffix = [`${messageCount} msg${messageCount === 1 ? '' : 's'}`];
+      return `${formatted} · ${suffix.join(' · ')}`;
+    },
+    formatSessionTimestamp(timestamp) {
+      const value = typeof timestamp === 'string' ? Date.parse(timestamp) : timestamp;
+      const date = new Date(!Number.isNaN(value) ? value : Date.now());
+      return `${date.toLocaleDateString([], { month: 'short', day: 'numeric' })} · ${date.toLocaleTimeString([], {
+        hour: 'numeric',
+        minute: '2-digit',
+      })}`;
+    },
+    cancelVoiceDraftUpdate() {
+      if (this.voiceDraftFrame) {
+        if (typeof window !== 'undefined' && window.cancelAnimationFrame) {
+          window.cancelAnimationFrame(this.voiceDraftFrame);
+        }
+        this.voiceDraftFrame = null;
+      }
+      this.voiceDraftPending = '';
+    },
+    updateVoiceDraft(displayTranscript) {
+      if (!displayTranscript) {
+        return;
+      }
+      if (displayTranscript === this.chatDraft) {
+        return;
+      }
+      if (typeof window !== 'undefined' && window.requestAnimationFrame) {
+        this.voiceDraftPending = displayTranscript;
+        if (!this.voiceDraftFrame) {
+          this.voiceDraftFrame = window.requestAnimationFrame(() => {
+            this.chatDraft = this.voiceDraftPending;
+            this.voiceDraftFrame = null;
+            this.voiceDraftPending = '';
+          });
+        }
+      } else {
+        this.chatDraft = displayTranscript;
+      }
+    },
+    toggleVoiceSearch() {
+      if (this.voiceListening) {
+        this.stopVoiceSearch();
+        return;
+      }
+      this.startVoiceSearch();
+    },
+    startVoiceSearch() {
+      if (this.voiceListening || this.chatLoading) {
+        return;
+      }
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        this.setTransientVoiceStatus('Voice search requires a supported browser.');
+        return;
+      }
+      this.resetVoiceTranscriptState();
+      this.cancelVoiceDraftUpdate();
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+        recognition.lang = (typeof navigator !== 'undefined' && navigator.language) ? navigator.language : 'en-US';
+        recognition.maxAlternatives = 1;
+        recognition.onstart = () => {
+          this.voiceListening = true;
+          this.voiceStatusTransient = false;
+          if (this.voiceStatusTimeout) {
+            clearTimeout(this.voiceStatusTimeout);
+            this.voiceStatusTimeout = null;
+          }
+          this.voiceStatus = 'Voice search activated — listening for your question.';
+          this.clearVoiceAutoSubmitTimer();
+          this.showVoiceAlert('Voice search activated — listening for your question.');
+        };
+        recognition.onresult = (event) => {
+          const results = event.results;
+          let interimTranscript = '';
+          let finalTranscriptChunk = '';
+          for (let i = event.resultIndex; i < results.length; i += 1) {
+            const result = results[i];
+            const text = result?.[0]?.transcript?.trim();
+            if (!text) {
+              continue;
+            }
+            if (result.isFinal) {
+              finalTranscriptChunk += `${text} `;
+            } else {
+              interimTranscript += `${text} `;
+            }
+          }
+          const finalChunkTrimmed = finalTranscriptChunk.trim();
+          if (finalChunkTrimmed) {
+            this.voiceFinalTranscript = `${this.voiceFinalTranscript} ${finalChunkTrimmed}`.trim();
+            this.voiceInterimTranscript = '';
+          }
+          const interimTrimmed = interimTranscript.trim();
+          if (interimTrimmed) {
+            this.voiceInterimTranscript = interimTrimmed;
+          }
+          const displayTranscript = [this.voiceFinalTranscript, this.voiceInterimTranscript]
+            .filter(Boolean)
+            .join(' ')
+            .trim();
+          this.updateVoiceDraft(displayTranscript);
+          if (finalChunkTrimmed) {
+            this.scheduleVoiceSubmission(this.voiceFinalTranscript.trim());
+          } else if (interimTrimmed) {
+            this.voiceStatus = 'Listening — feel free to continue speaking.';
+            this.voiceStatusTransient = false;
+          }
+        };
+        recognition.onerror = (event) => {
+          this.setTransientVoiceStatus(`Voice search error: ${event.error || 'unknown error'}`);
+          this.cleanupVoiceSearch();
+        };
+        recognition.onend = () => {
+          this.cleanupVoiceSearch();
+        };
+        this.voiceRecognition = recognition;
+        recognition.start();
+      } catch (error) {
+        console.error('Voice search failed to start', error);
+        this.setTransientVoiceStatus('Voice search failed to start.');
+        this.cleanupVoiceSearch();
+      }
+    },
+    stopVoiceSearch() {
+      if (this.voiceRecognition) {
+        try {
           this.voiceRecognition.onresult = null;
           this.voiceRecognition.onerror = null;
           this.voiceRecognition.onend = null;
+          this.voiceRecognition.stop();
+        } catch (error) {
+          console.warn('Failed to stop voice recognition', error);
         }
-        this.voiceRecognition = null;
-        if (this.voiceListening) {
-          this.voiceListening = false;
-        }
-        this.cancelVoiceDraftUpdate();
-        this.resetVoiceTranscriptState();
-        if (!this.voiceStatusTransient && !this.voiceAutoSubmitTimer) {
-          this.voiceStatus = '';
-        }
-      },
-      setTransientVoiceStatus(message, duration = 4000) {
-        if (!message) {
-          return;
-        }
-        this.voiceStatus = message;
-        this.voiceStatusTransient = true;
-        if (this.voiceStatusTimeout) {
-          clearTimeout(this.voiceStatusTimeout);
-        }
-        this.voiceStatusTimeout = setTimeout(() => {
-          this.voiceStatus = '';
-          this.voiceStatusTransient = false;
-          this.voiceStatusTimeout = null;
-        }, duration);
-      },
-      clearConversationState() {
-        this.chatHistory = [];
-        this.chatDraft = '';
-        this.resetSession();
-      },
-      handleSessionExpiry() {
-        this.sessionExpired = true;
-        this.chatError = 'Session expired — refresh the page to continue.';
-      },
-      reloadPage() {
-        if (typeof window !== 'undefined' && window.location) {
-          window.location.reload();
-        }
-      },
-      isIslamicQuestion(message) {
-        if (!message) return false;
-        const normalized = message.toLowerCase();
-        const keywords = [
-          'islam',
-          'muslim',
-          'quran',
-          'hadith',
-          'sunnah',
-          'dua',
-          'salah',
-          'prayer',
-          'ramadan',
-          'hajj',
-          'umrah',
-          'fajr',
-          'dhuhr',
-          'asr',
-          'maghrib',
-          'isha',
-          'zakat',
-          'halal',
-          'haram',
-          'allah',
-          'prophet',
-          'fiqh',
-          'tafsir',
-          'imam',
-          'masjid',
-          'mosque',
-          'ayah',
-          'surah',
-          'tafseer',
-          'aqeedah',
-          'taqwa',
-          'sufism',
-          'istikhara',
-          'nikah',
-          'shahada',
-        ];
-        return keywords.some((keyword) => normalized.includes(keyword));
-      },
-      resetSession() {
-        this.sessionId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
-        return this.sessionId;
-      },
-      startNewChat() {
-        this.clearConversationState();
-        this.chatError = null;
-      },
-      clearHistory() {
-        this.clearConversationState();
-        this.chatError = null;
-      },
-      toggleEntryCollapse(entry) {
-        if (!entry.allowCollapse || !this.isCompactMode) {
-          return;
-        }
-        entry.collapsed = !entry.collapsed;
-        entry.userToggled = true;
-      },
-      updateCompactMode() {
-        if (typeof window === 'undefined') {
-          return;
-        }
-        const isCompact = window.innerWidth <= MOBILE_BREAKPOINT;
-        if (this.isCompactMode === isCompact) {
-          return;
-        }
-        this.isCompactMode = isCompact;
-      },
-    },
-    watch: {
-      chatError(value) {
-        if (this.errorTimeout) {
-          clearTimeout(this.errorTimeout);
-          this.errorTimeout = null;
-        }
-        if (!value) {
-          this.sessionExpired = false;
-          return;
-        }
-        this.clearConversationState();
-        this.errorTimeout = setTimeout(() => {
-          this.chatError = null;
-          this.errorTimeout = null;
-        }, 5000);
-      },
-      isCompactMode(value) {
-        this.chatHistory.forEach((entry) => {
-          if (!entry.allowCollapse) {
-            return;
-          }
-          if (!value) {
-            entry.collapsed = false;
-            entry.userToggled = false;
-            return;
-          }
-          if (entry.userToggled) {
-            return;
-          }
-          entry.collapsed = entry.allowCollapse;
-        });
-      },
-    },
-    mounted() {
-      this.resetSession();
-      this.updateCompactMode();
-      this.initializeSpeechSynthesis();
-      this.resizeListener = () => this.updateCompactMode();
-      window.addEventListener('resize', this.resizeListener);
-    },
-    beforeUnmount() {
-      if (this.resizeListener) {
-        window.removeEventListener('resize', this.resizeListener);
       }
-      if (this.copyNoticeTimeout) {
-        clearTimeout(this.copyNoticeTimeout);
-        this.copyNoticeTimeout = null;
+      this.clearVoiceAutoSubmitTimer();
+      this.cleanupVoiceSearch();
+      this.showVoiceAlert('Voice search stopped.');
+    },
+    scheduleVoiceSubmission(transcript) {
+      if (!transcript) {
+        return;
       }
-      if (typeof window !== 'undefined' && window.speechSynthesis && this.speechVoicesChanged) {
-        window.speechSynthesis.removeEventListener('voiceschanged', this.speechVoicesChanged);
-        this.speechVoicesChanged = null;
+      this.cancelVoiceDraftUpdate();
+      this.chatDraft = transcript;
+      this.voiceStatus = 'Captured your question — sending it shortly.';
+      this.voiceStatusTransient = false;
+      if (this.voiceAutoSubmitTimer) {
+        clearTimeout(this.voiceAutoSubmitTimer);
       }
+      this.voiceAutoSubmitTimer = setTimeout(() => {
+        this.sendVoiceDraft();
+      }, 1400);
+    },
+    sendVoiceDraft() {
+      if (this.voiceAutoSubmitTimer) {
+        clearTimeout(this.voiceAutoSubmitTimer);
+        this.voiceAutoSubmitTimer = null;
+      }
+      if (!this.chatDraft.trim()) {
+        return;
+      }
+      this.setTransientVoiceStatus('Sending your question…');
       this.stopVoiceSearch();
+      this.sendChatMessage();
+    },
+    clearVoiceAutoSubmitTimer() {
+      if (this.voiceAutoSubmitTimer) {
+        clearTimeout(this.voiceAutoSubmitTimer);
+        this.voiceAutoSubmitTimer = null;
+      }
+    },
+    cleanupVoiceSearch() {
+      if (this.voiceRecognition) {
+        this.voiceRecognition.onresult = null;
+        this.voiceRecognition.onerror = null;
+        this.voiceRecognition.onend = null;
+      }
+      this.voiceRecognition = null;
+      if (this.voiceListening) {
+        this.voiceListening = false;
+      }
+      this.cancelVoiceDraftUpdate();
+      this.resetVoiceTranscriptState();
+      if (!this.voiceStatusTransient && !this.voiceAutoSubmitTimer) {
+        this.voiceStatus = '';
+      }
+    },
+    showVoiceAlert(message, duration = 3400) {
+      if (!message) {
+        return;
+      }
+      this.voiceAlertMessage = message;
+      if (this.voiceAlertTimeout) {
+        clearTimeout(this.voiceAlertTimeout);
+      }
+      this.voiceAlertTimeout = setTimeout(() => {
+        this.voiceAlertMessage = '';
+        this.voiceAlertTimeout = null;
+      }, duration);
+    },
+    setTransientVoiceStatus(message, duration = 4000) {
+      if (!message) {
+        return;
+      }
+      this.voiceStatus = message;
+      this.voiceStatusTransient = true;
       if (this.voiceStatusTimeout) {
         clearTimeout(this.voiceStatusTimeout);
-        this.voiceStatusTimeout = null;
       }
-      this.stopSpeech();
+      this.voiceStatusTimeout = setTimeout(() => {
+        this.voiceStatus = '';
+        this.voiceStatusTransient = false;
+        this.voiceStatusTimeout = null;
+      }, duration);
     },
-  };
-  </script>
+    clearConversationState() {
+      this.syncCurrentSessionHistory();
+      this.chatHistory = [];
+      this.chatDraft = '';
+      this.resetSession();
+    },
+    handleSessionExpiry() {
+      this.sessionExpired = true;
+      this.chatError = 'Session expired — refresh the page to continue.';
+    },
+    reloadPage() {
+      if (typeof window !== 'undefined' && window.location) {
+        window.location.reload();
+      }
+    },
+    isIslamicQuestion(message) {
+      if (!message) return false;
+      const normalized = message.toLowerCase();
+      const keywords = [
+        'islam',
+        'muslim',
+        'quran',
+        'hadith',
+        'sunnah',
+        'dua',
+        'salah',
+        'prayer',
+        'ramadan',
+        'hajj',
+        'umrah',
+        'fajr',
+        'dhuhr',
+        'asr',
+        'maghrib',
+        'isha',
+        'zakat',
+        'halal',
+        'haram',
+        'allah',
+        'prophet',
+        'fiqh',
+        'tafsir',
+        'imam',
+        'masjid',
+        'mosque',
+        'ayah',
+        'surah',
+        'tafseer',
+        'aqeedah',
+        'taqwa',
+        'sufism',
+        'istikhara',
+        'nikah',
+        'shahada',
+      ];
+      return keywords.some((keyword) => normalized.includes(keyword));
+    },
+    resetSession() {
+      const newId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
+      this.sessionId = newId;
+      this.sessionStartedAt = Date.now();
+      this.selectedSessionId = '';
+      return this.sessionId;
+    },
+    startNewChat() {
+      this.clearConversationState();
+      this.chatError = null;
+    },
+    clearHistory() {
+      this.clearConversationState();
+      this.chatError = null;
+    },
+    toggleEntryCollapse(entry) {
+      if (!entry.allowCollapse || !this.isCompactMode) {
+        return;
+      }
+      entry.collapsed = !entry.collapsed;
+      entry.userToggled = true;
+    },
+    updateCompactMode() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      const isCompact = window.innerWidth <= MOBILE_BREAKPOINT;
+      if (this.isCompactMode === isCompact) {
+        return;
+      }
+      this.isCompactMode = isCompact;
+    },
+  },
+  watch: {
+    chatError(value) {
+      if (this.errorTimeout) {
+        clearTimeout(this.errorTimeout);
+        this.errorTimeout = null;
+      }
+      if (!value) {
+        this.sessionExpired = false;
+        return;
+      }
+      this.clearConversationState();
+      this.errorTimeout = setTimeout(() => {
+        this.chatError = null;
+        this.errorTimeout = null;
+      }, 5000);
+    },
+    isCompactMode(value) {
+      this.chatHistory.forEach((entry) => {
+        if (!entry.allowCollapse) {
+          return;
+        }
+        if (!value) {
+          entry.collapsed = false;
+          entry.userToggled = false;
+          return;
+        }
+        if (entry.userToggled) {
+          return;
+        }
+        entry.collapsed = entry.allowCollapse;
+      });
+    },
+  },
+  mounted() {
+    this.loadStoredSessions();
+    this.resetSession();
+    this.updateCompactMode();
+    this.initializeSpeechSynthesis();
+    this.resizeListener = () => this.updateCompactMode();
+    window.addEventListener('resize', this.resizeListener);
+  },
+  beforeUnmount() {
+    if (this.resizeListener) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
+    if (this.copyNoticeTimeout) {
+      clearTimeout(this.copyNoticeTimeout);
+      this.copyNoticeTimeout = null;
+    }
+    if (typeof window !== 'undefined' && window.speechSynthesis && this.speechVoicesChanged) {
+      window.speechSynthesis.removeEventListener('voiceschanged', this.speechVoicesChanged);
+      this.speechVoicesChanged = null;
+    }
+    this.stopVoiceSearch();
+    if (this.voiceStatusTimeout) {
+      clearTimeout(this.voiceStatusTimeout);
+      this.voiceStatusTimeout = null;
+    }
+    if (this.voiceAlertTimeout) {
+      clearTimeout(this.voiceAlertTimeout);
+      this.voiceAlertTimeout = null;
+    }
+    this.stopSpeech();
+  },
+};
+</script>
   
 <style scoped>
 
@@ -1253,6 +1540,49 @@
     color: #0b1a20;
     line-height: 1.6;
   }
+
+ 
+  .ai-panel {
+    width: 100%;
+    background: #fff;
+    border-radius: 20px;
+    border: 1px solid rgba(15, 23, 42, 0.05);
+    padding: clamp(0.3rem, 2.6vw, 2rem);
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  }
+
+  .ai-welcome {
+    background: #fdfdfd;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 18px;
+    padding: 1rem;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+    text-align: left;
+    gap: 0.4rem;
+  }
+
+  .ai-suggestions {
+    background: #f8f9fc;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 20px;
+    padding: 1rem;
+    margin-top: 0.75rem;
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.05);
+  }
+
+  .ai-chat-shell {
+    background: #fff;
+    border-radius: 22px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 1rem;
+  }
+
+  .chat-bubble {
+    border-radius: 16px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: none;
+  }
   
   .ai-controls {
     display: flex;
@@ -1260,57 +1590,182 @@
     margin-top: 1rem;
     margin-bottom: 0.75rem;
   }
+
+  .ai-session-inline {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .ai-session-inline__button {
+    padding: 0.4rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .ai-session-inline__button i {
+    font-size: 0.85rem;
+  }
+
+  .ai-session-inline__meta {
+    font-size: 0.75rem;
+    color: #0a3d3f;
+  }
+
+  .ai-session-inline__dropdown {
+    margin-top: 0.35rem;
+    border-radius: 12px;
+    border: 1px solid rgba(9, 151, 124, 0.2);
+    background: #fff;
+    box-shadow: 0 20px 35px rgba(4, 27, 32, 0.08);
+    padding: 0.4rem;
+    max-height: 240px;
+    overflow-y: auto;
+  }
+
+  .ai-session-inline__dropdown-item {
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 0.5rem 0.6rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    font-size: 0.9rem;
+    color: #0b4a4f;
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+
+  .ai-session-inline__dropdown-item small {
+    font-size: 0.75rem;
+    color: #0a3d3f;
+  }
+
+  .ai-session-inline__dropdown-item:hover {
+    background: rgba(13, 182, 145, 0.08);
+  }
+
+  .ai-session-inline__dropdown-item {
+    position: relative;
+    padding-right: 2.4rem;
+  }
+
+  .ai-session-inline__dropdown-remove {
+    position: absolute;
+    top: 0.35rem;
+    right: 0.5rem;
+    border: none;
+    background: transparent;
+    color: #b91c1c;
+    font-size: 0.85rem;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .ai-session-inline__actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ai-session-inline__clear-all {
+    border-radius: 10px;
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    background: rgba(220, 38, 38, 0.08);
+    color: #b91c1c;
+    font-size: 0.78rem;
+    padding: 0.4rem 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .ai-session-inline__alert {
+    border-radius: 12px;
+    border: 1px solid transparent;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .ai-session-inline__alert--danger {
+    background: rgba(220, 38, 38, 0.1);
+    border-color: rgba(220, 38, 38, 0.4);
+  }
+
+  .ai-session-inline__alert--warning {
+    background: rgba(234, 179, 8, 0.12);
+    border-color: rgba(234, 179, 8, 0.4);
+  }
+
+  .ai-session-inline__action-btn {
+    border: none;
+    background: transparent;
+    font-size: 0.8rem;
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+    color: #0d4c92;
+    cursor: pointer;
+  }
+
+  .ai-session-inline__action-btn--danger {
+    color: #b91c1c;
+  }
   
   .ai-control-btn {
-    border: 1px solid rgba(13, 182, 145, 0.35);
+    border: 1px solid rgba(15, 23, 42, 0.1);
     background: #fff;
     color: #041b20;
-    padding: 0.5rem 0.9rem;
-    border-radius: 999px;
+    padding: 0.5rem 0.95rem;
+    border-radius: 16px;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 0.35rem;
     font-size: 0.9rem;
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
   }
-  
+
   .ai-control-btn i {
     font-size: 0.9rem;
   }
-  
+
   .ai-control-btn:hover:not(:disabled) {
     border-color: #0db691;
+    transform: translateY(-1px);
   }
-  
+
   .ai-control-btn--primary {
-    background: linear-gradient(135deg, #0db691, #0c5b9a);
+    background: #0db691;
     border-color: transparent;
     color: #fff;
-    box-shadow: 0 10px 20px rgba(13, 182, 145, 0.3);
+    box-shadow: none;
   }
-  
-  .ai-control-btn--primary:hover:not(:disabled) {
-    border-color: transparent;
-    opacity: 0.95;
-  }
-  
+
   .ai-control-btn--whatsapp {
-    background: linear-gradient(135deg, #25d366, #128c7e);
+    background: #25d366;
     border-color: transparent;
     color: #fff;
-    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.35);
+    box-shadow: none;
   }
-  
-  .ai-control-btn--whatsapp:hover:not(:disabled) {
-    opacity: 0.95;
-  }
-  
+
   .ai-control-btn--copy {
-    background: linear-gradient(135deg, #f3f4f6, #d1d5db);
+    background: #edf2f7;
     border-color: transparent;
     color: #0f172a;
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
+    box-shadow: none;
   }
   
   .ai-copy-notice {
@@ -2181,7 +2636,9 @@
     cursor: pointer;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.35rem;
+    text-align: center;
     transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
   }
   
@@ -2203,7 +2660,16 @@
     opacity: 0.5;
     cursor: not-allowed;
   }
-  
+
+  .voice-alert {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+    background: rgba(13, 182, 145, 0.12);
+    border: 1px solid rgba(13, 182, 145, 0.25);
+    border-radius: 14px;
+    padding: 0.35rem 0.75rem;
+  }
+
   .ai-voice-status {
     margin: 0;
     padding-left: 0.3rem;

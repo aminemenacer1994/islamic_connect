@@ -1600,19 +1600,17 @@
   }
   .welcome-chat-shell {
     background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
-    padding: 4rem 0;
+    padding: 2rem 0;
     position: relative;
     overflow: hidden;
   }
   .welcome-chat-frame {
     position: relative;
-    width: min(1600px, 100%);
     margin: 0 auto;
-    padding: 0.3rem;
+    padding: 0.5rem;
     border-radius: 20px;
     background: #ffffff;
-    /* box-shadow: 0 30px 60px rgba(15, 101, 94, 0.15); */
-    /* border: 1px solid rgba(13, 182, 145, 0.15); */
+    
   }
   @media (max-width: 767px) {
     .welcome-chat-frame {
