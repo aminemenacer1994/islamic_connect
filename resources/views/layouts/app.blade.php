@@ -318,9 +318,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary"><b>Packages</b></a>
                         </li> 
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary"><b>Donations</b></a>
-                        </li>
+                        </li> -->
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/about" data-path="/about" data-nav-item="primary">About Us</a>

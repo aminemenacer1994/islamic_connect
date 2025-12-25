@@ -121,13 +121,13 @@
                 </picture>
               </div>
             </div>
-            <section id="ai-persona-section" class="container-fluid" aria-label="Islamic chatbot preview">
+            
+          </div>
+          <section id="ai-persona-section" class="container-fluid" aria-label="Islamic chatbot preview">
               <div class="welcome-chat-frame">
                 <ai-component></ai-component>
               </div>
             </section>
-          </div>
-          
         </div>
       </div>
     </div>

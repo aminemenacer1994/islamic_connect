@@ -207,7 +207,7 @@
   
           <div v-if="chatHistory.length" ref="chatShell" class="ai-chat-shell">
             <div class="ai-metadata">
-              <div v-if="chatLoading" class="ai-loading-indicator" role="status" aria-live="polite">
+              <div v-if="chatLoading && !chatHistory.length" class="ai-loading-indicator" role="status" aria-live="polite">
                 <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
                 <p class="mb-0 fw-semibold">Assistant is consulting trusted sources...</p>
               </div>
@@ -352,6 +352,21 @@
                       </template>
                     </li>
                   </ul>
+                </div>
+              </div>
+            </article>
+            <article v-if="chatLoading" class="chat-entry assistant chat-entry--typing" aria-live="polite">
+              <div class="chat-entry-header">
+                <i class="fas fa-robot chat-icon" aria-hidden="true"></i>
+                <span class="chat-role mr-2"><b>Noor</b></span>
+                <span class="chat-timestamp">now</span>
+              </div>
+              <div class="chat-bubble-container">
+                <div class="chat-bubble assistant chat-bubble--typing" role="status">
+                  <span class="chat-typing-dot"></span>
+                  <span class="chat-typing-dot"></span>
+                  <span class="chat-typing-dot"></span>
+                  <span class="chat-typing-text">Noor is typing...</span>
                 </div>
               </div>
             </article>
@@ -1528,7 +1543,6 @@ export default {
   
 <style scoped>
 
-
 .ai-title {
   font-size: clamp(1.85rem, 3vw, 2.6rem);
     margin: 0;
@@ -1544,11 +1558,14 @@ export default {
  
   .ai-panel {
     width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     /* background: #fff; */
-    border-radius: 20px;
-    border: 1px solid rgba(15, 23, 42, 0.05);
+    /* border-radius: 20px; */
+    /* border: 1px solid rgba(15, 23, 42, 0.05); */
     /* padding: clamp(0.3rem, 2.6vw, 2rem); */
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    /* box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08); */
   }
 
   .ai-welcome {
@@ -1572,7 +1589,7 @@ export default {
 
   .ai-chat-shell {
     background: #fff;
-    border-radius: 22px;
+    border-radius: 12px;
     border: 1px solid rgba(15, 23, 42, 0.08);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
     padding: 1rem;
@@ -1586,9 +1603,11 @@ export default {
   
   .ai-controls {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 1rem;
     margin-bottom: 0.75rem;
+    width: 100%;
   }
 
   .ai-session-inline {
@@ -1735,6 +1754,9 @@ export default {
     align-items: center;
     gap: 0.35rem;
     font-size: 0.9rem;
+    min-width: 0;
+    white-space: normal;
+    text-align: center;
     transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
   }
 
@@ -2009,12 +2031,12 @@ export default {
   .ai-suggestions {
     margin-top: 1.5rem;
     margin-bottom: 1rem;
-    border-radius: 32px;
+    border-radius: 12px;
     border: 1px solid rgba(13, 182, 145, 0.25);
     background: linear-gradient(180deg, rgba(246, 251, 251, 0.95), rgba(255, 255, 255, 0.9));
     background-size: 220% 220%;
     background-position: 0% 50%;
-    padding: 1.25rem;
+    padding: 1rem;
     box-shadow: 0 20px 40px rgba(13, 182, 145, 0.12);
     transition: transform 0.45s ease, box-shadow 0.45s ease;
     animation: lightSweep 18s ease-in-out infinite;
@@ -2225,21 +2247,27 @@ export default {
   }
   
   .ai-chat-shell {
-    min-height: 640px;
-    max-height: 760px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    min-height: clamp(320px, 55vh, 640px);
+    max-height: min(72vh, 760px);
     overflow-y: auto;
-    border-radius: 28px;
+    overflow-x: hidden;
+    border-radius: 12px;
     border: 1px solid rgba(13, 182, 145, 0.25);
     background: rgba(245, 250, 248, 0.95);
-    padding: 1rem;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: transform 0.5s ease, box-shadow 0.5s ease;
-    animation: calmDrift 26s ease-in-out infinite;
+    padding: clamp(0.7rem, 1.2vw, 1rem);
+    /* box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6); */
+    /* transition: transform 0.5s ease, box-shadow 0.5s ease;
+    animation: calmDrift 26s ease-in-out infinite; */
   }
   
-  .ai-chat-shell:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 35px 60px rgba(3, 12, 15, 0.25);
+  @media (hover: hover) {
+    .ai-chat-shell:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 35px 60px rgba(3, 12, 15, 0.25);
+    }
   }
   
   .ai-chat-window {
@@ -2359,8 +2387,8 @@ export default {
   }
   
   .chat-bubble {
-    max-width: 100%;
-    width: 100%;
+    max-width: min(90%, 680px);
+    width: fit-content;
     padding: 0.95rem;
     border-radius: 18px;
     position: relative;
@@ -2368,7 +2396,46 @@ export default {
     background: #fefefe;
     box-shadow: 0 6px 14px rgba(15, 111, 112, 0.08);
     text-align: left;
+    word-break: break-word;
+    overflow-wrap: anywhere;
     transition: transform 0.35s ease, box-shadow 0.35s ease, max-width 0.2s ease;
+  }
+
+  .chat-entry--typing .chat-entry-header {
+    opacity: 0.75;
+  }
+
+  .chat-bubble--typing {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.65rem 0.9rem;
+    min-height: 2.4rem;
+    width: fit-content;
+    max-width: 240px;
+  }
+
+  .chat-typing-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #0db691;
+    animation: typingPulse 1.1s ease-in-out infinite;
+  }
+
+  .chat-typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .chat-typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  .chat-typing-text {
+    font-size: 0.85rem;
+    color: #0b4a4f;
+    margin-left: 0.2rem;
+    letter-spacing: 0.01em;
   }
   
   .chat-bubble:hover {
@@ -2382,9 +2449,9 @@ export default {
   
   @media (min-width: 768px) {
     .chat-entry.user .chat-bubble {
-      white-space: nowrap;
-      overflow-wrap: normal;
-      word-break: keep-all;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
   }
   
@@ -2410,6 +2477,8 @@ export default {
     align-self: flex-start;
     background: rgba(13, 182, 145, 0.12);
     border-color: rgba(13, 182, 145, 0.28);
+    width: 100%;
+    max-width: 100%;
   }
   
   .chat-bubble.user {
@@ -2799,6 +2868,53 @@ export default {
     background: rgba(13, 182, 145, 0.12);
     border-color: rgba(13, 182, 145, 0.9);
   }
+
+  .ai-panel,
+  .ai-welcome,
+  .ai-suggestions,
+  .ai-chat-shell,
+  .chat-entry,
+  .chat-bubble,
+  .ai-control-btn,
+  .chat-share-btn,
+  .chat-copy-btn,
+  .ai-submit,
+  .ai-voice-btn,
+  .ai-clear-input {
+    transition: none;
+    animation: none;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .ai-panel:hover,
+  .ai-welcome:hover,
+  .ai-suggestions:hover,
+  .ai-chat-shell:hover,
+  .chat-entry:hover,
+  .chat-bubble:hover,
+  .ai-control-btn:hover,
+  .chat-share-btn:hover,
+  .chat-copy-btn:hover,
+  .ai-submit:hover,
+  .ai-voice-btn:hover,
+  .ai-clear-input:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  @keyframes typingPulse {
+    0%,
+    80%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.4;
+    }
+    40% {
+      transform: translateY(-3px);
+      opacity: 1;
+    }
+  }
   
   @keyframes ambientGlow {
     0% {
@@ -2883,7 +2999,8 @@ export default {
     .ai-welcome,
     .ai-suggestions,
     .ai-chat-shell,
-    .ai-form {
+    .ai-form,
+    .chat-typing-dot {
       animation: none !important;
       transition: none !important;
     }
@@ -2947,8 +3064,9 @@ export default {
     }
 
     .ai-chat-shell {
-      min-height: 320px;
-      max-height: 520px;
+      min-height: clamp(260px, 50vh, 420px);
+      max-height: min(60vh, 520px);
+      border-radius: 22px;
     }
 
     .ai-form {
@@ -3017,6 +3135,11 @@ export default {
 
     .ai-suggestions-header {
       gap: 0.35rem;
+    }
+
+    .ai-chat-shell {
+      border-radius: 18px;
+      padding: 0.65rem;
     }
   }
 

@@ -409,6 +409,8 @@ export default defineComponent({
       activeResource: null,
       showVideoModal: false,
       showHelpModal: false,
+      showCompletionModal: false,
+      nextPhaseAmountMinor: 199,
       helpGuideSteps: REVERTS_GUIDE_STEPS,
       shareFriendStatus: '',
       onboarding: normalizeJson(onboardingData),
@@ -804,6 +806,32 @@ export default defineComponent({
       const chapterId = this.normalizeChapterId()
       if (chapterId == null) return []
       return this.onboarding.find(o => o.chapterId === chapterId)?.steps || []
+    },
+    nextPhaseFlexibleStripeUrl() {
+      const envUrl = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_NEXT_PHASE_FLEX_URL)
+        ? process.env.MIX_STRIPE_NEXT_PHASE_FLEX_URL
+        : null
+      const donateUrl = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_DONATE_URL)
+        ? process.env.MIX_STRIPE_DONATE_URL
+        : null
+      const appConfigUrl = (typeof window !== 'undefined' && window.appConfig && window.appConfig.stripeNextPhaseFlexibleUrl)
+        ? window.appConfig.stripeNextPhaseFlexibleUrl
+        : null
+      if (envUrl) return envUrl
+      if (appConfigUrl) return appConfigUrl
+      if (donateUrl) return donateUrl
+      return 'https://donate.stripe.com/6oE5kY84oc3q7fy145'
+    },
+    nextPhaseStripeUrl() {
+      const envUrl = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_NEXT_PHASE_URL)
+        ? process.env.MIX_STRIPE_NEXT_PHASE_URL
+        : null
+      const appConfigUrl = (typeof window !== 'undefined' && window.appConfig && window.appConfig.stripeNextPhaseUrl)
+        ? window.appConfig.stripeNextPhaseUrl
+        : null
+      if (envUrl) return envUrl
+      if (appConfigUrl) return appConfigUrl
+      return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${this.nextPhaseAmountMinor}`
     }
   },
 
@@ -1813,6 +1841,9 @@ export default defineComponent({
 
         this.showSuccessAlert = true
         this.isWaitingForNext = true
+        if (isFinalChapter) {
+          this.showCompletionModal = true
+        }
 
         // FULL-SCREEN CONFETTI PARTY!
         const celebratingChapterId = this.selectedPill
@@ -1868,6 +1899,9 @@ export default defineComponent({
     },
     closeHelpModal() {
       this.showHelpModal = false
+    },
+    closeCompletionModal() {
+      this.showCompletionModal = false
     }
     ,
     // Randomizes the quiz payload so each attempt feels fresh.

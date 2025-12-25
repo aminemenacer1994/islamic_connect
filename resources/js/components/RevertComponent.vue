@@ -1531,6 +1531,75 @@
           </div>
         </div>
       </div>
+      <div v-if="showCompletionModal">
+        <div class="modal-backdrop fade show custom-modal-backdrop"></div>
+        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog" aria-modal="true">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 shadow-lg custom-modal-card completion-modal-card">
+              <div class="modal-header completion-modal-header px-4 pt-4 pb-3">
+                <div class="completion-header-left">
+                  <span class="completion-icon">
+                    <i class="bi bi-moon-stars"></i>
+                  </span>
+                  <div>
+                    <p class="completion-label mb-1">Milestone</p>
+                    <h5 class="modal-title fw-bold mb-0">Beginners Guide Complete</h5>
+                  </div>
+                </div>
+                <button type="button" class="btn-close" aria-label="Close" @click="closeCompletionModal"></button>
+              </div>
+              <div class="modal-body completion-modal-body px-4 pb-4 pt-0">
+                <p class="completion-lead mb-2">MashaAllah, you've completed the Beginners Guide.</p>
+                <p class="completion-note mb-3">
+                  May Allah bless your effort and keep your heart steady on this path. When you're ready, choose what feels
+                  right today to continue to the next phase. No pressure. Take your time.
+                </p>
+                <div class="completion-divider"></div>
+                <div class="completion-options">
+                  <div class="completion-option">
+                    <div class="completion-option-text">
+                      <p class="completion-option-title">One-time £1.99</p>
+                      <p class="completion-option-desc">
+                        If it feels easy today, this keeps the lessons flowing and supports the work.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn completion-primary-btn d-inline-flex align-items-center">
+                      Pay £1.99
+                    </button>
+                  </div>
+                  <div class="completion-option">
+                    <div class="completion-option-text">
+                      <p class="completion-option-title">Choose what you can</p>
+                      <p class="completion-option-desc">
+                        If £1.99 is not comfortable, pick a smaller amount that suits your situation.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn completion-secondary-btn d-inline-flex align-items-center">
+                      Choose an amount
+                    </button>
+                  </div>
+                  <div class="completion-option">
+                    <div class="completion-option-text">
+                      <p class="completion-option-title">Continue for free</p>
+                      <p class="completion-option-desc">
+                        If you are not ready for the options above, continue without payment. May Allah make it easy.
+                      </p>
+                    </div>
+                    <button type="button" class="btn completion-ghost-btn">
+                      Continue for free
+                    </button>
+                  </div>
+                </div>
+                <p class="completion-footnote mb-0">Secure checkout via Stripe. May Allah reward your sincerity.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 </template>
 
