@@ -487,7 +487,9 @@ export default defineComponent({
         : this.currentLesson?.keyInsights || []
     },
     currentLessonOverview() {
-      return this.chapterLessons.find(entry => entry.chapterId === this.selectedPill) || null
+      const chapterId = this.normalizeChapterId()
+      if (chapterId == null) return null
+      return this.chapterLessons.find(entry => entry.chapterId === chapterId) || null
     },
     currentChapterPlans() {
       const chapterId = this.currentLesson?.chapterId
@@ -528,11 +530,15 @@ export default defineComponent({
       return section ? `section-${this.selectedPill}-${sectionIndex}` : ''
     },
     chapterCommonPanels() {
-      const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill)
+      const chapterId = this.normalizeChapterId()
+      if (chapterId == null) return []
+      const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === chapterId)
       return chapter?.faqs || []
     },
     chapterFaqPanels() {
-      const chapter = this.faqChapters.find(entry => entry.chapterId === this.selectedPill)
+      const chapterId = this.normalizeChapterId()
+      if (chapterId == null) return []
+      const chapter = this.faqChapters.find(entry => entry.chapterId === chapterId)
       return chapter?.faqs || []
     },
     progressPercentage() {
@@ -795,7 +801,9 @@ export default defineComponent({
       return this.chapterVideoEntry?.pathwayClips || []
     },
     currentOnboardingSteps() {
-      return this.onboarding.find(o => o.chapterId === this.selectedPill)?.steps || []
+      const chapterId = this.normalizeChapterId()
+      if (chapterId == null) return []
+      return this.onboarding.find(o => o.chapterId === chapterId)?.steps || []
     }
   },
 
@@ -1442,14 +1450,20 @@ export default defineComponent({
         icon: icons[index % icons.length]
       }))
     },
+    normalizeChapterId(value = this.selectedPill) {
+      const numeric = Number(value)
+      return Number.isFinite(numeric) ? numeric : null
+    },
 
     toggleMobileNav() {
       this.mobileNavOpen = !this.mobileNavOpen
     },
 
     selectPill(id) {
-      if (id <= this.maxStepReached) {
-        this.selectedPill = id
+      const chapterId = Number(id)
+      if (!Number.isFinite(chapterId)) return
+      if (chapterId <= this.maxStepReached) {
+        this.selectedPill = chapterId
         window.scrollTo({ top: 0, behavior: 'smooth' })
       }
       this.mobileNavOpen = false

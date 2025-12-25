@@ -326,8 +326,8 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/about" data-path="/about" data-nav-item="primary">About Us</a>
                         </li> -->
 
-                        <!-- @guest -->
-                        @if (Route::has('login'))
+                        @guest
+                            @if (Route::has('login'))
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2" href="{{ route('login') }}" data-path="/login" data-nav-item="primary"><b>{{ __('Login') }}</b></a>
                         </li>
@@ -344,9 +344,9 @@
                                 {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
+                                <!-- <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
                                 <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> 
-                                <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
+                                <a class="dropdown-item" role="menuitem" href="/profile">Profile</a> -->
                                 <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}

@@ -2690,7 +2690,9 @@ const celebrateFinalChapter = confettiFn => {
       return (_this$currentChapterK = this.currentChapterKeyInsights) !== null && _this$currentChapterK !== void 0 && (_this$currentChapterK = _this$currentChapterK.keyInsights) !== null && _this$currentChapterK !== void 0 && _this$currentChapterK.length ? this.currentChapterKeyInsights.keyInsights : ((_this$currentLesson2 = this.currentLesson) === null || _this$currentLesson2 === void 0 ? void 0 : _this$currentLesson2.keyInsights) || [];
     },
     currentLessonOverview() {
-      return this.chapterLessons.find(entry => entry.chapterId === this.selectedPill) || null;
+      const chapterId = this.normalizeChapterId();
+      if (chapterId == null) return null;
+      return this.chapterLessons.find(entry => entry.chapterId === chapterId) || null;
     },
     currentChapterPlans() {
       var _this$currentLesson3;
@@ -2735,11 +2737,15 @@ const celebrateFinalChapter = confettiFn => {
       return section ? `section-${this.selectedPill}-${sectionIndex}` : '';
     },
     chapterCommonPanels() {
-      const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === this.selectedPill);
+      const chapterId = this.normalizeChapterId();
+      if (chapterId == null) return [];
+      const chapter = this.commonQuestionChapters.find(entry => entry.chapterId === chapterId);
       return (chapter === null || chapter === void 0 ? void 0 : chapter.faqs) || [];
     },
     chapterFaqPanels() {
-      const chapter = this.faqChapters.find(entry => entry.chapterId === this.selectedPill);
+      const chapterId = this.normalizeChapterId();
+      if (chapterId == null) return [];
+      const chapter = this.faqChapters.find(entry => entry.chapterId === chapterId);
       return (chapter === null || chapter === void 0 ? void 0 : chapter.faqs) || [];
     },
     progressPercentage() {
@@ -3014,7 +3020,9 @@ const celebrateFinalChapter = confettiFn => {
     },
     currentOnboardingSteps() {
       var _this$onboarding$find;
-      return ((_this$onboarding$find = this.onboarding.find(o => o.chapterId === this.selectedPill)) === null || _this$onboarding$find === void 0 ? void 0 : _this$onboarding$find.steps) || [];
+      const chapterId = this.normalizeChapterId();
+      if (chapterId == null) return [];
+      return ((_this$onboarding$find = this.onboarding.find(o => o.chapterId === chapterId)) === null || _this$onboarding$find === void 0 ? void 0 : _this$onboarding$find.steps) || [];
     }
   },
   watch: {
@@ -3651,12 +3659,18 @@ const celebrateFinalChapter = confettiFn => {
         };
       });
     },
+    normalizeChapterId(value = this.selectedPill) {
+      const numeric = Number(value);
+      return Number.isFinite(numeric) ? numeric : null;
+    },
     toggleMobileNav() {
       this.mobileNavOpen = !this.mobileNavOpen;
     },
     selectPill(id) {
-      if (id <= this.maxStepReached) {
-        this.selectedPill = id;
+      const chapterId = Number(id);
+      if (!Number.isFinite(chapterId)) return;
+      if (chapterId <= this.maxStepReached) {
+        this.selectedPill = chapterId;
         window.scrollTo({
           top: 0,
           behavior: 'smooth'
