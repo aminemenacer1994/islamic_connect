@@ -37,8 +37,8 @@ __webpack_require__.r(__webpack_exports__);
       searchQuery: "",
       debouncedQuery: "",
       debounceTimer: null,
-      arabicFontSize: 32,
-      translationFontSize: 23,
+      arabicFontSize: 28,
+      translationFontSize: 20,
       highlightedWordIndex: -1,
       progress: [],
       audioElements: [],
@@ -72,7 +72,7 @@ __webpack_require__.r(__webpack_exports__);
       // delayed spinner timers per index
       loadingTimers: [],
       // virtualization
-      itemHeight: 320,
+      itemHeight: 280,
       windowSize: 22,
       buffer: 6,
       visibleStart: 0,
@@ -143,10 +143,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
-        // scroll to top immediately on change
-        try {
-          window.scrollTo(0, 0);
-        } catch (_) {}
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
@@ -154,9 +150,7 @@ __webpack_require__.r(__webpack_exports__);
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
           this.isLoading = false;
-          this.$nextTick(() => {
-            // removed programmatic scrolling and scrollbar helpers
-          });
+          this.syncVirtualWindowAfterSelection();
         }).catch(() => {
           this.isLoading = false;
         });
@@ -164,18 +158,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectedTranslation: function (newVal) {
       if (newVal && !this.isLoading) {
-        try {
-          window.scrollTo(0, 0);
-        } catch (_) {}
         this.isLoading = true;
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.fetchSurahDetails().then(() => {
           this.isLoading = false;
-          this.$nextTick(() => {
-            // removed programmatic scrolling and scrollbar helpers
-          });
+          this.resetAllAudioPlayers();
+          this.syncVirtualWindowAfterSelection();
         }).catch(() => {
           this.isLoading = false;
         });
@@ -183,9 +173,6 @@ __webpack_require__.r(__webpack_exports__);
     },
     selectedSurah: function (newVal) {
       if (newVal && !this.isLoading) {
-        try {
-          window.scrollTo(0, 0);
-        } catch (_) {}
         this.isLoading = true;
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
@@ -193,9 +180,7 @@ __webpack_require__.r(__webpack_exports__);
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
           this.isLoading = false;
-          this.$nextTick(() => {
-            // removed programmatic scrolling and scrollbar helpers
-          });
+          this.syncVirtualWindowAfterSelection();
         }).catch(() => {
           this.isLoading = false;
         });
@@ -322,6 +307,15 @@ __webpack_require__.r(__webpack_exports__);
         this.visibleStart = start;
         this.visibleEnd = end;
       }
+    },
+    syncVirtualWindowAfterSelection() {
+      const total = this.filteredAyahs ? this.filteredAyahs.length : 0;
+      this.visibleStart = 0;
+      this.visibleEnd = Math.min(total, this.windowSize + this.buffer * 2);
+      this.$nextTick(() => {
+        this.computeListTop();
+        this.updateVirtualWindow();
+      });
     },
     // simple localStorage cache with TTL and SWR
     async cachedFetchJSON(url, cacheKey, ttlMs = 24 * 60 * 60 * 1000) {
@@ -1402,7 +1396,7 @@ const _hoisted_47 = {
   class: "empty-state text-center text-muted py-4"
 };
 const _hoisted_48 = {
-  key: 2,
+  key: 0,
   class: "audio-player-container"
 };
 const _hoisted_49 = {
@@ -1734,7 +1728,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       height: $options.bottomSpacerHeight + 'px'
     })
-  }, null, 4 /* STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), !_ctx.isLoading && _ctx.surahDetails && $options.filteredAyahs.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, " No verses match your current search or filters. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), _ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 4 /* STYLE */)], 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Screen reader live region "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.screenReaderMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Empty state "), !_ctx.isLoading && _ctx.surahDetails && $options.filteredAyahs.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, " No verses match your current search or filters. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+    to: "body"
+  }, [_ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[13] || (_cache[13] = $event => $options.rewindAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Rewind",
@@ -1833,7 +1829,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         animationDelay: index * 0.1 + 's'
       })
     }, null, 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_56)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_56)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))]);
 }
 
 /***/ }),

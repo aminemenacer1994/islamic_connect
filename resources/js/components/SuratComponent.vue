@@ -248,64 +248,66 @@
 
 
     <!-- Global Custom Audio Player -->
-    <div v-if="showAudioPlayer" class="audio-player-container">
-      <div class="custom-audio-player">
-        <div class="controls">
-          <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
-            aria-label="Rewind 15 seconds">
-            <i class="bi bi-skip-backward-fill"></i>
-          </button>
-          <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause"
-            aria-label="Play or Pause">
-            <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
-          </button>
-          <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward"
-            aria-label="Fast forward 20 seconds">
-            <i class="bi bi-skip-forward-fill"></i>
-          </button>
-          <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop" aria-label="Stop">
-            <i class="bi bi-stop-fill"></i>
-          </button>
-          <button @click="toggleVolume" class="control-btn" title="Volume" aria-label="Toggle volume slider">
-            <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
-          </button>
-          <button @click="cyclePlaybackSpeed" class="control-btn" :title="'Speed: ' + playbackSpeed + 'x'">
-            <i class="bi bi-speedometer2" :style="{ color: playbackSpeed !== 1 ? '#ff6b6b' : '#ccc' }"></i>
-            <span class="speed-indicator">{{ playbackSpeed }}x</span>
-          </button>
-          <button @click="toggleRepeat" class="control-btn"
-            :title="repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off'"
-            :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
-            <i class="bi bi-arrow-repeat" :style="{ color: repeatCurrent ? '#00bfa6' : '#ccc' }"></i>
-          </button>
-          <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
-              class="volume-slider" />
+    <teleport to="body">
+      <div v-if="showAudioPlayer" class="audio-player-container">
+        <div class="custom-audio-player">
+          <div class="controls">
+            <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
+              aria-label="Rewind 15 seconds">
+              <i class="bi bi-skip-backward-fill"></i>
+            </button>
+            <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause" title="Play/Pause"
+              aria-label="Play or Pause">
+              <i :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi bi-pause-fill' : 'bi bi-play-fill'"></i>
+            </button>
+            <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn" title="Fast Forward"
+              aria-label="Fast forward 20 seconds">
+              <i class="bi bi-skip-forward-fill"></i>
+            </button>
+            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop" aria-label="Stop">
+              <i class="bi bi-stop-fill"></i>
+            </button>
+            <button @click="toggleVolume" class="control-btn" title="Volume" aria-label="Toggle volume slider">
+              <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+            </button>
+            <button @click="cyclePlaybackSpeed" class="control-btn" :title="'Speed: ' + playbackSpeed + 'x'">
+              <i class="bi bi-speedometer2" :style="{ color: playbackSpeed !== 1 ? '#ff6b6b' : '#ccc' }"></i>
+              <span class="speed-indicator">{{ playbackSpeed }}x</span>
+            </button>
+            <button @click="toggleRepeat" class="control-btn"
+              :title="repeatCurrent ? 'Repeat current ayah: on' : 'Repeat current ayah: off'"
+              :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
+              <i class="bi bi-arrow-repeat" :style="{ color: repeatCurrent ? '#00bfa6' : '#ccc' }"></i>
+            </button>
+            <div v-if="showVolumeBar" class="volume-bar-container">
+              <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
+                class="volume-slider" />
+            </div>
+            <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }}
+              / {{
+                formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
+            <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
+              style="margin-left: auto;">
+              <i class="bi bi-x-lg mb-2"></i>
+            </button>
           </div>
-          <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }}
-            / {{
-              formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
-          <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
-            style="margin-left: auto;">
-            <i class="bi bi-x-lg mb-2"></i>
-          </button>
-        </div>
-        <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
-          :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
-          :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
-          @click="seekToPosition"
-          @mousedown.prevent="onProgressDown"
-          @touchstart.prevent.passive="onProgressDown"
-          ref="progressBar">
-          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
-          <div class="audio-visualizer" ref="visualizer">
-            <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar"
-              :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
+          <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
+            :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
+            :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
+            @click="seekToPosition"
+            @mousedown.prevent="onProgressDown"
+            @touchstart.prevent.passive="onProgressDown"
+            ref="progressBar">
+            <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+            <div class="audio-visualizer" ref="visualizer">
+              <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar"
+                :style="{ height: bar + '%', animationDelay: (index * 0.1) + 's' }">
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </teleport>
   </div>
 </template>
 
@@ -336,8 +338,8 @@ export default {
       searchQuery: "",
       debouncedQuery: "",
       debounceTimer: null,
-      arabicFontSize: 32,
-      translationFontSize: 23,
+      arabicFontSize: 28,
+      translationFontSize: 20,
       highlightedWordIndex: -1,
       progress: [],
       audioElements: [],
@@ -370,7 +372,7 @@ export default {
       // delayed spinner timers per index
       loadingTimers: [],
       // virtualization
-      itemHeight: 320,
+      itemHeight: 280,
       windowSize: 22,
       buffer: 6,
       visibleStart: 0,
@@ -441,8 +443,6 @@ export default {
     },
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
-        // scroll to top immediately on change
-        try { window.scrollTo(0, 0); } catch (_) { }
         this.isLoading = true;
         this.savePreference("selectedReciter", newVal);
         this.currentlyPlayingIndex = 0;
@@ -451,9 +451,7 @@ export default {
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
           this.isLoading = false;
-          this.$nextTick(() => {
-            // removed programmatic scrolling and scrollbar helpers
-          });
+          this.syncVirtualWindowAfterSelection();
         }).catch(() => {
           this.isLoading = false;
         });
@@ -461,7 +459,6 @@ export default {
     },
     selectedTranslation: function (newVal) {
       if (newVal && !this.isLoading) {
-        try { window.scrollTo(0, 0); } catch (_) { }
         this.isLoading = true;
         this.savePreference("selectedTranslation", newVal);
         this.currentlyPlayingIndex = 0;
@@ -469,9 +466,8 @@ export default {
 
         this.fetchSurahDetails().then(() => {
           this.isLoading = false;
-          this.$nextTick(() => {
-            // removed programmatic scrolling and scrollbar helpers
-          });
+          this.resetAllAudioPlayers();
+          this.syncVirtualWindowAfterSelection();
         }).catch(() => {
           this.isLoading = false;
         });
@@ -479,7 +475,6 @@ export default {
     },
     selectedSurah: function (newVal) {
       if (newVal && !this.isLoading) {
-        try { window.scrollTo(0, 0); } catch (_) { }
         this.isLoading = true;
         this.savePreference("selectedSurah", newVal);
         this.currentlyPlayingIndex = 0;
@@ -488,9 +483,7 @@ export default {
         this.fetchSurahDetails().then(() => {
           this.resetAllAudioPlayers();
           this.isLoading = false;
-          this.$nextTick(() => {
-            // removed programmatic scrolling and scrollbar helpers
-          });
+          this.syncVirtualWindowAfterSelection();
         }).catch(() => {
           this.isLoading = false;
         });
@@ -591,6 +584,15 @@ export default {
         this.visibleStart = start;
         this.visibleEnd = end;
       }
+    },
+    syncVirtualWindowAfterSelection() {
+      const total = this.filteredAyahs ? this.filteredAyahs.length : 0;
+      this.visibleStart = 0;
+      this.visibleEnd = Math.min(total, this.windowSize + this.buffer * 2);
+      this.$nextTick(() => {
+        this.computeListTop();
+        this.updateVirtualWindow();
+      });
     },
     // simple localStorage cache with TTL and SWR
     async cachedFetchJSON(url, cacheKey, ttlMs = 24 * 60 * 60 * 1000) {
@@ -1437,7 +1439,11 @@ export default {
   transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
 }
 /* Consolidated base rules */
-.container { min-height: 100vh; }
+.container {
+  min-height: 100vh;
+  max-width: 1180px;
+  margin: 0 auto;
+}
 .ayah-card-container { transition: all 0.3s ease; }
 .highlighted {
   background-color: #b5e6db;
@@ -1476,11 +1482,15 @@ export default {
   box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
   position: sticky;
   z-index: 1000;
-  padding: 10px 12px;
+  padding: 8px 10px;
   border-radius: 8px;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
   overflow: hidden;
   max-height: 500px; /* expanded */
+}
+.sticky-dropdown .form-select {
+  font-size: 0.95rem;
+  background: rgba(255, 255, 255, 0.8);
 }
 .sticky-dropdown.collapsed {
   padding-top: 6px;
@@ -2239,4 +2249,3 @@ h1.display-5 {
   .ayah-card-container .arabic-text { font-size: 2rem; }
 }
 </style>
-```

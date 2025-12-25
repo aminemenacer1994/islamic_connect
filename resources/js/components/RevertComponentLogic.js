@@ -812,8 +812,6 @@ export default defineComponent({
       // Reload the chapter experience whenever navigation moves to another pill.
       this.chapterQuizPassed = false
       this.resetQuizSet()
-      this.scrollToTop()
-      this.scheduleScrollTopRetry()
       this.faqAccordionState = null
       this.commonAccordionState = null
       this.activeVideoId = null
@@ -826,6 +824,10 @@ export default defineComponent({
       this.syncReflectionInput()
       this.scheduleChapterToolPreload(this.selectedPill)
       this.scheduleChapterToolPreload(this.selectedPill + 1)
+      this.$nextTick(() => {
+        this.scrollToTop()
+        this.scheduleScrollTopRetry()
+      })
     },
     chapterQuizPassed(newVal, oldVal) {
       // Celebrate quiz completion with confetti if global settings allow it.
@@ -901,7 +903,7 @@ export default defineComponent({
       if ('scrollRestoration' in window.history) {
         window.history.scrollRestoration = 'manual'
       }
-      window.scrollTo({ top: 0, behavior: 'auto' })
+      this.scrollToTop({ behavior: 'auto' })
       this.prepareSecondarySections()
       this.ensureConfettiScript()
       this.initializeMotionPreference()
@@ -1002,11 +1004,6 @@ export default defineComponent({
       this.showScrollFab = window.scrollY / scrollableHeight > (1 / 6)
     },
 
-    scrollToTop() {
-      if (typeof window === 'undefined') return
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    },
-
     /**
      * Resets the scroll position again after the initial navigation to cooperate with any
      * late DOM changes (e.g., accordion expansion or video loading) that might push the
@@ -1018,7 +1015,7 @@ export default defineComponent({
         clearTimeout(this.scrollTopRetryTimer)
       }
       this.scrollTopRetryTimer = window.setTimeout(() => {
-        this.scrollToTop()
+        this.scrollToTop({ behavior: 'auto' })
         this.scrollTopRetryTimer = null
       }, delay)
     },
@@ -1464,7 +1461,7 @@ export default defineComponent({
       if (!Number.isFinite(chapterId)) return
       if (chapterId <= this.maxStepReached) {
         this.selectedPill = chapterId
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        this.scrollToTop()
       }
       this.mobileNavOpen = false
     },
@@ -1832,12 +1829,10 @@ export default defineComponent({
       if (isFinalChapter) {
         setTimeout(() => {
           this.selectedPill = 1
-          window.scrollTo({ top: 0, behavior: 'smooth' })
           this.chapterQuizPassed = false
         }, 900)
       } else if (nextId <= this.roadmapData.length) {
         this.selectedPill = nextId
-        window.scrollTo({ top: 0, behavior: 'smooth' })
         this.chapterQuizPassed = false
       }
     },
@@ -1900,13 +1895,13 @@ export default defineComponent({
         nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
     },
-    scrollToTop() {
+    scrollToTop({ behavior = 'smooth' } = {}) {
       if (typeof window !== 'undefined') {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.scrollTo({ top: 0, behavior })
       }
       const lessonSection = document.querySelector('.revert-content section')
-      if (lessonSection) {
-        lessonSection.scrollTo({ top: 0, behavior: 'smooth' })
+      if (lessonSection && typeof lessonSection.scrollTo === 'function') {
+        lessonSection.scrollTo({ top: 0, behavior })
       }
     },
     copyResourceLink() {

@@ -3030,8 +3030,6 @@ const celebrateFinalChapter = confettiFn => {
       // Reload the chapter experience whenever navigation moves to another pill.
       this.chapterQuizPassed = false;
       this.resetQuizSet();
-      this.scrollToTop();
-      this.scheduleScrollTopRetry();
       this.faqAccordionState = null;
       this.commonAccordionState = null;
       this.activeVideoId = null;
@@ -3044,6 +3042,10 @@ const celebrateFinalChapter = confettiFn => {
       this.syncReflectionInput();
       this.scheduleChapterToolPreload(this.selectedPill);
       this.scheduleChapterToolPreload(this.selectedPill + 1);
+      this.$nextTick(() => {
+        this.scrollToTop();
+        this.scheduleScrollTopRetry();
+      });
     },
     chapterQuizPassed(newVal, oldVal) {
       // Celebrate quiz completion with confetti if global settings allow it.
@@ -3117,8 +3119,7 @@ const celebrateFinalChapter = confettiFn => {
     if ('scrollRestoration' in window.history) {
       window.history.scrollRestoration = 'manual';
     }
-    window.scrollTo({
-      top: 0,
+    this.scrollToTop({
       behavior: 'auto'
     });
     this.prepareSecondarySections();
@@ -3219,13 +3220,6 @@ const celebrateFinalChapter = confettiFn => {
       }
       this.showScrollFab = window.scrollY / scrollableHeight > 1 / 6;
     },
-    scrollToTop() {
-      if (typeof window === 'undefined') return;
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
-      });
-    },
     /**
      * Resets the scroll position again after the initial navigation to cooperate with any
      * late DOM changes (e.g., accordion expansion or video loading) that might push the
@@ -3237,7 +3231,9 @@ const celebrateFinalChapter = confettiFn => {
         clearTimeout(this.scrollTopRetryTimer);
       }
       this.scrollTopRetryTimer = window.setTimeout(() => {
-        this.scrollToTop();
+        this.scrollToTop({
+          behavior: 'auto'
+        });
         this.scrollTopRetryTimer = null;
       }, delay);
     },
@@ -3671,10 +3667,7 @@ const celebrateFinalChapter = confettiFn => {
       if (!Number.isFinite(chapterId)) return;
       if (chapterId <= this.maxStepReached) {
         this.selectedPill = chapterId;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        this.scrollToTop();
       }
       this.mobileNavOpen = false;
     },
@@ -4022,18 +4015,10 @@ const celebrateFinalChapter = confettiFn => {
       if (isFinalChapter) {
         setTimeout(() => {
           this.selectedPill = 1;
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
           this.chapterQuizPassed = false;
         }, 900);
       } else if (nextId <= this.roadmapData.length) {
         this.selectedPill = nextId;
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
         this.chapterQuizPassed = false;
       }
     },
@@ -4094,18 +4079,20 @@ const celebrateFinalChapter = confettiFn => {
         });
       }
     },
-    scrollToTop() {
+    scrollToTop({
+      behavior = 'smooth'
+    } = {}) {
       if (typeof window !== 'undefined') {
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior
         });
       }
       const lessonSection = document.querySelector('.revert-content section');
-      if (lessonSection) {
+      if (lessonSection && typeof lessonSection.scrollTo === 'function') {
         lessonSection.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior
         });
       }
     },
