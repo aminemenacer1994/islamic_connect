@@ -7,7 +7,7 @@
           </div>
           <div class="ai-welcome-text pt-2">
             <h2 class="fw-bold ">Introducing Noor, Your AI Companion</h2>
-            <p class="ai-welcome-copy">
+            <p class="container ai-welcome-copy">
               Noor listens first, then gently responds with Quran rooted insight and prophetic kindness so every exchange
               feels like encouragement from a trusted companion. Ask for dua ideas, reminders, or reflections tuned to your day.
             </p>
@@ -365,34 +365,34 @@
             :disabled="chatLoading"></textarea>
   
           <div class="ai-form-meta pt-2 text-muted">
-          <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
-            <i class="fas fa-paper-plane" aria-hidden="true"></i>
-            <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-            <span>{{ chatLoading ? 'Noor is Thinking...' : 'Ask Noor' }}</span>
-          </button>
-        <button
-          type="button"
-          class="ai-voice-btn text-center"
-          :class="{ 'ai-voice-btn--active': voiceListening }"
-          :disabled="chatLoading"
-          @click="toggleVoiceSearch"
-          :aria-pressed="voiceListening.toString()"
-        >
-          <i class="fas fa-microphone" aria-hidden="true"></i>
-          <span>{{ voiceListening ? 'Listening…' : 'Voice search' }}</span>
-        </button>
-        <div v-if="voiceAlertMessage" class="alert alert-info mt-2 py-1 mb-0 text-center voice-alert" role="status">
-          {{ voiceAlertMessage }}
-        </div>
-          <button
-            type="button"
-            class="ai-clear-input"
-            :disabled="chatLoading || !chatDraft.trim()"
-            @click="clearDraft"
-          >
-            <i class="fas fa-eraser" aria-hidden="true"></i>
-            <span>Clear input</span>
-          </button>
+            <div class="ai-secondary-group">
+              <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i>
+                <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>{{ chatLoading ? 'Noor is Thinking...' : 'Ask Noor' }}</span>
+              </button>
+              <button
+                type="button"
+                class="ai-voice-btn text-center"
+                :class="{ 'ai-voice-btn--active': voiceListening }"
+                :disabled="chatLoading"
+                @click="toggleVoiceSearch"
+                :aria-pressed="voiceListening.toString()"
+              >
+                <i class="fas fa-microphone" aria-hidden="true"></i>
+                <span>{{ voiceListening ? 'Listening…' : 'Voice search' }}</span>
+              </button>
+              <button
+                type="button"
+                class="ai-clear-input"
+                :disabled="chatLoading || !chatDraft.trim()"
+                @click="clearDraft"
+              >
+                <i class="fas fa-eraser" aria-hidden="true"></i>
+                <span>Clear input</span>
+              </button>
+            </div>
+            
           </div>
           <p v-if="voiceStatus" class="ai-voice-status" role="status" aria-live="polite">
             <i class="fas fa-microphone me-1" aria-hidden="true"></i>
@@ -1544,17 +1544,17 @@ export default {
  
   .ai-panel {
     width: 100%;
-    background: #fff;
+    /* background: #fff; */
     border-radius: 20px;
     border: 1px solid rgba(15, 23, 42, 0.05);
-    padding: clamp(0.3rem, 2.6vw, 2rem);
+    /* padding: clamp(0.3rem, 2.6vw, 2rem); */
     box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
   }
 
   .ai-welcome {
     background: #fdfdfd;
     border: 1px solid rgba(15, 23, 42, 0.08);
-    border-radius: 18px;
+    /* border-radius: 18px; */
     padding: 1rem;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
     text-align: left;
@@ -2160,7 +2160,7 @@ export default {
     border-radius: 999px;
     padding: 0.45rem 1rem;
     background: #fff;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     color: #041b21;
     cursor: pointer;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
@@ -2174,7 +2174,7 @@ export default {
   }
   
   .ai-suggestion-text {
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     width: 100%;
     white-space: normal;
   }
@@ -2188,6 +2188,13 @@ export default {
     background: rgba(13, 182, 145, 0.12);
     border-color: rgba(13, 182, 145, 0.75);
     box-shadow: 0 6px 12px rgba(13, 182, 145, 0.2);
+  }
+
+  @media (min-width: 992px) {
+    .ai-suggestion,
+    .ai-suggestion-text {
+      font-size: 0.95rem;
+    }
   }
   
   .ai-meta-chips {
@@ -2290,14 +2297,24 @@ export default {
   } */
   
   
-  .ai-chat-window::-webkit-scrollbar {
-    width: 6px;
-  }
-  
-  .ai-chat-window::-webkit-scrollbar-thumb {
-    background: rgba(13, 182, 145, 0.5);
-    border-radius: 4px;
-  }
+.ai-chat-window::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ai-chat-window::-webkit-scrollbar-thumb {
+  background: rgba(13, 182, 145, 0.5);
+  border-radius: 4px;
+}
+
+.ai-chat-shell {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.ai-chat-shell::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
   
   .chat-loading-overlay {
     position: absolute;
@@ -2532,10 +2549,10 @@ export default {
     gap: 0.65rem;
     z-index: 1;
     border-radius: 16px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: none;
     padding: 1rem;
     background: #fff;
-    box-shadow: 0 12px 20px rgba(6, 8, 15, 0.05);
+    box-shadow: none;
   }
 
   .ai-textarea {
@@ -2574,17 +2591,17 @@ export default {
   .ai-submit {
     align-self: flex-end;
     border: none;
-    border-radius: 14px;
-    padding: 0.7rem 1.9rem;
-    font-size: 0.85rem;
+    border-radius: 18px;
+    padding: 0.85rem 2.3rem;
+    font-size: 0.95rem;
     color: #fff;
-    background: linear-gradient(135deg, #0bbf9f, #0a76a1);
-    box-shadow: 0 12px 22px rgba(11, 125, 150, 0.35);
+    background: linear-gradient(135deg, #07b089, #0a78a6);
+    box-shadow: 0 12px 30px rgba(7, 128, 145, 0.35);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
-    gap: 0.45rem;
+    gap: 0.55rem;
   }
 
   .ai-submit i {
@@ -2602,44 +2619,96 @@ export default {
     box-shadow: 0 18px 32px rgba(13, 182, 145, 0.35);
   }
   
+  .ai-secondary-btn,
+  .ai-voice-btn,
   .ai-clear-input {
     border-radius: 16px;
-    border: 1px solid rgba(13, 182, 145, 0.4);
-    background: transparent;
+    border: 1px solid rgba(13, 182, 145, 0.35);
+    background: #fff;
     color: #041b20;
-    padding: 0.7rem 1.15rem;
-    font-size: 0.88rem;
-    cursor: pointer;
-    transition: background 0.2s ease, border-color 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.25rem;
-  }
-  
-  .ai-clear-input:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-  
-  .ai-clear-input:not(:disabled):hover {
-    border-color: #0db691;
-    background: rgba(13, 182, 145, 0.1);
-  }
-  
-  .ai-voice-btn {
-    border-radius: 999px;
-    border: 1px solid rgba(13, 182, 145, 0.4);
-    background: transparent;
-    color: #041b20;
-    padding: 0.8rem 1.4rem;
-    font-size: 0.95rem;
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 0.35rem;
-    text-align: center;
-    transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+    width: 100%;
+    transition: border-color 0.25s ease, background 0.25s ease, transform 0.15s ease;
+  }
+
+  .ai-secondary-btn i,
+  .ai-voice-btn i,
+  .ai-clear-input i {
+    font-size: 0.95rem;
+  }
+
+  .ai-secondary-btn:hover:not(:disabled),
+  .ai-voice-btn:hover:not(:disabled),
+  .ai-clear-input:hover:not(:disabled) {
+    border-color: #0db691;
+    background: rgba(13, 182, 145, 0.08);
+    transform: translateY(-1px);
+  }
+
+  .ai-secondary-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+  }
+
+  @media (min-width: 992px) {
+    .ai-secondary-group {
+      flex-direction: row;
+    }
+
+    .ai-secondary-group button {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .ai-form-meta {
+      flex-direction: row;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .ai-secondary-group {
+      flex: 2;
+    }
+
+    .ai-submit {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  @media (min-width: 992px) {
+    .ai-form-meta {
+      flex-direction: row;
+      gap: 0.75rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .ai-secondary-btn,
+    .ai-voice-btn,
+    .ai-clear-input {
+      width: calc(50% - 0.5rem);
+    }
+
+    .ai-clear-input {
+      margin-left: auto;
+    }
+
+    .ai-submit {
+      padding: 0.95rem 2.5rem;
+      border-radius: 20px;
+      font-size: 1rem;
+      width: auto;
+      min-width: 220px;
+    }
   }
   
   .ai-voice-btn i {
