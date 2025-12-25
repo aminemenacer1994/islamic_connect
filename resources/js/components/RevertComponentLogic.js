@@ -1608,6 +1608,7 @@ export default defineComponent({
       const params = new URLSearchParams(query)
       params.set('rel', '0')
       params.set('modestbranding', '1')
+      params.set('playsinline', '1')
       if (autoplay) {
         params.set('autoplay', '1')
       }
