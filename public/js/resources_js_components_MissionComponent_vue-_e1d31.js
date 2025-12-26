@@ -226,7 +226,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (this.searchTerm) {
         const escaped = this.searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         const rx = new RegExp(`(${escaped})`, 'gi');
-        this.highlightedDescription = baseHtml.replace(rx, '<mark style="background-color: #0db691; color: white; border-radius: 4px; padding: 0 4px;">$1</mark>');
+        this.highlightedDescription = baseHtml.replace(rx, '<mark style="background-color: var(--mission-accent); color: white; border-radius: 4px; padding: 0 4px;">$1</mark>');
       } else {
         this.highlightedDescription = baseHtml;
       }
@@ -1403,17 +1403,17 @@ const _hoisted_50 = {
 const _hoisted_51 = ["aria-valuenow", "aria-valuetext"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["p-3 mission-shell", {
       'pb-audio-gap': $data.showAudioPlayer
     }])
   }, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "row py-3 justify-content-center text-center mb-3"
+    class: "row py-3 justify-content-center text-center mb-3 mission-hero"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-10 col-xl-10"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
-    class: "display-5 fw-bold"
+    class: "display-5 fw-bold mission-hero__title"
   }, "Seerah Timeline"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "lead"
+    class: "lead mission-hero__lead"
   }, " The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH). ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Next Step: From Qur'an History to Seerah Timeline "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "icon-btn",

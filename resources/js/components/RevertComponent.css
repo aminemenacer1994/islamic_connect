@@ -2,7 +2,7 @@
   display: none !important;
 }
 :global(body) {
-  background: #ffffff;
+  background: linear-gradient(180deg, #fffdf7 0%, #f5fbf7 100%);
   min-height: 100vh;
   margin: 0;
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -10,11 +10,11 @@
 }
 
 :global(:root) {
-  --brand-teal: #0d7d64;
-  --brand-slate: #0f172a;
-  --brand-soft: #f5f7fb;
-  --brand-gradient: linear-gradient(150deg, rgba(13, 125, 100, 0.9), rgba(37, 155, 128, 0.45));
-  --brand-border: rgba(15, 23, 42, 0.1);
+  --brand-teal: #0f6e63;
+  --brand-slate: #1d2b2f;
+  --brand-soft: #f7f3ea;
+  --brand-gradient: linear-gradient(150deg, rgba(15, 110, 99, 0.9), rgba(210, 162, 75, 0.35));
+  --brand-border: rgba(15, 110, 99, 0.18);
 }
 
 .hero-subheader {
@@ -43,7 +43,7 @@
 }
 
 .session-banner {
-  background: rgba(13, 125, 100, 0.25);
+  background: rgba(15, 110, 99, 0.22);
   border-radius: 18px;
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.85rem 1rem;
@@ -68,7 +68,7 @@
 }
 .troubleshooting-guide-card {
   background: rgba(248, 250, 255, 0.65);
-  border: 1px solid rgba(13, 125, 100, 0.2);
+  border: 1px solid rgba(15, 110, 99, 0.2);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .troubleshooting-guide-card:hover {
@@ -88,7 +88,7 @@
   font-size: 0.9rem;
 }
 .troubleshooting-steps .step-icon {
-  color: #0d7d64;
+  color: var(--brand-teal);
   margin-top: 0.15rem;
 }
 
@@ -111,9 +111,9 @@
   gap: 6px;
   padding: 6px 10px;
   font-size: 0.9rem;
-  color: #114b5f;
-  background: #eaf3f1;
-  border: 1px solid rgba(11, 128, 111, 0.25);
+  color: #1d2b2f;
+  background: rgba(15, 110, 99, 0.12);
+  border: 1px solid rgba(15, 110, 99, 0.25);
 }
 
 .btn-see-more {
@@ -123,8 +123,8 @@
   font-weight: 600;
   font-size: 0.95rem;
   color: #fff;
-  background: linear-gradient(120deg, #0b806f, #34d399);
-  box-shadow: 0 10px 25px rgba(11, 128, 111, 0.35);
+  background: linear-gradient(120deg, #0f6e63, #1f7a6d);
+  box-shadow: 0 10px 25px rgba(15, 110, 99, 0.3);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: inline-flex;
   align-items: center;
@@ -134,7 +134,7 @@
 
 .btn-see-more:hover {
   transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 18px 40px rgba(11, 128, 111, 0.45);
+  box-shadow: 0 18px 40px rgba(15, 110, 99, 0.4);
 }
 
 .btn-see-more .bi {
@@ -184,9 +184,9 @@
   letter-spacing: 0.08em;
   border-radius: 999px;
   padding: 0.2rem 0.75rem;
-  background: rgba(14, 165, 233, 0.12);
-  border: 1px solid rgba(14, 165, 233, 0.35);
-  color: #0f172a;
+  background: rgba(210, 162, 75, 0.2);
+  border: 1px solid rgba(210, 162, 75, 0.4);
+  color: #2f2a1f;
   font-weight: 600;
 }
 

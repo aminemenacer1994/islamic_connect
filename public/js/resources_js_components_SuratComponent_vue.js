@@ -1210,7 +1210,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container py-4",
+  class: "container py-4 surat-page",
   role: "main",
   "aria-label": "Quran Explorer"
 };
@@ -1240,20 +1240,10 @@ const _hoisted_9 = {
 };
 const _hoisted_10 = ["value"];
 const _hoisted_11 = {
-  style: {
-    "padding": "10px"
-  }
+  class: "next-step-wrapper"
 };
 const _hoisted_12 = {
-  class: "mx-auto mb-4",
-  style: {
-    "position": "relative",
-    "background": "#eaf3f1",
-    "border": "1px solid rgba(11, 128, 111, 0.20)",
-    "border-radius": "24px",
-    "box-shadow": "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09)",
-    "padding": "1.25rem 1.75rem"
-  }
+  class: "mx-auto mb-4 next-step-card"
 };
 const _hoisted_13 = ["title", "aria-label"];
 const _hoisted_14 = {
@@ -1265,31 +1255,14 @@ const _hoisted_15 = {
   }
 };
 const _hoisted_16 = {
-  class: "mb-2",
-  style: {
-    "color": "#1f2933"
-  }
+  class: "mb-2 next-step-teaser"
 };
 const _hoisted_17 = {
-  class: "mb-3",
-  style: {
-    "color": "#1f2933",
-    "line-height": "1.8",
-    "font-size": "1.1rem"
-  }
+  class: "mb-3 next-step-text"
 };
 const _hoisted_18 = {
   href: "/history",
-  class: "btn btn-sm fw-semibold text-white px-3 py-2",
-  style: {
-    "background": "linear-gradient(135deg, #0b806f, #1a5f7a)",
-    "border": "none",
-    "border-radius": "999px",
-    "box-shadow": "0 10px 20px rgba(26, 95, 122, 0.25)",
-    "transition": "transform 0.2s ease, box-shadow 0.2s ease"
-  },
-  onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';",
-  onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';"
+  class: "btn btn-sm fw-semibold text-white px-3 py-2 next-step-btn"
 };
 const _hoisted_19 = {
   key: 0,
@@ -1502,62 +1475,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     title: _ctx.nextStepMinimized ? 'Restore' : 'Minimize',
     "aria-label": _ctx.nextStepMinimized ? 'Restore next step' : 'Minimize next step',
     onClick: _cache[7] || (_cache[7] = (...args) => $options.toggleNextStepMinimized && $options.toggleNextStepMinimized(...args)),
-    style: {
-      "position": "absolute",
-      "right": "44px",
-      "top": "14px",
-      "opacity": "0.9",
-      "background": "transparent",
-      "border": "0",
-      "color": "#6b8b91",
-      "z-index": "3",
-      "cursor": "pointer"
-    }
+    class: "next-step-toggle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", _ctx.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
     "aria-hidden": "true"
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "next-step-icon-circle",
-    style: {
-      "width": "46px",
-      "height": "46px",
-      "border-radius": "50%",
-      "background": "rgba(11, 128, 111, 0.20)",
-      "display": "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "color": "#0b806f",
-      "font-size": "1.35rem",
-      "box-shadow": "inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10)"
-    }
+    class: "next-step-icon-circle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-quran"
   })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-2 fw-semibold text-uppercase",
-    style: {
-      "letter-spacing": "0.1em",
-      "color": "#1a5f7a",
-      "font-size": "0.78rem"
-    }
+    class: "mb-2 fw-semibold text-uppercase next-step-label"
   }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/history",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " Explore Qur’an history ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square ms-1",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fas fa-arrow-up-right-from-square ms-1"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_17, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/history",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " the history of the Qur’an ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to deepen your understanding. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_18, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Explore History ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square ms-2"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showNextStep]]), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {

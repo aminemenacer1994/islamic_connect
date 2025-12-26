@@ -1,74 +1,29 @@
 <template>
-  <div>
+  <div class="ic-home">
     <!-- header -->
-    <div class="jumbotron" style=" box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;">
+    <div class="jumbotron ic-hero">
 
       <!-- Content -->
       <div class="container-fluid" style="position: relative;">
         <!-- Enhanced Hero Section -->
-        <div class="container-fluid hero-wrapper text-center" style="position: relative; overflow: hidden;">
+        <div class="container-fluid hero-wrapper text-center ic-hero__frame">
           <!-- Background Elements -->
-          <div style="
-            position: absolute;
-            right: -10%;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            animation: float-hero 8s ease-in-out infinite;
-            z-index: 1;
-          "></div>
-          <div style="
-            position: absolute;
-            bottom: -30%;
-            left: -5%;
-            width: 300px;
-            height: 300px;
-            background: linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(0, 191, 166, 0.08) 100%);
-            border-radius: 50%;
-            animation: float-hero 6s ease-in-out infinite 2s;
-            z-index: 1;
-          "></div>
+          <div class="ic-hero__orb ic-hero__orb--primary"></div>
+          <div class="ic-hero__orb ic-hero__orb--secondary"></div>
 
-          <div class="row align-items-center" style="position: relative; z-index: 2;">
+          <div class="row align-items-center ic-hero__grid">
             <div class="col-md-6">
               <div class="text-left">
                 <!-- Badge -->
-                <div style="
-                    background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-                    color: white;
-                    padding: 0.5rem 1.5rem;
-                    border-radius: 50px;
-                    display: inline-block;
-                    margin-bottom: 1.5rem;
-                    box-shadow: 0 5px 15px rgba(0, 191, 166, 0.3);
-                    font-weight: 600;
-                    font-size: 0.9rem;
-                    letter-spacing: 0.5px;
-                  ">
+                <div class="ic-hero__badge ic-reveal" style="--ic-delay: 0.1s;">
                   <i class="fas fa-star me-2"></i>Trusted by 1000's of Muslims Worldwide
                 </div>
 
-                <h1 class="display-4 mt-1 fw-bold text-left hero-title" style="
-                  background: linear-gradient(135deg, #1a5f7a, #2c3e50);
-                  -webkit-background-clip: text;
-                  -webkit-text-fill-color: transparent;
-                  background-clip: text;
-                  line-height: 1.2;
-                  margin-bottom: 1.5rem;
-                  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                  font-size: 3.5rem;
-                ">
+                <h1 class="display-4 mt-1 fw-bold text-left hero-title ic-hero__title ic-reveal" style="--ic-delay: 0.2s;">
                   Connecting You to Islamic Knowledge Seamlessly and Accessibly
                 </h1>
 
-                <div class="lead pt-3 text-left" style="
-                  line-height: 1.8em;
-                  font-size: 1.3rem;
-                  color: #4a5568;
-                  font-weight: 500;
-                  margin-bottom: 1.25rem;
-                  padding-right: 1rem;
-                ">
+                <div class="lead pt-3 text-left ic-hero__lead ic-reveal" style="--ic-delay: 0.3s;">
                   <p>
                     Connecting you to Islamic knowledge seamlessly and accessibly, your all-in-one platform
                     to explore the Quran, learn from trusted content, and access AI-powered tools for a transformative
@@ -77,18 +32,18 @@
                 </div>
                 <div class="row mb-3">
                   <div class="col-12">
-                <div class="controls d-flex flex-row justify-content-start text-left" style="gap: 1rem;">
-                  <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4">
+                <div class="controls d-flex flex-row justify-content-start text-left ic-hero__actions ic-reveal" style="--ic-delay: 0.4s;">
+                  <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4 ic-btn ic-btn--primary">
                     <i class="fas fa-rocket me-2"></i>Get Started Free
                   </a>
 
-                  <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4" style="background: rgba(255,255,255,0.9); color:#1a5f7a; border:2px solid #1a5f7a;">
+                  <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost">
                     <i class="fas fa-heart me-2"></i>Support Our Mission
                   </a>
                 </div>
 
                 <!-- Trust Indicators -->
-                <div class="mt-3 d-flex align-items-center" style="gap: 1.5rem;">
+                <div class="mt-3 d-flex align-items-center ic-trust ic-reveal" style="--ic-delay: 0.5s;">
                   <div class="d-flex align-items-center">
                     <i class="fas fa-shield-alt text-success me-2"></i>
                     <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
@@ -113,7 +68,8 @@
                   <source srcset="/images/banner-photo.avif 800w" type="image/avif">
                   <img src="/images/banner-photo.avif" srcset="/images/banner-photo.avif 800w"
                     sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw"
-                    class="img-fluid hero-image"
+                    class="img-fluid hero-image ic-hero__image ic-reveal"
+                    style="--ic-delay: 0.35s;"
                     alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools"
                     loading="lazy"
                     width="800"
@@ -123,7 +79,7 @@
             </div>
             
           </div>
-          <section id="ai-persona-section" class="container-fluid" aria-label="Islamic chatbot preview">
+          <section id="ai-persona-section" class="container-fluid ic-hero__ai ic-reveal" style="--ic-delay: 0.6s;" aria-label="Islamic chatbot preview">
               <div class="welcome-chat-frame">
                 <ai-component></ai-component>
               </div>
@@ -152,7 +108,7 @@
     
 
     <!-- HERO / SEO SECTION -->
-    <section class="container-fluid premium-seo px-0" aria-labelledby="seo-heading">
+    <section class="container-fluid premium-seo px-0 ic-seo" aria-labelledby="seo-heading">
       <div class="premium-seo__backdrop"></div>
       <div class="container position-relative">
         <div class="row gy-4 align-items-center">
@@ -206,7 +162,7 @@
       </div>
     </section>
     <section aria-labelledby="services-heading">
-      <div class="py-5" style="background: #f8f9fa;">
+      <div class="py-5 ic-services">
         <div class="container">
           <div class="row justify-content-center text-center mb-5">
             <div class="col-lg-8 col-xl-7">
@@ -218,7 +174,7 @@
           <div class="row g-4">
             <!-- Card 1: Explore with Ease -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0 card-20 card-float shadow-sm">
+              <article class="card h-100 border-0 card-20 card-float shadow-sm ic-service-card">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
                     <img src="images/galaxy.png" width="80" height="80" alt="Magnifying glass exploring Islamic content"
@@ -236,7 +192,7 @@
 
             <!-- Card 2: Listen, Watch, Reflect -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0 card-20 card-float shadow-sm">
+              <article class="card h-100 border-0 card-20 card-float shadow-sm ic-service-card">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
                     <img src="images/watching.png" width="80" height="80" alt="Headphones for audio content"
@@ -254,7 +210,7 @@
 
             <!-- Card 3: Learn Your Way -->
             <div class="col-md-6 col-lg-4">
-              <article class="card h-100 border-0 card-20 card-float shadow-sm">
+              <article class="card h-100 border-0 card-20 card-float shadow-sm ic-service-card">
                 <div class="card-body text-center p-4">
                   <div class="my-3">
                     <img src="images/school.png" width="80" height="80" alt="Graduation cap for learning"
@@ -293,10 +249,10 @@
             </div>
         </div>
     </section> -->
-    <section class="container pt-3" aria-label="Islamic Connect Features">
+    <section class="container pt-3 ic-features" aria-label="Islamic Connect Features">
 
       <!-- First Row - Quran Companion -->
-      <div class="row py-4 py-lg-5 align-items-center">
+      <div class="row py-4 py-lg-5 align-items-center ic-feature-row">
         <div class="col-lg-6 order-2 order-lg-1">
           <h2 class="h1 fw-bold text-center text-lg-start mb-4">
             Quran Companion: AI-Powered & Accessible
@@ -321,7 +277,7 @@
       </div>
 
       <!-- Second Row - Audio Content -->
-      <div class="row py-4 py-lg-5 align-items-center">
+      <div class="row py-4 py-lg-5 align-items-center ic-feature-row">
         <div class="col-lg-6 mb-4 mb-lg-0">
           <img src="/images/slide4.png" class="img-fluid rounded-20 shadow-sm"
             alt="Islamic podcasts and audio content streaming interface" loading="lazy" width="600" height="400">
@@ -344,7 +300,7 @@
       </div>
 
       <!-- Third Row - Quran Explorer -->
-      <div class="row py-4 py-lg-5 align-items-center">
+      <div class="row py-4 py-lg-5 align-items-center ic-feature-row">
         <div class="col-lg-6 order-2 order-lg-1">
           <h2 class="h1 fw-bold text-center text-lg-start mb-4">
             Deep Quran Exploration
@@ -415,7 +371,7 @@
 
 
     <!-- AI Tools & Features Section - Optimized -->
-    <section class="py-5" aria-labelledby="ai-tools-title">
+    <section class="py-5 ic-ai" aria-labelledby="ai-tools-title">
       <div class="container pt-3">
         <div class="row justify-content-center text-center mb-3">
           <div class="col-lg-8 col-xl-7">
@@ -541,11 +497,11 @@
     </section>
 
     <!-- Premium CTA Section -->
-    <section class="py-5 bg-white" aria-labelledby="premium-heading" role="region">
+    <section class="py-5 ic-support" aria-labelledby="premium-heading" role="region">
       <div class="container">
         <div class="row justify-content-center text-center mb-4">
           <div class="col-lg-8">
-            <h2 id="premium-heading" class="fw-bold" style="font-size:2.25rem; color:#1a5f7a;">Support The Work, Access
+            <h2 id="premium-heading" class="fw-bold ic-support__title">Support The Work, Access
               More</h2>
             <p class="lead text-muted" style="line-height:1.7">
               Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
@@ -640,56 +596,17 @@
 
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->
-    <section class="py-5 quick-join-section" style="
-  background: linear-gradient(135deg, rgb(0, 121, 107) 0%, #1a5f7a 100%);
-  position: relative;
-  overflow: hidden;
-">
+    <section class="py-5 quick-join-section ic-join">
       <!-- Background Elements -->
-      <div style="
-    position: absolute;
-    top: -50%;
-    right: -10%;
-    width: 300px;
-    height: 300px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 8s ease-in-out infinite;
-  "></div>
-      <div style="
-    position: absolute;
-    bottom: -30%;
-    left: -5%;
-    width: 200px;
-    height: 200px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    animation: float 6s ease-in-out infinite 2s;
-  "></div>
-      <div style="
-    position: absolute;
-    top: 20%;
-    left: 10%;
-    width: 100px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 50%;
-    animation: float 10s ease-in-out infinite 1s;
-  "></div>
+      <div class="ic-join__orb ic-join__orb--one"></div>
+      <div class="ic-join__orb ic-join__orb--two"></div>
+      <div class="ic-join__orb ic-join__orb--three"></div>
 
-      <div class="container" style="position: relative; z-index: 2;">
+      <div class="container ic-join__inner">
         <div class="row align-items-center">
           <div class="col-lg-7 text-center text-lg-start">
-            <h2 class="text-white fw-bold mb-3" style="
-          font-size: 2.5rem;
-          text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-          color: #ffffff;
-        ">Ready to Transform Your Daily Spiritual Journey?</h2>
-            <p class="text-white mb-4" style="
-          font-size: 1.2rem;
-          opacity: 0.98;
-          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
-        ">Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
+            <h2 class="text-white fw-bold mb-3 ic-join__title">Ready to Transform Your Daily Spiritual Journey?</h2>
+            <p class="text-white mb-4 ic-join__lead">Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
             </p>
 
           </div>
@@ -698,30 +615,10 @@
             <!-- Join Cards -->
             <div class="row g-3">
               <div class="col-12">
-                <div style="
-              background: rgba(255, 255, 255, 0.95);
-              padding: 1.5rem;
-              border-radius: 20px;
-              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-              border: 2px solid rgba(255, 255, 255, 0.3);
-              backdrop-filter: blur(10px);
-              transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-              position: relative;
-              overflow: hidden;
-            " class="join-card-hover rounded-20">
+                <div class="join-card-hover rounded-20 ic-join-card">
                   <!-- WhatsApp Card -->
                   <div class="d-flex align-items-center mb-3">
-                    <div style="
-                  width: 50px;
-                  height: 50px;
-                  background: linear-gradient(135deg, #25D366, #128C7E);
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin-right: 1rem;
-                  box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-                ">
+                    <div class="ic-join-icon ic-join-icon--whatsapp">
                       <i class="fab fa-whatsapp text-white" style="font-size: 1.5rem;"></i>
                     </div>
                     <div class="text-start">
@@ -729,60 +626,19 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20" target="_blank" rel="noopener noreferrer"
-                    style="
-                background: linear-gradient(135deg, #25D366, #128C7E);
-                color: white;
-                font-weight: 700;
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                border: none;
-                font-size: 1.1rem;
-                transition: all 0.3s ease;
-                box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-                position: relative;
-                overflow: hidden;
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.6)';"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(37, 211, 102, 0.4)';">
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20 ic-join-btn ic-join-btn--whatsapp" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-whatsapp me-2"></i>Join WhatsApp Channel
-                    <span style="
-                  position: absolute;
-                  top: 50%;
-                  right: 1rem;
-                  transform: translateY(-50%);
-                  font-size: 0.9rem;
-                  opacity: 0.9;
-                ">→</span>
+                    <span class="ic-join-btn__arrow">→</span>
                   </a>
 
                 </div>
               </div>
 
               <div class="col-12">
-                <div style="
-              background: rgba(255, 255, 255, 0.95);
-              padding: 1.5rem;
-              border-radius: 20px;
-              box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-              border: 2px solid rgba(255, 255, 255, 0.3);
-              backdrop-filter: blur(10px);
-              transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-              position: relative;
-              overflow: hidden;
-            " class="join-card-hover rounded-20">
+                <div class="join-card-hover rounded-20 ic-join-card">
                   <!-- Telegram Card -->
                   <div class="d-flex align-items-center mb-3">
-                    <div style="
-                  width: 50px;
-                  height: 50px;
-                  background: linear-gradient(135deg, #0088cc, #006699);
-                  border-radius: 50%;
-                  display: flex;
-                  align-items: center;
-                  justify-content: center;
-                  margin-right: 1rem;
-                  box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
-                ">
+                    <div class="ic-join-icon ic-join-icon--telegram">
                       <i class="fab fa-telegram text-white" style="font-size: 1.5rem;"></i>
                     </div>
                     <div class="text-start">
@@ -790,29 +646,9 @@
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20" target="_blank" rel="noopener noreferrer" style="
-                background: linear-gradient(135deg, #0088cc, #006699);
-                color: white;
-                font-weight: 700;
-                padding: 1rem 2rem;
-                border-radius: 12px;
-                border: none;
-                font-size: 1.1rem;
-                transition: all 0.3s ease;
-                box-shadow: 0 5px 15px rgba(0, 136, 204, 0.4);
-                position: relative;
-                overflow: hidden;
-              " onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(0, 136, 204, 0.6)';"
-                    onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 5px 15px rgba(0, 136, 204, 0.4)';">
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20 ic-join-btn ic-join-btn--telegram" target="_blank" rel="noopener noreferrer">
                     <i class="fab fa-telegram me-2"></i>Join Telegram Community
-                    <span style="
-                  position: absolute;
-                  top: 50%;
-                  right: 1rem;
-                  transform: translateY(-50%);
-                  font-size: 0.9rem;
-                  opacity: 0.9;
-                ">→</span>
+                    <span class="ic-join-btn__arrow">→</span>
                   </a>
                   <!-- <div class="mt-2">
                     <small class="text-muted" style="font-weight: 500;">
@@ -824,13 +660,7 @@
             </div>
 
             <!-- Trust Badge -->
-            <div class="mt-3" style="
-                background: rgba(255, 255, 255, 0.2);
-                padding: 0.75rem 1.5rem;
-                border-radius: 50px;
-                backdrop-filter: blur(10px);
-                display: inline-block;
-              ">
+            <div class="mt-3 ic-join__badge">
               <div class="d-flex align-items-center" style="gap: 0.5rem;">
                 <i class="fas fa-shield-alt text-white" style="font-size: 1.1rem;"></i>
                 <small class="text-white fw-bold">100% Free • Easy Subscribe</small>
@@ -841,14 +671,7 @@
       </div>
 
       <!-- Floating Icons -->
-      <div style="
-          position: absolute;
-          bottom: 20px;
-          right: 20px;
-          opacity: 0.1;
-          font-size: 3rem;
-          animation: float 4s ease-in-out infinite;
-        ">
+      <div class="ic-join__icon">
         <i class="fas fa-quran"></i>
       </div>
     </section>
@@ -1024,6 +847,583 @@
   </div>
 </template>
 <style scoped>
+.ic-home {
+  --ic-ink: #1d2b2f;
+  --ic-ink-soft: #566663;
+  --ic-teal: #0f6e63;
+  --ic-teal-dark: #0a4b45;
+  --ic-teal-deep: #08362f;
+  --ic-gold: #d2a24b;
+  --ic-sand: #fff7ea;
+  --ic-mist: #f1f7f4;
+  --ic-card: #ffffff;
+  --ic-border: rgba(15, 110, 99, 0.14);
+  --ic-shadow: 0 26px 60px rgba(15, 53, 48, 0.14);
+  --ic-shadow-soft: 0 14px 32px rgba(15, 53, 48, 0.1);
+  color: var(--ic-ink);
+  background: radial-gradient(circle at top left, #fffdf7 0%, #f7f3ea 45%, #eef6f4 100%);
+}
+
+.ic-reveal {
+  animation: rise 0.9s ease both;
+  animation-delay: var(--ic-delay, 0s);
+}
+
+.ic-hero {
+  position: relative;
+  border-radius: 28px;
+  background: linear-gradient(140deg, #fff7ea 0%, #f3faf6 45%, #eaf4f1 100%);
+  border: 1px solid var(--ic-border);
+  box-shadow: var(--ic-shadow);
+  overflow: hidden;
+}
+
+.ic-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 15%, rgba(210, 162, 75, 0.2), transparent 50%),
+    radial-gradient(circle at 80% 0%, rgba(15, 110, 99, 0.16), transparent 45%);
+  opacity: 0.9;
+  z-index: 0;
+}
+
+.ic-hero__frame {
+  position: relative;
+  overflow: hidden;
+}
+
+.ic-hero__grid {
+  position: relative;
+  z-index: 2;
+}
+
+.ic-hero__orb {
+  position: absolute;
+  border-radius: 50%;
+  z-index: 1;
+  filter: blur(0);
+}
+
+.ic-hero__orb--primary {
+  top: -20%;
+  right: -12%;
+  width: 420px;
+  height: 420px;
+  background: radial-gradient(circle, rgba(13, 122, 111, 0.25), rgba(13, 122, 111, 0.02));
+  animation: float-hero 10s ease-in-out infinite;
+}
+
+.ic-hero__orb--secondary {
+  bottom: -35%;
+  left: -8%;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(226, 179, 86, 0.22), rgba(226, 179, 86, 0.02));
+  animation: float-hero 8s ease-in-out infinite 1s;
+}
+
+.ic-hero__badge {
+  background: linear-gradient(135deg, var(--ic-teal), var(--ic-teal-dark));
+  color: #fff;
+  padding: 0.55rem 1.6rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 10px 22px rgba(13, 122, 111, 0.25);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.ic-hero__title {
+  background: linear-gradient(120deg, var(--ic-teal), var(--ic-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 12px 25px rgba(9, 44, 39, 0.12);
+  font-size: clamp(2.4rem, 4.3vw, 3.7rem);
+}
+
+.ic-hero__lead {
+  line-height: 1.8em;
+  font-size: 1.15rem;
+  color: var(--ic-ink-soft);
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+  padding-right: 1rem;
+  max-width: 34rem;
+}
+
+.ic-hero__actions {
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.ic-btn {
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 0.95rem 1.8rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+
+.ic-btn--primary {
+  background: linear-gradient(135deg, var(--ic-teal), var(--ic-teal-dark)) !important;
+  color: #fff !important;
+  border: none !important;
+  box-shadow: 0 14px 30px rgba(13, 122, 111, 0.35);
+}
+
+.ic-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(13, 122, 111, 0.45);
+}
+
+.ic-btn--ghost {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: var(--ic-teal-dark) !important;
+  border: 2px solid rgba(13, 122, 111, 0.25) !important;
+  box-shadow: 0 12px 24px rgba(13, 122, 111, 0.12);
+}
+
+.ic-btn--ghost:hover {
+  transform: translateY(-2px);
+  background: #fff !important;
+  box-shadow: 0 16px 30px rgba(13, 122, 111, 0.18);
+}
+
+.ic-trust {
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ic-hero__image {
+  border-radius: 26px;
+  border: 1px solid var(--ic-border);
+  box-shadow: var(--ic-shadow);
+  background: #fff;
+  padding: 0.5rem;
+}
+
+.ic-hero__ai {
+  margin-top: 1.5rem;
+}
+
+.ic-hero__ai .welcome-chat-frame {
+  padding: 0.5rem;
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid var(--ic-border);
+  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
+}
+
+.ic-seo {
+  position: relative;
+  padding: 4rem 0;
+  background: linear-gradient(180deg, #fffaf1 0%, #ffffff 100%);
+}
+
+.ic-seo .premium-seo__backdrop {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 10% 20%, rgba(15, 110, 99, 0.16), transparent 55%),
+    radial-gradient(circle at 90% 10%, rgba(210, 162, 75, 0.18), transparent 45%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+.ic-seo .container {
+  position: relative;
+  z-index: 1;
+}
+
+.ic-seo .highlight-badge {
+  background: rgba(13, 122, 111, 0.12);
+  color: var(--ic-teal-dark);
+  border: 1px solid rgba(13, 122, 111, 0.2);
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+}
+
+.ic-seo .premium-stat {
+  border-radius: 18px;
+  border: 1px solid var(--ic-border);
+  background: var(--ic-card);
+  box-shadow: var(--ic-shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ic-seo .premium-stat:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ic-shadow);
+}
+
+.ic-seo .premium-card {
+  border-radius: 20px;
+  border: 1px solid var(--ic-border);
+  background: var(--ic-card);
+  box-shadow: var(--ic-shadow-soft);
+  padding: 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ic-seo .premium-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ic-shadow);
+}
+
+.ic-services {
+  background: linear-gradient(180deg, #fffaf1 0%, #eef6f3 100%);
+}
+
+.ic-service-card {
+  border-radius: 22px;
+  border: 1px solid var(--ic-border);
+  background: var(--ic-card);
+  box-shadow: var(--ic-shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ic-service-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: var(--ic-shadow) !important;
+}
+
+.ic-features {
+  position: relative;
+}
+
+.ic-feature-row {
+  margin: 0 0 2.5rem;
+  margin-left: 0;
+  margin-right: 0;
+  padding: 1.5rem;
+  border-radius: 26px;
+  border: 1px solid var(--ic-border);
+  background: var(--ic-card);
+  box-shadow: var(--ic-shadow-soft);
+}
+
+.ic-feature-row:last-child {
+  margin-bottom: 0;
+}
+
+.stats-section {
+  position: relative;
+  background: linear-gradient(135deg, #0f5f55 0%, #0a3f3a 100%);
+  color: #f5f7f6;
+  padding: 4.5rem 0;
+  overflow: hidden;
+}
+
+.stats-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(210, 162, 75, 0.2), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.12), transparent 45%);
+  opacity: 0.6;
+}
+
+.stats-section .section-title,
+.stats-section .section-lead {
+  position: relative;
+  z-index: 1;
+}
+
+.stats-section .section-title {
+  color: #fff;
+}
+
+.stats-section .section-lead {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.stat-card {
+  position: relative;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  padding: 1.5rem 1rem;
+  backdrop-filter: blur(6px);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.2);
+}
+
+.stat-card h3,
+.stat-card p,
+.stat-card small {
+  color: #fff;
+}
+
+.stat-card small {
+  opacity: 0.75;
+}
+
+.ic-ai {
+  background: linear-gradient(180deg, #fffaf1 0%, #ffffff 100%);
+}
+
+.ic-ai .col-md-6 .d-flex {
+  border-radius: 18px;
+  border: 1px solid var(--ic-border);
+  padding: 1.25rem;
+  background: var(--ic-card);
+  box-shadow: var(--ic-shadow-soft);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ic-ai .col-md-6 .d-flex:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--ic-shadow);
+}
+
+.ic-support {
+  background: linear-gradient(180deg, #fffaf1 0%, #ffffff 100%);
+}
+
+.ic-support__title {
+  font-size: clamp(2rem, 3vw, 2.4rem);
+  color: var(--ic-teal-dark);
+}
+
+.ic-support .quote-card {
+  background: linear-gradient(150deg, #ffffff, #f1f7f4);
+  border: 1px solid var(--ic-border);
+}
+
+.ic-support .quote-glow {
+  background: radial-gradient(circle, rgba(210, 162, 75, 0.22), transparent 70%);
+}
+
+.ic-join {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #0f5f55 0%, #083a35 100%);
+}
+
+.ic-join__inner {
+  position: relative;
+  z-index: 2;
+}
+
+.ic-join__orb {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+  animation: float 8s ease-in-out infinite;
+}
+
+.ic-join__orb--one {
+  top: -45%;
+  right: -8%;
+  width: 320px;
+  height: 320px;
+}
+
+.ic-join__orb--two {
+  bottom: -35%;
+  left: -6%;
+  width: 240px;
+  height: 240px;
+  animation-delay: 1.5s;
+}
+
+.ic-join__orb--three {
+  top: 20%;
+  left: 12%;
+  width: 120px;
+  height: 120px;
+  animation-delay: 2.5s;
+}
+
+.ic-join__title {
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  text-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+.ic-join__lead {
+  font-size: 1.1rem;
+  opacity: 0.92;
+  text-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+.ic-join-card {
+  background: rgba(255, 255, 255, 0.94);
+  padding: 1.5rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.ic-join-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+}
+
+.ic-join-icon--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+}
+
+.ic-join-icon--telegram {
+  background: linear-gradient(135deg, #0088cc, #006699);
+}
+
+.ic-join-btn {
+  position: relative;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: none;
+  font-size: 1.05rem;
+  color: #fff !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  overflow: hidden;
+}
+
+.ic-join-btn--whatsapp {
+  background: linear-gradient(135deg, #25d366, #128c7e);
+  box-shadow: 0 12px 24px rgba(37, 211, 102, 0.35);
+}
+
+.ic-join-btn--telegram {
+  background: linear-gradient(135deg, #0088cc, #006699);
+  box-shadow: 0 12px 24px rgba(0, 136, 204, 0.35);
+}
+
+.ic-join-btn:hover {
+  transform: translateY(-2px);
+}
+
+.ic-join-btn--whatsapp:hover {
+  box-shadow: 0 18px 32px rgba(37, 211, 102, 0.5);
+}
+
+.ic-join-btn--telegram:hover {
+  box-shadow: 0 18px 32px rgba(0, 136, 204, 0.5);
+}
+
+.ic-join-btn__arrow {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
+.ic-join__badge {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 0.75rem 1.5rem;
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+  display: inline-flex;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+
+.ic-join__icon {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  opacity: 0.12;
+  font-size: 3rem;
+  animation: float 4s ease-in-out infinite;
+}
+
+.ic-home .contact-section {
+  background: linear-gradient(180deg, #fffaf1 0%, #ffffff 100%);
+}
+
+.ic-home .contact-card {
+  background: #fff;
+  border: 1px solid var(--ic-border);
+  box-shadow: var(--ic-shadow);
+}
+
+.ic-home .contact-card__badge {
+  background: rgba(13, 122, 111, 0.12);
+  color: var(--ic-teal-dark);
+  border: 1px solid rgba(13, 122, 111, 0.2);
+}
+
+.ic-home .contact-card__btn {
+  background: linear-gradient(135deg, var(--ic-teal), var(--ic-teal-dark));
+  border: none;
+  box-shadow: 0 14px 28px rgba(13, 122, 111, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.ic-home .contact-card__btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 34px rgba(13, 122, 111, 0.35);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float-hero {
+  0%,
+  100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-18px) translateX(6px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ic-reveal,
+  .ic-hero__orb,
+  .ic-join__orb,
+  .ic-join__icon {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .ic-hero__lead {
+    padding-right: 0;
+  }
+
+  .ic-feature-row {
+    padding: 1.25rem;
+  }
+
+  .ic-join-card {
+    padding: 1.25rem;
+  }
+}
 .quote-wrapper {
   margin: 0;
   padding: 0;
@@ -1031,7 +1431,7 @@
 }
 
 .quote-card {
-  background: linear-gradient(145deg, #ffffff, #f3f9f8);
+  background: linear-gradient(145deg, #ffffff, #f5fbf7);
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.05);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
@@ -1050,7 +1450,7 @@
   right: -70px;
   width: 150px;
   height: 150px;
-  background: radial-gradient(circle, rgba(0, 150, 136, 0.15), transparent 70%);
+  background: radial-gradient(circle, rgba(15, 110, 99, 0.18), transparent 70%);
   z-index: 0;
 }
 
@@ -1063,7 +1463,7 @@
   font-size: clamp(1.1rem, 4vw, 1.4rem);
   line-height: 1.75;
   margin-bottom: 0.8rem;
-  color: #00332e;
+  color: #0a3a34;
   font-weight: 600;
   padding: 0 8px;
 }
@@ -1072,7 +1472,7 @@
   font-size: clamp(1rem, 3.5vw, 1.25rem);
   line-height: 1.7;
   margin: 0;
-  color: #00332e;
+  color: #0a3a34;
   font-weight: 600;
   padding: 0 8px;
   opacity: 0;
@@ -1081,7 +1481,7 @@
 
 .quote-mark {
   font-size: 2.2rem;
-  color: #009688;
+  color: #0f6e63;
   vertical-align: middle;
   font-weight: 700;
 }
@@ -1093,7 +1493,7 @@
 .quote-ref {
   text-align: right;
   font-style: italic;
-  color: #607d8b;
+  color: #5d6d6c;
   font-size: 0.92rem;
   font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
   margin-bottom: 1.2rem;
@@ -1103,14 +1503,14 @@
   display: block;
   margin-top: 6px;
   font-size: 0.9rem;
-  color: #607d8b;
+  color: #5d6d6c;
   font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
 }
 
 .quote-divider {
   width: 70px;
   height: 3px;
-  background: linear-gradient(90deg, #009688, #4db6ac);
+  background: linear-gradient(90deg, #0f6e63, #d2a24b);
   margin: 0.8rem auto 1.4rem auto;
   border-radius: 2px;
 }
@@ -1133,7 +1533,7 @@
   .hero-title {
     -webkit-text-fill-color: initial !important;
     background: none !important;
-    color: #1a5f7a !important;
+    color: var(--ic-teal-dark) !important;
   }
 }
 
@@ -1142,15 +1542,20 @@
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15) !important;
 }
 
+.ic-service-card:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: var(--ic-shadow) !important;
+}
+
 /* Button focus states for accessibility */
 .btn:focus {
-  outline: 3px solid #1a5f7a;
+  outline: 3px solid var(--ic-teal-dark);
   outline-offset: 2px;
 }
 
 /* Card focus states */
 .card:focus-within {
-  outline: 2px solid rgb(0, 121, 107);
+  outline: 2px solid var(--ic-teal);
   outline-offset: 2px;
 }
 
@@ -1531,7 +1936,7 @@
 }
   /* Shared footer styles for consistent spacing across pages */
   .ic-footer {
-    background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
+    background: linear-gradient(135deg, #0e6f64, #0a4f4b);
   }
   .ic-footer .footer-inner {
     padding: 1rem 1rem;

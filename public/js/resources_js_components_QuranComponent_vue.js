@@ -7498,9 +7498,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       option
     }) => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.en), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.ar), 1 /* TEXT */)])]),
     _: 1 /* STABLE */
-  }, 8 /* PROPS */, ["options", "value", "onChange"])]), _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "helper"
-  }, " \"And We have certainly made the Qur’an easy to remember.\" 54:17 ", -1 /* CACHED */))]);
+  }, 8 /* PROPS */, ["options", "value", "onChange"])])]);
 }
 
 /***/ }),

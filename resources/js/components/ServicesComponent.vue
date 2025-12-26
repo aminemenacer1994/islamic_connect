@@ -24,12 +24,12 @@
               <span class="text-center w-100"><b>Find a Mosque</b></span>
             </button> -->
 
-            <button  v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/mosque')" type="button" style="background: rgb(11, 93, 75);box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button  v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/mosque')" type="button">
               <span class="text-center w-100"><b>Find a Mosque</b></span>
             </button>
-            <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+            <div v-else class="restricted-access text-center p-2">
               <p class="mb-1 text-muted small">You must be subscribed to access</p>
-              <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
           </div>
         </div>
@@ -49,12 +49,12 @@
               <span class="text-center w-100"><b>Search Butchers</b></span>
             </button> -->
 
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/shop')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/shop')" type="button">
               <span class="text-center w-100"><b>Search Butchers</b></span>
             </button>
-            <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+            <div v-else class="restricted-access text-center p-2">
               <p class="mb-1 text-muted small">You must be subscribed to access</p>
-              <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
           </div>
         </div>
@@ -110,12 +110,12 @@
               <span class="text-center w-100"><b>Visit Schools</b></span>
             </button> -->
 
-            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button" style="background: rgb(11, 93, 75); box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white; height: 38px; padding: 0.375rem 0.75rem;">
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/school')" type="button">
               <span class="text-center w-100"><b>Visit Schools</b></span>
             </button>
-            <div v-else class="restricted-access text-center p-2" style=" border-radius: 5px; animation: borderPulse 2s infinite ease-in-out;">
+            <div v-else class="restricted-access text-center p-2">
               <p class="mb-1 text-muted small">You must be subscribed to access</p>
-              <a href="/subscribe" class="text-decoration-none" style="color: rgb(0, 107, 95); font-weight: bold;">Subscribe Now</a>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
 
           </div>
@@ -124,7 +124,7 @@
 
 
       <div class="col-md-6 col-lg-4">
-        <div class="card custom-card shadow-sm rounded-4 overflow-hidden">
+        <div class="card custom-card rounded-4 overflow-hidden">
           <img src="/images/donate111.png" alt="Donation" class="w-100" style="object-fit: contain;" />
           <div class="p-3">
             <h1 class="mb-2 fw-bold text-dark text-center">Donation</h1>
@@ -160,175 +160,257 @@ export default {
 </script>
 
 <style scoped>
-/* Design tokens */
-:root {
-  --brand-1: #1a5f7a;
-  --brand-2: #0b5d4b;
-  --accent: #00bfa6;
-  --text-1: #2c3e50;
-  --text-2: #6c757d;
-  --surface: #ffffff;
-  --surface-muted: #f8f9fa;
-  --border: #e9ecef;
-  --shadow-sm: 0 4px 14px rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 10px 24px rgba(0, 0, 0, 0.10);
+.container {
+  --section-ink: #1e2e33;
+  --section-muted: #586a70;
+  --card-ink: #1b2c30;
+  --card-muted: #57686f;
+  --card-accent: #0b5d4b;
+  --card-accent-2: #1a5f7a;
+  --card-gold: #e8c98a;
+  --card-sand: #fcf7ee;
+  --card-border: rgba(15, 70, 63, 0.12);
+  --card-shadow: 0 12px 28px rgba(12, 43, 47, 0.1), 0 4px 10px rgba(12, 43, 47, 0.06);
+  --card-shadow-hover: 0 20px 45px rgba(12, 43, 47, 0.16), 0 8px 16px rgba(12, 43, 47, 0.1);
+  --card-glow: rgba(11, 93, 75, 0.22);
 }
 
-/* Typography & spacing */
-.container>h1.display-5 {
+.container > h1.display-5 {
   letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--section-ink);
   margin-bottom: 0.75rem;
-  color: var(--text-1);
 }
 
 .lead {
-  color: var(--text-2);
+  color: var(--section-muted);
   line-height: 1.75;
+  max-width: 920px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.custom-card .display-6 {
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text-1);
-}
-
-.card.custom-card .card-text {
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: var(--text-2);
-}
-
-@media (max-width: 768px) {
-  .container>h1.display-5 {
-    font-size: 2rem !important;
-  }
-
-  .custom-card .display-6 {
-    font-size: 1.1rem;
-  }
-
-  .custom-card img {
-    height: 160px;
-  }
-
-  .lead {
-    font-size: 1rem;
-  }
-}
-
-@media (min-width: 992px) {
-  .custom-card img {
-    height: 190px;
-  }
-}
-
-.card.custom-card .card-text {
-  max-height: 4.5em;
-  text-overflow: ellipsis;
-}
-
-.card.custom-card button.form-control {
-  background: #0b5d4b;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  color: #fff;
-  height: 38px;
-  padding: 0.375rem 0.75rem;
-  border: none;
-}
-
-.card.custom-card button.form-control:focus-visible {
-  outline: 3px solid rgba(0, 191, 166, 0.45);
-  outline-offset: 2px;
-}
-
 .custom-card {
-  border: none;
-  border-radius: 16px;
-  background: #fff;
-  height: 100%;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border-radius: 22px;
+  border: 1px solid var(--card-border);
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(232, 201, 138, 0.45) 0%, rgba(255, 255, 255, 0) 60%),
+    radial-gradient(120% 120% at 100% 0%, rgba(26, 95, 122, 0.18) 0%, rgba(255, 255, 255, 0) 55%),
+    linear-gradient(180deg, #ffffff 0%, var(--card-sand) 100%);
+  box-shadow: var(--card-shadow);
   position: relative;
+  z-index: 0;
   overflow: hidden;
-}
-
-.custom-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.16);
+  height: 100%;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  animation: cardReveal 0.6s ease both;
 }
 
 .custom-card::before {
   content: "";
   position: absolute;
-  top: 0;
+  top: -70px;
+  right: -60px;
+  width: 190px;
+  height: 190px;
+  background: radial-gradient(circle at 35% 35%, rgba(11, 93, 75, 0.22), rgba(11, 93, 75, 0));
+  opacity: 0.7;
+  transition: transform 0.45s ease, opacity 0.45s ease;
+}
+
+.custom-card::after {
+  content: "";
+  position: absolute;
   left: 0;
-  right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, var(--brand-2), var(--brand-1));
-  transform: scaleX(0.4);
+  bottom: 0;
+  height: 6px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--card-accent), var(--card-accent-2), var(--card-gold));
+  transform: scaleX(0.2);
   transform-origin: left;
-  transition: transform 0.3s ease;
+  transition: transform 0.45s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--card-shadow-hover);
+  border-color: rgba(11, 93, 75, 0.35);
 }
 
 .custom-card:hover::before {
+  transform: translate(-10px, 12px) scale(1.05);
+  opacity: 1;
+}
+
+.custom-card:hover::after {
   transform: scaleX(1);
 }
 
 .custom-card img {
   height: 180px;
+  width: 100%;
   object-fit: contain;
-  transition: transform 0.25s ease;
-  border: none;
+  filter: drop-shadow(0 14px 22px rgba(18, 42, 45, 0.18));
+  transition: transform 0.45s ease, filter 0.45s ease;
 }
 
 .custom-card:hover img {
-  transform: scale(1.05);
+  transform: translateY(-4px) scale(1.03);
+  filter: drop-shadow(0 18px 26px rgba(18, 42, 45, 0.22));
+}
+
+.custom-card .p-3 {
+  padding: 1.35rem 1.35rem 1.5rem;
+}
+
+.custom-card img,
+.custom-card .p-3 {
+  position: relative;
+  z-index: 1;
+}
+
+.custom-card h1,
+.custom-card .display-6 {
+  font-size: clamp(1.5rem, 2.3vw, 2.1rem);
+  letter-spacing: -0.01em;
+  font-weight: 700;
+  color: var(--card-ink) !important;
+}
+
+.card.custom-card .card-text {
+  color: var(--card-muted) !important;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  max-height: 4.8em;
+}
+
+.card.custom-card button.form-control {
+  background: linear-gradient(135deg, var(--card-accent) 0%, #0f6d5a 45%, var(--card-accent-2) 100%);
+  border: 1px solid rgba(11, 93, 75, 0.45);
+  border-radius: 999px;
+  box-shadow: 0 12px 22px var(--card-glow), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  color: #fff;
+  font-weight: 700;
+  height: 42px;
+  padding: 0.4rem 1rem;
+  letter-spacing: 0.02em;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease;
+}
+
+.card.custom-card button.form-control::after {
+  content: "";
+  position: absolute;
+  top: -60%;
+  left: -20%;
+  width: 140%;
+  height: 220%;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0));
+  opacity: 0.6;
+  transition: opacity 0.3s ease, transform 0.5s ease;
+  pointer-events: none;
+}
+
+.card.custom-card button.form-control:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(11, 93, 75, 0.28);
+  filter: brightness(1.04);
+}
+
+.card.custom-card button.form-control:hover::after {
+  opacity: 0.9;
+  transform: translateX(8%);
+}
+
+.card.custom-card button.form-control:active {
+  transform: translateY(0);
+}
+
+.card.custom-card button.form-control:focus-visible {
+  outline: 3px solid rgba(26, 95, 122, 0.35);
+  outline-offset: 3px;
+}
+
+.restricted-access {
+  border-radius: 12px;
+  border: 1px dashed rgba(11, 93, 75, 0.35);
+  background: linear-gradient(135deg, rgba(255, 251, 240, 0.95), rgba(232, 250, 245, 0.9));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+  animation: borderPulse 2.4s ease-in-out infinite;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.restricted-access:hover {
+  transform: translateY(-2px);
+}
+
+.restricted-access a {
+  color: var(--card-accent);
+  font-weight: 700;
+}
+
+.restricted-access a:hover {
+  color: var(--card-accent-2);
+  text-decoration: underline;
+}
+
+@keyframes cardReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes borderPulse {
   0% {
-    border-color: lightseagreen;
-    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+    border-color: rgba(11, 93, 75, 0.35);
+    box-shadow: 0 0 0 0 rgba(11, 93, 75, 0.18);
   }
-
   50% {
-    border-color: rgb(0, 107, 95);
-    box-shadow: 0 0 15px rgba(0, 191, 166, 0.8);
+    border-color: rgba(11, 93, 75, 0.65);
+    box-shadow: 0 0 0 6px rgba(11, 93, 75, 0.12);
   }
-
   100% {
-    border-color: lightseagreen;
-    box-shadow: 0 0 5px rgba(32, 178, 170, 0.5);
+    border-color: rgba(11, 93, 75, 0.35);
+    box-shadow: 0 0 0 0 rgba(11, 93, 75, 0.18);
   }
 }
 
-.card.custom-card {
-  animation: none;
+.row > div:nth-child(1) .custom-card { animation-delay: 0.05s; }
+.row > div:nth-child(2) .custom-card { animation-delay: 0.12s; }
+.row > div:nth-child(3) .custom-card { animation-delay: 0.19s; }
+.row > div:nth-child(4) .custom-card { animation-delay: 0.26s; }
+.row > div:nth-child(5) .custom-card { animation-delay: 0.33s; }
+.row > div:nth-child(6) .custom-card { animation-delay: 0.4s; }
+
+@media (max-width: 768px) {
+  .container > h1.display-5 { font-size: 2rem !important; }
+  .custom-card img { height: 150px; }
+  .lead { font-size: 1rem; }
+  .card.custom-card button.form-control { height: 40px; }
 }
 
-.restricted-access {
-  background: #28b66324;
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.restricted-access:hover {
-  background: #28b66333;
-  transform: translateY(-2px);
-}
-
-.restricted-access a:hover {
-  color: var(--brand-2);
-  text-decoration: underline;
+@media (min-width: 992px) {
+  .custom-card img { height: 190px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .custom-card,
   .custom-card img,
-  .card.custom-card button.form-control {
+  .card.custom-card button.form-control,
+  .card.custom-card button.form-control::after,
+  .restricted-access {
     transition: none !important;
+    animation: none !important;
   }
 }
 </style>

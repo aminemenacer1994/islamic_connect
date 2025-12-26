@@ -2,10 +2,10 @@
   <div class="container py-4 history-ui" role="main" aria-label="Quran History">
     <!-- Header -->
 
-    <div class="row justify-content-center text-center mb-3">
-      <div class="col-lg-10 col-xl-10">
+    <div class="row justify-content-center text-center mb-3 history-hero">
+      <div class="col-lg-10 col-xl-10 history-hero__inner">
         <h1 class="display-5 fw-bold history-title">Quran History</h1>
-        <p class="lead">
+        <p class="lead history-lead">
           Explore the Quran’s journey, its revelation, memorization, and codification as a unifying force for the global
           Muslim community.
         </p>
@@ -37,20 +37,20 @@
               <i class="fas fa-compass"></i>
             </div>
           </div>
-          <div style="flex:1;">
+          <div class="flex-grow-1">
             <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
             <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
-              <a href="/mission" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/mission" class="fw-semibold text-decoration-none next-step-link">
                 Explore the Seerah timeline
               </a>
-              <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+              <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently continue with the life of the Messenger who lived its message. Walk through a simple, welcoming
-              <a href="/mission" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/mission" class="fw-semibold text-decoration-none next-step-link">
                 Seerah timeline
               </a>
               to see the journey unfold.
@@ -69,11 +69,11 @@
     <div class="text-end mb-3">
       <button v-if="!areAllAccordionsOpen" class="btn fw-semibold transition me-2 btn-primary-soft" @click="openAllSections"
         aria-label="Open all sections">
-        <i class="bi bi-plus-circle me-1" style="font-size: 0.9rem;"></i>Open All
+        <i class="bi bi-plus-circle me-1 action-icon-sm"></i>Open All
       </button>
       <button v-if="areAnyAccordionsOpen" class="btn fw-semibold transition btn-primary-soft" @click="closeAllSections"
         aria-label="Close all sections">
-        <i class="bi bi-x-circle me-1" style="font-size: 0.9rem;"></i>Close All
+        <i class="bi bi-x-circle me-1 action-icon-sm"></i>Close All
       </button>
     </div>
 
@@ -102,7 +102,7 @@
         </div>
         <!-- Card Content -->
         <div v-if="isOpen[idx]" :id="'section-content-' + idx" class="card-body px-4 py-4 rounded-bottom-3" :aria-labelledby="'section-header-' + idx"
-          :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': '#ffffff', 'line-height': 1.7, 'color': '#4a5568' }">
+          :style="{ 'font-size': fontSizes[idx] + 'rem', 'background-color': 'var(--hc-surface)', 'line-height': 1.7, 'color': 'var(--hc-text)' }">
           <!-- AI Summary, Font Size, Print, Export to PDF, and Share via WhatsApp Buttons -->
           <div class="mb-3">
             <div class="btn-toolbar flex-wrap gap-2 d-none d-sm-flex tool-actions">
@@ -263,7 +263,7 @@
                       </span>
                       <ul class="list-clean">
                         <li v-for="(v, k) in value" :key="k">
-                          <span style="font-weight: 600;">{{ formatKey(k) }}:</span> {{ v }}
+                          <span class="data-key">{{ formatKey(k) }}:</span> {{ v }}
                         </li>
                       </ul>
                     </div>
@@ -279,15 +279,14 @@
               <table class="table table-bordered align-middle mb-0 table-clean">
                 <thead>
                   <tr>
-                    <th v-for="(col, i) in getTableColumns(item.table)" :key="i"
-                      style="font-weight: 500; color: #228B22; font-size: 0.95rem; padding: 1rem;">
+                    <th v-for="(col, i) in getTableColumns(item.table)" :key="i" class="table-head-cell">
                       {{ formatKey(col) }}
                     </th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="(row, i) in item.table.slice(0, tableVisibleCount[idx] || item.table.length)" :key="i">
-                    <td v-for="(val, k) in row" :key="k" style="padding: 1rem;">
+                    <td v-for="(val, k) in row" :key="k" class="table-body-cell">
                       {{ val }}
                     </td>
                   </tr>
@@ -303,12 +302,12 @@
           <!-- Insights, Significance, Recommendations, Challenges (for regular sections) -->
           <div v-if="item.significance && isRegularSection(item)"
             class="alert mt-4 border-0 rounded-3 shadow-sm py-3 px-4">
-            <i class="bi bi-lightbulb section-label-icon" style="color: #228B22;"></i>
+            <i class="bi bi-lightbulb section-label-icon"></i>
             <strong>Significance:</strong> {{ item.significance }}
           </div>
           <div v-if="item.insights && isRegularSection(item)"
             class="alert alert-info mt-4 border-0 rounded-3 shadow-sm py-3 px-4">
-            <i class="bi bi-info-circle section-label-icon" style="color: #228B22;"></i>
+            <i class="bi bi-info-circle section-label-icon"></i>
             <strong>Insights:</strong>
             <ul class="list-clean mt-2">
               <li v-for="(insight, i) in item.insights" :key="i">{{ insight }}</li>
@@ -316,17 +315,17 @@
           </div>
           <div v-if="item.details && item.details.recommendations && isRegularSection(item)"
             class="alert alert-secondary mt-4 border-0 rounded-3 shadow-sm py-3 px-4">
-            <i class="bi bi-star section-label-icon" style="color: #228B22;"></i>
+            <i class="bi bi-star section-label-icon"></i>
             <strong>Recommendations:</strong>
             <ul class="list-clean mt-2">
               <li v-for="(rec, i) in item.details.recommendations" :key="i">
-                <span style="font-weight: 600;">{{ formatKey(rec.name) }}:</span> {{ rec.description }}
+                <span class="data-key">{{ formatKey(rec.name) }}:</span> {{ rec.description }}
               </li>
             </ul>
           </div>
           <div v-if="item.details && item.details.challenges && isRegularSection(item)"
             class="alert alert-warning mt-4 border-0 rounded-3 shadow-sm py-3 px-4">
-            <i class="bi bi-exclamation-triangle section-label-icon" style="color: #228B22;"></i>
+            <i class="bi bi-exclamation-triangle section-label-icon"></i>
             <strong>Challenges:</strong>
             <ul class="list-clean mt-2">
               <li v-for="(ch, i) in item.details.challenges" :key="i">{{ ch }}</li>
@@ -382,8 +381,7 @@
       </div>
     </div>
     <!-- Fallback for empty data -->
-    <div v-else class="alert alert-warning text-center py-4"
-      style="background-color: #fefcbf; color: #744210; font-size: 1.1rem;">
+    <div v-else class="alert alert-warning text-center py-4 history-empty">
       No content available. Please check the data source.
     </div>
     <!-- Floating Action Button for Scroll to Top -->
@@ -1048,9 +1046,33 @@ export default {
   --hc-accent-2: #1a5f7a;
   --hc-surface: #ffffff;
   --hc-muted: #e2e8f0;
-  --hc-soft: #f7fafc;
-  --hc-text: #2d3748;
-  --hc-muted-text: #6b7280;
+  --hc-soft: #f7f5f0;
+  --hc-text: #1f2937;
+  --hc-muted-text: #5b6470;
+  --hc-border: #e5e0d6;
+  --hc-shadow: 0 18px 36px rgba(15, 41, 32, 0.08);
+  background: transparent;
+  border: 0;
+  border-radius: 28px;
+}
+
+.history-hero__inner {
+  background: var(--hc-surface);
+  border: 1px solid var(--hc-border);
+  border-radius: 24px;
+  padding: 2.2rem 1.8rem;
+  box-shadow: var(--hc-shadow);
+}
+
+.history-title {
+  color: var(--hc-text);
+  letter-spacing: -0.02em;
+}
+
+.history-lead {
+  color: var(--hc-muted-text);
+  max-width: 760px;
+  margin: 0 auto;
 }
 /* Mobile tweaks: keep actions compact and aligned */
 @media (max-width: 576px) {
@@ -1071,18 +1093,18 @@ export default {
 /* Focus state for accessibility */
 .card-header:focus,
 .btn:focus {
-  box-shadow: 0 0 0 3px rgba(0, 191, 166, 0.3);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.3);
   outline: none;
 }
 
 /* Button hover effect */
 .btn:hover:not(.btn-outline-dark) {
-  background-color: #009688;
+  background-color: var(--hc-accent);
 }
 
 /* Button hover effect for outline-dark */
 .btn-outline-dark { color: var(--hc-text); border-color: var(--hc-muted); }
-.btn-outline-dark:hover { background-color: #2d3748; color: #000; }
+.btn-outline-dark:hover { background-color: var(--hc-accent); color: #fff; border-color: var(--hc-accent); }
 
 /* Close button hover effect */
 .btn-sm:hover .bi-x {
@@ -1107,66 +1129,95 @@ export default {
 .fade-enter-from, .fade-leave-to { opacity: 0; }
 
 /* Clean summary box styles without inline CSS */
-.summary-box { background-color: var(--hc-soft); border: 2px solid rgb(103, 153, 103); border-radius: 20px; }
+.summary-box { background-color: var(--hc-soft); border: 2px solid rgba(11, 128, 111, 0.3); border-radius: 20px; box-shadow: 0 10px 20px rgba(15, 41, 32, 0.08); }
 
 /* Consistent, compact icon sizing and spacing */
 .btn i { font-size: 0.9rem; }
 
 /* Card polish */
 .card { border-radius: 20px; }
-.card-header { background: #fff; border-bottom: 1px solid var(--hc-muted); }
-.card:hover { box-shadow: 0 10px 18px rgba(26,95,122,0.10) !important; }
+.card-header { background: #fff; border-bottom: 1px solid var(--hc-border); }
+.card:hover { box-shadow: 0 14px 26px rgba(15,41,32,0.12) !important; }
 .card-header .badge { background: var(--hc-accent) !important; border-color: var(--hc-accent) !important; }
 
 /* Title */
 /* .history-title { color: var(--hc-accent-2); letter-spacing: -0.01em; } */
 
 /* Section shell */
-.history-card { background: var(--hc-surface); border: 1px solid rgba(226,232,240,.6); box-shadow: 0 1px 4px rgba(0,0,0,0.03); margin-bottom: 0.875rem !important; border-radius: 20px; overflow: hidden; }
+.history-card { background: var(--hc-surface); border: 1px solid var(--hc-border); box-shadow: 0 6px 14px rgba(15,41,32,0.06); margin-bottom: 0.875rem !important; border-radius: 20px; overflow: hidden; }
 .history-card-header { background: #ffffff; transition: background-color .15s ease; padding-top: .6rem !important; padding-bottom: .6rem !important; }
 .history-card-header:hover { background: #f9fbfc; }
-.history-card-header.is-open { background: #f7fbfa; }
+.history-card-header.is-open { background: #f7f5f0; }
 .section-index { color: #fff; background: var(--hc-accent) !important; border: 1px solid var(--hc-accent) !important; width: 36px; height: 36px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center; font-size: 0.9rem; box-shadow: 0 4px 10px rgba(11,128,111,0.18); }
 .muted-meta { font-size: 0.8rem; }
-.section-title { color: #1f2d3d; letter-spacing: 0; }
+.section-title { color: var(--hc-text); letter-spacing: 0; }
 .chev { font-size: .95rem; color: #5b6777; transition: transform .2s ease; }
 .history-card-header.is-open .chev { transform: rotate(180deg); }
 
 /* Action toolbar (segmented look) */
-.tool-actions { border-radius: 20px; overflow: hidden; }
-.tool-actions .btn { background: #fff; border-color: #e5eaf0; box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-radius: 0; padding: .55rem .9rem; }
+.tool-actions { border-radius: 999px; overflow: hidden; }
+.tool-actions .btn { background: #fff; border-color: var(--hc-border); box-shadow: 0 2px 8px rgba(0,0,0,0.04); border-radius: 0; padding: .55rem .9rem; }
 .tool-actions .btn + .btn { border-left-color: #eef2f6; }
-.tool-actions .btn:hover { transform: translateY(-1px); box-shadow: 0 6px 14px rgba(26,95,122,0.12); }
+.tool-actions .btn:hover { transform: translateY(-1px); box-shadow: 0 8px 16px rgba(15,41,32,0.12); }
 .tool-actions .btn i { color: #1f2d3d; }
 .tool-actions .btn:first-child { border-top-left-radius: 20px; border-bottom-left-radius: 20px; }
 .tool-actions .btn:last-child { border-top-right-radius: 20px; border-bottom-right-radius: 20px; }
 
 /* Open/Close soft primary button */
 .btn-primary-soft {
-  background: linear-gradient(135deg, var(--hc-accent), var(--hc-accent-2));
-  color: #fff; border: none; border-radius: 10px; padding: 0.4rem 0.8rem; font-size: 0.85rem;
-  box-shadow: 0 8px 18px rgba(26,95,122,0.18);
+  background: var(--hc-accent);
+  color: #fff; border: none; border-radius: 999px; padding: 0.45rem 0.9rem; font-size: 0.85rem;
+  box-shadow: 0 8px 18px rgba(11,128,111,0.18);
 }
-.btn-primary-soft:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(26,95,122,0.22); }
+.btn-primary-soft:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(11,128,111,0.22); }
 
 /* Next step banner */
-.next-step-banner { position: relative; background: #eaf3f1; border: 1px solid rgba(11, 128, 111, 0.20); border-radius: 20px; box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09); padding: 1.25rem 1.75rem; }
+.next-step-banner { position: relative; background: var(--hc-surface); border: 1px solid var(--hc-border); border-radius: 22px; box-shadow: 0 12px 28px rgba(15,41,32,0.08); padding: 1.25rem 1.75rem; overflow: hidden; }
+.next-step-banner::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--hc-accent); opacity: 0.6; }
 .next-step-toggle { position: absolute; right: 14px; top: 14px; opacity: 0.95; background: transparent; border: 0; color: #6b8b91; z-index:3; cursor: pointer; }
-.icon-circle { width: 46px; height: 46px; border-radius: 50%; background: rgba(11, 128, 111, 0.20); display: flex; align-items: center; justify-content: center; color: var(--hc-accent); font-size: 1.35rem; box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10); }
+.icon-circle { width: 46px; height: 46px; border-radius: 50%; background: rgba(11, 128, 111, 0.16); display: flex; align-items: center; justify-content: center; color: var(--hc-accent); font-size: 1.35rem; box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 14px rgba(26,95,122,0.10); }
 .next-step-eyebrow { letter-spacing: 0.1em; color: var(--hc-accent-2); font-size: 0.78rem; }
 .next-step-teaser { color: #1f2933; }
-.next-step-text { color: #1f2933; line-height: 1.8; font-size: 1.1rem; }
-.cta-btn { background: linear-gradient(135deg, var(--hc-accent), var(--hc-accent-2)); color: #fff; border: none; border-radius: 999px; box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(26, 95, 122, 0.28); color: #fff; }
+.next-step-text { color: var(--hc-text); line-height: 1.8; font-size: 1.05rem; }
+.next-step-link { color: var(--hc-accent); }
+.next-step-link-icon { color: var(--hc-accent); }
+.cta-btn { background: var(--hc-accent); color: #fff; border: none; border-radius: 999px; box-shadow: 0 10px 20px rgba(11, 128, 111, 0.25); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(11, 128, 111, 0.28); color: #fff; }
 
 /* Section cards and labels */
-.section-card { background-color: var(--hc-soft); padding: 1.25rem 1.25rem; border: 0; border-radius: 20px; }
-.reference-card { background-color: #ffffff; padding: 1.25rem 1.25rem; border: 0; border-radius: 20px; }
+.section-card { background-color: var(--hc-soft); padding: 1.25rem 1.25rem; border: 1px solid var(--hc-border); border-radius: 20px; }
+.reference-card { background-color: #ffffff; padding: 1.25rem 1.25rem; border: 1px solid var(--hc-border); border-radius: 20px; }
 .section-label { font-weight: 600; color: var(--hc-accent); font-size: 1rem; }
-.section-label-icon { margin-right: 0.5rem; font-size: 1.1rem; vertical-align: -0.125rem; }
+.section-label-icon { margin-right: 0.5rem; font-size: 1.1rem; vertical-align: -0.125rem; color: var(--hc-accent); }
 .section-text { margin-top: 0.5rem; line-height: 1.7; }
 .section-answer { padding-left: 1.75rem; line-height: 1.7; }
 .list-clean { margin-bottom: 0; margin-top: 0.75rem; padding-left: 1.5rem; line-height: 1.7; }
+
+.data-key {
+  font-weight: 600;
+}
+
+.table-head-cell {
+  font-weight: 500;
+  color: var(--hc-accent);
+  font-size: 0.95rem;
+  padding: 1rem;
+}
+
+.table-body-cell {
+  padding: 1rem;
+}
+
+.history-empty {
+  background-color: #fef3c7;
+  color: #78350f;
+  font-size: 1.05rem;
+  border: 1px solid #fde68a;
+}
+
+.action-icon-sm {
+  font-size: 0.9rem;
+}
 
 /* Tables */
 table.table { border-color: var(--hc-muted); }

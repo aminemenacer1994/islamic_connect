@@ -60,11 +60,7 @@ const _hoisted_5 = {
 };
 const _hoisted_6 = {
   key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
+  class: "restricted-access text-center p-2"
 };
 const _hoisted_7 = {
   class: "col-md-6 col-lg-4"
@@ -77,11 +73,7 @@ const _hoisted_9 = {
 };
 const _hoisted_10 = {
   key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
+  class: "restricted-access text-center p-2"
 };
 const _hoisted_11 = {
   class: "col-md-6 col-lg-4"
@@ -95,11 +87,7 @@ const _hoisted_13 = {
 };
 const _hoisted_14 = {
   key: 1,
-  class: "restricted-access text-center p-2",
-  style: {
-    "border-radius": "5px",
-    "animation": "borderPulse 2s infinite ease-in-out"
-  }
+  class: "restricted-access text-center p-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
@@ -126,25 +114,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0,
     class: "form-control",
     onClick: _cache[0] || (_cache[0] = $event => $options.goTo('/mosque')),
-    type: "button",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
+    type: "button"
   }, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Find a Mosque")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 text-muted small"
   }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
+    class: "text-decoration-none"
   }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/food.png",
     alt: "Islamic Shops",
@@ -165,25 +142,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0,
     class: "form-control",
     onClick: _cache[1] || (_cache[1] = $event => $options.goTo('/shop')),
-    type: "button",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
+    type: "button"
   }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Search Butchers")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 text-muted small"
   }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
+    class: "text-decoration-none"
   }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" >\n          <img src=\"/images/store1.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Shops Finder</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/store'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Locate Shops</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\" >\n          <img src=\"/images/food.jpg\" alt=\"Islamic Shops\" class=\"w-100\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Halal Food Locater</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover delicious and certified\n              halal food at your fingertips. Whether you're traveling or you're new in town.</p>\n            <button class=\"form-control\" onclick=\"window.location.href='/food'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Search Foods</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2\">New</span> "), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/school1.png",
     alt: "Islamic Shops",
@@ -204,29 +170,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 0,
     class: "form-control",
     onClick: _cache[2] || (_cache[2] = $event => $options.goTo('/school')),
-    type: "button",
-    style: {
-      "background": "rgb(11, 93, 75)",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    }
+    type: "button"
   }, [...(_cache[13] || (_cache[13] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Visit Schools")], -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 text-muted small"
   }, "You must be subscribed to access", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/subscribe",
-    class: "text-decoration-none",
-    style: {
-      "color": "rgb(0, 107, 95)",
-      "font-weight": "bold"
-    }
+    class: "text-decoration-none"
   }, "Subscribe Now", -1 /* CACHED */)]))]))])])]), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/donate111.png",
     alt: "Donation",

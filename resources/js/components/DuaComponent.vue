@@ -1,72 +1,48 @@
 <template>
-  <main class="container-fluid py-4" role="main" aria-labelledby="dua-title">
+  <main class="container-fluid py-4 dua-shell" role="main" aria-labelledby="dua-title">
     <!-- Hero Section -->
-    <header class="hero-section mb-5">
-      <h1 id="dua-title" class="fw-bold text-center mb-3">Dua Collection</h1>
-      <p class="text-center container lead text-muted mb-4">
+    <header class="hero-section dua-hero mb-5">
+      <h1 id="dua-title" class="fw-bold text-center mb-3 dua-title">Dua Collection</h1>
+      <p class="text-center container lead mb-4 dua-lead">
         Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness,
         protection, and gratitude.
       </p>
     </header>
 
-    <div class="container" style="padding: 10px;">
-      <div class="mx-auto mb-4" style="
-          position: relative;
-          background: #eaf3f1;
-          border: 1px solid rgba(11, 128, 111, 0.20);
-          border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-          padding: 1.25rem 1.75rem;
-        ">
+    <div class="container dua-next-step-wrap">
+      <div class="mx-auto mb-4 dua-next-step">
         <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
-          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+          class="next-step-toggle">
           <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="next-step-icon-circle" role="img" aria-label="Gentle audio guide for new Muslims" style="
-                width: 52px; height: 52px;
-                border-radius: 50%;
-                background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.18));
-                display: flex; align-items: center; justify-content: center;
-                color: #0b806f; font-size: 1.4rem;
-                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 8px 18px rgba(26,95,122,0.12);
-              ">
+            <div class="next-step-icon-circle" role="img" aria-label="Gentle audio guide for new Muslims">
               <i class="fas fa-assistive-listening-systems" aria-hidden="true"></i>
             </div>
           </div>
-          <div style="flex:1;">
-            <p class="mb-2 fw-semibold text-uppercase"
-              style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+          <div class="flex-grow-1">
+            <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
-            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1" style="color: #1f2933;">
-              <a href="/name" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1"
-                style="color:#0b806f;" aria-label="Open the 99 Names of Allah journey">
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 next-step-teaser">
+              <a href="/name" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link"
+                aria-label="Open the 99 Names of Allah journey">
                 Continue to the 99 Names of Allah
-                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"
-                  style="color:#0b806f; font-size: 0.85rem; opacity: 0.85;"></i>
+                <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
               </a>
             </div>
-            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.05rem;">
+            <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               Ready for your next gentle step? Explore the
-              <a href="/name" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/name" class="fw-semibold text-decoration-none next-step-link">
                 99 Names of Allah
               </a>
               with Arabic and English names, meanings, descriptions, quick search, and favorites.
             </p>
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
-              <a href="/name" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center"
-                style="
-                    background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                    border: none; border-radius: 999px;
-                    box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-                    transition: transform 0.2s ease, box-shadow 0.2s ease;
-                 "
-                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
-                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+              <a href="/name" class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center next-step-cta">
                 <span>Explore 99 Names of Allah</span>
                 <i class="fas fa-praying-hands ms-2" aria-hidden="true"></i>
 
@@ -95,8 +71,8 @@
     <div class="container mb-4">
       <div class="row g-2 align-items-stretch justify-content-center" role="search">
         <div class="col-10 col-sm-10 col-md-11">
-          <div class="input-group shadow-sm rounded-4 overflow-hidden h-100">
-            <span class="input-group-text text-white border-0" style="background-color: #0db691;">
+          <div class="input-group shadow-sm rounded-4 overflow-hidden h-100 dua-search">
+            <span class="input-group-text text-white border-0 search-icon">
               <i class="bi bi-search"></i>
             </span>
             <input v-model="searchQuery" type="text" class="form-control border-0 py-3 h-100"
@@ -144,14 +120,7 @@
     </div>
 
     <!-- Category and Reference Dropdowns -->
-    <div v-if="viewMode === 'all'" class="container premium-action-button--outline mb-4" style="
-        position: relative;
-        background: #eaf3f1;
-        border: 1px solid rgba(11, 128, 111, 0.20);
-        border-radius: 24px;
-        box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-        padding: 1.25rem 1.75rem;
-      ">
+    <div v-if="viewMode === 'all'" class="container premium-action-button--outline mb-4 dua-filter-panel">
       <div class="row g-3">
         <div class="col-md-6">
           <div class="dropdown-card">
@@ -195,17 +164,14 @@
     <div class="container">
       <div v-if="filteredDuas.length === 0" class="alert no-duas-message text-center position-relative" role="status"
         aria-live="polite" :class="alertClass">
-        <div v-if="filteredDuas.length === 0" class="text-center py-5 rounded-4" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); 
-         border: 1px solid #99f6e4; 
-         margin: 2rem 1rem; 
-         box-shadow: 0 10px 30px rgba(20, 184, 166, 0.1);" role="status" aria-live="polite">
+        <div v-if="filteredDuas.length === 0" class="text-center py-5 rounded-4 dua-empty" role="status" aria-live="polite">
           <div class="py-4">
             <!-- Icon -->
             <i class="bi fs-1 mb-4 d-block" :class="viewMode === 'liked' ? 'bi-heart-fill' : 'bi-search'"
-              style="color: #0d9488; text-shadow: 0 4px 12px rgba(13, 148, 136, 0.3);"></i>
+              ></i>
 
             <!-- Message -->
-            <p class="mb-4 fw-medium fs-5" style="color: #0f766e; font-family: 'Inter', system-ui, sans-serif;">
+            <p class="mb-4 fw-medium fs-5 dua-empty-text">
               {{ viewMode === 'liked'
                 ? 'No liked duas yet. Start liking duas to see them here'
                 : 'No duas found for your search' }}
@@ -213,12 +179,7 @@
 
             <!-- Explore Button (only in liked mode) -->
             <button v-if="viewMode === 'liked'" @click="viewMode = 'all'; resetPagination()"
-              class="btn border-0 fw-semibold px-5 py-3 rounded-pill shadow-lg text-white" style="
-        background: linear-gradient(90deg, #0d9488, #14b8a6);
-        transition: all 0.3s ease;
-        font-size: 1.05rem;
-      " onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 25px rgba(13,148,136,0.4)'"
-              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(13,148,136,0.25)'">
+              class="btn border-0 fw-semibold px-5 py-3 rounded-pill shadow-lg text-white dua-empty-cta">
               Explore All Duas
             </button>
           </div>
@@ -248,8 +209,7 @@
 
               <!-- Liked Badge -->
               <div v-if="viewMode === 'liked'"
-                class="position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2"
-                style="width: 32px; height: 32px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); z-index: 1;">
+                class="position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2 liked-badge">
                 <i class="bi bi-heart-fill text-danger"></i>
               </div>
 
@@ -282,13 +242,13 @@
               <div class="card-footer bg-light p-2 p-md-3">
                 <div class="d-flex justify-content-between align-items-center w-100">
                   <!-- Font Controls -->
-                  <div class="d-flex align-items-center bg-white rounded-pill px-2 shadow-sm">
-                    <button class="btn btn-link p-1" style="color: #00897b;" @click="changeFontSize('decrease')"
+                  <div class="d-flex align-items-center bg-white rounded-pill px-2 shadow-sm font-control">
+                    <button class="btn btn-link p-1 font-control-btn" @click="changeFontSize('decrease')"
                       :disabled="fontSize <= 14" aria-label="Decrease Font Size">
                       <i class="bi bi-dash-circle-fill fs-5"></i>
                     </button>
                     <span class="mx-1 bg-light" style="width: 1px; height: 20px;"></span>
-                    <button class="btn btn-link p-1" style="color: #00897b;" @click="changeFontSize('increase')"
+                    <button class="btn btn-link p-1 font-control-btn" @click="changeFontSize('increase')"
                       :disabled="fontSize >= 28" aria-label="Increase Font Size">
                       <i class="bi bi-plus-circle-fill fs-5"></i>
                     </button>
@@ -307,23 +267,23 @@
                     </button> -->
 
                     <button
-                      class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn"
-                      style="width: 36px; height: 36px;" @click="toggleLike(dua.id)"
+                      class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle"
+                      @click="toggleLike(dua.id)"
                       :aria-label="likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'">
                       <i :class="likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart'"></i>
                       <span class="action-tooltip">{{ likedDuas.includes(dua.id) ? 'Unlike' : 'Like' }}</span>
                     </button>
 
                     <button
-                      class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn"
-                      style="width: 36px; height: 36px;" @click="shareOnWhatsApp(dua)" aria-label="Share on WhatsApp">
+                      class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle"
+                      @click="shareOnWhatsApp(dua)" aria-label="Share on WhatsApp">
                       <i class="bi bi-share-fill"></i>
                       <span class="action-tooltip">Share</span>
                     </button>
 
                     <button
-                      class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn"
-                      style="width: 36px; height: 36px;" @click="copyContent(dua)" aria-label="Copy Content">
+                      class="btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle"
+                      @click="copyContent(dua)" aria-label="Copy Content">
                       <i class="bi bi-clipboard-fill"></i>
                       <span class="action-tooltip">Copy</span>
                     </button>
@@ -883,11 +843,195 @@ export default {
 </script>
 
 <style scoped>
+.dua-shell {
+  --dua-accent: #0b806f;
+  --dua-accent-2: #1a5f7a;
+  --dua-ink: #0f172a;
+  --dua-muted: #5b6470;
+  --dua-surface: #ffffff;
+  --dua-soft: #f7f5f0;
+  --dua-border: #e5e0d6;
+  background: transparent;
+  border: 0;
+  border-radius: 28px;
+}
+
+.dua-hero {
+  background: var(--dua-surface);
+  border: 1px solid var(--dua-border);
+  border-radius: 26px;
+  padding: 2.5rem 2rem;
+  box-shadow: 0 18px 36px rgba(15, 41, 32, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.dua-hero::after {
+  content: '';
+  position: absolute;
+  left: 2rem;
+  right: 2rem;
+  bottom: 1.25rem;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--dua-accent);
+  opacity: 0.35;
+}
+
+.dua-title {
+  color: var(--dua-ink);
+  letter-spacing: -0.02em;
+}
+
+.dua-lead {
+  color: var(--dua-muted);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.dua-next-step-wrap {
+  padding: 0 10px;
+}
+
+.dua-next-step {
+  position: relative;
+  background: var(--dua-surface);
+  border: 1px solid var(--dua-border);
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(15, 41, 32, 0.08);
+  padding: 1.25rem 1.75rem;
+  overflow: hidden;
+}
+
+.dua-next-step::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 5px;
+  background: var(--dua-accent);
+  opacity: 0.6;
+}
+
+.next-step-toggle {
+  position: absolute;
+  right: 16px;
+  top: 14px;
+  opacity: 0.9;
+  background: transparent;
+  border: 0;
+  color: #6b8b91;
+  z-index: 3;
+  cursor: pointer;
+}
+
+.next-step-icon-circle {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: rgba(11, 128, 111, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dua-accent);
+  font-size: 1.4rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 8px 18px rgba(26,95,122,0.12);
+}
+
+.next-step-eyebrow {
+  letter-spacing: 0.1em;
+  color: var(--dua-accent-2);
+  font-size: 0.78rem;
+}
+
+.next-step-text {
+  color: var(--dua-ink);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.next-step-teaser {
+  color: var(--dua-ink);
+}
+
+.next-step-link {
+  color: var(--dua-accent);
+}
+
+.next-step-link i {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.next-step-cta {
+  background: linear-gradient(135deg, var(--dua-accent), var(--dua-accent-2));
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+.next-step-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(26, 95, 122, 0.28);
+  filter: brightness(1.02);
+}
+
+.dua-search {
+  border: 1px solid var(--dua-border);
+  box-shadow: 0 12px 22px rgba(15, 41, 32, 0.08);
+  background: var(--dua-surface);
+}
+
+.search-icon {
+  background-color: var(--dua-accent);
+}
+
+.dua-filter-panel {
+  position: relative;
+  background: var(--dua-surface);
+  border: 1px solid var(--dua-border);
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(15, 41, 32, 0.08);
+  padding: 1.25rem 1.75rem;
+}
+
+.dua-empty {
+  background: var(--dua-soft);
+  border: 1px solid var(--dua-border);
+  margin: 2rem 1rem;
+  box-shadow: 0 12px 28px rgba(15, 41, 32, 0.08);
+}
+
+.dua-empty i {
+  color: var(--dua-accent);
+  text-shadow: 0 4px 12px rgba(11, 128, 111, 0.25);
+}
+
+.dua-empty-text {
+  color: var(--dua-accent);
+}
+
+.dua-empty-cta {
+  background: var(--dua-accent);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  font-size: 1.05rem;
+  box-shadow: 0 10px 22px rgba(11, 128, 111, 0.25);
+}
+
+.dua-empty-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 26px rgba(11, 128, 111, 0.35);
+  filter: brightness(1.03);
+}
+
 .premium-action-button--outline {
-  background: rgba(15, 140, 124, 0.08);
-  border-color: rgba(15, 140, 124, 0.55);
+  background: rgba(15, 118, 110, 0.08);
+  border-color: rgba(15, 118, 110, 0.35);
   color: #0c7867;
   box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 10px 24px rgba(15, 23, 42, 0.12);
+  border-radius: 22px;
 }
 
 .nav-tabs {
@@ -895,10 +1039,10 @@ export default {
 }
 
 .nav-link {
-  color: #1a1a1a;
-  background-color: #e5e7eb;
+  color: var(--dua-ink);
+  background-color: var(--dua-soft);
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 999px;
   padding: 0.75rem 1.5rem;
   margin: 0 0.25rem;
   font-weight: 500;
@@ -906,12 +1050,12 @@ export default {
 }
 
 .nav-link:hover {
-  background-color: #0db691;
+  background-color: var(--dua-accent);
   color: white;
 }
 
 .nav-link.active {
-  background-color: #0db691;
+  background-color: var(--dua-accent);
   color: white;
 }
 
@@ -933,10 +1077,10 @@ export default {
 }
 
 .tag-btn {
-  background-color: #e5e7eb;
-  color: #1a1a1a;
+  background-color: var(--dua-soft);
+  color: var(--dua-ink);
   border: none;
-  border-radius: 0.5rem;
+  border-radius: 999px;
   padding: 0.5rem 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -945,26 +1089,35 @@ export default {
 }
 
 .tag-btn:hover {
-  background-color: #0db691;
+  background-color: var(--dua-accent);
   color: white;
 }
 
 .tag-btn.active {
-  background-color: #0db691;
+  background-color: var(--dua-accent);
   color: white;
 }
 
 /* Base Card Styles */
 .dua-card {
-  border-radius: 0.75rem;
+  border-radius: 18px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  background-color: #ffffff;
+  background-color: var(--dua-surface);
   margin-bottom: 1.5rem;
+  border: 1px solid var(--dua-border);
+  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.08);
 }
 
 .dua-card:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+  box-shadow: 0 18px 30px rgba(15, 41, 32, 0.14) !important;
+}
+
+.liked-badge {
+  width: 32px;
+  height: 32px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  z-index: 1;
 }
 
 /* Arabic Font */
@@ -976,7 +1129,7 @@ export default {
 
 /* Translation and Reference Styling */
 .translation-text {
-  color: #555;
+  color: var(--dua-muted);
   font-style: italic;
 }
 
@@ -985,10 +1138,23 @@ export default {
   opacity: 0.8;
 }
 
+.font-control {
+  border: 1px solid var(--dua-border);
+}
+
+.font-control-btn {
+  color: var(--dua-accent);
+}
+
+.action-circle {
+  width: 36px;
+  height: 36px;
+}
+
 /* Highlight Text */
 mark {
-  background-color: rgba(13, 182, 145, 0.3);
-  color: inherit;
+  background-color: rgba(11, 128, 111, 0.2);
+  color: var(--dua-ink);
   padding: 0 0.125rem;
   border-radius: 0.125rem;
 }
@@ -1019,7 +1185,7 @@ mark {
 }
 
 .action-btn:hover {
-  background-color: #0db691 !important;
+  background-color: var(--dua-accent) !important;
   color: white !important;
 }
 
@@ -1032,14 +1198,14 @@ mark {
 }
 
 .audio-action-btn {
-  background: linear-gradient(135deg, #17c7ad, #67efda);
+  background: linear-gradient(135deg, var(--dua-accent), #2dd4bf);
   border: none;
   color: #022a24;
-  box-shadow: 0 6px 18px rgba(23, 199, 173, 0.35);
+  box-shadow: 0 6px 18px rgba(11, 128, 111, 0.3);
 }
 
 .audio-action-btn.speech:hover {
-  background: linear-gradient(135deg, #0fb29d, #49d9be);
+  background: linear-gradient(135deg, #0f766e, #2dd4bf);
 }
 
 .audio-action-btn.speech .bi {
@@ -1062,7 +1228,7 @@ mark {
   visibility: hidden;
   transition: all 0.2s ease;
   pointer-events: none;
-  font-family: 'Inter', sans-serif;
+  font-family: inherit;
   font-weight: 500;
   z-index: 10;
 }
@@ -1076,7 +1242,7 @@ mark {
 /* Dark Mode Support */
 @media (prefers-color-scheme: dark) {
   .dua-card {
-    background-color: #ffffff;
+    background-color: var(--dua-surface);
     color: #e2e8f0;
   }
 
@@ -1091,6 +1257,14 @@ mark {
 
 /* Responsive Adjustments */
 @media (max-width: 768px) {
+  .dua-hero {
+    padding: 2rem 1.4rem;
+  }
+
+  .dua-next-step {
+    padding: 1.1rem 1.25rem;
+  }
+
   .card-body {
     padding: 1.25rem !important;
   }
@@ -1112,6 +1286,16 @@ mark {
 
   .action-btn:hover .action-tooltip {
     bottom: -2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .dua-shell {
+    border-radius: 20px;
+  }
+
+  .dua-hero {
+    padding: 1.6rem 1rem;
   }
 }
 </style>

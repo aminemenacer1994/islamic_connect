@@ -299,23 +299,23 @@
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/media" data-path="/media" data-nav-item="primary"><b>Media Center</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/content" data-path="/content" data-nav-item="primary"><b>Audio Podcasts</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/knowledge" data-path="/knowledge" data-nav-item="primary"><b>Islamic Knowledge</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/mission" data-path="/mission" data-nav-item="primary"><b>Seerah Timeline</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/toolkit" data-path="/toolkit" data-nav-item="primary"><b>Utility Toolkit</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/radio" data-path="/radio" data-nav-item="primary"><b>Reciters Station</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/services" data-path="/services" data-nav-item="primary"><b>Services</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/subscribe" data-path="/subscribe" data-nav-item="primary"><b>Packages</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/guide" data-path="/guide" data-nav-item="primary"><b>Islamic Guides</b></a>
                         </li> 
 
                         <!-- <li class="nav-item mt-2">

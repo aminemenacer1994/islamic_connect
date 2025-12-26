@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4" role="main" aria-label="Quran Explorer">
+  <div class="container py-4 surat-page" role="main" aria-label="Quran Explorer">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Quran Explorer</h1>
@@ -50,64 +50,42 @@
       </div>
     </div>
 
-    <div v-show="showNextStep" style="padding: 10px;">
-      <div class="mx-auto mb-4" style="
-          position: relative;
-          background: #eaf3f1;
-          border: 1px solid rgba(11, 128, 111, 0.20);
-          border-radius: 24px;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09);
-          padding: 1.25rem 1.75rem;
-        ">
+    <div v-show="showNextStep" class="next-step-wrapper">
+      <div class="mx-auto mb-4 next-step-card">
         <button
           type="button"
           :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
           @click="toggleNextStepMinimized"
-          style="position: absolute; right: 44px; top: 14px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; z-index: 3; cursor: pointer;">
+          class="next-step-toggle">
           <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="next-step-icon-circle" style="
-                width: 46px; height: 46px;
-                border-radius: 50%;
-                background: rgba(11, 128, 111, 0.20);
-                display: flex; align-items: center; justify-content: center;
-                color: #0b806f; font-size: 1.35rem;
-                box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.26), 0 6px 14px rgba(26,95,122,0.10);
-              ">
+            <div class="next-step-icon-circle">
               <i class="fas fa-quran"></i>
             </div>
           </div>
           <div style="flex:1;">
-            <p class="mb-2 fw-semibold text-uppercase" style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+            <p class="mb-2 fw-semibold text-uppercase next-step-label">
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
-            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
-              <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+            <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
+              <a href="/history" class="fw-semibold text-decoration-none next-step-link">
                 Explore Qur’an history
               </a>
-              <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+              <i class="fas fa-arrow-up-right-from-square ms-1"></i>
             </div>
-            <p v-show="!nextStepMinimized" class="mb-3" style="color: #1f2933; line-height: 1.8; font-size: 1.1rem;">
+            <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in
-              <a href="/history" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+              <a href="/history" class="fw-semibold text-decoration-none next-step-link">
                 the history of the Qur’an
               </a>
               to deepen your understanding.
             </p>
             <a v-show="!nextStepMinimized" href="/history"
-               class="btn btn-sm fw-semibold text-white px-3 py-2"
-               style="
-                  background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                  border: none; border-radius: 999px;
-                  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-                  transition: transform 0.2s ease, box-shadow 0.2s ease;
-               "
-               onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
-               onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-btn">
               Explore History
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
@@ -1430,43 +1408,91 @@ export default {
 <style scoped>
 .card-teal {
   border-radius: 20px;
-  border: 1px solid rgba(20, 184, 166, 0.22);
-  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
-  background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
-  transition: transform 160ms ease, box-shadow 160ms ease;
+  border: 1px solid rgba(15, 110, 99, 0.18);
+  box-shadow: 0 16px 32px rgba(15, 53, 48, 0.12);
+  background: linear-gradient(180deg, #ffffff 0%, #fff7ea 65%, #f3fbf7 100%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
 }
 .card-teal:hover { 
-  transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+  transform: translateY(-3px);
+  box-shadow: 0 22px 42px rgba(15, 53, 48, 0.16);
 }
 /* Consolidated base rules */
-.container {
+.surat-page {
+  --surat-ink: #1d2b2f;
+  --surat-muted: #4e5f5f;
+  --surat-teal: #0f6e63;
+  --surat-teal-dark: #0a4b45;
+  --surat-amber: #d2a24b;
+  --surat-sand: #fff7ea;
+  --surat-card: #ffffff;
+  --surat-border: rgba(15, 110, 99, 0.18);
+  --surat-shadow: 0 20px 46px rgba(15, 53, 48, 0.12);
   min-height: 100vh;
   max-width: 1180px;
   margin: 0 auto;
+  color: var(--surat-ink);
+  position: relative;
+  border-radius: 28px;
+  background:
+    radial-gradient(320px 220px at 8% 8%, rgba(210, 162, 75, 0.16), transparent 65%),
+    radial-gradient(320px 220px at 92% 0%, rgba(15, 110, 99, 0.15), transparent 68%),
+    linear-gradient(180deg, #fffdf7 0%, #f7fbf7 55%, #f0f6f4 100%);
+  box-shadow: var(--surat-shadow);
+  overflow: hidden;
 }
-.ayah-card-container { transition: all 0.3s ease; }
+
+.surat-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.6), transparent 55%),
+    repeating-linear-gradient(125deg, rgba(15, 110, 99, 0.06) 0 12px, transparent 12px 26px);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.surat-page > * {
+  position: relative;
+  z-index: 1;
+}
+.ayah-card-container {
+  border-radius: 18px;
+  border: 1px solid rgba(15, 110, 99, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 12px 28px rgba(15, 53, 48, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.ayah-card-container:hover {
+  transform: translateY(-2px);
+  border-color: rgba(15, 110, 99, 0.28);
+  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.14);
+}
 .highlighted {
-  background-color: #b5e6db;
-  border-radius: 8px;
-  animation: pulse 0.5s ease-in-out;
+  background-color: rgba(15, 110, 99, 0.1);
+  border-radius: 14px;
+  border: 1px solid rgba(15, 110, 99, 0.32);
+  animation: pulse 0.6s ease-in-out;
 }
 
 .currently-playing {
-  background-color: #00bfa640;
-  border: 2px solid #00bfa640;
-  border-radius: 8px;
-  box-shadow: 0 0 15px rgba(40, 167, 69, 0.3);
-  transform: scale(1.02);
+  background: linear-gradient(135deg, rgba(15, 110, 99, 0.18), rgba(210, 162, 75, 0.16));
+  border: 1px solid rgba(15, 110, 99, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 20px 38px rgba(15, 53, 48, 0.2);
+  transform: translateY(-2px);
   transition: all 0.3s ease;
 }
 
 @keyframes pulse {
   0% {
-    border: 2px solid #00bfa6;
+    border-color: rgba(15, 110, 99, 0.45);
   }
 
   100% {
-    border: 2px solid transparent;
+    border-color: transparent;
   }
 }
 
@@ -1479,24 +1505,57 @@ export default {
 }
 
 .sticky-dropdown {
-  box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
   position: sticky;
   z-index: 1000;
-  padding: 8px 10px;
-  border-radius: 8px;
-  margin-bottom: 0.75rem;
+  padding: 12px 14px;
+  border-radius: 20px;
+  margin-bottom: 1rem;
   overflow: hidden;
   max-height: 500px; /* expanded */
+  border: 1px solid rgba(15, 110, 99, 0.18);
+  background: linear-gradient(120deg, rgba(255, 251, 242, 0.95), rgba(236, 248, 244, 0.9));
+  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
+  backdrop-filter: blur(8px);
 }
+
+.sticky-dropdown::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.6), transparent 60%),
+    repeating-linear-gradient(140deg, rgba(15, 110, 99, 0.05) 0 12px, transparent 12px 28px);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.sticky-dropdown > * {
+  position: relative;
+  z-index: 1;
+}
+
 .sticky-dropdown .form-select {
   font-size: 0.95rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.88);
+  border-radius: 12px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  color: #1c2b2f;
+}
+
+.sticky-dropdown label.form-label {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #1c2b2f;
+}
+
+.sticky-dropdown option {
+  color: #1f2933;
 }
 .sticky-dropdown.collapsed {
   padding-top: 6px;
   padding-bottom: 6px;
-  max-height: 40px;
-  margin-bottom: 0.5rem;
+  max-height: 44px;
+  margin-bottom: 0.65rem;
   /* fully hide any children besides the toggle icon */
   overflow: hidden;
 }
@@ -1513,7 +1572,7 @@ export default {
 }
 
 @media (max-width: 768px) {
-  .container {
+  .surat-page {
     padding-bottom: calc(100px + env(safe-area-inset-bottom));
   }
 }
@@ -1524,14 +1583,15 @@ export default {
   left: 0;
   width: 100%;
   z-index: 1001;
-  background-color: rgba(25, 27, 31, 0.92);
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
-  border-radius: 15px 15px 0 0;
-  padding: 10px;
+  background: linear-gradient(135deg, rgba(15, 47, 43, 0.98), rgba(20, 60, 55, 0.95));
+  box-shadow: 0 -10px 24px rgba(10, 32, 30, 0.35);
+  border-top: 1px solid rgba(210, 162, 75, 0.35);
+  border-radius: 20px 20px 0 0;
+  padding: 12px 14px;
   transition: transform 0.3s ease-in-out;
 }
 
-.container {
+.surat-page {
   padding-bottom: calc(120px + env(safe-area-inset-bottom));
 }
 
@@ -1586,10 +1646,11 @@ export default {
 .control-btn {
   background: none;
   border: none;
-  color: white;
+  color: #f8fbf9;
   font-size: 1.75rem;
   cursor: pointer;
-  
+  border-radius: 12px;
+  padding: 4px;
   transition: color 0.2s, transform 0.18s ease, background-color 0.18s ease;
   display: flex;
   align-items: center;
@@ -1597,8 +1658,8 @@ export default {
 }
 
 .control-btn:hover {
-  color: #00bfa6;
-  background-color: rgba(255, 255, 255, 0.06);
+  color: #f9d98f;
+  background-color: rgba(210, 162, 75, 0.16);
   transform: translateY(-1px);
 }
 
@@ -1624,8 +1685,9 @@ export default {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background-color: rgba(255, 255, 255, 0.18);
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  border: 1px solid rgba(210, 162, 75, 0.2);
   overflow: hidden;
   cursor: pointer;
   position: relative;
@@ -1640,7 +1702,7 @@ export default {
 
 .progress {
   height: 100%;
-  background: linear-gradient(90deg, #00bfa6, #5fd4c4);
+  background: linear-gradient(90deg, #f0b65a, #0f6e63);
   transition: width 0.1s linear;
 }
 
@@ -1655,8 +1717,8 @@ export default {
   transform: translateY(-50%);
   background: #ffffff;
   border-radius: 50%;
-  border: 2px solid #00bfa6;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  border: 2px solid #f0b65a;
+  box-shadow: 0 2px 6px rgba(9, 25, 22, 0.3);
   opacity: 0.85;
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
@@ -1771,7 +1833,8 @@ export default {
     padding: 8px 10px !important;
     height: 40px !important;
     border-radius: 10px !important;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 110, 99, 0.2);
   }
 }
 
@@ -1803,7 +1866,7 @@ export default {
   text-align: center;
   padding: 20px;
   font-size: 1.2rem;
-  background: linear-gradient(90deg, #f7f7f7 25%, #ececec 50%, #f7f7f7 75%);
+  background: linear-gradient(90deg, #fff7ea 25%, #f2f6f3 50%, #fff7ea 75%);
   background-size: 200% 100%;
   animation: loading 1.5s infinite;
 }
@@ -1841,11 +1904,11 @@ export default {
 }
 
 .highlighted-word {
-  background: #0b5d4b;
+  background: #0f6e63;
   color: #fff;
   border-radius: 4px;
   padding: 0 2px;
-  box-shadow: 0 1px 0 rgba(11, 93, 75, 0.2);
+  box-shadow: 0 1px 0 rgba(15, 110, 99, 0.25);
   transition: background 0.2s, box-shadow 0.2s;
 }
 
@@ -1866,7 +1929,7 @@ export default {
 
 .visualizer-bar {
   width: 2px;
-  background: linear-gradient(to top, #00bfa6, #87ceeb);
+  background: linear-gradient(to top, #0f6e63, #f0b65a);
   border-radius: 1px;
   animation: pulse-visualizer 0.6s ease-in-out infinite alternate;
 }
@@ -1887,18 +1950,18 @@ export default {
   font-size: 0.7rem;
   font-weight: bold;
   margin-left: 2px;
-  color: #ff6b6b;
+  color: #f0b65a;
 }
 
 
 /* Enhanced Control Buttons */
 .control-btn {
-  transition: all 0.3s ease;
-  border-radius: 8px;
+  transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+  border-radius: 12px;
 }
 
 .control-btn:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(210, 162, 75, 0.16);
   transform: translateY(-2px);
 }
 
@@ -1922,119 +1985,200 @@ export default {
 }
 
 /* Next Step card background (gradient + blur) */
+.next-step-wrapper {
+  padding: 10px;
+}
+
 .next-step-card {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(11, 128, 111, 0.25);
-  border-radius: 16px;
-  box-shadow: 0 12px 32px rgba(26, 95, 122, 0.12);
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  border-radius: 22px;
+  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.14);
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.95), rgba(244, 250, 247, 0.95));
+  padding: 1.25rem 1.65rem;
 }
 
 .next-step-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: #f2fbf9;
-  background: linear-gradient(135deg, rgba(26, 95, 122, 0.22), rgba(11, 128, 111, 0.22));
-  backdrop-filter: blur(6px);
+  background:
+    radial-gradient(circle at 20% 10%, rgba(210, 162, 75, 0.2), transparent 60%),
+    radial-gradient(circle at 85% 0%, rgba(15, 110, 99, 0.2), transparent 65%);
+  opacity: 0.9;
   z-index: 0;
 }
 
-.next-step-card>* {
+.next-step-card > * {
   position: relative;
   z-index: 1;
 }
 
-/* Theme tokens (scoped to this component container) */
-.container {
-  --ic-primary: #0b806f;
-  --ic-secondary: #1a5f7a;
-  --ic-accent: #00bfa6;
-  --ic-bg-elev: #ffffff;
-  --ic-text-muted: #35424c;
-  --ic-border: rgba(0, 0, 0, 0.08);
-  --ic-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+.next-step-toggle {
+  position: absolute;
+  right: 36px;
+  top: 14px;
+  opacity: 0.9;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  color: #5b6d6c;
+  z-index: 3;
+  cursor: pointer;
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Palette variants: apply alongside `.container` (CSS-only) */
-.container.theme-sand {
+.next-step-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 53, 48, 0.16);
+}
+
+.next-step-icon-circle {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(15, 110, 99, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f6e63;
+  font-size: 1.35rem;
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.2), 0 8px 16px rgba(15, 53, 48, 0.12);
+}
+
+.next-step-label {
+  letter-spacing: 0.12em;
+  color: #1c4655;
+  font-size: 0.78rem;
+}
+
+.next-step-teaser {
+  color: #1f2f33;
+}
+
+.next-step-text {
+  color: #1f2f33;
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.next-step-link {
+  color: #0f6e63;
+}
+
+.next-step-link:hover {
+  color: #0a4b45;
+}
+
+.next-step-btn {
+  background: linear-gradient(135deg, #0f6e63, #1f7a6d);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 12px 24px rgba(15, 110, 99, 0.28);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.next-step-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(15, 110, 99, 0.32);
+}
+
+/* Theme tokens (scoped to this component container) */
+.surat-page {
+  --ic-primary: #0f6e63;
+  --ic-secondary: #0a4b45;
+  --ic-accent: #d2a24b;
+  --ic-bg-elev: #ffffff;
+  --ic-text-muted: #4e5f5f;
+  --ic-border: rgba(15, 110, 99, 0.18);
+  --ic-shadow: 0 16px 32px rgba(15, 53, 48, 0.12);
+}
+
+/* Palette variants: apply alongside `.surat-page` (CSS-only) */
+.surat-page.theme-sand {
   --ic-primary: #a06927;
   --ic-secondary: #7a5130;
-  --ic-accent: #f0b35a;
+  --ic-accent: #d2a24b;
   --ic-bg-elev: #fffaf3;
   --ic-text-muted: #463f3a;
   --ic-border: rgba(160, 105, 39, 0.18);
-  --ic-shadow: 0 8px 22px rgba(160, 105, 39, 0.12);
+  --ic-shadow: 0 14px 30px rgba(160, 105, 39, 0.12);
 }
 
-.container.theme-rose {
+.surat-page.theme-rose {
   --ic-primary: #b3547a;
   --ic-secondary: #7a3a59;
   --ic-accent: #ff80a6;
   --ic-bg-elev: #fff6f9;
   --ic-text-muted: #49313e;
   --ic-border: rgba(179, 84, 122, 0.18);
-  --ic-shadow: 0 8px 22px rgba(179, 84, 122, 0.12);
+  --ic-shadow: 0 14px 30px rgba(179, 84, 122, 0.12);
 }
 
-.container.theme-ink {
+.surat-page.theme-ink {
   --ic-primary: #1e293b;
   --ic-secondary: #0f172a;
   --ic-accent: #60a5fa;
   --ic-bg-elev: #0b1220;
   --ic-text-muted: #cbd5e1;
   --ic-border: rgba(96, 165, 250, 0.2);
-  --ic-shadow: 0 10px 26px rgba(2, 6, 23, 0.45);
+  --ic-shadow: 0 16px 32px rgba(2, 6, 23, 0.45);
 }
 
-/* Density presets: add to `.container` */
-.container.density-compact {
+/* Density presets: add to `.surat-page` */
+.surat-page.density-compact {
   --ic-space-y: 0.65rem;
 }
-.container.density-comfortable {
+.surat-page.density-comfortable {
   --ic-space-y: 1rem;
 }
-.container.density-spacious {
+.surat-page.density-spacious {
   --ic-space-y: 1.35rem;
 }
 
 /* Wire density to components */
-.container.density-compact .ayah-card { padding: 10px; margin-bottom: var(--ic-space-y, 0.65rem); }
-.container.density-comfortable .ayah-card { padding: 14px; margin-bottom: var(--ic-space-y, 1rem); }
-.container.density-spacious .ayah-card { padding: 18px; margin-bottom: var(--ic-space-y, 1.35rem); }
+.surat-page.density-compact .ayah-card { padding: 10px; margin-bottom: var(--ic-space-y, 0.65rem); }
+.surat-page.density-comfortable .ayah-card { padding: 14px; margin-bottom: var(--ic-space-y, 1rem); }
+.surat-page.density-spacious .ayah-card { padding: 18px; margin-bottom: var(--ic-space-y, 1.35rem); }
 
 /* Minimal style variant: reduce shadows and borders */
-.container.style-minimal .ayah-card {
+.surat-page.style-minimal .ayah-card {
   box-shadow: none;
   border: 1px solid var(--ic-border);
 }
-.container.style-minimal .audio-player-container {
+.surat-page.style-minimal .audio-player-container {
   box-shadow: none;
-  background-color: rgba(25, 27, 31, 0.88);
+  background: linear-gradient(135deg, rgba(15, 47, 43, 0.92), rgba(20, 60, 55, 0.92));
 }
-.container.style-minimal .sticky-dropdown {
-  box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-  border: 1px solid rgba(255,255,255,0.08);
+.surat-page.style-minimal .sticky-dropdown {
+  box-shadow: 0 6px 16px rgba(15, 53, 48, 0.12);
+  border: 1px solid rgba(15, 110, 99, 0.16);
 }
-.container.style-minimal .icon-btn:hover,
-.container.style-minimal .control-btn:hover { transform: none; box-shadow: none; }
+.surat-page.style-minimal .icon-btn:hover,
+.surat-page.style-minimal .control-btn:hover { transform: none; box-shadow: none; }
 
 /* Typography finesse */
-.container {
+.surat-page {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-.container ::selection {
-  background: rgba(0, 191, 166, 0.2);
+.surat-page ::selection {
+  background: rgba(210, 162, 75, 0.25);
 }
 
 .lead { color: var(--ic-text-muted); }
 h1.display-5 { letter-spacing: -0.01em; }
 
 /* Arabic/translation rhythm and contrast */
-.arabic-text { color: #0a2e2a; line-height: 1.9; }
-.translation-text { color: #334155; border-top: 1px solid rgba(0,0,0,0.06); padding-top: 8px; }
+.arabic-text { color: #123532; line-height: 1.9; }
+.translation-text { color: #2f3f42; border-top: 1px solid rgba(15, 110, 99, 0.12); padding-top: 8px; }
 
 @media (prefers-color-scheme: dark) {
   .translation-text { border-top-color: rgba(255,255,255,0.12); }
@@ -2056,21 +2200,21 @@ h1.display-5 { letter-spacing: -0.01em; }
   border-radius: 10px;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
-.sticky-dropdown > span:hover { background-color: rgba(255,255,255,0.08); }
-.sticky-dropdown > span:focus-visible { box-shadow: 0 0 0 0.15rem rgba(0,191,166,0.25); }
+.sticky-dropdown > span:hover { background-color: rgba(255, 255, 255, 0.16); }
+.sticky-dropdown > span:focus-visible { box-shadow: 0 0 0 0.15rem rgba(210, 162, 75, 0.25); }
 
 /* Enhanced selects without markup change */
 .sticky-dropdown .form-select {
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #e9f2f3;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #1c2b2f;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 .sticky-dropdown .form-select:focus {
-  border-color: #7fd6c9;
-  background-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);
+  border-color: rgba(15, 110, 99, 0.6);
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 0 0 0.15rem rgba(15, 110, 99, 0.2);
 }
 
 /* Per-ayah action icons polish */
@@ -2080,7 +2224,7 @@ h1.display-5 { letter-spacing: -0.01em; }
   transition: background-color 0.18s ease, transform 0.18s ease;
 }
 .ayah-card-container .icon-btn:hover {
-  background-color: rgba(11, 128, 111, 0.08);
+  background-color: rgba(15, 110, 99, 0.1);
   transform: translateY(-1px);
 }
 
@@ -2090,7 +2234,7 @@ h1.display-5 { letter-spacing: -0.01em; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Density presets: add `density-compact` to `.container` to activate */
+/* Density presets: add `density-compact` to `.surat-page` to activate */
 .density-compact .ayah-card { padding: 10px; margin-bottom: 0.65rem; }
 .density-compact .controls { gap: 8px; }
 .density-compact .arabic-text { font-size: 0.95em; }
@@ -2104,53 +2248,12 @@ h1.display-5 { letter-spacing: -0.01em; }
 
 /* Subtle global typography tuning */
 .lead {
-  color: #35424c;
+  color: var(--ic-text-muted);
 }
 
 h1.display-5 {
   letter-spacing: -0.01em;
-}
 
-/* Sticky filter capsule enhancements without altering markup */
-.sticky-dropdown {
-  background: linear-gradient(90deg, #83F5E5, #E761BD);  border-radius: 24px;
-  box-shadow: rgba(67, 66, 66, 0.55) 0px 1px 0px, rgba(0, 0, 0, 0.03) 0px -1px 0px , rgba(26, 95, 122, 0.09) 0px 10px 28px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.sticky-dropdown label.form-label {
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #000;
-}
-
-.sticky-dropdown .form-select {
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  background-color: rgba(255, 255, 255, 0.08);
-  color: #000;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.sticky-dropdown .form-select:focus {
-  border-color: #000000;
-  background-color: rgba(255, 255, 255, 0.12);
-  box-shadow: 0 0 0 0.15rem rgba(0, 191, 166, 0.25);
-}
-
-.sticky-dropdown option {
-  color: #1f2933;
-}
-
-/* Per-ayah action icons polish */
-.ayah-card-container .icon-btn {
-  border-radius: 8px;
-  padding: 6px;
-  transition: background-color 0.18s ease, transform 0.18s ease;
-}
-
-.ayah-card-container .icon-btn:hover {
-  background-color: rgba(11, 128, 111, 0.08);
   transform: translateY(-1px);
 }
 

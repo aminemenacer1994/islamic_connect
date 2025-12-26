@@ -40,10 +40,6 @@
         </template>
       </Dropdown>
     </div>
-
-    <div class="helper">
-      "And We have certainly made the Qur’an easy to remember." 54:17
-    </div>
   </div>
   
 </template>
@@ -105,117 +101,271 @@ export default {
 
 <style scoped>
 .surah-picker {
-  background: linear-gradient(135deg, rgba(11,128,111,.08), rgba(26,95,122,.08));
-  border: 1px solid rgba(11,128,111,.18);
-  border-radius: 20px;
-  padding: 10px 10px;
-  margin-bottom: 5px;
-  box-shadow: 0 12px 28px rgba(26, 95, 122, .12);
+  --ink: #1d2b2f;
+  --muted: #5a6b6a;
+  --accent: #0f6e63;
+  --accent-2: #c58a35;
+  --accent-3: #1f7a6d;
+  --surface: #fff6ea;
+  --surface-2: #ffffff;
+  --stroke: rgba(15, 110, 99, 0.18);
+  background:
+    radial-gradient(220px 180px at 6% 18%, rgba(197, 138, 53, 0.22), transparent 70%),
+    radial-gradient(240px 190px at 90% 10%, rgba(15, 110, 99, 0.22), transparent 68%),
+    linear-gradient(140deg, #fff7ec 0%, #f3fbf7 45%, #eef6f3 100%);
+  border: 1px solid var(--stroke);
+  border-radius: 24px;
+  padding: 18px 18px 16px;
+  margin-bottom: 10px;
+  box-shadow: 0 24px 52px rgba(16, 54, 50, 0.14);
+  position: relative;
+  overflow: hidden;
+  color: var(--ink);
 }
 
-.header { margin-bottom: 8px; }
+.surah-picker::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.6), transparent 55%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.45), transparent 50%),
+    repeating-linear-gradient(
+      130deg,
+      rgba(15, 110, 99, 0.06) 0 10px,
+      rgba(15, 110, 99, 0) 10px 22px
+    );
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.surah-picker::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: 0;
+  height: 4px;
+  border-radius: 0 0 12px 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+  opacity: 0.8;
+}
+
+.surah-picker > * {
+  position: relative;
+  z-index: 1;
+}
+
+.header {
+  display: grid;
+  gap: 4px;
+  margin-bottom: 10px;
+  animation: rise-in 0.5s ease-out both;
+}
+
 .title {
   font-weight: 800;
-  letter-spacing: .02em;
-  color: #0b806f;
+  letter-spacing: 0.01em;
+  color: var(--accent);
+  font-size: 1.02rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  width: fit-content;
 }
+
+
+
 .subtitle {
-  font-size: .9rem;
-  color: #3a5561;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.picker {
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(15, 110, 99, 0.18);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(8px);
+  animation: rise-in 0.55s ease-out 0.08s both;
+  z-index: 2;
 }
 
 .w-100 { width: 100%; }
 
 .glossy :deep(.p-dropdown) {
   width: 100%;
-  background: #fff;
-  border-radius: 16px;
-  border: 1px solid #aed4ff;
-  box-shadow: 0 10px 30px rgba(15, 121, 196, 0.18);
-  transition: border-color .15s ease, box-shadow .2s ease;
+  background: var(--surface-2);
+  border-radius: 18px;
+  border: 1px solid rgba(15, 110, 99, 0.25);
+  box-shadow: 0 14px 26px rgba(16, 54, 50, 0.12);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   position: relative;
-  padding: 2px;
+  padding: 3px;
 }
+
 .glossy :deep(.p-dropdown):hover {
-  border-color: #6db5ff;
-  box-shadow: 0 16px 40px rgba(15, 121, 196, 0.25);
+  border-color: rgba(15, 110, 99, 0.5);
+  box-shadow: 0 20px 36px rgba(16, 54, 50, 0.2);
+  transform: translateY(-1px);
 }
+
+.glossy :deep(.p-dropdown.p-focus) {
+  border-color: var(--accent-3);
+  box-shadow: 0 0 0 3px rgba(15, 110, 99, 0.18), 0 18px 34px rgba(16, 54, 50, 0.2);
+}
+
 .glossy :deep(.p-dropdown-label) {
   padding-right: 32px;
   display: flex;
   align-items: center;
   width: 100%;
 }
+
 .glossy :deep(.p-inputtext) {
-  font-size: 1.05rem;
-  padding: .9rem 1rem;
-  border-radius: 12px;
+  font-size: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 14px;
   border: none;
-  box-shadow: inset 0 0 0 1px rgba(15, 121, 196, 0.2);
-  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.16);
+  background: linear-gradient(180deg, #ffffff, #f8faf7);
   flex: 1;
   width: auto;
 }
-.glossy :deep(.p-dropdown-trigger) {
-  height: 100%;
-}
+
 .glossy :deep(.p-dropdown-panel) {
-  margin-top: 6px;
-  border-radius: 16px;
-  border: 1px solid #dfe7ee;
-  box-shadow: 0 40px 60px rgba(20, 60, 120, 0.25);
+  margin-top: 8px;
+  border-radius: 18px;
+  border: 1px solid rgba(17, 60, 70, 0.12);
+  box-shadow: 0 30px 50px rgba(16, 54, 50, 0.22);
   width: calc(100% + 4px);
   left: -2px;
-  background: #fff;
-  padding: .5rem 0;
+  background: #ffffff;
+  padding: 0.5rem 0;
   z-index: 1055;
 }
+
 .glossy :deep(.p-dropdown-panel .p-dropdown-items) {
   max-height: 300px;
 }
+
 .glossy :deep(.p-dropdown-panel .p-dropdown-item) {
-  padding: 0.7rem 1.25rem;
-  font-size: 1rem;
-  color: #0f3c52;
+  padding: 0.72rem 1.25rem;
+  font-size: 0.98rem;
+  color: #17383d;
   display: flex;
   align-items: center;
-  gap: .75rem;
+  gap: 0.75rem;
+  border-radius: 10px;
+  margin: 0 0.35rem;
 }
+
+.glossy :deep(.p-dropdown-panel .p-dropdown-item:hover) {
+  background: rgba(15, 110, 99, 0.08);
+}
+
 .glossy :deep(.p-dropdown-panel .p-dropdown-item.p-highlight) {
-  background: #f2f8ff;
+  background: rgba(197, 138, 53, 0.14);
 }
+
 .glossy :deep(.p-dropdown-panel .p-dropdown-header) {
-  padding: 0 1.25rem .25rem;
+  padding: 0 1.25rem 0.35rem;
 }
+
 .glossy :deep(.p-dropdown-panel .p-dropdown-filter) {
   width: calc(100% - 2.5rem);
   margin: 0 1.25rem 0;
-  padding: .9rem 1rem;
+  padding: 0.85rem 1rem;
   border-radius: 12px;
-  border: 1px solid #dfe7ee;
+  border: 1px solid rgba(17, 60, 70, 0.18);
   box-shadow: none;
-  font-size: 1rem;
+  font-size: 0.98rem;
 }
+
 .glossy :deep(.p-dropdown-panel .p-dropdown-filter:focus) {
-  border-color: #83b4ff;
+  border-color: rgba(15, 110, 99, 0.65);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(131, 180, 255, 0.3);
+  box-shadow: 0 0 0 3px rgba(15, 110, 99, 0.2);
 }
+
 .glossy :deep(.p-dropdown-arrow) {
-  color: #0f3c52;
+  color: #124147;
   font-size: 1.25rem;
 }
 
-.item { display: flex; align-items: baseline; gap: .6rem; }
-.item .num { font-weight: 700; color: #1a5f7a; min-width: 2ch; text-align: right; }
-.item .en { font-weight: 600; color: #102a43; }
-.item .ar { margin-left: auto; font-family: 'Scheherazade', serif; font-size: 1.05rem; color: #0b806f; }
+.item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+  width: 100%;
+}
 
+.item .num {
+  font-weight: 700;
+  color: #0f6e63;
+  min-width: 2.2ch;
+  text-align: right;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  font-variant-numeric: tabular-nums;
+}
+
+.item .en {
+  font-weight: 600;
+  color: #1f2f33;
+}
+
+.item .ar {
+  margin-left: auto;
+  font-family: 'Scheherazade', serif;
+  font-size: 1.05rem;
+  color: #137166;
+}
 
 .helper {
-  margin-top: 10px;
-  font-size: .85rem;
-  color: #5c7280;
+  margin-top: 14px;
+  padding: 0.65rem 0.95rem;
+  border-radius: 14px;
+  font-size: 0.86rem;
+  color: #4b5e61;
   text-align: center;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(15, 110, 99, 0.16);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
+  animation: rise-in 0.55s ease-out 0.16s both;
+  z-index: 1;
+}
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .surah-picker {
+    padding: 14px 12px;
+  }
+
+  .title {
+    font-size: 0.98rem;
+  }
+
+  .subtitle {
+    font-size: 0.86rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .picker,
+  .helper {
+    animation: none;
+  }
 }
 </style>

@@ -81,10 +81,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4 d-flex pb-3\">\n        <div class=\"card custom-card shadow-sm rounded-4 overflow-hidden\">\n          <img src=\"/images/rug.png\" alt=\"Seerah Timeline\" class=\"w-100 mt-1\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Salat Teachings</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover the beauty of Islamic\n              prayer with our Salat Guide. This walks you through each of the five daily prayers\n            </p>\n            <button class=\"form-control\" onclick=\"window.location.href='/athkar'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Learn Salat</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "View Seerah")])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"col-md-6 col-lg-4 d-flex pb-3\">\n        <div class=\"card custom-card rounded-4 overflow-hidden\">\n          <img src=\"/images/rug.png\" alt=\"Seerah Timeline\" class=\"w-100 mt-1\" style=\"object-fit: contain;\" />\n          <div class=\"p-3\">\n            <h5 class=\"mb-2 fw-bold display-6 text-dark text-center\">Salat Teachings</h5>\n            <p class=\"card-text text-muted text-wrap text-center\"\n              style=\"overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;\">Discover the beauty of Islamic\n              prayer with our Salat Guide. This walks you through each of the five daily prayers\n            </p>\n            <button class=\"form-control\" onclick=\"window.location.href='/athkar'\"\n              style=\"background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;\"\n              type=\"submit\">\n              <span class=\"text-center w-100\"><b>Learn Salat</b></span>\n            </button>\n          </div>\n        </div>\n      </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6 col-lg-4"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card custom-card shadow-sm rounded-4 overflow-hidden"
+    class: "card custom-card rounded-4 overflow-hidden"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
     src: "/images/name_allah1.png",
     alt: "Names of Allah",
@@ -163,13 +163,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Islamic finance refers to a financial system that operates in accordance with Shariah (Islamic law) and is rooted in ethical principles. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/finance'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
@@ -199,13 +192,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Browse thoughtful reflections, stories, and practical reminders. The blog section offers accessible posts for everyday spiritual growth and community life. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/read'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"
@@ -234,13 +220,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Islamic dictionary is a specialized reference resource that provides definitions and explanations of terms, concepts, and phrases related to Islam "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/books'",
-    style: {
-      "background": "#0b5d4b",
-      "box-shadow": "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
-      "color": "white",
-      "height": "38px",
-      "padding": "0.375rem 0.75rem"
-    },
     type: "submit"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-center w-100"

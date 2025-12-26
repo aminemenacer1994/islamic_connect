@@ -517,49 +517,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container-fluid py-4",
+  class: "container-fluid py-4 dua-shell",
   role: "main",
   "aria-labelledby": "dua-title"
 };
 const _hoisted_2 = {
-  class: "container",
-  style: {
-    "padding": "10px"
-  }
+  class: "container dua-next-step-wrap"
 };
 const _hoisted_3 = {
-  class: "mx-auto mb-4",
-  style: {
-    "position": "relative",
-    "background": "#eaf3f1",
-    "border": "1px solid rgba(11, 128, 111, 0.20)",
-    "border-radius": "24px",
-    "box-shadow": "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09)",
-    "padding": "1.25rem 1.75rem"
-  }
+  class: "mx-auto mb-4 dua-next-step"
 };
 const _hoisted_4 = ["title", "aria-label"];
 const _hoisted_5 = {
   class: "d-flex align-items-start gap-3 text-start"
 };
 const _hoisted_6 = {
-  style: {
-    "flex": "1"
-  }
+  class: "flex-grow-1"
 };
 const _hoisted_7 = {
-  class: "mb-2 d-inline-flex align-items-center gap-1",
-  style: {
-    "color": "#1f2933"
-  }
+  class: "mb-2 d-inline-flex align-items-center gap-1 next-step-teaser"
 };
 const _hoisted_8 = {
-  class: "mb-3",
-  style: {
-    "color": "#1f2933",
-    "line-height": "1.8",
-    "font-size": "1.05rem"
-  }
+  class: "mb-3 next-step-text"
 };
 const _hoisted_9 = {
   class: "d-flex flex-wrap gap-2"
@@ -584,7 +563,7 @@ const _hoisted_14 = {
   class: "col-10 col-sm-10 col-md-11"
 };
 const _hoisted_15 = {
-  class: "input-group shadow-sm rounded-4 overflow-hidden h-100"
+  class: "input-group shadow-sm rounded-4 overflow-hidden h-100 dua-search"
 };
 const _hoisted_16 = {
   class: "col-2 col-sm-2 col-md-1"
@@ -612,15 +591,7 @@ const _hoisted_23 = {
 };
 const _hoisted_24 = {
   key: 1,
-  class: "container premium-action-button--outline mb-4",
-  style: {
-    "position": "relative",
-    "background": "#eaf3f1",
-    "border": "1px solid rgba(11, 128, 111, 0.20)",
-    "border-radius": "24px",
-    "box-shadow": "inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(0,0,0,0.03), 0 10px 28px rgba(26,95,122,0.09)",
-    "padding": "1.25rem 1.75rem"
-  }
+  class: "container premium-action-button--outline mb-4 dua-filter-panel"
 };
 const _hoisted_25 = {
   class: "row g-3"
@@ -649,13 +620,7 @@ const _hoisted_33 = {
 };
 const _hoisted_34 = {
   key: 0,
-  class: "text-center py-5 rounded-4",
-  style: {
-    "background": "linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%)",
-    "border": "1px solid #99f6e4",
-    "margin": "2rem 1rem",
-    "box-shadow": "0 10px 30px rgba(20, 184, 166, 0.1)"
-  },
+  class: "text-center py-5 rounded-4 dua-empty",
   role: "status",
   "aria-live": "polite"
 };
@@ -663,11 +628,7 @@ const _hoisted_35 = {
   class: "py-4"
 };
 const _hoisted_36 = {
-  class: "mb-4 fw-medium fs-5",
-  style: {
-    "color": "#0f766e",
-    "font-family": "'Inter', system-ui, sans-serif"
-  }
+  class: "mb-4 fw-medium fs-5 dua-empty-text"
 };
 const _hoisted_37 = ["aria-labelledby"];
 const _hoisted_38 = {
@@ -686,13 +647,7 @@ const _hoisted_42 = {
 const _hoisted_43 = ["aria-labelledby"];
 const _hoisted_44 = {
   key: 0,
-  class: "position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2",
-  style: {
-    "width": "32px",
-    "height": "32px",
-    "box-shadow": "0 2px 4px rgba(0,0,0,0.1)",
-    "z-index": "1"
-  }
+  class: "position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2 liked-badge"
 };
 const _hoisted_45 = {
   class: "card-body d-flex flex-column p-3 p-md-4 text-black"
@@ -712,7 +667,7 @@ const _hoisted_53 = {
   class: "d-flex justify-content-between align-items-center w-100"
 };
 const _hoisted_54 = {
-  class: "d-flex align-items-center bg-white rounded-pill px-2 shadow-sm"
+  class: "d-flex align-items-center bg-white rounded-pill px-2 shadow-sm font-control"
 };
 const _hoisted_55 = ["disabled"];
 const _hoisted_56 = ["disabled"];
@@ -740,28 +695,18 @@ const _hoisted_66 = ["onClick"];
 const _hoisted_67 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
-    class: "hero-section mb-5"
+    class: "hero-section dua-hero mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     id: "dua-title",
-    class: "fw-bold text-center mb-3"
+    class: "fw-bold text-center mb-3 dua-title"
   }, "Dua Collection"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-center container lead text-muted mb-4"
+    class: "text-center container lead mb-4 dua-lead"
   }, " Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness, protection, and gratitude. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     title: $data.nextStepMinimized ? 'Restore' : 'Minimize',
     "aria-label": $data.nextStepMinimized ? 'Restore next step' : 'Minimize next step',
     onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleNextStepMinimized && $options.toggleNextStepMinimized(...args)),
-    style: {
-      "position": "absolute",
-      "right": "44px",
-      "top": "14px",
-      "opacity": "0.9",
-      "background": "transparent",
-      "border": "0",
-      "color": "#6b8b91",
-      "z-index": "3",
-      "cursor": "pointer"
-    }
+    class: "next-step-toggle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
     "aria-hidden": "true"
@@ -770,62 +715,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "next-step-icon-circle",
     role: "img",
-    "aria-label": "Gentle audio guide for new Muslims",
-    style: {
-      "width": "52px",
-      "height": "52px",
-      "border-radius": "50%",
-      "background": "linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.18))",
-      "display": "flex",
-      "align-items": "center",
-      "justify-content": "center",
-      "color": "#0b806f",
-      "font-size": "1.4rem",
-      "box-shadow": "inset 0 0 0 1px rgba(11, 128, 111, 0.24), 0 8px 18px rgba(26,95,122,0.12)"
-    }
+    "aria-label": "Gentle audio guide for new Muslims"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-assistive-listening-systems",
     "aria-hidden": "true"
   })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-2 fw-semibold text-uppercase",
-    style: {
-      "letter-spacing": "0.1em",
-      "color": "#1a5f7a",
-      "font-size": "0.78rem"
-    }
+    class: "mb-2 fw-semibold text-uppercase next-step-eyebrow"
   }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/name",
-    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1",
-    style: {
-      "color": "#0b806f"
-    },
+    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link",
     "aria-label": "Open the 99 Names of Allah journey"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Continue to the 99 Names of Allah "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square",
-    "aria-hidden": "true",
-    style: {
-      "color": "#0b806f",
-      "font-size": "0.85rem",
-      "opacity": "0.85"
-    }
+    "aria-hidden": "true"
   })], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Ready for your next gentle step? Explore the ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/name",
-    class: "fw-semibold text-decoration-none",
-    style: {
-      "color": "#0b806f"
-    }
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " 99 Names of Allah ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" with Arabic and English names, meanings, descriptions, quick search, and favorites. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/name",
-    class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center",
-    style: {
-      "background": "linear-gradient(135deg, #0b806f, #1a5f7a)",
-      "border": "none",
-      "border-radius": "999px",
-      "box-shadow": "0 10px 20px rgba(26, 95, 122, 0.25)",
-      "transition": "transform 0.2s ease, box-shadow 0.2s ease"
-    },
-    onmouseover: "this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';",
-    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';"
+    class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center next-step-cta"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Explore 99 Names of Allah"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-praying-hands ms-2",
     "aria-hidden": "true"
@@ -843,10 +751,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "mt-2 text-muted"
   }, "Loading duas…", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Input "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "input-group-text text-white border-0",
-    style: {
-      "background-color": "#0db691"
-    }
+    class: "input-group-text text-white border-0 search-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
@@ -941,25 +846,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     role: "status",
     "aria-live": "polite"
   }, [$options.filteredDuas.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1 mb-4 d-block", $data.viewMode === 'liked' ? 'bi-heart-fill' : 'bi-search']),
-    style: {
-      "color": "#0d9488",
-      "text-shadow": "0 4px 12px rgba(13, 148, 136, 0.3)"
-    }
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi fs-1 mb-4 d-block", $data.viewMode === 'liked' ? 'bi-heart-fill' : 'bi-search'])
   }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Message "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.viewMode === 'liked' ? 'No liked duas yet. Start liking duas to see them here' : 'No duas found for your search'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Explore Button (only in liked mode) "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     onClick: _cache[12] || (_cache[12] = $event => {
       $data.viewMode = 'all';
       $options.resetPagination();
     }),
-    class: "btn border-0 fw-semibold px-5 py-3 rounded-pill shadow-lg text-white",
-    style: {
-      "background": "linear-gradient(90deg, #0d9488, #14b8a6)",
-      "transition": "all 0.3s ease",
-      "font-size": "1.05rem"
-    },
-    onmouseover: "this.style.transform='translateY(-3px)'; this.style.boxShadow='0 12px 25px rgba(13,148,136,0.4)'",
-    onmouseout: "this.style.transform='translateY(0)'; this.style.boxShadow='0 8px 20px rgba(13,148,136,0.25)'"
+    class: "btn border-0 fw-semibold px-5 py-3 rounded-pill shadow-lg text-white dua-empty-cta"
   }, " Explore All Duas ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredDuas, category => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: category.id,
@@ -1036,10 +930,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         innerHTML: $options.highlightText('- ' + dua.reference),
         "aria-label": "Dua reference"
       }, null, 8 /* PROPS */, _hoisted_51)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-link p-1",
-        style: {
-          "color": "#00897b"
-        },
+        class: "btn btn-link p-1 font-control-btn",
         onClick: _cache[13] || (_cache[13] = $event => $options.changeFontSize('decrease')),
         disabled: $data.fontSize <= 14,
         "aria-label": "Decrease Font Size"
@@ -1052,31 +943,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "height": "20px"
         }
       }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-link p-1",
-        style: {
-          "color": "#00897b"
-        },
+        class: "btn btn-link p-1 font-control-btn",
         onClick: _cache[14] || (_cache[14] = $event => $options.changeFontSize('increase')),
         disabled: $data.fontSize >= 28,
         "aria-label": "Increase Font Size"
       }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-plus-circle-fill fs-5"
       }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      :class=\"getAudioButtonClasses(dua)\"\n                      style=\"width: 36px; height: 36px;\" @click=\"handleAudioPlayback(dua)\"\n                      :aria-label=\"isAudioPlaying(dua) ? 'Stop Dua audio' : 'Play Dua audio'\">\n                      <i :class=\"isAudioPlaying(dua) ? 'bi bi-stop-fill' : 'bi bi-volume-up-fill'\"></i>\n                      <span class=\"action-tooltip\">\n                        {{ isAudioPlaying(dua) ? 'Stop audio' : hasRecordedAudio(dua) ? 'Play recorded dua' : 'Play spoken dua' }}\n                      </span>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
-        style: {
-          "width": "36px",
-          "height": "36px"
-        },
+        class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle",
         onClick: $event => $options.toggleLike(dua.id),
         "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart')
       }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_58), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
-        style: {
-          "width": "36px",
-          "height": "36px"
-        },
+        class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle",
         onClick: $event => $options.shareOnWhatsApp(dua),
         "aria-label": "Share on WhatsApp"
       }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -1084,11 +964,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "action-tooltip"
       }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_60), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-        class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn",
-        style: {
-          "width": "36px",
-          "height": "36px"
-        },
+        class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle",
         onClick: $event => $options.copyContent(dua),
         "aria-label": "Copy Content"
       }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
