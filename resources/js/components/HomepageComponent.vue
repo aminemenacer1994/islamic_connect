@@ -12,7 +12,7 @@
           <div class="ic-hero__orb ic-hero__orb--secondary"></div>
 
           <div class="row align-items-center ic-hero__grid">
-            <div class="col-md-6">
+            <div class="col-md-7">
               <div class="text-left">
                 <!-- Badge -->
                 <div class="ic-hero__badge ic-reveal" style="--ic-delay: 0.1s;">
@@ -62,11 +62,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
               <div class="text-center">
                 <picture>
-                  <source srcset="/images/banner-photo.avif 800w" type="image/avif">
-                  <img src="/images/banner-photo.avif" srcset="/images/banner-photo.avif 800w"
+                  <source srcset="/images/banner-photo.png 800w" type="image/png">
+                  <img src="/images/banner-photo.png" srcset="/images/banner-photo.png 800w"
                     sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw"
                     class="img-fluid hero-image ic-hero__image ic-reveal"
                     style="--ic-delay: 0.35s;"
@@ -249,7 +249,7 @@
             </div>
         </div>
     </section> -->
-    <section class="container pt-3 ic-features" aria-label="Islamic Connect Features">
+    <section class="container pt-3 pb-3 ic-features" aria-label="Islamic Connect Features">
 
       <!-- First Row - Quran Companion -->
       <div class="row py-4 py-lg-5 align-items-center ic-feature-row">
@@ -686,7 +686,6 @@
       <div class="container px-lg-4">
         <div class="row justify-content-center text-center">
           <div class="col-xl-8 col-lg-9">
-            <p class="text-teal fw-semibold small mb-2">Request a response within 24 hours</p>
             <h2 id="contact-heading" class="display-5 fw-bold mb-3">Let’s Keep the Conversation Going</h2>
             <p class="lead fw-semibold text-muted mb-4">
               Share your thoughts, ask about our resources, or flag a bug. Picking the right topic helps us route your request to
@@ -1015,11 +1014,9 @@
 }
 
 .ic-hero__ai .welcome-chat-frame {
-  padding: 0.5rem;
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid var(--ic-border);
-  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
+  /* padding: 0.5rem; */
+  border-radius: 12px;
+  /* box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12); */
 }
 
 .ic-seo {
@@ -2004,7 +2001,7 @@
     to { transform: rotate(360deg); }
   }
   .welcome-chat-shell {
-    background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
+    /* background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%); */
     padding: 2rem 0;
     position: relative;
     overflow: hidden;
@@ -2013,8 +2010,8 @@
     position: relative;
     margin: 0 auto;
     padding: 0.5rem;
-    border-radius: 20px;
-    background: #ffffff;
+    border-radius: 12px;
+    /* background: #ffffff; */
     
   }
   @media (max-width: 767px) {

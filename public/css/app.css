@@ -1980,16 +1980,16 @@ input[type="checkbox"][data-v-406910d0] {
     max-width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.92);
-    border-radius: 24px;
-    border: 1px solid var(--ai-border);
-    padding: clamp(0.8rem, 2.2vw, 1.5rem);
-    box-shadow: var(--ai-shadow);
+    /* background: rgba(255, 255, 255, 0.92); */
+    border-radius: 12px;
+    /* border: 1px solid var(--ai-border); */
+    /* padding: clamp(0.8rem, 2.2vw, 1.5rem); */
+    /* box-shadow: var(--ai-shadow); */
 }
 .ai-welcome[data-v-300b761a] {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(246, 250, 247, 0.95));
-    border: 1px solid var(--ai-border);
-    padding: 1rem;
+    /* background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(246, 250, 247, 0.95)); */
+    /* border: 1px solid var(--ai-border); */
+    /* padding: 1rem; */
     box-shadow: 0 16px 30px rgba(15, 53, 48, 0.12);
     text-align: left;
     gap: 0.4rem;
@@ -3495,11 +3495,9 @@ to {
   margin-top: 1.5rem;
 }
 .ic-hero__ai .welcome-chat-frame[data-v-2ba25654] {
-  padding: 0.5rem;
-  border-radius: 26px;
-  background: rgba(255, 255, 255, 0.65);
-  border: 1px solid var(--ic-border);
-  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
+  /* padding: 0.5rem; */
+  border-radius: 12px;
+  /* box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12); */
 }
 .ic-seo[data-v-2ba25654] {
   position: relative;
@@ -4346,7 +4344,7 @@ to { transform: rotate(360deg);
 }
 }
 .welcome-chat-shell[data-v-2ba25654] {
-    background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%);
+    /* background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%); */
     padding: 2rem 0;
     position: relative;
     overflow: hidden;
@@ -4355,8 +4353,8 @@ to { transform: rotate(360deg);
     position: relative;
     margin: 0 auto;
     padding: 0.5rem;
-    border-radius: 20px;
-    background: #ffffff;
+    border-radius: 12px;
+    /* background: #ffffff; */
 }
 @media (max-width: 767px) {
 .welcome-chat-frame[data-v-2ba25654] {
@@ -5830,7 +5828,7 @@ img[data-v-23ef7dd5]{
   margin-bottom: 10px;
   box-shadow: 0 24px 52px rgba(16, 54, 50, 0.14);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   color: var(--ink);
 }
 .surah-picker[data-v-7416ffac]::before {
@@ -5924,6 +5922,11 @@ img[data-v-23ef7dd5]{
   display: flex;
   align-items: center;
   width: 100%;
+}
+.glossy[data-v-7416ffac] .p-dropdown-trigger,
+.glossy[data-v-7416ffac] .p-dropdown-trigger-icon,
+.glossy[data-v-7416ffac] .p-dropdown-arrow {
+  display: none;
 }
 .glossy[data-v-7416ffac] .p-inputtext {
   font-size: 1rem;

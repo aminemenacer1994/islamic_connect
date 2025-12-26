@@ -1596,17 +1596,17 @@ export default {
     max-width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    background: rgba(255, 255, 255, 0.92);
-    border-radius: 24px;
-    border: 1px solid var(--ai-border);
-    padding: clamp(0.8rem, 2.2vw, 1.5rem);
-    box-shadow: var(--ai-shadow);
+    /* background: rgba(255, 255, 255, 0.92); */
+    border-radius: 12px;
+    /* border: 1px solid var(--ai-border); */
+    /* padding: clamp(0.8rem, 2.2vw, 1.5rem); */
+    /* box-shadow: var(--ai-shadow); */
   }
 
   .ai-welcome {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(246, 250, 247, 0.95));
-    border: 1px solid var(--ai-border);
-    padding: 1rem;
+    /* background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(246, 250, 247, 0.95)); */
+    /* border: 1px solid var(--ai-border); */
+    /* padding: 1rem; */
     box-shadow: 0 16px 30px rgba(15, 53, 48, 0.12);
     text-align: left;
     gap: 0.4rem;

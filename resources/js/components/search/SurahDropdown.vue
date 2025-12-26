@@ -119,7 +119,7 @@ export default {
   margin-bottom: 10px;
   box-shadow: 0 24px 52px rgba(16, 54, 50, 0.14);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   color: var(--ink);
 }
 
@@ -225,6 +225,12 @@ export default {
   display: flex;
   align-items: center;
   width: 100%;
+}
+
+.glossy :deep(.p-dropdown-trigger),
+.glossy :deep(.p-dropdown-trigger-icon),
+.glossy :deep(.p-dropdown-arrow) {
+  display: none;
 }
 
 .glossy :deep(.p-inputtext) {
