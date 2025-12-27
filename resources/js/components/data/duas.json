@@ -3,16 +3,22 @@
     "chapterId": 1,
     "duas": [
       {
-        "arabic": "رَبِّ زِدْنِي عِلْمًا",
-        "english": "My Lord, increase me in knowledge."
+        "title": "The Greatest Du'ā of Tawheed:",
+        "arabic": "لَا إِلٰهَ إِلَّا اللهُ",
+        "english": "There is no god worthy of worship except Allāh.",
+        "reference": "The Prophet ﷺ said this is the best remembrance. (Ṣaḥīḥ al-Bukhārī 3435)"
       },
       {
-        "arabic": "اللَّهُمَّ ثَبِّتْ قُلُوبَنَا عَلَى الْحَقِّ",
-        "english": "O Allah, keep our hearts firm on truth."
+        "title": "Du'ā for Firmness in Faith:",
+        "arabic": "يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ",
+        "english": "O Changer of hearts, make my heart firm upon Your religion.",
+        "reference": "Reported by Umm Salamah, the Prophet ﷺ recited this often. (Jāmi' at-Tirmidhī 3522 - Ṣaḥīḥ)"
       },
       {
-        "arabic": "اللَّهُمَّ اجْعَلْنَا مِنَ الْمُسْلِمِينَ الْمُتَّقِينَ",
-        "english": "O Allah, make us among the righteous Muslims."
+        "title": "Du'ā for Guidance to Truth:",
+        "arabic": "اهْدِنِي لِمَا اخْتُلِفَ فِيهِ مِنَ الْحَقِّ",
+        "english": "Guide me to the truth in matters where people differ.",
+        "reference": "The Prophet ﷺ taught this du'ā. (Ṣaḥīḥ Muslim 770)"
       }
     ]
   },
@@ -20,16 +26,22 @@
     "chapterId": 2,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ ارْزُقْنِي إِيمَانًا عَامِلًا",
-        "english": "O Allah, grant me faith that translates into action."
+        "english": "O Allah, grant me faith that translates into action.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
-        "english": "Our Lord, do not let our hearts deviate."
+        "english": "Our Lord, do not let our hearts deviate.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ عَلِّمْنِي مَا يَرْتَفِعُ بِهِ إِيمَانِي",
-        "english": "O Allah, teach me what raises my belief."
+        "english": "O Allah, teach me what raises my belief.",
+        "reference": ""
       }
     ]
   },
@@ -37,16 +49,22 @@
     "chapterId": 3,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْنِي مِنَ الْمُقِيمِينَ الصَّلَاةَ",
-        "english": "O Allah, make me among those who establish the prayer."
+        "english": "O Allah, make me among those who establish the prayer.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ اجْعَلْ صِيَامِي شُكْرًا لَكَ",
-        "english": "My Lord, let my fast be a thank-you to You."
+        "english": "My Lord, let my fast be a thank-you to You.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اقْبَلْ مِنَّا الصَّدَقَةَ",
-        "english": "O Allah, accept charity from us."
+        "english": "O Allah, accept charity from us.",
+        "reference": ""
       }
     ]
   },
@@ -54,16 +72,22 @@
     "chapterId": 4,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ هُدَاكَ",
-        "english": "O Allah, open for me the doors of Your guidance."
+        "english": "O Allah, open for me the doors of Your guidance.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ زِدْنِي فَهْمًا",
-        "english": "My Lord, increase me in understanding."
+        "english": "My Lord, increase me in understanding.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْ لِي الْقُرْآنَ رَحْمَةً وَنُورًا",
-        "english": "O Allah, make the Quran a mercy and light for me."
+        "english": "O Allah, make the Quran a mercy and light for me.",
+        "reference": ""
       }
     ]
   },
@@ -71,16 +95,22 @@
     "chapterId": 5,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
-        "english": "O Allah, send blessings upon Muhammad."
+        "english": "O Allah, send blessings upon Muhammad.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ عَلِّمْنِي سُنَّتَهُ",
-        "english": "O Allah, teach me his Sunnah."
+        "english": "O Allah, teach me his Sunnah.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ أَحْيِ قَلْبِي بِهَدْيِهِ",
-        "english": "O Allah, revive my heart with his guidance."
+        "english": "O Allah, revive my heart with his guidance.",
+        "reference": ""
       }
     ]
   },
@@ -88,16 +118,22 @@
     "chapterId": 6,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْ لِي فِي الصَّلَاةِ خُشُوعًا",
-        "english": "O Allah, grant me focus in prayer."
+        "english": "O Allah, grant me focus in prayer.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ أَعِنِّي عَلَى أَدَائِهَا",
-        "english": "My Lord, help me perform it."
+        "english": "My Lord, help me perform it.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْهَا حَبَلًا بَيْنِي وَبَيْنَكَ",
-        "english": "O Allah, make it a bond between me and You."
+        "english": "O Allah, make it a bond between me and You.",
+        "reference": ""
       }
     ]
   },
@@ -105,16 +141,22 @@
     "chapterId": 7,
     "duas": [
       {
+        "title": "",
         "arabic": "سُبْحَانَ اللَّهِ",
-        "english": "Glory be to Allah."
+        "english": "Glory be to Allah.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "الْحَمْدُ لِلَّهِ",
-        "english": "All praise is due to Allah."
+        "english": "All praise is due to Allah.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُ أَكْبَرُ",
-        "english": "Allah is the Greatest."
+        "english": "Allah is the Greatest.",
+        "reference": ""
       }
     ]
   },
@@ -122,16 +164,22 @@
     "chapterId": 8,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ طَهِّرْ قَلْبِي",
-        "english": "O Allah, purify my heart."
+        "english": "O Allah, purify my heart.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ اجْعَلْ قَلْبِي مُتَوَجِّهًا إِلَيْكَ",
-        "english": "My Lord, make my heart turn to You."
+        "english": "My Lord, make my heart turn to You.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْ ذِكْرَكَ نُورًا لِي",
-        "english": "O Allah, make Your remembrance a light for me."
+        "english": "O Allah, make Your remembrance a light for me.",
+        "reference": ""
       }
     ]
   },
@@ -139,16 +187,22 @@
     "chapterId": 9,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ زَيِّنِي بِالأَدَبِ",
-        "english": "O Allah, beautify me with good manners."
+        "english": "O Allah, beautify me with good manners.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ أَنْجِنِي مِنْ غَضَبِ صَدْرِي",
-        "english": "My Lord, save me from the anger of my chest."
+        "english": "My Lord, save me from the anger of my chest.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْ لِسَانِي لُطْفًا",
-        "english": "O Allah, make my speech gentle."
+        "english": "O Allah, make my speech gentle.",
+        "reference": ""
       }
     ]
   },
@@ -156,16 +210,22 @@
     "chapterId": 10,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ بَارِكْ فِي رِزْقِي",
-        "english": "O Allah, bless my provision."
+        "english": "O Allah, bless my provision.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ أَنْقِذْنِي مِنَ الْغَفْلَةِ",
-        "english": "My Lord, rescue me from heedlessness."
+        "english": "My Lord, rescue me from heedlessness.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْنِي آخِذًا بِالْحَلالِ",
-        "english": "O Allah, make me one who holds to halal."
+        "english": "O Allah, make me one who holds to halal.",
+        "reference": ""
       }
     ]
   },
@@ -173,16 +233,22 @@
     "chapterId": 11,
     "duas": [
       {
+        "title": "",
         "arabic": "رَبِّ أَصْلِحْ بَيْتِي",
-        "english": "My Lord, rectify my household."
+        "english": "My Lord, rectify my household.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ أَلِفْ بَيْنَ قُلُوبِنَا",
-        "english": "O Allah, bring hearts together."
+        "english": "O Allah, bring hearts together.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ اجْعَلْ ذُرِّيَّتِي مِنَ الصَّالِحِينَ",
-        "english": "My Lord, make my offspring among the righteous."
+        "english": "My Lord, make my offspring among the righteous.",
+        "reference": ""
       }
     ]
   },
@@ -190,16 +256,22 @@
     "chapterId": 12,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْمَعْنَا عَلَى الْمَحَبَّةِ",
-        "english": "O Allah, unite us in love."
+        "english": "O Allah, unite us in love.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ أَصْلِحْ شِيعَتِي",
-        "english": "My Lord, reform my community."
+        "english": "My Lord, reform my community.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ أَخْرِجْنِي مِنَ الْعُزْلَةِ لِلْخِدْمَةِ",
-        "english": "O Allah, move me from isolation into service."
+        "english": "O Allah, move me from isolation into service.",
+        "reference": ""
       }
     ]
   },
@@ -207,16 +279,22 @@
     "chapterId": 13,
     "duas": [
       {
+        "title": "",
         "arabic": "رَبِّ إِنِّي أَسْأَلُكَ نُورًا لِطَرِيقِي",
-        "english": "My Lord, I ask You for light for my path."
+        "english": "My Lord, I ask You for light for my path.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اشْدُدْ صُدُورَنَا لِلدَّوَامِ",
-        "english": "O Allah, strengthen our chests for steadiness."
+        "english": "O Allah, strengthen our chests for steadiness.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ هَبْ لِي قَلْبًا سَلِيمًا لِمَا بَعْدَ",
-        "english": "My Lord, grant me a sound heart for what comes next."
+        "english": "My Lord, grant me a sound heart for what comes next.",
+        "reference": ""
       }
     ]
   },
@@ -224,16 +302,22 @@
     "chapterId": 14,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْ قَبْرِي رَوْضَةً",
-        "english": "O Allah, make my grave a garden."
+        "english": "O Allah, make my grave a garden.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ أَدْخِلْنِي الْجَنَّةَ مَعَ الْمُتَّقِينَ",
-        "english": "My Lord, admit me into Paradise with the righteous."
+        "english": "My Lord, admit me into Paradise with the righteous.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ أَعِنِّي عَلَى الذِّكْرِ وَالْعَمَلِ الْجَيِّدِ حَتَّى الْمَوْتِ",
-        "english": "O Allah, help me remember You and do good deeds until death."
+        "english": "O Allah, help me remember You and do good deeds until death.",
+        "reference": ""
       }
     ]
   },
@@ -241,16 +325,22 @@
     "chapterId": 15,
     "duas": [
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْنِي مِنْ أَصْحَابِ الْجَنَّةِ",
-        "english": "O Allah, make me among the companions of Paradise."
+        "english": "O Allah, make me among the companions of Paradise.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "رَبِّ اجْعَلْ قَلْبِي يَخْشَى النَّارَ",
-        "english": "My Lord, make my heart fear the Fire."
+        "english": "My Lord, make my heart fear the Fire.",
+        "reference": ""
       },
       {
+        "title": "",
         "arabic": "اللَّهُمَّ اجْعَلْ لِي مِنْ أَشْجَارِ الْجَنَّةِ ظِلًّا",
-        "english": "O Allah, grant me shade from the trees of Paradise."
+        "english": "O Allah, grant me shade from the trees of Paradise.",
+        "reference": ""
       }
     ]
   }

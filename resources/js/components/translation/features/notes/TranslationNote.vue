@@ -2,7 +2,8 @@
   <div class="modal fade" id="translationNote" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true"
     ref="modal">
     <!-- Milestone Alert for Notes -->
-    <div v-if="milestoneMessage" class="alert alert-success" role="alert" style="position: fixed; top: 10px; right: 10px; z-index: 1100;">
+    <div v-if="milestoneMessage" class="alert alert-success" role="alert"
+      style="position: fixed; top: 10px; right: 10px; z-index: 1100;">
       {{ milestoneMessage }}
     </div>
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -215,12 +216,12 @@ export default {
                 showConfirmButton: false
               }).then(() => {
                 // Milestone tracking: notes created
-                const hit = trackAndDetect('notes_saved', [1,5,10,25,100], 'persistent');
+                const hit = trackAndDetect('notes_saved', [1, 5, 10, 25, 100], 'persistent');
                 if (hit && hit.threshold) {
                   if (hit.threshold === 1) {
-                    this.milestoneMessage = "First note saved — reflections deepen understanding.";
+                    this.milestoneMessage = "First note saved   reflections deepen understanding.";
                   } else {
-                    this.milestoneMessage = `Beautiful progress — ${hit.threshold} notes captured. Keep reflecting.`;
+                    this.milestoneMessage = `Beautiful progress   ${hit.threshold} notes captured. Keep reflecting.`;
                   }
                   this.hideMilestoneAfterDelay();
                 }

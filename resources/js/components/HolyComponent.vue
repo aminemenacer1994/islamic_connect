@@ -1,80 +1,79 @@
 <template>
-    <div class="container py-4">
-        <h1 class="text-center fw-bold display-5 mb-4">Quran Portal</h1>
-        <p class="text-center mb-4 lead">
-            Islamic Connect provides seamless access to the Qur’an, enabling Muslims to read, listen, and reflect on its
-            divine message. Our platform is dedicated to helping individuals connect with the words of Allah.
-        </p>
-        <div class="row g-4 ">
+  <div class="container py-4">
+    <h1 class="text-center fw-bold display-5 mb-4">Quran Portal</h1>
+    <p class="text-center mb-4 lead">
+      Islamic Connect provides seamless access to the Qur’an, enabling Muslims to read, listen, and reflect on its
+      divine message. Our platform is dedicated to helping individuals connect with the words of Allah.
+    </p>
+    <div class="row g-4 ">
 
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden">
-                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-                    <img src="/images/qc.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Quran Explorer</h1>
-                        <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the beauty and
-                            guidance of the Quran at your fingertips — perfect for seekers,
-                            travelers, and newcomers alike.</p>
-                        <button class="form-control" onclick="window.location.href='/quran'" type="submit">
-                            <span class="text-center w-100"><b>Explore Quran</b></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden">
-                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-                    <img src="/images/qe.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center single-line-title">Quran Companion</h1>
-                        <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the beauty and
-                            guidance of the Quran at your fingertips. Whether you're deepening your faith or discovering
-                            its wisdom for the first time.</p>
-                        <button class="form-control" onclick="window.location.href='/surat'" type="submit">
-                            <span class="text-center w-100"><b>Search Recitations</b></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden">
-                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-                    <img src="/images/history.png" alt="Islamic Shops" class="w-100 pt-4"
-                        style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Quran History</h1>
-                        <p class="card-text text-muted text-wrap text-center"
-                            style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich
-                            history of the Quran from its divine revelation to its meticulous preservation right at your
-                            fingertips.</p>
-                        <button class="form-control" onclick="window.location.href='/history'" type="submit">
-                            <span class="text-center w-100"><b>Discover History</b></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden">
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
+          <img src="/images/qc.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Quran Explorer</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the beauty and
+              guidance of the Quran at your fingertips perfect for seekers,
+              travelers, and newcomers alike.</p>
+            <button class="form-control" onclick="window.location.href='/quran'" type="submit">
+              <span class="text-center w-100"><b>Explore Quran</b></span>
+            </button>
+          </div>
         </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden">
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
+          <img src="/images/qe.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center single-line-title">Quran Companion</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the beauty and
+              guidance of the Quran at your fingertips. Whether you're deepening your faith or discovering
+              its wisdom for the first time.</p>
+            <button class="form-control" onclick="window.location.href='/surat'" type="submit">
+              <span class="text-center w-100"><b>Search Recitations</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden">
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
+          <img src="/images/history.png" alt="Islamic Shops" class="w-100 pt-4" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Quran History</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Explore the rich
+              history of the Quran from its divine revelation to its meticulous preservation right at your
+              fingertips.</p>
+            <button class="form-control" onclick="window.location.href='/history'" type="submit">
+              <span class="text-center w-100"><b>Discover History</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </div>
+  </div>
 
 </template>
 
 <script>
 export default {
-    props: {
-        isAuthenticated: { type: Boolean, required: true },
-        isSubscribed: { type: Boolean, required: true },
+  props: {
+    isAuthenticated: { type: Boolean, required: true },
+    isSubscribed: { type: Boolean, required: true },
+  },
+  methods: {
+    goTo(path) {
+      window.location.href = path;
     },
-    methods: {
-        goTo(path) {
-            window.location.href = path;
-        },
-    },
+  },
 };
 </script>
 
@@ -96,7 +95,7 @@ export default {
   padding: 2rem 1.5rem;
 }
 
-.container > h1.display-5 {
+.container>h1.display-5 {
   letter-spacing: -0.01em;
   font-weight: 700;
   color: var(--section-ink);
@@ -270,31 +269,63 @@ export default {
     opacity: 0;
     transform: translateY(16px) scale(0.98);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
   }
 }
 
-.row > div:nth-child(1) .custom-card { animation-delay: 0.05s; }
-.row > div:nth-child(2) .custom-card { animation-delay: 0.12s; }
-.row > div:nth-child(3) .custom-card { animation-delay: 0.19s; }
-.row > div:nth-child(4) .custom-card { animation-delay: 0.26s; }
-.row > div:nth-child(5) .custom-card { animation-delay: 0.33s; }
-.row > div:nth-child(6) .custom-card { animation-delay: 0.4s; }
+.row>div:nth-child(1) .custom-card {
+  animation-delay: 0.05s;
+}
+
+.row>div:nth-child(2) .custom-card {
+  animation-delay: 0.12s;
+}
+
+.row>div:nth-child(3) .custom-card {
+  animation-delay: 0.19s;
+}
+
+.row>div:nth-child(4) .custom-card {
+  animation-delay: 0.26s;
+}
+
+.row>div:nth-child(5) .custom-card {
+  animation-delay: 0.33s;
+}
+
+.row>div:nth-child(6) .custom-card {
+  animation-delay: 0.4s;
+}
 
 @media (max-width: 768px) {
-  .container > h1.display-5 { font-size: 2rem !important; }
-  .custom-card img { height: 150px; }
-  .lead { font-size: 1rem; }
-  .card.custom-card button.form-control { height: 40px; }
+  .container>h1.display-5 {
+    font-size: 2rem !important;
+  }
+
+  .custom-card img {
+    height: 150px;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .card.custom-card button.form-control {
+    height: 40px;
+  }
 }
 
 @media (min-width: 992px) {
-  .custom-card img { height: 190px; }
+  .custom-card img {
+    height: 190px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .custom-card,
   .custom-card img,
   .card.custom-card button.form-control,

@@ -14,7 +14,7 @@ class SupportController extends Controller
     {
         return view('support');
     }
-    
+
     public function insights()
     {
         return response()->json($this->buildDonationInsights());
@@ -31,7 +31,7 @@ class SupportController extends Controller
             $unitAmount = null;
             $amount = null;
         } else {
-            // Validate amount (GBP) — accept decimals, min £1
+            // Validate amount (GBP)   accept decimals, min £1
             $validated = $request->validate([
                 'amount' => 'required|numeric|min:1|max:100000',
             ]);
@@ -69,7 +69,7 @@ class SupportController extends Controller
                 $params['line_items'][] = [
                     'price_data' => [
                         'currency' => 'gbp',
-                        'product_data' => [ 'name' => 'Donation' ],
+                        'product_data' => ['name' => 'Donation'],
                         'unit_amount' => $unitAmount,
                     ],
                     'quantity' => 1,
@@ -84,7 +84,6 @@ class SupportController extends Controller
             ]);
 
             return response()->json(['id' => $session->id]);
-
         } catch (\Exception $e) {
             Log::error('Failed to create Stripe Checkout session', [
                 'error' => $e->getMessage(),
@@ -164,8 +163,8 @@ class SupportController extends Controller
     {
         $goal = (float) config('donation.goal', 15000);
         $presetAmounts = collect(config('donation.preset_amounts', [10, 25, 50, 100]))
-            ->filter(fn ($value) => is_numeric($value) && $value > 0)
-            ->map(fn ($value) => (int) round($value))
+            ->filter(fn($value) => is_numeric($value) && $value > 0)
+            ->map(fn($value) => (int) round($value))
             ->unique()
             ->sort()
             ->values()
@@ -175,11 +174,11 @@ class SupportController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        $totalRaised = $donations->sum(fn ($donation) => (float) $donation->amount);
+        $totalRaised = $donations->sum(fn($donation) => (float) $donation->amount);
         $count = $donations->count();
         $average = $count ? ($totalRaised / $count) : 0;
 
-        $recentDonations = $donations->take(3)->map(fn ($donation) => [
+        $recentDonations = $donations->take(3)->map(fn($donation) => [
             'id' => $donation->id,
             'label' => trim("{$donation->firstname} {$donation->lastname}"),
             'amount' => round((float) $donation->amount, 2),
@@ -196,7 +195,7 @@ class SupportController extends Controller
             $suggestedAmounts->push(max(1, round($lastDonation['amount'] * 1.1)));
         }
 
-        $suggestedAmounts = $suggestedAmounts->map(fn ($value) => (int) max(1, round($value)))
+        $suggestedAmounts = $suggestedAmounts->map(fn($value) => (int) max(1, round($value)))
             ->unique()
             ->sort()
             ->values()

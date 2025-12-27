@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4 surat-page" role="main" aria-label="Quran Explorer">
+  <div class="container py-4 " role="main" aria-label="Quran Explorer">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Quran Explorer</h1>

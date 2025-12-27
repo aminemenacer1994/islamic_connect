@@ -277,7 +277,7 @@ export default {
     },
     historyMessage() {
       if (this.lastDonationRecord?.amount) {
-        return `We remember your last gift of £${this.formatMoney(this.lastDonationRecord.amount)}—thank you for being part of Islamic Connect.`;
+        return `We remember your last gift of £${this.formatMoney(this.lastDonationRecord.amount)} thank you for being part of Islamic Connect.`;
       }
       if (this.insights.lastDonation) {
         const label = this.insights.lastDonation.label || 'A generous supporter';

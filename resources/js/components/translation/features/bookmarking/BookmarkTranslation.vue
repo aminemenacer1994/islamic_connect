@@ -1,45 +1,27 @@
 <template>
   <div>
     <!-- Button to Trigger Folder Selection Modal -->
-    <button
-      style="background-color: rgba(0, 191, 166, 0.452); cursor:pointer; color:black; font-style:bolder"
-      class="btn button-success pb-2"
-      data-bs-toggle="modal"
-      data-bs-target="#folderModal"
-    >
+    <button style="background-color: rgba(0, 191, 166, 0.452); cursor:pointer; color:black; font-style:bolder"
+      class="btn button-success pb-2" data-bs-toggle="modal" data-bs-target="#folderModal">
       Collections
     </button>
 
     <!-- Folder Selection Modal -->
-    <div
-      class="modal fade"
-      id="folderModal"
-      tabindex="-1"
-      aria-labelledby="folderModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="folderModal" tabindex="-1" aria-labelledby="folderModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="folderModalLabel">Select a Folder</h5>
-            <button
-              style="background-color: rgba(0, 191, 166, 0.452); cursor:pointer"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+            <button style="background-color: rgba(0, 191, 166, 0.452); cursor:pointer" class="btn-close"
+              data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <div v-if="folders && folders.length > 0">
               <p>Select a folder to save your bookmark:</p>
               <ul>
                 <li v-for="folder in folders" :key="folder.id">
-                  <button
-                    class="btn btn-info"
-                    style="text-decoration:none"
-                    @click="selectFolder(folder.id)"
-                    data-bs-dismiss="modal"
-                  >
+                  <button class="btn btn-info" style="text-decoration:none" @click="selectFolder(folder.id)"
+                    data-bs-dismiss="modal">
                     {{ folder.name }}
                   </button>
                 </li>
@@ -54,15 +36,9 @@
     </div>
 
     <!-- Bookmark Icon -->
-    <i 
-      @click="submitForm2"
-      class="bi bi-bookmark text-right mr-2 h4"
-      aria-expanded="false"
-      data-bs-placement="top"
-      title="Bookmark verse"
-      style="color: rgba(0, 191, 166);cursor:pointer"
-    ></i>
-    
+    <i @click="submitForm2" class="bi bi-bookmark text-right mr-2 h4" aria-expanded="false" data-bs-placement="top"
+      title="Bookmark verse" style="color: rgba(0, 191, 166);cursor:pointer"></i>
+
     <!-- Success and Error Alerts -->
     <div v-if="showAlert" class="alert alert-success" role="alert">
       Bookmark saved successfully!
@@ -160,12 +136,12 @@ export default {
         this.showAlert = true;
         this.showErrorAlert = false;
         // Milestone tracking: bookmarks saved
-        const hit = trackAndDetect('bookmarks_saved', [1,5,10,25,50], 'persistent');
+        const hit = trackAndDetect('bookmarks_saved', [1, 5, 10, 25, 50], 'persistent');
         if (hit && hit.threshold) {
           if (hit.threshold === 1) {
-            this.milestoneMessage = "Masha'Allah! First bookmark saved — your journey begins.";
+            this.milestoneMessage = "Masha'Allah! First bookmark saved   your journey begins.";
           } else {
-            this.milestoneMessage = `Masha'Allah! ${hit.threshold} bookmarks added — keep going.`;
+            this.milestoneMessage = `Masha'Allah! ${hit.threshold} bookmarks added   keep going.`;
           }
           this.hideMilestoneAfterDelay();
         }

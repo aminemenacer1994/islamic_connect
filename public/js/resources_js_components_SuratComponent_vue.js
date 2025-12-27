@@ -1210,7 +1210,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  class: "container py-4 surat-page",
+  class: "container py-4",
   role: "main",
   "aria-label": "Quran Explorer"
 };

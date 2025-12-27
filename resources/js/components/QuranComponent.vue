@@ -51,7 +51,7 @@
                             </div>
                             <p v-show="!nextStepMinimized" class="mb-3"
                                 style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
-                                As-salaamu alaikum—if this is your first deep dive into Islam, let the verses you
+                                As-salaamu alaikum if this is your first deep dive into Islam, let the verses you
                                 just read continue to surround you. Slip over to our curated
                                 <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
                                     recitation list
@@ -191,9 +191,9 @@
                             <div class="container-fluid ">
                                 <div class="row">
                                     <NavTabs />
-                                    
+
                                 </div>
-                                
+
                             </div>
 
                             <div class="card-body content card-teal"
@@ -291,7 +291,7 @@
                                                                 title="Bookmark verse"></i>
                                                             <div class="icon-text pt-2">Bookmark</div>
                                                         </div>
-                                                    
+
                                                         <div class="col desktop-icon" style="cursor: pointer;">
                                                             <i title="Give feedback" data-bs-toggle="modal"
                                                                 data-bs-target="#exampleModal"
@@ -299,7 +299,7 @@
                                                                 data-bs-placement="top"></i>
                                                             <div class="icon-text pt-2">Feedback</div>
                                                         </div>
-                                                        
+
                                                     </div>
 
                                                 </div>

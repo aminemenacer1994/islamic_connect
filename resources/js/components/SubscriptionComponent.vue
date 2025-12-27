@@ -6,7 +6,9 @@
       <div class="container">
         <div class="header-content">
           <h1>Manage Your Islamic Connect Subscription</h1>
-          <p>Join a growing global community of Muslims who are deepening their connection to the Qur’an and Islam through knowledge, reflection, and technology. Your subscription helps us build innovative tools for spiritual growth and keep our resources accessible for everyone.</p>
+          <p>Join a growing global community of Muslims who are deepening their connection to the Qur’an and Islam
+            through knowledge, reflection, and technology. Your subscription helps us build innovative tools for
+            spiritual growth and keep our resources accessible for everyone.</p>
         </div>
       </div>
     </header>
@@ -44,7 +46,8 @@
         <div v-if="showSuccessImage" class="success-image-container">
           <img src="/images/mark1.png" width="100" alt="Subscription Success" class="success-image">
           <p class="success-message">
-            Thank you for your support! Your subscription helps sustain Islamic Connect as a free, accessible resource for Muslims worldwide. May Allahﷻ accept your contribution and bless your efforts.
+            Thank you for your support! Your subscription helps sustain Islamic Connect as a free, accessible resource
+            for Muslims worldwide. May Allahﷻ accept your contribution and bless your efforts.
           </p>
           <button @click="showSuccessImage = false" class="btn btn-primary">Start Exploring</button>
         </div>
@@ -77,13 +80,10 @@
                   <span>{{ benefit }}</span>
                 </div>
               </div>
-              <button 
-                @click="handleCancelSubscription" 
-                class="btn btn-cancel"
+              <button @click="handleCancelSubscription" class="btn btn-cancel"
                 :disabled="cancelling || !canCancel || isCancelled"
                 :class="{ 'disabled': !canCancel || isCancelled, 'cancelled': isCancelled }"
-                :title="isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'"
-              >
+                :title="isCancelled ? 'Your subscription is already cancelled' : 'Cancel your subscription (access ends immediately)'">
                 <i class="fas fa-times-circle"></i>
                 {{ cancelling ? 'Cancelling...' : isCancelled ? 'Subscription Cancelled' : 'Cancel Subscription' }}
               </button>
@@ -95,7 +95,8 @@
         <div v-if="showPlans && !showSuccessImage" class="plans-view">
           <div v-if="subscription?.ends_at" class="notification notification-info">
             <i class="fas fa-info-circle"></i>
-            <span>Your subscription will end on {{ formatDate(subscription.ends_at) }}. Subscribe to a new plan to continue enjoying premium features and uninterrupted access.</span>
+            <span>Your subscription will end on {{ formatDate(subscription.ends_at) }}. Subscribe to a new plan to
+              continue enjoying premium features and uninterrupted access.</span>
             <button @click="subscription = null" class="close-btn">
               <i class="fas fa-times"></i>
             </button>
@@ -105,24 +106,12 @@
             <h2>Choose Your Subscription Plan</h2>
             <p>Select the plan that best suits your needs to unlock premium features and support our mission.</p>
             <div class="billing-toggle" role="tablist" aria-label="Billing cycle">
-              <button
-                type="button"
-                role="tab"
-                :aria-selected="billingCycle === 'monthly'"
-                class="toggle-option"
-                :class="{ active: billingCycle === 'monthly' }"
-                @click="setBillingCycle('monthly')"
-              >
+              <button type="button" role="tab" :aria-selected="billingCycle === 'monthly'" class="toggle-option"
+                :class="{ active: billingCycle === 'monthly' }" @click="setBillingCycle('monthly')">
                 Monthly
               </button>
-              <button
-                type="button"
-                role="tab"
-                :aria-selected="billingCycle === 'yearly'"
-                class="toggle-option"
-                :class="{ active: billingCycle === 'yearly' }"
-                @click="setBillingCycle('yearly')"
-              >
+              <button type="button" role="tab" :aria-selected="billingCycle === 'yearly'" class="toggle-option"
+                :class="{ active: billingCycle === 'yearly' }" @click="setBillingCycle('yearly')">
                 Yearly
               </button>
               <span class="toggle-indicator" :class="billingCycle"></span>
@@ -213,7 +202,8 @@
     </section>
 
     <!-- Confirmation Modal -->
-    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel" aria-hidden="true">
+    <div class="modal fade" id="cancelConfirmationModal" tabindex="-1" aria-labelledby="cancelConfirmationLabel"
+      aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -221,7 +211,9 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will lose access to exclusive features.
+            Are you sure you want to cancel your subscription? Your premium access will end immediately, and you will
+            lose
+            access to exclusive features.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" id="cancelDismiss">No, Keep My Subscription</button>
@@ -291,7 +283,7 @@ export default {
           icon: 'fas fa-moon',
           badge: 'Free Forever',
           featured: false,
-          description: 'Full access to all core Islamic resources — no payment required.',
+          description: 'Full access to all core Islamic resources   no payment required.',
           features: [
             'Quran with audio recitation and translation',
             'Quran history',
@@ -370,8 +362,8 @@ export default {
       return yearly?.savings || ''
     },
     planDisplayName() {
-      return this.subscription?.stripe_price && this.planDetails[this.subscription.stripe_price] 
-        ? this.planDetails[this.subscription.stripe_price] 
+      return this.subscription?.stripe_price && this.planDetails[this.subscription.stripe_price]
+        ? this.planDetails[this.subscription.stripe_price]
         : 'Free';
     },
 
@@ -424,12 +416,12 @@ export default {
       }
     },
     formatDate(dateString) {
-      return dateString 
-        ? new Date(dateString).toLocaleDateString('en-GB', { 
-            day: 'numeric', 
-            month: 'long', 
-            year: 'numeric' 
-          }) 
+      return dateString
+        ? new Date(dateString).toLocaleDateString('en-GB', {
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric'
+        })
         : 'Never';
     },
 
@@ -440,9 +432,9 @@ export default {
     async checkAuthentication() {
       try {
         const response = await axios.get('/user', {
-          headers: { 
-            'X-CSRF-TOKEN': this.csrfToken, 
-            'Accept': 'application/json' 
+          headers: {
+            'X-CSRF-TOKEN': this.csrfToken,
+            'Accept': 'application/json'
           }
         });
         this.isAuthenticated = !!response.data;
@@ -455,9 +447,9 @@ export default {
     async fetchSubscriptionStatus() {
       try {
         const response = await fetch('/subscription-status', {
-          headers: { 
-            'X-CSRF-TOKEN': this.csrfToken, 
-            'Accept': 'application/json' 
+          headers: {
+            'X-CSRF-TOKEN': this.csrfToken,
+            'Accept': 'application/json'
           }
         });
         if (response.status === 401) {
@@ -554,10 +546,10 @@ export default {
         try {
           const response = await fetch('/cancel', {
             method: 'POST',
-            headers: { 
-              'X-CSRF-TOKEN': this.csrfToken, 
-              'Accept': 'application/json', 
-              'Content-Type': 'application/json' 
+            headers: {
+              'X-CSRF-TOKEN': this.csrfToken,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
             }
           });
           const data = await response.json();
@@ -772,7 +764,7 @@ export default {
   border-radius: 9999px;
   background: #4b5563;
   transition: transform 260ms ease, background-color 260ms ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
 
 .billing-toggle .toggle-indicator.monthly {
@@ -782,7 +774,8 @@ export default {
 
 .billing-toggle .toggle-indicator.yearly {
   transform: translateX(100%);
-  background: #2c7c6a; /* match monthly green */
+  background: #2c7c6a;
+  /* match monthly green */
 }
 
 .toggle-savings {
@@ -1134,7 +1127,7 @@ export default {
   flex-direction: column;
   height: auto;
   min-height: auto;
- 
+
 }
 
 .plan-card:hover {

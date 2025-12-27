@@ -89,7 +89,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "overflow": "hidden",
       "text-overflow": "ellipsis"
     }
-  }, " Find the Qibla direction from anywhere in the world using compass and map support—essential for your prayers. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Find the Qibla direction from anywhere in the world using compass and map support essential for your prayers. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/qibla'",
     type: "submit"
@@ -145,7 +145,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Authentic Duas from the Qur’an and Sunnah for every occasion—complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Authentic Duas from the Qur’an and Sunnah for every occasion complete with Arabic, translation and audio to help you reflect and connect."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/dua'",
     type: "submit"

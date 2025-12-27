@@ -16,7 +16,7 @@
             <h1 class="mb-2 fw-bold text-dark text-center">Qibla finder</h1>
             <p class="card-text text-muted text-center"
               style="max-height: 4.5em; overflow: hidden; text-overflow: ellipsis;">
-              Find the Qibla direction from anywhere in the world using compass and map support—essential for your
+              Find the Qibla direction from anywhere in the world using compass and map support essential for your
               prayers.
             </p>
             <button class="form-control" onclick="window.location.href='/qibla'" type="submit">
@@ -53,7 +53,7 @@
             <p class="card-text text-muted text-wrap text-center"
               style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">Authentic Duas from the Qur’an
               and
-              Sunnah for every occasion—complete with Arabic, translation and audio to help you
+              Sunnah for every occasion complete with Arabic, translation and audio to help you
               reflect and connect.</p>
             <button class="form-control" onclick="window.location.href='/dua'" type="submit">
               <span class="text-center w-100"><b>Explore Duas</b></span>
@@ -77,12 +77,12 @@
             </button> -->
 
             <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/zakat')" type="button">
-                <span class="text-center w-100"><b>Calculate Zakat</b></span>
-              </button>
-              <div v-else class="restricted-access text-center p-2">
-                  <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                  <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
-              </div>
+              <span class="text-center w-100"><b>Calculate Zakat</b></span>
+            </button>
+            <div v-else class="restricted-access text-center p-2">
+              <p class="mb-1 text-muted small">You must be subscribed to access</p>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
+            </div>
           </div>
         </div>
       </div>
@@ -172,7 +172,7 @@ export default {
   --card-glow: rgba(11, 93, 75, 0.22);
 }
 
-.container > h1.display-5 {
+.container>h1.display-5 {
   letter-spacing: -0.01em;
   font-weight: 700;
   color: var(--section-ink);
@@ -361,6 +361,7 @@ export default {
     opacity: 0;
     transform: translateY(16px) scale(0.98);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -372,35 +373,68 @@ export default {
     border-color: rgba(11, 93, 75, 0.35);
     box-shadow: 0 0 0 0 rgba(11, 93, 75, 0.18);
   }
+
   50% {
     border-color: rgba(11, 93, 75, 0.65);
     box-shadow: 0 0 0 6px rgba(11, 93, 75, 0.12);
   }
+
   100% {
     border-color: rgba(11, 93, 75, 0.35);
     box-shadow: 0 0 0 0 rgba(11, 93, 75, 0.18);
   }
 }
 
-.row > div:nth-child(1) .custom-card { animation-delay: 0.05s; }
-.row > div:nth-child(2) .custom-card { animation-delay: 0.12s; }
-.row > div:nth-child(3) .custom-card { animation-delay: 0.19s; }
-.row > div:nth-child(4) .custom-card { animation-delay: 0.26s; }
-.row > div:nth-child(5) .custom-card { animation-delay: 0.33s; }
-.row > div:nth-child(6) .custom-card { animation-delay: 0.4s; }
+.row>div:nth-child(1) .custom-card {
+  animation-delay: 0.05s;
+}
+
+.row>div:nth-child(2) .custom-card {
+  animation-delay: 0.12s;
+}
+
+.row>div:nth-child(3) .custom-card {
+  animation-delay: 0.19s;
+}
+
+.row>div:nth-child(4) .custom-card {
+  animation-delay: 0.26s;
+}
+
+.row>div:nth-child(5) .custom-card {
+  animation-delay: 0.33s;
+}
+
+.row>div:nth-child(6) .custom-card {
+  animation-delay: 0.4s;
+}
 
 @media (max-width: 768px) {
-  .container > h1.display-5 { font-size: 2rem !important; }
-  .custom-card img { height: 150px; }
-  .lead { font-size: 1rem; }
-  .card.custom-card button.form-control { height: 40px; }
+  .container>h1.display-5 {
+    font-size: 2rem !important;
+  }
+
+  .custom-card img {
+    height: 150px;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .card.custom-card button.form-control {
+    height: 40px;
+  }
 }
 
 @media (min-width: 992px) {
-  .custom-card img { height: 190px; }
+  .custom-card img {
+    height: 190px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .custom-card,
   .custom-card img,
   .card.custom-card button.form-control,

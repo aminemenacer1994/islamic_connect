@@ -31,7 +31,7 @@ class AboutUsSectionsSeeder extends Seeder
                     'classes' => 'lead text-muted mb-4',
                 ],
                 [
-                    'text' => 'Everything is optimized for low-bandwidth access: lightweight HTML, server-rendered SEO copy, and clear navigation so visitors instantly understand the experience—practical resources, scholastic insight, and compassionate community support tailored to a global Muslim life.',
+                    'text' => 'Everything is optimized for low-bandwidth access: lightweight HTML, server-rendered SEO copy, and clear navigation so visitors instantly understand the experience practical resources, scholastic insight, and compassionate community support tailored to a global Muslim life.',
                     'classes' => 'text-muted mb-3',
                 ],
             ],
@@ -47,11 +47,11 @@ class AboutUsSectionsSeeder extends Seeder
             'order' => 2,
             'content' => [
                 [
-                'text' => 'Our guided Quran learning tracks walk readers from the first page of Fatiha through each Surah with context cards, transliterations, and short audio that reinforce accurate tajweed. Teachers, parents, and self-directed students toggle translations, highlight lessons, and queue readings that respect both devotional rhythm and modern schedules. Every module pairs summaries with actionable prompts so visitors do not just memorize verses but internalize values like mercy, justice, and gratitude.',
+                    'text' => 'Our guided Quran learning tracks walk readers from the first page of Fatiha through each Surah with context cards, transliterations, and short audio that reinforce accurate tajweed. Teachers, parents, and self-directed students toggle translations, highlight lessons, and queue readings that respect both devotional rhythm and modern schedules. Every module pairs summaries with actionable prompts so visitors do not just memorize verses but internalize values like mercy, justice, and gratitude.',
                     'classes' => 'text-muted',
                 ],
                 [
-                'text' => 'The same space houses scholar-led roundups, curated playlists, and practical essays on topics such as ethical finance, civic responsibility, and mental health. Whether it is a soundbite that explains a classical commentary or a deeper article with citations, every resource points readers toward trusted scholars and follow-up study without leaving the platform.',
+                    'text' => 'The same space houses scholar-led roundups, curated playlists, and practical essays on topics such as ethical finance, civic responsibility, and mental health. Whether it is a soundbite that explains a classical commentary or a deeper article with citations, every resource points readers toward trusted scholars and follow-up study without leaving the platform.',
                     'classes' => 'text-muted mb-4',
                 ],
             ],
@@ -67,7 +67,7 @@ class AboutUsSectionsSeeder extends Seeder
             'order' => 3,
             'content' => [
                 [
-                'text' => 'Community support is woven into every layout decision. We maintain 24/7 moderated chat rooms, volunteer mentors, and regional translators so Muslims across time zones can share questions, recordings, and dua requests. Accessibility features include keyboard-first navigation, focus indicators, descriptive alt text, high-contrast controls, and automatic text scaling so readers with sight differences stay engaged. Lightweight caching and offline-friendly assets help those with intermittent connections.',
+                    'text' => 'Community support is woven into every layout decision. We maintain 24/7 moderated chat rooms, volunteer mentors, and regional translators so Muslims across time zones can share questions, recordings, and dua requests. Accessibility features include keyboard-first navigation, focus indicators, descriptive alt text, high-contrast controls, and automatic text scaling so readers with sight differences stay engaged. Lightweight caching and offline-friendly assets help those with intermittent connections.',
                     'classes' => 'text-muted',
                 ],
             ],
@@ -83,11 +83,11 @@ class AboutUsSectionsSeeder extends Seeder
             'order' => 4,
             'content' => [
                 [
-                'text' => 'Modern tools do not mean abandoning tradition; instead we wrap historical wisdom in familiar interfaces. Our dua builder helps users assemble verified supplications, add personal notes, and export reminders for travel or Ramadan. The travel planner blends fiqh guidance with prayer times, qibla data, and community updates so pilgrims are not juggling multiple apps. Logistics features include step-by-step summaries so families coordinate deliveries, donations, and study groups without endless meetings.',
+                    'text' => 'Modern tools do not mean abandoning tradition; instead we wrap historical wisdom in familiar interfaces. Our dua builder helps users assemble verified supplications, add personal notes, and export reminders for travel or Ramadan. The travel planner blends fiqh guidance with prayer times, qibla data, and community updates so pilgrims are not juggling multiple apps. Logistics features include step-by-step summaries so families coordinate deliveries, donations, and study groups without endless meetings.',
                     'classes' => 'text-muted mb-3',
                 ],
                 [
-                'text' => 'That same mindset extends to our media studio, where volunteers script explainers, fact-check hadith references, and caption videos in multiple languages. Each release ships with a transcript, keywords, and discussion prompts so imams, educators, and youth leaders can turn a five-minute clip into a classroom conversation or family tafsir circle.',
+                    'text' => 'That same mindset extends to our media studio, where volunteers script explainers, fact-check hadith references, and caption videos in multiple languages. Each release ships with a transcript, keywords, and discussion prompts so imams, educators, and youth leaders can turn a five-minute clip into a classroom conversation or family tafsir circle.',
                     'classes' => 'text-muted',
                 ],
             ],
@@ -103,7 +103,7 @@ class AboutUsSectionsSeeder extends Seeder
             'order' => 5,
             'content' => [
                 [
-                'text' => 'Volunteer-led service keeps the platform accountable. Local volunteers verify events, support content creation, and answer direct queries so the digital experience stays human. Every donation is tracked and receipts explain whether the impact reaches education, infrastructure, or new research so supporters can trust their contributions align with the values communicated on this page.',
+                    'text' => 'Volunteer-led service keeps the platform accountable. Local volunteers verify events, support content creation, and answer direct queries so the digital experience stays human. Every donation is tracked and receipts explain whether the impact reaches education, infrastructure, or new research so supporters can trust their contributions align with the values communicated on this page.',
                     'classes' => 'text-muted mb-3',
                 ],
                 [
@@ -123,7 +123,7 @@ class AboutUsSectionsSeeder extends Seeder
             'order' => 6,
             'content' => [
                 [
-                'text' => 'This narrative depth is layered before interactive components so search engines index meaningful signals and visitors can savour a coherent story. Every headline, sentence, and paragraph reinforces the promises we deliver—Quran clarity, scholarly insight, and community tools that adapt to modern life.',
+                    'text' => 'This narrative depth is layered before interactive components so search engines index meaningful signals and visitors can savour a coherent story. Every headline, sentence, and paragraph reinforces the promises we deliver Quran clarity, scholarly insight, and community tools that adapt to modern life.',
                     'classes' => 'text-muted mb-0',
                 ],
             ],

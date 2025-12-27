@@ -19,7 +19,8 @@
                   <i class="fas fa-star me-2"></i>Trusted by 1000's of Muslims Worldwide
                 </div>
 
-                <h1 class="display-4 mt-1 fw-bold text-left hero-title ic-hero__title ic-reveal" style="--ic-delay: 0.2s;">
+                <h1 class="display-4 mt-1 fw-bold text-left hero-title ic-hero__title ic-reveal"
+                  style="--ic-delay: 0.2s;">
                   Connecting You to Islamic Knowledge Seamlessly and Accessibly
                 </h1>
 
@@ -32,33 +33,34 @@
                 </div>
                 <div class="row mb-3">
                   <div class="col-12">
-                <div class="controls d-flex flex-row justify-content-start text-left ic-hero__actions ic-reveal" style="--ic-delay: 0.4s;">
-                  <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4 ic-btn ic-btn--primary">
-                    <i class="fas fa-rocket me-2"></i>Get Started Free
-                  </a>
+                    <div class="controls d-flex flex-row justify-content-start text-left ic-hero__actions ic-reveal"
+                      style="--ic-delay: 0.4s;">
+                      <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4 ic-btn ic-btn--primary">
+                        <i class="fas fa-rocket me-2"></i>Get Started Free
+                      </a>
 
-                  <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost">
-                    <i class="fas fa-heart me-2"></i>Support Our Mission
-                  </a>
-                </div>
+                      <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost">
+                        <i class="fas fa-heart me-2"></i>Support Our Mission
+                      </a>
+                    </div>
 
-                <!-- Trust Indicators -->
-                <div class="mt-3 d-flex align-items-center ic-trust ic-reveal" style="--ic-delay: 0.5s;">
-                  <div class="d-flex align-items-center">
-                    <i class="fas fa-shield-alt text-success me-2"></i>
-                    <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <i class="fas fa-clock text-warning me-2"></i>
-                    <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
-                  </div>
-                  <div class="d-flex align-items-center">
-                    <i class="fas fa-user-check text-info me-2"></i>
-                    <small style="color: #4a5568; font-weight: 600;">No Registration</small>
-                  </div>
-                </div>
+                    <!-- Trust Indicators -->
+                    <div class="mt-3 d-flex align-items-center ic-trust ic-reveal" style="--ic-delay: 0.5s;">
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-shield-alt text-success me-2"></i>
+                        <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-clock text-warning me-2"></i>
+                        <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
+                      </div>
+                      <div class="d-flex align-items-center">
+                        <i class="fas fa-user-check text-info me-2"></i>
+                        <small style="color: #4a5568; font-weight: 600;">No Registration</small>
+                      </div>
+                    </div>
 
-              </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -68,22 +70,19 @@
                   <source srcset="/images/banner-photo.png 800w" type="image/png">
                   <img src="/images/banner-photo.png" srcset="/images/banner-photo.png 800w"
                     sizes="(min-width: 992px) 50vw, (min-width: 768px) 60vw, 90vw"
-                    class="img-fluid hero-image ic-hero__image ic-reveal"
-                    style="--ic-delay: 0.35s;"
-                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools"
-                    loading="lazy"
-                    width="800"
-                    height="800">
+                    class="img-fluid hero-image ic-hero__image ic-reveal" style="--ic-delay: 0.35s;"
+                    alt="Islamic Connect platform showcasing Quran exploration and AI-powered tools" loading="lazy"
+                    width="800" height="800">
                 </picture>
               </div>
             </div>
-            
+
           </div>
-          <section id="ai-persona-section" class="container-fluid ic-hero__ai ic-reveal" style="--ic-delay: 0.6s;" aria-label="Islamic chatbot preview">
-              <div class="welcome-chat-frame">
-                <ai-component></ai-component>
-              </div>
-            </section>
+          <!-- <section id="ai-persona-section" class="container-fluid ic-hero__ai ic-reveal" style="--ic-delay: 0.6s;" aria-label="Islamic chatbot preview">
+            <div class="welcome-chat-frame">
+              <ai-component></ai-component>
+            </div>
+          </section> -->
         </div>
       </div>
     </div>
@@ -105,7 +104,7 @@
       </div>
     </section> -->
 
-    
+
 
     <!-- HERO / SEO SECTION -->
     <section class="container-fluid premium-seo px-0 ic-seo" aria-labelledby="seo-heading">
@@ -114,8 +113,11 @@
         <div class="row gy-4 align-items-center">
           <div class="col-lg-6 text-center text-lg-start">
             <h2 id="seo-heading" class="display-5 fw-bold mb-3">Discover Quran, Knowledge & Accessible Tools</h2>
-            <p class="text-muted mb-3">A premium hero-inspired narrative that balances on-brand gradients with clean typography. These headings and stats reiterate the title keywords before Vue hydrates the rest of the experience.</p>
-            <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished visuals—each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
+            <p class="text-muted mb-3">A premium hero-inspired narrative that balances on-brand gradients with clean
+              typography. These headings and stats reiterate the title keywords before Vue hydrates the rest of the
+              experience.</p>
+            <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished
+              visuals each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
             <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center justify-content-lg-start">
               <span class="badge badge-pill highlight-badge">Quran insights</span>
               <span class="badge badge-pill highlight-badge">Dua playlists</span>
@@ -147,16 +149,19 @@
         <div class="row mt-5 gx-lg-5 gy-4">
           <div class="col-md-6">
             <h2 class="h5 fw-semibold">External references we trust</h2>
-            <p class="text-muted mb-2">High-quality partners and verified resources add credibility to the journeys promoted in this hero section.</p>
+            <p class="text-muted mb-2">High-quality partners and verified resources add credibility to the journeys
+              promoted in this hero section.</p>
             <ul class="list-unstyled mb-0">
               <li v-for="link in externalLinks" :key="link.href" class="mb-2">
-                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank" rel="noopener noreferrer">{{ link.text }}</a>
+                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank"
+                  rel="noopener noreferrer">{{ link.text }}</a>
               </li>
             </ul>
           </div>
           <div class="col-md-6">
             <h2 class="h5 fw-semibold">Why we keep knowledge modern</h2>
-            <p class="text-muted bm-0">Blending server-rendered structure with Vue-powered interactivity ensures the same narrative loads instantly.</p>
+            <p class="text-muted bm-0">Blending server-rendered structure with Vue-powered interactivity ensures the
+              same narrative loads instantly.</p>
           </div>
         </div>
       </div>
@@ -526,7 +531,7 @@
                   <span class="quote-mark" aria-hidden="true">”</span>
                 </p>
 
-                <div class="quote-ref">Hadith — Sahih Muslim</div>
+                <div class="quote-ref">Hadith Sahih Muslim</div>
 
                 <!-- Decorative divider -->
                 <div class="quote-divider"></div>
@@ -606,7 +611,8 @@
         <div class="row align-items-center">
           <div class="col-lg-7 text-center text-lg-start">
             <h2 class="text-white fw-bold mb-3 ic-join__title">Ready to Transform Your Daily Spiritual Journey?</h2>
-            <p class="text-white mb-4 ic-join__lead">Join now and receive your first spiritual reminder within minutes. Start your day with divine inspiration!
+            <p class="text-white mb-4 ic-join__lead">Join now and receive your first spiritual reminder within minutes.
+              Start your day with divine inspiration!
             </p>
 
           </div>
@@ -626,7 +632,9 @@
                       <small class="text-muted">Daily verses & instant reminders</small>
                     </div>
                   </div>
-                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m" class="btn w-100 rounded-20 ic-join-btn ic-join-btn--whatsapp" target="_blank" rel="noopener noreferrer">
+                  <a href="https://whatsapp.com/channel/0029VbAsOvp59PwIp2zwyB1m"
+                    class="btn w-100 rounded-20 ic-join-btn ic-join-btn--whatsapp" target="_blank"
+                    rel="noopener noreferrer">
                     <i class="fab fa-whatsapp me-2"></i>Join WhatsApp Channel
                     <span class="ic-join-btn__arrow">→</span>
                   </a>
@@ -646,7 +654,9 @@
                       <small class="text-muted">In-depth content & discussions</small>
                     </div>
                   </div>
-                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0" class="btn w-100 rounded-20 ic-join-btn ic-join-btn--telegram" target="_blank" rel="noopener noreferrer">
+                  <a href="https://t.me/+r81Q3SEAa-M5ZWI0"
+                    class="btn w-100 rounded-20 ic-join-btn ic-join-btn--telegram" target="_blank"
+                    rel="noopener noreferrer">
                     <i class="fab fa-telegram me-2"></i>Join Telegram Community
                     <span class="ic-join-btn__arrow">→</span>
                   </a>
@@ -677,7 +687,7 @@
     </section>
 
 
-  
+
 
     <!-- contact -->
     <section class="py-5 contact-section position-relative" aria-labelledby="contact-heading">
@@ -688,7 +698,8 @@
           <div class="col-xl-8 col-lg-9">
             <h2 id="contact-heading" class="display-5 fw-bold mb-3">Let’s Keep the Conversation Going</h2>
             <p class="lead fw-semibold text-muted mb-4">
-              Share your thoughts, ask about our resources, or flag a bug. Picking the right topic helps us route your request to
+              Share your thoughts, ask about our resources, or flag a bug. Picking the right topic helps us route your
+              request to
               the right team immediately.
             </p>
           </div>
@@ -708,62 +719,28 @@
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label for="firstname" class="form-label visually-hidden">First Name</label>
-                    <input
-                      id="firstname"
-                      class="form-control form-control-lg"
-                      v-model="form.firstname"
-                      name="firstname"
-                      placeholder="First name"
-                      type="text"
-                      aria-required="true"
-                      required
-                    />
+                    <input id="firstname" class="form-control form-control-lg" v-model="form.firstname" name="firstname"
+                      placeholder="First name" type="text" aria-required="true" required />
                   </div>
 
                   <div class="col-md-6">
                     <label for="lastname" class="form-label visually-hidden">Last Name</label>
-                    <input
-                      id="lastname"
-                      class="form-control form-control-lg"
-                      v-model="form.lastname"
-                      name="lastname"
-                      placeholder="Last name"
-                      type="text"
-                      aria-required="true"
-                      required
-                    />
+                    <input id="lastname" class="form-control form-control-lg" v-model="form.lastname" name="lastname"
+                      placeholder="Last name" type="text" aria-required="true" required />
                   </div>
 
                   <div class="col-md-6">
                     <label for="email" class="form-label visually-hidden">Email Address</label>
-                    <input
-                      id="email"
-                      class="form-control form-control-lg"
-                      v-model="form.email"
-                      name="email"
-                      placeholder="Email address"
-                      type="email"
-                      aria-required="true"
-                      required
-                    />
+                    <input id="email" class="form-control form-control-lg" v-model="form.email" name="email"
+                      placeholder="Email address" type="email" aria-required="true" required />
                   </div>
 
                   <div class="col-md-6">
                     <label for="subject" class="form-label visually-hidden">Subject</label>
-                    <select
-                      id="subject"
-                      class="form-select form-select-lg"
-                      v-model="form.subject"
-                      name="subject"
-                      aria-required="true"
-                      required
-                    >
+                    <select id="subject" class="form-select form-select-lg" v-model="form.subject" name="subject"
+                      aria-required="true" required>
                       <option value="" disabled>Select a subject</option>
-                      <option
-                        v-for="option in subjectOptions"
-                        :key="option.value"
-                        :value="option.value"
-                      >
+                      <option v-for="option in subjectOptions" :key="option.value" :value="option.value">
                         {{ option.label }}
                       </option>
                     </select>
@@ -772,16 +749,8 @@
 
                   <div class="col-12">
                     <label for="message" class="form-label visually-hidden">Your Message</label>
-                    <textarea
-                      id="message"
-                      class="form-control form-control-lg"
-                      v-model="form.message"
-                      name="message"
-                      placeholder="Your message"
-                      rows="5"
-                      aria-required="true"
-                      required
-                    ></textarea>
+                    <textarea id="message" class="form-control form-control-lg" v-model="form.message" name="message"
+                      placeholder="Your message" rows="5" aria-required="true" required></textarea>
                   </div>
 
                   <div class="col-12">
@@ -828,17 +797,22 @@
     </transition>
     <!-- Remove the container if you want to extend the Footer to full width. -->
     <footer class="ic-footer text-white" role="contentinfo">
-      <div class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
+      <div
+        class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <div class="copyright text-center text-md-start">
           <span class="me-2">©</span>
           <strong>2025 Copyright: </strong>
           <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">islamiconnect.com</a>
         </div>
         <div class="social text-center text-md-end">
-          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
-          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"><i class="fab fa-twitter" aria-hidden="true"></i></a>
-          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
-          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61560313385599" aria-label="Visit our Facebook page"><i
+              class="fab fa-facebook-f" aria-hidden="true"></i></a>
+          <a href="https://x.com/islamiconnect24" aria-label="Visit our X (Twitter) profile"><i class="fab fa-twitter"
+              aria-hidden="true"></i></a>
+          <a href="https://www.linkedin.com/company/islamic-connect/" aria-label="Visit our LinkedIn page"><i
+              class="fab fa-linkedin" aria-hidden="true"></i></a>
+          <a href="https://www.instagram.com/islamicconnect24/" aria-label="Visit our Instagram profile"><i
+              class="fab fa-instagram" aria-hidden="true"></i></a>
         </div>
       </div>
     </footer>
@@ -1383,6 +1357,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1390,16 +1365,19 @@
 }
 
 @keyframes float-hero {
+
   0%,
   100% {
     transform: translateY(0) translateX(0);
   }
+
   50% {
     transform: translateY(-18px) translateX(6px);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .ic-reveal,
   .ic-hero__orb,
   .ic-join__orb,
@@ -1421,6 +1399,7 @@
     padding: 1.25rem;
   }
 }
+
 .quote-wrapper {
   margin: 0;
   padding: 0;
@@ -1833,9 +1812,11 @@
   padding-top: clamp(3rem, 4vw, 4rem);
   padding-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
 }
+
 .jumbotron:not(.no-spacing) .hero-title {
   margin-top: 1rem;
 }
+
 @media (max-width: 768px) {
   .jumbotron {
     padding-top: 5.5rem;
@@ -1931,97 +1912,131 @@
     }
   }
 }
-  /* Shared footer styles for consistent spacing across pages */
-  .ic-footer {
-    background: linear-gradient(135deg, #0e6f64, #0a4f4b);
-  }
+
+/* Shared footer styles for consistent spacing across pages */
+.ic-footer {
+  background: linear-gradient(135deg, #0e6f64, #0a4f4b);
+}
+
+.ic-footer .footer-inner {
+  padding: 1rem 1rem;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 768px) {
   .ic-footer .footer-inner {
-    padding: 1rem 1rem;
-    padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+    padding: 1rem 2rem;
   }
-  @media (min-width: 768px) {
-    .ic-footer .footer-inner { padding: 1rem 2rem; }
-  }
-  .ic-footer .copyright { font-weight: 700; }
+}
+
+.ic-footer .copyright {
+  font-weight: 700;
+}
+
+.ic-footer .social a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-left: .5rem;
+  border: 1px solid rgba(255, 255, 255, .5);
+  border-radius: 8px;
+  color: #fff;
+  transition: background .2s ease, border-color .2s ease, transform .2s ease;
+}
+
+.ic-footer .social a:hover {
+  background: rgba(255, 255, 255, .1);
+  border-color: #fff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 575.98px) {
   .ic-footer .social a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    margin-left: .5rem;
-    border: 1px solid rgba(255,255,255,.5);
-    border-radius: 8px;
-    color: #fff;
-    transition: background .2s ease, border-color .2s ease, transform .2s ease;
-  }
-  .ic-footer .social a:hover { background: rgba(255,255,255,.1); border-color: #fff; transform: translateY(-1px); }
-  @media (max-width: 575.98px) {
-    .ic-footer .social a { width: 36px; height: 36px; margin: .25rem; }
-    .ic-footer .copyright { text-align: center; }
-    .ic-footer .footer-inner { gap: .75rem; }
+    width: 36px;
+    height: 36px;
+    margin: .25rem;
   }
 
-  .hero-carousel-placeholder {
-    border-radius: 32px;
-    min-height: 360px;
-    background: linear-gradient(160deg, #0b806f, #0b5d4b);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .hero-carousel-placeholder__content {
-    color: rgba(255, 255, 255, 0.85);
+  .ic-footer .copyright {
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
   }
 
-  .hero-carousel-placeholder__ring {
-    width: 90px;
-    height: 90px;
-    border-radius: 50%;
-    border: 3px dashed rgba(255, 255, 255, 0.6);
-    animation: placeholder-spin 4s linear infinite;
+  .ic-footer .footer-inner {
+    gap: .75rem;
+  }
+}
+
+.hero-carousel-placeholder {
+  border-radius: 32px;
+  min-height: 360px;
+  background: linear-gradient(160deg, #0b806f, #0b5d4b);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-carousel-placeholder__content {
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hero-carousel-placeholder__ring {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  border: 3px dashed rgba(255, 255, 255, 0.6);
+  animation: placeholder-spin 4s linear infinite;
+}
+
+.hero-carousel-placeholder__text {
+  font-weight: 500;
+  font-size: 1rem;
+  max-width: 220px;
+}
+
+@keyframes placeholder-spin {
+  from {
+    transform: rotate(0deg);
   }
 
-  .hero-carousel-placeholder__text {
-    font-weight: 500;
-    font-size: 1rem;
-    max-width: 220px;
+  to {
+    transform: rotate(360deg);
   }
+}
 
-  @keyframes placeholder-spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  .welcome-chat-shell {
-    /* background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%); */
-    padding: 2rem 0;
-    position: relative;
-    overflow: hidden;
-  }
+.welcome-chat-shell {
+  /* background: linear-gradient(180deg, #f5f8fd, #eef1f7 40%, #fefefe 100%); */
+  padding: 2rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.welcome-chat-frame {
+  position: relative;
+  margin: 0 auto;
+  padding: 0.5rem;
+  border-radius: 12px;
+  /* background: #ffffff; */
+
+}
+
+@media (max-width: 767px) {
   .welcome-chat-frame {
-    position: relative;
-    margin: 0 auto;
-    padding: 0.5rem;
-    border-radius: 12px;
-    /* background: #ffffff; */
-    
+    padding: 0.3rem;
   }
-  @media (max-width: 767px) {
-    .welcome-chat-frame {
-      padding: 0.3rem;
-    }
-    .welcome-chat-shell {
-      padding: 2.5rem 0;
-    }
+
+  .welcome-chat-shell {
+    padding: 2.5rem 0;
   }
+}
 </style>
 <script defer>
 import axios from "axios";
@@ -2065,9 +2080,9 @@ export default {
         { title: "Support & Donations", desc: "Fuel the platform and community programs.", href: "/support" }
       ],
       externalLinks: [
-        { href: "https://quran.com", title: "Quran.com complete Quran translations", text: "Quran.com — Complete Quran text and translations" },
-        { href: "https://sunnah.com", title: "Sunnah.com searchable hadiths", text: "Sunnah.com — Hadith collections in searchable format" },
-        { href: "https://islamicfinder.org", title: "IslamicFinder global prayer data", text: "IslamicFinder.org — Prayer times, mosque locators, and event calendars" }
+        { href: "https://quran.com", title: "Quran.com complete Quran translations", text: "Quran.com   Complete Quran text and translations" },
+        { href: "https://sunnah.com", title: "Sunnah.com searchable hadiths", text: "Sunnah.com   Hadith collections in searchable format" },
+        { href: "https://islamicfinder.org", title: "IslamicFinder global prayer data", text: "IslamicFinder.org   Prayer times, mosque locators, and event calendars" }
       ],
       subjectOptions: [
         { value: "enquiry", label: "General enquiry" },
@@ -2448,6 +2463,7 @@ export default {
   border-radius: 20px;
   padding: 4rem 0;
 }
+
 .contact-section__blur {
   position: absolute;
   width: 360px;
@@ -2457,16 +2473,19 @@ export default {
   inset: auto;
   z-index: 0;
 }
+
 .contact-section__blur--left {
   top: -80px;
   left: -60px;
   background: rgba(13, 182, 145, 0.35);
 }
+
 .contact-section__blur--right {
   bottom: -120px;
   right: -20px;
   background: rgba(10, 110, 255, 0.2);
 }
+
 .contact-card {
   background: rgba(255, 255, 255, 0.94);
   border-radius: 20px;
@@ -2477,6 +2496,7 @@ export default {
   z-index: 1;
   box-shadow: 0 30px 60px rgba(15, 76, 117, 0.12);
 }
+
 .contact-card__badge {
   background: rgba(0, 191, 166, 0.12);
   color: #0c6656;
@@ -2486,6 +2506,7 @@ export default {
   font-size: 0.85rem;
   border: 1px solid rgba(0, 191, 166, 0.25);
 }
+
 .contact-card__btn {
   background: linear-gradient(135deg, #0b806f, #1a5f7a);
   border: none;
@@ -2494,10 +2515,12 @@ export default {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 14px;
 }
+
 .contact-card__btn:hover {
   transform: translateY(-1px);
   box-shadow: 0 18px 40px rgba(10, 110, 111, 0.45);
 }
+
 .contact-card .form-control,
 .contact-card .form-select,
 .contact-card textarea {
@@ -2507,6 +2530,7 @@ export default {
   box-shadow: inset 0 1px 2px rgba(15, 23, 42, 0.07);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
+
 .contact-card .form-control:focus,
 .contact-card .form-select:focus,
 .contact-card textarea:focus {
@@ -2514,16 +2538,20 @@ export default {
   box-shadow: 0 0 0 0.25rem rgba(13, 182, 145, 0.18);
   outline: none;
 }
+
 .contact-card small {
   font-size: 0.78rem;
 }
+
 .contact-card .form-label {
   display: none;
 }
+
 .contact-card__meta {
   min-width: 180px;
   text-align: right;
 }
+
 .contact-card .form-select {
   height: 3.3rem;
   padding-right: 2.25rem;
@@ -2531,6 +2559,7 @@ export default {
   -moz-appearance: none;
   appearance: none;
 }
+
 .contact-card__meta span {
   letter-spacing: 0.3px;
 }
@@ -2545,6 +2574,7 @@ export default {
   z-index: 1050;
   padding: 1.5rem;
 }
+
 .premium-dialog-card {
   background: #fff;
   border-radius: 16px;
@@ -2553,13 +2583,16 @@ export default {
   width: 100%;
   box-shadow: 0 25px 60px rgba(15, 76, 117, 0.25);
 }
+
 .premium-dialog-title {
   margin-bottom: 0.5rem;
 }
+
 .premium-dialog-message {
   color: #5c6470;
   line-height: 1.6;
 }
+
 .premium-toast {
   position: fixed;
   right: 1.25rem;
@@ -2575,36 +2608,45 @@ export default {
   box-shadow: 0 20px 45px rgba(10, 110, 111, 0.25);
   z-index: 1080;
 }
+
 .premium-toast--success {
   background: linear-gradient(135deg, #0db691, #0c6656);
 }
+
 .premium-toast--error {
   background: linear-gradient(135deg, #d6333f, #922428);
 }
+
 .premium-toast .btn-close {
   filter: invert(1);
   opacity: 0.7;
 }
+
 .premium-toast .btn-close:hover {
   opacity: 1;
 }
+
 .premium-dialog-enter-active,
 .premium-dialog-leave-active {
   transition: opacity 0.25s ease;
 }
+
 .premium-dialog-enter-from,
 .premium-dialog-leave-to {
   opacity: 0;
 }
+
 .premium-toast-enter-active,
 .premium-toast-leave-active {
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
+
 .premium-toast-enter-from,
 .premium-toast-leave-to {
   opacity: 0;
   transform: translateY(10px);
 }
+
 @media (max-width: 767px) {
   .contact-card {
     padding: 1.75rem;
@@ -2796,22 +2838,60 @@ h4 {
 }
 
 /* Utilities for consistent 20px rounded aesthetic and subtle animations */
-.rounded-20 { border-radius: 20px !important; }
-.card-20 { border-radius: 20px; overflow: hidden; }
-.card-float { transition: transform .25s ease, box-shadow .25s ease; }
-.card-float:hover { transform: translateY(-4px); box-shadow: 0 10px 24px rgba(0,0,0,.12) !important; }
+.rounded-20 {
+  border-radius: 20px !important;
+}
 
-.btn-teal { background-color: #0db691; color: #fff; border: none; transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease; }
-.btn-teal:hover { background-color: #0aa07f; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,.15); }
-.btn-teal:focus-visible { outline: none; animation: focusPulse .6s ease; }
+.card-20 {
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.card-float {
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card-float:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .12) !important;
+}
+
+.btn-teal {
+  background-color: #0db691;
+  color: #fff;
+  border: none;
+  transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+
+.btn-teal:hover {
+  background-color: #0aa07f;
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, .15);
+}
+
+.btn-teal:focus-visible {
+  outline: none;
+  animation: focusPulse .6s ease;
+}
 
 @keyframes focusPulse {
-  0% { box-shadow: 0 0 0 0 rgba(13,182,145,.45); }
-  100% { box-shadow: 0 0 0 8px rgba(13,182,145,0); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(13, 182, 145, .45);
+  }
+
+  100% {
+    box-shadow: 0 0 0 8px rgba(13, 182, 145, 0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .card-float, .btn-teal { transition: none !important; animation: none !important; }
+
+  .card-float,
+  .btn-teal {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 .premium-seo {
@@ -2867,9 +2947,11 @@ h4 {
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-4px);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -2897,9 +2979,11 @@ h4 {
   0% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-8px);
   }
+
   100% {
     transform: translateY(0);
   }
@@ -2913,12 +2997,14 @@ h4 {
   min-height: 180px;
   justify-content: space-between;
 }
+
 .trust-guidance {
   background: rgba(26, 95, 122, 0.05);
   border-radius: 14px;
   padding: 1rem 1.25rem;
   border: 1px solid rgba(26, 95, 122, 0.15);
 }
+
 .trust-guidance .fas {
   font-size: 1.3rem;
   color: #1a5f7a;

@@ -793,9 +793,9 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
             clearTimeout(this.voiceStatusTimeout);
             this.voiceStatusTimeout = null;
           }
-          this.voiceStatus = 'Voice search activated — listening for your question.';
+          this.voiceStatus = 'Voice search activated   listening for your question.';
           this.clearVoiceAutoSubmitTimer();
-          this.showVoiceAlert('Voice search activated — listening for your question.');
+          this.showVoiceAlert('Voice search activated   listening for your question.');
         };
         recognition.onresult = event => {
           const results = event.results;
@@ -828,7 +828,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
           if (finalChunkTrimmed) {
             this.scheduleVoiceSubmission(this.voiceFinalTranscript.trim());
           } else if (interimTrimmed) {
-            this.voiceStatus = 'Listening — feel free to continue speaking.';
+            this.voiceStatus = 'Listening   feel free to continue speaking.';
             this.voiceStatusTransient = false;
           }
         };
@@ -868,7 +868,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
       }
       this.cancelVoiceDraftUpdate();
       this.chatDraft = transcript;
-      this.voiceStatus = 'Captured your question — sending it shortly.';
+      this.voiceStatus = 'Captured your question   sending it shortly.';
       this.voiceStatusTransient = false;
       if (this.voiceAutoSubmitTimer) {
         clearTimeout(this.voiceAutoSubmitTimer);
@@ -947,7 +947,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
     },
     handleSessionExpiry() {
       this.sessionExpired = true;
-      this.chatError = 'Session expired — refresh the page to continue.';
+      this.chatError = 'Session expired   refresh the page to continue.';
     },
     reloadPage() {
       if (typeof window !== 'undefined' && window.location) {

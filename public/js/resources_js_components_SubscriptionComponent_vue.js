@@ -61,7 +61,7 @@ __webpack_require__.r(__webpack_exports__);
         icon: 'fas fa-moon',
         badge: 'Free Forever',
         featured: false,
-        description: 'Full access to all core Islamic resources — no payment required.',
+        description: 'Full access to all core Islamic resources   no payment required.',
         features: ['Quran with audio recitation and translation', 'Quran history', 'Names of Allah', 'Image gallery', 'Dua collection', 'Prayer times', 'Islamic guides']
       }, {
         value: ((_window$appConfig2 = window.appConfig) === null || _window$appConfig2 === void 0 || (_window$appConfig2 = _window$appConfig2.stripePrices) === null || _window$appConfig2 === void 0 ? void 0 : _window$appConfig2.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',

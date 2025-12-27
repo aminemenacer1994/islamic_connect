@@ -147,7 +147,7 @@
           </div>
 
           <!-- Revert stories -->
-          <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <!-- <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -191,7 +191,7 @@
                 </li>
               </ul>
             </div>
-          </div>
+          </div> -->
 
           <!-- Focus of the lesson -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card">
@@ -603,12 +603,15 @@
                 <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
                   <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
                     <div class="dua-glow"></div>
+                    <h4 class="mb-0 text-dark text-center pb-3" :style="{ fontSize: `${duaFontScale}rem` }"><b>{{ dua.title }}</b></h4>
                     <p dir="rtl"
                       class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end"
                       :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
                       {{ dua.arabic }}
                     </p>
                     <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.english }}</p>
+                    <p class="mb-0 text-muted pt-2" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.reference }}</p>
+
                   </article>
                 </div>
               </div>
@@ -892,7 +895,7 @@
           </div>
 
           <!-- troubleshooting guides -->
-          <div v-if="troubleshootingGuides.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card">
+          <!-- <div v-if="troubleshootingGuides.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap">
               <div class="d-flex align-items-center gap-3 flex-grow-1">
                 <span class="card-header-icon">
@@ -922,7 +925,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- motivation -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
@@ -1052,7 +1055,7 @@
           </div>
 
           <!-- flexible plan tracks -->
-          <div v-if="currentFlexibleTracks.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <!-- <div v-if="currentFlexibleTracks.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1">
                 <span class="card-header-icon">
@@ -1090,10 +1093,10 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- daily micro challenges -->
-          <div v-if="dailyChallenges.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <!-- <div v-if="dailyChallenges.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -1186,7 +1189,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- quiz -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">

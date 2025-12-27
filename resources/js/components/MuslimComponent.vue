@@ -1305,7 +1305,7 @@ export default defineComponent({
     motivationalMessage() {
       return this.chapterQuizPassed
         ? `You crushed Chapter ${this.selectedPill}! Keep that momentum as you carry the message forward.`
-        : `Chapter ${this.selectedPill} is unfolding—pause, reflect, and savor each insight.`
+        : `Chapter ${this.selectedPill} is unfolding pause, reflect, and savor each insight.`
     },
     motivationalHint() {
       return this.chapterQuizPassed
@@ -1973,7 +1973,7 @@ export default defineComponent({
             this.scrollToNextButton()
           })
         } else {
-          this.quizFeedback = `Great! ${this.quizCorrectCount}/${this.quizRequiredCorrect} saved—${this.quizRequiredCorrect - this.quizCorrectCount} to go.`
+          this.quizFeedback = `Great! ${this.quizCorrectCount}/${this.quizRequiredCorrect} saved ${this.quizRequiredCorrect - this.quizCorrectCount} to go.`
           setTimeout(() => {
             this.advanceQuestion()
           }, 700)

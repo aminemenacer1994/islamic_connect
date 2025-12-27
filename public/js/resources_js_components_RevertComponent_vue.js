@@ -138,8 +138,7 @@ const _hoisted_33 = {
   class: "text-white-50 mb-0"
 };
 const _hoisted_34 = {
-  key: 0,
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card"
 };
 const _hoisted_35 = {
   class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
@@ -149,201 +148,205 @@ const _hoisted_37 = {
   class: "card-body px-4 py-3"
 };
 const _hoisted_38 = {
-  class: "simple-onboarding-list mb-0"
-};
-const _hoisted_39 = ["onClick", "aria-pressed"];
-const _hoisted_40 = {
-  key: 0,
-  class: "bi bi-check-lg"
-};
-const _hoisted_41 = {
-  class: "d-block"
-};
-const _hoisted_42 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card"
-};
-const _hoisted_43 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
-};
-const _hoisted_44 = ["aria-expanded", "aria-label"];
-const _hoisted_45 = {
-  class: "card-body px-4 py-3"
-};
-const _hoisted_46 = {
   class: "text-muted medium mb-3"
 };
-const _hoisted_47 = {
+const _hoisted_39 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg",
   style: {
     "animation-delay": "0.05s"
   }
 };
-const _hoisted_48 = {
+const _hoisted_40 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
 };
-const _hoisted_49 = {
+const _hoisted_41 = {
   class: "overview-actions d-flex align-items-center gap-2 flex-wrap"
 };
-const _hoisted_50 = ["aria-pressed", "aria-label"];
-const _hoisted_51 = {
+const _hoisted_42 = ["aria-pressed", "aria-label"];
+const _hoisted_43 = {
   class: "lesson-focus-actions"
 };
-const _hoisted_52 = {
+const _hoisted_44 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_53 = ["aria-expanded", "aria-label"];
-const _hoisted_54 = {
+const _hoisted_45 = ["aria-expanded", "aria-label"];
+const _hoisted_46 = {
   key: 0,
   class: "lesson-overview-summary"
 };
-const _hoisted_55 = {
+const _hoisted_47 = {
   key: 0,
   class: "row g-3"
 };
-const _hoisted_56 = {
+const _hoisted_48 = {
   class: "overview-highlight border rounded-3 p-3 h-100"
 };
-const _hoisted_57 = {
+const _hoisted_49 = {
   class: "fw-semibold mb-2"
 };
-const _hoisted_58 = {
+const _hoisted_50 = {
   class: "mb-0 text-muted small"
 };
-const _hoisted_59 = {
+const _hoisted_51 = {
   key: 1,
   class: "overview-section-list"
 };
-const _hoisted_60 = ["id"];
-const _hoisted_61 = {
+const _hoisted_52 = ["id"];
+const _hoisted_53 = {
   class: "section-header align-items-start gap-3 mb-3"
 };
-const _hoisted_62 = {
+const _hoisted_54 = {
   class: "section-number fs-5"
 };
-const _hoisted_63 = {
+const _hoisted_55 = {
   class: "section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap"
 };
-const _hoisted_64 = {
+const _hoisted_56 = {
   class: "fw-semibold mb-0 fs-5 text-truncate"
 };
-const _hoisted_65 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
-const _hoisted_66 = ["id"];
-const _hoisted_67 = {
+const _hoisted_57 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
+const _hoisted_58 = ["id"];
+const _hoisted_59 = {
   class: "mt-3 small text-muted"
 };
-const _hoisted_68 = {
+const _hoisted_60 = {
   key: 0,
   class: "mb-1"
 };
-const _hoisted_69 = {
+const _hoisted_61 = {
   class: "text-dark"
 };
-const _hoisted_70 = {
+const _hoisted_62 = {
   key: 1,
   class: "mb-0"
 };
-const _hoisted_71 = ["href"];
-const _hoisted_72 = {
+const _hoisted_63 = ["href"];
+const _hoisted_64 = {
   key: 0,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_73 = {
+const _hoisted_65 = {
   class: "text-muted"
 };
-const _hoisted_74 = {
+const _hoisted_66 = {
   key: 2,
   class: "overview-section-list"
 };
-const _hoisted_75 = ["id"];
-const _hoisted_76 = {
+const _hoisted_67 = ["id"];
+const _hoisted_68 = {
   class: "section-header align-items-start gap-3 mb-3"
 };
-const _hoisted_77 = {
+const _hoisted_69 = {
   class: "section-number fs-5"
 };
-const _hoisted_78 = {
+const _hoisted_70 = {
   class: "section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap"
 };
-const _hoisted_79 = {
+const _hoisted_71 = {
   class: "fw-semibold mb-0 fs-5 text-truncate"
 };
-const _hoisted_80 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
-const _hoisted_81 = ["id"];
-const _hoisted_82 = ["innerHTML"];
-const _hoisted_83 = {
+const _hoisted_72 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
+const _hoisted_73 = ["id"];
+const _hoisted_74 = ["innerHTML"];
+const _hoisted_75 = {
   class: "mt-3 medium text-muted"
 };
-const _hoisted_84 = {
+const _hoisted_76 = {
   key: 0,
   class: "mb-1"
 };
-const _hoisted_85 = {
+const _hoisted_77 = {
   class: "text-dark"
 };
-const _hoisted_86 = {
+const _hoisted_78 = {
   key: 1,
   class: "mb-0"
 };
-const _hoisted_87 = ["href"];
-const _hoisted_88 = {
+const _hoisted_79 = ["href"];
+const _hoisted_80 = {
   key: 0,
   class: "background mt-4 w-100 py-3 px-4 rounded-4 border"
 };
-const _hoisted_89 = {
+const _hoisted_81 = {
   class: "deep-dive-header d-flex align-items-center mb-2"
 };
-const _hoisted_90 = {
+const _hoisted_82 = {
   class: "fw-bold mb-0 text-dark fs-6"
 };
-const _hoisted_91 = ["innerHTML"];
-const _hoisted_92 = {
+const _hoisted_83 = ["innerHTML"];
+const _hoisted_84 = {
   key: 1,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_93 = {
+const _hoisted_85 = {
   class: "text-muted"
 };
-const _hoisted_94 = {
-  key: 1,
+const _hoisted_86 = {
+  key: 0,
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_95 = {
+const _hoisted_87 = {
   id: "pathway-clips-section",
   class: "animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_96 = {
+const _hoisted_88 = {
   class: "card-header d-flex align-items-center gap-3"
 };
-const _hoisted_97 = ["aria-expanded", "aria-label"];
-const _hoisted_98 = {
+const _hoisted_89 = ["aria-expanded", "aria-label"];
+const _hoisted_90 = {
   class: "card-body px-3"
 };
-const _hoisted_99 = {
+const _hoisted_91 = {
   class: "row g-3"
 };
-const _hoisted_100 = ["onMouseenter", "onClick"];
-const _hoisted_101 = {
+const _hoisted_92 = ["onMouseenter", "onClick"];
+const _hoisted_93 = {
   key: 0,
   class: "clip-thumbnail ratio ratio-16x9"
 };
-const _hoisted_102 = ["src", "title"];
-const _hoisted_103 = {
+const _hoisted_94 = ["src", "title"];
+const _hoisted_95 = {
   class: "p-3"
 };
-const _hoisted_104 = {
+const _hoisted_96 = {
   class: "h6 fw-semibold mb-1"
 };
-const _hoisted_105 = {
+const _hoisted_97 = {
   class: "text-muted small mb-2"
 };
-const _hoisted_106 = {
+const _hoisted_98 = {
   key: 0,
   class: "video-card-tags mb-2"
 };
-const _hoisted_107 = {
+const _hoisted_99 = {
   key: 1,
   class: "clip-duration text-muted small mb-0"
+};
+const _hoisted_100 = {
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_101 = {
+  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3"
+};
+const _hoisted_102 = ["aria-expanded", "aria-label"];
+const _hoisted_103 = {
+  class: "card-body px-3 px-md-3 py-3"
+};
+const _hoisted_104 = {
+  class: "d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3"
+};
+const _hoisted_105 = {
+  class: "flex-grow-1"
+};
+const _hoisted_106 = {
+  key: 0,
+  class: "text-success small mt-2 mb-0",
+  "aria-live": "polite",
+  role: "status"
+};
+const _hoisted_107 = {
+  class: "d-flex flex-wrap gap-2"
 };
 const _hoisted_108 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
@@ -356,763 +359,621 @@ const _hoisted_111 = {
   class: "card-body px-3 px-md-3 py-3"
 };
 const _hoisted_112 = {
-  class: "d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3"
-};
-const _hoisted_113 = {
-  class: "flex-grow-1"
-};
-const _hoisted_114 = {
-  key: 0,
-  class: "text-success small mt-2 mb-0",
-  "aria-live": "polite",
-  role: "status"
-};
-const _hoisted_115 = {
-  class: "d-flex flex-wrap gap-2"
-};
-const _hoisted_116 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_117 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3"
-};
-const _hoisted_118 = ["aria-expanded", "aria-label"];
-const _hoisted_119 = {
-  class: "card-body px-3 px-md-3 py-3"
-};
-const _hoisted_120 = {
   class: "mb-3"
 };
-const _hoisted_121 = {
+const _hoisted_113 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_122 = {
+const _hoisted_114 = {
   class: "row g-3"
 };
+const _hoisted_115 = {
+  class: "col-12 col-md-6"
+};
+const _hoisted_116 = {
+  class: "p-3 rounded-3 border h-100"
+};
+const _hoisted_117 = {
+  class: "list-unstyled mb-0"
+};
+const _hoisted_118 = {
+  class: "text-dark medium mt-1"
+};
+const _hoisted_119 = {
+  class: "col-12 col-md-6"
+};
+const _hoisted_120 = {
+  class: "p-3 rounded-3 border h-100"
+};
+const _hoisted_121 = {
+  class: "list-unstyled mb-0"
+};
+const _hoisted_122 = {
+  class: "text-dark medium mt-1"
+};
 const _hoisted_123 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_124 = {
-  class: "p-3 rounded-3 border h-100"
-};
-const _hoisted_125 = {
-  class: "list-unstyled mb-0"
-};
-const _hoisted_126 = {
-  class: "text-dark medium mt-1"
-};
-const _hoisted_127 = {
-  class: "col-12 col-md-6"
-};
-const _hoisted_128 = {
-  class: "p-3 rounded-3 border h-100"
-};
-const _hoisted_129 = {
-  class: "list-unstyled mb-0"
-};
-const _hoisted_130 = {
-  class: "text-dark medium mt-1"
-};
-const _hoisted_131 = {
-  key: 2,
+  key: 1,
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_132 = {
+const _hoisted_124 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3"
 };
-const _hoisted_133 = {
+const _hoisted_125 = {
   class: "lesson-focus-actions"
 };
-const _hoisted_134 = {
+const _hoisted_126 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_135 = ["aria-expanded", "aria-label"];
-const _hoisted_136 = {
+const _hoisted_127 = ["aria-expanded", "aria-label"];
+const _hoisted_128 = {
   class: "row g-3"
 };
-const _hoisted_137 = {
+const _hoisted_129 = {
   class: "dua-card h-100 rounded-4 p-4 shadow-lg"
 };
-const _hoisted_138 = {
+const _hoisted_130 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_139 = {
+const _hoisted_131 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
 };
-const _hoisted_140 = ["aria-expanded", "aria-label"];
-const _hoisted_141 = {
+const _hoisted_132 = ["aria-expanded", "aria-label"];
+const _hoisted_133 = {
   class: "card-body px-4 py-3"
 };
-const _hoisted_142 = {
+const _hoisted_134 = {
   class: "row g-3 video-grid-row"
 };
-const _hoisted_143 = ["onMouseenter", "onClick", "onTouchstart"];
-const _hoisted_144 = {
+const _hoisted_135 = ["onMouseenter", "onClick", "onTouchstart"];
+const _hoisted_136 = {
   class: "video-card-media"
 };
-const _hoisted_145 = ["src", "title"];
-const _hoisted_146 = {
+const _hoisted_137 = ["src", "title"];
+const _hoisted_138 = {
   class: "video-feature-overlay"
 };
-const _hoisted_147 = {
+const _hoisted_139 = {
   class: "video-feature-text"
 };
-const _hoisted_148 = {
+const _hoisted_140 = {
   class: "video-feature-title"
 };
-const _hoisted_149 = {
+const _hoisted_141 = {
   key: 0,
   class: "video-feature-subtitle"
 };
-const _hoisted_150 = {
+const _hoisted_142 = {
   key: 1,
   class: "video-feature-duration"
 };
-const _hoisted_151 = {
+const _hoisted_143 = {
   class: "video-card-caption px-3 py-2"
 };
-const _hoisted_152 = {
+const _hoisted_144 = {
   class: "h6 fw-semibold mb-1 text-dark"
 };
-const _hoisted_153 = {
+const _hoisted_145 = {
   key: 0,
   class: "video-card-tags mb-2"
 };
-const _hoisted_154 = {
+const _hoisted_146 = {
   key: 1,
   class: "text-muted small mb-1"
 };
-const _hoisted_155 = {
+const _hoisted_147 = {
   key: 2,
   class: "video-card-duration text-muted small mb-0"
 };
-const _hoisted_156 = {
+const _hoisted_148 = {
   class: "d-flex justify-content-end mt-4"
 };
+const _hoisted_149 = {
+  key: 2,
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_150 = {
+  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap"
+};
+const _hoisted_151 = ["aria-expanded", "aria-label"];
+const _hoisted_152 = {
+  class: "card-body px-3 px-md-4 py-4"
+};
+const _hoisted_153 = {
+  class: "insight-grid-wrapper"
+};
+const _hoisted_154 = {
+  class: "insight-grid"
+};
+const _hoisted_155 = {
+  class: "insight-card-header"
+};
+const _hoisted_156 = {
+  class: "insight-number"
+};
 const _hoisted_157 = {
+  class: "insight-card-text mb-0"
+};
+const _hoisted_158 = {
   key: 3,
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_158 = {
-  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap"
-};
-const _hoisted_159 = ["aria-expanded", "aria-label"];
-const _hoisted_160 = {
-  class: "card-body px-3 px-md-4 py-4"
-};
-const _hoisted_161 = {
-  class: "insight-grid-wrapper"
-};
-const _hoisted_162 = {
-  class: "insight-grid"
-};
-const _hoisted_163 = {
-  class: "insight-card-header"
-};
-const _hoisted_164 = {
-  class: "insight-number"
-};
-const _hoisted_165 = {
-  class: "insight-card-text mb-0"
-};
-const _hoisted_166 = {
-  key: 4,
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_167 = {
+const _hoisted_159 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3"
 };
-const _hoisted_168 = {
+const _hoisted_160 = {
   class: "lesson-focus-actions"
 };
-const _hoisted_169 = {
+const _hoisted_161 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_170 = ["aria-expanded", "aria-label"];
-const _hoisted_171 = {
+const _hoisted_162 = ["aria-expanded", "aria-label"];
+const _hoisted_163 = {
   class: "row align-items-center gy-3"
 };
-const _hoisted_172 = {
+const _hoisted_164 = {
   class: "col-md-6"
 };
-const _hoisted_173 = {
+const _hoisted_165 = {
   class: "share-actions d-flex flex-wrap align-items-center"
 };
-const _hoisted_174 = {
+const _hoisted_166 = {
   key: 0,
   class: "text-success small mt-2 mb-0 mt-sm-0"
 };
-const _hoisted_175 = {
-  key: 5,
+const _hoisted_167 = {
+  key: 4,
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card"
 };
-const _hoisted_176 = {
+const _hoisted_168 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-2 position-relative"
 };
-const _hoisted_177 = {
+const _hoisted_169 = {
   class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
 };
-const _hoisted_178 = {
+const _hoisted_170 = {
   class: "card-header-icon",
   "aria-hidden": "true"
 };
-const _hoisted_179 = {
+const _hoisted_171 = {
   class: "fw-bold mb-1"
 };
-const _hoisted_180 = {
+const _hoisted_172 = {
   class: "text-muted small mb-0"
 };
-const _hoisted_181 = {
+const _hoisted_173 = {
   class: "chapter-tool-header-actions"
 };
-const _hoisted_182 = {
+const _hoisted_174 = {
   class: "card-body px-2 px-md-3 py-3"
 };
-const _hoisted_183 = {
+const _hoisted_175 = {
   class: "chapter-tool-scroll"
 };
-const _hoisted_184 = {
+const _hoisted_176 = {
   class: "chapter-tool-zoom"
 };
-const _hoisted_185 = {
+const _hoisted_177 = {
   key: 1,
   class: "chapter-tool-fallback text-center"
 };
-const _hoisted_186 = {
+const _hoisted_178 = {
   class: "text-center text-muted py-5"
+};
+const _hoisted_179 = {
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_180 = {
+  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
+};
+const _hoisted_181 = ["aria-expanded", "aria-label"];
+const _hoisted_182 = {
+  class: "accordion-stack"
+};
+const _hoisted_183 = ["onClick"];
+const _hoisted_184 = {
+  class: "accordion-answer mt-2"
+};
+const _hoisted_185 = ["innerHTML"];
+const _hoisted_186 = {
+  key: 0,
+  class: "text-center mt-3"
 };
 const _hoisted_187 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
 const _hoisted_188 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
 };
 const _hoisted_189 = ["aria-expanded", "aria-label"];
 const _hoisted_190 = {
-  class: "accordion-stack"
-};
-const _hoisted_191 = ["onClick"];
-const _hoisted_192 = {
-  class: "accordion-answer mt-2"
-};
-const _hoisted_193 = ["innerHTML"];
-const _hoisted_194 = {
-  key: 0,
-  class: "text-center mt-3"
-};
-const _hoisted_195 = {
-  key: 6,
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card"
-};
-const _hoisted_196 = {
-  class: "card-body px-3 px-md-4 py-3"
-};
-const _hoisted_197 = {
-  class: "row g-3"
-};
-const _hoisted_198 = {
-  class: "troubleshooting-guide-card h-100 p-3 rounded-4 border"
-};
-const _hoisted_199 = {
-  class: "fw-semibold mb-2 fs-6"
-};
-const _hoisted_200 = {
-  class: "text-muted small mb-3"
-};
-const _hoisted_201 = {
-  class: "list-unstyled mb-0 troubleshooting-steps"
-};
-const _hoisted_202 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_203 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
-};
-const _hoisted_204 = ["aria-expanded", "aria-label"];
-const _hoisted_205 = {
   class: "px-3 px-md-4 py-4"
 };
-const _hoisted_206 = {
+const _hoisted_191 = {
   class: "d-flex flex-column gap-2"
 };
-const _hoisted_207 = {
+const _hoisted_192 = {
   class: "text-muted medium mb-0"
 };
-const _hoisted_208 = {
+const _hoisted_193 = {
   class: "text-teal fs-6"
 };
-const _hoisted_209 = {
+const _hoisted_194 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_210 = {
+const _hoisted_195 = {
   class: "card-header d-flex align-items-center justify-content-between py-3 gap-3"
 };
-const _hoisted_211 = ["aria-expanded", "aria-label"];
-const _hoisted_212 = {
+const _hoisted_196 = ["aria-expanded", "aria-label"];
+const _hoisted_197 = {
   class: "card-body px-4 pb-0 pt-0"
 };
-const _hoisted_213 = {
+const _hoisted_198 = {
   key: 0
 };
-const _hoisted_214 = {
+const _hoisted_199 = {
   class: "row g-3"
 };
-const _hoisted_215 = {
+const _hoisted_200 = {
   class: "plan-card rounded-5 p-4"
 };
-const _hoisted_216 = {
+const _hoisted_201 = {
   class: "plan-card__header d-flex align-items-start justify-content-between gap-3"
 };
-const _hoisted_217 = {
+const _hoisted_202 = {
   class: "text-muted small mb-1 plan-card__duration"
 };
-const _hoisted_218 = {
+const _hoisted_203 = {
   class: "fw-semibold mb-2 fs-5"
 };
-const _hoisted_219 = {
+const _hoisted_204 = {
   class: "text-dark small mb-0 plan-card__summary"
 };
-const _hoisted_220 = {
+const _hoisted_205 = {
   class: "badge badge-pill plan-badge text-uppercase"
 };
-const _hoisted_221 = {
+const _hoisted_206 = {
   class: "plan-card__body"
 };
-const _hoisted_222 = {
+const _hoisted_207 = {
   class: "plan-highlights list-unstyled mb-3"
 };
-const _hoisted_223 = {
+const _hoisted_208 = {
   class: "plan-highlight-body"
 };
-const _hoisted_224 = {
+const _hoisted_209 = {
   class: "plan-highlight-text"
 };
-const _hoisted_225 = ["aria-pressed", "aria-label", "onClick"];
-const _hoisted_226 = {
+const _hoisted_210 = ["aria-pressed", "aria-label", "onClick"];
+const _hoisted_211 = {
   class: "plan-highlight-action-text"
 };
-const _hoisted_227 = {
+const _hoisted_212 = {
   class: "plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3"
 };
-const _hoisted_228 = {
+const _hoisted_213 = {
   class: "mb-0 text-muted small plan-card__meta"
 };
-const _hoisted_229 = {
+const _hoisted_214 = {
   class: "plan-action-icons",
   role: "group",
   "aria-label": "Plan actions"
 };
-const _hoisted_230 = ["onClick", "title"];
-const _hoisted_231 = ["onClick", "title"];
-const _hoisted_232 = ["onClick", "title"];
-const _hoisted_233 = ["onClick", "title"];
-const _hoisted_234 = {
+const _hoisted_215 = ["onClick", "title"];
+const _hoisted_216 = ["onClick", "title"];
+const _hoisted_217 = ["onClick", "title"];
+const _hoisted_218 = ["onClick", "title"];
+const _hoisted_219 = {
   key: 1,
   class: "text-muted small pt-3"
 };
-const _hoisted_235 = {
-  key: 7,
+const _hoisted_220 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_236 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
-};
-const _hoisted_237 = {
-  class: "d-flex align-items-center gap-3 flex-grow-1"
-};
-const _hoisted_238 = {
-  class: "fw-bold mb-0"
-};
-const _hoisted_239 = {
-  class: "text-muted small mb-0"
-};
-const _hoisted_240 = ["aria-expanded", "aria-label"];
-const _hoisted_241 = {
-  class: "card-body px-4 py-3"
-};
-const _hoisted_242 = {
-  class: "row g-3"
-};
-const _hoisted_243 = {
-  class: "flexible-track-card rounded-4 p-4 h-100"
-};
-const _hoisted_244 = {
-  class: "fw-semibold mb-2 fs-5"
-};
-const _hoisted_245 = {
-  class: "text-muted small mb-3"
-};
-const _hoisted_246 = {
-  class: "flexible-track-steps list-unstyled mb-0"
-};
-const _hoisted_247 = {
-  key: 8,
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_248 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
-};
-const _hoisted_249 = ["aria-expanded", "aria-label"];
-const _hoisted_250 = {
-  class: "card-body px-4 py-3"
-};
-const _hoisted_251 = {
-  class: "daily-challenge-progress mb-3"
-};
-const _hoisted_252 = ["aria-valuenow"];
-const _hoisted_253 = {
-  class: "d-flex justify-content-between mt-1"
-};
-const _hoisted_254 = {
-  class: "text-muted"
-};
-const _hoisted_255 = {
-  class: "text-teal fw-semibold"
-};
-const _hoisted_256 = {
-  class: "daily-challenge-grid"
-};
-const _hoisted_257 = ["onClick", "aria-pressed"];
-const _hoisted_258 = {
-  class: "challenge-icon",
-  "aria-hidden": "true"
-};
-const _hoisted_259 = {
-  class: "challenge-details text-start"
-};
-const _hoisted_260 = {
-  class: "d-block"
-};
-const _hoisted_261 = {
-  class: "text-muted"
-};
-const _hoisted_262 = {
-  class: "reflection-box mt-4"
-};
-const _hoisted_263 = {
-  class: "reflection-actions mb-3"
-};
-const _hoisted_264 = ["disabled"];
-const _hoisted_265 = {
-  key: 0,
-  class: "reflection-status-pill"
-};
-const _hoisted_266 = {
-  class: "d-flex align-items-center justify-content-between mt-2 gap-2 flex-wrap"
-};
-const _hoisted_267 = {
-  key: 0,
-  class: "text-success mb-0"
-};
-const _hoisted_268 = ["disabled"];
-const _hoisted_269 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_270 = {
+const _hoisted_221 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
 };
-const _hoisted_271 = ["aria-expanded", "aria-label"];
-const _hoisted_272 = {
+const _hoisted_222 = ["aria-expanded", "aria-label"];
+const _hoisted_223 = {
   key: 0
 };
-const _hoisted_273 = {
+const _hoisted_224 = {
   class: "quiz-body px-4 py-3"
 };
-const _hoisted_274 = {
+const _hoisted_225 = {
   class: "quiz-progress-wrapper mb-3"
 };
-const _hoisted_275 = {
+const _hoisted_226 = {
   class: "quiz-progress-track"
 };
-const _hoisted_276 = {
+const _hoisted_227 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_277 = {
+const _hoisted_228 = {
   class: "mb-0 small fw-semibold text-teal"
 };
-const _hoisted_278 = {
+const _hoisted_229 = {
   class: "quiz-motivation-panel mb-3 shadow-sm rounded-4"
 };
-const _hoisted_279 = {
+const _hoisted_230 = {
   class: "d-flex align-items-start gap-3 flex-grow-1 min-width-0"
 };
-const _hoisted_280 = {
+const _hoisted_231 = {
   class: "flex-grow-1"
 };
-const _hoisted_281 = {
+const _hoisted_232 = {
   class: "mb-0 fw-semibold"
 };
-const _hoisted_282 = {
+const _hoisted_233 = {
   class: "text-muted small mb-0"
 };
-const _hoisted_283 = {
+const _hoisted_234 = {
   class: "quiz-stage-pill mt-2"
 };
-const _hoisted_284 = {
+const _hoisted_235 = {
   class: "quiz-focus-panel mb-3"
 };
-const _hoisted_285 = {
+const _hoisted_236 = {
   class: "quiz-focus-detail"
 };
-const _hoisted_286 = {
+const _hoisted_237 = {
   class: "fw-semibold mb-0"
 };
-const _hoisted_287 = {
+const _hoisted_238 = {
   class: "quiz-momentum"
 };
-const _hoisted_288 = {
+const _hoisted_239 = {
   class: "d-flex align-items-center gap-2 mb-2"
 };
-const _hoisted_289 = {
+const _hoisted_240 = {
   class: "quiz-momentum-value"
 };
-const _hoisted_290 = {
+const _hoisted_241 = {
   class: "quiz-momentum-bar"
 };
-const _hoisted_291 = {
+const _hoisted_242 = {
   class: "fw-semibold text-dark mb-2 quiz-question"
 };
-const _hoisted_292 = {
+const _hoisted_243 = {
   class: "quiz-options-grid"
 };
-const _hoisted_293 = ["disabled", "onClick"];
-const _hoisted_294 = {
+const _hoisted_244 = ["disabled", "onClick"];
+const _hoisted_245 = {
   class: "icon-stack"
 };
-const _hoisted_295 = {
+const _hoisted_246 = {
   key: 0,
   class: "bi bi-check-circle-fill text-dark"
 };
-const _hoisted_296 = {
+const _hoisted_247 = {
   key: 1,
   class: "bi bi-x-circle-fill text-dark"
 };
-const _hoisted_297 = {
+const _hoisted_248 = {
   key: 0,
   class: "quiz-explanation-card mt-3"
 };
-const _hoisted_298 = {
+const _hoisted_249 = {
   class: "right-answer-pill text-muted"
 };
-const _hoisted_299 = {
+const _hoisted_250 = {
   class: "text-dark fw-bold mt-2"
 };
-const _hoisted_300 = {
+const _hoisted_251 = {
   class: "pt-2 text-muted"
 };
-const _hoisted_301 = {
+const _hoisted_252 = {
   class: "mb-0"
 };
-const _hoisted_302 = {
+const _hoisted_253 = {
   class: "quiz-explanation-footer mt-3"
 };
-const _hoisted_303 = {
+const _hoisted_254 = {
   key: 0,
   class: "quiz-success-note mt-3"
 };
-const _hoisted_304 = {
+const _hoisted_255 = {
   class: "d-flex flex-column flex-md-row gap-2 align-items-start"
 };
-const _hoisted_305 = {
+const _hoisted_256 = {
   class: "mb-0 fw-semibold text-teal"
 };
-const _hoisted_306 = {
+const _hoisted_257 = {
   class: "actions-card animated-fade-in"
 };
-const _hoisted_307 = {
+const _hoisted_258 = {
   class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
 };
-const _hoisted_308 = ["disabled"];
-const _hoisted_309 = {
+const _hoisted_259 = ["disabled"];
+const _hoisted_260 = {
   class: "d-flex flex-column flex-md-row align-items-center gap-2"
 };
-const _hoisted_310 = {
+const _hoisted_261 = {
   class: "text-muted small me-md-auto"
 };
-const _hoisted_311 = {
+const _hoisted_262 = {
   key: 0,
   class: "text-teal small fw-semibold"
 };
-const _hoisted_312 = ["disabled"];
-const _hoisted_313 = {
+const _hoisted_263 = ["disabled"];
+const _hoisted_264 = {
   key: 1
 };
-const _hoisted_314 = {
+const _hoisted_265 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_315 = {
+const _hoisted_266 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_316 = {
+const _hoisted_267 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_317 = {
+const _hoisted_268 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_318 = {
+const _hoisted_269 = {
   class: "modal-title fw-bold"
 };
-const _hoisted_319 = {
+const _hoisted_270 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_320 = {
+const _hoisted_271 = {
   key: 0,
   class: "text-success small"
 };
-const _hoisted_321 = {
+const _hoisted_272 = {
   class: "d-flex gap-2"
 };
-const _hoisted_322 = {
+const _hoisted_273 = {
   key: 2
 };
-const _hoisted_323 = {
+const _hoisted_274 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_324 = {
+const _hoisted_275 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_325 = {
+const _hoisted_276 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_326 = {
+const _hoisted_277 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_327 = ["aria-pressed", "aria-label"];
-const _hoisted_328 = {
+const _hoisted_278 = ["aria-pressed", "aria-label"];
+const _hoisted_279 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_329 = {
+const _hoisted_280 = {
   class: "modal-body px-4 py-3"
 };
-const _hoisted_330 = {
+const _hoisted_281 = {
   key: 0,
   class: "mb-3 video-modal-filters"
 };
-const _hoisted_331 = {
+const _hoisted_282 = {
   class: "filter-grid"
 };
-const _hoisted_332 = {
+const _hoisted_283 = {
   class: "filter-column"
 };
-const _hoisted_333 = {
+const _hoisted_284 = {
   class: "filter-column"
 };
-const _hoisted_334 = ["value"];
-const _hoisted_335 = {
+const _hoisted_285 = ["value"];
+const _hoisted_286 = {
   class: "filter-column"
 };
-const _hoisted_336 = ["value"];
-const _hoisted_337 = {
+const _hoisted_287 = ["value"];
+const _hoisted_288 = {
   class: "filter-column"
 };
-const _hoisted_338 = ["value"];
-const _hoisted_339 = {
+const _hoisted_289 = ["value"];
+const _hoisted_290 = {
   key: 0,
   class: "filter-empty text-muted small mt-2 mb-0"
 };
-const _hoisted_340 = {
+const _hoisted_291 = {
   class: "row g-3 video-grid-row"
 };
-const _hoisted_341 = ["onMouseenter", "onClick", "onTouchstart"];
-const _hoisted_342 = {
+const _hoisted_292 = ["onMouseenter", "onClick", "onTouchstart"];
+const _hoisted_293 = {
   class: "video-card-media"
 };
-const _hoisted_343 = ["src", "title"];
-const _hoisted_344 = {
+const _hoisted_294 = ["src", "title"];
+const _hoisted_295 = {
   class: "video-feature-overlay"
 };
-const _hoisted_345 = {
+const _hoisted_296 = {
   class: "video-feature-text"
 };
-const _hoisted_346 = {
+const _hoisted_297 = {
   class: "video-feature-title"
 };
-const _hoisted_347 = {
+const _hoisted_298 = {
   key: 0,
   class: "video-feature-subtitle"
 };
-const _hoisted_348 = {
+const _hoisted_299 = {
   key: 1,
   class: "video-feature-duration"
 };
-const _hoisted_349 = {
+const _hoisted_300 = {
   class: "video-card-caption px-3 py-2"
 };
-const _hoisted_350 = {
+const _hoisted_301 = {
   key: 0,
   class: "video-card-tags mb-0"
 };
-const _hoisted_351 = {
+const _hoisted_302 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_352 = {
+const _hoisted_303 = {
   class: "d-flex gap-2 ms-auto"
 };
-const _hoisted_353 = {
+const _hoisted_304 = {
   key: 3
 };
-const _hoisted_354 = {
+const _hoisted_305 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_355 = {
+const _hoisted_306 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_356 = {
+const _hoisted_307 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_357 = {
+const _hoisted_308 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_358 = {
+const _hoisted_309 = {
   class: "modal-body px-4 pb-4"
 };
-const _hoisted_359 = {
+const _hoisted_310 = {
   class: "guide-step-index"
 };
-const _hoisted_360 = {
+const _hoisted_311 = {
   class: "fw-semibold mb-1"
 };
-const _hoisted_361 = {
+const _hoisted_312 = {
   class: "text-muted mb-0"
 };
-const _hoisted_362 = {
+const _hoisted_313 = {
   class: "modal-footer border-0 px-4 pb-4 pt-2"
 };
-const _hoisted_363 = {
+const _hoisted_314 = {
   key: 4
 };
-const _hoisted_364 = {
+const _hoisted_315 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog",
   "aria-modal": "true"
 };
-const _hoisted_365 = {
+const _hoisted_316 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_366 = {
+const _hoisted_317 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card completion-modal-card"
 };
-const _hoisted_367 = {
+const _hoisted_318 = {
   class: "modal-header completion-modal-header px-4 pt-4 pb-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _ctx$currentLesson, _ctx$currentLesson2, _ctx$currentLesson3, _ctx$currentLesson4, _ctx$currentLessonOve, _ctx$currentFlexibleN, _ctx$currentFlexibleN2, _ctx$activeResource;
+  var _ctx$currentLesson, _ctx$currentLesson2, _ctx$currentLesson3, _ctx$currentLesson4, _ctx$currentLessonOve, _ctx$activeResource;
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["revert-shell position-relative", {
       'reduce-motion': _ctx.reduceMotionEnabled
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_1, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[160] || (_cache[160] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_1, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[144] || (_cache[144] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "page-sheen"
-  }, null, -1 /* CACHED */)), _cache[161] || (_cache[161] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[145] || (_cache[145] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle (only visible in small screens) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
@@ -1129,9 +990,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.toggleMobileNav && _ctx.toggleMobileNav(...args))
   })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Alert "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [_ctx.showSuccessAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_ctx.showSuccessAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[56] || (_cache[56] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill me-2"
-  }, null, -1 /* CACHED */)), _cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Congratulations!", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.successMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, null, -1 /* CACHED */)), _cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Congratulations!", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.successMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [_ctx.showCopyAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['alert', _ctx.alertClass, 'alert-outline', 'alert-copy-notification']),
@@ -1151,14 +1012,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "revert-navigation",
     role: "navigation",
     "aria-label": "Chapter navigation"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-bold small"
   }, "Course Progress", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.completedChapters) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.totalChapters), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-bar",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: _ctx.progressPercentage + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round(_ctx.progressPercentage)) + "% Complete ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round(_ctx.progressPercentage)) + "% Complete ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-semibold small"
   }, "Navigate the chapters", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.completedChapters) + " done", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation List "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.roadmapData, step => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -1179,48 +1040,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         locked: step.id > _ctx.maxStepReached
       }])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.stepStatusLabel(step)), 3 /* TEXT, CLASS */)])]), step.id === _ctx.selectedPill ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_25))], 10 /* CLASS, PROPS */, _hoisted_16);
-  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA (lesson overview + resources) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header + tone summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA (lesson overview + resources) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header + tone summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "lesson-hero-gradient"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journey me-2 text-white fs-4"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "lesson-help-button",
     "aria-label": "Open Reverts Corner guide",
     onClick: _cache[2] || (_cache[2] = (...args) => _ctx.openHelpModal && _ctx.openHelpModal(...args))
-  }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[61] || (_cache[61] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Open guide", -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert stories "), _ctx.currentGentleStartSteps.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-sunrise-fill\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"mb-1 text-muted small text-uppercase\" data-v-1d764944>Gentle start</p><h3 class=\"fw-semibold mb-0\" data-v-1d764944>Simple Welcome for New Friends</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[3] || (_cache[3] = $event => _ctx.toggleCardVisibility('gentleStart')),
-    "aria-expanded": _ctx.isCardVisible('gentleStart'),
-    "aria-label": _ctx.isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('gentleStart') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-muted small mb-3"
-  }, " Take it slow these reflections anchor today’s lesson and help you stay curious. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_38, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentGentleStartSteps, (step, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-      key: step.title,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
-        completed: _ctx.isGentleStepCompleted(index)
-      })
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      type: "button",
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["onboarding-step-button", {
-        completed: _ctx.isGentleStepCompleted(index)
-      }]),
-      onClick: $event => _ctx.toggleGentleStepCompletion(index),
-      "aria-pressed": _ctx.isGentleStepCompleted(index)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["onboarding-bullet-icon", {
-        completed: _ctx.isGentleStepCompleted(index)
-      }])
-    }, [_ctx.isGentleStepCompleted(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_40)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)])], 10 /* CLASS, PROPS */, _hoisted_39)], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('gentleStart')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Focus of the lesson "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Open guide", -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert stories "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentGentleStartSteps.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-sunrise-fill\"></i>\n                </span>\n                <div>\n                  <p class=\"mb-1 text-muted small text-uppercase\">Gentle start</p>\n                  <h3 class=\"fw-semibold mb-0\">Simple Welcome for New Friends</h3>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('gentleStart')\"\n                :aria-expanded=\"isCardVisible('gentleStart')\"\n                :aria-label=\"isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'\">\n                <i class=\"bi\" :class=\"isCardVisible('gentleStart') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('gentleStart')\" class=\"card-body px-4 py-3\">\n              <p class=\"text-muted small mb-3\">\n                Take it slow these reflections anchor today’s lesson and help you stay curious.\n              </p>\n              <ul class=\"simple-onboarding-list mb-0\">\n                <li v-for=\"(step, index) in currentGentleStartSteps\" :key=\"step.title\"\n                  :class=\"{ completed: isGentleStepCompleted(index) }\">\n                  <button\n                    type=\"button\"\n                    class=\"onboarding-step-button\"\n                    :class=\"{ completed: isGentleStepCompleted(index) }\"\n                    @click=\"toggleGentleStepCompletion(index)\"\n                    :aria-pressed=\"isGentleStepCompleted(index)\">\n                    <span class=\"onboarding-bullet-icon\" :class=\"{ completed: isGentleStepCompleted(index) }\">\n                      <i v-if=\"isGentleStepCompleted(index)\" class=\"bi bi-check-lg\"></i>\n                    </span>\n                    <div>\n                      <strong class=\"d-block\">{{ step.title }}</strong>\n                      <span>{{ step.description }}</span>\n                    </div>\n                  </button>\n                </li>\n              </ul>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Focus of the lesson "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[63] || (_cache[63] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1231,12 +1064,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Focus of This Lesson")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[4] || (_cache[4] = $event => _ctx.toggleCardVisibility('lessonFocus')),
+    onClick: _cache[3] || (_cache[3] = $event => _ctx.toggleCardVisibility('lessonFocus')),
     "aria-expanded": _ctx.isCardVisible('lessonFocus'),
     "aria-label": _ctx.isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('lessonFocus') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_44)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('lessonFocus')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content (learning overview, highlights, sections) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_36)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('lessonFocus')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content (learning overview, highlights, sections) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1244,64 +1077,64 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-box-seam-fill"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-0"
-  }, "Learning Overview")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Learning Overview")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-teal btn-sm", {
       marked: _ctx.isCurrentLessonOverviewRead
     }]),
-    onClick: _cache[5] || (_cache[5] = (...args) => _ctx.toggleLessonOverviewRead && _ctx.toggleLessonOverviewRead(...args)),
+    onClick: _cache[4] || (_cache[4] = (...args) => _ctx.toggleLessonOverviewRead && _ctx.toggleLessonOverviewRead(...args)),
     "aria-pressed": _ctx.isCurrentLessonOverviewRead,
     "aria-label": _ctx.isCurrentLessonOverviewRead ? 'Unmark lesson overview as read' : 'Mark lesson overview as read'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCurrentLessonOverviewRead ? 'bi-bookmark-x' : 'bi-bookmark'])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isCurrentLessonOverviewRead ? 'Unmark read' : 'Mark as read'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isCurrentLessonOverviewRead ? 'Unmark read' : 'Mark as read'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[6] || (_cache[6] = (...args) => _ctx.shareLessonOverview && _ctx.shareLessonOverview(...args))
-  }, [...(_cache[73] || (_cache[73] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[5] || (_cache[5] = (...args) => _ctx.shareLessonOverview && _ctx.shareLessonOverview(...args))
+  }, [...(_cache[64] || (_cache[64] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[7] || (_cache[7] = (...args) => _ctx.copyLessonOverview && _ctx.copyLessonOverview(...args))
-  }, [...(_cache[74] || (_cache[74] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[6] || (_cache[6] = (...args) => _ctx.copyLessonOverview && _ctx.copyLessonOverview(...args))
+  }, [...(_cache[65] || (_cache[65] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[8] || (_cache[8] = (...args) => _ctx.printLessonOverview && _ctx.printLessonOverview(...args))
-  }, [...(_cache[75] || (_cache[75] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[7] || (_cache[7] = (...args) => _ctx.printLessonOverview && _ctx.printLessonOverview(...args))
+  }, [...(_cache[66] || (_cache[66] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[9] || (_cache[9] = $event => _ctx.toggleCardVisibility('learningOverview')),
+    onClick: _cache[8] || (_cache[8] = $event => _ctx.toggleCardVisibility('learningOverview')),
     "aria-expanded": _ctx.isCardVisible('learningOverview'),
     "aria-label": _ctx.isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_53)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.overviewFontScale}em`,
       lineHeight: 1.6
     })
-  }, [_ctx.currentLessonOverview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-muted small mb-3\">{{ currentLessonOverview.summary }}</p> "), (_ctx$currentLessonOve = _ctx.currentLessonOverview.highlights) !== null && _ctx$currentLessonOve !== void 0 && _ctx$currentLessonOve.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_55, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentLessonOverview.highlights, highlight => {
+  }, [_ctx.currentLessonOverview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-muted small mb-3\">{{ currentLessonOverview.summary }}</p> "), (_ctx$currentLessonOve = _ctx.currentLessonOverview.highlights) !== null && _ctx$currentLessonOve !== void 0 && _ctx$currentLessonOve.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentLessonOverview.highlights, highlight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: highlight.label || highlight.heading,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.label || highlight.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_58, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.description || highlight.content), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.overviewSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_59, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.overviewSectionsWithKeys, (section, index) => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.label || highlight.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.description || highlight.content), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.overviewSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.overviewSectionsWithKeys, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.toggleKey,
       id: `section-${_ctx.selectedPill}-${index}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-block mb-5", {
         'section-collapsed': !_ctx.isSectionVisible(section.toggleKey)
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-toggle-btn", {
         collapsed: !_ctx.isSectionVisible(section.toggleKey)
@@ -1312,7 +1145,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": _ctx.isSectionVisible(section.toggleKey) ? 'Collapse section' : 'Expand section'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_65)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_57)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "section-collapse",
       appear: ""
     }, {
@@ -1325,33 +1158,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: `${_ctx.overviewFontScale}rem`
         })
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.content), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_68, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.content), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_60, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
-      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_70, [_cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_61, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_62, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
       }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         href: section.resources,
         target: "_blank",
         rel: "noreferrer",
         class: "text-teal"
-      }, "View source", 8 /* PROPS */, _hoisted_71)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.sectionStatsFor(section.heading).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_72, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
+      }, "View source", 8 /* PROPS */, _hoisted_63)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.sectionStatsFor(section.heading).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: stat.label,
           class: "section-stat-card"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "pt-3 mt-3"
-      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_66)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_58)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 2 /* DYNAMIC */
-    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_60);
-  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.lessonSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonSectionsWithKeys, (section, index) => {
+    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_52);
+  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.lessonSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_66, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonSectionsWithKeys, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.toggleKey,
       id: `section-${_ctx.selectedPill}-${index}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-block mb-5", {
         'section-collapsed': !_ctx.isSectionVisible(section.toggleKey)
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_78, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_79, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_71, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-toggle-btn", {
         collapsed: !_ctx.isSectionVisible(section.toggleKey)
@@ -1362,7 +1195,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": _ctx.isSectionVisible(section.toggleKey) ? 'Collapse section' : 'Expand section'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_80)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_72)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "section-collapse",
       appear: ""
     }, {
@@ -1376,103 +1209,103 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           fontSize: `${_ctx.overviewFontScale}rem`
         }),
         innerHTML: section.content
-      }, null, 12 /* STYLE, PROPS */, _hoisted_82), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_83, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_84, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_74), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_75, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_76, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
-      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_86, [_cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_77, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_78, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
       }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         href: section.resources,
         target: "_blank",
         rel: "noreferrer",
         class: "text-teal"
-      }, "View source", 8 /* PROPS */, _hoisted_87)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [_cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, "View source", 8 /* PROPS */, _hoisted_79)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_80, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_81, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-lightbulb-fill me-2 fs-4 text-teal"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_90, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_82, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "deep-dive-content text-dark fs-6",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: `${_ctx.overviewFontScale * 0.95}rem`
         }),
         innerHTML: section.deepDive.content
-      }, null, 12 /* STYLE, PROPS */, _hoisted_91)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_92, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_83)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_84, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: stat.label,
           class: "section-stat-card"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_93, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "pt-3 mt-3"
-      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_81)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_73)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 2 /* DYNAMIC */
-    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_75);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('learningOverview')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guided pathway clips and action cards "), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_94, [_cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center justify-content-between flex-wrap gap-3 p-3\" data-v-1d764944><div class=\"d-flex align-items-start gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-controller\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"text-teal small mb-1 fw-bold flex-grow-1\" data-v-1d764944>Guided Pathway</p><h3 class=\"mb-1 fs-4 fw-bold\" data-v-1d764944>Short clips to carry the lesson forward</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Pair a quick clip with your streak to keep the learning playful.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_96, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_67);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('learningOverview')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guided pathway clips and action cards "), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [_cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center justify-content-between flex-wrap gap-3 p-3\" data-v-1d764944><div class=\"d-flex align-items-start gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-controller\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"text-teal small mb-1 fw-bold flex-grow-1\" data-v-1d764944>Guided Pathway</p><h3 class=\"mb-1 fs-4 fw-bold\" data-v-1d764944>Short clips to carry the lesson forward</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Pair a quick clip with your streak to keep the learning playful.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_87, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_88, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-film"
-  })], -1 /* CACHED */)), _cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  })], -1 /* CACHED */)), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
   }, "Pathway Clips"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
   }, "Short visual cues to keep each insight gripping.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[10] || (_cache[10] = $event => _ctx.toggleCardVisibility('pathwayClips')),
+    onClick: _cache[9] || (_cache[9] = $event => _ctx.toggleCardVisibility('pathwayClips')),
     "aria-expanded": _ctx.isCardVisible('pathwayClips'),
     "aria-label": _ctx.isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_97)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_98, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pathwayClips, clip => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_89)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_90, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pathwayClips, clip => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: clip.title,
       class: "col-12 col-md-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
       class: "clip-card h-100 rounded-4 border shadow-sm",
       onMouseenter: $event => _ctx.startPreview(clip),
-      onMouseleave: _cache[11] || (_cache[11] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
+      onMouseleave: _cache[10] || (_cache[10] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.playClip(clip)
-    }, [_ctx.isClipPlaying(clip) || _ctx.isClipPreviewing(clip) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    }, [_ctx.isClipPlaying(clip) || _ctx.isClipPreviewing(clip) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_93, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
       src: _ctx.formatVideoUrl(clip.url, _ctx.shouldAutoplayVideo(), _ctx.isClipPreviewing(clip)),
       title: clip.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_102)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_94)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "clip-thumbnail ratio ratio-16x9",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(clip))
-    }, [...(_cache[86] || (_cache[86] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [...(_cache[77] || (_cache[77] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "clip-overlay d-flex align-items-end justify-content-start p-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "clip-label badge bg-white text-dark"
-    }, "Clip")], -1 /* CACHED */)]))], 4 /* STYLE */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_104, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_105, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.description || 'Visual recap of today’s insight.'), 1 /* TEXT */), _ctx.videoTags(clip, 'Pathway Clip').length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_106, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(clip, 'Pathway Clip'), tag => {
+    }, "Clip")], -1 /* CACHED */)]))], 4 /* STYLE */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_96, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.description || 'Visual recap of today’s insight.'), 1 /* TEXT */), _ctx.videoTags(clip, 'Pathway Clip').length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_98, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(clip, 'Pathway Clip'), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), clip.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_107, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_100)]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('pathwayClips')]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [_cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share With a Friend or Family Member</h3><p class=\"text-muted mb-0 medium\" data-v-1d764944> Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), clip.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_99, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_92)]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('pathwayClips')]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share With a Friend or Family Member</h3><p class=\"text-muted mb-0 medium\" data-v-1d764944> Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[12] || (_cache[12] = $event => _ctx.toggleCardVisibility('shareFriend')),
+    onClick: _cache[11] || (_cache[11] = $event => _ctx.toggleCardVisibility('shareFriend')),
     "aria-expanded": _ctx.isCardVisible('shareFriend'),
     "aria-label": _ctx.isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('shareFriend') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_110)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [_ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_102)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_103, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [_ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_106, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden",
     "aria-hidden": "false"
-  }, " Feel free to share every insight, dua, and revert story on this page. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Feel free to share every insight, dua, and revert story on this page. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal fw-semibold",
-    onClick: _cache[13] || (_cache[13] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[90] || (_cache[90] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[12] || (_cache[12] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
+  }, [...(_cache[81] || (_cache[81] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard mr-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal fw-semibold",
-    onClick: _cache[14] || (_cache[14] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[91] || (_cache[91] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[13] || (_cache[13] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
+  }, [...(_cache[82] || (_cache[82] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp mr-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareFriend')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" do's and don't "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_117, [_cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareFriend')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" do's and don't "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [_cache[83] || (_cache[83] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1483,71 +1316,76 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Do's and Don'ts")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[15] || (_cache[15] = $event => _ctx.toggleCardVisibility('dosDonts')),
+    onClick: _cache[14] || (_cache[14] = $event => _ctx.toggleCardVisibility('dosDonts')),
     "aria-expanded": _ctx.isCardVisible('dosDonts'),
     "aria-label": _ctx.isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('dosDonts') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_118)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_121, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_124, [_cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_110)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_113, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_114, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_116, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-dark mb-3"
-  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_125, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
+  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_117, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-center gap-2 mb-2"
-    }, [_cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill fs-5 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_128, [_cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_118, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_120, [_cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-dark mb-3"
-  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_129, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_121, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-center gap-2 mb-2"
-    }, [_cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill fs-5 text-muted"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('dosDonts')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dua to carry "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_131, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [_cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-bookmark-star-fill\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Duas to Carry</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('dosDonts')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dua to carry "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_124, [_cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-bookmark-star-fill\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Duas to Carry</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[16] || (_cache[16] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[97] || (_cache[97] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[15] || (_cache[15] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
+  }, [...(_cache[88] || (_cache[88] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[17] || (_cache[17] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[98] || (_cache[98] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[16] || (_cache[16] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
+  }, [...(_cache[89] || (_cache[89] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[18] || (_cache[18] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[99] || (_cache[99] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[17] || (_cache[17] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
+  }, [...(_cache[90] || (_cache[90] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_134, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[19] || (_cache[19] = $event => _ctx.toggleCardVisibility('duas')),
+    onClick: _cache[18] || (_cache[18] = $event => _ctx.toggleCardVisibility('duas')),
     "aria-expanded": _ctx.isCardVisible('duas'),
     "aria-label": _ctx.isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_135)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_127)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dua.arabic,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_137, [_cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_129, [_cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "dua-glow"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      class: "mb-0 text-dark text-center pb-3",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        fontSize: `${_ctx.duaFontScale}rem`
+      })
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.title), 1 /* TEXT */)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
       class: "fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -1558,26 +1396,31 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: `${_ctx.duaFontScale}rem`
       })
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('duas')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reverts Stories videos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-people-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Reverts Stories</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Short journeys from our community, handpicked for this chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      class: "mb-0 text-muted pt-2",
+      style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
+        fontSize: `${_ctx.duaFontScale}rem`
+      })
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.reference), 5 /* TEXT, STYLE */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('duas')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reverts Stories videos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_130, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_131, [_cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-people-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Reverts Stories</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Short journeys from our community, handpicked for this chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[20] || (_cache[20] = $event => _ctx.toggleCardVisibility('revertStories')),
+    onClick: _cache[19] || (_cache[19] = $event => _ctx.toggleCardVisibility('revertStories')),
     "aria-expanded": _ctx.isCardVisible('revertStories'),
     "aria-label": _ctx.isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_140)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_132)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
       class: "video-card shadow-sm overflow-hidden h-100",
       onMouseenter: $event => _ctx.startPreview(video),
-      onMouseleave: _cache[21] || (_cache[21] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
+      onMouseleave: _cache[20] || (_cache[20] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.handleVideoCardClick(video),
       onTouchstart: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.handleVideoCardTouch(video), ["stop"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -1588,130 +1431,130 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_145)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_137)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_146, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [_cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_148, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_149, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_150, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_152, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), _ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_153, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_140, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_141, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_142, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_144, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), _ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_145, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_155, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_143)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_146, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_147, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_135)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_148, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-see-more",
-    onClick: _cache[22] || (_cache[22] = $event => _ctx.showVideoModal = true)
-  }, [...(_cache[104] || (_cache[104] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[21] || (_cache[21] = $event => _ctx.showVideoModal = true)
+  }, [...(_cache[95] || (_cache[95] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right"
-  }, null, -1 /* CACHED */)]))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('revertStories')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" key insights "), _ctx.secondarySectionsReady && _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [_cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-lightbulb-fill\" data-v-1d764944></i></span><div class=\"d-flex flex-column\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Key Insights</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Anchor the lesson with these quick takeaways.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('revertStories')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" key insights "), _ctx.secondarySectionsReady && _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_149, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_150, [_cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-lightbulb-fill\" data-v-1d764944></i></span><div class=\"d-flex flex-column\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Key Insights</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Anchor the lesson with these quick takeaways.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn",
-    onClick: _cache[23] || (_cache[23] = $event => _ctx.toggleCardVisibility('keyInsights')),
+    onClick: _cache[22] || (_cache[22] = $event => _ctx.toggleCardVisibility('keyInsights')),
     "aria-expanded": _ctx.isCardVisible('keyInsights'),
     "aria-label": _ctx.isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_159)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [_cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_151)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [_cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "insight-hero mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "text-dark d-block mb-1"
   }, "Carry these sparks into your day"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, " Pick the insight that feels timely and let it guide your next pause, prayer, or action. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_161, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, (insight, index) => {
+  }, " Pick the insight that feels timely and let it guide your next pause, prayer, or action. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, (insight, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: `${insight}-${index}`,
       class: "insight-card"
-    }, [_cache[106] || (_cache[106] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [_cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "insight-card-accent",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_164, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_165, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('keyInsights')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" share and uplift "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_166, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [_cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share &amp; Uplift</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_156, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_157, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('keyInsights')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" share and uplift "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_158, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [_cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share &amp; Uplift</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[24] || (_cache[24] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[108] || (_cache[108] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[23] || (_cache[23] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
+  }, [...(_cache[99] || (_cache[99] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[25] || (_cache[25] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[109] || (_cache[109] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[24] || (_cache[24] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
+  }, [...(_cache[100] || (_cache[100] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[26] || (_cache[26] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[110] || (_cache[110] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[25] || (_cache[25] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
+  }, [...(_cache[101] || (_cache[101] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_169, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[27] || (_cache[27] = $event => _ctx.toggleCardVisibility('shareUplift')),
+    onClick: _cache[26] || (_cache[26] = $event => _ctx.toggleCardVisibility('shareUplift')),
     "aria-expanded": _ctx.isCardVisible('shareUplift'),
     "aria-label": _ctx.isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_170)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_162)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [_cache[105] || (_cache[105] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-3 fs-6 large"
-  }, " Spread the lesson: copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_172, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Spread the lesson: copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-copy pr-2",
-    onClick: _cache[28] || (_cache[28] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[112] || (_cache[112] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[27] || (_cache[27] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
+  }, [...(_cache[103] || (_cache[103] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard me-2 fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy lesson link", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-whatsapp",
-    onClick: _cache[29] || (_cache[29] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[113] || (_cache[113] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[28] || (_cache[28] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
+  }, [...(_cache[104] || (_cache[104] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp me-2 fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_174, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareUplift')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" common asked questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" chapter-specific tool "), _ctx.chapterTool ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_166, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareUplift')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" common asked questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" chapter-specific tool "), _ctx.chapterTool ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_167, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_170, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.chapterTool.icon || 'bi bi-tools')
-  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_179, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_180, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.description), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_181, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_171, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_172, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.description), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "chapter-tool-open",
-    onClick: _cache[30] || (_cache[30] = (...args) => _ctx.openChapterToolNewTab && _ctx.openChapterToolNewTab(...args)),
+    onClick: _cache[29] || (_cache[29] = (...args) => _ctx.openChapterToolNewTab && _ctx.openChapterToolNewTab(...args)),
     "aria-label": "Open {{ chapterTool.title }} in a new tab"
-  }, [...(_cache[115] || (_cache[115] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[106] || (_cache[106] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right fs-4"
-  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "chapter-tool-content",
-    onClick: _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
-    onMousedown: _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
-    onTouchstart: _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
-    onKeydown: _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, {
+    onClick: _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
+    onMousedown: _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
+    onTouchstart: _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
+    onKeydown: _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_176, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.chapterToolComponent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)(_ctx.chapterToolComponent), {
       key: 0,
       class: "chapter-tool-embed"
-    })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_185, [...(_cache[116] || (_cache[116] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_177, [...(_cache[107] || (_cache[107] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "text-muted mb-3"
     }, "Unable to load this tool right now.", -1 /* CACHED */)]))]))]),
-    fallback: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_186, " Loading " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title) + "… ", 1 /* TEXT */)]),
+    fallback: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, " Loading " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title) + "… ", 1 /* TEXT */)]),
     _: 1 /* STABLE */
-  }))])])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-question-circle-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Commonly Asked Questions</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Answers pulled from the chapter conversation.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }))])])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [_cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-question-circle-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Commonly Asked Questions</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Answers pulled from the chapter conversation.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[35] || (_cache[35] = $event => _ctx.toggleCardVisibility('commonQuestions')),
+    onClick: _cache[34] || (_cache[34] = $event => _ctx.toggleCardVisibility('commonQuestions')),
     "aria-expanded": _ctx.isCardVisible('commonQuestions'),
     "aria-label": _ctx.isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_189)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_190, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCommonPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_181)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCommonPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -1723,27 +1566,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('common', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_191), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_183), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_193)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.commonFaqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_185)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.commonFaqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_186, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-sm btn-link text-teal",
-    onClick: _cache[36] || (_cache[36] = $event => _ctx.expandFaq('common'))
-  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('commonQuestions')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" troubleshooting guides "), _ctx.troubleshootingGuides.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_195, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap\" data-v-1d764944><div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-tools\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Troubleshooting Guides</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Straightforward tips to smooth out the common hiccups.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.troubleshootingGuides, guide => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: guide.title,
-      class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_199, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(guide.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_200, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(guide.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_201, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(guide.steps, step => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: step
-      }, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-        class: "step-icon"
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "bi bi-caret-right-fill"
-      })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" motivation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_203, [_cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[35] || (_cache[35] = $event => _ctx.expandFaq('common'))
+  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('commonQuestions')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" troubleshooting guides "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"troubleshootingGuides.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-tools\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Troubleshooting Guides</h3>\n                  <p class=\"text-muted small mb-0\">Straightforward tips to smooth out the common hiccups.</p>\n                </div>\n              </div>\n            </div>\n            <div class=\"card-body px-3 px-md-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"guide in troubleshootingGuides\" :key=\"guide.title\" class=\"col-12 col-md-4\">\n                  <article class=\"troubleshooting-guide-card h-100 p-3 rounded-4 border\">\n                    <h4 class=\"fw-semibold mb-2 fs-6\">{{ guide.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ guide.description }}</p>\n                    <ul class=\"list-unstyled mb-0 troubleshooting-steps\">\n                      <li v-for=\"step in guide.steps\" :key=\"step\">\n                        <span class=\"step-icon\">\n                          <i class=\"bi bi-caret-right-fill\"></i>\n                        </span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" motivation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [_cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1754,36 +1584,36 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Motivation")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[37] || (_cache[37] = $event => _ctx.toggleCardVisibility('motivation')),
+    onClick: _cache[36] || (_cache[36] = $event => _ctx.toggleCardVisibility('motivation')),
     "aria-expanded": _ctx.isCardVisible('motivation'),
     "aria-label": _ctx.isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_204)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_207, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_208, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('motivation')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" plans "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_209, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_210, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-calendar3-range\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-0\" data-v-1d764944>Curated Weekly &amp; Monthly Plans</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Pick the timeline that fits your current rhythm.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_189)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_190, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_192, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_193, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('motivation')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" plans "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_195, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-calendar3-range\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-0\" data-v-1d764944>Curated Weekly &amp; Monthly Plans</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Pick the timeline that fits your current rhythm.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn",
-    onClick: _cache[38] || (_cache[38] = $event => _ctx.toggleCardVisibility('curatedPlans')),
+    onClick: _cache[37] || (_cache[37] = $event => _ctx.toggleCardVisibility('curatedPlans')),
     "aria-expanded": _ctx.isCardVisible('curatedPlans'),
     "aria-label": _ctx.isCardVisible('curatedPlans') ? 'Collapse curated plans' : 'Expand curated plans'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('curatedPlans') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_211)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [_ctx.currentChapterPlans.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_213, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterPlans, plan => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_196)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [_ctx.currentChapterPlans.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterPlans, plan => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: plan.planId,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_215, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_217, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_218, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_219, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_220, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.planId.replace('-', ' ')), 1 /* TEXT */)]), _cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_202, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_204, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.description), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_205, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.planId.replace('-', ' ')), 1 /* TEXT */)]), _cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "plan-card__divider",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_221, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_222, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.highlights, (highlight, index) => {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_207, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.highlights, (highlight, index) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `${plan.planId}-${index}`,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-highlight", {
           completed: _ctx.isCuratedHighlightCompleted(plan.planId, index)
         }])
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [_cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [_cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "plan-highlight-icon",
         "aria-hidden": "true"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_209, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         type: "button",
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-highlight-action", {
           completed: _ctx.isCuratedHighlightCompleted(plan.planId, index)
@@ -1796,156 +1626,76 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'])
-      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_226, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_225)], 2 /* CLASS */);
-    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_228, " Crafted for the " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration.toLowerCase()) + " rhythm. ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_211, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_210)], 2 /* CLASS */);
+    }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_213, " Crafted for the " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.duration.toLowerCase()) + " rhythm. ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-share",
       onClick: $event => _ctx.sharePlan(plan),
       title: 'Share ' + plan.title
-    }, [...(_cache[123] || (_cache[123] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[112] || (_cache[112] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Share plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_230), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Share plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_215), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-copy",
       onClick: $event => _ctx.copyPlan(plan),
       title: 'Copy ' + plan.title
-    }, [...(_cache[124] || (_cache[124] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[113] || (_cache[113] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Copy plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_231), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Copy plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_216), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-print",
       onClick: $event => _ctx.printPlan(plan),
       title: 'Print ' + plan.title
-    }, [...(_cache[125] || (_cache[125] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[114] || (_cache[114] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-printer"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Print plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_232), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Print plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_217), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "plan-action-icon plan-action-download",
       onClick: $event => _ctx.downloadPlanAsPdf(plan),
       title: 'Download ' + plan.title
-    }, [...(_cache[126] || (_cache[126] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[115] || (_cache[115] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-file-earmark-pdf"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Download plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_233)])])])]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_234, [...(_cache[128] || (_cache[128] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, "Download plan", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_218)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_219, [...(_cache[117] || (_cache[117] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1"
   }, "Curated plans are loading, or new guides are being prepared for this chapter.", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0"
-  }, "Check back after you visit the lesson overview and guided pathways.", -1 /* CACHED */)]))]))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('curatedPlans')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" flexible plan tracks "), _ctx.currentFlexibleTracks.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_235, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_236, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_237, [_cache[129] || (_cache[129] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-    class: "card-header-icon"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-shuffle"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_238, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentFlexibleN = _ctx.currentFlexibleNote) === null || _ctx$currentFlexibleN === void 0 ? void 0 : _ctx$currentFlexibleN.title) || 'Flexible Pathway Tracks'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_239, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_ctx$currentFlexibleN2 = _ctx.currentFlexibleNote) === null || _ctx$currentFlexibleN2 === void 0 ? void 0 : _ctx$currentFlexibleN2.description) || 'Mix and match these companion routines to keep each chapter feeling fresh.'), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "section-toggle-btn card-toggle-btn",
-    onClick: _cache[39] || (_cache[39] = $event => _ctx.toggleCardVisibility('flexibleTracks')),
-    "aria-expanded": _ctx.isCardVisible('flexibleTracks'),
-    "aria-label": _ctx.isCardVisible('flexibleTracks') ? 'Collapse flexible tracks' : 'Expand flexible tracks'
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('flexibleTracks') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_240)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentFlexibleTracks, track => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: track.id,
-      class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_243, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_244, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(track.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_245, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(track.description), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_246, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(track.steps, step => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
-        key: step
-      }, [_cache[130] || (_cache[130] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
-        class: "flex-step-icon",
-        "aria-hidden": "true"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))])])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('flexibleTracks')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" daily micro challenges "), _ctx.dailyChallenges.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_247, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_248, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-stars\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Daily Micro Challenges</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Mark what you completed and keep the lesson in motion.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Check back after you visit the lesson overview and guided pathways.", -1 /* CACHED */)]))]))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('curatedPlans')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" flexible plan tracks "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentFlexibleTracks.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-shuffle\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">{{ currentFlexibleNote?.title || 'Flexible Pathway Tracks' }}</h3>\n                  <p class=\"text-muted small mb-0\">\n                    {{ currentFlexibleNote?.description || 'Mix and match these companion routines to keep each chapter feeling fresh.' }}\n                  </p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('flexibleTracks')\"\n                :aria-expanded=\"isCardVisible('flexibleTracks')\"\n                :aria-label=\"isCardVisible('flexibleTracks') ? 'Collapse flexible tracks' : 'Expand flexible tracks'\">\n                <i class=\"bi\" :class=\"isCardVisible('flexibleTracks') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('flexibleTracks')\" class=\"card-body px-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"track in currentFlexibleTracks\" :key=\"track.id\" class=\"col-12 col-md-4\">\n                  <article class=\"flexible-track-card rounded-4 p-4 h-100\">\n                    <h4 class=\"fw-semibold mb-2 fs-5\">{{ track.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ track.description }}</p>\n                    <ul class=\"flexible-track-steps list-unstyled mb-0\">\n                      <li v-for=\"step in track.steps\" :key=\"step\">\n                        <span class=\"flex-step-icon\" aria-hidden=\"true\"></span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" daily micro challenges "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"dailyChallenges.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-stars\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Daily Micro Challenges</h3>\n                  <p class=\"text-muted small mb-0\">Mark what you completed and keep the lesson in motion.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('dailyChallenges')\"\n                :aria-expanded=\"isCardVisible('dailyChallenges')\"\n                :aria-label=\"isCardVisible('dailyChallenges') ? 'Collapse micro challenges' : 'Expand micro challenges'\">\n                <i class=\"bi\" :class=\"isCardVisible('dailyChallenges') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('dailyChallenges')\" class=\"card-body px-4 py-3\">\n              <div class=\"daily-challenge-progress mb-3\">\n                <div class=\"progress\" role=\"progressbar\" :aria-valuenow=\"dailyChallengeProgressPercent\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n                  <div class=\"progress-bar\" :style=\"{ width: dailyChallengeProgressPercent + '%' }\"></div>\n                </div>\n                <div class=\"d-flex justify-content-between mt-1\">\n                  <small class=\"text-muted\">{{ dailyChallengeCompletionLabel }}</small>\n                  <small class=\"text-teal fw-semibold\">{{ dailyChallengeProgressPercent }}%</small>\n                </div>\n              </div>\n                <div class=\"daily-challenge-grid\">\n                  <button\n                    v-for=\"challenge in dailyChallenges\"\n                    :key=\"challenge.id\"\n                    type=\"button\"\n                    class=\"daily-challenge-pill\"\n                    :class=\"{ completed: challenge.completed }\"\n                    @click=\"toggleChallenge(challenge.storageKey)\"\n                    :aria-pressed=\"challenge.completed\"\n                  >\n                  <span class=\"challenge-icon\" aria-hidden=\"true\">\n                    <i class=\"bi\" :class=\"challenge.completed ? 'bi-check-lg' : 'bi-circle'\"></i>\n                  </span>\n                  <div class=\"challenge-details text-start\">\n                    <strong class=\"d-block\">{{ challenge.title }}</strong>\n                    <small class=\"text-muted\">{{ challenge.description }}</small>\n                  </div>\n                </button>\n              </div>\n              <div class=\"reflection-box mt-4\">\n                <div class=\"d-flex align-items-center justify-content-between mb-2\">\n                  <p class=\"fw-semibold mb-0\">Reflection note</p>\n                </div>\n                <div class=\"reflection-actions mb-3\">\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-primary btn-sm shadow-none\"\n                    @click=\"createNewReflectionNote\"\n                  >\n                    Create new note\n                  </button>\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-secondary btn-sm shadow-none\"\n                    @click=\"clearReflectionNote\"\n                    :disabled=\"!currentReflectionNote\"\n                  >\n                    Clear note\n                  </button>\n                </div>\n                <div v-if=\"reflectionStatus\" class=\"reflection-status-pill\">\n                  <i class=\"bi bi-check-circle-fill\"></i>\n                  <span>{{ reflectionStatus }}</span>\n                </div>\n                <textarea\n                  class=\"form-control reflection-input\"\n                  rows=\"3\"\n                  v-model=\"reflectionInput\"\n                  placeholder=\"Jot down a moment, dua, or action you want to remember...\"\n                ></textarea>\n                <div class=\"d-flex align-items-center justify-content-between mt-2 gap-2 flex-wrap\">\n                  <small v-if=\"reflectionStatus\" class=\"text-success mb-0\">{{ reflectionStatus }}</small>\n                  <button\n                    type=\"button\"\n                    class=\"btn btn-teal btn-sm shadow-none\"\n                    :disabled=\"!reflectionInput.trim() && !currentReflectionNote\"\n                    @click=\"saveReflectionNote\"\n                  >\n                    Save note\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_220, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_221, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-journal-check\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Chapter Quiz</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Attempt the curated quiz to move to the next chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[40] || (_cache[40] = $event => _ctx.toggleCardVisibility('dailyChallenges')),
-    "aria-expanded": _ctx.isCardVisible('dailyChallenges'),
-    "aria-label": _ctx.isCardVisible('dailyChallenges') ? 'Collapse micro challenges' : 'Expand micro challenges'
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('dailyChallenges') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_249)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_250, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_251, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "progress",
-    role: "progressbar",
-    "aria-valuenow": _ctx.dailyChallengeProgressPercent,
-    "aria-valuemin": "0",
-    "aria-valuemax": "100"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "progress-bar",
-    style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      width: _ctx.dailyChallengeProgressPercent + '%'
-    })
-  }, null, 4 /* STYLE */)], 8 /* PROPS */, _hoisted_252), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_253, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_254, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.dailyChallengeCompletionLabel), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_255, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.dailyChallengeProgressPercent) + "%", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_256, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.dailyChallenges, challenge => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: challenge.id,
-      type: "button",
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["daily-challenge-pill", {
-        completed: challenge.completed
-      }]),
-      onClick: $event => _ctx.toggleChallenge(challenge.storageKey),
-      "aria-pressed": challenge.completed
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", challenge.completed ? 'bi-check-lg' : 'bi-circle'])
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_259, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_260, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(challenge.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_261, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(challenge.description), 1 /* TEXT */)])], 10 /* CLASS, PROPS */, _hoisted_257);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [_cache[133] || (_cache[133] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "d-flex align-items-center justify-content-between mb-2"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "fw-semibold mb-0"
-  }, "Reflection note")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_263, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn reflection-action-btn reflection-action-primary btn-sm shadow-none",
-    onClick: _cache[41] || (_cache[41] = (...args) => _ctx.createNewReflectionNote && _ctx.createNewReflectionNote(...args))
-  }, " Create new note "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn reflection-action-btn reflection-action-secondary btn-sm shadow-none",
-    onClick: _cache[42] || (_cache[42] = (...args) => _ctx.clearReflectionNote && _ctx.clearReflectionNote(...args)),
-    disabled: !_ctx.currentReflectionNote
-  }, " Clear note ", 8 /* PROPS */, _hoisted_264)]), _ctx.reflectionStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_265, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "bi bi-check-circle-fill"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
-    class: "form-control reflection-input",
-    rows: "3",
-    "onUpdate:modelValue": _cache[43] || (_cache[43] = $event => _ctx.reflectionInput = $event),
-    placeholder: "Jot down a moment, dua, or action you want to remember..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionInput]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_266, [_ctx.reflectionStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_267, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-teal btn-sm shadow-none",
-    disabled: !_ctx.reflectionInput.trim() && !_ctx.currentReflectionNote,
-    onClick: _cache[44] || (_cache[44] = (...args) => _ctx.saveReflectionNote && _ctx.saveReflectionNote(...args))
-  }, " Save note ", 8 /* PROPS */, _hoisted_268)])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('dailyChallenges')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_269, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_270, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-journal-check\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Chapter Quiz</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Attempt the curated quiz to move to the next chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[45] || (_cache[45] = $event => _ctx.toggleCardVisibility('chapterQuiz')),
+    onClick: _cache[38] || (_cache[38] = $event => _ctx.toggleCardVisibility('chapterQuiz')),
     "aria-expanded": _ctx.isCardVisible('chapterQuiz'),
     "aria-label": _ctx.isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('chapterQuiz') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_271)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_272, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_273, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_274, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_222)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_223, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_224, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_225, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_276, [_cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_277, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_278, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_279, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_228, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_230, [_cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-motivation-icon d-flex align-items-center justify-content-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-lightning-charge-fill fs-5"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_280, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_281, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_282, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_283, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizStageLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_285, [_cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_231, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_232, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_233, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_234, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizStageLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_235, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_236, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1 text-uppercase"
-  }, "Section focus", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_286, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuizSectionTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_287, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_288, [_cache[138] || (_cache[138] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Section focus", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_237, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuizSectionTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_238, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_239, [_cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted small text-uppercase"
-  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_289, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizMomentumPercent) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_240, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizMomentumPercent) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: `${_ctx.quizMomentumPercent}%`
     })
-  }, null, 4 /* STYLE */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_291, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, null, 4 /* STYLE */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_242, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_243, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
@@ -1956,8 +1706,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }]),
       disabled: _ctx.chapterQuizPassed,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_294, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_295)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_296)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_293);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_297, [_cache[139] || (_cache[139] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_245, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_246)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_247)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_244);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_248, [_cache[123] || (_cache[123] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-explanation-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-2"
@@ -1965,39 +1715,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-lightbulb-fill fs-5 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-semibold mb-3 fs-6"
-  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_298, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_299, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_301, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_249, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_250, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_251, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_252, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_253, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-explanation-link",
-    onClick: _cache[46] || (_cache[46] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
-  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_303, [_cache[141] || (_cache[141] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[39] || (_cache[39] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_254, [_cache[125] || (_cache[125] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_304, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_305, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[140] || (_cache[140] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_255, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_256, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[124] || (_cache[124] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
-    onClick: _cache[47] || (_cache[47] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('chapterQuiz')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_306, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_307, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[40] || (_cache[40] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('chapterQuiz')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_257, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
     disabled: _ctx.selectedPill <= 1,
-    onClick: _cache[48] || (_cache[48] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
-  }, [...(_cache[142] || (_cache[142] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[41] || (_cache[41] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
+  }, [...(_cache[126] || (_cache[126] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_308), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_309, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_310, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_311, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_259), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_260, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_261, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_262, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !_ctx.isWaitingForNext,
       'disabled': _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
     }]),
     disabled: _ctx.isWaitingForNext || !_ctx.chapterQuizPassed,
-    onClick: _cache[49] || (_cache[49] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[143] || (_cache[143] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[42] || (_cache[42] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_312)])])])])])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_263)])])])])])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "scroll-fab",
     appear: ""
   }, {
@@ -2006,86 +1756,86 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "scroll-top-fab d-flex align-items-center justify-content-center shadow",
       type: "button",
       "aria-label": "Scroll to top",
-      onClick: _cache[50] || (_cache[50] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args))
-    }, [...(_cache[144] || (_cache[144] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      onClick: _cache[43] || (_cache[43] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args))
+    }, [...(_cache[128] || (_cache[128] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-arrow-up-short fs-1 text-white"
     }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_313, [_cache[147] || (_cache[147] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_264, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_314, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_315, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_316, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_317, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_318, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[146] || (_cache[146] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_265, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_266, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_267, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_268, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_269, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[130] || (_cache[130] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_319, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_320, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_321, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_270, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_271, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_272, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
-    onClick: _cache[51] || (_cache[51] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
-  }, [...(_cache[145] || (_cache[145] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[44] || (_cache[44] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
+  }, [...(_cache[129] || (_cache[129] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-link-45deg"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy Link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
-    onClick: _cache[52] || (_cache[52] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_322, [_cache[154] || (_cache[154] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[45] || (_cache[45] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_273, [_cache[138] || (_cache[138] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_323, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_324, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_325, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_326, [_cache[148] || (_cache[148] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_274, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_276, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_277, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
   }, "All Revert Stories", -1 /* CACHED */)), _ctx.hasStoryFilters ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-outline-dark ms-auto d-flex align-items-center gap-2",
-    onClick: _cache[53] || (_cache[53] = (...args) => _ctx.toggleVideoFilters && _ctx.toggleVideoFilters(...args)),
+    onClick: _cache[46] || (_cache[46] = (...args) => _ctx.toggleVideoFilters && _ctx.toggleVideoFilters(...args)),
     "aria-pressed": _ctx.showVideoFilters,
     "aria-label": _ctx.showVideoFilters ? 'Hide story filters' : 'Show story filters'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.showVideoFilters ? 'bi-eye-slash' : 'bi-eye'])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_328, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.showVideoFilters ? 'Hide filters' : 'Show filters'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_327)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_329, [_ctx.hasStoryFilters ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_330, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_331, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_332, [_cache[149] || (_cache[149] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_279, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.showVideoFilters ? 'Hide filters' : 'Show filters'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_278)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_280, [_ctx.hasStoryFilters ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_281, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_282, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_283, [_cache[133] || (_cache[133] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Search stories", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     class: "form-control form-control-sm",
     placeholder: "Search by title or theme",
-    "onUpdate:modelValue": _cache[54] || (_cache[54] = $event => _ctx.videoSearchTerm = $event)
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_333, [_cache[150] || (_cache[150] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "onUpdate:modelValue": _cache[47] || (_cache[47] = $event => _ctx.videoSearchTerm = $event)
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Duration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
-    "onUpdate:modelValue": _cache[55] || (_cache[55] = $event => _ctx.videoDurationFilter = $event)
+    "onUpdate:modelValue": _cache[48] || (_cache[48] = $event => _ctx.videoDurationFilter = $event)
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.durationFilters, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_334);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_335, [_cache[151] || (_cache[151] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_285);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_286, [_cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Gender", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
-    "onUpdate:modelValue": _cache[56] || (_cache[56] = $event => _ctx.videoGenderFilter = $event)
+    "onUpdate:modelValue": _cache[49] || (_cache[49] = $event => _ctx.videoGenderFilter = $event)
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.genderFilters, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_336);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_337, [_cache[152] || (_cache[152] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_287);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_288, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Background", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
-    "onUpdate:modelValue": _cache[57] || (_cache[57] = $event => _ctx.videoBackgroundFilter = $event)
+    "onUpdate:modelValue": _cache[50] || (_cache[50] = $event => _ctx.videoBackgroundFilter = $event)
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.backgroundFilterOptions, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_338);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_339, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showVideoFilters]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_340, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_289);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_290, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showVideoFilters]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_291, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 'modal-' + video.title,
       class: "col-12 col-md-6"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
       class: "video-card shadow-sm overflow-hidden h-100",
       onMouseenter: $event => _ctx.startPreview(video),
-      onMouseleave: _cache[58] || (_cache[58] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
+      onMouseleave: _cache[51] || (_cache[51] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.handleVideoCardClick(video),
       onTouchstart: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.handleVideoCardTouch(video), ["stop", "prevent"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_342, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -2096,25 +1846,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_343)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_294)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_344, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_345, [_cache[153] || (_cache[153] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_295, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_296, [_cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_346, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_347, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_348, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_349, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_350, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_297, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_298, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_299, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_301, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag + '-modal',
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_341)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_351, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_352, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_292)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_303, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
-    onClick: _cache[59] || (_cache[59] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_353, [_cache[156] || (_cache[156] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[52] || (_cache[52] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_304, [_cache[140] || (_cache[140] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_354, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_355, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_356, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_357, [_cache[155] || (_cache[155] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_306, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_307, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_308, [_cache[139] || (_cache[139] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold mb-1"
   }, "Reverts Corner Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
@@ -2122,24 +1872,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "btn-close",
     "aria-label": "Close guide",
-    onClick: _cache[60] || (_cache[60] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_358, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
+    onClick: _cache[53] || (_cache[53] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_309, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: step.title,
       class: "guide-step-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_359, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_360, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_361, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_362, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_310, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_311, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_312, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_313, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
-    onClick: _cache[61] || (_cache[61] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  }, "Got it")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showCompletionModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_363, [_cache[159] || (_cache[159] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[54] || (_cache[54] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
+  }, "Got it")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showCompletionModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_314, [_cache[143] || (_cache[143] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_364, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_365, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_366, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_367, [_cache[157] || (_cache[157] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"completion-header-left\" data-v-1d764944><span class=\"completion-icon\" data-v-1d764944><i class=\"bi bi-moon-stars\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"completion-label mb-1\" data-v-1d764944>Milestone</p><h5 class=\"modal-title fw-bold mb-0\" data-v-1d764944>Beginners Guide Complete</h5></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_315, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_316, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_317, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_318, [_cache[141] || (_cache[141] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"completion-header-left\" data-v-1d764944><span class=\"completion-icon\" data-v-1d764944><i class=\"bi bi-moon-stars\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"completion-label mb-1\" data-v-1d764944>Milestone</p><h5 class=\"modal-title fw-bold mb-0\" data-v-1d764944>Beginners Guide Complete</h5></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
-    onClick: _cache[62] || (_cache[62] = (...args) => _ctx.closeCompletionModal && _ctx.closeCompletionModal(...args))
-  })]), _cache[158] || (_cache[158] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body completion-modal-body px-4 pb-4 pt-0\" data-v-1d764944><p class=\"completion-lead mb-2\" data-v-1d764944>MashaAllah, you&#39;ve completed the Beginners Guide.</p><p class=\"completion-note mb-3\" data-v-1d764944> May Allah bless your effort and keep your heart steady on this path. When you&#39;re ready, choose what feels right today to continue to the next phase. No pressure. Take your time. </p><div class=\"completion-divider\" data-v-1d764944></div><div class=\"completion-options\" data-v-1d764944><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>One-time £1.99</p><p class=\"completion-option-desc\" data-v-1d764944> If it feels easy today, this keeps the lessons flowing and supports the work. </p></div><button type=\"button\" class=\"btn completion-primary-btn d-inline-flex align-items-center\" data-v-1d764944> Pay £1.99 </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Choose what you can</p><p class=\"completion-option-desc\" data-v-1d764944> If £1.99 is not comfortable, pick a smaller amount that suits your situation. </p></div><button type=\"button\" class=\"btn completion-secondary-btn d-inline-flex align-items-center\" data-v-1d764944> Choose an amount </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Continue for free</p><p class=\"completion-option-desc\" data-v-1d764944> If you are not ready for the options above, continue without payment. May Allah make it easy. </p></div><button type=\"button\" class=\"btn completion-ghost-btn\" data-v-1d764944> Continue for free </button></div></div><p class=\"completion-footnote mb-0\" data-v-1d764944>Secure checkout via Stripe. May Allah reward your sincerity.</p></div>", 1))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+    onClick: _cache[55] || (_cache[55] = (...args) => _ctx.closeCompletionModal && _ctx.closeCompletionModal(...args))
+  })]), _cache[142] || (_cache[142] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body completion-modal-body px-4 pb-4 pt-0\" data-v-1d764944><p class=\"completion-lead mb-2\" data-v-1d764944>MashaAllah, you&#39;ve completed the Beginners Guide.</p><p class=\"completion-note mb-3\" data-v-1d764944> May Allah bless your effort and keep your heart steady on this path. When you&#39;re ready, choose what feels right today to continue to the next phase. No pressure. Take your time. </p><div class=\"completion-divider\" data-v-1d764944></div><div class=\"completion-options\" data-v-1d764944><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>One-time £1.99</p><p class=\"completion-option-desc\" data-v-1d764944> If it feels easy today, this keeps the lessons flowing and supports the work. </p></div><button type=\"button\" class=\"btn completion-primary-btn d-inline-flex align-items-center\" data-v-1d764944> Pay £1.99 </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Choose what you can</p><p class=\"completion-option-desc\" data-v-1d764944> If £1.99 is not comfortable, pick a smaller amount that suits your situation. </p></div><button type=\"button\" class=\"btn completion-secondary-btn d-inline-flex align-items-center\" data-v-1d764944> Choose an amount </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Continue for free</p><p class=\"completion-option-desc\" data-v-1d764944> If you are not ready for the options above, continue without payment. May Allah make it easy. </p></div><button type=\"button\" class=\"btn completion-ghost-btn\" data-v-1d764944> Continue for free </button></div></div><p class=\"completion-footnote mb-0\" data-v-1d764944>Secure checkout via Stripe. May Allah reward your sincerity.</p></div>", 1))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -2368,16 +2118,16 @@ const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mothe
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male'];
 const DEFAULT_DAILY_CHALLENGES = [{
   id: 'insight-note',
-  title: 'Capture today’s insight',
-  description: 'Note how the lesson landed for you today.'
+  title: 'Challenge one',
+  description: '* Morning: Recite "Lā ilāha illallāh" 100 times with reflection. Noon: Learn one Name of Allāh and reflect on it throughout the day.'
 }, {
   id: 'share-moment',
-  title: 'Share the tone',
-  description: 'Send one short update or dua to someone who inspires you.'
+  title: 'Challenge two',
+  description: 'Afternoon: Spot 3 signs of Allāhs Lordship around you. Evening: Purify one intention before an act of worship.'
 }, {
   id: 'routine-tie',
-  title: 'Tie it to routine',
-  description: 'Attach today’s insight to a prayer, commute, or quiet moment.'
+  title: 'Challenge three',
+  description: 'Night: Recite Ayat al-Kursī (2:255) before sleep – the greatest āyah on Tawheed.'
 }];
 const createChapterToolEntry = _ref => {
   let {
@@ -4528,7 +4278,7 @@ const celebrateFinalChapter = confettiFn => {
   \***********************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"Islamic Foundation","dos":[{"id":"islamic-foundation-do-1","text":"Recite the shahada with awareness several times each day"},{"id":"islamic-foundation-do-2","text":"Reflect on Allah\'s attributes and how they shape your purpose"},{"id":"islamic-foundation-do-3","text":"Pair a short dua with every new habit you form"},{"id":"islamic-foundation-do-4","text":"Surround yourself with gentle reminders of worship"},{"id":"islamic-foundation-do-5","text":"Share foundational knowledge with someone who is also learning"}],"donts":[{"id":"islamic-foundation-dont-1","text":"Don\'t rush through rituals without understanding their meaning"},{"id":"islamic-foundation-dont-2","text":"Avoid comparing your progress to others\' timelines"},{"id":"islamic-foundation-dont-3","text":"Don\'t let cultural habits eclipse the core creed"},{"id":"islamic-foundation-dont-4","text":"Steer clear of extreme self-judgment after a mistake"},{"id":"islamic-foundation-dont-5","text":"Don\'t neglect consistent dhikr just because you are busy"}]},{"chapterId":2,"chapter":"Islamic Beliefs","dos":[{"id":"islamic-beliefs-do-1","text":"Study each of the six articles and recite them aloud"},{"id":"islamic-beliefs-do-2","text":"Ask questions gently when doubts arise and seek scholars"},{"id":"islamic-beliefs-do-3","text":"Keep a diary noting how belief in Allah influences decisions"},{"id":"islamic-beliefs-do-4","text":"Mention Allah before important choices to build reliance"},{"id":"islamic-beliefs-do-5","text":"Teach the fundamentals to a friend or family member"}],"donts":[{"id":"islamic-beliefs-dont-1","text":"Don\'t ignore the unseen simply because it\'s hard to grasp"},{"id":"islamic-beliefs-dont-2","text":"Avoid listening to unreliable sources that sow confusion"},{"id":"islamic-beliefs-dont-3","text":"Don\'t treat faith as a checklistlet it soften the heart"},{"id":"islamic-beliefs-dont-4","text":"Don\'t isolate yourself when you need supportive company"},{"id":"islamic-beliefs-dont-5","text":"Avoid dismissing divine decree when plans change"}]},{"chapterId":3,"chapter":"Islamic Pillars","dos":[{"id":"islamic-pillars-do-1","text":"Begin each day with intention for the five pillars"},{"id":"islamic-pillars-do-2","text":"Use reminders to step into each prayer window"},{"id":"islamic-pillars-do-3","text":"Build a small charity habit even when funds are tight"},{"id":"islamic-pillars-do-4","text":"Fast a little outside Ramadan to strengthen discipline"},{"id":"islamic-pillars-do-5","text":"Research Hajj basics long before you plan to go"}],"donts":[{"id":"islamic-pillars-dont-1","text":"Don\'t leave prayers to the last minute"},{"id":"islamic-pillars-dont-2","text":"Avoid making pillars a mere routine without heart"},{"id":"islamic-pillars-dont-3","text":"Don\'t skip zakat out of convenienceplan ahead"},{"id":"islamic-pillars-dont-4","text":"Don\'t delay learning the pillar meanings because you feel unready"},{"id":"islamic-pillars-dont-5","text":"Avoid showing off worshipkeep intentions solely for Allah"}]},{"chapterId":4,"chapter":"Islamic Quran","dos":[{"id":"islamic-quran-do-1","text":"Read a short verse with translation every day"},{"id":"islamic-quran-do-2","text":"Listen to recitation to catch proper pronunciation"},{"id":"islamic-quran-do-3","text":"Journal reflections on a verse that moved you"},{"id":"islamic-quran-do-4","text":"Teach a portion of Quran to reinforce your own memory"},{"id":"islamic-quran-do-5","text":"Combine Arabic reading with a reliable tafsir"}],"donts":[{"id":"islamic-quran-dont-1","text":"Don\'t rush through entire pages without stopping to reflect"},{"id":"islamic-quran-dont-2","text":"Avoid ignoring etiquette like wudu or clean space"},{"id":"islamic-quran-dont-3","text":"Don\'t depend solely on transliterationpractice Arabic"},{"id":"islamic-quran-dont-4","text":"Don\'t let distractions steal your Quran time"},{"id":"islamic-quran-dont-5","text":"Avoid skipping revision of memorized verses"}]},{"chapterId":5,"chapter":"Islamic Prophet","dos":[{"id":"islamic-prophet-do-1","text":"Study his seerah in bite-sized chapters"},{"id":"islamic-prophet-do-2","text":"Send salutations whenever his name is mentioned"},{"id":"islamic-prophet-do-3","text":"Model his manners inside your family"},{"id":"islamic-prophet-do-4","text":"Follow his charity examples in your own neighborhood"},{"id":"islamic-prophet-do-5","text":"Ask Allah for love of the Prophet in your dua"}],"donts":[{"id":"islamic-prophet-dont-1","text":"Don\'t reduce his life to mythsstick to authentic sources"},{"id":"islamic-prophet-dont-2","text":"Avoid mocking or dismissing his companions\' struggles"},{"id":"islamic-prophet-dont-3","text":"Don\'t only admire him from afar; embody his mercy"},{"id":"islamic-prophet-dont-4","text":"Don\'t ignore his advice on balancing worship and rest"},{"id":"islamic-prophet-dont-5","text":"Avoid using his words to justify harsh behavior"}]},{"chapterId":6,"chapter":"Islamic Prayers","dos":[{"id":"islamic-prayers-do-1","text":"Plan your day around the five prayer windows"},{"id":"islamic-prayers-do-2","text":"Perfect your wudu with mindfulness"},{"id":"islamic-prayers-do-3","text":"Learn the meaning of what you recite in salah"},{"id":"islamic-prayers-do-4","text":"Add a short sunnah prayer to deepen khushu"},{"id":"islamic-prayers-do-5","text":"Pray in congregation when you can"}],"donts":[{"id":"islamic-prayers-dont-1","text":"Don\'t delay fajr unless absolutely necessary"},{"id":"islamic-prayers-dont-2","text":"Avoid thinking prayer is optional when you miss one"},{"id":"islamic-prayers-dont-3","text":"Don\'t rush through sujud without presence"},{"id":"islamic-prayers-dont-4","text":"Don\'t let fatigue become an excuse to skip a prayer"},{"id":"islamic-prayers-dont-5","text":"Avoid neglecting dua after prayercling to it"}]},{"chapterId":7,"chapter":"Islamic Dua Dhkir","dos":[{"id":"islamic-dua-dhkir-do-1","text":"Make short dhikr part of every commute"},{"id":"islamic-dua-dhkir-do-2","text":"Combine dua with praise before asking"},{"id":"islamic-dua-dhkir-do-3","text":"Keep a list of personal needs for dua time"},{"id":"islamic-dua-dhkir-do-4","text":"Recite morning and evening adhkar faithfully"},{"id":"islamic-dua-dhkir-do-5","text":"Use quiet moments to whisper names of Allah"}],"donts":[{"id":"islamic-dua-dhkir-dont-1","text":"Don\'t rush through dua like a to-do list"},{"id":"islamic-dua-dhkir-dont-2","text":"Avoid blaming Allah when dua is delayed"},{"id":"islamic-dua-dhkir-dont-3","text":"Don\'t limit dhikr to crises only"},{"id":"islamic-dua-dhkir-dont-4","text":"Avoid using others\' words without understanding"},{"id":"islamic-dua-dhkir-dont-5","text":"Don\'t forget to thank Allah after answered dua"}]},{"chapterId":8,"chapter":"Islamic Heart","dos":[{"id":"islamic-heart-do-1","text":"Purge envy by celebrating others\' success"},{"id":"islamic-heart-do-2","text":"Practice muhasabah (self-accounting) nightly"},{"id":"islamic-heart-do-3","text":"Trust Allah\'s decree while making wise choices"},{"id":"islamic-heart-do-4","text":"Guard the heart with consistent dhikr"},{"id":"islamic-heart-do-5","text":"Seek knowledge that softens rather than hardens"}],"donts":[{"id":"islamic-heart-dont-1","text":"Don\'t let bitterness take root inside"},{"id":"islamic-heart-dont-2","text":"Avoid clinging to material status for identity"},{"id":"islamic-heart-dont-3","text":"Don\'t remain silent when a kind word is needed"},{"id":"islamic-heart-dont-4","text":"Avoid confusing arrogance for confidence"},{"id":"islamic-heart-dont-5","text":"Don\'t ignore signs of spiritual fatigue"}]},{"chapterId":9,"chapter":"Islamic Manners","dos":[{"id":"islamic-manners-do-1","text":"Greet others with sincerity and a smile"},{"id":"islamic-manners-do-2","text":"Listen more than you speak in tense moments"},{"id":"islamic-manners-do-3","text":"Give praise and thanks without exaggeration"},{"id":"islamic-manners-do-4","text":"Forgive quickly when someone seeks repentance"},{"id":"islamic-manners-do-5","text":"Model gentle speech in online and offline spaces"}],"donts":[{"id":"islamic-manners-dont-1","text":"Don\'t raise your voice without necessity"},{"id":"islamic-manners-dont-2","text":"Avoid gossip or spreading rumors"},{"id":"islamic-manners-dont-3","text":"Don\'t respond to rudeness with rudeness"},{"id":"islamic-manners-dont-4","text":"Avoid ignoring elderly family members\' needs"},{"id":"islamic-manners-dont-5","text":"Don\'t let ego prevent you from apologizing"}]},{"chapterId":10,"chapter":"Islamic Lifestyle","dos":[{"id":"islamic-lifestyle-do-1","text":"Choose halal food intentionally and thank Allah"},{"id":"islamic-lifestyle-do-2","text":"Design a bedtime routine rooted in dhikr"},{"id":"islamic-lifestyle-do-3","text":"Keep finances transparent and honest"},{"id":"islamic-lifestyle-do-4","text":"Blend learning with leisure to refresh your heart"},{"id":"islamic-lifestyle-do-5","text":"Use technology to connect with beneficial circles"}],"donts":[{"id":"islamic-lifestyle-dont-1","text":"Don\'t consume media that drains your spirit"},{"id":"islamic-lifestyle-dont-2","text":"Avoid hoarding wealth at the expense of charity"},{"id":"islamic-lifestyle-dont-3","text":"Don\'t rush through mealseat with gratitude"},{"id":"islamic-lifestyle-dont-4","text":"Avoid neglecting physical rest when you need it"},{"id":"islamic-lifestyle-dont-5","text":"Don\'t let trends redefine your modesty"}]},{"chapterId":11,"chapter":"Islamic Family and Marriage","dos":[{"id":"islamic-family-and-marriage-do-1","text":"Consult with family when making major decisions"},{"id":"islamic-family-and-marriage-do-2","text":"Pray together to build spiritual closeness"},{"id":"islamic-family-and-marriage-do-3","text":"Teach children salah and dua by modeling them"},{"id":"islamic-family-and-marriage-do-4","text":"Speak respectfully even during disagreements"},{"id":"islamic-family-and-marriage-do-5","text":"Celebrate milestones with gratitude as a household"}],"donts":[{"id":"islamic-family-and-marriage-dont-1","text":"Don\'t neglect parents while raising your own family"},{"id":"islamic-family-and-marriage-dont-2","text":"Avoid forcing opinions without listening"},{"id":"islamic-family-and-marriage-dont-3","text":"Don\'t break promises honored in the home"},{"id":"islamic-family-and-marriage-dont-4","text":"Avoid rushing into marriage without istikhara"},{"id":"islamic-family-and-marriage-dont-5","text":"Don\'t allow anger to fester before reconciliation"}]},{"chapterId":12,"chapter":"Islamic Community","dos":[{"id":"islamic-community-do-1","text":"Volunteer for mosque events and outreach"},{"id":"islamic-community-do-2","text":"Reach out to newcomers and make introductions"},{"id":"islamic-community-do-3","text":"Share beneficial knowledge during gatherings"},{"id":"islamic-community-do-4","text":"Pray behind knowledgeable imams when possible"},{"id":"islamic-community-do-5","text":"Support neighbors with gifts or kind words"}],"donts":[{"id":"islamic-community-dont-1","text":"Don\'t isolate yourself during key celebrations"},{"id":"islamic-community-dont-2","text":"Avoid judging others for different levels of practice"},{"id":"islamic-community-dont-3","text":"Don\'t withhold help when someone asks"},{"id":"islamic-community-dont-4","text":"Avoid spreading division or unfounded rumors"},{"id":"islamic-community-dont-5","text":"Don\'t ignore the elderly or the disabled in your circle"}]},{"chapterId":13,"chapter":"Islamic Future","dos":[{"id":"islamic-future-do-1","text":"Set spiritual goals rooted in Quranic guidance"},{"id":"islamic-future-do-2","text":"Pair planning with regular dua for success"},{"id":"islamic-future-do-3","text":"Schedule weekly check-ins with a mentor"},{"id":"islamic-future-do-4","text":"Document small victories for motivation"},{"id":"islamic-future-do-5","text":"Invest time in beneficial knowledge for tomorrow"}],"donts":[{"id":"islamic-future-dont-1","text":"Don\'t live only for tomorrow and forget today"},{"id":"islamic-future-dont-2","text":"Avoid planning without taking action"},{"id":"islamic-future-dont-3","text":"Don\'t let disappointment halt your progress"},{"id":"islamic-future-dont-4","text":"Avoid ignoring signs that a path is harmful"},{"id":"islamic-future-dont-5","text":"Don\'t rely solely on luckwork and pray"}]},{"chapterId":14,"chapter":"Islamic Hereafter","dos":[{"id":"islamic-hereafter-do-1","text":"Remember Allah\'s mercy and justice daily"},{"id":"islamic-hereafter-do-2","text":"Perform sincere repentance often"},{"id":"islamic-hereafter-do-3","text":"Give charity with the intention of ongoing reward"},{"id":"islamic-hereafter-do-4","text":"Check your deeds each night before sleeping"},{"id":"islamic-hereafter-do-5","text":"Teach loved ones about accountability gently"}],"donts":[{"id":"islamic-hereafter-dont-1","text":"Don\'t dismiss the grave and Day of Judgment"},{"id":"islamic-hereafter-dont-2","text":"Avoid delaying repentance because of shame"},{"id":"islamic-hereafter-dont-3","text":"Don\'t take your wealth for granted"},{"id":"islamic-hereafter-dont-4","text":"Avoid hoarding deeds without consistency"},{"id":"islamic-hereafter-dont-5","text":"Don\'t let fear freeze you into inaction"}]},{"chapterId":15,"chapter":"Islamic Paradise and Hell","dos":[{"id":"islamic-paradise-and-hell-do-1","text":"Reflect on descriptions of paradise to spark hope"},{"id":"islamic-paradise-and-hell-do-2","text":"Practice gratitude to taste paradise on earth"},{"id":"islamic-paradise-and-hell-do-3","text":"Speak kindly to earn Allah\'s mercy"},{"id":"islamic-paradise-and-hell-do-4","text":"Repent before you sleep each night"},{"id":"islamic-paradise-and-hell-do-5","text":"Share stories of the hereafter with children"}],"donts":[{"id":"islamic-paradise-and-hell-dont-1","text":"Don\'t ignore warnings about sinful paths"},{"id":"islamic-paradise-and-hell-dont-2","text":"Avoid assuming you are guaranteed paradise"},{"id":"islamic-paradise-and-hell-dont-3","text":"Don\'t become hardened toward those who sin"},{"id":"islamic-paradise-and-hell-dont-4","text":"Avoid using fear to portray Allah as distant"},{"id":"islamic-paradise-and-hell-dont-5","text":"Don\'t trivialize the importance of repentance"}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"Islamic Foundation","dos":[{"id":"islamic-foundation-do-1","text":"begin learning with Tawheed it is the first obligation upon every human."},{"id":"islamic-foundation-do-2","text":"understand Tawheed in its three categories."},{"id":"islamic-foundation-do-3","text":"purify your intentions for Allāh alone in all acts of worship."},{"id":"islamic-foundation-do-4","text":"learn the correct Names and Attributes of Allāh as revealed."},{"id":"islamic-foundation-do-5","text":"teach Tawheed to your family with wisdom."}],"donts":[{"id":"islamic-foundation-dont-1","text":"Don\'t associate any partner with Allāh in worship this is Shirk."},{"id":"islamic-foundation-dont-2","text":"Don\'t compare Allāh to His creation in His Attributes."},{"id":"islamic-foundation-dont-3","text":"Don\'t seek help, protection, or blessings from other than Allāh."},{"id":"islamic-foundation-dont-4","text":"Don\'t make intermediaries between yourself and Allāh."},{"id":"islamic-foundation-dont-5","text":"Don\'t neglect learning Tawheed while focusing only on secondary matters."}]},{"chapterId":2,"chapter":"Islamic Beliefs","dos":[{"id":"islamic-beliefs-do-1","text":"Study each of the six articles and recite them aloud"},{"id":"islamic-beliefs-do-2","text":"Ask questions gently when doubts arise and seek scholars"},{"id":"islamic-beliefs-do-3","text":"Keep a diary noting how belief in Allah influences decisions"},{"id":"islamic-beliefs-do-4","text":"Mention Allah before important choices to build reliance"},{"id":"islamic-beliefs-do-5","text":"Teach the fundamentals to a friend or family member"}],"donts":[{"id":"islamic-beliefs-dont-1","text":"Don\'t ignore the unseen simply because it\'s hard to grasp"},{"id":"islamic-beliefs-dont-2","text":"Avoid listening to unreliable sources that sow confusion"},{"id":"islamic-beliefs-dont-3","text":"Don\'t treat faith as a checklistlet it soften the heart"},{"id":"islamic-beliefs-dont-4","text":"Don\'t isolate yourself when you need supportive company"},{"id":"islamic-beliefs-dont-5","text":"Avoid dismissing divine decree when plans change"}]},{"chapterId":3,"chapter":"Islamic Pillars","dos":[{"id":"islamic-pillars-do-1","text":"Begin each day with intention for the five pillars"},{"id":"islamic-pillars-do-2","text":"Use reminders to step into each prayer window"},{"id":"islamic-pillars-do-3","text":"Build a small charity habit even when funds are tight"},{"id":"islamic-pillars-do-4","text":"Fast a little outside Ramadan to strengthen discipline"},{"id":"islamic-pillars-do-5","text":"Research Hajj basics long before you plan to go"}],"donts":[{"id":"islamic-pillars-dont-1","text":"Don\'t leave prayers to the last minute"},{"id":"islamic-pillars-dont-2","text":"Avoid making pillars a mere routine without heart"},{"id":"islamic-pillars-dont-3","text":"Don\'t skip zakat out of convenienceplan ahead"},{"id":"islamic-pillars-dont-4","text":"Don\'t delay learning the pillar meanings because you feel unready"},{"id":"islamic-pillars-dont-5","text":"Avoid showing off worshipkeep intentions solely for Allah"}]},{"chapterId":4,"chapter":"Islamic Quran","dos":[{"id":"islamic-quran-do-1","text":"Read a short verse with translation every day"},{"id":"islamic-quran-do-2","text":"Listen to recitation to catch proper pronunciation"},{"id":"islamic-quran-do-3","text":"Journal reflections on a verse that moved you"},{"id":"islamic-quran-do-4","text":"Teach a portion of Quran to reinforce your own memory"},{"id":"islamic-quran-do-5","text":"Combine Arabic reading with a reliable tafsir"}],"donts":[{"id":"islamic-quran-dont-1","text":"Don\'t rush through entire pages without stopping to reflect"},{"id":"islamic-quran-dont-2","text":"Avoid ignoring etiquette like wudu or clean space"},{"id":"islamic-quran-dont-3","text":"Don\'t depend solely on transliterationpractice Arabic"},{"id":"islamic-quran-dont-4","text":"Don\'t let distractions steal your Quran time"},{"id":"islamic-quran-dont-5","text":"Avoid skipping revision of memorized verses"}]},{"chapterId":5,"chapter":"Islamic Prophet","dos":[{"id":"islamic-prophet-do-1","text":"Study his seerah in bite-sized chapters"},{"id":"islamic-prophet-do-2","text":"Send salutations whenever his name is mentioned"},{"id":"islamic-prophet-do-3","text":"Model his manners inside your family"},{"id":"islamic-prophet-do-4","text":"Follow his charity examples in your own neighborhood"},{"id":"islamic-prophet-do-5","text":"Ask Allah for love of the Prophet in your dua"}],"donts":[{"id":"islamic-prophet-dont-1","text":"Don\'t reduce his life to mythsstick to authentic sources"},{"id":"islamic-prophet-dont-2","text":"Avoid mocking or dismissing his companions\' struggles"},{"id":"islamic-prophet-dont-3","text":"Don\'t only admire him from afar; embody his mercy"},{"id":"islamic-prophet-dont-4","text":"Don\'t ignore his advice on balancing worship and rest"},{"id":"islamic-prophet-dont-5","text":"Avoid using his words to justify harsh behavior"}]},{"chapterId":6,"chapter":"Islamic Prayers","dos":[{"id":"islamic-prayers-do-1","text":"Plan your day around the five prayer windows"},{"id":"islamic-prayers-do-2","text":"Perfect your wudu with mindfulness"},{"id":"islamic-prayers-do-3","text":"Learn the meaning of what you recite in salah"},{"id":"islamic-prayers-do-4","text":"Add a short sunnah prayer to deepen khushu"},{"id":"islamic-prayers-do-5","text":"Pray in congregation when you can"}],"donts":[{"id":"islamic-prayers-dont-1","text":"Don\'t delay fajr unless absolutely necessary"},{"id":"islamic-prayers-dont-2","text":"Avoid thinking prayer is optional when you miss one"},{"id":"islamic-prayers-dont-3","text":"Don\'t rush through sujud without presence"},{"id":"islamic-prayers-dont-4","text":"Don\'t let fatigue become an excuse to skip a prayer"},{"id":"islamic-prayers-dont-5","text":"Avoid neglecting dua after prayercling to it"}]},{"chapterId":7,"chapter":"Islamic Dua Dhkir","dos":[{"id":"islamic-dua-dhkir-do-1","text":"Make short dhikr part of every commute"},{"id":"islamic-dua-dhkir-do-2","text":"Combine dua with praise before asking"},{"id":"islamic-dua-dhkir-do-3","text":"Keep a list of personal needs for dua time"},{"id":"islamic-dua-dhkir-do-4","text":"Recite morning and evening adhkar faithfully"},{"id":"islamic-dua-dhkir-do-5","text":"Use quiet moments to whisper names of Allah"}],"donts":[{"id":"islamic-dua-dhkir-dont-1","text":"Don\'t rush through dua like a to-do list"},{"id":"islamic-dua-dhkir-dont-2","text":"Avoid blaming Allah when dua is delayed"},{"id":"islamic-dua-dhkir-dont-3","text":"Don\'t limit dhikr to crises only"},{"id":"islamic-dua-dhkir-dont-4","text":"Avoid using others\' words without understanding"},{"id":"islamic-dua-dhkir-dont-5","text":"Don\'t forget to thank Allah after answered dua"}]},{"chapterId":8,"chapter":"Islamic Heart","dos":[{"id":"islamic-heart-do-1","text":"Purge envy by celebrating others\' success"},{"id":"islamic-heart-do-2","text":"Practice muhasabah (self-accounting) nightly"},{"id":"islamic-heart-do-3","text":"Trust Allah\'s decree while making wise choices"},{"id":"islamic-heart-do-4","text":"Guard the heart with consistent dhikr"},{"id":"islamic-heart-do-5","text":"Seek knowledge that softens rather than hardens"}],"donts":[{"id":"islamic-heart-dont-1","text":"Don\'t let bitterness take root inside"},{"id":"islamic-heart-dont-2","text":"Avoid clinging to material status for identity"},{"id":"islamic-heart-dont-3","text":"Don\'t remain silent when a kind word is needed"},{"id":"islamic-heart-dont-4","text":"Avoid confusing arrogance for confidence"},{"id":"islamic-heart-dont-5","text":"Don\'t ignore signs of spiritual fatigue"}]},{"chapterId":9,"chapter":"Islamic Manners","dos":[{"id":"islamic-manners-do-1","text":"Greet others with sincerity and a smile"},{"id":"islamic-manners-do-2","text":"Listen more than you speak in tense moments"},{"id":"islamic-manners-do-3","text":"Give praise and thanks without exaggeration"},{"id":"islamic-manners-do-4","text":"Forgive quickly when someone seeks repentance"},{"id":"islamic-manners-do-5","text":"Model gentle speech in online and offline spaces"}],"donts":[{"id":"islamic-manners-dont-1","text":"Don\'t raise your voice without necessity"},{"id":"islamic-manners-dont-2","text":"Avoid gossip or spreading rumors"},{"id":"islamic-manners-dont-3","text":"Don\'t respond to rudeness with rudeness"},{"id":"islamic-manners-dont-4","text":"Avoid ignoring elderly family members\' needs"},{"id":"islamic-manners-dont-5","text":"Don\'t let ego prevent you from apologizing"}]},{"chapterId":10,"chapter":"Islamic Lifestyle","dos":[{"id":"islamic-lifestyle-do-1","text":"Choose halal food intentionally and thank Allah"},{"id":"islamic-lifestyle-do-2","text":"Design a bedtime routine rooted in dhikr"},{"id":"islamic-lifestyle-do-3","text":"Keep finances transparent and honest"},{"id":"islamic-lifestyle-do-4","text":"Blend learning with leisure to refresh your heart"},{"id":"islamic-lifestyle-do-5","text":"Use technology to connect with beneficial circles"}],"donts":[{"id":"islamic-lifestyle-dont-1","text":"Don\'t consume media that drains your spirit"},{"id":"islamic-lifestyle-dont-2","text":"Avoid hoarding wealth at the expense of charity"},{"id":"islamic-lifestyle-dont-3","text":"Don\'t rush through mealseat with gratitude"},{"id":"islamic-lifestyle-dont-4","text":"Avoid neglecting physical rest when you need it"},{"id":"islamic-lifestyle-dont-5","text":"Don\'t let trends redefine your modesty"}]},{"chapterId":11,"chapter":"Islamic Family and Marriage","dos":[{"id":"islamic-family-and-marriage-do-1","text":"Consult with family when making major decisions"},{"id":"islamic-family-and-marriage-do-2","text":"Pray together to build spiritual closeness"},{"id":"islamic-family-and-marriage-do-3","text":"Teach children salah and dua by modeling them"},{"id":"islamic-family-and-marriage-do-4","text":"Speak respectfully even during disagreements"},{"id":"islamic-family-and-marriage-do-5","text":"Celebrate milestones with gratitude as a household"}],"donts":[{"id":"islamic-family-and-marriage-dont-1","text":"Don\'t neglect parents while raising your own family"},{"id":"islamic-family-and-marriage-dont-2","text":"Avoid forcing opinions without listening"},{"id":"islamic-family-and-marriage-dont-3","text":"Don\'t break promises honored in the home"},{"id":"islamic-family-and-marriage-dont-4","text":"Avoid rushing into marriage without istikhara"},{"id":"islamic-family-and-marriage-dont-5","text":"Don\'t allow anger to fester before reconciliation"}]},{"chapterId":12,"chapter":"Islamic Community","dos":[{"id":"islamic-community-do-1","text":"Volunteer for mosque events and outreach"},{"id":"islamic-community-do-2","text":"Reach out to newcomers and make introductions"},{"id":"islamic-community-do-3","text":"Share beneficial knowledge during gatherings"},{"id":"islamic-community-do-4","text":"Pray behind knowledgeable imams when possible"},{"id":"islamic-community-do-5","text":"Support neighbors with gifts or kind words"}],"donts":[{"id":"islamic-community-dont-1","text":"Don\'t isolate yourself during key celebrations"},{"id":"islamic-community-dont-2","text":"Avoid judging others for different levels of practice"},{"id":"islamic-community-dont-3","text":"Don\'t withhold help when someone asks"},{"id":"islamic-community-dont-4","text":"Avoid spreading division or unfounded rumors"},{"id":"islamic-community-dont-5","text":"Don\'t ignore the elderly or the disabled in your circle"}]},{"chapterId":13,"chapter":"Islamic Future","dos":[{"id":"islamic-future-do-1","text":"Set spiritual goals rooted in Quranic guidance"},{"id":"islamic-future-do-2","text":"Pair planning with regular dua for success"},{"id":"islamic-future-do-3","text":"Schedule weekly check-ins with a mentor"},{"id":"islamic-future-do-4","text":"Document small victories for motivation"},{"id":"islamic-future-do-5","text":"Invest time in beneficial knowledge for tomorrow"}],"donts":[{"id":"islamic-future-dont-1","text":"Don\'t live only for tomorrow and forget today"},{"id":"islamic-future-dont-2","text":"Avoid planning without taking action"},{"id":"islamic-future-dont-3","text":"Don\'t let disappointment halt your progress"},{"id":"islamic-future-dont-4","text":"Avoid ignoring signs that a path is harmful"},{"id":"islamic-future-dont-5","text":"Don\'t rely solely on luckwork and pray"}]},{"chapterId":14,"chapter":"Islamic Hereafter","dos":[{"id":"islamic-hereafter-do-1","text":"Remember Allah\'s mercy and justice daily"},{"id":"islamic-hereafter-do-2","text":"Perform sincere repentance often"},{"id":"islamic-hereafter-do-3","text":"Give charity with the intention of ongoing reward"},{"id":"islamic-hereafter-do-4","text":"Check your deeds each night before sleeping"},{"id":"islamic-hereafter-do-5","text":"Teach loved ones about accountability gently"}],"donts":[{"id":"islamic-hereafter-dont-1","text":"Don\'t dismiss the grave and Day of Judgment"},{"id":"islamic-hereafter-dont-2","text":"Avoid delaying repentance because of shame"},{"id":"islamic-hereafter-dont-3","text":"Don\'t take your wealth for granted"},{"id":"islamic-hereafter-dont-4","text":"Avoid hoarding deeds without consistency"},{"id":"islamic-hereafter-dont-5","text":"Don\'t let fear freeze you into inaction"}]},{"chapterId":15,"chapter":"Islamic Paradise and Hell","dos":[{"id":"islamic-paradise-and-hell-do-1","text":"Reflect on descriptions of paradise to spark hope"},{"id":"islamic-paradise-and-hell-do-2","text":"Practice gratitude to taste paradise on earth"},{"id":"islamic-paradise-and-hell-do-3","text":"Speak kindly to earn Allah\'s mercy"},{"id":"islamic-paradise-and-hell-do-4","text":"Repent before you sleep each night"},{"id":"islamic-paradise-and-hell-do-5","text":"Share stories of the hereafter with children"}],"donts":[{"id":"islamic-paradise-and-hell-dont-1","text":"Don\'t ignore warnings about sinful paths"},{"id":"islamic-paradise-and-hell-dont-2","text":"Avoid assuming you are guaranteed paradise"},{"id":"islamic-paradise-and-hell-dont-3","text":"Don\'t become hardened toward those who sin"},{"id":"islamic-paradise-and-hell-dont-4","text":"Avoid using fear to portray Allah as distant"},{"id":"islamic-paradise-and-hell-dont-5","text":"Don\'t trivialize the importance of repentance"}]}]');
 
 /***/ }),
 
@@ -4568,7 +4318,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic found
   \*****************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundation: Tawheed, The Eternal Truth That Created You and Will Resurrect You","summary":"Tawheed is the beginning, the middle, and the end of Islam. It is the reason the universe exists, the reason you breathe, the reason the prophets were sent, the reason Jannah was created, and the only sentence that will save you when the sky is split open. Mastering Tawheed is not optional it is the lifeline that connects every moment of your life to its ultimate purpose.","learningObjectives":["Reconnect every decision to the covenant of Tawheed.","Distinguish Rububiyyah, Uloohiyyah, and Asma wa Sifaat through the stories of the prophets.","Set a daily routine of shahada, duas, and self audit that keeps Tawheed alive.","Anchor your emotions in gratitude through the Shahada.","Spot everyday moments of Tehweed rather than relying on rituals alone."],"overview":[{"heading":"Allah Alone is the Creator","content":"Tawhid teaches that Allah alone is the Creator, Sustainer, and ultimate authority. Recognizing His perfection frees the heart from dependence on creation and anchors life firmly upon divine purpose and truth.","references":"Quran 51:56","resources":"https://quran.com/51/56"},{"heading":"Allah Has No Partners","content":"Allah’s knowledge encompasses everything in existence—past, present, and future. Nothing escapes His awareness. This understanding builds trust, humility, and certainty, reminding believers that their lives unfold within perfect divine wisdom.","references":"Quran 4:171","resources":"https://quran.com/4/171"},{"heading":"Allah’s Knowledge Encompasses All","content":"Life is a purposeful test designed by Allah to develop faith, patience, and gratitude. Every moment offers opportunities for growth, reflection, and spiritual elevation, shaping the heart toward obedience and sincerity.","references":"Quran 2:155-156","resources":"https://quran.com/2/155-156"},{"heading":"Life is a Purposeful Test","content":"Worship must be directed only to Allah without partners. Supplications, acts of devotion, and inner reliance are reserved exclusively for Him. This clears the heart from misguidance, superstition, and spiritual confusion entirely.","references":"Hadith: Sahih Muslim 1","resources":"https://sunnah.com/muslim:1"},{"heading":"All Blessings Come from Allah","content":"Every blessing, big or small, originates from Allah’s mercy. Recognizing His favors nurtures gratitude, encourages humility, prevents arrogance, and inspires believers to use their blessings responsibly while remembering the Source granting them.","references":"Quran 16:18","resources":"https://quran.com/16/18"},{"heading":"Trust in Allah Brings Peace","content":"True reliance on Allah brings profound peace. Believers understand that outcomes occur through His perfect decree. Trusting Him calms anxiety, strengthens patience, and empowers the heart to move confidently through life’s challenges.","references":"Quran 3:159","resources":"https://yaqeeninstitute.org"},{"heading":"Allah’s Names Reflect His Perfection","content":"Tawhid liberates people from dependence on worldly powers, false beliefs, and unhealthy attachments. Recognizing Allah as the only One worthy of trust and submission establishes emotional freedom, spiritual clarity, and unwavering personal strength.","references":"Quran 59:22-24","resources":"https://quran.com/59/22-24"},{"heading":"Guidance Comes Only from Allah","content":"Reflecting on Allah’s names deepens understanding of His mercy, power, wisdom, and generosity. These names guide worship and strengthen faith by shaping how believers experience life, seek comfort, and rely upon divine attributes.","references":"Quran 2:2","resources":"https://quran.com/2/2"}]},{"chapterId":2,"title":"The Beliefs: The Six Pillars of Iman, Your Invisible Reality Stronger Than Steel","summary":"While the body lives in the seen world, the heart lives permanently in the unseen (ghayb). The six pillars of Iman are the oxygen of the soul   without them you suffocate spiritually even while walking around healthy. They transform abstract belief into a lived certainty that reshapes every decision.","learningObjectives":["Map the six pillars of Iman onto everyday actions.","Recognize unseen realities (angels, books, prophets, qadar) that shape belief.","Develop nightly reflections that affirm gratitude for the unseen.","List the six pillars whenever doubt creeps in and counter it with evidence.","Practice narrating one unseen reality to a friend this week."],"overview":[{"heading":"Belief in Allah is the core of all belief","content":"Faith in Allah shapes all understanding, intentions, and actions. Recognizing His oneness, power, and mercy directs the heart to obedience, reliance, and purpose, ensuring all aspects of life are aligned.","references":"Quran 2:163","resources":"https://quran.com/2/163"},{"heading":"Angels are honorable beings who serve Allah without error","content":"Belief in angels reminds the believer that every action is observed. They convey divine messages, record deeds, and enforce commands, strengthening awareness of accountability and the unseen aspects of reality.","references":"Quran 35:1","resources":"https://quran.com/35/1"},{"heading":"Divine books were sent to guide humanity through different eras","content":"Revealed scriptures provide moral clarity, knowledge, and spiritual guidance. Studying them fosters wisdom, righteous behavior, and understanding of Allah’s commands, ensuring humanity receives instructions suitable for each time and context.","references":"Quran 3:3","resources":"https://quran.com/3/3"},{"heading":"Prophets were sent as perfect guides and role models","content":"Prophets exemplify obedience, patience, and moral excellence. Following their teachings ensures guidance, strengthens faith, and demonstrates how belief translates into practical action in daily life and decision-making.","references":"Quran 6:90","resources":"https://quran.com/6/90"},{"heading":"Muhammad ﷺ is the final messenger for all mankind","content":"Belief in the Prophet ﷺ ensures understanding of the complete message. Emulating his character, mercy, and guidance transforms faith into practical ethical behavior and connects believers to Allah’s final revelation.","references":"Quran 33:40","resources":"https://quran.com/33/40"},{"heading":"The Last Day is inevitable and must be prepared for","content":"Believing in the Day of Judgment encourages mindfulness, accountability, and righteous deeds. Awareness of resurrection and divine justice motivates moral conduct, patience, and perseverance throughout life’s trials.","references":"Quran 101:1-3","resources":"https://quran.com/101/1-3"},{"heading":"Divine decree (qadr) encompasses good and bad as part of Allah’s wisdom","content":"Understanding qadr fosters trust, patience, and acceptance. Believers recognize that life’s outcomes are part of Allah’s wisdom, ensuring resilience during hardship and gratitude during ease, anchored in divine knowledge.","references":"Quran 57:22","resources":"https://quran.com/57/22"},{"heading":"Belief in the unseen strengthens trust in Allah","content":"Faith in unseen realities such as angels, destiny, and the afterlife deepens reliance on Allah. It strengthens patience, shapes behavior, and anchors the heart in the certainty of divine truth.","references":"Quran 2:3","resources":"https://quran.com/2/3"},{"heading":"Iman increases with good deeds and decreases with sin","content":"Faith is dynamic: righteous acts elevate it, while sins diminish it. Conscious practice, reflection, and repentance ensure growth, balance, and the continuous strengthening of the believer’s connection with Allah.","references":"Hadith: Sahih Muslim 1","resources":"https://sunnah.com/muslim:1"},{"heading":"Certainty (yaqeen) transforms faith into a lived reality","content":"Deep conviction strengthens action, decision-making, and perseverance. Yaqeen protects the heart from doubt, stabilizes spiritual life, and turns belief into practical guidance that shapes everyday behavior and intentions.","references":"Quran 33:3","resources":"https://quran.com/33/3"},{"heading":"Belief is expressed through actions, not only words","content":"True faith manifests in ethical conduct, compassion, worship, and accountability. Words alone are insufficient; actions demonstrate the sincerity of belief, influencing personal integrity and community trust.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Accountability begins with intention","content":"Every action is measured by its purpose. Sincere intentions transform ordinary deeds into worship, fostering mindfulness, spiritual awareness, and alignment of daily behavior with Allah’s commands.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Doubt can be overcome by knowledge and reflection","content":"Uncertainty weakens faith, but learning, reflection, and remembrance of Allah fortify conviction. Engaging the mind and heart ensures clarity, spiritual stability, and confident reliance on divine truth.","references":"Quran 47:17","resources":"https://quran.com/47/17"},{"heading":"True belief manifests in humility and gratitude","content":"Faith is reflected in modesty, thankfulness, and acknowledgment of Allah’s favors. Humility nurtures obedience, while gratitude strengthens joy, contentment, and awareness of divine blessings in everyday life.","references":"Quran 31:18-19","resources":"https://quran.com/31/18-19"},{"heading":"Belief must be renewed and strengthened regularly","content":"Faith requires continuous nourishment through worship, reflection, dhikr, and good deeds. Consistent renewal maintains spiritual vitality, deepens conviction, and ensures the heart remains connected to Allah throughout life.","references":"Hadith: Sahih Muslim 2749","resources":"https://sunnah.com/muslim:2749"}]},{"chapterId":3,"title":"The Pillars: The Five Pillars, Your Direct Phone Line to Allah","summary":"These five actions are the bare minimum Allah asks in return for Jannah. They are gifts wrapped as obligations. Miss them and everything else collapses; perfect them and every nafl act becomes mountains of reward. The Prophet ﷺ called them the \'framework of Islam\' build your life upon them.","learningObjectives":["Master the five pillars as practical rituals, not chores.","Create a checklist for Salah, Zakat, Sawm, Hajj, and Shahada commitments.","Pair each pillar with one challenge and one celebration plan.","Simulate the pillars by planning a short role play for each.","Notice how each pillar influences your schedule after Ramadan."],"overview":[{"heading":"Shahada: Testimony of Faith","content":"Declaring that Allah is One and Muhammad ﷺ is His messenger establishes the foundation of belief. This testimony guides intentions, actions, and devotion, connecting the heart firmly to divine truth.","references":"Quran 47:19","resources":"https://quran.com/47/19"},{"heading":"Salah: Establishing Prayer","content":"Regular prayer strengthens mindfulness, discipline, and connection with Allah. Performing salah attentively cultivates gratitude, patience, and spiritual growth while anchoring daily life in worship and obedience.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Zakat: Obligatory Charity","content":"Giving zakat purifies wealth, helps the needy, and nurtures compassion. It transforms possessions into blessings, reinforces social responsibility, and strengthens the believer’s relationship with Allah through sincere giving.","references":"Quran 9:103","resources":"https://quran.com/9/103"},{"heading":"Sawm: Fasting for Spiritual Growth","content":"Fasting during Ramadan cultivates self-discipline, empathy, and gratitude. It strengthens spiritual awareness, encourages reflection, and enhances connection with Allah through restraint and devotion.","references":"Quran 2:183","resources":"https://quran.com/2/183"},{"heading":"Hajj: Pilgrimage to Allah","content":"The pilgrimage teaches unity, patience, humility, and submission. Participating in Hajj, even spiritually, reinforces devotion, strengthens community bonds, and exemplifies the commitment of the believer to Allah.","references":"Quran 22:27","resources":"https://quran.com/22/27"},{"heading":"Intentionality in Worship","content":"Every pillar should be performed with clear intention. Purifying intentions ensures deeds are accepted, transforms routine acts into worship, and reinforces sincerity in obedience to Allah.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Purification Before Prayer","content":"Performing wudu attentively cleanses both body and spirit. Purification prepares the believer for worship, enhances focus, and reminds the heart of the importance of cleanliness and spiritual readiness.","references":"Quran 5:6","resources":"https://quran.com/5/6"},{"heading":"Focus and Khushu in Prayer","content":"Concentration in salah deepens connection with Allah. Removing distractions allows reflection, strengthens devotion, and turns ritual movements into meaningful spiritual engagement.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Secret Charity","content":"Giving privately purifies intentions, strengthens sincerity, and enhances humility. Hidden acts of generosity demonstrate true compassion and cultivate spiritual reward from Allah alone.","references":"Quran 2:271","resources":"https://quran.com/2/271"},{"heading":"Empathy Through Fasting","content":"Experiencing hunger fosters empathy for the less fortunate. Mindful reflection during fasting nurtures compassion, gratitude, and increased spiritual awareness in everyday life.","references":"Quran 2:185","resources":"https://quran.com/2/185"},{"heading":"Spiritual Transformation Through Pillars","content":"Practicing the pillars consistently shapes character, strengthens faith, and develops discipline. They transform the believer’s heart, aligning intentions, actions, and priorities with Allah’s guidance.","references":"Quran 29:69","resources":"https://quran.com/29/69"},{"heading":"Community and Brotherhood","content":"Pillars unite the ummah through shared devotion, collective worship, and mutual support. Participation fosters social responsibility, empathy, and strengthens the bonds between believers.","references":"Quran 49:10","resources":"https://quran.com/49/10"},{"heading":"Purposeful Worship","content":"Before performing a pillar, remind yourself of its purpose. Awareness transforms obligatory acts into conscious devotion, enhancing spiritual focus and intentionality.","references":"Quran 51:56","resources":"https://quran.com/51/56"},{"heading":"Accountability in Pillars","content":"Regularly review performance of obligatory acts. Correct errors and renew intentions. Accountability strengthens discipline, enhances sincerity, and nurtures a stronger relationship with Allah.","references":"Quran 59:19","resources":"https://quran.com/59/19"},{"heading":"Joy and Contentment in Worship","content":"Experiencing joy in performing pillars increases motivation and devotion. Recognizing blessings and fulfillment in worship encourages consistency and deepens the spiritual connection to Allah.","references":"Quran 13:28","resources":"https://quran.com/13/28"}]},{"chapterId":4,"title":"The Quran: Heartbeat of Revelation and Living Library","summary":"Each letter of the Qur\'an is alive; it lights, heals, and anchors you in divine goodness.","learningObjectives":["Make the Qur’an a daily companion with tajweed, tafsir, and reflection.","Identify three verses that speak to your current season and act on their lessons.","Build a routine for journaling insights from each surah you read.","Pair a verse with dua to turn word into worship.","Teach a family member one tajweed rule this week."],"overview":[{"heading":"The Quran is Allah’s Final Revelation","content":"The Quran provides guidance for all aspects of life. Believers are encouraged to read, reflect, and act upon its teachings to align their hearts and actions with divine wisdom.","references":"Quran 5:48","resources":"https://quran.com/5/48"},{"heading":"The Quran Guides Humanity","content":"Through clear instructions, moral teachings, and stories of past nations, the Quran teaches lessons that foster faith, patience, justice, and ethical conduct for spiritual and worldly success.","references":"Quran 2:2","resources":"https://quran.com/2/2"},{"heading":"The Quran Clarifies Belief","content":"It explains the core principles of Tawhid, prophecy, and the Hereafter, strengthening faith and helping believers understand the purpose of life and the path to pleasing Allah.","references":"Quran 6:19","resources":"https://quran.com/6/19"},{"heading":"The Quran is a Source of Mercy","content":"Reading and reflecting on the Quran brings peace, guidance, and comfort. It reminds believers of Allah’s mercy, encouraging hope, gratitude, and reliance upon Him in all circumstances.","references":"Quran 17:82","resources":"https://quran.com/17/82"},{"heading":"The Quran Requires Reflection","content":"Understanding its meanings strengthens belief. Believers are urged to ponder verses, seek knowledge, and apply lessons practically, transforming reading into action and guidance into daily living.","references":"Quran 47:24","resources":"https://quran.com/47/24"},{"heading":"Recitation Elevates the Heart","content":"Reciting the Quran aloud with focus and reverence nourishes the soul, instills tranquility, and enhances spiritual connection with Allah, making worship more heartfelt and intentional.","references":"Quran 73:4","resources":"https://quran.com/73/4"},{"heading":"The Quran Guides Morality","content":"It teaches ethics, justice, and compassion. Applying these principles in personal conduct fosters integrity, humility, and a harmonious life aligned with divine expectations.","references":"Quran 16:90","resources":"https://quran.com/16/90"},{"heading":"The Quran Encourages Knowledge","content":"Believers are instructed to seek understanding, reflect, and learn. Knowledge nurtures wisdom, strengthens conviction, and enables proper application of divine guidance in all aspects of life.","references":"Quran 20:114","resources":"https://quran.com/20/114"},{"heading":"The Quran Protects from Misguidance","content":"Following its teachings shields believers from false beliefs, moral corruption, and spiritual deviation. Its guidance creates a firm foundation for ethical living and trust in Allah’s commands.","references":"Quran 6:155","resources":"https://quran.com/6/155"},{"heading":"The Quran Promotes Justice","content":"It emphasizes fairness, honesty, and equality. Implementing these principles in daily life nurtures ethical behavior, protects rights, and establishes social harmony in accordance with divine instruction.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"The Quran Encourages Patience","content":"Its stories and guidance teach resilience in adversity. Reflecting on divine wisdom strengthens perseverance, hope, and trust in Allah’s plan, fostering spiritual growth and emotional balance.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"The Quran Strengthens Faith","content":"Regular study and reflection deepen Iman. Understanding its wisdom and applying lessons encourages moral behavior, ethical decisions, and a heart aligned with Allah’s guidance.","references":"Quran 33:34","resources":"https://quran.com/33/34"},{"heading":"The Quran Encourages Worship","content":"It calls believers to prayer, remembrance, and righteous deeds. Following its commands transforms spiritual devotion into everyday actions, connecting the heart and life to Allah’s pleasure.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"The Quran is a Source of Healing","content":"Its words bring comfort, guidance, and reassurance. Reflecting and acting upon them nurtures mental, emotional, and spiritual well-being while strengthening reliance on Allah’s wisdom.","references":"Quran 17:82","resources":"https://quran.com/17/82"},{"heading":"The Quran Must Be Applied","content":"Understanding alone is insufficient; believers must implement its guidance in daily life. Action transforms knowledge into practice, faith into ethics, and devotion into tangible obedience.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":5,"title":"The Prophet: Muhammad ﷺ Mirror of Mercy","summary":"Studying the Prophet\'s life unlocks Islam\'s character code, showing clarity, humility, and compassionate leadership.","learningObjectives":["Study the Prophet’s character and identify manners to adopt.","Trace his leadership habits across worship, family, and community.","Practice one Prophetic routine (e.g., tahajjud or fasting) for a week.","Identify one Prophetic character trait you wish to model this month.","Create a mini journal entry describing how mercy reshaped your language."],"overview":[{"heading":"Prophets Are Guides for Humanity","content":"Prophets exemplify obedience, patience, and morality. Following their guidance helps believers navigate life, strengthens faith, and provides clear examples of applying divine teachings in daily choices and actions.","references":"Quran 6:90","resources":"https://quran.com/6/90"},{"heading":"Muhammad ﷺ is the Final Messenger","content":"Belief in Muhammad ﷺ unites Muslims and completes divine revelation. Emulating his character, mercy, and teachings ensures the proper application of faith and strengthens connection with Allah.","references":"Quran 33:40","resources":"https://quran.com/33/40"},{"heading":"Following the Prophet Strengthens Faith","content":"Emulating his behavior, speech, and ethics nurtures personal integrity, deepens understanding of divine guidance, and ensures that belief is reflected in both intention and action.","references":"Quran 33:21","resources":"https://quran.com/33/21"},{"heading":"Prophetic Teachings Are Universal","content":"The Prophet ﷺ taught principles applicable across all times and cultures. Studying his Sunnah equips believers to navigate contemporary challenges while maintaining obedience and moral excellence.","references":"Quran 7:157","resources":"https://quran.com/7/157"},{"heading":"Prophets Bring Clarity to Belief","content":"They provide clear guidance regarding Tawhid, worship, ethics, and accountability. Following them removes confusion, strengthens conviction, and guides practical application of faith in everyday life.","references":"Quran 21:7","resources":"https://quran.com/21/7"},{"heading":"The Prophet’s Mercy","content":"His mercy toward believers and non-believers exemplifies divine compassion. Reflecting on his character nurtures kindness, patience, and ethical behavior in personal and communal life.","references":"Quran 9:128","resources":"https://quran.com/9/128"},{"heading":"Prophets Encourage Justice","content":"They model fairness and integrity, teaching believers to uphold justice in decisions and interactions. Applying these lessons builds ethical communities aligned with Allah’s commands.","references":"Quran 4:105","resources":"https://quran.com/4/105"},{"heading":"Prophets Teach Patience","content":"Their lives demonstrate perseverance during trials. Following their example strengthens resilience, patience, and trust in Allah while encouraging steadfastness in faith.","references":"Quran 16:127","resources":"https://quran.com/16/127"},{"heading":"Prophetic Wisdom Guides Decisions","content":"Studying their guidance helps believers make ethical and informed choices. Wisdom from their lives aligns actions with divine guidance in practical daily situations.","references":"Quran 21:73","resources":"https://quran.com/21/73"},{"heading":"Prophetic Example Inspires Character","content":"His conduct inspires humility, honesty, and compassion. Internalizing these traits transforms personal behavior, strengthens community relations, and elevates spiritual growth.","references":"Hadith: Sahih Muslim 2326","resources":"https://sunnah.com/muslim:2326"},{"heading":"Prophets Teach Worship","content":"They guide proper prayer, supplication, and devotion. Practicing worship according to their teachings ensures sincerity, spiritual connection, and the acceptance of deeds by Allah.","references":"Quran 6:162","resources":"https://quran.com/6/162"},{"heading":"Prophetic Patience in Adversity","content":"Enduring trials with patience models trust in Allah. Applying this approach fosters resilience, emotional stability, and reliance on divine wisdom during difficulties.","references":"Quran 3:186","resources":"https://quran.com/3/186"},{"heading":"Prophetic Justice in Society","content":"His guidance emphasizes fair treatment, protection of rights, and ethical leadership. Following these principles strengthens social cohesion and moral responsibility in communities.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"Prophets Teach Gratitude","content":"Acknowledging Allah’s favors mirrors the Prophet’s practice of gratitude. Regular reflection fosters contentment, spiritual growth, and ethical appreciation of divine blessings.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Prophetic Sunnah Guides Conduct","content":"Applying Sunnah in behavior, speech, and worship ensures that belief manifests in action. It bridges knowledge and practice, reinforcing faith and moral excellence.","references":"Hadith: Sahih Bukhari 7","resources":"https://sunnah.com/bukhari:7"}]},{"chapterId":6,"title":"The Prayer: Salah as Your Soul\'s Sync","summary":"Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.","learningObjectives":["Deepen khushu by aligning breath, posture, and remembrance in each salah.","Learn key intentions before standing and dua after sujood.","Use salah as a daily reset to calm anxiety and plan service.","Set a weekly accountability check in for your five prayers.","Note how khushu’ shifts when you prep mentally before standing."],"overview":[{"heading":"Prayer Connects to Allah","content":"Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Five Daily Prayers","content":"Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.","references":"Quran 11:114","resources":"https://quran.com/11/114"},{"heading":"Prayer Requires Purity","content":"Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.","references":"Quran 5:6","resources":"https://quran.com/5/6"},{"heading":"Concentration Strengthens Prayer","content":"Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Supplication Complements Prayer","content":"Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.","references":"Hadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"},{"heading":"Prayer Brings Tranquility","content":"Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.","references":"Quran 20:14","resources":"https://quran.com/20/14"},{"heading":"Consistency is Key","content":"Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Prayer Elevates Character","content":"Salah instills patience, humility, and self-discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.","references":"Quran 29:45","resources":"https://quran.com/29/45"},{"heading":"Prayer as Reminder","content":"Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Facing Challenges with Prayer","content":"Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.","references":"Quran 2:45","resources":"https://quran.com/2/45"},{"heading":"Prayer Inspires Gratitude","content":"Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Prayer Strengthens Community","content":"Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.","references":"Quran 9:71","resources":"https://quran.com/9/71"},{"heading":"Salah Enhances Reflection","content":"Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Intentions Matter","content":"Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Prayer Nourishes the Heart","content":"Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.","references":"Quran 30:17-18","resources":"https://quran.com/30/17-18"}]},{"chapterId":7,"title":"Dua & Dhikr: Weapons of the Believer","summary":"Dua & dhikr are the believer’s weapons; remembering Allah builds resilience and softens every trial.","learningObjectives":["Memorize five short du\'as with meaning.","Link dhikr phrases to different daily moments.","Explain why dua is both hope and humility.","Build a dua routine you can maintain for a month.","Invite at least one friend to participate in dhikr with you."],"overview":[{"heading":"Dua Connects the Heart to Allah","content":"Supplication fosters intimate connection with Allah, expressing dependence, gratitude, and humility, while strengthening faith and reliance on divine guidance in daily life.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Dhikr Purifies the Soul","content":"Remembering Allah through dhikr cleanses the heart, reinforces mindfulness, and cultivates spiritual resilience, guiding ethical actions and sustained devotion.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Consistency in Dua is Rewarded","content":"Regular supplication demonstrates sincerity, strengthens faith, and invites Allah’s mercy, guidance, and protection in all aspects of life.","references":"Hadith: Sahih Bukhari 6345","resources":"https://sunnah.com/bukhari:6345"},{"heading":"Sincere Intention Matters","content":"Dua accepted by Allah depends on sincerity. Pure intentions align actions and worship with divine guidance, ensuring spiritual reward.","references":"Hadith: Sahih Muslim 2734","resources":"https://sunnah.com/muslim:2734"},{"heading":"Dhikr Brings Peace","content":"Regular remembrance of Allah alleviates anxiety, calms the heart, and strengthens resilience in facing challenges.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Supplication Reflects Dependence","content":"Dua acknowledges human reliance on Allah’s mercy and guidance, fostering humility, gratitude, and ethical living.","references":"Quran 40:60","resources":"https://quran.com/40/60"},{"heading":"Dhikr Enhances Mindfulness","content":"Remembering Allah in daily life develops awareness, discipline, and spiritual focus, guiding ethical and intentional actions.","references":"Quran 33:41-42","resources":"https://quran.com/33/41-42"},{"heading":"Dua is a Form of Worship","content":"Supplication is an act of obedience. Regular dua nurtures devotion, ethical conduct, and reliance on divine mercy.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Gratitude in Dhikr","content":"Remembering Allah’s favors cultivates thankfulness, ethical behavior, and spiritual contentment.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Repentance Through Dua","content":"Supplication facilitates sincere repentance, purifying the heart and aligning life with divine guidance.","references":"Quran 25:70","resources":"https://quran.com/25/70"},{"heading":"Dhikr Strengthens Faith","content":"Frequent remembrance increases certainty in Allah, enhances moral resolve, and nurtures inner peace.","references":"Quran 33:41-42","resources":"https://quran.com/33/41-42"},{"heading":"Prayers Influence Outcomes","content":"Dua and dhikr invite divine guidance, protection, and blessings, shaping spiritual, ethical, and worldly outcomes.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Dua Encourages Patience","content":"Supplication reinforces endurance during trials, strengthens reliance on Allah, and cultivates resilience.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"Dhikr Nurtures Gratitude","content":"Regular remembrance fosters appreciation for Allah’s blessings, ethical conduct, and spiritual mindfulness.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Dua is Accessible Anytime","content":"Supplication can be offered in all circumstances, fostering continuous connection, humility, and reliance on Allah’s mercy and guidance.","references":"Hadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"}]},{"chapterId":8,"title":"The Heart: Purification & Spiritual Diseases","summary":"Purifying the heart from envy, pride, and spiritual diseases helps you respond to Allah with trust and love.","learningObjectives":["Implement a three day muhasabah habit.","Recognize two signs that the heart is hardening.","Apply dhikr to calm stress and restore focus.","Plan a charitable act that softens the heart.","Practice gratitude to counter envy."],"overview":[{"heading":"Purity of Heart is Essential","content":"A pure heart nurtures faith, compassion, and ethical behavior. Inner cleanliness ensures sincerity in worship and daily conduct.","references":"Quran 91:9","resources":"https://quran.com/91/9"},{"heading":"Love for Allah","content":"A heart connected to Allah guides actions, strengthens resilience, and cultivates gratitude, humility, and ethical behavior.","references":"Quran 2:165","resources":"https://quran.com/2/165"},{"heading":"Sincerity in Intention","content":"Purity of intent ensures that actions are accepted and that deeds reflect true faith, ethical alignment, and devotion.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Patience Cultivates Strength","content":"A patient heart overcomes trials, maintains trust in Allah, and fosters resilience and spiritual growth.","references":"Quran 2:153","resources":"https://quran.com/2/153"},{"heading":"Gratitude Softens the Heart","content":"Thankfulness nurtures humility, contentment, and ethical behavior while deepening spiritual connection with Allah.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Forgiveness Cleanses the Heart","content":"Forgiving others fosters peace, emotional balance, and ethical conduct, reflecting divine mercy.","references":"Quran 24:22","resources":"https://quran.com/24/22"},{"heading":"Repentance Purifies the Heart","content":"Sincere repentance cleanses sins, strengthens faith, and nurtures ethical and spiritual growth.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Trust in Allah Strengthens Heart","content":"Relying on divine guidance nurtures peace, courage, and ethical decision-making in all circumstances.","references":"Quran 3:159","resources":"https://quran.com/3/159"},{"heading":"Humility Shapes the Heart","content":"A humble heart reflects awareness of Allah’s greatness, fostering compassion, ethical behavior, and spiritual mindfulness.","references":"Quran 25:63","resources":"https://quran.com/25/63"},{"heading":"Love for People","content":"A heart filled with compassion nurtures strong relationships, ethical behavior, and communal harmony.","references":"Quran 3:134","resources":"https://quran.com/3/134"},{"heading":"Avoiding Hardness of Heart","content":"Neglecting spiritual and ethical duties hardens the heart. Reflection, worship, and ethical action maintain softness and receptivity.","references":"Quran 57:16","resources":"https://quran.com/57/16"},{"heading":"Hope Strengthens the Heart","content":"Belief in Allah’s mercy and guidance nurtures resilience, ethical conduct, and perseverance in challenges.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Fear Encourages Reflection","content":"Fear of divine displeasure fosters accountability, ethical living, and mindfulness in both worship and everyday actions.","references":"Quran 59:18","resources":"https://quran.com/59/18"},{"heading":"Contentment Purifies the Heart","content":"Being satisfied with Allah’s decree fosters gratitude, patience, and inner peace, guiding ethical and spiritual development.","references":"Quran 13:28","resources":"https://quran.com/13/28"},{"heading":"Continuous Reflection Strengthens Heart","content":"Regular contemplation of faith, deeds, and divine guidance ensures a soft, ethical, and spiritually connected heart.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":9,"title":"The Manners: Adab That Elevates Every Encounter","summary":"Adab is the fragrance of iman; it makes every interaction sacred and every apology sincere.","learningObjectives":["Define practical adab when speaking, eating, and sharing space.","Craft a family etiquette reminder (greeting, listening, gratitude).","Compare digital interactions to the Prophet’s mercy and adjust accordingly.","Celebrate small acts of adab with family thank you notes.","Practice digital kindness by correcting or uplifting one comment daily."],"overview":[{"heading":"Good Character is Central to Faith","content":"Islam emphasizes ethical behavior, kindness, and integrity. Good manners reflect belief, influence community harmony, and strengthen relationships while demonstrating obedience to Allah’s guidance.","references":"Quran 68:4","resources":"https://quran.com/68/4"},{"heading":"Honesty and Truthfulness","content":"Speaking truthfully nurtures trust, strengthens community bonds, and aligns behavior with divine guidance. Honesty is a reflection of sincere faith and moral responsibility.","references":"Quran 33:70","resources":"https://quran.com/33/70"},{"heading":"Respect for Parents","content":"Kindness and obedience to parents earn Allah’s pleasure. Treating parents with care, gratitude, and humility strengthens family bonds and exemplifies ethical conduct.","references":"Quran 17:23","resources":"https://quran.com/17/23"},{"heading":"Politeness in Speech","content":"Gentle and respectful speech fosters understanding, prevents conflict, and reflects the believer’s ethical and spiritual maturity.","references":"Quran 31:18-19","resources":"https://quran.com/31/18-19"},{"heading":"Avoiding Backbiting and Gossip","content":"Speaking ill of others damages trust and soul. Avoiding gossip preserves honor, nurtures community harmony, and aligns behavior with Allah’s commands.","references":"Quran 49:12","resources":"https://quran.com/49/12"},{"heading":"Patience and Tolerance","content":"Exercising patience and tolerance in interactions fosters peace, reduces conflict, and strengthens spiritual resilience.","references":"Quran 16:126","resources":"https://quran.com/16/126"},{"heading":"Generosity and Kindness","content":"Acts of giving and compassion reflect faith, improve community welfare, and strengthen the heart’s connection to Allah.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Humility in Conduct","content":"Humility prevents arrogance and encourages sincere service. A humble heart aligns behavior with Allah’s guidance and promotes social harmony.","references":"Quran 25:63","resources":"https://quran.com/25/63"},{"heading":"Forgiveness and Reconciliation","content":"Forgiving others nurtures inner peace and strengthens bonds. Reconciliation restores trust, fulfills moral duty, and earns Allah’s pleasure.","references":"Quran 42:40","resources":"https://quran.com/42/40"},{"heading":"Respecting Elders and Teachers","content":"Honoring those with knowledge and experience fosters learning, ethical behavior, and communal respect while embodying Islamic moral principles.","references":"Quran 4:36","resources":"https://quran.com/4/36"},{"heading":"Moderation in Behavior","content":"Avoiding extremes ensures ethical balance and harmony. Moderation in speech, actions, and desires strengthens character and spiritual integrity.","references":"Quran 25:67","resources":"https://quran.com/25/67"},{"heading":"Truthful Speech Reflects Faith","content":"Every word should reflect honesty and integrity. Speaking truth builds trust and aligns actions with Islamic values.","references":"Quran 61:2-3","resources":"https://quran.com/61/2-3"},{"heading":"Kindness Toward Neighbors","content":"Good conduct toward neighbors strengthens social cohesion, nurtures compassion, and fulfills religious and ethical duties.","references":"Quran 4:36","resources":"https://quran.com/4/36"},{"heading":"Avoiding Anger and Retaliation","content":"Controlling anger ensures justice, reduces harm, and nurtures patience. Responding ethically strengthens moral character and earns Allah’s pleasure.","references":"Quran 3:134","resources":"https://quran.com/3/134"},{"heading":"Manners Must Be Practiced Consistently","content":"Ethical behavior requires continuous practice in all aspects of life. Consistency reinforces character, faith, and positive influence in society.","references":"Hadith: Sahih Muslim 55","resources":"https://sunnah.com/muslim:55"}]},{"chapterId":10,"title":"The Lifestyle: Halal Living, Habits, and Harmony","summary":"Islam is a lifestyle; this chapter helps you align food, finances, and rest with halal intention.","learningObjectives":["Design a halal lifestyle blueprint covering food, finance, and rest.","Introduce two intentional boundaries that protect worship time.","Swap one unhealthy habit for a sunnah inspired alternative each week.","Design a halal budget with a charity and rest category.","Share one restful habit with a friend to keep each other accountable."],"overview":[{"heading":"A Balanced Life Pleases Allah","content":"Living with moderation in worship, work, and leisure ensures spiritual, mental, and physical well-being, aligning daily habits with divine guidance.","references":"Quran 2:143","resources":"https://quran.com/2/143"},{"heading":"Healthy Habits Are Encouraged","content":"Maintaining hygiene, proper diet, and exercise honors the body Allah entrusted, strengthens resilience, and enables consistent worship.","references":"Hadith: Sahih Bukhari 535","resources":"https://sunnah.com/bukhari:535"},{"heading":"Time Management Is Important","content":"Efficient use of time ensures balance between worship, work, and rest. Proper scheduling nurtures discipline, productivity, and spiritual growth.","references":"Quran 103:1-3","resources":"https://quran.com/103/1-3"},{"heading":"Moderation in Spending","content":"Avoid extravagance and wastefulness. Balanced financial management nurtures gratitude, charity, and sustainable living according to divine guidance.","references":"Quran 17:26-27","resources":"https://quran.com/17/26-27"},{"heading":"Work Ethic Reflects Faith","content":"Honest effort and responsibility in work are forms of worship. Ethical labor benefits self, family, and society while earning Allah’s pleasure.","references":"Hadith: Sahih Bukhari 2075","resources":"https://sunnah.com/bukhari:2075"},{"heading":"Leisure with Purpose","content":"Balanced recreation refreshes the mind and body. Engaging in permissible activities enhances focus, creativity, and spiritual well-being.","references":"Quran 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Seeking Knowledge Is a Lifestyle","content":"Continuous learning fosters personal growth, wisdom, and ethical application. Knowledge strengthens faith and enhances community contribution.","references":"Hadith: Sahih Muslim 2699","resources":"https://sunnah.com/muslim:2699"},{"heading":"Family Life Requires Balance","content":"Providing, caring, and nurturing family relationships while maintaining personal worship ensures harmony and fulfills responsibilities according to Islamic principles.","references":"Quran 2:233","resources":"https://quran.com/2/233"},{"heading":"Avoiding Excess in Lifestyle","content":"Overindulgence in food, wealth, or entertainment distracts from worship. Moderation fosters mindfulness, gratitude, and ethical living.","references":"Quran 7:31","resources":"https://quran.com/7/31"},{"heading":"Mindful Consumption","content":"Eating and drinking in moderation sustains health, strengthens spiritual focus, and reflects gratitude to Allah.","references":"Quran 2:172","resources":"https://quran.com/2/172"},{"heading":"Ethical Entertainment","content":"Choose activities that nurture virtue, knowledge, and social cohesion. Ethical recreation enhances personal and community well-being.","references":"Quran 31:19","resources":"https://quran.com/31/19"},{"heading":"Daily Worship Integrates Lifestyle","content":"Incorporating prayer, dhikr, and reflection into daily routines transforms ordinary life into ongoing worship, deepening spiritual connection.","references":"Quran 2:238","resources":"https://quran.com/2/238"},{"heading":"Environment and Stewardship","content":"Caring for the earth and resources reflects obedience to Allah. Responsible stewardship ensures sustainability and benefits the community.","references":"Quran 6:141","resources":"https://quran.com/6/141"},{"heading":"Lifestyle Shapes Character","content":"Daily routines influence spiritual and moral development. Aligning lifestyle with divine guidance ensures ethical behavior and holistic well-being.","references":"Quran 2:286","resources":"https://quran.com/2/286"},{"heading":"Consistency Builds Habits","content":"Regular practice of balanced habits fosters discipline, spiritual growth, and ethical living. Consistency strengthens connection to Allah and personal character.","references":"Hadith: Sahih Bukhari 6512","resources":"https://sunnah.com/bukhari:6512"}]},{"chapterId":11,"title":"Family & Marriage: Building a Righteous Home","summary":"Building a righteous home rooted in mercy, equity, and collective worship mirrors the Prophet’s model.","learningObjectives":["Create a family worship routine with dua and Quran time.","Describe three practices that keep marital mercy alive.","Plan a reconciliation step after a misunderstanding.","List two ways to honor parents within your schedule.","Share a nurture plan for the next generation."],"overview":[{"heading":"Marriage is a Sacred Bond","content":"Marriage fosters companionship, love, and mutual support, reflecting divine guidance and strengthening family and societal cohesion.","references":"Quran 30:21","resources":"https://quran.com/30/21"},{"heading":"Rights and Responsibilities","content":"Spouses must honor mutual rights and responsibilities, fostering harmony, ethical behavior, and fulfillment of divine guidance.","references":"Quran 2:228","resources":"https://quran.com/2/228"},{"heading":"Parenting Requires Wisdom","content":"Raising children with faith, ethics, and love ensures moral development and strengthens familial bonds in line with Allah’s guidance.","references":"Quran 31:14","resources":"https://quran.com/31/14"},{"heading":"Mutual Respect is Essential","content":"Respect between spouses nurtures trust, harmony, and spiritual growth, reflecting Islamic ethical principles.","references":"Quran 4:19","resources":"https://quran.com/4/19"},{"heading":"Family Supports Spiritual Growth","content":"A supportive family fosters worship, ethical behavior, and faith, ensuring guidance and accountability within the household.","references":"Quran 66:6","resources":"https://quran.com/66/6"},{"heading":"Love and Compassion","content":"Mutual affection nurtures emotional well-being, strengthens family bonds, and aligns relationships with Allah’s teachings.","references":"Quran 30:21","resources":"https://quran.com/30/21"},{"heading":"Fairness in Treatment","content":"Equity between family members prevents injustice, strengthens cohesion, and fulfills ethical responsibilities.","references":"Quran 4:3","resources":"https://quran.com/4/3"},{"heading":"Maintaining Family Ties","content":"Regular contact, support, and respect strengthen kinship, build social cohesion, and fulfill divine guidance.","references":"Quran 4:1","resources":"https://quran.com/4/1"},{"heading":"Communication is Key","content":"Open, respectful dialogue nurtures understanding, prevents conflict, and strengthens emotional bonds in the family.","references":"Quran 2:187","resources":"https://quran.com/2/187"},{"heading":"Resolving Conflicts Peacefully","content":"Ethical dispute resolution ensures harmony, models patience, and strengthens marital and familial bonds.","references":"Quran 4:35","resources":"https://quran.com/4/35"},{"heading":"Family Encourages Ethical Conduct","content":"Strong family values nurture honesty, kindness, and responsibility, fostering ethical behavior aligned with divine guidance.","references":"Quran 66:6","resources":"https://quran.com/66/6"},{"heading":"Mutual Support During Trials","content":"Family offers emotional, spiritual, and practical support during challenges, reinforcing faith and resilience.","references":"Quran 2:286","resources":"https://quran.com/2/286"},{"heading":"Balanced Roles Enhance Harmony","content":"Understanding and fulfilling complementary roles ensures equity, respect, and cooperation within the household.","references":"Quran 2:228","resources":"https://quran.com/2/228"},{"heading":"Gratitude Strengthens Relationships","content":"Appreciating family members’ efforts nurtures respect, patience, and love, reflecting ethical and spiritual principles.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Spiritual Leadership at Home","content":"Guiding family in worship and ethical conduct ensures holistic growth, strong bonds, and alignment with Allah’s guidance.","references":"Quran 66:6","resources":"https://quran.com/66/6"}]},{"chapterId":12,"title":"The Community: Building Ummah, Support, and Uplift","summary":"Islam thrives in community; this chapter explores solidarity, hospitality, and shared purpose.","learningObjectives":["Build community by hosting, serving, and mentoring with sincerity.","Create a checklist for respectful conflict resolution and mutual aid.","Document one story of service each week to inspire others.","Plan a community service action plan with clear dua goals.","Document how supporting another renewed your own heart."],"overview":[{"heading":"Community Strengthens Faith","content":"Engaging in a righteous community fosters support, accountability, and shared worship. Collective action strengthens faith and promotes ethical behavior among members.","references":"Quran 3:104","resources":"https://quran.com/3/104"},{"heading":"Supporting One Another","content":"Mutual assistance in times of need nurtures compassion, unity, and social responsibility while reflecting divine guidance in action.","references":"Quran 5:2","resources":"https://quran.com/5/2"},{"heading":"Justice in Society","content":"Fair treatment of all community members ensures harmony, prevents conflict, and aligns society with Allah’s principles.","references":"Quran 4:58","resources":"https://quran.com/4/58"},{"heading":"Inclusivity and Brotherhood","content":"Welcoming diversity and fostering equality strengthens social bonds. Unity and brotherhood reflect ethical conduct and divine guidance.","references":"Quran 49:13","resources":"https://quran.com/49/13"},{"heading":"Resolving Conflicts Peacefully","content":"Encouraging dialogue and reconciliation maintains harmony, prevents injustice, and strengthens communal trust in accordance with Islamic principles.","references":"Quran 49:9","resources":"https://quran.com/49/9"},{"heading":"Collective Worship","content":"Praying, fasting, and performing acts of charity together nurtures unity, strengthens faith, and fosters shared responsibility.","references":"Quran 9:71","resources":"https://quran.com/9/71"},{"heading":"Charity Strengthens Community","content":"Giving zakat and sadaqah supports the needy, reduces inequality, and enhances social cohesion, reflecting ethical and spiritual responsibility.","references":"Quran 2:177","resources":"https://quran.com/2/177"},{"heading":"Mentorship and Education","content":"Sharing knowledge and guidance empowers individuals, fosters ethical development, and strengthens community resilience and faith.","references":"Hadith: Sahih Muslim 2699","resources":"https://sunnah.com/muslim:2699"},{"heading":"Respecting Leaders","content":"Honoring just leadership nurtures stability, accountability, and obedience to ethical principles while ensuring communal well-being.","references":"Quran 4:59","resources":"https://quran.com/4/59"},{"heading":"Caring for the Vulnerable","content":"Protecting orphans, the poor, and the marginalized reflects divine mercy and strengthens community bonds.","references":"Quran 2:220","resources":"https://quran.com/2/220"},{"heading":"Promoting Peace and Security","content":"Encouraging lawfulness, justice, and peaceful interactions ensures community safety, stability, and moral integrity.","references":"Quran 5:32","resources":"https://quran.com/5/32"},{"heading":"Collaboration and Cooperation","content":"Working together in permissible endeavors nurtures mutual support, ethical behavior, and collective growth, reflecting shared responsibility to Allah.","references":"Quran 5:2","resources":"https://quran.com/5/2"},{"heading":"Accountability Within the Community","content":"Members should encourage righteous behavior and discourage wrongdoing. Mutual accountability strengthens morality, unity, and shared faith.","references":"Quran 3:104","resources":"https://quran.com/3/104"},{"heading":"Community Celebrations","content":"Shared worship, festivals, and gatherings enhance spiritual bonds, reinforce ethical teachings, and foster joy, gratitude, and unity.","references":"Hadith: Sahih Bukhari 967","resources":"https://sunnah.com/bukhari:967"},{"heading":"Continuous Support","content":"Consistently helping and uplifting members builds resilience, strengthens faith, and ensures that community remains a source of guidance, compassion, and ethical growth.","references":"Quran 2:177","resources":"https://quran.com/2/177"}]},{"chapterId":13,"title":"The Future: Continuous Growth and Legacy","summary":"This chapter helps you set spiritual goals, document progress, and leave enduring impact.","learningObjectives":["Set spiritual goals for 30/90/365 days and review them weekly.","Plan a legacy project that benefits others beyond your lifetime.","Commit to mentoring or teaching to multiply your impact.","Sketch a 20 year impact vision and add one action for this year.","Pair each goal with a dua to keep hope alive."],"overview":[{"heading":"The Future is Known to Allah","content":"Believers understand that only Allah knows what lies ahead. Trusting His wisdom nurtures patience, reduces anxiety, and encourages reliance on divine guidance.","references":"Quran 31:34","resources":"https://quran.com/31/34"},{"heading":"Planning with Reliance","content":"While planning for the future is important, ultimate outcomes rest with Allah. Combining effort with reliance ensures balance, humility, and spiritual mindfulness.","references":"Quran 18:23-24","resources":"https://quran.com/18/23-24"},{"heading":"Avoiding Worry About the Unknown","content":"Trust in Allah alleviates fear and anxiety. Faith in divine decree strengthens resilience and peace while facing uncertainty.","references":"Quran 65:2-3","resources":"https://quran.com/65/2-3"},{"heading":"Preparation Through Good Deeds","content":"Actions in this life shape the future. Ethical behavior, worship, and righteous deeds ensure spiritual and worldly benefits.","references":"Quran 2:110","resources":"https://quran.com/2/110"},{"heading":"Faith Guides Decisions","content":"Belief in Allah’s plan influences choices, ensuring ethical, informed, and purposeful action while trusting in divine wisdom.","references":"Quran 3:159","resources":"https://quran.com/3/159"},{"heading":"Hope Anchors the Heart","content":"Believers remain hopeful in Allah’s mercy and plan. This optimism nurtures perseverance, patience, and resilience in life’s trials.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Actions Determine Outcomes","content":"While the future is known to Allah, human effort shapes results. Sincere action, intention, and planning are rewarded by divine decree.","references":"Quran 3:145","resources":"https://quran.com/3/145"},{"heading":"Rely on Allah, Not Fear","content":"Fear of the future diminishes faith. Reliance on Allah instills courage, patience, and calmness in all circumstances.","references":"Quran 3:173","resources":"https://quran.com/3/173"},{"heading":"Accountability in the Future","content":"Every action will be judged. Awareness of divine accountability motivates ethical conduct and spiritual mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Future Depends on Intention","content":"Sincere intentions influence the impact of actions. Aligning purpose with Allah’s pleasure ensures that efforts are rewarded.","references":"Hadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Trust in Divine Wisdom","content":"Believers accept outcomes with understanding that Allah’s knowledge surpasses human perception, fostering contentment and resilience.","references":"Quran 2:216","resources":"https://quran.com/2/216"},{"heading":"Patience Shapes the Future","content":"Enduring trials with patience and faith ensures spiritual growth and prepares believers for divine reward in both this life and the Hereafter.","references":"Quran 103:2-3","resources":"https://quran.com/103/2-3"},{"heading":"Optimism Strengthens Action","content":"Positive expectation in Allah’s plan encourages proactive effort, ethical decision-making, and resilience in adversity.","references":"Quran 3:139","resources":"https://quran.com/3/139"},{"heading":"Prayers Influence the Future","content":"Supplication and consistent dhikr invite divine guidance, protection, and blessings, shaping both spiritual and worldly outcomes.","references":"Quran 2:186","resources":"https://quran.com/2/186"},{"heading":"Faith Reduces Anxiety","content":"Belief in Allah’s control over the future fosters calmness, reliance, and contentment, even when facing uncertainty.","references":"Quran 65:3","resources":"https://quran.com/65/3"}]},{"chapterId":14,"title":"The Hereafter: Realities, Death, Resurrection, and Mercy","summary":"The Hereafter pulls the heart toward lasting priorities; remembering death, the grave, and accountability strengthens every moment of obedience.","learningObjectives":["Describe the stages of the soul between death and resurrection.","Balance fear and hope in Allah\'s justice and mercy.","Implement a nightly muhasabah routine.","Identify three forms of ongoing charity (sadaqah jariyah).","Share the message of accountability with one trusted friend."],"overview":[{"heading":"The Hereafter is Certain","content":"Belief in life after death shapes moral conduct, encourages ethical behavior, and reminds believers that every action has eternal significance.","references":"Quran 3:185","resources":"https://quran.com/3/185"},{"heading":"Preparation Begins Now","content":"Righteous deeds, sincere worship, and ethical behavior prepare for the Hereafter, ensuring spiritual success and divine reward.","references":"Quran 6:132","resources":"https://quran.com/6/132"},{"heading":"Accountability is Inevitable","content":"Every action, word, and intention will be judged. Awareness of accountability motivates ethical living and mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"The Hereafter Motivates Patience","content":"Belief in eternal reward encourages perseverance through hardships, strengthening trust in Allah’s wisdom and cultivating spiritual growth.","references":"Quran 31:34","resources":"https://quran.com/31/34"},{"heading":"Justice Will Be Perfect","content":"Allah’s judgment is fair and precise. Belief in divine justice instills hope, discourages wrongdoing, and encourages ethical behavior.","references":"Quran 4:40","resources":"https://quran.com/4/40"},{"heading":"Reward for Good Deeds","content":"Every act of worship, charity, and righteousness is recorded. Believers are assured of recompense in the eternal life.","references":"Quran 2:277","resources":"https://quran.com/2/277"},{"heading":"Consequences of Sin","content":"Wrongdoing carries accountability in the Hereafter. Awareness of consequences encourages repentance, ethical behavior, and spiritual mindfulness.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Repentance Prepares the Soul","content":"Sincere repentance purifies the heart and protects from punishment. Regular self-reflection aligns actions with Allah’s guidance.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"The Hereafter Brings Justice","content":"Divine judgment restores balance, corrects injustice, and ensures that moral accountability is fulfilled perfectly.","references":"Quran 45:22","resources":"https://quran.com/45/22"},{"heading":"Life is a Test","content":"This world is temporary; belief in the Hereafter reminds believers that challenges are trials shaping spiritual growth and divine reward.","references":"Quran 67:2","resources":"https://quran.com/67/2"},{"heading":"The Hereafter Encourages Gratitude","content":"Awareness of eternal consequences fosters appreciation for Allah’s blessings, ethical living, and mindful worship.","references":"Quran 14:7","resources":"https://quran.com/14/7"},{"heading":"Hope Strengthens Action","content":"Belief in Paradise motivates righteous deeds, ethical behavior, and perseverance, ensuring spiritual alignment with Allah’s pleasure.","references":"Quran 3:139","resources":"https://quran.com/3/139"},{"heading":"Fear Prevents Wrongdoing","content":"Belief in divine punishment discourages sins, fosters self-restraint, and aligns life with moral and spiritual guidance.","references":"Quran 67:2","resources":"https://quran.com/67/2"},{"heading":"Life is Temporary","content":"This world is fleeting; the eternal Hereafter defines true success. Focus on ethical behavior and worship ensures spiritual fulfillment.","references":"Quran 57:20","resources":"https://quran.com/57/20"},{"heading":"Continuous Reflection is Key","content":"Regular contemplation of the Hereafter strengthens faith, guides ethical conduct, and ensures preparedness for eternal life.","references":"Quran 59:18","resources":"https://quran.com/59/18"}]},{"chapterId":15,"title":"Paradise & Hell: Rewards, Warnings, and Motivation","summary":"Visualize the eternal abodes so gratitude grows and warnings keep you humble.","learningObjectives":["Recall five Quranic descriptions of Paradise.","Explain how the warnings of Hell aim to correct, not condemn.","Apply hope and fear in a practical dua routine.","Identify three actions that increase the chance of entering Jannah.","Share one lesson about the afterlife that inspired your own focus."],"overview":[{"heading":"Paradise is Eternal Reward","content":"Believers who follow Allah’s guidance are promised eternal bliss in Paradise, a place of peace, happiness, and divine pleasure.","references":"Quran 18:107","resources":"https://quran.com/18/107"},{"heading":"Hell is a Consequence of Sin","content":"Those who reject guidance and persist in wrongdoing face punishment. Awareness of Hell encourages ethical behavior and sincere repentance.","references":"Quran 4:56","resources":"https://quran.com/4/56"},{"heading":"Paradise Rewards Faith and Deeds","content":"Good deeds, worship, and sincere intentions lead to Paradise. Belief motivates ethical actions and spiritual mindfulness in daily life.","references":"Quran 2:82","resources":"https://quran.com/2/82"},{"heading":"Hell Warns Against Disobedience","content":"Knowledge of divine punishment deters sins, encourages repentance, and strengthens commitment to ethical and spiritual conduct.","references":"Quran 67:6","resources":"https://quran.com/67/6"},{"heading":"Paradise is a Source of Hope","content":"Aspiration for eternal reward inspires patience, perseverance, and consistent worship, guiding believers toward Allah’s pleasure.","references":"Quran 9:72","resources":"https://quran.com/9/72"},{"heading":"Hell Encourages Mindfulness","content":"Awareness of punishment cultivates vigilance in deeds, honesty, and accountability to Allah in all actions.","references":"Quran 78:21-30","resources":"https://quran.com/78/21-30"},{"heading":"Paradise is Attained Through Mercy","content":"Allah’s mercy enables entry into Paradise. Faith, worship, and sincere intentions invite divine pleasure and eternal reward.","references":"Quran 39:53","resources":"https://quran.com/39/53"},{"heading":"Hell is Just Punishment","content":"Divine justice ensures that wrongdoing is appropriately addressed. Awareness strengthens moral behavior and encourages ethical decision-making.","references":"Quran 99:7-8","resources":"https://quran.com/99/7-8"},{"heading":"Rewards are Proportional to Deeds","content":"Every action, small or large, influences eternal outcome. Ethical conduct and worship ensure reward and closeness to Allah.","references":"Quran 6:160","resources":"https://quran.com/6/160"},{"heading":"Hell is Avoided Through Repentance","content":"Sincere repentance and ethical correction prevent punishment, ensuring spiritual growth and alignment with divine guidance.","references":"Quran 25:70","resources":"https://quran.com/25/70"},{"heading":"Paradise Inspires Ethical Living","content":"Hope for eternal reward motivates righteous deeds, patience, gratitude, and compassionate interactions with others.","references":"Quran 3:133","resources":"https://quran.com/3/133"},{"heading":"Hell Encourages Reflection","content":"Considering consequences of sin strengthens mindfulness, self-restraint, and ethical alignment with Allah’s commands.","references":"Quran 74:26-30","resources":"https://quran.com/74/26-30"},{"heading":"Paradise is Beyond Imagination","content":"Descriptions of eternal bliss inspire devotion and reinforce that ultimate fulfillment comes from Allah, motivating ethical and spiritual perseverance.","references":"Quran 76:12-14","resources":"https://quran.com/76/12-14"},{"heading":"Hell Warns of Neglect","content":"Neglecting guidance leads to punishment. Awareness encourages responsibility, repentance, and continuous effort to align life with divine instruction.","references":"Quran 6:128","resources":"https://quran.com/6/128"},{"heading":"Continuous Effort Ensures Reward","content":"Regular worship, ethical behavior, and sincere intention are keys to Paradise, while avoiding sin prevents Hell, reinforcing accountability in daily life.","references":"Quran 2:277","resources":"https://quran.com/2/277"}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundation (Tawheed) ","summary":"Islam is not a new religion but the primordial faith of submission to the One True God (Allāh), revived through the final Prophet Muhammad ﷺ. The essence of this submission is Tawheed the absolute Oneness of God in His Lordship, His Names and Attributes, and His right to be worshipped alone. ","overview":[{"heading":"Tawheed: Absolute Oneness","content":"Tawheed means declaring Allah\'s absolute oneness in all aspects. Qur\'anic Proof: \\"Say: He is Allah, the One.\\" (Al Ikhlas 112:1) Reference: \\"Kitab al Tawheed\\" by Ibn Khuzaymah.","references":"Quran 112:1; Kitab al Tawheed by Ibn Khuzaymah","resources":"https://quran.com/112/1"},{"heading":"Tawheed Has Three Essential Categories","content":"It has three essential categories that cannot be separated: Tawheed al Rububiyyah (Lordship), Tawheed al Asma wa al Sifat (Names and Attributes), and Tawheed al \'Ibadah (Worship). Reference: \\"Al Qawa\'id al Arba\'\\" by Muhammad ibn \'Abd al Wahhab.","references":"Al Qawa\'id al Arba\' by Muhammad ibn \'Abd al Wahhab"},{"heading":"Tawheed al Rububiyyah (Lordship)","content":"Oneness in Lordship: Allah alone creates, provides, and controls. Qur\'anic Proof: \\"Allah is the Creator of all things, and He is Disposer of all affairs.\\" (Az Zumar 39:62) Reference: \\"Al Qawa\'id al Arba\'\\" by Muhammad ibn \'Abd al Wahhab.","references":"Quran 39:62; Al Qawa\'id al Arba\' by Muhammad ibn \'Abd al Wahhab","resources":"https://quran.com/39/62"},{"heading":"Tawheed al Asma wa al Sifat (Names and Attributes)","content":"Oneness in Names and Attributes as revealed, without distortion. Qur\'anic Proof: \\"There is nothing like unto Him...\\" (Ash Shura 42:11) Reference: \\"Al \'Aqidah al Wasitiyyah\\" by Ibn Taymiyyah.","references":"Quran 42:11; Al \'Aqidah al Wasitiyyah by Ibn Taymiyyah","resources":"https://quran.com/42/11"},{"heading":"Tawheed al \'Ibadah (Worship)","content":"Oneness in worship: directing all acts to Allah alone. Qur\'anic Proof: \\"Worship Allah and associate none with Him...\\" (An Nisa\' 4:36) Reference: \\"Kashf al Shubuhat\\" by Muhammad ibn \'Abd al Wahhab.","references":"Quran 4:36; Kashf al Shubuhat by Muhammad ibn \'Abd al Wahhab","resources":"https://quran.com/4/36"},{"heading":"Iman: Six Pillars of Faith","content":"Iman has six pillars including belief in Allah and the Last Day. Proof: \\"It is to believe in Allah, His Angels, His Books, His Messengers, the Last Day, and Divine Decree...\\" (Sahih Muslim 8a) Reference: \\"Sharh Usul al Iman\\" by Ibn \'Uthaymin.","references":"Hadith: Sahih Muslim 8a; Sharh Usul al Iman by Ibn \'Uthaymin","resources":"https://sunnah.com/muslim:8a"},{"heading":"Ihsan: Worship as if You See Him","content":"Ihsan is worshipping Allah as if you see Him, knowing He sees you. Proof: \\"To worship Allah as if you see Him...\\" (Sahih al Bukhari 50) Reference: \\"Ihya\' \'Ulum al Din\\" by Al Ghazali.","references":"Hadith: Sahih al Bukhari 50; Ihya\' \'Ulum al Din by Al Ghazali","resources":"https://sunnah.com/bukhari:50"},{"heading":"Shirk: Associating Partners with Allah","content":"Shirk is associating partners with Allah and is the only unforgivable sin if unrepented. Proof: \\"Indeed, Allah does not forgive association with Him...\\" (An Nisa\' 4:48) Reference: \\"Al Sawa\'iq al Mursalah\\" by Ibn al Qayyim.","references":"Quran 4:48; Al Sawa\'iq al Mursalah by Ibn al Qayyim","resources":"https://quran.com/4/48"},{"heading":"Shahadah Conditions","content":"The Shahadah (\\"La ilaha illallah\\") has seven conditions for validity derived from the Qur\'an and Sunnah: knowledge, certainty, acceptance, and more. Reference: \\"Sharh Usul al Iman\\" by Ibn Baz, p. 45.","references":"Sharh Usul al Iman by Ibn Baz, p. 45"},{"heading":"Tawheed Message of All Prophets","content":"Tawheed was the first message of all Prophets from Nuh to Muhammad ﷺ. Proof: \\"We sent every Messenger with the revelation: \'Worship Allah and avoid false gods...\'\\" (An Nahl 16:36) Reference: \\"Tariq al Hijratayn\\" by Ibn al Qayyim.","references":"Quran 16:36; Tariq al Hijratayn by Ibn al Qayyim","resources":"https://quran.com/16/36"},{"heading":"Rejecting Tawheed Nullifies Deeds","content":"Rejecting Tawheed invalidates deeds regardless of outward form. Proof: \\"If they had associated others with Allah, all they did would have been nullified.\\" (Al An\'am 6:88) Reference: \\"Majmu\' al Fatawa\\" by Ibn Taymiyyah, vol. 1, p. 98.","references":"Quran 6:88; Majmu\' al Fatawa by Ibn Taymiyyah, vol. 1, p. 98","resources":"https://quran.com/6/88"}]},{"chapterId":2,"title":"The Beliefs: The Six Pillars of Iman, Your Invisible Reality Stronger Than Steel","summary":"While the body lives in the seen world, the heart lives permanently in the unseen (ghayb). The six pillars of Iman are the oxygen of the soul   without them you suffocate spiritually even while walking around healthy. They transform abstract belief into a lived certainty that reshapes every decision.","overview":[{"heading":"Belief in Allāh (Allāh سُبْحَانَهُ وَتَعَالَى)","content":"Meaning: To affirm Allāh’s Oneness (Tawḥīd) in His Lordship, His Names and Attributes, and His right to worship, as described in the Qur’ān and Sunnah without distortion. Key Proof: \\"Allāh - there is no deity except Him, the Ever-Living, the Sustainer of existence.\\" (Āli ʿImrān 3:2) Resource: Kitāb al-Tawḥīd by Shaykh al-Islām Muḥammad ibn ʿAbd al-Wahhāb.","references":"Quran 3:2","resources":"https://quran.com/3/2"},{"heading":"Belief in the Angels (Al-Malāʾikah)","content":"Meaning: To believe in the angels as honored servants of Allāh, created from light, who never disobey Him and execute His commands precisely. Key Proof: \\"The Messenger believes in what was revealed to him from his Lord, and the believers. All believe in Allāh, His angels, His books, and His messengers...\\" (Al-Baqarah 2:285) Resource: Badʾ al-Khalq (Chapter on Creation) in Ṣaḥīḥ al-Bukhārī.","references":"Quran 2:285","resources":"https://quran.com/2/285"},{"heading":"Belief in the Revealed Books (Al-Kutub)","content":"Meaning: To believe that Allāh revealed divine scriptures to His messengers as guidance, including the Qur’ān (the final, preserved book), the Torah, the Gospel, and the Psalms. Key Proof: \\"And We have revealed to you, [O Muḥammad], the Book in truth, confirming that which preceded it of the Scripture...\\" (Al-Māʾidah 5:48) Resource: Al-ʿAqīdah al-Ṭaḥāwiyyah (Articles 7-8).","references":"Quran 5:48","resources":"https://quran.com/5/48"},{"heading":"Belief in the Messengers (Al-Rusul)","content":"Meaning: To believe that Allāh sent prophets and messengers to every nation, beginning with Ādam and ending with Muḥammad ﷺ, all calling to Tawḥīd. We believe in all of them without distinction. Key Proof: \\"And We certainly sent into every nation a messenger, [saying], \'Worship Allāh and avoid false deities...\'\\" (Al-Naḥl 16:36) Resource: Qaṣaṣ al-Anbiyāʾ (Stories of the Prophets) by Ibn Kathīr.","references":"Quran 16:36","resources":"https://quran.com/16/36"},{"heading":"Belief in the Last Day (Al-Yawm al-Ākhir)","content":"Meaning: To believe in everything that will occur after death: the trial of the grave, the Resurrection, the Reckoning, the Scale, the Bridge (Ṣirāṭ), Paradise, and Hellfire. Key Proof: \\"And those who believe in the Hereafter believe in it, and they are maintaining their prayers.\\" (Al-Anʿām 6:92) Resource: Kitāb al-Jannah wa al-Nār (Book of Paradise and Hell) in Ṣaḥīḥ al-Bukhārī.","references":"Quran 6:92","resources":"https://quran.com/6/92"},{"heading":"Belief in Divine Decree (Al-Qaḍāʾ wal-Qadar)","content":"Meaning: To believe that Allāh has preordained all things with His prior knowledge and wisdom. This encompasses belief in His all-encompassing knowledge, His recording of all decrees, His will, and His creation of everything. Key Proof: \\"Indeed, all things We created with predestination.\\" (Al-Qamar 54:49) Resource: Sharḥ al-ʿAqīdah al-Ṭaḥāwiyyah by Ibn Abī al-ʿIzz al-Ḥanafī.","references":"Quran 54:49","resources":"https://quran.com/54/49"}]},{"chapterId":3,"title":"The Pillars: The Five Pillars, Your Direct Phone Line to Allah","summary":"These five actions are the bare minimum Allah asks in return for Jannah. They are gifts wrapped as obligations. Miss them and everything else collapses; perfect them and every nafl act becomes mountains of reward. The Prophet ﷺ called them the \'framework of Islam\' build your life upon them.","overview":[{"heading":"Shahādah (The Testimony of Faith)","content":"Meaning: Sincere declaration and belief that \\"Lā ilāha illallāh, Muhammadur Rasūlullāh.\\" Quranic Proof: \\"Allah witnesses that there is no deity except Him, and [so do] the angels and those of knowledge   [that He is] maintaining [creation] in justice.\\" (Ali \'Imran 3:18) Hadith Proof: The Prophet ﷺ said, \\"Whoever dies knowing that there is no god but Allah will enter Paradise.\\" (Sahih Muslim 26)","references":"Quran 3:18; Hadith: Sahih Muslim 26","resources":"https://quran.com/3/18"},{"heading":"Ṣalāh (The Prayer)","content":"Meaning: Performing the five obligatory prayers daily at their prescribed times. Quranic Proof: \\"Indeed, prayer has been decreed upon the believers a decree of specified times.\\" (An Nisa\' 4:103) Hadith Proof: The Prophet ﷺ said, \\"Between a man and shirk and kufr is the abandonment of prayer.\\" (Sahih Muslim 82)","references":"Quran 4:103; Hadith: Sahih Muslim 82","resources":"https://quran.com/4/103"},{"heading":"Zakāh (Obligatory Almsgiving)","content":"Meaning: Purifying wealth by giving 2.5% of saved wealth annually to specified recipients. Quranic Proof: \\"Take, [O, Muhammad], from their wealth a charity by which you purify them and cause them increase.\\" (At Tawbah 9:103) Hadith Proof: The Prophet ﷺ said, \\"Islam is built upon five...,\\" including zakah.","references":"Quran 9:103; Hadith: Five Pillars","resources":"https://quran.com/9/103"},{"heading":"Ṣawm (Fasting Ramadan)","content":"Meaning: Abstaining from food, drink, and marital relations from dawn to sunset during Ramadan. Quranic Proof: \\"O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous.\\" (Al Baqarah 2:183) Hadith Proof: Included in the five pillar hadith.","references":"Quran 2:183; Hadith: Five Pillars","resources":"https://quran.com/2/183"},{"heading":"Hajj (Pilgrimage to Makkah)","content":"Meaning: Performing pilgrimage to the Ka\'bah once in a lifetime if able. Quranic Proof: \\"And [due] to Allah from the people is a pilgrimage to the House   for whoever is able to find thereto a way.\\" (Ali \'Imran 3:97) Hadith Proof: Included in the five pillar hadith.","references":"Quran 3:97; Hadith: Five Pillars","resources":"https://quran.com/3/97"}]},{"chapterId":4,"title":"The Quran: Heartbeat of Revelation and Living Library","summary":"Each letter of the Qur\'an is alive; it lights, heals, and anchors you in divine goodness.","overview":[{"heading":"The Quran is Allah’s Final Revelation","content":"The Quran provides guidance for all aspects of life. Believers are encouraged to read, reflect, and act upon its teachings to align their hearts and actions with divine wisdom.","references":"Quran 5:48"},{"heading":"The Quran Guides Humanity","content":"Through clear instructions, moral teachings, and stories of past nations, the Quran teaches lessons that foster faith, patience, justice, and ethical conduct for spiritual and worldly success.","references":"Quran 2:2"},{"heading":"The Quran Clarifies Belief","content":"It explains the core principles of Tawhid, prophecy, and the Hereafter, strengthening faith and helping believers understand the purpose of life and the path to pleasing Allah.","references":"Quran 6:19"},{"heading":"The Quran is a Source of Mercy","content":"Reading and reflecting on the Quran brings peace, guidance, and comfort. It reminds believers of Allah’s mercy, encouraging hope, gratitude, and reliance upon Him in all circumstances.","references":"Quran 17:82"},{"heading":"The Quran Requires Reflection","content":"Understanding its meanings strengthens belief. Believers are urged to ponder verses, seek knowledge, and apply lessons practically, transforming reading into action and guidance into daily living.","references":"Quran 47:24"},{"heading":"Recitation Elevates the Heart","content":"Reciting the Quran aloud with focus and reverence nourishes the soul, instills tranquility, and enhances spiritual connection with Allah, making worship more heartfelt and intentional.","references":"Quran 73:4"},{"heading":"The Quran Guides Morality","content":"It teaches ethics, justice, and compassion. Applying these principles in personal conduct fosters integrity, humility, and a harmonious life aligned with divine expectations.","references":"Quran 16:90"},{"heading":"The Quran Encourages Knowledge","content":"Believers are instructed to seek understanding, reflect, and learn. Knowledge nurtures wisdom, strengthens conviction, and enables proper application of divine guidance in all aspects of life.","references":"Quran 20:114"},{"heading":"The Quran Protects from Misguidance","content":"Following its teachings shields believers from false beliefs, moral corruption, and spiritual deviation. Its guidance creates a firm foundation for ethical living and trust in Allah’s commands.","references":"Quran 6:155"},{"heading":"The Quran Promotes Justice","content":"It emphasizes fairness, honesty, and equality. Implementing these principles in daily life nurtures ethical behavior, protects rights, and establishes social harmony in accordance with divine instruction.","references":"Quran 4:58"},{"heading":"The Quran Encourages Patience","content":"Its stories and guidance teach resilience in adversity. Reflecting on divine wisdom strengthens perseverance, hope, and trust in Allah’s plan, fostering spiritual growth and emotional balance.","references":"Quran 2:153"},{"heading":"The Quran Strengthens Faith","content":"Regular study and reflection deepen Iman. Understanding its wisdom and applying lessons encourages moral behavior, ethical decisions, and a heart aligned with Allah’s guidance.","references":"Quran 33:34"},{"heading":"The Quran Encourages Worship","content":"It calls believers to prayer, remembrance, and righteous deeds. Following its commands transforms spiritual devotion into everyday actions, connecting the heart and life to Allah’s pleasure.","references":"Quran 29:45"},{"heading":"The Quran is a Source of Healing","content":"Its words bring comfort, guidance, and reassurance. Reflecting and acting upon them nurtures mental, emotional, and spiritual well being while strengthening reliance on Allah’s wisdom.","references":"Quran 17:82"},{"heading":"The Quran Must Be Applied","content":"Understanding alone is insufficient; believers must implement its guidance in daily life. Action transforms knowledge into practice, faith into ethics, and devotion into tangible obedience.","references":"Quran 59:18"}]},{"chapterId":5,"title":"The Prophet: Muhammad ﷺ Mirror of Mercy","summary":"Studying the Prophet\'s life unlocks Islam\'s character code, showing clarity, humility, and compassionate leadership.","overview":[{"heading":"Prophets Are Guides for Humanity","content":"Prophets exemplify obedience, patience, and morality. Following their guidance helps believers navigate life, strengthens faith, and provides clear examples of applying divine teachings in daily choices and actions.","references":"Quran 6:90"},{"heading":"Muhammad ﷺ is the Final Messenger","content":"Belief in Muhammad ﷺ unites Muslims and completes divine revelation. Emulating his character, mercy, and teachings ensures the proper application of faith and strengthens connection with Allah.","references":"Quran 33:40"},{"heading":"Following the Prophet Strengthens Faith","content":"Emulating his behavior, speech, and ethics nurtures personal integrity, deepens understanding of divine guidance, and ensures that belief is reflected in both intention and action.","references":"Quran 33:21"},{"heading":"Prophetic Teachings Are Universal","content":"The Prophet ﷺ taught principles applicable across all times and cultures. Studying his Sunnah equips believers to navigate contemporary challenges while maintaining obedience and moral excellence.","references":"Quran 7:157"},{"heading":"Prophets Bring Clarity to Belief","content":"They provide clear guidance regarding Tawhid, worship, ethics, and accountability. Following them removes confusion, strengthens conviction, and guides practical application of faith in everyday life.","references":"Quran 21:7"},{"heading":"The Prophet’s Mercy","content":"His mercy toward believers and non believers exemplifies divine compassion. Reflecting on his character nurtures kindness, patience, and ethical behavior in personal and communal life.","references":"Quran 9:128"},{"heading":"Prophets Encourage Justice","content":"They model fairness and integrity, teaching believers to uphold justice in decisions and interactions. Applying these lessons builds ethical communities aligned with Allah’s commands.","references":"Quran 4:105"},{"heading":"Prophets Teach Patience","content":"Their lives demonstrate perseverance during trials. Following their example strengthens resilience, patience, and trust in Allah while encouraging steadfastness in faith.","references":"Quran 16:127"},{"heading":"Prophetic Wisdom Guides Decisions","content":"Studying their guidance helps believers make ethical and informed choices. Wisdom from their lives aligns actions with divine guidance in practical daily situations.","references":"Quran 21:73"},{"heading":"Prophetic Example Inspires Character","content":"His conduct inspires humility, honesty, and compassion. Internalizing these traits transforms personal behavior, strengthens community relations, and elevates spiritual growth.","references":"Hadith: Sahih Muslim 2326"},{"heading":"Prophets Teach Worship","content":"They guide proper prayer, supplication, and devotion. Practicing worship according to their teachings ensures sincerity, spiritual connection, and the acceptance of deeds by Allah.","references":"Quran 6:162"},{"heading":"Prophetic Patience in Adversity","content":"Enduring trials with patience models trust in Allah. Applying this approach fosters resilience, emotional stability, and reliance on divine wisdom during difficulties.","references":"Quran 3:186"},{"heading":"Prophetic Justice in Society","content":"His guidance emphasizes fair treatment, protection of rights, and ethical leadership. Following these principles strengthens social cohesion and moral responsibility in communities.","references":"Quran 4:58"},{"heading":"Prophets Teach Gratitude","content":"Acknowledging Allah’s favors mirrors the Prophet’s practice of gratitude. Regular reflection fosters contentment, spiritual growth, and ethical appreciation of divine blessings.","references":"Quran 14:7"},{"heading":"Prophetic Sunnah Guides Conduct","content":"Applying Sunnah in behavior, speech, and worship ensures that belief manifests in action. It bridges knowledge and practice, reinforcing faith and moral excellence.","references":"Hadith: Sahih Bukhari 7"}]},{"chapterId":6,"title":"The Prayer: Salah as Your Soul\'s Sync","summary":"Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.","overview":[{"heading":"Prayer Connects to Allah","content":"Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.","references":"Quran 29:45"},{"heading":"Five Daily Prayers","content":"Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.","references":"Quran 11:114"},{"heading":"Prayer Requires Purity","content":"Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.","references":"Quran 5:6"},{"heading":"Concentration Strengthens Prayer","content":"Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.","references":"Quran 23:1 2"},{"heading":"Supplication Complements Prayer","content":"Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.","references":"Hadith: Sahih Muslim 2724"},{"heading":"Prayer Brings Tranquility","content":"Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.","references":"Quran 20:14"},{"heading":"Consistency is Key","content":"Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.","references":"Quran 2:238"},{"heading":"Prayer Elevates Character","content":"Salah instills patience, humility, and self discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.","references":"Quran 29:45"},{"heading":"Prayer as Reminder","content":"Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.","references":"Quran 2:238"},{"heading":"Facing Challenges with Prayer","content":"Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.","references":"Quran 2:45"},{"heading":"Prayer Inspires Gratitude","content":"Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.","references":"Quran 14:7"},{"heading":"Prayer Strengthens Community","content":"Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.","references":"Quran 9:71"},{"heading":"Salah Enhances Reflection","content":"Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.","references":"Quran 23:1 2"},{"heading":"Intentions Matter","content":"Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.","references":"Hadith: Sahih Bukhari 1"},{"heading":"Prayer Nourishes the Heart","content":"Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.","references":"Quran 30:17 18"}]},{"chapterId":7,"title":"Dua & Dhikr: Weapons of the Believer","summary":"Dua & dhikr are the believer’s weapons; remembering Allah builds resilience and softens every trial.","overview":[{"heading":"Dua Connects the Heart to Allah","content":"Supplication fosters intimate connection with Allah, expressing dependence, gratitude, and humility, while strengthening faith and reliance on divine guidance in daily life.","references":"Quran 2:186"},{"heading":"Dhikr Purifies the Soul","content":"Remembering Allah through dhikr cleanses the heart, reinforces mindfulness, and cultivates spiritual resilience, guiding ethical actions and sustained devotion.","references":"Quran 13:28"},{"heading":"Consistency in Dua is Rewarded","content":"Regular supplication demonstrates sincerity, strengthens faith, and invites Allah’s mercy, guidance, and protection in all aspects of life.","references":"Hadith: Sahih Bukhari 6345"},{"heading":"Sincere Intention Matters","content":"Dua accepted by Allah depends on sincerity. Pure intentions align actions and worship with divine guidance, ensuring spiritual reward.","references":"Hadith: Sahih Muslim 2734"},{"heading":"Dhikr Brings Peace","content":"Regular remembrance of Allah alleviates anxiety, calms the heart, and strengthens resilience in facing challenges.","references":"Quran 13:28"},{"heading":"Supplication Reflects Dependence","content":"Dua acknowledges human reliance on Allah’s mercy and guidance, fostering humility, gratitude, and ethical living.","references":"Quran 40:60"},{"heading":"Dhikr Enhances Mindfulness","content":"Remembering Allah in daily life develops awareness, discipline, and spiritual focus, guiding ethical and intentional actions.","references":"Quran 33:41 42"},{"heading":"Dua is a Form of Worship","content":"Supplication is an act of obedience. Regular dua nurtures devotion, ethical conduct, and reliance on divine mercy.","references":"Quran 2:186"},{"heading":"Gratitude in Dhikr","content":"Remembering Allah’s favors cultivates thankfulness, ethical behavior, and spiritual contentment.","references":"Quran 14:7"},{"heading":"Repentance Through Dua","content":"Supplication facilitates sincere repentance, purifying the heart and aligning life with divine guidance.","references":"Quran 25:70"},{"heading":"Dhikr Strengthens Faith","content":"Frequent remembrance increases certainty in Allah, enhances moral resolve, and nurtures inner peace.","references":"Quran 33:41 42"},{"heading":"Prayers Influence Outcomes","content":"Dua and dhikr invite divine guidance, protection, and blessings, shaping spiritual, ethical, and worldly outcomes.","references":"Quran 2:186"},{"heading":"Dua Encourages Patience","content":"Supplication reinforces endurance during trials, strengthens reliance on Allah, and cultivates resilience.","references":"Quran 2:153"},{"heading":"Dhikr Nurtures Gratitude","content":"Regular remembrance fosters appreciation for Allah’s blessings, ethical conduct, and spiritual mindfulness.","references":"Quran 14:7"},{"heading":"Dua is Accessible Anytime","content":"Supplication can be offered in all circumstances, fostering continuous connection, humility, and reliance on Allah’s mercy and guidance.","references":"Hadith: Sahih Muslim 2724"}]},{"chapterId":8,"title":"The Heart: Purification & Spiritual Diseases","summary":"Purifying the heart from envy, pride, and spiritual diseases helps you respond to Allah with trust and love.","overview":[{"heading":"Purity of Heart is Essential","content":"A pure heart nurtures faith, compassion, and ethical behavior. Inner cleanliness ensures sincerity in worship and daily conduct.","references":"Quran 91:9"},{"heading":"Love for Allah","content":"A heart connected to Allah guides actions, strengthens resilience, and cultivates gratitude, humility, and ethical behavior.","references":"Quran 2:165"},{"heading":"Sincerity in Intention","content":"Purity of intent ensures that actions are accepted and that deeds reflect true faith, ethical alignment, and devotion.","references":"Hadith: Sahih Bukhari 1"},{"heading":"Patience Cultivates Strength","content":"A patient heart overcomes trials, maintains trust in Allah, and fosters resilience and spiritual growth.","references":"Quran 2:153"},{"heading":"Gratitude Softens the Heart","content":"Thankfulness nurtures humility, contentment, and ethical behavior while deepening spiritual connection with Allah.","references":"Quran 14:7"},{"heading":"Forgiveness Cleanses the Heart","content":"Forgiving others fosters peace, emotional balance, and ethical conduct, reflecting divine mercy.","references":"Quran 24:22"},{"heading":"Repentance Purifies the Heart","content":"Sincere repentance cleanses sins, strengthens faith, and nurtures ethical and spiritual growth.","references":"Quran 39:53"},{"heading":"Trust in Allah Strengthens Heart","content":"Relying on divine guidance nurtures peace, courage, and ethical decision making in all circumstances.","references":"Quran 3:159"},{"heading":"Humility Shapes the Heart","content":"A humble heart reflects awareness of Allah’s greatness, fostering compassion, ethical behavior, and spiritual mindfulness.","references":"Quran 25:63"},{"heading":"Love for People","content":"A heart filled with compassion nurtures strong relationships, ethical behavior, and communal harmony.","references":"Quran 3:134"},{"heading":"Avoiding Hardness of Heart","content":"Neglecting spiritual and ethical duties hardens the heart. Reflection, worship, and ethical action maintain softness and receptivity.","references":"Quran 57:16"},{"heading":"Hope Strengthens the Heart","content":"Belief in Allah’s mercy and guidance nurtures resilience, ethical conduct, and perseverance in challenges.","references":"Quran 39:53"},{"heading":"Fear Encourages Reflection","content":"Fear of divine displeasure fosters accountability, ethical living, and mindfulness in both worship and everyday actions.","references":"Quran 59:18"},{"heading":"Contentment Purifies the Heart","content":"Being satisfied with Allah’s decree fosters gratitude, patience, and inner peace, guiding ethical and spiritual development.","references":"Quran 13:28"},{"heading":"Continuous Reflection Strengthens Heart","content":"Regular contemplation of faith, deeds, and divine guidance ensures a soft, ethical, and spiritually connected heart.","references":"Quran 59:18"}]},{"chapterId":9,"title":"The Manners: Adab That Elevates Every Encounter","summary":"Adab is the fragrance of iman; it makes every interaction sacred and every apology sincere.","overview":[{"heading":"Good Character is Central to Faith","content":"Islam emphasizes ethical behavior, kindness, and integrity. Good manners reflect belief, influence community harmony, and strengthen relationships while demonstrating obedience to Allah’s guidance.","references":"Quran 68:4"},{"heading":"Honesty and Truthfulness","content":"Speaking truthfully nurtures trust, strengthens community bonds, and aligns behavior with divine guidance. Honesty is a reflection of sincere faith and moral responsibility.","references":"Quran 33:70"},{"heading":"Respect for Parents","content":"Kindness and obedience to parents earn Allah’s pleasure. Treating parents with care, gratitude, and humility strengthens family bonds and exemplifies ethical conduct.","references":"Quran 17:23"},{"heading":"Politeness in Speech","content":"Gentle and respectful speech fosters understanding, prevents conflict, and reflects the believer’s ethical and spiritual maturity.","references":"Quran 31:18 19"},{"heading":"Avoiding Backbiting and Gossip","content":"Speaking ill of others damages trust and soul. Avoiding gossip preserves honor, nurtures community harmony, and aligns behavior with Allah’s commands.","references":"Quran 49:12"},{"heading":"Patience and Tolerance","content":"Exercising patience and tolerance in interactions fosters peace, reduces conflict, and strengthens spiritual resilience.","references":"Quran 16:126"},{"heading":"Generosity and Kindness","content":"Acts of giving and compassion reflect faith, improve community welfare, and strengthen the heart’s connection to Allah.","references":"Quran 2:177"},{"heading":"Humility in Conduct","content":"Humility prevents arrogance and encourages sincere service. A humble heart aligns behavior with Allah’s guidance and promotes social harmony.","references":"Quran 25:63"},{"heading":"Forgiveness and Reconciliation","content":"Forgiving others nurtures inner peace and strengthens bonds. Reconciliation restores trust, fulfills moral duty, and earns Allah’s pleasure.","references":"Quran 42:40"},{"heading":"Respecting Elders and Teachers","content":"Honoring those with knowledge and experience fosters learning, ethical behavior, and communal respect while embodying Islamic moral principles.","references":"Quran 4:36"},{"heading":"Moderation in Behavior","content":"Avoiding extremes ensures ethical balance and harmony. Moderation in speech, actions, and desires strengthens character and spiritual integrity.","references":"Quran 25:67"},{"heading":"Truthful Speech Reflects Faith","content":"Every word should reflect honesty and integrity. Speaking truth builds trust and aligns actions with Islamic values.","references":"Quran 61:2 3"},{"heading":"Kindness Toward Neighbors","content":"Good conduct toward neighbors strengthens social cohesion, nurtures compassion, and fulfills religious and ethical duties.","references":"Quran 4:36"},{"heading":"Avoiding Anger and Retaliation","content":"Controlling anger ensures justice, reduces harm, and nurtures patience. Responding ethically strengthens moral character and earns Allah’s pleasure.","references":"Quran 3:134"},{"heading":"Manners Must Be Practiced Consistently","content":"Ethical behavior requires continuous practice in all aspects of life. Consistency reinforces character, faith, and positive influence in society.","references":"Hadith: Sahih Muslim 55"}]},{"chapterId":10,"title":"The Lifestyle: Halal Living, Habits, and Harmony","summary":"Islam is a lifestyle; this chapter helps you align food, finances, and rest with halal intention.","overview":[{"heading":"A Balanced Life Pleases Allah","content":"Living with moderation in worship, work, and leisure ensures spiritual, mental, and physical well being, aligning daily habits with divine guidance.","references":"Quran 2:143"},{"heading":"Healthy Habits Are Encouraged","content":"Maintaining hygiene, proper diet, and exercise honors the body Allah entrusted, strengthens resilience, and enables consistent worship.","references":"Hadith: Sahih Bukhari 535"},{"heading":"Time Management Is Important","content":"Efficient use of time ensures balance between worship, work, and rest. Proper scheduling nurtures discipline, productivity, and spiritual growth.","references":"Quran 103:1 3"},{"heading":"Moderation in Spending","content":"Avoid extravagance and wastefulness. Balanced financial management nurtures gratitude, charity, and sustainable living according to divine guidance.","references":"Quran 17:26 27"},{"heading":"Work Ethic Reflects Faith","content":"Honest effort and responsibility in work are forms of worship. Ethical labor benefits self, family, and society while earning Allah’s pleasure.","references":"Hadith: Sahih Bukhari 2075"},{"heading":"Leisure with Purpose","content":"Balanced recreation refreshes the mind and body. Engaging in permissible activities enhances focus, creativity, and spiritual well being.","references":"Quran 23:1 2"},{"heading":"Seeking Knowledge Is a Lifestyle","content":"Continuous learning fosters personal growth, wisdom, and ethical application. Knowledge strengthens faith and enhances community contribution.","references":"Hadith: Sahih Muslim 2699"},{"heading":"Family Life Requires Balance","content":"Providing, caring, and nurturing family relationships while maintaining personal worship ensures harmony and fulfills responsibilities according to Islamic principles.","references":"Quran 2:233"},{"heading":"Avoiding Excess in Lifestyle","content":"Overindulgence in food, wealth, or entertainment distracts from worship. Moderation fosters mindfulness, gratitude, and ethical living.","references":"Quran 7:31"},{"heading":"Mindful Consumption","content":"Eating and drinking in moderation sustains health, strengthens spiritual focus, and reflects gratitude to Allah.","references":"Quran 2:172"},{"heading":"Ethical Entertainment","content":"Choose activities that nurture virtue, knowledge, and social cohesion. Ethical recreation enhances personal and community well being.","references":"Quran 31:19"},{"heading":"Daily Worship Integrates Lifestyle","content":"Incorporating prayer, dhikr, and reflection into daily routines transforms ordinary life into ongoing worship, deepening spiritual connection.","references":"Quran 2:238"},{"heading":"Environment and Stewardship","content":"Caring for the earth and resources reflects obedience to Allah. Responsible stewardship ensures sustainability and benefits the community.","references":"Quran 6:141"},{"heading":"Lifestyle Shapes Character","content":"Daily routines influence spiritual and moral development. Aligning lifestyle with divine guidance ensures ethical behavior and holistic well being.","references":"Quran 2:286"},{"heading":"Consistency Builds Habits","content":"Regular practice of balanced habits fosters discipline, spiritual growth, and ethical living. Consistency strengthens connection to Allah and personal character.","references":"Hadith: Sahih Bukhari 6512"}]},{"chapterId":11,"title":"Family & Marriage: Building a Righteous Home","summary":"Building a righteous home rooted in mercy, equity, and collective worship mirrors the Prophet’s model.","overview":[{"heading":"Marriage is a Sacred Bond","content":"Marriage fosters companionship, love, and mutual support, reflecting divine guidance and strengthening family and societal cohesion.","references":"Quran 30:21"},{"heading":"Rights and Responsibilities","content":"Spouses must honor mutual rights and responsibilities, fostering harmony, ethical behavior, and fulfillment of divine guidance.","references":"Quran 2:228"},{"heading":"Parenting Requires Wisdom","content":"Raising children with faith, ethics, and love ensures moral development and strengthens familial bonds in line with Allah’s guidance.","references":"Quran 31:14"},{"heading":"Mutual Respect is Essential","content":"Respect between spouses nurtures trust, harmony, and spiritual growth, reflecting Islamic ethical principles.","references":"Quran 4:19"},{"heading":"Family Supports Spiritual Growth","content":"A supportive family fosters worship, ethical behavior, and faith, ensuring guidance and accountability within the household.","references":"Quran 66:6"},{"heading":"Love and Compassion","content":"Mutual affection nurtures emotional well being, strengthens family bonds, and aligns relationships with Allah’s teachings.","references":"Quran 30:21"},{"heading":"Fairness in Treatment","content":"Equity between family members prevents injustice, strengthens cohesion, and fulfills ethical responsibilities.","references":"Quran 4:3"},{"heading":"Maintaining Family Ties","content":"Regular contact, support, and respect strengthen kinship, build social cohesion, and fulfill divine guidance.","references":"Quran 4:1"},{"heading":"Communication is Key","content":"Open, respectful dialogue nurtures understanding, prevents conflict, and strengthens emotional bonds in the family.","references":"Quran 2:187"},{"heading":"Resolving Conflicts Peacefully","content":"Ethical dispute resolution ensures harmony, models patience, and strengthens marital and familial bonds.","references":"Quran 4:35"},{"heading":"Family Encourages Ethical Conduct","content":"Strong family values nurture honesty, kindness, and responsibility, fostering ethical behavior aligned with divine guidance.","references":"Quran 66:6"},{"heading":"Mutual Support During Trials","content":"Family offers emotional, spiritual, and practical support during challenges, reinforcing faith and resilience.","references":"Quran 2:286"},{"heading":"Balanced Roles Enhance Harmony","content":"Understanding and fulfilling complementary roles ensures equity, respect, and cooperation within the household.","references":"Quran 2:228"},{"heading":"Gratitude Strengthens Relationships","content":"Appreciating family members’ efforts nurtures respect, patience, and love, reflecting ethical and spiritual principles.","references":"Quran 14:7"},{"heading":"Spiritual Leadership at Home","content":"Guiding family in worship and ethical conduct ensures holistic growth, strong bonds, and alignment with Allah’s guidance.","references":"Quran 66:6"}]},{"chapterId":12,"title":"The Community: Building Ummah, Support, and Uplift","summary":"Islam thrives in community; this chapter explores solidarity, hospitality, and shared purpose.","overview":[{"heading":"Community Strengthens Faith","content":"Engaging in a righteous community fosters support, accountability, and shared worship. Collective action strengthens faith and promotes ethical behavior among members.","references":"Quran 3:104"},{"heading":"Supporting One Another","content":"Mutual assistance in times of need nurtures compassion, unity, and social responsibility while reflecting divine guidance in action.","references":"Quran 5:2"},{"heading":"Justice in Society","content":"Fair treatment of all community members ensures harmony, prevents conflict, and aligns society with Allah’s principles.","references":"Quran 4:58"},{"heading":"Inclusivity and Brotherhood","content":"Welcoming diversity and fostering equality strengthens social bonds. Unity and brotherhood reflect ethical conduct and divine guidance.","references":"Quran 49:13"},{"heading":"Resolving Conflicts Peacefully","content":"Encouraging dialogue and reconciliation maintains harmony, prevents injustice, and strengthens communal trust in accordance with Islamic principles.","references":"Quran 49:9"},{"heading":"Collective Worship","content":"Praying, fasting, and performing acts of charity together nurtures unity, strengthens faith, and fosters shared responsibility.","references":"Quran 9:71"},{"heading":"Charity Strengthens Community","content":"Giving zakat and sadaqah supports the needy, reduces inequality, and enhances social cohesion, reflecting ethical and spiritual responsibility.","references":"Quran 2:177"},{"heading":"Mentorship and Education","content":"Sharing knowledge and guidance empowers individuals, fosters ethical development, and strengthens community resilience and faith.","references":"Hadith: Sahih Muslim 2699"},{"heading":"Respecting Leaders","content":"Honoring just leadership nurtures stability, accountability, and obedience to ethical principles while ensuring communal well being.","references":"Quran 4:59"},{"heading":"Caring for the Vulnerable","content":"Protecting orphans, the poor, and the marginalized reflects divine mercy and strengthens community bonds.","references":"Quran 2:220"},{"heading":"Promoting Peace and Security","content":"Encouraging lawfulness, justice, and peaceful interactions ensures community safety, stability, and moral integrity.","references":"Quran 5:32"},{"heading":"Collaboration and Cooperation","content":"Working together in permissible endeavors nurtures mutual support, ethical behavior, and collective growth, reflecting shared responsibility to Allah.","references":"Quran 5:2"},{"heading":"Accountability Within the Community","content":"Members should encourage righteous behavior and discourage wrongdoing. Mutual accountability strengthens morality, unity, and shared faith.","references":"Quran 3:104"},{"heading":"Community Celebrations","content":"Shared worship, festivals, and gatherings enhance spiritual bonds, reinforce ethical teachings, and foster joy, gratitude, and unity.","references":"Hadith: Sahih Bukhari 967"},{"heading":"Continuous Support","content":"Consistently helping and uplifting members builds resilience, strengthens faith, and ensures that community remains a source of guidance, compassion, and ethical growth.","references":"Quran 2:177"}]},{"chapterId":13,"title":"The Future: Continuous Growth and Legacy","summary":"This chapter helps you set spiritual goals, document progress, and leave enduring impact.","overview":[{"heading":"The Future is Known to Allah","content":"Believers understand that only Allah knows what lies ahead. Trusting His wisdom nurtures patience, reduces anxiety, and encourages reliance on divine guidance.","references":"Quran 31:34"},{"heading":"Planning with Reliance","content":"While planning for the future is important, ultimate outcomes rest with Allah. Combining effort with reliance ensures balance, humility, and spiritual mindfulness.","references":"Quran 18:23 24"},{"heading":"Avoiding Worry About the Unknown","content":"Trust in Allah alleviates fear and anxiety. Faith in divine decree strengthens resilience and peace while facing uncertainty.","references":"Quran 65:2 3"},{"heading":"Preparation Through Good Deeds","content":"Actions in this life shape the future. Ethical behavior, worship, and righteous deeds ensure spiritual and worldly benefits.","references":"Quran 2:110"},{"heading":"Faith Guides Decisions","content":"Belief in Allah’s plan influences choices, ensuring ethical, informed, and purposeful action while trusting in divine wisdom.","references":"Quran 3:159"},{"heading":"Hope Anchors the Heart","content":"Believers remain hopeful in Allah’s mercy and plan. This optimism nurtures perseverance, patience, and resilience in life’s trials.","references":"Quran 39:53"},{"heading":"Actions Determine Outcomes","content":"While the future is known to Allah, human effort shapes results. Sincere action, intention, and planning are rewarded by divine decree.","references":"Quran 3:145"},{"heading":"Rely on Allah, Not Fear","content":"Fear of the future diminishes faith. Reliance on Allah instills courage, patience, and calmness in all circumstances.","references":"Quran 3:173"},{"heading":"Accountability in the Future","content":"Every action will be judged. Awareness of divine accountability motivates ethical conduct and spiritual mindfulness.","references":"Quran 99:7 8"},{"heading":"Future Depends on Intention","content":"Sincere intentions influence the impact of actions. Aligning purpose with Allah’s pleasure ensures that efforts are rewarded.","references":"Hadith: Sahih Bukhari 1"},{"heading":"Trust in Divine Wisdom","content":"Believers accept outcomes with understanding that Allah’s knowledge surpasses human perception, fostering contentment and resilience.","references":"Quran 2:216"},{"heading":"Patience Shapes the Future","content":"Enduring trials with patience and faith ensures spiritual growth and prepares believers for divine reward in both this life and the Hereafter.","references":"Quran 103:2 3"},{"heading":"Optimism Strengthens Action","content":"Positive expectation in Allah’s plan encourages proactive effort, ethical decision making, and resilience in adversity.","references":"Quran 3:139"},{"heading":"Prayers Influence the Future","content":"Supplication and consistent dhikr invite divine guidance, protection, and blessings, shaping both spiritual and worldly outcomes.","references":"Quran 2:186"},{"heading":"Faith Reduces Anxiety","content":"Belief in Allah’s control over the future fosters calmness, reliance, and contentment, even when facing uncertainty.","references":"Quran 65:3"}]},{"chapterId":14,"title":"The Hereafter: Realities, Death, Resurrection, and Mercy","summary":"The Hereafter pulls the heart toward lasting priorities; remembering death, the grave, and accountability strengthens every moment of obedience.","overview":[{"heading":"The Hereafter is Certain","content":"Belief in life after death shapes moral conduct, encourages ethical behavior, and reminds believers that every action has eternal significance.","references":"Quran 3:185"},{"heading":"Preparation Begins Now","content":"Righteous deeds, sincere worship, and ethical behavior prepare for the Hereafter, ensuring spiritual success and divine reward.","references":"Quran 6:132"},{"heading":"Accountability is Inevitable","content":"Every action, word, and intention will be judged. Awareness of accountability motivates ethical living and mindfulness.","references":"Quran 99:7 8"},{"heading":"The Hereafter Motivates Patience","content":"Belief in eternal reward encourages perseverance through hardships, strengthening trust in Allah’s wisdom and cultivating spiritual growth.","references":"Quran 31:34"},{"heading":"Justice Will Be Perfect","content":"Allah’s judgment is fair and precise. Belief in divine justice instills hope, discourages wrongdoing, and encourages ethical behavior.","references":"Quran 4:40"},{"heading":"Reward for Good Deeds","content":"Every act of worship, charity, and righteousness is recorded. Believers are assured of recompense in the eternal life.","references":"Quran 2:277"},{"heading":"Consequences of Sin","content":"Wrongdoing carries accountability in the Hereafter. Awareness of consequences encourages repentance, ethical behavior, and spiritual mindfulness.","references":"Quran 99:7 8"},{"heading":"Repentance Prepares the Soul","content":"Sincere repentance purifies the heart and protects from punishment. Regular self reflection aligns actions with Allah’s guidance.","references":"Quran 39:53"},{"heading":"The Hereafter Brings Justice","content":"Divine judgment restores balance, corrects injustice, and ensures that moral accountability is fulfilled perfectly.","references":"Quran 45:22"},{"heading":"Life is a Test","content":"This world is temporary; belief in the Hereafter reminds believers that challenges are trials shaping spiritual growth and divine reward.","references":"Quran 67:2"},{"heading":"The Hereafter Encourages Gratitude","content":"Awareness of eternal consequences fosters appreciation for Allah’s blessings, ethical living, and mindful worship.","references":"Quran 14:7"},{"heading":"Hope Strengthens Action","content":"Belief in Paradise motivates righteous deeds, ethical behavior, and perseverance, ensuring spiritual alignment with Allah’s pleasure.","references":"Quran 3:139"},{"heading":"Fear Prevents Wrongdoing","content":"Belief in divine punishment discourages sins, fosters self restraint, and aligns life with moral and spiritual guidance.","references":"Quran 67:2"},{"heading":"Life is Temporary","content":"This world is fleeting; the eternal Hereafter defines true success. Focus on ethical behavior and worship ensures spiritual fulfillment.","references":"Quran 57:20"},{"heading":"Continuous Reflection is Key","content":"Regular contemplation of the Hereafter strengthens faith, guides ethical conduct, and ensures preparedness for eternal life.","references":"Quran 59:18"}]},{"chapterId":15,"title":"Paradise & Hell: Rewards, Warnings, and Motivation","summary":"Visualize the eternal abodes so gratitude grows and warnings keep you humble.","overview":[{"heading":"Paradise is Eternal Reward","content":"Believers who follow Allah’s guidance are promised eternal bliss in Paradise, a place of peace, happiness, and divine pleasure.","references":"Quran 18:107"},{"heading":"Hell is a Consequence of Sin","content":"Those who reject guidance and persist in wrongdoing face punishment. Awareness of Hell encourages ethical behavior and sincere repentance.","references":"Quran 4:56"},{"heading":"Paradise Rewards Faith and Deeds","content":"Good deeds, worship, and sincere intentions lead to Paradise. Belief motivates ethical actions and spiritual mindfulness in daily life.","references":"Quran 2:82"},{"heading":"Hell Warns Against Disobedience","content":"Knowledge of divine punishment deters sins, encourages repentance, and strengthens commitment to ethical and spiritual conduct.","references":"Quran 67:6"},{"heading":"Paradise is a Source of Hope","content":"Aspiration for eternal reward inspires patience, perseverance, and consistent worship, guiding believers toward Allah’s pleasure.","references":"Quran 9:72"},{"heading":"Hell Encourages Mindfulness","content":"Awareness of punishment cultivates vigilance in deeds, honesty, and accountability to Allah in all actions.","references":"Quran 78:21 30"},{"heading":"Paradise is Attained Through Mercy","content":"Allah’s mercy enables entry into Paradise. Faith, worship, and sincere intentions invite divine pleasure and eternal reward.","references":"Quran 39:53"},{"heading":"Hell is Just Punishment","content":"Divine justice ensures that wrongdoing is appropriately addressed. Awareness strengthens moral behavior and encourages ethical decision making.","references":"Quran 99:7 8"},{"heading":"Rewards are Proportional to Deeds","content":"Every action, small or large, influences eternal outcome. Ethical conduct and worship ensure reward and closeness to Allah.","references":"Quran 6:160"},{"heading":"Hell is Avoided Through Repentance","content":"Sincere repentance and ethical correction prevent punishment, ensuring spiritual growth and alignment with divine guidance.","references":"Quran 25:70"},{"heading":"Paradise Inspires Ethical Living","content":"Hope for eternal reward motivates righteous deeds, patience, gratitude, and compassionate interactions with others.","references":"Quran 3:133"},{"heading":"Hell Encourages Reflection","content":"Considering consequences of sin strengthens mindfulness, self restraint, and ethical alignment with Allah’s commands.","references":"Quran 74:26 30"},{"heading":"Paradise is Beyond Imagination","content":"Descriptions of eternal bliss inspire devotion and reinforce that ultimate fulfillment comes from Allah, motivating ethical and spiritual perseverance.","references":"Quran 76:12 14"},{"heading":"Hell Warns of Neglect","content":"Neglecting guidance leads to punishment. Awareness encourages responsibility, repentance, and continuous effort to align life with divine instruction.","references":"Quran 6:128"},{"heading":"Continuous Effort Ensures Reward","content":"Regular worship, ethical behavior, and sincere intention are keys to Paradise, while avoiding sin prevents Hell, reinforcing accountability in daily life.","references":"Quran 2:277"}]}]');
 
 /***/ }),
 
@@ -4578,7 +4328,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundatio
   \*************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapterTitle":"The Foundation","plans":[{"planId":"7-day","title":"7-Day Week Plan","duration":"7 days","description":"Use this week to revisit the heart of Tawheed and let its clarity breathe through your days.","highlights":["Start every morning with Surah al-Ikhlas, then write one new meaning about Allah’s oneness.","Midweek, revisit the moment of the first revelation and note how Tawheed fueled the Prophet’s courage.","Share a short reflection about prophetic identity with someone before sunset.","Root an afternoon pause around how Tawheed influenced a recent decision you made with your family.","Finish the week by crafting a dua that praises Allah’s unity and points to one habit you will keep."]},{"planId":"14-day","title":"14-Day Journey","duration":"14 days","description":"Across two weeks, weave Tawheed into your rhythm with gentle check-ins and family reminders.","highlights":["Day 1: Map your current understanding of Tawheed on a page, then revisit it on day 7 for discoveries.","Lean on Surah al-Ikhlas twice a day  morning and before bed  to steady your breath and intention.","Invite a friend into an evening chat about how the oneness of Allah guides your choices.","Use a weekend diary entry to compare the weight of Tawheed on your conversations versus last month.","Record a voice note that narrates a moment when Tawheed reshaped your outlook, and replay it on day 14."]},{"planId":"30-day","title":"30-Day Immersion","duration":"30 days","description":"Let thirty days of The Foundation make Tawheed feel second nature in every routine.","highlights":["Create a weekly prompt list (e.g., gratitude, decisions, hospitality) that ties back to Tawheed.","Use Weeks 2 and 3 to practice gentle reminders about the oneness of Allah with your household.","Journal a short story each Sunday about how prophetic identity influenced your compassion.","Design a nightly reflection where you note one moment Tawheed shaped a conversation or choice.","In the final week, share a heartfelt dua or poem that celebrates Allah’s singularity and steadies your pace."]}]},{"chapterId":2,"chapterTitle":"The Beliefs","plans":[{"planId":"7-day","title":"7-Day Week Plan","duration":"7 days","description":"Use this week to ground yourself in the six articles of faith through quick, vivid reminders.","highlights":["Pin a card of the six articles near your mirror and read one aloud each morning.","Dedicate an afternoon to exploring the angels  note which angelic attribute inspires you most.","Call a trusted guide to share one new insight about Qadar that surprised you this week.","Track a simple decision each night and label the articles of faith that influenced it.","Close the week with a dua that weaves together belief, patience, and trust in Allah’s plan."]},{"planId":"14-day","title":"14-Day Plan","duration":"14 days","description":"Stretch your trust in the six articles over two weeks by journaling and sharing stories.","highlights":["Alternate days between reading a section of The Beliefs and writing how it resounded in your life.","Spend one evening letting belief in the angels color an intention for the next day.","Organize a mid-plan check-in (even a quick voice note) with someone about Qadar’s lessons.","On day 10, pause to note how love for the Quran made the articles more heartfelt.","End with a match-up: pick an article and pair it with a dua or reflection you can return to."]},{"planId":"30-day","title":"30-Day Formation","duration":"30 days","description":"Let thirty days of The Beliefs turn the six pillars of creed into steady, lived trust.","highlights":["Week 1: Chart the articles on a poster and place it where everyone in your home can see it.","Weeks 2-3: Practice a daily habit tied to each article  e.g., gratitude for Divine decree or Prophet love.","Week 3 highlight: Recite a verse that echoes belief in angels, then journal its impact.","Week 4: Share or record a story about how trust in Qadar shaped a major choice.","Cap the month with a simple ritual that turns steady testimony into a daily reminder."]}]},{"chapterId":3,"chapterTitle":"The Pillars","plans":[{"planId":"7-day","title":"Seven-Day Check-In","duration":"7 days","description":"Let seven days of The Pillars reinforce your daily acts of worship with tiny checkpoints.","highlights":["Start each morning by naming which pillar you are honoring that day  Shahada, Salah, Zakat, Sawm, or Hajj.","Pause before Salah to check your posture, breath, and focus; make it a mini mindfulness reset.","Midweek, dedicate a short post-Prayer note to how charity moves your heart.","Reflect over lunch on Ramadan rhythms you can carry forward even outside the fast.","End the week by mapping how pilgrimage  even in thought  inspires your habits."]},{"planId":"14-day","title":"14-Day Reflection","duration":"14 days","description":"Frame two weeks around The Pillars by rotating through rituals and reflective prompts.","highlights":["Alternate mornings between reading about each pillar and planning one small action that mirrors it.","Let Salah posture and presence guide an evening dua so worship feels deliberate.","Arrange a quick mid-plan reflection on Ramadan lanterns that symbolize nourishment for the soul.","Use day 10 to note how community outreach mirrors charity and keeps faith alive.","Record one voice note describing how the Five Pillars shaped a choice you’re proud of."]},{"planId":"30-day","title":"30-Day Rhythm","duration":"30 days","description":"Build a thirty-day practice where The Pillars anchor your habit loops.","highlights":["Week 1: Draft a daily checklist that touches on at least one pillar with every sunrise.","Weeks 2-3: Layer small rituals such as dhuhr reflection or sharing zakat stories with a friend.","Week 4: Capture a story about Ramadan lanterns or community gatherings that highlight steadfast faith.","Finish each week with a gratitude note tying the pillar you practiced most to a moment of calm.","Wrap the month with a dua asking Allah to keep the Five Pillars steady in your heart."]}]},{"chapterId":4,"chapterTitle":"The Quran","plans":[{"planId":"7-day","title":"7-Day Recitation","duration":"7 days","description":"Lean into the living Quran by pairing short recitations with lived meaning this week.","highlights":["Begin the day with a calm recitation, then note one verse that felt like a personal message.","Choose a tafsir nugget each afternoon and explain it aloud to yourself or a friend.","Schedule a quiet evening to memorize a line, then practice it with proper tajweed.","Jot down how today’s recitation shaped a decision or conversation.","Close the week by committing to one dua inspired by the Quranic theme you studied."]},{"planId":"14-day","title":"14-Day Study","duration":"14 days","description":"Over two weeks, make Quranic reflection a rhythm of mindfulness and actionable gratitude.","highlights":["Alternate reading sessions between narrative surahs and shorter lyrical ones.","Let recitation cadence determine the tempo of your evening dua.","Find one tafsir note that shifts how you view mercy, then weave it into a conversation.","Mid-plan, pause to celebrate how memorized verses have grown your peace.","Record an audio reminder of your favorite verse to replay when you need calm."]},{"planId":"30-day","title":"30-Day Immersion","duration":"30 days","description":"Let thirty days of Quran study transform your habits with steady recitation and reflection.","highlights":["Week 1: Outline a small recitation plan (e.g., quarter juz per day) and honor the timing.","Weeks 2-3: Layer discussions about tafsir with family or peers to deepen understanding.","Week 4: Compile a story about how a memorized verse steadied you during a challenge.","Tie each Saturday walk to silent Quranic contemplation, noting emotional shifts.","End the month with a dua of gratitude for the living guidance of the Quran."]}]},{"chapterId":5,"chapterTitle":"The Prophet","plans":[{"planId":"7-day","title":"7-Day Manners","duration":"7 days","description":"Dedicate a week to reflecting on the Prophet’s manners and letting them shape your tone.","highlights":["Morning thought: Which Prophetic trait will you carry today  kind speech, patience, generosity?","Midday, recall a companion story that spotlights mercy in speech.","Invite someone into a conversation about prophetic hospitality before sunset.","Journal how prophetic kindness influenced a family interaction.","Close the week with a dua to emulate the Prophet’s calm, steady confidence."]},{"planId":"14-day","title":"14-Day Emulation","duration":"14 days","description":"Use two weeks to internalize the Prophet’s manners through observing and practicing them.","highlights":["Alternate days between reading about a different Prophetic story and applying its lesson.","Let family time echo prophetic generosity  help someone without expectation.","Mid-plan, check in on your speech: are you gentle, honest, uplifting?","Share a reflection about mercy in speech on day 10.","Record a voice note describing how kindness to neighbors mirrored the Prophet’s path."]},{"planId":"30-day","title":"30-Day Legacy","duration":"30 days","description":"Let the Prophet’s life guide thirty days of intention, empathy, and steady conduct.","highlights":["Week 1: Plan a daily act of kindness inspired by the Prophet’s rhythm.","Weeks 2-3: Layer midday reminders about prophetic hospitality, honesty, mercy.","Week 3 reflection: note how mercy in speech settled a tense exchange.","Record a story about a companion who modeled generosity and apply that habit.","Finish the month by expressing gratitude for the Prophet’s lessons and entrusting their continuation."]}]},{"chapterId":6,"chapterTitle":"The Prayer","plans":[{"planId":"7-day","title":"7-Day Rhythm","duration":"7 days","description":"Anchor your days this week around Salah, letting each prayer become a mindful stop.","highlights":["Before each prayer, spend thirty seconds to breathe, settle your eyes, and set an intention.","Check your wudu routine midweek  keep it calm and consistent.","After Asr, note how the prayer steadied your energy.","Play a gentle call to prayer, then reflect on its cadence with gratitude.","End the week by reciting a short dua that celebrates the closeness Salah creates."]},{"planId":"14-day","title":"14-Day Discipline","duration":"14 days","description":"Over two weeks, make Salah a steady rhythm by pairing it with reflection rituals.","highlights":["Alternate between quiet contemplation and expressive thankfulness after each prayer.","Let clean prayer space remind you of the sanctity of stillness.","Invite a family member into a mini dialogue about what Salah awakens.","Use day 10 to note how Salah calmed a worry or restored focus.","Record a voice reminder of one new dhikr you are holding onto."]},{"planId":"30-day","title":"30-Day Foundation","duration":"30 days","description":"Turn Salah into a monthly guide, weaving discipline and humility into the five prayers.","highlights":["Week 1: Assign a focus word to each prayer (e.g., gratitude for Fajr, patience for Dhuhr).","Weeks 2-3: Layer short walking meditations before Salah to signal a shift in mood.","Week 4: Capture how consistent call to prayer reinforced your daily boundaries.","Practice a weekly dhikr circle, sharing favorite phrases with close friends.","Close the month by thanking Allah for the rhythm that anchors your day."]}]},{"chapterId":7,"chapterTitle":"The Future","plans":[{"planId":"7-day","title":"7-Day Vision","duration":"7 days","description":"Build a week of future-forward dua and intentional planning with meaningful steps.","highlights":["Anchor a morning vision: what future God-pleasing step can you take today?","Thread a vision board detail into a short dua for guidance.","Share a commitment track note with someone who keeps you aligned.","Journal how mentorship touchpoints shaped a decision this week.","End the week by thanking Allah for steady progress and charting the next focus."]},{"planId":"14-day","title":"14-Day Futures","duration":"14 days","description":"Let two weeks of future planning include measurable goals, dua, and reflective checkpoints.","highlights":["Alternate days between plotting actionable goals and writing gratitude for unfolding blessings.","Let your vision board influence a nightly dua of trust.","Invite a mentor into a check-in about your commitment track.","Pause on day 12 to review what shifted after mentorship feedback.","Record a recap of how future planning made you feel grounded."]},{"planId":"30-day","title":"30-Day Roadmap","duration":"30 days","description":"Let thirty days of future planning create a sustainable roadmap filled with prayer and purpose.","highlights":["Week 1: Draft a simple plan with quarterly milestones and dua markers.","Weeks 2-3: Layer accountability meetings, journaling what mentors helped you see.","Week 4: Capture how long-term dua shaped one real choice.","Treat every Sunday as a future reflection walk, noting how planning eased anxiety.","Close the month with a heartfelt dua for clarity, resilience, and right timing."]}]},{"chapterId":8,"chapterTitle":"Paradise & Hell","plans":[{"planId":"7-day","title":"7-Day Balance","duration":"7 days","description":"Use seven days to let paradise dreams and hellfire warnings sharpen your gratitude.","highlights":["Begin the week listing deeds that point toward paradise dreams.","Thread hellfire warnings into a short dua that keeps you honest about choices.","Share intentional fasting prep tips with someone before sunset.","Journal how restraint aligned with hope for paradise.","Close the week by naming legacy prayers you want to leave for others."]},{"planId":"14-day","title":"14-Day Contrast","duration":"14 days","description":"Over two weeks, hold paradise dreams close while staying aware of hellfire reminders.","highlights":["Alternate reflecting on blessings with reminders about accountability.","Let hellfire warnings nudge more deliberate dua before each meal.","Invite a friend into intentional fasting prep conversations.","Pause on day 13 to reflect on how legacy prayers shaped your choices.","Record a voice note celebrating the small wins that edged you toward paradise."]},{"planId":"30-day","title":"30-Day Horizon","duration":"30 days","description":"Let thirty days of Paradise & Hell keep your heart balanced between hope and awe.","highlights":["Week 1: Outline a daily dua that circles paradise dreams and steady habits.","Weeks 2-3: Layer hellfire reminders and honesty checks into evening reflections.","Week 4: Capture a story about intentional fasting prep and spiritual clarity.","Resolve a weekly kindness challenge that offers hope to someone who needs it.","Treat a quiet walk as time to honor legacy prayers and note how they shifted your pace."]}]},{"chapterId":9,"chapterTitle":"Dua & Dhikr","plans":[{"planId":"7-day","title":"7-Day Remembrance","duration":"7 days","description":"Lean into Dua & Dhikr for a week of heartfelt whispers and gratitude lists.","highlights":["Start each dawn with five minutes of dhikr centered on gratitude.","Compile a list of blessed supplications you can replay before major decisions.","Share one dua with a loved one, explaining why it moves you.","Spend a lunchtime reflecting on which dhikr gave you calm this week.","End the week by writing a brief thank-you note that mirrors your favorite dua."]},{"planId":"14-day","title":"14-Day Flow","duration":"14 days","description":"Stretch Dua & Dhikr over two weeks, mixing quiet recitation with joyful reminders.","highlights":["Alternate days between exploring new dhikr phrases and journaling how they feel.","Let evening gratitude lists include at least one supplication you memorized.","Invite a friend into a quick audio chat about which duas uplift you most.","Pause on day 10 to breathe through a dhikr loop focused on Divine mercy.","Record a voice note that vocalizes your favorite dua and replay it on tougher days."]},{"planId":"30-day","title":"30-Day Remembrance","duration":"30 days","description":"Build a thirty-day Dua & Dhikr habit so remembrance becomes second nature.","highlights":["Week 1: Craft a dua journal and leave daily ink footprints of how each supplication lands.","Weeks 2-3: Layer short dhikr loops during breaks  SubhanAllah, Alhamdulillah, Allahu Akbar.","Week 3: Share a story about a dua answered or a dhikr that calmed you.","Week 4: Treat one evening to a gratitude list that weaves in your most repeated supplications.","Wrap the month with a simple dua asking Allah to keep your tongue soft in remembrance."]}]},{"chapterId":10,"chapterTitle":"The Heart","plans":[{"planId":"7-day","title":"7-Day Heart Cleanse","duration":"7 days","description":"Focus this week on purifying the heart with intentional pauses and honesty.","highlights":["Begin each day with a silent inventory: what emotion needs releasing?","Carry a small intention card reminding you to let go of grudges before noon.","Invite someone into a conversation about intentional purification and listen more than speak.","Use your evening reflection to ask: did my heart align with my actions today?","Close the week with a dua that seeks sincerity and gentle accountability."]},{"planId":"14-day","title":"14-Day Gentle Reset","duration":"14 days","description":"Build two weeks of heart hygiene where grateful pauses replace autopilot moods.","highlights":["Alternate between journaling about mercy and writing one kindness you can extend tomorrow.","Let intentional purification remind you to release one resentment each week.","Invite a mentor into a check-in about your emotional tempo mid-plan.","Pause on day 10 to record how nightly reflections reshaped your narrative.","Schedule a short walk where you repeat a gentle mantra centered on healing."]},{"planId":"30-day","title":"30-Day Purification","duration":"30 days","description":"Turn thirty days into a purification journey that keeps your heart soft and responsive.","highlights":["Week 1: Establish morning gratitude, midday silence, evening honesty with self.","Weeks 2-3: Layer routines that replace resentment with service-oriented actions.","Week 4: Capture a story about intentional purification during a quiet sit-down.","Treat Sunday walks as time to pray for clarity, jotting two insights afterward.","End the month asking Allah to guard your heart from what distracts and dulls it."]}]},{"chapterId":11,"chapterTitle":"The Hereafter","plans":[{"planId":"7-day","title":"7-Day Eternity","duration":"7 days","description":"Warm up to the Hereafter lens with brief rituals that keep eternity in view.","highlights":["Dedicate morning silence to imagining the Hereafter as a steady horizon.","Thread grave reminders into an evening dua, asking for preparedness.","Share a soulful pause with someone about afterlife hope notes.","Reflect on how small kind deeds today tie into your legacy log.","End the week by listing three hopes you have for the Hereafter and naming steps toward them."]},{"planId":"14-day","title":"14-Day Silence","duration":"14 days","description":"Lift your heart over two weeks with reminders of the soul’s long path beyond this life.","highlights":["Alternate between reading about the Hereafter and writing how it reframes priorities.","Use grave reminders to slow your pace before big decisions.","Invite someone to discuss soulful pauses and gratitude.","Pause on day 11 to record how kind deeds log keeps you humble.","Record a dua focused on steady hope."]},{"planId":"30-day","title":"30-Day Hereafter","duration":"30 days","description":"Let thirty days of The Hereafter deepen your hope, remembrance, and purposeful living.","highlights":["Week 1: Begin each day with a reminder of Allah’s mercy for the next life.","Weeks 2-3: Layer reflective journaling on soulful pauses and gratitude.","Week 4: Capture a story about a moment the Hereafter lens calmed your panic.","Make weekly walks times to ponder kind deeds log and ripple effects.","Close the month with a dua asking Allah to ease the transition between this life and the next."]}]},{"chapterId":12,"chapterTitle":"The Manners","plans":[{"planId":"7-day","title":"7-Day Etiquette","duration":"7 days","description":"Spend a week polishing Islamic etiquette through humble gestures and kind speech.","highlights":["Set a daily goal to start a conversation with a gentle greeting.","Carry kindness cards reminding you to share food or gratitude with someone new.","During a midday break, practice active listening without interrupting.","Capture how family respect shaped a decision at dinner tonight.","End the week by sharing a sincere compliment rooted in Islamic adab."]},{"planId":"14-day","title":"14-Day Etiquette","duration":"14 days","description":"Double the good manners by reflecting on etiquette, generosity, and grace for two weeks.","highlights":["Alternate between reading an etiquette story and practicing that gesture.","Let gentle greetings thread through your messages and quick calls throughout the day.","Invite someone to recount a time hospitality softened a hard moment.","Pause on day 11 to note how family respect and humility amplified your patience.","Record a short voice clip documenting when grace ruled a tense encounter."]},{"planId":"30-day","title":"30-Day Decorum","duration":"30 days","description":"Let Islamic etiquette shape a thirty-day demeanor upgrade  patient, generous, respectful.","highlights":["Week 1: Draft a reminder to balance honesty with kindness in every interaction.","Weeks 2-3: Layer hospitality acts, like offering tea or a listening ear, into weekend routines.","Week 3 check-in: notice how polite speech steadied a tense encounter.","Share a story about sharing food restoring warmth between neighbors.","Close the month thanking Allah for the manners that keep hearts connected."]}]},{"chapterId":13,"chapterTitle":"The Lifestyle","plans":[{"planId":"7-day","title":"7-Day Choices","duration":"7 days","description":"Use this week to test halal habits around eating, earning, and peaceful boundaries.","highlights":["Plan a halal-heavy meal and savor the ethical choices behind each bite.","Thread intentional consumption reminders into a short dua before shopping.","Share a note about ethical investing with someone curious about fasting finances.","Journal how gratitude for food kept waste low during a busy day.","Celebrate one conscious purchase that aligned with your values."]},{"planId":"14-day","title":"14-Day Rhythm","duration":"14 days","description":"Frame two weeks around mindful spending, eating, and restful pauses.","highlights":["Alternate days between planning purposeful meals and reflecting on ethical choices.","Let intentional consumption guide a conversation about gratitude with your household.","Invite a loved one to review your financial boundaries and celebrate responsible steps.","Pause on day 12 to note how halal choices grounded you when temptation surfaced.","Record a voice note summarizing new rhythms you want to keep."]},{"planId":"30-day","title":"30-Day Integrity","duration":"30 days","description":"Let thirty days of The Lifestyle shape a narrative of halal confidence and gratitude.","highlights":["Week 1: Create a boundary chart for sleep, food, and spending.","Weeks 2-3: Layer grateful dhikr with each meal, thanking Allah for halal options.","Week 4: Capture a story about intentional consumption that shifted your pace before Ramadan.","Steer one weekend toward community sharing, like donating time or food.","Wrap the month with a dua asking Allah to keep your lifestyle purposeful."]}]},{"chapterId":14,"chapterTitle":"Family & Marriage","plans":[{"planId":"7-day","title":"7-Day Circle","duration":"7 days","description":"Focus a week on deepening family conversations and honoring marriage goals with gentle actions.","highlights":["Schedule a fifteen-minute intentional chat with a family member about daily hopes.","Thread household rituals into your dua, asking Allah to bless the connections.","Share one idea for marriage goals or parenting pauses during dinner.","Journal how community service during the week strengthened your family bond.","Celebrate listening fully with a small handwritten note or sweet act."]},{"planId":"14-day","title":"14-Day Family","duration":"14 days","description":"Make family conversations steady, respectful, and future-focused.","highlights":["Alternate days between checking in with parents and planning a marriage goal.","Let household rituals  shared meals, morning du’a  be intentional connectors.","Invite someone to co-create a parenting pause idea (tech-free hour, guided dua).","Pause on day 11 to note how community service seeded gratitude in your home.","Record how listening more opened warm doors."]},{"planId":"30-day","title":"30-Day Home","duration":"30 days","description":"Let thirty days of Family & Marriage bring purposeful space, grounded rituals, and patience.","highlights":["Week 1: Build a simple routine of daily gratitude with your household.","Weeks 2-3: Layer family service  prepping a meal or volunteering.","Week 4: Capture a story about marriage goals you are pursuing together.","Use walks to discuss long-term dreams and recount kind deeds.","Close the month with a dua asking Allah to bless your home and soften your hearts."]}]},{"chapterId":15,"chapterTitle":"The Community","plans":[{"planId":"7-day","title":"7-Day Ummah","duration":"7 days","description":"Use this week to uplift your Ummah with small but steady actions.","highlights":["Offer a neighbor a warm greeting and a small act of kindness each day.","Thread neighborly kindness into a short dua for those in need.","Share a story about a sadaqah plan and invite someone to participate.","Journal how community stories shaped your gratitude tonight.","Plan a volunteer promise  drop off food, call an elder, or send a message."]},{"planId":"14-day","title":"14-Day Support","duration":"14 days","description":"Half a month devoted to Ummah support, good company, and shared care.","highlights":["Alternate between reading uplifting community stories and offering your time.","Let neighborly kindness be the theme of one evening dua.","Invite someone to check in about ongoing sadaqah plans.","Pause on day 13 to log how community story-sharing uplifted you.","Record how you stepped into a volunteer promise."]},{"planId":"30-day","title":"30-Day Ummah","duration":"30 days","description":"Let thirty days of The Community thread kindness, sadaqah, and hospitality into your calendar.","highlights":["Week 1: Map a micro-volunteer plan that fits your schedule.","Weeks 2-3: Layer neighborhood check-ins and small prayer gatherings.","Week 3 reflection: note how small acts of kindness created ripples.","Share a story about a sadaqah plan and how it felt.","Round out the month with a dua for unity, peace, and strong support."]}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapterTitle":"The Foundation","plans":[{"planId":"7-day","title":"7-Day Week Plan","duration":"7 days","description":"Use this week to revisit the heart of Tawheed and let its clarity breathe through your days.","highlights":["Pin a card of the six articles near your mirror and read one aloud each morning.","Dedicate an afternoon to exploring the angels  note which angelic attribute inspires you most.","Call a trusted guide to share one new insight about Qadar that surprised you this week.","Track a simple decision each night and label the articles of faith that influenced it.","Close the week with a dua that weaves together belief, patience, and trust in Allah’s plan.","Day 6: Read the story of Prophet Ibrāhīm\'s search for truth (Qur\'an 6:76-79).","Day 7: Self-audit: What/who do you love, fear, and hope in most?"]},{"planId":"14-day","title":"14-Day Journey","duration":"14 days","description":"Across two weeks, weave Tawheed into your rhythm with gentle check-ins and family reminders.","highlights":["Week 1 Focus: Understanding Islam vs. Īmān vs. Iḥsān.","Study the Ḥadīth of Jibrīl (Bukhari 50).","Memorize the 6 pillars of Īmān.","Week 2 Focus: Avoiding Shirk in daily life.","Learn 5 major and 5 minor forms of Shirk.","Purify one daily habit of showing off (Riyā\')"]},{"planId":"30-day","title":"30-Day Immersion","duration":"30 days","description":"Let thirty days of The Foundation make Tawheed feel second nature in every routine.","highlights":["Week 1-2: Deep study of Tawheed al-Rubūbiyyah – recognize Allāh\'s control in every aspect of life.","Week 3: Deep study of Tawheed al-Asmā\' waṣ-Ṣifāt – learn 30 Names with proofs.","Week 4: Deep study of Tawheed al-‘Ibādah – audit all acts of worship for sincerity.","Ongoing: Read Kitāb at-Tawheed by Muhammad ibn \'Abd al-Wahhāb with explanation."]}]},{"chapterId":2,"chapterTitle":"The Beliefs","plans":[{"planId":"7-day","title":"7-Day Week Plan","duration":"7 days","description":"Use this week to ground yourself in the six articles of faith through quick, vivid reminders.","highlights":["Pin a card of the six articles near your mirror and read one aloud each morning.","Dedicate an afternoon to exploring the angels  note which angelic attribute inspires you most.","Call a trusted guide to share one new insight about Qadar that surprised you this week.","Track a simple decision each night and label the articles of faith that influenced it.","Close the week with a dua that weaves together belief, patience, and trust in Allah’s plan.","Day 6: Read the story of Prophet Ibrāhīm\'s search for truth (Qur\'an 6:76-79).","Day 7: Self-audit: What/who do you love, fear, and hope in most?"]},{"planId":"14-day","title":"14-Day Plan","duration":"14 days","description":"Stretch your trust in the six articles over two weeks by journaling and sharing stories.","highlights":["Week 1 Focus: Understanding Islam vs. Īmān vs. Iḥsān.","Study the Ḥadīth of Jibrīl (Bukhari 50).","Memorize the 6 pillars of Īmān.","Week 2 Focus: Avoiding Shirk in daily life.","Learn 5 major and 5 minor forms of Shirk.","Purify one daily habit of showing off (Riyā\')"]},{"planId":"30-day","title":"30-Day Formation","duration":"30 days","description":"Let thirty days of The Beliefs turn the six pillars of creed into steady, lived trust.","highlights":["Week 1-2: Deep study of Tawheed al-Rubūbiyyah – recognize Allāh\'s control in every aspect of life.","Week 3: Deep study of Tawheed al-Asmā\' waṣ-Ṣifāt – learn 30 Names with proofs.","Week 4: Deep study of Tawheed al-‘Ibādah – audit all acts of worship for sincerity.","Ongoing: Read Kitāb at-Tawheed by Muhammad ibn \'Abd al-Wahhāb with explanation."]}]},{"chapterId":3,"chapterTitle":"The Pillars","plans":[{"planId":"7-day","title":"Seven-Day Check-In","duration":"7 days","description":"Let seven days of The Pillars reinforce your daily acts of worship with tiny checkpoints.","highlights":["Start each morning by naming which pillar you are honoring that day  Shahada, Salah, Zakat, Sawm, or Hajj.","Pause before Salah to check your posture, breath, and focus; make it a mini mindfulness reset.","Midweek, dedicate a short post-Prayer note to how charity moves your heart.","Reflect over lunch on Ramadan rhythms you can carry forward even outside the fast.","End the week by mapping how pilgrimage  even in thought  inspires your habits."]},{"planId":"14-day","title":"14-Day Reflection","duration":"14 days","description":"Frame two weeks around The Pillars by rotating through rituals and reflective prompts.","highlights":["Alternate mornings between reading about each pillar and planning one small action that mirrors it.","Let Salah posture and presence guide an evening dua so worship feels deliberate.","Arrange a quick mid-plan reflection on Ramadan lanterns that symbolize nourishment for the soul.","Use day 10 to note how community outreach mirrors charity and keeps faith alive.","Record one voice note describing how the Five Pillars shaped a choice you’re proud of."]},{"planId":"30-day","title":"30-Day Rhythm","duration":"30 days","description":"Build a thirty-day practice where The Pillars anchor your habit loops.","highlights":["Week 1: Draft a daily checklist that touches on at least one pillar with every sunrise.","Weeks 2-3: Layer small rituals such as dhuhr reflection or sharing zakat stories with a friend.","Week 4: Capture a story about Ramadan lanterns or community gatherings that highlight steadfast faith.","Finish each week with a gratitude note tying the pillar you practiced most to a moment of calm.","Wrap the month with a dua asking Allah to keep the Five Pillars steady in your heart."]}]},{"chapterId":4,"chapterTitle":"The Quran","plans":[{"planId":"7-day","title":"7-Day Recitation","duration":"7 days","description":"Lean into the living Quran by pairing short recitations with lived meaning this week.","highlights":["Begin the day with a calm recitation, then note one verse that felt like a personal message.","Choose a tafsir nugget each afternoon and explain it aloud to yourself or a friend.","Schedule a quiet evening to memorize a line, then practice it with proper tajweed.","Jot down how today’s recitation shaped a decision or conversation.","Close the week by committing to one dua inspired by the Quranic theme you studied."]},{"planId":"14-day","title":"14-Day Study","duration":"14 days","description":"Over two weeks, make Quranic reflection a rhythm of mindfulness and actionable gratitude.","highlights":["Alternate reading sessions between narrative surahs and shorter lyrical ones.","Let recitation cadence determine the tempo of your evening dua.","Find one tafsir note that shifts how you view mercy, then weave it into a conversation.","Mid-plan, pause to celebrate how memorized verses have grown your peace.","Record an audio reminder of your favorite verse to replay when you need calm."]},{"planId":"30-day","title":"30-Day Immersion","duration":"30 days","description":"Let thirty days of Quran study transform your habits with steady recitation and reflection.","highlights":["Week 1: Outline a small recitation plan (e.g., quarter juz per day) and honor the timing.","Weeks 2-3: Layer discussions about tafsir with family or peers to deepen understanding.","Week 4: Compile a story about how a memorized verse steadied you during a challenge.","Tie each Saturday walk to silent Quranic contemplation, noting emotional shifts.","End the month with a dua of gratitude for the living guidance of the Quran."]}]},{"chapterId":5,"chapterTitle":"The Prophet","plans":[{"planId":"7-day","title":"7-Day Manners","duration":"7 days","description":"Dedicate a week to reflecting on the Prophet’s manners and letting them shape your tone.","highlights":["Morning thought: Which Prophetic trait will you carry today  kind speech, patience, generosity?","Midday, recall a companion story that spotlights mercy in speech.","Invite someone into a conversation about prophetic hospitality before sunset.","Journal how prophetic kindness influenced a family interaction.","Close the week with a dua to emulate the Prophet’s calm, steady confidence."]},{"planId":"14-day","title":"14-Day Emulation","duration":"14 days","description":"Use two weeks to internalize the Prophet’s manners through observing and practicing them.","highlights":["Alternate days between reading about a different Prophetic story and applying its lesson.","Let family time echo prophetic generosity  help someone without expectation.","Mid-plan, check in on your speech: are you gentle, honest, uplifting?","Share a reflection about mercy in speech on day 10.","Record a voice note describing how kindness to neighbors mirrored the Prophet’s path."]},{"planId":"30-day","title":"30-Day Legacy","duration":"30 days","description":"Let the Prophet’s life guide thirty days of intention, empathy, and steady conduct.","highlights":["Week 1: Plan a daily act of kindness inspired by the Prophet’s rhythm.","Weeks 2-3: Layer midday reminders about prophetic hospitality, honesty, mercy.","Week 3 reflection: note how mercy in speech settled a tense exchange.","Record a story about a companion who modeled generosity and apply that habit.","Finish the month by expressing gratitude for the Prophet’s lessons and entrusting their continuation."]}]},{"chapterId":6,"chapterTitle":"The Prayer","plans":[{"planId":"7-day","title":"7-Day Rhythm","duration":"7 days","description":"Anchor your days this week around Salah, letting each prayer become a mindful stop.","highlights":["Before each prayer, spend thirty seconds to breathe, settle your eyes, and set an intention.","Check your wudu routine midweek  keep it calm and consistent.","After Asr, note how the prayer steadied your energy.","Play a gentle call to prayer, then reflect on its cadence with gratitude.","End the week by reciting a short dua that celebrates the closeness Salah creates."]},{"planId":"14-day","title":"14-Day Discipline","duration":"14 days","description":"Over two weeks, make Salah a steady rhythm by pairing it with reflection rituals.","highlights":["Alternate between quiet contemplation and expressive thankfulness after each prayer.","Let clean prayer space remind you of the sanctity of stillness.","Invite a family member into a mini dialogue about what Salah awakens.","Use day 10 to note how Salah calmed a worry or restored focus.","Record a voice reminder of one new dhikr you are holding onto."]},{"planId":"30-day","title":"30-Day Foundation","duration":"30 days","description":"Turn Salah into a monthly guide, weaving discipline and humility into the five prayers.","highlights":["Week 1: Assign a focus word to each prayer (e.g., gratitude for Fajr, patience for Dhuhr).","Weeks 2-3: Layer short walking meditations before Salah to signal a shift in mood.","Week 4: Capture how consistent call to prayer reinforced your daily boundaries.","Practice a weekly dhikr circle, sharing favorite phrases with close friends.","Close the month by thanking Allah for the rhythm that anchors your day."]}]},{"chapterId":7,"chapterTitle":"The Future","plans":[{"planId":"7-day","title":"7-Day Vision","duration":"7 days","description":"Build a week of future-forward dua and intentional planning with meaningful steps.","highlights":["Anchor a morning vision: what future God-pleasing step can you take today?","Thread a vision board detail into a short dua for guidance.","Share a commitment track note with someone who keeps you aligned.","Journal how mentorship touchpoints shaped a decision this week.","End the week by thanking Allah for steady progress and charting the next focus."]},{"planId":"14-day","title":"14-Day Futures","duration":"14 days","description":"Let two weeks of future planning include measurable goals, dua, and reflective checkpoints.","highlights":["Alternate days between plotting actionable goals and writing gratitude for unfolding blessings.","Let your vision board influence a nightly dua of trust.","Invite a mentor into a check-in about your commitment track.","Pause on day 12 to review what shifted after mentorship feedback.","Record a recap of how future planning made you feel grounded."]},{"planId":"30-day","title":"30-Day Roadmap","duration":"30 days","description":"Let thirty days of future planning create a sustainable roadmap filled with prayer and purpose.","highlights":["Week 1: Draft a simple plan with quarterly milestones and dua markers.","Weeks 2-3: Layer accountability meetings, journaling what mentors helped you see.","Week 4: Capture how long-term dua shaped one real choice.","Treat every Sunday as a future reflection walk, noting how planning eased anxiety.","Close the month with a heartfelt dua for clarity, resilience, and right timing."]}]},{"chapterId":8,"chapterTitle":"Paradise & Hell","plans":[{"planId":"7-day","title":"7-Day Balance","duration":"7 days","description":"Use seven days to let paradise dreams and hellfire warnings sharpen your gratitude.","highlights":["Begin the week listing deeds that point toward paradise dreams.","Thread hellfire warnings into a short dua that keeps you honest about choices.","Share intentional fasting prep tips with someone before sunset.","Journal how restraint aligned with hope for paradise.","Close the week by naming legacy prayers you want to leave for others."]},{"planId":"14-day","title":"14-Day Contrast","duration":"14 days","description":"Over two weeks, hold paradise dreams close while staying aware of hellfire reminders.","highlights":["Alternate reflecting on blessings with reminders about accountability.","Let hellfire warnings nudge more deliberate dua before each meal.","Invite a friend into intentional fasting prep conversations.","Pause on day 13 to reflect on how legacy prayers shaped your choices.","Record a voice note celebrating the small wins that edged you toward paradise."]},{"planId":"30-day","title":"30-Day Horizon","duration":"30 days","description":"Let thirty days of Paradise & Hell keep your heart balanced between hope and awe.","highlights":["Week 1: Outline a daily dua that circles paradise dreams and steady habits.","Weeks 2-3: Layer hellfire reminders and honesty checks into evening reflections.","Week 4: Capture a story about intentional fasting prep and spiritual clarity.","Resolve a weekly kindness challenge that offers hope to someone who needs it.","Treat a quiet walk as time to honor legacy prayers and note how they shifted your pace."]}]},{"chapterId":9,"chapterTitle":"Dua & Dhikr","plans":[{"planId":"7-day","title":"7-Day Remembrance","duration":"7 days","description":"Lean into Dua & Dhikr for a week of heartfelt whispers and gratitude lists.","highlights":["Start each dawn with five minutes of dhikr centered on gratitude.","Compile a list of blessed supplications you can replay before major decisions.","Share one dua with a loved one, explaining why it moves you.","Spend a lunchtime reflecting on which dhikr gave you calm this week.","End the week by writing a brief thank-you note that mirrors your favorite dua."]},{"planId":"14-day","title":"14-Day Flow","duration":"14 days","description":"Stretch Dua & Dhikr over two weeks, mixing quiet recitation with joyful reminders.","highlights":["Alternate days between exploring new dhikr phrases and journaling how they feel.","Let evening gratitude lists include at least one supplication you memorized.","Invite a friend into a quick audio chat about which duas uplift you most.","Pause on day 10 to breathe through a dhikr loop focused on Divine mercy.","Record a voice note that vocalizes your favorite dua and replay it on tougher days."]},{"planId":"30-day","title":"30-Day Remembrance","duration":"30 days","description":"Build a thirty-day Dua & Dhikr habit so remembrance becomes second nature.","highlights":["Week 1: Craft a dua journal and leave daily ink footprints of how each supplication lands.","Weeks 2-3: Layer short dhikr loops during breaks  SubhanAllah, Alhamdulillah, Allahu Akbar.","Week 3: Share a story about a dua answered or a dhikr that calmed you.","Week 4: Treat one evening to a gratitude list that weaves in your most repeated supplications.","Wrap the month with a simple dua asking Allah to keep your tongue soft in remembrance."]}]},{"chapterId":10,"chapterTitle":"The Heart","plans":[{"planId":"7-day","title":"7-Day Heart Cleanse","duration":"7 days","description":"Focus this week on purifying the heart with intentional pauses and honesty.","highlights":["Begin each day with a silent inventory: what emotion needs releasing?","Carry a small intention card reminding you to let go of grudges before noon.","Invite someone into a conversation about intentional purification and listen more than speak.","Use your evening reflection to ask: did my heart align with my actions today?","Close the week with a dua that seeks sincerity and gentle accountability."]},{"planId":"14-day","title":"14-Day Gentle Reset","duration":"14 days","description":"Build two weeks of heart hygiene where grateful pauses replace autopilot moods.","highlights":["Alternate between journaling about mercy and writing one kindness you can extend tomorrow.","Let intentional purification remind you to release one resentment each week.","Invite a mentor into a check-in about your emotional tempo mid-plan.","Pause on day 10 to record how nightly reflections reshaped your narrative.","Schedule a short walk where you repeat a gentle mantra centered on healing."]},{"planId":"30-day","title":"30-Day Purification","duration":"30 days","description":"Turn thirty days into a purification journey that keeps your heart soft and responsive.","highlights":["Week 1: Establish morning gratitude, midday silence, evening honesty with self.","Weeks 2-3: Layer routines that replace resentment with service-oriented actions.","Week 4: Capture a story about intentional purification during a quiet sit-down.","Treat Sunday walks as time to pray for clarity, jotting two insights afterward.","End the month asking Allah to guard your heart from what distracts and dulls it."]}]},{"chapterId":11,"chapterTitle":"The Hereafter","plans":[{"planId":"7-day","title":"7-Day Eternity","duration":"7 days","description":"Warm up to the Hereafter lens with brief rituals that keep eternity in view.","highlights":["Dedicate morning silence to imagining the Hereafter as a steady horizon.","Thread grave reminders into an evening dua, asking for preparedness.","Share a soulful pause with someone about afterlife hope notes.","Reflect on how small kind deeds today tie into your legacy log.","End the week by listing three hopes you have for the Hereafter and naming steps toward them."]},{"planId":"14-day","title":"14-Day Silence","duration":"14 days","description":"Lift your heart over two weeks with reminders of the soul’s long path beyond this life.","highlights":["Alternate between reading about the Hereafter and writing how it reframes priorities.","Use grave reminders to slow your pace before big decisions.","Invite someone to discuss soulful pauses and gratitude.","Pause on day 11 to record how kind deeds log keeps you humble.","Record a dua focused on steady hope."]},{"planId":"30-day","title":"30-Day Hereafter","duration":"30 days","description":"Let thirty days of The Hereafter deepen your hope, remembrance, and purposeful living.","highlights":["Week 1: Begin each day with a reminder of Allah’s mercy for the next life.","Weeks 2-3: Layer reflective journaling on soulful pauses and gratitude.","Week 4: Capture a story about a moment the Hereafter lens calmed your panic.","Make weekly walks times to ponder kind deeds log and ripple effects.","Close the month with a dua asking Allah to ease the transition between this life and the next."]}]},{"chapterId":12,"chapterTitle":"The Manners","plans":[{"planId":"7-day","title":"7-Day Etiquette","duration":"7 days","description":"Spend a week polishing Islamic etiquette through humble gestures and kind speech.","highlights":["Set a daily goal to start a conversation with a gentle greeting.","Carry kindness cards reminding you to share food or gratitude with someone new.","During a midday break, practice active listening without interrupting.","Capture how family respect shaped a decision at dinner tonight.","End the week by sharing a sincere compliment rooted in Islamic adab."]},{"planId":"14-day","title":"14-Day Etiquette","duration":"14 days","description":"Double the good manners by reflecting on etiquette, generosity, and grace for two weeks.","highlights":["Alternate between reading an etiquette story and practicing that gesture.","Let gentle greetings thread through your messages and quick calls throughout the day.","Invite someone to recount a time hospitality softened a hard moment.","Pause on day 11 to note how family respect and humility amplified your patience.","Record a short voice clip documenting when grace ruled a tense encounter."]},{"planId":"30-day","title":"30-Day Decorum","duration":"30 days","description":"Let Islamic etiquette shape a thirty-day demeanor upgrade  patient, generous, respectful.","highlights":["Week 1: Draft a reminder to balance honesty with kindness in every interaction.","Weeks 2-3: Layer hospitality acts, like offering tea or a listening ear, into weekend routines.","Week 3 check-in: notice how polite speech steadied a tense encounter.","Share a story about sharing food restoring warmth between neighbors.","Close the month thanking Allah for the manners that keep hearts connected."]}]},{"chapterId":13,"chapterTitle":"The Lifestyle","plans":[{"planId":"7-day","title":"7-Day Choices","duration":"7 days","description":"Use this week to test halal habits around eating, earning, and peaceful boundaries.","highlights":["Plan a halal-heavy meal and savor the ethical choices behind each bite.","Thread intentional consumption reminders into a short dua before shopping.","Share a note about ethical investing with someone curious about fasting finances.","Journal how gratitude for food kept waste low during a busy day.","Celebrate one conscious purchase that aligned with your values."]},{"planId":"14-day","title":"14-Day Rhythm","duration":"14 days","description":"Frame two weeks around mindful spending, eating, and restful pauses.","highlights":["Alternate days between planning purposeful meals and reflecting on ethical choices.","Let intentional consumption guide a conversation about gratitude with your household.","Invite a loved one to review your financial boundaries and celebrate responsible steps.","Pause on day 12 to note how halal choices grounded you when temptation surfaced.","Record a voice note summarizing new rhythms you want to keep."]},{"planId":"30-day","title":"30-Day Integrity","duration":"30 days","description":"Let thirty days of The Lifestyle shape a narrative of halal confidence and gratitude.","highlights":["Week 1: Create a boundary chart for sleep, food, and spending.","Weeks 2-3: Layer grateful dhikr with each meal, thanking Allah for halal options.","Week 4: Capture a story about intentional consumption that shifted your pace before Ramadan.","Steer one weekend toward community sharing, like donating time or food.","Wrap the month with a dua asking Allah to keep your lifestyle purposeful."]}]},{"chapterId":14,"chapterTitle":"Family & Marriage","plans":[{"planId":"7-day","title":"7-Day Circle","duration":"7 days","description":"Focus a week on deepening family conversations and honoring marriage goals with gentle actions.","highlights":["Schedule a fifteen-minute intentional chat with a family member about daily hopes.","Thread household rituals into your dua, asking Allah to bless the connections.","Share one idea for marriage goals or parenting pauses during dinner.","Journal how community service during the week strengthened your family bond.","Celebrate listening fully with a small handwritten note or sweet act."]},{"planId":"14-day","title":"14-Day Family","duration":"14 days","description":"Make family conversations steady, respectful, and future-focused.","highlights":["Alternate days between checking in with parents and planning a marriage goal.","Let household rituals  shared meals, morning du’a  be intentional connectors.","Invite someone to co-create a parenting pause idea (tech-free hour, guided dua).","Pause on day 11 to note how community service seeded gratitude in your home.","Record how listening more opened warm doors."]},{"planId":"30-day","title":"30-Day Home","duration":"30 days","description":"Let thirty days of Family & Marriage bring purposeful space, grounded rituals, and patience.","highlights":["Week 1: Build a simple routine of daily gratitude with your household.","Weeks 2-3: Layer family service  prepping a meal or volunteering.","Week 4: Capture a story about marriage goals you are pursuing together.","Use walks to discuss long-term dreams and recount kind deeds.","Close the month with a dua asking Allah to bless your home and soften your hearts."]}]},{"chapterId":15,"chapterTitle":"The Community","plans":[{"planId":"7-day","title":"7-Day Ummah","duration":"7 days","description":"Use this week to uplift your Ummah with small but steady actions.","highlights":["Offer a neighbor a warm greeting and a small act of kindness each day.","Thread neighborly kindness into a short dua for those in need.","Share a story about a sadaqah plan and invite someone to participate.","Journal how community stories shaped your gratitude tonight.","Plan a volunteer promise  drop off food, call an elder, or send a message."]},{"planId":"14-day","title":"14-Day Support","duration":"14 days","description":"Half a month devoted to Ummah support, good company, and shared care.","highlights":["Alternate between reading uplifting community stories and offering your time.","Let neighborly kindness be the theme of one evening dua.","Invite someone to check in about ongoing sadaqah plans.","Pause on day 13 to log how community story-sharing uplifted you.","Record how you stepped into a volunteer promise."]},{"planId":"30-day","title":"30-Day Ummah","duration":"30 days","description":"Let thirty days of The Community thread kindness, sadaqah, and hospitality into your calendar.","highlights":["Week 1: Map a micro-volunteer plan that fits your schedule.","Weeks 2-3: Layer neighborhood check-ins and small prayer gatherings.","Week 3 reflection: note how small acts of kindness created ripples.","Share a story about a sadaqah plan and how it felt.","Round out the month with a dua for unity, peace, and strong support."]}]}]');
 
 /***/ }),
 
@@ -4598,7 +4348,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"sectionStats":[{"titl
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","toneFocus":"Gentle reminder: reconnect every deed to the testimony of Tawheed and thank yourself for every small sincere stretch. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":2,"title":"Islamic beliefs","toneFocus":"Softly reaffirm belief by noting how unseen realities quietly guide kindness; no need to judge, just observe. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":3,"title":"Islamic pillars","toneFocus":"Describe the pillars as steady companions they keep you grounded without demanding perfection. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":4,"title":"Islamic quran","toneFocus":"Encourage curiosity about the Qur’an by inviting slow reading, reflective pauses, and compassionate self-questioning. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":5,"title":"Islamic prophet","toneFocus":"Share the Prophet’s mercy through storytelling; highlight human softness rather than ideal standards. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":6,"title":"Islamic prayers","toneFocus":"Treat prayer as a calming rhythm; focus on presence over performance and celebrate every moment you return to Allah. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":7,"title":"Islamic dua dhkir","toneFocus":"Show dua as an ongoing conversation; celebrate even tiny whispers of remembrance and raw honesty. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":8,"title":"Islamic heart","toneFocus":"Talk about the heart like soft soil gentle care, regular self-accounting, and hope bring new blossoms. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":9,"title":"Islamic manners","toneFocus":"Model kindness first when speaking about manners, acknowledging that everyone slips and starts again with a humble heart. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":10,"title":"Islamic lifestyle","toneFocus":"Position lifestyle shifts as gentle experiments; invite calm breaks and gratitude rather than pressure. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":11,"title":"Islamic family and marriage","toneFocus":"Describe family work as a shared, compassionate journey small acts of mercy matter more than flawless systems. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":12,"title":"Islamic community","toneFocus":"Frame community as collective care; encourage reaching out with open palms and expect gradual trust-building. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":13,"title":"Islamic future","toneFocus":"Speak about future planning as hopeful exploration each small goal is a duet with hope and dua. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":14,"title":"Islamic hereafter","toneFocus":"Balance reminders of the Hereafter with Allah’s mercy; encourage reflection through soft questions instead of fear. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":15,"title":"Islamic paradise and hell","toneFocus":"Paint Paradise with inviting hope and describe Hell as a distant warning that simply redirects your compassion. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic foundation","toneFocus":"Islam is not a new religion but the primordial faith of submission to the One True God (Allāh), revived through the final Prophet Muhammad ﷺ. The essence of this submission is Tawheed the absolute Oneness of God in His Lordship, His Names and Attributes, and His right to be worshipped alone. "},{"chapterId":2,"title":"Islamic beliefs","toneFocus":"To understand the six articles of faith in detail, with their proofs, implications, and how they shape a Muslim’s heart and actions."},{"chapterId":3,"title":"Islamic pillars","toneFocus":"To understand the spiritual, moral, and practical significance of each pillar through authentic Qur’anic āyāt, verified aḥādīth, and classical scholarship."},{"chapterId":4,"title":"Islamic quran","toneFocus":"Encourage curiosity about the Qur’an by inviting slow reading, reflective pauses, and compassionate self-questioning. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":5,"title":"Islamic prophet","toneFocus":"Share the Prophet’s mercy through storytelling; highlight human softness rather than ideal standards. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":6,"title":"Islamic prayers","toneFocus":"Treat prayer as a calming rhythm; focus on presence over performance and celebrate every moment you return to Allah. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":7,"title":"Islamic dua dhkir","toneFocus":"Show dua as an ongoing conversation; celebrate even tiny whispers of remembrance and raw honesty. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":8,"title":"Islamic heart","toneFocus":"Talk about the heart like soft soil gentle care, regular self-accounting, and hope bring new blossoms. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":9,"title":"Islamic manners","toneFocus":"Model kindness first when speaking about manners, acknowledging that everyone slips and starts again with a humble heart. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":10,"title":"Islamic lifestyle","toneFocus":"Position lifestyle shifts as gentle experiments; invite calm breaks and gratitude rather than pressure. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":11,"title":"Islamic family and marriage","toneFocus":"Describe family work as a shared, compassionate journey small acts of mercy matter more than flawless systems. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":12,"title":"Islamic community","toneFocus":"Frame community as collective care; encourage reaching out with open palms and expect gradual trust-building. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":13,"title":"Islamic future","toneFocus":"Speak about future planning as hopeful exploration each small goal is a duet with hope and dua. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":14,"title":"Islamic hereafter","toneFocus":"Balance reminders of the Hereafter with Allah’s mercy; encourage reflection through soft questions instead of fear. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."},{"chapterId":15,"title":"Islamic paradise and hell","toneFocus":"Paint Paradise with inviting hope and describe Hell as a distant warning that simply redirects your compassion. It invites patience, softens doubts, and champions steady growth. It celebrates resilience and keeps hearts hopeful daily."}]');
 
 /***/ }),
 
@@ -4618,7 +4368,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"key":"foundation","ti
   \************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"duas":[{"arabic":"رَبِّ زِدْنِي عِلْمًا","english":"My Lord, increase me in knowledge."},{"arabic":"اللَّهُمَّ ثَبِّتْ قُلُوبَنَا عَلَى الْحَقِّ","english":"O Allah, keep our hearts firm on truth."},{"arabic":"اللَّهُمَّ اجْعَلْنَا مِنَ الْمُسْلِمِينَ الْمُتَّقِينَ","english":"O Allah, make us among the righteous Muslims."}]},{"chapterId":2,"duas":[{"arabic":"اللَّهُمَّ ارْزُقْنِي إِيمَانًا عَامِلًا","english":"O Allah, grant me faith that translates into action."},{"arabic":"رَبَّنَا لَا تُزِغْ قُلُوبَنَا","english":"Our Lord, do not let our hearts deviate."},{"arabic":"اللَّهُمَّ عَلِّمْنِي مَا يَرْتَفِعُ بِهِ إِيمَانِي","english":"O Allah, teach me what raises my belief."}]},{"chapterId":3,"duas":[{"arabic":"اللَّهُمَّ اجْعَلْنِي مِنَ الْمُقِيمِينَ الصَّلَاةَ","english":"O Allah, make me among those who establish the prayer."},{"arabic":"رَبِّ اجْعَلْ صِيَامِي شُكْرًا لَكَ","english":"My Lord, let my fast be a thank-you to You."},{"arabic":"اللَّهُمَّ اقْبَلْ مِنَّا الصَّدَقَةَ","english":"O Allah, accept charity from us."}]},{"chapterId":4,"duas":[{"arabic":"اللَّهُمَّ افْتَحْ لِي أَبْوَابَ هُدَاكَ","english":"O Allah, open for me the doors of Your guidance."},{"arabic":"رَبِّ زِدْنِي فَهْمًا","english":"My Lord, increase me in understanding."},{"arabic":"اللَّهُمَّ اجْعَلْ لِي الْقُرْآنَ رَحْمَةً وَنُورًا","english":"O Allah, make the Quran a mercy and light for me."}]},{"chapterId":5,"duas":[{"arabic":"اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ","english":"O Allah, send blessings upon Muhammad."},{"arabic":"اللَّهُمَّ عَلِّمْنِي سُنَّتَهُ","english":"O Allah, teach me his Sunnah."},{"arabic":"اللَّهُمَّ أَحْيِ قَلْبِي بِهَدْيِهِ","english":"O Allah, revive my heart with his guidance."}]},{"chapterId":6,"duas":[{"arabic":"اللَّهُمَّ اجْعَلْ لِي فِي الصَّلَاةِ خُشُوعًا","english":"O Allah, grant me focus in prayer."},{"arabic":"رَبِّ أَعِنِّي عَلَى أَدَائِهَا","english":"My Lord, help me perform it."},{"arabic":"اللَّهُمَّ اجْعَلْهَا حَبَلًا بَيْنِي وَبَيْنَكَ","english":"O Allah, make it a bond between me and You."}]},{"chapterId":7,"duas":[{"arabic":"سُبْحَانَ اللَّهِ","english":"Glory be to Allah."},{"arabic":"الْحَمْدُ لِلَّهِ","english":"All praise is due to Allah."},{"arabic":"اللَّهُ أَكْبَرُ","english":"Allah is the Greatest."}]},{"chapterId":8,"duas":[{"arabic":"اللَّهُمَّ طَهِّرْ قَلْبِي","english":"O Allah, purify my heart."},{"arabic":"رَبِّ اجْعَلْ قَلْبِي مُتَوَجِّهًا إِلَيْكَ","english":"My Lord, make my heart turn to You."},{"arabic":"اللَّهُمَّ اجْعَلْ ذِكْرَكَ نُورًا لِي","english":"O Allah, make Your remembrance a light for me."}]},{"chapterId":9,"duas":[{"arabic":"اللَّهُمَّ زَيِّنِي بِالأَدَبِ","english":"O Allah, beautify me with good manners."},{"arabic":"رَبِّ أَنْجِنِي مِنْ غَضَبِ صَدْرِي","english":"My Lord, save me from the anger of my chest."},{"arabic":"اللَّهُمَّ اجْعَلْ لِسَانِي لُطْفًا","english":"O Allah, make my speech gentle."}]},{"chapterId":10,"duas":[{"arabic":"اللَّهُمَّ بَارِكْ فِي رِزْقِي","english":"O Allah, bless my provision."},{"arabic":"رَبِّ أَنْقِذْنِي مِنَ الْغَفْلَةِ","english":"My Lord, rescue me from heedlessness."},{"arabic":"اللَّهُمَّ اجْعَلْنِي آخِذًا بِالْحَلالِ","english":"O Allah, make me one who holds to halal."}]},{"chapterId":11,"duas":[{"arabic":"رَبِّ أَصْلِحْ بَيْتِي","english":"My Lord, rectify my household."},{"arabic":"اللَّهُمَّ أَلِفْ بَيْنَ قُلُوبِنَا","english":"O Allah, bring hearts together."},{"arabic":"رَبِّ اجْعَلْ ذُرِّيَّتِي مِنَ الصَّالِحِينَ","english":"My Lord, make my offspring among the righteous."}]},{"chapterId":12,"duas":[{"arabic":"اللَّهُمَّ اجْمَعْنَا عَلَى الْمَحَبَّةِ","english":"O Allah, unite us in love."},{"arabic":"رَبِّ أَصْلِحْ شِيعَتِي","english":"My Lord, reform my community."},{"arabic":"اللَّهُمَّ أَخْرِجْنِي مِنَ الْعُزْلَةِ لِلْخِدْمَةِ","english":"O Allah, move me from isolation into service."}]},{"chapterId":13,"duas":[{"arabic":"رَبِّ إِنِّي أَسْأَلُكَ نُورًا لِطَرِيقِي","english":"My Lord, I ask You for light for my path."},{"arabic":"اللَّهُمَّ اشْدُدْ صُدُورَنَا لِلدَّوَامِ","english":"O Allah, strengthen our chests for steadiness."},{"arabic":"رَبِّ هَبْ لِي قَلْبًا سَلِيمًا لِمَا بَعْدَ","english":"My Lord, grant me a sound heart for what comes next."}]},{"chapterId":14,"duas":[{"arabic":"اللَّهُمَّ اجْعَلْ قَبْرِي رَوْضَةً","english":"O Allah, make my grave a garden."},{"arabic":"رَبِّ أَدْخِلْنِي الْجَنَّةَ مَعَ الْمُتَّقِينَ","english":"My Lord, admit me into Paradise with the righteous."},{"arabic":"اللَّهُمَّ أَعِنِّي عَلَى الذِّكْرِ وَالْعَمَلِ الْجَيِّدِ حَتَّى الْمَوْتِ","english":"O Allah, help me remember You and do good deeds until death."}]},{"chapterId":15,"duas":[{"arabic":"اللَّهُمَّ اجْعَلْنِي مِنْ أَصْحَابِ الْجَنَّةِ","english":"O Allah, make me among the companions of Paradise."},{"arabic":"رَبِّ اجْعَلْ قَلْبِي يَخْشَى النَّارَ","english":"My Lord, make my heart fear the Fire."},{"arabic":"اللَّهُمَّ اجْعَلْ لِي مِنْ أَشْجَارِ الْجَنَّةِ ظِلًّا","english":"O Allah, grant me shade from the trees of Paradise."}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"duas":[{"title":"The Greatest Du\'ā of Tawheed:","arabic":"لَا إِلٰهَ إِلَّا اللهُ","english":"There is no god worthy of worship except Allāh.","reference":"The Prophet ﷺ said this is the best remembrance. (Ṣaḥīḥ al-Bukhārī 3435)"},{"title":"Du\'ā for Firmness in Faith:","arabic":"يَا مُقَلِّبَ الْقُلُوبِ ثَبِّتْ قَلْبِي عَلَى دِينِكَ","english":"O Changer of hearts, make my heart firm upon Your religion.","reference":"Reported by Umm Salamah, the Prophet ﷺ recited this often. (Jāmi\' at-Tirmidhī 3522 - Ṣaḥīḥ)"},{"title":"Du\'ā for Guidance to Truth:","arabic":"اهْدِنِي لِمَا اخْتُلِفَ فِيهِ مِنَ الْحَقِّ","english":"Guide me to the truth in matters where people differ.","reference":"The Prophet ﷺ taught this du\'ā. (Ṣaḥīḥ Muslim 770)"}]},{"chapterId":2,"duas":[{"title":"","arabic":"اللَّهُمَّ ارْزُقْنِي إِيمَانًا عَامِلًا","english":"O Allah, grant me faith that translates into action.","reference":""},{"title":"","arabic":"رَبَّنَا لَا تُزِغْ قُلُوبَنَا","english":"Our Lord, do not let our hearts deviate.","reference":""},{"title":"","arabic":"اللَّهُمَّ عَلِّمْنِي مَا يَرْتَفِعُ بِهِ إِيمَانِي","english":"O Allah, teach me what raises my belief.","reference":""}]},{"chapterId":3,"duas":[{"title":"","arabic":"اللَّهُمَّ اجْعَلْنِي مِنَ الْمُقِيمِينَ الصَّلَاةَ","english":"O Allah, make me among those who establish the prayer.","reference":""},{"title":"","arabic":"رَبِّ اجْعَلْ صِيَامِي شُكْرًا لَكَ","english":"My Lord, let my fast be a thank-you to You.","reference":""},{"title":"","arabic":"اللَّهُمَّ اقْبَلْ مِنَّا الصَّدَقَةَ","english":"O Allah, accept charity from us.","reference":""}]},{"chapterId":4,"duas":[{"title":"","arabic":"اللَّهُمَّ افْتَحْ لِي أَبْوَابَ هُدَاكَ","english":"O Allah, open for me the doors of Your guidance.","reference":""},{"title":"","arabic":"رَبِّ زِدْنِي فَهْمًا","english":"My Lord, increase me in understanding.","reference":""},{"title":"","arabic":"اللَّهُمَّ اجْعَلْ لِي الْقُرْآنَ رَحْمَةً وَنُورًا","english":"O Allah, make the Quran a mercy and light for me.","reference":""}]},{"chapterId":5,"duas":[{"title":"","arabic":"اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ","english":"O Allah, send blessings upon Muhammad.","reference":""},{"title":"","arabic":"اللَّهُمَّ عَلِّمْنِي سُنَّتَهُ","english":"O Allah, teach me his Sunnah.","reference":""},{"title":"","arabic":"اللَّهُمَّ أَحْيِ قَلْبِي بِهَدْيِهِ","english":"O Allah, revive my heart with his guidance.","reference":""}]},{"chapterId":6,"duas":[{"title":"","arabic":"اللَّهُمَّ اجْعَلْ لِي فِي الصَّلَاةِ خُشُوعًا","english":"O Allah, grant me focus in prayer.","reference":""},{"title":"","arabic":"رَبِّ أَعِنِّي عَلَى أَدَائِهَا","english":"My Lord, help me perform it.","reference":""},{"title":"","arabic":"اللَّهُمَّ اجْعَلْهَا حَبَلًا بَيْنِي وَبَيْنَكَ","english":"O Allah, make it a bond between me and You.","reference":""}]},{"chapterId":7,"duas":[{"title":"","arabic":"سُبْحَانَ اللَّهِ","english":"Glory be to Allah.","reference":""},{"title":"","arabic":"الْحَمْدُ لِلَّهِ","english":"All praise is due to Allah.","reference":""},{"title":"","arabic":"اللَّهُ أَكْبَرُ","english":"Allah is the Greatest.","reference":""}]},{"chapterId":8,"duas":[{"title":"","arabic":"اللَّهُمَّ طَهِّرْ قَلْبِي","english":"O Allah, purify my heart.","reference":""},{"title":"","arabic":"رَبِّ اجْعَلْ قَلْبِي مُتَوَجِّهًا إِلَيْكَ","english":"My Lord, make my heart turn to You.","reference":""},{"title":"","arabic":"اللَّهُمَّ اجْعَلْ ذِكْرَكَ نُورًا لِي","english":"O Allah, make Your remembrance a light for me.","reference":""}]},{"chapterId":9,"duas":[{"title":"","arabic":"اللَّهُمَّ زَيِّنِي بِالأَدَبِ","english":"O Allah, beautify me with good manners.","reference":""},{"title":"","arabic":"رَبِّ أَنْجِنِي مِنْ غَضَبِ صَدْرِي","english":"My Lord, save me from the anger of my chest.","reference":""},{"title":"","arabic":"اللَّهُمَّ اجْعَلْ لِسَانِي لُطْفًا","english":"O Allah, make my speech gentle.","reference":""}]},{"chapterId":10,"duas":[{"title":"","arabic":"اللَّهُمَّ بَارِكْ فِي رِزْقِي","english":"O Allah, bless my provision.","reference":""},{"title":"","arabic":"رَبِّ أَنْقِذْنِي مِنَ الْغَفْلَةِ","english":"My Lord, rescue me from heedlessness.","reference":""},{"title":"","arabic":"اللَّهُمَّ اجْعَلْنِي آخِذًا بِالْحَلالِ","english":"O Allah, make me one who holds to halal.","reference":""}]},{"chapterId":11,"duas":[{"title":"","arabic":"رَبِّ أَصْلِحْ بَيْتِي","english":"My Lord, rectify my household.","reference":""},{"title":"","arabic":"اللَّهُمَّ أَلِفْ بَيْنَ قُلُوبِنَا","english":"O Allah, bring hearts together.","reference":""},{"title":"","arabic":"رَبِّ اجْعَلْ ذُرِّيَّتِي مِنَ الصَّالِحِينَ","english":"My Lord, make my offspring among the righteous.","reference":""}]},{"chapterId":12,"duas":[{"title":"","arabic":"اللَّهُمَّ اجْمَعْنَا عَلَى الْمَحَبَّةِ","english":"O Allah, unite us in love.","reference":""},{"title":"","arabic":"رَبِّ أَصْلِحْ شِيعَتِي","english":"My Lord, reform my community.","reference":""},{"title":"","arabic":"اللَّهُمَّ أَخْرِجْنِي مِنَ الْعُزْلَةِ لِلْخِدْمَةِ","english":"O Allah, move me from isolation into service.","reference":""}]},{"chapterId":13,"duas":[{"title":"","arabic":"رَبِّ إِنِّي أَسْأَلُكَ نُورًا لِطَرِيقِي","english":"My Lord, I ask You for light for my path.","reference":""},{"title":"","arabic":"اللَّهُمَّ اشْدُدْ صُدُورَنَا لِلدَّوَامِ","english":"O Allah, strengthen our chests for steadiness.","reference":""},{"title":"","arabic":"رَبِّ هَبْ لِي قَلْبًا سَلِيمًا لِمَا بَعْدَ","english":"My Lord, grant me a sound heart for what comes next.","reference":""}]},{"chapterId":14,"duas":[{"title":"","arabic":"اللَّهُمَّ اجْعَلْ قَبْرِي رَوْضَةً","english":"O Allah, make my grave a garden.","reference":""},{"title":"","arabic":"رَبِّ أَدْخِلْنِي الْجَنَّةَ مَعَ الْمُتَّقِينَ","english":"My Lord, admit me into Paradise with the righteous.","reference":""},{"title":"","arabic":"اللَّهُمَّ أَعِنِّي عَلَى الذِّكْرِ وَالْعَمَلِ الْجَيِّدِ حَتَّى الْمَوْتِ","english":"O Allah, help me remember You and do good deeds until death.","reference":""}]},{"chapterId":15,"duas":[{"title":"","arabic":"اللَّهُمَّ اجْعَلْنِي مِنْ أَصْحَابِ الْجَنَّةِ","english":"O Allah, make me among the companions of Paradise.","reference":""},{"title":"","arabic":"رَبِّ اجْعَلْ قَلْبِي يَخْشَى النَّارَ","english":"My Lord, make my heart fear the Fire.","reference":""},{"title":"","arabic":"اللَّهُمَّ اجْعَلْ لِي مِنْ أَشْجَارِ الْجَنَّةِ ظِلًّا","english":"O Allah, grant me shade from the trees of Paradise.","reference":""}]}]');
 
 /***/ }),
 
@@ -4648,7 +4398,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"homework":["Spend 10 
   \*******************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"The Foundation: Tawheed – The Eternal Truth That Created You and Will Resurrect You","keyInsights":["The foundation supports every future habit.","Small acts of sincerity multiply immensely.","Daily reminders keep the heart soft.","Teach what you learn to lock it in.","Authentic conviction beats temporary motivation."]},{"chapterId":2,"chapter":"The Beliefs: The Six Pillars of Iman – Your Invisible Reality Stronger Than Steel","keyInsights":["The foundation supports every future habit.","Small acts of sincerity multiply immensely.","Daily reminders keep the heart soft.","Teach what you learn to lock it in.","Authentic conviction beats temporary motivation."]},{"chapterId":3,"chapter":"The Pillars: The Five Pillars – Your Direct Phone Line to Allah","keyInsights":["The foundation supports every future habit.","Small acts of sincerity multiply immensely.","Daily reminders keep the heart soft.","Teach what you learn to lock it in.","Authentic conviction beats temporary motivation."]},{"chapterId":4,"chapter":"The Quran: Heartbeat of Revelation and Living Library","keyInsights":["The Quran never grows old; revisit it with fresh eyes.","Reflecting once extends its effect a lifetime.","Tajweed is respect more than a rule.","Action multiplies the reward of every ayah.","Every verse is a dua waiting to be answered."]},{"chapterId":5,"chapter":"The Prophet: Muhammad ﷺ, Mirror of Mercy","keyInsights":["Mercy is the fragrance he left everywhere.","Gentleness wins what force never will.","Rest is part of leadership, not a luxury.","He turned every trial into dua.","Consistency beats a grand but short-lived effort."]},{"chapterId":6,"chapter":"The Prayer: Salah as Your Soul\'s Sync","keyInsights":["Prayer resets what panic steals.","Sujood is the soul\'s favourite posture.","Fajr seeds the day\'s energy.","Consistency breeds courage.","Prayer disciplines time itself."]},{"chapterId":7,"chapter":"Dua and Dhikr, Weapons of the Heart","keyInsights":["Dua strengthens the bond between you and Allah more than any ritual.","Dhikr is a shield that keeps your heart calm during stress.","Combining dua with gratitude invites more blessings.","Consistency builds a vocabulary of surrender and hope.","Sharing dhikr habits multiplies the reward and accountability."]},{"chapterId":8,"chapter":"Purifying the Heart softness, Humility and Focus","keyInsights":["A purified heart changes every external routine into worship.","Envy and pride fade when you celebrate others and thank Allah.","Self-accounting keeps your focus on the straight path.","Softness comes through consistent dhikr, dua, and service.","Reliance on Allah steadies the heart amid trials."]},{"chapterId":9,"chapter":"The Manners: Adab That Elevates Every Encounter","keyInsights":["Good manners invite Allah\'s mercy.","Gentle speech wins hearts.","Adab is silent da\'wah.","Consistency rewrites culture.","Service humbles the soul."]},{"chapterId":10,"chapter":"The Lifestyle: Halal Living, Habits, and Harmony","keyInsights":["Halal choices shield your heart.","Rest is fuel, not laziness.","Simplicity invites creativity.","Mindful meals raise gratitude.","Discipline invites barakah."]},{"chapterId":11,"chapter":"Family, Marriage, Mercy, Dialogue and Legacy","keyInsights":["Mercy and patience are more foundational than compatibility alone.","Shared dua keeps hearts aligned even during disagreements.","Teaching children manners requires modeling, not just commands.","Family unity flows from dialog, respect, and forgiveness.","Kinship ties are a trust care for them with actionable love."]},{"chapterId":12,"chapter":"The Community: Building Ummah, Support, and Uplift","keyInsights":["Shared meals nourish hearts.","Service multiplies iman.","Mentorship keeps wisdom alive.","Compassion is contagious.","Consistency builds trust."]},{"chapterId":13,"chapter":"The Future: Continuous Growth and Legacy","keyInsights":["Consistency compounds like interest.","Legacy is service, not prize.","Vision paired with dua outruns fear.","Documenting progress keeps you accountable.","Hope in Allah outlives discomfort."]},{"chapterId":14,"chapter":"Hereafter Realities Death, Resurrection, and Mercy","keyInsights":["Remembering the grave rewires our priorities toward meaningful actions.","Every deed carries weight on the Day of Judgment; intentions matter more than appearances.","Sadaqah and dua can continue rewarding you after you leave this world.","Hope in Allah\'s mercy keeps the heart from despair even when accountability feels heavy.","Consistent muhasabah is the compass that keeps you on the straight path."]},{"chapterId":15,"chapter":"Paradise and Hell Rewards, Warnings, and Motivation","keyInsights":["Paradise is as real as the hope you nurture in your dua.","Hell serves as a necessary boundary that sharpens your covenant with Allah.","Balance gratitude with caution so hope doesn\'t turn into complacency.","Visual reminders of Jannah and Jahannam make daily choices meaningful.","Supplications requesting Paradise and refuge from fire keep the heart soft."]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"chapter":"The Foundation: Tawheed – The Eternal Truth That Created You and Will Resurrect You","keyInsights":["Ibn Taymiyyah: Tawheed is the purpose of creation, \'I did not create jinn and mankind except to worship Me. (Adh-Dhāriyāt 51:56)\'","Imam al-Bukhārī: Began his Ṣaḥīḥ with The Book of Revelation followed by The Book of Faith – showing priority of creed.","Muhammad ibn \'Abd al-Wahhāb: Wrote Kitāb at-Tawheed as first text – the foundation before all other sciences.","Imam al-Ghazālī: True knowledge begins with knowing Allāh – this is the noblest knowledge.","Contemporary Scholars: Many misconceptions arise from not understanding Tawheed properly before delving into other aspects of Islam."]},{"chapterId":2,"chapter":"The Beliefs: The Six Pillars of Iman – Your Invisible Reality Stronger Than Steel","keyInsights":["The foundation supports every future habit.","Small acts of sincerity multiply immensely.","Daily reminders keep the heart soft.","Teach what you learn to lock it in.","Authentic conviction beats temporary motivation."]},{"chapterId":3,"chapter":"The Pillars: The Five Pillars – Your Direct Phone Line to Allah","keyInsights":["The foundation supports every future habit.","Small acts of sincerity multiply immensely.","Daily reminders keep the heart soft.","Teach what you learn to lock it in.","Authentic conviction beats temporary motivation."]},{"chapterId":4,"chapter":"The Quran: Heartbeat of Revelation and Living Library","keyInsights":["The Quran never grows old; revisit it with fresh eyes.","Reflecting once extends its effect a lifetime.","Tajweed is respect more than a rule.","Action multiplies the reward of every ayah.","Every verse is a dua waiting to be answered."]},{"chapterId":5,"chapter":"The Prophet: Muhammad ﷺ, Mirror of Mercy","keyInsights":["Mercy is the fragrance he left everywhere.","Gentleness wins what force never will.","Rest is part of leadership, not a luxury.","He turned every trial into dua.","Consistency beats a grand but short-lived effort."]},{"chapterId":6,"chapter":"The Prayer: Salah as Your Soul\'s Sync","keyInsights":["Prayer resets what panic steals.","Sujood is the soul\'s favourite posture.","Fajr seeds the day\'s energy.","Consistency breeds courage.","Prayer disciplines time itself."]},{"chapterId":7,"chapter":"Dua and Dhikr, Weapons of the Heart","keyInsights":["Dua strengthens the bond between you and Allah more than any ritual.","Dhikr is a shield that keeps your heart calm during stress.","Combining dua with gratitude invites more blessings.","Consistency builds a vocabulary of surrender and hope.","Sharing dhikr habits multiplies the reward and accountability."]},{"chapterId":8,"chapter":"Purifying the Heart softness, Humility and Focus","keyInsights":["A purified heart changes every external routine into worship.","Envy and pride fade when you celebrate others and thank Allah.","Self-accounting keeps your focus on the straight path.","Softness comes through consistent dhikr, dua, and service.","Reliance on Allah steadies the heart amid trials."]},{"chapterId":9,"chapter":"The Manners: Adab That Elevates Every Encounter","keyInsights":["Good manners invite Allah\'s mercy.","Gentle speech wins hearts.","Adab is silent da\'wah.","Consistency rewrites culture.","Service humbles the soul."]},{"chapterId":10,"chapter":"The Lifestyle: Halal Living, Habits, and Harmony","keyInsights":["Halal choices shield your heart.","Rest is fuel, not laziness.","Simplicity invites creativity.","Mindful meals raise gratitude.","Discipline invites barakah."]},{"chapterId":11,"chapter":"Family, Marriage, Mercy, Dialogue and Legacy","keyInsights":["Mercy and patience are more foundational than compatibility alone.","Shared dua keeps hearts aligned even during disagreements.","Teaching children manners requires modeling, not just commands.","Family unity flows from dialog, respect, and forgiveness.","Kinship ties are a trust care for them with actionable love."]},{"chapterId":12,"chapter":"The Community: Building Ummah, Support, and Uplift","keyInsights":["Shared meals nourish hearts.","Service multiplies iman.","Mentorship keeps wisdom alive.","Compassion is contagious.","Consistency builds trust."]},{"chapterId":13,"chapter":"The Future: Continuous Growth and Legacy","keyInsights":["Consistency compounds like interest.","Legacy is service, not prize.","Vision paired with dua outruns fear.","Documenting progress keeps you accountable.","Hope in Allah outlives discomfort."]},{"chapterId":14,"chapter":"Hereafter Realities Death, Resurrection, and Mercy","keyInsights":["Remembering the grave rewires our priorities toward meaningful actions.","Every deed carries weight on the Day of Judgment; intentions matter more than appearances.","Sadaqah and dua can continue rewarding you after you leave this world.","Hope in Allah\'s mercy keeps the heart from despair even when accountability feels heavy.","Consistent muhasabah is the compass that keeps you on the straight path."]},{"chapterId":15,"chapter":"Paradise and Hell Rewards, Warnings, and Motivation","keyInsights":["Paradise is as real as the hope you nurture in your dua.","Hell serves as a necessary boundary that sharpens your covenant with Allah.","Balance gratitude with caution so hope doesn\'t turn into complacency.","Visual reminders of Jannah and Jahannam make daily choices meaningful.","Supplications requesting Paradise and refuge from fire keep the heart soft."]}]');
 
 /***/ }),
 

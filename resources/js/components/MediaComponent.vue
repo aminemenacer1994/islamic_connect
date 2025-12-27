@@ -1,129 +1,141 @@
 <template>
-    <div class="container py-4">
-        <h1 class="text-center fw-bold display-5 mb-4">Media Center</h1>
-        <p class="text-center mb-4 lead">The Media Center at Islamic Connect is a central hub for inspiring and educational Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay connected, informed, and uplifted.</p>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden">
-                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-                    <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1" style="object-fit: contain; padding: 20px;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Audio Podcasts</h1>
-                        <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                            Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic faith, history, and daily life.
-                        </p>
-                        <!-- <button class="form-control" onclick="window.location.href='/content'" type="submit">
+  <div class="container py-4">
+    <h1 class="text-center fw-bold display-5 mb-4">Media Center</h1>
+    <p class="text-center mb-4 lead">The Media Center at Islamic Connect is a central hub for inspiring and educational
+      Islamic content. It brings together voices, stories, and teachings from across the Muslim world, helping you stay
+      connected, informed, and uplifted.</p>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden">
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
+          <img src="/images/ap.avif" alt="Qibla finder" class="w-90 mt-1" style="object-fit: contain; padding: 20px;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Audio Podcasts</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+              Islamic podcasts offer insightful discussions and teachings from speakers on various aspects of Islamic
+              faith, history, and daily life.
+            </p>
+            <!-- <button class="form-control" onclick="window.location.href='/content'" type="submit">
                             <span class="text-center w-100"><b>Stream Podcasts</b></span>
                         </button>  -->
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button">
-                            <span class="text-center w-100"><b>Stream Podcasts</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2">
-                            <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
-                        </div>
-                    </div>
-                </div>
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/content')" type="button">
+              <span class="text-center w-100"><b>Stream Podcasts</b></span>
+            </button>
+            <div v-else class="restricted-access text-center p-2">
+              <p class="mb-1 text-muted small">You must be subscribed to access</p>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden">
-                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-                    <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Channel Guide</h1>
-                        <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                            Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.
-                        </p>
-                        <!-- <button class="form-control" onclick="window.location.href='/streaming'" type="submit">
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden">
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
+          <img src="/images/mtv2.png" alt="Watch Live" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Channel Guide</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+              Find Islamic channels and access their posts, channel, website, playlists, and videos directly on YouTube.
+            </p>
+            <!-- <button class="form-control" onclick="window.location.href='/streaming'" type="submit">
                             <span class="text-center w-100"><b>View Channels</b></span>
                         </button>  -->
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')" type="button">
-                            <span class="text-center w-100"><b>View Channels</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2">
-                            <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
-                        </div>
-                    </div>
-                </div>
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/streaming')"
+              type="button">
+              <span class="text-center w-100"><b>View Channels</b></span>
+            </button>
+            <div v-else class="restricted-access text-center p-2">
+              <p class="mb-1 text-muted small">You must be subscribed to access</p>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card rounded-4 overflow-hidden">
-                    <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
-                    <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Reciters Stations</h1>
-                        <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                            Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and spiritual reminders—streamed 24/7 in multiple languages.
-                        </p>
-                        <!-- <button class="form-control" onclick="window.location.href='/radio'"
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card rounded-4 overflow-hidden">
+          <!-- <span class="badge rounded-pill bg-success text-white position-absolute top-0 start-0 m-2">New</span> -->
+          <img src="/images/radio5.jpg" alt="Radio stations" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Reciters Stations</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+              Tune in to live Islamic radio from around the world, featuring Qur'an recitations, lectures, nasheeds, and
+              spiritual reminders streamed 24/7 in multiple languages.
+            </p>
+            <!-- <button class="form-control" onclick="window.location.href='/radio'"
                             style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="submit">
                             <span class="text-center w-100"><b>Explore Reciters</b></span>
                         </button>  -->
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button">
-                            <span class="text-center w-100"><b>Explore Reciters</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2">
-                            <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
-                        </div>
-                    </div>
-                </div>
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/radio')" type="button">
+              <span class="text-center w-100"><b>Explore Reciters</b></span>
+            </button>
+            <div v-else class="restricted-access text-center p-2">
+              <p class="mb-1 text-muted small">You must be subscribed to access</p>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card overflow-hidden rounded-4" >
-                    <img src="/images/img_g.png" alt="Image Gallery" class="w-100" style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Image Gallery</h1>
-                        <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                            Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and tradition.
-                        </p>
-                        <button class="form-control" onclick="window.location.href='/gallery'" type="submit">
-                            <span class="text-center w-100"><b>View Gallery</b></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card overflow-hidden rounded-4">
+          <img src="/images/img_g.png" alt="Image Gallery" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Image Gallery</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+              Explore a beautiful collection of high-quality Islamic images capturing the essence of faith, culture, and
+              tradition.
+            </p>
+            <button class="form-control" onclick="window.location.href='/gallery'" type="submit">
+              <span class="text-center w-100"><b>View Gallery</b></span>
+            </button>
+          </div>
+        </div>
+      </div>
 
-            <div class="col-md-6 col-lg-4">
-                <div class="card custom-card overflow-hidden rounded-4" >
-                    <img src="/images/vide_g.png" alt="Video Gallery" class="w-100" style="object-fit: contain;" />
-                    <div class="p-3">
-                        <h1 class="mb-2 fw-bold text-dark text-center">Video Gallery</h1>
-                        <p class="card-text text-muted text-wrap text-center" style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
-                            Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets and Quranic reflections.
-                        </p>
-                        <!-- <button class="form-control" onclick="window.location.href='/video'"
+      <div class="col-md-6 col-lg-4">
+        <div class="card custom-card overflow-hidden rounded-4">
+          <img src="/images/vide_g.png" alt="Video Gallery" class="w-100" style="object-fit: contain;" />
+          <div class="p-3">
+            <h1 class="mb-2 fw-bold text-dark text-center">Video Gallery</h1>
+            <p class="card-text text-muted text-wrap text-center"
+              style="overflow: hidden; text-overflow: ellipsis; max-height: 4.5em;">
+              Explore a curated collection of short Islamic videos featuring reminders, duas, stories of the Prophets
+              and Quranic reflections.
+            </p>
+            <!-- <button class="form-control" onclick="window.location.href='/video'"
                             style="background: #0b5d4b; box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; color: white;height: 38px;padding: 0.375rem 0.75rem;"
                             type="submit">
                             <span class="text-center w-100"><b>Watch Videos</b></span>
                         </button>   -->
-                        <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button">
-                            <span class="text-center w-100"><b>Watch Videos</b></span>
-                        </button>
-                        <div v-else class="restricted-access text-center p-2">
-                            <p class="mb-1 text-muted small">You must be subscribed to access</p>
-                            <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
-                        </div>
-                    </div>
-                </div>
+            <button v-if="isAuthenticated && isSubscribed" class="form-control" @click="goTo('/video')" type="button">
+              <span class="text-center w-100"><b>Watch Videos</b></span>
+            </button>
+            <div v-else class="restricted-access text-center p-2">
+              <p class="mb-1 text-muted small">You must be subscribed to access</p>
+              <a href="/subscribe" class="text-decoration-none">Subscribe Now</a>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-    props: {
-        isAuthenticated: { type: Boolean, required: true },
-        isSubscribed: { type: Boolean, required: true },
+  props: {
+    isAuthenticated: { type: Boolean, required: true },
+    isSubscribed: { type: Boolean, required: true },
+  },
+  methods: {
+    goTo(path) {
+      window.location.href = path;
     },
-    methods: {
-        goTo(path) {
-            window.location.href = path;
-        },
-    },
+  },
 };
 </script>
 
@@ -143,7 +155,7 @@ export default {
   --card-glow: rgba(11, 93, 75, 0.22);
 }
 
-.container > h1.display-5 {
+.container>h1.display-5 {
   letter-spacing: -0.01em;
   font-weight: 700;
   color: var(--section-ink);
@@ -332,6 +344,7 @@ export default {
     opacity: 0;
     transform: translateY(16px) scale(0.98);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -343,35 +356,68 @@ export default {
     border-color: rgba(11, 93, 75, 0.35);
     box-shadow: 0 0 0 0 rgba(11, 93, 75, 0.18);
   }
+
   50% {
     border-color: rgba(11, 93, 75, 0.65);
     box-shadow: 0 0 0 6px rgba(11, 93, 75, 0.12);
   }
+
   100% {
     border-color: rgba(11, 93, 75, 0.35);
     box-shadow: 0 0 0 0 rgba(11, 93, 75, 0.18);
   }
 }
 
-.row > div:nth-child(1) .custom-card { animation-delay: 0.05s; }
-.row > div:nth-child(2) .custom-card { animation-delay: 0.12s; }
-.row > div:nth-child(3) .custom-card { animation-delay: 0.19s; }
-.row > div:nth-child(4) .custom-card { animation-delay: 0.26s; }
-.row > div:nth-child(5) .custom-card { animation-delay: 0.33s; }
-.row > div:nth-child(6) .custom-card { animation-delay: 0.4s; }
+.row>div:nth-child(1) .custom-card {
+  animation-delay: 0.05s;
+}
+
+.row>div:nth-child(2) .custom-card {
+  animation-delay: 0.12s;
+}
+
+.row>div:nth-child(3) .custom-card {
+  animation-delay: 0.19s;
+}
+
+.row>div:nth-child(4) .custom-card {
+  animation-delay: 0.26s;
+}
+
+.row>div:nth-child(5) .custom-card {
+  animation-delay: 0.33s;
+}
+
+.row>div:nth-child(6) .custom-card {
+  animation-delay: 0.4s;
+}
 
 @media (max-width: 768px) {
-  .container > h1.display-5 { font-size: 2rem !important; }
-  .custom-card img { height: 150px; }
-  .lead { font-size: 1rem; }
-  .card.custom-card button.form-control { height: 40px; }
+  .container>h1.display-5 {
+    font-size: 2rem !important;
+  }
+
+  .custom-card img {
+    height: 150px;
+  }
+
+  .lead {
+    font-size: 1rem;
+  }
+
+  .card.custom-card button.form-control {
+    height: 40px;
+  }
 }
 
 @media (min-width: 992px) {
-  .custom-card img { height: 190px; }
+  .custom-card img {
+    height: 190px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .custom-card,
   .custom-card img,
   .card.custom-card button.form-control,

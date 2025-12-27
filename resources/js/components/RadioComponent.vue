@@ -11,24 +11,25 @@
       </div>
 
       <!-- Search Bar and Category Dropdown -->
-      <section class="mb-5" role="search" aria-label="Search and filter stations">
+      <section class="mb-4" role="search" aria-label="Search and filter stations">
         <!-- Collapsible Filter Panel -->
-        <div class="fixed-footer p-2 mb-5 border-md"
-          style="border-radius:20px; background:linear-gradient(135deg,#e2e8f0,#c7f5ea);border:1px solid rgba(6,182,172,.28);box-shadow:0 10px 30px rgba(2,44,34,.18), inset 0 1px 0 rgba(255,255,255,.35);position:sticky;top:8px;z-index:40;backdrop-filter:saturate(140%) blur(8px);-webkit-backdrop-filter:saturate(140%) blur(8px);">
+        <div class="fixed-footer p-2 mb-4 border-md filters-panel">
 
           <!-- Toggle Header -->
-          <div class="d-flex justify-content-between align-items-center mb-3 cursor-pointer"
+          <div class="d-flex justify-content-between align-items-center mb-2 cursor-pointer filter-header"
             @click="isFilterOpen = !isFilterOpen" role="button" :aria-expanded="isFilterOpen"
             :aria-controls="'filter-panel'" tabindex="0" @keydown.enter.prevent="isFilterOpen = !isFilterOpen"
             @keydown.space.prevent="isFilterOpen = !isFilterOpen">
 
-            <h4 class="h4 pl-3 pt-2 fw-bold text-dark mb-0 d-flex align-items-center gap-2">
-              <i :class="isFilterOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
+            <h4 class="filter-title text-dark mb-0 d-flex align-items-center gap-2">
+              <span class="filter-chevron" aria-hidden="true">
+                <i :class="isFilterOpen ? 'bi bi-chevron-down' : 'bi bi-chevron-right'"></i>
+              </span>
               Filters
             </h4>
 
             <!-- Optional: Badge showing active filters -->
-            <span v-if="hasActiveFilters" class="badge bg-primary rounded-pill">
+            <span v-if="hasActiveFilters" class="badge bg-primary rounded-pill filter-badge">
               {{ activeFilterCount }} active
             </span>
           </div>
@@ -36,28 +37,26 @@
           <!-- Collapsible Content with smooth transition -->
           <transition name="slide-fade">
             <div v-show="isFilterOpen" id="filter-panel">
-              <div class="row g-4 align-items-end">
+              <div class="row g-3 align-items-end">
                 <!-- Search by Name -->
                 <div class="col-md-6">
-                  <label for="reciterSearch" class="form-label fw-bold text-dark mb-2" style="font-size: 1.4em;">
+                  <label for="reciterSearch" class="form-label fw-bold text-dark mb-2 filter-label">
                     Search by Name
                   </label>
                   <div class="input-group align-items-center">
                     <input v-model="searchQuery" @input="handleSearch" id="reciterSearch" type="text"
-                      class="form-control border-0 rounded-3 shadow-sm px-4 py-2 fs-6" placeholder="e.g., Abdul Basit"
-                      aria-label="Search reciters by name"
-                      style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;" />
+                      class="form-control rounded-3 shadow-sm px-3 py-2 fs-6 filter-input"
+                      placeholder="e.g., Abdul Basit" aria-label="Search reciters by name" />
                   </div>
                 </div>
 
                 <!-- Category Filter -->
                 <div class="col-md-3">
-                  <label for="reciterCategory" class="form-label fw-bold text-dark mb-2" style="font-size: 1.4em;">
+                  <label for="reciterCategory" class="form-label fw-bold text-dark mb-2 filter-label">
                     Category
                   </label>
                   <select v-model="selectedCategory" @change="handleSearch" id="reciterCategory"
-                    class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6" aria-label="Select a Category"
-                    style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
+                    class="form-select rounded-3 shadow-sm px-3 py-2 fs-6 filter-select" aria-label="Select a Category">
                     <option value="All Categories">All Categories</option>
                     <option v-for="category in availableCategories" :key="category" :value="category">
                       {{ category }}
@@ -67,11 +66,11 @@
 
                 <!-- Sort By Filter -->
                 <div class="col-md-3">
-                  <label for="sortBy" class="form-label fw-bold text-dark mb-2" style="font-size: 1.4em;">
+                  <label for="sortBy" class="form-label fw-bold text-dark mb-2 filter-label">
                     Sort By
                   </label>
-                  <select v-model="sortBy" id="sortBy" class="form-select border-0 rounded-3 shadow-sm px-4 py-2 fs-6"
-                    aria-label="Sort stations" style="background-color:#edf2f7;border:1px solid #d1d5db;color:#0b1320;">
+                  <select v-model="sortBy" id="sortBy" class="form-select rounded-3 shadow-sm px-3 py-2 fs-6 filter-select"
+                    aria-label="Sort stations">
                     <option value="default">Default</option>
                     <option value="name_asc">Name (A-Z)</option>
                     <option value="name_desc">Name (Z-A)</option>
@@ -1318,6 +1317,57 @@ const playAudio = (index) => {
 /* Optional: make header look clickable */
 .cursor-pointer:hover {
   opacity: 0.9;
+}
+
+.filters-panel {
+  border-radius: 16px;
+  background: linear-gradient(135deg, #eff4f8, #d9f7ef);
+  border: 1px solid rgba(6, 182, 172, 0.28);
+  box-shadow: 0 8px 22px rgba(2, 44, 34, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.45);
+  position: sticky;
+  top: 8px;
+  z-index: 40;
+  backdrop-filter: saturate(130%) blur(8px);
+  -webkit-backdrop-filter: saturate(130%) blur(8px);
+}
+
+.filter-header {
+  padding: 0.25rem 0.35rem 0;
+}
+
+.filter-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.filter-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(6, 182, 172, 0.14);
+  color: #0f766e;
+  font-size: 0.85rem;
+}
+
+.filter-badge {
+  font-size: 0.72rem;
+  padding: 0.25rem 0.55rem;
+}
+
+.filter-label {
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.filter-input,
+.filter-select {
+  background-color: #edf2f7;
+  border: 1px solid #d1d5db;
+  color: #0b1320;
 }
 
 .card-teal {

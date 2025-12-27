@@ -4651,9 +4651,9 @@ __webpack_require__.r(__webpack_exports__);
               const hit = (0,_utils_milestones__WEBPACK_IMPORTED_MODULE_10__.trackAndDetect)('notes_saved', [1, 5, 10, 25, 100], 'persistent');
               if (hit && hit.threshold) {
                 if (hit.threshold === 1) {
-                  this.milestoneMessage = "First note saved — reflections deepen understanding.";
+                  this.milestoneMessage = "First note saved   reflections deepen understanding.";
                 } else {
-                  this.milestoneMessage = `Beautiful progress — ${hit.threshold} notes captured. Keep reflecting.`;
+                  this.milestoneMessage = `Beautiful progress   ${hit.threshold} notes captured. Keep reflecting.`;
                 }
                 this.hideMilestoneAfterDelay();
               }
@@ -5544,7 +5544,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "color": "#0b806f"
     }
-  }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" As-salaamu alaikum—if this is your first deep dive into Islam, let the verses you just read continue to surround you. Slip over to our curated ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" As-salaamu alaikum if this is your first deep dive into Islam, let the verses you just read continue to surround you. Slip over to our curated ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/surat",
     class: "fw-semibold text-decoration-none",
     style: {

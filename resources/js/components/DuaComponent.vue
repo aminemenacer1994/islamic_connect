@@ -1,7 +1,7 @@
 <template>
   <main class="container-fluid py-4 dua-shell" role="main" aria-labelledby="dua-title">
     <!-- Hero Section -->
-    <header class="hero-section dua-hero mb-5">
+    <header class="hero-section mb-5">
       <h1 id="dua-title" class="fw-bold text-center mb-3 dua-title">Dua Collection</h1>
       <p class="text-center container lead mb-4 dua-lead">
         Explore a curated selection of authentic Islamic supplications, organized into categories like forgiveness,
@@ -9,7 +9,7 @@
       </p>
     </header>
 
-    <div class="container dua-next-step-wrap">
+    <!-- <div class="container dua-next-step-wrap">
       <div class="mx-auto mb-4 dua-next-step">
         <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
@@ -26,7 +26,7 @@
             <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
-            <!-- Minimized teaser -->
+            -- Minimized teaser --
             <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 next-step-teaser">
               <a href="/name" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link"
                 aria-label="Open the 99 Names of Allah journey">
@@ -52,7 +52,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Error Message -->
     <transition name="fade">

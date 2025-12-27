@@ -13,7 +13,7 @@
               <div class="me-3" style="font-size:28px;">👥</div>
               <div>
                 <div class="text-muted">Active Users (Realtime)</div>
-                <div class="h3 mb-0">{{ data?.activeUsers ?? '—' }}</div>
+                <div class="h3 mb-0">{{ data?.activeUsers ?? ' ' }}</div>
               </div>
             </div>
           </div>
@@ -30,8 +30,9 @@
                   class="form-control form-control-sm me-2" style="width: 200px" />
                 <button class="btn btn-sm btn-outline-secondary me-2" @click="savePropertyId">Save</button>
                 <button class="btn btn-sm btn-outline-primary" @click="fetchData" :disabled="loading">
-                <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-                Refresh
+                  <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status"
+                    aria-hidden="true"></span>
+                  Refresh
                 </button>
               </div>
             </div>
@@ -40,18 +41,25 @@
               {{ credStatusMsg }}
               <template v-if="credStatus && credStatus.storage_fallback">
                 <span class="ms-2 text-muted">path: {{ credStatus.storage_fallback.path }}</span>
-                <span class="ms-2" :class="credStatus.storage_fallback.exists ? 'text-success' : 'text-danger'">exists: {{ credStatus.storage_fallback.exists }}</span>
-                <span class="ms-2" :class="credStatus.storage_fallback.readable ? 'text-success' : 'text-danger'">readable: {{ credStatus.storage_fallback.readable }}</span>
-                <span class="ms-2" :class="credStatus.storage_fallback.writable_dir ? 'text-success' : 'text-danger'">writable_dir: {{ credStatus.storage_fallback.writable_dir }}</span>
+                <span class="ms-2" :class="credStatus.storage_fallback.exists ? 'text-success' : 'text-danger'">exists:
+                  {{ credStatus.storage_fallback.exists }}</span>
+                <span class="ms-2"
+                  :class="credStatus.storage_fallback.readable ? 'text-success' : 'text-danger'">readable: {{
+                    credStatus.storage_fallback.readable }}</span>
+                <span class="ms-2"
+                  :class="credStatus.storage_fallback.writable_dir ? 'text-success' : 'text-danger'">writable_dir: {{
+                    credStatus.storage_fallback.writable_dir }}</span>
               </template>
             </div>
             <div class="d-flex align-items-center gap-2 mb-2">
-              <input ref="fileInput" type="file" accept="application/json,.json" class="form-control form-control-sm me-2" style="max-width:320px" />
+              <input ref="fileInput" type="file" accept="application/json,.json"
+                class="form-control form-control-sm me-2" style="max-width:320px" />
               <button class="btn btn-sm btn-outline-success me-2" @click="uploadCreds">Upload key JSON</button>
               <button class="btn btn-sm btn-link" @click="checkStatus">Check status</button>
             </div>
             <div class="mb-2">
-              <textarea v-model="jsonText" placeholder="Or paste service account JSON here" class="form-control form-control-sm" rows="3"></textarea>
+              <textarea v-model="jsonText" placeholder="Or paste service account JSON here"
+                class="form-control form-control-sm" rows="3"></textarea>
               <div class="mt-2">
                 <button class="btn btn-sm btn-outline-success" @click="saveJsonText">Save pasted JSON</button>
               </div>
@@ -62,21 +70,21 @@
             <div class="table-responsive">
               <table class="table table-sm align-middle">
                 <thead>
-                <tr>
-                  <th style="width:60%">Path</th>
-                  <th class="text-end">Active Users</th>
-                  <th class="text-end">Views</th>
-                </tr>
+                  <tr>
+                    <th style="width:60%">Path</th>
+                    <th class="text-end">Active Users</th>
+                    <th class="text-end">Views</th>
+                  </tr>
                 </thead>
                 <tbody>
-                <tr v-for="(r, i) in (data?.topPages || [])" :key="i">
-                  <td><code>{{ r.path || '/' }}</code></td>
-                  <td class="text-end">{{ r.activeUsers }}</td>
-                  <td class="text-end">{{ r.views }}</td>
-                </tr>
-                <tr v-if="!loading && (!data || (data.topPages||[]).length === 0)">
-                  <td colspan="3" class="text-muted">No realtime rows.</td>
-                </tr>
+                  <tr v-for="(r, i) in (data?.topPages || [])" :key="i">
+                    <td><code>{{ r.path || '/' }}</code></td>
+                    <td class="text-end">{{ r.activeUsers }}</td>
+                    <td class="text-end">{{ r.views }}</td>
+                  </tr>
+                  <tr v-if="!loading && (!data || (data.topPages || []).length === 0)">
+                    <td colspan="3" class="text-muted">No realtime rows.</td>
+                  </tr>
                 </tbody>
               </table>
             </div>
@@ -90,7 +98,7 @@
       <code>composer require google/apiclient:^2.15 google/analytics-data</code>.
     </div>
   </div>
-  
+
 </template>
 
 <script>
@@ -113,7 +121,7 @@ export default {
   mounted() {
     // Ensure default property id is persisted once
     if (!localStorage.getItem('ga4_property_id') && this.propertyId) {
-      try { localStorage.setItem('ga4_property_id', this.propertyId); } catch(_) {}
+      try { localStorage.setItem('ga4_property_id', this.propertyId); } catch (_) { }
     }
     this.fetchData();
     this.checkStatus();
@@ -173,7 +181,7 @@ export default {
         this.credStatusMsg = 'Credentials uploaded.';
         this.checkStatus();
         this.fetchData();
-      } catch(e) { this.error = e?.message || String(e); }
+      } catch (e) { this.error = e?.message || String(e); }
     },
     async saveJsonText() {
       if (!this.jsonText.trim()) { this.error = 'Paste the JSON first.'; return; }
@@ -195,7 +203,7 @@ export default {
         this.credStatusClass = 'alert-success';
         this.checkStatus();
         this.fetchData();
-      } catch(e) { this.error = e?.message || String(e); }
+      } catch (e) { this.error = e?.message || String(e); }
     },
     async checkStatus() {
       try {
@@ -206,14 +214,23 @@ export default {
         else if (json?.env_path?.readable) { this.credStatusMsg = 'Credentials found via GOOGLE_APPLICATION_CREDENTIALS'; this.credStatusClass = 'alert-success'; }
         else if (json?.env_base64 === 'present') { this.credStatusMsg = 'Credentials present via GA_CREDENTIALS_JSON_BASE64'; this.credStatusClass = 'alert-success'; }
         else { this.credStatusMsg = 'No credentials detected'; this.credStatusClass = 'alert-warning'; }
-      } catch(_) {}
+      } catch (_) { }
     }
   }
 }
 </script>
 
 <style scoped>
-.card { border-radius: 10px; }
-code { color: #555; }
-.alert { padding: 6px 10px; margin-bottom: 8px; }
+.card {
+  border-radius: 10px;
+}
+
+code {
+  color: #555;
+}
+
+.alert {
+  padding: 6px 10px;
+  margin-bottom: 8px;
+}
 </style>

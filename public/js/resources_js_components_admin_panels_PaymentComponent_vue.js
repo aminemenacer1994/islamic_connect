@@ -78,7 +78,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     prettyStatus(s) {
-      if (!s) return '—';
+      if (!s) return ' ';
       const map = {
         reversed: 'Reversed',
         refunded: 'Refunded',
@@ -90,7 +90,7 @@ __webpack_require__.r(__webpack_exports__);
       return map[String(s).toLowerCase()] || s;
     },
     formatAmount(amount, currency) {
-      if (amount === null || amount === undefined || amount === '') return '—';
+      if (amount === null || amount === undefined || amount === '') return ' ';
       try {
         return new Intl.NumberFormat(undefined, {
           style: 'currency',
@@ -350,7 +350,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         href: data.receipt_url,
         target: "_blank",
         rel: "noopener"
-      }, "Receipt", 8 /* PROPS */, _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_25, "—"))]),
+      }, "Receipt", 8 /* PROPS */, _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_25, " "))]),
       _: 1 /* STABLE */
     }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_Column, {
       header: "Actions",

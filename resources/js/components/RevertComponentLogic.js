@@ -87,18 +87,18 @@ const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'b
 const DEFAULT_DAILY_CHALLENGES = [
   {
     id: 'insight-note',
-    title: 'Capture today’s insight',
-    description: 'Note how the lesson landed for you today.'
+    title: 'Challenge one',
+    description: '* Morning: Recite "Lā ilāha illallāh" 100 times with reflection. Noon: Learn one Name of Allāh and reflect on it throughout the day.'
   },
   {
     id: 'share-moment',
-    title: 'Share the tone',
-    description: 'Send one short update or dua to someone who inspires you.'
+    title: 'Challenge two',
+    description: 'Afternoon: Spot 3 signs of Allāhs Lordship around you. Evening: Purify one intention before an act of worship.'
   },
   {
     id: 'routine-tie',
-    title: 'Tie it to routine',
-    description: 'Attach today’s insight to a prayer, commute, or quiet moment.'
+    title: 'Challenge three',
+    description: 'Night: Recite Ayat al-Kursī (2:255) before sleep – the greatest āyah on Tawheed.'
   }
 ]
 

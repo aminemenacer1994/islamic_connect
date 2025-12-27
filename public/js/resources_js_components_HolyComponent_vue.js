@@ -75,7 +75,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "text-overflow": "ellipsis",
       "max-height": "4.5em"
     }
-  }, "Explore the beauty and guidance of the Quran at your fingertips — perfect for seekers, travelers, and newcomers alike."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Explore the beauty and guidance of the Quran at your fingertips perfect for seekers, travelers, and newcomers alike."), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "form-control",
     onclick: "window.location.href='/quran'",
     type: "submit"

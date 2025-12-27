@@ -2,7 +2,7 @@
   <div class="container py-4 history-ui" role="main" aria-label="Quran History">
     <!-- Header -->
 
-    <div class="row justify-content-center text-center mb-3 history-hero">
+    <div class="row justify-content-center text-center mb-3 ">
       <div class="col-lg-10 col-xl-10 history-hero__inner">
         <h1 class="display-5 fw-bold history-title">Quran History</h1>
         <p class="lead history-lead">
@@ -1056,13 +1056,13 @@ export default {
   border-radius: 28px;
 }
 
-.history-hero__inner {
+/* .history-hero__inner {
   background: var(--hc-surface);
   border: 1px solid var(--hc-border);
   border-radius: 24px;
   padding: 2.2rem 1.8rem;
   box-shadow: var(--hc-shadow);
-}
+} */
 
 .history-title {
   color: var(--hc-text);

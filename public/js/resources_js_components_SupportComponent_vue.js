@@ -66,7 +66,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     historyMessage() {
       var _this$lastDonationRec;
       if ((_this$lastDonationRec = this.lastDonationRecord) !== null && _this$lastDonationRec !== void 0 && _this$lastDonationRec.amount) {
-        return `We remember your last gift of £${this.formatMoney(this.lastDonationRecord.amount)}—thank you for being part of Islamic Connect.`;
+        return `We remember your last gift of £${this.formatMoney(this.lastDonationRecord.amount)} thank you for being part of Islamic Connect.`;
       }
       if (this.insights.lastDonation) {
         const label = this.insights.lastDonation.label || 'A generous supporter';

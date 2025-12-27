@@ -14,10 +14,7 @@
     <div class="container px-2">
       <div class="mx-auto mb-4 next-step-card animate-rise">
         <div class="next-step-actions" role="group" aria-label="Next step actions">
-          <button
-            type="button"
-            class="icon-btn"
-            :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          <button type="button" class="icon-btn" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
             :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
             @click.stop="toggleNextStepMinimized">
             <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
@@ -39,7 +36,8 @@
               <i class="fas fa-arrow-up-right-from-square ms-1 text-brand"></i>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
-              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step into
+              Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step
+              into
               heartfelt supplications, explore a simple, welcoming the
               <a href="/dua" class="fw-semibold text-decoration-none next-step-link">
                 Du‘a collection
@@ -47,7 +45,7 @@
               for daily moments of connection.
             </p>
             <a v-show="!nextStepMinimized" href="/dua"
-               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
+              class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
               Explore Du‘a
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
@@ -90,7 +88,7 @@
                 :aria-busy="summaryLoading ? 'true' : 'false'" title="AI Summary" aria-label="AI Summary">
                 <i class="bi" :class="summaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
                 <span class="label d-none d-sm-inline">{{ summaryLoading ? 'Generating...' : 'AI Summary'
-                  }}</span>
+                }}</span>
               </button>
             </div>
 
@@ -98,13 +96,11 @@
 
             <!-- Font size controls -->
             <div class="action-group" role="group" aria-label="Font size">
-              <button class="action-item" @click="decFont" title="Decrease font size"
-                aria-label="Decrease font size">
+              <button class="action-item" @click="decFont" title="Decrease font size" aria-label="Decrease font size">
                 <span class="fw-semibold">A−</span>
                 <span class="label d-none d-md-inline ms-1">Smaller</span>
               </button>
-              <button class="action-item" @click="incFont" title="Increase font size"
-                aria-label="Increase font size">
+              <button class="action-item" @click="incFont" title="Increase font size" aria-label="Increase font size">
                 <span class="fw-semibold">A+</span>
                 <span class="label d-none d-md-inline ms-1">Larger</span>
               </button>
@@ -119,8 +115,7 @@
                 <i class="bi bi-whatsapp"></i>
                 <span class="label d-none d-md-inline ms-1">WhatsApp</span>
               </button>
-              <button class="action-item" @click="copyToClipboard" title="Copy text"
-                aria-label="Copy text">
+              <button class="action-item" @click="copyToClipboard" title="Copy text" aria-label="Copy text">
                 <i class="bi bi-clipboard"></i>
                 <span class="label d-none d-md-inline ms-1">Copy</span>
               </button>
@@ -139,7 +134,7 @@
 
             <!-- Export -->
             <div class="action-group" role="group" aria-label="Export">
-              
+
               <!-- Play Button aligned to the end -->
               <button class="play-toggle play-btn-circle" :class="{ playing: isAudioPlaying[currentIndex] }"
                 :aria-label="isAudioPlaying[currentIndex] ? 'Pause audio' : 'Play audio'"
@@ -147,7 +142,8 @@
                 @keydown.enter.prevent="toggleAudioPlayer(currentIndex)"
                 @keydown.space.prevent="toggleAudioPlayer(currentIndex)"
                 :title="isAudioPlaying[currentIndex] ? 'Pause' : 'Play'">
-                <i class="bi play-icon" :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"></i>
+                <i class="bi play-icon"
+                  :class="isAudioPlaying[currentIndex] ? 'bi-pause-circle-fill' : 'bi-play-circle-fill'"></i>
               </button>
             </div>
           </div>
@@ -158,16 +154,20 @@
           <!-- Time Estimates -->
           <div class="d-flex container align-items-center flex-wrap text-center gap-2 gap-sm-3" role="group"
             aria-label="Time estimates">
-            <span class="stat-chip"><i class="bi bi-book me-1"></i><strong class="me-1">Read:</strong> {{ readTime }}m</span>
-            <span class="stat-chip"><i class="bi bi-headphones me-1"></i><strong class="me-1">Listen:</strong> {{ listenTime }}m</span>
-            <span class="stat-chip"><i class="bi bi-file-earmark-word me-1"></i><strong class="me-1">Words:</strong> {{ wordCount }}</span>
+            <span class="stat-chip"><i class="bi bi-book me-1"></i><strong class="me-1">Read:</strong> {{ readTime
+              }}m</span>
+            <span class="stat-chip"><i class="bi bi-headphones me-1"></i><strong class="me-1">Listen:</strong> {{
+              listenTime }}m</span>
+            <span class="stat-chip"><i class="bi bi-file-earmark-word me-1"></i><strong class="me-1">Words:</strong> {{
+              wordCount }}</span>
           </div>
         </div>
 
         <!-- AI Summary Section (Premium) -->
         <transition name="fade-slide" class="card-teal">
           <div v-if="summaryText && isVisible && showSummaryBox"
-            class="ai-summary-inline card-teal premium-surface mt-3 mt-md-4 p-2 p-md-3 rounded-20 animate-rise" ref="summarySection">
+            class="ai-summary-inline card-teal premium-surface mt-3 mt-md-4 p-2 p-md-3 rounded-20 animate-rise"
+            ref="summarySection">
             <div class="d-flex align-items-center justify-content-between mb-2">
               <h6 class="mb-0 text-dark small">
                 <i class="bi bi-robot me-1 me-sm-2"></i>
@@ -179,8 +179,8 @@
                   aria-controls="ai-summary-panel">
                   <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
                 </button>
-                <button class="btn btn-sm btn-outline-secondary subtle-btn" @click="closeSummaryBox" title="Close summary"
-                  aria-label="Close summary">
+                <button class="btn btn-sm btn-outline-secondary subtle-btn" @click="closeSummaryBox"
+                  title="Close summary" aria-label="Close summary">
                   <i class="bi bi-x"></i>
                 </button>
               </div>
@@ -334,7 +334,7 @@
               aria-label="Volume control" aria-live="polite" />
           </div>
           <span class="time" role="status" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime)
-            }}</span>
+          }}</span>
           <button class="control-icon btn btn-link p-0 close-icon" @click="closeAudioPlayer" title="Close"
             aria-label="Close audio player">
             <i class="bi bi-x"></i>
@@ -514,7 +514,7 @@ export default {
   methods: {
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
-      try { localStorage.setItem('missionNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
+      try { localStorage.setItem('missionNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) { }
     },
     dismissNextStep() {
       this.showNextStep = false;
@@ -528,7 +528,7 @@ export default {
       const atTop = (typeof window !== 'undefined') ? (window.scrollY <= 0) : true;
       const currentTitle = this.events && this.events[this.currentIndex] ? this.events[this.currentIndex].title : '';
       try {
-        document.title = atTop && currentTitle ? `${base} — ${currentTitle}` : base;
+        document.title = atTop && currentTitle ? `${base}   ${currentTitle}` : base;
       } catch (_) { }
     },
     updateCurrentMetrics() {
@@ -1108,11 +1108,11 @@ export default {
             .trim();
           if (t) {
             // If paragraph contains multiple hyphen-led items, convert to bullets
-            const hyphenItems = t.match(/(?:^|\s)[-–—]\s+[^-–—].+?(?=(?:\s[-–—]\s)|$)/g);
+            const hyphenItems = t.match(/(?:^|\s)[-– ]\s+[^-– ].+?(?=(?:\s[-– ]\s)|$)/g);
             const numberedItems = t.match(/(?:^|\s)(\d+)\.\s+.+?(?=(?:\s\d+\.)|$)/g);
             if (hyphenItems && hyphenItems.length >= 3) {
               hyphenItems.forEach(item => {
-                const txt = item.replace(/^\s*[-–—]\s+/, '').trim();
+                const txt = item.replace(/^\s*[-– ]\s+/, '').trim();
                 if (txt) blocks.push({ type: 'bullet', text: txt });
               });
             } else if (numberedItems && numberedItems.length >= 3) {
@@ -1149,7 +1149,7 @@ export default {
       };
       const pushBulletsFromPlain = (txt) => {
         // Build bullets from repeated hyphen markers
-        const parts = txt.split(/(?:^|\s)[\-–—]\s+/).map(s => s.trim()).filter(Boolean);
+        const parts = txt.split(/(?:^|\s)[\-– ]\s+/).map(s => s.trim()).filter(Boolean);
         if (parts.length >= 2) {
           return parts.map(t => ({ type: 'bullet', text: t }));
         }
@@ -1271,7 +1271,7 @@ export default {
         .replace(/\u00A0/g, ' ') // nbsp
         .replace(/[“”]/g, '"')
         .replace(/[‘’]/g, "'")
-        .replace(/[‐‑–—]/g, '-') // hyphen, non-breaking hyphen, en/em dash
+        .replace(/[‐‑– ]/g, '-') // hyphen, non-breaking hyphen, en/em dash
         .replace(/…/g, '...')
         .replace(/\u200B|\u200E|\u200F/g, ''); // zero-width/RTL marks
       // Replace common Islamic marks with ASCII form
@@ -1463,14 +1463,14 @@ export default {
   margin: 0 auto;
 }
 
-.mission-hero .col-lg-10,
+/* .mission-hero .col-lg-10,
 .mission-hero .col-xl-10 {
   background: var(--mission-surface);
   border: 1px solid var(--mission-border);
   border-radius: 24px;
   padding: 2rem 1.5rem;
   box-shadow: 0 14px 30px rgba(15, 41, 32, 0.08);
-}
+} */
 
 .card-teal {
   border-radius: 22px;
@@ -1479,11 +1479,13 @@ export default {
   background: var(--mission-surface);
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
-.card-teal:hover { 
+
+.card-teal:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(15,41,32,0.12);
+  box-shadow: 0 18px 40px rgba(15, 41, 32, 0.12);
   border-color: rgba(11, 128, 111, 0.3);
 }
+
 /* Next-step controls */
 .next-step-actions {
   position: absolute;
@@ -1494,6 +1496,7 @@ export default {
   gap: 10px;
   z-index: 5;
 }
+
 .icon-btn {
   background: transparent;
   border: 0;
@@ -1503,17 +1506,34 @@ export default {
   padding: 6px;
   line-height: 1;
 }
-.icon-btn i { font-size: 1rem; }
-.icon-btn:hover { opacity: 1; }
+
+.icon-btn i {
+  font-size: 1rem;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+}
+
 .icon-btn:focus {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(11,128,111,0.25);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.25);
   border-radius: 6px;
 }
+
 /* Subtle button variant */
-.subtle-btn { border-radius: 12px; }
-.subtle-btn:hover { filter: brightness(1.03); }
-.subtle-btn:focus-visible { box-shadow: 0 0 0 3px rgba(108,117,125,0.35); }
+.subtle-btn {
+  border-radius: 12px;
+}
+
+.subtle-btn:hover {
+  filter: brightness(1.03);
+}
+
+.subtle-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(108, 117, 125, 0.35);
+}
+
 /* Removed animate.css to reduce animation overhead */
 
 .play-btn-circle {
@@ -1524,15 +1544,15 @@ export default {
   height: 46px;
   border-radius: 50%;
   background: #ffffff;
-  border: 1px solid rgba(11,128,111,0.25);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.08);
+  border: 1px solid rgba(11, 128, 111, 0.25);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 4px 10px rgba(0, 0, 0, 0.08);
   transition: background-color 0.15s ease, box-shadow 0.2s ease, transform 0.05s ease, border-color 0.2s ease;
   position: relative;
 }
 
 .play-btn-circle:hover {
   background: #fdfdfb;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 6px 14px rgba(0, 0, 0, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 6px 14px rgba(0, 0, 0, 0.12);
 }
 
 .play-btn-circle:active {
@@ -1540,7 +1560,7 @@ export default {
 }
 
 .play-btn-circle.playing {
-  border-color: rgba(13,182,145,0.5);
+  border-color: rgba(13, 182, 145, 0.5);
   background: #f4fbf7;
 }
 
@@ -1555,10 +1575,14 @@ export default {
 .play-icon {
   font-size: clamp(1.9rem, 2.6vw, 2.8rem);
   color: #0f766e;
-  filter: drop-shadow(0 1px 0 rgba(255,255,255,0.6));
+  filter: drop-shadow(0 1px 0 rgba(255, 255, 255, 0.6));
   transition: color 0.18s ease, transform 0.12s ease, text-shadow 0.3s ease;
 }
-.play-toggle:hover .play-icon { color: var(--mission-accent); }
+
+.play-toggle:hover .play-icon {
+  color: var(--mission-accent);
+}
+
 .play-toggle.playing .play-icon {
   animation: playPulse 1.8s ease-in-out infinite;
   color: var(--mission-accent);
@@ -1570,14 +1594,25 @@ export default {
   position: absolute;
   inset: -6px;
   border-radius: 999px;
-  border: 2px solid rgba(13,182,145,0.35);
+  border: 2px solid rgba(13, 182, 145, 0.35);
   animation: ringPulse 1.8s ease-out infinite;
 }
 
 @keyframes ringPulse {
-  0% { transform: scale(0.9); opacity: 0.6; }
-  60% { transform: scale(1.1); opacity: 0.12; }
-  100% { transform: scale(1.2); opacity: 0; }
+  0% {
+    transform: scale(0.9);
+    opacity: 0.6;
+  }
+
+  60% {
+    transform: scale(1.1);
+    opacity: 0.12;
+  }
+
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
 }
 
 .audio-player-container {
@@ -1759,7 +1794,8 @@ export default {
 
 .event-box {
   background: var(--mission-surface);
-  border-radius: 22px; /* consistent rounded aesthetic */
+  border-radius: 22px;
+  /* consistent rounded aesthetic */
   box-shadow: 0 14px 30px rgba(15, 41, 32, 0.1);
   padding: 20px;
   margin: 0 auto;
@@ -2368,6 +2404,7 @@ mark {
   padding: 1.25rem 1.75rem;
   overflow: hidden;
 }
+
 .next-step-card::before {
   content: '';
   position: absolute;
@@ -2378,32 +2415,60 @@ mark {
   background: var(--mission-accent);
   opacity: 0.6;
 }
+
 .next-step-icon {
-  width: 46px; height: 46px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
   background: rgba(11, 128, 111, 0.16);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--mission-accent); font-size: 1.35rem;
-  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 14px rgba(26,95,122,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mission-accent);
+  font-size: 1.35rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 14px rgba(26, 95, 122, 0.10);
 }
-.next-step-eyebrow { letter-spacing: 0.1em; color: var(--mission-accent-2); font-size: 0.78rem; }
-.next-step-text { color: var(--mission-ink); line-height: 1.8; font-size: 1.05rem; }
-.next-step-link { color: var(--mission-accent); }
-.next-step-link:hover { text-decoration: underline; }
-.text-brand { color: var(--mission-accent); }
+
+.next-step-eyebrow {
+  letter-spacing: 0.1em;
+  color: var(--mission-accent-2);
+  font-size: 0.78rem;
+}
+
+.next-step-text {
+  color: var(--mission-ink);
+  line-height: 1.8;
+  font-size: 1.05rem;
+}
+
+.next-step-link {
+  color: var(--mission-accent);
+}
+
+.next-step-link:hover {
+  text-decoration: underline;
+}
+
+.text-brand {
+  color: var(--mission-accent);
+}
+
 .next-step-cta {
   background: var(--mission-accent);
-  border: none; border-radius: 999px;
+  border: none;
+  border-radius: 999px;
   box-shadow: 0 10px 20px rgba(11, 128, 111, 0.25);
   transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
 }
+
 .next-step-cta:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 28px rgba(11, 128, 111, 0.28);
 }
+
 .next-step-cta:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(11,128,111,0.35);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35);
 }
 
 /* Evenly spaced action row */
@@ -2417,8 +2482,22 @@ mark {
   background: var(--mission-surface);
   box-shadow: 0 8px 18px rgba(15, 41, 32, 0.08);
 }
-.action-group { display: flex; align-items: center; gap: 6px; }
-.row-sep { width: 1px; height: 20px; background: var(--mission-border); border-radius: 1px; margin: 0 4px; display: inline-block; }
+
+.action-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.row-sep {
+  width: 1px;
+  height: 20px;
+  background: var(--mission-border);
+  border-radius: 1px;
+  margin: 0 4px;
+  display: inline-block;
+}
+
 .action-item {
   display: inline-flex;
   align-items: center;
@@ -2431,17 +2510,46 @@ mark {
   font-size: 0.9rem;
   transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.08s ease, color 0.18s ease, border-color 0.18s ease;
 }
-.action-item .label { margin-left: 2px; }
+
+.action-item .label {
+  margin-left: 2px;
+}
+
 .action-item:hover {
   background-color: #fdfbf7;
   box-shadow: 0 6px 12px rgba(15, 41, 32, 0.12);
 }
-.action-item:active { transform: scale(0.98); }
-.action-item:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(13,110,253,0.25); }
-.action-item i { font-size: 1rem; }
-.action-item.action-success { color: #0f5132; border-color: rgba(21,128,61,0.3); background-color: rgba(21,128,61,0.12); }
-.action-item.action-primary { color: #0c4a6e; border-color: rgba(2,132,199,0.3); background-color: rgba(2,132,199,0.12); }
-.action-item.action-danger { color: #842029; border-color: rgba(220,38,38,0.3); background-color: rgba(220,38,38,0.12); }
+
+.action-item:active {
+  transform: scale(0.98);
+}
+
+.action-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+}
+
+.action-item i {
+  font-size: 1rem;
+}
+
+.action-item.action-success {
+  color: #0f5132;
+  border-color: rgba(21, 128, 61, 0.3);
+  background-color: rgba(21, 128, 61, 0.12);
+}
+
+.action-item.action-primary {
+  color: #0c4a6e;
+  border-color: rgba(2, 132, 199, 0.3);
+  background-color: rgba(2, 132, 199, 0.12);
+}
+
+.action-item.action-danger {
+  color: #842029;
+  border-color: rgba(220, 38, 38, 0.3);
+  background-color: rgba(220, 38, 38, 0.12);
+}
 
 /* Navigation buttons (consistent brand color + focus) */
 .nav-btn {
@@ -2451,17 +2559,39 @@ mark {
   border-radius: 12px;
   transition: transform 0.12s ease, box-shadow 0.18s ease, filter 0.18s ease;
 }
-.nav-btn:hover { filter: brightness(1.05); box-shadow: 0 4px 10px rgba(11,128,111,0.25); }
-.nav-btn:active { transform: translateY(1px); }
-.nav-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(11,128,111,0.35); }
+
+.nav-btn:hover {
+  filter: brightness(1.05);
+  box-shadow: 0 4px 10px rgba(11, 128, 111, 0.25);
+}
+
+.nav-btn:active {
+  transform: translateY(1px);
+}
+
+.nav-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35);
+}
 
 /* Subtle keyframe animations */
 @keyframes riseIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.animate-rise { animation: riseIn 300ms ease-out both; }
-  /* content surfaces and chips now provided globally via resources/css/app.css */
+
+.animate-rise {
+  animation: riseIn 300ms ease-out both;
+}
+
+/* content surfaces and chips now provided globally via resources/css/app.css */
 </style>
 
 <!-- Global (unscoped) spacing to ensure content is never overlapped by the fixed audio bar -->

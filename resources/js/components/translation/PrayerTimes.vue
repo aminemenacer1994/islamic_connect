@@ -2,52 +2,38 @@
   <section class="container-fluid mt-3" aria-labelledby="prayer-times-heading">
     <div class="text-center container">
       <div class="row mb-3" style="align-items: center; text-align: center">
-        
+
         <!-- Loading State -->
         <div v-if="loading" class="text-center mb-4" role="status" aria-live="polite">
           <div class="spinner" aria-hidden="true"></div>
           <p class="mt-2 text-muted">Loading prayer times...</p>
         </div>
 
-        <!-- Only show real errors (critical) errors — not location fallback -->
+        <!-- Only show real errors (critical) errors   not location fallback -->
         <div v-if="error" class="alert alert-danger text-center" role="alert" aria-live="assertive">
           <i class="fas fa-exclamation-triangle me-2" aria-hidden="true"></i>
           {{ error }}
         </div>
       </div>
-      
+
       <!-- Prayer Times Grid -->
       <div v-if="prayerTimes && !loading" class="row justify-content-center g-3" role="list" aria-label="Prayer times">
-        <div 
-          class="col-6 col-sm-4 col-md-3 col-lg-2" 
-          v-for="(time, prayer) in filteredPrayerTimes" 
-          :key="prayer"
-          role="listitem"
-        >
-          <div 
-            class="p-3 text-center rounded shadow-sm h-100 prayer-card"
-            :class="{
-              'text-white': prayer === nextPrayer,
-              'bg-light': prayer !== nextPrayer
-            }"
-            :style="prayer === nextPrayer ? 'background: #1a5f7a !important;' : ''"
-            :aria-current="prayer === nextPrayer ? 'true' : 'false'"
-          >
+        <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="(time, prayer) in filteredPrayerTimes" :key="prayer"
+          role="listitem">
+          <div class="p-3 text-center rounded shadow-sm h-100 prayer-card" :class="{
+            'text-white': prayer === nextPrayer,
+            'bg-light': prayer !== nextPrayer
+          }" :style="prayer === nextPrayer ? 'background: #1a5f7a !important;' : ''"
+            :aria-current="prayer === nextPrayer ? 'true' : 'false'">
             <h3 class="h6 fw-bold mb-2" :class="prayer === nextPrayer ? 'text-white' : 'text-dark'">
               {{ getPrayerDisplayName(prayer) }}
             </h3>
-            <p 
-              class="mb-0 fs-5 fw-bold" 
-              :style="prayer === nextPrayer ? 'color: white !important;' : 'color: #1a5f7a !important;'"
-            >
+            <p class="mb-0 fs-5 fw-bold"
+              :style="prayer === nextPrayer ? 'color: white !important;' : 'color: #1a5f7a !important;'">
               {{ formatTime(time) }}
             </p>
-            <span 
-              v-if="prayer === nextPrayer" 
-              class="badge mt-2 small"
-              style="background: #0b806f !important; color: #ffffff !important;"
-              aria-label="Next prayer"
-            >
+            <span v-if="prayer === nextPrayer" class="badge mt-2 small"
+              style="background: #0b806f !important; color: #ffffff !important;" aria-label="Next prayer">
               Next
             </span>
           </div>
@@ -106,11 +92,11 @@ export default {
   methods: {
     setCurrentDate() {
       const now = new Date();
-      this.gregorianDate = now.toLocaleDateString('en-US', { 
-        weekday: 'long', 
-        year: 'numeric', 
-        month: 'long', 
-        day: 'numeric' 
+      this.gregorianDate = now.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
       });
 
       // Hijri date (modern browsers support Intl)
@@ -290,7 +276,7 @@ export default {
 
 .prayer-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
 }
 
 .spinner {
@@ -304,11 +290,18 @@ export default {
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .prayer-card { transition: none; }
-  .spinner { animation: none; }
+  .prayer-card {
+    transition: none;
+  }
+
+  .spinner {
+    animation: none;
+  }
 }
 </style>

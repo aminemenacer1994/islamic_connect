@@ -1,41 +1,36 @@
 <template>
   <div class="guide-root" :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
-   
-    <h2 class="mb-2 text-center fw-bold display-5 display-md-4">Islamic Guides</h2>
-    <p class="text-center text-dark mb-4 header-description">
-      Discover insights into the core beliefs, practices, and morals of Islam.
-    </p>
+
+    <header class="guide-hero text-center mb-4">
+      <span class="guide-eyebrow">Guided learning library</span>
+      <h2 class="mb-2 fw-bold display-5 display-md-4">Islamic Guides</h2>
+      <p class="header-description">
+        Discover insights into the core beliefs, practices, and morals of Islam.
+      </p>
+    </header>
 
     <!-- Controls Section -->
     <section class="card-teal controls-section mb-4 round-20 soft-shadow animate-in">
-      <div class="row g-3 align-items-center" >
+      <div class="row g-3 align-items-center">
         <!-- Category Dropdown -->
         <div class="col-md-6">
           <label for="category-select" class="form-label">
             <i class="bi bi-journal-bookmark me-2"></i>Select a Guide
           </label>
           <div class="dropdown">
-            <button 
-              class="form-select dropdown-toggle" 
-              type="button" 
-              id="category-select"
-              data-bs-toggle="dropdown" 
-              aria-expanded="false"
-              @keydown.down.prevent="focusFirstMenuItem"
-            >
+            <button class="form-select dropdown-toggle" type="button" id="category-select" data-bs-toggle="dropdown"
+              aria-expanded="false" @keydown.down.prevent="focusFirstMenuItem">
               {{ selectedCategory !== '' ? guide.sections[selectedCategory].title : 'Choose a topic...' }}
             </button>
             <transition name="fade-slide">
-              <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length" role="menu" ref="categoryMenu" @keydown.down.prevent="moveMenuFocus(1)" @keydown.up.prevent="moveMenuFocus(-1)">
+              <ul class="dropdown-menu w-100" aria-labelledby="category-select" v-if="filteredSections.length"
+                role="menu" ref="categoryMenu" @keydown.down.prevent="moveMenuFocus(1)"
+                @keydown.up.prevent="moveMenuFocus(-1)">
                 <li v-for="(section, index) in filteredSections" :key="section.title" role="none">
-                  <a 
-                    class="dropdown-item d-flex align-items-center justify-content-between" 
-                    href="#"
-                    role="menuitem"
+                  <a class="dropdown-item d-flex align-items-center justify-content-between" href="#" role="menuitem"
                     :aria-current="guide.sections.indexOf(section) === selectedCategory ? 'true' : null"
                     @click.prevent="selectedCategory = guide.sections.indexOf(section); showSuccessMessage('Guide selected successfully!')"
-                    :tabindex="-1"
-                  >
+                    :tabindex="-1">
                     <span class="guide-title">{{ section.title }}</span>
                     <span class="badge ms-2" :class="getBadgeClasses(section.title)">
                       {{ getCategoryName(section.title) }}
@@ -51,43 +46,29 @@
         <div class="col-md-6" v-if="selectedCategory !== ''">
           <label for="search-input" class="form-label">
             <i class="bi bi-search me-2"></i>Search Content
-            <button 
-              class="btn btn-sm btn-link text-decoration-none ms-1" 
-              @click="showHelpModal = true"
-              title="Search Help"
-              aria-label="Search help"
-            >
+            <button class="btn btn-sm btn-link text-decoration-none ms-1" @click="showHelpModal = true"
+              title="Search Help" aria-label="Search help">
               <i class="bi bi-question-circle"></i>
             </button>
           </label>
           <div class="input-group search-pill">
-          <input
-            id="search-input"
-            type="text"
-            v-model="searchText"
-            class="form-control search-input"
-              placeholder="Search keywords..."
-            aria-label="Search guide content"
-            @focus="showSuggestions = true"
-            @input="showSuggestions = true; highlightedIndex = -1;"
-            @keydown.down.prevent="highlightedIndex = Math.min(highlightedIndex + 1, suggestions.length - 1)"
-            @keydown.up.prevent="highlightedIndex = Math.max(highlightedIndex - 1, 0)"
-            @keydown.enter.prevent="suggestions[highlightedIndex] && selectSuggestion(suggestions[highlightedIndex])"
-            @blur="setTimeout(() => showSuggestions = false, 100)"
-          >
-            <button v-if="searchText" class="btn btn-outline-secondary btn-clear" @click="searchText = ''; showSuccessMessage('Search cleared!')">
+            <input id="search-input" type="text" v-model="searchText" class="form-control search-input"
+              placeholder="Search keywords..." aria-label="Search guide content" @focus="showSuggestions = true"
+              @input="showSuggestions = true; highlightedIndex = -1;"
+              @keydown.down.prevent="highlightedIndex = Math.min(highlightedIndex + 1, suggestions.length - 1)"
+              @keydown.up.prevent="highlightedIndex = Math.max(highlightedIndex - 1, 0)"
+              @keydown.enter.prevent="suggestions[highlightedIndex] && selectSuggestion(suggestions[highlightedIndex])"
+              @blur="setTimeout(() => showSuggestions = false, 100)">
+            <button v-if="searchText" class="btn btn-outline-secondary btn-clear"
+              @click="searchText = ''; showSuccessMessage('Search cleared!')">
               <i class="bi bi-x"></i>
-              </button>
+            </button>
           </div>
           <!-- Autocomplete Suggestions Dropdown -->
           <ul v-if="showSuggestions && suggestions.length" class="autocomplete-suggestions">
-            <li
-              v-for="(suggestion, idx) in suggestions"
-              :key="idx"
-              :class="{ highlighted: idx === highlightedIndex }"
+            <li v-for="(suggestion, idx) in suggestions" :key="idx" :class="{ highlighted: idx === highlightedIndex }"
               @mousedown.prevent="selectSuggestion(suggestion); showSuccessMessage('Suggestion selected!')"
-              @mouseover="highlightedIndex = idx"
-            >
+              @mouseover="highlightedIndex = idx">
               <span v-html="highlightSuggestion(suggestion.value)"></span>
               <span v-if="suggestion.type === 'title'" class="suggestion-type">Title</span>
               <span v-else class="suggestion-type">Content</span>
@@ -99,16 +80,15 @@
 
     <!-- Content Section -->
     <transition name="fade-slide">
-      <section 
-        v-if="selectedCategory !== '' && guide.sections[selectedCategory]" 
-        class="mb-5"
-        id="content-section"
-        ref="contentSectionRef"
-      >
+      <section v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="mb-5" id="content-section"
+        ref="contentSectionRef">
         <!-- Progress Tracker -->
         <div class="progress-tracker-container" v-if="selectedCategory !== '' && guide.sections[selectedCategory]">
-          <div class="progress-bar reading-progress" :style="{ width: readingProgress + '%' }" role="progressbar" :aria-valuenow="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress"></div>
-          <div v-if="isPlaying || isPaused" class="progress-bar audio-progress" :style="{ width: audioProgress + '%' }" role="progressbar" :aria-valuenow="audioProgress" aria-valuemin="0" aria-valuemax="100" aria-label="Audio progress"></div>
+          <div class="progress-bar reading-progress" :style="{ width: readingProgress + '%' }" role="progressbar"
+            :aria-valuenow="readingProgress" aria-valuemin="0" aria-valuemax="100" aria-label="Reading progress"></div>
+          <div v-if="isPlaying || isPaused" class="progress-bar audio-progress" :style="{ width: audioProgress + '%' }"
+            role="progressbar" :aria-valuenow="audioProgress" aria-valuemin="0" aria-valuemax="100"
+            aria-label="Audio progress"></div>
           <div class="progress-labels d-flex justify-content-between small mt-1">
             <span v-if="isPlaying || isPaused">Listen: {{ Math.round(audioProgress) }}%</span>
           </div>
@@ -124,18 +104,17 @@
                 <div class="badge badge-glass" :class="getBadgeClasses(guide.sections[selectedCategory].title)">
                   {{ getCategoryName(guide.sections[selectedCategory].title) }}
                 </div>
-                <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]" class="guide-meta mt-2 text-muted small">
+                <div v-if="selectedCategory !== '' && guide.sections[selectedCategory]"
+                  class="guide-meta mt-2 text-muted small">
                   <span title="Total number of words in this guide section.">Word count: {{ wordCount }}</span>
                 </div>
               </div>
-              
+
               <transition name="fade-scale">
-                <div class="action-row controls-actions toolbar toolbar-premium toolbar-segmented d-flex gap-2 round-20" key="button-group">
-                  <button
-                    class="btn btn-sm btn-premium-outline focus-ring"
-                    @click="playCurrentContent"
-                    :disabled="isAudioLoading"
-                  >
+                <div class="action-row controls-actions toolbar toolbar-premium toolbar-segmented d-flex gap-2 round-20"
+                  key="button-group">
+                  <button class="btn btn-sm btn-premium-outline focus-ring" @click="playCurrentContent"
+                    :disabled="isAudioLoading">
                     <i class="bi bi-play-fill toolbar-icon"></i>
                     <span class="toolbar-label">Listen</span>
                   </button>
@@ -149,47 +128,28 @@
                     <i :class="isBookmarked ? 'bi bi-bookmark-fill' : 'bi bi-bookmark'"></i>
                     {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}
                   </button> -->
-                  
-                  <button
-                    class="btn btn-sm btn-premium focus-ring"
-                    @click="shareOnWhatsApp"
-                  >
+
+                  <button class="btn btn-sm btn-premium focus-ring" @click="shareOnWhatsApp">
                     <i class="bi bi-share toolbar-icon"></i>
                     <span class="toolbar-label">Share</span>
                   </button>
-                  <button
-                    class="btn btn-sm btn-premium-outline focus-ring"
-                    @click="printGuide"
-                  >
+                  <button class="btn btn-sm btn-premium-outline focus-ring" @click="printGuide">
                     <i class="bi bi-printer toolbar-icon"></i>
                     <span class="toolbar-label">Print</span>
                   </button>
-                  <button
-                    class="btn btn-sm btn-premium-outline focus-ring"
-                    @click="generateSummary"
+                  <button class="btn btn-sm btn-premium-outline focus-ring" @click="generateSummary"
                     :disabled="isSummaryLoading"
-                    :title="isSummaryLoading ? 'Generating summary...' : 'Generate AI Summary'"
-                  >
+                    :title="isSummaryLoading ? 'Generating summary...' : 'Generate AI Summary'">
                     <i class="bi toolbar-icon" :class="isSummaryLoading ? 'bi-hourglass-split' : 'bi-robot'"></i>
                     <span class="toolbar-label">{{ isSummaryLoading ? 'Generating' : 'AI Summary' }}</span>
                   </button>
-                  <button
-                    class="btn btn-sm btn-premium-outline focus-ring"
-                    @click="decreaseFontSize"
-                    :disabled="fontSize <= minFontSize"
-                    title="Decrease font size"
-                    aria-label="Decrease font size"
-                  >
+                  <button class="btn btn-sm btn-premium-outline focus-ring" @click="decreaseFontSize"
+                    :disabled="fontSize <= minFontSize" title="Decrease font size" aria-label="Decrease font size">
                     <i class="bi bi-dash toolbar-icon"></i>
                     <span class="toolbar-label">A-</span>
                   </button>
-                  <button
-                    class="btn btn-sm btn-premium-outline focus-ring"
-                    @click="increaseFontSize"
-                    :disabled="fontSize >= maxFontSize"
-                    title="Increase font size"
-                    aria-label="Increase font size"
-                  >
+                  <button class="btn btn-sm btn-premium-outline focus-ring" @click="increaseFontSize"
+                    :disabled="fontSize >= maxFontSize" title="Increase font size" aria-label="Increase font size">
                     <i class="bi bi-plus toolbar-icon"></i>
                     <span class="toolbar-label">A+</span>
                   </button>
@@ -201,16 +161,19 @@
             <div class="selected-content">
               <template v-if="Array.isArray(guide.sections[selectedCategory].content)">
                 <transition-group name="stagger-fade" tag="ul" class="list-unstyled mb-0">
-                  <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index" class="mb-3 pb-3 border-bottom">
+                  <li v-for="(item, index) in guide.sections[selectedCategory].content" :key="index"
+                    class="mb-3 pb-3 border-bottom">
                     <div class="d-flex align-items-start">
                       <span class="badge bg-primary bg-opacity-10 text-primary me-3 mt-1">{{ index + 1 }}</span>
-                      <span v-html="getHighlightedText(item)" class="content-text" :style="{ fontSize: fontSize - 0.2 + 'rem' }"></span>
+                      <span v-html="getHighlightedText(item)" class="content-text"
+                        :style="{ fontSize: fontSize - 0.2 + 'rem' }"></span>
                     </div>
                   </li>
                 </transition-group>
               </template>
               <template v-else>
-                <div class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)" :style="{ fontSize: fontSize - 0.2 + 'rem' }"></div>
+                <div class="content-text" v-html="highlightText(guide.sections[selectedCategory].content)"
+                  :style="{ fontSize: fontSize - 0.2 + 'rem' }"></div>
               </template>
             </div>
 
@@ -223,26 +186,18 @@
                     AI Summary
                   </h4>
                   <div class="d-flex gap-2">
-                    <button 
-                      class="btn btn-sm btn-outline-secondary"
-                      @click="toggleSummary"
-                      :title="showSummary ? 'Hide Summary' : 'Show Summary'"
-                      aria-label="Toggle AI summary visibility"
-                    >
+                    <button class="btn btn-sm btn-outline-secondary" @click="toggleSummary"
+                      :title="showSummary ? 'Hide Summary' : 'Show Summary'" aria-label="Toggle AI summary visibility">
                       <i class="bi" :class="showSummary ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
                       {{ showSummary ? 'Hide' : 'Show' }}
                     </button>
-                    <button
-                      class="btn btn-sm btn-outline-secondary"
-                      @click="closeSummary"
-                      title="Close AI Summary"
-                      aria-label="Close AI summary"
-                    >
+                    <button class="btn btn-sm btn-outline-secondary" @click="closeSummary" title="Close AI Summary"
+                      aria-label="Close AI summary">
                       <i class="bi bi-x-lg"></i>
                     </button>
                   </div>
                 </div>
-                
+
                 <transition name="fade-slide">
                   <div v-if="showSummary" class="summary-content">
                     <div class="summary-card">
@@ -294,7 +249,8 @@
           </div>
           <div class="audio-right">
             <i class="bi bi-volume-up-fill volume-icon"></i>
-            <input type="range" min="0" max="100" v-model.number="volume" @input="updateVolume" class="audio-volume-slider" aria-label="Volume control" />
+            <input type="range" min="0" max="100" v-model.number="volume" @input="updateVolume"
+              class="audio-volume-slider" aria-label="Volume control" />
             <button class="audio-btn close-btn" @click="stopPlayback" aria-label="Close">
               <i class="bi bi-x-lg"></i>
             </button>
@@ -331,7 +287,7 @@
             <i class="bi bi-x-lg"></i>
           </button>
         </div>
-        
+
         <div class="help-modal-body">
           <div class="help-section">
             <h4 class="help-section-title">
@@ -339,7 +295,9 @@
               How It Works
             </h4>
             <p class="help-text">
-              The search feature provides intelligent suggestions as you type, helping you quickly find relevant content in Islamic guides.
+              The search feature provides intelligent suggestions as you type, helping you quickly find relevant content
+              in
+              Islamic guides.
             </p>
           </div>
 
@@ -413,7 +371,8 @@
             </h4>
             <div class="help-example">
               <p class="help-text">
-                Try typing <strong>"prayer"</strong> to see suggestions for prayer-related content, or <strong>"quran"</strong> for Quran-related guides.
+                Try typing <strong>"prayer"</strong> to see suggestions for prayer-related content, or
+                <strong>"quran"</strong> for Quran-related guides.
               </p>
             </div>
           </div>
@@ -554,10 +513,10 @@ export default {
           // Voice setup if needed
         };
       }
-      
+
       // Check authentication status
       checkAuthentication();
-      
+
       // Initialize available categories
       initializeCategories();
 
@@ -681,7 +640,7 @@ export default {
         'Daily Life': 'bg-info',
         'General': 'bg-primary'
       };
-      
+
       return badgeClasses[category] || badgeClasses['General'];
     };
 
@@ -768,18 +727,18 @@ export default {
 
       isSummaryLoading.value = true;
       const selectedSection = guide.sections[selectedCategory.value];
-      
+
       try {
         // Simulate AI processing delay
         await new Promise(resolve => setTimeout(resolve, 1500));
-        
-        const content = Array.isArray(selectedSection.content) 
-          ? selectedSection.content.join(' ') 
+
+        const content = Array.isArray(selectedSection.content)
+          ? selectedSection.content.join(' ')
           : selectedSection.content;
 
         // Generate summary using frontend logic
         const summary = generateAISummary(selectedSection.title, content, getCategoryName(selectedSection.title));
-        
+
         summaryText.value = summary;
         showSummary.value = true;
         showSuccessMessage('AI summary generated successfully!');
@@ -807,7 +766,7 @@ export default {
       if (!sentences.length) return '<p>No summary available.</p>';
 
       // Build word frequency excluding stopwords
-      const stop = new Set(['the','and','a','an','is','are','to','of','in','on','for','with','as','by','it','that','this','be','or','from','at','was','were','which','has','have','had','their','its','into','about','also','not','but','can','may','such','like','then','than']);
+      const stop = new Set(['the', 'and', 'a', 'an', 'is', 'are', 'to', 'of', 'in', 'on', 'for', 'with', 'as', 'by', 'it', 'that', 'this', 'be', 'or', 'from', 'at', 'was', 'were', 'which', 'has', 'have', 'had', 'their', 'its', 'into', 'about', 'also', 'not', 'but', 'can', 'may', 'such', 'like', 'then', 'than']);
       const words = content
         .toLowerCase()
         .replace(/[^a-z0-9\s]/g, ' ')
@@ -819,16 +778,16 @@ export default {
       // Category and title terms boost
       const titleTerms = new Set(title.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean));
       const categoryMap = {
-        'Theology': ['allah','god','faith','belief','divine','spiritual','creed'],
-        'Worship': ['prayer','worship','fasting','hajj','dua','dhikr','salah','zakat'],
-        'Ethics': ['ethics','morality','character','virtue','forgiveness','mercy','gratitude'],
-        'Social Justice': ['justice','equality','rights','community','society','fairness'],
-        'Family': ['family','marriage','spouse','children','parents','women','men'],
-        'Finance': ['wealth','charity','financial','money','economic','business','usury'],
-        'Health': ['health','wellness','medical','physical','mental','hygiene'],
-        'Education': ['knowledge','learning','education','study','wisdom'],
-        'Law': ['halal','haram','law','legal','permissible','forbidden','fiqh'],
-        'Environment': ['environment','nature','stewardship','earth','creation','sustainability']
+        'Theology': ['allah', 'god', 'faith', 'belief', 'divine', 'spiritual', 'creed'],
+        'Worship': ['prayer', 'worship', 'fasting', 'hajj', 'dua', 'dhikr', 'salah', 'zakat'],
+        'Ethics': ['ethics', 'morality', 'character', 'virtue', 'forgiveness', 'mercy', 'gratitude'],
+        'Social Justice': ['justice', 'equality', 'rights', 'community', 'society', 'fairness'],
+        'Family': ['family', 'marriage', 'spouse', 'children', 'parents', 'women', 'men'],
+        'Finance': ['wealth', 'charity', 'financial', 'money', 'economic', 'business', 'usury'],
+        'Health': ['health', 'wellness', 'medical', 'physical', 'mental', 'hygiene'],
+        'Education': ['knowledge', 'learning', 'education', 'study', 'wisdom'],
+        'Law': ['halal', 'haram', 'law', 'legal', 'permissible', 'forbidden', 'fiqh'],
+        'Environment': ['environment', 'nature', 'stewardship', 'earth', 'creation', 'sustainability']
       };
       const catTerms = new Set((categoryMap[category] || []).map(s => s.toLowerCase()));
 
@@ -849,7 +808,7 @@ export default {
 
       scored.sort((a, b) => b.score - a.score);
       // pick top 6-8 distinct sentences preserving original order
-      const top = scored.slice(0, 12).sort((a,b) => a.i - b.i);
+      const top = scored.slice(0, 12).sort((a, b) => a.i - b.i);
       const chosen = [];
       for (const x of top) {
         if (chosen.length >= 7) break;
@@ -871,8 +830,8 @@ export default {
       // Extract up to 5 frequent key terms for takeaway
       const topTerms = [...freq.entries()]
         .filter(([w]) => w.length > 3 && !titleTerms.has(w) && !stop.has(w))
-        .sort((a,b) => b[1]-a[1])
-        .slice(0,5)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
         .map(([w]) => w)
         .join(', ');
 
@@ -988,7 +947,7 @@ export default {
       if (this.selectedCategoryFilter === 'All') {
         return this.guide.sections;
       }
-      return this.guide.sections.filter(section => 
+      return this.guide.sections.filter(section =>
         this.getCategoryName(section.title) === this.selectedCategoryFilter
       );
     }
@@ -1033,8 +992,8 @@ export default {
       }
 
       const selectedSection = this.guide.sections[this.selectedCategory];
-      const content = Array.isArray(selectedSection.content) 
-        ? selectedSection.content.join('\n\n') 
+      const content = Array.isArray(selectedSection.content)
+        ? selectedSection.content.join('\n\n')
         : selectedSection.content;
 
       const formData = {
@@ -1065,7 +1024,7 @@ export default {
     playCurrentContent() {
       this.isAudioLoading = true;
       const selectedSection = this.guide.sections[this.selectedCategory];
-      
+
       this.currentPlayingContent = {
         title: selectedSection.title,
         category: selectedSection.category || 'Islamic Guide'
@@ -1075,7 +1034,7 @@ export default {
       if (!Array.isArray(contentArray)) {
         contentArray = typeof contentArray === 'string' ? [contentArray] : [];
       }
-      
+
       this.fullText = contentArray.join(' ');
       this.totalDuration = this.estimateDuration();
       this.currentTime = 0;
@@ -1146,7 +1105,7 @@ export default {
       // Note: SpeechSynthesis API doesn't support true seeking
       const seekPercent = event.target.value / this.totalDuration;
       this.currentTime = this.totalDuration * seekPercent;
-      
+
       if (this.isPlaying) {
         this.stopPlayback();
         this.playText();
@@ -1195,7 +1154,7 @@ export default {
     getHighlightedText(item) {
       if (!this.isPlaying) return item;
       const currentWordIndex = Math.floor(this.currentTime / this.estimateWordDuration());
-      return item.split(' ').map((word, index) => 
+      return item.split(' ').map((word, index) =>
         index === currentWordIndex ? `<span class="highlight-word">${word}</span>` : word
       ).join(' ');
     },
@@ -1214,7 +1173,7 @@ export default {
       const content = Array.isArray(selectedSection.content)
         ? selectedSection.content.join('\n\n')
         : selectedSection.content;
-      const text = `*${title}*\n\n${content}\n\n— Shared via Islamic Guides`;
+      const text = `*${title}*\n\n${content}\n\n  Shared via Islamic Guides`;
       const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
       window.open(url, '_blank');
       this.showSuccessMessage('Shared successfully!');
@@ -1318,42 +1277,79 @@ export default {
   background: var(--bg-color);
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
-.card-teal:hover { 
+
+.card-teal:hover {
   transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(15,41,32,0.12);
+  box-shadow: 0 18px 40px rgba(15, 41, 32, 0.12);
   border-color: rgba(11, 128, 111, 0.3);
 }
+
 /* Base Styles */
 .guide-root {
-  /* Darker teal improves contrast on white and as a filled background with white text */
-  --primary-color: #0f766e;
-  --primary-hover: #0b5f58;
+  --primary-color: #0b7a6a;
+  --primary-hover: #085d53;
+  --accent-color: #c58a35;
   --teal-400: #2dd4bf;
   --teal-500: #0f766e;
   --teal-600: #0b6f66;
   --teal-700: #0a5d55;
-  --ring: rgba(15, 118, 110, 0.28);
-  --text-color: #0f172a;
-  --text-light: #5b6470;
-  --bg-color: #ffffff;
-  --surface-soft: #f7f5f0;
-  --border-color: #e4dfd5;
-  --card-shadow: 0 16px 32px rgba(15, 41, 32, 0.08);
-  background: transparent;
-  border: 0;
-  border-radius: 26px;
+  --ring: rgba(11, 122, 106, 0.25);
+  --text-color: #0f1f24;
+  --text-light: #4f5f63;
+  --bg-color: #fbfaf6;
+  --surface-soft: #f2f6f4;
+  --border-color: rgba(15, 118, 110, 0.16);
+  --card-shadow: 0 18px 36px rgba(11, 58, 48, 0.12);
+  font-family: "Poppins", "Nunito Sans", "Inter", sans-serif;
+  color: var(--text-color);
+  line-height: 1.7;
+  background:
+    radial-gradient(240px 180px at 12% 10%, rgba(197, 138, 53, 0.15), transparent 70%),
+    radial-gradient(320px 220px at 90% 0%, rgba(45, 212, 191, 0.2), transparent 65%),
+    linear-gradient(135deg, #fbfbf8 0%, #f4faf7 50%, #eef6f3 100%);
+  border: 1px solid rgba(15, 118, 110, 0.12);
+  border-radius: 28px;
   padding: 2.5rem 2rem;
   position: relative;
+  overflow: visible;
 }
 
-/* Typography */
-body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  color: var(--text-color);
-  line-height: 1.6;
+.guide-root>* {
+  position: relative;
+  z-index: 1;
 }
 
-h1, h2, h3, h4, h5, h6 {
+.guide-root::before,
+.guide-root::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.guide-root::before {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(11, 122, 106, 0.22), transparent 70%);
+  top: -120px;
+  right: -120px;
+}
+
+.guide-root::after {
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(197, 138, 53, 0.2), transparent 70%);
+  bottom: -140px;
+  left: -120px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: 700;
   line-height: 1.3;
 }
@@ -1364,6 +1360,57 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--primary-color);
 }
 
+.guide-hero {
+  padding: 1.6rem 1.75rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(242, 248, 246, 0.9));
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  box-shadow: 0 16px 32px rgba(15, 41, 32, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.guide-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(45, 212, 191, 0.18), transparent 55%),
+    radial-gradient(circle at 88% 10%, rgba(197, 138, 53, 0.16), transparent 45%);
+  opacity: 0.7;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.guide-hero>* {
+  position: relative;
+  z-index: 1;
+}
+
+.guide-hero h2 {
+  font-family: "Cormorant Garamond", "Georgia", serif;
+  font-size: clamp(2.1rem, 3vw, 3rem);
+  color: var(--text-color);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.35rem;
+}
+
+.guide-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent-color);
+  background: rgba(197, 138, 53, 0.12);
+  border: 1px solid rgba(197, 138, 53, 0.26);
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
 /* .header-title {
   font-size: 2rem;
   font-weight: 800;
@@ -1372,36 +1419,56 @@ h1, h2, h3, h4, h5, h6 {
 } */
 
 .header-description {
-  font-size: 1.1rem;
-  /* Darker gray for AA contrast on light backgrounds */
+  font-size: 1.05rem;
   color: var(--text-light);
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 660px;
+  margin: 0.35rem auto 0;
 }
 
 /* Controls */
 .controls-section {
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 249, 247, 0.92));
+  border: 1px solid rgba(15, 118, 110, 0.18);
   border-radius: 22px;
-  padding: 1.5rem;
+  padding: 1.35rem 1.5rem;
   box-shadow: var(--card-shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.controls-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 10% 20%, rgba(45, 212, 191, 0.12), transparent 45%);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.controls-section>* {
+  position: relative;
+  z-index: 1;
 }
 
 .form-label {
   font-weight: 600;
   margin-bottom: 0.5rem;
   color: var(--text-color);
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
 }
 
-.form-select, .form-control {
-  border-radius: 8px;
-  padding: 0.75rem;
-  border: 1px solid var(--border-color);
-  font-size: 1rem;
+.form-select,
+.form-control {
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  font-size: 0.98rem;
+  background: #fff;
 }
 
-.form-select:focus, .form-control:focus {
+.form-select:focus,
+.form-control:focus {
   border-color: var(--primary-color);
   box-shadow: 0 0 0 0.2rem var(--ring);
 }
@@ -1412,50 +1479,87 @@ h1, h2, h3, h4, h5, h6 {
   align-items: center;
   justify-content: space-between;
   background: #fff;
-  border-radius: 20px;
-  border: 1px solid rgba(0, 191, 166, 0.18);
-  padding: 0.75rem 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  padding: 0.7rem 2.5rem 0.7rem 1rem;
+  font-weight: 600;
+  position: relative;
 }
+
+.dropdown .form-select.dropdown-toggle::after {
+  border: none;
+  content: "▾";
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.9rem;
+  color: var(--primary-color);
+}
+
 .dropdown-menu {
   border-radius: 16px;
-  border: 1px solid var(--border-color);
-  box-shadow: 0 16px 32px rgba(15,41,32,0.12);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  box-shadow: 0 18px 36px rgba(15, 41, 32, 0.14);
   overflow: hidden;
+  background: #fff;
 }
+
 .dropdown-item {
   padding: 0.65rem 0.9rem;
+  font-weight: 500;
 }
-.dropdown-item:active, .dropdown-item:hover {
-  background: rgba(15,118,110,0.08);
+
+.dropdown-item:active,
+.dropdown-item:hover {
+  background: rgba(15, 118, 110, 0.08);
 }
 
 /* Search pill with inset glow */
 .search-pill {
   background: #fff;
   border-radius: 999px;
-  border: 1px solid var(--border-color);
-  padding: 0.2rem 0.2rem 0.2rem 0.6rem;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.02), 0 4px 16px rgba(0,0,0,0.06);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  padding: 0.15rem 0.2rem 0.15rem 0.5rem;
+  box-shadow: 0 10px 20px rgba(15, 41, 32, 0.08);
 }
+
 .search-input {
   border: none !important;
   background: transparent !important;
   border-radius: 999px !important;
-  padding-left: 0.2rem;
+  padding-left: 0.3rem;
+  font-size: 0.95rem;
 }
-.search-input:focus { box-shadow: none !important; }
-.search-pill:focus-within { outline: none; box-shadow: inset 0 0 0 1px rgba(15,118,110,0.35), 0 0 0 4px rgba(15,118,110,0.18); }
-.btn-clear { border: 0; background: transparent; color: var(--primary-color); border-radius: 999px; }
-.btn-clear:hover { background: rgba(20,184,166,0.08); }
+
+.search-input:focus {
+  box-shadow: none !important;
+}
+
+.search-pill:focus-within {
+  outline: none;
+  box-shadow: inset 0 0 0 1px rgba(11, 122, 106, 0.35), 0 0 0 4px rgba(11, 122, 106, 0.18);
+}
+
+.btn-clear {
+  border: 0;
+  background: transparent;
+  color: var(--primary-color);
+  border-radius: 999px;
+}
+
+.btn-clear:hover {
+  background: rgba(20, 184, 166, 0.08);
+}
 
 /* Content Card */
 .content-card {
   border-radius: 22px;
-  border: 1px solid var(--border-color);
-  box-shadow: var(--card-shadow);
+  border: 1px solid rgba(15, 118, 110, 0.14);
+  box-shadow: 0 18px 40px rgba(15, 41, 32, 0.12);
   overflow: hidden;
   transition: transform 0.3s;
-  background: var(--bg-color);
+  background: linear-gradient(180deg, #ffffff 0%, #f8fcfb 60%, #f2f8f5 100%);
   position: relative;
 }
 
@@ -1480,24 +1584,26 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .content-title {
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   margin-bottom: 0.5rem;
   color: var(--text-color);
+  font-family: "Cormorant Garamond", "Georgia", serif;
 }
 
 .content-text {
-  font-size: 1.1rem;
-  line-height: 1.8;
+  font-size: 1.05rem;
+  line-height: 1.85;
   text-align: justify;
   text-justify: inter-word;
   hyphens: auto;
   letter-spacing: 0.01em;
   margin: 0;
+  font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
 }
 
 .selected-content {
   letter-spacing: 0.003em;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 .highlight-word {
@@ -1508,7 +1614,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 mark {
-  background-color: #fff3a3;
+  background-color: rgba(197, 138, 53, 0.25);
+  border: 1px solid rgba(197, 138, 53, 0.35);
   padding: 0.1em 0.3em;
   border-radius: 0.2em;
 }
@@ -1542,33 +1649,75 @@ mark {
   border: 1px solid var(--border-color);
   border-radius: 999px;
 }
+
 .toolbar .btn {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
 }
-.toolbar .toolbar-icon { font-size: 1rem; }
-.toolbar .toolbar-label { font-weight: 500; }
+
+.toolbar .toolbar-icon {
+  font-size: 1rem;
+}
+
+.toolbar .toolbar-label {
+  font-weight: 500;
+}
 
 @media (max-width: 576px) {
-  .toolbar { padding: 0.25rem; }
-  .toolbar .toolbar-label { display: none; }
-  .toolbar .toolbar-icon { font-size: 1.05rem; }
+  .toolbar {
+    padding: 0.25rem;
+  }
+
+  .toolbar .toolbar-label {
+    display: none;
+  }
+
+  .toolbar .toolbar-icon {
+    font-size: 1.05rem;
+  }
 }
 
 /* Segmented toolbar variant */
-.toolbar-segmented { border-radius: 999px; overflow: hidden; padding: 0.2rem; }
+.toolbar-segmented {
+  border-radius: 999px;
+  overflow: hidden;
+  padding: 0.2rem;
+}
+
 .toolbar-segmented .btn {
   border-radius: 0;
   border: 0 !important;
   padding: 0.35rem 0.7rem;
 }
-.toolbar-segmented .btn:first-child { border-top-left-radius: 999px; border-bottom-left-radius: 999px; }
-.toolbar-segmented .btn:last-child { border-top-right-radius: 999px; border-bottom-right-radius: 999px; }
-.toolbar-segmented .btn.btn-premium-outline { border: 1px solid rgba(20,184,166,0.26) !important; }
-.toolbar-segmented .btn + .btn { margin-left: 0; }
-.btn.btn-premium:hover { filter: brightness(1.03); transform: translateY(-1px); box-shadow: 0 14px 26px rgba(15, 118, 110, 0.32); }
-.btn.btn-premium:active { transform: translateY(0); }
+
+.toolbar-segmented .btn:first-child {
+  border-top-left-radius: 999px;
+  border-bottom-left-radius: 999px;
+}
+
+.toolbar-segmented .btn:last-child {
+  border-top-right-radius: 999px;
+  border-bottom-right-radius: 999px;
+}
+
+.toolbar-segmented .btn.btn-premium-outline {
+  border: 1px solid rgba(20, 184, 166, 0.26) !important;
+}
+
+.toolbar-segmented .btn+.btn {
+  margin-left: 0;
+}
+
+.btn.btn-premium:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+  box-shadow: 0 14px 26px rgba(15, 118, 110, 0.32);
+}
+
+.btn.btn-premium:active {
+  transform: translateY(0);
+}
 
 .btn.btn-premium-outline {
   background: var(--bg-color);
@@ -1583,8 +1732,15 @@ mark {
   gap: .4rem;
   transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
-.btn.btn-premium-outline:hover { background: rgba(15,118,110,.06); box-shadow: 0 6px 14px rgba(15,118,110,.16); }
-.btn.btn-premium-outline:active { background: rgba(20,184,166,.12); }
+
+.btn.btn-premium-outline:hover {
+  background: rgba(15, 118, 110, .06);
+  box-shadow: 0 6px 14px rgba(15, 118, 110, .16);
+}
+
+.btn.btn-premium-outline:active {
+  background: rgba(20, 184, 166, .12);
+}
 
 .btn-outline-primary {
   color: var(--primary-color) !important;
@@ -1617,7 +1773,7 @@ mark {
   background: #232323;
   color: #fff;
   border-radius: 0;
-  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.18);
   padding: 1rem 1.5rem;
   position: fixed;
   left: 0;
@@ -1627,6 +1783,7 @@ mark {
   max-width: 100vw;
   z-index: 2000;
 }
+
 .audio-meta {
   min-width: 160px;
   flex: 1 1 0;
@@ -1634,30 +1791,36 @@ mark {
   flex-direction: column;
   justify-content: center;
 }
+
 .audio-title {
   font-weight: 700;
   font-size: 1.15rem;
   color: #fff;
   margin-bottom: 0.1rem;
 }
+
 .small-title {
   font-size: 1rem;
   text-align: left;
 }
+
 .audio-meta.text-start {
   text-align: left;
 }
+
 .audio-subtitle {
   font-size: 0.95rem;
   color: #bdbdbd;
   font-weight: 400;
 }
+
 .audio-controls {
   display: flex;
   align-items: center;
   gap: 0.8rem;
   justify-content: center;
 }
+
 .audio-btn {
   background: none;
   border: none;
@@ -1671,22 +1834,27 @@ mark {
   align-items: center;
   justify-content: center;
 }
-.audio-btn:hover, .audio-btn:focus {
+
+.audio-btn:hover,
+.audio-btn:focus {
   background: rgba(0, 105, 92, 0.12);
   color: var(--primary-color);
   outline: none;
   transform: scale(1.08);
 }
+
 .close-btn {
   margin-left: 0.7rem;
   font-size: 1.3rem;
   background: none;
   color: #bdbdbd;
 }
+
 .close-btn:hover {
   color: #ff4d4f;
-  background: rgba(255,77,79,0.08);
+  background: rgba(255, 77, 79, 0.08);
 }
+
 .audio-progress-wrap {
   flex: 3 1 0;
   display: flex;
@@ -1695,6 +1863,7 @@ mark {
   min-width: 180px;
   margin: 0 1.2rem;
 }
+
 .audio-progress-bar {
   width: 100%;
   height: 4px;
@@ -1703,6 +1872,7 @@ mark {
   overflow: hidden;
   position: relative;
 }
+
 .audio-progress {
   height: 100%;
   background: var(--primary-color);
@@ -1710,6 +1880,7 @@ mark {
   transition: width 0.05s linear;
   will-change: width;
 }
+
 .audio-right {
   display: flex;
   align-items: center;
@@ -1717,10 +1888,12 @@ mark {
   flex: 1 1 0;
   justify-content: flex-end;
 }
+
 .volume-icon {
   font-size: 1.3rem;
   color: #bdbdbd;
 }
+
 .audio-volume-slider {
   width: 120px;
   accent-color: var(--primary-color);
@@ -1728,6 +1901,7 @@ mark {
   margin: 0 0.5rem;
   height: 4px;
 }
+
 .audio-volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
@@ -1736,18 +1910,20 @@ mark {
   border-radius: 50%;
   background: #0b5d4b;
   border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,191,166,0.18);
+  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.18);
   cursor: pointer;
 }
+
 .audio-volume-slider::-moz-range-thumb {
   width: 16px;
   height: 16px;
   border-radius: 50%;
   background: #0b5d4b;
   border: 2px solid #fff;
-  box-shadow: 0 2px 8px rgba(0,191,166,0.18);
+  box-shadow: 0 2px 8px rgba(0, 191, 166, 0.18);
   cursor: pointer;
 }
+
 .audio-volume-slider:focus {
   outline: none;
 }
@@ -1782,14 +1958,18 @@ mark {
     padding: 2rem 1.25rem;
     border-radius: 22px;
   }
-  
+
+  .guide-hero {
+    padding: 1.35rem 1.25rem;
+  }
+
   .header-title {
     font-size: 1.75rem;
   }
-  
+
   .header-description {
-  font-size: 1rem;
-}
+    font-size: 1rem;
+  }
 
   .global-audio-player {
     flex-direction: column;
@@ -1798,7 +1978,7 @@ mark {
     border-radius: 0;
     bottom: 0;
   }
-  
+
   .player-desktop {
     display: none;
   }
@@ -1811,15 +1991,16 @@ mark {
     width: 100%;
     margin-bottom: 0.5rem;
   }
-  
-  .player-info, .player-volume {
+
+  .player-info,
+  .player-volume {
     min-width: auto;
   }
-  
+
   .progress-bar-container {
     max-width: 100%;
   }
-  
+
   .volume-slider {
     width: 60px;
   }
@@ -1833,19 +2014,23 @@ mark {
   .header-title {
     font-size: 1.5rem;
   }
-  
+
+  .guide-hero {
+    padding: 1.2rem 1rem;
+  }
+
   .content-title {
     font-size: 1.3rem;
   }
-  
+
   .content-text {
     font-size: 1rem;
   }
-  
+
   .controls-section {
     padding: 1.2rem;
   }
-  
+
   .btn {
     padding: 0.25rem 0.5rem;
     font-size: 0.9rem;
@@ -1854,10 +2039,14 @@ mark {
 
 /* Ensure content not hidden behind fixed audio bar */
 .pad-for-audio {
-  padding-bottom: 110px; /* approximate player height */
+  padding-bottom: 110px;
+  /* approximate player height */
 }
+
 @media (max-width: 768px) {
-  .pad-for-audio { padding-bottom: 140px; }
+  .pad-for-audio {
+    padding-bottom: 140px;
+  }
 }
 
 @media (max-width: 900px) {
@@ -1869,14 +2058,18 @@ mark {
     left: 0;
     border-radius: 0;
   }
-  .audio-meta, .audio-right {
+
+  .audio-meta,
+  .audio-right {
     min-width: 120px;
   }
+
   .audio-progress-wrap {
     min-width: 120px;
     margin: 0 0.5rem;
   }
 }
+
 @media (min-width: 601px) {
   .audio-player-row.bottom {
     display: flex;
@@ -1884,13 +2077,15 @@ mark {
     align-items: center;
     width: 100%;
     justify-content: space-between;
-    
+
     flex-wrap: nowrap;
     /* Prevent overlap */
   }
-  .audio-player-row.bottom > * {
+
+  .audio-player-row.bottom>* {
     min-width: 0;
   }
+
   .audio-progress-wrap {
     order: 3;
     margin: 0 1.2rem;
@@ -1901,19 +2096,22 @@ mark {
     align-items: center;
     justify-content: center;
   }
+
   .audio-right {
     order: 4;
-    
+
     min-width: 140px;
     flex: 1 1 0;
     display: flex;
     align-items: center;
     justify-content: flex-end;
   }
+
   .audio-progress-bar {
     overflow: hidden;
   }
 }
+
 @media (max-width: 600px) {
   .modern-audio-player {
     flex-direction: column;
@@ -1926,36 +2124,45 @@ mark {
     padding: 0.2rem 0.05rem;
     border-radius: 0;
   }
-  .audio-player-row.top, .audio-meta, .audio-title, .audio-subtitle {
+
+  .audio-player-row.top,
+  .audio-meta,
+  .audio-title,
+  .audio-subtitle {
     display: none !important;
   }
+
   .audio-player-row.bottom {
     display: flex !important;
     flex-direction: row;
     align-items: center;
     width: 100%;
     justify-content: space-between;
-    
+
     flex-wrap: nowrap;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
-  .audio-player-row.bottom > * {
+
+  .audio-player-row.bottom>* {
     min-width: 0;
   }
+
   .audio-controls {
     order: 1;
-    
+
     margin: 0;
     font-size: 0.95rem;
     flex: 0 0 auto;
     display: flex;
     align-items: center;
   }
+
   .audio-btn {
     font-size: 0.95rem;
     padding: 0.18rem 0.22rem;
   }
+
   .audio-progress-wrap {
     order: 2;
     margin: 0 0.1rem;
@@ -1964,26 +2171,31 @@ mark {
     display: flex;
     align-items: center;
   }
+
   .audio-progress-bar {
     height: 3px;
   }
+
   .audio-right {
     order: 3;
-    
+
     min-width: 0;
     flex: 0 0 auto;
     font-size: 0.85rem;
     display: flex;
     align-items: center;
   }
+
   .audio-volume-slider {
     width: 60px;
     height: 2.5px;
   }
+
   .close-btn {
     font-size: 0.95rem;
     margin-left: 0.18rem;
   }
+
   .volume-icon {
     font-size: 0.95rem;
   }
@@ -2068,19 +2280,19 @@ mark {
 .dropdown-menu {
   max-height: 400px;
   overflow-y: auto;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  box-shadow: 0 18px 36px rgba(15, 41, 32, 0.14);
+  border-radius: 16px;
 }
 
 .dropdown-item {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #f8f9fa;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid rgba(15, 118, 110, 0.08);
   transition: all 0.2s ease;
 }
 
 .dropdown-item:hover {
-  background-color: #f8f9fa;
+  background-color: rgba(15, 118, 110, 0.08);
   transform: translateX(2px);
 }
 
@@ -2168,12 +2380,12 @@ mark {
   .category-filters {
     gap: 0.3rem;
   }
-  
+
   .category-filters .btn {
     font-size: 0.8rem;
     padding: 0.4rem 0.6rem;
   }
-  
+
   .category-filters .badge {
     font-size: 0.5rem;
     padding: 0.15rem 0.3rem;
@@ -2181,26 +2393,36 @@ mark {
 }
 
 /* Animations */
-.fade-slide-enter-active, .fade-slide-leave-active {
+.fade-slide-enter-active,
+.fade-slide-leave-active {
   transition: opacity 0.5s, transform 0.5s;
 }
-.fade-slide-enter-from, .fade-slide-leave-to {
+
+.fade-slide-enter-from,
+.fade-slide-leave-to {
   opacity: 0;
   transform: translateY(20px);
 }
-.fade-slide-enter-to, .fade-slide-leave-from {
+
+.fade-slide-enter-to,
+.fade-slide-leave-from {
   opacity: 1;
   transform: translateY(0);
 }
 
-.fade-scale-enter-active, .fade-scale-leave-active {
+.fade-scale-enter-active,
+.fade-scale-leave-active {
   transition: opacity 0.4s, transform 0.4s;
 }
-.fade-scale-enter-from, .fade-scale-leave-to {
+
+.fade-scale-enter-from,
+.fade-scale-leave-to {
   opacity: 0;
   transform: scale(0.95);
 }
-.fade-scale-enter-to, .fade-scale-leave-from {
+
+.fade-scale-enter-to,
+.fade-scale-leave-from {
   opacity: 1;
   transform: scale(1);
 }
@@ -2209,17 +2431,21 @@ mark {
   transition: all 0.5s;
   transition-delay: var(--stagger-delay, 0ms);
 }
+
 .stagger-fade-enter-from {
   opacity: 0;
   transform: translateY(20px);
 }
+
 .stagger-fade-enter-to {
   opacity: 1;
   transform: translateY(0);
 }
+
 .stagger-fade-leave-active {
   transition: opacity 0.3s;
 }
+
 .stagger-fade-leave-to {
   opacity: 0;
 }
@@ -2230,38 +2456,43 @@ mark {
   margin-bottom: 0.5rem;
   width: 100%;
 }
+
 .progress-bar {
   height: 6px;
   border-radius: 3px;
-  background: #e0e0e0;
+  background: rgba(15, 118, 110, 0.12);
   position: relative;
   margin-bottom: 2px;
   transition: width 0.1s linear;
   will-change: width;
 }
+
 .progress-bar.reading-progress {
-  background: var(--primary-color);
+  background: linear-gradient(90deg, #0b7a6a, #2dd4bf);
   z-index: 1;
 }
+
 .progress-bar.audio-progress {
   background: #0b5f58;
   margin-top: -6px;
   opacity: 0.85;
   z-index: 2;
 }
+
 .progress-labels {
   font-size: 0.85rem;
   /* Increase contrast for accessibility (WCAG 2.0 AA) */
-  color: #666;
+  color: #5c6b6f;
   margin-top: 2px;
 }
+
 .autocomplete-suggestions {
   position: absolute;
   z-index: 1000;
   background: #fff;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  box-shadow: 0 10px 22px rgba(15,41,32,0.08);
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 14px;
+  box-shadow: 0 18px 36px rgba(15, 41, 32, 0.14);
   width: 100%;
   margin-top: 0.2rem;
   list-style: none;
@@ -2269,6 +2500,7 @@ mark {
   max-height: 260px;
   overflow-y: auto;
 }
+
 .autocomplete-suggestions li {
   padding: 0.7rem 1rem;
   cursor: pointer;
@@ -2277,19 +2509,22 @@ mark {
   align-items: center;
   gap: 0.7rem;
 }
+
 .autocomplete-suggestions li.highlighted,
 .autocomplete-suggestions li:hover {
-  background: #f8f9fa;
+  background: rgba(15, 118, 110, 0.08);
 }
+
 .suggestion-type {
   font-size: 0.75rem;
   /* Improve contrast on light tag background */
-  color: #666;
+  color: #5c6b6f;
   margin-left: 0.5rem;
-  background: #f1f1f1;
+  background: rgba(15, 118, 110, 0.1);
   border-radius: 8px;
   padding: 0.1rem 0.5rem;
 }
+
 @media (max-width: 768px) {
   .autocomplete-suggestions li {
     padding: 0.5rem 0.7rem;
@@ -2332,18 +2567,55 @@ mark {
   font-weight: 600;
   letter-spacing: .2px;
 }
-.badge-glass.bg-primary { background: rgba(13,110,253,0.12); color: #0d6efd; border: 1px solid rgba(13,110,253,0.35); }
-.badge-glass.bg-success { background: rgba(25,135,84,0.12); color: #198754; border: 1px solid rgba(25,135,84,0.35); }
-.badge-glass.bg-info { background: rgba(13,202,240,0.14); color: #0ca7c7; border: 1px solid rgba(13,202,240,0.38); }
-.badge-glass.bg-warning { background: rgba(255,193,7,0.16); color: #a87300; border: 1px solid rgba(255,193,7,0.38); }
-.badge-glass.bg-secondary { background: rgba(108,117,125,0.14); color: #5c636a; border: 1px solid rgba(108,117,125,0.35); }
-.badge-glass.bg-danger { background: rgba(220,53,69,0.12); color: #c02e3f; border: 1px solid rgba(220,53,69,0.35); }
-.badge-glass.bg-dark { background: rgba(33,37,41,0.14); color: #212529; border: 1px solid rgba(33,37,41,0.35); }
+
+.badge-glass.bg-primary {
+  background: rgba(13, 110, 253, 0.12);
+  color: #0d6efd;
+  border: 1px solid rgba(13, 110, 253, 0.35);
+}
+
+.badge-glass.bg-success {
+  background: rgba(25, 135, 84, 0.12);
+  color: #198754;
+  border: 1px solid rgba(25, 135, 84, 0.35);
+}
+
+.badge-glass.bg-info {
+  background: rgba(13, 202, 240, 0.14);
+  color: #0ca7c7;
+  border: 1px solid rgba(13, 202, 240, 0.38);
+}
+
+.badge-glass.bg-warning {
+  background: rgba(255, 193, 7, 0.16);
+  color: #a87300;
+  border: 1px solid rgba(255, 193, 7, 0.38);
+}
+
+.badge-glass.bg-secondary {
+  background: rgba(108, 117, 125, 0.14);
+  color: #5c636a;
+  border: 1px solid rgba(108, 117, 125, 0.35);
+}
+
+.badge-glass.bg-danger {
+  background: rgba(220, 53, 69, 0.12);
+  color: #c02e3f;
+  border: 1px solid rgba(220, 53, 69, 0.35);
+}
+
+.badge-glass.bg-dark {
+  background: rgba(33, 37, 41, 0.14);
+  color: #212529;
+  border: 1px solid rgba(33, 37, 41, 0.35);
+}
+
 @keyframes modalSlideIn {
   from {
     opacity: 0;
     transform: translateY(-20px) scale(0.95);
   }
+
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -2517,33 +2789,33 @@ mark {
     margin: 1rem;
     max-height: calc(100vh - 2rem);
   }
-  
+
   .help-modal-header {
     padding: 1rem 1rem 0.75rem;
   }
-  
+
   .help-modal-title {
     font-size: 1.1rem;
   }
-  
+
   .help-modal-body {
     padding: 1rem;
   }
-  
+
   .help-section {
     margin-bottom: 1.5rem;
   }
-  
+
   .help-section-title {
     font-size: 1rem;
   }
-  
+
   .shortcut-item {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .suggestion-type-example {
     flex-direction: column;
     align-items: flex-start;
@@ -2555,19 +2827,19 @@ mark {
   .modal-overlay {
     padding: 0.5rem;
   }
-  
+
   .help-modal {
     margin: 0.5rem;
   }
-  
+
   .help-modal-header {
     padding: 0.75rem 0.75rem 0.5rem;
   }
-  
+
   .help-modal-body {
     padding: 0.75rem;
   }
-  
+
   .help-modal-footer {
     padding: 0.75rem;
   }
@@ -2587,7 +2859,7 @@ mark {
 .summary-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #333;
+  color: var(--text-color);
   display: flex;
   align-items: center;
 }
@@ -2603,6 +2875,7 @@ mark {
     opacity: 0;
     transform: translateY(10px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -2610,8 +2883,8 @@ mark {
 }
 
 .summary-card {
-  background: #f7f5f0;
-  border: 1px solid rgba(15, 118, 110, 0.3);
+  background: #f2f7f5;
+  border: 1px solid rgba(15, 118, 110, 0.24);
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 8px 18px rgba(15, 41, 32, 0.08);
@@ -2620,7 +2893,7 @@ mark {
 .summary-text {
   font-size: 1rem;
   line-height: 1.7;
-  color: #333;
+  color: var(--text-color);
   margin-bottom: 0;
 }
 
@@ -2639,7 +2912,7 @@ mark {
 
 .summary-footer {
   font-size: 0.85rem;
-  color: #6c757d;
+  color: #5c6b6f;
   border-top: 1px solid #dee2e6;
 }
 
@@ -2661,6 +2934,7 @@ mark {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -2671,15 +2945,15 @@ mark {
   .ai-summary-section {
     padding-top: 1rem;
   }
-  
+
   .summary-card {
     padding: 1rem;
   }
-  
+
   .summary-title {
     font-size: 1.1rem;
   }
-  
+
   .summary-text {
     font-size: 0.95rem;
   }
@@ -2691,16 +2965,16 @@ mark {
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .summary-card {
     padding: 0.75rem;
   }
-  
+
   .summary-text {
     font-size: 0.9rem;
   }
 }
-</style>
+
 /* Clean, evenly spaced action rows */
 .action-row {
   padding: 10px;
@@ -2708,20 +2982,55 @@ mark {
   justify-content: space-between;
   background: #fff;
 }
-.action-row .btn { flex: 1 1 0; }
-.action-row .btn + .btn { margin-left: .5rem; }
+
+.action-row .btn {
+  flex: 1 1 0;
+}
+
+.action-row .btn+.btn {
+  margin-left: .5rem;
+}
 
 /* Utilities for premium feel */
-.round-20 { border-radius: 20px; }
-.soft-shadow { box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12); }
-.raise-on-hover { transition: transform 160ms ease, box-shadow 160ms ease; }
-.raise-on-hover:hover { transform: translateY(-2px); box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26); }
-.focus-ring { outline: none; }
-.focus-ring:focus-visible { box-shadow: 0 0 0 4px var(--ring); }
-.animate-in { animation: fadeSlideUp 320ms ease both; }
+.round-20 {
+  border-radius: 20px;
+}
+
+.soft-shadow {
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.12);
+}
+
+.raise-on-hover {
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.raise-on-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);
+}
+
+.focus-ring {
+  outline: none;
+}
+
+.focus-ring:focus-visible {
+  box-shadow: 0 0 0 4px var(--ring);
+}
+
+.animate-in {
+  animation: fadeSlideUp 320ms ease both;
+}
+
 @keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Toast stack fixed at top-right */
@@ -2737,18 +3046,46 @@ mark {
 }
 
 /* Toast look and feel + bootstrap custom hues */
-.toast-alert.alert { 
-  border-radius: 14px; 
-  box-shadow: 0 14px 36px rgba(0,0,0,0.18);
+.toast-alert.alert {
+  border-radius: 14px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.18);
   padding: 0.75rem 1rem;
 }
-.alert-success.toast-alert { background-color: #e8f7f3; color: #0b5d4b; border: 1px solid rgba(11,93,75,0.22); }
-.alert-danger.toast-alert { background-color: #fdecec; color: #7a2020; border: 1px solid rgba(122,32,32,0.22); }
-.toast-alert .btn-close { filter: none; opacity: .6; }
-.toast-alert .btn-close:hover { opacity: 1; }
+
+.alert-success.toast-alert {
+  background-color: #e8f7f3;
+  color: #0b5d4b;
+  border: 1px solid rgba(11, 93, 75, 0.22);
+}
+
+.alert-danger.toast-alert {
+  background-color: #fdecec;
+  color: #7a2020;
+  border: 1px solid rgba(122, 32, 32, 0.22);
+}
+
+.toast-alert .btn-close {
+  filter: none;
+  opacity: .6;
+}
+
+.toast-alert .btn-close:hover {
+  opacity: 1;
+}
 
 @keyframes toastSlideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.toast-alert.show { animation: toastSlideDown 260ms ease both; }
+
+.toast-alert.show {
+  animation: toastSlideDown 260ms ease both;
+}
+</style>
