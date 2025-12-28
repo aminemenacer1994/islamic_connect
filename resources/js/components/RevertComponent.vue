@@ -986,7 +986,7 @@
                           <div>
                             <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
                             <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
-                            <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p>
+                            <!-- <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p> -->
                           </div>
                           <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
                         </div>
