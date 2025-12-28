@@ -149,45 +149,45 @@
     "dos": [
       {
         "id": "islamic-quran-do-1",
-        "text": "Read a short verse with translation every day"
+        "text": "Seek refuge from Shayṭān and begin with Bismillāh before recitation."
       },
       {
         "id": "islamic-quran-do-2",
-        "text": "Listen to recitation to catch proper pronunciation"
+        "text": "Strive to understand the meaning, even if just one verse a day."
       },
       {
         "id": "islamic-quran-do-3",
-        "text": "Journal reflections on a verse that moved you"
+        "text": "Maintain ritual purity (Wuḍūʾ) when touching the physical Muṣḥaf."
       },
       {
         "id": "islamic-quran-do-4",
-        "text": "Teach a portion of Quran to reinforce your own memory"
+        "text": "Listen attentively and be silent when the Qur'an is recited. \"So when the Qur'an is recited, then listen to it and pay attention that you may receive mercy.\" (Al-Aʿrāf 7:204)"
       },
       {
         "id": "islamic-quran-do-5",
-        "text": "Combine Arabic reading with a reliable tafsir"
+        "text": "Let the Qur'an guide your decisions, character, and worldview."
       }
     ],
     "donts": [
       {
         "id": "islamic-quran-dont-1",
-        "text": "Don't rush through entire pages without stopping to reflect"
+        "text": "Touch the Muṣḥaf without Wuḍūʾ. \"None should touch it except the purified.\" (Al-Wāqiʿah 56:79 - interpreted by scholars as physical purity)."
       },
       {
         "id": "islamic-quran-dont-2",
-        "text": "Avoid ignoring etiquette like wudu or clean space"
+        "text": "Recite it in impure places like bathrooms."
       },
       {
         "id": "islamic-quran-dont-3",
-        "text": "Don't depend solely on transliterationpractice Arabic"
+        "text": "Argue or be prideful with the Qur'an; its purpose is guidance, not dispute."
       },
       {
         "id": "islamic-quran-dont-4",
-        "text": "Don't let distractions steal your Quran time"
+        "text": "Neglect its memorization and revision if you have memorized any part. The Prophet ﷺ said it escapes the heart faster than a tied camel. (Ṣaḥīḥ al-Bukhārī 5032)"
       },
       {
         "id": "islamic-quran-dont-5",
-        "text": "Avoid skipping revision of memorized verses"
+        "text": "Interpret it based on personal opinion; refer to the explanations of the Prophet ﷺ, his companions, and trusted scholars."
       }
     ]
   },

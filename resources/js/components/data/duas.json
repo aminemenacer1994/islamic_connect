@@ -72,22 +72,22 @@
     "chapterId": 4,
     "duas": [
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ افْتَحْ لِي أَبْوَابَ هُدَاكَ",
-        "english": "O Allah, open for me the doors of Your guidance.",
-        "reference": ""
+        "title": "Du'ā Before Recitation",
+        "arabic": "أَعُوذُ بِاللَّهِ مِنَ الشَّيْطَانِ الرَّجِيمِ",
+        "english": "I seek refuge in Allah from the accursed Shayṭān.",
+        "reference": "Commanded by Allah: \"So when you recite the Qur'an, seek refuge in Allah from Shayṭān, the expelled.\" (An-Naḥl 16:98)"
       },
       {
-        "title": "",
-        "arabic": "رَبِّ زِدْنِي فَهْمًا",
-        "english": "My Lord, increase me in understanding.",
-        "reference": ""
+        "title": "Du'ā for Understanding & Benefit",
+        "arabic": "اللَّهُمَّ انْفَعْنِي بِمَا عَلَّمْتَنِي وَعَلِّمْنِي مَا يَنْفَعُنِي",
+        "english": "O Allah, benefit me with what You have taught me, and teach me that which will benefit me.",
+        "reference": "Reported from the Prophet ﷺ as a comprehensive knowledge du'ā. (Sunan Ibn Mājah 251)"
       },
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ اجْعَلْ لِي الْقُرْآنَ رَحْمَةً وَنُورًا",
-        "english": "O Allah, make the Quran a mercy and light for me.",
-        "reference": ""
+        "title": "Du'ā Upon Hearing an Āyah about Mercy or Punishment",
+        "arabic":"يَتَعَوَّذُ مِنَ العَذَابِ وَيَسْأَلُ مِنَ الرَّحْمَةِ",
+        "english": "He would seek refuge from the punishment and ask for the mercy.",
+        "reference": "The Prophet ﷺ would do this during recitation. (Ṣaḥīḥ al-Bukhārī 6347)"
       }
     ]
   },

@@ -128,41 +128,38 @@
     "plans": [
       {
         "planId": "7-day",
-        "title": "7-Day Recitation",
+        "title": "7-Day Foundation Plan",
         "duration": "7 days",
-        "description": "Lean into the living Quran by pairing short recitations with lived meaning this week.",
+        "description": "Build a steady Qur'an rhythm in one week with focused recitation, study, and reflection.",
         "highlights": [
-          "Begin the day with a calm recitation, then note one verse that felt like a personal message.",
-          "Choose a tafsir nugget each afternoon and explain it aloud to yourself or a friend.",
-          "Schedule a quiet evening to memorize a line, then practice it with proper tajweed.",
-          "Jot down how today’s recitation shaped a decision or conversation.",
-          "Close the week by committing to one dua inspired by the Quranic theme you studied."
+          "Day 1: Learn/Perfect Sūrah Al-Fātiḥah with meaning.",
+          "Day 2: Read the Tafsīr of the last 10 verses of Sūrah Al-Kahf.",
+          "Day 3: Memorize one short āyah about Tawḥīd.",
+          "Day 4: Listen to a moving recitation (e.g., Sūrah Ar-Raḥmān).",
+          "Day 5: Practice proper Tajwīd of one rule (e.g., Noon Sākinah).",
+          "Day 6: Reflect: Which Qur'anic command can you apply today?",
+          "Day 7: Revise all you learned this week."
         ]
       },
       {
         "planId": "14-day",
-        "title": "14-Day Study",
+        "title": "14-Day Deep Dive",
         "duration": "14 days",
-        "description": "Over two weeks, make Quranic reflection a rhythm of mindfulness and actionable gratitude.",
+        "description": "Sustain daily Qur'an connection while moving from recitation to deeper understanding.",
         "highlights": [
-          "Alternate reading sessions between narrative surahs and shorter lyrical ones.",
-          "Let recitation cadence determine the tempo of your evening dua.",
-          "Find one tafsir note that shifts how you view mercy, then weave it into a conversation.",
-          "Mid-plan, pause to celebrate how memorized verses have grown your peace.",
-          "Record an audio reminder of your favorite verse to replay when you need calm."
+          "Week 1: Connection. Recite 1-2 pages daily after Fajr with focus, even if you don't fully understand.",
+          "Week 2: Understanding. Choose one short Sūrah (e.g., Sūrah Al-ʿAṣr) and study its tafsīr in detail."
         ]
       },
       {
         "planId": "30-day",
-        "title": "30-Day Immersion",
+        "title": "30-Day Transformation Plan",
         "duration": "30 days",
-        "description": "Let thirty days of Quran study transform your habits with steady recitation and reflection.",
+        "description": "Shape a month-long Qur'an practice with habit formation, comprehension, and character work.",
         "highlights": [
-          "Week 1: Outline a small recitation plan (e.g., quarter juz per day) and honor the timing.",
-          "Weeks 2-3: Layer discussions about tafsir with family or peers to deepen understanding.",
-          "Week 4: Compile a story about how a memorized verse steadied you during a challenge.",
-          "Tie each Saturday walk to silent Quranic contemplation, noting emotional shifts.",
-          "End the month with a dua of gratitude for the living guidance of the Quran."
+          "Week 1-2: Habit Formation. Commit to 10-15 minutes of daily recitation at a fixed time.",
+          "Week 3: Comprehension. Start a short tafsīr book (e.g., A Summary of the Qur'an by Towards Eternity).",
+          "Week 4: Implementation. Identify 3 character traits from the Qur'an to work on (e.g., patience, truthfulness, gratitude)."
         ]
       }
     ]

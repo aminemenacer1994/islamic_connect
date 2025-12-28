@@ -116,94 +116,46 @@
     ],
     "overview": [
       {
-        "heading": "The Qur'an is Guidance",
-        "content": "The Qur’an provides guidance for all aspects of life. Studying, reflecting, and applying its teachings ensures spiritual growth, ethical behavior, and alignment with Allah’s will in daily decisions.",
-        "references": "Quran 2:2",
-        "resources": "https://quran.com/2/2"
+        "heading": "It is the Literal, Uncreated Speech of Allah",
+        "content": "Meaning: The Qur'an is Allah's eternal Attribute of Speech, revealed in clear Arabic language, not created like other beings.",
+        "references": "Quran 9:6",
+        "resources": "Al-Aqidah at-Tahawiyyah (Article 3): \"The Qur'an is the Word of Allah... it is not created.\""
       },
       {
-        "heading": "The Qur'an is Revealed by Allah",
-        "content": "The Qur’an is Allah’s revelation through Prophet Muhammad ﷺ. Recognizing its divine source strengthens faith, obedience, and reliance on its instructions as the ultimate guide.",
-        "references": "Quran 16:101",
-        "resources": "https://quran.com/16/101"
+        "heading": "Revealed Gradually Over 23 Years",
+        "content": "Meaning: It was sent down piecemeal to address situations, provide gradual legislation, and strengthen the Prophet's heart.",
+        "references": "Quran 25:32",
+        "resources": "Asbab an-Nuzul (Occasions of Revelation) by Al-Wahidi."
       },
       {
-        "heading": "The Qur'an is Preserved",
-        "content": "Allah has protected the Qur’an from corruption. This preservation ensures that guidance remains authentic, providing certainty and clarity to all generations seeking truth and ethical direction.",
+        "heading": "Perfectly Preserved in Arabic",
+        "content": "Meaning: Allah promised to protect the Qur'an from any alteration or corruption. Its preservation is through memorized hearts and written texts.",
         "references": "Quran 15:9",
-        "resources": "https://quran.com/15/9"
+        "resources": "Al-Itqan fi Ulum al-Qur'an by As-Suyuti (science of Qur'anic preservation)."
       },
       {
-        "heading": "The Qur'an is Clear",
-        "content": "Its messages are clear and understandable for sincere readers. Reflecting on verses strengthens comprehension, guides actions, and helps believers integrate divine teachings into daily life.",
-        "references": "Quran 54:17",
-        "resources": "https://quran.com/54/17"
+        "heading": "A Living Miracle and Challenge to Humanity",
+        "content": "Meaning: Its unmatched linguistic excellence, foretelling of unseen matters, and scientific facts are proof of its divine origin. Allah challenged all to produce even one chapter like it.",
+        "references": "Quran 2:23",
+        "resources": "I'jaz al-Qur'an (The Inimitability of the Qur'an) by Al-Baqillani."
       },
       {
-        "heading": "The Qur'an Addresses All Matters",
-        "content": "The Qur’an provides instruction for moral, social, spiritual, and legal matters. Following it develops holistic understanding and fosters righteous conduct across all spheres of life.",
-        "references": "Quran 6:38",
-        "resources": "https://quran.com/6/38"
+        "heading": "Guidance and Healing for Believers",
+        "content": "Meaning: Its primary purpose is to guide humanity to truth, provide healing for spiritual diseases, and serve as a criterion between right and wrong.",
+        "references": "Quran 2:2; Quran 17:82",
+        "resources": "At-Tibyan fi Adab Hamalat al-Qur'an by An-Nawawi."
       },
       {
-        "heading": "The Qur'an Requires Reflection",
-        "content": "Believers are encouraged to ponder its meanings. Reflection enhances comprehension, transforms understanding into action, and ensures the Qur’an becomes a practical guide rather than mere recitation.",
-        "references": "Quran 47:24",
-        "resources": "https://quran.com/47/24"
+        "heading": "Requires Recitation with Tajwid",
+        "content": "Meaning: It must be recited with proper pronunciation and rules (tajwid) as received from the Prophet through a continuous chain (tawatur).",
+        "references": "Hadith: Sunan Abi Dawud 1468 (Sahih)",
+        "resources": "Muqaddimah al-Jazariyyah (classical tajwid poem)."
       },
       {
-        "heading": "The Qur'an Encourages Action",
-        "content": "Reading is incomplete without action. Implementing its instructions strengthens character, nurtures moral responsibility, and aligns one’s life with divine guidance for worldly and spiritual success.",
-        "references": "Quran 3:104",
-        "resources": "https://quran.com/3/104"
-      },
-      {
-        "heading": "The Qur'an Guides to Mercy",
-        "content": "Its teachings emphasize compassion, forgiveness, and ethical behavior. Following these instructions fosters harmony in relationships and communities, reflecting Allah’s mercy in practical life.",
-        "references": "Quran 21:107",
-        "resources": "https://quran.com/21/107"
-      },
-      {
-        "heading": "The Qur'an Protects from Error",
-        "content": "Following its teachings safeguards against misguidance. Applying its moral, social, and spiritual instructions preserves integrity and cultivates a life pleasing to Allah.",
-        "references": "Quran 2:2",
-        "resources": "https://quran.com/2/2"
-      },
-      {
-        "heading": "The Qur'an Strengthens Faith",
-        "content": "Regular recitation and reflection build certainty, awareness of Allah, and spiritual resilience. Faith deepens as understanding grows, integrating knowledge into everyday decision-making and character.",
-        "references": "Quran 3:7",
-        "resources": "https://quran.com/3/7"
-      },
-      {
-        "heading": "The Qur'an Inspires Patience",
-        "content": "Stories of previous nations teach patience and reliance on Allah. Reflecting on these examples cultivates endurance, trust, and hope in the face of trials and difficulties.",
-        "references": "Quran 11:120",
-        "resources": "https://quran.com/11/120"
-      },
-      {
-        "heading": "The Qur'an Encourages Gratitude",
-        "content": "It reminds believers to be thankful for Allah’s blessings. Gratitude shapes character, strengthens contentment, and motivates ethical, compassionate interactions with others.",
-        "references": "Quran 14:7",
-        "resources": "https://quran.com/14/7"
-      },
-      {
-        "heading": "The Qur'an Promotes Justice",
-        "content": "Its guidance fosters fairness and ethical governance. Applying its instructions ensures moral responsibility, social harmony, and accountability to Allah in all aspects of life.",
-        "references": "Quran 5:8",
-        "resources": "https://quran.com/5/8"
-      },
-      {
-        "heading": "The Qur'an Rewards Recitation",
-        "content": "Reciting sincerely brings spiritual rewards. Engaging with its words with reflection and implementation strengthens faith, transforms character, and provides guidance for all life situations.",
-        "references": "Hadith: Sahih Muslim 804",
-        "resources": "https://sunnah.com/muslim:804"
-      },
-      {
-        "heading": "The Qur'an is Timeless",
-        "content": "Its guidance applies to all generations, transcending culture and time. Applying its teachings ensures relevance, clarity, and spiritual direction for contemporary and future believers.",
-        "references": "Quran 41:41-42",
-        "resources": "https://quran.com/41/41-42"
+        "heading": "To Be Understood and Implemented",
+        "content": "Meaning: Reading and recitation are worship, but the ultimate goal is to understand its meanings and implement its commands and prohibitions.",
+        "references": "Quran 38:29",
+        "resources": "Tafsir Ibn Kathir (explanation focusing on the Qur'an, Sunnah, and statements of the Salaf)."
       }
     ]
   },
