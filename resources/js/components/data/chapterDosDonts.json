@@ -101,45 +101,45 @@
     "dos": [
       {
         "id": "islamic-pillars-do-1",
-        "text": "Begin each day with intention for the five pillars"
+        "text": "learn the conditions and integrals (arkān) of each pillar."
       },
       {
         "id": "islamic-pillars-do-2",
-        "text": "Use reminders to step into each prayer window"
+        "text": "perform ṣalāh with congregation (jamā'ah) when possible."
       },
       {
         "id": "islamic-pillars-do-3",
-        "text": "Build a small charity habit even when funds are tight"
+        "text": "calculate zakāh accurately and give it promptly."
       },
       {
         "id": "islamic-pillars-do-4",
-        "text": "Fast a little outside Ramadan to strengthen discipline"
+        "text": "protect your fast from vain speech and arguments."
       },
       {
         "id": "islamic-pillars-do-5",
-        "text": "Research Hajj basics long before you plan to go"
+        "text": "sincerely intend to perform Hajj when capable."
       }
     ],
     "donts": [
       {
         "id": "islamic-pillars-dont-1",
-        "text": "Don't leave prayers to the last minute"
+        "text": "Delay prayers beyond their prescribed times without valid excuse."
       },
       {
         "id": "islamic-pillars-dont-2",
-        "text": "Avoid making pillars a mere routine without heart"
+        "text": "Treat zakāh as a mere tax; give with the intention of purification."
       },
       {
         "id": "islamic-pillars-dont-3",
-        "text": "Don't skip zakat out of convenienceplan ahead"
+        "text": "Break your fast intentionally without a Shar'ī excuse."
       },
       {
         "id": "islamic-pillars-dont-4",
-        "text": "Don't delay learning the pillar meanings because you feel unready"
+        "text": "Perform Hajj with harām (unlawful) money."
       },
       {
         "id": "islamic-pillars-dont-5",
-        "text": "Avoid showing off worshipkeep intentions solely for Allah"
+        "text": "Neglect the inner dimensions pray without humility, fast without restraint, etc."
       }
     ]
   },

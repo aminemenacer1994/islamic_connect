@@ -49,22 +49,22 @@
     "chapterId": 3,
     "duas": [
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ اجْعَلْنِي مِنَ الْمُقِيمِينَ الصَّلَاةَ",
-        "english": "O Allah, make me among those who establish the prayer.",
-        "reference": ""
+        "title": "For Steadfastness in Shahādah",
+        "arabic": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي ۚ رَبَّنَا وَتَقَبَّلْ دُعَاءِ",
+        "english": "My Lord, make me an establisher of prayer, and [many] from my descendants. Our Lord, and accept my supplication.",
+        "reference": "(Ibrāhīm 14:40)"
       },
       {
-        "title": "",
-        "arabic": "رَبِّ اجْعَلْ صِيَامِي شُكْرًا لَكَ",
-        "english": "My Lord, let my fast be a thank-you to You.",
-        "reference": ""
+        "title": "Upon Completing Ṣalāh",
+        "arabic": "اللَّهُمَّ أَعِنِّي عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ",
+        "english": "O Allah, help me to remember You, thank You, and worship You in the best manner.",
+        "reference": "(Sunan Abī Dāwūd 1522 - Ḥasan)"
       },
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ اقْبَلْ مِنَّا الصَّدَقَةَ",
-        "english": "O Allah, accept charity from us.",
-        "reference": ""
+        "title": "For Acceptance of Worship",
+        "arabic": "تَقَبَّلَ اللَّهُ مِنَّا وَمِنكُمْ",
+        "english": "May Allah accept [this worship] from us and from you.",
+        "reference": "(Commonly said during Eid, based on the practice of the Companions)"
       }
     ]
   },
