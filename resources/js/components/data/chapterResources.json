@@ -543,18 +543,72 @@
           {
             "label": "Qur'an",
             "entries": [
-              "91:9 - Success belongs to the one who purifies the soul.",
-              "2:165 - Believers are strongest in love for Allah.",
-              "2:153 - Seek help through patience and prayer.",
-              "14:7 - Gratitude brings increase from Allah.",
-              "39:53 - Do not despair of Allah's mercy.",
-              "57:16 - Hearts should humble to Allah's remembrance."
+              "26:88-89",
+              "2:10",
+              "91:9-10",
+              "2:74",
+              "49:12",
+              "102:1-2",
+              "104:1-3"
             ]
           },
           {
             "label": "Hadith",
             "entries": [
-              "Ṣaḥīḥ al-Bukhārī: 1"
+              "Ṣaḥīḥ al-Bukhārī: 10, 5590, 6110, 6407",
+              "Ṣaḥīḥ Muslim: 91, 2564, 2708, 2722",
+              "Sunan Abī Dāwūd: 4903",
+              "Sunan at-Tirmidhī: 3591",
+              "Sunan Ibn Mājah: 3989",
+              "Shuʿab al-Īmān: 1596",
+              "Al-Muʿjam al-Awsaṭ: 6066"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Iḥyāʾ ʿUlūm ad-Dīn – Al-Ghazālī (Books 3 & 4 on Heart Diseases)",
+              "Madārij as-Sālikīn – Ibn al-Qayyim (3 volumes on spiritual stations)",
+              "ʿUddat aṣ-Ṣābirīn wa Dhakhīrat ash-Shākirīn – Ibn al-Qayyim",
+              "Al-Fawāʾid – Ibn al-Qayyim",
+              "Al-Wābil aṣ-Ṣayyib – Ibn al-Qayyim",
+              "Kitāb al-Kabāʾir – Adh-Dhahabī",
+              "Al-Zuhd – Imām Aḥmad ibn Ḥanbal",
+              "Ḥilyat al-Awliyāʾ – Abū Nuʿaym al-Aṣbahānī (Biographies of the Pious)",
+              "Kashf al-Khafāʾ – Al-ʿAjlūnī"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "Purification of the Heart – Hamza Yusuf (Translation and commentary of Imam al-Mawlud's poem)",
+              "Don't Be Sad – ʿĀʾid al-Qarnī",
+              "Reclaim Your Heart – Yasmin Mogahed"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "SeekersGuidance.org (Courses: Purification of the Heart)",
+              "IslamQA.info (Search: heart diseases, envy, arrogance)",
+              "Purificationoftheheart.com"
+            ]
+          },
+          {
+            "label": "Scholars to Study",
+            "entries": [
+              "Sh. ʿAbd al-Razzāq al-Badr (Lectures on Heart Softening)",
+              "Sh. Muḥammad al-Munajjid (Articles on Spiritual Diseases)",
+              "Sh. Omar Suleiman (Series on Heart Matters)"
             ]
           }
         ]

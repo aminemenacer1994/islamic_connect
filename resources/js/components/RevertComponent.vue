@@ -308,9 +308,8 @@
                       :id="`section-content-${section.toggleKey}`"
                       class="section-content-wrapper">
                       <div class="section-content text-dark fs-6 lh-lg"
-                        :style="{ fontSize: `${overviewFontScale}rem` }">
-                        {{ section.content }}
-                      </div>
+                        :style="{ fontSize: `${overviewFontScale}rem` }"
+                        v-html="formatOverviewContent(section.content)"></div>
                       <div class="mt-3 small text-muted">
                         <p v-if="section.references" class="mb-1">
                           <strong class="me-2">Reference:</strong>
@@ -361,7 +360,8 @@
                       :id="`section-content-${section.toggleKey}`"
                       class="section-content-wrapper">
                       <div class="section-content text-dark fs-6 lh-lg"
-                        :style="{ fontSize: `${overviewFontScale}rem` }" v-html="section.content"></div>
+                        :style="{ fontSize: `${overviewFontScale}rem` }"
+                        v-html="formatOverviewContent(section.content)"></div>
                       <div class="mt-3 medium text-muted">
                         <p v-if="section.references" class="mb-1">
                           <strong class="me-2">Reference:</strong>

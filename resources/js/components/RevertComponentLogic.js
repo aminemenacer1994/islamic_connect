@@ -1677,6 +1677,18 @@ export default defineComponent({
       }
       return `${base}?${params.toString()}`
     },
+    formatOverviewContent(content = '') {
+      if (!content) return ''
+      const text = String(content)
+      const withLineBreaks = text.replace(/\n/g, '<br>')
+      return withLineBreaks.replace(/\bReferences:/g, '<strong>References:</strong>')
+    },
+    shortenReference(reference, maxLength = 140) {
+      if (!reference) return ''
+      const text = String(reference).replace(/\s+/g, ' ').trim()
+      if (text.length <= maxLength) return text
+      return `${text.slice(0, maxLength).trim()}...`
+    },
     shouldAutoplayVideo() {
       // Force autoplay for every video experience regardless of motion prefs.
       return true
