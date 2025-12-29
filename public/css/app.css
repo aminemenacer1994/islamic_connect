@@ -25277,6 +25277,9 @@ to {
 .card-body[data-v-1d764944] {
   padding: 0.45rem 0.55rem;
 }
+.lesson-pane .card-body[data-v-1d764944] {
+  font-size: 1.15rem;
+}
 .section-content[data-v-1d764944] {
   font-size: 1.05rem;
   line-height: 1.75;
@@ -25306,7 +25309,8 @@ to {
 }
 .section-content[data-v-1d764944] {
   line-height: 1.8;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
+  white-space: pre-line;
 }
 .section-content p[data-v-1d764944]:first-child {
   font-size: 2.2rem;
@@ -26680,7 +26684,7 @@ p[data-v-1d764944]{
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.1);
   background: rgba(255, 255, 255, 0.95);
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   color: #0f172a;
   line-height: 1.4;
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
@@ -28221,6 +28225,9 @@ to {
 }
 }
 @media (max-width: 991.98px) {
+.lesson-pane .card-body[data-v-1d764944] {
+    font-size: 1.05rem;
+}
 .revert-content .card-body p[data-v-1d764944],
   .revert-content .card-body li[data-v-1d764944],
   .revert-content .card-body small[data-v-1d764944] {

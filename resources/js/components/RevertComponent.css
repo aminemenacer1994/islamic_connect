@@ -825,6 +825,10 @@
   padding: 0.45rem 0.55rem;
 }
 
+.lesson-pane .card-body {
+  font-size: 1.15rem;
+}
+
 .section-content {
   font-size: 1.05rem;
   line-height: 1.75;
@@ -859,7 +863,8 @@
 
 .section-content {
   line-height: 1.8;
-  font-size: 1.15rem;
+  font-size: 1.3rem;
+  white-space: pre-line;
 }
 
 .section-content p:first-child {
@@ -2459,7 +2464,7 @@ p{
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.1);
   background: rgba(255, 255, 255, 0.95);
-  font-size: 0.92rem;
+  font-size: 1.08rem;
   color: #0f172a;
   line-height: 1.4;
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
@@ -4277,6 +4282,10 @@ p{
 }
 
 @media (max-width: 991.98px) {
+  .lesson-pane .card-body {
+    font-size: 1.05rem;
+  }
+
   .revert-content .card-body p,
   .revert-content .card-body li,
   .revert-content .card-body small {
