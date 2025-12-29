@@ -43,7 +43,7 @@
         </div>
 
         <!-- Search Input -->
-        <div class="col-md-6" v-if="selectedCategory !== ''">
+        <div class="col-md-6 search-column" v-if="selectedCategory !== ''">
           <label for="search-input" class="form-label">
             <i class="bi bi-search me-2"></i>Search Content
             <button class="btn btn-sm btn-link text-decoration-none ms-1" @click="showHelpModal = true"
@@ -1352,6 +1352,10 @@ h6 {
   line-height: 1.3;
 }
 
+.container {
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
+}
+
 /* Header */
 .header-icon {
   font-size: 2.5rem;
@@ -1362,6 +1366,9 @@ h6 {
   padding: 1.6rem 1.75rem;
   position: relative;
   overflow: hidden;
+  border-radius: 22px;
+  background: linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(243, 250, 248, 0.92));
+  border: 1px solid rgba(15, 118, 110, 0.12);
 }
 
 .guide-hero::after {
@@ -1382,7 +1389,7 @@ h6 {
 }
 
 .guide-hero h2 {
-  font-family: "Cormorant Garamond", "Georgia", serif;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
   font-size: clamp(2.1rem, 3vw, 3rem);
   color: var(--text-color);
   letter-spacing: -0.02em;
@@ -1460,6 +1467,7 @@ h6 {
   border: 1px solid rgba(15, 118, 110, 0.18);
   font-size: 0.98rem;
   background: #fff;
+  min-height: 44px;
 }
 
 .form-select:focus,
@@ -1479,6 +1487,7 @@ h6 {
   padding: 0.7rem 2.5rem 0.7rem 1rem;
   font-weight: 600;
   position: relative;
+  min-height: 48px;
 }
 
 .dropdown .form-select.dropdown-toggle::after {
@@ -1498,6 +1507,7 @@ h6 {
   box-shadow: 0 18px 36px rgba(15, 41, 32, 0.14);
   overflow: hidden;
   background: #fff;
+  z-index: 1100;
 }
 
 .dropdown-item {
@@ -1547,6 +1557,10 @@ h6 {
   background: rgba(20, 184, 166, 0.08);
 }
 
+.controls-section .search-column {
+  position: relative;
+}
+
 /* Content Card */
 .content-card {
   border-radius: 22px;
@@ -1582,7 +1596,7 @@ h6 {
   font-size: 1.6rem;
   margin-bottom: 0.5rem;
   color: var(--text-color);
-  font-family: "Cormorant Garamond", "Georgia", serif;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
 }
 
 .content-text {
@@ -1593,7 +1607,7 @@ h6 {
   hyphens: auto;
   letter-spacing: 0.01em;
   margin: 0;
-  font-family: "Iowan Old Style", "Palatino Linotype", "Georgia", serif;
+  font-family: "Inter", "Segoe UI", Arial, sans-serif;
 }
 
 .selected-content {
@@ -1624,7 +1638,7 @@ mark {
 
 /* Premium buttons and outlines (consistent pill aesthetic) */
 .btn.btn-premium {
-  background: var(--primary-color);
+  background: var(--primary-color, #0b7a6a);
   color: #fff;
   border: none;
   border-radius: 24px;
@@ -1657,6 +1671,11 @@ mark {
 
 .toolbar .toolbar-label {
   font-weight: 500;
+}
+
+.controls-actions {
+  flex-wrap: wrap;
+  justify-content: flex-start;
 }
 
 @media (max-width: 576px) {
@@ -1715,8 +1734,8 @@ mark {
 }
 
 .btn.btn-premium-outline {
-  background: var(--bg-color);
-  color: var(--primary-color);
+  background: var(--bg-color, #fff);
+  color: var(--primary-color, #0b7a6a);
   border-radius: 24px;
   border: 2px solid rgba(15, 118, 110, 0.3);
   padding: 0.45rem 0.9rem;
@@ -1966,6 +1985,22 @@ mark {
     font-size: 1rem;
   }
 
+  .controls-actions {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: thin;
+    gap: 0.35rem;
+  }
+
+  .controls-actions::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .controls-actions::-webkit-scrollbar-thumb {
+    background: rgba(15, 118, 110, 0.2);
+    border-radius: 999px;
+  }
+
   .global-audio-player {
     flex-direction: column;
     padding: 1rem;
@@ -2029,6 +2064,18 @@ mark {
   .btn {
     padding: 0.25rem 0.5rem;
     font-size: 0.9rem;
+  }
+
+  .form-label {
+    font-size: 0.88rem;
+  }
+
+  .dropdown .form-select.dropdown-toggle {
+    padding: 0.6rem 2.3rem 0.6rem 0.9rem;
+  }
+
+  .autocomplete-suggestions {
+    max-height: 220px;
   }
 }
 
@@ -2278,12 +2325,14 @@ mark {
   border: 1px solid rgba(15, 118, 110, 0.16);
   box-shadow: 0 18px 36px rgba(15, 41, 32, 0.14);
   border-radius: 16px;
+  max-height: 60vh;
 }
 
 .dropdown-item {
   padding: 0.7rem 1rem;
   border-bottom: 1px solid rgba(15, 118, 110, 0.08);
   transition: all 0.2s ease;
+  white-space: normal;
 }
 
 .dropdown-item:hover {
@@ -2489,6 +2538,8 @@ mark {
   border-radius: 14px;
   box-shadow: 0 18px 36px rgba(15, 41, 32, 0.14);
   width: 100%;
+  left: 0;
+  right: 0;
   margin-top: 0.2rem;
   list-style: none;
   padding: 0;
@@ -2972,18 +3023,21 @@ mark {
 
 /* Clean, evenly spaced action rows */
 .action-row {
-  padding: 10px;
+  padding: 0.35rem;
   display: flex;
-  justify-content: space-between;
-  background: #fff;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  background: transparent;
 }
 
 .action-row .btn {
-  flex: 1 1 0;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .action-row .btn+.btn {
-  margin-left: .5rem;
+  margin-left: 0;
 }
 
 /* Utilities for premium feel */

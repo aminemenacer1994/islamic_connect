@@ -861,7 +861,7 @@ const _hoisted_6 = {
 };
 const _hoisted_7 = {
   key: 0,
-  class: "col-md-6"
+  class: "col-md-6 search-column"
 };
 const _hoisted_8 = {
   for: "search-input",
