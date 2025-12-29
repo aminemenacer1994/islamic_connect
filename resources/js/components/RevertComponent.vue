@@ -1337,9 +1337,9 @@
             </div>
             <div v-show="isCardVisible('resources')" class="px-3 px-md-4 py-4">
               <p class="text-muted medium mb-3">Primary sources, classical texts, and modern tools for this chapter.</p>
-              <div v-if="currentChapterResources" class="resource-grid">
+              <div v-if="currentChapterResourcesLayout" class="resource-grid">
                 <article
-                  v-for="(section, sectionIndex) in currentChapterResources.sections"
+                  v-for="(section, sectionIndex) in currentChapterResourcesLayout.sections"
                   :key="section.title"
                   class="resource-section-card"
                 >

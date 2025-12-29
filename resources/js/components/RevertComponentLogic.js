@@ -85,6 +85,8 @@ const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journ
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male']
 
+const RESOURCE_SECTION_TITLES = ['Primary Sources', 'Classical Texts', 'Modern Resources']
+
 const DEFAULT_DAILY_CHALLENGES = [
   {
     id: 'insight-note',
@@ -499,6 +501,29 @@ export default defineComponent({
       const chapterId = this.selectedPill ?? this.currentLesson?.chapterId
       if (chapterId == null) return null
       return this.chapterResources.find(entry => entry.chapterId === chapterId) || null
+    },
+    currentChapterResourcesLayout() {
+      const base = this.currentChapterResources
+      if (!base) return null
+      const sections = Array.isArray(base.sections) ? base.sections : []
+      const sectionMap = new Map(sections.map(section => [section.title, section]))
+      const normalizedSections = RESOURCE_SECTION_TITLES.map((title) => {
+        const existing = sectionMap.get(title)
+        if (existing) return existing
+        return {
+          title,
+          items: [
+            {
+              label: 'Coming soon',
+              entries: ['Resources for this section will be added soon.']
+            }
+          ]
+        }
+      })
+      return {
+        ...base,
+        sections: normalizedSections
+      }
     },
     currentChapterPlans() {
       const chapterId = this.currentLesson?.chapterId

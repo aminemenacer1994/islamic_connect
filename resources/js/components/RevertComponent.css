@@ -2375,16 +2375,16 @@ p{
 
 .resource-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
 }
 
 .resource-section-card {
-  background: #ffffff;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 250, 252, 0.95));
   border-radius: 20px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  padding: 1.1rem 1.25rem;
-  box-shadow: 0 18px 32px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  padding: 1.35rem 1.5rem;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
   position: relative;
   overflow: hidden;
 }
@@ -2407,7 +2407,7 @@ p{
   font-size: 1.1rem;
   font-weight: 700;
   color: #0f172a;
-  margin-bottom: 0.85rem;
+  margin-bottom: 1rem;
 }
 
 .resource-section-title::after {
@@ -2421,9 +2421,9 @@ p{
 }
 
 .resource-group {
-  margin-bottom: 0.85rem;
-  padding-left: 0.75rem;
-  border-left: 2px solid rgba(14, 165, 233, 0.2);
+  margin-bottom: 1rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid rgba(14, 165, 233, 0.25);
 }
 
 .resource-group:last-child {
@@ -2444,24 +2444,25 @@ p{
 }
 
 .resource-entry-list {
-  margin: 0.35rem 0 0;
+  margin: 0.4rem 0 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.5rem 0.8rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem 1rem;
 }
 
 .resource-entry {
   display: flex;
   gap: 0.5rem;
   align-items: flex-start;
-  padding: 0.45rem 0.65rem;
+  padding: 0.6rem 0.75rem;
   border-radius: 12px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: rgba(248, 250, 252, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  background: rgba(255, 255, 255, 0.95);
   font-size: 0.92rem;
   color: #0f172a;
   line-height: 1.4;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
 }
 
 .resource-entry::before {
@@ -2524,6 +2525,20 @@ p{
 
   .guidance-line span {
     display: none;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+    gap: 1.1rem;
+  }
+
+  .resource-section-card {
+    padding: 1.2rem 1.25rem;
+  }
+
+  .resource-entry-list {
+    grid-template-columns: 1fr;
+    gap: 0.65rem;
   }
 
 }

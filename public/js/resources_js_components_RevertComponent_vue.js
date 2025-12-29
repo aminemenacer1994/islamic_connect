@@ -1622,7 +1622,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'])
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_233)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_234, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted medium mb-3"
-  }, "Primary sources, classical texts, and modern tools for this chapter.", -1 /* CACHED */)), _ctx.currentChapterResources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_235, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterResources.sections, (section, sectionIndex) => {
+  }, "Primary sources, classical texts, and modern tools for this chapter.", -1 /* CACHED */)), _ctx.currentChapterResourcesLayout ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_235, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterResourcesLayout.sections, (section, sectionIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: section.title,
       class: "resource-section-card"
@@ -2027,6 +2027,7 @@ const GENDER_FILTERS = [{
 const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win'];
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female'];
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male'];
+const RESOURCE_SECTION_TITLES = ['Primary Sources', 'Classical Texts', 'Modern Resources'];
 const DEFAULT_DAILY_CHALLENGES = [{
   id: 'insight-note',
   title: 'Challenge one',
@@ -2389,6 +2390,26 @@ const celebrateFinalChapter = confettiFn => {
       const chapterId = (_this$selectedPill = this.selectedPill) !== null && _this$selectedPill !== void 0 ? _this$selectedPill : (_this$currentLesson3 = this.currentLesson) === null || _this$currentLesson3 === void 0 ? void 0 : _this$currentLesson3.chapterId;
       if (chapterId == null) return null;
       return this.chapterResources.find(entry => entry.chapterId === chapterId) || null;
+    },
+    currentChapterResourcesLayout() {
+      const base = this.currentChapterResources;
+      if (!base) return null;
+      const sections = Array.isArray(base.sections) ? base.sections : [];
+      const sectionMap = new Map(sections.map(section => [section.title, section]));
+      const normalizedSections = RESOURCE_SECTION_TITLES.map(title => {
+        const existing = sectionMap.get(title);
+        if (existing) return existing;
+        return {
+          title,
+          items: [{
+            label: 'Coming soon',
+            entries: ['Resources for this section will be added soon.']
+          }]
+        };
+      });
+      return _objectSpread(_objectSpread({}, base), {}, {
+        sections: normalizedSections
+      });
     },
     currentChapterPlans() {
       var _this$currentLesson4;
