@@ -625,18 +625,82 @@
           {
             "label": "Qur'an",
             "entries": [
-              "68:4 - The Prophet ﷺ is upon magnificent character.",
-              "33:70 - Speak words of justice and truth.",
-              "17:23 - Show excellence to parents.",
-              "31:18-19 - Be humble and soften your speech.",
-              "49:12 - Avoid suspicion, spying, and backbiting.",
-              "25:63 - The servants of the Merciful walk humbly."
+              "31:19",
+              "17:23",
+              "24:27-28",
+              "23:96",
+              "8:46",
+              "49:11-12"
             ]
           },
           {
             "label": "Hadith",
             "entries": [
-              "Ṣaḥīḥ Muslim: 55"
+              "Ṣaḥīḥ al-Bukhārī: 6015, 6114, 6117, 6094, 6115, 6229",
+              "Ṣaḥīḥ Muslim: 54, 2162, 2593, 2624",
+              "Sunan at-Tirmidhī: 1162, 1924, 1919, 3591",
+              "Sunan Abī Dāwūd: 5096, 4905",
+              "Al-Adab al-Mufrad: 273, 112, 115",
+              "Musnad Aḥmad: 12330"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Al-Adab al-Mufrad – Imām al-Bukhārī (Foundation of manners compilation)",
+              "Riyāḍ aṣ-Ṣāliḥīn – Imām al-Nawawī (Chapters on daily conduct)",
+              "Al-Ādāb ash-Sharʿiyyah – Ibn Mufliḥ al-Ḥanbalī (3 volumes on Islamic etiquette)",
+              "Al-Kāfī fī Fiqh Ahl al-Madīnah – Ibn ʿAbd al-Barr (Includes manners sections)",
+              "ʿUddat aṣ-Ṣābirīn wa Dhakhīrat ash-Shākirīn – Ibn al-Qayyim",
+              "Iḥyāʾ ʿUlūm ad-Dīn – Al-Ghazālī (Book 2: Etiquettes of Daily Life)",
+              "Al-Adhkār – Imām al-Nawawī (Manners of remembrance)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Specialized Books",
+        "items": [
+          {
+            "entries": [
+              "Birr al-Wālidayn – Ibn al-Jawzī (Honoring Parents)",
+              "Ḥijāb al-Mar'ah al-Muslimah – Al-Albānī (Women's Dress)",
+              "Al-Bayʿ wal-Shirāʾ – Ibn ʿUthaymīn (Business Ethics)",
+              "Al-Kabā'ir – Adh-Dhahabī (Major Sins to Avoid)",
+              "Mukhtaṣar Minhāj al-Qāṣidīn – Ibn Qudāmah (Abridged Path of Seekers)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "Islamic Manners – ʿAbd al-Fattāḥ Abū Ghuddah",
+              "The Ideal Muslim – Dr. Muhammad Ali al-Hashimi",
+              "Don't Be Sad – ʿĀʾid al-Qarnī (Includes social conduct)"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "IslamQA.info (Search: manners, adab, etiquette)",
+              "SeekersGuidance.org (Courses: Islamic Manners)",
+              "Sunnah.com (Search by topic in Al-Adab al-Mufrad)"
+            ]
+          },
+          {
+            "label": "Scholars' Lectures",
+            "entries": [
+              "Sh. ʿAbd al-Razzāq al-Badr (Series on Riyāḍ aṣ-Ṣāliḥīn)",
+              "Sh. Muhammad al-Munajjid (Articles on daily adab)",
+              "Sh. Omar Suleiman (Friday sermons on character)"
             ]
           }
         ]
