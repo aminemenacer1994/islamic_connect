@@ -16,6 +16,7 @@ import chapterGuidedPathway from './data/chapterGuidedPathway.json'
 import chapterGentleStart from './data/chapterGentleStart.json'
 import chapterSectionStats from './data/chapterSectionStats.json'
 import chapterLessonOverview from './data/chapterLessonOverview.json'
+import chapterResources from './data/chapterResources.json'
 import nextStepPrompts from './data/nextStepPrompts.json'
 import chapterPlanGuides from './data/chapterPlanGuides.json'
 import { jsPDF } from 'jspdf'
@@ -359,6 +360,7 @@ export default defineComponent({
     return {
       roadmapData: normalizeJson(roadmapData),
       chapterLessons: normalizeJson(chapterLessonOverview),
+      chapterResources: normalizeJson(chapterResources),
       faqChapters: normalizeJson(faqChapters),
       commonQuestionChapters: normalizeJson(commonQuestionsData),
       premiumResources: normalizeJson(premiumResources),
@@ -492,6 +494,11 @@ export default defineComponent({
       const chapterId = this.normalizeChapterId()
       if (chapterId == null) return null
       return this.chapterLessons.find(entry => entry.chapterId === chapterId) || null
+    },
+    currentChapterResources() {
+      const chapterId = this.currentLesson?.chapterId
+      if (chapterId == null) return null
+      return this.chapterResources.find(entry => entry.chapterId === chapterId) || null
     },
     currentChapterPlans() {
       const chapterId = this.currentLesson?.chapterId

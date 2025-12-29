@@ -1,0 +1,507 @@
+[
+  {
+    "chapterId": 1,
+    "title": "The Foundation (Islam & Tawheed)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "3:19",
+              "47:19",
+              "39:62",
+              "42:11",
+              "4:36",
+              "51:56",
+              "7:180"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 3435, 50, 1",
+              "Ṣaḥīḥ Muslim: 26, 8a, 16",
+              "Sunan Abī Dāwūd: 1522",
+              "Jāmiʿ at-Tirmidhī: 3522"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Tafsīr Ibn Kathīr (Vol. 2, p. 32)",
+              "Kitāb at-Tawḥīd - Muhammad ibn ʿAbd al-Wahhāb",
+              "Al-ʿAqīdah al-Ṭaḥāwiyyah (with commentary)",
+              "Al-ʿAqīdah al-Wāsiṭiyyah - Ibn Taymiyyah",
+              "Kashf al-Shubuhāt - Muhammad ibn ʿAbd al-Wahhāb",
+              "Al-Qawāʿid al-Arbaʿ - Muhammad ibn ʿAbd al-Wahhāb",
+              "Sharḥ Uṣūl al-Īmān - Ibn ʿUthaymīn",
+              "Majmūʿ al-Fatāwā - Ibn Taymiyyah (Vol. 1, p. 98)",
+              "Madārij al-Sālikīn - Ibn al-Qayyim",
+              "ʿUddat al-Ṣābirīn - Ibn al-Qayyim",
+              "Iḥyāʾ ʿUlūm al-Dīn - Al-Ghazālī",
+              "Ṭarīq al-Hijratayn - Ibn al-Qayyim"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Websites",
+            "entries": [
+              "IslamQA.info",
+              "SeekersGuidance.org"
+            ]
+          },
+          {
+            "label": "Apps",
+            "entries": [
+              "99 Names of Allāh"
+            ]
+          },
+          {
+            "label": "Courses",
+            "entries": [
+              "SeekersGuidance - Introduction to Islamic Belief"
+            ]
+          },
+          {
+            "label": "Books",
+            "entries": [
+              "Al-Uṣūl al-Thalāthah (with commentary)"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 2,
+    "title": "The Beliefs (Six Articles of Faith)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "2:285",
+              "3:2",
+              "16:36",
+              "5:48",
+              "6:92",
+              "54:49",
+              "6:164",
+              "6:88"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ Muslim: 8a, 155, 2647",
+              "Ṣaḥīḥ al-Bukhārī: 50, 6365, 6774",
+              "Sunan Ibn Mājah: 3871",
+              "Al-Adab al-Mufrad: 783",
+              "Jāmiʿ at-Tirmidhī: 3522"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Al-ʿAqīdah al-Ṭaḥāwiyyah (Articles 7-8)",
+              "Sharḥ al-ʿAqīdah al-Ṭaḥāwiyyah - Ibn Abī al-ʿIzz al-Ḥanafī",
+              "Lumʿat al-Iʿtiqād - Ibn Qudāmah al-Maqdisī",
+              "Kitāb al-Īmān - Ibn Taymiyyah",
+              "Badʾ al-Khalq (Chapter in Ṣaḥīḥ al-Bukhārī)",
+              "Kitāb al-Jannah wa al-Nār (Book in Ṣaḥīḥ al-Bukhārī)",
+              "Sharḥ Uṣūl al-Īmān - Ibn ʿUthaymīn",
+              "Al-Farq bayn al-Īmān wal-Islām - Various scholars"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "Sharḥ Uṣūl al-Īmān - Ibn Bāz (p. 45)"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "IslamQA.info",
+              "SeekersGuidance.org"
+            ]
+          },
+          {
+            "label": "Courses",
+            "entries": [
+              "Islamic Online University - Creed course"
+            ]
+          },
+          {
+            "label": "Platforms",
+            "entries": [
+              "Understand Quran Academy"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 3,
+    "title": "The Pillars of Islam",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "Shahādah: 3:18, 47:19",
+              "Ṣalāh: 2:43, 29:45, 4:103, 17:78",
+              "Zakāh: 2:110, 9:60, 9:103",
+              "Ṣawm: 2:183-185",
+              "Hajj: 3:97, 22:27-28"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 8, 1, 3370, 3435, 5032, 6345",
+              "Ṣaḥīḥ Muslim: 16, 82, 804, 746, 483, 588, 592",
+              "Sunan Abī Dāwūd: 5081, 5088",
+              "Sunan Ibn Mājah: 251",
+              "Sunan at-Tirmidhī: 2926"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Al-Umm - Imām al-Shāfiʿī",
+              "Al-Mughnī - Ibn Qudāmah",
+              "Iḥyāʾ ʿUlūm al-Dīn - Al-Ghazālī",
+              "Fatḥ al-Bārī - Ibn Ḥajar al-ʿAsqalānī (Commentary on Bukhārī)",
+              "ʿUmdat al-Aḥkām - ʿAbd al-Ghanī al-Maqdisī",
+              "Bulūgh al-Marām - Ibn Ḥajar al-ʿAsqalānī",
+              "Al-Majmūʿ - Imām al-Nawawī",
+              "Al-Fiqh al-Islāmī wa Adillatuh - Dr. Wahbah al-Zuḥaylī"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "The Five Pillars of Islam - Musharraf Hussain",
+              "Islam: Beliefs and Teachings - Ghulam Sarwar",
+              "Fiqh as-Sunnah - Sayyid Sābiq"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "Quran.com (translations)",
+              "Sunnah.com (hadith database)",
+              "SeekersGuidance.org (free courses)",
+              "Bayyinah.tv (Qur'anic studies)"
+            ]
+          },
+          {
+            "label": "Fatwa Portals",
+            "entries": [
+              "IslamQA.info",
+              "Dar al-Ifta al-Misriyyah"
+            ]
+          },
+          {
+            "label": "Apps",
+            "entries": [
+              "Prayer Times",
+              "Zakah Calculator",
+              "Dhikr & Du'ā"
+            ]
+          },
+          {
+            "label": "Tools",
+            "entries": [
+              "Noorani Qaida (Tajwīd)",
+              "Ḥiṣn al-Muslim app"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 4,
+    "title": "The Qur'an (Divine Revelation)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "56:80",
+              "25:32",
+              "15:9",
+              "2:23",
+              "2:2",
+              "17:82",
+              "2:285-286",
+              "38:29",
+              "7:204",
+              "16:98",
+              "73:4"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 4953, 5032, 6347, 6774, 4440",
+              "Ṣaḥīḥ Muslim: 746, 804, 483, 588",
+              "Sunan Abī Dāwūd: 1468, 4855",
+              "Sunan Ibn Mājah: 251",
+              "Jāmiʿ at-Tirmidhī: 2910, 2926",
+              "Musnad Aḥmad: 11133"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Al-Itqān fī ʿUlūm al-Qurʾān - Jalāl al-Dīn al-Suyūṭī",
+              "Iʿjāz al-Qurʾān - Abū Bakr al-Bāqillānī",
+              "At-Tibyān fī Ādāb Ḥamalat al-Qurʾān - Imām al-Nawawī",
+              "Muqaddimah al-Jazariyyah (Tajwīd)",
+              "Tafsīr al-Ṭabarī - Muḥammad ibn Jarīr al-Ṭabarī",
+              "Tafsīr al-Qurʾān al-ʿAẓīm (Tafsīr Ibn Kathīr)",
+              "Tafsīr al-Saʿdī - ʿAbd al-Raḥmān al-Saʿdī",
+              "Al-Burhān fī ʿUlūm al-Qurʾān - Badr al-Dīn al-Zarkashī"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "An Introduction to the Sciences of the Qur'an - Al-ʿAṣr Publications",
+              "The History of the Qur'anic Text - Dr. Muṣṭafā al-Aʿẓamī",
+              "A Summary of the Qur'an - Towards Eternity"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "Quran.com (Hafs narration)",
+              "Tanzil.net (Qur'an text)",
+              "Bayyinah.tv (Qur'anic Arabic courses)"
+            ]
+          },
+          {
+            "label": "Apps",
+            "entries": [
+              "Quran Companion",
+              "Tajweed Quran",
+              "Memorize Quran"
+            ]
+          },
+          {
+            "label": "Recitation Platforms",
+            "entries": [
+              "Quranic Audio",
+              "Islamweb.net recitations"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 5,
+    "title": "The Prophet (Life of Muhammad ﷺ)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "33:21",
+              "33:40",
+              "15:94",
+              "16:110",
+              "22:39",
+              "5:3",
+              "21:107",
+              "33:56"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 4953, 614, 15, 689, 4440, 3370, 6774, 831",
+              "Ṣaḥīḥ Muslim: 746, 476, 482, 487, 402, 770, 2732",
+              "Sunan Abī Dāwūd: 775, 1425, 1501",
+              "Sunan Ibn Mājah: 897",
+              "Jāmiʿ at-Tirmidhī: 3477",
+              "Musnad Aḥmad: 13964"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Sīrat Ibn Hishām (abridgement of Ibn Isḥāq's Sīrah)",
+              "Al-Bidāyah wa al-Nihāyah - Ibn Kathīr (Seerah sections)",
+              "Al-Sīrah al-Nabawiyyah - Ibn Kathīr",
+              "Shamāʾil al-Muḥammadiyyah - Imām al-Tirmidhī",
+              "Zād al-Maʿād - Ibn al-Qayyim (Prophet's guidance)",
+              "Dalāʾil al-Nubuwwah - Al-Bayhaqī",
+              "Al-Rawḍ al-Anf - Al-Suhaylī"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "The Sealed Nectar (Ar-Raḥīq al-Makhtūm) - Ṣafī al-Raḥmān al-Mubārakpūrī",
+              "Muhammad: His Life Based on the Earliest Sources - Martin Lings",
+              "When the Moon Split - Ṣafī al-Raḥmān al-Mubārakpūrī",
+              "The Noble Life of the Prophet - Dr. ʿAlī Muḥammad al-Ṣallābī",
+              "Madinan Society at the Time of the Prophet - Dr. Akram Ḍiyāʾ al-ʿUmarī"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "Sunnah.com (Books of Maghāzī/Expeditions)",
+              "Seerah of Prophet Muhammad ﷺ (Yasir Qadhi series)",
+              "Bayyinah TV - Life of the Prophet series"
+            ]
+          },
+          {
+            "label": "Documentaries",
+            "entries": [
+              "The Life of Muhammad ﷺ (BBC)",
+              "Muhammad: The Last Prophet (animated)"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 7,
+    "title": "Dua & Dhikr",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "2:152",
+              "40:60",
+              "13:28",
+              "2:201",
+              "2:216",
+              "49:6"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 6407, 6340, 3995, 3370, 6110, 6389",
+              "Ṣaḥīḥ Muslim: 483, 592, 1015, 2732, 476, 482, 487",
+              "Sunan Abī Dāwūd: 5081, 5088, 4855, 1501",
+              "Sunan Ibn Mājah: 3871, 897",
+              "Jāmiʿ at-Tirmidhī: 3372, 3477, 3383",
+              "Musnad Aḥmad: 11133"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Al-Adhkār - Imām al-Nawawī",
+              "Al-Kalim al-Ṭayyib - Ibn Taymiyyah",
+              "Al-Duʿāʾ - Imām al-Ṭabarānī",
+              "Al-Duʿāʾ wa Atharuhu fī Dafʿ al-Balāʾ - Ibn Rajab al-Ḥanbalī",
+              "Fatḥ al-Bārī - Ibn Ḥajar (Commentary on Duʿāʾ chapters)",
+              "ʿUddat al-Ṣābirīn wa Dhakhīrat al-Shākirīn - Ibn al-Qayyim"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "Fortress of the Muslim (Ḥiṣn al-Muslim) - Dr. Saʿīd al-Qaḥṭānī",
+              "The Value of Time - Shaykh ʿAbd al-Fattāḥ Abū Ghuddah",
+              "Sifat Ṣalāt al-Nabī - Shaykh al-Albānī (prayer duʿāʾs)"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "Duas.com (verified collection)",
+              "IslamQA.info (search for specific duʿāʾ authenticity)",
+              "SeekersGuidance.org (courses on spiritual practice)"
+            ]
+          },
+          {
+            "label": "Apps",
+            "entries": [
+              "Hisn al-Muslim (Fortress of the Muslim app)",
+              "Daily Duas",
+              "Dhikr & Dua"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

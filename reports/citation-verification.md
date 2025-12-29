@@ -1,0 +1,147 @@
+# Citation Verification Report
+
+Sources used:
+- Quran: api.quran.com (chapter verse counts)
+- Hadith/Books: structural check only (collection + number or named source)
+
+Summary:
+- Quran references found: 237 (unique verses: 179)
+- Quran references invalid: 0
+- Quran links not found in references: 0
+- Hadith references found: 43
+- Hadith references missing numbers: 37
+- Book/secondary references (manual verification): 63
+- Empty reference fields: 27
+
+Hadith references missing explicit numbers (needs manual verification):
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][0]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][1]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][2]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][3]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][4]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][7]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][8]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][9]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][10]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][0]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][1]['content'] :: Sahih al-Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][1]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][2]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][3]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][4]['content'] :: Sahih al-Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][4]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][5]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[2]['overview'][2]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[2]['overview'][3]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[2]['overview'][4]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][0]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][1]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][2]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][3]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][4]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][5]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][6]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][7]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][8]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][9]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][10]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][11]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][12]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][13]['references'] :: Sahih Bukhari
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][14]['references'] :: Sahih Muslim
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][9]['references'] :: Shama'il al-Muhammadiyyah
+- resources/js/components/data/commonQuestions.json :: root[2]['faqs'][4]['body'] :: Sharh Sahih Muslim
+
+Book/secondary references (manual verification required):
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][0]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][0]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][1]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][1]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][2]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][2]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][3]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][3]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][4]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][4]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][5]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][5]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][6]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][6]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][7]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][7]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][8]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][8]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][9]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][9]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][10]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[0]['overview'][10]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][0]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][1]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][2]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][3]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][4]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[1]['overview'][5]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[2]['overview'][2]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][3]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[3]['overview'][13]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][0]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][1]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][2]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][3]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][4]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][4]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][5]['heading']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][5]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][6]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][7]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][8]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[4]['overview'][9]['references']
+- resources/js/components/data/chapterLessonOverview.json :: root[6]['overview'][3]['content']
+- resources/js/components/data/chapterLessonOverview.json :: root[12]['overview'][6]['content']
+- resources/js/components/data/duas.json :: root[0]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[1]['duas'][1]['english']
+- resources/js/components/data/duas.json :: root[1]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[3]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[4]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[5]['duas'][0]['reference']
+- resources/js/components/data/commonQuestions.json :: root[1]['faqs'][4]['body']
+- resources/js/components/data/commonQuestions.json :: root[2]['faqs'][4]['body']
+- resources/js/components/data/commonQuestions.json :: root[3]['faqs'][3]['body']
+- resources/js/components/data/commonQuestions.json :: root[4]['faqs'][1]['body']
+- resources/js/components/data/commonQuestions.json :: root[4]['faqs'][3]['body']
+- resources/js/components/data/commonQuestions.json :: root[13]['faqs'][3]['body']
+- resources/js/components/data/keyInsights.json :: root[0]['keyInsights'][1]
+- resources/js/components/data/keyInsights.json :: root[1]['keyInsights'][3]
+- resources/js/components/data/chapterDosDonts.json :: root[1]['donts'][3]['text']
+- resources/js/components/data/chapterDosDonts.json :: root[3]['donts'][0]['text']
+- resources/js/components/data/chapterDosDonts.json :: root[7]['dos'][0]['text']
+- resources/js/components/data/chapterDosDonts.json :: root[10]['dos'][2]['text']
+
+Empty reference fields (needs sources):
+- resources/js/components/data/duas.json :: root[6]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[6]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[6]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[7]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[7]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[7]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[8]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[8]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[8]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[9]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[9]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[9]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[10]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[10]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[10]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[11]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[11]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[11]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[12]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[12]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[12]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[13]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[13]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[13]['duas'][2]['reference']
+- resources/js/components/data/duas.json :: root[14]['duas'][0]['reference']
+- resources/js/components/data/duas.json :: root[14]['duas'][1]['reference']
+- resources/js/components/data/duas.json :: root[14]['duas'][2]['reference']
