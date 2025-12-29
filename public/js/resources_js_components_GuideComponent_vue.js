@@ -999,9 +999,9 @@ const _hoisted_55 = {
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["guide-root", ['container my-4', {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['container my-4', {
       'pad-for-audio': $setup.isPlaying || $setup.isPaused
-    }]]),
+    }]),
     role: "main"
   }, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "guide-hero text-center mb-4"

@@ -1,5 +1,5 @@
 <template>
-  <div class="guide-root" :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
+  <div  :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
 
     <header class="guide-hero text-center mb-4">
       <span class="guide-eyebrow">Guided learning library</span>
@@ -1285,7 +1285,7 @@ export default {
 }
 
 /* Base Styles */
-.guide-root {
+/* .guide-root {
   --primary-color: #0b7a6a;
   --primary-hover: #085d53;
   --accent-color: #c58a35;
@@ -1300,19 +1300,16 @@ export default {
   --surface-soft: #f2f6f4;
   --border-color: rgba(15, 118, 110, 0.16);
   --card-shadow: 0 18px 36px rgba(11, 58, 48, 0.12);
-  font-family: "Poppins", "Nunito Sans", "Inter", sans-serif;
+  font-family: "Inter", Arial, sans-serif;
   color: var(--text-color);
   line-height: 1.7;
-  background:
-    radial-gradient(240px 180px at 12% 10%, rgba(197, 138, 53, 0.15), transparent 70%),
-    radial-gradient(320px 220px at 90% 0%, rgba(45, 212, 191, 0.2), transparent 65%),
-    linear-gradient(135deg, #fbfbf8 0%, #f4faf7 50%, #eef6f3 100%);
+  background: transparent;
   border: 1px solid rgba(15, 118, 110, 0.12);
   border-radius: 28px;
   padding: 2.5rem 2rem;
   position: relative;
   overflow: visible;
-}
+} */
 
 .guide-root>* {
   position: relative;
@@ -1326,6 +1323,7 @@ export default {
   border-radius: 50%;
   opacity: 0.35;
   pointer-events: none;
+  display: none;
 }
 
 .guide-root::before {
@@ -1362,10 +1360,6 @@ h6 {
 
 .guide-hero {
   padding: 1.6rem 1.75rem;
-  border-radius: 24px;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(242, 248, 246, 0.9));
-  border: 1px solid rgba(15, 118, 110, 0.16);
-  box-shadow: 0 16px 32px rgba(15, 41, 32, 0.12);
   position: relative;
   overflow: hidden;
 }
@@ -1433,7 +1427,7 @@ h6 {
   padding: 1.35rem 1.5rem;
   box-shadow: var(--card-shadow);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .controls-section::before {
@@ -1443,6 +1437,7 @@ h6 {
   background: radial-gradient(circle at 10% 20%, rgba(45, 212, 191, 0.12), transparent 45%);
   opacity: 0.8;
   pointer-events: none;
+  border-radius: inherit;
 }
 
 .controls-section>* {

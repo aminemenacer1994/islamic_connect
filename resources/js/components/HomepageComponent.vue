@@ -12,7 +12,7 @@
           <div class="ic-hero__orb ic-hero__orb--secondary"></div>
 
           <div class="row align-items-center ic-hero__grid">
-            <div class="col-md-7">
+            <div class="col-md-6">
               <div class="text-left">
                 <!-- Badge -->
                 <div class="ic-hero__badge ic-reveal" style="--ic-delay: 0.1s;">
@@ -64,7 +64,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
               <div class="text-center">
                 <picture>
                   <source srcset="/images/banner-photo.png 800w" type="image/png">
@@ -118,11 +118,6 @@
               experience.</p>
             <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished
               visuals each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
-            <div class="d-flex flex-wrap gap-3 mb-4 justify-content-center justify-content-lg-start">
-              <span class="badge badge-pill highlight-badge">Quran insights</span>
-              <span class="badge badge-pill highlight-badge">Dua playlists</span>
-              <span class="badge badge-pill highlight-badge">Mission stories</span>
-            </div>
             <div class="row row-cols-3 g-3">
               <div class="col" v-for="stat in seoStats" :key="stat.label">
                 <div class="p-4 premium-stat h-100 text-center">
@@ -713,7 +708,6 @@
                   <h3 class="fw-bold mb-1">Premium support, made personal</h3>
                   <p class="text-muted mb-0">We review every message ourselves and respond thoughtfully.</p>
                 </div>
-                <span class="badge contact-card__badge">Priority response</span>
               </div>
               <form @reset="reset" @submit.prevent="sendMessage()" role="form" aria-label="Contact form">
                 <div class="row g-3">
@@ -844,7 +838,7 @@
 
 .ic-hero {
   position: relative;
-  border-radius: 28px;
+  /* border-radius: 28px; */
   background: linear-gradient(140deg, #fff7ea 0%, #f3faf6 45%, #eaf4f1 100%);
   border: 1px solid var(--ic-border);
   box-shadow: var(--ic-shadow);
@@ -880,7 +874,7 @@
 }
 
 .ic-hero__orb--primary {
-  top: -20%;
+  top: 0px;
   right: -12%;
   width: 420px;
   height: 420px;
@@ -975,13 +969,6 @@
   flex-wrap: wrap;
 }
 
-.ic-hero__image {
-  border-radius: 26px;
-  border: 1px solid var(--ic-border);
-  box-shadow: var(--ic-shadow);
-  background: #fff;
-  padding: 0.5rem;
-}
 
 .ic-hero__ai {
   margin-top: 1.5rem;
@@ -1808,19 +1795,12 @@
 }
 
 .jumbotron {
-  margin-top: 1.25rem;
-  padding-top: clamp(3rem, 4vw, 4rem);
+  
   padding-bottom: clamp(1.5rem, 2.5vw, 2.5rem);
 }
 
-.jumbotron:not(.no-spacing) .hero-title {
-  margin-top: 1rem;
-}
-
 @media (max-width: 768px) {
-  .jumbotron {
-    padding-top: 5.5rem;
-  }
+  
 }
 
 .hero-wrapper {
@@ -2074,10 +2054,8 @@ export default {
       seoCards: [
         { title: "Quran Explorer", desc: "Open Quran translations, tafsir, and audio helpers.", href: "/quran" },
         { title: "Dua Collections", desc: "Search authentic supplications for gratitude and travel.", href: "/dua" },
-        { title: "Hadith Library", desc: "Browse trusted narrations with context.", href: "/ahadith" },
-        { title: "Guides & Articles", desc: "Study modern spirituality and fiqh topics.", href: "/guide" },
-        { title: "Mission Stories", desc: "Discover global impact from teams and volunteers.", href: "/mission" },
-        { title: "Support & Donations", desc: "Fuel the platform and community programs.", href: "/support" }
+        { title: "Islamic Guides", desc: "Study modern spirituality of islamic topics.", href: "/guide" },
+        { title: "Seerah Timeline", desc: "Discover global impact of the prophet Muhammad.", href: "/mission" },
       ],
       externalLinks: [
         { href: "https://quran.com", title: "Quran.com complete Quran translations", text: "Quran.com   Complete Quran text and translations" },
