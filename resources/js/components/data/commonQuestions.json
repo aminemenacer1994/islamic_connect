@@ -102,28 +102,28 @@
     "faqs": [
       {
         "id": "quran-1",
-        "title": "Q1: Is the Arabic Qur'an translated or interpreted in other languages?",
-        "body": "<p>A: The translation of the meanings (tarjamah maʿānī) is a human interpretation to convey sense, but it is not the Qur'an itself. The only Qur'an is the Arabic revelation. Prayer must be performed in Arabic.</p>"
+        "title": "Is the Arabic Qur'an translated or interpreted in other languages?",
+        "body": "<p>The translation of the meanings (tarjamah maʿānī) is a human interpretation to convey sense, but it is not the Qur'an itself. The only Qur'an is the Arabic revelation. Prayer must be performed in Arabic.</p>"
       },
       {
         "id": "quran-2",
-        "title": "Q2: Can women recite Qur'an during menstruation?",
-        "body": "<p>A: Yes, they can recite from memory without touching the Muṣḥaf, according to the majority of scholars. They are only prohibited from praying and fasting during this time.</p>"
+        "title": "Can women recite Qur'an during menstruation?",
+        "body": "<p>Yes, they can recite from memory without touching the Muṣḥaf, according to the majority of scholars. They are only prohibited from praying and fasting during this time.</p>"
       },
       {
         "id": "quran-3",
-        "title": "Q3: What is the difference between the Qur'an and Hadith Qudsī?",
-        "body": "<p>A: Hadith Qudsī is Allah's meaning conveyed in the Prophet's ﷺ words. The Qur'an is Allah's exact wording (Lafẓ) and meaning, a miracle in itself, and recited in prayer.</p>"
+        "title": "What is the difference between the Qur'an and Hadith Qudsī?",
+        "body": "<p>Hadith Qudsī is Allah's meaning conveyed in the Prophet's ﷺ words. The Qur'an is Allah's exact wording (Lafẓ) and meaning, a miracle in itself, and recited in prayer.</p>"
       },
       {
         "id": "quran-4",
-        "title": "Q4: How do we know the order of chapters is divine?",
-        "body": "<p>A: The Prophet ﷺ arranged the verses within chapters by divine instruction, and he approved the general arrangement of chapters as compiled by the Companions under divine guidance.</p>"
+        "title": "How do we know the order of chapters is divine?",
+        "body": "<p>The Prophet ﷺ arranged the verses within chapters by divine instruction, and he approved the general arrangement of chapters as compiled by the Companions under divine guidance.</p>"
       },
       {
         "id": "quran-5",
-        "title": "Q5: Is it mandatory to read with a specific melody (Murattal/Tajwīd)?",
-        "body": "<p>A: Tajwīd (correct pronunciation) is obligatory to avoid changing meaning. Beautiful melodic recitation (Tartīl) is recommended but not required. \"And recite the Qur'an with measured recitation.\" (Al-Muzzammil 73:4)</p>"
+        "title": "Is it mandatory to read with a specific melody (Murattal/Tajwīd)?",
+        "body": "<p>Tajwīd (correct pronunciation) is obligatory to avoid changing meaning. Beautiful melodic recitation (Tartīl) is recommended but not required. \"And recite the Qur'an with measured recitation.\" (Al-Muzzammil 73:4)</p>"
       }
     ]
   },
@@ -134,28 +134,28 @@
     "faqs": [
       {
         "id": "prophet-1",
-        "title": "What is the focus of the Prophet chapter?",
-        "body": "<p>It narrates Muhammad's life, teaching mercy, patience, and how to implement the Sunnah today.</p>"
+        "title": "Why did he have multiple wives?",
+        "body": "<p>His marriages after Khadijah's death had legislative, social, and community purposes: teaching rulings, honoring widows of companions, strengthening alliances, and setting examples. They were not pursued for mere personal desire.</p>"
       },
       {
         "id": "prophet-2",
-        "title": "Why is following the Prophet example necessary?",
-        "body": "<p>He is the best interpreter of the Quran and shows how to worship, treat people, and stay humble.</p>"
+        "title": "Did he perform miracles?",
+        "body": "<p>Yes, by Allah's permission, such as the splitting of the moon, water flowing from his fingers, and the Night Journey (Al-Isra' wal-Mi'raj). His greatest, continuous miracle is the Qur'an.</p>"
       },
       {
         "id": "prophet-3",
-        "title": "Which stories does the chapter highlight?",
-        "body": "<p>His childhood, migration, compassionate leadership, treatment of enemies, and devotion to repentance are central.</p>"
+        "title": "How do we know his life is accurately recorded?",
+        "body": "<p>Through the rigorous historical and chain-of-transmission (Isnad) methodology of the hadith scholars, who verified reports with named narrators and documented reliability.</p>"
       },
       {
         "id": "prophet-4",
-        "title": "How do I bring his manners into my home?",
-        "body": "<p>Practice gentle speech, serve family, forgive quickly, keep evenings with dhikr, and share meals generously.</p>"
+        "title": "Should we celebrate his birthday (Mawlid)?",
+        "body": "<p>This is an issue of scholarly difference. The core principle is that acts of worship require proof from the Qur'an and Sunnah, and the best way to honor him is by following his authentic Sunnah.</p>"
       },
       {
         "id": "prophet-5",
-        "title": "How should I send blessings upon him as the chapter teaches?",
-        "body": "<p>Say sallallahu alayhi wa sallam after his name, learn short salawat phrases, and include him in each dua.</p>"
+        "title": "Is it obligatory to love him?",
+        "body": "<p>Yes. Loving the Prophet ﷺ more than all of creation is part of complete faith (iman), as stated in the authentic hadith in Sahih al-Bukhari (15).</p>"
       }
     ]
   },

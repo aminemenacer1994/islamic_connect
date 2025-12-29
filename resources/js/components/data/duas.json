@@ -95,22 +95,22 @@
     "chapterId": 5,
     "duas": [
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ",
-        "english": "O Allah, send blessings upon Muhammad.",
-        "reference": ""
+        "title": "Du'a of Seeking Intercession",
+        "arabic": "اللَّهُمَّ فَشَفِّعْهُ فِيَّ",
+        "english": "O Allah, accept his intercession for me.",
+        "reference": "Part of the supplication taught by the Prophet ﷺ to the blind man. (Jami' at-Tirmidhi 3578)"
       },
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ عَلِّمْنِي سُنَّتَهُ",
-        "english": "O Allah, teach me his Sunnah.",
-        "reference": ""
+        "title": "Du'a When Hearing the Adhan",
+        "arabic": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ",
+        "english": "O Allah, Lord of this perfect call and established prayer, grant Muhammad the means and the virtue, and raise him to the praised station that You promised him.",
+        "reference": "The Prophet ﷺ said whoever says this will earn his intercession. (Sahih al-Bukhari 614)"
       },
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ أَحْيِ قَلْبِي بِهَدْيِهِ",
-        "english": "O Allah, revive my heart with his guidance.",
-        "reference": ""
+        "title": "General Salat upon the Prophet ﷺ",
+        "arabic": "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "english": "May Allah send blessings and peace upon him.",
+        "reference": "The minimal form fulfilling the command to send blessings upon the Prophet ﷺ. (Al-Ahzab 33:56)"
       }
     ]
   },
@@ -118,22 +118,22 @@
     "chapterId": 6,
     "duas": [
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ اجْعَلْ لِي فِي الصَّلَاةِ خُشُوعًا",
-        "english": "O Allah, grant me focus in prayer.",
-        "reference": ""
+        "title": "Duʿāʾ of Seeking Intercession",
+        "arabic": "اللَّهُمَّ شَفِّعْ فِيَّ مُحَمَّدًا",
+        "english": "O Allah, allow Muhammad to intercede for me.",
+        "reference": "Part of a longer duʿāʾ taught by the Prophet ﷺ for the Day of Judgment. (Musnad Aḥmad 13964 - Ṣaḥīḥ)"
       },
       {
-        "title": "",
-        "arabic": "رَبِّ أَعِنِّي عَلَى أَدَائِهَا",
-        "english": "My Lord, help me perform it.",
-        "reference": ""
+        "title": "Duʿāʾ When Hearing the Call to Prayer (Adhān)",
+        "arabic": "اللَّهُمَّ رَبَّ هَذِهِ الدَّعْوَةِ التَّامَّةِ وَالصَّلَاةِ الْقَائِمَةِ آتِ مُحَمَّدًا الْوَسِيلَةَ وَالْفَضِيلَةَ وَابْعَثْهُ مَقَامًا مَحْمُودًا الَّذِي وَعَدْتَهُ",
+        "english": "O Allah, Lord of this perfect call and established prayer, grant Muhammad the means [of intercession] and superiority, and raise him to the praised station that You promised him.",
+        "reference": "The Prophet ﷺ said whoever says this will earn his intercession. (Ṣaḥīḥ al-Bukhārī 614)"
       },
       {
-        "title": "",
-        "arabic": "اللَّهُمَّ اجْعَلْهَا حَبَلًا بَيْنِي وَبَيْنَكَ",
-        "english": "O Allah, make it a bond between me and You.",
-        "reference": ""
+        "title": "General Ṣalāh upon the Prophet ﷺ",
+        "arabic": "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ",
+        "english": "May Allah send blessings and peace upon him.",
+        "reference": "The minimal form complying with the divine command in Sūrah Al-Aḥzāb 33:56."
       }
     ]
   },

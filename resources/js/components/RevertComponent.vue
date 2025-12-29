@@ -956,7 +956,7 @@
           </div>
 
           <!-- plans -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <!-- <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1">
                 <span class="card-header-icon">
@@ -986,7 +986,7 @@
                           <div>
                             <p class="text-muted small mb-1 plan-card__duration">{{ plan.duration }}</p>
                             <h3 class="fw-semibold mb-2 fs-5">{{ plan.title }}</h3>
-                            <!-- <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p> -->
+                            -- <p class="text-dark small mb-0 plan-card__summary">{{ plan.description }}</p> --
                           </div>
                           <span class="badge badge-pill plan-badge text-uppercase">{{ plan.planId.replace('-', ' ') }}</span>
                         </div>
@@ -1052,7 +1052,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <!-- flexible plan tracks -->
           <!-- <div v-if="currentFlexibleTracks.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
