@@ -9,13 +9,13 @@
           {
             "label": "Qur'an",
             "entries": [
-              "3:19",
-              "47:19",
-              "39:62",
-              "42:11",
-              "4:36",
-              "51:56",
-              "7:180"
+              "3:19 - The true religion with Allah is Islam.",
+              "47:19 - Know there is no deity but Allah; seek forgiveness for yourself and believers.",
+              "39:62 - Allah is the Creator of all things and Disposer of affairs.",
+              "42:11 - Nothing is like Him; He is the All-Hearing, All-Seeing.",
+              "4:36 - Worship Allah alone and show excellence to parents, relatives, orphans, and the needy.",
+              "51:56 - Jinn and mankind were created only to worship Allah.",
+              "7:180 - To Allah belong the best names; call upon Him by them."
             ]
           },
           {
@@ -92,14 +92,14 @@
           {
             "label": "Qur'an",
             "entries": [
-              "2:285",
-              "3:2",
-              "16:36",
-              "5:48",
-              "6:92",
-              "54:49",
-              "6:164",
-              "6:88"
+              "2:285 - The Messenger and believers affirm Allah, His angels, books, and messengers.",
+              "3:2 - Allah, there is no deity except Him, the Ever-Living, Sustainer.",
+              "16:36 - Every nation received a messenger: worship Allah and avoid false gods.",
+              "5:48 - The Qur'an confirms previous scripture and is a criterion; judge by what Allah revealed.",
+              "6:92 - This blessed Book confirms earlier revelation; believers in the Hereafter keep prayer.",
+              "54:49 - Allah created all things with divine decree.",
+              "6:164 - No soul bears the burden of another.",
+              "6:88 - Shirk would nullify the deeds of the prophets."
             ]
           },
           {
@@ -265,17 +265,17 @@
           {
             "label": "Qur'an",
             "entries": [
-              "56:80",
-              "25:32",
-              "15:9",
-              "2:23",
-              "2:2",
-              "17:82",
-              "2:285-286",
-              "38:29",
-              "7:204",
-              "16:98",
-              "73:4"
+              "56:80 - A revelation from the Lord of the worlds.",
+              "25:32 - The Qur'an was sent down in stages to strengthen the heart.",
+              "15:9 - Allah revealed the Reminder and will preserve it.",
+              "2:23 - A challenge to produce a surah like the Qur'an.",
+              "2:2 - The Book with no doubt, guidance for the God-conscious.",
+              "17:82 - The Qur'an is healing and mercy for believers.",
+              "2:285-286 - Closing verses affirm faith and that Allah does not burden beyond capacity.",
+              "38:29 - A blessed Book for reflection and taking heed.",
+              "7:204 - Listen attentively when the Qur'an is recited to receive mercy.",
+              "16:98 - Seek refuge with Allah before reciting the Qur'an.",
+              "73:4 - Recite the Qur'an with measured recitation."
             ]
           },
           {
@@ -356,14 +356,14 @@
           {
             "label": "Qur'an",
             "entries": [
-              "33:21",
-              "33:40",
-              "15:94",
-              "16:110",
-              "22:39",
-              "5:3",
-              "21:107",
-              "33:56"
+              "33:21 - The Messenger is an excellent example to follow.",
+              "33:40 - Muhammad is the Messenger of Allah and the seal of the prophets.",
+              "15:94 - Proclaim what you are commanded and turn away from the polytheists.",
+              "16:110 - After trials and emigration, Allah is forgiving and merciful to those who strive.",
+              "22:39 - Permission to fight is granted to those who were wronged.",
+              "5:3 - Religion perfected and Islam chosen for you.",
+              "21:107 - Muhammad was sent as mercy to the worlds.",
+              "33:56 - Allah and His angels send blessings on the Prophet; believers should do so."
             ]
           },
           {
@@ -428,6 +428,35 @@
     ]
   },
   {
+    "chapterId": 6,
+    "title": "The Prayer (Salah)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "29:45 - Prayer restrains immorality; remembrance of Allah is greatest.",
+              "11:114 - Establish prayer at the day's ends; good deeds remove misdeeds.",
+              "5:6 - Wudu and purification are required for prayer.",
+              "23:1-2 - Successful believers are humble in their prayer.",
+              "20:14 - Establish prayer for Allah's remembrance.",
+              "2:238 - Guard the prayers, especially the middle prayer."
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 1",
+              "Ṣaḥīḥ Muslim: 2724"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
     "chapterId": 7,
     "title": "Dua & Dhikr",
     "sections": [
@@ -437,12 +466,12 @@
           {
             "label": "Qur'an",
             "entries": [
-              "2:152",
-              "40:60",
-              "13:28",
-              "2:201",
-              "2:216",
-              "49:6"
+              "2:152 - Remember Me; I will remember you; be grateful.",
+              "40:60 - Call upon Me; I will respond; arrogance in worship is condemned.",
+              "13:28 - Hearts find peace in the remembrance of Allah.",
+              "2:201 - Our Lord, grant good in this world and the Hereafter.",
+              "2:216 - You may dislike a thing while it is good for you.",
+              "49:6 - Verify news from a disobedient person to avoid harm."
             ]
           },
           {
@@ -498,6 +527,214 @@
               "Hisn al-Muslim (Fortress of the Muslim app)",
               "Daily Duas",
               "Dhikr & Dua"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 8,
+    "title": "The Heart (Purification & Spiritual Diseases)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "91:9 - Success belongs to the one who purifies the soul.",
+              "2:165 - Believers are strongest in love for Allah.",
+              "2:153 - Seek help through patience and prayer.",
+              "14:7 - Gratitude brings increase from Allah.",
+              "39:53 - Do not despair of Allah's mercy.",
+              "57:16 - Hearts should humble to Allah's remembrance."
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 1"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 9,
+    "title": "The Manners (Adab)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "68:4 - The Prophet ﷺ is upon magnificent character.",
+              "33:70 - Speak words of justice and truth.",
+              "17:23 - Show excellence to parents.",
+              "31:18-19 - Be humble and soften your speech.",
+              "49:12 - Avoid suspicion, spying, and backbiting.",
+              "25:63 - The servants of the Merciful walk humbly."
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ Muslim: 55"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 10,
+    "title": "The Lifestyle (Halal Living)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "2:143 - Allah made you a balanced community.",
+              "103:1-3 - Time is a test; success is for faith, good deeds, truth, and patience.",
+              "17:26-27 - Avoid extravagance and wastefulness.",
+              "7:31 - Eat and drink, but do not waste.",
+              "2:172 - Eat from the lawful and good.",
+              "6:141 - Do not waste resources."
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 535, 2075, 6512",
+              "Ṣaḥīḥ Muslim: 2699"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 11,
+    "title": "Family & Marriage: Building a Righteous Home",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "30:21 - Marriage brings tranquility, love, and mercy.",
+              "2:228 - Spouses have rights and responsibilities.",
+              "31:14 - Be grateful to parents.",
+              "4:19 - Live with spouses in kindness.",
+              "66:6 - Protect yourselves and families from the Fire.",
+              "4:35 - Seek reconciliation when marital disputes arise."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 12,
+    "title": "The Community (Ummah & Support)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "3:104 - Enjoin good and forbid wrongdoing.",
+              "5:2 - Cooperate in righteousness and piety.",
+              "4:58 - Uphold justice and trusts.",
+              "49:13 - Honor is by taqwa; nations and tribes are for knowing one another.",
+              "49:9 - Reconcile between believers in conflict.",
+              "2:177 - Righteousness includes charity and caring for others."
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ Muslim: 2699",
+              "Ṣaḥīḥ al-Bukhārī: 967"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 13,
+    "title": "The Future (Growth & Legacy)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "31:34 - Knowledge of the future belongs to Allah alone.",
+              "18:23-24 - Say \"insha'Allah\" when planning.",
+              "65:2-3 - Allah makes a way out and provides for those who trust Him.",
+              "2:110 - Whatever good you send forth will be found with Allah.",
+              "3:159 - Consult, plan, then rely on Allah.",
+              "99:7-8 - Every deed, small or large, will be seen."
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 1"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 14,
+    "title": "The Hereafter (Death & Resurrection)",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "3:185 - Every soul shall taste death.",
+              "6:132 - Ranks are according to deeds.",
+              "99:7-8 - Every deed will be seen.",
+              "4:40 - Allah does not wrong even an atom's weight.",
+              "2:277 - Faith and righteous deeds earn lasting reward.",
+              "67:2 - Life and death are a test."
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "chapterId": 15,
+    "title": "Paradise & Hell: Rewards and Warnings",
+    "sections": [
+      {
+        "title": "Primary Sources",
+        "items": [
+          {
+            "label": "Qur'an",
+            "entries": [
+              "18:107 - Believers will have the Gardens of Paradise.",
+              "4:56 - Fire is punishment for disbelief and wrongdoing.",
+              "2:82 - Those who believe and do righteous deeds are people of Paradise.",
+              "9:72 - Allah promises believing men and women gardens beneath which rivers flow.",
+              "78:21-30 - Hell is a place of ambush for the transgressors.",
+              "76:12-14 - The patient are rewarded with Paradise and silk."
             ]
           }
         ]

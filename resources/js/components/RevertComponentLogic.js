@@ -496,7 +496,7 @@ export default defineComponent({
       return this.chapterLessons.find(entry => entry.chapterId === chapterId) || null
     },
     currentChapterResources() {
-      const chapterId = this.currentLesson?.chapterId
+      const chapterId = this.selectedPill ?? this.currentLesson?.chapterId
       if (chapterId == null) return null
       return this.chapterResources.find(entry => entry.chapterId === chapterId) || null
     },

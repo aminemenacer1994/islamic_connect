@@ -1362,7 +1362,6 @@
                   </div>
                 </article>
               </div>
-              <p v-else class="text-muted small mb-0">Resources for this chapter are being curated.</p>
             </div>
           </div>
 
