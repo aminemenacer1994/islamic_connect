@@ -808,12 +808,85 @@
           {
             "label": "Qur'an",
             "entries": [
-              "Ar-Rūm 30:21 - Marriage brings tranquility, love, and mercy.",
-              "Al-Baqarah 2:228 - Spouses have rights and responsibilities.",
-              "Luqmān 31:14 - Be grateful to parents.",
-              "An-Nisāʾ 4:19 - Live with spouses in kindness.",
-              "At-Taḥrīm 66:6 - Protect yourselves and families from the Fire.",
-              "An-Nisāʾ 4:35 - Seek reconciliation when marital disputes arise."
+              "Ar-Rūm 30:21",
+              "Al-Baqarah 2:187",
+              "An-Nisāʾ 4:34",
+              "An-Nisāʾ 4:3",
+              "An-Nisāʾ 4:35",
+              "Al-Furqān 25:74",
+              "Al-Anfāl 8:63",
+              "At-Taḥrīm 66:6"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī: 5065, 5090, 893, 6138, 2442, 5185",
+              "Ṣaḥīḥ Muslim: 779, 1468, 2629, 2658",
+              "Sunan at-Tirmidhī: 3895, 1162",
+              "Sunan Abī Dāwūd: 2178, 5074, 4919",
+              "Sunan Ibn Mājah: 1977, 1847"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "ʿUddat al-Ṣābirīn – Ibn al-Qayyim (Includes chapters on marital patience)",
+              "Al-Adab al-Mufrad – Imām al-Bukhārī (Chapters on family manners)",
+              "Riyāḍ al-Ṣāliḥīn – Imām al-Nawawī (Books on family rights)",
+              "Fatḥ al-Bārī – Ibn Ḥajar (Commentary on relevant ḥadīths)",
+              "Al-Mughnī – Ibn Qudāmah (Detailed fiqh of marriage and family)",
+              "Al-Ḥāwī al-Kabīr – Al-Māwardī (Fiqh rulings on family law)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Specialized Books",
+        "items": [
+          {
+            "entries": [
+              "Ādāb al-Zawāj – ʿAbdullah al-Jibrīn",
+              "Tarbiyat al-Awlād fī al-Islām – Dr. ʿAbdullah Nāṣiḥ ʿUlwān (3 volumes)",
+              "Huqūq al-Zawjayn – Ṣāliḥ al-Fawzān",
+              "Al-Iṣlāḥ bayn al-Zawjayn – Dr. Ṣāliḥ al-Ghāmidī",
+              "Birr al-Wālidayn wa Ṣilat al-Arḥām – Ibn al-Jawzī",
+              "Aḥkām al-Ṭalāq – Ibn ʿUthaymīn",
+              "Al-Akhṭāʾ al-Shāʾiʿah fī Ṭalab al-Zawj – ʿAbd al-ʿAzīz al-Nāṣir"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Resources",
+        "items": [
+          {
+            "label": "Books",
+            "entries": [
+              "The Muslim Family – Dr. Muḥammad Al-Hashimi",
+              "Islamic Marriage – Dr. Ekram & Dr. Mohamed Rida Bashir",
+              "Before You Tie the Knot – Sh. Omar Suleiman",
+              "Reclaim Your Heart – Yasmin Mogahed (includes chapters on relationships)"
+            ]
+          },
+          {
+            "label": "Websites",
+            "entries": [
+              "IslamQA.info (Search: marriage rights, divorce, parenting, in-laws)",
+              "SeekersGuidance.org (Courses: Marriage in Islam, Parenting, Family Law)",
+              "Pure Matrimony (Islamic marriage service with educational resources)"
+            ]
+          },
+          {
+            "label": "Scholars' Lectures",
+            "entries": [
+              "Sh. Yāsir Qāḍī (Series on Paradise Lies at the Feet of Your Mother)",
+              "Dr. Haifā Younis (Islamic family and marriage counseling)",
+              "Sh. Abdul Nasir Jangda (Fiqh of family life)"
             ]
           }
         ]

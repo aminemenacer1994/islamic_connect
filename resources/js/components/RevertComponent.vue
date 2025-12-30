@@ -227,7 +227,7 @@
                 <span class="card-header-icon">
                   <i class="bi bi-box-seam-fill"></i>
                 </span>
-                <h3 class="fw-bold mb-0">Learning Overview</h3>
+                <h3 class="fw-bold mb-0">Learning Paths</h3>
               </div>
               <div class="overview-actions d-flex align-items-center gap-2 flex-wrap">
                 <button

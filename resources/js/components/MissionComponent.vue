@@ -269,6 +269,7 @@
                 <div>
                   <label class="form-label fw-bold fs-4">Font Family</label>
                   <select v-model="fontSettings.fontFamily" class="form-select">
+                    <option value="'Source Sans 3', sans-serif">Source Sans 3</option>
                     <option value="Arial, sans-serif">Arial</option>
                     <option value="'Times New Roman', serif">Times New Roman</option>
                     <option value="'Courier New', monospace">Courier New</option>
@@ -369,7 +370,7 @@ export default {
         fontStyle: 'normal',
         textShadow: 'none',
         textDecoration: '',
-        fontFamily: 'Arial, sans-serif',
+        fontFamily: "'Source Sans 3', sans-serif",
       },
       events: [],
       originalEvents: [],
@@ -430,7 +431,7 @@ export default {
         '--content-font-style': this.fontSettings.fontStyle || 'normal',
         '--content-text-shadow': this.fontSettings.textShadow || 'none',
         '--content-text-decoration': this.fontSettings.textDecoration || 'none',
-        '--content-font-family': this.fontSettings.fontFamily || "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-family': this.fontSettings.fontFamily || "'Source Sans 3', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif",
         '--content-font-size': size,
       };
     },
@@ -1438,45 +1439,88 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:wght@400;500;600;700&display=swap');
+
 .mission-shell {
+  --mission-font-display: 'Marcellus', 'Times New Roman', serif;
+  --mission-font-body: 'Source Sans 3', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
   --mission-accent: #0b806f;
-  --mission-accent-2: #1a5f7a;
-  --mission-ink: #0f172a;
-  --mission-muted: #5b6470;
+  --mission-accent-2: #1c6c7a;
+  --mission-ink: #111827;
+  --mission-muted: #4b5563;
   --mission-surface: #ffffff;
-  --mission-surface-soft: #f7f5f0;
-  --mission-border: #e5e0d6;
-  background: transparent;
+  --mission-surface-soft: #f6f2ea;
+  --mission-border: rgba(15, 41, 32, 0.12);
+  background: linear-gradient(180deg, #f5f1e7 0%, #ffffff 38%, #f8f6f2 100%);
   border: 0;
   border-radius: 26px;
   position: relative;
+  font-family: var(--mission-font-body);
+}
+
+.mission-shell::before,
+.mission-shell::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.mission-shell::before {
+  width: 420px;
+  height: 420px;
+  left: -120px;
+  top: -120px;
+  background: radial-gradient(circle at top, rgba(11, 128, 111, 0.18), transparent 70%);
+}
+
+.mission-shell::after {
+  width: 520px;
+  height: 520px;
+  right: -160px;
+  bottom: -180px;
+  background: radial-gradient(circle at 40% 40%, rgba(26, 95, 122, 0.18), transparent 70%);
+}
+
+.mission-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 .mission-hero__title {
   color: var(--mission-ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  font-family: var(--mission-font-display);
+  font-size: clamp(2rem, 3.2vw, 3.1rem);
+  text-shadow: 0 12px 30px rgba(15, 41, 32, 0.15);
 }
 
 .mission-hero__lead {
   color: var(--mission-muted);
   max-width: 760px;
   margin: 0 auto;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
 }
 
-/* .mission-hero .col-lg-10,
+.mission-hero {
+  animation: riseIn 420ms ease-out both;
+}
+
+.mission-hero .col-lg-10,
 .mission-hero .col-xl-10 {
-  background: var(--mission-surface);
-  border: 1px solid var(--mission-border);
-  border-radius: 24px;
-  padding: 2rem 1.5rem;
-  box-shadow: 0 14px 30px rgba(15, 41, 32, 0.08);
-} */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(247, 244, 236, 0.95));
+  border: 1px solid rgba(11, 128, 111, 0.12);
+  border-radius: 26px;
+  padding: 2.2rem 1.8rem;
+  box-shadow: 0 18px 36px rgba(15, 41, 32, 0.12);
+  backdrop-filter: blur(6px);
+}
 
 .card-teal {
   border-radius: 22px;
-  border: 1px solid var(--mission-border);
-  box-shadow: 0 12px 28px rgba(15, 41, 32, 0.08);
-  background: var(--mission-surface);
+  border: 1px solid rgba(11, 128, 111, 0.14);
+  box-shadow: 0 14px 30px rgba(15, 41, 32, 0.12);
+  background: rgba(255, 255, 255, 0.94);
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
 
@@ -1793,23 +1837,24 @@ export default {
 }
 
 .event-box {
-  background: var(--mission-surface);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 246, 242, 0.98));
   border-radius: 22px;
   /* consistent rounded aesthetic */
-  box-shadow: 0 14px 30px rgba(15, 41, 32, 0.1);
+  box-shadow: 0 20px 42px rgba(15, 41, 32, 0.14);
   padding: 20px;
   margin: 0 auto;
-  border: 1px solid var(--mission-border);
+  border: 1px solid rgba(11, 128, 111, 0.16);
   position: relative;
 }
 
 .content-card {
   background: var(--content-bg, var(--mission-surface));
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
   color: var(--content-fg, var(--mission-ink));
   border-radius: 22px;
-  border: 1px solid var(--mission-border);
+  border: 1px solid rgba(11, 128, 111, 0.14);
   padding: 1.5rem;
-  box-shadow: 0 16px 32px rgba(15, 41, 32, 0.1);
+  box-shadow: 0 18px 36px rgba(15, 41, 32, 0.12);
   position: relative;
   overflow: hidden;
 }
@@ -1821,7 +1866,7 @@ export default {
   top: 0;
   bottom: 0;
   width: 4px;
-  background: var(--mission-accent);
+  background: linear-gradient(180deg, var(--mission-accent), rgba(11, 128, 111, 0.15));
   opacity: 0.55;
 }
 
@@ -1853,11 +1898,11 @@ export default {
   gap: 0.4rem;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
-  background: var(--mission-surface);
-  border: 1px solid var(--mission-border);
+  background: linear-gradient(135deg, #ffffff, #f5f2ea);
+  border: 1px solid rgba(11, 128, 111, 0.12);
   color: var(--mission-ink);
   font-weight: 600;
-  box-shadow: 0 8px 16px rgba(15, 41, 32, 0.08);
+  box-shadow: 0 10px 20px rgba(15, 41, 32, 0.1);
 }
 
 /* Extra Small Screens (<400px) */
@@ -2128,6 +2173,13 @@ mark {
   scrollbar-color: var(--mission-accent) var(--mission-border);
   /* Firefox */
   scroll-snap-type: x proximity;
+  padding: 10px 12px 12px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(11, 128, 111, 0.12);
+  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.1);
+  animation: riseIn 420ms ease-out both;
+  animation-delay: 80ms;
 }
 
 /* WebKit scrollbar styling */
@@ -2169,29 +2221,30 @@ mark {
 .timeline-badge {
   -webkit-appearance: none;
   appearance: none;
-  border: 1px solid var(--mission-border);
+  border: 1px solid rgba(15, 41, 32, 0.12);
   border-radius: 999px;
   padding: 0.7rem 1.25rem;
-  background-color: var(--mission-surface);
+  background-color: rgba(255, 255, 255, 0.96);
   color: var(--mission-ink);
   transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease, box-shadow 0.2s ease;
   box-shadow: 0 4px 10px rgba(15, 41, 32, 0.08);
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.02em;
   white-space: nowrap;
   user-select: none;
 }
 
 .timeline-badge:hover {
-  background-color: var(--mission-accent);
+  background-image: linear-gradient(135deg, #0b806f, #1c6c7a);
   color: #ffffff;
   cursor: pointer;
 }
 
 .timeline-badge.active {
-  background-color: var(--mission-accent);
+  background-image: linear-gradient(135deg, #0b806f, #1c6c7a);
   color: #ffffff;
-  border: 2px solid rgba(11, 128, 111, 0.35);
-  box-shadow: 0 8px 18px rgba(11, 128, 111, 0.22);
+  border: 1px solid rgba(11, 128, 111, 0.4);
+  box-shadow: 0 10px 22px rgba(11, 128, 111, 0.24);
 }
 
 .controls button {
@@ -2238,26 +2291,26 @@ mark {
 }
 
 .summary-card {
-  background: var(--mission-surface-soft);
-  border: 1px solid var(--mission-border);
+  background: linear-gradient(150deg, #ffffff 0%, #f6f2ea 100%);
+  border: 1px solid rgba(11, 128, 111, 0.12);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 10px 20px rgba(15, 41, 32, 0.08);
+  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.12);
 }
 
 .ai-summary-inline {
   margin-top: 1.5rem;
   padding: 1rem;
   border-radius: 0.75rem;
-  box-shadow: 0 10px 22px rgba(15, 41, 32, 0.08);
-  border: 1px solid rgba(11, 128, 111, 0.3);
-  background: var(--mission-surface-soft);
+  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.12);
+  border: 1px solid rgba(11, 128, 111, 0.18);
+  background: linear-gradient(160deg, #ffffff 0%, #f7f4ec 100%);
 }
 
 .ai-summary-inline .summary-text {
   font-size: 0.95rem;
   line-height: 1.6;
-  color: #333;
+  color: var(--mission-ink);
   margin-bottom: 0.75rem;
 }
 
@@ -2397,11 +2450,11 @@ mark {
 /* Next Step card (minimal inline styles, 20px rounded) */
 .next-step-card {
   position: relative;
-  background: var(--mission-surface);
-  border: 1px solid var(--mission-border);
+  background: linear-gradient(140deg, #ffffff 0%, #f3f8f6 52%, #fbf6ec 100%);
+  border: 1px solid rgba(11, 128, 111, 0.12);
   border-radius: 22px;
-  box-shadow: 0 12px 28px rgba(15, 41, 32, 0.08);
-  padding: 1.25rem 1.75rem;
+  box-shadow: 0 16px 30px rgba(15, 41, 32, 0.12);
+  padding: 1.35rem 1.75rem;
   overflow: hidden;
 }
 
@@ -2416,17 +2469,29 @@ mark {
   opacity: 0.6;
 }
 
+.next-step-card::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 160px;
+  height: 160px;
+  background: radial-gradient(circle, rgba(11, 128, 111, 0.18), transparent 70%);
+  opacity: 0.9;
+  pointer-events: none;
+}
+
 .next-step-icon {
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: rgba(11, 128, 111, 0.16);
+  background: linear-gradient(135deg, rgba(11, 128, 111, 0.18), rgba(26, 95, 122, 0.22));
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--mission-accent);
   font-size: 1.35rem;
-  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 14px rgba(26, 95, 122, 0.10);
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 8px 16px rgba(26, 95, 122, 0.14);
 }
 
 .next-step-eyebrow {
@@ -2454,7 +2519,7 @@ mark {
 }
 
 .next-step-cta {
-  background: var(--mission-accent);
+  background: linear-gradient(135deg, #0b806f, #1c6c7a);
   border: none;
   border-radius: 999px;
   box-shadow: 0 10px 20px rgba(11, 128, 111, 0.25);
@@ -2476,11 +2541,13 @@ mark {
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--mission-border);
+  flex-wrap: wrap;
+  border: 1px solid rgba(11, 128, 111, 0.12);
   border-radius: 999px;
-  padding: 6px 10px;
-  background: var(--mission-surface);
-  box-shadow: 0 8px 18px rgba(15, 41, 32, 0.08);
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 12px 22px rgba(15, 41, 32, 0.12);
+  backdrop-filter: blur(10px);
 }
 
 .action-group {
@@ -2504,10 +2571,11 @@ mark {
   gap: 6px;
   padding: 6px 10px;
   border-radius: 14px;
-  border: 1px solid var(--mission-border);
-  background: var(--mission-surface);
+  border: 1px solid rgba(15, 41, 32, 0.12);
+  background: rgba(255, 255, 255, 0.92);
   color: var(--mission-ink);
   font-size: 0.9rem;
+  font-weight: 600;
   transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.08s ease, color 0.18s ease, border-color 0.18s ease;
 }
 
@@ -2516,8 +2584,8 @@ mark {
 }
 
 .action-item:hover {
-  background-color: #fdfbf7;
-  box-shadow: 0 6px 12px rgba(15, 41, 32, 0.12);
+  background-color: #fdfbf6;
+  box-shadow: 0 8px 16px rgba(15, 41, 32, 0.16);
 }
 
 .action-item:active {
@@ -2526,7 +2594,7 @@ mark {
 
 .action-item:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.25);
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.3);
 }
 
 .action-item i {
@@ -2553,7 +2621,7 @@ mark {
 
 /* Navigation buttons (consistent brand color + focus) */
 .nav-btn {
-  background: var(--mission-accent);
+  background: linear-gradient(135deg, #0b806f, #1c6c7a);
   color: #ffffff;
   border: none;
   border-radius: 12px;
