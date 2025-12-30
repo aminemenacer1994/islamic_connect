@@ -507,10 +507,10 @@ export default defineComponent({
       if (!base) return null
       const sections = Array.isArray(base.sections) ? base.sections : []
       const sectionMap = new Map(sections.map(section => [section.title, section]))
-      const normalizedSections = RESOURCE_SECTION_TITLES.map((title) => {
-        const existing = sectionMap.get(title)
-        if (existing) return existing
-        return {
+      const normalizedSections = [...sections]
+      RESOURCE_SECTION_TITLES.forEach((title) => {
+        if (sectionMap.has(title)) return
+        normalizedSections.push({
           title,
           items: [
             {
@@ -518,7 +518,7 @@ export default defineComponent({
               entries: ['Resources for this section will be added soon.']
             }
           ]
-        }
+        })
       })
       return {
         ...base,
@@ -1681,7 +1681,85 @@ export default defineComponent({
       if (!content) return ''
       const text = String(content)
       const withLineBreaks = text.replace(/\n/g, '<br>')
-      return withLineBreaks.replace(/\bReferences:/g, '<strong>References:</strong>')
+      const hasReferences = text.includes('\n\nReferences:')
+      const withReferenceLabel = withLineBreaks.replace(/\bReferences:/g, '<strong>References:</strong>')
+      if (!hasReferences) return withReferenceLabel
+      return `<strong>Main Section:</strong><br>${withReferenceLabel}`
+    },
+    escapeHtml(value = '') {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;')
+    },
+    normalizeCollectionName(value = '') {
+      return String(value)
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+    },
+    hadithCollectionSlug(label = '') {
+      const normalized = this.normalizeCollectionName(label)
+      if (normalized.includes('bukhari')) return 'bukhari'
+      if (normalized.includes('muslim')) return 'muslim'
+      if (normalized.includes('abu dawud') || normalized.includes('abudawud')) return 'abudawud'
+      if (normalized.includes('tirmidhi')) return 'tirmidhi'
+      if (normalized.includes('ibn majah')) return 'ibnmajah'
+      if (normalized.includes('adab')) return 'adab'
+      if (normalized.includes('ahmad')) return 'ahmad'
+      return ''
+    },
+    linkifyQuranEntry(text = '') {
+      const regex = /(\d+):(\d+(?:-\d+)?)/g
+      let result = ''
+      let lastIndex = 0
+      let match
+      while ((match = regex.exec(text)) !== null) {
+        result += this.escapeHtml(text.slice(lastIndex, match.index))
+        const surah = match[1]
+        const ayah = match[2]
+        const href = `https://quran.com/${surah}/${ayah}`
+        result += `<a href="${href}" target="_blank" rel="noreferrer">${this.escapeHtml(match[0])}</a>`
+        lastIndex = match.index + match[0].length
+      }
+      result += this.escapeHtml(text.slice(lastIndex))
+      return result
+    },
+    linkifyHadithEntry(text = '') {
+      const parts = String(text).split(':')
+      if (parts.length < 2) return this.escapeHtml(text)
+      const collection = parts.shift().trim()
+      const remainder = parts.join(':')
+      const slug = this.hadithCollectionSlug(collection)
+      const referenceRegex = /(\d+[a-z]?)/gi
+      let result = `${this.escapeHtml(collection)}:`
+      let lastIndex = 0
+      let match
+      while ((match = referenceRegex.exec(remainder)) !== null) {
+        result += this.escapeHtml(remainder.slice(lastIndex, match.index))
+        const ref = match[1]
+        const href = slug
+          ? `https://sunnah.com/${slug}:${ref}`
+          : `https://sunnah.com/search?q=${encodeURIComponent(`${collection} ${ref}`)}`
+        result += `<a href="${href}" target="_blank" rel="noreferrer">${this.escapeHtml(ref)}</a>`
+        lastIndex = match.index + match[0].length
+      }
+      result += this.escapeHtml(remainder.slice(lastIndex))
+      return result
+    },
+    formatResourceEntry(entry = '', label = '') {
+      const text = String(entry || '')
+      if (!text) return ''
+      const normalizedLabel = String(label || '').toLowerCase()
+      if (normalizedLabel.includes("qur")) {
+        return this.linkifyQuranEntry(text)
+      }
+      if (normalizedLabel.includes('hadith')) {
+        return this.linkifyHadithEntry(text)
+      }
+      return this.escapeHtml(text)
     },
     shortenReference(reference, maxLength = 140) {
       if (!reference) return ''

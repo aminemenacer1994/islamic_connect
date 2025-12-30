@@ -1233,7 +1233,7 @@
                         :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
                         class="resource-entry"
                       >
-                        {{ entry }}
+                        <span v-html="formatResourceEntry(entry, item.label)"></span>
                       </li>
                     </ul>
                   </div>

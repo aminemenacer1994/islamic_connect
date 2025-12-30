@@ -2489,6 +2489,18 @@ p{
   font-weight: 700;
 }
 
+.resource-entry a {
+  color: var(--brand-teal);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.resource-entry a:hover {
+  color: #0b806f;
+}
+
 .section-stats {
   margin-top: 0.25rem;
 }
