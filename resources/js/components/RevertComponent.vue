@@ -115,6 +115,24 @@
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
         <section class="col-md-9 lesson-pane">
+          <div class="mobile-chapter-dropdown d-lg-none">
+            <label class="mobile-chapter-label" for="mobile-chapter-select">Jump to chapter</label>
+            <select
+              id="mobile-chapter-select"
+              class="form-select mobile-chapter-select"
+              :value="selectedPill"
+              @change="selectPill($event.target.value)"
+            >
+              <option
+                v-for="step in roadmapData"
+                :key="step.id"
+                :value="step.id"
+                :disabled="step.id > maxStepReached"
+              >
+                Chapter {{ step.id }}: {{ step.title }}{{ step.id > maxStepReached ? ' (Locked)' : '' }}
+              </option>
+            </select>
+          </div>
 
           <!-- Lesson Header + tone summary -->
           <div class="lesson-header animated-fade-in mb-4">

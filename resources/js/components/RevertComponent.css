@@ -2294,6 +2294,35 @@ p{
   line-height: 1.55;
   color: #111827;
 }
+
+.mobile-chapter-dropdown {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(15, 110, 99, 0.18);
+  border-radius: 18px;
+  padding: 0.85rem 1rem;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+  margin-bottom: 1rem;
+}
+
+.mobile-chapter-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #0f6e63;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-chapter-select {
+  border-radius: 12px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  padding: 0.6rem 0.9rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.08);
+}
 @media (prefers-reduced-motion: no-preference) {
   .insight-card:hover {
     transform: translateY(-3px);
@@ -2303,17 +2332,27 @@ p{
 
 @media (max-width: 767px) {
   .insight-grid-wrapper {
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
+    margin-left: 0;
+    margin-right: 0;
+    overflow-x: visible;
+    padding-bottom: 0;
   }
 
   .insight-grid {
-    grid-auto-flow: column;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-auto-flow: row;
+    grid-template-columns: 1fr;
+    min-width: 0;
   }
 
   .insight-card {
-    min-width: 220px;
+    min-width: 0;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .insight-card {
+    padding: 0.9rem;
   }
 }
 
@@ -4590,6 +4629,17 @@ p{
   .lesson-help-button {
     top: 0.9rem;
     right: 0.9rem;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .mobile-nav-toggle,
+  .mobile-nav-backdrop {
+    display: none;
+  }
+
+  .mobile-nav-frame {
+    display: none;
   }
 }
 
