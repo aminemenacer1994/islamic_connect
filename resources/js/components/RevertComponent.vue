@@ -1191,6 +1191,57 @@
             </div>
           </div> -->
 
+          
+          <!-- resources -->
+          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
+              <div class="d-flex align-items-center gap-3">
+                <span class="card-header-icon">
+                  <i class="bi bi-book"></i>
+                </span>
+                <div>
+                  <h3 class="fw-bold mb-0">References & Resources</h3>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="section-toggle-btn card-toggle-btn ms-auto"
+                @click="toggleCardVisibility('resources')"
+                :aria-expanded="isCardVisible('resources')"
+                :aria-label="isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'">
+                <i class="bi" :class="isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+              </button>
+            </div>
+            <div v-show="isCardVisible('resources')" class="px-3 px-md-4 py-4">
+              <p class="text-muted medium mb-3">Primary sources, classical texts, and modern tools for this chapter.</p>
+              <div v-if="currentChapterResourcesLayout" class="resource-grid">
+                <article
+                  v-for="(section, sectionIndex) in currentChapterResourcesLayout.sections"
+                  :key="section.title"
+                  class="resource-section-card"
+                >
+                  <h4 class="resource-section-title">{{ section.title }}</h4>
+                  <div
+                    v-for="(item, itemIndex) in section.items"
+                    :key="`${section.title}-${sectionIndex}-${itemIndex}`"
+                    class="resource-group"
+                  >
+                    <p v-if="item.label" class="resource-group-label">{{ item.label }}</p>
+                    <ul class="list-unstyled mb-0 resource-entry-list">
+                      <li
+                        v-for="(entry, entryIndex) in item.entries"
+                        :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
+                        class="resource-entry"
+                      >
+                        {{ entry }}
+                      </li>
+                    </ul>
+                  </div>
+                </article>
+              </div>
+            </div>
+          </div>
+          
           <!-- quiz -->
           <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
@@ -1311,56 +1362,6 @@
                     </button>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- resources -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
-            <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
-              <div class="d-flex align-items-center gap-3">
-                <span class="card-header-icon">
-                  <i class="bi bi-book"></i>
-                </span>
-                <div>
-                  <h3 class="fw-bold mb-0">References & Resources</h3>
-                </div>
-              </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
-                @click="toggleCardVisibility('resources')"
-                :aria-expanded="isCardVisible('resources')"
-                :aria-label="isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'">
-                <i class="bi" :class="isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
-            </div>
-            <div v-show="isCardVisible('resources')" class="px-3 px-md-4 py-4">
-              <p class="text-muted medium mb-3">Primary sources, classical texts, and modern tools for this chapter.</p>
-              <div v-if="currentChapterResourcesLayout" class="resource-grid">
-                <article
-                  v-for="(section, sectionIndex) in currentChapterResourcesLayout.sections"
-                  :key="section.title"
-                  class="resource-section-card"
-                >
-                  <h4 class="resource-section-title">{{ section.title }}</h4>
-                  <div
-                    v-for="(item, itemIndex) in section.items"
-                    :key="`${section.title}-${sectionIndex}-${itemIndex}`"
-                    class="resource-group"
-                  >
-                    <p v-if="item.label" class="resource-group-label">{{ item.label }}</p>
-                    <ul class="list-unstyled mb-0 resource-entry-list">
-                      <li
-                        v-for="(entry, entryIndex) in item.entries"
-                        :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
-                        class="resource-entry"
-                      >
-                        {{ entry }}
-                      </li>
-                    </ul>
-                  </div>
-                </article>
               </div>
             </div>
           </div>
