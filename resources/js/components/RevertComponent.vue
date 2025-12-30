@@ -44,7 +44,7 @@
       <div class="row g-3">
 
         <!-- SIDEBAR (chapter progress + roadmap navigation) -->
-        <aside class="col-lg-3 col-md-3 mobile-nav-frame" style="border:1px solid #000; border-radius:16px;">
+        <aside class="col-lg-3 col-md-3 mobile-nav-frame">
           <div
             class="navigation-card p-3 shadow-sm rounded-4"
             :class="{ 'mobile-open': mobileNavOpen }"
