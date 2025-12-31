@@ -419,7 +419,13 @@
                 <span class="card-header-icon">
                   <i class="bi bi-box-seam-fill"></i>
                 </span>
-                <h3 class="fw-bold mb-0">Learning Paths</h3>
+                <div class="d-flex flex-column">
+                  <h3 class="fw-bold mb-0">Learning Paths</h3>
+                  <div v-if="learningPathsMeta.wordCount" class="section-header-meta">
+                    <span class="section-meta-pill">{{ learningPathsMeta.wordCount }} words</span>
+                    <span class="section-meta-pill">{{ learningPathsMeta.readTime }} min read</span>
+                  </div>
+                </div>
               </div>
               <div class="overview-actions d-flex align-items-center gap-2 flex-wrap">
                 <button
@@ -791,7 +797,13 @@
                 <span class="card-header-icon">
                   <i class="bi bi-shield-fill-check"></i>
                 </span>
-                <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
+                <div class="d-flex flex-column">
+                  <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
+                  <div v-if="dosDontsMeta.wordCount" class="section-header-meta">
+                    <span class="section-meta-pill">{{ dosDontsMeta.wordCount }} words</span>
+                    <span class="section-meta-pill">{{ dosDontsMeta.readTime }} min read</span>
+                  </div>
+                </div>
               </div>
               <div class="section-font-controls ms-auto" role="group" aria-label="Dos and donts font size">
                 <button
@@ -869,6 +881,10 @@
                 </span>
                 <div class="flex-grow-1">
                   <h3 class="fw-bold mb-1">Duas to Carry</h3>
+                  <div v-if="duasMeta.wordCount" class="section-header-meta">
+                    <span class="section-meta-pill">{{ duasMeta.wordCount }} words</span>
+                    <span class="section-meta-pill">{{ duasMeta.readTime }} min read</span>
+                  </div>
                 </div>
               </div>
               <div class="lesson-focus-actions">
@@ -1059,6 +1075,10 @@
               <div class="d-flex flex-column">
                 <h3 class="fw-bold mb-1">Key Insights</h3>
                 <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
+                <div v-if="keyInsightsMeta.wordCount" class="section-header-meta">
+                  <span class="section-meta-pill">{{ keyInsightsMeta.wordCount }} words</span>
+                  <span class="section-meta-pill">{{ keyInsightsMeta.readTime }} min read</span>
+                </div>
               </div>
             </div>
             <div class="section-font-controls ms-auto" role="group" aria-label="Key insights font size">
@@ -1283,6 +1303,10 @@
                   <div>
                     <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
                     <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
+                    <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
+                      <span class="section-meta-pill">{{ commonQuestionsMeta.wordCount }} words</span>
+                      <span class="section-meta-pill">{{ commonQuestionsMeta.readTime }} min read</span>
+                    </div>
                   </div>
                 </div>
                 <div class="section-font-controls ms-auto" role="group" aria-label="Common questions font size">

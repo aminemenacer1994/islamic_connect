@@ -890,6 +890,46 @@ export default defineComponent({
         toggleKey: this.sectionToggleId('lesson', section, index)
       }))
     },
+    learningPathsMeta() {
+      const highlightChunks = (this.currentLessonOverview?.highlights || []).flatMap(highlight => ([
+        highlight.label || highlight.heading || '',
+        highlight.description || highlight.content || ''
+      ]))
+      const sections = this.overviewSectionsWithKeys.length ? this.overviewSectionsWithKeys : this.lessonSectionsWithKeys
+      const sectionChunks = sections.reduce((chunks, section) => {
+        if (section.heading || section.title) chunks.push(section.heading || section.title)
+        if (section.content) chunks.push(section.content)
+        if (section.references) chunks.push(section.references)
+        if (section.deepDive?.content) chunks.push(section.deepDive.content)
+        return chunks
+      }, [])
+      return this.buildSectionMeta([...highlightChunks, ...sectionChunks])
+    },
+    dosDontsMeta() {
+      const dos = this.currentDosDonts?.dos || []
+      const donts = this.currentDosDonts?.donts || []
+      const chunks = [
+        ...dos.map(item => item.text || ''),
+        ...donts.map(item => item.text || '')
+      ]
+      return this.buildSectionMeta(chunks)
+    },
+    duasMeta() {
+      const chunks = (this.currentDuas || []).flatMap(dua => [
+        dua.title,
+        dua.arabic,
+        dua.english,
+        dua.reference
+      ])
+      return this.buildSectionMeta(chunks)
+    },
+    keyInsightsMeta() {
+      return this.buildSectionMeta(this.insightsToShow || [])
+    },
+    commonQuestionsMeta() {
+      const chunks = this.chapterCommonPanels.flatMap(panel => [panel.title, panel.body])
+      return this.buildSectionMeta(chunks)
+    },
     quizHintExplanation() {
       return this.lastIncorrectExplanation?.text || this.currentQuestion?.explanation || ''
     },
@@ -2078,6 +2118,21 @@ export default defineComponent({
         .replace(/<[^>]*>/g, ' ')
         .replace(/\s+/g, ' ')
         .trim()
+    },
+    countWordsFromChunks(chunks = []) {
+      const text = chunks
+        .flatMap(chunk => (Array.isArray(chunk) ? chunk : [chunk]))
+        .filter(Boolean)
+        .map(chunk => this.stripHtml(chunk))
+        .filter(Boolean)
+        .join(' ')
+      if (!text) return 0
+      return text.split(/\s+/).filter(Boolean).length
+    },
+    buildSectionMeta(chunks = []) {
+      const wordCount = this.countWordsFromChunks(chunks)
+      const readTime = wordCount ? Math.max(1, Math.ceil(wordCount / 200)) : 0
+      return { wordCount, readTime }
     },
     buildSearchResult({ section = '', title = '', body = '', meta = '' }) {
       const cleanTitle = this.stripHtml(title)
