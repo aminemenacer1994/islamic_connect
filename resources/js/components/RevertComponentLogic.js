@@ -80,6 +80,8 @@ const GENDER_FILTERS = [
   { value: 'male', label: 'Male stories' },
   { value: 'other', label: 'Other' }
 ]
+const SECTION_FONT_MIN = 0.85
+const SECTION_FONT_MAX = 1.35
 const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win']
 
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
@@ -466,6 +468,23 @@ export default defineComponent({
       overviewFontScale: 1,
       duaFontScale: 1,
       globalFontScale: 1,
+      sectionFontScales: {
+        globalSearch: 1,
+        lessonFocus: 1,
+        learningPaths: 1,
+        guidedPathway: 1,
+        shareFriend: 1,
+        dosDonts: 1,
+        duas: 1,
+        revertStories: 1,
+        keyInsights: 1,
+        shareUplift: 1,
+        chapterTool: 1,
+        commonQuestions: 1,
+        motivation: 1,
+        resources: 1,
+        chapterQuiz: 1
+      },
       lessonOverviewRead: {},
       curatedHighlightCompletion: {},
       sectionVisibility: {},
@@ -635,6 +654,15 @@ export default defineComponent({
         ...base,
         sections: filteredSections
       }
+    },
+    resourceSectionsWithKeys() {
+      const layout = this.filteredChapterResourcesLayout
+      if (!layout) return []
+      const sections = Array.isArray(layout.sections) ? layout.sections : []
+      return sections.map((section, index) => ({
+        ...section,
+        toggleKey: this.sectionToggleId('resource', section, index)
+      }))
     },
     globalSearchActive() {
       return this.resourceSearchTokensNormalized.length > 0
@@ -2583,6 +2611,29 @@ export default defineComponent({
     },
     changeScale(target, delta, min, max) {
       this[target] = Math.min(max, Math.max(min, this[target] + delta))
+    },
+    sectionFontScale(key) {
+      return this.sectionFontScales[key] ?? 1
+    },
+    sectionFontStyle(key) {
+      return { '--section-scale': this.sectionFontScale(key) }
+    },
+    adjustSectionFontScale(key, delta) {
+      const current = this.sectionFontScale(key)
+      const next = Math.min(SECTION_FONT_MAX, Math.max(SECTION_FONT_MIN, current + delta))
+      this.sectionFontScales = { ...this.sectionFontScales, [key]: next }
+    },
+    increaseSectionFont(key) {
+      this.adjustSectionFontScale(key, 0.05)
+    },
+    decreaseSectionFont(key) {
+      this.adjustSectionFontScale(key, -0.05)
+    },
+    isSectionFontMin(key) {
+      return this.sectionFontScale(key) <= SECTION_FONT_MIN + 0.001
+    },
+    isSectionFontMax(key) {
+      return this.sectionFontScale(key) >= SECTION_FONT_MAX - 0.001
     },
     increaseOverviewFontSize() {
       this.changeScale('overviewFontScale', 0.1, 0.8, 1.6)

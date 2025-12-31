@@ -138,9 +138,39 @@
             </div>
           </div>
 
+          <!-- Lesson Header + tone summary -->
+          <div id="lesson-overview-section" class="lesson-header animated-fade-in mb-4">
+            <div class="lesson-hero position-relative overflow-hidden shadow-sm">
+              <div class="lesson-hero-gradient"></div>
+              <div class="lesson-hero-content">
+                <div class="d-flex align-items-center mb-2">
+                  <i class="bi bi-journey me-2 text-white fs-4"></i>
+                  <span class="text-uppercase text-white fw-bold small">
+                    Chapter {{ currentLesson?.chapterId }}
+                  </span>
+                </div>
+                <h1 class="fw-bold text-white text-start text-md-left mb-2">
+                  {{ currentLesson?.title }}
+                </h1>
+                <p class="text-white-50 mb-0">
+                  {{ currentLesson?.summary }}
+                </p>
+              </div>
+              <button
+                type="button"
+                class="lesson-help-button"
+                aria-label="Open Reverts Corner guide"
+                @click="openHelpModal"
+              >
+                <i class="bi bi-question-circle-fill fs-4"></i>
+                <span class="visually-hidden">Open guide</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Global search -->
           <div class="global-search-wrapper mb-4">
-            <div class="resource-search-panel global-search-panel">
+            <div class="resource-search-panel global-search-panel section-typography" :style="sectionFontStyle('globalSearch')">
               <div class="resource-search-header">
                 <div>
                   <h4 class="resource-search-title">Global Search</h4>
@@ -166,6 +196,26 @@
                     <i class="bi bi-info-circle"></i>
                     <span>How it works</span>
                   </button>
+                  <div class="section-font-controls" role="group" aria-label="Global search font size">
+                    <button
+                      type="button"
+                      class="section-font-btn"
+                      :disabled="isSectionFontMin('globalSearch')"
+                      @click="decreaseSectionFont('globalSearch')"
+                      aria-label="Decrease global search font size"
+                    >
+                      A-
+                    </button>
+                    <button
+                      type="button"
+                      class="section-font-btn"
+                      :disabled="isSectionFontMax('globalSearch')"
+                      @click="increaseSectionFont('globalSearch')"
+                      aria-label="Increase global search font size"
+                    >
+                      A+
+                    </button>
+                  </div>
                   <button
                     type="button"
                     class="section-toggle-btn card-toggle-btn"
@@ -261,36 +311,6 @@
             </div>
           </div>
 
-          <!-- Lesson Header + tone summary -->
-          <div id="lesson-overview-section" class="lesson-header animated-fade-in mb-4">
-            <div class="lesson-hero position-relative overflow-hidden shadow-sm">
-              <div class="lesson-hero-gradient"></div>
-              <div class="lesson-hero-content">
-                <div class="d-flex align-items-center mb-2">
-                  <i class="bi bi-journey me-2 text-white fs-4"></i>
-                  <span class="text-uppercase text-white fw-bold small">
-                    Chapter {{ currentLesson?.chapterId }}
-                  </span>
-                </div>
-                <h1 class="fw-bold text-white text-start text-md-left mb-2">
-                  {{ currentLesson?.title }}
-                </h1>
-                <p class="text-white-50 mb-0">
-                  {{ currentLesson?.summary }}
-                </p>
-              </div>
-              <button
-                type="button"
-                class="lesson-help-button"
-                aria-label="Open Reverts Corner guide"
-                @click="openHelpModal"
-              >
-                <i class="bi bi-question-circle-fill fs-4"></i>
-                <span class="visually-hidden">Open guide</span>
-              </button>
-            </div>
-          </div>
-
           <!-- Revert stories -->
           <!-- <div v-if="currentGentleStartSteps.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
@@ -339,7 +359,10 @@
           </div> -->
 
           <!-- Focus of the lesson -->
-          <div id="lesson-focus-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card">
+          <div
+            id="lesson-focus-section"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card section-typography"
+            :style="sectionFontStyle('lessonFocus')">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -349,9 +372,29 @@
                   <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Focus of this lesson font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('lessonFocus')"
+                  @click="decreaseSectionFont('lessonFocus')"
+                  aria-label="Decrease focus section font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('lessonFocus')"
+                  @click="increaseSectionFont('lessonFocus')"
+                  aria-label="Increase focus section font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('lessonFocus')"
                 :aria-expanded="isCardVisible('lessonFocus')"
                 :aria-label="isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'">
@@ -366,7 +409,11 @@
           </div>
 
           <!-- main content (learning overview, highlights, sections) -->
-          <div id="learning-paths-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg" style="animation-delay: 0.05s">
+          <div
+            id="learning-paths-section"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="[sectionFontStyle('learningPaths'), { animationDelay: '0.05s' }]"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -402,9 +449,29 @@
                   <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Learning paths font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('learningPaths')"
+                  @click="decreaseSectionFont('learningPaths')"
+                  aria-label="Decrease learning paths font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('learningPaths')"
+                  @click="increaseSectionFont('learningPaths')"
+                  aria-label="Increase learning paths font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('learningOverview')"
                 :aria-expanded="isCardVisible('learningOverview')"
                 :aria-label="isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'">
@@ -412,7 +479,11 @@
               </button>
             </div>
               <!-- lesson overview -->
-            <div v-show="isCardVisible('learningOverview')" class="card-body" :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }">
+            <div
+              v-show="isCardVisible('learningOverview')"
+              class="card-body"
+              :style="{ fontSize: `${overviewFontScale * sectionFontScale('learningPaths')}em`, lineHeight: 1.6 }"
+            >
               <div v-if="currentLessonOverview" class="lesson-overview-summary">
                 <!-- <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p> -->
                 <div v-if="currentLessonOverview.highlights?.length" class="row g-3">
@@ -452,8 +523,9 @@
                       v-if="isSectionVisible(section.toggleKey)"
                       :id="`section-content-${section.toggleKey}`"
                       class="section-content-wrapper">
-                      <div class="section-content text-dark fs-6 lh-lg"
-                        :style="{ fontSize: `${overviewFontScale}rem` }"
+                      <div
+                        class="section-content text-dark fs-6 lh-lg"
+                        :style="{ fontSize: `${overviewFontScale * sectionFontScale('learningPaths')}rem` }"
                         v-html="formatOverviewContent(section.content)"></div>
                       <div class="mt-3 small text-muted">
                         <p v-if="section.references" class="mb-1">
@@ -504,8 +576,9 @@
                       v-if="isSectionVisible(section.toggleKey)"
                       :id="`section-content-${section.toggleKey}`"
                       class="section-content-wrapper">
-                      <div class="section-content text-dark fs-6 lh-lg"
-                        :style="{ fontSize: `${overviewFontScale}rem` }"
+                      <div
+                        class="section-content text-dark fs-6 lh-lg"
+                        :style="{ fontSize: `${overviewFontScale * sectionFontScale('learningPaths')}rem` }"
                         v-html="formatOverviewContent(section.content)"></div>
                       <div class="mt-3 medium text-muted">
                         <p v-if="section.references" class="mb-1">
@@ -522,8 +595,10 @@
                           <i class="bi bi-lightbulb-fill me-2 fs-4 text-teal"></i>
                           <h6 class="fw-bold mb-0 text-dark fs-6">{{ section.deepDive.title }}</h6>
                         </div>
-                        <div class="deep-dive-content text-dark fs-6"
-                          :style="{ fontSize: `${overviewFontScale * 0.95}rem` }" v-html="section.deepDive.content"></div>
+                        <div
+                          class="deep-dive-content text-dark fs-6"
+                          :style="{ fontSize: `${overviewFontScale * 0.95 * sectionFontScale('learningPaths')}rem` }"
+                          v-html="section.deepDive.content"></div>
                       </div>
                       <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
                         <div v-for="stat in sectionStatsFor(section.title)" :key="stat.label" class="section-stat-card">
@@ -540,7 +615,12 @@
           </div>
 
           <!-- Guided pathway clips and action cards -->
-          <div id="guided-pathway-section" v-if="pathwayClips.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            id="guided-pathway-section"
+            v-if="pathwayClips.length"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('guidedPathway')"
+          >
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
               <div class="d-flex align-items-start gap-3">
                 <span class="card-header-icon">
@@ -551,6 +631,26 @@
                   <h3 class="mb-1 fs-4 fw-bold">Short clips to carry the lesson forward</h3>
                   <p class="text-muted small mb-0">Pair a quick clip with your streak to keep the learning playful.</p>
                 </div>
+              </div>
+              <div class="section-font-controls" role="group" aria-label="Guided pathway font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('guidedPathway')"
+                  @click="decreaseSectionFont('guidedPathway')"
+                  aria-label="Decrease guided pathway font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('guidedPathway')"
+                  @click="increaseSectionFont('guidedPathway')"
+                  aria-label="Increase guided pathway font size"
+                >
+                  A+
+                </button>
               </div>
             </div>
 
@@ -611,7 +711,10 @@
           </div>
 
           <!-- Share with a friend -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-share-friend"
+            :style="sectionFontStyle('shareFriend')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3">
               <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -624,9 +727,29 @@
                   </p>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Share with a friend font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('shareFriend')"
+                  @click="decreaseSectionFont('shareFriend')"
+                  aria-label="Decrease share with a friend font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('shareFriend')"
+                  @click="increaseSectionFont('shareFriend')"
+                  aria-label="Increase share with a friend font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('shareFriend')"
                 :aria-expanded="isCardVisible('shareFriend')"
                 :aria-label="isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'">
@@ -658,7 +781,11 @@
           </div>
 
           <!-- do's and don't -->
-          <div id="dos-donts-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            id="dos-donts-section"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('dosDonts')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -666,9 +793,29 @@
                 </span>
                 <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Dos and donts font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('dosDonts')"
+                  @click="decreaseSectionFont('dosDonts')"
+                  aria-label="Decrease dos and donts font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('dosDonts')"
+                  @click="increaseSectionFont('dosDonts')"
+                  aria-label="Increase dos and donts font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('dosDonts')"
                 :aria-expanded="isCardVisible('dosDonts')"
                 :aria-label="isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'">
@@ -709,7 +856,12 @@
           </div>
 
           <!-- dua to carry -->
-          <div id="duas-section" v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            id="duas-section"
+            v-if="currentDuas.length"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('duas')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -734,28 +886,52 @@
                 </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Duas font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('duas')"
+                  @click="decreaseSectionFont('duas')"
+                  aria-label="Decrease duas font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('duas')"
+                  @click="increaseSectionFont('duas')"
+                  aria-label="Increase duas font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('duas')"
                 :aria-expanded="isCardVisible('duas')"
                 :aria-label="isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'">
                 <i class="bi" :class="isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="isCardVisible('duas')" class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
+            <div
+              v-show="isCardVisible('duas')"
+              class="card-body"
+              :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}em`, lineHeight: 1.5 }"
+            >
               <div class="row g-3">
                 <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
                   <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
                     <div class="dua-glow"></div>
-                    <h4 class="mb-0 text-dark text-center pb-3" :style="{ fontSize: `${duaFontScale}rem` }"><b>{{ dua.title }}</b></h4>
+                    <h4 class="mb-0 text-dark text-center pb-3" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }"><b>{{ dua.title }}</b></h4>
                     <p dir="rtl"
                       class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end"
-                      :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
+                      :style="{ fontSize: `${duaFontScale * 1.05 * sectionFontScale('duas')}rem` }">
                       {{ dua.arabic }}
                     </p>
-                    <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.english }}</p>
-                    <p class="mb-0 text-muted pt-2" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.reference }}</p>
+                    <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }">{{ dua.english }}</p>
+                    <p class="mb-0 text-muted pt-2" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }">{{ dua.reference }}</p>
 
                   </article>
                 </div>
@@ -764,7 +940,11 @@
           </div>
 
           <!-- Reverts Stories videos -->
-          <div id="revert-stories-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            id="revert-stories-section"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('revertStories')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
               <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -775,9 +955,29 @@
                   <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Revert stories font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('revertStories')"
+                  @click="decreaseSectionFont('revertStories')"
+                  aria-label="Decrease revert stories font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('revertStories')"
+                  @click="increaseSectionFont('revertStories')"
+                  aria-label="Increase revert stories font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('revertStories')"
                 :aria-expanded="isCardVisible('revertStories')"
                 :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
@@ -849,7 +1049,8 @@
           <div
             id="key-insights-section"
             v-if="secondarySectionsReady && insightsToShow.length"
-            class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('keyInsights')">
           <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap">
             <div class="d-flex align-items-center gap-3 flex-grow-1">
               <span class="card-header-icon">
@@ -859,6 +1060,26 @@
                 <h3 class="fw-bold mb-1">Key Insights</h3>
                 <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
               </div>
+            </div>
+            <div class="section-font-controls ms-auto" role="group" aria-label="Key insights font size">
+              <button
+                type="button"
+                class="section-font-btn"
+                :disabled="isSectionFontMin('keyInsights')"
+                @click="decreaseSectionFont('keyInsights')"
+                aria-label="Decrease key insights font size"
+              >
+                A-
+              </button>
+              <button
+                type="button"
+                class="section-font-btn"
+                :disabled="isSectionFontMax('keyInsights')"
+                @click="increaseSectionFont('keyInsights')"
+                aria-label="Increase key insights font size"
+              >
+                A+
+              </button>
             </div>
             <button
               type="button"
@@ -891,7 +1112,11 @@
         </div>
 
           <!-- share and uplift -->
-          <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            v-if="currentDuas.length"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-share-uplift"
+            :style="sectionFontStyle('shareUplift')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -916,15 +1141,39 @@
                 </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Share and uplift font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('shareUplift')"
+                  @click="decreaseSectionFont('shareUplift')"
+                  aria-label="Decrease share and uplift font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('shareUplift')"
+                  @click="increaseSectionFont('shareUplift')"
+                  aria-label="Increase share and uplift font size"
+                >
+                  A+
+                </button>
+              </div>
               <button type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('shareUplift')"
                 :aria-expanded="isCardVisible('shareUplift')"
                 :aria-label="isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'">
                 <i class="bi" :class="isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="isCardVisible('shareUplift')" class="card-body" :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }">
+            <div
+              v-show="isCardVisible('shareUplift')"
+              class="card-body"
+              :style="{ fontSize: `${duaFontScale * sectionFontScale('shareUplift')}em`, lineHeight: 1.5 }"
+            >
               <div class="row align-items-center gy-3">
                 <div class="col-md-6">
                   <p class="text-muted mb-3 fs-6 large">
@@ -950,7 +1199,11 @@
 
           <!-- common asked questions -->
           <!-- chapter-specific tool -->
-          <div v-if="chapterTool" class="content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card">
+          <div
+            v-if="chapterTool"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card section-typography"
+            :style="sectionFontStyle('chapterTool')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-2 position-relative">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon" aria-hidden="true">
@@ -960,6 +1213,26 @@
                   <h3 class="fw-bold mb-1">{{ chapterTool.title }}</h3>
                   <p class="text-muted small mb-0">{{ chapterTool.description }}</p>
                 </div>
+              </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Chapter tool font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('chapterTool')"
+                  @click="decreaseSectionFont('chapterTool')"
+                  aria-label="Decrease chapter tool font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('chapterTool')"
+                  @click="increaseSectionFont('chapterTool')"
+                  aria-label="Increase chapter tool font size"
+                >
+                  A+
+                </button>
               </div>
               <div class="chapter-tool-header-actions">
                 <button
@@ -997,7 +1270,11 @@
               </div>
             </div>
           </div>
-          <div id="common-questions-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            id="common-questions-section"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('commonQuestions')"
+          >
               <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
                 <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                   <span class="card-header-icon">
@@ -1008,9 +1285,29 @@
                     <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
                   </div>
                 </div>
+                <div class="section-font-controls ms-auto" role="group" aria-label="Common questions font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('commonQuestions')"
+                    @click="decreaseSectionFont('commonQuestions')"
+                    aria-label="Decrease common questions font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('commonQuestions')"
+                    @click="increaseSectionFont('commonQuestions')"
+                    aria-label="Increase common questions font size"
+                  >
+                    A+
+                  </button>
+                </div>
                 <button
                   type="button"
-                  class="section-toggle-btn card-toggle-btn ms-auto"
+                  class="section-toggle-btn card-toggle-btn"
                   @click="toggleCardVisibility('commonQuestions')"
                   :aria-expanded="isCardVisible('commonQuestions')"
                   :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
@@ -1074,7 +1371,10 @@
           </div> -->
 
           <!-- motivation -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-motivation"
+            :style="sectionFontStyle('motivation')"
+          >
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -1084,9 +1384,29 @@
                   <h3 class="fw-bold mb-0">Motivation</h3>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Motivation font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('motivation')"
+                  @click="decreaseSectionFont('motivation')"
+                  aria-label="Decrease motivation font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('motivation')"
+                  @click="increaseSectionFont('motivation')"
+                  aria-label="Increase motivation font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('motivation')"
                 :aria-expanded="isCardVisible('motivation')"
                 :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
@@ -1339,7 +1659,11 @@
 
           
           <!-- resources -->
-          <div id="resources-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            id="resources-section"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            :style="sectionFontStyle('resources')"
+          >
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -1349,9 +1673,29 @@
                   <h3 class="fw-bold mb-0">References & Resources</h3>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Resources font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('resources')"
+                  @click="decreaseSectionFont('resources')"
+                  aria-label="Decrease resources font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('resources')"
+                  @click="increaseSectionFont('resources')"
+                  aria-label="Increase resources font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('resources')"
                 :aria-expanded="isCardVisible('resources')"
                 :aria-label="isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'">
@@ -1361,31 +1705,50 @@
             <div v-show="isCardVisible('resources')" class="px-3 px-md-4 py-4">
               <p class="text-muted medium mb-3">Primary sources, classical texts, and modern tools for this chapter.</p>
               <div
-                v-if="filteredChapterResourcesLayout && filteredChapterResourcesLayout.sections.length"
+                v-if="resourceSectionsWithKeys.length"
                 class="resource-grid"
               >
                 <article
-                  v-for="(section, sectionIndex) in filteredChapterResourcesLayout.sections"
-                  :key="section.title"
+                  v-for="(section, sectionIndex) in resourceSectionsWithKeys"
+                  :key="section.toggleKey"
                   class="resource-section-card"
                 >
-                  <h4 class="resource-section-title" v-html="highlightResourceText(section.title)"></h4>
-                  <div
-                    v-for="(item, itemIndex) in section.items"
-                    :key="`${section.title}-${sectionIndex}-${itemIndex}`"
-                    class="resource-group"
-                  >
-                    <p v-if="item.label" class="resource-group-label" v-html="highlightResourceText(item.label)"></p>
-                    <ul class="list-unstyled mb-0 resource-entry-list">
-                      <li
-                        v-for="(entry, entryIndex) in item.entries"
-                        :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
-                        class="resource-entry"
-                      >
-                        <span v-html="formatResourceEntry(entry, item.label)"></span>
-                      </li>
-                    </ul>
+                  <div class="resource-section-header">
+                    <h4 class="resource-section-title" v-html="highlightResourceText(section.title)"></h4>
+                    <button
+                      type="button"
+                      class="section-toggle-btn"
+                      :class="{ collapsed: !isSectionVisible(section.toggleKey) }"
+                      @click="toggleSectionVisibility(section.toggleKey)"
+                      :aria-expanded="isSectionVisible(section.toggleKey)"
+                      :aria-controls="`resource-section-${section.toggleKey}`"
+                      :aria-label="isSectionVisible(section.toggleKey) ? 'Collapse resource section' : 'Expand resource section'">
+                      <i class="bi" :class="isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                    </button>
                   </div>
+                  <transition name="section-collapse" appear>
+                    <div
+                      v-if="isSectionVisible(section.toggleKey)"
+                      :id="`resource-section-${section.toggleKey}`"
+                      >
+                      <div
+                        v-for="(item, itemIndex) in section.items"
+                        :key="`${section.title}-${sectionIndex}-${itemIndex}`"
+                        class="resource-group"
+                      >
+                        <p v-if="item.label" class="resource-group-label" v-html="highlightResourceText(item.label)"></p>
+                        <ul class="list-unstyled mb-0 resource-entry-list">
+                          <li
+                            v-for="(entry, entryIndex) in item.entries"
+                            :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
+                            class="resource-entry"
+                          >
+                            <span v-html="formatResourceEntry(entry, item.label)"></span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </transition>
                 </article>
               </div>
               <p v-else-if="currentChapterResourcesLayout" class="resource-empty-state text-muted small">
@@ -1398,7 +1761,10 @@
           </div>
           
           <!-- quiz -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-quiz"
+            :style="sectionFontStyle('chapterQuiz')"
+          >
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
               <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -1409,9 +1775,29 @@
                   <p class="text-muted small mb-0">Attempt the curated quiz to move to the next chapter.</p>
                 </div>
               </div>
+              <div class="section-font-controls ms-auto" role="group" aria-label="Chapter quiz font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('chapterQuiz')"
+                  @click="decreaseSectionFont('chapterQuiz')"
+                  aria-label="Decrease chapter quiz font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('chapterQuiz')"
+                  @click="increaseSectionFont('chapterQuiz')"
+                  aria-label="Increase chapter quiz font size"
+                >
+                  A+
+                </button>
+              </div>
               <button
                 type="button"
-                class="section-toggle-btn card-toggle-btn ms-auto"
+                class="section-toggle-btn card-toggle-btn"
                 @click="toggleCardVisibility('chapterQuiz')"
                 :aria-expanded="isCardVisible('chapterQuiz')"
                 :aria-label="isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'">
