@@ -113,814 +113,951 @@ const _hoisted_26 = {
   class: "col-md-9 lesson-pane"
 };
 const _hoisted_27 = {
-  class: "mobile-chapter-dropdown d-lg-none"
+  class: "mobile-chapter-select d-lg-none"
 };
-const _hoisted_28 = ["value"];
-const _hoisted_29 = ["value", "disabled"];
-const _hoisted_30 = {
-  class: "lesson-header animated-fade-in mb-4"
+const _hoisted_28 = {
+  class: "mobile-chapter-select-pill d-flex align-items-center gap-2"
 };
+const _hoisted_29 = ["value"];
+const _hoisted_30 = ["value", "disabled"];
 const _hoisted_31 = {
-  class: "lesson-hero position-relative overflow-hidden shadow-sm"
+  class: "global-search-wrapper mb-4"
 };
 const _hoisted_32 = {
-  class: "lesson-hero-content"
+  class: "resource-search-panel global-search-panel"
 };
 const _hoisted_33 = {
-  class: "d-flex align-items-center mb-2"
+  class: "resource-search-header"
 };
 const _hoisted_34 = {
-  class: "text-uppercase text-white fw-bold small"
+  class: "global-search-header-actions"
 };
 const _hoisted_35 = {
-  class: "fw-bold text-white text-start text-md-left mb-2"
+  key: 0,
+  class: "resource-search-metrics"
 };
 const _hoisted_36 = {
-  class: "text-white-50 mb-0"
+  key: 0,
+  class: "resource-count-pill"
 };
 const _hoisted_37 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card"
+  key: 1,
+  class: "resource-count-note"
 };
-const _hoisted_38 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
+const _hoisted_38 = ["aria-expanded", "aria-label"];
+const _hoisted_39 = {
+  class: "resource-search-input"
 };
-const _hoisted_39 = ["aria-expanded", "aria-label"];
 const _hoisted_40 = {
-  class: "card-body px-4 py-3"
+  class: "resource-search-controls"
 };
 const _hoisted_41 = {
+  class: "resource-search-control"
+};
+const _hoisted_42 = ["value"];
+const _hoisted_43 = {
+  key: 0,
+  class: "global-search-results"
+};
+const _hoisted_44 = {
+  class: "global-search-summary"
+};
+const _hoisted_45 = {
+  class: "global-search-count"
+};
+const _hoisted_46 = {
+  class: "global-search-count-note"
+};
+const _hoisted_47 = {
+  key: 0,
+  class: "global-search-group-list"
+};
+const _hoisted_48 = {
+  class: "global-search-group-title"
+};
+const _hoisted_49 = {
+  class: "global-search-group-icon",
+  "aria-hidden": "true"
+};
+const _hoisted_50 = ["innerHTML"];
+const _hoisted_51 = {
+  class: "global-search-group-count"
+};
+const _hoisted_52 = {
+  class: "list-unstyled mb-0 global-search-result-list"
+};
+const _hoisted_53 = ["aria-label", "onClick"];
+const _hoisted_54 = {
+  class: "global-search-result-heading"
+};
+const _hoisted_55 = ["innerHTML"];
+const _hoisted_56 = ["innerHTML"];
+const _hoisted_57 = {
+  key: 1,
+  class: "global-search-empty text-muted small"
+};
+const _hoisted_58 = {
+  id: "lesson-overview-section",
+  class: "lesson-header animated-fade-in mb-4"
+};
+const _hoisted_59 = {
+  class: "lesson-hero position-relative overflow-hidden shadow-sm"
+};
+const _hoisted_60 = {
+  class: "lesson-hero-content"
+};
+const _hoisted_61 = {
+  class: "d-flex align-items-center mb-2"
+};
+const _hoisted_62 = {
+  class: "text-uppercase text-white fw-bold small"
+};
+const _hoisted_63 = {
+  class: "fw-bold text-white text-start text-md-left mb-2"
+};
+const _hoisted_64 = {
+  class: "text-white-50 mb-0"
+};
+const _hoisted_65 = {
+  id: "lesson-focus-section",
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card"
+};
+const _hoisted_66 = {
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
+};
+const _hoisted_67 = ["aria-expanded", "aria-label"];
+const _hoisted_68 = {
+  class: "card-body px-4 py-3"
+};
+const _hoisted_69 = {
   class: "text-muted medium mb-3"
 };
-const _hoisted_42 = {
+const _hoisted_70 = {
+  id: "learning-paths-section",
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg",
   style: {
     "animation-delay": "0.05s"
   }
 };
-const _hoisted_43 = {
+const _hoisted_71 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
 };
-const _hoisted_44 = {
+const _hoisted_72 = {
   class: "overview-actions d-flex align-items-center gap-2 flex-wrap"
 };
-const _hoisted_45 = ["aria-pressed", "aria-label"];
-const _hoisted_46 = {
+const _hoisted_73 = ["aria-pressed", "aria-label"];
+const _hoisted_74 = {
   class: "lesson-focus-actions"
 };
-const _hoisted_47 = {
+const _hoisted_75 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_48 = ["aria-expanded", "aria-label"];
-const _hoisted_49 = {
+const _hoisted_76 = ["aria-expanded", "aria-label"];
+const _hoisted_77 = {
   key: 0,
   class: "lesson-overview-summary"
 };
-const _hoisted_50 = {
+const _hoisted_78 = {
   key: 0,
   class: "row g-3"
 };
-const _hoisted_51 = {
+const _hoisted_79 = {
   class: "overview-highlight border rounded-3 p-3 h-100"
 };
-const _hoisted_52 = {
+const _hoisted_80 = {
   class: "fw-semibold mb-2"
 };
-const _hoisted_53 = {
-  class: "mb-0 text-muted small"
-};
-const _hoisted_54 = {
-  key: 1,
-  class: "overview-section-list"
-};
-const _hoisted_55 = ["id"];
-const _hoisted_56 = {
-  class: "section-header align-items-start gap-3 mb-3"
-};
-const _hoisted_57 = {
-  class: "section-number fs-5"
-};
-const _hoisted_58 = {
-  class: "section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap"
-};
-const _hoisted_59 = {
-  class: "fw-semibold mb-0 fs-5 text-truncate"
-};
-const _hoisted_60 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
-const _hoisted_61 = ["id"];
-const _hoisted_62 = ["innerHTML"];
-const _hoisted_63 = {
-  class: "mt-3 small text-muted"
-};
-const _hoisted_64 = {
-  key: 0,
-  class: "mb-1"
-};
-const _hoisted_65 = {
-  class: "text-dark"
-};
-const _hoisted_66 = {
-  key: 1,
-  class: "mb-0"
-};
-const _hoisted_67 = ["href"];
-const _hoisted_68 = {
-  key: 0,
-  class: "section-stats d-flex flex-wrap gap-3 mt-3"
-};
-const _hoisted_69 = {
-  class: "text-muted"
-};
-const _hoisted_70 = {
-  key: 2,
-  class: "overview-section-list"
-};
-const _hoisted_71 = ["id"];
-const _hoisted_72 = {
-  class: "section-header align-items-start gap-3 mb-3"
-};
-const _hoisted_73 = {
-  class: "section-number fs-5"
-};
-const _hoisted_74 = {
-  class: "section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap"
-};
-const _hoisted_75 = {
-  class: "fw-semibold mb-0 fs-5 text-truncate"
-};
-const _hoisted_76 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
-const _hoisted_77 = ["id"];
-const _hoisted_78 = ["innerHTML"];
-const _hoisted_79 = {
-  class: "mt-3 medium text-muted"
-};
-const _hoisted_80 = {
-  key: 0,
-  class: "mb-1"
-};
 const _hoisted_81 = {
-  class: "text-dark"
+  class: "mb-0 text-muted small"
 };
 const _hoisted_82 = {
   key: 1,
+  class: "overview-section-list"
+};
+const _hoisted_83 = ["id"];
+const _hoisted_84 = {
+  class: "section-header align-items-start gap-3 mb-3"
+};
+const _hoisted_85 = {
+  class: "section-number fs-5"
+};
+const _hoisted_86 = {
+  class: "section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap"
+};
+const _hoisted_87 = {
+  class: "fw-semibold mb-0 fs-5 text-truncate"
+};
+const _hoisted_88 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
+const _hoisted_89 = ["id"];
+const _hoisted_90 = ["innerHTML"];
+const _hoisted_91 = {
+  class: "mt-3 small text-muted"
+};
+const _hoisted_92 = {
+  key: 0,
+  class: "mb-1"
+};
+const _hoisted_93 = {
+  class: "text-dark"
+};
+const _hoisted_94 = {
+  key: 1,
   class: "mb-0"
 };
-const _hoisted_83 = ["href"];
-const _hoisted_84 = {
+const _hoisted_95 = ["href"];
+const _hoisted_96 = {
+  key: 0,
+  class: "section-stats d-flex flex-wrap gap-3 mt-3"
+};
+const _hoisted_97 = {
+  class: "text-muted"
+};
+const _hoisted_98 = {
+  key: 2,
+  class: "overview-section-list"
+};
+const _hoisted_99 = ["id"];
+const _hoisted_100 = {
+  class: "section-header align-items-start gap-3 mb-3"
+};
+const _hoisted_101 = {
+  class: "section-number fs-5"
+};
+const _hoisted_102 = {
+  class: "section-heading-actions flex-grow-1 d-flex align-items-center justify-content-between gap-3 flex-wrap"
+};
+const _hoisted_103 = {
+  class: "fw-semibold mb-0 fs-5 text-truncate"
+};
+const _hoisted_104 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
+const _hoisted_105 = ["id"];
+const _hoisted_106 = ["innerHTML"];
+const _hoisted_107 = {
+  class: "mt-3 medium text-muted"
+};
+const _hoisted_108 = {
+  key: 0,
+  class: "mb-1"
+};
+const _hoisted_109 = {
+  class: "text-dark"
+};
+const _hoisted_110 = {
+  key: 1,
+  class: "mb-0"
+};
+const _hoisted_111 = ["href"];
+const _hoisted_112 = {
   key: 0,
   class: "background mt-4 w-100 py-3 px-4 rounded-4 border"
 };
-const _hoisted_85 = {
+const _hoisted_113 = {
   class: "deep-dive-header d-flex align-items-center mb-2"
 };
-const _hoisted_86 = {
+const _hoisted_114 = {
   class: "fw-bold mb-0 text-dark fs-6"
 };
-const _hoisted_87 = ["innerHTML"];
-const _hoisted_88 = {
+const _hoisted_115 = ["innerHTML"];
+const _hoisted_116 = {
   key: 1,
   class: "section-stats d-flex flex-wrap gap-3 mt-3"
 };
-const _hoisted_89 = {
+const _hoisted_117 = {
   class: "text-muted"
 };
-const _hoisted_90 = {
+const _hoisted_118 = {
   key: 0,
+  id: "guided-pathway-section",
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_91 = {
+const _hoisted_119 = {
   id: "pathway-clips-section",
   class: "animated-fade-slide mb-4 rounded-4"
 };
-const _hoisted_92 = {
+const _hoisted_120 = {
   class: "card-header d-flex align-items-center gap-3"
 };
-const _hoisted_93 = ["aria-expanded", "aria-label"];
-const _hoisted_94 = {
+const _hoisted_121 = ["aria-expanded", "aria-label"];
+const _hoisted_122 = {
   class: "card-body px-3"
 };
-const _hoisted_95 = {
+const _hoisted_123 = {
   class: "row g-3"
 };
-const _hoisted_96 = ["onMouseenter", "onClick"];
-const _hoisted_97 = {
+const _hoisted_124 = ["onMouseenter", "onClick"];
+const _hoisted_125 = {
   key: 0,
   class: "clip-thumbnail ratio ratio-16x9"
 };
-const _hoisted_98 = ["src", "title"];
-const _hoisted_99 = {
+const _hoisted_126 = ["src", "title"];
+const _hoisted_127 = {
   class: "p-3"
 };
-const _hoisted_100 = {
+const _hoisted_128 = {
   class: "h6 fw-semibold mb-1"
 };
-const _hoisted_101 = {
+const _hoisted_129 = {
   class: "text-muted small mb-2"
 };
-const _hoisted_102 = {
+const _hoisted_130 = {
   key: 0,
   class: "video-card-tags mb-2"
 };
-const _hoisted_103 = {
+const _hoisted_131 = {
   key: 1,
   class: "clip-duration text-muted small mb-0"
 };
-const _hoisted_104 = {
+const _hoisted_132 = {
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_105 = {
+const _hoisted_133 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3"
 };
-const _hoisted_106 = ["aria-expanded", "aria-label"];
-const _hoisted_107 = {
+const _hoisted_134 = ["aria-expanded", "aria-label"];
+const _hoisted_135 = {
   class: "card-body px-3 px-md-3 py-3"
 };
-const _hoisted_108 = {
+const _hoisted_136 = {
   class: "d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3"
 };
-const _hoisted_109 = {
+const _hoisted_137 = {
   class: "flex-grow-1"
 };
-const _hoisted_110 = {
+const _hoisted_138 = {
   key: 0,
   class: "text-success small mt-2 mb-0",
   "aria-live": "polite",
   role: "status"
 };
-const _hoisted_111 = {
+const _hoisted_139 = {
   class: "d-flex flex-wrap gap-2"
 };
-const _hoisted_112 = {
+const _hoisted_140 = {
+  id: "dos-donts-section",
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_113 = {
+const _hoisted_141 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3"
 };
-const _hoisted_114 = ["aria-expanded", "aria-label"];
-const _hoisted_115 = {
+const _hoisted_142 = ["aria-expanded", "aria-label"];
+const _hoisted_143 = {
   class: "card-body px-3 px-md-3 py-3"
 };
-const _hoisted_116 = {
+const _hoisted_144 = {
   class: "mb-3"
 };
-const _hoisted_117 = {
+const _hoisted_145 = {
   class: "text-muted small mb-3"
 };
-const _hoisted_118 = {
+const _hoisted_146 = {
   class: "row g-3"
 };
-const _hoisted_119 = {
+const _hoisted_147 = {
   class: "col-12 col-md-6"
 };
-const _hoisted_120 = {
+const _hoisted_148 = {
   class: "p-3 rounded-3 border h-100"
 };
-const _hoisted_121 = {
+const _hoisted_149 = {
   class: "list-unstyled mb-0"
 };
-const _hoisted_122 = {
+const _hoisted_150 = {
   class: "text-dark medium mt-1"
 };
-const _hoisted_123 = {
+const _hoisted_151 = {
   class: "col-12 col-md-6"
 };
-const _hoisted_124 = {
+const _hoisted_152 = {
   class: "p-3 rounded-3 border h-100"
 };
-const _hoisted_125 = {
+const _hoisted_153 = {
   class: "list-unstyled mb-0"
 };
-const _hoisted_126 = {
+const _hoisted_154 = {
   class: "text-dark medium mt-1"
 };
-const _hoisted_127 = {
+const _hoisted_155 = {
   key: 1,
+  id: "duas-section",
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
-const _hoisted_128 = {
+const _hoisted_156 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3"
 };
-const _hoisted_129 = {
+const _hoisted_157 = {
   class: "lesson-focus-actions"
 };
-const _hoisted_130 = {
+const _hoisted_158 = {
   key: 0,
   class: "text-success small mb-0 ms-2"
 };
-const _hoisted_131 = ["aria-expanded", "aria-label"];
-const _hoisted_132 = {
+const _hoisted_159 = ["aria-expanded", "aria-label"];
+const _hoisted_160 = {
   class: "row g-3"
 };
-const _hoisted_133 = {
+const _hoisted_161 = {
   class: "dua-card h-100 rounded-4 p-4 shadow-lg"
 };
-const _hoisted_134 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_135 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
-};
-const _hoisted_136 = ["aria-expanded", "aria-label"];
-const _hoisted_137 = {
-  class: "card-body px-4 py-3"
-};
-const _hoisted_138 = {
-  class: "row g-3 video-grid-row"
-};
-const _hoisted_139 = ["onMouseenter", "onClick", "onTouchstart"];
-const _hoisted_140 = {
-  class: "video-card-media"
-};
-const _hoisted_141 = ["src", "title"];
-const _hoisted_142 = {
-  class: "video-feature-overlay"
-};
-const _hoisted_143 = {
-  class: "video-feature-text"
-};
-const _hoisted_144 = {
-  class: "video-feature-title"
-};
-const _hoisted_145 = {
-  key: 0,
-  class: "video-feature-subtitle"
-};
-const _hoisted_146 = {
-  key: 1,
-  class: "video-feature-duration"
-};
-const _hoisted_147 = {
-  class: "video-card-caption px-3 py-2"
-};
-const _hoisted_148 = {
-  class: "h6 fw-semibold mb-1 text-dark"
-};
-const _hoisted_149 = {
-  key: 0,
-  class: "video-card-tags mb-2"
-};
-const _hoisted_150 = {
-  key: 1,
-  class: "text-muted small mb-1"
-};
-const _hoisted_151 = {
-  key: 2,
-  class: "video-card-duration text-muted small mb-0"
-};
-const _hoisted_152 = {
-  class: "d-flex justify-content-end mt-4"
-};
-const _hoisted_153 = {
-  key: 2,
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_154 = {
-  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap"
-};
-const _hoisted_155 = ["aria-expanded", "aria-label"];
-const _hoisted_156 = {
-  class: "card-body px-3 px-md-4 py-4"
-};
-const _hoisted_157 = {
-  class: "insight-grid-wrapper"
-};
-const _hoisted_158 = {
-  class: "insight-grid"
-};
-const _hoisted_159 = {
-  class: "insight-card-header"
-};
-const _hoisted_160 = {
-  class: "insight-number"
-};
-const _hoisted_161 = {
-  class: "insight-card-text mb-0"
-};
 const _hoisted_162 = {
-  key: 3,
+  id: "revert-stories-section",
   class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
 };
 const _hoisted_163 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3"
+  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
 };
-const _hoisted_164 = {
-  class: "lesson-focus-actions"
-};
+const _hoisted_164 = ["aria-expanded", "aria-label"];
 const _hoisted_165 = {
-  key: 0,
-  class: "text-success small mb-0 ms-2"
+  class: "card-body px-4 py-3"
 };
-const _hoisted_166 = ["aria-expanded", "aria-label"];
-const _hoisted_167 = {
-  class: "row align-items-center gy-3"
-};
-const _hoisted_168 = {
-  class: "col-md-6"
-};
-const _hoisted_169 = {
-  class: "share-actions d-flex flex-wrap align-items-center"
-};
-const _hoisted_170 = {
-  key: 0,
-  class: "text-success small mt-2 mb-0 mt-sm-0"
-};
-const _hoisted_171 = {
-  key: 4,
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card"
-};
-const _hoisted_172 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap py-2 position-relative"
-};
-const _hoisted_173 = {
-  class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
-};
-const _hoisted_174 = {
-  class: "card-header-icon",
-  "aria-hidden": "true"
-};
-const _hoisted_175 = {
-  class: "fw-bold mb-1"
-};
-const _hoisted_176 = {
-  class: "text-muted small mb-0"
-};
-const _hoisted_177 = {
-  class: "chapter-tool-header-actions"
-};
-const _hoisted_178 = {
-  class: "card-body px-2 px-md-3 py-3"
-};
-const _hoisted_179 = {
-  class: "chapter-tool-scroll"
-};
-const _hoisted_180 = {
-  class: "chapter-tool-zoom"
-};
-const _hoisted_181 = {
-  key: 1,
-  class: "chapter-tool-fallback text-center"
-};
-const _hoisted_182 = {
-  class: "text-center text-muted py-5"
-};
-const _hoisted_183 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_184 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
-};
-const _hoisted_185 = ["aria-expanded", "aria-label"];
-const _hoisted_186 = {
-  class: "accordion-stack"
-};
-const _hoisted_187 = ["onClick"];
-const _hoisted_188 = {
-  class: "accordion-answer mt-2"
-};
-const _hoisted_189 = ["innerHTML"];
-const _hoisted_190 = {
-  key: 0,
-  class: "text-center mt-3"
-};
-const _hoisted_191 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_192 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
-};
-const _hoisted_193 = ["aria-expanded", "aria-label"];
-const _hoisted_194 = {
-  class: "px-3 px-md-4 py-4"
-};
-const _hoisted_195 = {
-  class: "d-flex flex-column gap-2"
-};
-const _hoisted_196 = {
-  class: "text-muted medium mb-0"
-};
-const _hoisted_197 = {
-  class: "text-teal fs-6"
-};
-const _hoisted_198 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_199 = {
-  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
-};
-const _hoisted_200 = ["aria-expanded", "aria-label"];
-const _hoisted_201 = {
-  class: "px-3 px-md-4 py-4"
-};
-const _hoisted_202 = {
-  key: 0,
-  class: "resource-grid"
-};
-const _hoisted_203 = {
-  class: "resource-section-title"
-};
-const _hoisted_204 = {
-  key: 0,
-  class: "resource-group-label"
-};
-const _hoisted_205 = {
-  class: "list-unstyled mb-0 resource-entry-list"
-};
-const _hoisted_206 = ["innerHTML"];
-const _hoisted_207 = {
-  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
-};
-const _hoisted_208 = {
-  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
-};
-const _hoisted_209 = ["aria-expanded", "aria-label"];
-const _hoisted_210 = {
-  key: 0
-};
-const _hoisted_211 = {
-  class: "quiz-body px-4 py-3"
-};
-const _hoisted_212 = {
-  class: "quiz-progress-wrapper mb-3"
-};
-const _hoisted_213 = {
-  class: "quiz-progress-track"
-};
-const _hoisted_214 = {
-  class: "d-flex justify-content-between align-items-center mt-2"
-};
-const _hoisted_215 = {
-  class: "mb-0 small fw-semibold text-teal"
-};
-const _hoisted_216 = {
-  class: "quiz-motivation-panel mb-3 shadow-sm rounded-4"
-};
-const _hoisted_217 = {
-  class: "d-flex align-items-start gap-3 flex-grow-1 min-width-0"
-};
-const _hoisted_218 = {
-  class: "flex-grow-1"
-};
-const _hoisted_219 = {
-  class: "mb-0 fw-semibold"
-};
-const _hoisted_220 = {
-  class: "text-muted small mb-0"
-};
-const _hoisted_221 = {
-  class: "quiz-stage-pill mt-2"
-};
-const _hoisted_222 = {
-  class: "quiz-focus-panel mb-3"
-};
-const _hoisted_223 = {
-  class: "quiz-focus-detail"
-};
-const _hoisted_224 = {
-  class: "fw-semibold mb-0"
-};
-const _hoisted_225 = {
-  class: "quiz-momentum"
-};
-const _hoisted_226 = {
-  class: "d-flex align-items-center gap-2 mb-2"
-};
-const _hoisted_227 = {
-  class: "quiz-momentum-value"
-};
-const _hoisted_228 = {
-  class: "quiz-momentum-bar"
-};
-const _hoisted_229 = {
-  class: "fw-semibold text-dark mb-2 quiz-question"
-};
-const _hoisted_230 = {
-  class: "quiz-options-grid"
-};
-const _hoisted_231 = ["disabled", "onClick"];
-const _hoisted_232 = {
-  class: "icon-stack"
-};
-const _hoisted_233 = {
-  key: 0,
-  class: "bi bi-check-circle-fill text-dark"
-};
-const _hoisted_234 = {
-  key: 1,
-  class: "bi bi-x-circle-fill text-dark"
-};
-const _hoisted_235 = {
-  key: 0,
-  class: "quiz-explanation-card mt-3"
-};
-const _hoisted_236 = {
-  class: "right-answer-pill text-muted"
-};
-const _hoisted_237 = {
-  class: "text-dark fw-bold mt-2"
-};
-const _hoisted_238 = {
-  class: "pt-2 text-muted"
-};
-const _hoisted_239 = {
-  class: "mb-0"
-};
-const _hoisted_240 = {
-  class: "quiz-explanation-footer mt-3"
-};
-const _hoisted_241 = {
-  key: 0,
-  class: "quiz-success-note mt-3"
-};
-const _hoisted_242 = {
-  class: "d-flex flex-column flex-md-row gap-2 align-items-start"
-};
-const _hoisted_243 = {
-  class: "mb-0 fw-semibold text-teal"
-};
-const _hoisted_244 = {
-  class: "actions-card animated-fade-in"
-};
-const _hoisted_245 = {
-  class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
-};
-const _hoisted_246 = ["disabled"];
-const _hoisted_247 = {
-  class: "d-flex flex-column flex-md-row align-items-center gap-2"
-};
-const _hoisted_248 = {
-  class: "text-muted small me-md-auto"
-};
-const _hoisted_249 = {
-  key: 0,
-  class: "text-teal small fw-semibold"
-};
-const _hoisted_250 = ["disabled"];
-const _hoisted_251 = {
-  key: 1
-};
-const _hoisted_252 = {
-  class: "modal fade show d-block custom-modal-scale",
-  tabindex: "-1",
-  role: "dialog"
-};
-const _hoisted_253 = {
-  class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
-};
-const _hoisted_254 = {
-  class: "modal-content rounded-4 shadow-lg custom-modal-card"
-};
-const _hoisted_255 = {
-  class: "modal-header border-0 pt-4 px-4"
-};
-const _hoisted_256 = {
-  class: "modal-title fw-bold"
-};
-const _hoisted_257 = {
-  class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
-};
-const _hoisted_258 = {
-  key: 0,
-  class: "text-success small"
-};
-const _hoisted_259 = {
-  class: "d-flex gap-2"
-};
-const _hoisted_260 = {
-  key: 2
-};
-const _hoisted_261 = {
-  class: "modal fade show d-block custom-modal-scale",
-  tabindex: "-1",
-  role: "dialog"
-};
-const _hoisted_262 = {
-  class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
-};
-const _hoisted_263 = {
-  class: "modal-content rounded-4 shadow-lg custom-modal-card"
-};
-const _hoisted_264 = {
-  class: "modal-header border-0 pt-4 px-4"
-};
-const _hoisted_265 = ["aria-pressed", "aria-label"];
-const _hoisted_266 = {
-  class: "d-none d-sm-inline"
-};
-const _hoisted_267 = {
-  class: "modal-body px-4 py-3"
-};
-const _hoisted_268 = {
-  key: 0,
-  class: "mb-3 video-modal-filters"
-};
-const _hoisted_269 = {
-  class: "filter-grid"
-};
-const _hoisted_270 = {
-  class: "filter-column"
-};
-const _hoisted_271 = {
-  class: "filter-column"
-};
-const _hoisted_272 = ["value"];
-const _hoisted_273 = {
-  class: "filter-column"
-};
-const _hoisted_274 = ["value"];
-const _hoisted_275 = {
-  class: "filter-column"
-};
-const _hoisted_276 = ["value"];
-const _hoisted_277 = {
-  key: 0,
-  class: "filter-empty text-muted small mt-2 mb-0"
-};
-const _hoisted_278 = {
+const _hoisted_166 = {
   class: "row g-3 video-grid-row"
 };
-const _hoisted_279 = ["onMouseenter", "onClick", "onTouchstart"];
-const _hoisted_280 = {
+const _hoisted_167 = ["onMouseenter", "onClick", "onTouchstart"];
+const _hoisted_168 = {
   class: "video-card-media"
 };
-const _hoisted_281 = ["src", "title"];
-const _hoisted_282 = {
+const _hoisted_169 = ["src", "title"];
+const _hoisted_170 = {
   class: "video-feature-overlay"
 };
-const _hoisted_283 = {
+const _hoisted_171 = {
   class: "video-feature-text"
 };
-const _hoisted_284 = {
+const _hoisted_172 = {
   class: "video-feature-title"
 };
-const _hoisted_285 = {
+const _hoisted_173 = {
   key: 0,
   class: "video-feature-subtitle"
 };
-const _hoisted_286 = {
+const _hoisted_174 = {
   key: 1,
   class: "video-feature-duration"
 };
-const _hoisted_287 = {
+const _hoisted_175 = {
   class: "video-card-caption px-3 py-2"
 };
-const _hoisted_288 = {
+const _hoisted_176 = {
+  class: "h6 fw-semibold mb-1 text-dark"
+};
+const _hoisted_177 = {
   key: 0,
-  class: "video-card-tags mb-0"
+  class: "video-card-tags mb-2"
+};
+const _hoisted_178 = {
+  key: 1,
+  class: "text-muted small mb-1"
+};
+const _hoisted_179 = {
+  key: 2,
+  class: "video-card-duration text-muted small mb-0"
+};
+const _hoisted_180 = {
+  class: "d-flex justify-content-end mt-4"
+};
+const _hoisted_181 = {
+  key: 2,
+  id: "key-insights-section",
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_182 = {
+  class: "card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap"
+};
+const _hoisted_183 = ["aria-expanded", "aria-label"];
+const _hoisted_184 = {
+  class: "card-body px-3 px-md-4 py-4"
+};
+const _hoisted_185 = {
+  class: "insight-grid-wrapper"
+};
+const _hoisted_186 = {
+  class: "insight-grid"
+};
+const _hoisted_187 = {
+  class: "insight-card-header"
+};
+const _hoisted_188 = {
+  class: "insight-number"
+};
+const _hoisted_189 = {
+  class: "insight-card-text mb-0"
+};
+const _hoisted_190 = {
+  key: 3,
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_191 = {
+  class: "card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3"
+};
+const _hoisted_192 = {
+  class: "lesson-focus-actions"
+};
+const _hoisted_193 = {
+  key: 0,
+  class: "text-success small mb-0 ms-2"
+};
+const _hoisted_194 = ["aria-expanded", "aria-label"];
+const _hoisted_195 = {
+  class: "row align-items-center gy-3"
+};
+const _hoisted_196 = {
+  class: "col-md-6"
+};
+const _hoisted_197 = {
+  class: "share-actions d-flex flex-wrap align-items-center"
+};
+const _hoisted_198 = {
+  key: 0,
+  class: "text-success small mt-2 mb-0 mt-sm-0"
+};
+const _hoisted_199 = {
+  key: 4,
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg chapter-tool-card"
+};
+const _hoisted_200 = {
+  class: "card-header d-flex align-items-center gap-3 flex-wrap py-2 position-relative"
+};
+const _hoisted_201 = {
+  class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
+};
+const _hoisted_202 = {
+  class: "card-header-icon",
+  "aria-hidden": "true"
+};
+const _hoisted_203 = {
+  class: "fw-bold mb-1"
+};
+const _hoisted_204 = {
+  class: "text-muted small mb-0"
+};
+const _hoisted_205 = {
+  class: "chapter-tool-header-actions"
+};
+const _hoisted_206 = {
+  class: "card-body px-2 px-md-3 py-3"
+};
+const _hoisted_207 = {
+  class: "chapter-tool-scroll"
+};
+const _hoisted_208 = {
+  class: "chapter-tool-zoom"
+};
+const _hoisted_209 = {
+  key: 1,
+  class: "chapter-tool-fallback text-center"
+};
+const _hoisted_210 = {
+  class: "text-center text-muted py-5"
+};
+const _hoisted_211 = {
+  id: "common-questions-section",
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_212 = {
+  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
+};
+const _hoisted_213 = ["aria-expanded", "aria-label"];
+const _hoisted_214 = {
+  class: "accordion-stack"
+};
+const _hoisted_215 = ["onClick"];
+const _hoisted_216 = {
+  class: "accordion-answer mt-2"
+};
+const _hoisted_217 = ["innerHTML"];
+const _hoisted_218 = {
+  key: 0,
+  class: "text-center mt-3"
+};
+const _hoisted_219 = {
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_220 = {
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
+};
+const _hoisted_221 = ["aria-expanded", "aria-label"];
+const _hoisted_222 = {
+  class: "px-3 px-md-4 py-4"
+};
+const _hoisted_223 = {
+  class: "d-flex flex-column gap-2"
+};
+const _hoisted_224 = {
+  class: "text-muted medium mb-0"
+};
+const _hoisted_225 = {
+  class: "text-teal fs-6"
+};
+const _hoisted_226 = {
+  id: "resources-section",
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_227 = {
+  class: "card-header d-flex align-items-center justify-content-between gap-3 py-3"
+};
+const _hoisted_228 = ["aria-expanded", "aria-label"];
+const _hoisted_229 = {
+  class: "px-3 px-md-4 py-4"
+};
+const _hoisted_230 = {
+  key: 0,
+  class: "resource-grid"
+};
+const _hoisted_231 = ["innerHTML"];
+const _hoisted_232 = ["innerHTML"];
+const _hoisted_233 = {
+  class: "list-unstyled mb-0 resource-entry-list"
+};
+const _hoisted_234 = ["innerHTML"];
+const _hoisted_235 = {
+  key: 1,
+  class: "resource-empty-state text-muted small"
+};
+const _hoisted_236 = {
+  key: 2,
+  class: "resource-empty-state text-muted small"
+};
+const _hoisted_237 = {
+  class: "content-card onboarding-card mb-4 rounded-5 shadow-lg"
+};
+const _hoisted_238 = {
+  class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
+};
+const _hoisted_239 = ["aria-expanded", "aria-label"];
+const _hoisted_240 = {
+  key: 0
+};
+const _hoisted_241 = {
+  class: "quiz-body px-4 py-3"
+};
+const _hoisted_242 = {
+  class: "quiz-progress-wrapper mb-3"
+};
+const _hoisted_243 = {
+  class: "quiz-progress-track"
+};
+const _hoisted_244 = {
+  class: "d-flex justify-content-between align-items-center mt-2"
+};
+const _hoisted_245 = {
+  class: "mb-0 small fw-semibold text-teal"
+};
+const _hoisted_246 = {
+  class: "quiz-motivation-panel mb-3 shadow-sm rounded-4"
+};
+const _hoisted_247 = {
+  class: "d-flex align-items-start gap-3 flex-grow-1 min-width-0"
+};
+const _hoisted_248 = {
+  class: "flex-grow-1"
+};
+const _hoisted_249 = {
+  class: "mb-0 fw-semibold"
+};
+const _hoisted_250 = {
+  class: "text-muted small mb-0"
+};
+const _hoisted_251 = {
+  class: "quiz-stage-pill mt-2"
+};
+const _hoisted_252 = {
+  class: "quiz-focus-panel mb-3"
+};
+const _hoisted_253 = {
+  class: "quiz-focus-detail"
+};
+const _hoisted_254 = {
+  class: "fw-semibold mb-0"
+};
+const _hoisted_255 = {
+  class: "quiz-momentum"
+};
+const _hoisted_256 = {
+  class: "d-flex align-items-center gap-2 mb-2"
+};
+const _hoisted_257 = {
+  class: "quiz-momentum-value"
+};
+const _hoisted_258 = {
+  class: "quiz-momentum-bar"
+};
+const _hoisted_259 = {
+  class: "fw-semibold text-dark mb-2 quiz-question"
+};
+const _hoisted_260 = {
+  class: "quiz-options-grid"
+};
+const _hoisted_261 = ["disabled", "aria-pressed", "onClick"];
+const _hoisted_262 = {
+  class: "icon-stack"
+};
+const _hoisted_263 = {
+  key: 0,
+  class: "bi bi-check-circle-fill text-dark"
+};
+const _hoisted_264 = {
+  key: 1,
+  class: "bi bi-x-circle-fill text-dark"
+};
+const _hoisted_265 = {
+  class: "d-flex align-items-start gap-2"
+};
+const _hoisted_266 = {
+  class: "quiz-feedback-icon"
+};
+const _hoisted_267 = {
+  key: 0,
+  class: "bi bi-stars"
+};
+const _hoisted_268 = {
+  key: 1,
+  class: "bi bi-arrow-repeat"
+};
+const _hoisted_269 = {
+  class: "mb-0 fw-semibold"
+};
+const _hoisted_270 = {
+  key: 0,
+  class: "text-muted"
+};
+const _hoisted_271 = {
+  key: 1,
+  class: "text-muted"
+};
+const _hoisted_272 = {
+  key: 1,
+  class: "quiz-explanation-card mt-3"
+};
+const _hoisted_273 = {
+  class: "right-answer-pill text-muted"
+};
+const _hoisted_274 = {
+  class: "text-dark fw-bold mt-2"
+};
+const _hoisted_275 = {
+  class: "pt-2 text-muted"
+};
+const _hoisted_276 = {
+  class: "mb-0"
+};
+const _hoisted_277 = {
+  class: "quiz-explanation-footer mt-3"
+};
+const _hoisted_278 = {
+  key: 0,
+  class: "quiz-success-note mt-3"
+};
+const _hoisted_279 = {
+  class: "d-flex flex-column flex-md-row gap-2 align-items-start"
+};
+const _hoisted_280 = {
+  class: "mb-0 fw-semibold text-teal"
+};
+const _hoisted_281 = {
+  class: "actions-card animated-fade-in"
+};
+const _hoisted_282 = {
+  class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
+};
+const _hoisted_283 = ["disabled"];
+const _hoisted_284 = {
+  class: "d-flex flex-column flex-md-row align-items-center gap-2"
+};
+const _hoisted_285 = {
+  class: "text-muted small me-md-auto"
+};
+const _hoisted_286 = {
+  key: 0,
+  class: "text-teal small fw-semibold"
+};
+const _hoisted_287 = ["disabled"];
+const _hoisted_288 = {
+  key: 1
 };
 const _hoisted_289 = {
-  class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
-};
-const _hoisted_290 = {
-  class: "d-flex gap-2 ms-auto"
-};
-const _hoisted_291 = {
-  key: 3
-};
-const _hoisted_292 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_293 = {
+const _hoisted_290 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_294 = {
-  class: "modal-content rounded-4 shadow-lg custom-modal-card"
+const _hoisted_291 = {
+  class: "modal-content rounded-4 shadow-lg custom-modal-card search-info-modal"
 };
-const _hoisted_295 = {
+const _hoisted_292 = {
   class: "modal-header border-0 pt-4 px-4"
 };
+const _hoisted_293 = {
+  class: "modal-footer border-top px-4 py-3"
+};
+const _hoisted_294 = {
+  key: 2
+};
+const _hoisted_295 = {
+  class: "modal fade show d-block custom-modal-scale",
+  tabindex: "-1",
+  role: "dialog"
+};
 const _hoisted_296 = {
-  class: "modal-body px-4 pb-4"
+  class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
 const _hoisted_297 = {
-  class: "guide-step-index"
+  class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
 const _hoisted_298 = {
-  class: "fw-semibold mb-1"
+  class: "modal-header border-0 pt-4 px-4"
 };
 const _hoisted_299 = {
-  class: "text-muted mb-0"
+  class: "modal-title fw-bold"
 };
 const _hoisted_300 = {
-  class: "modal-footer border-0 px-4 pb-4 pt-2"
+  class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
 const _hoisted_301 = {
-  key: 4
+  key: 0,
+  class: "text-success small"
 };
 const _hoisted_302 = {
+  class: "d-flex gap-2"
+};
+const _hoisted_303 = {
+  key: 3
+};
+const _hoisted_304 = {
+  class: "modal fade show d-block custom-modal-scale",
+  tabindex: "-1",
+  role: "dialog"
+};
+const _hoisted_305 = {
+  class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+};
+const _hoisted_306 = {
+  class: "modal-content rounded-4 shadow-lg custom-modal-card"
+};
+const _hoisted_307 = {
+  class: "modal-header border-0 pt-4 px-4"
+};
+const _hoisted_308 = ["aria-pressed", "aria-label"];
+const _hoisted_309 = {
+  class: "d-none d-sm-inline"
+};
+const _hoisted_310 = {
+  class: "modal-body px-4 py-3"
+};
+const _hoisted_311 = {
+  key: 0,
+  class: "mb-3 video-modal-filters"
+};
+const _hoisted_312 = {
+  class: "filter-grid"
+};
+const _hoisted_313 = {
+  class: "filter-column"
+};
+const _hoisted_314 = {
+  class: "filter-column"
+};
+const _hoisted_315 = ["value"];
+const _hoisted_316 = {
+  class: "filter-column"
+};
+const _hoisted_317 = ["value"];
+const _hoisted_318 = {
+  class: "filter-column"
+};
+const _hoisted_319 = ["value"];
+const _hoisted_320 = {
+  key: 0,
+  class: "filter-empty text-muted small mt-2 mb-0"
+};
+const _hoisted_321 = {
+  class: "row g-3 video-grid-row"
+};
+const _hoisted_322 = ["onMouseenter", "onClick", "onTouchstart"];
+const _hoisted_323 = {
+  class: "video-card-media"
+};
+const _hoisted_324 = ["src", "title"];
+const _hoisted_325 = {
+  class: "video-feature-overlay"
+};
+const _hoisted_326 = {
+  class: "video-feature-text"
+};
+const _hoisted_327 = {
+  class: "video-feature-title"
+};
+const _hoisted_328 = {
+  key: 0,
+  class: "video-feature-subtitle"
+};
+const _hoisted_329 = {
+  key: 1,
+  class: "video-feature-duration"
+};
+const _hoisted_330 = {
+  class: "video-card-caption px-3 py-2"
+};
+const _hoisted_331 = {
+  key: 0,
+  class: "video-card-tags mb-0"
+};
+const _hoisted_332 = {
+  class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
+};
+const _hoisted_333 = {
+  class: "d-flex gap-2 ms-auto"
+};
+const _hoisted_334 = {
+  key: 4
+};
+const _hoisted_335 = {
+  class: "modal fade show d-block custom-modal-scale",
+  tabindex: "-1",
+  role: "dialog"
+};
+const _hoisted_336 = {
+  class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
+};
+const _hoisted_337 = {
+  class: "modal-content rounded-4 shadow-lg custom-modal-card"
+};
+const _hoisted_338 = {
+  class: "modal-header border-0 pt-4 px-4"
+};
+const _hoisted_339 = {
+  class: "modal-body px-4 pb-4"
+};
+const _hoisted_340 = {
+  class: "guide-step-index"
+};
+const _hoisted_341 = {
+  class: "fw-semibold mb-1"
+};
+const _hoisted_342 = {
+  class: "text-muted mb-0"
+};
+const _hoisted_343 = {
+  class: "modal-footer border-0 px-4 pb-4 pt-2"
+};
+const _hoisted_344 = {
+  key: 5
+};
+const _hoisted_345 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog",
   "aria-modal": "true"
 };
-const _hoisted_303 = {
+const _hoisted_346 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_304 = {
+const _hoisted_347 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card completion-modal-card"
 };
-const _hoisted_305 = {
+const _hoisted_348 = {
   class: "modal-header completion-modal-header px-4 pt-4 pb-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -929,9 +1066,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["revert-shell position-relative", {
       'reduce-motion': _ctx.reduceMotionEnabled
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_1, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[140] || (_cache[140] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_1, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[157] || (_cache[157] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "page-sheen"
-  }, null, -1 /* CACHED */)), _cache[141] || (_cache[141] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[158] || (_cache[158] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle (only visible in small screens) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
@@ -948,9 +1085,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[1] || (_cache[1] = (...args) => _ctx.toggleMobileNav && _ctx.toggleMobileNav(...args))
   })) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Alert "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [_ctx.showSuccessAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_ctx.showSuccessAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill me-2"
-  }, null, -1 /* CACHED */)), _cache[58] || (_cache[58] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Congratulations!", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.successMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, null, -1 /* CACHED */)), _cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Congratulations!", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.successMessage), 1 /* TEXT */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [_ctx.showCopyAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['alert', _ctx.alertClass, 'alert-outline', 'alert-copy-notification']),
@@ -970,14 +1107,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: "revert-navigation",
     role: "navigation",
     "aria-label": "Chapter navigation"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Progress Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-bold small"
   }, "Course Progress", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.completedChapters) + "/" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.totalChapters), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-bar",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: _ctx.progressPercentage + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round(_ctx.progressPercentage)) + "% Complete ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.round(_ctx.progressPercentage)) + "% Complete ", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-semibold small"
   }, "Navigate the chapters", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.completedChapters) + " done", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Navigation List "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.roadmapData, step => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -998,34 +1135,115 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         locked: step.id > _ctx.maxStepReached
       }])
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.stepStatusLabel(step)), 3 /* TEXT, CLASS */)])]), step.id === _ctx.selectedPill ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_24)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_25))], 10 /* CLASS, PROPS */, _hoisted_16);
-  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA (lesson overview + resources) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-    class: "mobile-chapter-label",
-    for: "mobile-chapter-select"
-  }, "Jump to chapter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    id: "mobile-chapter-select",
-    class: "form-select mobile-chapter-select",
+  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" MAIN CONTENT AREA (lesson overview + resources) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "form-label small text-muted fw-semibold",
+    for: "mobile-chapter-picker"
+  }, " Choose a chapter ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-compass-fill"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "mobile-chapter-picker",
+    class: "form-select",
     value: _ctx.selectedPill,
+    "aria-label": "Select chapter",
     onChange: _cache[2] || (_cache[2] = $event => _ctx.selectPill($event.target.value))
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.roadmapData, step => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: step.id,
       value: step.id,
       disabled: step.id > _ctx.maxStepReached
-    }, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id) + ": " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title) + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id > _ctx.maxStepReached ? ' (Locked)' : ''), 9 /* TEXT, PROPS */, _hoisted_29);
-  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_28)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header + tone summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[64] || (_cache[64] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.id) + " - " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.stepStatusLabel(step)) + ") ", 9 /* TEXT, PROPS */, _hoisted_30);
+  }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_29)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global search "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    class: "resource-search-title"
+  }, "Global Search"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "resource-search-subtitle"
+  }, " Search the full chapter in one place. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_ctx.globalSearchActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [_ctx.globalSearchActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.globalSearchResultsCount) + " matches ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.globalSearchActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.globalSearchSectionsCount) + " categories ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "global-search-info-btn",
+    onClick: _cache[3] || (_cache[3] = (...args) => _ctx.openSearchInfoModal && _ctx.openSearchInfoModal(...args)),
+    "aria-label": "How global search works"
+  }, [...(_cache[71] || (_cache[71] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-info-circle"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "How it works", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "section-toggle-btn card-toggle-btn",
+    onClick: _cache[4] || (_cache[4] = $event => _ctx.toggleCardVisibility('globalSearch')),
+    "aria-expanded": _ctx.isCardVisible('globalSearch'),
+    "aria-label": _ctx.isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'])
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_38)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-search"
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    class: "form-control",
+    placeholder: "Search the entire chapter",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.resourceSearchTerm = $event),
+    "aria-label": "Search the entire chapter"
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.resourceSearchTerm]]), _ctx.resourceSearchTerm ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "btn btn-sm btn-outline-dark",
+    onClick: _cache[6] || (_cache[6] = (...args) => _ctx.clearResourceSearch && _ctx.clearResourceSearch(...args))
+  }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    class: "resource-search-label",
+    for: "global-search-category"
+  }, "Category", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    id: "global-search-category",
+    class: "form-select form-select-sm",
+    "onUpdate:modelValue": _cache[7] || (_cache[7] = $event => _ctx.globalSearchCategory = $event)
+  }, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+    value: "all"
+  }, "All categories", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.globalSearchCategoryOptions, option => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
+      key: option.value,
+      value: option.value
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_42);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.globalSearchCategory]])])]), _ctx.globalSearchActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.globalSearchResultsCount) + " results", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_46, "across " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.globalSearchSectionsCount) + " categories", 1 /* TEXT */)]), _ctx.globalSearchResultsFilteredByCategory.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.globalSearchResultsFilteredByCategory, group => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
+      key: group.section,
+      class: "global-search-group"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.globalSearchSectionIcon(group.section)])
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      innerHTML: _ctx.highlightResourceText(group.section)
+    }, null, 8 /* PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(group.results.length), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_52, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(group.results, (result, resultIndex) => {
+      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
+        key: `${group.section}-${resultIndex}`,
+        class: "global-search-result"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+        type: "button",
+        class: "global-search-result-button",
+        "aria-label": `Jump to ${group.section}`,
+        onClick: $event => _ctx.scrollToGlobalSearchSection(group.section)
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [result.title ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+        key: 0,
+        class: "global-search-result-title",
+        innerHTML: _ctx.highlightResourceText(result.title)
+      }, null, 8 /* PROPS */, _hoisted_55)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+        class: "global-search-result-jump"
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Go "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+        class: "bi bi-arrow-right-short",
+        "aria-hidden": "true"
+      })], -1 /* CACHED */))]), result.snippet ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+        key: 0,
+        class: "global-search-result-snippet",
+        innerHTML: _ctx.highlightResourceText(result.snippet)
+      }, null, 8 /* PROPS */, _hoisted_56)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_53)]);
+    }), 128 /* KEYED_FRAGMENT */))])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_57, " No matches yet. Try a different keyword. "))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('globalSearch')]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Lesson Header + tone summary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_59, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "lesson-hero-gradient"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journey me-2 text-white fs-4"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_34, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_62, " Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson = _ctx.currentLesson) === null || _ctx$currentLesson === void 0 ? void 0 : _ctx$currentLesson.chapterId), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", _hoisted_63, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson2 = _ctx.currentLesson) === null || _ctx$currentLesson2 === void 0 ? void 0 : _ctx$currentLesson2.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_64, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$currentLesson3 = _ctx.currentLesson) === null || _ctx$currentLesson3 === void 0 ? void 0 : _ctx$currentLesson3.summary), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "lesson-help-button",
     "aria-label": "Open Reverts Corner guide",
-    onClick: _cache[3] || (_cache[3] = (...args) => _ctx.openHelpModal && _ctx.openHelpModal(...args))
-  }, [...(_cache[63] || (_cache[63] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[8] || (_cache[8] = (...args) => _ctx.openHelpModal && _ctx.openHelpModal(...args))
+  }, [...(_cache[78] || (_cache[78] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-question-circle-fill fs-4"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden"
-  }, "Open guide", -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert stories "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentGentleStartSteps.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-sunrise-fill\"></i>\n                </span>\n                <div>\n                  <p class=\"mb-1 text-muted small text-uppercase\">Gentle start</p>\n                  <h3 class=\"fw-semibold mb-0\">Simple Welcome for New Friends</h3>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('gentleStart')\"\n                :aria-expanded=\"isCardVisible('gentleStart')\"\n                :aria-label=\"isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'\">\n                <i class=\"bi\" :class=\"isCardVisible('gentleStart') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('gentleStart')\" class=\"card-body px-4 py-3\">\n              <p class=\"text-muted small mb-3\">\n                Take it slow these reflections anchor today’s lesson and help you stay curious.\n              </p>\n              <ul class=\"simple-onboarding-list mb-0\">\n                <li v-for=\"(step, index) in currentGentleStartSteps\" :key=\"step.title\"\n                  :class=\"{ completed: isGentleStepCompleted(index) }\">\n                  <button\n                    type=\"button\"\n                    class=\"onboarding-step-button\"\n                    :class=\"{ completed: isGentleStepCompleted(index) }\"\n                    @click=\"toggleGentleStepCompletion(index)\"\n                    :aria-pressed=\"isGentleStepCompleted(index)\">\n                    <span class=\"onboarding-bullet-icon\" :class=\"{ completed: isGentleStepCompleted(index) }\">\n                      <i v-if=\"isGentleStepCompleted(index)\" class=\"bi bi-check-lg\"></i>\n                    </span>\n                    <div>\n                      <strong class=\"d-block\">{{ step.title }}</strong>\n                      <span>{{ step.description }}</span>\n                    </div>\n                  </button>\n                </li>\n              </ul>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Focus of the lesson "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Open guide", -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Revert stories "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentGentleStartSteps.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-sunrise-fill\"></i>\n                </span>\n                <div>\n                  <p class=\"mb-1 text-muted small text-uppercase\">Gentle start</p>\n                  <h3 class=\"fw-semibold mb-0\">Simple Welcome for New Friends</h3>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('gentleStart')\"\n                :aria-expanded=\"isCardVisible('gentleStart')\"\n                :aria-label=\"isCardVisible('gentleStart') ? 'Collapse gentle start' : 'Expand gentle start'\">\n                <i class=\"bi\" :class=\"isCardVisible('gentleStart') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('gentleStart')\" class=\"card-body px-4 py-3\">\n              <p class=\"text-muted small mb-3\">\n                Take it slow these reflections anchor today’s lesson and help you stay curious.\n              </p>\n              <ul class=\"simple-onboarding-list mb-0\">\n                <li v-for=\"(step, index) in currentGentleStartSteps\" :key=\"step.title\"\n                  :class=\"{ completed: isGentleStepCompleted(index) }\">\n                  <button\n                    type=\"button\"\n                    class=\"onboarding-step-button\"\n                    :class=\"{ completed: isGentleStepCompleted(index) }\"\n                    @click=\"toggleGentleStepCompletion(index)\"\n                    :aria-pressed=\"isGentleStepCompleted(index)\">\n                    <span class=\"onboarding-bullet-icon\" :class=\"{ completed: isGentleStepCompleted(index) }\">\n                      <i v-if=\"isGentleStepCompleted(index)\" class=\"bi bi-check-lg\"></i>\n                    </span>\n                    <div>\n                      <strong class=\"d-block\">{{ step.title }}</strong>\n                      <span>{{ step.description }}</span>\n                    </div>\n                  </button>\n                </li>\n              </ul>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Focus of the lesson "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1036,12 +1254,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Focus of This Lesson")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[4] || (_cache[4] = $event => _ctx.toggleCardVisibility('lessonFocus')),
+    onClick: _cache[9] || (_cache[9] = $event => _ctx.toggleCardVisibility('lessonFocus')),
     "aria-expanded": _ctx.isCardVisible('lessonFocus'),
     "aria-label": _ctx.isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('lessonFocus') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_39)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('lessonFocus')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content (learning overview, highlights, sections) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_67)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentToneFocusText || ((_ctx$currentLesson4 = _ctx.currentLesson) === null || _ctx$currentLesson4 === void 0 ? void 0 : _ctx$currentLesson4.summary) || 'Read slowly, ask questions, and pause between each section. This lesson is your new soft landing zone.'), 1 /* TEXT */)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('lessonFocus')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" main content (learning overview, highlights, sections) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1049,64 +1267,64 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-box-seam-fill"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "fw-bold mb-0"
-  }, "Learning Paths")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Learning Paths")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-teal btn-sm", {
       marked: _ctx.isCurrentLessonOverviewRead
     }]),
-    onClick: _cache[5] || (_cache[5] = (...args) => _ctx.toggleLessonOverviewRead && _ctx.toggleLessonOverviewRead(...args)),
+    onClick: _cache[10] || (_cache[10] = (...args) => _ctx.toggleLessonOverviewRead && _ctx.toggleLessonOverviewRead(...args)),
     "aria-pressed": _ctx.isCurrentLessonOverviewRead,
     "aria-label": _ctx.isCurrentLessonOverviewRead ? 'Unmark lesson overview as read' : 'Mark lesson overview as read'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCurrentLessonOverviewRead ? 'bi-bookmark-x' : 'bi-bookmark'])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isCurrentLessonOverviewRead ? 'Unmark read' : 'Mark as read'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_45), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isCurrentLessonOverviewRead ? 'Unmark read' : 'Mark as read'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_73), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[6] || (_cache[6] = (...args) => _ctx.shareLessonOverview && _ctx.shareLessonOverview(...args))
-  }, [...(_cache[66] || (_cache[66] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[11] || (_cache[11] = (...args) => _ctx.shareLessonOverview && _ctx.shareLessonOverview(...args))
+  }, [...(_cache[81] || (_cache[81] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[7] || (_cache[7] = (...args) => _ctx.copyLessonOverview && _ctx.copyLessonOverview(...args))
-  }, [...(_cache[67] || (_cache[67] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[12] || (_cache[12] = (...args) => _ctx.copyLessonOverview && _ctx.copyLessonOverview(...args))
+  }, [...(_cache[82] || (_cache[82] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[8] || (_cache[8] = (...args) => _ctx.printLessonOverview && _ctx.printLessonOverview(...args))
-  }, [...(_cache[68] || (_cache[68] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[13] || (_cache[13] = (...args) => _ctx.printLessonOverview && _ctx.printLessonOverview(...args))
+  }, [...(_cache[83] || (_cache[83] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.lessonShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.lessonShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[9] || (_cache[9] = $event => _ctx.toggleCardVisibility('learningOverview')),
+    onClick: _cache[14] || (_cache[14] = $event => _ctx.toggleCardVisibility('learningOverview')),
     "aria-expanded": _ctx.isCardVisible('learningOverview'),
     "aria-label": _ctx.isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_48)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_76)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" lesson overview "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.overviewFontScale}em`,
       lineHeight: 1.6
     })
-  }, [_ctx.currentLessonOverview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-muted small mb-3\">{{ currentLessonOverview.summary }}</p> "), (_ctx$currentLessonOve = _ctx.currentLessonOverview.highlights) !== null && _ctx$currentLessonOve !== void 0 && _ctx$currentLessonOve.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentLessonOverview.highlights, highlight => {
+  }, [_ctx.currentLessonOverview ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_77, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"text-muted small mb-3\">{{ currentLessonOverview.summary }}</p> "), (_ctx$currentLessonOve = _ctx.currentLessonOverview.highlights) !== null && _ctx$currentLessonOve !== void 0 && _ctx$currentLessonOve.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_78, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentLessonOverview.highlights, highlight => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: highlight.label || highlight.heading,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.label || highlight.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.description || highlight.content), 1 /* TEXT */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.overviewSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.overviewSectionsWithKeys, (section, index) => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_79, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_80, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.label || highlight.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(highlight.description || highlight.content), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.overviewSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_82, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.overviewSectionsWithKeys, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.toggleKey,
       id: `section-${_ctx.selectedPill}-${index}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-block mb-5", {
         'section-collapsed': !_ctx.isSectionVisible(section.toggleKey)
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_86, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_87, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.heading), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-toggle-btn", {
         collapsed: !_ctx.isSectionVisible(section.toggleKey)
@@ -1117,7 +1335,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": _ctx.isSectionVisible(section.toggleKey) ? 'Collapse section' : 'Expand section'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_60)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_88)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "section-collapse",
       appear: ""
     }, {
@@ -1131,33 +1349,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           fontSize: `${_ctx.overviewFontScale}rem`
         }),
         innerHTML: _ctx.formatOverviewContent(section.content)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_62), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_64, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_90), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_92, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
-      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_65, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_66, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_93, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_94, [_cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
       }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         href: section.resources,
         target: "_blank",
         rel: "noreferrer",
         class: "text-teal"
-      }, "View source", 8 /* PROPS */, _hoisted_67)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.sectionStatsFor(section.heading).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_68, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
+      }, "View source", 8 /* PROPS */, _hoisted_95)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.sectionStatsFor(section.heading).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_96, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.heading), stat => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: stat.label,
           class: "section-stat-card"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_69, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_97, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "pt-3 mt-3"
-      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_61)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_89)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 2 /* DYNAMIC */
-    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_55);
-  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.lessonSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_70, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonSectionsWithKeys, (section, index) => {
+    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_83);
+  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.lessonSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_98, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.lessonSectionsWithKeys, (section, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: section.toggleKey,
       id: `section-${_ctx.selectedPill}-${index}`,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-block mb-5", {
         'section-collapsed': !_ctx.isSectionVisible(section.toggleKey)
       }])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_75, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_103, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-toggle-btn", {
         collapsed: !_ctx.isSectionVisible(section.toggleKey)
@@ -1168,7 +1386,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": _ctx.isSectionVisible(section.toggleKey) ? 'Collapse section' : 'Expand section'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_76)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_104)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "section-collapse",
       appear: ""
     }, {
@@ -1182,103 +1400,103 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           fontSize: `${_ctx.overviewFontScale}rem`
         }),
         innerHTML: _ctx.formatOverviewContent(section.content)
-      }, null, 12 /* STYLE, PROPS */, _hoisted_78), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_79, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_80, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_106), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [section.references ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_108, [_cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
-      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_81, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_82, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
+      }, "Reference:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_109, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.references), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), section.resources ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_110, [_cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
         class: "me-2"
       }, "Resource:", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         href: section.resources,
         target: "_blank",
         rel: "noreferrer",
         class: "text-teal"
-      }, "View source", 8 /* PROPS */, _hoisted_83)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_84, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_85, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, "View source", 8 /* PROPS */, _hoisted_111)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), section.deepDive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [_cache[90] || (_cache[90] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-lightbulb-fill me-2 fs-4 text-teal"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_86, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_114, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.deepDive.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "deep-dive-content text-dark fs-6",
         style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
           fontSize: `${_ctx.overviewFontScale * 0.95}rem`
         }),
         innerHTML: section.deepDive.content
-      }, null, 12 /* STYLE, PROPS */, _hoisted_87)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
+      }, null, 12 /* STYLE, PROPS */, _hoisted_115)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.sectionStatsFor(section.title).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_116, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.sectionStatsFor(section.title), stat => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
           key: stat.label,
           class: "section-stat-card"
-        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_89, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
-      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+        }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.value), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_117, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(stat.label), 1 /* TEXT */)]);
+      }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[91] || (_cache[91] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "pt-3 mt-3"
-      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_77)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      }, null, -1 /* CACHED */))], 8 /* PROPS */, _hoisted_105)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 2 /* DYNAMIC */
-    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_71);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('learningOverview')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guided pathway clips and action cards "), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_90, [_cache[80] || (_cache[80] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center justify-content-between flex-wrap gap-3 p-3\" data-v-1d764944><div class=\"d-flex align-items-start gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-controller\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"text-teal small mb-1 fw-bold flex-grow-1\" data-v-1d764944>Guided Pathway</p><h3 class=\"mb-1 fs-4 fw-bold\" data-v-1d764944>Short clips to carry the lesson forward</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Pair a quick clip with your streak to keep the learning playful.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_91, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_92, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, 1024 /* DYNAMIC_SLOTS */)], 10 /* CLASS, PROPS */, _hoisted_99);
+  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('learningOverview')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Guided pathway clips and action cards "), _ctx.pathwayClips.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_118, [_cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center justify-content-between flex-wrap gap-3 p-3\" data-v-1d764944><div class=\"d-flex align-items-start gap-3\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-controller\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"text-teal small mb-1 fw-bold flex-grow-1\" data-v-1d764944>Guided Pathway</p><h3 class=\"mb-1 fs-4 fw-bold\" data-v-1d764944>Short clips to carry the lesson forward</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Pair a quick clip with your streak to keep the learning playful.</p></div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_120, [_cache[92] || (_cache[92] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-film"
-  })], -1 /* CACHED */)), _cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+  })], -1 /* CACHED */)), _cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "fw-bold mb-0 fs-5"
   }, "Pathway Clips"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
   }, "Short visual cues to keep each insight gripping.")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[10] || (_cache[10] = $event => _ctx.toggleCardVisibility('pathwayClips')),
+    onClick: _cache[15] || (_cache[15] = $event => _ctx.toggleCardVisibility('pathwayClips')),
     "aria-expanded": _ctx.isCardVisible('pathwayClips'),
     "aria-label": _ctx.isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_93)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_94, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_95, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pathwayClips, clip => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_121)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_122, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.pathwayClips, clip => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: clip.title,
       class: "col-12 col-md-4"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
       class: "clip-card h-100 rounded-4 border shadow-sm",
       onMouseenter: $event => _ctx.startPreview(clip),
-      onMouseleave: _cache[11] || (_cache[11] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
+      onMouseleave: _cache[16] || (_cache[16] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.playClip(clip)
-    }, [_ctx.isClipPlaying(clip) || _ctx.isClipPreviewing(clip) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_97, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
+    }, [_ctx.isClipPlaying(clip) || _ctx.isClipPreviewing(clip) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_125, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("iframe", {
       src: _ctx.formatVideoUrl(clip.url, _ctx.shouldAutoplayVideo(), _ctx.isClipPreviewing(clip)),
       title: clip.title,
       frameborder: "0",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_98)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_126)])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "clip-thumbnail ratio ratio-16x9",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(clip))
-    }, [...(_cache[79] || (_cache[79] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [...(_cache[94] || (_cache[94] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "clip-overlay d-flex align-items-end justify-content-start p-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "clip-label badge bg-white text-dark"
-    }, "Clip")], -1 /* CACHED */)]))], 4 /* STYLE */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_99, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_100, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_101, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.description || 'Visual recap of today’s insight.'), 1 /* TEXT */), _ctx.videoTags(clip, 'Pathway Clip').length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_102, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(clip, 'Pathway Clip'), tag => {
+    }, "Clip")], -1 /* CACHED */)]))], 4 /* STYLE */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_128, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_129, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.description || 'Visual recap of today’s insight.'), 1 /* TEXT */), _ctx.videoTags(clip, 'Pathway Clip').length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_130, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(clip, 'Pathway Clip'), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), clip.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_103, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_96)]);
-  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('pathwayClips')]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_104, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_105, [_cache[81] || (_cache[81] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share With a Friend or Family Member</h3><p class=\"text-muted mb-0 medium\" data-v-1d764944> Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), clip.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_131, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(clip.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_124)]);
+  }), 128 /* KEYED_FRAGMENT */))])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('pathwayClips')]])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Share with a friend "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_133, [_cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share With a Friend or Family Member</h3><p class=\"text-muted mb-0 medium\" data-v-1d764944> Share this lesson’s insights, dua reminders, and revert-story clips so a friend can walk through the same content. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[12] || (_cache[12] = $event => _ctx.toggleCardVisibility('shareFriend')),
+    onClick: _cache[17] || (_cache[17] = $event => _ctx.toggleCardVisibility('shareFriend')),
     "aria-expanded": _ctx.isCardVisible('shareFriend'),
     "aria-label": _ctx.isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('shareFriend') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_106)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_107, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_108, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_109, [_ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_110, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_134)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_136, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [_ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_138, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[97] || (_cache[97] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "visually-hidden",
     "aria-hidden": "false"
-  }, " Feel free to share every insight, dua, and revert story on this page. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_111, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Feel free to share every insight, dua, and revert story on this page. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_139, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal fw-semibold",
-    onClick: _cache[13] || (_cache[13] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[83] || (_cache[83] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[18] || (_cache[18] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
+  }, [...(_cache[98] || (_cache[98] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard mr-2"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal fw-semibold",
-    onClick: _cache[14] || (_cache[14] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[84] || (_cache[84] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[19] || (_cache[19] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
+  }, [...(_cache[99] || (_cache[99] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp mr-2"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareFriend')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" do's and don't "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_112, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_113, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Share with WhatsApp ", -1 /* CACHED */)]))])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareFriend')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" do's and don't "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_141, [_cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3 flex-grow-1 min-width-0"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1289,69 +1507,69 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Do's and Don'ts")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[15] || (_cache[15] = $event => _ctx.toggleCardVisibility('dosDonts')),
+    onClick: _cache[20] || (_cache[20] = $event => _ctx.toggleCardVisibility('dosDonts')),
     "aria-expanded": _ctx.isCardVisible('dosDonts'),
     "aria-label": _ctx.isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('dosDonts') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_114)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_115, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_116, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_117, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_118, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_119, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_120, [_cache[87] || (_cache[87] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_142)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_144, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_145, "Guidance for " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentDosDonts.chapter), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_146, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_148, [_cache[102] || (_cache[102] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-dark mb-3"
-  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_121, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
+  }, "Do's", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_149, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.dos, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-center gap-2 mb-2"
-    }, [_cache[86] || (_cache[86] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[101] || (_cache[101] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-check-circle-fill fs-5 text-teal"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_122, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_123, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_124, [_cache[89] || (_cache[89] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_150, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_151, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_152, [_cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
     class: "h6 fw-semibold text-dark mb-3"
-  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_125, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
+  }, "Don'ts", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_153, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDosDonts.donts, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: item.id,
       class: "d-flex align-items-center gap-2 mb-2"
-    }, [_cache[88] || (_cache[88] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[103] || (_cache[103] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-x-circle-fill fs-5 text-muted"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_126, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('dosDonts')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dua to carry "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_127, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_128, [_cache[93] || (_cache[93] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-bookmark-star-fill\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Duas to Carry</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_129, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_154, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.text), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('dosDonts')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" dua to carry "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_155, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [_cache[108] || (_cache[108] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-bookmark-star-fill\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Duas to Carry</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[16] || (_cache[16] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[90] || (_cache[90] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[21] || (_cache[21] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
+  }, [...(_cache[105] || (_cache[105] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[17] || (_cache[17] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[91] || (_cache[91] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[22] || (_cache[22] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
+  }, [...(_cache[106] || (_cache[106] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[18] || (_cache[18] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[92] || (_cache[92] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[23] || (_cache[23] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
+  }, [...(_cache[107] || (_cache[107] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_130, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_158, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[19] || (_cache[19] = $event => _ctx.toggleCardVisibility('duas')),
+    onClick: _cache[24] || (_cache[24] = $event => _ctx.toggleCardVisibility('duas')),
     "aria-expanded": _ctx.isCardVisible('duas'),
     "aria-label": _ctx.isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_131)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_159)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_132, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_160, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: dua.arabic,
       class: "col-12 col-md-4"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_133, [_cache[94] || (_cache[94] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", _hoisted_161, [_cache[109] || (_cache[109] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "dua-glow"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "mb-0 text-dark text-center pb-3",
@@ -1375,25 +1593,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         fontSize: `${_ctx.duaFontScale}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.reference), 5 /* TEXT, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('duas')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reverts Stories videos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_134, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_135, [_cache[95] || (_cache[95] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-people-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Reverts Stories</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Short journeys from our community, handpicked for this chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('duas')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reverts Stories videos "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-people-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Reverts Stories</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Short journeys from our community, handpicked for this chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[20] || (_cache[20] = $event => _ctx.toggleCardVisibility('revertStories')),
+    onClick: _cache[25] || (_cache[25] = $event => _ctx.toggleCardVisibility('revertStories')),
     "aria-expanded": _ctx.isCardVisible('revertStories'),
     "aria-label": _ctx.isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_136)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_137, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_138, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_164)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_165, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_166, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.revertStoriesPreview, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: video.title,
       class: "col-12 col-md-3"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
       class: "video-card shadow-sm overflow-hidden h-100",
       onMouseenter: $event => _ctx.startPreview(video),
-      onMouseleave: _cache[21] || (_cache[21] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
+      onMouseleave: _cache[26] || (_cache[26] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.handleVideoCardClick(video),
       onTouchstart: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.handleVideoCardTouch(video), ["stop"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_140, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -1404,130 +1622,130 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_141)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_169)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_142, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_143, [_cache[96] || (_cache[96] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_170, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_171, [_cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_144, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_145, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_146, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_147, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_148, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), _ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_149, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_172, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_173, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_174, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_175, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_176, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), _ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_177, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag,
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_150, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_151, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_139)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_152, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_178, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_179, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_167)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-see-more",
-    onClick: _cache[22] || (_cache[22] = $event => _ctx.showVideoModal = true)
-  }, [...(_cache[97] || (_cache[97] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[27] || (_cache[27] = $event => _ctx.showVideoModal = true)
+  }, [...(_cache[112] || (_cache[112] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" See more videos ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right"
-  }, null, -1 /* CACHED */)]))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('revertStories')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" key insights "), _ctx.secondarySectionsReady && _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_153, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_154, [_cache[98] || (_cache[98] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-lightbulb-fill\" data-v-1d764944></i></span><div class=\"d-flex flex-column\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Key Insights</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Anchor the lesson with these quick takeaways.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)]))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('revertStories')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" key insights "), _ctx.secondarySectionsReady && _ctx.insightsToShow.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_181, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-lightbulb-fill\" data-v-1d764944></i></span><div class=\"d-flex flex-column\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Key Insights</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Anchor the lesson with these quick takeaways.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn",
-    onClick: _cache[23] || (_cache[23] = $event => _ctx.toggleCardVisibility('keyInsights')),
+    onClick: _cache[28] || (_cache[28] = $event => _ctx.toggleCardVisibility('keyInsights')),
     "aria-expanded": _ctx.isCardVisible('keyInsights'),
     "aria-label": _ctx.isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_155)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_156, [_cache[100] || (_cache[100] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_183)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "insight-hero mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", {
     class: "text-dark d-block mb-1"
   }, "Carry these sparks into your day"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, " Pick the insight that feels timely and let it guide your next pause, prayer, or action. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_157, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_158, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, (insight, index) => {
+  }, " Pick the insight that feels timely and let it guide your next pause, prayer, or action. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_185, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_186, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.insightsToShow, (insight, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: `${insight}-${index}`,
       class: "insight-card"
-    }, [_cache[99] || (_cache[99] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "insight-card-accent",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_159, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_160, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_161, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('keyInsights')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" share and uplift "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_162, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_163, [_cache[104] || (_cache[104] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share &amp; Uplift</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_164, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_187, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_188, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_189, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(insight), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('keyInsights')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" share and uplift "), _ctx.currentDuas.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_190, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-center gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-share\" data-v-1d764944></i></span><div class=\"flex-grow-1\" data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Share &amp; Uplift</h3></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[24] || (_cache[24] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
-  }, [...(_cache[101] || (_cache[101] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[29] || (_cache[29] = (...args) => _ctx.shareDuas && _ctx.shareDuas(...args))
+  }, [...(_cache[116] || (_cache[116] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[25] || (_cache[25] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
-  }, [...(_cache[102] || (_cache[102] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[30] || (_cache[30] = (...args) => _ctx.copyDuas && _ctx.copyDuas(...args))
+  }, [...(_cache[117] || (_cache[117] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "header-action",
     role: "button",
     tabindex: "0",
-    onClick: _cache[26] || (_cache[26] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
-  }, [...(_cache[103] || (_cache[103] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[31] || (_cache[31] = (...args) => _ctx.printDuas && _ctx.printDuas(...args))
+  }, [...(_cache[118] || (_cache[118] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-printer fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_165, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Print", -1 /* CACHED */)]))]), _ctx.duaShareStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_193, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.duaShareStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[27] || (_cache[27] = $event => _ctx.toggleCardVisibility('shareUplift')),
+    onClick: _cache[32] || (_cache[32] = $event => _ctx.toggleCardVisibility('shareUplift')),
     "aria-expanded": _ctx.isCardVisible('shareUplift'),
     "aria-label": _ctx.isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_166)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_194)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [_cache[107] || (_cache[107] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_195, [_cache[122] || (_cache[122] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-md-6"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted mb-3 fs-6 large"
-  }, " Spread the lesson: copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_168, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_169, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Spread the lesson: copy the link or share a dua so others stay inspired. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_196, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_197, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-copy pr-2",
-    onClick: _cache[28] || (_cache[28] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
-  }, [...(_cache[105] || (_cache[105] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[33] || (_cache[33] = (...args) => _ctx.copyShareLink && _ctx.copyShareLink(...args))
+  }, [...(_cache[120] || (_cache[120] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-clipboard me-2 fs-5"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy lesson link", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn share-action-btn share-whatsapp",
-    onClick: _cache[29] || (_cache[29] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
-  }, [...(_cache[106] || (_cache[106] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[34] || (_cache[34] = $event => _ctx.openWhatsappShare(_ctx.getShareLink()))
+  }, [...(_cache[121] || (_cache[121] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-whatsapp me-2 fs-5"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_170, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareUplift')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" common asked questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" chapter-specific tool "), _ctx.chapterTool ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_171, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_172, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_173, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_174, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share on WhatsApp", -1 /* CACHED */)]))])]), _ctx.shareFriendStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_198, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.shareFriendStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('shareUplift')]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" common asked questions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" chapter-specific tool "), _ctx.chapterTool ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_199, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_200, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_202, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(_ctx.chapterTool.icon || 'bi bi-tools')
-  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_175, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_176, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.description), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_177, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_204, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.description), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_205, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "chapter-tool-open",
-    onClick: _cache[30] || (_cache[30] = (...args) => _ctx.openChapterToolNewTab && _ctx.openChapterToolNewTab(...args)),
+    onClick: _cache[35] || (_cache[35] = (...args) => _ctx.openChapterToolNewTab && _ctx.openChapterToolNewTab(...args)),
     "aria-label": "Open {{ chapterTool.title }} in a new tab"
-  }, [...(_cache[108] || (_cache[108] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[123] || (_cache[123] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-box-arrow-up-right fs-4"
-  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_178, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_206, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "chapter-tool-content",
-    onClick: _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
-    onMousedown: _cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
-    onTouchstart: _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
-    onKeydown: _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_179, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_180, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, {
+    onClick: _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
+    onMousedown: _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
+    onTouchstart: _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
+    onKeydown: _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Suspense, null, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [_ctx.chapterToolComponent ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)((0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveDynamicComponent)(_ctx.chapterToolComponent), {
       key: 0,
       class: "chapter-tool-embed"
-    })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_181, [...(_cache[109] || (_cache[109] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    })) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_209, [...(_cache[124] || (_cache[124] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "text-muted mb-3"
     }, "Unable to load this tool right now.", -1 /* CACHED */)]))]))]),
-    fallback: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_182, " Loading " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title) + "… ", 1 /* TEXT */)]),
+    fallback: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_210, " Loading " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterTool.title) + "… ", 1 /* TEXT */)]),
     _: 1 /* STABLE */
-  }))])])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_183, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_184, [_cache[110] || (_cache[110] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-question-circle-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Commonly Asked Questions</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Answers pulled from the chapter conversation.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }))])])], 32 /* NEED_HYDRATION */)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [_cache[125] || (_cache[125] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-question-circle-fill\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Commonly Asked Questions</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Answers pulled from the chapter conversation.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[35] || (_cache[35] = $event => _ctx.toggleCardVisibility('commonQuestions')),
+    onClick: _cache[40] || (_cache[40] = $event => _ctx.toggleCardVisibility('commonQuestions')),
     "aria-expanded": _ctx.isCardVisible('commonQuestions'),
     "aria-label": _ctx.isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_185)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_186, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCommonPanels, (panel, index) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_213)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.visibleCommonPanels, (panel, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: panel.id,
       class: "accordion-item-card"
@@ -1539,14 +1757,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => _ctx.toggleAccordion('common', index)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(panel.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_187), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_188, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_215), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       innerHTML: panel.body
-    }, null, 8 /* PROPS */, _hoisted_189)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.commonFaqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_190, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_217)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isAccordionOpen('common', index)]])]);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.commonFaqHasMore ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-sm btn-link text-teal",
-    onClick: _cache[36] || (_cache[36] = $event => _ctx.expandFaq('common'))
-  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('commonQuestions')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" troubleshooting guides "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"troubleshootingGuides.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-tools\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Troubleshooting Guides</h3>\n                  <p class=\"text-muted small mb-0\">Straightforward tips to smooth out the common hiccups.</p>\n                </div>\n              </div>\n            </div>\n            <div class=\"card-body px-3 px-md-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"guide in troubleshootingGuides\" :key=\"guide.title\" class=\"col-12 col-md-4\">\n                  <article class=\"troubleshooting-guide-card h-100 p-3 rounded-4 border\">\n                    <h4 class=\"fw-semibold mb-2 fs-6\">{{ guide.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ guide.description }}</p>\n                    <ul class=\"list-unstyled mb-0 troubleshooting-steps\">\n                      <li v-for=\"step in guide.steps\" :key=\"step\">\n                        <span class=\"step-icon\">\n                          <i class=\"bi bi-caret-right-fill\"></i>\n                        </span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" motivation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_191, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_192, [_cache[111] || (_cache[111] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[41] || (_cache[41] = $event => _ctx.expandFaq('common'))
+  }, " Show " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.chapterCommonPanels.length - _ctx.commonFaqDisplayLimit) + " more ", 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('commonQuestions')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" troubleshooting guides "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"troubleshootingGuides.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg troubleshooting-card\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3 flex-wrap\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-tools\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Troubleshooting Guides</h3>\n                  <p class=\"text-muted small mb-0\">Straightforward tips to smooth out the common hiccups.</p>\n                </div>\n              </div>\n            </div>\n            <div class=\"card-body px-3 px-md-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"guide in troubleshootingGuides\" :key=\"guide.title\" class=\"col-12 col-md-4\">\n                  <article class=\"troubleshooting-guide-card h-100 p-3 rounded-4 border\">\n                    <h4 class=\"fw-semibold mb-2 fs-6\">{{ guide.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ guide.description }}</p>\n                    <ul class=\"list-unstyled mb-0 troubleshooting-steps\">\n                      <li v-for=\"step in guide.steps\" :key=\"step\">\n                        <span class=\"step-icon\">\n                          <i class=\"bi bi-caret-right-fill\"></i>\n                        </span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" motivation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_219, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_220, [_cache[126] || (_cache[126] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1557,12 +1775,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "Motivation")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[37] || (_cache[37] = $event => _ctx.toggleCardVisibility('motivation')),
+    onClick: _cache[42] || (_cache[42] = $event => _ctx.toggleCardVisibility('motivation')),
     "aria-expanded": _ctx.isCardVisible('motivation'),
     "aria-label": _ctx.isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_193)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_194, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_195, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_196, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_197, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('motivation')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" plans "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between py-3 gap-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-calendar3-range\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">Curated Weekly & Monthly Plans</h3>\n                  <p class=\"text-muted small mb-0\">Pick the timeline that fits your current rhythm.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('curatedPlans')\"\n                :aria-expanded=\"isCardVisible('curatedPlans')\"\n                :aria-label=\"isCardVisible('curatedPlans') ? 'Collapse curated plans' : 'Expand curated plans'\">\n                <i class=\"bi\" :class=\"isCardVisible('curatedPlans') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('curatedPlans')\">\n              <div class=\"card-body px-4 pb-0 pt-0\">\n                <div v-if=\"currentChapterPlans.length\">\n                  <div class=\"row g-3\">\n                    <div v-for=\"plan in currentChapterPlans\" :key=\"plan.planId\" class=\"col-12 col-md-4\">\n                      <article class=\"plan-card rounded-5 p-4 \">\n                        <div class=\"plan-card__header d-flex align-items-start justify-content-between gap-3\">\n                          <div>\n                            <p class=\"text-muted small mb-1 plan-card__duration\">{{ plan.duration }}</p>\n                            <h3 class=\"fw-semibold mb-2 fs-5\">{{ plan.title }}</h3>\n                            -- <p class=\"text-dark small mb-0 plan-card__summary\">{{ plan.description }}</p> --\n                          </div>\n                          <span class=\"badge badge-pill plan-badge text-uppercase\">{{ plan.planId.replace('-', ' ') }}</span>\n                        </div>\n                        <div class=\"plan-card__divider\" aria-hidden=\"true\"></div>\n                        <div class=\"plan-card__body\">\n                          <ul class=\"plan-highlights list-unstyled mb-3\">\n                            <li\n                              v-for=\"(highlight, index) in plan.highlights\"\n                              :key=\"`${plan.planId}-${index}`\"\n                              class=\"plan-highlight\"\n                              :class=\"{ completed: isCuratedHighlightCompleted(plan.planId, index) }\"\n                            >\n                              <div class=\"plan-highlight-body\">\n                                <span class=\"plan-highlight-icon\" aria-hidden=\"true\"></span>\n                                <span class=\"plan-highlight-text\">{{ highlight }}</span>\n                              </div>\n                              <button\n                                type=\"button\"\n                                class=\"plan-highlight-action\"\n                                :class=\"{ completed: isCuratedHighlightCompleted(plan.planId, index) }\"\n                                :aria-pressed=\"isCuratedHighlightCompleted(plan.planId, index)\"\n                                :aria-label=\"isCuratedHighlightCompleted(plan.planId, index) ? 'Highlight completed' : 'Mark highlight as complete'\"\n                                @click=\"toggleCuratedHighlightCompletion(plan.planId, index, plan.title, plan.highlights?.length || 0)\"\n                              >\n                                <i class=\"bi\" :class=\"isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'\"></i>\n                                <span class=\"plan-highlight-action-text\">\n                                  {{ isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete' }}\n                                </span>\n                              </button>\n                            </li>\n                          </ul>\n                        </div>\n                        <div class=\"plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3\">\n                          <p class=\"mb-0 text-muted small plan-card__meta\">\n                            Crafted for the {{ plan.duration.toLowerCase() }} rhythm.\n                          </p>\n                          <div class=\"plan-action-icons\" role=\"group\" aria-label=\"Plan actions\">\n                            <button type=\"button\" class=\"plan-action-icon plan-action-share\" @click=\"sharePlan(plan)\" :title=\"'Share ' + plan.title\">\n                              <i class=\"bi bi-whatsapp\"></i>\n                              <span class=\"visually-hidden\">Share plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-copy\" @click=\"copyPlan(plan)\" :title=\"'Copy ' + plan.title\">\n                              <i class=\"bi bi-clipboard\"></i>\n                              <span class=\"visually-hidden\">Copy plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-print\" @click=\"printPlan(plan)\" :title=\"'Print ' + plan.title\">\n                              <i class=\"bi bi-printer\"></i>\n                              <span class=\"visually-hidden\">Print plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-download\" @click=\"downloadPlanAsPdf(plan)\" :title=\"'Download ' + plan.title\">\n                              <i class=\"bi bi-file-earmark-pdf\"></i>\n                              <span class=\"visually-hidden\">Download plan</span>\n                            </button>\n                          </div>\n                        </div>\n                      </article>\n                    </div>\n                  </div>\n                </div>\n                <div v-else class=\"text-muted small pt-3\">\n                  <p class=\"mb-1\">Curated plans are loading, or new guides are being prepared for this chapter.</p>\n                  <p class=\"mb-0\">Check back after you visit the lesson overview and guided pathways.</p>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" flexible plan tracks "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentFlexibleTracks.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-shuffle\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">{{ currentFlexibleNote?.title || 'Flexible Pathway Tracks' }}</h3>\n                  <p class=\"text-muted small mb-0\">\n                    {{ currentFlexibleNote?.description || 'Mix and match these companion routines to keep each chapter feeling fresh.' }}\n                  </p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('flexibleTracks')\"\n                :aria-expanded=\"isCardVisible('flexibleTracks')\"\n                :aria-label=\"isCardVisible('flexibleTracks') ? 'Collapse flexible tracks' : 'Expand flexible tracks'\">\n                <i class=\"bi\" :class=\"isCardVisible('flexibleTracks') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('flexibleTracks')\" class=\"card-body px-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"track in currentFlexibleTracks\" :key=\"track.id\" class=\"col-12 col-md-4\">\n                  <article class=\"flexible-track-card rounded-4 p-4 h-100\">\n                    <h4 class=\"fw-semibold mb-2 fs-5\">{{ track.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ track.description }}</p>\n                    <ul class=\"flexible-track-steps list-unstyled mb-0\">\n                      <li v-for=\"step in track.steps\" :key=\"step\">\n                        <span class=\"flex-step-icon\" aria-hidden=\"true\"></span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" daily micro challenges "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"dailyChallenges.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-stars\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Daily Micro Challenges</h3>\n                  <p class=\"text-muted small mb-0\">Mark what you completed and keep the lesson in motion.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('dailyChallenges')\"\n                :aria-expanded=\"isCardVisible('dailyChallenges')\"\n                :aria-label=\"isCardVisible('dailyChallenges') ? 'Collapse micro challenges' : 'Expand micro challenges'\">\n                <i class=\"bi\" :class=\"isCardVisible('dailyChallenges') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('dailyChallenges')\" class=\"card-body px-4 py-3\">\n              <div class=\"daily-challenge-progress mb-3\">\n                <div class=\"progress\" role=\"progressbar\" :aria-valuenow=\"dailyChallengeProgressPercent\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n                  <div class=\"progress-bar\" :style=\"{ width: dailyChallengeProgressPercent + '%' }\"></div>\n                </div>\n                <div class=\"d-flex justify-content-between mt-1\">\n                  <small class=\"text-muted\">{{ dailyChallengeCompletionLabel }}</small>\n                  <small class=\"text-teal fw-semibold\">{{ dailyChallengeProgressPercent }}%</small>\n                </div>\n              </div>\n                <div class=\"daily-challenge-grid\">\n                  <button\n                    v-for=\"challenge in dailyChallenges\"\n                    :key=\"challenge.id\"\n                    type=\"button\"\n                    class=\"daily-challenge-pill\"\n                    :class=\"{ completed: challenge.completed }\"\n                    @click=\"toggleChallenge(challenge.storageKey)\"\n                    :aria-pressed=\"challenge.completed\"\n                  >\n                  <span class=\"challenge-icon\" aria-hidden=\"true\">\n                    <i class=\"bi\" :class=\"challenge.completed ? 'bi-check-lg' : 'bi-circle'\"></i>\n                  </span>\n                  <div class=\"challenge-details text-start\">\n                    <strong class=\"d-block\">{{ challenge.title }}</strong>\n                    <small class=\"text-muted\">{{ challenge.description }}</small>\n                  </div>\n                </button>\n              </div>\n              <div class=\"reflection-box mt-4\">\n                <div class=\"d-flex align-items-center justify-content-between mb-2\">\n                  <p class=\"fw-semibold mb-0\">Reflection note</p>\n                </div>\n                <div class=\"reflection-actions mb-3\">\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-primary btn-sm shadow-none\"\n                    @click=\"createNewReflectionNote\"\n                  >\n                    Create new note\n                  </button>\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-secondary btn-sm shadow-none\"\n                    @click=\"clearReflectionNote\"\n                    :disabled=\"!currentReflectionNote\"\n                  >\n                    Clear note\n                  </button>\n                </div>\n                <div v-if=\"reflectionStatus\" class=\"reflection-status-pill\">\n                  <i class=\"bi bi-check-circle-fill\"></i>\n                  <span>{{ reflectionStatus }}</span>\n                </div>\n                <textarea\n                  class=\"form-control reflection-input\"\n                  rows=\"3\"\n                  v-model=\"reflectionInput\"\n                  placeholder=\"Jot down a moment, dua, or action you want to remember...\"\n                ></textarea>\n                <div class=\"d-flex align-items-center justify-content-between mt-2 gap-2 flex-wrap\">\n                  <small v-if=\"reflectionStatus\" class=\"text-success mb-0\">{{ reflectionStatus }}</small>\n                  <button\n                    type=\"button\"\n                    class=\"btn btn-teal btn-sm shadow-none\"\n                    :disabled=\"!reflectionInput.trim() && !currentReflectionNote\"\n                    @click=\"saveReflectionNote\"\n                  >\n                    Save note\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_198, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_199, [_cache[112] || (_cache[112] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_221)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_222, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_225, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('motivation')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" plans "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between py-3 gap-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-calendar3-range\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">Curated Weekly & Monthly Plans</h3>\n                  <p class=\"text-muted small mb-0\">Pick the timeline that fits your current rhythm.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('curatedPlans')\"\n                :aria-expanded=\"isCardVisible('curatedPlans')\"\n                :aria-label=\"isCardVisible('curatedPlans') ? 'Collapse curated plans' : 'Expand curated plans'\">\n                <i class=\"bi\" :class=\"isCardVisible('curatedPlans') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('curatedPlans')\">\n              <div class=\"card-body px-4 pb-0 pt-0\">\n                <div v-if=\"currentChapterPlans.length\">\n                  <div class=\"row g-3\">\n                    <div v-for=\"plan in currentChapterPlans\" :key=\"plan.planId\" class=\"col-12 col-md-4\">\n                      <article class=\"plan-card rounded-5 p-4 \">\n                        <div class=\"plan-card__header d-flex align-items-start justify-content-between gap-3\">\n                          <div>\n                            <p class=\"text-muted small mb-1 plan-card__duration\">{{ plan.duration }}</p>\n                            <h3 class=\"fw-semibold mb-2 fs-5\">{{ plan.title }}</h3>\n                            -- <p class=\"text-dark small mb-0 plan-card__summary\">{{ plan.description }}</p> --\n                          </div>\n                          <span class=\"badge badge-pill plan-badge text-uppercase\">{{ plan.planId.replace('-', ' ') }}</span>\n                        </div>\n                        <div class=\"plan-card__divider\" aria-hidden=\"true\"></div>\n                        <div class=\"plan-card__body\">\n                          <ul class=\"plan-highlights list-unstyled mb-3\">\n                            <li\n                              v-for=\"(highlight, index) in plan.highlights\"\n                              :key=\"`${plan.planId}-${index}`\"\n                              class=\"plan-highlight\"\n                              :class=\"{ completed: isCuratedHighlightCompleted(plan.planId, index) }\"\n                            >\n                              <div class=\"plan-highlight-body\">\n                                <span class=\"plan-highlight-icon\" aria-hidden=\"true\"></span>\n                                <span class=\"plan-highlight-text\">{{ highlight }}</span>\n                              </div>\n                              <button\n                                type=\"button\"\n                                class=\"plan-highlight-action\"\n                                :class=\"{ completed: isCuratedHighlightCompleted(plan.planId, index) }\"\n                                :aria-pressed=\"isCuratedHighlightCompleted(plan.planId, index)\"\n                                :aria-label=\"isCuratedHighlightCompleted(plan.planId, index) ? 'Highlight completed' : 'Mark highlight as complete'\"\n                                @click=\"toggleCuratedHighlightCompletion(plan.planId, index, plan.title, plan.highlights?.length || 0)\"\n                              >\n                                <i class=\"bi\" :class=\"isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'\"></i>\n                                <span class=\"plan-highlight-action-text\">\n                                  {{ isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete' }}\n                                </span>\n                              </button>\n                            </li>\n                          </ul>\n                        </div>\n                        <div class=\"plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3\">\n                          <p class=\"mb-0 text-muted small plan-card__meta\">\n                            Crafted for the {{ plan.duration.toLowerCase() }} rhythm.\n                          </p>\n                          <div class=\"plan-action-icons\" role=\"group\" aria-label=\"Plan actions\">\n                            <button type=\"button\" class=\"plan-action-icon plan-action-share\" @click=\"sharePlan(plan)\" :title=\"'Share ' + plan.title\">\n                              <i class=\"bi bi-whatsapp\"></i>\n                              <span class=\"visually-hidden\">Share plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-copy\" @click=\"copyPlan(plan)\" :title=\"'Copy ' + plan.title\">\n                              <i class=\"bi bi-clipboard\"></i>\n                              <span class=\"visually-hidden\">Copy plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-print\" @click=\"printPlan(plan)\" :title=\"'Print ' + plan.title\">\n                              <i class=\"bi bi-printer\"></i>\n                              <span class=\"visually-hidden\">Print plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-download\" @click=\"downloadPlanAsPdf(plan)\" :title=\"'Download ' + plan.title\">\n                              <i class=\"bi bi-file-earmark-pdf\"></i>\n                              <span class=\"visually-hidden\">Download plan</span>\n                            </button>\n                          </div>\n                        </div>\n                      </article>\n                    </div>\n                  </div>\n                </div>\n                <div v-else class=\"text-muted small pt-3\">\n                  <p class=\"mb-1\">Curated plans are loading, or new guides are being prepared for this chapter.</p>\n                  <p class=\"mb-0\">Check back after you visit the lesson overview and guided pathways.</p>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" flexible plan tracks "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentFlexibleTracks.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-shuffle\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">{{ currentFlexibleNote?.title || 'Flexible Pathway Tracks' }}</h3>\n                  <p class=\"text-muted small mb-0\">\n                    {{ currentFlexibleNote?.description || 'Mix and match these companion routines to keep each chapter feeling fresh.' }}\n                  </p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('flexibleTracks')\"\n                :aria-expanded=\"isCardVisible('flexibleTracks')\"\n                :aria-label=\"isCardVisible('flexibleTracks') ? 'Collapse flexible tracks' : 'Expand flexible tracks'\">\n                <i class=\"bi\" :class=\"isCardVisible('flexibleTracks') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('flexibleTracks')\" class=\"card-body px-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"track in currentFlexibleTracks\" :key=\"track.id\" class=\"col-12 col-md-4\">\n                  <article class=\"flexible-track-card rounded-4 p-4 h-100\">\n                    <h4 class=\"fw-semibold mb-2 fs-5\">{{ track.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ track.description }}</p>\n                    <ul class=\"flexible-track-steps list-unstyled mb-0\">\n                      <li v-for=\"step in track.steps\" :key=\"step\">\n                        <span class=\"flex-step-icon\" aria-hidden=\"true\"></span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" daily micro challenges "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"dailyChallenges.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-stars\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Daily Micro Challenges</h3>\n                  <p class=\"text-muted small mb-0\">Mark what you completed and keep the lesson in motion.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('dailyChallenges')\"\n                :aria-expanded=\"isCardVisible('dailyChallenges')\"\n                :aria-label=\"isCardVisible('dailyChallenges') ? 'Collapse micro challenges' : 'Expand micro challenges'\">\n                <i class=\"bi\" :class=\"isCardVisible('dailyChallenges') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('dailyChallenges')\" class=\"card-body px-4 py-3\">\n              <div class=\"daily-challenge-progress mb-3\">\n                <div class=\"progress\" role=\"progressbar\" :aria-valuenow=\"dailyChallengeProgressPercent\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n                  <div class=\"progress-bar\" :style=\"{ width: dailyChallengeProgressPercent + '%' }\"></div>\n                </div>\n                <div class=\"d-flex justify-content-between mt-1\">\n                  <small class=\"text-muted\">{{ dailyChallengeCompletionLabel }}</small>\n                  <small class=\"text-teal fw-semibold\">{{ dailyChallengeProgressPercent }}%</small>\n                </div>\n              </div>\n                <div class=\"daily-challenge-grid\">\n                  <button\n                    v-for=\"challenge in dailyChallenges\"\n                    :key=\"challenge.id\"\n                    type=\"button\"\n                    class=\"daily-challenge-pill\"\n                    :class=\"{ completed: challenge.completed }\"\n                    @click=\"toggleChallenge(challenge.storageKey)\"\n                    :aria-pressed=\"challenge.completed\"\n                  >\n                  <span class=\"challenge-icon\" aria-hidden=\"true\">\n                    <i class=\"bi\" :class=\"challenge.completed ? 'bi-check-lg' : 'bi-circle'\"></i>\n                  </span>\n                  <div class=\"challenge-details text-start\">\n                    <strong class=\"d-block\">{{ challenge.title }}</strong>\n                    <small class=\"text-muted\">{{ challenge.description }}</small>\n                  </div>\n                </button>\n              </div>\n              <div class=\"reflection-box mt-4\">\n                <div class=\"d-flex align-items-center justify-content-between mb-2\">\n                  <p class=\"fw-semibold mb-0\">Reflection note</p>\n                </div>\n                <div class=\"reflection-actions mb-3\">\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-primary btn-sm shadow-none\"\n                    @click=\"createNewReflectionNote\"\n                  >\n                    Create new note\n                  </button>\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-secondary btn-sm shadow-none\"\n                    @click=\"clearReflectionNote\"\n                    :disabled=\"!currentReflectionNote\"\n                  >\n                    Clear note\n                  </button>\n                </div>\n                <div v-if=\"reflectionStatus\" class=\"reflection-status-pill\">\n                  <i class=\"bi bi-check-circle-fill\"></i>\n                  <span>{{ reflectionStatus }}</span>\n                </div>\n                <textarea\n                  class=\"form-control reflection-input\"\n                  rows=\"3\"\n                  v-model=\"reflectionInput\"\n                  placeholder=\"Jot down a moment, dua, or action you want to remember...\"\n                ></textarea>\n                <div class=\"d-flex align-items-center justify-content-between mt-2 gap-2 flex-wrap\">\n                  <small v-if=\"reflectionStatus\" class=\"text-success mb-0\">{{ reflectionStatus }}</small>\n                  <button\n                    type=\"button\"\n                    class=\"btn btn-teal btn-sm shadow-none\"\n                    :disabled=\"!reflectionInput.trim() && !currentReflectionNote\"\n                    @click=\"saveReflectionNote\"\n                  >\n                    Save note\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_227, [_cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "card-header-icon"
@@ -1573,70 +1791,87 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, "References & Resources")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[38] || (_cache[38] = $event => _ctx.toggleCardVisibility('resources')),
+    onClick: _cache[43] || (_cache[43] = $event => _ctx.toggleCardVisibility('resources')),
     "aria-expanded": _ctx.isCardVisible('resources'),
     "aria-label": _ctx.isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_200)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_201, [_cache[113] || (_cache[113] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_228)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_229, [_cache[128] || (_cache[128] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted medium mb-3"
-  }, "Primary sources, classical texts, and modern tools for this chapter.", -1 /* CACHED */)), _ctx.currentChapterResourcesLayout ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_202, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentChapterResourcesLayout.sections, (section, sectionIndex) => {
+  }, "Primary sources, classical texts, and modern tools for this chapter.", -1 /* CACHED */)), _ctx.filteredChapterResourcesLayout && _ctx.filteredChapterResourcesLayout.sections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_230, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredChapterResourcesLayout.sections, (section, sectionIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: section.title,
       class: "resource-section-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", _hoisted_203, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(section.title), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(section.items, (item, itemIndex) => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+      class: "resource-section-title",
+      innerHTML: _ctx.highlightResourceText(section.title)
+    }, null, 8 /* PROPS */, _hoisted_231), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(section.items, (item, itemIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         key: `${section.title}-${sectionIndex}-${itemIndex}`,
         class: "resource-group"
-      }, [item.label ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_204, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.label), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_205, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.entries, (entry, entryIndex) => {
+      }, [item.label ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
+        key: 0,
+        class: "resource-group-label",
+        innerHTML: _ctx.highlightResourceText(item.label)
+      }, null, 8 /* PROPS */, _hoisted_232)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_233, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.entries, (entry, entryIndex) => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
           key: `${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`,
           class: "resource-entry"
         }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
           innerHTML: _ctx.formatResourceEntry(entry, item.label)
-        }, null, 8 /* PROPS */, _hoisted_206)]);
+        }, null, 8 /* PROPS */, _hoisted_234)]);
       }), 128 /* KEYED_FRAGMENT */))])]);
     }), 128 /* KEYED_FRAGMENT */))]);
-  }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('resources')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_207, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_208, [_cache[114] || (_cache[114] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-journal-check\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Chapter Quiz</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Attempt the curated quiz to move to the next chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.currentChapterResourcesLayout ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_235, " No resources match this search yet. Try different keywords or reset filters. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_236, " Resources for this chapter are being prepared. "))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('resources')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_237, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_238, [_cache[129] || (_cache[129] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-journal-check\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Chapter Quiz</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Attempt the curated quiz to move to the next chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn ms-auto",
-    onClick: _cache[39] || (_cache[39] = $event => _ctx.toggleCardVisibility('chapterQuiz')),
+    onClick: _cache[44] || (_cache[44] = $event => _ctx.toggleCardVisibility('chapterQuiz')),
     "aria-expanded": _ctx.isCardVisible('chapterQuiz'),
     "aria-label": _ctx.isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('chapterQuiz') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_209)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_210, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_211, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_212, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_213, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_239)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_240, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_241, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_243, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_214, [_cache[115] || (_cache[115] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_244, [_cache[130] || (_cache[130] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_215, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_216, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_217, [_cache[116] || (_cache[116] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_245, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_246, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_247, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-motivation-icon d-flex align-items-center justify-content-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-lightning-charge-fill fs-5"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_218, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_219, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_220, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_221, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizStageLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_222, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_223, [_cache[117] || (_cache[117] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_248, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_249, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_250, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_251, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizStageLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_252, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_253, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1 text-uppercase"
-  }, "Section focus", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_224, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuizSectionTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_225, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_226, [_cache[118] || (_cache[118] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Section focus", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_254, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuizSectionTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_255, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_256, [_cache[133] || (_cache[133] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted small text-uppercase"
-  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_227, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizMomentumPercent) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_228, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_257, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizMomentumPercent) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_258, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: `${_ctx.quizMomentumPercent}%`
     })
-  }, null, 4 /* STYLE */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_229, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_230, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, null, 4 /* STYLE */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_259, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_260, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn quiz-option text-start d-flex align-items-center justify-content-between", {
         'quiz-option--correct': _ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer,
         'quiz-option--incorrect': _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption,
-        'quiz-option--neutral': !(_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer) && !(_ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption)
+        'quiz-option--neutral': !(_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer) && !(_ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption),
+        'quiz-option--selected': _ctx.selectedOption === option && _ctx.quizStatus !== 'correct'
       }]),
-      disabled: _ctx.chapterQuizPassed,
+      disabled: _ctx.chapterQuizPassed || _ctx.quizStatus === 'correct',
+      "aria-pressed": _ctx.selectedOption === option,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_232, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_233)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_234)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_231);
-  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_235, [_cache[119] || (_cache[119] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_263)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_264)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_261);
+  }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus && _ctx.quizFeedback ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    key: 0,
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quiz-feedback-panel mt-3", {
+      'quiz-feedback-panel--correct': _ctx.quizStatus === 'correct',
+      'quiz-feedback-panel--incorrect': _ctx.quizStatus === 'incorrect'
+    }]),
+    role: "status",
+    "aria-live": "polite"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_265, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_266, [_ctx.quizStatus === 'correct' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_267)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_268))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_269, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizFeedback), 1 /* TEXT */), _ctx.quizStatus === 'correct' && !_ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_270, " Next question loading... ")) : _ctx.quizStatus === 'incorrect' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_271, " Try another choice or review the explanation below. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_272, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-explanation-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-2"
@@ -1644,39 +1879,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-lightbulb-fill fs-5 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-semibold mb-3 fs-6"
-  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_236, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_237, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_238, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_239, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_240, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_273, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_274, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_276, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_277, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-explanation-link",
-    onClick: _cache[40] || (_cache[40] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
-  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_241, [_cache[121] || (_cache[121] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[45] || (_cache[45] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_278, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_242, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_243, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[120] || (_cache[120] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_279, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_280, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
-    onClick: _cache[41] || (_cache[41] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('chapterQuiz')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_244, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_245, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[46] || (_cache[46] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('chapterQuiz')]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_281, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_282, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
     disabled: _ctx.selectedPill <= 1,
-    onClick: _cache[42] || (_cache[42] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
-  }, [...(_cache[122] || (_cache[122] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[47] || (_cache[47] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
+  }, [...(_cache[137] || (_cache[137] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_246), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_247, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_248, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_249, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_283), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_285, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_286, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !_ctx.isWaitingForNext,
       'disabled': _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
     }]),
     disabled: _ctx.isWaitingForNext || !_ctx.chapterQuizPassed,
-    onClick: _cache[43] || (_cache[43] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[123] || (_cache[123] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[48] || (_cache[48] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[138] || (_cache[138] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_250)])])])])])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_287)])])])])])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "scroll-fab",
     appear: ""
   }, {
@@ -1685,86 +1920,100 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "scroll-top-fab d-flex align-items-center justify-content-center shadow",
       type: "button",
       "aria-label": "Scroll to top",
-      onClick: _cache[44] || (_cache[44] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args))
-    }, [...(_cache[124] || (_cache[124] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      onClick: _cache[49] || (_cache[49] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args))
+    }, [...(_cache[139] || (_cache[139] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-arrow-up-short fs-1 text-white"
     }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_251, [_cache[127] || (_cache[127] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _ctx.showSearchInfoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_288, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "modal-backdrop fade show custom-modal-backdrop",
+    onClick: _cache[50] || (_cache[50] = (...args) => _ctx.closeSearchInfoModal && _ctx.closeSearchInfoModal(...args))
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_289, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_291, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [_cache[140] || (_cache[140] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+    class: "modal-title fw-bold"
+  }, "About global search", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn-close",
+    "aria-label": "Close",
+    onClick: _cache[51] || (_cache[51] = (...args) => _ctx.closeSearchInfoModal && _ctx.closeSearchInfoModal(...args))
+  })]), _cache[141] || (_cache[141] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body px-4 py-3\" data-v-1d764944><p class=\"search-info-lead\" data-v-1d764944> Global search scans the entire chapter so you can find a concept, reference, or story in seconds. </p><ul class=\"search-info-list\" data-v-1d764944><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-stars\" data-v-1d764944></i> Search coverage </div><p class=\"search-info-card-text\" data-v-1d764944> Lesson summaries, learning paths, key insights, duas, stories, resources, and questions. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-quote\" data-v-1d764944></i> Phrase matching </div><p class=\"search-info-card-text\" data-v-1d764944> Use quotes for exact phrases, like &quot;tawheed foundation&quot;. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-funnel\" data-v-1d764944></i> Category filter </div><p class=\"search-info-card-text\" data-v-1d764944> Narrow results by category without leaving the search panel. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-cursor-fill\" data-v-1d764944></i> Jump to results </div><p class=\"search-info-card-text\" data-v-1d764944> Click any result to jump directly to that section on the page. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-palette\" data-v-1d764944></i> Highlighting </div><p class=\"search-info-card-text\" data-v-1d764944> Colored highlights show exactly where your terms appear. </p></li></ul></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-teal px-4",
+    onClick: _cache[52] || (_cache[52] = (...args) => _ctx.closeSearchInfoModal && _ctx.closeSearchInfoModal(...args))
+  }, " Got it ")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_294, [_cache[144] || (_cache[144] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_252, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_253, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_254, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_255, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_256, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[126] || (_cache[126] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_295, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_296, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_298, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_299, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[143] || (_cache[143] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_257, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_258, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_259, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_301, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
-    onClick: _cache[45] || (_cache[45] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
-  }, [...(_cache[125] || (_cache[125] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    onClick: _cache[53] || (_cache[53] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
+  }, [...(_cache[142] || (_cache[142] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-link-45deg"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy Link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
-    onClick: _cache[46] || (_cache[46] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_260, [_cache[134] || (_cache[134] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[54] || (_cache[54] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_303, [_cache[151] || (_cache[151] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_261, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_263, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_264, [_cache[128] || (_cache[128] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_304, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_306, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_307, [_cache[145] || (_cache[145] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
   }, "All Revert Stories", -1 /* CACHED */)), _ctx.hasStoryFilters ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-outline-dark ms-auto d-flex align-items-center gap-2",
-    onClick: _cache[47] || (_cache[47] = (...args) => _ctx.toggleVideoFilters && _ctx.toggleVideoFilters(...args)),
+    onClick: _cache[55] || (_cache[55] = (...args) => _ctx.toggleVideoFilters && _ctx.toggleVideoFilters(...args)),
     "aria-pressed": _ctx.showVideoFilters,
     "aria-label": _ctx.showVideoFilters ? 'Hide story filters' : 'Show story filters'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.showVideoFilters ? 'bi-eye-slash' : 'bi-eye'])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_266, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.showVideoFilters ? 'Hide filters' : 'Show filters'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_265)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_267, [_ctx.hasStoryFilters ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_268, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_269, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_270, [_cache[129] || (_cache[129] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_309, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.showVideoFilters ? 'Hide filters' : 'Show filters'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_308)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_310, [_ctx.hasStoryFilters ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_311, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_312, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_313, [_cache[146] || (_cache[146] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Search stories", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     class: "form-control form-control-sm",
     placeholder: "Search by title or theme",
-    "onUpdate:modelValue": _cache[48] || (_cache[48] = $event => _ctx.videoSearchTerm = $event)
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_271, [_cache[130] || (_cache[130] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    "onUpdate:modelValue": _cache[56] || (_cache[56] = $event => _ctx.videoSearchTerm = $event)
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_314, [_cache[147] || (_cache[147] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Duration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
-    "onUpdate:modelValue": _cache[49] || (_cache[49] = $event => _ctx.videoDurationFilter = $event)
+    "onUpdate:modelValue": _cache[57] || (_cache[57] = $event => _ctx.videoDurationFilter = $event)
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.durationFilters, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_272);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_273, [_cache[131] || (_cache[131] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_315);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_316, [_cache[148] || (_cache[148] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Gender", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
-    "onUpdate:modelValue": _cache[50] || (_cache[50] = $event => _ctx.videoGenderFilter = $event)
+    "onUpdate:modelValue": _cache[58] || (_cache[58] = $event => _ctx.videoGenderFilter = $event)
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.genderFilters, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_274);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_275, [_cache[132] || (_cache[132] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_317);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_318, [_cache[149] || (_cache[149] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Background", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
-    "onUpdate:modelValue": _cache[51] || (_cache[51] = $event => _ctx.videoBackgroundFilter = $event)
+    "onUpdate:modelValue": _cache[59] || (_cache[59] = $event => _ctx.videoBackgroundFilter = $event)
   }, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.backgroundFilterOptions, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_276);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_277, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showVideoFilters]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_278, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_319);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_320, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showVideoFilters]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_321, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 'modal-' + video.title,
       class: "col-12 col-md-6"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("article", {
       class: "video-card shadow-sm overflow-hidden h-100",
       onMouseenter: $event => _ctx.startPreview(video),
-      onMouseleave: _cache[52] || (_cache[52] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
+      onMouseleave: _cache[60] || (_cache[60] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.handleVideoCardClick(video),
       onTouchstart: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.handleVideoCardTouch(video), ["stop", "prevent"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_280, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_323, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -1775,25 +2024,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_281)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_324)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_282, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_283, [_cache[133] || (_cache[133] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_325, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_326, [_cache[150] || (_cache[150] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_284, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_285, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_286, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_287, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_288, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_327, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_328, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_329, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_330, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_331, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag + '-modal',
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_279)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_289, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_322)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_332, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_333, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
-    onClick: _cache[53] || (_cache[53] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_291, [_cache[136] || (_cache[136] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[61] || (_cache[61] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_334, [_cache[153] || (_cache[153] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_292, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_294, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_295, [_cache[135] || (_cache[135] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_335, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_336, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_337, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_338, [_cache[152] || (_cache[152] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold mb-1"
   }, "Reverts Corner Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
@@ -1801,24 +2050,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "btn-close",
     "aria-label": "Close guide",
-    onClick: _cache[54] || (_cache[54] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_296, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
+    onClick: _cache[62] || (_cache[62] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_339, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: step.title,
       class: "guide-step-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_297, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_298, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_299, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_340, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_341, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_342, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_343, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
-    onClick: _cache[55] || (_cache[55] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  }, "Got it")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showCompletionModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_301, [_cache[139] || (_cache[139] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[63] || (_cache[63] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
+  }, "Got it")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showCompletionModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_344, [_cache[156] || (_cache[156] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_303, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_304, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [_cache[137] || (_cache[137] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"completion-header-left\" data-v-1d764944><span class=\"completion-icon\" data-v-1d764944><i class=\"bi bi-moon-stars\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"completion-label mb-1\" data-v-1d764944>Milestone</p><h5 class=\"modal-title fw-bold mb-0\" data-v-1d764944>Beginners Guide Complete</h5></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_345, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_346, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_347, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_348, [_cache[154] || (_cache[154] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"completion-header-left\" data-v-1d764944><span class=\"completion-icon\" data-v-1d764944><i class=\"bi bi-moon-stars\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"completion-label mb-1\" data-v-1d764944>Milestone</p><h5 class=\"modal-title fw-bold mb-0\" data-v-1d764944>Beginners Guide Complete</h5></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
-    onClick: _cache[56] || (_cache[56] = (...args) => _ctx.closeCompletionModal && _ctx.closeCompletionModal(...args))
-  })]), _cache[138] || (_cache[138] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body completion-modal-body px-4 pb-4 pt-0\" data-v-1d764944><p class=\"completion-lead mb-2\" data-v-1d764944>MashaAllah, you&#39;ve completed the Beginners Guide.</p><p class=\"completion-note mb-3\" data-v-1d764944> May Allah bless your effort and keep your heart steady on this path. When you&#39;re ready, choose what feels right today to continue to the next phase. No pressure. Take your time. </p><div class=\"completion-divider\" data-v-1d764944></div><div class=\"completion-options\" data-v-1d764944><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>One-time £1.99</p><p class=\"completion-option-desc\" data-v-1d764944> If it feels easy today, this keeps the lessons flowing and supports the work. </p></div><button type=\"button\" class=\"btn completion-primary-btn d-inline-flex align-items-center\" data-v-1d764944> Pay £1.99 </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Choose what you can</p><p class=\"completion-option-desc\" data-v-1d764944> If £1.99 is not comfortable, pick a smaller amount that suits your situation. </p></div><button type=\"button\" class=\"btn completion-secondary-btn d-inline-flex align-items-center\" data-v-1d764944> Choose an amount </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Continue for free</p><p class=\"completion-option-desc\" data-v-1d764944> If you are not ready for the options above, continue without payment. May Allah make it easy. </p></div><button type=\"button\" class=\"btn completion-ghost-btn\" data-v-1d764944> Continue for free </button></div></div><p class=\"completion-footnote mb-0\" data-v-1d764944>Secure checkout via Stripe. May Allah reward your sincerity.</p></div>", 1))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+    onClick: _cache[64] || (_cache[64] = (...args) => _ctx.closeCompletionModal && _ctx.closeCompletionModal(...args))
+  })]), _cache[155] || (_cache[155] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body completion-modal-body px-4 pb-4 pt-0\" data-v-1d764944><p class=\"completion-lead mb-2\" data-v-1d764944>MashaAllah, you&#39;ve completed the Beginners Guide.</p><p class=\"completion-note mb-3\" data-v-1d764944> May Allah bless your effort and keep your heart steady on this path. When you&#39;re ready, choose what feels right today to continue to the next phase. No pressure. Take your time. </p><div class=\"completion-divider\" data-v-1d764944></div><div class=\"completion-options\" data-v-1d764944><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>One-time £1.99</p><p class=\"completion-option-desc\" data-v-1d764944> If it feels easy today, this keeps the lessons flowing and supports the work. </p></div><button type=\"button\" class=\"btn completion-primary-btn d-inline-flex align-items-center\" data-v-1d764944> Pay £1.99 </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Choose what you can</p><p class=\"completion-option-desc\" data-v-1d764944> If £1.99 is not comfortable, pick a smaller amount that suits your situation. </p></div><button type=\"button\" class=\"btn completion-secondary-btn d-inline-flex align-items-center\" data-v-1d764944> Choose an amount </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Continue for free</p><p class=\"completion-option-desc\" data-v-1d764944> If you are not ready for the options above, continue without payment. May Allah make it easy. </p></div><button type=\"button\" class=\"btn completion-ghost-btn\" data-v-1d764944> Continue for free </button></div></div><p class=\"completion-footnote mb-0\" data-v-1d764944>Secure checkout via Stripe. May Allah reward your sincerity.</p></div>", 1))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
 }
 
 /***/ }),
@@ -2048,6 +2297,64 @@ const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journ
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female'];
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male'];
 const RESOURCE_SECTION_TITLES = ['Primary Sources', 'Classical Texts', 'Modern Resources'];
+const RESOURCE_HIGHLIGHT_CLASSES = ['highlight-0', 'highlight-1', 'highlight-2', 'highlight-3', 'highlight-4', 'highlight-5'];
+const GLOBAL_SEARCH_SECTIONS = [{
+  key: 'Lesson Overview',
+  label: 'Lesson Overview',
+  id: 'lesson-overview-section'
+}, {
+  key: 'Focus of This Lesson',
+  label: 'Focus of This Lesson',
+  id: 'lesson-focus-section'
+}, {
+  key: 'Learning Paths',
+  label: 'Learning Paths',
+  id: 'learning-paths-section'
+}, {
+  key: 'Guided Pathway',
+  label: 'Guided Pathway',
+  id: 'guided-pathway-section'
+}, {
+  key: "Do's and Don'ts",
+  label: "Do's and Don'ts",
+  id: 'dos-donts-section'
+}, {
+  key: 'Duas',
+  label: 'Duas to Carry',
+  id: 'duas-section'
+}, {
+  key: 'Revert Stories',
+  label: 'Revert Stories',
+  id: 'revert-stories-section'
+}, {
+  key: 'Key Insights',
+  label: 'Key Insights',
+  id: 'key-insights-section'
+}, {
+  key: 'Common Questions',
+  label: 'Common Questions',
+  id: 'common-questions-section'
+}, {
+  key: 'Resources',
+  label: 'References & Resources',
+  id: 'resources-section'
+}];
+const GLOBAL_SEARCH_SECTION_ID_MAP = GLOBAL_SEARCH_SECTIONS.reduce((map, entry) => {
+  map[entry.key] = entry.id;
+  return map;
+}, {});
+const GLOBAL_SEARCH_SECTION_ICONS = {
+  'Lesson Overview': 'bi-journal-text',
+  'Focus of This Lesson': 'bi-brightness-high-fill',
+  'Learning Paths': 'bi-box-seam-fill',
+  'Guided Pathway': 'bi-controller',
+  "Do's and Don'ts": 'bi-shield-fill-check',
+  'Duas': 'bi-bookmark-star-fill',
+  'Revert Stories': 'bi-people-fill',
+  'Key Insights': 'bi-lightbulb-fill',
+  'Common Questions': 'bi-question-circle-fill',
+  'Resources': 'bi-book'
+};
 const DEFAULT_DAILY_CHALLENGES = [{
   id: 'insight-note',
   title: 'Challenge one',
@@ -2322,12 +2629,16 @@ const celebrateFinalChapter = confettiFn => {
       activeResource: null,
       showVideoModal: false,
       showHelpModal: false,
+      showSearchInfoModal: false,
       showCompletionModal: false,
       nextPhaseAmountMinor: 199,
       helpGuideSteps: REVERTS_GUIDE_STEPS,
       shareFriendStatus: '',
       onboarding: normalizeJson(_data_onboarding_json__WEBPACK_IMPORTED_MODULE_9__),
       resourceCopyStatus: '',
+      resourceSearchTerm: '',
+      resourceSearchMode: 'any',
+      globalSearchCategory: 'all',
       confettiPromise: null,
       confettiLauncher: null,
       lessonShareStatus: '',
@@ -2431,20 +2742,283 @@ const celebrateFinalChapter = confettiFn => {
         sections: normalizedSections
       });
     },
+    resourceSearchTokens() {
+      return this.tokenizeSearchTerm(this.resourceSearchTerm);
+    },
+    resourceSearchTokensNormalized() {
+      return this.resourceSearchTokens.map(token => token.toLowerCase());
+    },
+    resourceSearchTokensWithClasses() {
+      return this.resourceSearchTokens.map((token, index) => ({
+        token,
+        className: RESOURCE_HIGHLIGHT_CLASSES[index % RESOURCE_HIGHLIGHT_CLASSES.length]
+      }));
+    },
+    resourceHighlightConfig() {
+      if (!this.resourceSearchTokensWithClasses.length) {
+        return {
+          regex: null,
+          tokenMap: new Map()
+        };
+      }
+      const tokenMap = new Map();
+      this.resourceSearchTokensWithClasses.forEach(({
+        token,
+        className
+      }) => {
+        const key = token.toLowerCase();
+        if (!tokenMap.has(key)) {
+          tokenMap.set(key, className);
+        }
+      });
+      const sortedTokens = [...this.resourceSearchTokensWithClasses].sort((a, b) => b.token.length - a.token.length);
+      const pattern = sortedTokens.map(tokenConfig => this.escapeRegExp(tokenConfig.token)).join('|');
+      return {
+        regex: pattern ? new RegExp(pattern, 'gi') : null,
+        tokenMap
+      };
+    },
+    filteredChapterResourcesLayout() {
+      const base = this.currentChapterResourcesLayout;
+      if (!base) return null;
+      const tokens = this.resourceSearchTokensNormalized;
+      const hasSearch = tokens.length > 0;
+      const matchesTokens = value => this.matchesSearchTokens(value);
+      if (!hasSearch) return base;
+      const filteredSections = base.sections.reduce((sections, section) => {
+        const sectionTitleMatch = matchesTokens(section.title);
+        const items = (section.items || []).reduce((itemsAcc, item) => {
+          const entries = Array.isArray(item.entries) ? item.entries : [];
+          const labelMatch = matchesTokens(item.label);
+          let nextEntries = entries;
+          if (!sectionTitleMatch && !labelMatch) {
+            nextEntries = entries.filter(entry => matchesTokens(entry));
+          }
+          if (nextEntries.length) {
+            itemsAcc.push(_objectSpread(_objectSpread({}, item), {}, {
+              entries: nextEntries
+            }));
+          }
+          return itemsAcc;
+        }, []);
+        if (items.length) {
+          sections.push(_objectSpread(_objectSpread({}, section), {}, {
+            items
+          }));
+        }
+        return sections;
+      }, []);
+      return _objectSpread(_objectSpread({}, base), {}, {
+        sections: filteredSections
+      });
+    },
+    globalSearchActive() {
+      return this.resourceSearchTokensNormalized.length > 0;
+    },
+    globalSearchResults() {
+      var _this$currentLesson4, _this$currentLesson5, _this$currentLessonOv, _dosDonts$dos, _dosDonts$donts, _resourceLayout$secti;
+      if (!this.globalSearchActive) return [];
+      const results = [];
+      const pushResult = entry => {
+        const result = this.buildSearchResult(entry);
+        if (result) results.push(result);
+      };
+      pushResult({
+        section: 'Lesson Overview',
+        title: ((_this$currentLesson4 = this.currentLesson) === null || _this$currentLesson4 === void 0 ? void 0 : _this$currentLesson4.title) || '',
+        body: ((_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.summary) || ''
+      });
+      if (this.currentToneFocusText) {
+        pushResult({
+          section: 'Focus of This Lesson',
+          title: 'Focus of This Lesson',
+          body: this.currentToneFocusText
+        });
+      }
+      const highlights = ((_this$currentLessonOv = this.currentLessonOverview) === null || _this$currentLessonOv === void 0 ? void 0 : _this$currentLessonOv.highlights) || [];
+      highlights.forEach(highlight => {
+        pushResult({
+          section: 'Learning Paths',
+          title: highlight.label || highlight.heading || '',
+          body: highlight.description || highlight.content || ''
+        });
+      });
+      const overviewSections = this.overviewSectionsWithKeys;
+      if (overviewSections.length) {
+        overviewSections.forEach(section => {
+          pushResult({
+            section: 'Learning Paths',
+            title: section.heading || '',
+            body: section.content || '',
+            meta: section.references || ''
+          });
+          if (section.resources) {
+            pushResult({
+              section: 'Learning Paths',
+              title: section.heading || '',
+              body: section.resources || '',
+              meta: 'Resource link'
+            });
+          }
+        });
+      } else {
+        this.lessonSectionsWithKeys.forEach(section => {
+          pushResult({
+            section: 'Learning Paths',
+            title: section.title || '',
+            body: section.content || '',
+            meta: section.references || ''
+          });
+          if (section.deepDive) {
+            pushResult({
+              section: 'Learning Paths',
+              title: section.deepDive.title || section.title || '',
+              body: section.deepDive.content || '',
+              meta: 'Deep dive'
+            });
+          }
+          if (section.resources) {
+            pushResult({
+              section: 'Learning Paths',
+              title: section.title || '',
+              body: section.resources || '',
+              meta: 'Resource link'
+            });
+          }
+        });
+      }
+      this.pathwayClips.forEach(clip => {
+        pushResult({
+          section: 'Guided Pathway',
+          title: clip.title || '',
+          body: clip.description || clip.summary || ''
+        });
+      });
+      const dosDonts = this.currentDosDonts;
+      if (dosDonts !== null && dosDonts !== void 0 && (_dosDonts$dos = dosDonts.dos) !== null && _dosDonts$dos !== void 0 && _dosDonts$dos.length) {
+        dosDonts.dos.forEach(item => {
+          pushResult({
+            section: "Do's and Don'ts",
+            title: dosDonts.chapter || '',
+            body: item.text || ''
+          });
+        });
+      }
+      if (dosDonts !== null && dosDonts !== void 0 && (_dosDonts$donts = dosDonts.donts) !== null && _dosDonts$donts !== void 0 && _dosDonts$donts.length) {
+        dosDonts.donts.forEach(item => {
+          pushResult({
+            section: "Do's and Don'ts",
+            title: dosDonts.chapter || '',
+            body: item.text || ''
+          });
+        });
+      }
+      this.currentDuas.forEach(dua => {
+        pushResult({
+          section: 'Duas',
+          title: dua.title || '',
+          body: `${dua.english || ''} ${dua.arabic || ''} ${dua.reference || ''}`.trim()
+        });
+      });
+      this.insightsToShow.forEach(insight => {
+        pushResult({
+          section: 'Key Insights',
+          body: insight || ''
+        });
+      });
+      this.revertStories.forEach(video => {
+        pushResult({
+          section: 'Revert Stories',
+          title: video.title || '',
+          body: `${video.description || ''} ${video.duration || ''}`.trim()
+        });
+      });
+      this.chapterCommonPanels.forEach(panel => {
+        pushResult({
+          section: 'Common Questions',
+          title: panel.title || '',
+          body: panel.body || ''
+        });
+      });
+      const resourceLayout = this.currentChapterResourcesLayout;
+      if (resourceLayout !== null && resourceLayout !== void 0 && (_resourceLayout$secti = resourceLayout.sections) !== null && _resourceLayout$secti !== void 0 && _resourceLayout$secti.length) {
+        resourceLayout.sections.forEach(section => {
+          const items = section.items || [];
+          items.forEach(item => {
+            const entries = Array.isArray(item.entries) ? item.entries : [];
+            const label = item.label || section.title || '';
+            entries.forEach(entry => {
+              pushResult({
+                section: 'Resources',
+                title: label,
+                body: entry || '',
+                meta: section.title || ''
+              });
+            });
+          });
+        });
+      }
+      return results;
+    },
+    globalSearchResultsBySection() {
+      const grouped = new Map();
+      this.globalSearchResults.forEach(result => {
+        if (!grouped.has(result.section)) {
+          grouped.set(result.section, []);
+        }
+        grouped.get(result.section).push(result);
+      });
+      return GLOBAL_SEARCH_SECTIONS.reduce((ordered, section) => {
+        const results = grouped.get(section.key);
+        if (results !== null && results !== void 0 && results.length) {
+          ordered.push({
+            section: section.key,
+            results
+          });
+        }
+        return ordered;
+      }, []);
+    },
+    globalSearchCategoryOptions() {
+      const counts = new Map();
+      this.globalSearchResultsBySection.forEach(group => {
+        counts.set(group.section, group.results.length);
+      });
+      return GLOBAL_SEARCH_SECTIONS.map(section => {
+        const count = counts.get(section.key) || 0;
+        const labelSuffix = this.globalSearchActive ? ` (${count})` : '';
+        return {
+          value: section.key,
+          label: `${section.label}${labelSuffix}`,
+          count
+        };
+      });
+    },
+    globalSearchResultsFilteredByCategory() {
+      if (this.globalSearchCategory === 'all') return this.globalSearchResultsBySection;
+      const group = this.globalSearchResultsBySection.find(entry => entry.section === this.globalSearchCategory);
+      return group ? [group] : [];
+    },
+    globalSearchResultsCount() {
+      return this.globalSearchResultsFilteredByCategory.reduce((total, group) => total + group.results.length, 0);
+    },
+    globalSearchSectionsCount() {
+      return this.globalSearchResultsFilteredByCategory.length;
+    },
     currentChapterPlans() {
-      var _this$currentLesson4;
-      const chapterId = (_this$currentLesson4 = this.currentLesson) === null || _this$currentLesson4 === void 0 ? void 0 : _this$currentLesson4.chapterId;
+      var _this$currentLesson6;
+      const chapterId = (_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.chapterId;
       const entry = this.chapterPlanGuides.find(guide => guide.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.plans) || [];
     },
     isCurrentLessonOverviewRead() {
-      var _this$currentLesson5;
-      const chapterId = (_this$currentLesson5 = this.currentLesson) === null || _this$currentLesson5 === void 0 ? void 0 : _this$currentLesson5.chapterId;
+      var _this$currentLesson7;
+      const chapterId = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7.chapterId;
       return Boolean(chapterId && this.lessonOverviewRead[chapterId]);
     },
     overviewSections() {
-      var _this$currentLessonOv;
-      return ((_this$currentLessonOv = this.currentLessonOverview) === null || _this$currentLessonOv === void 0 ? void 0 : _this$currentLessonOv.overview) || [];
+      var _this$currentLessonOv2;
+      return ((_this$currentLessonOv2 = this.currentLessonOverview) === null || _this$currentLessonOv2 === void 0 ? void 0 : _this$currentLessonOv2.overview) || [];
     },
     overviewSectionsWithKeys() {
       return this.overviewSections.map((section, index) => _objectSpread(_objectSpread({}, section), {}, {
@@ -2452,8 +3026,8 @@ const celebrateFinalChapter = confettiFn => {
       }));
     },
     lessonSectionsWithKeys() {
-      var _this$currentLesson6;
-      const sections = ((_this$currentLesson6 = this.currentLesson) === null || _this$currentLesson6 === void 0 ? void 0 : _this$currentLesson6.sections) || [];
+      var _this$currentLesson8;
+      const sections = ((_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.sections) || [];
       return sections.map((section, index) => _objectSpread(_objectSpread({}, section), {}, {
         toggleKey: this.sectionToggleId('lesson', section, index)
       }));
@@ -2463,14 +3037,14 @@ const celebrateFinalChapter = confettiFn => {
       return ((_this$lastIncorrectEx = this.lastIncorrectExplanation) === null || _this$lastIncorrectEx === void 0 ? void 0 : _this$lastIncorrectEx.text) || ((_this$currentQuestion = this.currentQuestion) === null || _this$currentQuestion === void 0 ? void 0 : _this$currentQuestion.explanation) || '';
     },
     quizHintSectionId() {
-      var _this$lastIncorrectEx2, _question$sectionInde, _this$currentLesson7;
+      var _this$lastIncorrectEx2, _question$sectionInde, _this$currentLesson9;
       if ((_this$lastIncorrectEx2 = this.lastIncorrectExplanation) !== null && _this$lastIncorrectEx2 !== void 0 && _this$lastIncorrectEx2.sectionId) {
         return this.lastIncorrectExplanation.sectionId;
       }
       const question = this.currentQuestion;
       if (!question) return '';
       const sectionIndex = (_question$sectionInde = question.sectionIndex) !== null && _question$sectionInde !== void 0 ? _question$sectionInde : 0;
-      const section = (_this$currentLesson7 = this.currentLesson) === null || _this$currentLesson7 === void 0 || (_this$currentLesson7 = _this$currentLesson7.sections) === null || _this$currentLesson7 === void 0 ? void 0 : _this$currentLesson7[sectionIndex];
+      const section = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 || (_this$currentLesson9 = _this$currentLesson9.sections) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9[sectionIndex];
       return section ? `section-${this.selectedPill}-${sectionIndex}` : '';
     },
     chapterCommonPanels() {
@@ -2489,9 +3063,9 @@ const celebrateFinalChapter = confettiFn => {
       return (this.maxStepReached - 1) / this.roadmapData.length * 100;
     },
     dailyChallenges() {
-      var _this$currentLesson8;
+      var _this$currentLesson0;
       this.ensureDailyMicroChallengesLoaded();
-      const chapterId = (_this$currentLesson8 = this.currentLesson) === null || _this$currentLesson8 === void 0 ? void 0 : _this$currentLesson8.chapterId;
+      const chapterId = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
       const prompts = this.dailyMicroChallenges[chapterId] || DEFAULT_DAILY_CHALLENGES;
       return prompts.map(prompt => {
         const key = this.dailyChallengeStorageKey(prompt.id, chapterId);
@@ -2518,8 +3092,8 @@ const celebrateFinalChapter = confettiFn => {
       return this.dailyChallenges.filter(challenge => challenge.completed).length;
     },
     currentReflectionNote() {
-      var _this$currentLesson9;
-      const chapterId = (_this$currentLesson9 = this.currentLesson) === null || _this$currentLesson9 === void 0 ? void 0 : _this$currentLesson9.chapterId;
+      var _this$currentLesson1;
+      const chapterId = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
       return chapterId ? this.reflectionNotes[chapterId] || '' : '';
     },
     completedChapters() {
@@ -2569,8 +3143,8 @@ const celebrateFinalChapter = confettiFn => {
       return ((_this$chapterTool = this.chapterTool) === null || _this$chapterTool === void 0 ? void 0 : _this$chapterTool.component) || null;
     },
     guidanceCards() {
-      var _this$currentLesson0;
-      const chapterId = (_this$currentLesson0 = this.currentLesson) === null || _this$currentLesson0 === void 0 ? void 0 : _this$currentLesson0.chapterId;
+      var _this$currentLesson10;
+      const chapterId = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
       if (!chapterId) return [];
       if (!this.guidanceCardCache[chapterId]) {
         this.guidanceCardCache[chapterId] = this.generateGuidanceCards(chapterId);
@@ -2578,32 +3152,32 @@ const celebrateFinalChapter = confettiFn => {
       return this.guidanceCardCache[chapterId];
     },
     currentToneFocusText() {
-      var _this$currentLesson1;
-      const chapterId = (_this$currentLesson1 = this.currentLesson) === null || _this$currentLesson1 === void 0 ? void 0 : _this$currentLesson1.chapterId;
+      var _this$currentLesson11;
+      const chapterId = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
       const entry = this.toneFocusEntries.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.toneFocus) || '';
     },
     guidedPathwayCards() {
-      var _this$currentLesson10;
-      const chapterId = (_this$currentLesson10 = this.currentLesson) === null || _this$currentLesson10 === void 0 ? void 0 : _this$currentLesson10.chapterId;
+      var _this$currentLesson12;
+      const chapterId = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
       const entry = this.guidedPathways.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.pathway) || this.guidanceCards;
     },
     currentFlexibleTracks() {
-      var _this$currentLesson11, _this$flexiblePlanTra;
+      var _this$currentLesson13, _this$flexiblePlanTra;
       this.ensureFlexiblePlanTracksLoaded();
-      const chapterId = (_this$currentLesson11 = this.currentLesson) === null || _this$currentLesson11 === void 0 ? void 0 : _this$currentLesson11.chapterId;
+      const chapterId = (_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.chapterId;
       return ((_this$flexiblePlanTra = this.flexiblePlanTracks.find(entry => entry.chapterId === chapterId)) === null || _this$flexiblePlanTra === void 0 ? void 0 : _this$flexiblePlanTra.tracks) || [];
     },
     currentFlexibleNote() {
-      var _this$currentLesson12;
+      var _this$currentLesson14;
       this.ensureFlexibleChapterNotesLoaded();
-      const chapterId = (_this$currentLesson12 = this.currentLesson) === null || _this$currentLesson12 === void 0 ? void 0 : _this$currentLesson12.chapterId;
+      const chapterId = (_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.chapterId;
       return this.flexibleChapterNotes.find(item => item.chapterId === chapterId) || null;
     },
     currentGentleStartSteps() {
-      var _this$currentLesson13;
-      const chapterId = (_this$currentLesson13 = this.currentLesson) === null || _this$currentLesson13 === void 0 ? void 0 : _this$currentLesson13.chapterId;
+      var _this$currentLesson15;
+      const chapterId = (_this$currentLesson15 = this.currentLesson) === null || _this$currentLesson15 === void 0 ? void 0 : _this$currentLesson15.chapterId;
       const entry = this.chapterGentleStarts.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.steps) || this.currentOnboardingSteps;
     },
@@ -2624,8 +3198,8 @@ const celebrateFinalChapter = confettiFn => {
       };
     },
     sectionStatsMap() {
-      var _this$currentLesson14;
-      const chapterId = (_this$currentLesson14 = this.currentLesson) === null || _this$currentLesson14 === void 0 ? void 0 : _this$currentLesson14.chapterId;
+      var _this$currentLesson16;
+      const chapterId = (_this$currentLesson16 = this.currentLesson) === null || _this$currentLesson16 === void 0 ? void 0 : _this$currentLesson16.chapterId;
       const entry = this.sectionStatsByChapter.find(item => item.chapterId === chapterId);
       return (entry === null || entry === void 0 ? void 0 : entry.sectionStats) || [];
     },
@@ -2668,16 +3242,16 @@ const celebrateFinalChapter = confettiFn => {
       return Math.min(100, Math.round(stageValue / total * 100));
     },
     currentQuizSectionTitle() {
-      var _question$sectionInde2, _this$currentLesson15, _this$currentLesson16;
+      var _question$sectionInde2, _this$currentLesson17, _this$currentLesson18;
       const question = this.currentQuestion;
       if (!question) return 'Guided insights';
       const sectionIndex = (_question$sectionInde2 = question.sectionIndex) !== null && _question$sectionInde2 !== void 0 ? _question$sectionInde2 : 0;
-      const section = (_this$currentLesson15 = this.currentLesson) === null || _this$currentLesson15 === void 0 || (_this$currentLesson15 = _this$currentLesson15.sections) === null || _this$currentLesson15 === void 0 ? void 0 : _this$currentLesson15[sectionIndex];
-      return (section === null || section === void 0 ? void 0 : section.title) || (section === null || section === void 0 ? void 0 : section.heading) || ((_this$currentLesson16 = this.currentLesson) === null || _this$currentLesson16 === void 0 ? void 0 : _this$currentLesson16.title) || 'Guided insights';
+      const section = (_this$currentLesson17 = this.currentLesson) === null || _this$currentLesson17 === void 0 || (_this$currentLesson17 = _this$currentLesson17.sections) === null || _this$currentLesson17 === void 0 ? void 0 : _this$currentLesson17[sectionIndex];
+      return (section === null || section === void 0 ? void 0 : section.title) || (section === null || section === void 0 ? void 0 : section.heading) || ((_this$currentLesson18 = this.currentLesson) === null || _this$currentLesson18 === void 0 ? void 0 : _this$currentLesson18.title) || 'Guided insights';
     },
     lessonDepartments() {
-      var _this$currentLesson17;
-      const chapterId = (_this$currentLesson17 = this.currentLesson) === null || _this$currentLesson17 === void 0 ? void 0 : _this$currentLesson17.chapterId;
+      var _this$currentLesson19;
+      const chapterId = (_this$currentLesson19 = this.currentLesson) === null || _this$currentLesson19 === void 0 ? void 0 : _this$currentLesson19.chapterId;
       if (!chapterId) return [];
       if (!this.lessonDepartmentsCache[chapterId]) {
         this.lessonDepartmentsCache[chapterId] = this.generateLessonDepartments(chapterId);
@@ -2685,13 +3259,13 @@ const celebrateFinalChapter = confettiFn => {
       return this.lessonDepartmentsCache[chapterId];
     },
     currentDosDonts() {
-      var _this$currentLesson18;
-      const chapterId = (_this$currentLesson18 = this.currentLesson) === null || _this$currentLesson18 === void 0 ? void 0 : _this$currentLesson18.chapterId;
+      var _this$currentLesson20;
+      const chapterId = (_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.chapterId;
       return this.dosDontsChapters.find(entry => entry.chapterId === chapterId) || null;
     },
     chapterVideoEntry() {
-      var _this$currentLesson19;
-      const chapterId = (_this$currentLesson19 = this.currentLesson) === null || _this$currentLesson19 === void 0 ? void 0 : _this$currentLesson19.chapterId;
+      var _this$currentLesson21;
+      const chapterId = (_this$currentLesson21 = this.currentLesson) === null || _this$currentLesson21 === void 0 ? void 0 : _this$currentLesson21.chapterId;
       return this.chapterVideoMap[chapterId] || null;
     },
     revertStories() {
@@ -2828,6 +3402,12 @@ const celebrateFinalChapter = confettiFn => {
         this.showVideoFilters = true;
       }
     },
+    resourceSearchTerm() {
+      this.syncGlobalSearchCategory();
+    },
+    globalSearchResultsBySection() {
+      this.syncGlobalSearchCategory();
+    },
     lessonOverviewRead: {
       handler(value) {
         if (typeof window === 'undefined') return;
@@ -2932,10 +3512,10 @@ const celebrateFinalChapter = confettiFn => {
       return this.confettiPromise;
     },
     launchMicroConfetti() {
-      var _this$currentLesson20;
+      var _this$currentLesson22;
       // Skip celebration when the user prefers reduced motion.
       if (this.reduceMotionEnabled) return;
-      const chapterId = (_this$currentLesson20 = this.currentLesson) === null || _this$currentLesson20 === void 0 ? void 0 : _this$currentLesson20.chapterId;
+      const chapterId = (_this$currentLesson22 = this.currentLesson) === null || _this$currentLesson22 === void 0 ? void 0 : _this$currentLesson22.chapterId;
       if (!shouldCelebrateChapter(chapterId)) return;
       this.ensureConfettiScript().then(() => {
         this.setupConfettiLauncher();
@@ -3052,12 +3632,12 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     triggerConfetti(isFinalChapter, options = {}) {
-      var _ref2, _this$currentLesson21;
+      var _ref2, _this$currentLesson23;
       const {
         skipScroll = false,
         celebrationChapterId = null
       } = options;
-      const chapterId = (_ref2 = celebrationChapterId !== null && celebrationChapterId !== void 0 ? celebrationChapterId : (_this$currentLesson21 = this.currentLesson) === null || _this$currentLesson21 === void 0 ? void 0 : _this$currentLesson21.chapterId) !== null && _ref2 !== void 0 ? _ref2 : this.selectedPill;
+      const chapterId = (_ref2 = celebrationChapterId !== null && celebrationChapterId !== void 0 ? celebrationChapterId : (_this$currentLesson23 = this.currentLesson) === null || _this$currentLesson23 === void 0 ? void 0 : _this$currentLesson23.chapterId) !== null && _ref2 !== void 0 ? _ref2 : this.selectedPill;
       if (!shouldCelebrateChapter(chapterId)) return;
       if (!skipScroll) {
         this.scrollToTop();
@@ -3236,7 +3816,7 @@ const celebrateFinalChapter = confettiFn => {
       localStorage.setItem('dailyChallengeStatus', JSON.stringify(this.dailyChallengeStatus));
       localStorage.setItem('dailyChallengeDate', todayKey);
     },
-    dailyChallengeStorageKey(promptId, chapterId = (_this$currentLesson22 => (_this$currentLesson22 = this.currentLesson) === null || _this$currentLesson22 === void 0 ? void 0 : _this$currentLesson22.chapterId)()) {
+    dailyChallengeStorageKey(promptId, chapterId = (_this$currentLesson24 => (_this$currentLesson24 = this.currentLesson) === null || _this$currentLesson24 === void 0 ? void 0 : _this$currentLesson24.chapterId)()) {
       if (chapterId == null) return promptId;
       return `${chapterId}-${promptId}`;
     },
@@ -3245,14 +3825,14 @@ const celebrateFinalChapter = confettiFn => {
       return `gentle-${chapterId}-${stepIndex}`;
     },
     isGentleStepCompleted(stepIndex) {
-      var _this$currentLesson23;
-      const chapterId = (_this$currentLesson23 = this.currentLesson) === null || _this$currentLesson23 === void 0 ? void 0 : _this$currentLesson23.chapterId;
+      var _this$currentLesson25;
+      const chapterId = (_this$currentLesson25 = this.currentLesson) === null || _this$currentLesson25 === void 0 ? void 0 : _this$currentLesson25.chapterId;
       const key = this.gentleStepCompletionKey(chapterId, stepIndex);
       return Boolean(key && this.gentleStepCompletion[key]);
     },
     toggleGentleStepCompletion(stepIndex) {
-      var _this$currentLesson24;
-      const chapterId = (_this$currentLesson24 = this.currentLesson) === null || _this$currentLesson24 === void 0 ? void 0 : _this$currentLesson24.chapterId;
+      var _this$currentLesson26;
+      const chapterId = (_this$currentLesson26 = this.currentLesson) === null || _this$currentLesson26 === void 0 ? void 0 : _this$currentLesson26.chapterId;
       const key = this.gentleStepCompletionKey(chapterId, stepIndex);
       if (!key) return;
       const nextValue = !this.gentleStepCompletion[key];
@@ -3303,8 +3883,8 @@ const celebrateFinalChapter = confettiFn => {
       }
     },
     syncReflectionInput() {
-      var _this$currentLesson25;
-      const chapterId = (_this$currentLesson25 = this.currentLesson) === null || _this$currentLesson25 === void 0 ? void 0 : _this$currentLesson25.chapterId;
+      var _this$currentLesson27;
+      const chapterId = (_this$currentLesson27 = this.currentLesson) === null || _this$currentLesson27 === void 0 ? void 0 : _this$currentLesson27.chapterId;
       if (!chapterId) {
         this.reflectionInput = '';
         return;
@@ -3323,8 +3903,8 @@ const celebrateFinalChapter = confettiFn => {
       this.saveReflectionNote();
     },
     saveReflectionNote() {
-      var _this$currentLesson26;
-      const chapterId = (_this$currentLesson26 = this.currentLesson) === null || _this$currentLesson26 === void 0 ? void 0 : _this$currentLesson26.chapterId;
+      var _this$currentLesson28;
+      const chapterId = (_this$currentLesson28 = this.currentLesson) === null || _this$currentLesson28 === void 0 ? void 0 : _this$currentLesson28.chapterId;
       if (!chapterId) return;
       const text = this.reflectionInput.trim();
       const nextNotes = _objectSpread({}, this.reflectionNotes);
@@ -3477,8 +4057,8 @@ const celebrateFinalChapter = confettiFn => {
       this.showVideoFilters = !this.showVideoFilters;
     },
     toggleLessonOverviewRead() {
-      var _this$currentLesson27;
-      const chapterId = (_this$currentLesson27 = this.currentLesson) === null || _this$currentLesson27 === void 0 ? void 0 : _this$currentLesson27.chapterId;
+      var _this$currentLesson29;
+      const chapterId = (_this$currentLesson29 = this.currentLesson) === null || _this$currentLesson29 === void 0 ? void 0 : _this$currentLesson29.chapterId;
       if (!chapterId) return;
       const nextValue = !Boolean(this.lessonOverviewRead[chapterId]);
       this.lessonOverviewRead = _objectSpread(_objectSpread({}, this.lessonOverviewRead), {}, {
@@ -3583,6 +4163,58 @@ const celebrateFinalChapter = confettiFn => {
     escapeHtml(value = '') {
       return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     },
+    escapeRegExp(value = '') {
+      return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+    tokenizeSearchTerm(term = '') {
+      const tokens = [];
+      const input = String(term);
+      const regex = /"([^"]+)"|(\S+)/g;
+      let match;
+      while ((match = regex.exec(input)) !== null) {
+        const token = (match[1] || match[2] || '').trim();
+        if (!token) continue;
+        if (tokens.some(existing => existing.toLowerCase() === token.toLowerCase())) continue;
+        tokens.push(token);
+      }
+      return tokens;
+    },
+    clearResourceSearch() {
+      this.resourceSearchTerm = '';
+    },
+    syncGlobalSearchCategory() {
+      const exists = GLOBAL_SEARCH_SECTIONS.some(section => section.key === this.globalSearchCategory);
+      if (!exists) this.globalSearchCategory = 'all';
+    },
+    matchesSearchTokens(value = '') {
+      const tokens = this.resourceSearchTokensNormalized;
+      if (!tokens.length) return false;
+      const haystack = String(value).toLowerCase();
+      if (!haystack) return false;
+      if (this.resourceSearchMode === 'all') {
+        return tokens.every(token => haystack.includes(token));
+      }
+      return tokens.some(token => haystack.includes(token));
+    },
+    stripHtml(value = '') {
+      return String(value).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+    },
+    buildSearchResult({
+      section = '',
+      title = '',
+      body = '',
+      meta = ''
+    }) {
+      const cleanTitle = this.stripHtml(title);
+      const cleanBody = this.stripHtml(body);
+      const combined = `${cleanTitle} ${cleanBody}`.trim();
+      if (!this.matchesSearchTokens(combined)) return null;
+      return {
+        section,
+        title: cleanTitle ? this.shortenReference(cleanTitle, 90) : '',
+        snippet: cleanBody ? this.shortenReference(cleanBody, 180) : ''
+      };
+    },
     normalizeCollectionName(value = '') {
       return String(value).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     },
@@ -3633,17 +4265,37 @@ const celebrateFinalChapter = confettiFn => {
       result += this.escapeHtml(remainder.slice(lastIndex));
       return result;
     },
+    highlightResourceHtml(html = '') {
+      if (!html) return '';
+      const {
+        regex,
+        tokenMap
+      } = this.resourceHighlightConfig;
+      if (!regex) return html;
+      return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+        if (tag) return tag;
+        return text.replace(regex, value => {
+          const className = tokenMap.get(value.toLowerCase()) || RESOURCE_HIGHLIGHT_CLASSES[0];
+          return `<mark class="resource-highlight ${className}">${value}</mark>`;
+        });
+      });
+    },
+    highlightResourceText(text = '') {
+      if (!text) return '';
+      const escaped = this.escapeHtml(text);
+      return this.highlightResourceHtml(escaped);
+    },
     formatResourceEntry(entry = '', label = '') {
       const text = String(entry || '');
       if (!text) return '';
       const normalizedLabel = String(label || '').toLowerCase();
       if (normalizedLabel.includes("qur")) {
-        return this.linkifyQuranEntry(text);
+        return this.highlightResourceHtml(this.linkifyQuranEntry(text));
       }
       if (normalizedLabel.includes('hadith')) {
-        return this.linkifyHadithEntry(text);
+        return this.highlightResourceHtml(this.linkifyHadithEntry(text));
       }
-      return this.escapeHtml(text);
+      return this.highlightResourceHtml(this.escapeHtml(text));
     },
     shortenReference(reference, maxLength = 140) {
       if (!reference) return '';
@@ -3888,6 +4540,12 @@ const celebrateFinalChapter = confettiFn => {
     closeHelpModal() {
       this.showHelpModal = false;
     },
+    openSearchInfoModal() {
+      this.showSearchInfoModal = true;
+    },
+    closeSearchInfoModal() {
+      this.showSearchInfoModal = false;
+    },
     closeCompletionModal() {
       this.showCompletionModal = false;
     },
@@ -3918,6 +4576,28 @@ const celebrateFinalChapter = confettiFn => {
           block: 'center'
         });
       }
+    },
+    globalSearchSectionId(sectionKey) {
+      return GLOBAL_SEARCH_SECTION_ID_MAP[sectionKey] || '';
+    },
+    globalSearchSectionIcon(sectionKey) {
+      return GLOBAL_SEARCH_SECTION_ICONS[sectionKey] || 'bi-bookmark';
+    },
+    scrollToGlobalSearchSection(sectionKey) {
+      const sectionId = this.globalSearchSectionId(sectionKey);
+      if (!sectionId) return;
+      this.$nextTick(() => {
+        this.scrollToSectionId(sectionId);
+      });
+    },
+    scrollToSectionId(sectionId) {
+      if (!sectionId || typeof document === 'undefined') return;
+      const target = document.getElementById(sectionId);
+      if (!target) return;
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
     },
     scrollToTop({
       behavior = 'smooth'
@@ -4142,13 +4822,13 @@ const celebrateFinalChapter = confettiFn => {
       return this.currentDuas.map(dua => `${dua.arabic} (${dua.english})`).join('\n');
     },
     shareDuas() {
-      var _this$currentLesson28;
-      const message = `Duas to carry from ${((_this$currentLesson28 = this.currentLesson) === null || _this$currentLesson28 === void 0 ? void 0 : _this$currentLesson28.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson30;
+      const message = `Duas to carry from ${((_this$currentLesson30 = this.currentLesson) === null || _this$currentLesson30 === void 0 ? void 0 : _this$currentLesson30.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.openWhatsappShare(message);
     },
     copyDuas() {
-      var _this$currentLesson29;
-      const text = `Duas to carry from ${((_this$currentLesson29 = this.currentLesson) === null || _this$currentLesson29 === void 0 ? void 0 : _this$currentLesson29.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
+      var _this$currentLesson31;
+      const text = `Duas to carry from ${((_this$currentLesson31 = this.currentLesson) === null || _this$currentLesson31 === void 0 ? void 0 : _this$currentLesson31.title) || 'this lesson'}:\n${this.getDuasText()}\n${this.getShareLink()}`;
       this.copyTextToClipboard(text).then(() => {
         this.setShareStatus('dua', 'Duas copied to clipboard!');
         this.triggerCopyAlert('Duas copied to clipboard!', 'success');
@@ -4177,8 +4857,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     formatPlanMessage(plan) {
-      var _this$currentLesson30, _plan$highlights;
-      const chapterTitle = ((_this$currentLesson30 = this.currentLesson) === null || _this$currentLesson30 === void 0 ? void 0 : _this$currentLesson30.title) || 'this chapter';
+      var _this$currentLesson32, _plan$highlights;
+      const chapterTitle = ((_this$currentLesson32 = this.currentLesson) === null || _this$currentLesson32 === void 0 ? void 0 : _this$currentLesson32.title) || 'this chapter';
       const highlights = ((_plan$highlights = plan.highlights) === null || _plan$highlights === void 0 ? void 0 : _plan$highlights.map((item, index) => `${index + 1}. ${item}`).join('\n')) || '';
       return `${plan.title} (${plan.duration}) for ${chapterTitle}\n${plan.description}\n\nHighlights:\n${highlights}`;
     },
@@ -4195,8 +4875,8 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     executePlanPrint(plan) {
-      var _this$currentLesson31;
-      const title = `${plan.title} • ${((_this$currentLesson31 = this.currentLesson) === null || _this$currentLesson31 === void 0 ? void 0 : _this$currentLesson31.title) || 'Chapter'}`;
+      var _this$currentLesson33;
+      const title = `${plan.title} • ${((_this$currentLesson33 = this.currentLesson) === null || _this$currentLesson33 === void 0 ? void 0 : _this$currentLesson33.title) || 'Chapter'}`;
       const body = this.formatPlanMessage(plan);
       this.printContent(title, body);
     },
@@ -4205,7 +4885,7 @@ const celebrateFinalChapter = confettiFn => {
     },
     downloadPlanAsPdf(plan) {
       try {
-        var _this$currentLesson32, _plan$highlights2, _this$currentLesson33;
+        var _this$currentLesson34, _plan$highlights2, _this$currentLesson35;
         const doc = new jspdf__WEBPACK_IMPORTED_MODULE_21__.jsPDF({
           unit: 'pt',
           format: 'letter'
@@ -4226,14 +4906,14 @@ const celebrateFinalChapter = confettiFn => {
           doc.text(lines, margin, cursorY);
           cursorY += heightNeeded + 12;
         };
-        const titleText = `${plan.title} • ${((_this$currentLesson32 = this.currentLesson) === null || _this$currentLesson32 === void 0 ? void 0 : _this$currentLesson32.title) || 'Chapter'}`;
+        const titleText = `${plan.title} • ${((_this$currentLesson34 = this.currentLesson) === null || _this$currentLesson34 === void 0 ? void 0 : _this$currentLesson34.title) || 'Chapter'}`;
         addText(titleText, 18, 'bold');
         addText(plan.description, 12, 'normal');
         (_plan$highlights2 = plan.highlights) === null || _plan$highlights2 === void 0 || _plan$highlights2.forEach((line, index) => {
           const text = `${index + 1}. ${line}`;
           addText(text, 11, 'normal');
         });
-        const slug = (((_this$currentLesson33 = this.currentLesson) === null || _this$currentLesson33 === void 0 ? void 0 : _this$currentLesson33.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+        const slug = (((_this$currentLesson35 = this.currentLesson) === null || _this$currentLesson35 === void 0 ? void 0 : _this$currentLesson35.title) || 'chapter').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
         doc.save(`${plan.planId}-${slug || 'plan'}.pdf`);
       } catch (error) {
         console.error('Unable to create PDF', error);
@@ -4290,10 +4970,10 @@ const celebrateFinalChapter = confettiFn => {
           }, 700);
         }
       } else {
-        var _question$sectionInde3, _this$currentLesson34;
+        var _question$sectionInde3, _this$currentLesson36;
         this.quizFeedback = 'Not quite, try another option.';
         const sectionIndex = (_question$sectionInde3 = question.sectionIndex) !== null && _question$sectionInde3 !== void 0 ? _question$sectionInde3 : 0;
-        const section = (_this$currentLesson34 = this.currentLesson) === null || _this$currentLesson34 === void 0 || (_this$currentLesson34 = _this$currentLesson34.sections) === null || _this$currentLesson34 === void 0 ? void 0 : _this$currentLesson34[sectionIndex];
+        const section = (_this$currentLesson36 = this.currentLesson) === null || _this$currentLesson36 === void 0 || (_this$currentLesson36 = _this$currentLesson36.sections) === null || _this$currentLesson36 === void 0 ? void 0 : _this$currentLesson36[sectionIndex];
         const sectionId = section ? `section-${this.selectedPill}-${sectionIndex}` : '';
         const explanation = question.explanation || '';
         if (explanation) {
@@ -4357,7 +5037,7 @@ module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"Islamic found
   \*****************************************************************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundation (Tawheed) ","summary":"Islam is not a new religion but the primordial faith of submission to the One True God (Allāh), revived through the final Prophet Muhammad ﷺ. The essence of this submission is Tawheed the absolute Oneness of God in His Lordship, His Names and Attributes, and His right to be worshipped alone. ","overview":[{"heading":"Tawheed: Absolute Oneness","content":"Tawheed means declaring Allah\'s absolute oneness in all aspects. Qur\'anic \\"Say: He is Allah, the One.\\" (Al Ikhlas 112:1) Reference: \\"Kitab al Tawheed\\" by Ibn Khuzaymah.\\n\\nReferences:\\nQuran Al-Ikhlāṣ 112:1; Kitab al Tawheed by Ibn Khuzaymah; Hadith: Sahih Bukhari (The right of Allah upon His servants is that they worship Him and associate nothing with Him)","resources":"https://quran.com/112/1"},{"heading":"Tawheed Has Three Essential Categories","content":"It has three essential categories that cannot be separated: Tawheed al Rububiyyah (Lordship), Tawheed al Asma wa al Sifat (Names and Attributes), and Tawheed al \'Ibadah (Worship). Reference: \\"Al Qawa\'id al Arba\'\\" by Muhammad ibn \'Abd al Wahhab.\\n\\nReferences:\\nAl Qawa\'id al Arba\' by Muhammad ibn \'Abd al Wahhab; Hadith: Sahih Muslim (Whoever dies knowing that there is no god but Allah will enter Paradise)"},{"heading":"Tawheed al Rububiyyah (Lordship)","content":"Oneness in Lordship: Allah alone creates, provides, and controls. Qur\'anic \\"Allah is the Creator of all things, and He is Disposer of all affairs.\\" (Az Zumar 39:62) Reference: \\"Al Qawa\'id al Arba\'\\" by Muhammad ibn \'Abd al Wahhab.\\n\\nReferences:\\nQuran Az-Zumar 39:62; Al Qawa\'id al Arba\' by Muhammad ibn \'Abd al Wahhab; Hadith: Sahih Bukhari (The right of Allah upon His servants is that they worship Him and associate nothing with Him)","resources":"https://quran.com/39/62"},{"heading":"Tawheed al Asma wa al Sifat (Names and Attributes)","content":"Oneness in Names and Attributes as revealed, without distortion. Qur\'anic \\"There is nothing like unto Him...\\" (Ash Shura 42:11) Reference: \\"Al \'Aqidah al Wasitiyyah\\" by Ibn Taymiyyah.\\n\\nReferences:\\nQuran Ash-Shūrā 42:11; Al \'Aqidah al Wasitiyyah by Ibn Taymiyyah; Hadith: Sahih Bukhari (Allah has ninety-nine names; whoever learns them will enter Paradise)","resources":"https://quran.com/42/11"},{"heading":"Tawheed al \'Ibadah (Worship)","content":"Oneness in worship: directing all acts to Allah alone. Qur\'anic \\"Worship Allah and associate none with Him...\\" (An Nisa\' 4:36) Reference: \\"Kashf al Shubuhat\\" by Muhammad ibn \'Abd al Wahhab.\\n\\nReferences:\\nQuran An-Nisāʾ 4:36; Kashf al Shubuhat by Muhammad ibn \'Abd al Wahhab; Hadith: Sahih Bukhari (The most beloved deeds to Allah are those done regularly, even if small)","resources":"https://quran.com/4/36"},{"heading":"Iman: Six Pillars of Faith","content":"Iman has six pillars including belief in Allah and the Last Day. \\"It is to believe in Allah, His Angels, His Books, His Messengers, the Last Day, and Divine Decree...\\" (Sahih Muslim 8a) Reference: \\"Sharh Usul al Iman\\" by Ibn \'Uthaymin.\\n\\nReferences:\\nHadith: Sahih Muslim 8a (Hadith Jibril); Sharh Usul al Iman by Ibn \'Uthaymin","resources":"https://sunnah.com/muslim:8a"},{"heading":"Ihsan: Worship as if You See Him","content":"Ihsan is worshipping Allah as if you see Him, knowing He sees you. \\"To worship Allah as if you see Him...\\" (Sahih al Bukhari 50) Reference: \\"Ihya\' \'Ulum al Din\\" by Al Ghazali.\\n\\nReferences:\\nHadith: Sahih al Bukhari 50 (Hadith Jibril); Ihya\' \'Ulum al Din by Al Ghazali","resources":"https://sunnah.com/bukhari:50"},{"heading":"Shirk: Associating Partners with Allah","content":"Shirk is associating partners with Allah and is the only unforgivable sin if unrepented. \\"Indeed, Allah does not forgive association with Him...\\" (An Nisa\' 4:48) Reference: \\"Al Sawa\'iq al Mursalah\\" by Ibn al Qayyim.\\n\\nReferences:\\nQuran An-Nisāʾ 4:48; Al Sawa\'iq al Mursalah by Ibn al Qayyim; Hadith: Sahih Muslim (Whoever meets Allah associating anything with Him will enter the Fire)","resources":"https://quran.com/4/48"},{"heading":"Shahadah Conditions","content":"The Shahadah (\\"La ilaha illallah\\") has seven conditions for validity derived from the Qur\'an and Sunnah: knowledge, certainty, acceptance, and more. Reference: \\"Sharh Usul al Iman\\" by Ibn Baz, p. 45.\\n\\nReferences:\\nSharh Usul al Iman by Ibn Baz, p. 45; Hadith: Sahih Bukhari (Whoever says La ilaha illallah sincerely from his heart will enter Paradise)"},{"heading":"Tawheed Message of All Prophets","content":"Tawheed was the first message of all Prophets from Nuh to Muhammad ﷺ. \\"We sent every Messenger with the revelation: \'Worship Allah and avoid false gods...\'\\" (An Nahl 16:36) Reference: \\"Tariq al Hijratayn\\" by Ibn al Qayyim.\\n\\nReferences:\\nQuran An-Naḥl 16:36; Tariq al Hijratayn by Ibn al Qayyim; Hadith: Sahih Bukhari (The prophets are brothers; their religion is one)","resources":"https://quran.com/16/36"},{"heading":"Rejecting Tawheed Nullifies Deeds","content":"Rejecting Tawheed invalidates deeds regardless of outward form. \\"If they had associated others with Allah, all they did would have been nullified.\\" (Al An\'am 6:88) Reference: \\"Majmu\' al Fatawa\\" by Ibn Taymiyyah, vol. 1, p. 98.\\n\\nReferences:\\nQuran Al-Anʿām 6:88; Majmu\' al Fatawa by Ibn Taymiyyah, vol. 1, p. 98; Hadith: Sahih Muslim (Whoever meets Allah associating anything with Him will enter the Fire)","resources":"https://quran.com/6/88"}]},{"chapterId":2,"title":"The Beliefs: The Six Pillars of Iman","summary":"The Islamic creed (ʿAqīdah) is built upon six fundamental articles of faith (Arkān al-Īmān). These beliefs form the foundation of a Muslim’s worldview and are derived from the definitive texts of the Qur’ān and the authentic Sunnah. ","overview":[{"heading":"Belief in Allāh (Allāh سُبْحَانَهُ وَتَعَالَى)","content":"To affirm Allāh’s Oneness (Tawḥīd) in His Lordship, His Names and Attributes, and His right to worship, as described in the Qur’ān and Sunnah without distortion. Key \\"Allāh - there is no deity except Him, the Ever-Living, the Sustainer of existence.\\" (Āli ʿImrān 3:2) Resource: Kitāb al-Tawḥīd by Shaykh al-Islām Muḥammad ibn ʿAbd al-Wahhāb.\\n\\nReferences:\\nQuran Āl ʿImrān 3:2; Hadith: Sahih Bukhari (The right of Allah upon His servants is that they worship Him and associate nothing with Him)","resources":"https://quran.com/3/2"},{"heading":"Belief in the Angels (Al-Malāʾikah)","content":"To believe in the angels as honored servants of Allāh, created from light, who never disobey Him and execute His commands precisely. Key \\"The Messenger believes in what was revealed to him from his Lord, and the believers. All believe in Allāh, His angels, His books, and His messengers...\\" (Al-Baqarah 2:285) Resource: Badʾ al-Khalq (Chapter on Creation) in Ṣaḥīḥ al-Bukhārī.\\n\\nReferences:\\nQuran Al-Baqarah 2:285; Hadith: Sahih Muslim (The angels were created from light)","resources":"https://quran.com/2/285"},{"heading":"Belief in the Revealed Books (Al-Kutub)","content":"To believe that Allāh revealed divine scriptures to His messengers as guidance, including the Qur’ān (the final, preserved book), the Torah, the Gospel, and the Psalms. Key \\"And We have revealed to you, [O Muḥammad], the Book in truth, confirming that which preceded it of the Scripture...\\" (Al-Māʾidah 5:48) Resource: Al-ʿAqīdah al-Ṭaḥāwiyyah (Articles 7-8).\\n\\nReferences:\\nQuran Al-Māʾidah 5:48; Hadith: Sahih Muslim (I left among you the Book of Allah)","resources":"https://quran.com/5/48"},{"heading":"Belief in the Messengers (Al-Rusul)","content":"To believe that Allāh sent prophets and messengers to every nation, beginning with Ādam and ending with Muḥammad ﷺ, all calling to Tawḥīd. We believe in all of them without distinction. Key \\"And We certainly sent into every nation a messenger, [saying], \'Worship Allāh and avoid false deities...\'\\" (Al-Naḥl 16:36) Resource: Qaṣaṣ al-Anbiyāʾ (Stories of the Prophets) by Ibn Kathīr.\\n\\nReferences:\\nQuran An-Naḥl 16:36; Hadith: Sahih Bukhari (The prophets are brothers; their religion is one)","resources":"https://quran.com/16/36"},{"heading":"Belief in the Last Day (Al-Yawm al-Ākhir)","content":"To believe in everything that will occur after death: the trial of the grave, the Resurrection, the Reckoning, the Scale, the Bridge (Ṣirāṭ), Paradise, and Hellfire. Key \\"And those who believe in the Hereafter believe in it, and they are maintaining their prayers.\\" (Al-Anʿām 6:92) Resource: Kitāb al-Jannah wa al-Nār (Book of Paradise and Hell) in Ṣaḥīḥ al-Bukhārī.\\n\\nReferences:\\nQuran Al-Anʿām 6:92; Hadith: Sahih Bukhari (Whoever believes in Allah and the Last Day, let him speak good or remain silent)","resources":"https://quran.com/6/92"},{"heading":"Belief in Divine Decree (Al-Qaḍāʾ wal-Qadar)","content":"To believe that Allāh has preordained all things with His prior knowledge and wisdom. This encompasses belief in His all-encompassing knowledge, His recording of all decrees, His will, and His creation of everything. Key \\"Indeed, all things We created with predestination.\\" (Al-Qamar 54:49) Resource: Sharḥ al-ʿAqīdah al-Ṭaḥāwiyyah by Ibn Abī al-ʿIzz al-Ḥanafī.\\n\\nReferences:\\nQuran Al-Qamar 54:49; Hadith: Sahih Muslim (Allah wrote the decrees of creation before creating the heavens and the earth)","resources":"https://quran.com/54/49"}]},{"chapterId":3,"title":"The Pillars: The Five Pillars","summary":"The Pillars of Islam (Arkān al-Islām) are the fundamental acts of worship that constitute the foundation of a Muslim\'s faith and practice.","overview":[{"heading":"Shahādah (The Testimony of Faith)","content":"Sincere declaration and belief that \\"Lā ilāha illallāh, Muhammadur Rasūlullāh.\\" Quranic \\"Allah witnesses that there is no deity except Him, and [so do] the angels and those of knowledge   [that He is] maintaining [creation] in justice.\\" (Ali \'Imran 3:18) Hadith The Prophet ﷺ said, \\"Whoever dies knowing that there is no god but Allah will enter Paradise.\\" (Sahih Muslim 26)\\n\\nReferences:\\nQuran Āl ʿImrān 3:18; Hadith: Sahih Muslim 26 (Whoever dies knowing that there is no god but Allah will enter Paradise)","resources":"https://quran.com/3/18"},{"heading":"Ṣalāh (The Prayer)","content":"Performing the five obligatory prayers daily at their prescribed times. Quranic \\"Indeed, prayer has been decreed upon the believers a decree of specified times.\\" (An Nisa\' 4:103) Hadith The Prophet ﷺ said, \\"Between a man and shirk and kufr is the abandonment of prayer.\\" (Sahih Muslim 82)\\n\\nReferences:\\nQuran An-Nisāʾ 4:103; Hadith: Sahih Muslim 82 (Between a man and shirk is abandoning prayer)","resources":"https://quran.com/4/103"},{"heading":"Zakāh (Obligatory Almsgiving)","content":"Purifying wealth by giving 2.5% of saved wealth annually to specified recipients. Quranic \\"Take, [O, Muhammad], from their wealth a charity by which you purify them and cause them increase.\\" (At Tawbah 9:103) Hadith The Prophet ﷺ said, \\"Islam is built upon five...,\\" including zakah.\\n\\nReferences:\\nQuran At-Tawbah 9:103; Hadith: Sahih Bukhari (Islam is built on five)","resources":"https://quran.com/9/103"},{"heading":"Ṣawm (Fasting Ramadan)","content":"Abstaining from food, drink, and marital relations from dawn to sunset during Ramadan. Quranic \\"O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous.\\" (Al Baqarah 2:183) Hadith Included in the five pillar hadith.\\n\\nReferences:\\nQuran Al-Baqarah 2:183; Hadith: Sahih Bukhari (Islam is built on five)","resources":"https://quran.com/2/183"},{"heading":"Hajj (Pilgrimage to Makkah)","content":"Performing pilgrimage to the Ka\'bah once in a lifetime if able. Quranic \\"And [due] to Allah from the people is a pilgrimage to the House   for whoever is able to find thereto a way.\\" (Ali \'Imran 3:97) Hadith Included in the five pillar hadith.\\n\\nReferences:\\nQuran Āl ʿImrān 3:97; Hadith: Sahih Bukhari (Islam is built on five)","resources":"https://quran.com/3/97"}]},{"chapterId":4,"title":"The Quran: Final Revelation and Living Guidance","summary":"The Qur’an is the eternal, literal Speech of Allah (ﷲ), revealed to the Prophet Muhammad ﷺ through the Angel Jibrīl (Gabriel). ","overview":[{"heading":"The Quran is Allah’s Final Revelation","content":"The Quran provides guidance for all aspects of life. Believers are encouraged to read, reflect, and act upon its teachings to align their hearts and actions with divine wisdom.\\n\\nReferences:\\nQuran Al-Māʾidah 5:48; Quran Al-Māʾidah 5:3; Quran Al-Ḥijr 15:9; Hadith: Sahih Muslim (The best speech is the Book of Allah)","resources":"https://quran.com/5/48"},{"heading":"The Quran Guides Humanity","content":"Through clear instructions, moral teachings, and stories of past nations, the Quran teaches lessons that foster faith, patience, justice, and ethical conduct for spiritual and worldly success.\\n\\nReferences:\\nQuran Al-Baqarah 2:2; Quran Al-Isrāʾ 17:9; Quran Ibrāhīm 14:1; Hadith: Sahih Bukhari (Convey from me, even if one verse)","resources":"https://quran.com/2/2"},{"heading":"The Quran Clarifies Belief","content":"It explains the core principles of Tawhid, prophecy, and the Hereafter, strengthening faith and helping believers understand the purpose of life and the path to pleasing Allah.\\n\\nReferences:\\nQuran Al-Anʿām 6:19; Quran An-Naḥl 16:89; Quran Az-Zumar 39:28; Hadith: Sahih Muslim (I left among you the Book of Allah; hold to it and you will not go astray)","resources":"https://quran.com/6/19"},{"heading":"The Quran is a Source of Mercy","content":"Reading and reflecting on the Quran brings peace, guidance, and comfort. It reminds believers of Allah’s mercy, encouraging hope, gratitude, and reliance upon Him in all circumstances.\\n\\nReferences:\\nQuran Al-Isrāʾ 17:82; Quran Yūnus 10:57; Quran Al-Aʿrāf 7:52; Hadith: Sahih Muslim (People who gather to recite the Book of Allah are covered by mercy)","resources":"https://quran.com/17/82"},{"heading":"The Quran Requires Reflection","content":"Understanding its meanings strengthens belief. Believers are urged to ponder verses, seek knowledge, and apply lessons practically, transforming reading into action and guidance into daily living.\\n\\nReferences:\\nQuran Muḥammad 47:24; Quran Ṣād 38:29; Quran An-Nisāʾ 4:82; Hadith: Sahih Bukhari (The one proficient in the Quran is with the noble, righteous scribes)","resources":"https://quran.com/47/24"},{"heading":"Recitation Elevates the Heart","content":"Reciting the Quran aloud with focus and reverence nourishes the soul, instills tranquility, and enhances spiritual connection with Allah, making worship more heartfelt and intentional.\\n\\nReferences:\\nQuran Al-Muzzammil 73:4; Quran Al-Isrāʾ 17:106; Quran Az-Zumar 39:23; Hadith: Sahih Bukhari (Beautify the Quran with your voices)","resources":"https://quran.com/73/4"},{"heading":"The Quran Guides Morality","content":"It teaches ethics, justice, and compassion. Applying these principles in personal conduct fosters integrity, humility, and a harmonious life aligned with divine expectations.\\n\\nReferences:\\nQuran An-Naḥl 16:90; Quran Al-Māʾidah 5:8; Quran Al-Aʿrāf 7:199; Hadith: Sahih Muslim (His character was the Quran)","resources":"https://quran.com/16/90"},{"heading":"The Quran Encourages Knowledge","content":"Believers are instructed to seek understanding, reflect, and learn. Knowledge nurtures wisdom, strengthens conviction, and enables proper application of divine guidance in all aspects of life.\\n\\nReferences:\\nQuran Ṭā Hā 20:114; Quran Az-Zumar 39:9; Quran Al-Mujādilah 58:11; Hadith: Sahih Bukhari (The best of you are those who learn the Quran and teach it)","resources":"https://quran.com/20/114"},{"heading":"The Quran Protects from Misguidance","content":"Following its teachings shields believers from false beliefs, moral corruption, and spiritual deviation. Its guidance creates a firm foundation for ethical living and trust in Allah’s commands.\\n\\nReferences:\\nQuran Al-Anʿām 6:155; Quran Al-Baqarah 2:185; Quran Al-Aʿrāf 7:3; Hadith: Sahih Muslim (The devil flees a house where Surah Al-Baqarah is recited)","resources":"https://quran.com/6/155"},{"heading":"The Quran Promotes Justice","content":"It emphasizes fairness, honesty, and equality. Implementing these principles in daily life nurtures ethical behavior, protects rights, and establishes social harmony in accordance with divine instruction.\\n\\nReferences:\\nQuran An-Nisāʾ 4:58; Quran Al-Māʾidah 5:8; Quran Al-Ḥadīd 57:25; Hadith: Sahih Muslim (Beware of injustice, for injustice will be darkness on the Day of Resurrection)","resources":"https://quran.com/4/58"},{"heading":"The Quran Encourages Patience","content":"Its stories and guidance teach resilience in adversity. Reflecting on divine wisdom strengthens perseverance, hope, and trust in Allah’s plan, fostering spiritual growth and emotional balance.\\n\\nReferences:\\nQuran Al-Baqarah 2:153; Quran Āl ʿImrān 3:200; Quran Az-Zumar 39:10; Hadith: Sahih Muslim (Amazing is the affair of the believer; if harmed, he is patient)","resources":"https://quran.com/2/153"},{"heading":"The Quran Strengthens Faith","content":"Regular study and reflection deepen Iman. Understanding its wisdom and applying lessons encourages moral behavior, ethical decisions, and a heart aligned with Allah’s guidance.\\n\\nReferences:\\nQuran Al-Aḥzāb 33:34; Quran Al-Anfāl 8:2; Quran Al-Fatḥ 48:4; Hadith: Sahih Bukhari (Faith has more than seventy branches)","resources":"https://quran.com/33/34"},{"heading":"The Quran Encourages Worship","content":"It calls believers to prayer, remembrance, and righteous deeds. Following its commands transforms spiritual devotion into everyday actions, connecting the heart and life to Allah’s pleasure.\\n\\nReferences:\\nQuran Al-ʿAnkabūt 29:45; Quran Adh-Dhāriyāt 51:56; Quran Ṭā Hā 20:14; Hadith: Sahih Muslim (Between a man and shirk is abandoning prayer)","resources":"https://quran.com/29/45"},{"heading":"The Quran is a Source of Healing","content":"Its words bring comfort, guidance, and reassurance. Reflecting and acting upon them nurtures mental, emotional, and spiritual well being while strengthening reliance on Allah’s wisdom.\\n\\nReferences:\\nQuran Al-Isrāʾ 17:82; Quran Yūnus 10:57; Quran Fuṣṣilat 41:44; Hadith: Sahih Bukhari (Al-Fatihah was used as ruqyah and approved by the Prophet)","resources":"https://quran.com/17/82"},{"heading":"The Quran Must Be Applied","content":"Understanding alone is insufficient; believers must implement its guidance in daily life. Action transforms knowledge into practice, faith into ethics, and devotion into tangible obedience.\\n\\nReferences:\\nQuran Al-Ḥashr 59:18; Quran Al-Baqarah 2:44; Quran Aṣ-Ṣaff 61:2-3; Hadith: Sahih Muslim (The Quran is proof for you or against you)","resources":"https://quran.com/59/18"}]},{"chapterId":5,"title":"The Prophet Muhammad ﷺ (Life and Legacy)","summary":"The Prophet Muhammad ﷺ is the final Messenger of Allah, sent as a mercy to all worlds (*Al-Anbiya 21:107*). His life (Seerah) embodies the Qur\'an and provides the best example (Uswatun Hasanah) of faith, character, and leadership for believers (Al-Ahzab 33:21).","overview":[{"heading":"Final Prophet Sent to All Humanity","content":"Muhammad ﷺ is the Seal of the Prophets, and his message is for all people. The Qur\'an also records that the jinn heard the message, underscoring its universality.\\n\\nReferences:\\nQuran Al-Aḥzāb 33:40; Quran Al-Aʿrāf 7:158; Quran Al-Jinn 72:1; Seerah: Ar-Raheeq al-Makhtum (The Sealed Nectar)","resources":"https://quran.com/33/40, https://quran.com/7/158, https://quran.com/72/1"},{"heading":"First Revelation in the Cave of Hira","content":"The first revelation came through Jibril with the command \\"Read\\" (Iqra), marking the beginning of prophethood, traditionally dated to 610 CE when he was about forty.\\n\\nReferences:\\nHadith: Sahih al-Bukhari 4953; Seerah: The Life of the Prophet by Ibn Kathir (abridged)","resources":"https://sunnah.com/bukhari:4953"},{"heading":"Preached Tawhid in Makkah for 13 Years","content":"He called people to worship Allah alone for about thirteen years in Makkah, enduring persecution, boycott, and the loss of close supporters.\\n\\nReferences:\\nQuran Al-Ḥijr 15:94; Seerah: Sirat Ibn Hisham","resources":"https://quran.com/15/94"},{"heading":"Hijrah to Madinah - Turning Point","content":"The migration (Hijrah) in 622 CE marked a decisive turning point and later became the starting point of the Islamic calendar.\\n\\nReferences:\\nQuran An-Naḥl 16:110; Seerah: When the Moon Split by Safiur Rahman al-Mubarakpuri","resources":"https://quran.com/16/110"},{"heading":"Established the Islamic State in Madinah","content":"He built the Masjid, established brotherhood (mu\'akhah) between the Muhajirun and Ansar, and enacted the Constitution of Madinah.\\n\\nReferences:\\nSeerah: Constitution of Madinah; Madinan Society at the Time of the Prophet by Akram Diya al-Umari"},{"heading":"Defensive Battles by Divine Permission","content":"After permission to fight was granted to those wronged, battles such as Badr, Uhud, and the Trench were fought in defense against aggression.\\n\\nReferences:\\nQuran Al-Ḥajj 22:39; Quran Al-Baqarah 2:190; Seerah: The Noble Life of the Prophet by Ali Muhammad as-Sallabi","resources":"https://quran.com/22/39, https://quran.com/2/190"},{"heading":"Conquest of Makkah with Mercy","content":"In 8 AH he entered Makkah and granted a general amnesty, emphasizing mercy over vengeance.\\n\\nReferences:\\nSeerah: Conquest of Makkah accounts in major seerah works"},{"heading":"Farewell Sermon and Completion of the Religion","content":"During the Farewell Pilgrimage, he emphasized rights, equality, and accountability, and the verse announcing the perfection of the religion was revealed.\\n\\nReferences:\\nQuran Al-Māʾidah 5:3; Seerah: Farewell Pilgrimage accounts in hadith and seerah works","resources":"https://quran.com/5/3"},{"heading":"Passed Away in Madinah","content":"He passed away in 11 AH (632 CE) in the home of Aisha (RA) after completing his mission, leaving the Qur\'an and Sunnah as the community\'s guidance.\\n\\nReferences:\\nHadith: Sahih al-Bukhari 4440; Seerah: accounts of his passing in Madinah","resources":"https://sunnah.com/bukhari:4440"},{"heading":"His Character Was the Living Qur\'an","content":"Aisha (RA) described his character as the Qur\'an itself, reflecting truthfulness, trustworthiness, mercy, patience, humility, and justice.\\n\\nReferences:\\nHadith: Sahih Muslim 746a; Quran Al-Qalam 68:4; Shama\'il al-Muhammadiyyah by al-Tirmidhi","resources":"https://sunnah.com/muslim:746a, https://quran.com/68/4"}]},{"chapterId":6,"title":"The Prayer: (Salat)","summary":"Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.","overview":[{"heading":"Prayer Connects to Allah","content":"Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.\\n\\nReferences:\\nQuran Al-ʿAnkabūt 29:45","resources":"https://quran.com/29/45"},{"heading":"Five Daily Prayers","content":"Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.\\n\\nReferences:\\nQuran Hūd 11:114","resources":"https://quran.com/11/114"},{"heading":"Prayer Requires Purity","content":"Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.\\n\\nReferences:\\nQuran Al-Māʾidah 5:6","resources":"https://quran.com/5/6"},{"heading":"Concentration Strengthens Prayer","content":"Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.\\n\\nReferences:\\nQuran Al-Muʾminūn 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Supplication Complements Prayer","content":"Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.\\n\\nReferences:\\nHadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"},{"heading":"Prayer Brings Tranquility","content":"Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.\\n\\nReferences:\\nQuran Ṭā Hā 20:14","resources":"https://quran.com/20/14"},{"heading":"Consistency is Key","content":"Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.\\n\\nReferences:\\nQuran Al-Baqarah 2:238","resources":"https://quran.com/2/238"},{"heading":"Prayer Elevates Character","content":"Salah instills patience, humility, and self discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.\\n\\nReferences:\\nQuran Al-ʿAnkabūt 29:45","resources":"https://quran.com/29/45"},{"heading":"Prayer as Reminder","content":"Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.\\n\\nReferences:\\nQuran Al-Baqarah 2:238","resources":"https://quran.com/2/238"},{"heading":"Facing Challenges with Prayer","content":"Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.\\n\\nReferences:\\nQuran Al-Baqarah 2:45","resources":"https://quran.com/2/45"},{"heading":"Prayer Inspires Gratitude","content":"Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.\\n\\nReferences:\\nQuran Ibrāhīm 14:7","resources":"https://quran.com/14/7"},{"heading":"Prayer Strengthens Community","content":"Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.\\n\\nReferences:\\nQuran At-Tawbah 9:71","resources":"https://quran.com/9/71"},{"heading":"Salah Enhances Reflection","content":"Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.\\n\\nReferences:\\nQuran Al-Muʾminūn 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Intentions Matter","content":"Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.\\n\\nReferences:\\nHadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Prayer Nourishes the Heart","content":"Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.\\n\\nReferences:\\nQuran Ar-Rūm 30:17-18","resources":"https://quran.com/30/17-18"}]},{"chapterId":7,"title":"Duʿāʾ and Dhikr","summary":"Duʿāʾ (supplication) and Dhikr (remembrance) are the core of worship and the direct connection between the servant and Allah. They are the most beloved acts to Allah and the means to attain His mercy, blessings, and protection.","overview":[{"heading":"Duʿāʾ is the Essence of Worship","content":"Supplication is an act of worship that demonstrates the servant\'s utter dependence upon and need for Allah.\\n\\nReferences:\\n\'Your Lord says: Call upon Me; I will respond to you...\' (Ghāfir 40:60) Resource: Al-Duʿāʾ by Imam At-Ṭabarānī."},{"heading":"Dhikr Revives the Heart & Earns Rewards","content":"Remembering Allah frequently with the tongue and heart removes heedlessness, brings tranquility, and earns immense rewards.\\n\\nReferences:\\n\'Those who believe and whose hearts find peace in the remembrance of Allah. Surely in the remembrance of Allah do hearts find peace.\' (Ar-Raʿd 13:28) Resource: Al-Kalim aṭ-Ṭayyib by Ibn Taymiyyah."},{"heading":"Duʿāʾ is Accepted in Three Ways","content":"Allah either grants what you asked, averts an equivalent harm, or stores its reward for the Hereafter.\\n\\nReferences:\\nThe Prophet ﷺ said: \'No Muslim supplicates with a duʿāʾ that does not involve sin or severing kinship, but Allah gives him one of three things: He either answers it quickly, stores it for him in the Hereafter, or averts an equivalent evil from him.\' (Musnad Aḥmad 11133 - Ṣaḥīḥ) Resource: Fatḥ al-Bārī (Commentary on Ṣaḥīḥ al-Bukhārī) by Ibn Ḥajar."},{"heading":"Best Times for Duʿāʾ Include Sujūd & Last Third of Night","content":"Certain times and situations are most conducive for acceptance, such as during prostration, between Adhān and Iqāmah, and while traveling.\\n\\nReferences:\\nThe Prophet ﷺ said: \'The closest a servant is to his Lord is when he is in prostration, so increase supplication (then).\' (Ṣaḥīḥ Muslim 482) Resource: Al-Adhkār by Imam An-Nawawī (Chapter on Times for Duʿāʾ)."},{"heading":"Key Daily Adhkār are Prescribed for Morning & Evening","content":"Specific, verified remembrances protect the believer, earn thousands of rewards, and are a fortress against Shayṭān.\\n\\nReferences:\\nThe Prophet ﷺ said: \'Whoever says in the morning and evening: Ḥasbunallāhu wa niʿmal-Wakīl (Allah is sufficient for us, and He is the best Disposer of affairs) seven times, Allah will suffice him for what concerns him.\' (Sunan Abī Dāwūd 5081 - Ḥasan) Resource: Ḥiṣn al-Muslim (Fortress of the Muslim) by Dr. Saʿīd al-Qaḥṭānī."},{"heading":"Begin with Allah\'s Praise & Ṣalāh upon the Prophet ﷺ","content":"The proper etiquette of duʿāʾ includes starting by praising Allah and sending blessings upon the Prophet Muhammad ﷺ.\\n\\nReferences:\\nThe Prophet ﷺ heard a man supplicating without praising Allah or sending Ṣalāh upon him, so he said: \'This man rushed.\' Then he taught: \'When one of you supplicates, let him begin by praising Allah and glorifying Him, then send Ṣalāh upon the Prophet ﷺ, then supplicate as he wishes.\' (Sunan At-Tirmidhi 3477 - Ḥasan) Resource: ʿUddat as-Ṣābirīn by Ibn al-Qayyim."},{"heading":"Duʿāʾ Requires Sincerity, Certainty, & Avoiding Haram Sustenance","content":"For duʿāʾ to be accepted, one must have a sincere heart, be certain of the response, and ensure their food, drink, and clothing are lawful.\\n\\nReferences:\\nThe Prophet ﷺ mentioned a disheveled traveler raising his hands to the sky saying \'O Lord, O Lord!\' while his food, drink, and clothing were from Ḥarām sources, \'So how can his duʿāʾ be answered?\' (Ṣaḥīḥ Muslim 1015) Resource: Al-Duʿāʾ wa Atharuhu fī Dafʿ al-Balāʾ by Ibn Rajab al-Ḥanbalī."},{"heading":"Primary Sources (Qur\'an & Hadith)","content":"Core Qur\'anic verses and authenticated narrations that ground duʿāʾ and dhikr practice.\\n\\nReferences:\\nQur\'anic Verses Cited: Al-Baqarah 2:152 - \'Remember Me; I will remember you.\'; Al-Baqarah 2:201 - \'Our Lord, give us in this world good and in the Hereafter good...\'; Al-Baqarah 2:216 - \'And it may be that you dislike a thing which is good for you...\'; Ar-Raʿd 13:28 - \'Those who believe and whose hearts find peace in the remembrance of Allah...\'; Ghāfir 40:60 - \'Your Lord says: Call upon Me; I will respond to you...\'; Al-Ḥujurāt 49:6 - \'O you who have believed, if there comes to you a disobedient one with information, investigate...\'. Hadith Collections & References: Ṣaḥīḥ al-Bukhārī 6407 (The example of one who remembers his Lord and one who does not); Ṣaḥīḥ al-Bukhārī 6340 (The duʿāʾ of any one of you will be answered so long as he is not impatient); Ṣaḥīḥ al-Bukhārī 3995 (Facing Qiblah during duʿāʾ); Ṣaḥīḥ al-Bukhārī 6110 (On the virtue of dhikr gatherings); Ṣaḥīḥ al-Bukhārī 6389 (Most frequent duʿāʾ of the Prophet ﷺ); Ṣaḥīḥ al-Bukhārī 3370 (Ṣalāh upon the Prophet ﷺ in Tashahhud); Book of Duʿāʾ (كتاب الدعوات) in Bukhārī; Ṣaḥīḥ Muslim 483 (Duʿāʾ in sujūd); Ṣaḥīḥ Muslim 592 (Tasbīḥ after prayer); Ṣaḥīḥ Muslim 1015 (Importance of lawful sustenance for duʿāʾ acceptance); Ṣaḥīḥ Muslim 2732 (Duʿāʾ for others); Ṣaḥīḥ Muslim 476 (\'Rabbana lakal-ḥamd...\'); Ṣaḥīḥ Muslim 482 (Closeness to Allah in sujūd); Ṣaḥīḥ Muslim 487 (\'Subbūḥun Quddūs...\' in rukūʿ and sujūd); Book of Dhikr and Duʿāʾ (كتاب الذكر والدعاء) in Muslim; Sunan Abī Dāwūd 5081 (Morning/evening adhkār); Sunan Abī Dāwūd 5088 (Protection duʿāʾ); Sunan Abī Dāwūd 4855 (Warning against gatherings without dhikr); Sunan Abī Dāwūd 1501 (Counting dhikr on fingers); Sunan Abī Dāwūd 1425 (Qunūt duʿāʾ); Sunan Abī Dāwūd 775 (Opening duʿāʾ in prayer); Sunan Ibn Mājah 3871 (Duʿāʾ for ʿĀfiyah); Sunan Ibn Mājah 897 (\'Rabbighfir lī\' between prostrations); Sunan Ibn Mājah 925 (Various adhkār); Jāmiʿ at-Tirmidhī 3372 (\'Duʿāʾ is worship\'); Jāmiʿ at-Tirmidhī 3477 (Etiquettes of duʿāʾ); Jāmiʿ at-Tirmidhī 3383 (Best dhikr); Jāmiʿ at-Tirmidhī 2926 (Reward for reciting Qur\'an letters); Jāmiʿ at-Tirmidhī 3522 (Duʿāʾ for firmness of heart); Musnad Aḥmad 11133 (Three responses to duʿāʾ); Musnad Aḥmad 13964 (Duʿāʾ for intercession); Al-Muʿjam al-Awsaṭ (Ṭabarānī) 6190 (\'Duʿāʾ is the weapon of the believer\'); Al-Adab al-Mufrad (Bukhārī) - various chapters on etiquettes."},{"heading":"Classical Texts & Commentaries","content":"Core compilations and scholarly commentaries for deeper study of duʿāʾ and dhikr.\\n\\nReferences:\\nPrimary Duʿāʾ & Dhikr Collections: Al-Adhkār - Imām Yaḥyā ibn Sharaf al-Nawawī (631-676 AH); Al-Kalim al-Ṭayyib - Shaykh al-Islām Ibn Taymiyyah (661-728 AH); Al-Duʿāʾ - Imām Abū al-Qāsim al-Ṭabarānī (260-360 AH); Al-Duʿāʾ wa Atharuhu fī Dafʿ al-Balāʾ - Ibn Rajab al-Ḥanbalī (736-795 AH). Hadith Commentaries: Fatḥ al-Bārī - Ibn Ḥajar al-ʿAsqalānī (773-852 AH); Sharḥ Ṣaḥīḥ Muslim - Imām al-Nawawī. Spiritual & Theological Works: ʿUddat al-Ṣābirīn wa Dhakhīrat al-Shākirīn - Ibn al-Qayyim al-Jawziyyah (691-751 AH); Madārij al-Sālikīn - Ibn al-Qayyim; Iḥyāʾ ʿUlūm al-Dīn - Abū Ḥāmid al-Ghazālī (450-505 AH); Al-Wābil al-Ṣayyib - Ibn al-Qayyim. Specialized Fiqh of Duʿāʾ: Fatāwā al-Duʿāʾ in Majmūʿ al-Fatāwā (Ibn Taymiyyah); Al-Qawl al-Mubīn fī Adab al-Duʿāʾ; Miftāḥ Dār al-Saʿādah - Ibn al-Qayyim."}]},{"chapterId":8,"title":"The Heart: Purification & Spiritual Diseases","summary":"The heart (qalb) in Islam is the spiritual center of human existence the seat of faith, intention, and moral consciousness. Its purification (tazkiyah) is the ultimate purpose of revelation.","overview":[{"heading":"The Heart is the Seat of Faith & Accountability","content":"Allah judges by what is in hearts, not mere outward actions.\\n\\nReferences:\\n\\"Allah does not look at your appearances or wealth, but at your hearts and deeds.\\" (Ṣaḥīḥ Muslim 2564). Resource: Iḥyāʾ ʿUlūm ad-Dīn (Revival of Religious Sciences) by Al-Ghazālī Book on Heart Diseases."},{"heading":"Spiritual Diseases Corrupt the Heart","content":"Hypocrisy (nifāq), arrogance (kibr), envy (ḥasad), and heedlessness (ghaflah) are fatal diseases.\\n\\nReferences:\\n\\"In their hearts is disease, so Allah has increased their disease...\\" (Al-Baqarah 2:10). Resource: ʿUddat aṣ-Ṣābirīn (Provisions for the Patient) by Ibn al-Qayyim Chapter on Envy."},{"heading":"Purification Requires Knowledge & Action","content":"One must first learn the diseases, then actively combat them through worship and character refinement.\\n\\nReferences:\\n\\"He has certainly succeeded who purifies it, and he has certainly failed who corrupts it.\\" (Ash-Shams 91:9-10). Resource: Mukhtaṣar Minhāj al-Qāṣidīn (Abridgement of The Path of the Seekers) by Ibn Qudāmah."},{"heading":"Arrogance (Kibr) is Rejecting Truth & Despising People","content":"The root of Iblīs’s sin, it prevents entry to Paradise.\\n\\nReferences:\\n\\"Whoever has an atom\'s weight of arrogance in his heart will not enter Paradise.\\" (Ṣaḥīḥ Muslim 91). Resource: Kitāb al-Kabāʾir (The Major Sins) by Adh-Dhahabī Chapter on Arrogance."},{"heading":"Envy (Ḥasad) Consumes Good Deeds","content":"It means wishing for Allah’s blessings to be removed from others.\\n\\nReferences:\\n\\"Beware of envy, for it consumes good deeds as fire consumes wood.\\" (Sunan Abī Dāwūd 4903 Ḥasan). Resource: Al-Fawāʾid (Points of Benefit) by Ibn al-Qayyim Section on Heart Maladies."},{"heading":"Showing Off (Riyāʾ) Nullifies Worship","content":"Seeking praise for worship instead of Allah’s pleasure.\\n\\nReferences:\\n\\"The slightest amount of showing off is shirk (polytheism).\\" (Sunan Ibn Mājah 3989 Ṣaḥīḥ). Resource: Kashf al-Khafāʾ (Unveiling the Hidden) by Al-ʿAjlūnī Entry on Riyāʾ."},{"heading":"Love of the World is the Root of All Faults","content":"Excessive attachment to dunyā weakens the heart’s connection to Allah.\\n\\nReferences:\\n\\"The love of this world is the root of every sin.\\" (Al-Muʿjam al-Awsaṭ 6066 Ḥasan). Resource: Al-Zuhd (Asceticism) by Imām Aḥmad Collection on Detachment."},{"heading":"Cures Include: Repentance, Dhikr, Qur’an, Good Company","content":"Specific remedies for each disease from Prophetic guidance.\\n\\nReferences:\\n\\"Hearts rust as iron rusts. Their polish is the remembrance (dhikr) of Allah.\\" (Shuʿab al-Īmān 1596 Ḥasan). Resource: Al-Wābil aṣ-Ṣayyib (The Gentle Rain) by Ibn al-Qayyim On Dhikr’s Effects."},{"heading":"The Sound Heart is Free from Shirk, Hatred & Envy","content":"It submits solely to Allah and wishes good for all Muslims.\\n\\nReferences:\\n\\"The Muslim is the one from whose tongue and hand Muslims are safe.\\" (Ṣaḥīḥ al-Bukhārī 10). Resource: Madārij as-Sālikīn (Stations of the Seekers) by Ibn al-Qayyim Grades of Heart Soundness."},{"heading":"Constant Self-Accounting (Muḥāsabah) is Necessary","content":"Regularly checking one’s intentions and actions.\\n\\nReferences:\\nUmar ibn al-Khaṭṭāb said: \\"Hold yourselves accountable before you are held accountable.\\" (Ḥilyat al-Awliyāʾ 1/52). Resource: Al-Ḥisbah fī al-Islām (Accountability in Islam) by Ibn Taymiyyah."}]},{"chapterId":9,"title":"The Manners: Islamic Etiquette (Adab)","summary":"Islamic manners (Adab) are not mere social etiquette but an integral part of faith (Īmān), encompassing how we interact with Allah, His creation, and ourselves.","overview":[{"heading":"Good Character Completes Faith","content":"The most beloved to Allah are those with best manners.\\n\\nReferences:\\n\\"The most perfect believer in faith is he who is best in character.\\" (Sunan at-Tirmidhī 1162 – Ṣaḥīḥ). Resource: Al-Adab al-Mufrad by Imām al-Bukhārī – Comprehensive manners collection."},{"heading":"Begin with Salām (Peace Greeting)","content":"Spreading peace is a means to Paradise and increases love.\\n\\nReferences:\\n\\"You will not enter Paradise until you believe, and you will not believe until you love one another. Shall I inform you of something which will make you love one another? Spread Salām among yourselves.\\" (Ṣaḥīḥ Muslim 54). Resource: Riyāḍ aṣ-Ṣāliḥīn by Imām al-Nawawī – Chapter on Salām."},{"heading":"Lower Your Voice & Speak Kindly","content":"A believer\'s speech is always measured, gentle, and truthful.\\n\\nReferences:\\n\\"And be moderate in your pace and lower your voice; indeed, the most disagreeable of sounds is the voice of donkeys.\\" (Luqmān 31:19). Resource: Al-Adhkar by Imām al-Nawawī – Chapter on Speech Manners."},{"heading":"Show Mercy to Earn Allah’s Mercy","content":"Mercy encompasses all creation humans, animals, and the environment.\\n\\nReferences:\\n\\"Those who are merciful will be shown mercy by the Most Merciful. Be merciful to those on earth, and the One in heaven will have mercy upon you.\\" (Sunan at-Tirmidhī 1924 – Ṣaḥīḥ). Resource: Al-Kabā\'ir by Adh-Dhahabī – Sections on cruelty."},{"heading":"Practice Modesty in Dress & Gaze","content":"Modesty (ḥayāʾ) is a branch of faith that beautifies conduct.\\n\\nReferences:\\n\\"Modesty brings nothing but good.\\" (Ṣaḥīḥ al-Bukhārī 6117). Resource: Ḥijāb al-Mar\'ah al-Muslimah by Al-Albānī – On Islamic dress code."},{"heading":"Honor Parents Absolutely","content":"After Allah, parents have the greatest right over a person.\\n\\nReferences:\\n\\"And your Lord has decreed that you worship none but Him, and be kind to parents...\\" (Al-Isrāʾ 17:23). Resource: Birr al-Wālidayn by Ibn al-Jawzī – Book on honoring parents."},{"heading":"Rights of Neighbors are Sacred","content":"The neighbor\'s right is so emphasized that the Prophet ﷺ thought they might inherit.\\n\\nReferences:\\n\\"Jibrīl kept recommending the neighbor to me until I thought he would make him an heir.\\" (Ṣaḥīḥ al-Bukhārī 6015). Resource: Al-Adab al-Mufrad – Chapters on neighborly rights."},{"heading":"Control Anger & Forgive Others","content":"True strength lies in self-control during anger, not in physical power.\\n\\nReferences:\\n\\"The strong is not the one who overcomes people by his strength, but the strong is the one who controls himself while in anger.\\" (Ṣaḥīḥ al-Bukhārī 6114). Resource: ʿUddat aṣ-Ṣābirīn by Ibn al-Qayyim – Chapter on Patience."},{"heading":"Honesty in All Transactions","content":"Truthfulness leads to righteousness and Paradise.\\n\\nReferences:\\n\\"Truthfulness leads to righteousness, and righteousness leads to Paradise.\\" (Ṣaḥīḥ al-Bukhārī 6094). Resource: Al-Bayʿ wal-Shirāʾ by Ibn ʿUthaymīn – On business ethics."},{"heading":"Respect for Elders & Kindness to Young","content":"A society is balanced when elders are respected and young are shown mercy.\\n\\nReferences:\\n\\"He is not of us who does not have mercy on our young nor honor our elders.\\" (Sunan at-Tirmidhī 1919 – Ḥasan). Resource: Al-Ādāb ash-Sharʿiyyah by Ibn Mufliḥ – Comprehensive manners text."}]},{"chapterId":10,"title":"The Lifestyle: Halal & Haram","summary":"The Islamic lifestyle is built upon the foundational principle of distinguishing between the lawful (Halal) and unlawful (Haram) a divine filter through which Muslims evaluate all actions, consumption, and transactions.","overview":[{"heading":"Only Allah Has the Right to Declare Halal or Haram","content":"Humans cannot prohibit what Allah has made lawful, nor permit what He has forbidden. This right belongs exclusively to Allah, as He is the Creator and Legislator.\\n\\nReferences:\\n\\"Do not say concerning what your tongues falsely describe, \'This is lawful and this is forbidden,\' to invent lies against Allah...\\" (An-Naḥl 16:116) Resource: Al-Ḥalāl wal-Ḥarām fil-Islām by Dr. Yūsuf al-Qaraḍāwī – Chapter on Theological Basis."},{"heading":"The Default State of All Things is Permissibility (Al-Ibāḥah al-Aṣliyyah)","content":"Except where definitive evidence establishes prohibition, everything is permissible. This principle applies to food, drinks, transactions, and worldly matters.\\n\\nReferences:\\n\\"He has explained to you what He has forbidden for you...\\" (Al-Anʿām 6:119) Resource: Al-Muṣṭalaḥāt al-Arbaʿah by Ibn ʿUthaymīn – Explanation of \\"Halal, Haram, Makrūh, Mandūb.\\""},{"heading":"Prohibitions Are Few & Clear; Permissibilities Are Vast","content":"Islam is not a religion of restrictions but of channeling freedom within divine boundaries. The core prohibitions are known and limited.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"What Allah has made lawful in His Book is Halal, and what He has forbidden is Haram, and what He remained silent about is pardoned.\\" (Sunan Ibn Mājah 3367 – Ḥasan) Resource: Al-Ashbāh wan-Naẓāʾir by As-Suyūṭī – Principles of Islamic Jurisprudence."},{"heading":"Haram Includes Both the Substance and Means to It","content":"It is not only forbidden to consume Haram (like alcohol) but also to sell, transport, serve, or benefit from its trade. The means to Haram are also Haram.\\n\\nReferences:\\n\\"Allah has cursed alcohol, its drinker, its server, its seller, its buyer...\\" (Sunan Abī Dāwūd 3674 – Ṣaḥīḥ) Resource: Al-Qawāʿid al-Fiqhiyyah by As-Saʿdī – Legal maxim: \\"Whatever leads to Haram is itself Haram.\\""},{"heading":"Lawful Food Must Meet Two Criteria: Permissible Source & Proper Slaughter","content":"Animals must be from Halal species and slaughtered according to Islamic rite (Tasmiyyah - mentioning Allah\'s name, cutting throat, windpipe, and blood vessels).\\n\\nReferences:\\n\\"Eat of that over which the name of Allah has been mentioned, if you are believers in His verses.\\" (Al-Anʿām 6:118) Resource: Fiqh al-Ṭaʿām wal-Ashribah by ʿAbdullah al-Faqīh – Detailed rulings on food."},{"heading":"All Financial Transactions Are Prohibited Unless Proven Permissible","content":"Unlike general matters, financial dealings require evidence of permissibility due to prevalence of fraud and injustice. The default is prohibition until proven Halal.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The sale is invalid if accompanied by uncertainty (Gharar).\\" (Ṣaḥīḥ Muslim 1513) Resource: Al-Buyūʿ al-Muḥarramah fil-Islām by Ṣāliḥ al-Fawzān – Forbidden transactions."},{"heading":"Major Prohibitions Include: Alcohol, Pork, Carnivorous Animals, Blood, Idolatry, Riba (Interest), Gambling, Fortune-Telling, Adultery, & Usurpation","content":"These are explicitly forbidden in the Qur\'an and Hadith and have severe spiritual, health, and social consequences.\\n\\nReferences:\\n\\"He has only forbidden you dead animals, blood, the flesh of swine, and that which has been dedicated to other than Allah.\\" (Al-Baqarah 2:173) Resource: Al-Kabāʾir by Adh-Dhahabī – The Major Sins."},{"heading":"Necessity (Ḍarūrah) Permits the Prohibited Within Strict Limits","content":"In genuine, life-threatening necessity, prohibited things become temporarily permissible, but only to the extent needed to remove the necessity.\\n\\nReferences:\\n\\"But whoever is forced by severe hunger with no inclination to sin – then indeed, Allah is Forgiving and Merciful.\\" (Al-Māʾidah 5:3) Resource: Qawāʿid al-Aḥkām by Al-ʿIzz ibn ʿAbd as-Salām – Rules of necessity."},{"heading":"Doubtful Matters Should Be Avoided to Protect One\'s Faith & Honor","content":"When uncertain, the pious approach is to leave what causes doubt for what causes no doubt. This safeguards one\'s religion and conscience.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Leave that which makes you doubt for that which does not make you doubt.\\" (Sunan at-Tirmidhī 2518 – Ṣaḥīḥ) Resource: Iʿlām al-Muwaqqiʿīn by Ibn al-Qayyim – Chapter on precaution."},{"heading":"Haram Consumption Affects Worship & Duʿāʾ Acceptance","content":"Consuming unlawful food, drink, or wealth prevents one\'s worship from being accepted and blocks the response to supplications.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Allah is pure and accepts only what is pure.\\" (Ṣaḥīḥ Muslim 1015) Resource: Al-Duʿāʾ by Ibn Abī Dunyā – Conditions for acceptance."}]},{"chapterId":11,"title":"Family & Marriage: Continuous Growth","summary":"The family is the cornerstone of Islamic society, and marriage (nikāḥ) is a sacred covenant (mīthāq ghalīẓ) ordained by Allah for spiritual growth, emotional fulfillment, and the establishment of righteous generations. ","overview":[{"heading":"Marriage is Half of Faith & Completion of Religion","content":"Marriage protects chastity, fulfills natural desires lawfully, and completes one\'s faith. It is a Prophetic Sunnah strongly recommended for those able.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"O young people! Whoever among you can afford marriage, let him marry, for it lowers the gaze and guards chastity...\\" (Ṣaḥīḥ al-Bukhārī 5065) Resource: Ādāb al-Zawāj (Etiquettes of Marriage) by ʿAbdullah al-Jibrīn."},{"heading":"The Spousal Relationship is Based on Mutual Mercy (Rahmah) & Tranquility (Sakīnah)","content":"Allah describes spouses as garments for one another—providing protection, comfort, and covering. The marital bond is meant for psychological and spiritual peace.\\n\\nReferences:\\n\\"They are clothing for you and you are clothing for them...\\" (Al-Baqarah 2:187) Resource: The Muslim Family by Dr. Muḥammad Al-Hashimi."},{"heading":"The Husband is the Guardian (Qawwām) Responsible for Provision & Protection","content":"This leadership is based on responsibility, not superiority. The husband must maintain his family with kindness, consultation (shūrā), and fairness.\\n\\nReferences:\\n\\"Men are in charge of women by what Allah has given one over the other and what they spend from their wealth...\\" (An-Nisāʾ 4:34) Resource: Qawwāmah: The Framework of Male Guardianship by Dr. Jasser Auda."},{"heading":"The Wife Has the Right to Kind Treatment, Financial Support, & Intimate Companionship","content":"Her rights are sacred and detailed in the Qur\'an and Sunnah. Discharging them is an act of worship for the husband.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The best of you is he who is best to his wife, and I am the best of you to my wives.\\" (Sunan Ibn Mājah 1977 – Ṣaḥīḥ) Resource: Huqūq al-Zawjayn (Rights of Spouses) by Ṣāliḥ al-Fawzān."},{"heading":"Choosing a Spouse Should Prioritize Piety (Dīn) & Good Character","content":"Wealth, beauty, and lineage are secondary considerations. A righteous spouse is the key to a blessed home and successful upbringing of children.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"A woman is married for four things: her wealth, lineage, beauty, and religion. Choose the religious woman, lest your hands be rubbed with dust!\\" (Ṣaḥīḥ al-Bukhārī 5090) Resource: Al-Akhṭāʾ al-Shāʾiʿah fī Ṭalab al-Zawj (Common Mistakes in Seeking Marriage) by ʿAbd al-ʿAzīz al-Nāṣir."},{"heading":"Children Are a Trust (Amānah) & Must Be Raised With Love, Islamic Education, & Good Example","content":"Parents will be held accountable for their upbringing. The first words a child should hear are the call to prayer (adhān) in their ears.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Every one of you is a shepherd and is responsible for his flock...\\" (Ṣaḥīḥ al-Bukhārī 893) Resource: Tarbiyat al-Awlād fī al-Islām (Raising Children in Islam) by Dr. ʿAbdullah Nāṣiḥ ʿUlwān."},{"heading":"Maintaining Kinship Ties (Ṣilat al-Raḥim) is Obligatory & Brings Blessings","content":"This includes parents, siblings, and extended family. Severing ties is a major sin that brings Allah\'s curse and withholds blessings.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Whoever believes in Allah and the Last Day, let him maintain the bonds of kinship.\\" (Ṣaḥīḥ al-Bukhārī 6138) Resource: Birr al-Wālidayn wa Ṣilat al-Arḥām by Ibn al-Jawzī."},{"heading":"Conflict Resolution Follows the Sequence: Private Advice → Mediation → Arbitration","content":"Disputes should be resolved with wisdom, patience, and seeking intervention from righteous family members if needed.\\n\\nReferences:\\n\\"If you fear a breach between them, appoint an arbiter from his family and an arbiter from her family...\\" (An-Nisāʾ 4:35) Resource: Al-Iṣlāḥ bayn al-Zawjayn (Reconciliation Between Spouses) by Dr. Ṣāliḥ al-Ghāmidī."},{"heading":"Divorce is Permitted But the Most Hated Permissible Act to Allah","content":"It is a last resort after all reconciliation efforts fail. The procedure must follow Islamic guidelines to minimize harm.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The most hateful permissible thing to Allah is divorce.\\" (Sunan Abī Dāwūd 2178 – Ḥasan) Resource: Aḥkām al-Ṭalāq (Rulings of Divorce) by Ibn ʿUthaymīn."},{"heading":"The Family Home Should Be a Place of Remembrance (Dhikr), Prayer, & Mercy","content":"Angels enter homes where Allah is remembered and blessings descend. The home should be a sanctuary from worldly fitnah.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The example of a home in which Allah is remembered and a home in which Allah is not remembered is like the living and the dead.\\" (Ṣaḥīḥ Muslim 779) Resource: Kayfa Takūn Usrah Saʿīdah (How to Have a Happy Family) by Dr. ʿĀʾid al-Qarnī."}]},{"chapterId":12,"title":"The Community: Building Ummah, Support, and Uplift","summary":"Islam thrives in community; this chapter explores solidarity, hospitality, and shared purpose.","overview":[{"heading":"Community Strengthens Faith","content":"Engaging in a righteous community fosters support, accountability, and shared worship. Collective action strengthens faith and promotes ethical behavior among members.\\n\\nReferences:\\nQuran Āl ʿImrān 3:104"},{"heading":"Supporting One Another","content":"Mutual assistance in times of need nurtures compassion, unity, and social responsibility while reflecting divine guidance in action.\\n\\nReferences:\\nQuran Al-Māʾidah 5:2"},{"heading":"Justice in Society","content":"Fair treatment of all community members ensures harmony, prevents conflict, and aligns society with Allah’s principles.\\n\\nReferences:\\nQuran An-Nisāʾ 4:58"},{"heading":"Inclusivity and Brotherhood","content":"Welcoming diversity and fostering equality strengthens social bonds. Unity and brotherhood reflect ethical conduct and divine guidance.\\n\\nReferences:\\nQuran Al-Ḥujurāt 49:13"},{"heading":"Resolving Conflicts Peacefully","content":"Encouraging dialogue and reconciliation maintains harmony, prevents injustice, and strengthens communal trust in accordance with Islamic principles.\\n\\nReferences:\\nQuran Al-Ḥujurāt 49:9"},{"heading":"Collective Worship","content":"Praying, fasting, and performing acts of charity together nurtures unity, strengthens faith, and fosters shared responsibility.\\n\\nReferences:\\nQuran At-Tawbah 9:71"},{"heading":"Charity Strengthens Community","content":"Giving zakat and sadaqah supports the needy, reduces inequality, and enhances social cohesion, reflecting ethical and spiritual responsibility.\\n\\nReferences:\\nQuran Al-Baqarah 2:177"},{"heading":"Mentorship and Education","content":"Sharing knowledge and guidance empowers individuals, fosters ethical development, and strengthens community resilience and faith.\\n\\nReferences:\\nHadith: Sahih Muslim 2699"},{"heading":"Respecting Leaders","content":"Honoring just leadership nurtures stability, accountability, and obedience to ethical principles while ensuring communal well being.\\n\\nReferences:\\nQuran An-Nisāʾ 4:59"},{"heading":"Caring for the Vulnerable","content":"Protecting orphans, the poor, and the marginalized reflects divine mercy and strengthens community bonds.\\n\\nReferences:\\nQuran Al-Baqarah 2:220"},{"heading":"Promoting Peace and Security","content":"Encouraging lawfulness, justice, and peaceful interactions ensures community safety, stability, and moral integrity.\\n\\nReferences:\\nQuran Al-Māʾidah 5:32"},{"heading":"Collaboration and Cooperation","content":"Working together in permissible endeavors nurtures mutual support, ethical behavior, and collective growth, reflecting shared responsibility to Allah.\\n\\nReferences:\\nQuran Al-Māʾidah 5:2"},{"heading":"Accountability Within the Community","content":"Members should encourage righteous behavior and discourage wrongdoing. Mutual accountability strengthens morality, unity, and shared faith.\\n\\nReferences:\\nQuran Āl ʿImrān 3:104"},{"heading":"Community Celebrations","content":"Shared worship, festivals, and gatherings enhance spiritual bonds, reinforce ethical teachings, and foster joy, gratitude, and unity.\\n\\nReferences:\\nHadith: Sahih Bukhari 967"},{"heading":"Continuous Support","content":"Consistently helping and uplifting members builds resilience, strengthens faith, and ensures that community remains a source of guidance, compassion, and ethical growth.\\n\\nReferences:\\nQuran Al-Baqarah 2:177"}]},{"chapterId":13,"title":"The Future: Continuous Growth and Legacy","summary":"This chapter helps you set spiritual goals, document progress, and leave enduring impact.","overview":[{"heading":"The Future is Known to Allah","content":"Believers understand that only Allah knows what lies ahead. Trusting His wisdom nurtures patience, reduces anxiety, and encourages reliance on divine guidance.\\n\\nReferences:\\nQuran Luqmān 31:34"},{"heading":"Planning with Reliance","content":"While planning for the future is important, ultimate outcomes rest with Allah. Combining effort with reliance ensures balance, humility, and spiritual mindfulness.\\n\\nReferences:\\nQuran Al-Kahf 18:23-24"},{"heading":"Avoiding Worry About the Unknown","content":"Trust in Allah alleviates fear and anxiety. Faith in divine decree strengthens resilience and peace while facing uncertainty.\\n\\nReferences:\\nQuran Aṭ-Ṭalāq 65:2-3"},{"heading":"Preparation Through Good Deeds","content":"Actions in this life shape the future. Ethical behavior, worship, and righteous deeds ensure spiritual and worldly benefits.\\n\\nReferences:\\nQuran Al-Baqarah 2:110"},{"heading":"Faith Guides Decisions","content":"Belief in Allah’s plan influences choices, ensuring ethical, informed, and purposeful action while trusting in divine wisdom.\\n\\nReferences:\\nQuran Āl ʿImrān 3:159"},{"heading":"Hope Anchors the Heart","content":"Believers remain hopeful in Allah’s mercy and plan. This optimism nurtures perseverance, patience, and resilience in life’s trials.\\n\\nReferences:\\nQuran Az-Zumar 39:53"},{"heading":"Actions Determine Outcomes","content":"While the future is known to Allah, human effort shapes results. Sincere action, intention, and planning are rewarded by divine decree.\\n\\nReferences:\\nQuran Āl ʿImrān 3:145"},{"heading":"Rely on Allah, Not Fear","content":"Fear of the future diminishes faith. Reliance on Allah instills courage, patience, and calmness in all circumstances.\\n\\nReferences:\\nQuran Āl ʿImrān 3:173"},{"heading":"Accountability in the Future","content":"Every action will be judged. Awareness of divine accountability motivates ethical conduct and spiritual mindfulness.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"Future Depends on Intention","content":"Sincere intentions influence the impact of actions. Aligning purpose with Allah’s pleasure ensures that efforts are rewarded.\\n\\nReferences:\\nHadith: Sahih Bukhari 1"},{"heading":"Trust in Divine Wisdom","content":"Believers accept outcomes with understanding that Allah’s knowledge surpasses human perception, fostering contentment and resilience.\\n\\nReferences:\\nQuran Al-Baqarah 2:216"},{"heading":"Patience Shapes the Future","content":"Enduring trials with patience and faith ensures spiritual growth and prepares believers for divine reward in both this life and the Hereafter.\\n\\nReferences:\\nQuran Al-ʿAṣr 103:2-3"},{"heading":"Optimism Strengthens Action","content":"Positive expectation in Allah’s plan encourages proactive effort, ethical decision making, and resilience in adversity.\\n\\nReferences:\\nQuran Āl ʿImrān 3:139"},{"heading":"Prayers Influence the Future","content":"Supplication and consistent dhikr invite divine guidance, protection, and blessings, shaping both spiritual and worldly outcomes.\\n\\nReferences:\\nQuran Al-Baqarah 2:186"},{"heading":"Faith Reduces Anxiety","content":"Belief in Allah’s control over the future fosters calmness, reliance, and contentment, even when facing uncertainty.\\n\\nReferences:\\nQuran Aṭ-Ṭalāq 65:3"}]},{"chapterId":14,"title":"The Hereafter: Realities, Death, Resurrection, and Mercy","summary":"The Hereafter pulls the heart toward lasting priorities; remembering death, the grave, and accountability strengthens every moment of obedience.","overview":[{"heading":"The Hereafter is Certain","content":"Belief in life after death shapes moral conduct, encourages ethical behavior, and reminds believers that every action has eternal significance.\\n\\nReferences:\\nQuran Āl ʿImrān 3:185"},{"heading":"Preparation Begins Now","content":"Righteous deeds, sincere worship, and ethical behavior prepare for the Hereafter, ensuring spiritual success and divine reward.\\n\\nReferences:\\nQuran Al-Anʿām 6:132"},{"heading":"Accountability is Inevitable","content":"Every action, word, and intention will be judged. Awareness of accountability motivates ethical living and mindfulness.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"The Hereafter Motivates Patience","content":"Belief in eternal reward encourages perseverance through hardships, strengthening trust in Allah’s wisdom and cultivating spiritual growth.\\n\\nReferences:\\nQuran Luqmān 31:34"},{"heading":"Justice Will Be Perfect","content":"Allah’s judgment is fair and precise. Belief in divine justice instills hope, discourages wrongdoing, and encourages ethical behavior.\\n\\nReferences:\\nQuran An-Nisāʾ 4:40"},{"heading":"Reward for Good Deeds","content":"Every act of worship, charity, and righteousness is recorded. Believers are assured of recompense in the eternal life.\\n\\nReferences:\\nQuran Al-Baqarah 2:277"},{"heading":"Consequences of Sin","content":"Wrongdoing carries accountability in the Hereafter. Awareness of consequences encourages repentance, ethical behavior, and spiritual mindfulness.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"Repentance Prepares the Soul","content":"Sincere repentance purifies the heart and protects from punishment. Regular self reflection aligns actions with Allah’s guidance.\\n\\nReferences:\\nQuran Az-Zumar 39:53"},{"heading":"The Hereafter Brings Justice","content":"Divine judgment restores balance, corrects injustice, and ensures that moral accountability is fulfilled perfectly.\\n\\nReferences:\\nQuran Al-Jāthiyah 45:22"},{"heading":"Life is a Test","content":"This world is temporary; belief in the Hereafter reminds believers that challenges are trials shaping spiritual growth and divine reward.\\n\\nReferences:\\nQuran Al-Mulk 67:2"},{"heading":"The Hereafter Encourages Gratitude","content":"Awareness of eternal consequences fosters appreciation for Allah’s blessings, ethical living, and mindful worship.\\n\\nReferences:\\nQuran Ibrāhīm 14:7"},{"heading":"Hope Strengthens Action","content":"Belief in Paradise motivates righteous deeds, ethical behavior, and perseverance, ensuring spiritual alignment with Allah’s pleasure.\\n\\nReferences:\\nQuran Āl ʿImrān 3:139"},{"heading":"Fear Prevents Wrongdoing","content":"Belief in divine punishment discourages sins, fosters self restraint, and aligns life with moral and spiritual guidance.\\n\\nReferences:\\nQuran Al-Mulk 67:2"},{"heading":"Life is Temporary","content":"This world is fleeting; the eternal Hereafter defines true success. Focus on ethical behavior and worship ensures spiritual fulfillment.\\n\\nReferences:\\nQuran Al-Ḥadīd 57:20"},{"heading":"Continuous Reflection is Key","content":"Regular contemplation of the Hereafter strengthens faith, guides ethical conduct, and ensures preparedness for eternal life.\\n\\nReferences:\\nQuran Al-Ḥashr 59:18"}]},{"chapterId":15,"title":"Paradise & Hell: Rewards, Warnings, and Motivation","summary":"Visualize the eternal abodes so gratitude grows and warnings keep you humble.","overview":[{"heading":"Paradise is Eternal Reward","content":"Believers who follow Allah’s guidance are promised eternal bliss in Paradise, a place of peace, happiness, and divine pleasure.\\n\\nReferences:\\nQuran Al-Kahf 18:107"},{"heading":"Hell is a Consequence of Sin","content":"Those who reject guidance and persist in wrongdoing face punishment. Awareness of Hell encourages ethical behavior and sincere repentance.\\n\\nReferences:\\nQuran An-Nisāʾ 4:56"},{"heading":"Paradise Rewards Faith and Deeds","content":"Good deeds, worship, and sincere intentions lead to Paradise. Belief motivates ethical actions and spiritual mindfulness in daily life.\\n\\nReferences:\\nQuran Al-Baqarah 2:82"},{"heading":"Hell Warns Against Disobedience","content":"Knowledge of divine punishment deters sins, encourages repentance, and strengthens commitment to ethical and spiritual conduct.\\n\\nReferences:\\nQuran Al-Mulk 67:6"},{"heading":"Paradise is a Source of Hope","content":"Aspiration for eternal reward inspires patience, perseverance, and consistent worship, guiding believers toward Allah’s pleasure.\\n\\nReferences:\\nQuran At-Tawbah 9:72"},{"heading":"Hell Encourages Mindfulness","content":"Awareness of punishment cultivates vigilance in deeds, honesty, and accountability to Allah in all actions.\\n\\nReferences:\\nQuran An-Nabaʾ 78:21-30"},{"heading":"Paradise is Attained Through Mercy","content":"Allah’s mercy enables entry into Paradise. Faith, worship, and sincere intentions invite divine pleasure and eternal reward.\\n\\nReferences:\\nQuran Az-Zumar 39:53"},{"heading":"Hell is Just Punishment","content":"Divine justice ensures that wrongdoing is appropriately addressed. Awareness strengthens moral behavior and encourages ethical decision making.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"Rewards are Proportional to Deeds","content":"Every action, small or large, influences eternal outcome. Ethical conduct and worship ensure reward and closeness to Allah.\\n\\nReferences:\\nQuran Al-Anʿām 6:160"},{"heading":"Hell is Avoided Through Repentance","content":"Sincere repentance and ethical correction prevent punishment, ensuring spiritual growth and alignment with divine guidance.\\n\\nReferences:\\nQuran Al-Furqān 25:70"},{"heading":"Paradise Inspires Ethical Living","content":"Hope for eternal reward motivates righteous deeds, patience, gratitude, and compassionate interactions with others.\\n\\nReferences:\\nQuran Āl ʿImrān 3:133"},{"heading":"Hell Encourages Reflection","content":"Considering consequences of sin strengthens mindfulness, self restraint, and ethical alignment with Allah’s commands.\\n\\nReferences:\\nQuran Al-Muddaththir 74:26-30"},{"heading":"Paradise is Beyond Imagination","content":"Descriptions of eternal bliss inspire devotion and reinforce that ultimate fulfillment comes from Allah, motivating ethical and spiritual perseverance.\\n\\nReferences:\\nQuran Al-Insān 76:12-14"},{"heading":"Hell Warns of Neglect","content":"Neglecting guidance leads to punishment. Awareness encourages responsibility, repentance, and continuous effort to align life with divine instruction.\\n\\nReferences:\\nQuran Al-Anʿām 6:128"},{"heading":"Continuous Effort Ensures Reward","content":"Regular worship, ethical behavior, and sincere intention are keys to Paradise, while avoiding sin prevents Hell, reinforcing accountability in daily life.\\n\\nReferences:\\nQuran Al-Baqarah 2:277"}]}]');
+module.exports = /*#__PURE__*/JSON.parse('[{"chapterId":1,"title":"The Foundation (Tawheed) ","summary":"Islam is not a new religion but the primordial faith of submission to the One True God (Allāh), revived through the final Prophet Muhammad ﷺ. The essence of this submission is Tawheed the absolute Oneness of God in His Lordship, His Names and Attributes, and His right to be worshipped alone. ","overview":[{"heading":"Tawheed: Absolute Oneness","content":"Tawheed means declaring Allah\'s absolute oneness in all aspects. Qur\'anic \\"Say: He is Allah, the One.\\" (Al Ikhlas 112:1) Reference: \\"Kitab al Tawheed\\" by Ibn Khuzaymah.\\n\\nReferences:\\nQuran Al-Ikhlāṣ 112:1; Kitab al Tawheed by Ibn Khuzaymah; Hadith: Sahih Bukhari (The right of Allah upon His servants is that they worship Him and associate nothing with Him)","resources":"https://quran.com/112/1"},{"heading":"Tawheed Has Three Essential Categories","content":"It has three essential categories that cannot be separated: Tawheed al Rububiyyah (Lordship), Tawheed al Asma wa al Sifat (Names and Attributes), and Tawheed al \'Ibadah (Worship). Reference: \\"Al Qawa\'id al Arba\'\\" by Muhammad ibn \'Abd al Wahhab.\\n\\nReferences:\\nAl Qawa\'id al Arba\' by Muhammad ibn \'Abd al Wahhab; Hadith: Sahih Muslim (Whoever dies knowing that there is no god but Allah will enter Paradise)"},{"heading":"Tawheed al Rububiyyah (Lordship)","content":"Oneness in Lordship: Allah alone creates, provides, and controls. Qur\'anic \\"Allah is the Creator of all things, and He is Disposer of all affairs.\\" (Az Zumar 39:62) Reference: \\"Al Qawa\'id al Arba\'\\" by Muhammad ibn \'Abd al Wahhab.\\n\\nReferences:\\nQuran Az-Zumar 39:62; Al Qawa\'id al Arba\' by Muhammad ibn \'Abd al Wahhab; Hadith: Sahih Bukhari (The right of Allah upon His servants is that they worship Him and associate nothing with Him)","resources":"https://quran.com/39/62"},{"heading":"Tawheed al Asma wa al Sifat (Names and Attributes)","content":"Oneness in Names and Attributes as revealed, without distortion. Qur\'anic \\"There is nothing like unto Him...\\" (Ash Shura 42:11) Reference: \\"Al \'Aqidah al Wasitiyyah\\" by Ibn Taymiyyah.\\n\\nReferences:\\nQuran Ash-Shūrā 42:11; Al \'Aqidah al Wasitiyyah by Ibn Taymiyyah; Hadith: Sahih Bukhari (Allah has ninety-nine names; whoever learns them will enter Paradise)","resources":"https://quran.com/42/11"},{"heading":"Tawheed al \'Ibadah (Worship)","content":"Oneness in worship: directing all acts to Allah alone. Qur\'anic \\"Worship Allah and associate none with Him...\\" (An Nisa\' 4:36) Reference: \\"Kashf al Shubuhat\\" by Muhammad ibn \'Abd al Wahhab.\\n\\nReferences:\\nQuran An-Nisāʾ 4:36; Kashf al Shubuhat by Muhammad ibn \'Abd al Wahhab; Hadith: Sahih Bukhari (The most beloved deeds to Allah are those done regularly, even if small)","resources":"https://quran.com/4/36"},{"heading":"Iman: Six Pillars of Faith","content":"Iman has six pillars including belief in Allah and the Last Day. \\"It is to believe in Allah, His Angels, His Books, His Messengers, the Last Day, and Divine Decree...\\" (Sahih Muslim 8a) Reference: \\"Sharh Usul al Iman\\" by Ibn \'Uthaymin.\\n\\nReferences:\\nHadith: Sahih Muslim 8a (Hadith Jibril); Sharh Usul al Iman by Ibn \'Uthaymin","resources":"https://sunnah.com/muslim:8a"},{"heading":"Ihsan: Worship as if You See Him","content":"Ihsan is worshipping Allah as if you see Him, knowing He sees you. \\"To worship Allah as if you see Him...\\" (Sahih al Bukhari 50) Reference: \\"Ihya\' \'Ulum al Din\\" by Al Ghazali.\\n\\nReferences:\\nHadith: Sahih al Bukhari 50 (Hadith Jibril); Ihya\' \'Ulum al Din by Al Ghazali","resources":"https://sunnah.com/bukhari:50"},{"heading":"Shirk: Associating Partners with Allah","content":"Shirk is associating partners with Allah and is the only unforgivable sin if unrepented. \\"Indeed, Allah does not forgive association with Him...\\" (An Nisa\' 4:48) Reference: \\"Al Sawa\'iq al Mursalah\\" by Ibn al Qayyim.\\n\\nReferences:\\nQuran An-Nisāʾ 4:48; Al Sawa\'iq al Mursalah by Ibn al Qayyim; Hadith: Sahih Muslim (Whoever meets Allah associating anything with Him will enter the Fire)","resources":"https://quran.com/4/48"},{"heading":"Shahadah Conditions","content":"The Shahadah (\\"La ilaha illallah\\") has seven conditions for validity derived from the Qur\'an and Sunnah: knowledge, certainty, acceptance, and more. Reference: \\"Sharh Usul al Iman\\" by Ibn Baz, p. 45.\\n\\nReferences:\\nSharh Usul al Iman by Ibn Baz, p. 45; Hadith: Sahih Bukhari (Whoever says La ilaha illallah sincerely from his heart will enter Paradise)"},{"heading":"Tawheed Message of All Prophets","content":"Tawheed was the first message of all Prophets from Nuh to Muhammad ﷺ. \\"We sent every Messenger with the revelation: \'Worship Allah and avoid false gods...\'\\" (An Nahl 16:36) Reference: \\"Tariq al Hijratayn\\" by Ibn al Qayyim.\\n\\nReferences:\\nQuran An-Naḥl 16:36; Tariq al Hijratayn by Ibn al Qayyim; Hadith: Sahih Bukhari (The prophets are brothers; their religion is one)","resources":"https://quran.com/16/36"},{"heading":"Rejecting Tawheed Nullifies Deeds","content":"Rejecting Tawheed invalidates deeds regardless of outward form. \\"If they had associated others with Allah, all they did would have been nullified.\\" (Al An\'am 6:88) Reference: \\"Majmu\' al Fatawa\\" by Ibn Taymiyyah, vol. 1, p. 98.\\n\\nReferences:\\nQuran Al-Anʿām 6:88; Majmu\' al Fatawa by Ibn Taymiyyah, vol. 1, p. 98; Hadith: Sahih Muslim (Whoever meets Allah associating anything with Him will enter the Fire)","resources":"https://quran.com/6/88"}]},{"chapterId":2,"title":"The Beliefs: The Six Pillars of Iman","summary":"The Islamic creed (ʿAqīdah) is built upon six fundamental articles of faith (Arkān al-Īmān). These beliefs form the foundation of a Muslim’s worldview and are derived from the definitive texts of the Qur’ān and the authentic Sunnah. ","overview":[{"heading":"Belief in Allāh (Allāh سُبْحَانَهُ وَتَعَالَى)","content":"To affirm Allāh’s Oneness (Tawḥīd) in His Lordship, His Names and Attributes, and His right to worship, as described in the Qur’ān and Sunnah without distortion. Key \\"Allāh - there is no deity except Him, the Ever-Living, the Sustainer of existence.\\" (Āli ʿImrān 3:2) Resource: Kitāb al-Tawḥīd by Shaykh al-Islām Muḥammad ibn ʿAbd al-Wahhāb.\\n\\nReferences:\\nQuran Āl ʿImrān 3:2; Hadith: Sahih Bukhari (The right of Allah upon His servants is that they worship Him and associate nothing with Him)","resources":"https://quran.com/3/2"},{"heading":"Belief in the Angels (Al-Malāʾikah)","content":"To believe in the angels as honored servants of Allāh, created from light, who never disobey Him and execute His commands precisely. Key \\"The Messenger believes in what was revealed to him from his Lord, and the believers. All believe in Allāh, His angels, His books, and His messengers...\\" (Al-Baqarah 2:285) Resource: Badʾ al-Khalq (Chapter on Creation) in Ṣaḥīḥ al-Bukhārī.\\n\\nReferences:\\nQuran Al-Baqarah 2:285; Hadith: Sahih Muslim (The angels were created from light)","resources":"https://quran.com/2/285"},{"heading":"Belief in the Revealed Books (Al-Kutub)","content":"To believe that Allāh revealed divine scriptures to His messengers as guidance, including the Qur’ān (the final, preserved book), the Torah, the Gospel, and the Psalms. Key \\"And We have revealed to you, [O Muḥammad], the Book in truth, confirming that which preceded it of the Scripture...\\" (Al-Māʾidah 5:48) Resource: Al-ʿAqīdah al-Ṭaḥāwiyyah (Articles 7-8).\\n\\nReferences:\\nQuran Al-Māʾidah 5:48; Hadith: Sahih Muslim (I left among you the Book of Allah)","resources":"https://quran.com/5/48"},{"heading":"Belief in the Messengers (Al-Rusul)","content":"To believe that Allāh sent prophets and messengers to every nation, beginning with Ādam and ending with Muḥammad ﷺ, all calling to Tawḥīd. We believe in all of them without distinction. Key \\"And We certainly sent into every nation a messenger, [saying], \'Worship Allāh and avoid false deities...\'\\" (Al-Naḥl 16:36) Resource: Qaṣaṣ al-Anbiyāʾ (Stories of the Prophets) by Ibn Kathīr.\\n\\nReferences:\\nQuran An-Naḥl 16:36; Hadith: Sahih Bukhari (The prophets are brothers; their religion is one)","resources":"https://quran.com/16/36"},{"heading":"Belief in the Last Day (Al-Yawm al-Ākhir)","content":"To believe in everything that will occur after death: the trial of the grave, the Resurrection, the Reckoning, the Scale, the Bridge (Ṣirāṭ), Paradise, and Hellfire. Key \\"And those who believe in the Hereafter believe in it, and they are maintaining their prayers.\\" (Al-Anʿām 6:92) Resource: Kitāb al-Jannah wa al-Nār (Book of Paradise and Hell) in Ṣaḥīḥ al-Bukhārī.\\n\\nReferences:\\nQuran Al-Anʿām 6:92; Hadith: Sahih Bukhari (Whoever believes in Allah and the Last Day, let him speak good or remain silent)","resources":"https://quran.com/6/92"},{"heading":"Belief in Divine Decree (Al-Qaḍāʾ wal-Qadar)","content":"To believe that Allāh has preordained all things with His prior knowledge and wisdom. This encompasses belief in His all-encompassing knowledge, His recording of all decrees, His will, and His creation of everything. Key \\"Indeed, all things We created with predestination.\\" (Al-Qamar 54:49) Resource: Sharḥ al-ʿAqīdah al-Ṭaḥāwiyyah by Ibn Abī al-ʿIzz al-Ḥanafī.\\n\\nReferences:\\nQuran Al-Qamar 54:49; Hadith: Sahih Muslim (Allah wrote the decrees of creation before creating the heavens and the earth)","resources":"https://quran.com/54/49"}]},{"chapterId":3,"title":"The Pillars: The Five Pillars","summary":"The Pillars of Islam (Arkān al-Islām) are the fundamental acts of worship that constitute the foundation of a Muslim\'s faith and practice.","overview":[{"heading":"Shahādah (The Testimony of Faith)","content":"Sincere declaration and belief that \\"Lā ilāha illallāh, Muhammadur Rasūlullāh.\\" Quranic \\"Allah witnesses that there is no deity except Him, and [so do] the angels and those of knowledge   [that He is] maintaining [creation] in justice.\\" (Ali \'Imran 3:18) Hadith The Prophet ﷺ said, \\"Whoever dies knowing that there is no god but Allah will enter Paradise.\\" (Sahih Muslim 26)\\n\\nReferences:\\nQuran Āl ʿImrān 3:18; Hadith: Sahih Muslim 26 (Whoever dies knowing that there is no god but Allah will enter Paradise)","resources":"https://quran.com/3/18"},{"heading":"Ṣalāh (The Prayer)","content":"Performing the five obligatory prayers daily at their prescribed times. Quranic \\"Indeed, prayer has been decreed upon the believers a decree of specified times.\\" (An Nisa\' 4:103) Hadith The Prophet ﷺ said, \\"Between a man and shirk and kufr is the abandonment of prayer.\\" (Sahih Muslim 82)\\n\\nReferences:\\nQuran An-Nisāʾ 4:103; Hadith: Sahih Muslim 82 (Between a man and shirk is abandoning prayer)","resources":"https://quran.com/4/103"},{"heading":"Zakāh (Obligatory Almsgiving)","content":"Purifying wealth by giving 2.5% of saved wealth annually to specified recipients. Quranic \\"Take, [O, Muhammad], from their wealth a charity by which you purify them and cause them increase.\\" (At Tawbah 9:103) Hadith The Prophet ﷺ said, \\"Islam is built upon five...,\\" including zakah.\\n\\nReferences:\\nQuran At-Tawbah 9:103; Hadith: Sahih Bukhari (Islam is built on five)","resources":"https://quran.com/9/103"},{"heading":"Ṣawm (Fasting Ramadan)","content":"Abstaining from food, drink, and marital relations from dawn to sunset during Ramadan. Quranic \\"O you who have believed, decreed upon you is fasting as it was decreed upon those before you that you may become righteous.\\" (Al Baqarah 2:183) Hadith Included in the five pillar hadith.\\n\\nReferences:\\nQuran Al-Baqarah 2:183; Hadith: Sahih Bukhari (Islam is built on five)","resources":"https://quran.com/2/183"},{"heading":"Hajj (Pilgrimage to Makkah)","content":"Performing pilgrimage to the Ka\'bah once in a lifetime if able. Quranic \\"And [due] to Allah from the people is a pilgrimage to the House   for whoever is able to find thereto a way.\\" (Ali \'Imran 3:97) Hadith Included in the five pillar hadith.\\n\\nReferences:\\nQuran Āl ʿImrān 3:97; Hadith: Sahih Bukhari (Islam is built on five)","resources":"https://quran.com/3/97"}]},{"chapterId":4,"title":"The Quran: Final Revelation and Living Guidance","summary":"The Qur’an is the eternal, literal Speech of Allah (ﷲ), revealed to the Prophet Muhammad ﷺ through the Angel Jibrīl (Gabriel). ","overview":[{"heading":"The Quran is Allah’s Final Revelation","content":"The Quran provides guidance for all aspects of life. Believers are encouraged to read, reflect, and act upon its teachings to align their hearts and actions with divine wisdom.\\n\\nReferences:\\nQuran Al-Māʾidah 5:48; Quran Al-Māʾidah 5:3; Quran Al-Ḥijr 15:9; Hadith: Sahih Muslim (The best speech is the Book of Allah)","resources":"https://quran.com/5/48"},{"heading":"The Quran Guides Humanity","content":"Through clear instructions, moral teachings, and stories of past nations, the Quran teaches lessons that foster faith, patience, justice, and ethical conduct for spiritual and worldly success.\\n\\nReferences:\\nQuran Al-Baqarah 2:2; Quran Al-Isrāʾ 17:9; Quran Ibrāhīm 14:1; Hadith: Sahih Bukhari (Convey from me, even if one verse)","resources":"https://quran.com/2/2"},{"heading":"The Quran Clarifies Belief","content":"It explains the core principles of Tawhid, prophecy, and the Hereafter, strengthening faith and helping believers understand the purpose of life and the path to pleasing Allah.\\n\\nReferences:\\nQuran Al-Anʿām 6:19; Quran An-Naḥl 16:89; Quran Az-Zumar 39:28; Hadith: Sahih Muslim (I left among you the Book of Allah; hold to it and you will not go astray)","resources":"https://quran.com/6/19"},{"heading":"The Quran is a Source of Mercy","content":"Reading and reflecting on the Quran brings peace, guidance, and comfort. It reminds believers of Allah’s mercy, encouraging hope, gratitude, and reliance upon Him in all circumstances.\\n\\nReferences:\\nQuran Al-Isrāʾ 17:82; Quran Yūnus 10:57; Quran Al-Aʿrāf 7:52; Hadith: Sahih Muslim (People who gather to recite the Book of Allah are covered by mercy)","resources":"https://quran.com/17/82"},{"heading":"The Quran Requires Reflection","content":"Understanding its meanings strengthens belief. Believers are urged to ponder verses, seek knowledge, and apply lessons practically, transforming reading into action and guidance into daily living.\\n\\nReferences:\\nQuran Muḥammad 47:24; Quran Ṣād 38:29; Quran An-Nisāʾ 4:82; Hadith: Sahih Bukhari (The one proficient in the Quran is with the noble, righteous scribes)","resources":"https://quran.com/47/24"},{"heading":"Recitation Elevates the Heart","content":"Reciting the Quran aloud with focus and reverence nourishes the soul, instills tranquility, and enhances spiritual connection with Allah, making worship more heartfelt and intentional.\\n\\nReferences:\\nQuran Al-Muzzammil 73:4; Quran Al-Isrāʾ 17:106; Quran Az-Zumar 39:23; Hadith: Sahih Bukhari (Beautify the Quran with your voices)","resources":"https://quran.com/73/4"},{"heading":"The Quran Guides Morality","content":"It teaches ethics, justice, and compassion. Applying these principles in personal conduct fosters integrity, humility, and a harmonious life aligned with divine expectations.\\n\\nReferences:\\nQuran An-Naḥl 16:90; Quran Al-Māʾidah 5:8; Quran Al-Aʿrāf 7:199; Hadith: Sahih Muslim (His character was the Quran)","resources":"https://quran.com/16/90"},{"heading":"The Quran Encourages Knowledge","content":"Believers are instructed to seek understanding, reflect, and learn. Knowledge nurtures wisdom, strengthens conviction, and enables proper application of divine guidance in all aspects of life.\\n\\nReferences:\\nQuran Ṭā Hā 20:114; Quran Az-Zumar 39:9; Quran Al-Mujādilah 58:11; Hadith: Sahih Bukhari (The best of you are those who learn the Quran and teach it)","resources":"https://quran.com/20/114"},{"heading":"The Quran Protects from Misguidance","content":"Following its teachings shields believers from false beliefs, moral corruption, and spiritual deviation. Its guidance creates a firm foundation for ethical living and trust in Allah’s commands.\\n\\nReferences:\\nQuran Al-Anʿām 6:155; Quran Al-Baqarah 2:185; Quran Al-Aʿrāf 7:3; Hadith: Sahih Muslim (The devil flees a house where Surah Al-Baqarah is recited)","resources":"https://quran.com/6/155"},{"heading":"The Quran Promotes Justice","content":"It emphasizes fairness, honesty, and equality. Implementing these principles in daily life nurtures ethical behavior, protects rights, and establishes social harmony in accordance with divine instruction.\\n\\nReferences:\\nQuran An-Nisāʾ 4:58; Quran Al-Māʾidah 5:8; Quran Al-Ḥadīd 57:25; Hadith: Sahih Muslim (Beware of injustice, for injustice will be darkness on the Day of Resurrection)","resources":"https://quran.com/4/58"},{"heading":"The Quran Encourages Patience","content":"Its stories and guidance teach resilience in adversity. Reflecting on divine wisdom strengthens perseverance, hope, and trust in Allah’s plan, fostering spiritual growth and emotional balance.\\n\\nReferences:\\nQuran Al-Baqarah 2:153; Quran Āl ʿImrān 3:200; Quran Az-Zumar 39:10; Hadith: Sahih Muslim (Amazing is the affair of the believer; if harmed, he is patient)","resources":"https://quran.com/2/153"},{"heading":"The Quran Strengthens Faith","content":"Regular study and reflection deepen Iman. Understanding its wisdom and applying lessons encourages moral behavior, ethical decisions, and a heart aligned with Allah’s guidance.\\n\\nReferences:\\nQuran Al-Aḥzāb 33:34; Quran Al-Anfāl 8:2; Quran Al-Fatḥ 48:4; Hadith: Sahih Bukhari (Faith has more than seventy branches)","resources":"https://quran.com/33/34"},{"heading":"The Quran Encourages Worship","content":"It calls believers to prayer, remembrance, and righteous deeds. Following its commands transforms spiritual devotion into everyday actions, connecting the heart and life to Allah’s pleasure.\\n\\nReferences:\\nQuran Al-ʿAnkabūt 29:45; Quran Adh-Dhāriyāt 51:56; Quran Ṭā Hā 20:14; Hadith: Sahih Muslim (Between a man and shirk is abandoning prayer)","resources":"https://quran.com/29/45"},{"heading":"The Quran is a Source of Healing","content":"Its words bring comfort, guidance, and reassurance. Reflecting and acting upon them nurtures mental, emotional, and spiritual well being while strengthening reliance on Allah’s wisdom.\\n\\nReferences:\\nQuran Al-Isrāʾ 17:82; Quran Yūnus 10:57; Quran Fuṣṣilat 41:44; Hadith: Sahih Bukhari (Al-Fatihah was used as ruqyah and approved by the Prophet)","resources":"https://quran.com/17/82"},{"heading":"The Quran Must Be Applied","content":"Understanding alone is insufficient; believers must implement its guidance in daily life. Action transforms knowledge into practice, faith into ethics, and devotion into tangible obedience.\\n\\nReferences:\\nQuran Al-Ḥashr 59:18; Quran Al-Baqarah 2:44; Quran Aṣ-Ṣaff 61:2-3; Hadith: Sahih Muslim (The Quran is proof for you or against you)","resources":"https://quran.com/59/18"}]},{"chapterId":5,"title":"The Prophet Muhammad ﷺ (Life and Legacy)","summary":"The Prophet Muhammad ﷺ is the final Messenger of Allah, sent as a mercy to all worlds (*Al-Anbiya 21:107*). His life (Seerah) embodies the Qur\'an and provides the best example (Uswatun Hasanah) of faith, character, and leadership for believers (Al-Ahzab 33:21).","overview":[{"heading":"Final Prophet Sent to All Humanity","content":"Muhammad ﷺ is the Seal of the Prophets, and his message is for all people. The Qur\'an also records that the jinn heard the message, underscoring its universality.\\n\\nReferences:\\nQuran Al-Aḥzāb 33:40; Quran Al-Aʿrāf 7:158; Quran Al-Jinn 72:1; Seerah: Ar-Raheeq al-Makhtum (The Sealed Nectar)","resources":"https://quran.com/33/40, https://quran.com/7/158, https://quran.com/72/1"},{"heading":"First Revelation in the Cave of Hira","content":"The first revelation came through Jibril with the command \\"Read\\" (Iqra), marking the beginning of prophethood, traditionally dated to 610 CE when he was about forty.\\n\\nReferences:\\nHadith: Sahih al-Bukhari 4953; Seerah: The Life of the Prophet by Ibn Kathir (abridged)","resources":"https://sunnah.com/bukhari:4953"},{"heading":"Preached Tawhid in Makkah for 13 Years","content":"He called people to worship Allah alone for about thirteen years in Makkah, enduring persecution, boycott, and the loss of close supporters.\\n\\nReferences:\\nQuran Al-Ḥijr 15:94; Seerah: Sirat Ibn Hisham","resources":"https://quran.com/15/94"},{"heading":"Hijrah to Madinah - Turning Point","content":"The migration (Hijrah) in 622 CE marked a decisive turning point and later became the starting point of the Islamic calendar.\\n\\nReferences:\\nQuran An-Naḥl 16:110; Seerah: When the Moon Split by Safiur Rahman al-Mubarakpuri","resources":"https://quran.com/16/110"},{"heading":"Established the Islamic State in Madinah","content":"He built the Masjid, established brotherhood (mu\'akhah) between the Muhajirun and Ansar, and enacted the Constitution of Madinah.\\n\\nReferences:\\nSeerah: Constitution of Madinah; Madinan Society at the Time of the Prophet by Akram Diya al-Umari"},{"heading":"Defensive Battles by Divine Permission","content":"After permission to fight was granted to those wronged, battles such as Badr, Uhud, and the Trench were fought in defense against aggression.\\n\\nReferences:\\nQuran Al-Ḥajj 22:39; Quran Al-Baqarah 2:190; Seerah: The Noble Life of the Prophet by Ali Muhammad as-Sallabi","resources":"https://quran.com/22/39, https://quran.com/2/190"},{"heading":"Conquest of Makkah with Mercy","content":"In 8 AH he entered Makkah and granted a general amnesty, emphasizing mercy over vengeance.\\n\\nReferences:\\nSeerah: Conquest of Makkah accounts in major seerah works"},{"heading":"Farewell Sermon and Completion of the Religion","content":"During the Farewell Pilgrimage, he emphasized rights, equality, and accountability, and the verse announcing the perfection of the religion was revealed.\\n\\nReferences:\\nQuran Al-Māʾidah 5:3; Seerah: Farewell Pilgrimage accounts in hadith and seerah works","resources":"https://quran.com/5/3"},{"heading":"Passed Away in Madinah","content":"He passed away in 11 AH (632 CE) in the home of Aisha (RA) after completing his mission, leaving the Qur\'an and Sunnah as the community\'s guidance.\\n\\nReferences:\\nHadith: Sahih al-Bukhari 4440; Seerah: accounts of his passing in Madinah","resources":"https://sunnah.com/bukhari:4440"},{"heading":"His Character Was the Living Qur\'an","content":"Aisha (RA) described his character as the Qur\'an itself, reflecting truthfulness, trustworthiness, mercy, patience, humility, and justice.\\n\\nReferences:\\nHadith: Sahih Muslim 746a; Quran Al-Qalam 68:4; Shama\'il al-Muhammadiyyah by al-Tirmidhi","resources":"https://sunnah.com/muslim:746a, https://quran.com/68/4"}]},{"chapterId":6,"title":"The Prayer: (Salat)","summary":"Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.","overview":[{"heading":"Prayer Connects to Allah","content":"Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.\\n\\nReferences:\\nQuran Al-ʿAnkabūt 29:45","resources":"https://quran.com/29/45"},{"heading":"Five Daily Prayers","content":"Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.\\n\\nReferences:\\nQuran Hūd 11:114","resources":"https://quran.com/11/114"},{"heading":"Prayer Requires Purity","content":"Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.\\n\\nReferences:\\nQuran Al-Māʾidah 5:6","resources":"https://quran.com/5/6"},{"heading":"Concentration Strengthens Prayer","content":"Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.\\n\\nReferences:\\nQuran Al-Muʾminūn 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Supplication Complements Prayer","content":"Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.\\n\\nReferences:\\nHadith: Sahih Muslim 2724","resources":"https://sunnah.com/muslim:2724"},{"heading":"Prayer Brings Tranquility","content":"Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.\\n\\nReferences:\\nQuran Ṭā Hā 20:14","resources":"https://quran.com/20/14"},{"heading":"Consistency is Key","content":"Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.\\n\\nReferences:\\nQuran Al-Baqarah 2:238","resources":"https://quran.com/2/238"},{"heading":"Prayer Elevates Character","content":"Salah instills patience, humility, and self discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.\\n\\nReferences:\\nQuran Al-ʿAnkabūt 29:45","resources":"https://quran.com/29/45"},{"heading":"Prayer as Reminder","content":"Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.\\n\\nReferences:\\nQuran Al-Baqarah 2:238","resources":"https://quran.com/2/238"},{"heading":"Facing Challenges with Prayer","content":"Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.\\n\\nReferences:\\nQuran Al-Baqarah 2:45","resources":"https://quran.com/2/45"},{"heading":"Prayer Inspires Gratitude","content":"Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.\\n\\nReferences:\\nQuran Ibrāhīm 14:7","resources":"https://quran.com/14/7"},{"heading":"Prayer Strengthens Community","content":"Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.\\n\\nReferences:\\nQuran At-Tawbah 9:71","resources":"https://quran.com/9/71"},{"heading":"Salah Enhances Reflection","content":"Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.\\n\\nReferences:\\nQuran Al-Muʾminūn 23:1-2","resources":"https://quran.com/23/1-2"},{"heading":"Intentions Matter","content":"Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.\\n\\nReferences:\\nHadith: Sahih Bukhari 1","resources":"https://sunnah.com/bukhari:1"},{"heading":"Prayer Nourishes the Heart","content":"Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.\\n\\nReferences:\\nQuran Ar-Rūm 30:17-18","resources":"https://quran.com/30/17-18"}]},{"chapterId":7,"title":"Duʿāʾ and Dhikr","summary":"Duʿāʾ (supplication) and Dhikr (remembrance) are the core of worship and the direct connection between the servant and Allah. They are the most beloved acts to Allah and the means to attain His mercy, blessings, and protection.","overview":[{"heading":"Duʿāʾ is the Essence of Worship","content":"Supplication is an act of worship that demonstrates the servant\'s utter dependence upon and need for Allah.\\n\\nReferences:\\n\'Your Lord says: Call upon Me; I will respond to you...\' (Ghāfir 40:60) Resource: Al-Duʿāʾ by Imam At-Ṭabarānī."},{"heading":"Dhikr Revives the Heart & Earns Rewards","content":"Remembering Allah frequently with the tongue and heart removes heedlessness, brings tranquility, and earns immense rewards.\\n\\nReferences:\\n\'Those who believe and whose hearts find peace in the remembrance of Allah. Surely in the remembrance of Allah do hearts find peace.\' (Ar-Raʿd 13:28) Resource: Al-Kalim aṭ-Ṭayyib by Ibn Taymiyyah."},{"heading":"Duʿāʾ is Accepted in Three Ways","content":"Allah either grants what you asked, averts an equivalent harm, or stores its reward for the Hereafter.\\n\\nReferences:\\nThe Prophet ﷺ said: \'No Muslim supplicates with a duʿāʾ that does not involve sin or severing kinship, but Allah gives him one of three things: He either answers it quickly, stores it for him in the Hereafter, or averts an equivalent evil from him.\' (Musnad Aḥmad 11133 - Ṣaḥīḥ) Resource: Fatḥ al-Bārī (Commentary on Ṣaḥīḥ al-Bukhārī) by Ibn Ḥajar."},{"heading":"Best Times for Duʿāʾ Include Sujūd & Last Third of Night","content":"Certain times and situations are most conducive for acceptance, such as during prostration, between Adhān and Iqāmah, and while traveling.\\n\\nReferences:\\nThe Prophet ﷺ said: \'The closest a servant is to his Lord is when he is in prostration, so increase supplication (then).\' (Ṣaḥīḥ Muslim 482) Resource: Al-Adhkār by Imam An-Nawawī (Chapter on Times for Duʿāʾ)."},{"heading":"Key Daily Adhkār are Prescribed for Morning & Evening","content":"Specific, verified remembrances protect the believer, earn thousands of rewards, and are a fortress against Shayṭān.\\n\\nReferences:\\nThe Prophet ﷺ said: \'Whoever says in the morning and evening: Ḥasbunallāhu wa niʿmal-Wakīl (Allah is sufficient for us, and He is the best Disposer of affairs) seven times, Allah will suffice him for what concerns him.\' (Sunan Abī Dāwūd 5081 - Ḥasan) Resource: Ḥiṣn al-Muslim (Fortress of the Muslim) by Dr. Saʿīd al-Qaḥṭānī."},{"heading":"Begin with Allah\'s Praise & Ṣalāh upon the Prophet ﷺ","content":"The proper etiquette of duʿāʾ includes starting by praising Allah and sending blessings upon the Prophet Muhammad ﷺ.\\n\\nReferences:\\nThe Prophet ﷺ heard a man supplicating without praising Allah or sending Ṣalāh upon him, so he said: \'This man rushed.\' Then he taught: \'When one of you supplicates, let him begin by praising Allah and glorifying Him, then send Ṣalāh upon the Prophet ﷺ, then supplicate as he wishes.\' (Sunan At-Tirmidhi 3477 - Ḥasan) Resource: ʿUddat as-Ṣābirīn by Ibn al-Qayyim."},{"heading":"Duʿāʾ Requires Sincerity, Certainty, & Avoiding Haram Sustenance","content":"For duʿāʾ to be accepted, one must have a sincere heart, be certain of the response, and ensure their food, drink, and clothing are lawful.\\n\\nReferences:\\nThe Prophet ﷺ mentioned a disheveled traveler raising his hands to the sky saying \'O Lord, O Lord!\' while his food, drink, and clothing were from Ḥarām sources, \'So how can his duʿāʾ be answered?\' (Ṣaḥīḥ Muslim 1015) Resource: Al-Duʿāʾ wa Atharuhu fī Dafʿ al-Balāʾ by Ibn Rajab al-Ḥanbalī."},{"heading":"Primary Sources (Qur\'an & Hadith)","content":"Core Qur\'anic verses and authenticated narrations that ground duʿāʾ and dhikr practice.\\n\\nReferences:\\nQur\'anic Verses Cited: Al-Baqarah 2:152 - \'Remember Me; I will remember you.\'; Al-Baqarah 2:201 - \'Our Lord, give us in this world good and in the Hereafter good...\'; Al-Baqarah 2:216 - \'And it may be that you dislike a thing which is good for you...\'; Ar-Raʿd 13:28 - \'Those who believe and whose hearts find peace in the remembrance of Allah...\'; Ghāfir 40:60 - \'Your Lord says: Call upon Me; I will respond to you...\'; Al-Ḥujurāt 49:6 - \'O you who have believed, if there comes to you a disobedient one with information, investigate...\'. Hadith Collections & References: Ṣaḥīḥ al-Bukhārī 6407 (The example of one who remembers his Lord and one who does not); Ṣaḥīḥ al-Bukhārī 6340 (The duʿāʾ of any one of you will be answered so long as he is not impatient); Ṣaḥīḥ al-Bukhārī 3995 (Facing Qiblah during duʿāʾ); Ṣaḥīḥ al-Bukhārī 6110 (On the virtue of dhikr gatherings); Ṣaḥīḥ al-Bukhārī 6389 (Most frequent duʿāʾ of the Prophet ﷺ); Ṣaḥīḥ al-Bukhārī 3370 (Ṣalāh upon the Prophet ﷺ in Tashahhud); Book of Duʿāʾ (كتاب الدعوات) in Bukhārī; Ṣaḥīḥ Muslim 483 (Duʿāʾ in sujūd); Ṣaḥīḥ Muslim 592 (Tasbīḥ after prayer); Ṣaḥīḥ Muslim 1015 (Importance of lawful sustenance for duʿāʾ acceptance); Ṣaḥīḥ Muslim 2732 (Duʿāʾ for others); Ṣaḥīḥ Muslim 476 (\'Rabbana lakal-ḥamd...\'); Ṣaḥīḥ Muslim 482 (Closeness to Allah in sujūd); Ṣaḥīḥ Muslim 487 (\'Subbūḥun Quddūs...\' in rukūʿ and sujūd); Book of Dhikr and Duʿāʾ (كتاب الذكر والدعاء) in Muslim; Sunan Abī Dāwūd 5081 (Morning/evening adhkār); Sunan Abī Dāwūd 5088 (Protection duʿāʾ); Sunan Abī Dāwūd 4855 (Warning against gatherings without dhikr); Sunan Abī Dāwūd 1501 (Counting dhikr on fingers); Sunan Abī Dāwūd 1425 (Qunūt duʿāʾ); Sunan Abī Dāwūd 775 (Opening duʿāʾ in prayer); Sunan Ibn Mājah 3871 (Duʿāʾ for ʿĀfiyah); Sunan Ibn Mājah 897 (\'Rabbighfir lī\' between prostrations); Sunan Ibn Mājah 925 (Various adhkār); Jāmiʿ at-Tirmidhī 3372 (\'Duʿāʾ is worship\'); Jāmiʿ at-Tirmidhī 3477 (Etiquettes of duʿāʾ); Jāmiʿ at-Tirmidhī 3383 (Best dhikr); Jāmiʿ at-Tirmidhī 2926 (Reward for reciting Qur\'an letters); Jāmiʿ at-Tirmidhī 3522 (Duʿāʾ for firmness of heart); Musnad Aḥmad 11133 (Three responses to duʿāʾ); Musnad Aḥmad 13964 (Duʿāʾ for intercession); Al-Muʿjam al-Awsaṭ (Ṭabarānī) 6190 (\'Duʿāʾ is the weapon of the believer\'); Al-Adab al-Mufrad (Bukhārī) - various chapters on etiquettes."},{"heading":"Classical Texts & Commentaries","content":"Core compilations and scholarly commentaries for deeper study of duʿāʾ and dhikr.\\n\\nReferences:\\nPrimary Duʿāʾ & Dhikr Collections: Al-Adhkār - Imām Yaḥyā ibn Sharaf al-Nawawī (631-676 AH); Al-Kalim al-Ṭayyib - Shaykh al-Islām Ibn Taymiyyah (661-728 AH); Al-Duʿāʾ - Imām Abū al-Qāsim al-Ṭabarānī (260-360 AH); Al-Duʿāʾ wa Atharuhu fī Dafʿ al-Balāʾ - Ibn Rajab al-Ḥanbalī (736-795 AH). Hadith Commentaries: Fatḥ al-Bārī - Ibn Ḥajar al-ʿAsqalānī (773-852 AH); Sharḥ Ṣaḥīḥ Muslim - Imām al-Nawawī. Spiritual & Theological Works: ʿUddat al-Ṣābirīn wa Dhakhīrat al-Shākirīn - Ibn al-Qayyim al-Jawziyyah (691-751 AH); Madārij al-Sālikīn - Ibn al-Qayyim; Iḥyāʾ ʿUlūm al-Dīn - Abū Ḥāmid al-Ghazālī (450-505 AH); Al-Wābil al-Ṣayyib - Ibn al-Qayyim. Specialized Fiqh of Duʿāʾ: Fatāwā al-Duʿāʾ in Majmūʿ al-Fatāwā (Ibn Taymiyyah); Al-Qawl al-Mubīn fī Adab al-Duʿāʾ; Miftāḥ Dār al-Saʿādah - Ibn al-Qayyim."}]},{"chapterId":8,"title":"The Heart: Purification & Spiritual Diseases","summary":"The heart (qalb) in Islam is the spiritual center of human existence the seat of faith, intention, and moral consciousness. Its purification (tazkiyah) is the ultimate purpose of revelation.","overview":[{"heading":"The Heart is the Seat of Faith & Accountability","content":"Allah judges by what is in hearts, not mere outward actions.\\n\\nReferences:\\n\\"Allah does not look at your appearances or wealth, but at your hearts and deeds.\\" (Ṣaḥīḥ Muslim 2564). Resource: Iḥyāʾ ʿUlūm ad-Dīn (Revival of Religious Sciences) by Al-Ghazālī Book on Heart Diseases."},{"heading":"Spiritual Diseases Corrupt the Heart","content":"Hypocrisy (nifāq), arrogance (kibr), envy (ḥasad), and heedlessness (ghaflah) are fatal diseases.\\n\\nReferences:\\n\\"In their hearts is disease, so Allah has increased their disease...\\" (Al-Baqarah 2:10). Resource: ʿUddat aṣ-Ṣābirīn (Provisions for the Patient) by Ibn al-Qayyim Chapter on Envy."},{"heading":"Purification Requires Knowledge & Action","content":"One must first learn the diseases, then actively combat them through worship and character refinement.\\n\\nReferences:\\n\\"He has certainly succeeded who purifies it, and he has certainly failed who corrupts it.\\" (Ash-Shams 91:9-10). Resource: Mukhtaṣar Minhāj al-Qāṣidīn (Abridgement of The Path of the Seekers) by Ibn Qudāmah."},{"heading":"Arrogance (Kibr) is Rejecting Truth & Despising People","content":"The root of Iblīs’s sin, it prevents entry to Paradise.\\n\\nReferences:\\n\\"Whoever has an atom\'s weight of arrogance in his heart will not enter Paradise.\\" (Ṣaḥīḥ Muslim 91). Resource: Kitāb al-Kabāʾir (The Major Sins) by Adh-Dhahabī Chapter on Arrogance."},{"heading":"Envy (Ḥasad) Consumes Good Deeds","content":"It means wishing for Allah’s blessings to be removed from others.\\n\\nReferences:\\n\\"Beware of envy, for it consumes good deeds as fire consumes wood.\\" (Sunan Abī Dāwūd 4903 Ḥasan). Resource: Al-Fawāʾid (Points of Benefit) by Ibn al-Qayyim Section on Heart Maladies."},{"heading":"Showing Off (Riyāʾ) Nullifies Worship","content":"Seeking praise for worship instead of Allah’s pleasure.\\n\\nReferences:\\n\\"The slightest amount of showing off is shirk (polytheism).\\" (Sunan Ibn Mājah 3989 Ṣaḥīḥ). Resource: Kashf al-Khafāʾ (Unveiling the Hidden) by Al-ʿAjlūnī Entry on Riyāʾ."},{"heading":"Love of the World is the Root of All Faults","content":"Excessive attachment to dunyā weakens the heart’s connection to Allah.\\n\\nReferences:\\n\\"The love of this world is the root of every sin.\\" (Al-Muʿjam al-Awsaṭ 6066 Ḥasan). Resource: Al-Zuhd (Asceticism) by Imām Aḥmad Collection on Detachment."},{"heading":"Cures Include: Repentance, Dhikr, Qur’an, Good Company","content":"Specific remedies for each disease from Prophetic guidance.\\n\\nReferences:\\n\\"Hearts rust as iron rusts. Their polish is the remembrance (dhikr) of Allah.\\" (Shuʿab al-Īmān 1596 Ḥasan). Resource: Al-Wābil aṣ-Ṣayyib (The Gentle Rain) by Ibn al-Qayyim On Dhikr’s Effects."},{"heading":"The Sound Heart is Free from Shirk, Hatred & Envy","content":"It submits solely to Allah and wishes good for all Muslims.\\n\\nReferences:\\n\\"The Muslim is the one from whose tongue and hand Muslims are safe.\\" (Ṣaḥīḥ al-Bukhārī 10). Resource: Madārij as-Sālikīn (Stations of the Seekers) by Ibn al-Qayyim Grades of Heart Soundness."},{"heading":"Constant Self-Accounting (Muḥāsabah) is Necessary","content":"Regularly checking one’s intentions and actions.\\n\\nReferences:\\nUmar ibn al-Khaṭṭāb said: \\"Hold yourselves accountable before you are held accountable.\\" (Ḥilyat al-Awliyāʾ 1/52). Resource: Al-Ḥisbah fī al-Islām (Accountability in Islam) by Ibn Taymiyyah."}]},{"chapterId":9,"title":"The Manners: Islamic Etiquette (Adab)","summary":"Islamic manners (Adab) are not mere social etiquette but an integral part of faith (Īmān), encompassing how we interact with Allah, His creation, and ourselves.","overview":[{"heading":"Good Character Completes Faith","content":"The most beloved to Allah are those with best manners.\\n\\nReferences:\\n\\"The most perfect believer in faith is he who is best in character.\\" (Sunan at-Tirmidhī 1162 – Ṣaḥīḥ). Resource: Al-Adab al-Mufrad by Imām al-Bukhārī – Comprehensive manners collection."},{"heading":"Begin with Salām (Peace Greeting)","content":"Spreading peace is a means to Paradise and increases love.\\n\\nReferences:\\n\\"You will not enter Paradise until you believe, and you will not believe until you love one another. Shall I inform you of something which will make you love one another? Spread Salām among yourselves.\\" (Ṣaḥīḥ Muslim 54). Resource: Riyāḍ aṣ-Ṣāliḥīn by Imām al-Nawawī – Chapter on Salām."},{"heading":"Lower Your Voice & Speak Kindly","content":"A believer\'s speech is always measured, gentle, and truthful.\\n\\nReferences:\\n\\"And be moderate in your pace and lower your voice; indeed, the most disagreeable of sounds is the voice of donkeys.\\" (Luqmān 31:19). Resource: Al-Adhkar by Imām al-Nawawī – Chapter on Speech Manners."},{"heading":"Show Mercy to Earn Allah’s Mercy","content":"Mercy encompasses all creation humans, animals, and the environment.\\n\\nReferences:\\n\\"Those who are merciful will be shown mercy by the Most Merciful. Be merciful to those on earth, and the One in heaven will have mercy upon you.\\" (Sunan at-Tirmidhī 1924 – Ṣaḥīḥ). Resource: Al-Kabā\'ir by Adh-Dhahabī – Sections on cruelty."},{"heading":"Practice Modesty in Dress & Gaze","content":"Modesty (ḥayāʾ) is a branch of faith that beautifies conduct.\\n\\nReferences:\\n\\"Modesty brings nothing but good.\\" (Ṣaḥīḥ al-Bukhārī 6117). Resource: Ḥijāb al-Mar\'ah al-Muslimah by Al-Albānī – On Islamic dress code."},{"heading":"Honor Parents Absolutely","content":"After Allah, parents have the greatest right over a person.\\n\\nReferences:\\n\\"And your Lord has decreed that you worship none but Him, and be kind to parents...\\" (Al-Isrāʾ 17:23). Resource: Birr al-Wālidayn by Ibn al-Jawzī – Book on honoring parents."},{"heading":"Rights of Neighbors are Sacred","content":"The neighbor\'s right is so emphasized that the Prophet ﷺ thought they might inherit.\\n\\nReferences:\\n\\"Jibrīl kept recommending the neighbor to me until I thought he would make him an heir.\\" (Ṣaḥīḥ al-Bukhārī 6015). Resource: Al-Adab al-Mufrad – Chapters on neighborly rights."},{"heading":"Control Anger & Forgive Others","content":"True strength lies in self-control during anger, not in physical power.\\n\\nReferences:\\n\\"The strong is not the one who overcomes people by his strength, but the strong is the one who controls himself while in anger.\\" (Ṣaḥīḥ al-Bukhārī 6114). Resource: ʿUddat aṣ-Ṣābirīn by Ibn al-Qayyim – Chapter on Patience."},{"heading":"Honesty in All Transactions","content":"Truthfulness leads to righteousness and Paradise.\\n\\nReferences:\\n\\"Truthfulness leads to righteousness, and righteousness leads to Paradise.\\" (Ṣaḥīḥ al-Bukhārī 6094). Resource: Al-Bayʿ wal-Shirāʾ by Ibn ʿUthaymīn – On business ethics."},{"heading":"Respect for Elders & Kindness to Young","content":"A society is balanced when elders are respected and young are shown mercy.\\n\\nReferences:\\n\\"He is not of us who does not have mercy on our young nor honor our elders.\\" (Sunan at-Tirmidhī 1919 – Ḥasan). Resource: Al-Ādāb ash-Sharʿiyyah by Ibn Mufliḥ – Comprehensive manners text."}]},{"chapterId":10,"title":"The Lifestyle: Halal & Haram","summary":"The Islamic lifestyle is built upon the foundational principle of distinguishing between the lawful (Halal) and unlawful (Haram) a divine filter through which Muslims evaluate all actions, consumption, and transactions.","overview":[{"heading":"Only Allah Has the Right to Declare Halal or Haram","content":"Humans cannot prohibit what Allah has made lawful, nor permit what He has forbidden. This right belongs exclusively to Allah, as He is the Creator and Legislator.\\n\\nReferences:\\n\\"Do not say concerning what your tongues falsely describe, \'This is lawful and this is forbidden,\' to invent lies against Allah...\\" (An-Naḥl 16:116) Resource: Al-Ḥalāl wal-Ḥarām fil-Islām by Dr. Yūsuf al-Qaraḍāwī – Chapter on Theological Basis."},{"heading":"The Default State of All Things is Permissibility (Al-Ibāḥah al-Aṣliyyah)","content":"Except where definitive evidence establishes prohibition, everything is permissible. This principle applies to food, drinks, transactions, and worldly matters.\\n\\nReferences:\\n\\"He has explained to you what He has forbidden for you...\\" (Al-Anʿām 6:119) Resource: Al-Muṣṭalaḥāt al-Arbaʿah by Ibn ʿUthaymīn – Explanation of \\"Halal, Haram, Makrūh, Mandūb.\\""},{"heading":"Prohibitions Are Few & Clear; Permissibilities Are Vast","content":"Islam is not a religion of restrictions but of channeling freedom within divine boundaries. The core prohibitions are known and limited.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"What Allah has made lawful in His Book is Halal, and what He has forbidden is Haram, and what He remained silent about is pardoned.\\" (Sunan Ibn Mājah 3367 – Ḥasan) Resource: Al-Ashbāh wan-Naẓāʾir by As-Suyūṭī – Principles of Islamic Jurisprudence."},{"heading":"Haram Includes Both the Substance and Means to It","content":"It is not only forbidden to consume Haram (like alcohol) but also to sell, transport, serve, or benefit from its trade. The means to Haram are also Haram.\\n\\nReferences:\\n\\"Allah has cursed alcohol, its drinker, its server, its seller, its buyer...\\" (Sunan Abī Dāwūd 3674 – Ṣaḥīḥ) Resource: Al-Qawāʿid al-Fiqhiyyah by As-Saʿdī – Legal maxim: \\"Whatever leads to Haram is itself Haram.\\""},{"heading":"Lawful Food Must Meet Two Criteria: Permissible Source & Proper Slaughter","content":"Animals must be from Halal species and slaughtered according to Islamic rite (Tasmiyyah - mentioning Allah\'s name, cutting throat, windpipe, and blood vessels).\\n\\nReferences:\\n\\"Eat of that over which the name of Allah has been mentioned, if you are believers in His verses.\\" (Al-Anʿām 6:118) Resource: Fiqh al-Ṭaʿām wal-Ashribah by ʿAbdullah al-Faqīh – Detailed rulings on food."},{"heading":"All Financial Transactions Are Prohibited Unless Proven Permissible","content":"Unlike general matters, financial dealings require evidence of permissibility due to prevalence of fraud and injustice. The default is prohibition until proven Halal.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The sale is invalid if accompanied by uncertainty (Gharar).\\" (Ṣaḥīḥ Muslim 1513) Resource: Al-Buyūʿ al-Muḥarramah fil-Islām by Ṣāliḥ al-Fawzān – Forbidden transactions."},{"heading":"Major Prohibitions Include: Alcohol, Pork, Carnivorous Animals, Blood, Idolatry, Riba (Interest), Gambling, Fortune-Telling, Adultery, & Usurpation","content":"These are explicitly forbidden in the Qur\'an and Hadith and have severe spiritual, health, and social consequences.\\n\\nReferences:\\n\\"He has only forbidden you dead animals, blood, the flesh of swine, and that which has been dedicated to other than Allah.\\" (Al-Baqarah 2:173) Resource: Al-Kabāʾir by Adh-Dhahabī – The Major Sins."},{"heading":"Necessity (Ḍarūrah) Permits the Prohibited Within Strict Limits","content":"In genuine, life-threatening necessity, prohibited things become temporarily permissible, but only to the extent needed to remove the necessity.\\n\\nReferences:\\n\\"But whoever is forced by severe hunger with no inclination to sin – then indeed, Allah is Forgiving and Merciful.\\" (Al-Māʾidah 5:3) Resource: Qawāʿid al-Aḥkām by Al-ʿIzz ibn ʿAbd as-Salām – Rules of necessity."},{"heading":"Doubtful Matters Should Be Avoided to Protect One\'s Faith & Honor","content":"When uncertain, the pious approach is to leave what causes doubt for what causes no doubt. This safeguards one\'s religion and conscience.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Leave that which makes you doubt for that which does not make you doubt.\\" (Sunan at-Tirmidhī 2518 – Ṣaḥīḥ) Resource: Iʿlām al-Muwaqqiʿīn by Ibn al-Qayyim – Chapter on precaution."},{"heading":"Haram Consumption Affects Worship & Duʿāʾ Acceptance","content":"Consuming unlawful food, drink, or wealth prevents one\'s worship from being accepted and blocks the response to supplications.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Allah is pure and accepts only what is pure.\\" (Ṣaḥīḥ Muslim 1015) Resource: Al-Duʿāʾ by Ibn Abī Dunyā – Conditions for acceptance."}]},{"chapterId":11,"title":"Family & Marriage: Continuous Growth","summary":"The family is the cornerstone of Islamic society, and marriage (nikāḥ) is a sacred covenant (mīthāq ghalīẓ) ordained by Allah for spiritual growth, emotional fulfillment, and the establishment of righteous generations. ","overview":[{"heading":"Marriage is Half of Faith & Completion of Religion","content":"Marriage protects chastity, fulfills natural desires lawfully, and completes one\'s faith. It is a Prophetic Sunnah strongly recommended for those able.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"O young people! Whoever among you can afford marriage, let him marry, for it lowers the gaze and guards chastity...\\" (Ṣaḥīḥ al-Bukhārī 5065) Resource: Ādāb al-Zawāj (Etiquettes of Marriage) by ʿAbdullah al-Jibrīn."},{"heading":"The Spousal Relationship is Based on Mutual Mercy (Rahmah) & Tranquility (Sakīnah)","content":"Allah describes spouses as garments for one another providing protection, comfort, and covering. The marital bond is meant for psychological and spiritual peace.\\n\\nReferences:\\n\\"They are clothing for you and you are clothing for them...\\" (Al-Baqarah 2:187) Resource: The Muslim Family by Dr. Muḥammad Al-Hashimi."},{"heading":"The Husband is the Guardian (Qawwām) Responsible for Provision & Protection","content":"This leadership is based on responsibility, not superiority. The husband must maintain his family with kindness, consultation (shūrā), and fairness.\\n\\nReferences:\\n\\"Men are in charge of women by what Allah has given one over the other and what they spend from their wealth...\\" (An-Nisāʾ 4:34) Resource: Qawwāmah: The Framework of Male Guardianship by Dr. Jasser Auda."},{"heading":"The Wife Has the Right to Kind Treatment, Financial Support, & Intimate Companionship","content":"Her rights are sacred and detailed in the Qur\'an and Sunnah. Discharging them is an act of worship for the husband.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The best of you is he who is best to his wife, and I am the best of you to my wives.\\" (Sunan Ibn Mājah 1977 – Ṣaḥīḥ) Resource: Huqūq al-Zawjayn (Rights of Spouses) by Ṣāliḥ al-Fawzān."},{"heading":"Choosing a Spouse Should Prioritize Piety (Dīn) & Good Character","content":"Wealth, beauty, and lineage are secondary considerations. A righteous spouse is the key to a blessed home and successful upbringing of children.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"A woman is married for four things: her wealth, lineage, beauty, and religion. Choose the religious woman, lest your hands be rubbed with dust!\\" (Ṣaḥīḥ al-Bukhārī 5090) Resource: Al-Akhṭāʾ al-Shāʾiʿah fī Ṭalab al-Zawj (Common Mistakes in Seeking Marriage) by ʿAbd al-ʿAzīz al-Nāṣir."},{"heading":"Children Are a Trust (Amānah) & Must Be Raised With Love, Islamic Education, & Good Example","content":"Parents will be held accountable for their upbringing. The first words a child should hear are the call to prayer (adhān) in their ears.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Every one of you is a shepherd and is responsible for his flock...\\" (Ṣaḥīḥ al-Bukhārī 893) Resource: Tarbiyat al-Awlād fī al-Islām (Raising Children in Islam) by Dr. ʿAbdullah Nāṣiḥ ʿUlwān."},{"heading":"Maintaining Kinship Ties (Ṣilat al-Raḥim) is Obligatory & Brings Blessings","content":"This includes parents, siblings, and extended family. Severing ties is a major sin that brings Allah\'s curse and withholds blessings.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"Whoever believes in Allah and the Last Day, let him maintain the bonds of kinship.\\" (Ṣaḥīḥ al-Bukhārī 6138) Resource: Birr al-Wālidayn wa Ṣilat al-Arḥām by Ibn al-Jawzī."},{"heading":"Conflict Resolution Follows the Sequence: Private Advice → Mediation → Arbitration","content":"Disputes should be resolved with wisdom, patience, and seeking intervention from righteous family members if needed.\\n\\nReferences:\\n\\"If you fear a breach between them, appoint an arbiter from his family and an arbiter from her family...\\" (An-Nisāʾ 4:35) Resource: Al-Iṣlāḥ bayn al-Zawjayn (Reconciliation Between Spouses) by Dr. Ṣāliḥ al-Ghāmidī."},{"heading":"Divorce is Permitted But the Most Hated Permissible Act to Allah","content":"It is a last resort after all reconciliation efforts fail. The procedure must follow Islamic guidelines to minimize harm.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The most hateful permissible thing to Allah is divorce.\\" (Sunan Abī Dāwūd 2178 – Ḥasan) Resource: Aḥkām al-Ṭalāq (Rulings of Divorce) by Ibn ʿUthaymīn."},{"heading":"The Family Home Should Be a Place of Remembrance (Dhikr), Prayer, & Mercy","content":"Angels enter homes where Allah is remembered and blessings descend. The home should be a sanctuary from worldly fitnah.\\n\\nReferences:\\nThe Prophet ﷺ said: \\"The example of a home in which Allah is remembered and a home in which Allah is not remembered is like the living and the dead.\\" (Ṣaḥīḥ Muslim 779) Resource: Kayfa Takūn Usrah Saʿīdah (How to Have a Happy Family) by Dr. ʿĀʾid al-Qarnī."}]},{"chapterId":12,"title":"The Community: Building Ummah, Support, and Uplift","summary":"Islam thrives in community; this chapter explores solidarity, hospitality, and shared purpose.","overview":[{"heading":"Community Strengthens Faith","content":"Engaging in a righteous community fosters support, accountability, and shared worship. Collective action strengthens faith and promotes ethical behavior among members.\\n\\nReferences:\\nQuran Āl ʿImrān 3:104"},{"heading":"Supporting One Another","content":"Mutual assistance in times of need nurtures compassion, unity, and social responsibility while reflecting divine guidance in action.\\n\\nReferences:\\nQuran Al-Māʾidah 5:2"},{"heading":"Justice in Society","content":"Fair treatment of all community members ensures harmony, prevents conflict, and aligns society with Allah’s principles.\\n\\nReferences:\\nQuran An-Nisāʾ 4:58"},{"heading":"Inclusivity and Brotherhood","content":"Welcoming diversity and fostering equality strengthens social bonds. Unity and brotherhood reflect ethical conduct and divine guidance.\\n\\nReferences:\\nQuran Al-Ḥujurāt 49:13"},{"heading":"Resolving Conflicts Peacefully","content":"Encouraging dialogue and reconciliation maintains harmony, prevents injustice, and strengthens communal trust in accordance with Islamic principles.\\n\\nReferences:\\nQuran Al-Ḥujurāt 49:9"},{"heading":"Collective Worship","content":"Praying, fasting, and performing acts of charity together nurtures unity, strengthens faith, and fosters shared responsibility.\\n\\nReferences:\\nQuran At-Tawbah 9:71"},{"heading":"Charity Strengthens Community","content":"Giving zakat and sadaqah supports the needy, reduces inequality, and enhances social cohesion, reflecting ethical and spiritual responsibility.\\n\\nReferences:\\nQuran Al-Baqarah 2:177"},{"heading":"Mentorship and Education","content":"Sharing knowledge and guidance empowers individuals, fosters ethical development, and strengthens community resilience and faith.\\n\\nReferences:\\nHadith: Sahih Muslim 2699"},{"heading":"Respecting Leaders","content":"Honoring just leadership nurtures stability, accountability, and obedience to ethical principles while ensuring communal well being.\\n\\nReferences:\\nQuran An-Nisāʾ 4:59"},{"heading":"Caring for the Vulnerable","content":"Protecting orphans, the poor, and the marginalized reflects divine mercy and strengthens community bonds.\\n\\nReferences:\\nQuran Al-Baqarah 2:220"},{"heading":"Promoting Peace and Security","content":"Encouraging lawfulness, justice, and peaceful interactions ensures community safety, stability, and moral integrity.\\n\\nReferences:\\nQuran Al-Māʾidah 5:32"},{"heading":"Collaboration and Cooperation","content":"Working together in permissible endeavors nurtures mutual support, ethical behavior, and collective growth, reflecting shared responsibility to Allah.\\n\\nReferences:\\nQuran Al-Māʾidah 5:2"},{"heading":"Accountability Within the Community","content":"Members should encourage righteous behavior and discourage wrongdoing. Mutual accountability strengthens morality, unity, and shared faith.\\n\\nReferences:\\nQuran Āl ʿImrān 3:104"},{"heading":"Community Celebrations","content":"Shared worship, festivals, and gatherings enhance spiritual bonds, reinforce ethical teachings, and foster joy, gratitude, and unity.\\n\\nReferences:\\nHadith: Sahih Bukhari 967"},{"heading":"Continuous Support","content":"Consistently helping and uplifting members builds resilience, strengthens faith, and ensures that community remains a source of guidance, compassion, and ethical growth.\\n\\nReferences:\\nQuran Al-Baqarah 2:177"}]},{"chapterId":13,"title":"The Future: Continuous Growth and Legacy","summary":"This chapter helps you set spiritual goals, document progress, and leave enduring impact.","overview":[{"heading":"The Future is Known to Allah","content":"Believers understand that only Allah knows what lies ahead. Trusting His wisdom nurtures patience, reduces anxiety, and encourages reliance on divine guidance.\\n\\nReferences:\\nQuran Luqmān 31:34"},{"heading":"Planning with Reliance","content":"While planning for the future is important, ultimate outcomes rest with Allah. Combining effort with reliance ensures balance, humility, and spiritual mindfulness.\\n\\nReferences:\\nQuran Al-Kahf 18:23-24"},{"heading":"Avoiding Worry About the Unknown","content":"Trust in Allah alleviates fear and anxiety. Faith in divine decree strengthens resilience and peace while facing uncertainty.\\n\\nReferences:\\nQuran Aṭ-Ṭalāq 65:2-3"},{"heading":"Preparation Through Good Deeds","content":"Actions in this life shape the future. Ethical behavior, worship, and righteous deeds ensure spiritual and worldly benefits.\\n\\nReferences:\\nQuran Al-Baqarah 2:110"},{"heading":"Faith Guides Decisions","content":"Belief in Allah’s plan influences choices, ensuring ethical, informed, and purposeful action while trusting in divine wisdom.\\n\\nReferences:\\nQuran Āl ʿImrān 3:159"},{"heading":"Hope Anchors the Heart","content":"Believers remain hopeful in Allah’s mercy and plan. This optimism nurtures perseverance, patience, and resilience in life’s trials.\\n\\nReferences:\\nQuran Az-Zumar 39:53"},{"heading":"Actions Determine Outcomes","content":"While the future is known to Allah, human effort shapes results. Sincere action, intention, and planning are rewarded by divine decree.\\n\\nReferences:\\nQuran Āl ʿImrān 3:145"},{"heading":"Rely on Allah, Not Fear","content":"Fear of the future diminishes faith. Reliance on Allah instills courage, patience, and calmness in all circumstances.\\n\\nReferences:\\nQuran Āl ʿImrān 3:173"},{"heading":"Accountability in the Future","content":"Every action will be judged. Awareness of divine accountability motivates ethical conduct and spiritual mindfulness.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"Future Depends on Intention","content":"Sincere intentions influence the impact of actions. Aligning purpose with Allah’s pleasure ensures that efforts are rewarded.\\n\\nReferences:\\nHadith: Sahih Bukhari 1"},{"heading":"Trust in Divine Wisdom","content":"Believers accept outcomes with understanding that Allah’s knowledge surpasses human perception, fostering contentment and resilience.\\n\\nReferences:\\nQuran Al-Baqarah 2:216"},{"heading":"Patience Shapes the Future","content":"Enduring trials with patience and faith ensures spiritual growth and prepares believers for divine reward in both this life and the Hereafter.\\n\\nReferences:\\nQuran Al-ʿAṣr 103:2-3"},{"heading":"Optimism Strengthens Action","content":"Positive expectation in Allah’s plan encourages proactive effort, ethical decision making, and resilience in adversity.\\n\\nReferences:\\nQuran Āl ʿImrān 3:139"},{"heading":"Prayers Influence the Future","content":"Supplication and consistent dhikr invite divine guidance, protection, and blessings, shaping both spiritual and worldly outcomes.\\n\\nReferences:\\nQuran Al-Baqarah 2:186"},{"heading":"Faith Reduces Anxiety","content":"Belief in Allah’s control over the future fosters calmness, reliance, and contentment, even when facing uncertainty.\\n\\nReferences:\\nQuran Aṭ-Ṭalāq 65:3"}]},{"chapterId":14,"title":"The Hereafter: Realities, Death, Resurrection, and Mercy","summary":"The Hereafter pulls the heart toward lasting priorities; remembering death, the grave, and accountability strengthens every moment of obedience.","overview":[{"heading":"The Hereafter is Certain","content":"Belief in life after death shapes moral conduct, encourages ethical behavior, and reminds believers that every action has eternal significance.\\n\\nReferences:\\nQuran Āl ʿImrān 3:185"},{"heading":"Preparation Begins Now","content":"Righteous deeds, sincere worship, and ethical behavior prepare for the Hereafter, ensuring spiritual success and divine reward.\\n\\nReferences:\\nQuran Al-Anʿām 6:132"},{"heading":"Accountability is Inevitable","content":"Every action, word, and intention will be judged. Awareness of accountability motivates ethical living and mindfulness.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"The Hereafter Motivates Patience","content":"Belief in eternal reward encourages perseverance through hardships, strengthening trust in Allah’s wisdom and cultivating spiritual growth.\\n\\nReferences:\\nQuran Luqmān 31:34"},{"heading":"Justice Will Be Perfect","content":"Allah’s judgment is fair and precise. Belief in divine justice instills hope, discourages wrongdoing, and encourages ethical behavior.\\n\\nReferences:\\nQuran An-Nisāʾ 4:40"},{"heading":"Reward for Good Deeds","content":"Every act of worship, charity, and righteousness is recorded. Believers are assured of recompense in the eternal life.\\n\\nReferences:\\nQuran Al-Baqarah 2:277"},{"heading":"Consequences of Sin","content":"Wrongdoing carries accountability in the Hereafter. Awareness of consequences encourages repentance, ethical behavior, and spiritual mindfulness.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"Repentance Prepares the Soul","content":"Sincere repentance purifies the heart and protects from punishment. Regular self reflection aligns actions with Allah’s guidance.\\n\\nReferences:\\nQuran Az-Zumar 39:53"},{"heading":"The Hereafter Brings Justice","content":"Divine judgment restores balance, corrects injustice, and ensures that moral accountability is fulfilled perfectly.\\n\\nReferences:\\nQuran Al-Jāthiyah 45:22"},{"heading":"Life is a Test","content":"This world is temporary; belief in the Hereafter reminds believers that challenges are trials shaping spiritual growth and divine reward.\\n\\nReferences:\\nQuran Al-Mulk 67:2"},{"heading":"The Hereafter Encourages Gratitude","content":"Awareness of eternal consequences fosters appreciation for Allah’s blessings, ethical living, and mindful worship.\\n\\nReferences:\\nQuran Ibrāhīm 14:7"},{"heading":"Hope Strengthens Action","content":"Belief in Paradise motivates righteous deeds, ethical behavior, and perseverance, ensuring spiritual alignment with Allah’s pleasure.\\n\\nReferences:\\nQuran Āl ʿImrān 3:139"},{"heading":"Fear Prevents Wrongdoing","content":"Belief in divine punishment discourages sins, fosters self restraint, and aligns life with moral and spiritual guidance.\\n\\nReferences:\\nQuran Al-Mulk 67:2"},{"heading":"Life is Temporary","content":"This world is fleeting; the eternal Hereafter defines true success. Focus on ethical behavior and worship ensures spiritual fulfillment.\\n\\nReferences:\\nQuran Al-Ḥadīd 57:20"},{"heading":"Continuous Reflection is Key","content":"Regular contemplation of the Hereafter strengthens faith, guides ethical conduct, and ensures preparedness for eternal life.\\n\\nReferences:\\nQuran Al-Ḥashr 59:18"}]},{"chapterId":15,"title":"Paradise & Hell: Rewards, Warnings, and Motivation","summary":"Visualize the eternal abodes so gratitude grows and warnings keep you humble.","overview":[{"heading":"Paradise is Eternal Reward","content":"Believers who follow Allah’s guidance are promised eternal bliss in Paradise, a place of peace, happiness, and divine pleasure.\\n\\nReferences:\\nQuran Al-Kahf 18:107"},{"heading":"Hell is a Consequence of Sin","content":"Those who reject guidance and persist in wrongdoing face punishment. Awareness of Hell encourages ethical behavior and sincere repentance.\\n\\nReferences:\\nQuran An-Nisāʾ 4:56"},{"heading":"Paradise Rewards Faith and Deeds","content":"Good deeds, worship, and sincere intentions lead to Paradise. Belief motivates ethical actions and spiritual mindfulness in daily life.\\n\\nReferences:\\nQuran Al-Baqarah 2:82"},{"heading":"Hell Warns Against Disobedience","content":"Knowledge of divine punishment deters sins, encourages repentance, and strengthens commitment to ethical and spiritual conduct.\\n\\nReferences:\\nQuran Al-Mulk 67:6"},{"heading":"Paradise is a Source of Hope","content":"Aspiration for eternal reward inspires patience, perseverance, and consistent worship, guiding believers toward Allah’s pleasure.\\n\\nReferences:\\nQuran At-Tawbah 9:72"},{"heading":"Hell Encourages Mindfulness","content":"Awareness of punishment cultivates vigilance in deeds, honesty, and accountability to Allah in all actions.\\n\\nReferences:\\nQuran An-Nabaʾ 78:21-30"},{"heading":"Paradise is Attained Through Mercy","content":"Allah’s mercy enables entry into Paradise. Faith, worship, and sincere intentions invite divine pleasure and eternal reward.\\n\\nReferences:\\nQuran Az-Zumar 39:53"},{"heading":"Hell is Just Punishment","content":"Divine justice ensures that wrongdoing is appropriately addressed. Awareness strengthens moral behavior and encourages ethical decision making.\\n\\nReferences:\\nQuran Az-Zalzalah 99:7-8"},{"heading":"Rewards are Proportional to Deeds","content":"Every action, small or large, influences eternal outcome. Ethical conduct and worship ensure reward and closeness to Allah.\\n\\nReferences:\\nQuran Al-Anʿām 6:160"},{"heading":"Hell is Avoided Through Repentance","content":"Sincere repentance and ethical correction prevent punishment, ensuring spiritual growth and alignment with divine guidance.\\n\\nReferences:\\nQuran Al-Furqān 25:70"},{"heading":"Paradise Inspires Ethical Living","content":"Hope for eternal reward motivates righteous deeds, patience, gratitude, and compassionate interactions with others.\\n\\nReferences:\\nQuran Āl ʿImrān 3:133"},{"heading":"Hell Encourages Reflection","content":"Considering consequences of sin strengthens mindfulness, self restraint, and ethical alignment with Allah’s commands.\\n\\nReferences:\\nQuran Al-Muddaththir 74:26-30"},{"heading":"Paradise is Beyond Imagination","content":"Descriptions of eternal bliss inspire devotion and reinforce that ultimate fulfillment comes from Allah, motivating ethical and spiritual perseverance.\\n\\nReferences:\\nQuran Al-Insān 76:12-14"},{"heading":"Hell Warns of Neglect","content":"Neglecting guidance leads to punishment. Awareness encourages responsibility, repentance, and continuous effort to align life with divine instruction.\\n\\nReferences:\\nQuran Al-Anʿām 6:128"},{"heading":"Continuous Effort Ensures Reward","content":"Regular worship, ethical behavior, and sincere intention are keys to Paradise, while avoiding sin prevents Hell, reinforcing accountability in daily life.\\n\\nReferences:\\nQuran Al-Baqarah 2:277"}]}]');
 
 /***/ }),
 

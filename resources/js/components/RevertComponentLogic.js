@@ -86,6 +86,42 @@ const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mothe
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male']
 
 const RESOURCE_SECTION_TITLES = ['Primary Sources', 'Classical Texts', 'Modern Resources']
+const RESOURCE_HIGHLIGHT_CLASSES = [
+  'highlight-0',
+  'highlight-1',
+  'highlight-2',
+  'highlight-3',
+  'highlight-4',
+  'highlight-5'
+]
+const GLOBAL_SEARCH_SECTIONS = [
+  { key: 'Lesson Overview', label: 'Lesson Overview', id: 'lesson-overview-section' },
+  { key: 'Focus of This Lesson', label: 'Focus of This Lesson', id: 'lesson-focus-section' },
+  { key: 'Learning Paths', label: 'Learning Paths', id: 'learning-paths-section' },
+  { key: 'Guided Pathway', label: 'Guided Pathway', id: 'guided-pathway-section' },
+  { key: "Do's and Don'ts", label: "Do's and Don'ts", id: 'dos-donts-section' },
+  { key: 'Duas', label: 'Duas to Carry', id: 'duas-section' },
+  { key: 'Revert Stories', label: 'Revert Stories', id: 'revert-stories-section' },
+  { key: 'Key Insights', label: 'Key Insights', id: 'key-insights-section' },
+  { key: 'Common Questions', label: 'Common Questions', id: 'common-questions-section' },
+  { key: 'Resources', label: 'References & Resources', id: 'resources-section' }
+]
+const GLOBAL_SEARCH_SECTION_ID_MAP = GLOBAL_SEARCH_SECTIONS.reduce((map, entry) => {
+  map[entry.key] = entry.id
+  return map
+}, {})
+const GLOBAL_SEARCH_SECTION_ICONS = {
+  'Lesson Overview': 'bi-journal-text',
+  'Focus of This Lesson': 'bi-brightness-high-fill',
+  'Learning Paths': 'bi-box-seam-fill',
+  'Guided Pathway': 'bi-controller',
+  "Do's and Don'ts": 'bi-shield-fill-check',
+  'Duas': 'bi-bookmark-star-fill',
+  'Revert Stories': 'bi-people-fill',
+  'Key Insights': 'bi-lightbulb-fill',
+  'Common Questions': 'bi-question-circle-fill',
+  'Resources': 'bi-book'
+}
 
 const DEFAULT_DAILY_CHALLENGES = [
   {
@@ -413,12 +449,16 @@ export default defineComponent({
       activeResource: null,
       showVideoModal: false,
       showHelpModal: false,
+      showSearchInfoModal: false,
       showCompletionModal: false,
       nextPhaseAmountMinor: 199,
       helpGuideSteps: REVERTS_GUIDE_STEPS,
       shareFriendStatus: '',
       onboarding: normalizeJson(onboardingData),
       resourceCopyStatus: '',
+      resourceSearchTerm: '',
+      resourceSearchMode: 'any',
+      globalSearchCategory: 'all',
       confettiPromise: null,
       confettiLauncher: null,
       lessonShareStatus: '',
@@ -524,6 +564,278 @@ export default defineComponent({
         ...base,
         sections: normalizedSections
       }
+    },
+    resourceSearchTokens() {
+      return this.tokenizeSearchTerm(this.resourceSearchTerm)
+    },
+    resourceSearchTokensNormalized() {
+      return this.resourceSearchTokens.map(token => token.toLowerCase())
+    },
+    resourceSearchTokensWithClasses() {
+      return this.resourceSearchTokens.map((token, index) => ({
+        token,
+        className: RESOURCE_HIGHLIGHT_CLASSES[index % RESOURCE_HIGHLIGHT_CLASSES.length]
+      }))
+    },
+    resourceHighlightConfig() {
+      if (!this.resourceSearchTokensWithClasses.length) {
+        return { regex: null, tokenMap: new Map() }
+      }
+      const tokenMap = new Map()
+      this.resourceSearchTokensWithClasses.forEach(({ token, className }) => {
+        const key = token.toLowerCase()
+        if (!tokenMap.has(key)) {
+          tokenMap.set(key, className)
+        }
+      })
+      const sortedTokens = [...this.resourceSearchTokensWithClasses]
+        .sort((a, b) => b.token.length - a.token.length)
+      const pattern = sortedTokens.map(tokenConfig => this.escapeRegExp(tokenConfig.token)).join('|')
+      return {
+        regex: pattern ? new RegExp(pattern, 'gi') : null,
+        tokenMap
+      }
+    },
+    filteredChapterResourcesLayout() {
+      const base = this.currentChapterResourcesLayout
+      if (!base) return null
+      const tokens = this.resourceSearchTokensNormalized
+      const hasSearch = tokens.length > 0
+      const matchesTokens = (value) => this.matchesSearchTokens(value)
+
+      if (!hasSearch) return base
+
+      const filteredSections = base.sections.reduce((sections, section) => {
+        const sectionTitleMatch = matchesTokens(section.title)
+        const items = (section.items || []).reduce((itemsAcc, item) => {
+          const entries = Array.isArray(item.entries) ? item.entries : []
+          const labelMatch = matchesTokens(item.label)
+          let nextEntries = entries
+          if (!sectionTitleMatch && !labelMatch) {
+            nextEntries = entries.filter(entry => matchesTokens(entry))
+          }
+          if (nextEntries.length) {
+            itemsAcc.push({
+              ...item,
+              entries: nextEntries
+            })
+          }
+          return itemsAcc
+        }, [])
+        if (items.length) {
+          sections.push({
+            ...section,
+            items
+          })
+        }
+        return sections
+      }, [])
+
+      return {
+        ...base,
+        sections: filteredSections
+      }
+    },
+    globalSearchActive() {
+      return this.resourceSearchTokensNormalized.length > 0
+    },
+    globalSearchResults() {
+      if (!this.globalSearchActive) return []
+      const results = []
+      const pushResult = (entry) => {
+        const result = this.buildSearchResult(entry)
+        if (result) results.push(result)
+      }
+
+      pushResult({
+        section: 'Lesson Overview',
+        title: this.currentLesson?.title || '',
+        body: this.currentLesson?.summary || ''
+      })
+
+      if (this.currentToneFocusText) {
+        pushResult({
+          section: 'Focus of This Lesson',
+          title: 'Focus of This Lesson',
+          body: this.currentToneFocusText
+        })
+      }
+
+      const highlights = this.currentLessonOverview?.highlights || []
+      highlights.forEach(highlight => {
+        pushResult({
+          section: 'Learning Paths',
+          title: highlight.label || highlight.heading || '',
+          body: highlight.description || highlight.content || ''
+        })
+      })
+
+      const overviewSections = this.overviewSectionsWithKeys
+      if (overviewSections.length) {
+        overviewSections.forEach(section => {
+          pushResult({
+            section: 'Learning Paths',
+            title: section.heading || '',
+            body: section.content || '',
+            meta: section.references || ''
+          })
+          if (section.resources) {
+            pushResult({
+              section: 'Learning Paths',
+              title: section.heading || '',
+              body: section.resources || '',
+              meta: 'Resource link'
+            })
+          }
+        })
+      } else {
+        this.lessonSectionsWithKeys.forEach(section => {
+          pushResult({
+            section: 'Learning Paths',
+            title: section.title || '',
+            body: section.content || '',
+            meta: section.references || ''
+          })
+          if (section.deepDive) {
+            pushResult({
+              section: 'Learning Paths',
+              title: section.deepDive.title || section.title || '',
+              body: section.deepDive.content || '',
+              meta: 'Deep dive'
+            })
+          }
+          if (section.resources) {
+            pushResult({
+              section: 'Learning Paths',
+              title: section.title || '',
+              body: section.resources || '',
+              meta: 'Resource link'
+            })
+          }
+        })
+      }
+
+      this.pathwayClips.forEach(clip => {
+        pushResult({
+          section: 'Guided Pathway',
+          title: clip.title || '',
+          body: clip.description || clip.summary || ''
+        })
+      })
+
+      const dosDonts = this.currentDosDonts
+      if (dosDonts?.dos?.length) {
+        dosDonts.dos.forEach(item => {
+          pushResult({
+            section: "Do's and Don'ts",
+            title: dosDonts.chapter || '',
+            body: item.text || ''
+          })
+        })
+      }
+      if (dosDonts?.donts?.length) {
+        dosDonts.donts.forEach(item => {
+          pushResult({
+            section: "Do's and Don'ts",
+            title: dosDonts.chapter || '',
+            body: item.text || ''
+          })
+        })
+      }
+
+      this.currentDuas.forEach(dua => {
+        pushResult({
+          section: 'Duas',
+          title: dua.title || '',
+          body: `${dua.english || ''} ${dua.arabic || ''} ${dua.reference || ''}`.trim()
+        })
+      })
+
+      this.insightsToShow.forEach(insight => {
+        pushResult({
+          section: 'Key Insights',
+          body: insight || ''
+        })
+      })
+
+      this.revertStories.forEach(video => {
+        pushResult({
+          section: 'Revert Stories',
+          title: video.title || '',
+          body: `${video.description || ''} ${video.duration || ''}`.trim()
+        })
+      })
+
+      this.chapterCommonPanels.forEach(panel => {
+        pushResult({
+          section: 'Common Questions',
+          title: panel.title || '',
+          body: panel.body || ''
+        })
+      })
+
+      const resourceLayout = this.currentChapterResourcesLayout
+      if (resourceLayout?.sections?.length) {
+        resourceLayout.sections.forEach(section => {
+          const items = section.items || []
+          items.forEach(item => {
+            const entries = Array.isArray(item.entries) ? item.entries : []
+            const label = item.label || section.title || ''
+            entries.forEach(entry => {
+              pushResult({
+                section: 'Resources',
+                title: label,
+                body: entry || '',
+                meta: section.title || ''
+              })
+            })
+          })
+        })
+      }
+
+      return results
+    },
+    globalSearchResultsBySection() {
+      const grouped = new Map()
+      this.globalSearchResults.forEach(result => {
+        if (!grouped.has(result.section)) {
+          grouped.set(result.section, [])
+        }
+        grouped.get(result.section).push(result)
+      })
+      return GLOBAL_SEARCH_SECTIONS.reduce((ordered, section) => {
+        const results = grouped.get(section.key)
+        if (results?.length) {
+          ordered.push({ section: section.key, results })
+        }
+        return ordered
+      }, [])
+    },
+    globalSearchCategoryOptions() {
+      const counts = new Map()
+      this.globalSearchResultsBySection.forEach(group => {
+        counts.set(group.section, group.results.length)
+      })
+      return GLOBAL_SEARCH_SECTIONS.map(section => {
+        const count = counts.get(section.key) || 0
+        const labelSuffix = this.globalSearchActive ? ` (${count})` : ''
+        return {
+          value: section.key,
+          label: `${section.label}${labelSuffix}`,
+          count
+        }
+      })
+    },
+    globalSearchResultsFilteredByCategory() {
+      if (this.globalSearchCategory === 'all') return this.globalSearchResultsBySection
+      const group = this.globalSearchResultsBySection.find(entry => entry.section === this.globalSearchCategory)
+      return group ? [group] : []
+    },
+    globalSearchResultsCount() {
+      return this.globalSearchResultsFilteredByCategory.reduce((total, group) => total + group.results.length, 0)
+    },
+    globalSearchSectionsCount() {
+      return this.globalSearchResultsFilteredByCategory.length
     },
     currentChapterPlans() {
       const chapterId = this.currentLesson?.chapterId
@@ -916,6 +1228,12 @@ export default defineComponent({
         this.resetVideoFilters()
         this.showVideoFilters = true
       }
+    },
+    resourceSearchTerm() {
+      this.syncGlobalSearchCategory()
+    },
+    globalSearchResultsBySection() {
+      this.syncGlobalSearchCategory()
     },
     lessonOverviewRead: {
       handler(value) {
@@ -1694,6 +2012,56 @@ export default defineComponent({
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;')
     },
+    escapeRegExp(value = '') {
+      return String(value).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    },
+    tokenizeSearchTerm(term = '') {
+      const tokens = []
+      const input = String(term)
+      const regex = /"([^"]+)"|(\S+)/g
+      let match
+      while ((match = regex.exec(input)) !== null) {
+        const token = (match[1] || match[2] || '').trim()
+        if (!token) continue
+        if (tokens.some(existing => existing.toLowerCase() === token.toLowerCase())) continue
+        tokens.push(token)
+      }
+      return tokens
+    },
+    clearResourceSearch() {
+      this.resourceSearchTerm = ''
+    },
+    syncGlobalSearchCategory() {
+      const exists = GLOBAL_SEARCH_SECTIONS.some(section => section.key === this.globalSearchCategory)
+      if (!exists) this.globalSearchCategory = 'all'
+    },
+    matchesSearchTokens(value = '') {
+      const tokens = this.resourceSearchTokensNormalized
+      if (!tokens.length) return false
+      const haystack = String(value).toLowerCase()
+      if (!haystack) return false
+      if (this.resourceSearchMode === 'all') {
+        return tokens.every(token => haystack.includes(token))
+      }
+      return tokens.some(token => haystack.includes(token))
+    },
+    stripHtml(value = '') {
+      return String(value)
+        .replace(/<[^>]*>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    },
+    buildSearchResult({ section = '', title = '', body = '', meta = '' }) {
+      const cleanTitle = this.stripHtml(title)
+      const cleanBody = this.stripHtml(body)
+      const combined = `${cleanTitle} ${cleanBody}`.trim()
+      if (!this.matchesSearchTokens(combined)) return null
+      return {
+        section,
+        title: cleanTitle ? this.shortenReference(cleanTitle, 90) : '',
+        snippet: cleanBody ? this.shortenReference(cleanBody, 180) : ''
+      }
+    },
     normalizeCollectionName(value = '') {
       return String(value)
         .normalize('NFD')
@@ -1749,17 +2117,34 @@ export default defineComponent({
       result += this.escapeHtml(remainder.slice(lastIndex))
       return result
     },
+    highlightResourceHtml(html = '') {
+      if (!html) return ''
+      const { regex, tokenMap } = this.resourceHighlightConfig
+      if (!regex) return html
+      return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+        if (tag) return tag
+        return text.replace(regex, value => {
+          const className = tokenMap.get(value.toLowerCase()) || RESOURCE_HIGHLIGHT_CLASSES[0]
+          return `<mark class="resource-highlight ${className}">${value}</mark>`
+        })
+      })
+    },
+    highlightResourceText(text = '') {
+      if (!text) return ''
+      const escaped = this.escapeHtml(text)
+      return this.highlightResourceHtml(escaped)
+    },
     formatResourceEntry(entry = '', label = '') {
       const text = String(entry || '')
       if (!text) return ''
       const normalizedLabel = String(label || '').toLowerCase()
       if (normalizedLabel.includes("qur")) {
-        return this.linkifyQuranEntry(text)
+        return this.highlightResourceHtml(this.linkifyQuranEntry(text))
       }
       if (normalizedLabel.includes('hadith')) {
-        return this.linkifyHadithEntry(text)
+        return this.highlightResourceHtml(this.linkifyHadithEntry(text))
       }
-      return this.escapeHtml(text)
+      return this.highlightResourceHtml(this.escapeHtml(text))
     },
     shortenReference(reference, maxLength = 140) {
       if (!reference) return ''
@@ -2022,6 +2407,12 @@ export default defineComponent({
     closeHelpModal() {
       this.showHelpModal = false
     },
+    openSearchInfoModal() {
+      this.showSearchInfoModal = true
+    },
+    closeSearchInfoModal() {
+      this.showSearchInfoModal = false
+    },
     closeCompletionModal() {
       this.showCompletionModal = false
     }
@@ -2051,6 +2442,25 @@ export default defineComponent({
       if (nextBtn) {
         nextBtn.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
+    },
+    globalSearchSectionId(sectionKey) {
+      return GLOBAL_SEARCH_SECTION_ID_MAP[sectionKey] || ''
+    },
+    globalSearchSectionIcon(sectionKey) {
+      return GLOBAL_SEARCH_SECTION_ICONS[sectionKey] || 'bi-bookmark'
+    },
+    scrollToGlobalSearchSection(sectionKey) {
+      const sectionId = this.globalSearchSectionId(sectionKey)
+      if (!sectionId) return
+      this.$nextTick(() => {
+        this.scrollToSectionId(sectionId)
+      })
+    },
+    scrollToSectionId(sectionId) {
+      if (!sectionId || typeof document === 'undefined') return
+      const target = document.getElementById(sectionId)
+      if (!target) return
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     },
     scrollToTop({ behavior = 'smooth' } = {}) {
       if (typeof window !== 'undefined') {

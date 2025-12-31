@@ -115,27 +115,154 @@
 
         <!-- MAIN CONTENT AREA (lesson overview + resources) -->
         <section class="col-md-9 lesson-pane">
-          <div class="mobile-chapter-dropdown d-lg-none">
-            <label class="mobile-chapter-label" for="mobile-chapter-select">Jump to chapter</label>
-            <select
-              id="mobile-chapter-select"
-              class="form-select mobile-chapter-select"
-              :value="selectedPill"
-              @change="selectPill($event.target.value)"
-            >
-              <option
-                v-for="step in roadmapData"
-                :key="step.id"
-                :value="step.id"
-                :disabled="step.id > maxStepReached"
-              >
-                Chapter {{ step.id }}: {{ step.title }}{{ step.id > maxStepReached ? ' (Locked)' : '' }}
-              </option>
-            </select>
+          <div class="mobile-chapter-select d-lg-none">
+            <label class="form-label small text-muted fw-semibold" for="mobile-chapter-picker">
+              Choose a chapter
+            </label>
+            <div class="mobile-chapter-select-pill d-flex align-items-center gap-2">
+              <i class="bi bi-compass-fill"></i>
+              <select
+                id="mobile-chapter-picker"
+                class="form-select"
+                :value="selectedPill"
+                aria-label="Select chapter"
+                @change="selectPill($event.target.value)">
+                <option
+                  v-for="step in roadmapData"
+                  :key="step.id"
+                  :value="step.id"
+                  :disabled="step.id > maxStepReached">
+                  Chapter {{ step.id }} - {{ step.title }} ({{ stepStatusLabel(step) }})
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Global search -->
+          <div class="global-search-wrapper mb-4">
+            <div class="resource-search-panel global-search-panel">
+              <div class="resource-search-header">
+                <div>
+                  <h4 class="resource-search-title">Global Search</h4>
+                  <p class="resource-search-subtitle">
+                    Search the full chapter in one place.
+                  </p>
+                </div>
+                <div class="global-search-header-actions">
+                  <div v-if="globalSearchActive" class="resource-search-metrics">
+                    <span v-if="globalSearchActive" class="resource-count-pill">
+                      {{ globalSearchResultsCount }} matches
+                    </span>
+                    <span v-if="globalSearchActive" class="resource-count-note">
+                      {{ globalSearchSectionsCount }} categories
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    class="global-search-info-btn"
+                    @click="openSearchInfoModal"
+                    aria-label="How global search works"
+                  >
+                    <i class="bi bi-info-circle"></i>
+                    <span>How it works</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('globalSearch')"
+                    :aria-expanded="isCardVisible('globalSearch')"
+                    :aria-label="isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'">
+                    <i class="bi" :class="isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+              </div>
+              <div v-show="isCardVisible('globalSearch')">
+                <div class="resource-search-input">
+                  <i class="bi bi-search"></i>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search the entire chapter"
+                    v-model="resourceSearchTerm"
+                    aria-label="Search the entire chapter"
+                  />
+                  <button
+                    v-if="resourceSearchTerm"
+                    type="button"
+                    class="btn btn-sm btn-outline-dark"
+                    @click="clearResourceSearch"
+                  >
+                    Clear
+                  </button>
+                </div>
+                <div class="resource-search-controls">
+                  <div class="resource-search-control">
+                    <label class="resource-search-label" for="global-search-category">Category</label>
+                    <select
+                      id="global-search-category"
+                      class="form-select form-select-sm"
+                      v-model="globalSearchCategory"
+                    >
+                      <option value="all">All categories</option>
+                      <option v-for="option in globalSearchCategoryOptions" :key="option.value" :value="option.value">
+                        {{ option.label }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div v-if="globalSearchActive" class="global-search-results">
+                  <div class="global-search-summary">
+                    <span class="global-search-count">{{ globalSearchResultsCount }} results</span>
+                    <span class="global-search-count-note">across {{ globalSearchSectionsCount }} categories</span>
+                  </div>
+                  <div v-if="globalSearchResultsFilteredByCategory.length" class="global-search-group-list">
+                    <article
+                      v-for="group in globalSearchResultsFilteredByCategory"
+                      :key="group.section"
+                      class="global-search-group"
+                    >
+                      <h5 class="global-search-group-title">
+                        <span class="global-search-group-icon" aria-hidden="true">
+                          <i class="bi" :class="globalSearchSectionIcon(group.section)"></i>
+                        </span>
+                        <span v-html="highlightResourceText(group.section)"></span>
+                        <span class="global-search-group-count">{{ group.results.length }}</span>
+                      </h5>
+                      <ul class="list-unstyled mb-0 global-search-result-list">
+                        <li
+                          v-for="(result, resultIndex) in group.results"
+                          :key="`${group.section}-${resultIndex}`"
+                          class="global-search-result"
+                        >
+                          <button
+                            type="button"
+                            class="global-search-result-button"
+                            :aria-label="`Jump to ${group.section}`"
+                            @click="scrollToGlobalSearchSection(group.section)"
+                          >
+                            <div class="global-search-result-heading">
+                              <p v-if="result.title" class="global-search-result-title" v-html="highlightResourceText(result.title)"></p>
+                              <span class="global-search-result-jump">
+                                Go
+                                <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <p v-if="result.snippet" class="global-search-result-snippet" v-html="highlightResourceText(result.snippet)"></p>
+                          </button>
+                        </li>
+                      </ul>
+                    </article>
+                  </div>
+                  <p v-else class="global-search-empty text-muted small">
+                    No matches yet. Try a different keyword.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Lesson Header + tone summary -->
-          <div class="lesson-header animated-fade-in mb-4">
+          <div id="lesson-overview-section" class="lesson-header animated-fade-in mb-4">
             <div class="lesson-hero position-relative overflow-hidden shadow-sm">
               <div class="lesson-hero-gradient"></div>
               <div class="lesson-hero-content">
@@ -212,7 +339,7 @@
           </div> -->
 
           <!-- Focus of the lesson -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card">
+          <div id="lesson-focus-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg quiz-card">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -239,7 +366,7 @@
           </div>
 
           <!-- main content (learning overview, highlights, sections) -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg" style="animation-delay: 0.05s">
+          <div id="learning-paths-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg" style="animation-delay: 0.05s">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -413,7 +540,7 @@
           </div>
 
           <!-- Guided pathway clips and action cards -->
-          <div v-if="pathwayClips.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div id="guided-pathway-section" v-if="pathwayClips.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 p-3">
               <div class="d-flex align-items-start gap-3">
                 <span class="card-header-icon">
@@ -531,7 +658,7 @@
           </div>
 
           <!-- do's and don't -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div id="dos-donts-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3 px-3 px-md-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -582,7 +709,7 @@
           </div>
 
           <!-- dua to carry -->
-          <div v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div id="duas-section" v-if="currentDuas.length" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap mt-3 py-3">
               <div class="d-flex align-items-center gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -637,7 +764,7 @@
           </div>
 
           <!-- Reverts Stories videos -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div id="revert-stories-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
               <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                 <span class="card-header-icon">
@@ -720,6 +847,7 @@
 
           <!-- key insights -->
           <div
+            id="key-insights-section"
             v-if="secondarySectionsReady && insightsToShow.length"
             class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
           <div class="card-header d-flex align-items-center justify-content-between py-3 gap-3 flex-wrap">
@@ -869,7 +997,7 @@
               </div>
             </div>
           </div>
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div id="common-questions-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
               <div class="card-header d-flex align-items-center gap-3 flex-wrap py-3">
                 <div class="d-flex align-items-start gap-3 flex-grow-1 min-width-0">
                   <span class="card-header-icon">
@@ -1211,7 +1339,7 @@
 
           
           <!-- resources -->
-          <div class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
+          <div id="resources-section" class="content-card onboarding-card mb-4 rounded-5 shadow-lg">
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -1232,19 +1360,22 @@
             </div>
             <div v-show="isCardVisible('resources')" class="px-3 px-md-4 py-4">
               <p class="text-muted medium mb-3">Primary sources, classical texts, and modern tools for this chapter.</p>
-              <div v-if="currentChapterResourcesLayout" class="resource-grid">
+              <div
+                v-if="filteredChapterResourcesLayout && filteredChapterResourcesLayout.sections.length"
+                class="resource-grid"
+              >
                 <article
-                  v-for="(section, sectionIndex) in currentChapterResourcesLayout.sections"
+                  v-for="(section, sectionIndex) in filteredChapterResourcesLayout.sections"
                   :key="section.title"
                   class="resource-section-card"
                 >
-                  <h4 class="resource-section-title">{{ section.title }}</h4>
+                  <h4 class="resource-section-title" v-html="highlightResourceText(section.title)"></h4>
                   <div
                     v-for="(item, itemIndex) in section.items"
                     :key="`${section.title}-${sectionIndex}-${itemIndex}`"
                     class="resource-group"
                   >
-                    <p v-if="item.label" class="resource-group-label">{{ item.label }}</p>
+                    <p v-if="item.label" class="resource-group-label" v-html="highlightResourceText(item.label)"></p>
                     <ul class="list-unstyled mb-0 resource-entry-list">
                       <li
                         v-for="(entry, entryIndex) in item.entries"
@@ -1257,6 +1388,12 @@
                   </div>
                 </article>
               </div>
+              <p v-else-if="currentChapterResourcesLayout" class="resource-empty-state text-muted small">
+                No resources match this search yet. Try different keywords or reset filters.
+              </p>
+              <p v-else class="resource-empty-state text-muted small">
+                Resources for this chapter are being prepared.
+              </p>
             </div>
           </div>
           
@@ -1327,8 +1464,9 @@
                       class="btn quiz-option text-start d-flex align-items-center justify-content-between" :class="{
                         'quiz-option--correct': quizStatus === 'correct' && option === currentQuestion.answer,
                         'quiz-option--incorrect': quizStatus === 'incorrect' && option === selectedOption,
-                        'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption)
-                      }" :disabled="chapterQuizPassed" @click="answerQuiz(option)">
+                        'quiz-option--neutral': !(quizStatus === 'correct' && option === currentQuestion.answer) && !(quizStatus === 'incorrect' && option === selectedOption),
+                        'quiz-option--selected': selectedOption === option && quizStatus !== 'correct'
+                      }" :disabled="chapterQuizPassed || quizStatus === 'correct'" :aria-pressed="selectedOption === option" @click="answerQuiz(option)">
                       <div>
                         <span>{{ option }}</span>
                       </div>
@@ -1339,6 +1477,31 @@
                           class="bi bi-x-circle-fill text-dark"></i>
                       </div>
                     </button>
+                  </div>
+                  <div
+                    v-if="quizStatus && quizFeedback"
+                    class="quiz-feedback-panel mt-3"
+                    :class="{
+                      'quiz-feedback-panel--correct': quizStatus === 'correct',
+                      'quiz-feedback-panel--incorrect': quizStatus === 'incorrect'
+                    }"
+                    role="status"
+                    aria-live="polite">
+                    <div class="d-flex align-items-start gap-2">
+                      <span class="quiz-feedback-icon">
+                        <i v-if="quizStatus === 'correct'" class="bi bi-stars"></i>
+                        <i v-else class="bi bi-arrow-repeat"></i>
+                      </span>
+                      <div>
+                        <p class="mb-0 fw-semibold">{{ quizFeedback }}</p>
+                        <small v-if="quizStatus === 'correct' && !chapterQuizPassed" class="text-muted">
+                          Next question loading...
+                        </small>
+                        <small v-else-if="quizStatus === 'incorrect'" class="text-muted">
+                          Try another choice or review the explanation below.
+                        </small>
+                      </div>
+                    </div>
                   </div>
                   <div v-if="quizStatus === 'incorrect' && quizHintExplanation" class="quiz-explanation-card mt-3">
                     <div class="quiz-explanation-header">
@@ -1426,6 +1589,77 @@
         <i class="bi bi-arrow-up-short fs-1 text-white"></i>
       </button>
     </transition>
+
+      <div v-if="showSearchInfoModal">
+        <div class="modal-backdrop fade show custom-modal-backdrop" @click="closeSearchInfoModal"></div>
+        <div class="modal fade show d-block custom-modal-scale" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content rounded-4 shadow-lg custom-modal-card search-info-modal">
+              <div class="modal-header border-0 pt-4 px-4">
+                <h5 class="modal-title fw-bold">About global search</h5>
+                <button type="button" class="btn-close" aria-label="Close" @click="closeSearchInfoModal"></button>
+              </div>
+              <div class="modal-body px-4 py-3">
+                <p class="search-info-lead">
+                  Global search scans the entire chapter so you can find a concept, reference, or story in seconds.
+                </p>
+                <ul class="search-info-list">
+                  <li class="search-info-card">
+                    <div class="search-info-card-title">
+                      <i class="bi bi-stars"></i>
+                      Search coverage
+                    </div>
+                    <p class="search-info-card-text">
+                      Lesson summaries, learning paths, key insights, duas, stories, resources, and questions.
+                    </p>
+                  </li>
+                  <li class="search-info-card">
+                    <div class="search-info-card-title">
+                      <i class="bi bi-quote"></i>
+                      Phrase matching
+                    </div>
+                    <p class="search-info-card-text">
+                      Use quotes for exact phrases, like "tawheed foundation".
+                    </p>
+                  </li>
+                  <li class="search-info-card">
+                    <div class="search-info-card-title">
+                      <i class="bi bi-funnel"></i>
+                      Category filter
+                    </div>
+                    <p class="search-info-card-text">
+                      Narrow results by category without leaving the search panel.
+                    </p>
+                  </li>
+                  <li class="search-info-card">
+                    <div class="search-info-card-title">
+                      <i class="bi bi-cursor-fill"></i>
+                      Jump to results
+                    </div>
+                    <p class="search-info-card-text">
+                      Click any result to jump directly to that section on the page.
+                    </p>
+                  </li>
+                  <li class="search-info-card">
+                    <div class="search-info-card-title">
+                      <i class="bi bi-palette"></i>
+                      Highlighting
+                    </div>
+                    <p class="search-info-card-text">
+                      Colored highlights show exactly where your terms appear.
+                    </p>
+                  </li>
+                </ul>
+              </div>
+              <div class="modal-footer border-top px-4 py-3">
+                <button type="button" class="btn btn-teal px-4" @click="closeSearchInfoModal">
+                  Got it
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div v-if="showResourceModal">
         <div class="modal-backdrop fade show custom-modal-backdrop"></div>
