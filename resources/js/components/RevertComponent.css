@@ -879,12 +879,12 @@
 
 .section-content {
   line-height: 1.8;
-  font-size: 1.3rem;
+  font-size: 1em;
   white-space: pre-line;
 }
 
 .section-content p:first-child {
-  font-size: 2.2rem;
+  font-size: 1.7em;
   font-weight: 800;
   color: #1a365d;
   margin: 0 0 2rem 0;
@@ -894,7 +894,7 @@
 .section-content p:nth-child(2),
 .section-content p:nth-child(3),
 .section-content p:nth-child(4) {
-  font-size: 1.6rem;
+  font-size: 1.25em;
   font-weight: 700;
   color: #2b6cb0;
   margin-top: 2.5rem;
@@ -6192,6 +6192,8 @@ p{
   --section-meta-size: 0.9rem;
   --section-title-tracking: 0.01em;
   --section-line-height: 1.65;
+  font-size: calc(var(--section-body-size) * var(--section-scale));
+  line-height: var(--section-line-height);
 }
 
 .section-typography .card-header h2,
@@ -6220,6 +6222,42 @@ p{
   font-size: calc(var(--section-meta-size) * var(--section-scale));
 }
 
+.section-typography .small,
+.section-typography small {
+  font-size: 0.875em;
+}
+
+.section-typography .fs-6 {
+  font-size: 1em !important;
+}
+
+.section-typography .fs-5 {
+  font-size: 1.25em !important;
+}
+
+.section-typography .fs-4 {
+  font-size: 1.5em !important;
+}
+
+.section-typography .fs-3 {
+  font-size: 1.75em !important;
+}
+
+.section-typography .h6,
+.section-typography h6 {
+  font-size: 1em;
+}
+
+.section-typography .h5,
+.section-typography h5 {
+  font-size: 1.25em;
+}
+
+.section-typography .h4,
+.section-typography h4 {
+  font-size: 1.5em;
+}
+
 #lesson-focus-section.section-typography {
   --section-title-size: 1.55rem;
   --section-body-size: 1.05rem;
@@ -6228,6 +6266,10 @@ p{
 #learning-paths-section.section-typography {
   --section-title-size: 1.5rem;
   --section-body-size: 1.02rem;
+}
+
+#learning-paths-section.section-typography .section-stat-card strong {
+  font-size: 0.95em;
 }
 
 #guided-pathway-section.section-typography {
@@ -6255,14 +6297,52 @@ p{
   --section-body-size: 0.98rem;
 }
 
+#revert-stories-section.section-typography .video-feature-label {
+  font-size: 0.65em;
+}
+
+#revert-stories-section.section-typography .video-feature-title {
+  font-size: 1.2em;
+}
+
+#revert-stories-section.section-typography .video-feature-subtitle {
+  font-size: 0.85em;
+}
+
+#revert-stories-section.section-typography .video-feature-duration,
+#revert-stories-section.section-typography .video-card-duration {
+  font-size: 0.7em;
+}
+
+#revert-stories-section.section-typography .video-card-caption h3 {
+  font-size: 0.95em;
+}
+
+#revert-stories-section.section-typography .video-tag-badge {
+  font-size: 0.65em;
+}
+
 #key-insights-section.section-typography {
   --section-title-size: 1.5rem;
   --section-body-size: 1.02rem;
 }
 
+#key-insights-section.section-typography .insight-card-text {
+  font-size: 0.95em;
+}
+
+#key-insights-section.section-typography .insight-number {
+  font-size: 0.9em;
+}
+
 .section-share-uplift.section-typography {
   --section-title-size: 1.4rem;
   --section-body-size: 1rem;
+}
+
+.section-share-uplift.section-typography .share-action-btn,
+.section-share-uplift.section-typography .share-action-btn span {
+  font-size: 0.95em;
 }
 
 .chapter-tool-card.section-typography {
@@ -6285,9 +6365,33 @@ p{
   --section-body-size: 1rem;
 }
 
+#resources-section.section-typography .resource-section-title {
+  font-size: 1.2em;
+}
+
+#resources-section.section-typography .resource-group-label {
+  font-size: 0.72em;
+}
+
+#resources-section.section-typography .resource-entry {
+  font-size: 0.98em;
+}
+
+#resources-section.section-typography .resource-empty-state {
+  font-size: 0.9em;
+}
+
 .section-quiz.section-typography {
   --section-title-size: 1.45rem;
   --section-body-size: 0.98rem;
+}
+
+.section-quiz.section-typography .quiz-stage-pill {
+  font-size: 0.65em;
+}
+
+.section-quiz.section-typography .quiz-momentum-value {
+  font-size: 1.35em;
 }
 
 .section-font-controls {

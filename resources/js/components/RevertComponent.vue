@@ -482,7 +482,7 @@
             <div
               v-show="isCardVisible('learningOverview')"
               class="card-body"
-              :style="{ fontSize: `${overviewFontScale * sectionFontScale('learningPaths')}em`, lineHeight: 1.6 }"
+              :style="{ fontSize: `${overviewFontScale}em`, lineHeight: 1.6 }"
             >
               <div v-if="currentLessonOverview" class="lesson-overview-summary">
                 <!-- <p class="text-muted small mb-3">{{ currentLessonOverview.summary }}</p> -->
@@ -525,7 +525,7 @@
                       class="section-content-wrapper">
                       <div
                         class="section-content text-dark fs-6 lh-lg"
-                        :style="{ fontSize: `${overviewFontScale * sectionFontScale('learningPaths')}rem` }"
+                        :style="{ fontSize: `${overviewFontScale}em` }"
                         v-html="formatOverviewContent(section.content)"></div>
                       <div class="mt-3 small text-muted">
                         <p v-if="section.references" class="mb-1">
@@ -578,7 +578,7 @@
                       class="section-content-wrapper">
                       <div
                         class="section-content text-dark fs-6 lh-lg"
-                        :style="{ fontSize: `${overviewFontScale * sectionFontScale('learningPaths')}rem` }"
+                        :style="{ fontSize: `${overviewFontScale}em` }"
                         v-html="formatOverviewContent(section.content)"></div>
                       <div class="mt-3 medium text-muted">
                         <p v-if="section.references" class="mb-1">
@@ -597,7 +597,7 @@
                         </div>
                         <div
                           class="deep-dive-content text-dark fs-6"
-                          :style="{ fontSize: `${overviewFontScale * 0.95 * sectionFontScale('learningPaths')}rem` }"
+                          :style="{ fontSize: `${overviewFontScale * 0.95}em` }"
                           v-html="section.deepDive.content"></div>
                       </div>
                       <div v-if="sectionStatsFor(section.title).length" class="section-stats d-flex flex-wrap gap-3 mt-3">
@@ -1172,7 +1172,7 @@
             <div
               v-show="isCardVisible('shareUplift')"
               class="card-body"
-              :style="{ fontSize: `${duaFontScale * sectionFontScale('shareUplift')}em`, lineHeight: 1.5 }"
+              :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }"
             >
               <div class="row align-items-center gy-3">
                 <div class="col-md-6">
