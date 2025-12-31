@@ -817,211 +817,211 @@ const _hoisted_279 = ["disabled"];
 const _hoisted_280 = ["disabled"];
 const _hoisted_281 = ["aria-expanded", "aria-label"];
 const _hoisted_282 = {
-  class: "px-3 px-md-4 py-4"
+  class: "resources-body"
 };
 const _hoisted_283 = {
+  class: "resources-intro"
+};
+const _hoisted_284 = {
+  class: "resources-intro-text"
+};
+const _hoisted_285 = {
+  key: 0,
+  class: "resource-filter-note mb-0"
+};
+const _hoisted_286 = {
+  class: "resource-filter-term"
+};
+const _hoisted_287 = {
+  key: 0,
+  class: "resource-meta"
+};
+const _hoisted_288 = {
+  class: "resource-meta-pill"
+};
+const _hoisted_289 = {
   key: 0,
   class: "resource-grid"
 };
-const _hoisted_284 = {
+const _hoisted_290 = {
   class: "resource-section-header"
 };
-const _hoisted_285 = ["innerHTML"];
-const _hoisted_286 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
-const _hoisted_287 = ["id"];
-const _hoisted_288 = ["innerHTML"];
-const _hoisted_289 = {
+const _hoisted_291 = ["innerHTML"];
+const _hoisted_292 = ["onClick", "aria-expanded", "aria-controls", "aria-label"];
+const _hoisted_293 = ["id"];
+const _hoisted_294 = ["innerHTML"];
+const _hoisted_295 = {
   class: "list-unstyled mb-0 resource-entry-list"
 };
-const _hoisted_290 = ["innerHTML"];
-const _hoisted_291 = {
+const _hoisted_296 = ["innerHTML"];
+const _hoisted_297 = {
   key: 1,
   class: "resource-empty-state text-muted small"
 };
-const _hoisted_292 = {
+const _hoisted_298 = {
   key: 2,
   class: "resource-empty-state text-muted small"
 };
-const _hoisted_293 = {
+const _hoisted_299 = {
   class: "card-header d-flex align-items-center gap-3 flex-wrap py-3"
 };
-const _hoisted_294 = {
+const _hoisted_300 = {
   class: "section-font-controls ms-auto",
   role: "group",
   "aria-label": "Chapter quiz font size"
 };
-const _hoisted_295 = ["disabled"];
-const _hoisted_296 = ["disabled"];
-const _hoisted_297 = ["aria-expanded", "aria-label"];
-const _hoisted_298 = {
+const _hoisted_301 = ["disabled"];
+const _hoisted_302 = ["disabled"];
+const _hoisted_303 = ["aria-expanded", "aria-label"];
+const _hoisted_304 = {
   key: 0
 };
-const _hoisted_299 = {
+const _hoisted_305 = {
   class: "quiz-body px-4 py-3"
 };
-const _hoisted_300 = {
+const _hoisted_306 = {
   class: "quiz-progress-wrapper mb-3"
 };
-const _hoisted_301 = {
+const _hoisted_307 = {
   class: "quiz-progress-track"
 };
-const _hoisted_302 = {
+const _hoisted_308 = {
   class: "d-flex justify-content-between align-items-center mt-2"
 };
-const _hoisted_303 = {
+const _hoisted_309 = {
   class: "mb-0 small fw-semibold text-teal"
 };
-const _hoisted_304 = {
+const _hoisted_310 = {
   class: "quiz-motivation-panel mb-3 shadow-sm rounded-4"
 };
-const _hoisted_305 = {
+const _hoisted_311 = {
   class: "d-flex align-items-start gap-3 flex-grow-1 min-width-0"
 };
-const _hoisted_306 = {
+const _hoisted_312 = {
   class: "flex-grow-1"
 };
-const _hoisted_307 = {
+const _hoisted_313 = {
   class: "mb-0 fw-semibold"
 };
-const _hoisted_308 = {
+const _hoisted_314 = {
   class: "text-muted small mb-0"
 };
-const _hoisted_309 = {
+const _hoisted_315 = {
   class: "quiz-stage-pill mt-2"
 };
-const _hoisted_310 = {
+const _hoisted_316 = {
   class: "quiz-focus-panel mb-3"
 };
-const _hoisted_311 = {
+const _hoisted_317 = {
   class: "quiz-focus-detail"
 };
-const _hoisted_312 = {
+const _hoisted_318 = {
   class: "fw-semibold mb-0"
 };
-const _hoisted_313 = {
+const _hoisted_319 = {
   class: "quiz-momentum"
 };
-const _hoisted_314 = {
+const _hoisted_320 = {
   class: "d-flex align-items-center gap-2 mb-2"
 };
-const _hoisted_315 = {
+const _hoisted_321 = {
   class: "quiz-momentum-value"
 };
-const _hoisted_316 = {
+const _hoisted_322 = {
   class: "quiz-momentum-bar"
 };
-const _hoisted_317 = {
+const _hoisted_323 = {
   class: "fw-semibold text-dark mb-2 quiz-question"
 };
-const _hoisted_318 = {
+const _hoisted_324 = {
   class: "quiz-options-grid"
 };
-const _hoisted_319 = ["disabled", "aria-pressed", "onClick"];
-const _hoisted_320 = {
+const _hoisted_325 = ["disabled", "aria-pressed", "onClick"];
+const _hoisted_326 = {
   class: "icon-stack"
 };
-const _hoisted_321 = {
+const _hoisted_327 = {
   key: 0,
   class: "bi bi-check-circle-fill text-dark"
 };
-const _hoisted_322 = {
+const _hoisted_328 = {
   key: 1,
   class: "bi bi-x-circle-fill text-dark"
 };
-const _hoisted_323 = {
+const _hoisted_329 = {
   class: "d-flex align-items-start gap-2"
 };
-const _hoisted_324 = {
+const _hoisted_330 = {
   class: "quiz-feedback-icon"
 };
-const _hoisted_325 = {
+const _hoisted_331 = {
   key: 0,
   class: "bi bi-stars"
 };
-const _hoisted_326 = {
+const _hoisted_332 = {
   key: 1,
   class: "bi bi-arrow-repeat"
 };
-const _hoisted_327 = {
+const _hoisted_333 = {
   class: "mb-0 fw-semibold"
 };
-const _hoisted_328 = {
+const _hoisted_334 = {
   key: 0,
   class: "text-muted"
 };
-const _hoisted_329 = {
+const _hoisted_335 = {
   key: 1,
   class: "text-muted"
 };
-const _hoisted_330 = {
+const _hoisted_336 = {
   key: 1,
   class: "quiz-explanation-card mt-3"
 };
-const _hoisted_331 = {
+const _hoisted_337 = {
   class: "right-answer-pill text-muted"
 };
-const _hoisted_332 = {
+const _hoisted_338 = {
   class: "text-dark fw-bold mt-2"
 };
-const _hoisted_333 = {
+const _hoisted_339 = {
   class: "pt-2 text-muted"
 };
-const _hoisted_334 = {
+const _hoisted_340 = {
   class: "mb-0"
 };
-const _hoisted_335 = {
+const _hoisted_341 = {
   class: "quiz-explanation-footer mt-3"
 };
-const _hoisted_336 = {
+const _hoisted_342 = {
   key: 0,
   class: "quiz-success-note mt-3"
 };
-const _hoisted_337 = {
+const _hoisted_343 = {
   class: "d-flex flex-column flex-md-row gap-2 align-items-start"
 };
-const _hoisted_338 = {
+const _hoisted_344 = {
   class: "mb-0 fw-semibold text-teal"
 };
-const _hoisted_339 = {
+const _hoisted_345 = {
   class: "actions-card animated-fade-in"
 };
-const _hoisted_340 = {
+const _hoisted_346 = {
   class: "p-4 p-md-3 d-flex flex-column flex-md-row flex-wrap align-items-center justify-content-between gap-3"
 };
-const _hoisted_341 = ["disabled"];
-const _hoisted_342 = {
+const _hoisted_347 = ["disabled"];
+const _hoisted_348 = {
   class: "d-flex flex-column flex-md-row align-items-center gap-2"
 };
-const _hoisted_343 = {
+const _hoisted_349 = {
   class: "text-muted small me-md-auto"
 };
-const _hoisted_344 = {
+const _hoisted_350 = {
   key: 0,
   class: "text-teal small fw-semibold"
 };
-const _hoisted_345 = ["disabled"];
-const _hoisted_346 = {
-  key: 1
-};
-const _hoisted_347 = {
-  class: "modal fade show d-block custom-modal-scale",
-  tabindex: "-1",
-  role: "dialog"
-};
-const _hoisted_348 = {
-  class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
-};
-const _hoisted_349 = {
-  class: "modal-content rounded-4 shadow-lg custom-modal-card search-info-modal"
-};
-const _hoisted_350 = {
-  class: "modal-header border-0 pt-4 px-4"
-};
-const _hoisted_351 = {
-  class: "modal-footer border-top px-4 py-3"
-};
+const _hoisted_351 = ["disabled"];
 const _hoisted_352 = {
-  key: 2
+  key: 1
 };
 const _hoisted_353 = {
   class: "modal fade show d-block custom-modal-scale",
@@ -1029,163 +1029,183 @@ const _hoisted_353 = {
   role: "dialog"
 };
 const _hoisted_354 = {
-  class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+  class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
 const _hoisted_355 = {
-  class: "modal-content rounded-4 shadow-lg custom-modal-card"
+  class: "modal-content rounded-4 shadow-lg custom-modal-card search-info-modal"
 };
 const _hoisted_356 = {
   class: "modal-header border-0 pt-4 px-4"
 };
 const _hoisted_357 = {
-  class: "modal-title fw-bold"
+  class: "modal-footer border-top px-4 py-3"
 };
 const _hoisted_358 = {
-  class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
+  key: 2
 };
 const _hoisted_359 = {
+  class: "modal fade show d-block custom-modal-scale",
+  tabindex: "-1",
+  role: "dialog"
+};
+const _hoisted_360 = {
+  class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+};
+const _hoisted_361 = {
+  class: "modal-content rounded-4 shadow-lg custom-modal-card"
+};
+const _hoisted_362 = {
+  class: "modal-header border-0 pt-4 px-4"
+};
+const _hoisted_363 = {
+  class: "modal-title fw-bold"
+};
+const _hoisted_364 = {
+  class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
+};
+const _hoisted_365 = {
   key: 0,
   class: "text-success small"
 };
-const _hoisted_360 = {
+const _hoisted_366 = {
   class: "d-flex gap-2"
 };
-const _hoisted_361 = {
+const _hoisted_367 = {
   key: 3
 };
-const _hoisted_362 = {
+const _hoisted_368 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_363 = {
+const _hoisted_369 = {
   class: "modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_364 = {
+const _hoisted_370 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_365 = {
+const _hoisted_371 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_366 = ["aria-pressed", "aria-label"];
-const _hoisted_367 = {
+const _hoisted_372 = ["aria-pressed", "aria-label"];
+const _hoisted_373 = {
   class: "d-none d-sm-inline"
 };
-const _hoisted_368 = {
+const _hoisted_374 = {
   class: "modal-body px-4 py-3"
 };
-const _hoisted_369 = {
+const _hoisted_375 = {
   key: 0,
   class: "mb-3 video-modal-filters"
 };
-const _hoisted_370 = {
+const _hoisted_376 = {
   class: "filter-grid"
 };
-const _hoisted_371 = {
+const _hoisted_377 = {
   class: "filter-column"
 };
-const _hoisted_372 = {
-  class: "filter-column"
-};
-const _hoisted_373 = ["value"];
-const _hoisted_374 = {
-  class: "filter-column"
-};
-const _hoisted_375 = ["value"];
-const _hoisted_376 = {
-  class: "filter-column"
-};
-const _hoisted_377 = ["value"];
 const _hoisted_378 = {
+  class: "filter-column"
+};
+const _hoisted_379 = ["value"];
+const _hoisted_380 = {
+  class: "filter-column"
+};
+const _hoisted_381 = ["value"];
+const _hoisted_382 = {
+  class: "filter-column"
+};
+const _hoisted_383 = ["value"];
+const _hoisted_384 = {
   key: 0,
   class: "filter-empty text-muted small mt-2 mb-0"
 };
-const _hoisted_379 = {
+const _hoisted_385 = {
   class: "row g-3 video-grid-row"
 };
-const _hoisted_380 = ["onMouseenter", "onClick", "onTouchstart"];
-const _hoisted_381 = {
+const _hoisted_386 = ["onMouseenter", "onClick", "onTouchstart"];
+const _hoisted_387 = {
   class: "video-card-media"
 };
-const _hoisted_382 = ["src", "title"];
-const _hoisted_383 = {
+const _hoisted_388 = ["src", "title"];
+const _hoisted_389 = {
   class: "video-feature-overlay"
 };
-const _hoisted_384 = {
+const _hoisted_390 = {
   class: "video-feature-text"
 };
-const _hoisted_385 = {
+const _hoisted_391 = {
   class: "video-feature-title"
 };
-const _hoisted_386 = {
+const _hoisted_392 = {
   key: 0,
   class: "video-feature-subtitle"
 };
-const _hoisted_387 = {
+const _hoisted_393 = {
   key: 1,
   class: "video-feature-duration"
 };
-const _hoisted_388 = {
+const _hoisted_394 = {
   class: "video-card-caption px-3 py-2"
 };
-const _hoisted_389 = {
+const _hoisted_395 = {
   key: 0,
   class: "video-card-tags mb-0"
 };
-const _hoisted_390 = {
+const _hoisted_396 = {
   class: "modal-footer border-top px-4 py-3 flex-column flex-md-row gap-3"
 };
-const _hoisted_391 = {
+const _hoisted_397 = {
   class: "d-flex gap-2 ms-auto"
 };
-const _hoisted_392 = {
+const _hoisted_398 = {
   key: 4
 };
-const _hoisted_393 = {
+const _hoisted_399 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog"
 };
-const _hoisted_394 = {
+const _hoisted_400 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_395 = {
+const _hoisted_401 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card"
 };
-const _hoisted_396 = {
+const _hoisted_402 = {
   class: "modal-header border-0 pt-4 px-4"
 };
-const _hoisted_397 = {
+const _hoisted_403 = {
   class: "modal-body px-4 pb-4"
 };
-const _hoisted_398 = {
+const _hoisted_404 = {
   class: "guide-step-index"
 };
-const _hoisted_399 = {
+const _hoisted_405 = {
   class: "fw-semibold mb-1"
 };
-const _hoisted_400 = {
+const _hoisted_406 = {
   class: "text-muted mb-0"
 };
-const _hoisted_401 = {
+const _hoisted_407 = {
   class: "modal-footer border-0 px-4 pb-4 pt-2"
 };
-const _hoisted_402 = {
+const _hoisted_408 = {
   key: 5
 };
-const _hoisted_403 = {
+const _hoisted_409 = {
   class: "modal fade show d-block custom-modal-scale",
   tabindex: "-1",
   role: "dialog",
   "aria-modal": "true"
 };
-const _hoisted_404 = {
+const _hoisted_410 = {
   class: "modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable"
 };
-const _hoisted_405 = {
+const _hoisted_411 = {
   class: "modal-content rounded-4 shadow-lg custom-modal-card completion-modal-card"
 };
-const _hoisted_406 = {
+const _hoisted_412 = {
   class: "modal-header completion-modal-header px-4 pt-4 pb-3"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
@@ -1194,9 +1214,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["revert-shell position-relative", {
       'reduce-motion': _ctx.reduceMotionEnabled
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_1, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[194] || (_cache[194] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("canvas", _hoisted_1, null, 512 /* NEED_PATCH */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Background Layers "), _cache[197] || (_cache[197] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "page-sheen"
-  }, null, -1 /* CACHED */)), _cache[195] || (_cache[195] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), _cache[198] || (_cache[198] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "background-pattern"
   }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Mobile Nav Toggle (only visible in small screens) "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "mobile-nav-toggle d-lg-none btn btn-light shadow-sm rounded-circle p-3 position-fixed top-3 start-3 z-3",
@@ -2138,7 +2158,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'])
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_272)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_273, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_274, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_275, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_276, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('motivation')]])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" plans "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between py-3 gap-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-calendar3-range\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">Curated Weekly & Monthly Plans</h3>\n                  <p class=\"text-muted small mb-0\">Pick the timeline that fits your current rhythm.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('curatedPlans')\"\n                :aria-expanded=\"isCardVisible('curatedPlans')\"\n                :aria-label=\"isCardVisible('curatedPlans') ? 'Collapse curated plans' : 'Expand curated plans'\">\n                <i class=\"bi\" :class=\"isCardVisible('curatedPlans') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('curatedPlans')\">\n              <div class=\"card-body px-4 pb-0 pt-0\">\n                <div v-if=\"currentChapterPlans.length\">\n                  <div class=\"row g-3\">\n                    <div v-for=\"plan in currentChapterPlans\" :key=\"plan.planId\" class=\"col-12 col-md-4\">\n                      <article class=\"plan-card rounded-5 p-4 \">\n                        <div class=\"plan-card__header d-flex align-items-start justify-content-between gap-3\">\n                          <div>\n                            <p class=\"text-muted small mb-1 plan-card__duration\">{{ plan.duration }}</p>\n                            <h3 class=\"fw-semibold mb-2 fs-5\">{{ plan.title }}</h3>\n                            -- <p class=\"text-dark small mb-0 plan-card__summary\">{{ plan.description }}</p> --\n                          </div>\n                          <span class=\"badge badge-pill plan-badge text-uppercase\">{{ plan.planId.replace('-', ' ') }}</span>\n                        </div>\n                        <div class=\"plan-card__divider\" aria-hidden=\"true\"></div>\n                        <div class=\"plan-card__body\">\n                          <ul class=\"plan-highlights list-unstyled mb-3\">\n                            <li\n                              v-for=\"(highlight, index) in plan.highlights\"\n                              :key=\"`${plan.planId}-${index}`\"\n                              class=\"plan-highlight\"\n                              :class=\"{ completed: isCuratedHighlightCompleted(plan.planId, index) }\"\n                            >\n                              <div class=\"plan-highlight-body\">\n                                <span class=\"plan-highlight-icon\" aria-hidden=\"true\"></span>\n                                <span class=\"plan-highlight-text\">{{ highlight }}</span>\n                              </div>\n                              <button\n                                type=\"button\"\n                                class=\"plan-highlight-action\"\n                                :class=\"{ completed: isCuratedHighlightCompleted(plan.planId, index) }\"\n                                :aria-pressed=\"isCuratedHighlightCompleted(plan.planId, index)\"\n                                :aria-label=\"isCuratedHighlightCompleted(plan.planId, index) ? 'Highlight completed' : 'Mark highlight as complete'\"\n                                @click=\"toggleCuratedHighlightCompletion(plan.planId, index, plan.title, plan.highlights?.length || 0)\"\n                              >\n                                <i class=\"bi\" :class=\"isCuratedHighlightCompleted(plan.planId, index) ? 'bi-check-circle-fill' : 'bi-circle'\"></i>\n                                <span class=\"plan-highlight-action-text\">\n                                  {{ isCuratedHighlightCompleted(plan.planId, index) ? 'Completed' : 'Mark complete' }}\n                                </span>\n                              </button>\n                            </li>\n                          </ul>\n                        </div>\n                        <div class=\"plan-card__footer d-flex flex-column flex-sm-row align-items-sm-center justify-content-between gap-3\">\n                          <p class=\"mb-0 text-muted small plan-card__meta\">\n                            Crafted for the {{ plan.duration.toLowerCase() }} rhythm.\n                          </p>\n                          <div class=\"plan-action-icons\" role=\"group\" aria-label=\"Plan actions\">\n                            <button type=\"button\" class=\"plan-action-icon plan-action-share\" @click=\"sharePlan(plan)\" :title=\"'Share ' + plan.title\">\n                              <i class=\"bi bi-whatsapp\"></i>\n                              <span class=\"visually-hidden\">Share plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-copy\" @click=\"copyPlan(plan)\" :title=\"'Copy ' + plan.title\">\n                              <i class=\"bi bi-clipboard\"></i>\n                              <span class=\"visually-hidden\">Copy plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-print\" @click=\"printPlan(plan)\" :title=\"'Print ' + plan.title\">\n                              <i class=\"bi bi-printer\"></i>\n                              <span class=\"visually-hidden\">Print plan</span>\n                            </button>\n                            <button type=\"button\" class=\"plan-action-icon plan-action-download\" @click=\"downloadPlanAsPdf(plan)\" :title=\"'Download ' + plan.title\">\n                              <i class=\"bi bi-file-earmark-pdf\"></i>\n                              <span class=\"visually-hidden\">Download plan</span>\n                            </button>\n                          </div>\n                        </div>\n                      </article>\n                    </div>\n                  </div>\n                </div>\n                <div v-else class=\"text-muted small pt-3\">\n                  <p class=\"mb-1\">Curated plans are loading, or new guides are being prepared for this chapter.</p>\n                  <p class=\"mb-0\">Check back after you visit the lesson overview and guided pathways.</p>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" flexible plan tracks "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"currentFlexibleTracks.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-center gap-3 flex-grow-1\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-shuffle\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-0\">{{ currentFlexibleNote?.title || 'Flexible Pathway Tracks' }}</h3>\n                  <p class=\"text-muted small mb-0\">\n                    {{ currentFlexibleNote?.description || 'Mix and match these companion routines to keep each chapter feeling fresh.' }}\n                  </p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn\"\n                @click=\"toggleCardVisibility('flexibleTracks')\"\n                :aria-expanded=\"isCardVisible('flexibleTracks')\"\n                :aria-label=\"isCardVisible('flexibleTracks') ? 'Collapse flexible tracks' : 'Expand flexible tracks'\">\n                <i class=\"bi\" :class=\"isCardVisible('flexibleTracks') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('flexibleTracks')\" class=\"card-body px-4 py-3\">\n              <div class=\"row g-3\">\n                <div v-for=\"track in currentFlexibleTracks\" :key=\"track.id\" class=\"col-12 col-md-4\">\n                  <article class=\"flexible-track-card rounded-4 p-4 h-100\">\n                    <h4 class=\"fw-semibold mb-2 fs-5\">{{ track.title }}</h4>\n                    <p class=\"text-muted small mb-3\">{{ track.description }}</p>\n                    <ul class=\"flexible-track-steps list-unstyled mb-0\">\n                      <li v-for=\"step in track.steps\" :key=\"step\">\n                        <span class=\"flex-step-icon\" aria-hidden=\"true\"></span>\n                        <span>{{ step }}</span>\n                      </li>\n                    </ul>\n                  </article>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" daily micro challenges "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div v-if=\"dailyChallenges.length\" class=\"content-card onboarding-card mb-4 rounded-5 shadow-lg\">\n            <div class=\"card-header d-flex align-items-center justify-content-between gap-3 py-3\">\n              <div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\">\n                <span class=\"card-header-icon\">\n                  <i class=\"bi bi-stars\"></i>\n                </span>\n                <div>\n                  <h3 class=\"fw-bold mb-1\">Daily Micro Challenges</h3>\n                  <p class=\"text-muted small mb-0\">Mark what you completed and keep the lesson in motion.</p>\n                </div>\n              </div>\n              <button\n                type=\"button\"\n                class=\"section-toggle-btn card-toggle-btn ms-auto\"\n                @click=\"toggleCardVisibility('dailyChallenges')\"\n                :aria-expanded=\"isCardVisible('dailyChallenges')\"\n                :aria-label=\"isCardVisible('dailyChallenges') ? 'Collapse micro challenges' : 'Expand micro challenges'\">\n                <i class=\"bi\" :class=\"isCardVisible('dailyChallenges') ? 'bi-dash-lg' : 'bi-plus-lg'\"></i>\n              </button>\n            </div>\n            <div v-show=\"isCardVisible('dailyChallenges')\" class=\"card-body px-4 py-3\">\n              <div class=\"daily-challenge-progress mb-3\">\n                <div class=\"progress\" role=\"progressbar\" :aria-valuenow=\"dailyChallengeProgressPercent\" aria-valuemin=\"0\" aria-valuemax=\"100\">\n                  <div class=\"progress-bar\" :style=\"{ width: dailyChallengeProgressPercent + '%' }\"></div>\n                </div>\n                <div class=\"d-flex justify-content-between mt-1\">\n                  <small class=\"text-muted\">{{ dailyChallengeCompletionLabel }}</small>\n                  <small class=\"text-teal fw-semibold\">{{ dailyChallengeProgressPercent }}%</small>\n                </div>\n              </div>\n                <div class=\"daily-challenge-grid\">\n                  <button\n                    v-for=\"challenge in dailyChallenges\"\n                    :key=\"challenge.id\"\n                    type=\"button\"\n                    class=\"daily-challenge-pill\"\n                    :class=\"{ completed: challenge.completed }\"\n                    @click=\"toggleChallenge(challenge.storageKey)\"\n                    :aria-pressed=\"challenge.completed\"\n                  >\n                  <span class=\"challenge-icon\" aria-hidden=\"true\">\n                    <i class=\"bi\" :class=\"challenge.completed ? 'bi-check-lg' : 'bi-circle'\"></i>\n                  </span>\n                  <div class=\"challenge-details text-start\">\n                    <strong class=\"d-block\">{{ challenge.title }}</strong>\n                    <small class=\"text-muted\">{{ challenge.description }}</small>\n                  </div>\n                </button>\n              </div>\n              <div class=\"reflection-box mt-4\">\n                <div class=\"d-flex align-items-center justify-content-between mb-2\">\n                  <p class=\"fw-semibold mb-0\">Reflection note</p>\n                </div>\n                <div class=\"reflection-actions mb-3\">\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-primary btn-sm shadow-none\"\n                    @click=\"createNewReflectionNote\"\n                  >\n                    Create new note\n                  </button>\n                  <button\n                    type=\"button\"\n                    class=\"btn reflection-action-btn reflection-action-secondary btn-sm shadow-none\"\n                    @click=\"clearReflectionNote\"\n                    :disabled=\"!currentReflectionNote\"\n                  >\n                    Clear note\n                  </button>\n                </div>\n                <div v-if=\"reflectionStatus\" class=\"reflection-status-pill\">\n                  <i class=\"bi bi-check-circle-fill\"></i>\n                  <span>{{ reflectionStatus }}</span>\n                </div>\n                <textarea\n                  class=\"form-control reflection-input\"\n                  rows=\"3\"\n                  v-model=\"reflectionInput\"\n                  placeholder=\"Jot down a moment, dua, or action you want to remember...\"\n                ></textarea>\n                <div class=\"d-flex align-items-center justify-content-between mt-2 gap-2 flex-wrap\">\n                  <small v-if=\"reflectionStatus\" class=\"text-success mb-0\">{{ reflectionStatus }}</small>\n                  <button\n                    type=\"button\"\n                    class=\"btn btn-teal btn-sm shadow-none\"\n                    :disabled=\"!reflectionInput.trim() && !currentReflectionNote\"\n                    @click=\"saveReflectionNote\"\n                  >\n                    Save note\n                  </button>\n                </div>\n              </div>\n            </div>\n          </div> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" resources "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     id: "resources-section",
-    class: "content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography",
+    class: "content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography resources-shell",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.sectionFontStyle('resources'))
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_277, [_cache[164] || (_cache[164] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-3"
@@ -2168,16 +2188,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": _ctx.isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_281)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_282, [_cache[165] || (_cache[165] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "text-muted medium mb-3"
-  }, "Primary sources, classical texts, and modern tools for this chapter.", -1 /* CACHED */)), _ctx.resourceSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_283, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.resourceSectionsWithKeys, (section, sectionIndex) => {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_281)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_282, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_283, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [_cache[167] || (_cache[167] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "resource-lead mb-0"
+  }, "Primary sources, classical texts, and modern tools for this chapter.", -1 /* CACHED */)), _ctx.globalSearchActive ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_285, [_cache[165] || (_cache[165] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Showing matches for \"", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_286, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceSearchTerm), 1 /* TEXT */), _cache[166] || (_cache[166] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("\". ", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.resourceSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_287, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_288, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceSectionsWithKeys.length) + " " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceSectionsWithKeys.length === 1 ? 'collection' : 'collections'), 1 /* TEXT */), _cache[168] || (_cache[168] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "resource-meta-pill"
+  }, "Curated references", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.resourceSectionsWithKeys.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_289, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.resourceSectionsWithKeys, (section, sectionIndex) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: section.toggleKey,
       class: "resource-section-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_284, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_290, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "resource-section-title",
       innerHTML: _ctx.highlightResourceText(section.title)
-    }, null, 8 /* PROPS */, _hoisted_285), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 8 /* PROPS */, _hoisted_291), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["section-toggle-btn", {
         collapsed: !_ctx.isSectionVisible(section.toggleKey)
@@ -2188,7 +2210,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": _ctx.isSectionVisible(section.toggleKey) ? 'Collapse resource section' : 'Expand resource section'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isSectionVisible(section.toggleKey) ? 'bi-dash-lg' : 'bi-plus-lg'])
-    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_286)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_292)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "section-collapse",
       appear: ""
     }, {
@@ -2203,33 +2225,33 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           key: 0,
           class: "resource-group-label",
           innerHTML: _ctx.highlightResourceText(item.label)
-        }, null, 8 /* PROPS */, _hoisted_288)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_289, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.entries, (entry, entryIndex) => {
+        }, null, 8 /* PROPS */, _hoisted_294)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_295, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(item.entries, (entry, entryIndex) => {
           return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
             key: `${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`,
             class: "resource-entry"
           }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
             innerHTML: _ctx.formatResourceEntry(entry, item.label)
-          }, null, 8 /* PROPS */, _hoisted_290)]);
+          }, null, 8 /* PROPS */, _hoisted_296)]);
         }), 128 /* KEYED_FRAGMENT */))])]);
-      }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_287)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+      }), 128 /* KEYED_FRAGMENT */))], 8 /* PROPS */, _hoisted_293)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
       _: 2 /* DYNAMIC */
     }, 1024 /* DYNAMIC_SLOTS */)]);
-  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.currentChapterResourcesLayout ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_291, " No resources match this search yet. Try different keywords or reset filters. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_292, " Resources for this chapter are being prepared. "))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('resources')]])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */))])) : _ctx.currentChapterResourcesLayout ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_297, " No resources match this search yet. Try different keywords or reset filters. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_298, " Resources for this chapter are being prepared. "))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('resources')]])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" quiz "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography section-quiz",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.sectionFontStyle('chapterQuiz'))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_293, [_cache[166] || (_cache[166] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-journal-check\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Chapter Quiz</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Attempt the curated quiz to move to the next chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_294, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_299, [_cache[169] || (_cache[169] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"d-flex align-items-start gap-3 flex-grow-1 min-width-0\" data-v-1d764944><span class=\"card-header-icon\" data-v-1d764944><i class=\"bi bi-journal-check\" data-v-1d764944></i></span><div data-v-1d764944><h3 class=\"fw-bold mb-1\" data-v-1d764944>Chapter Quiz</h3><p class=\"text-muted small mb-0\" data-v-1d764944>Attempt the curated quiz to move to the next chapter.</p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-font-btn",
     disabled: _ctx.isSectionFontMin('chapterQuiz'),
     onClick: _cache[72] || (_cache[72] = $event => _ctx.decreaseSectionFont('chapterQuiz')),
     "aria-label": "Decrease chapter quiz font size"
-  }, " A- ", 8 /* PROPS */, _hoisted_295), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " A- ", 8 /* PROPS */, _hoisted_301), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-font-btn",
     disabled: _ctx.isSectionFontMax('chapterQuiz'),
     onClick: _cache[73] || (_cache[73] = $event => _ctx.increaseSectionFont('chapterQuiz')),
     "aria-label": "Increase chapter quiz font size"
-  }, " A+ ", 8 /* PROPS */, _hoisted_296)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " A+ ", 8 /* PROPS */, _hoisted_302)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "section-toggle-btn card-toggle-btn",
     onClick: _cache[74] || (_cache[74] = $event => _ctx.toggleCardVisibility('chapterQuiz')),
@@ -2237,26 +2259,26 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": _ctx.isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.isCardVisible('chapterQuiz') ? 'bi-dash-lg' : 'bi-plus-lg'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_297)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_298, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_299, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_300, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_301, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_303)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_ctx.currentQuestion ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_304, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_306, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_307, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-progress-fill",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: (_ctx.currentQuestionIndex + (_ctx.quizStatus === 'correct' ? 1 : 0)) / _ctx.quizQuestions.length * 100 + '%'
     })
-  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_302, [_cache[167] || (_cache[167] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, null, 4 /* STYLE */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_308, [_cache[170] || (_cache[170] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
-  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_303, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_304, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_305, [_cache[168] || (_cache[168] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Progress toward mastery", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_309, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizProgressLabel), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_310, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_311, [_cache[171] || (_cache[171] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-motivation-icon d-flex align-items-center justify-content-center"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-lightning-charge-fill fs-5"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_306, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_307, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_308, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_309, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizStageLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_310, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_311, [_cache[169] || (_cache[169] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_312, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_313, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_314, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.motivationalHint), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_315, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizStageLabel), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_316, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_317, [_cache[172] || (_cache[172] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-1 text-uppercase"
-  }, "Section focus", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_312, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuizSectionTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_313, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_314, [_cache[170] || (_cache[170] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Section focus", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_318, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuizSectionTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_319, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_320, [_cache[173] || (_cache[173] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted small text-uppercase"
-  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_315, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizMomentumPercent) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_316, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Momentum", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_321, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizMomentumPercent) + "%", 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_322, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       width: `${_ctx.quizMomentumPercent}%`
     })
-  }, null, 4 /* STYLE */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_317, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_318, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
+  }, null, 4 /* STYLE */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_323, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_324, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentQuestion.options, option => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
       key: option,
       type: "button",
@@ -2269,7 +2291,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: _ctx.chapterQuizPassed || _ctx.quizStatus === 'correct',
       "aria-pressed": _ctx.selectedOption === option,
       onClick: $event => _ctx.answerQuiz(option)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_320, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_321)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_322)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_319);
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_326, [_ctx.quizStatus === 'correct' && option === _ctx.currentQuestion.answer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_327)) : _ctx.quizStatus === 'incorrect' && option === _ctx.selectedOption ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_328)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 10 /* CLASS, PROPS */, _hoisted_325);
   }), 128 /* KEYED_FRAGMENT */))]), _ctx.quizStatus && _ctx.quizFeedback ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["quiz-feedback-panel mt-3", {
@@ -2278,7 +2300,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     role: "status",
     "aria-live": "polite"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_323, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_324, [_ctx.quizStatus === 'correct' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_325)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_326))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_327, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizFeedback), 1 /* TEXT */), _ctx.quizStatus === 'correct' && !_ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_328, " Next question loading... ")) : _ctx.quizStatus === 'incorrect' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_329, " Try another choice or review the explanation below. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_330, [_cache[171] || (_cache[171] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_329, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_330, [_ctx.quizStatus === 'correct' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_331)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_332))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_333, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizFeedback), 1 /* TEXT */), _ctx.quizStatus === 'correct' && !_ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_334, " Next question loading... ")) : _ctx.quizStatus === 'incorrect' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("small", _hoisted_335, " Try another choice or review the explanation below. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.quizStatus === 'incorrect' && _ctx.quizHintExplanation ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_336, [_cache[174] || (_cache[174] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "quiz-explanation-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex align-items-center gap-2"
@@ -2286,39 +2308,39 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-lightbulb-fill fs-5 text-teal"
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-0 fw-semibold mb-3 fs-6"
-  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_331, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_332, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_333, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_334, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_335, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, "Explanation")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_337, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_338, "Answer is: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.currentQuestion.answer), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_339, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_340, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizHintExplanation), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_341, [_ctx.quizHintSectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-sm btn-explanation-link",
     onClick: _cache[75] || (_cache[75] = $event => _ctx.scrollToSection(_ctx.quizHintSectionId))
-  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_336, [_cache[173] || (_cache[173] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " Jump to the related lesson section ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_342, [_cache[176] || (_cache[176] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-badge-check-fill text-teal me-2 fs-5"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_337, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_338, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[172] || (_cache[172] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_343, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_344, "Great! " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.quizRequiredCorrect) + " correct answers recorded.", 1 /* TEXT */), _cache[175] || (_cache[175] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
   }, "The Next Chapter button above is now active.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-teal btn-sm shadow-none",
     onClick: _cache[76] || (_cache[76] = (...args) => _ctx.retryQuiz && _ctx.retryQuiz(...args))
-  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('chapterQuiz')]])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_339, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_340, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Retake quiz ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isCardVisible('chapterQuiz')]])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" NAVIGATION BUTTONS "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_345, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_346, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-secondary fw-semibold px-4 py-3 fs-6 d-flex align-items-center gap-2", {
       'opacity-50 cursor-not-allowed': _ctx.selectedPill <= 1
     }]),
     disabled: _ctx.selectedPill <= 1,
     onClick: _cache[77] || (_cache[77] = $event => _ctx.selectPill(_ctx.selectedPill - 1))
-  }, [...(_cache[174] || (_cache[174] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[177] || (_cache[177] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-left",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_341), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_342, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_343, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_344, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Previous Chapter ", -1 /* CACHED */)]))], 10 /* CLASS, PROPS */, _hoisted_347), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_348, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_349, "Chapter " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.selectedPill) + " of " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.roadmapData.length), 1 /* TEXT */), _ctx.chapterQuizPassed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_350, "Quiz cleared • Next Chapter unlocked.")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn next-btn fw-bold px-4 py-3 fs-6 text-white d-flex align-items-center gap-2", {
       'next-ready': _ctx.chapterQuizPassed && !_ctx.isWaitingForNext,
       'disabled': _ctx.isWaitingForNext || !_ctx.chapterQuizPassed
     }]),
     disabled: _ctx.isWaitingForNext || !_ctx.chapterQuizPassed,
     onClick: _cache[78] || (_cache[78] = (...args) => _ctx.completeAndNext && _ctx.completeAndNext(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[175] || (_cache[175] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.isWaitingForNext ? 'Processing...' : 'Next Chapter'), 1 /* TEXT */), _cache[178] || (_cache[178] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_345)])])])])])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+  }, null, -1 /* CACHED */))], 10 /* CLASS, PROPS */, _hoisted_351)])])])])])], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
     name: "scroll-fab",
     appear: ""
   }, {
@@ -2328,41 +2350,41 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       "aria-label": "Scroll to top",
       onClick: _cache[79] || (_cache[79] = (...args) => _ctx.scrollToTop && _ctx.scrollToTop(...args))
-    }, [...(_cache[176] || (_cache[176] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[179] || (_cache[179] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-arrow-up-short fs-1 text-white"
     }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
-  }), _ctx.showSearchInfoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_346, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), _ctx.showSearchInfoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_352, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop",
     onClick: _cache[80] || (_cache[80] = (...args) => _ctx.closeSearchInfoModal && _ctx.closeSearchInfoModal(...args))
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_347, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_348, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_349, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_350, [_cache[177] || (_cache[177] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_353, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_354, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_355, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_356, [_cache[180] || (_cache[180] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
   }, "About global search", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
     onClick: _cache[81] || (_cache[81] = (...args) => _ctx.closeSearchInfoModal && _ctx.closeSearchInfoModal(...args))
-  })]), _cache[178] || (_cache[178] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body px-4 py-3\" data-v-1d764944><p class=\"search-info-lead\" data-v-1d764944> Global search scans the entire chapter so you can find a concept, reference, or story in seconds. </p><ul class=\"search-info-list\" data-v-1d764944><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-stars\" data-v-1d764944></i> Search coverage </div><p class=\"search-info-card-text\" data-v-1d764944> Lesson summaries, learning paths, key insights, duas, stories, resources, and questions. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-quote\" data-v-1d764944></i> Phrase matching </div><p class=\"search-info-card-text\" data-v-1d764944> Use quotes for exact phrases, like &quot;tawheed foundation&quot;. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-funnel\" data-v-1d764944></i> Category filter </div><p class=\"search-info-card-text\" data-v-1d764944> Narrow results by category without leaving the search panel. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-cursor-fill\" data-v-1d764944></i> Jump to results </div><p class=\"search-info-card-text\" data-v-1d764944> Click any result to jump directly to that section on the page. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-palette\" data-v-1d764944></i> Highlighting </div><p class=\"search-info-card-text\" data-v-1d764944> Colored highlights show exactly where your terms appear. </p></li></ul></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_351, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  })]), _cache[181] || (_cache[181] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body px-4 py-3\" data-v-1d764944><p class=\"search-info-lead\" data-v-1d764944> Global search scans the entire chapter so you can find a concept, reference, or story in seconds. </p><ul class=\"search-info-list\" data-v-1d764944><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-stars\" data-v-1d764944></i> Search coverage </div><p class=\"search-info-card-text\" data-v-1d764944> Lesson summaries, learning paths, key insights, duas, stories, resources, and questions. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-quote\" data-v-1d764944></i> Phrase matching </div><p class=\"search-info-card-text\" data-v-1d764944> Use quotes for exact phrases, like &quot;tawheed foundation&quot;. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-funnel\" data-v-1d764944></i> Category filter </div><p class=\"search-info-card-text\" data-v-1d764944> Narrow results by category without leaving the search panel. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-cursor-fill\" data-v-1d764944></i> Jump to results </div><p class=\"search-info-card-text\" data-v-1d764944> Click any result to jump directly to that section on the page. </p></li><li class=\"search-info-card\" data-v-1d764944><div class=\"search-info-card-title\" data-v-1d764944><i class=\"bi bi-palette\" data-v-1d764944></i> Highlighting </div><p class=\"search-info-card-text\" data-v-1d764944> Colored highlights show exactly where your terms appear. </p></li></ul></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_357, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
     onClick: _cache[82] || (_cache[82] = (...args) => _ctx.closeSearchInfoModal && _ctx.closeSearchInfoModal(...args))
-  }, " Got it ")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_352, [_cache[181] || (_cache[181] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Got it ")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showResourceModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_358, [_cache[184] || (_cache[184] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_353, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_354, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_355, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_356, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_357, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[180] || (_cache[180] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_359, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_360, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_361, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_362, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_363, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx$activeResource = _ctx.activeResource) === null || _ctx$activeResource === void 0 ? void 0 : _ctx$activeResource.title), 1 /* TEXT */)]), _cache[183] || (_cache[183] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-body px-4 py-3"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_358, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_359, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_360, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_364, [_ctx.resourceCopyStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_365, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.resourceCopyStatus), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_366, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[83] || (_cache[83] = (...args) => _ctx.copyResourceLink && _ctx.copyResourceLink(...args))
-  }, [...(_cache[179] || (_cache[179] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[182] || (_cache[182] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-link-45deg"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Copy Link ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
     onClick: _cache[84] || (_cache[84] = (...args) => _ctx.closeResourceModal && _ctx.closeResourceModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_361, [_cache[188] || (_cache[188] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showVideoModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_367, [_cache[191] || (_cache[191] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_362, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_363, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_364, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_365, [_cache[182] || (_cache[182] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_368, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_369, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_370, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_371, [_cache[185] || (_cache[185] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold"
   }, "All Revert Stories", -1 /* CACHED */)), _ctx.hasStoryFilters ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
@@ -2373,14 +2395,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": _ctx.showVideoFilters ? 'Hide story filters' : 'Show story filters'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", _ctx.showVideoFilters ? 'bi-eye-slash' : 'bi-eye'])
-  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_367, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.showVideoFilters ? 'Hide filters' : 'Show filters'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_366)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_368, [_ctx.hasStoryFilters ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_369, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_370, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_371, [_cache[183] || (_cache[183] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_373, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.showVideoFilters ? 'Hide filters' : 'Show filters'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_372)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_374, [_ctx.hasStoryFilters ? (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)(((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_375, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_376, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_377, [_cache[186] || (_cache[186] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Search stories", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
     class: "form-control form-control-sm",
     placeholder: "Search by title or theme",
     "onUpdate:modelValue": _cache[86] || (_cache[86] = $event => _ctx.videoSearchTerm = $event)
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_372, [_cache[184] || (_cache[184] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.videoSearchTerm]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_378, [_cache[187] || (_cache[187] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Duration", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
@@ -2389,8 +2411,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_373);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_374, [_cache[185] || (_cache[185] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_379);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoDurationFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_380, [_cache[188] || (_cache[188] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Gender", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
@@ -2399,8 +2421,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_375);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_376, [_cache[186] || (_cache[186] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_381);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoGenderFilter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_382, [_cache[189] || (_cache[189] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "filter-label"
   }, "Background", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     class: "form-select form-select-sm",
@@ -2409,8 +2431,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
       key: option.value,
       value: option.value
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_377);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_378, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showVideoFilters]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_379, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(option.label), 9 /* TEXT, PROPS */, _hoisted_383);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.videoBackgroundFilter]])])]), !_ctx.filteredRevertStories.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_384, " No stories match those filters yet. Try resetting or broadening your search. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showVideoFilters]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_385, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.filteredRevertStories, video => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 'modal-' + video.title,
       class: "col-12 col-md-6"
@@ -2420,7 +2442,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onMouseleave: _cache[90] || (_cache[90] = (...args) => _ctx.stopPreview && _ctx.stopPreview(...args)),
       onClick: $event => _ctx.handleVideoCardClick(video),
       onTouchstart: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => _ctx.handleVideoCardTouch(video), ["stop", "prevent"])
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_381, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_387, [_ctx.isPlayingVideo(video) || _ctx.isVideoPreviewing(video) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
@@ -2431,25 +2453,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
       allowfullscreen: "",
       loading: "lazy"
-    }, null, 8 /* PROPS */, _hoisted_382)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_388)], 4 /* STYLE */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 1,
       class: "video-feature",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)(_ctx.thumbnailStyle(video))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_383, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_384, [_cache[187] || (_cache[187] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_389, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_390, [_cache[190] || (_cache[190] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "video-feature-label"
-    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_385, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_386, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_387, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_388, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_389, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
+    }, "Revert story", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_391, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.title), 1 /* TEXT */), video.description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_392, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), video.duration ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_393, "Duration: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(video.duration), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 4 /* STYLE */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_394, [_ctx.videoTags(video).length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_395, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.videoTags(video), tag => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", {
         key: tag + '-modal',
         class: "video-tag-badge"
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(tag), 1 /* TEXT */);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_380)]);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_390, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_391, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 40 /* PROPS, NEED_HYDRATION */, _hoisted_386)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_396, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_397, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-dark px-4",
     onClick: _cache[91] || (_cache[91] = (...args) => _ctx.closeVideoModal && _ctx.closeVideoModal(...args))
-  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_392, [_cache[190] || (_cache[190] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " Close ")])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showHelpModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_398, [_cache[193] || (_cache[193] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_393, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_394, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_395, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_396, [_cache[189] || (_cache[189] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_399, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_400, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_401, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_402, [_cache[192] || (_cache[192] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title fw-bold mb-1"
   }, "Reverts Corner Guide"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted small mb-0"
@@ -2458,23 +2480,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "aria-label": "Close guide",
     onClick: _cache[92] || (_cache[92] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_397, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_403, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.helpGuideSteps, (step, index) => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: step.title,
       class: "guide-step-card"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_398, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_399, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_400, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_401, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_404, "Step " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(index + 1), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_405, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_406, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(step.description), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_407, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-teal px-4",
     onClick: _cache[93] || (_cache[93] = (...args) => _ctx.closeHelpModal && _ctx.closeHelpModal(...args))
-  }, "Got it")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showCompletionModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_402, [_cache[193] || (_cache[193] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Got it")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.showCompletionModal ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_408, [_cache[196] || (_cache[196] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-backdrop fade show custom-modal-backdrop"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_403, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_404, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_405, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_406, [_cache[191] || (_cache[191] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"completion-header-left\" data-v-1d764944><span class=\"completion-icon\" data-v-1d764944><i class=\"bi bi-moon-stars\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"completion-label mb-1\" data-v-1d764944>Milestone</p><h5 class=\"modal-title fw-bold mb-0\" data-v-1d764944>Beginners Guide Complete</h5></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_409, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_410, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_411, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_412, [_cache[194] || (_cache[194] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"completion-header-left\" data-v-1d764944><span class=\"completion-icon\" data-v-1d764944><i class=\"bi bi-moon-stars\" data-v-1d764944></i></span><div data-v-1d764944><p class=\"completion-label mb-1\" data-v-1d764944>Milestone</p><h5 class=\"modal-title fw-bold mb-0\" data-v-1d764944>Beginners Guide Complete</h5></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
     onClick: _cache[94] || (_cache[94] = (...args) => _ctx.closeCompletionModal && _ctx.closeCompletionModal(...args))
-  })]), _cache[192] || (_cache[192] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body completion-modal-body px-4 pb-4 pt-0\" data-v-1d764944><p class=\"completion-lead mb-2\" data-v-1d764944>MashaAllah, you&#39;ve completed the Beginners Guide.</p><p class=\"completion-note mb-3\" data-v-1d764944> May Allah bless your effort and keep your heart steady on this path. When you&#39;re ready, choose what feels right today to continue to the next phase. No pressure. Take your time. </p><div class=\"completion-divider\" data-v-1d764944></div><div class=\"completion-options\" data-v-1d764944><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>One-time £1.99</p><p class=\"completion-option-desc\" data-v-1d764944> If it feels easy today, this keeps the lessons flowing and supports the work. </p></div><button type=\"button\" class=\"btn completion-primary-btn d-inline-flex align-items-center\" data-v-1d764944> Pay £1.99 </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Choose what you can</p><p class=\"completion-option-desc\" data-v-1d764944> If £1.99 is not comfortable, pick a smaller amount that suits your situation. </p></div><button type=\"button\" class=\"btn completion-secondary-btn d-inline-flex align-items-center\" data-v-1d764944> Choose an amount </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Continue for free</p><p class=\"completion-option-desc\" data-v-1d764944> If you are not ready for the options above, continue without payment. May Allah make it easy. </p></div><button type=\"button\" class=\"btn completion-ghost-btn\" data-v-1d764944> Continue for free </button></div></div><p class=\"completion-footnote mb-0\" data-v-1d764944>Secure checkout via Stripe. May Allah reward your sincerity.</p></div>", 1))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
+  })]), _cache[195] || (_cache[195] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-body completion-modal-body px-4 pb-4 pt-0\" data-v-1d764944><p class=\"completion-lead mb-2\" data-v-1d764944>MashaAllah, you&#39;ve completed the Beginners Guide.</p><p class=\"completion-note mb-3\" data-v-1d764944> May Allah bless your effort and keep your heart steady on this path. When you&#39;re ready, choose what feels right today to continue to the next phase. No pressure. Take your time. </p><div class=\"completion-divider\" data-v-1d764944></div><div class=\"completion-options\" data-v-1d764944><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>One-time £1.99</p><p class=\"completion-option-desc\" data-v-1d764944> If it feels easy today, this keeps the lessons flowing and supports the work. </p></div><button type=\"button\" class=\"btn completion-primary-btn d-inline-flex align-items-center\" data-v-1d764944> Pay £1.99 </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Choose what you can</p><p class=\"completion-option-desc\" data-v-1d764944> If £1.99 is not comfortable, pick a smaller amount that suits your situation. </p></div><button type=\"button\" class=\"btn completion-secondary-btn d-inline-flex align-items-center\" data-v-1d764944> Choose an amount </button></div><div class=\"completion-option\" data-v-1d764944><div class=\"completion-option-text\" data-v-1d764944><p class=\"completion-option-title\" data-v-1d764944>Continue for free</p><p class=\"completion-option-desc\" data-v-1d764944> If you are not ready for the options above, continue without payment. May Allah make it easy. </p></div><button type=\"button\" class=\"btn completion-ghost-btn\" data-v-1d764944> Continue for free </button></div></div><p class=\"completion-footnote mb-0\" data-v-1d764944>Secure checkout via Stripe. May Allah reward your sincerity.</p></div>", 1))])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
 }
 
 /***/ }),

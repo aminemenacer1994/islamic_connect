@@ -1685,9 +1685,9 @@
           <!-- resources -->
           <div
             id="resources-section"
-            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography"
+            class="content-card onboarding-card mb-4 rounded-5 shadow-lg section-typography resources-shell"
             :style="sectionFontStyle('resources')"
-          >
+           >
             <div class="card-header d-flex align-items-center justify-content-between gap-3 py-3">
               <div class="d-flex align-items-center gap-3">
                 <span class="card-header-icon">
@@ -1726,8 +1726,22 @@
                 <i class="bi" :class="isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
               </button>
             </div>
-            <div v-show="isCardVisible('resources')" class="px-3 px-md-4 py-4">
-              <p class="text-muted medium mb-3">Primary sources, classical texts, and modern tools for this chapter.</p>
+            <div v-show="isCardVisible('resources')" class="resources-body">
+              <div class="resources-intro">
+                <div class="resources-intro-text">
+                  <p class="resource-lead mb-0">Primary sources, classical texts, and modern tools for this chapter.</p>
+                  <p v-if="globalSearchActive" class="resource-filter-note mb-0">
+                    Showing matches for "<span class="resource-filter-term">{{ resourceSearchTerm }}</span>".
+                  </p>
+                </div>
+                <div v-if="resourceSectionsWithKeys.length" class="resource-meta">
+                  <span class="resource-meta-pill">
+                    {{ resourceSectionsWithKeys.length }}
+                    {{ resourceSectionsWithKeys.length === 1 ? 'collection' : 'collections' }}
+                  </span>
+                  <span class="resource-meta-pill">Curated references</span>
+                </div>
+              </div>
               <div
                 v-if="resourceSectionsWithKeys.length"
                 class="resource-grid"
