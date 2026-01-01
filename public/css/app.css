@@ -30362,6 +30362,50 @@ body {
     min-width: 32px;
 }
 }
+@media (max-width: 600px) {
+.card-header[data-v-1d764944] {
+    align-items: flex-start;
+    gap: 0.6rem;
+}
+.card-header .section-font-controls[data-v-1d764944] {
+    width: 100%;
+    justify-content: flex-start;
+    order: 3;
+}
+.card-header .section-toggle-btn[data-v-1d764944] {
+    order: 4;
+    align-self: flex-end;
+}
+.overview-actions[data-v-1d764944],
+  .lesson-focus-actions[data-v-1d764944] {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 0.5rem;
+}
+.overview-actions .btn[data-v-1d764944],
+  .lesson-focus-actions .header-action[data-v-1d764944] {
+    flex: 1 1 130px;
+    justify-content: center;
+    min-height: 40px;
+}
+.content-card .card-body[data-v-1d764944] {
+    padding: 0.75rem;
+}
+.section-content-wrapper[data-v-1d764944] {
+    margin-top: 0.65rem;
+    padding-top: 0.65rem;
+}
+.lesson-hero[data-v-1d764944] {
+    padding: 1rem;
+}
+.resource-entry[data-v-1d764944] {
+    padding: 0.55rem 0.7rem;
+}
+.resource-entry a[data-v-1d764944],
+  .resource-entry span[data-v-1d764944] {
+    word-break: break-word;
+}
+}
 
 
 [v-cloak] {
