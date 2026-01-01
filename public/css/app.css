@@ -27030,7 +27030,7 @@ p[data-v-1d764944]{
   display: flex;
   align-items: center;
   gap: 0.6rem;
-  margin-top: 0.9rem;
+  margin-top: 0;
   padding: 0.4rem 0.85rem;
   border-radius: 999px;
   border: 1px solid rgba(15, 23, 42, 0.14);
@@ -27070,19 +27070,14 @@ p[data-v-1d764944]{
 .resource-search-controls[data-v-1d764944] {
   margin-top: 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 1rem;
+  grid-template-columns: minmax(240px, 1fr) minmax(170px, 240px);
+  align-items: center;
+  gap: 0.75rem;
 }
 .resource-search-control[data-v-1d764944] {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
-}
-.resource-search-label[data-v-1d764944] {
-  font-size: 0.65rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: #475467;
 }
 .resource-search-toggle[data-v-1d764944] {
   display: flex;
@@ -27218,9 +27213,6 @@ p[data-v-1d764944]{
   color: inherit;
   cursor: pointer;
 }
-.global-search-result-button:hover .global-search-result-jump[data-v-1d764944] {
-  color: #0f6e63;
-}
 .global-search-result-button[data-v-1d764944]:focus-visible {
   outline: 3px solid rgba(14, 165, 233, 0.35);
   outline-offset: 4px;
@@ -27228,9 +27220,8 @@ p[data-v-1d764944]{
 }
 .global-search-result-heading[data-v-1d764944] {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.75rem;
+  align-items: center;
+  gap: 0.5rem;
 }
 .global-search-result-title[data-v-1d764944] {
   font-weight: 600;
@@ -27244,15 +27235,6 @@ p[data-v-1d764944]{
   color: #475467;
   font-size: 1.02rem;
   line-height: 1.5;
-}
-.global-search-result-jump[data-v-1d764944] {
-  font-size: 0.82rem;
-  font-weight: 600;
-  color: #0b806f;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.2rem;
-  white-space: nowrap;
 }
 .global-search-empty[data-v-1d764944] {
   margin: 0;
@@ -29960,7 +29942,8 @@ to {
   z-index: 0;
 }
 .lesson-hero-content[data-v-1d764944] {
-  max-width: 640px;
+  max-width: 100%;
+  width: 100%;
 }
 .lesson-hero-content h1[data-v-1d764944] {
   font-family: var(--font-display);

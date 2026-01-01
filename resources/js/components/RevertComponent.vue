@@ -178,76 +178,37 @@
                     Search the full chapter in one place.
                   </p>
                 </div>
-                <div class="global-search-header-actions">
-                  <div v-if="globalSearchActive" class="resource-search-metrics">
-                    <span v-if="globalSearchActive" class="resource-count-pill">
-                      {{ globalSearchResultsCount }} matches
-                    </span>
-                    <span v-if="globalSearchActive" class="resource-count-note">
-                      {{ globalSearchSectionsCount }} categories
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    class="global-search-info-btn"
-                    @click="openSearchInfoModal"
-                    aria-label="How global search works"
-                  >
-                    <i class="bi bi-info-circle"></i>
-                    <span>How it works</span>
-                  </button>
-                  <div class="section-font-controls" role="group" aria-label="Global search font size">
-                    <button
-                      type="button"
-                      class="section-font-btn"
-                      :disabled="isSectionFontMin('globalSearch')"
-                      @click="decreaseSectionFont('globalSearch')"
-                      aria-label="Decrease global search font size"
-                    >
-                      A-
-                    </button>
-                    <button
-                      type="button"
-                      class="section-font-btn"
-                      :disabled="isSectionFontMax('globalSearch')"
-                      @click="increaseSectionFont('globalSearch')"
-                      aria-label="Increase global search font size"
-                    >
-                      A+
-                    </button>
-                  </div>
-                  <button
-                    type="button"
-                    class="section-toggle-btn card-toggle-btn"
-                    @click="toggleCardVisibility('globalSearch')"
-                    :aria-expanded="isCardVisible('globalSearch')"
-                    :aria-label="isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'">
-                    <i class="bi" :class="isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn"
+                  @click="toggleCardVisibility('globalSearch')"
+                  :aria-expanded="isCardVisible('globalSearch')"
+                  :aria-label="isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'">
+                  <i class="bi" :class="isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
               </div>
               <div v-show="isCardVisible('globalSearch')">
-                <div class="resource-search-input">
-                  <i class="bi bi-search"></i>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder="Search the entire chapter"
-                    v-model="resourceSearchTerm"
-                    aria-label="Search the entire chapter"
-                  />
-                  <button
-                    v-if="resourceSearchTerm"
-                    type="button"
-                    class="btn btn-sm btn-outline-dark"
-                    @click="clearResourceSearch"
-                  >
-                    Clear
-                  </button>
-                </div>
                 <div class="resource-search-controls">
+                  <div class="resource-search-input">
+                    <i class="bi bi-search"></i>
+                    <input
+                      type="text"
+                      class="form-control"
+                      placeholder="Search the entire chapter"
+                      v-model="resourceSearchTerm"
+                      aria-label="Search the entire chapter"
+                    />
+                    <button
+                      v-if="resourceSearchTerm"
+                      type="button"
+                      class="btn btn-sm btn-outline-dark"
+                      @click="clearResourceSearch"
+                    >
+                      Clear
+                    </button>
+                  </div>
                   <div class="resource-search-control">
-                    <label class="resource-search-label" for="global-search-category">Category</label>
+                    <label class="visually-hidden" for="global-search-category">Category</label>
                     <select
                       id="global-search-category"
                       class="form-select form-select-sm"
@@ -262,8 +223,9 @@
                 </div>
                 <div v-if="globalSearchActive" class="global-search-results">
                   <div class="global-search-summary">
-                    <span class="global-search-count">{{ globalSearchResultsCount }} results</span>
-                    <span class="global-search-count-note">across {{ globalSearchSectionsCount }} categories</span>
+                    <span class="global-search-count">
+                      {{ globalSearchResultsCount }} results in {{ globalSearchSectionsCount }} categories
+                    </span>
                   </div>
                   <div v-if="globalSearchResultsFilteredByCategory.length" class="global-search-group-list">
                     <article
@@ -292,10 +254,6 @@
                           >
                             <div class="global-search-result-heading">
                               <p v-if="result.title" class="global-search-result-title" v-html="highlightResourceText(result.title)"></p>
-                              <span class="global-search-result-jump">
-                                Go
-                                <i class="bi bi-arrow-right-short" aria-hidden="true"></i>
-                              </span>
                             </div>
                             <p v-if="result.snippet" class="global-search-result-snippet" v-html="highlightResourceText(result.snippet)"></p>
                           </button>

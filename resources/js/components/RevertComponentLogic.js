@@ -519,6 +519,7 @@ export default defineComponent({
       videoSearchTerm: '',
       videoDurationFilter: 'all',
       videoGenderFilter: 'all',
+      progressSyncHandler: null,
       videoBackgroundFilter: 'all',
       durationFilters: DURATION_FILTERS,
       showScrollFab: false,
@@ -1373,6 +1374,7 @@ export default defineComponent({
       this.initializePreviewAutoplayPreference()
       this.scheduleChapterToolPreload(this.selectedPill)
       this.scheduleChapterToolPreload(this.selectedPill + 1)
+      this.bindProgressSync()
 
       window.addEventListener('beforeunload', () => {
         window.scrollTo(0, 0)
@@ -1388,6 +1390,7 @@ export default defineComponent({
     window.removeEventListener('scroll', this.updateScrollFab)
     this.teardownMotionPreference()
     this.teardownPreviewAutoplayPreference()
+    this.teardownProgressSync()
     if (this.scrollTopRetryTimer) {
       clearTimeout(this.scrollTopRetryTimer)
       this.scrollTopRetryTimer = null
