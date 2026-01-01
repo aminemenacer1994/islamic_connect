@@ -421,10 +421,10 @@
                 </span>
                 <div class="d-flex flex-column">
                   <h3 class="fw-bold mb-0">Learning Paths</h3>
-                  <div v-if="learningPathsMeta.wordCount" class="section-header-meta">
+                  <!-- <div v-if="learningPathsMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ learningPathsMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ learningPathsMeta.readTime }} min read</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="overview-actions d-flex align-items-center gap-2 flex-wrap">
@@ -799,10 +799,10 @@
                 </span>
                 <div class="d-flex flex-column">
                   <h3 class="fw-bold mb-0">Do's and Don'ts</h3>
-                  <div v-if="dosDontsMeta.wordCount" class="section-header-meta">
+                  <!-- <div v-if="dosDontsMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ dosDontsMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ dosDontsMeta.readTime }} min read</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="section-font-controls ms-auto" role="group" aria-label="Dos and donts font size">
@@ -845,7 +845,7 @@
                         <li v-for="item in currentDosDonts.dos" :key="item.id"
                           class="d-flex align-items-center gap-2 mb-2">
                           <i class="bi bi-check-circle-fill fs-5 text-teal"></i>
-                          <span class="text-dark medium mt-1">{{ item.text }}</span>
+                          <span class="text-dark medium mt-1" v-html="formatReferenceText(item.text)"></span>
                         </li>
                       </ul>
                     </article>
@@ -857,7 +857,7 @@
                         <li v-for="item in currentDosDonts.donts" :key="item.id"
                           class="d-flex align-items-center gap-2 mb-2">
                           <i class="bi bi-x-circle-fill fs-5 text-muted"></i>
-                          <span class="text-dark medium mt-1">{{ item.text }}</span>
+                          <span class="text-dark medium mt-1" v-html="formatReferenceText(item.text)"></span>
                         </li>
                       </ul>
                     </article>
@@ -881,10 +881,10 @@
                 </span>
                 <div class="flex-grow-1">
                   <h3 class="fw-bold mb-1">Duas to Carry</h3>
-                  <div v-if="duasMeta.wordCount" class="section-header-meta">
+                  <!-- <div v-if="duasMeta.wordCount" class="section-header-meta">
                     <span class="section-meta-pill">{{ duasMeta.wordCount }} words</span>
                     <span class="section-meta-pill">{{ duasMeta.readTime }} min read</span>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="lesson-focus-actions">
@@ -947,7 +947,12 @@
                       {{ dua.arabic }}
                     </p>
                     <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }">{{ dua.english }}</p>
-                    <p class="mb-0 text-muted pt-2" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }">{{ dua.reference }}</p>
+                    <p
+                      v-if="dua.reference"
+                      class="mb-0 text-muted pt-2"
+                      :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }"
+                      v-html="formatReferenceText(dua.reference)"
+                    ></p>
 
                   </article>
                 </div>
@@ -1075,10 +1080,10 @@
               <div class="d-flex flex-column">
                 <h3 class="fw-bold mb-1">Key Insights</h3>
                 <p class="text-muted small mb-0">Anchor the lesson with these quick takeaways.</p>
-                <div v-if="keyInsightsMeta.wordCount" class="section-header-meta">
+                <!-- <div v-if="keyInsightsMeta.wordCount" class="section-header-meta">
                   <span class="section-meta-pill">{{ keyInsightsMeta.wordCount }} words</span>
                   <span class="section-meta-pill">{{ keyInsightsMeta.readTime }} min read</span>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="section-font-controls ms-auto" role="group" aria-label="Key insights font size">
@@ -1124,7 +1129,7 @@
                     <div class="insight-card-header">
                       <span class="insight-number">{{ index + 1 }}</span>
                     </div>
-                    <p class="insight-card-text mb-0">{{ insight }}</p>
+                    <p class="insight-card-text mb-0" v-html="formatReferenceText(insight)"></p>
                   </article>
               </div>
             </div>
@@ -1303,10 +1308,10 @@
                   <div>
                     <h3 class="fw-bold mb-1">Commonly Asked Questions</h3>
                     <p class="text-muted small mb-0">Answers pulled from the chapter conversation.</p>
-                    <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
+                    <!-- <div v-if="commonQuestionsMeta.wordCount" class="section-header-meta">
                       <span class="section-meta-pill">{{ commonQuestionsMeta.wordCount }} words</span>
                       <span class="section-meta-pill">{{ commonQuestionsMeta.readTime }} min read</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="section-font-controls ms-auto" role="group" aria-label="Common questions font size">
@@ -1349,7 +1354,7 @@
                         :class="isAccordionOpen('common', index) ? 'bi-dash-lg text-teal' : 'bi-plus-lg text-muted'"></i>
                     </button>
                     <div v-show="isAccordionOpen('common', index)" class="accordion-answer mt-2">
-                      <div v-html="panel.body"></div>
+                      <div v-html="formatReferenceHtml(panel.body)"></div>
                   </div>
                 </div>
               </div>

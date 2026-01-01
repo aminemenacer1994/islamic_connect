@@ -26524,6 +26524,7 @@ p[data-v-1d764944]{
   background: radial-gradient(circle at top right, rgba(16, 185, 129, 0.25), transparent 45%);
   opacity: 0;
   transition: opacity 0.4s ease;
+  pointer-events: none;
 }
 .dua-card:hover .dua-glow[data-v-1d764944] {
   opacity: 1;
@@ -26812,7 +26813,7 @@ p[data-v-1d764944]{
 }
 .resource-grid[data-v-1d764944] {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: 1fr;
   gap: 1.05rem;
   align-items: stretch;
 }
@@ -27328,7 +27329,7 @@ p[data-v-1d764944]{
 }
 @media (max-width: 992px) {
 .resource-grid[data-v-1d764944] {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: 1fr;
 }
 .resource-section-card[data-v-1d764944] {
     padding: 0.75rem 0.8rem;
@@ -27393,7 +27394,7 @@ p[data-v-1d764944]{
 }
 @media (min-width: 1400px) {
 .resource-grid[data-v-1d764944] {
-    grid-template-columns: repeat(4, minmax(260px, 1fr));
+    grid-template-columns: 1fr;
 }
 }
 .resource-entry a[data-v-1d764944] {
@@ -29926,6 +29927,7 @@ to {
 }
 .dua-card .dua-glow[data-v-1d764944] {
   background: radial-gradient(circle at top right, rgba(214, 165, 77, 0.35), transparent 55%);
+  pointer-events: none;
 }
 .faq-question[data-v-1d764944] {
   background: rgba(255, 255, 255, 0.78);

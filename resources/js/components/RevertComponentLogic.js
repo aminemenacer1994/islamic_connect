@@ -2066,11 +2066,28 @@ export default defineComponent({
     formatOverviewContent(content = '') {
       if (!content) return ''
       const text = String(content)
-      const withLineBreaks = text.replace(/\n/g, '<br>')
+      const linked = this.linkifyOverviewContent(text)
+      const withLineBreaks = linked.replace(/\n/g, '<br>')
       const hasReferences = text.includes('\n\nReferences:')
       const withReferenceLabel = withLineBreaks.replace(/\bReferences:/g, '<strong>References:</strong>')
       if (!hasReferences) return withReferenceLabel
       return `<strong>Main Section:</strong><br>${withReferenceLabel}`
+    },
+    formatReferenceText(text = '') {
+      if (!text) return ''
+      return this.linkifyOverviewContent(String(text))
+    },
+    formatReferenceHtml(html = '') {
+      if (!html) return ''
+      const withQuranLinks = this.linkifyQuranReferences(String(html))
+      return this.linkifyHadithReferences(withQuranLinks)
+    },
+    linkifyQuranReferences(html = '') {
+      if (!html) return ''
+      return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+        if (tag) return tag
+        return this.linkifyQuranEntry(text)
+      })
     },
     escapeHtml(value = '') {
       return String(value)
@@ -2199,6 +2216,40 @@ export default defineComponent({
       }
       result += this.escapeHtml(remainder.slice(lastIndex))
       return result
+    },
+    linkifyHadithReferences(html = '') {
+      if (!html) return ''
+      return html.replace(/(<[^>]+>)|([^<]+)/g, (match, tag, text) => {
+        if (tag) return tag
+        return this.linkifyHadithText(text)
+      })
+    },
+    linkifyHadithText(text = '') {
+      const collectionPattern = "(?:Ṣaḥīḥ|Sahih|Sunan|Jāmiʿ|Jamiʿ|Jami'|Musnad|Al-Adab|Adab)\\s+[A-Za-z\\u00C0-\\u024F\\u1E00-\\u1EFFʿʾāīūḍṣḥṭḤṢĀĪŪ\\- ]{1,50}"
+      const hadithRegex = new RegExp(`\\b(${collectionPattern})\\s+(\\d+[a-z]?(?:\\s*,\\s*\\d+[a-z]?)*)`, 'gi')
+      let linked = text.replace(hadithRegex, (match, collection, refs) => {
+        const slug = this.hadithCollectionSlug(collection)
+        const linkedRefs = refs.split(',').map((rawRef) => {
+          const ref = rawRef.trim()
+          if (!ref) return ''
+          const href = slug
+            ? `https://sunnah.com/${slug}:${ref}`
+            : `https://sunnah.com/search?q=${encodeURIComponent(`${collection} ${ref}`)}`
+          return `<a href="${href}" target="_blank" rel="noreferrer">${ref}</a>`
+        }).filter(Boolean).join(', ')
+        return `${collection} ${linkedRefs}`
+      })
+      const phraseRegex = new RegExp(`\\b(${collectionPattern})\\s*\\(([^)]+)\\)`, 'gi')
+      linked = linked.replace(phraseRegex, (match, collection, phrase) => {
+        const href = `https://sunnah.com/search?q=${encodeURIComponent(`${collection} ${phrase}`)}`
+        return `${collection} (<a href="${href}" target="_blank" rel="noreferrer">${phrase}</a>)`
+      })
+      return linked
+    },
+    linkifyOverviewContent(text = '') {
+      if (!text) return ''
+      const withQuranLinks = this.linkifyQuranEntry(text)
+      return this.linkifyHadithReferences(withQuranLinks)
     },
     highlightResourceHtml(html = '') {
       if (!html) return ''
