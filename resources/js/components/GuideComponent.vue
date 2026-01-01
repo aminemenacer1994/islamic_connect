@@ -2,7 +2,6 @@
   <div  :class="['container my-4', { 'pad-for-audio': isPlaying || isPaused }]" role="main">
 
     <header class="guide-hero text-center mb-4">
-      <span class="guide-eyebrow">Guided learning library</span>
       <h2 class="mb-2 fw-bold display-5 display-md-4">Islamic Guides</h2>
       <p class="header-description">
         Discover insights into the core beliefs, practices, and morals of Islam.

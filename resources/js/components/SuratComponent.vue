@@ -1459,9 +1459,6 @@ export default {
 }
 .ayah-card-container {
   border-radius: 18px;
-  border: 1px solid rgba(15, 110, 99, 0.14);
-  background: rgba(255, 255, 255, 0.95);
-  box-shadow: 0 12px 28px rgba(15, 53, 48, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 

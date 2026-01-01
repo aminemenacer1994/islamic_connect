@@ -80,8 +80,8 @@ const GENDER_FILTERS = [
   { value: 'male', label: 'Male stories' },
   { value: 'other', label: 'Other' }
 ]
-const SECTION_FONT_MIN = 0.85
-const SECTION_FONT_MAX = 1.35
+const SECTION_FONT_MIN = 0.8
+const SECTION_FONT_MAX = 1.6
 const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win']
 
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female']
@@ -1587,6 +1587,23 @@ export default defineComponent({
       }
     },
 
+    bindProgressSync() {
+      if (typeof window === 'undefined') return
+      if (this.progressSyncHandler) return
+      this.progressSyncHandler = (event) => {
+        if (!event || event.storageArea !== localStorage) return
+        if (event.key === 'maxStepReached') {
+          const next = Number.parseInt(event.newValue, 10)
+          if (!Number.isFinite(next) || next <= 0 || next === this.maxStepReached) return
+          this.maxStepReached = next
+          if (this.selectedPill > next) {
+            this.selectedPill = next
+          }
+        }
+      }
+      window.addEventListener('storage', this.progressSyncHandler)
+    },
+
     teardownMotionPreference() {
       if (!this.motionMediaQuery || !this.motionMediaListener) return
       if (typeof this.motionMediaQuery.removeEventListener === 'function') {
@@ -1607,6 +1624,12 @@ export default defineComponent({
       }
       this.previewDesktopMediaQuery = null
       this.previewDesktopListener = null
+    },
+
+    teardownProgressSync() {
+      if (typeof window === 'undefined' || !this.progressSyncHandler) return
+      window.removeEventListener('storage', this.progressSyncHandler)
+      this.progressSyncHandler = null
     },
 
     setupConfettiLauncher() {
@@ -2811,7 +2834,11 @@ export default defineComponent({
       return this.sectionFontScales[key] ?? 1
     },
     sectionFontStyle(key) {
-      return { '--section-scale': this.sectionFontScale(key) }
+      const scale = this.sectionFontScale(key)
+      return {
+        '--section-scale': scale,
+        '--section-font-size': `${scale}rem`
+      }
     },
     adjustSectionFontScale(key, delta) {
       const current = this.sectionFontScale(key)
@@ -2819,10 +2846,10 @@ export default defineComponent({
       this.sectionFontScales = { ...this.sectionFontScales, [key]: next }
     },
     increaseSectionFont(key) {
-      this.adjustSectionFontScale(key, 0.05)
+      this.adjustSectionFontScale(key, 0.1)
     },
     decreaseSectionFont(key) {
-      this.adjustSectionFontScale(key, -0.05)
+      this.adjustSectionFontScale(key, -0.1)
     },
     isSectionFontMin(key) {
       return this.sectionFontScale(key) <= SECTION_FONT_MIN + 0.001

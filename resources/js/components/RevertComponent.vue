@@ -892,23 +892,23 @@
             <div
               v-show="isCardVisible('duas')"
               class="card-body"
-              :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}em`, lineHeight: 1.5 }"
+              :style="{ fontSize: `${duaFontScale}em`, lineHeight: 1.5 }"
             >
               <div class="row g-3">
                 <div v-for="dua in currentDuas" :key="dua.arabic" class="col-12 col-md-4">
                   <article class="dua-card h-100 rounded-4 p-4 shadow-lg">
                     <div class="dua-glow"></div>
-                    <h4 class="mb-0 text-dark text-center pb-3" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }"><b>{{ dua.title }}</b></h4>
+                    <h4 class="mb-0 text-dark text-center pb-3" :style="{ fontSize: `${duaFontScale}rem` }"><b>{{ dua.title }}</b></h4>
                     <p dir="rtl"
                       class="fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end"
-                      :style="{ fontSize: `${duaFontScale * 1.05 * sectionFontScale('duas')}rem` }">
+                      :style="{ fontSize: `${duaFontScale * 1.05}rem` }">
                       {{ dua.arabic }}
                     </p>
-                    <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }">{{ dua.english }}</p>
+                    <p class="mb-0 text-dark" :style="{ fontSize: `${duaFontScale}rem` }">{{ dua.english }}</p>
                     <p
                       v-if="dua.reference"
                       class="mb-0 text-muted pt-2"
-                      :style="{ fontSize: `${duaFontScale * sectionFontScale('duas')}rem` }"
+                      :style="{ fontSize: `${duaFontScale}rem` }"
                       v-html="formatReferenceText(dua.reference)"
                     ></p>
 

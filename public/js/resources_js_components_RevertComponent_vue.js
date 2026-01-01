@@ -1683,7 +1683,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_166)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-body",
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-      fontSize: `${_ctx.duaFontScale * _ctx.sectionFontScale('duas')}em`,
+      fontSize: `${_ctx.duaFontScale}em`,
       lineHeight: 1.5
     })
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_167, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.currentDuas, dua => {
@@ -1695,24 +1695,24 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "mb-0 text-dark text-center pb-3",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: `${_ctx.duaFontScale * _ctx.sectionFontScale('duas')}rem`
+        fontSize: `${_ctx.duaFontScale}rem`
       })
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.title), 1 /* TEXT */)], 4 /* STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       dir: "rtl",
       class: "fw-semibold lh-base mb-2 fs-5 text-teal border-bottom pb-2 text-end",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: `${_ctx.duaFontScale * 1.05 * _ctx.sectionFontScale('duas')}rem`
+        fontSize: `${_ctx.duaFontScale * 1.05}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.arabic), 5 /* TEXT, STYLE */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "mb-0 text-dark",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: `${_ctx.duaFontScale * _ctx.sectionFontScale('duas')}rem`
+        fontSize: `${_ctx.duaFontScale}rem`
       })
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(dua.english), 5 /* TEXT, STYLE */), dua.reference ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", {
       key: 0,
       class: "mb-0 text-muted pt-2",
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
-        fontSize: `${_ctx.duaFontScale * _ctx.sectionFontScale('duas')}rem`
+        fontSize: `${_ctx.duaFontScale}rem`
       }),
       innerHTML: _ctx.formatReferenceText(dua.reference)
     }, null, 12 /* STYLE, PROPS */, _hoisted_169)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]);
@@ -2568,8 +2568,8 @@ const GENDER_FILTERS = [{
   value: 'other',
   label: 'Other'
 }];
-const SECTION_FONT_MIN = 0.85;
-const SECTION_FONT_MAX = 1.35;
+const SECTION_FONT_MIN = 0.8;
+const SECTION_FONT_MAX = 1.6;
 const BACKGROUND_TAG_PRIORITY = ['Ex-Christian', 'Family Struggle', 'Faith Journey', 'Inspiration', 'Community', 'Funny', 'Quick Win'];
 const FEMALE_KEYWORDS = ['she', 'her', 'woman', 'women', 'sister', 'mom', 'mother', 'girl', 'lady', 'daughter', 'female'];
 const MALE_KEYWORDS = ['he', 'his', 'man', 'men', 'brother', 'dad', 'father', 'boy', 'guy', 'husband', 'male'];
@@ -4023,6 +4023,22 @@ const celebrateFinalChapter = confettiFn => {
         query.addListener(handler);
       }
     },
+    bindProgressSync() {
+      if (typeof window === 'undefined') return;
+      if (this.progressSyncHandler) return;
+      this.progressSyncHandler = event => {
+        if (!event || event.storageArea !== localStorage) return;
+        if (event.key === 'maxStepReached') {
+          const next = Number.parseInt(event.newValue, 10);
+          if (!Number.isFinite(next) || next <= 0 || next === this.maxStepReached) return;
+          this.maxStepReached = next;
+          if (this.selectedPill > next) {
+            this.selectedPill = next;
+          }
+        }
+      };
+      window.addEventListener('storage', this.progressSyncHandler);
+    },
     teardownMotionPreference() {
       if (!this.motionMediaQuery || !this.motionMediaListener) return;
       if (typeof this.motionMediaQuery.removeEventListener === 'function') {
@@ -4042,6 +4058,11 @@ const celebrateFinalChapter = confettiFn => {
       }
       this.previewDesktopMediaQuery = null;
       this.previewDesktopListener = null;
+    },
+    teardownProgressSync() {
+      if (typeof window === 'undefined' || !this.progressSyncHandler) return;
+      window.removeEventListener('storage', this.progressSyncHandler);
+      this.progressSyncHandler = null;
     },
     setupConfettiLauncher() {
       if (this.confettiLauncher) return;
@@ -5224,8 +5245,10 @@ const celebrateFinalChapter = confettiFn => {
       return (_this$sectionFontScal = this.sectionFontScales[key]) !== null && _this$sectionFontScal !== void 0 ? _this$sectionFontScal : 1;
     },
     sectionFontStyle(key) {
+      const scale = this.sectionFontScale(key);
       return {
-        '--section-scale': this.sectionFontScale(key)
+        '--section-scale': scale,
+        '--section-font-size': `${scale}rem`
       };
     },
     adjustSectionFontScale(key, delta) {
@@ -5236,10 +5259,10 @@ const celebrateFinalChapter = confettiFn => {
       });
     },
     increaseSectionFont(key) {
-      this.adjustSectionFontScale(key, 0.05);
+      this.adjustSectionFontScale(key, 0.1);
     },
     decreaseSectionFont(key) {
-      this.adjustSectionFontScale(key, -0.05);
+      this.adjustSectionFontScale(key, -0.1);
     },
     isSectionFontMin(key) {
       return this.sectionFontScale(key) <= SECTION_FONT_MIN + 0.001;

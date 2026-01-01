@@ -1449,7 +1449,7 @@ export default {
   --mission-surface: #ffffff;
   --mission-surface-soft: #f6f2ea;
   --mission-border: rgba(15, 41, 32, 0.12);
-  background: linear-gradient(180deg, #f5f1e7 0%, #ffffff 38%, #f8f6f2 100%);
+  background: transparent;
   border: 0;
   border-radius: 26px;
   position: relative;
@@ -1458,7 +1458,7 @@ export default {
 
 .mission-shell::before,
 .mission-shell::after {
-  content: '';
+  content: none;
   position: absolute;
   pointer-events: none;
   z-index: 0;
@@ -1469,7 +1469,7 @@ export default {
   height: 420px;
   left: -120px;
   top: -120px;
-  background: radial-gradient(circle at top, rgba(11, 128, 111, 0.18), transparent 70%);
+  background: none;
 }
 
 .mission-shell::after {
@@ -1477,7 +1477,7 @@ export default {
   height: 520px;
   right: -160px;
   bottom: -180px;
-  background: radial-gradient(circle at 40% 40%, rgba(26, 95, 122, 0.18), transparent 70%);
+  background: none;
 }
 
 .mission-shell > * {
