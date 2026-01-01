@@ -383,6 +383,90 @@
   color: #1a5f7a;
 }
 
+.next-step-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(26, 95, 122, 0.1), rgba(11, 128, 111, 0.1));
+  border: 1px solid rgba(11, 128, 111, 0.18);
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(26, 95, 122, 0.12);
+  padding: 1.2rem 1.6rem;
+}
+
+.next-step-toggle {
+  position: absolute;
+  right: 32px;
+  top: 12px;
+  opacity: 0.9;
+  background: transparent;
+  border: 0;
+  color: #6b8b91;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.next-step-toggle:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.3);
+  border-radius: 8px;
+}
+
+.next-step-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(11, 128, 111, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0b806f;
+  font-size: 1.25rem;
+  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
+}
+
+.next-step-eyebrow {
+  letter-spacing: 0.1em;
+  color: #1a5f7a;
+  font-size: 0.78rem;
+}
+
+.next-step-teaser {
+  color: #1f2933;
+}
+
+.next-step-text {
+  color: #1f2933;
+  line-height: 1.7;
+  font-size: 1.02rem;
+}
+
+.next-step-link {
+  color: #0b806f;
+}
+
+.next-step-link-icon {
+  color: #0b806f;
+  font-size: 0.82rem;
+  opacity: 0.85;
+}
+
+.next-step-cta {
+  background: linear-gradient(135deg, #0b806f, #1a5f7a);
+  border: none;
+  border-radius: 999px;
+  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.next-step-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(26, 95, 122, 0.28);
+}
+
+.next-step-cta:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.3), 0 10px 20px rgba(26, 95, 122, 0.25);
+}
+
 .next-step-callout {
   display: flex;
   align-items: flex-start;

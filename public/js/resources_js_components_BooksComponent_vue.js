@@ -531,22 +531,20 @@ const _hoisted_5 = {
   }
 };
 const _hoisted_6 = {
-  class: "mx-auto mb-4 elevated-card premium-radius next-step"
+  class: "mx-auto mb-4 next-step-card"
 };
 const _hoisted_7 = ["title", "aria-label"];
 const _hoisted_8 = {
   class: "d-flex align-items-start gap-3 text-start"
 };
 const _hoisted_9 = {
-  style: {
-    "flex": "1"
-  }
+  class: "flex-grow-1"
 };
 const _hoisted_10 = {
-  class: "mb-2 d-inline-flex align-items-center gap-1 text-body"
+  class: "mb-2 d-inline-flex align-items-center gap-1 next-step-teaser"
 };
 const _hoisted_11 = {
-  class: "mb-3 next-step-text text-body"
+  class: "mb-3 next-step-text"
 };
 const _hoisted_12 = {
   class: "d-flex flex-wrap gap-2"
@@ -719,17 +717,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "mb-2 fw-semibold text-uppercase next-step-eyebrow"
   }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/finance",
-    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-accent",
+    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link",
     "aria-label": "Open the Islamic finance guide"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Move from definitions to Islamic finance "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square small opacity-75",
+    class: "fas fa-arrow-up-right-from-square next-step-link-icon",
     "aria-hidden": "true"
   })], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_11, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Want to turn today’s definitions into calmer, halal money choices? The Islamic Finance guide pairs larger text and gentle explanations so new Muslims can explore in English with confidence. ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/finance",
-    class: "fw-semibold text-decoration-none link-accent"
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " Visit Islamic Finance ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" whenever you feel ready. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/finance",
-    class: "btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center cta-primary"
+    class: "btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center next-step-cta text-white"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Explore Islamic Finance"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-coins ms-2",
     "aria-hidden": "true"

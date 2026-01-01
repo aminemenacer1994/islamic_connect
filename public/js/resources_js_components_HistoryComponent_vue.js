@@ -686,7 +686,7 @@ const _hoisted_2 = {
   class: "px-2"
 };
 const _hoisted_3 = {
-  class: "mx-auto mb-4 next-step-banner"
+  class: "mx-auto mb-4 next-step-card"
 };
 const _hoisted_4 = ["title", "aria-label"];
 const _hoisted_5 = {
@@ -703,7 +703,7 @@ const _hoisted_8 = {
 };
 const _hoisted_9 = {
   href: "/mission",
-  class: "btn btn-sm fw-semibold cta-btn px-3 py-2"
+  class: "btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta"
 };
 const _hoisted_10 = {
   class: "text-end mb-3"
@@ -939,7 +939,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "icon-circle"
+    class: "next-step-icon-circle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-compass"
   })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {

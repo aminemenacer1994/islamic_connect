@@ -66,8 +66,8 @@
               <i class="fas fa-quran"></i>
             </div>
           </div>
-          <div style="flex:1;">
-            <p class="mb-2 fw-semibold text-uppercase next-step-label">
+          <div class="flex-grow-1">
+            <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
@@ -75,7 +75,7 @@
               <a href="/history" class="fw-semibold text-decoration-none next-step-link">
                 Explore Qur’an history
               </a>
-              <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+              <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in
@@ -85,7 +85,7 @@
               to deepen your understanding.
             </p>
             <a v-show="!nextStepMinimized" href="/history"
-               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-btn">
+               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
               Explore History
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
@@ -1984,109 +1984,9 @@ export default {
   }
 }
 
-/* Next Step card background (gradient + blur) */
+/* Next Step spacing */
 .next-step-wrapper {
   padding: 10px;
-}
-
-.next-step-card {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(15, 110, 99, 0.2);
-  border-radius: 22px;
-  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.14);
-  background: linear-gradient(140deg, rgba(255, 255, 255, 0.95), rgba(244, 250, 247, 0.95));
-  padding: 1.25rem 1.65rem;
-}
-
-.next-step-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 20% 10%, rgba(210, 162, 75, 0.2), transparent 60%),
-    radial-gradient(circle at 85% 0%, rgba(15, 110, 99, 0.2), transparent 65%);
-  opacity: 0.9;
-  z-index: 0;
-}
-
-.next-step-card > * {
-  position: relative;
-  z-index: 1;
-}
-
-.next-step-toggle {
-  position: absolute;
-  right: 36px;
-  top: 14px;
-  opacity: 0.9;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid rgba(15, 110, 99, 0.2);
-  color: #5b6d6c;
-  z-index: 3;
-  cursor: pointer;
-  border-radius: 999px;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.next-step-toggle:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(15, 53, 48, 0.16);
-}
-
-.next-step-icon-circle {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: rgba(15, 110, 99, 0.18);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0f6e63;
-  font-size: 1.35rem;
-  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.2), 0 8px 16px rgba(15, 53, 48, 0.12);
-}
-
-.next-step-label {
-  letter-spacing: 0.12em;
-  color: #1c4655;
-  font-size: 0.78rem;
-}
-
-.next-step-teaser {
-  color: #1f2f33;
-}
-
-.next-step-text {
-  color: #1f2f33;
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-.next-step-link {
-  color: #0f6e63;
-}
-
-.next-step-link:hover {
-  color: #0a4b45;
-}
-
-.next-step-btn {
-  background: linear-gradient(135deg, #0f6e63, #1f7a6d);
-  border: none;
-  border-radius: 999px;
-  box-shadow: 0 12px 24px rgba(15, 110, 99, 0.28);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.next-step-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 16px 30px rgba(15, 110, 99, 0.32);
 }
 
 /* Theme tokens (scoped to this component container) */

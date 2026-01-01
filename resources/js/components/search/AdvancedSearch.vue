@@ -61,82 +61,79 @@
     </div>
     <!-- Offcanvas for Search Results -->
     <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="offcanvasResults">
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title">Search Results</h5>
+      <div class="offcanvas-header search-results-header">
+        <div class="search-results-title">
+          <span class="search-results-eyebrow">Quran Search</span>
+          <h5 class="offcanvas-title">Search Results</h5>
+          <p class="search-results-subtitle">Matched ayat with translations ready to share.</p>
+        </div>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close search results"></button>
       </div>
-      <div ref="targetTafseerElement" class="offcanvas-body text-left">
-        <!-- Display Results -->
-
-
-        <div v-if="filteredResults.length && !loading">
-          <div>
-            <h5>Total Number of Surat: {{ totalSurahs }}</h5>
-            <h5>Total Number of Ayat: {{ totalAyahs }}</h5>
+      <div ref="targetTafseerElement" class="offcanvas-body search-results-body">
+        <div v-if="filteredResults.length && !loading" class="results-stack">
+          <div class="results-summary">
+            <div class="summary-card">
+              <span class="summary-label">Surahs</span>
+              <span class="summary-value">{{ totalSurahs }}</span>
+            </div>
+            <div class="summary-card">
+              <span class="summary-label">Ayat</span>
+              <span class="summary-value">{{ totalAyahs }}</span>
+            </div>
+            <p v-if="searchTerm" class="summary-note">
+              Results for "<span>{{ searchTerm }}</span>"
+            </p>
           </div>
-          <hr>
-          <div v-for="result in filteredResults" :key="result.id" class="result-item">
+
+          <article
+            v-for="(result, index) in filteredResults"
+            :key="result.id"
+            class="result-card"
+            :style="{ '--result-index': index }"
+          >
             <div :id="'result-' + result.id">
-
-
-              <div class="text-left pb-2">
-                <h4>{{ result.ayah.surah_id }} : {{ result.ayah.ayah_id }}</h4>
+              <header class="result-card-header">
+                <div class="result-ref">
+                  <span class="result-label">Ayah</span>
+                  <span class="result-id">{{ result.ayah.surah_id }} : {{ result.ayah.ayah_id }}</span>
+                </div>
+                <span class="result-chip">Match</span>
+              </header>
+              <p class="result-arabic" dir="rtl">{{ result.ayah.ayah_text }}</p>
+              <div class="result-translation">
+                <span class="translation-label">Translation</span>
+                <span
+                  class="translation-text"
+                  v-html="highlightSearch(expanded ? result.translation : result.translation)"
+                ></span>
               </div>
-              <!--
-            <div class="container pt-3 pb-3">
-              <button type="button" class=" w-100 btn btn-light"><b>Go To Ayah</b></button>
             </div>
-            -->
-              <h3 class="text-right">{{ result.ayah.ayah_text }}</h3>
-              <div>
-                <h5><b>Translation: </b></h5>
-                <span v-html="highlightSearch(expanded ? result.translation : result.translation)"></span>
-
-              </div>
-              <!-- <div>
-              <h5 class="pt-2"><b>Tafseer: </b></h5>
-              <span v-html="highlightSearch(expanded ? result.originalTafseer : result.originalTafseer)"></span>
-              
-            </div>
-            <div>
-              <h5 class="pt-2"><b>Transliteration: </b></h5>
-              <span v-html="highlightSearch(expanded ? result.transliteration : result.transliteration)"></span>
-            </div> -->
-
-            </div>
-            <div class="pt-2 row" style="padding:5px">
-              <div class="col-md-6 pb-1">
-                <button @click="shareOnWhatsApp(result)" type="button" class="container btn btn-success w-100">
-                  <i @click="fastForwardSpeech" style="cursor: pointer;" aria-label="Fast forward audio"
-                    class="bi bi-whatsapp ml-2 mr-2 custom-icon-play h5"></i><b>Share on WhatsApp</b>
-                </button>
-              </div>
-              <div class="col-md-6">
-                <button @click="shareOnTwitter(result)" type="button" class="container btn btn-dark w-100">
-                  <i @click="fastForwardSpeech" style="cursor: pointer;" aria-label="Fast forward audio"
-                    class="bi bi-twitter-x ml-2 mr-2 custom-icon-play h5"></i><b>Share on X</b>
-                </button>
-              </div>
-              <!-- <div class="col-md-12 mt-2">
-              <button @click="openModal(result)" type="button" class="btn btn-light w-100">
-                <b>View Ayah Details</b>
+            <div class="result-actions">
+              <button @click="shareOnWhatsApp(result)" type="button" class="btn result-btn result-btn--whatsapp">
+                <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                Share on WhatsApp
               </button>
-            </div> -->
+              <button @click="shareOnTwitter(result)" type="button" class="btn result-btn result-btn--x">
+                <i class="bi bi-twitter-x" aria-hidden="true"></i>
+                Share on X
+              </button>
             </div>
-
-
-            <hr />
+          </article>
+        </div>
+        <div v-else-if="!loading" class="results-empty">
+          <div class="results-empty-card">
+            <i class="bi bi-search" aria-hidden="true"></i>
+            <h5>No search results found.</h5>
+            <p>Try a different word or a longer phrase.</p>
           </div>
-
         </div>
-        <div v-else-if="!loading" class="text-center">
-          <h5>No search results found.</h5>
-        </div>
-        <div v-if="loading" class="text-center">
-          <h5>Loading...</h5>
+        <div v-if="loading" class="results-loading" role="status" aria-live="polite">
+          <div class="results-loading-card">
+            <span class="loading-spinner" aria-hidden="true"></span>
+            <p>Gathering matches...</p>
+          </div>
         </div>
       </div>
-
     </div>
 
   </div>
@@ -318,11 +315,34 @@ export default {
 </style>
 
 <style scoped>
-.elegant-search { border-radius: 12px; overflow: visible; box-shadow: 0 1px 0 rgba(0,0,0,.02), 0 2px 8px rgba(0,0,0,.06); position: relative; }
-.search-pill { border: 1px solid #e6eaee; background:#fff; font-size: 1rem; }
-.search-pill::placeholder { color:#9aa4b2; }
-.mic-btn { background-image: linear-gradient(135deg,#6a7cf7 0%, #6b4df2 50%, #6b3ef0 100%); color:#fff; border:none; width:56px; display:flex; align-items:center; justify-content:center; }
-.mic-btn:hover { filter: brightness(1.05); }
+.elegant-search {
+  border-radius: 16px;
+  overflow: visible;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  position: relative;
+  border: 1px solid rgba(15, 110, 99, 0.18);
+  background: rgba(255, 255, 255, 0.98);
+}
+.search-pill {
+  border: none;
+  background: transparent;
+  font-size: 1rem;
+  color: #0f172a;
+}
+.search-pill::placeholder { color: #7c8a97; }
+.search-pill:focus { box-shadow: none; }
+.mic-btn {
+  background-image: linear-gradient(135deg, #0f6e63 0%, #0b4c45 100%);
+  color: #fff;
+  border: none;
+  width: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18), 0 10px 18px rgba(11, 76, 69, 0.35);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.mic-btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
 .mic-btn .bi { font-size: 1.1rem; }
 .error-message {
   margin-top: 10px;
@@ -444,8 +464,7 @@ export default {
   }
 
   .custom-offcanvas {
-    background-color: #10584f;
-    color: white;
+    --bs-offcanvas-width: 100%;
   }
 
   .hide-on-mobile {
@@ -603,29 +622,354 @@ export default {
 }
 
 .custom-offcanvas {
-  background-color: #10584f;
-  color: white;
-  width: 40%;
+  --offcanvas-ink: #0f2a27;
+  --offcanvas-teal: #0b806f;
+  --offcanvas-gold: #d6a54d;
+  --bs-offcanvas-width: min(42rem, 92vw);
+  background:
+    radial-gradient(circle at 15% 10%, rgba(214, 165, 77, 0.22), transparent 45%),
+    radial-gradient(circle at 85% 20%, rgba(14, 165, 150, 0.18), transparent 45%),
+    linear-gradient(180deg, #0f5f56 0%, #0b3a35 58%, #082724 100%);
+  color: #f8fafc;
+}
+
+.search-results-header {
+  padding: 1.4rem 1.5rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  gap: 1rem;
+}
+
+.search-results-title {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.search-results-eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(248, 250, 252, 0.75);
+  font-weight: 700;
+}
+
+.custom-offcanvas .offcanvas-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0;
+}
+
+.search-results-subtitle {
+  margin: 0;
+  color: rgba(248, 250, 252, 0.75);
+  font-size: 0.95rem;
+}
+
+.custom-offcanvas .btn-close {
+  filter: invert(1);
+  opacity: 0.8;
+}
+
+.custom-offcanvas .btn-close:hover { opacity: 1; }
+
+.search-results-body {
+  padding: 1.2rem 1.5rem 1.8rem;
+}
+
+.results-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.results-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.summary-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: var(--offcanvas-ink);
+  box-shadow: 0 12px 26px rgba(8, 30, 28, 0.22);
+}
+
+.summary-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #3a4a45;
+}
+
+.summary-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f4f48;
+}
+
+.summary-note {
+  grid-column: 1 / -1;
+  margin: 0;
+  font-size: 0.85rem;
+  color: rgba(248, 250, 252, 0.75);
+}
+
+.summary-note span {
+  color: #fff;
+  font-weight: 600;
+}
+
+.result-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.96);
+  border-radius: 20px;
+  padding: 1rem 1.15rem 1.2rem;
+  color: var(--offcanvas-ink);
+  border: 1px solid rgba(11, 128, 111, 0.16);
+  box-shadow: 0 18px 35px rgba(8, 30, 28, 0.25);
+  overflow: hidden;
+  animation: result-rise 0.45s ease both;
+  animation-delay: calc(var(--result-index) * 0.05s);
+}
+
+.result-card::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 1rem;
+  bottom: 1rem;
+  width: 4px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--offcanvas-gold), var(--offcanvas-teal));
+}
+
+.result-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.result-ref {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.result-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #60726c;
+}
+
+.result-id {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #0b4c45;
+}
+
+.result-chip {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--offcanvas-teal);
+  background: rgba(11, 128, 111, 0.12);
+  border: 1px solid rgba(11, 128, 111, 0.2);
+}
+
+.result-arabic {
+  margin: 0.8rem 0 0.9rem;
+  font-size: 1.55rem;
+  line-height: 1.85;
+  text-align: right;
+  color: #0b2f2b;
+  background: rgba(15, 110, 99, 0.08);
+  border-radius: 16px;
+  padding: 0.85rem 1rem;
+  font-family: "Noto Naskh Arabic", "Amiri", serif;
+}
+
+.result-translation {
+  border-radius: 16px;
+  padding: 0.75rem 0.95rem;
+  background: rgba(15, 110, 99, 0.06);
+  border: 1px solid rgba(15, 110, 99, 0.12);
+}
+
+.translation-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #0b5b53;
+  margin-bottom: 0.35rem;
+}
+
+.translation-text {
+  display: block;
+  color: #1a3a35;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.translation-text mark {
+  background: rgba(214, 165, 77, 0.35);
+  color: #5a3606;
+  padding: 0 0.2rem;
+  border-radius: 0.35rem;
+}
+
+.result-actions {
+  margin-top: 0.9rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.65rem;
+}
+
+.result-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 0.65rem 0.95rem;
+  border: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-size: 0.95rem;
+}
+
+.result-btn--whatsapp {
+  background: linear-gradient(135deg, #1fcf85, #0f8b61);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(16, 140, 93, 0.35);
+}
+
+.result-btn--x {
+  background: #1c1f22;
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(5, 8, 10, 0.35);
+}
+
+.result-btn:hover {
+  transform: translateY(-1px);
+}
+
+.result-btn:focus-visible {
+  outline: 3px solid rgba(11, 128, 111, 0.35);
+  outline-offset: 2px;
+}
+
+.results-empty,
+.results-loading {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.results-empty-card,
+.results-loading-card {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  padding: 1.4rem;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.results-empty-card i {
+  font-size: 1.6rem;
+  color: var(--offcanvas-gold);
+}
+
+.results-empty-card h5 {
+  margin: 0;
+  font-weight: 700;
+}
+
+.results-empty-card p,
+.results-loading-card p {
+  margin: 0;
+  color: rgba(248, 250, 252, 0.8);
+}
+
+.loading-spinner {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes result-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-card { animation: none; }
+  .result-btn,
+  .mic-btn { transition: none; }
+}
+
+@media (max-width: 576px) {
+  .search-results-body {
+    padding: 1rem 1rem 1.5rem;
+  }
+
+  .result-card {
+    padding: 0.9rem 0.95rem 1rem;
+  }
+
+  .result-arabic {
+    font-size: 1.35rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .result-actions {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-
-  /* Adjust this width as needed for your breakpoint */
   .mobile-only {
     display: flex;
     flex-direction: column !important;
-    /* Show only on mobile */
   }
 
   .custom-offcanvas {
-    background-color: #10584f;
-    color: white;
-    width: 100%;
+    --bs-offcanvas-width: 100%;
   }
-}
-
-.custom-offcanvas .result-item {
-  margin-bottom: 15px;
 }
 
 .pdf-content {
@@ -640,13 +984,6 @@ export default {
   /* Set default text color to black */
   padding: 10px;
   /* Add padding for better layout */
-}
-
-.translation-text {
-  color: black;
-  /* Ensure translation text is visible */
-  margin-top: 10px;
-  /* Add spacing above the translation */
 }
 
 .suggestions-list {

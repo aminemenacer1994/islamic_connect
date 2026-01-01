@@ -11,7 +11,7 @@
             </p>
 
             <div class="container" style="padding: 10px;">
-              <div class="mx-auto mb-4 elevated-card premium-radius next-step">
+              <div class="mx-auto mb-4 next-step-card">
                 <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
                   :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
                   @click="toggleNextStepMinimized" class="next-step-toggle">
@@ -24,30 +24,30 @@
                       <i class="fas fa-scale-balanced" aria-hidden="true"></i>
                     </div>
                   </div>
-                  <div style="flex:1;">
+                  <div class="flex-grow-1">
                     <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
                       NEXT STEP
                     </p>
                     <!-- Minimized teaser -->
-                    <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 text-body">
+                    <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 next-step-teaser">
                       <a href="/finance"
-                        class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-accent"
+                        class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link"
                         aria-label="Open the Islamic finance guide">
                         Move from definitions to Islamic finance
-                        <i class="fas fa-arrow-up-right-from-square small opacity-75" aria-hidden="true"></i>
+                        <i class="fas fa-arrow-up-right-from-square next-step-link-icon" aria-hidden="true"></i>
                       </a>
                     </div>
-                    <p v-show="!nextStepMinimized" class="mb-3 next-step-text text-body">
+                    <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
                       Want to turn today’s definitions into calmer, halal money choices? The Islamic Finance guide pairs
                       larger text and gentle explanations so new Muslims can explore in English with confidence.
-                      <a href="/finance" class="fw-semibold text-decoration-none link-accent">
+                      <a href="/finance" class="fw-semibold text-decoration-none next-step-link">
                         Visit Islamic Finance
                       </a>
                       whenever you feel ready.
                     </p>
                     <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
                       <a href="/finance"
-                        class="btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center cta-primary">
+                        class="btn btn-sm fw-semibold px-3 py-2 d-inline-flex align-items-center next-step-cta text-white">
                         <span>Explore Islamic Finance</span>
                         <i class="fas fa-coins ms-2" aria-hidden="true"></i>
                         <span class="visually-hidden">Open the accessible Islamic finance guide for new Muslims</span>
@@ -1034,77 +1034,6 @@ export default {
 .search-shell:focus-within {
   box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.18), var(--shadow-sm);
   border-color: rgba(11, 128, 111, 0.25);
-}
-
-.next-step {
-  position: relative;
-  background: #eaf3f1;
-  border: 1px solid rgba(11, 128, 111, 0.20);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 28px rgba(26, 95, 122, 0.09);
-  padding: 1.25rem 1.75rem;
-}
-
-.next-step-toggle {
-  position: absolute;
-  right: 44px;
-  top: 14px;
-  opacity: 0.9;
-  background: transparent;
-  border: 0;
-  color: #6b8b91;
-  z-index: 3;
-  cursor: pointer;
-}
-
-.next-step-icon-circle {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #0b806f;
-  font-size: 1.25rem;
-  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26, 95, 122, 0.12);
-}
-
-.next-step-eyebrow {
-  letter-spacing: 0.1em;
-  color: #1a5f7a;
-  font-size: 0.78rem;
-}
-
-.next-step-text {
-  line-height: 1.7;
-  font-size: 1.02rem;
-}
-
-.link-accent {
-  color: #0b806f;
-}
-
-.link-accent:hover {
-  color: #0a7565;
-}
-
-.cta-primary {
-  color: #fff !important;
-  background: linear-gradient(135deg, #0b806f, #1a5f7a);
-  border: none;
-  border-radius: 999px;
-  box-shadow: 0 10px 20px rgba(26, 95, 122, 0.22);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.cta-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 26px rgba(26, 95, 122, 0.26);
-}
-
-.cta-primary:active {
-  transform: translateY(0);
-  box-shadow: 0 8px 16px rgba(26, 95, 122, 0.20);
 }
 
 .chip {

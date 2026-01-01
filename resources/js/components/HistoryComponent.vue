@@ -14,7 +14,7 @@
 
     <!-- Next Step: From Qur'an History to Seerah Timeline -->
     <div class="px-2">
-      <div class="mx-auto mb-4 next-step-banner">
+      <div class="mx-auto mb-4 next-step-card">
         <!-- <button
           type="button"
           class="btn-close"
@@ -33,7 +33,7 @@
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="icon-circle">
+            <div class="next-step-icon-circle">
               <i class="fas fa-compass"></i>
             </div>
           </div>
@@ -56,7 +56,7 @@
               to see the journey unfold.
             </p>
             <a v-show="!nextStepMinimized" href="/mission"
-               class="btn btn-sm fw-semibold cta-btn px-3 py-2">
+               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
               Explore Seerah
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
@@ -1170,19 +1170,6 @@ export default {
   box-shadow: 0 8px 18px rgba(11,128,111,0.18);
 }
 .btn-primary-soft:hover { transform: translateY(-1px); box-shadow: 0 12px 26px rgba(11,128,111,0.22); }
-
-/* Next step banner */
-.next-step-banner { position: relative; background: var(--hc-surface); border: 1px solid var(--hc-border); border-radius: 22px; box-shadow: 0 12px 28px rgba(15,41,32,0.08); padding: 1.25rem 1.75rem; overflow: hidden; }
-.next-step-banner::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: var(--hc-accent); opacity: 0.6; }
-.next-step-toggle { position: absolute; right: 14px; top: 14px; opacity: 0.95; background: transparent; border: 0; color: #6b8b91; z-index:3; cursor: pointer; }
-.icon-circle { width: 46px; height: 46px; border-radius: 50%; background: rgba(11, 128, 111, 0.16); display: flex; align-items: center; justify-content: center; color: var(--hc-accent); font-size: 1.35rem; box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 14px rgba(26,95,122,0.10); }
-.next-step-eyebrow { letter-spacing: 0.1em; color: var(--hc-accent-2); font-size: 0.78rem; }
-.next-step-teaser { color: #1f2933; }
-.next-step-text { color: var(--hc-text); line-height: 1.8; font-size: 1.05rem; }
-.next-step-link { color: var(--hc-accent); }
-.next-step-link-icon { color: var(--hc-accent); }
-.cta-btn { background: var(--hc-accent); color: #fff; border: none; border-radius: 999px; box-shadow: 0 10px 20px rgba(11, 128, 111, 0.25); transition: transform 0.2s ease, box-shadow 0.2s ease; }
-.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(11, 128, 111, 0.28); color: #fff; }
 
 /* Section cards and labels */
 .section-card { background-color: var(--hc-soft); padding: 1.25rem 1.25rem; border: 1px solid var(--hc-border); border-radius: 20px; }

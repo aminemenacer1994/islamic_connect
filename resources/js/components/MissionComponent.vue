@@ -13,16 +13,14 @@
     <!-- Next Step: From Qur'an History to Seerah Timeline -->
     <div class="container px-2">
       <div class="mx-auto mb-4 next-step-card animate-rise">
-        <div class="next-step-actions" role="group" aria-label="Next step actions">
-          <button type="button" class="icon-btn" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-            :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-            @click.stop="toggleNextStepMinimized">
-            <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
-          </button>
-        </div>
+        <button type="button" class="next-step-toggle" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
+          @click.stop="toggleNextStepMinimized">
+          <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
+        </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="next-step-icon"><i class="fas fa-praying-hands"></i></div>
+            <div class="next-step-icon-circle"><i class="fas fa-praying-hands"></i></div>
           </div>
           <div class="flex-grow-1">
             <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
@@ -33,7 +31,7 @@
               <a href="/dua" class="fw-semibold text-decoration-none next-step-link">
                 Explore Du‘a collection
               </a>
-              <i class="fas fa-arrow-up-right-from-square ms-1 text-brand"></i>
+              <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               Learning the Prophet’s blessed journey is a beautiful beginning. When you feel ready, take a gentle step
@@ -1530,41 +1528,6 @@ export default {
   border-color: rgba(11, 128, 111, 0.3);
 }
 
-/* Next-step controls */
-.next-step-actions {
-  position: absolute;
-  right: 12px;
-  top: 12px;
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 5;
-}
-
-.icon-btn {
-  background: transparent;
-  border: 0;
-  color: #6b8b91;
-  opacity: 0.95;
-  cursor: pointer;
-  padding: 6px;
-  line-height: 1;
-}
-
-.icon-btn i {
-  font-size: 1rem;
-}
-
-.icon-btn:hover {
-  opacity: 1;
-}
-
-.icon-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.25);
-  border-radius: 6px;
-}
-
 /* Subtle button variant */
 .subtle-btn {
   border-radius: 12px;
@@ -2445,95 +2408,6 @@ mark {
 .pb-audio-gap {
   padding-bottom: 120px;
   /* reserve space for fixed player height */
-}
-
-/* Next Step card (minimal inline styles, 20px rounded) */
-.next-step-card {
-  position: relative;
-  background: linear-gradient(140deg, #ffffff 0%, #f3f8f6 52%, #fbf6ec 100%);
-  border: 1px solid rgba(11, 128, 111, 0.12);
-  border-radius: 22px;
-  box-shadow: 0 16px 30px rgba(15, 41, 32, 0.12);
-  padding: 1.35rem 1.75rem;
-  overflow: hidden;
-}
-
-.next-step-card::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 5px;
-  background: var(--mission-accent);
-  opacity: 0.6;
-}
-
-.next-step-card::after {
-  content: '';
-  position: absolute;
-  right: -40px;
-  top: -40px;
-  width: 160px;
-  height: 160px;
-  background: radial-gradient(circle, rgba(11, 128, 111, 0.18), transparent 70%);
-  opacity: 0.9;
-  pointer-events: none;
-}
-
-.next-step-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, rgba(11, 128, 111, 0.18), rgba(26, 95, 122, 0.22));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--mission-accent);
-  font-size: 1.35rem;
-  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 8px 16px rgba(26, 95, 122, 0.14);
-}
-
-.next-step-eyebrow {
-  letter-spacing: 0.1em;
-  color: var(--mission-accent-2);
-  font-size: 0.78rem;
-}
-
-.next-step-text {
-  color: var(--mission-ink);
-  line-height: 1.8;
-  font-size: 1.05rem;
-}
-
-.next-step-link {
-  color: var(--mission-accent);
-}
-
-.next-step-link:hover {
-  text-decoration: underline;
-}
-
-.text-brand {
-  color: var(--mission-accent);
-}
-
-.next-step-cta {
-  background: linear-gradient(135deg, #0b806f, #1c6c7a);
-  border: none;
-  border-radius: 999px;
-  box-shadow: 0 10px 20px rgba(11, 128, 111, 0.25);
-  transition: transform 0.22s ease, box-shadow 0.22s ease, filter 0.22s ease;
-}
-
-.next-step-cta:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 28px rgba(11, 128, 111, 0.28);
-}
-
-.next-step-cta:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35);
 }
 
 /* Evenly spaced action row */

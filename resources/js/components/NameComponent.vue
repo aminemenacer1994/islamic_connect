@@ -10,14 +10,14 @@
     </div>
 
     <div class="container p-3">
-      <div class="next-step-card mx-auto mb-4 round-20 soft-shadow animate-in">
-        <button type="button" class="ghost-icon-btn" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+      <div class="next-step-card mx-auto mb-4 animate-in">
+        <button type="button" class="next-step-toggle" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized">
           <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
         </button>
         <div class="d-flex align-items-start gap-3 text-start">
           <div class="flex-shrink-0 mt-1">
-            <div class="next-step-icon" role="img" aria-label="Gentle Islamic dictionary guide">
+            <div class="next-step-icon-circle" role="img" aria-label="Gentle Islamic dictionary guide">
               <i class="fas fa-book-open" aria-hidden="true"></i>
             </div>
           </div>
@@ -26,23 +26,23 @@
               NEXT STEP
             </p>
             <!-- Minimized teaser -->
-            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 text-body">
-              <a href="/books" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-teal"
+            <div v-show="nextStepMinimized" class="mb-2 d-inline-flex align-items-center gap-1 next-step-teaser">
+              <a href="/books" class="fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link"
                 aria-label="Open the Islamic dictionary">
                 Continue to the Islamic Dictionary
-                <i class="fas fa-arrow-up-right-from-square small" aria-hidden="true"></i>
+                <i class="fas fa-arrow-up-right-from-square next-step-link-icon" aria-hidden="true"></i>
               </a>
             </div>
-            <p v-show="!nextStepMinimized" class="mb-3 text-body next-step-copy">
+            <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
               After reflecting on Allah’s Names, take a calm, English-only step into the
-              <a href="/books" class="fw-semibold text-decoration-none link-teal">
+              <a href="/books" class="fw-semibold text-decoration-none next-step-link">
                 Islamic Dictionary
               </a>
               with large-text cards covering names, meanings, examples, and references.
             </p>
             <div v-show="!nextStepMinimized" class="d-flex flex-wrap gap-2">
               <a href="/books"
-                class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center btn-premium rounded-pill shadow-soft raise-on-hover focus-ring">
+                class="btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center next-step-cta">
                 <span>Explore Islamic Dictionary</span>
                 <i class="fas fa-book-reader ms-2" aria-hidden="true"></i>
                 <span class="visually-hidden">Open the accessible Islamic dictionary for new Muslims</span>
@@ -1710,78 +1710,6 @@ html {
     width: 100%;
     margin-right: 0 !important;
   }
-}
-
-/* Next-step card + utilities (minimal inline styles) */
-.next-step-card {
-  position: relative;
-  background: var(--surface);
-  border: 1px solid rgba(11, 128, 111, 0.20);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55), inset 0 -1px 0 rgba(0, 0, 0, 0.03), 0 10px 28px rgba(26, 95, 122, 0.09);
-  padding: 1.25rem 1.75rem;
-}
-
-.ghost-icon-btn {
-  position: absolute;
-  right: 44px;
-  top: 14px;
-  opacity: 0.9;
-  background: transparent;
-  border: 0;
-  color: #6b8b91;
-  z-index: 3;
-  cursor: pointer;
-  border-radius: 12px;
-  padding: 6px 8px;
-  transition: background-color 120ms ease, color 120ms ease;
-}
-
-.ghost-icon-btn:hover {
-  background: rgba(26, 95, 122, 0.08);
-  color: var(--teal-dark);
-}
-
-.ghost-icon-btn:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 4px var(--ring);
-}
-
-.next-step-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(145deg, rgba(11, 128, 111, 0.22), rgba(26, 95, 122, 0.14));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgb(0, 121, 107);
-  font-size: 1.25rem;
-  box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.22), 0 6px 16px rgba(26, 95, 122, 0.12);
-}
-
-.next-step-eyebrow {
-  letter-spacing: 0.1em;
-  color: #1a5f7a;
-  font-size: 0.78rem;
-}
-
-.next-step-copy {
-  color: var(--ink);
-  line-height: 1.7;
-  font-size: 1.02rem;
-}
-
-.link-teal {
-  color: rgb(0, 121, 107);
-}
-
-.link-teal:hover {
-  color: var(--teal-dark);
-}
-
-.btn-gradient {
-  background: linear-gradient(135deg, rgb(0, 121, 107), #1a5f7a);
-  border: none;
 }
 
 /* Improved focus styles */

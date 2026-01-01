@@ -6,68 +6,39 @@
                 <!-- <h4 class="fw-bold text-center pt-2 mb-2 container" v-if="information != null">Search for a word in the
                     Quran...</h4> -->
                 <AdvancedSearch @input-change="handleInputChange" v-if="information != null" />
-                <div v-if="information" class="next-step-card container" style="
-                        position: relative;
-                        background: linear-gradient(135deg, rgba(26, 95, 122, 0.10), rgba(11, 128, 111, 0.10));
-                        border: 1px solid rgba(11, 128, 111, 0.18);
-                        border-radius: 16px;
-                        box-shadow: 0 8px 24px rgba(26, 95, 122, 0.12);
-                        padding: 1.2rem 1.6rem;
-                    ">
+                <div v-if="information" class="next-step-card container">
                     <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
                         :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-                        @click="toggleNextStepMinimized"
-                        style="position: absolute; right: 32px; top: 12px; opacity: 0.9; background: transparent; border: 0; color: #6b8b91; cursor: pointer;">
+                        @click="toggleNextStepMinimized" class="next-step-toggle">
                         <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'"
                             aria-hidden="true"></i>
                     </button>
                     <div class="d-flex align-items-start gap-3 text-start">
                         <div class="flex-shrink-0 mt-1">
-                            <div style="
-                                        border-radius: 50%;
-                                        background: rgba(11, 128, 111, 0.18);
-                                        display: flex;
-                                        align-items: center;
-                                        justify-content: center;
-                                        color: #0b806f;
-                                        font-size: 1.25rem;
-                                        width: 48px;
-                                        height: 48px;
-                                        box-shadow: inset 0 0 0 1px rgba(11, 128, 111, 0.2);
-                                    ">
+                            <div class="next-step-icon-circle">
                                 <i class="fas fa-headphones" aria-hidden="true"></i>
                             </div>
                         </div>
-                        <div style="flex:1;">
-                            <p class="mb-2 fw-semibold text-uppercase"
-                                style="letter-spacing: 0.1em; color: #1a5f7a; font-size: 0.78rem;">
+                        <div class="flex-grow-1">
+                            <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
                                 NEXT STEP
                             </p>
-                            <div v-show="nextStepMinimized" class="mb-2" style="color: #1f2933;">
-                                <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                            <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
+                                <a href="/surat" class="fw-semibold text-decoration-none next-step-link">
                                     Listen to Qur’anic recitations
                                 </a>
-                                <i class="fas fa-arrow-up-right-from-square ms-1" style="color:#0b806f;"></i>
+                                <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
                             </div>
-                            <p v-show="!nextStepMinimized" class="mb-3"
-                                style="color: #1f2933; line-height: 1.7; font-size: 1.02rem;">
+                            <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
                                 As-salaamu alaikum if this is your first deep dive into Islam, let the verses you
                                 just read continue to surround you. Slip over to our curated
-                                <a href="/surat" class="fw-semibold text-decoration-none" style="color:#0b806f;">
+                                <a href="/surat" class="fw-semibold text-decoration-none next-step-link">
                                     recitation list
                                 </a>
                                 and hear the Qur’an with translations that keep every word close.
                             </p>
                             <a v-show="!nextStepMinimized" href="/surat"
-                                class="btn btn-sm fw-semibold text-white px-3 py-2" style="
-                                        background: linear-gradient(135deg, #0b806f, #1a5f7a);
-                                        border: none;
-                                        border-radius: 999px;
-                                        box-shadow: 0 10px 20px rgba(26, 95, 122, 0.25);
-                                        transition: transform 0.2s ease, box-shadow 0.2s ease;
-                                    "
-                                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 14px 28px rgba(26, 95, 122, 0.28)';"
-                                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 20px rgba(26, 95, 122, 0.25)';">
+                                class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
                                 Listen Now
                                 <i class="fas fa-arrow-up-right-from-square ms-2"></i>
                             </a>
@@ -1833,10 +1804,6 @@ export default {
         opacity: 1;
         transform: translate(-50%, 0);
     }
-}
-
-.next-step-card {
-    position: relative;
 }
 
 .next-step-close {

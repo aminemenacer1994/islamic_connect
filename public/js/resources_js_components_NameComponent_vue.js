@@ -831,7 +831,7 @@ const _hoisted_2 = {
   class: "container p-3"
 };
 const _hoisted_3 = {
-  class: "next-step-card mx-auto mb-4 round-20 soft-shadow animate-in"
+  class: "next-step-card mx-auto mb-4 animate-in"
 };
 const _hoisted_4 = ["title", "aria-label"];
 const _hoisted_5 = {
@@ -841,10 +841,10 @@ const _hoisted_6 = {
   class: "flex-grow-1"
 };
 const _hoisted_7 = {
-  class: "mb-2 d-inline-flex align-items-center gap-1 text-body"
+  class: "mb-2 d-inline-flex align-items-center gap-1 next-step-teaser"
 };
 const _hoisted_8 = {
-  class: "mb-3 text-body next-step-copy"
+  class: "mb-3 next-step-text"
 };
 const _hoisted_9 = {
   class: "d-flex flex-wrap gap-2"
@@ -926,7 +926,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "lead"
   }, " The 99 Names of Allah, also known as Asma’ul Husna, represent the beautiful attributes and qualities of Allah mentioned in the Qur’an and Sunnah. ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "ghost-icon-btn",
+    class: "next-step-toggle",
     title: $data.nextStepMinimized ? 'Restore' : 'Minimize',
     "aria-label": $data.nextStepMinimized ? 'Restore next step' : 'Minimize next step',
     onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleNextStepMinimized && $options.toggleNextStepMinimized(...args))
@@ -936,7 +936,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_4), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "next-step-icon",
+    class: "next-step-icon-circle",
     role: "img",
     "aria-label": "Gentle Islamic dictionary guide"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -946,17 +946,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "mb-2 fw-semibold text-uppercase next-step-eyebrow"
   }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/books",
-    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 link-teal",
+    class: "fw-semibold text-decoration-none d-inline-flex align-items-center gap-1 next-step-link",
     "aria-label": "Open the Islamic dictionary"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Continue to the Islamic Dictionary "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-arrow-up-right-from-square small",
+    class: "fas fa-arrow-up-right-from-square next-step-link-icon",
     "aria-hidden": "true"
   })], -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" After reflecting on Allah’s Names, take a calm, English-only step into the ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/books",
-    class: "fw-semibold text-decoration-none link-teal"
+    class: "fw-semibold text-decoration-none next-step-link"
   }, " Islamic Dictionary ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" with large-text cards covering names, meanings, examples, and references. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !$data.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/books",
-    class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center btn-premium rounded-pill shadow-soft raise-on-hover focus-ring"
+    class: "btn btn-sm fw-semibold text-white px-3 py-2 d-inline-flex align-items-center next-step-cta"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Explore Islamic Dictionary"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-book-reader ms-2",
     "aria-hidden": "true"
