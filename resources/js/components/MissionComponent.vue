@@ -267,7 +267,7 @@
                 <div>
                   <label class="form-label fw-bold fs-4">Font Family</label>
                   <select v-model="fontSettings.fontFamily" class="form-select">
-                    <option value="'Source Sans 3', sans-serif">Source Sans 3</option>
+                    <option value="'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif">Nunito (Default)</option>
                     <option value="Arial, sans-serif">Arial</option>
                     <option value="'Times New Roman', serif">Times New Roman</option>
                     <option value="'Courier New', monospace">Courier New</option>
@@ -368,7 +368,7 @@ export default {
         fontStyle: 'normal',
         textShadow: 'none',
         textDecoration: '',
-        fontFamily: "'Source Sans 3', sans-serif",
+        fontFamily: "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
       },
       events: [],
       originalEvents: [],
@@ -429,7 +429,7 @@ export default {
         '--content-font-style': this.fontSettings.fontStyle || 'normal',
         '--content-text-shadow': this.fontSettings.textShadow || 'none',
         '--content-text-decoration': this.fontSettings.textDecoration || 'none',
-        '--content-font-family': this.fontSettings.fontFamily || "'Source Sans 3', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-family': this.fontSettings.fontFamily || "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
         '--content-font-size': size,
       };
     },
@@ -439,6 +439,9 @@ export default {
     const saved = localStorage.getItem('userFontSettings');
     if (saved) {
       this.fontSettings = JSON.parse(saved);
+      if (this.fontSettings.fontFamily && this.fontSettings.fontFamily.includes('Source Sans')) {
+        this.fontSettings.fontFamily = "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif";
+      }
     }
     window.addEventListener('resize', this.updateOffcanvasWidth);
     // Track scroll to update tab title at top
@@ -1437,11 +1440,9 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Source+Sans+3:wght@400;500;600;700&display=swap');
-
 .mission-shell {
-  --mission-font-display: 'Marcellus', 'Times New Roman', serif;
-  --mission-font-body: 'Source Sans 3', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif;
+  --mission-font-display: 'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  --mission-font-body: 'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
   --mission-accent: #0b806f;
   --mission-accent-2: #1c6c7a;
   --mission-ink: #111827;

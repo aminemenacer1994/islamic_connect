@@ -32,7 +32,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         fontStyle: 'normal',
         textShadow: 'none',
         textDecoration: '',
-        fontFamily: "'Source Sans 3', sans-serif"
+        fontFamily: "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
       },
       events: [],
       originalEvents: [],
@@ -94,7 +94,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         '--content-font-style': this.fontSettings.fontStyle || 'normal',
         '--content-text-shadow': this.fontSettings.textShadow || 'none',
         '--content-text-decoration': this.fontSettings.textDecoration || 'none',
-        '--content-font-family': this.fontSettings.fontFamily || "'Source Sans 3', 'Noto Sans', 'Helvetica Neue', Arial, sans-serif",
+        '--content-font-family': this.fontSettings.fontFamily || "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
         '--content-font-size': size
       };
     }
@@ -104,6 +104,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     const saved = localStorage.getItem('userFontSettings');
     if (saved) {
       this.fontSettings = JSON.parse(saved);
+      if (this.fontSettings.fontFamily && this.fontSettings.fontFamily.includes('Source Sans')) {
+        this.fontSettings.fontFamily = "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif";
+      }
     }
     window.addEventListener('resize', this.updateOffcanvasWidth);
     // Track scroll to update tab title at top
@@ -1691,8 +1694,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "onUpdate:modelValue": _cache[21] || (_cache[21] = $event => $data.fontSettings.fontFamily = $event),
       class: "form-select"
     }, [...(_cache[71] || (_cache[71] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-      value: "'Source Sans 3', sans-serif"
-    }, "Source Sans 3", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+      value: "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+    }, "Nunito (Default)", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
       value: "Arial, sans-serif"
     }, "Arial", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
       value: "'Times New Roman', serif"
