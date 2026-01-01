@@ -2972,6 +2972,7 @@ const celebrateFinalChapter = confettiFn => {
       overviewFontScale: 1,
       duaFontScale: 1,
       globalFontScale: 1,
+      fontScaleSessionId: '',
       sectionFontScales: {
         globalSearch: 1,
         lessonFocus: 1,
@@ -3812,6 +3813,21 @@ const celebrateFinalChapter = confettiFn => {
         }
       },
       deep: true
+    },
+    overviewFontScale() {
+      this.persistFontScalePreferences();
+    },
+    duaFontScale() {
+      this.persistFontScalePreferences();
+    },
+    globalFontScale() {
+      this.persistFontScalePreferences();
+    },
+    sectionFontScales: {
+      handler() {
+        this.persistFontScalePreferences();
+      },
+      deep: true
     }
   },
   created() {
@@ -3819,6 +3835,7 @@ const celebrateFinalChapter = confettiFn => {
     this.loadChapterVideos();
   },
   mounted() {
+    this.initializeFontScaleSession();
     const saved = localStorage.getItem('maxStepReached');
     if (saved) {
       const value = parseInt(saved, 10);
@@ -3869,6 +3886,75 @@ const celebrateFinalChapter = confettiFn => {
     }
   },
   methods: {
+    initializeFontScaleSession() {
+      if (typeof window === 'undefined') return;
+      this.fontScaleSessionId = this.ensureFontScaleSessionId();
+      this.loadFontScalePreferences();
+    },
+    ensureFontScaleSessionId() {
+      if (this.fontScaleSessionId) return this.fontScaleSessionId;
+      if (typeof window === 'undefined') return 'server';
+      const sessionKey = 'icFontScaleSessionId';
+      let sessionId = localStorage.getItem(sessionKey);
+      if (!sessionId) {
+        sessionId = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}`;
+        localStorage.setItem(sessionKey, sessionId);
+      }
+      this.fontScaleSessionId = sessionId;
+      return sessionId;
+    },
+    fontScaleStorageKey() {
+      const sessionId = this.ensureFontScaleSessionId();
+      return `icFontScales:${sessionId}`;
+    },
+    loadFontScalePreferences() {
+      if (typeof window === 'undefined') return;
+      const key = this.fontScaleStorageKey();
+      const raw = localStorage.getItem(key);
+      if (!raw) return;
+      try {
+        const stored = JSON.parse(raw);
+        const overview = Number(stored === null || stored === void 0 ? void 0 : stored.overviewFontScale);
+        const dua = Number(stored === null || stored === void 0 ? void 0 : stored.duaFontScale);
+        const global = Number(stored === null || stored === void 0 ? void 0 : stored.globalFontScale);
+        if (Number.isFinite(overview)) {
+          this.overviewFontScale = Math.min(1.6, Math.max(0.8, overview));
+        }
+        if (Number.isFinite(dua)) {
+          this.duaFontScale = Math.min(1.6, Math.max(0.8, dua));
+        }
+        if (Number.isFinite(global)) {
+          this.globalFontScale = Math.min(1.3, Math.max(0.85, global));
+        }
+        if (stored !== null && stored !== void 0 && stored.sectionFontScales && typeof stored.sectionFontScales === 'object') {
+          const next = _objectSpread({}, this.sectionFontScales);
+          Object.entries(stored.sectionFontScales).forEach(([key, value]) => {
+            if (!(key in next)) return;
+            const numeric = Number(value);
+            if (!Number.isFinite(numeric)) return;
+            next[key] = Math.min(SECTION_FONT_MAX, Math.max(SECTION_FONT_MIN, numeric));
+          });
+          this.sectionFontScales = next;
+        }
+      } catch (err) {
+        console.error('Unable to restore font scale preferences', err);
+      }
+    },
+    persistFontScalePreferences() {
+      if (typeof window === 'undefined') return;
+      try {
+        const key = this.fontScaleStorageKey();
+        const payload = {
+          overviewFontScale: this.overviewFontScale,
+          duaFontScale: this.duaFontScale,
+          globalFontScale: this.globalFontScale,
+          sectionFontScales: this.sectionFontScales
+        };
+        localStorage.setItem(key, JSON.stringify(payload));
+      } catch (err) {
+        console.error('Unable to persist font scale preferences', err);
+      }
+    },
     ensureConfettiScript() {
       if (this.confettiPromise) return this.confettiPromise;
       if (typeof window === 'undefined') {
