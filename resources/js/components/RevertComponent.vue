@@ -2232,59 +2232,98 @@
               <div class="modal-header completion-modal-header px-4 pt-4 pb-3">
                 <div class="completion-header-left">
                   <span class="completion-icon">
-                    <i class="bi bi-moon-stars"></i>
+                    <i class="fas fa-star-and-crescent completion-header-icon"></i>
                   </span>
                   <div>
                     <p class="completion-label mb-1">Milestone</p>
-                    <h5 class="modal-title fw-bold mb-0">Beginners Guide Complete</h5>
+                    <h5 class="modal-title fw-bold mb-0">Beginner Path Complete</h5>
                   </div>
                 </div>
                 <button type="button" class="btn-close" aria-label="Close" @click="closeCompletionModal"></button>
               </div>
               <div class="modal-body completion-modal-body px-4 pb-4 pt-0">
-                <p class="completion-lead mb-2">MashaAllah, you've completed the Beginners Guide.</p>
+                <p class="completion-lead mb-2">Alhamdulillah, you've completed the Beginner path (15 chapters).</p>
                 <p class="completion-note mb-3">
-                  May Allah bless your effort and keep your heart steady on this path. When you're ready, choose what feels
-                  right today to continue to the next phase. No pressure. Take your time.
+                  May Allah bless your effort, increase your knowledge, and keep your heart steady. When you are ready, choose
+                  the option that feels right to unlock the next stages. No pressure, your intention matters.
                 </p>
                 <div class="completion-divider"></div>
                 <div class="completion-options">
                   <div class="completion-option">
                     <div class="completion-option-text">
-                      <p class="completion-option-title">One-time £1.99</p>
+                      <p class="completion-option-title d-flex align-items-center gap-2">
+                        <i class="fas fa-layer-group completion-option-icon"></i>
+                        Unlock Intermediate (15 chapters)
+                      </p>
                       <p class="completion-option-desc">
-                        If it feels easy today, this keeps the lessons flowing and supports the work.
+                        One-time £0.80 to open the Intermediate level and continue your journey.
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      class="btn completion-primary-btn d-inline-flex align-items-center">
-                      Pay £1.99
-                    </button>
+                    <a
+                      :href="intermediateUnlockStripeUrl"
+                      class="btn completion-primary-btn d-inline-flex align-items-center gap-2"
+                      target="_blank"
+                      rel="noopener">
+                      <i class="fas fa-unlock"></i>
+                      Unlock Intermediate • £0.80
+                    </a>
                   </div>
                   <div class="completion-option">
                     <div class="completion-option-text">
-                      <p class="completion-option-title">Choose what you can</p>
+                      <p class="completion-option-title d-flex align-items-center gap-2">
+                        <i class="fas fa-crown completion-option-icon"></i>
+                        Unlock Intermediate + Advanced
+                      </p>
                       <p class="completion-option-desc">
-                        If £1.99 is not comfortable, pick a smaller amount that suits your situation.
+                        One-time £1.30 to unlock both 15-chapter sections together.
                       </p>
                     </div>
-                    <button
-                      type="button"
-                      class="btn completion-secondary-btn d-inline-flex align-items-center">
+                    <a
+                      :href="intermediateAdvancedBundleStripeUrl"
+                      class="btn completion-secondary-btn d-inline-flex align-items-center gap-2"
+                      target="_blank"
+                      rel="noopener">
+                      <i class="fas fa-unlock"></i>
+                      Unlock Both • £1.30
+                    </a>
+                  </div>
+                  <div class="completion-option">
+                    <div class="completion-option-text">
+                      <p class="completion-option-title d-flex align-items-center gap-2">
+                        <i class="fas fa-wallet completion-option-icon"></i>
+                        Pay what you can
+                      </p>
+                      <p class="completion-option-desc">
+                        If those amounts are not easy today, choose any amount. Allah knows your intention.
+                      </p>
+                    </div>
+                    <a
+                      :href="nextPhaseFlexibleStripeUrl"
+                      class="btn completion-secondary-btn d-inline-flex align-items-center gap-2"
+                      target="_blank"
+                      rel="noopener">
+                      <i class="fas fa-coins"></i>
                       Choose an amount
-                    </button>
+                    </a>
                   </div>
                   <div class="completion-option">
                     <div class="completion-option-text">
-                      <p class="completion-option-title">Continue for free</p>
+                      <p class="completion-option-title d-flex align-items-center gap-2">
+                        <i class="fas fa-heart completion-option-icon"></i>
+                        Give a donation
+                      </p>
                       <p class="completion-option-desc">
-                        If you are not ready for the options above, continue without payment. May Allah make it easy.
+                        Support the work with sadaqah so more learners can benefit.
                       </p>
                     </div>
-                    <button type="button" class="btn completion-ghost-btn">
-                      Continue for free
-                    </button>
+                    <a
+                      :href="donationStripeUrl"
+                      class="btn completion-ghost-btn d-inline-flex align-items-center gap-2"
+                      target="_blank"
+                      rel="noopener">
+                      <i class="fas fa-hand-holding-heart"></i>
+                      Give a donation
+                    </a>
                   </div>
                 </div>
                 <p class="completion-footnote mb-0">Secure checkout via Stripe. May Allah reward your sincerity.</p>

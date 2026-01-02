@@ -28155,6 +28155,10 @@ to {
   color: #0f172a;
   font-size: 1.2rem;
 }
+.completion-header-icon[data-v-1d764944],
+.completion-option-icon[data-v-1d764944] {
+  color: #000000;
+}
 .completion-label[data-v-1d764944] {
   text-transform: uppercase;
   letter-spacing: 0.2em;

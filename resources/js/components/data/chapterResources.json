@@ -1014,12 +1014,95 @@
           {
             "label": "Qur'an",
             "entries": [
-              "Āl ʿImrān 3:185 - Every soul shall taste death. - https://quran.com/3/185",
-              "Al-Anʿām 6:132 - Ranks are according to deeds. - https://quran.com/6/132",
-              "Az-Zalzalah 99:7-8 - Every deed will be seen. - https://quran.com/99/7-8",
-              "An-Nisāʾ 4:40 - Allah does not wrong even an atom's weight. - https://quran.com/4/40",
-              "Al-Baqarah 2:277 - Faith and righteous deeds earn lasting reward. - https://quran.com/2/277",
-              "Al-Mulk 67:2 - Life and death are a test. - https://quran.com/67/2"
+              "Āl ʿImrān 3:185",
+              "Luqmān 31:34",
+              "As-Sajdah 32:11",
+              "Az-Zumar 39:68",
+              "Al-Anbiyāʾ 21:47",
+              "Qāf 50:19",
+              "Al-Wāqiʿah 56:60",
+              "Al-Qiyāmah 75:26-30",
+              "Al-Infiṭār 82:1-5",
+              "Az-Zalzalah 99:1-8"
+            ]
+          },
+          {
+            "label": "Hadith",
+            "entries": [
+              "Ṣaḥīḥ al-Bukhārī 3349",
+              "Ṣaḥīḥ al-Bukhārī 3244",
+              "Ṣaḥīḥ al-Bukhārī 6573",
+              "Ṣaḥīḥ al-Bukhārī 1386",
+              "Ṣaḥīḥ al-Bukhārī 4739",
+              "Ṣaḥīḥ al-Bukhārī 1374",
+              "Ṣaḥīḥ al-Bukhārī 6368",
+              "Ṣaḥīḥ Muslim 588",
+              "Ṣaḥīḥ Muslim 975",
+              "Ṣaḥīḥ Muslim 2870",
+              "Ṣaḥīḥ Muslim 5118",
+              "Ṣaḥīḥ Muslim 5215",
+              "Ṣaḥīḥ Muslim 2865",
+              "Sunan at-Tirmidhī 2461",
+              "Sunan at-Tirmidhī 2435",
+              "Sunan at-Tirmidhī 1079",
+              "Sunan Abī Dāwūd 4753",
+              "Sunan Abī Dāwūd 3221",
+              "Sunan Ibn Mājah 4267",
+              "Sunan Ibn Mājah 1449"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Al-Tadhkirah fī Aḥwāl al-Mawtā wa Umūr al-Ākhirah – Al-Qurṭubī (Comprehensive classical text)",
+              "Kitāb al-Raqā'iq – Ibn al-Mubārak (On softening the heart)",
+              "Ḥadī al-Arwāḥ ilā Bilād al-Afrāḥ – Ibn al-Qayyim (The soul's journey)",
+              "Al-Nihāyah fī al-Fitan wal-Malāḥim – Ibn Kathīr (End times)",
+              "Ṣifat al-Jannah wan-Nār – Ibn Kathīr (Paradise and Hell)",
+              "'Aqīdat Ahl as-Sunnah fī Ṣifat al-Malā'ikah – Ṣāliḥ al-Fawzān",
+              "Al-Ṣafā'ah 'inda Ahl as-Sunnah – Muḥammad al-Khumayyis"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Academic Works",
+        "items": [
+          {
+            "entries": [
+              "Aḥwāl al-Qiyāmah – Dr. 'Umar al-Ashqar (The States of the Day of Judgment)",
+              "Al-Yawm al-Ākhir – Dr. 'Umar al-Ashqar (The Final Day)",
+              "The Day of Resurrection – Dr. al-Ashqar (English translation available)",
+              "Islamic Beliefs: A Brief Introduction – Dr. al-Ashqar"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Practical Guides",
+        "items": [
+          {
+            "entries": [
+              "Funeral Rulings in Islam – Ṣāliḥ al-Fawzān",
+              "The Journey of the Soul – Sh. Omar Suleiman (Lecture series)",
+              "Preparing for the Day of Judgment – Sh. Abdul Nasir Jangda",
+              "The Grave: Punishment and Blessings – Sh. Yasir Qadhi"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Websites for Verification",
+        "items": [
+          {
+            "entries": [
+              "IslamQA.info (Search: grave punishment, barzakh, resurrection, intercession)",
+              "SeekersGuidance.org (Courses: The Hereafter, Funeral Rites)",
+              "Yaqeen Institute (Research: Death in Islam, Eschatology)"
             ]
           }
         ]

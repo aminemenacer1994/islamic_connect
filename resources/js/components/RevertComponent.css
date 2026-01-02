@@ -3896,6 +3896,11 @@ p{
   font-size: 1.2rem;
 }
 
+.completion-header-icon,
+.completion-option-icon {
+  color: #000000;
+}
+
 .completion-label {
   text-transform: uppercase;
   letter-spacing: 0.2em;

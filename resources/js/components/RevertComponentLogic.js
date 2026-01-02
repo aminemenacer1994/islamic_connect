@@ -355,6 +355,10 @@ const fullScreenConfetti = (confettiFn) => {
 }
 
 const FINAL_CHAPTER_ID = roadmapData.length
+const BEGINNER_COMPLETION_CHAPTER_ID = 15
+const INTERMEDIATE_UNLOCK_AMOUNT_MINOR = 80
+const INTERMEDIATE_ADVANCED_BUNDLE_AMOUNT_MINOR = 130
+const DEFAULT_STRIPE_DONATE_URL = 'https://donate.stripe.com/6oE5kY84oc3q7fy145'
 
 const celebrateFinalChapter = (confettiFn) => {
   if (!confettiFn) return
@@ -1234,7 +1238,7 @@ export default defineComponent({
       if (envUrl) return envUrl
       if (appConfigUrl) return appConfigUrl
       if (donateUrl) return donateUrl
-      return 'https://donate.stripe.com/6oE5kY84oc3q7fy145'
+      return DEFAULT_STRIPE_DONATE_URL
     },
     nextPhaseStripeUrl() {
       const envUrl = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_NEXT_PHASE_URL)
@@ -1245,7 +1249,25 @@ export default defineComponent({
         : null
       if (envUrl) return envUrl
       if (appConfigUrl) return appConfigUrl
-      return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${this.nextPhaseAmountMinor}`
+      return `${DEFAULT_STRIPE_DONATE_URL}?amount=${this.nextPhaseAmountMinor}`
+    },
+    donationStripeBaseUrl() {
+      const envUrl = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_DONATE_URL)
+        ? process.env.MIX_STRIPE_DONATE_URL
+        : null
+      const appConfigUrl = (typeof window !== 'undefined' && window.appConfig && window.appConfig.stripeDonateUrl)
+        ? window.appConfig.stripeDonateUrl
+        : null
+      return envUrl || appConfigUrl || DEFAULT_STRIPE_DONATE_URL
+    },
+    intermediateUnlockStripeUrl() {
+      return this.stripeAmountUrl(INTERMEDIATE_UNLOCK_AMOUNT_MINOR)
+    },
+    intermediateAdvancedBundleStripeUrl() {
+      return this.stripeAmountUrl(INTERMEDIATE_ADVANCED_BUNDLE_AMOUNT_MINOR)
+    },
+    donationStripeUrl() {
+      return this.donationStripeBaseUrl
     }
   },
 
@@ -1354,8 +1376,11 @@ export default defineComponent({
       const saved = localStorage.getItem('maxStepReached')
       if (saved) {
         const value = parseInt(saved, 10)
-        this.maxStepReached = value
-        this.selectedPill = value
+        const clamped = Number.isFinite(value)
+          ? Math.min(Math.max(1, value), FINAL_CHAPTER_ID)
+          : 1
+        this.maxStepReached = clamped
+        this.selectedPill = clamped
       }
       this.resetQuizSet()
       this.syncStreakFromStorage()
@@ -2338,8 +2363,8 @@ export default defineComponent({
     },
     linkifyHadithText(text = '') {
       const collectionPattern = "(?:Ṣaḥīḥ|Sahih|Sunan|Jāmiʿ|Jamiʿ|Jami'|Musnad|Al-Adab|Adab)\\s+[A-Za-z\\u00C0-\\u024F\\u1E00-\\u1EFFʿʾāīūḍṣḥṭḤṢĀĪŪ\\- ]{1,50}"
-      const hadithRegex = new RegExp(`\\b(${collectionPattern})\\s+(\\d+[a-z]?(?:\\s*,\\s*\\d+[a-z]?)*)`, 'gi')
-      let linked = text.replace(hadithRegex, (match, collection, refs) => {
+      const hadithRegex = new RegExp(`(^|[\\s(])(${collectionPattern})\\s+(\\d+[a-z]?(?:\\s*,\\s*\\d+[a-z]?)*)`, 'gi')
+      let linked = text.replace(hadithRegex, (match, boundary, collection, refs) => {
         const slug = this.hadithCollectionSlug(collection)
         const linkedRefs = refs.split(',').map((rawRef) => {
           const ref = rawRef.trim()
@@ -2349,7 +2374,7 @@ export default defineComponent({
             : `https://sunnah.com/search?q=${encodeURIComponent(`${collection} ${ref}`)}`
           return `<a href="${href}" target="_blank" rel="noreferrer">${ref}</a>`
         }).filter(Boolean).join(', ')
-        return `${collection} ${linkedRefs}`
+        return `${boundary}${collection} ${linkedRefs}`
       })
       const phraseRegex = new RegExp(`\\b(${collectionPattern})\\s*\\(([^)]+)\\)`, 'gi')
       linked = linked.replace(phraseRegex, (match, collection, phrase) => {
@@ -2388,7 +2413,7 @@ export default defineComponent({
         return this.highlightResourceHtml(this.linkifyQuranEntry(text))
       }
       if (normalizedLabel.includes('hadith')) {
-        return this.highlightResourceHtml(this.linkifyHadithEntry(text))
+        return this.highlightResourceHtml(this.linkifyHadithText(text))
       }
       return this.highlightResourceHtml(this.escapeHtml(text))
     },
@@ -2581,10 +2606,12 @@ export default defineComponent({
     completeAndNext() {
       const nextId = this.selectedPill + 1
       const isFinalChapter = this.selectedPill === FINAL_CHAPTER_ID
+      const shouldShowCompletionModal = this.selectedPill === BEGINNER_COMPLETION_CHAPTER_ID
 
       if (nextId > this.maxStepReached) {
-        this.maxStepReached = nextId
-        localStorage.setItem('maxStepReached', nextId.toString())
+        const updatedMax = Math.min(nextId, FINAL_CHAPTER_ID)
+        this.maxStepReached = updatedMax
+        localStorage.setItem('maxStepReached', updatedMax.toString())
         this.updateStreakRecord()
 
         const chapter = this.roadmapData.find(c => c.id === this.selectedPill)
@@ -2594,9 +2621,6 @@ export default defineComponent({
 
         this.showSuccessAlert = true
         this.isWaitingForNext = true
-        if (isFinalChapter) {
-          this.showCompletionModal = true
-        }
 
         // FULL-SCREEN CONFETTI PARTY!
         const celebratingChapterId = this.selectedPill
@@ -2609,6 +2633,10 @@ export default defineComponent({
           this.showSuccessAlert = false
           setTimeout(() => { this.isWaitingForNext = false }, 3000)
         }, 6000)
+      }
+
+      if (shouldShowCompletionModal) {
+        this.showCompletionModal = true
       }
 
       if (isFinalChapter) {
@@ -2661,6 +2689,13 @@ export default defineComponent({
     },
     closeCompletionModal() {
       this.showCompletionModal = false
+    }
+    ,
+    stripeAmountUrl(amountMinor) {
+      const baseUrl = this.donationStripeBaseUrl
+      if (!baseUrl) return ''
+      const joiner = baseUrl.includes('?') ? '&' : '?'
+      return `${baseUrl}${joiner}amount=${amountMinor}`
     }
     ,
     // Randomizes the quiz payload so each attempt feels fresh.
