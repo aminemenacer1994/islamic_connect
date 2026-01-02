@@ -166,28 +166,28 @@
     "faqs": [
       {
         "id": "prayers-1",
-        "title": "How many obligatory prayers are there?",
-        "body": "<p>Five daily prayers - Fajr, Dhuhr, Asr, Maghrib, and Isha - each with a specific window of time.</p>"
+        "title": "What if I don't know Arabic? Can I pray in my language?",
+        "body": "<p>The recitation in salah is in Arabic as revealed; start by memorizing al-Fatiha and short surahs with their meanings. You may make personal du'a in your own language during prostration. (Quran 12:2; Sahih Muslim 395; Sahih Muslim 482)</p>"
       },
       {
         "id": "prayers-2",
-        "title": "How do I learn wudu and salah correctly?",
-        "body": "<p>Follow step-by-step tutorials, pray with an experienced friend, memorize the words, and repeat frequently.</p>"
+        "title": "Can women pray at the mosque?",
+        "body": "<p>Yes. Women are permitted to pray in the mosque, though praying at home is better for them. (Sunan Abi Dawud 567)</p>"
       },
       {
         "id": "prayers-3",
-        "title": "What is khushu and how do I build it?",
-        "body": "<p>Khushu is calm focus; slow down, picture standing before Allah, and recite meanings during prayer.</p>"
+        "title": "How do I deal with constant distractions (waswas) during prayer?",
+        "body": "<p>Seek refuge in Allah, focus on the meanings of recitation, and keep your gaze at the place of prostration. Remember you are conversing with your Lord. (Quran 7:200; Sahih al-Bukhari 405)</p>"
       },
       {
         "id": "prayers-4",
-        "title": "Where do Sunnah prayers fit this chapter?",
-        "body": "<p>They supplement obligations, deepen connection, and mirror the Prophet routine in each prayer block.</p>"
+        "title": "What if I join congregational prayer late?",
+        "body": "<p>Say the opening takbir standing, follow the Imam immediately, and complete what you missed after he finishes. Prayer has fixed times, and the Imam is appointed to be followed. (Quran 4:103; Sahih Muslim 414)</p>"
       },
       {
         "id": "prayers-5",
-        "title": "What if I make mistakes during prayer?",
-        "body": "<p>Stay humble, perform sujud sahw when needed, ask Allah for forgiveness, and view mistakes as learning steps.</p>"
+        "title": "Are there valid excuses for shortening or combining prayers?",
+        "body": "<p>Yes. Travelers may shorten the four-rak'ah prayers to two, and combining is a concession during travel and genuine hardship. Consult a scholar for your situation. (Quran 4:101; Sahih Muslim 704)</p>"
       }
     ]
   },
@@ -454,28 +454,28 @@
     "faqs": [
       {
         "id": "paradise-1",
-        "title": "How does the chapter describe paradise?",
-        "body": "<p>Gardens beneath which rivers flow, peace, reunions with loved ones, and endless pleasure.</p>"
+        "title": "Will people in Paradise get married?",
+        "body": "<p>Yes, believing men will have purified spouses (ḥūr al-ʿīn), and believing spouses from this world will be reunited and beautified beyond imagination. There will be pure marital relations without any negative consequences.</p>"
       },
       {
         "id": "paradise-2",
-        "title": "What actions open the doors of paradise?",
-        "body": "<p>Faith, prayer, charity, patience, and kindness while avoiding major sins.</p>"
+        "title": "Can a Muslim who committed major sins like murder enter Paradise?",
+        "body": "<p>Yes, if they died believing in Tawḥīd and without associating partners with Allah. They may be punished in Hell for a time but will eventually enter Paradise by Allah's mercy or the Prophet's intercession, unless the sin involved wrongdoing against others which wasn't resolved.</p>"
       },
       {
         "id": "paradise-3",
-        "title": "How is hell portrayed?",
-        "body": "<p>As intense fire, regret, and punishment for rejecting truth or committing injustice.</p>"
+        "title": "Are the descriptions of Paradise literal?",
+        "body": "<p>Yes, according to Ahl al-Sunnah, they are literal but beyond our current comprehension. We believe in them without asking \"how\" (bilā kayf), as our limited senses cannot grasp their true nature.</p>"
       },
       {
         "id": "paradise-4",
-        "title": "How do I keep hope without ignoring warnings?",
-        "body": "<p>Remember Allah's mercy daily and live in obedience to avoid the fire.</p>"
+        "title": "What about people who never heard about Islam?",
+        "body": "<p>They will be tested on the Day of Judgment. Those who followed the natural disposition (fiṭrah) to worship One God and lived morally may enter Paradise by Allah's mercy. Those who rejected clear signs in creation may be held accountable.</p>"
       },
       {
         "id": "paradise-5",
-        "title": "What reminders keep paradise and hell relevant?",
-        "body": "<p>Visualize them during dua, read verses about them, and let them motivate ethical choices.</p>"
+        "title": "Will children who die young go to Paradise?",
+        "body": "<p>Yes, all children who die before puberty automatically enter Paradise. The Prophet ﷺ said they will be in Paradise serving its inhabitants. Muslim parents will be reunited with them.</p>"
       }
     ]
   }

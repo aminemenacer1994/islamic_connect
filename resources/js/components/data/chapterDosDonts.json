@@ -245,45 +245,45 @@
     "dos": [
       {
         "id": "islamic-prayers-do-1",
-        "text": "Plan your day around the five prayer windows"
+        "text": "Perform wudu properly and calmly; it prepares you for prayer and removes sins. (Quran 5:6; Sahih Muslim 244)"
       },
       {
         "id": "islamic-prayers-do-2",
-        "text": "Perfect your wudu with mindfulness"
+        "text": "Pray in the mosque in congregation (for men) when possible; it carries multiplied reward. (Sahih al-Bukhari 645)"
       },
       {
         "id": "islamic-prayers-do-3",
-        "text": "Learn the meaning of what you recite in salah"
+        "text": "Understand the meanings of what you recite, especially Surah al-Fatiha; it is required in every rak'ah. (Sahih Muslim 395)"
       },
       {
         "id": "islamic-prayers-do-4",
-        "text": "Add a short sunnah prayer to deepen khushu"
+        "text": "Make du'a in prostration; ask for both worldly and Hereafter needs. (Sahih Muslim 482)"
       },
       {
         "id": "islamic-prayers-do-5",
-        "text": "Pray in congregation when you can"
+        "text": "Observe the Sunnah and nawafil prayers; they complete deficiencies in the obligatory prayers. (Sunan at-Tirmidhi 413)"
       }
     ],
     "donts": [
       {
         "id": "islamic-prayers-dont-1",
-        "text": "Don't delay fajr unless absolutely necessary"
+        "text": "Don't rush through prayer; the Prophet forbade pecking like a crow. (Sunan Abi Dawud 862)"
       },
       {
         "id": "islamic-prayers-dont-2",
-        "text": "Don't think prayer is optional when you miss one"
+        "text": "Don't look around during prayer; keep your gaze at the place of prostration to protect khushu. (Sunan Abi Dawud 909)"
       },
       {
         "id": "islamic-prayers-dont-3",
-        "text": "Don't rush through sujud without presence"
+        "text": "Don't precede the Imam in movements; follow him closely. (Sahih Muslim 414)"
       },
       {
         "id": "islamic-prayers-dont-4",
-        "text": "Don't let fatigue become an excuse to skip a prayer"
+        "text": "Don't pray while needing to relieve yourself; wait until you are calm and focused. (Sahih Muslim 560)"
       },
       {
         "id": "islamic-prayers-dont-5",
-        "text": "Don't neglect dua after prayer; cling to it"
+        "text": "Don't neglect the tashahhud and salat upon the Prophet; they complete the prayer. (Sahih al-Bukhari 831; Quran 33:56)"
       }
     ]
   },

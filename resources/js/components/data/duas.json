@@ -141,22 +141,22 @@
     "chapterId": 7,
     "duas": [
       {
-        "title": "Most Comprehensive Duʿāʾ",
-        "arabic": "رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ",
-        "english": "Our Lord, give us in this world good and in the Hereafter good, and protect us from the punishment of the Fire.",
-        "reference": "Qur'an 2:201. The Prophet ﷺ said it was the most frequent duʿāʾ he made. (Ṣaḥīḥ al-Bukhārī 6389)"
+        "title": "Opening Du'a Before Prayer",
+        "arabic": "سُبْحَانَكَ اللَّهُمَّ وَبِحَمْدِكَ، وَتَبَارَكَ اسْمُكَ، وَتَعَالَى جَدُّكَ، وَلَا إِلَهَ غَيْرُكَ",
+        "english": "Glory be to You, O Allah, and praise. Blessed is Your name, exalted is Your majesty. There is no god but You.",
+        "reference": "Sunan Abi Dawud 775 (Sahih)"
       },
       {
-        "title": "Duʿāʾ for All Needs",
-        "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
-        "english": "O Allah, I ask You for pardon and well-being in this world and the Hereafter.",
-        "reference": "The Prophet ﷺ taught this and said to ask Allah for al-ʿĀfiyah, for nothing better is given after certainty of faith. (Sunan Ibn Mājah 3871 - Ṣaḥīḥ)"
+        "title": "Du'a During Prostration",
+        "arabic": "سُبُّوحٌ قُدُّوسٌ رَبُّ الْمَلَائِكَةِ وَالرُّوحِ",
+        "english": "The Most Glorious, the Most Holy, Lord of the angels and the Spirit (Jibril).",
+        "reference": "Sahih Muslim 487"
       },
       {
-        "title": "Powerful Morning/Evening Dhikr (3 times)",
-        "arabic": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
-        "english": "In the name of Allah, with whose Name nothing on earth or in heaven can cause harm, and He is the All-Hearing, the All-Knowing.",
-        "reference": "Whoever says this three times in the morning and evening will not be harmed by anything. (Sunan Abī Dāwūd 5088 - Ṣaḥīḥ)"
+        "title": "Dhikr After Taslim",
+        "arabic": "أَسْتَغْفِرُ اللهَ (ثَلَاثًا)، اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+        "english": "I seek Allah's forgiveness (three times). O Allah, You are As-Salam, and from You is peace. Blessed are You, O Possessor of Majesty and Honor.",
+        "reference": "Sahih Muslim 591"
       }
     ]
   },

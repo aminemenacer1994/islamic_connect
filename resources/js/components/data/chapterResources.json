@@ -396,19 +396,64 @@
           {
             "label": "Qur'an",
             "entries": [
-              "Al-ʿAnkabūt 29:45 - Prayer restrains immorality; remembrance of Allah is greatest.",
-              "Hūd 11:114 - Establish prayer at the day's ends; good deeds remove misdeeds.",
-              "Al-Māʾidah 5:6 - Wudu and purification are required for prayer.",
-              "Al-Muʾminūn 23:1-2 - Successful believers are humble in their prayer.",
-              "Ṭā Hā 20:14 - Establish prayer for Allah's remembrance.",
-              "Al-Baqarah 2:238 - Guard the prayers, especially the middle prayer."
+              "Quran 4:103 - Prayer is prescribed at fixed times for believers.",
+              "Quran 29:45 - Prayer restrains immorality, and remembrance of Allah is greatest.",
+              "Quran 23:1-2 - Successful believers are humble and focused in prayer.",
+              "Quran 2:238 - Guard the prayers, especially the middle prayer.",
+              "Quran 20:14 - Establish prayer for the remembrance of Allah.",
+              "Quran 17:78-79 - Establish prayer from sun decline to night and the dawn recitation, and pray at night.",
+              "Quran 11:114 - Establish prayer at the day's ends; good deeds remove misdeeds."
             ]
           },
           {
             "label": "Hadith",
             "entries": [
-              "Ṣaḥīḥ al-Bukhārī: 1 - This hadith stresses sincerity as the foundation of prayer.",
-              "Ṣaḥīḥ Muslim: 2724 - This hadith teaches remembrance and supplication tied to prayer."
+              "Sahih al-Bukhari: 405, 349, 619, 5096, 7571, 528, 5787 - Narrations on prayer practice, virtues, and the cleansing effect of salah.",
+              "Sahih Muslim: 82, 395, 482, 684, 592, 487, 251 - Narrations on recitation in prayer, supplication in prostration, making up missed prayers, and post-prayer dhikr.",
+              "Sunan Abi Dawud: 775, 567, 860 - Narrations on opening supplications, mosque attendance, and prayer etiquette.",
+              "Sunan at-Tirmidhi: 213, 2416 - Narrations on the weight of prayer in accountability and its virtues.",
+              "Sahih al-Jami: 2573, 3874 - Narrations emphasizing that prayer is the first deed judged and a core measure of faith."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Classical Texts",
+        "items": [
+          {
+            "entries": [
+              "Sifah Salat an-Nabi - Al-Albani (The Prophet's Prayer Described)",
+              "Al-Mughni - Ibn Qudamah (Detailed fiqh of prayer)",
+              "Fath al-Bari - Ibn Hajar (Commentary on Bukhari's Book of Prayer)",
+              "Al-Adhkar - An-Nawawi (Supplications in prayer)",
+              "Al-Khushu fi as-Salah - Ibn Rajab al-Hanbali",
+              "Ihya Ulum ad-Din - Al-Ghazali (Book on prayer's inner dimensions)",
+              "Al-Umdah fi al-Fiqh - Ibn Qudamah (Prayer section)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Modern Instructional Works",
+        "items": [
+          {
+            "entries": [
+              "A Guide to Salah - Muhammad Taqi al-Din al-Hilali",
+              "The Prayer of the Prophet - Dr. Salih al-Fawzan",
+              "Khushu in Salah - Dr. al-Qari",
+              "Fortress of the Muslim - Sa'id al-Qahtani (Prayer section)"
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Websites for Verification",
+        "items": [
+          {
+            "entries": [
+              "IslamQA (search: prayer rulings, khushu, congregation, missed prayers)",
+              "SeekersGuidance (courses: Fiqh of Prayer, Spiritual Dimensions of Worship)",
+              "Sunnah.com (Sahih al-Bukhari - Book of Prayer)"
             ]
           }
         ]

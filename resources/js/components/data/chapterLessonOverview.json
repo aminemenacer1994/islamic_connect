@@ -267,83 +267,48 @@
     },
     {
         "chapterId": 6,
-        "title": "The Prayer: (Salat)",
-        "summary": "Prayer is the reset that brings your body, heart, and discipline back into harmony with Allah.",
+        "title": "The Prayer: Ṣalāh (The Connection)",
+        "summary": "Ṣalāh (the ritual prayer) is the cornerstone of Islam, the direct link between the servant and Allah, and the first matter we will be questioned about on Judgment Day. It is the pillar of religion whoever establishes it, establishes religion; whoever destroys it, destroys religion.",
         "overview": [
             {
-                "heading": "Prayer Connects to Allah",
-                "content": "Salah is the link between the believer and Allah, nurturing spiritual awareness, mindfulness, and consistent reflection on divine guidance throughout life.\n\nReferences:\nQuran Al-ʿAnkabūt 29:45",
-                "resources": "https://quran.com/29/45"
+                "heading": "Ṣalāh is the Second Pillar and First Deed Accounted For",
+                "content": "Ṣalāh distinguishes Islam from disbelief and is the first matter judged on the Day of Judgment. If it is accepted, the rest of the deeds are accepted; if rejected, the rest are rejected.\n\nReferences:\nṢaḥīḥ al-Jāmiʿ 2573\nResource: Ṣifah Ṣalāt an-Nabī by Al-Albānī - The Prophet's Prayer Described."
             },
             {
-                "heading": "Five Daily Prayers",
-                "content": "Observing the five daily prayers structures time, reinforces discipline, and creates regular opportunities for remembrance, reflection, and connection with Allah.\n\nReferences:\nQuran Hūd 11:114",
-                "resources": "https://quran.com/11/114"
+                "heading": "Ṣalāh is a Direct Connection with Allah",
+                "content": "During ṣalāh, the worshipper stands before Allah, conversing through recitation, bowing, prostration, and supplication. It is the miʿrāj of the believer.\n\nReferences:\nṢaḥīḥ al-Bukhārī 405\nResource: Al-Kalim aṭ-Ṭayyib by Ibn Taymiyyah."
             },
             {
-                "heading": "Prayer Requires Purity",
-                "content": "Wudu and cleanliness before prayer prepare the body and heart. Physical purification mirrors spiritual readiness, enhancing focus, sincerity, and connection during worship.\n\nReferences:\nQuran Al-Māʾidah 5:6",
-                "resources": "https://quran.com/5/6"
+                "heading": "Five Daily Prayers Were Prescribed on the Night Journey",
+                "content": "The five daily prayers were prescribed during al-Isrāʾ wal-Miʿrāj. They were reduced from fifty to five while retaining the reward of fifty.\n\nReferences:\nṢaḥīḥ al-Bukhārī 349\nResource: Fatḥ al-Bārī by Ibn Ḥajar."
             },
             {
-                "heading": "Concentration Strengthens Prayer",
-                "content": "Focus (khushu) deepens spiritual connection, increases devotion, and ensures that salah becomes a mindful act rather than a routine ritual.\n\nReferences:\nQuran Al-Muʾminūn 23:1-2",
-                "resources": "https://quran.com/23/1-2"
+                "heading": "Each Prayer Has a Fixed Time (Mawāqīt)",
+                "content": "Prayer times follow the sun: Fajr (dawn), Ẓuhr (midday), ʿAṣr (afternoon), Maghrib (sunset), and ʿIshāʾ (night). Delaying beyond its time without excuse is a major sin.\n\nReferences:\nQuran 4:103\nResource: Al-Mawāqīt by Ibn Qudāmah."
             },
             {
-                "heading": "Supplication Complements Prayer",
-                "content": "Dua within or after salah expresses dependence, gratitude, and humility. It reinforces connection with Allah and the sincerity of worship.\n\nReferences:\nHadith: Sahih Muslim 2724",
-                "resources": "https://sunnah.com/muslim:2724"
+                "heading": "Congregational Prayer Multiplies the Reward",
+                "content": "Ṣalāh al-Jamāʿah is twenty-seven times superior to praying alone and strengthens community bonds.\n\nReferences:\nṢaḥīḥ al-Bukhārī 619\nResource: Aḥkām al-Jamāʿah wal-Imāmah by Ibn Taymiyyah."
             },
             {
-                "heading": "Prayer Brings Tranquility",
-                "content": "Regular salah calms the heart, reduces stress, and strengthens faith. It instills patience and gratitude, providing spiritual balance throughout daily life.\n\nReferences:\nQuran Ṭā Hā 20:14",
-                "resources": "https://quran.com/20/14"
+                "heading": "Al-Fātiḥah is Required in Every Rakʿah",
+                "content": "Al-Fātiḥah is the essence of the Qur'an and the core of ṣalāh. Without it, the prayer is incomplete.\n\nReferences:\nṢaḥīḥ Muslim 395\nResource: Tafsīr Sūrat al-Fātiḥah by Ibn Kathīr."
             },
             {
-                "heading": "Consistency is Key",
-                "content": "Performing prayers consistently fosters discipline, strengthens routine worship, and reinforces connection with Allah regardless of circumstances or personal challenges.\n\nReferences:\nQuran Al-Baqarah 2:238",
-                "resources": "https://quran.com/2/238"
+                "heading": "Sujūd is the Closest Point to Allah",
+                "content": "In prostration, the servant is closest to Allah, making it the prime time to increase duʿāʾ.\n\nReferences:\nṢaḥīḥ Muslim 482\nResource: Al-Adhkār by An-Nawawī."
             },
             {
-                "heading": "Prayer Elevates Character",
-                "content": "Salah instills patience, humility, and self discipline. Its regular practice shapes moral behavior, ethical conduct, and spiritual growth in everyday life.\n\nReferences:\nQuran Al-ʿAnkabūt 29:45",
-                "resources": "https://quran.com/29/45"
+                "heading": "Prayer Prevents Immorality and Wrongdoing",
+                "content": "Mindful, consistent ṣalāh cultivates taqwā that deters sin and injustice.\n\nReferences:\nQuran 29:45\nResource: Iḥyāʾ ʿUlūm ad-Dīn by Al-Ghazālī."
             },
             {
-                "heading": "Prayer as Reminder",
-                "content": "Each salah reminds believers of accountability, purpose, and divine mercy. Reflection during prayer strengthens awareness and directs choices toward ethical and spiritual growth.\n\nReferences:\nQuran Al-Baqarah 2:238",
-                "resources": "https://quran.com/2/238"
+                "heading": "Khushūʿ is the Spirit of Prayer",
+                "content": "Presence of heart gives ṣalāh its life. It requires preparation, understanding of recitation, and minimizing distractions.\n\nReferences:\nQuran 23:1-2\nResource: Al-Khushūʿ fī aṣ-Ṣalāh by Ibn Rajab al-Ḥanbalī."
             },
             {
-                "heading": "Facing Challenges with Prayer",
-                "content": "Regular prayer nurtures resilience and reliance on Allah. During trials, believers find strength, patience, and clarity through mindful worship.\n\nReferences:\nQuran Al-Baqarah 2:45",
-                "resources": "https://quran.com/2/45"
-            },
-            {
-                "heading": "Prayer Inspires Gratitude",
-                "content": "Reflection during salah reinforces appreciation for Allah’s blessings. Gratitude expressed through prayer nurtures contentment, humility, and ethical behavior.\n\nReferences:\nQuran Ibrāhīm 14:7",
-                "resources": "https://quran.com/14/7"
-            },
-            {
-                "heading": "Prayer Strengthens Community",
-                "content": "Congregational prayers build unity, social bonds, and collective accountability. Observing salah in community nurtures compassion, empathy, and shared devotion.\n\nReferences:\nQuran At-Tawbah 9:71",
-                "resources": "https://quran.com/9/71"
-            },
-            {
-                "heading": "Salah Enhances Reflection",
-                "content": "Moments of worship offer time to contemplate life, purpose, and Allah’s guidance. Reflection strengthens faith, moral awareness, and intentional living.\n\nReferences:\nQuran Al-Muʾminūn 23:1-2",
-                "resources": "https://quran.com/23/1-2"
-            },
-            {
-                "heading": "Intentions Matter",
-                "content": "Prayers are accepted when performed with sincerity. Mindful intentions ensure actions are meaningful, spiritually rewarding, and aligned with divine guidance.\n\nReferences:\nHadith: Sahih Bukhari 1",
-                "resources": "https://sunnah.com/bukhari:1"
-            },
-            {
-                "heading": "Prayer Nourishes the Heart",
-                "content": "Salah refreshes the soul, strengthens spiritual resilience, and nurtures emotional balance. Regular engagement fosters closeness to Allah and inner peace.\n\nReferences:\nQuran Ar-Rūm 30:17-18",
-                "resources": "https://quran.com/30/17-18"
+                "heading": "Making Up Missed Prayers is Obligatory",
+                "content": "Missed prayers due to sleep or forgetfulness must be made up immediately upon remembering. Intentionally abandoning prayer is a grave matter.\n\nReferences:\nṢaḥīḥ Muslim 684\nResource: Fatāwā al-Ṣalāh by Ibn Bāz."
             }
         ]
     },
@@ -620,7 +585,7 @@
             },
             {
                 "heading": "Enjoining Good and Forbidding Evil Preserves the Community",
-                "content": "This collective duty maintains the Ummah's moral integrity and requires wisdom, knowledge, and patience.\n\nReferences:\n\"You are the best community ever raised for humanity—you enjoin good, forbid evil, and believe in Allah...\" (Āli ʿImrān 3:110)\nResource: Al-Amr bil-Ma'rūf wan-Nahy 'an al-Munkar by Ibn Taymiyyah.",
+                "content": "This collective duty maintains the Ummah's moral integrity and requires wisdom, knowledge, and patience.\n\nReferences:\n\"You are the best community ever raised for humanity you enjoin good, forbid evil, and believe in Allah...\" (Āli ʿImrān 3:110)\nResource: Al-Amr bil-Ma'rūf wan-Nahy 'an al-Munkar by Ibn Taymiyyah.",
                 "resources": "https://quran.com/3/110"
             },
             {
