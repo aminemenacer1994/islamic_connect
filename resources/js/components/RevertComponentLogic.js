@@ -2363,7 +2363,7 @@ export default defineComponent({
     },
     linkifyHadithText(text = '') {
       const collectionPattern = "(?:Ṣaḥīḥ|Sahih|Sunan|Jāmiʿ|Jamiʿ|Jami'|Musnad|Al-Adab|Adab)\\s+[A-Za-z\\u00C0-\\u024F\\u1E00-\\u1EFFʿʾāīūḍṣḥṭḤṢĀĪŪ\\- ]{1,50}"
-      const hadithRegex = new RegExp(`(^|[\\s(])(${collectionPattern})\\s+(\\d+[a-z]?(?:\\s*,\\s*\\d+[a-z]?)*)`, 'gi')
+      const hadithRegex = new RegExp(`(^|[\\s(])(${collectionPattern})\\s*:?\\s*(\\d+[a-z]?(?:\\s*,\\s*\\d+[a-z]?)*)`, 'gi')
       let linked = text.replace(hadithRegex, (match, boundary, collection, refs) => {
         const slug = this.hadithCollectionSlug(collection)
         const linkedRefs = refs.split(',').map((rawRef) => {
