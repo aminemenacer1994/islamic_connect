@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4 " role="main" aria-label="Quran Explorer">
+  <div class="container py-4 surat-premium" role="main" aria-label="Quran Explorer">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Quran Explorer</h1>
@@ -104,24 +104,29 @@
         :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
         :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
         @keydown.enter.prevent="toggleAudioPlayer(item.index)" @keydown.space.prevent="toggleAudioPlayer(item.index)"
+        draggable="true" @dragstart="onAyahDragStart(item.ayah, $event)"
         :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === item.index,
           'currently-playing': isAudioPlaying[item.index]
         }">
-        <div class="shadow-xl h-100 rtl-text d-flex flex-column" style="
-            border-top-left-radius: 25px;
-            border-top-right-radius: 25px;
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            height: 100%;">
+        <div class="ayah-surface h-100 rtl-text d-flex flex-column">
           <!-- Surah and Ayah Number -->
           <div class="d-flex justify-content-between text-muted ltr-text">
             <h4>
               <img src="/images/art.png" width="35px" alt="Art Icon" />
               {{ surahDetails?.surahNumber }} : {{ item.index + 1 }}
             </h4>
+            <button
+              type="button"
+              class="icon-btn"
+              :class="{ 'is-saved': isAyahSaved(item.ayah) }"
+              data-bs-toggle="modal"
+              data-bs-target="#bookmarkModal"
+              @click.stop="openBookmarkModal(item.ayah)"
+              :aria-label="isAyahSaved(item.ayah) ? 'Ayah has been saved' : 'Save ayah'"
+              :title="isAyahSaved(item.ayah) ? 'Ayah has been saved' : 'Save ayah'">
+              <i class="bi" :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'" aria-hidden="true"></i>
+            </button>
           </div>
 
           <!-- Desktop Layout: Icons on Left -->
@@ -224,6 +229,7 @@
       No verses match your current search or filters.
     </div>
 
+    <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
 
     <!-- Global Custom Audio Player -->
     <teleport to="body">
@@ -290,8 +296,13 @@
 </template>
 
 <script>
+import axios from 'axios';
+import BookmarkModal from './bookmarks/BookmarkModal.vue';
 export default {
   name: 'SuratComponent',
+  components: {
+    BookmarkModal,
+  },
   data: function () {
     return {
       // responsive a11y
@@ -359,6 +370,9 @@ export default {
       // Next-step card visibility
       showNextStep: true,
       nextStepMinimized: false,
+      activeAyah: null,
+      savedAyahKeys: {},
+      savedAyahsLoaded: false,
     };
   },
   computed: {
@@ -488,6 +502,8 @@ export default {
     window.addEventListener('resize', this.updateIsMobile);
     // Restore dismissal state for next-step card
     try { if (localStorage.getItem('suratNextStepDismissed') === '1') this.showNextStep = false; } catch (_) {}
+    this.loadSavedAyahs();
+    this.syncSavedAyahsFromApi();
     // Virtualization hooks
     this.$nextTick(() => {
       this.computeListTop();
@@ -515,6 +531,81 @@ export default {
     window.removeEventListener('resize', this.calibrateItemHeight);
   },
   methods: {
+    loadSavedAyahs() {
+      if (this.savedAyahsLoaded) return;
+      try {
+        const stored = localStorage.getItem('ic_saved_ayahs');
+        this.savedAyahKeys = stored ? JSON.parse(stored) : {};
+      } catch (_) {
+        this.savedAyahKeys = {};
+      }
+      this.savedAyahsLoaded = true;
+    },
+    async syncSavedAyahsFromApi() {
+      try {
+        const response = await axios.get('/api/ayah-bookmarks');
+        const bookmarks = response.data?.data || [];
+        if (!Array.isArray(bookmarks)) return;
+        const next = { ...this.savedAyahKeys };
+        bookmarks.forEach((bookmark) => {
+          const surahNumber = Number(bookmark.surah_number || bookmark.ayah?.surah_id);
+          const ayahNumber = Number(bookmark.ayah_number || bookmark.ayah_num);
+          if (surahNumber && ayahNumber) {
+            next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
+          }
+        });
+        this.savedAyahKeys = next;
+        localStorage.setItem('ic_saved_ayahs', JSON.stringify(next));
+      } catch (_) {
+        // Ignore sync failures; local state still works.
+      }
+    },
+    buildAyahKey(surahNumber, ayahNumber) {
+      return `${surahNumber}:${ayahNumber}`;
+    },
+    isAyahSaved(ayah) {
+      if (!ayah || !this.surahDetails) return false;
+      const surahNumber = Number(this.surahDetails.surahNumber);
+      const ayahNumber = Number(ayah.number);
+      return !!this.savedAyahKeys[this.buildAyahKey(surahNumber, ayahNumber)];
+    },
+    openBookmarkModal(ayah) {
+      if (!this.surahDetails || !ayah) return;
+      this.activeAyah = {
+        surah_number: Number(this.surahDetails.surahNumber),
+        surah_name: this.surahDetails.englishName || this.surahDetails.name || 'Surah',
+        ayah_number: ayah.number,
+        ayah_verse_ar: ayah.text || '',
+        ayah_verse_en: ayah.translation || '',
+      };
+    },
+    onBookmarkSaved(payload) {
+      this.screenReaderMessage = 'Ayah saved to bookmarks.';
+      if (!payload) return;
+      const surahNumber = Number(payload.surah_number);
+      const ayahNumber = Number(payload.ayah_number);
+      if (!surahNumber || !ayahNumber) return;
+      const next = { ...this.savedAyahKeys };
+      next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
+      this.savedAyahKeys = next;
+      try {
+        localStorage.setItem('ic_saved_ayahs', JSON.stringify(next));
+      } catch (_) {
+        // no-op
+      }
+    },
+    onAyahDragStart(ayah, event) {
+      if (!event || !this.surahDetails || !ayah) return;
+      const payload = {
+        surah_number: Number(this.surahDetails.surahNumber),
+        surah_name: this.surahDetails.englishName || this.surahDetails.name || 'Surah',
+        ayah_number: ayah.number,
+        ayah_verse_ar: ayah.text || '',
+        ayah_verse_en: ayah.translation || '',
+      };
+      event.dataTransfer.setData('text/plain', JSON.stringify(payload));
+      event.dataTransfer.effectAllowed = 'copyMove';
+    },
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
       try { localStorage.setItem('suratNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
@@ -1407,15 +1498,37 @@ export default {
 
 <style scoped>
 .card-teal {
-  border-radius: 20px;
-  border: 1px solid rgba(15, 110, 99, 0.18);
-  box-shadow: 0 16px 32px rgba(15, 53, 48, 0.12);
-  background: linear-gradient(180deg, #ffffff 0%, #fff7ea 65%, #f3fbf7 100%);
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.12);
+  box-shadow: 0 12px 26px rgba(15, 53, 48, 0.1);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 248, 0.94));
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
 .card-teal:hover { 
-  transform: translateY(-3px);
-  box-shadow: 0 22px 42px rgba(15, 53, 48, 0.16);
+  transform: translateY(-1px);
+  border-color: rgba(15, 110, 99, 0.2);
+  box-shadow: 0 16px 32px rgba(15, 53, 48, 0.14);
+}
+
+.surat-premium {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid rgba(15, 110, 99, 0.06);
+  background: linear-gradient(180deg, #ffffff 0%, #f7f7f3 55%, #f2f5f4 100%);
+  box-shadow: 0 18px 40px rgba(15, 53, 48, 0.08);
+  padding: 26px 22px 32px;
+}
+
+.surat-premium > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .surat-premium {
+    padding: 18px 14px 24px;
+    border-radius: 18px;
+  }
 }
 /* Consolidated base rules */
 .surat-page {
@@ -1458,29 +1571,47 @@ export default {
   z-index: 1;
 }
 .ayah-card-container {
-  border-radius: 18px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border-radius: 20px;
+  transition: transform 0.2s ease;
 }
 
-.ayah-card-container:hover {
-  transform: translateY(-2px);
+.ayah-surface {
+  border-radius: 18px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 110, 99, 0.07);
+  box-shadow: 0 10px 26px rgba(15, 53, 48, 0.06);
+  padding: 18px 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.ayah-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  border-top: 3px solid rgba(15, 110, 99, 0.18);
+  opacity: 0.65;
+  pointer-events: none;
+}
+
+.ayah-card-container:hover .ayah-surface {
+  transform: translateY(-1px);
+  border-color: rgba(15, 110, 99, 0.16);
+  box-shadow: 0 16px 32px rgba(15, 53, 48, 0.1);
+}
+.highlighted .ayah-surface {
+  background: rgba(15, 110, 99, 0.05);
   border-color: rgba(15, 110, 99, 0.28);
   box-shadow: 0 18px 36px rgba(15, 53, 48, 0.14);
-}
-.highlighted {
-  background-color: rgba(15, 110, 99, 0.1);
-  border-radius: 14px;
-  border: 1px solid rgba(15, 110, 99, 0.32);
   animation: pulse 0.6s ease-in-out;
 }
 
-.currently-playing {
-  background: linear-gradient(135deg, rgba(15, 110, 99, 0.18), rgba(210, 162, 75, 0.16));
-  border: 1px solid rgba(15, 110, 99, 0.4);
-  border-radius: 16px;
-  box-shadow: 0 20px 38px rgba(15, 53, 48, 0.2);
-  transform: translateY(-2px);
-  transition: all 0.3s ease;
+.currently-playing .ayah-surface {
+  background: linear-gradient(135deg, rgba(15, 110, 99, 0.08), rgba(210, 162, 75, 0.08));
+  border-color: rgba(15, 110, 99, 0.28);
+  box-shadow: 0 18px 34px rgba(15, 53, 48, 0.14);
+  transform: translateY(-1px);
 }
 
 @keyframes pulse {
@@ -1505,14 +1636,14 @@ export default {
   position: sticky;
   z-index: 1000;
   padding: 12px 14px;
-  border-radius: 20px;
+  border-radius: 18px;
   margin-bottom: 1rem;
   overflow: hidden;
   max-height: 500px; /* expanded */
-  border: 1px solid rgba(15, 110, 99, 0.18);
-  background: linear-gradient(120deg, rgba(255, 251, 242, 0.95), rgba(236, 248, 244, 0.9));
-  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
-  backdrop-filter: blur(8px);
+  border: 1px solid rgba(15, 110, 99, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 14px 28px rgba(15, 53, 48, 0.08);
+  backdrop-filter: blur(10px) saturate(120%);
 }
 
 .sticky-dropdown::before {
@@ -1520,9 +1651,8 @@ export default {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.6), transparent 60%),
-    repeating-linear-gradient(140deg, rgba(15, 110, 99, 0.05) 0 12px, transparent 12px 28px);
-  opacity: 0.55;
+    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.55), transparent 62%);
+  opacity: 0.35;
   pointer-events: none;
 }
 
@@ -1661,16 +1791,20 @@ export default {
 }
 
 .icon-btn {
-  background: none;
-  border: none;
-  color: inherit;
+  background: rgba(15, 110, 99, 0.06);
+  border: 1px solid rgba(15, 110, 99, 0.12);
+  color: #0b6e63;
   padding: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
 }
 
 /* Increase icon sizes for per-ayah actions (desktop) */
 .ayah-card-container .icon-btn i {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
 }
 
 /* Make sticky toggle icon a bit larger */
@@ -2116,12 +2250,13 @@ h1.display-5 { letter-spacing: -0.01em; }
 
 /* Per-ayah action icons polish */
 .ayah-card-container .icon-btn {
-  border-radius: 8px;
-  padding: 6px;
-  transition: background-color 0.18s ease, transform 0.18s ease;
+  box-shadow: 0 6px 14px rgba(15, 53, 48, 0.08);
+  transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
 .ayah-card-container .icon-btn:hover {
-  background-color: rgba(15, 110, 99, 0.1);
+  background-color: rgba(15, 110, 99, 0.12);
+  border-color: rgba(15, 110, 99, 0.22);
+  box-shadow: 0 10px 20px rgba(15, 53, 48, 0.12);
   transform: translateY(-1px);
 }
 
@@ -2146,11 +2281,14 @@ h1.display-5 { letter-spacing: -0.01em; }
 /* Subtle global typography tuning */
 .lead {
   color: var(--ic-text-muted);
+  max-width: 72ch;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 h1.display-5 {
-  letter-spacing: -0.01em;
-
+  letter-spacing: -0.02em;
+  color: #0f2f2b;
   transform: translateY(-1px);
 }
 
@@ -2179,6 +2317,19 @@ h1.display-5 {
 .ayah-card-container .ltr-text { color: #334155; }
 .ayah-card-container h4.fw-bold.hide-on-mobile-tablet { color: #1f2a37; opacity: 0.85; }
 
+.ayah-card-container h2,
+.ayah-card-container h4 {
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.ayah-card-container h2 {
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(31, 41, 55, 0.6);
+}
+
 /* Constrain reading width for better legibility */
 .ayah-card-container .rtl-text,
 .ayah-card-container .ltr-text {
@@ -2198,16 +2349,17 @@ h1.display-5 {
 
 /* Toolbar styling */
 .ayah-card-container .d-block.d-md-none .row.mb-3 {
-  background: rgba(11, 128, 111, 0.06);
-  border: 1px solid rgba(11, 128, 111, 0.12);
+  background: linear-gradient(135deg, rgba(248, 250, 251, 0.95), rgba(236, 245, 242, 0.9));
+  border: 1px solid rgba(11, 128, 111, 0.14);
   border-radius: 999px;
-  padding: 6px 4px;
+  padding: 8px 6px;
   gap: 0;
   width: 100%;
   /* Match text width and center for balance */
   max-width: var(--reading-width);
   margin-left: auto;
   margin-right: auto;
+  box-shadow: 0 12px 22px rgba(15, 53, 48, 0.08);
 }
 
 /* On narrow screens, let content breathe edge-to-edge */
@@ -2222,16 +2374,44 @@ h1.display-5 {
   }
 }
 .ayah-card-container .icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #0b806f;
+  color: #0b6e63;
 }
-.ayah-card-container .icon-btn i { font-size: 1.25rem !important; }
+.ayah-card-container .icon-btn i { font-size: 1.4rem; }
 .ayah-card-container .icon-btn:hover { background: rgba(11, 128, 111, 0.1); }
+.ayah-card-container .icon-btn.is-saved {
+  background: linear-gradient(135deg, rgba(15, 110, 99, 0.22), rgba(210, 162, 75, 0.28));
+  border-color: rgba(210, 162, 75, 0.7);
+  color: #0b5c53;
+  box-shadow: 0 12px 26px rgba(15, 53, 48, 0.18), 0 0 0 3px rgba(210, 162, 75, 0.15);
+  transform: translateY(-1px) scale(1.02);
+}
+.ayah-card-container .icon-btn.is-saved i {
+  color: #0b5c53;
+  font-size: 1.6rem;
+  text-shadow: 0 2px 6px rgba(15, 53, 48, 0.18);
+}
+
+.ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text {
+  align-items: center;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+  margin-bottom: 12px;
+}
+
+.ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text h4 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text img {
+  filter: drop-shadow(0 6px 10px rgba(15, 53, 48, 0.15));
+}
 
 /* Subtle divider above toolbar */
 .ayah-card-container .d-block.d-md-none .row.mb-3::before {
@@ -2247,5 +2427,6 @@ h1.display-5 {
 @media (min-width: 992px) {
   .ayah-card { padding: 16px 18px; }
   .ayah-card-container .arabic-text { font-size: 2rem; }
+  .ayah-surface { padding: 22px 26px; }
 }
 </style>

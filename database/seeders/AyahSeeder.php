@@ -4,12 +4,15 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Ayah;
+use Illuminate\Support\Facades\Schema;
 
 class AyahSeeder extends Seeder
 {
     public function run()
     {
+        Schema::disableForeignKeyConstraints();
         Ayah::truncate(); // Clear the ayahs table
+        Schema::enableForeignKeyConstraints();
 
         $csvFilePath = base_path("database/data/csv/ayat.csv");
         if (!file_exists($csvFilePath)) {

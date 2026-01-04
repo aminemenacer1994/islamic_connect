@@ -55,6 +55,21 @@ class User extends Authenticatable
         return $this->hasMany(Folder::class);
     }
 
+    public function smartFolders()
+    {
+        return $this->hasManyThrough(SmartFolder::class, Folder::class);
+    }
+
+    public function sharedFolders()
+    {
+        return $this->hasMany(SharedFolder::class);
+    }
+
+    public function bookmarkEvents()
+    {
+        return $this->hasMany(BookmarkEvent::class);
+    }
+
     public function collections()
     {
         return $this->hasMany(Collection::class);

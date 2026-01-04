@@ -17,6 +17,7 @@ class Surah extends Model
         'name_ar',
         'text',
         'juz_id',
+        'revelation_type',
     ];
 
     // Relationships

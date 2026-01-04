@@ -75,16 +75,39 @@ class BookmarkController extends Controller
                 'ayah_num' => 'required|integer',
                 'ayah_verse_ar' => 'required|string',
                 'ayah_verse_en' => 'required|string',
+                'surah_number' => 'nullable|integer|min:1|max:114',
+                'folder_id' => 'nullable|integer',
+                'folder_ids' => 'array',
+                'folder_ids.*' => 'integer',
             ]);
 
             // Create the bookmark
             $bookmark = Bookmark::create([
                 'surah_name' => $request->input('surah_name'),
                 'ayah_num' => $request->input('ayah_num'),
+                'surah_number' => $request->input('surah_number'),
+                'ayah_number' => $request->input('ayah_num'),
                 'ayah_verse_ar' => $request->input('ayah_verse_ar'),
                 'ayah_verse_en' => $request->input('ayah_verse_en'),
                 'user_id' => Auth::id(),
             ]);
+
+            $folderIds = collect($request->input('folder_ids', []))
+                ->push($request->input('folder_id'))
+                ->filter()
+                ->unique()
+                ->values()
+                ->all();
+
+            if (!empty($folderIds)) {
+                $ownedFolderIds = Folder::where('user_id', Auth::id())
+                    ->where('is_smart', false)
+                    ->whereIn('id', $folderIds)
+                    ->pluck('id')
+                    ->all();
+
+                $bookmark->folders()->syncWithoutDetaching($ownedFolderIds);
+            }
 
             return response()->json([
                 'message' => 'Bookmark successfully saved!',

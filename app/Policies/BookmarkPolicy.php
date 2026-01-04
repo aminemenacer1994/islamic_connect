@@ -10,6 +10,16 @@ class BookmarkPolicy
 {
     use HandlesAuthorization;
 
+    public function view(User $user, Bookmark $bookmark)
+    {
+        return $user->id === $bookmark->user_id;
+    }
+
+    public function update(User $user, Bookmark $bookmark)
+    {
+        return $user->id === $bookmark->user_id;
+    }
+
     public function delete(User $user, Bookmark $bookmark)
     {
         return $user->id === $bookmark->user_id;

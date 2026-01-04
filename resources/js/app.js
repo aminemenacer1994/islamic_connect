@@ -192,6 +192,8 @@ const asyncComponentLoaders = {
   "read-component": () => import("./components/ReadComponent.vue"),
   "revert-component": () => import("./components/RevertComponent.vue"),
   "muslim-component": () => import("./components/MuslimComponent.vue"),
+  "bookmark-manager": () => import("./components/bookmarks/BookmarkManager.vue"),
+  "shared-folder-view": () => import("./components/bookmarks/SharedFolderView.vue"),
 
 };
 

@@ -6,6 +6,8 @@ namespace App\Providers;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use App\Models\Bookmark;
 use App\Policies\BookmarkPolicy;
+use App\Models\Folder;
+use App\Policies\FolderPolicy;
 use App\Models\Note;
 use App\Policies\NotePolicy;
 
@@ -18,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Bookmark::class => BookmarkPolicy::class,
+        Folder::class => FolderPolicy::class,
         Note::class => NotePolicy::class,
     ];
 

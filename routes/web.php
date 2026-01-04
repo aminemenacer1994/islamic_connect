@@ -71,6 +71,10 @@ use App\Http\Controllers\MuslimController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\ReadController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\Api\AyahBookmarkController;
+use App\Http\Controllers\Api\FolderController as ApiFolderController;
+use App\Http\Controllers\Api\SharedFolderController;
+use App\Http\Controllers\Api\AnalyticsController;
 use Illuminate\Http\Request;
 
 Route::get('/sitemap.xml', function () {
@@ -332,6 +336,8 @@ Route::get('/read', [ReadController::class, 'index'])->name('read');
 Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::get('/gallery', action: [AiController::class, 'index'])->name('gallery');
 Route::post('/ai/chat', action: [AiController::class, 'chat'])->name('ai.chat');
+Route::get('/shared/folders/{token}', [SharedFolderController::class, 'publicView'])->name('shared.folders.view');
+Route::get('/api/shared/folders/{token}', [SharedFolderController::class, 'show'])->name('shared.folders.api');
 
 // ========================================
 // AUTHENTICATED ROUTES (No Subscription Required)
@@ -365,6 +371,29 @@ Route::middleware(['auth', 'web'])->group(function () {
     Route::delete('/folders/{id}', [FolderController::class, 'delete']);
     Route::get('/folders/{folderId}/bookmarks', [FolderController::class, 'getBookmarksByFolder']);
     Route::get('/fetch-folders', [FolderController::class, 'fetchFolders']);
+
+    // Bookmark folders (new API)
+    Route::prefix('api')->group(function () {
+        Route::get('folders', [ApiFolderController::class, 'index']);
+        Route::post('folders', [ApiFolderController::class, 'store']);
+        Route::get('folders/{folder}', [ApiFolderController::class, 'show']);
+        Route::put('folders/{folder}', [ApiFolderController::class, 'update']);
+        Route::delete('folders/{folder}', [ApiFolderController::class, 'destroy']);
+        Route::get('folders/{folder}/bookmarks', [ApiFolderController::class, 'bookmarks']);
+        Route::post('folders/{folder}/share', [SharedFolderController::class, 'store']);
+        Route::delete('folders/{folder}/share', [SharedFolderController::class, 'destroy']);
+
+        Route::get('ayah-bookmarks', [AyahBookmarkController::class, 'index']);
+        Route::post('ayah-bookmarks', [AyahBookmarkController::class, 'store'])->middleware('throttle:30,1');
+        Route::post('ayah-bookmarks/{bookmark}/folders', [AyahBookmarkController::class, 'attachFolders'])->middleware('throttle:30,1');
+        Route::delete('ayah-bookmarks/{bookmark}', [AyahBookmarkController::class, 'destroy'])->middleware('throttle:30,1');
+        Route::delete('ayah-bookmarks/{bookmark}/folders/{folder}', [AyahBookmarkController::class, 'detachFolder'])->middleware('throttle:30,1');
+
+        Route::get('analytics/most-bookmarked-ayat', [AnalyticsController::class, 'mostBookmarkedAyat']);
+        Route::get('analytics/most-popular-folders', [AnalyticsController::class, 'mostPopularFolders']);
+        Route::get('analytics/activity-by-hour', [AnalyticsController::class, 'activityByHour']);
+        Route::get('analytics/ramadan-activity', [AnalyticsController::class, 'ramadanActivity']);
+    });
     
     // Notes & Comments
     Route::post('/notes/{noteId}/like', [LikeController::class, 'like']);

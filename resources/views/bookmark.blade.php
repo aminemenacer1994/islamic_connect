@@ -3,7 +3,7 @@
 @section('content')
 @include('partials.sidebar')
 <div class="container-fluid content-with-sidebar">
-    <bookmark-component></bookmark-component>
+    <bookmark-manager></bookmark-manager>
     {{-- @include('layouts.footer') --}}
 </div>
 @endsection

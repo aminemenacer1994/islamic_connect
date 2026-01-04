@@ -178,14 +178,25 @@
                     Search the full chapter in one place.
                   </p>
                 </div>
-                <button
-                  type="button"
-                  class="section-toggle-btn card-toggle-btn"
-                  @click="toggleCardVisibility('globalSearch')"
-                  :aria-expanded="isCardVisible('globalSearch')"
-                  :aria-label="isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'">
-                  <i class="bi" :class="isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                </button>
+                <div class="global-search-header-actions">
+                  <button
+                    type="button"
+                    class="global-search-info-btn"
+                    @click="openSearchInfoModal"
+                    aria-label="About global search"
+                  >
+                    <i class="fas fa-info-circle" aria-hidden="true"></i>
+                    <span class="visually-hidden">Info</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('globalSearch')"
+                    :aria-expanded="isCardVisible('globalSearch')"
+                    :aria-label="isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'">
+                    <i class="bi" :class="isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
               </div>
               <div v-show="isCardVisible('globalSearch')">
                 <div class="resource-search-controls">
@@ -1993,7 +2004,7 @@
                 <ul class="search-info-list">
                   <li class="search-info-card">
                     <div class="search-info-card-title">
-                      <i class="bi bi-stars"></i>
+                      <i class="fas fa-layer-group search-info-icon" aria-hidden="true"></i>
                       Search coverage
                     </div>
                     <p class="search-info-card-text">
@@ -2002,7 +2013,7 @@
                   </li>
                   <li class="search-info-card">
                     <div class="search-info-card-title">
-                      <i class="bi bi-quote"></i>
+                      <i class="fas fa-quote-left search-info-icon" aria-hidden="true"></i>
                       Phrase matching
                     </div>
                     <p class="search-info-card-text">
@@ -2011,7 +2022,7 @@
                   </li>
                   <li class="search-info-card">
                     <div class="search-info-card-title">
-                      <i class="bi bi-funnel"></i>
+                      <i class="fas fa-filter search-info-icon" aria-hidden="true"></i>
                       Category filter
                     </div>
                     <p class="search-info-card-text">
@@ -2020,7 +2031,7 @@
                   </li>
                   <li class="search-info-card">
                     <div class="search-info-card-title">
-                      <i class="bi bi-cursor-fill"></i>
+                      <i class="fas fa-location-arrow search-info-icon" aria-hidden="true"></i>
                       Jump to results
                     </div>
                     <p class="search-info-card-text">
@@ -2029,7 +2040,7 @@
                   </li>
                   <li class="search-info-card">
                     <div class="search-info-card-title">
-                      <i class="bi bi-palette"></i>
+                      <i class="fas fa-highlighter search-info-icon" aria-hidden="true"></i>
                       Highlighting
                     </div>
                     <p class="search-info-card-text">

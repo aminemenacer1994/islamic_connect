@@ -2755,16 +2755,24 @@ p{
 
 .global-search-info-btn {
   border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.2);
+  border: 1px solid rgba(15, 23, 42, 0.35);
   background: #fff;
-  color: #0f172a;
-  font-size: 0.75rem;
+  color: #000;
+  font-size: 1rem;
   font-weight: 600;
-  padding: 0.35rem 0.75rem;
+  width: 2.6rem;
+  height: 2.6rem;
+  padding: 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
+  justify-content: center;
+  gap: 0;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.global-search-info-btn i {
+  font-size: 1.2rem;
+  color: #000;
 }
 
 .global-search-info-btn:hover {
@@ -3054,8 +3062,7 @@ p{
 }
 
 .search-info-list i {
-  color: #0b806f;
-  margin-top: 0.2rem;
+  margin-top: 0;
 }
 
 .search-info-modal .modal-body {
@@ -3087,7 +3094,20 @@ p{
 }
 
 .search-info-card-title i {
-  color: #0b806f;
+  color: #000;
+}
+
+.search-info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
 
 .search-info-card-text {
