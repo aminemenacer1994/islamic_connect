@@ -91,20 +91,25 @@
                       <label class="form-label">Name</label>
                       <input v-model.trim="newFolder.name" type="text" class="form-control" placeholder="Reflection gems" />
                     </div>
-                    <div class="col-12 col-md-6">
-                      <label class="form-label d-flex align-items-center justify-content-between">
-                        Icon
-                        <span class="icon-preview" :style="iconPreviewStyle">
+                    <!-- <div class="col-12 col-md-6">
+                      <label class="form-label">Icon</label>
+                      <div class="input-group icon-input">
+                        <span class="input-group-text icon-preview" :style="iconPreviewStyle">
                           <i :class="newFolder.icon || 'fas fa-folder'"></i>
                         </span>
-                      </label>
-                      <input v-model.trim="newFolder.icon" type="text" class="form-control" placeholder="fas fa-bookmark" />
-                    </div>
+                        <input v-model.trim="newFolder.icon" type="text" class="form-control" placeholder="fas fa-bookmark" />
+                      </div>
+                      <small class="field-hint">Use a Font Awesome class, e.g. <strong>fas fa-bookmark</strong>.</small>
+                    </div> -->
                     <div class="col-12 col-md-6">
                       <label class="form-label">Color</label>
-                      <select v-model="newFolder.color" class="form-select">
-                        <option v-for="color in bootstrapColors" :key="color" :value="color">{{ color }}</option>
-                      </select>
+                      <div class="input-group color-input">
+                        <span class="input-group-text color-swatch" :style="colorPreviewStyle"></span>
+                        <select v-model="newFolder.color" class="form-select">
+                          <option v-for="color in bootstrapColors" :key="color" :value="color">{{ color }}</option>
+                        </select>
+                      </div>
+                      <small class="field-hint">Matches Bootstrap theme colors.</small>
                     </div>
                     <div class="col-12">
                       <button class="btn btn-create" :disabled="isCreatingFolder" @click="createFolder">
@@ -131,7 +136,7 @@
                     v-if="selectedFoldersForDelete.length"
                     type="button"
                     class="btn btn-outline-danger btn-sm"
-                    @click="deleteSelectedFolders"
+                    @click="requestDeleteSelectedFolders"
                   >
                     Delete selected ({{ selectedFoldersForDelete.length }})
                   </button>
@@ -141,6 +146,16 @@
                 </div>
               </div>
               <div v-show="sectionOpen.contents">
+                <div v-if="pendingDelete" class="delete-confirm">
+                  <div>
+                    <div class="delete-title">{{ pendingDeleteTitle }}</div>
+                    <div class="delete-note">Bookmarks remain saved in your library.</div>
+                  </div>
+                  <div class="delete-actions">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" @click="cancelDelete">Cancel</button>
+                    <button type="button" class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
+                  </div>
+                </div>
                 <div v-if="folders.length === 0" class="empty-state">No folders to show yet.</div>
                 <div v-else class="folder-contents">
                   <div v-for="folder in folders" :key="`contents-${folder.id}`" class="folder-content">
@@ -167,11 +182,11 @@
                         type="button"
                         class="btn btn-sm btn-outline-danger"
                         :disabled="folder.is_smart"
-                        @click="deleteFolder(folder)"
-                        >
-                          <i class="fas fa-trash me-1"></i>
-                          Delete
-                        </button>
+                        @click="requestDeleteFolder(folder)"
+                      >
+                        <i class="fas fa-trash me-1"></i>
+                        Delete
+                      </button>
                         <button class="btn folder-toggle-button" type="button" @click="toggleFolderContents(folder)">
                           <i class="fas" :class="folderExpanded[folder.id] ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                         </button>
@@ -248,6 +263,7 @@ export default {
       },
       selectedFoldersForDelete: [],
       folderSearch: '',
+      pendingDelete: null,
     };
   },
   computed: {
@@ -265,6 +281,13 @@ export default {
       if (!query) return this.folders;
       return this.folders.filter((folder) => folder.name.toLowerCase().includes(query));
     },
+    pendingDeleteTitle() {
+      if (!this.pendingDelete) return '';
+      if (this.pendingDelete.type === 'bulk') {
+        return `Delete ${this.pendingDelete.count} folder(s)?`;
+      }
+      return `Delete the "${this.pendingDelete.name}" folder?`;
+    },
     feedbackIcon() {
       return this.feedbackVariant === 'danger' ? 'fas fa-triangle-exclamation' : 'fas fa-circle-check';
     },
@@ -274,6 +297,13 @@ export default {
         color: `var(--bs-${color})`,
         background: `rgba(var(--bs-${color}-rgb), 0.12)`,
         borderColor: `rgba(var(--bs-${color}-rgb), 0.35)`,
+      };
+    },
+    colorPreviewStyle() {
+      const color = this.newFolder.color || 'primary';
+      return {
+        background: `var(--bs-${color})`,
+        borderColor: `rgba(var(--bs-${color}-rgb), 0.4)`,
       };
     },
   },
@@ -421,28 +451,18 @@ export default {
         [section]: !this.sectionOpen[section],
       };
     },
-    async deleteFolder(folder) {
+    requestDeleteFolder(folder) {
       if (!folder || folder.is_smart) {
         this.setFeedback('Smart folders cannot be deleted.', 'danger');
         return;
       }
-      if (!confirm(`Delete the "${folder.name}" folder? Bookmarks remain saved.`)) {
-        return;
-      }
-      try {
-        await axios.delete(`/api/folders/${folder.id}`);
-        this.folders = this.folders.filter((item) => item.id !== folder.id);
-        this.selectedFolderIds = this.selectedFolderIds.filter((id) => id !== folder.id);
-        const { [folder.id]: removedExpanded, ...expanded } = this.folderExpanded;
-        const { [folder.id]: removedContents, ...contents } = this.folderContents;
-        this.folderExpanded = expanded;
-        this.folderContents = contents;
-        this.setFeedback('Folder deleted.', 'success');
-      } catch (error) {
-        this.setFeedback('Unable to delete folder.', 'danger');
-      }
+      this.pendingDelete = {
+        type: 'single',
+        ids: [folder.id],
+        name: folder.name,
+      };
     },
-    async deleteSelectedFolders() {
+    requestDeleteSelectedFolders() {
       const ids = this.selectedFoldersForDelete.filter((id) => {
         const folder = this.folders.find((item) => item.id === id);
         return folder && !folder.is_smart;
@@ -451,7 +471,16 @@ export default {
         this.setFeedback('Select folders to delete.', 'danger');
         return;
       }
-      if (!confirm(`Delete ${ids.length} folder(s)?`)) {
+      this.pendingDelete = {
+        type: 'bulk',
+        ids,
+        count: ids.length,
+      };
+    },
+    async confirmDelete() {
+      const ids = this.pendingDelete?.ids || [];
+      if (!ids.length) {
+        this.pendingDelete = null;
         return;
       }
       try {
@@ -465,10 +494,14 @@ export default {
           const { [id]: removedContents, ...contents } = this.folderContents;
           this.folderContents = contents;
         });
-        this.setFeedback('Folders deleted.', 'success');
+        this.pendingDelete = null;
+        this.setFeedback(ids.length === 1 ? 'Folder deleted.' : 'Folders deleted.', 'success');
       } catch (error) {
         this.setFeedback('Unable to delete selected folders.', 'danger');
       }
+    },
+    cancelDelete() {
+      this.pendingDelete = null;
     },
     async toggleFolderContents(folder) {
       const isOpen = this.folderExpanded[folder.id];
@@ -597,6 +630,13 @@ export default {
 
 .bookmark-modal .modal-body {
   padding: 20px 24px 8px;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 0.78rem;
+  color: #94a3b8;
 }
 
 .bookmark-alert {
@@ -735,6 +775,23 @@ export default {
   border-radius: 10px;
   border-color: rgba(15, 23, 42, 0.12);
   margin-bottom: 12px;
+}
+
+.icon-input .form-control,
+.color-input .form-select {
+  border-left: 0;
+}
+
+.icon-input .input-group-text,
+.color-input .input-group-text {
+  border-radius: 10px 0 0 10px;
+  border-color: rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+}
+
+.color-swatch {
+  width: 38px;
+  border-right: 0;
 }
 
 .folder-pill {
@@ -967,6 +1024,34 @@ export default {
   gap: 10px;
 }
 
+.delete-confirm {
+  border-radius: 14px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.08);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.delete-title {
+  font-weight: 700;
+  color: #991b1b;
+}
+
+.delete-note {
+  font-size: 0.8rem;
+  color: #7f1d1d;
+}
+
+.delete-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .folder-select {
   display: inline-flex;
   align-items: center;
@@ -1035,6 +1120,48 @@ export default {
   .header-icon {
     width: 44px;
     height: 44px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .section-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .folder-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .folder-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .folder-toggle-actions {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .delete-confirm {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .delete-actions {
+    width: 100%;
+    justify-content: flex-end;
+  }
+
+  .icon-input .form-control,
+  .color-input .form-select {
+    font-size: 0.95rem;
   }
 }
 

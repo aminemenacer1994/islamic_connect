@@ -12,24 +12,37 @@
 
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
-      <!-- Existing template for surah, reciter, and translation selection -->
-      <span @click="toggleVisibility" class="text-white mb-3" style="cursor: pointer;" aria-label="Toggle filters visibility"
-        role="button" tabindex="0" @keydown.enter.prevent="toggleVisibility" @keydown.space.prevent="toggleVisibility">
-        <i v-if="isVisible" class="bi bi-x-lg mb-3 text-dark" aria-hidden="true"></i>
-        <i v-else class="bi bi-plus-lg text-dark" aria-hidden="true"></i>
-      </span>
-      <div class="row g-3" v-show="isVisible">
-        <div class="col-12 col-md-4 ">
-          <label for="surah-select" class="form-label mt-2">Select Surah:</label>
-          <select id="surah-select" class="form-select shadow-sm " v-model="selectedSurah" @change="fetchSurahDetails">
+      <div class="filter-header">
+        <div class="filter-title">
+          <span class="filter-icon"><i class="fas fa-sliders-h" aria-hidden="true"></i></span>
+          <div>
+            <div class="filter-eyebrow">Filters</div>
+            <div class="filter-subtitle">Surah, reciter, and translation</div>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="filter-toggle"
+          @click="toggleVisibility"
+          :aria-expanded="isVisible"
+          aria-controls="surat-filters"
+          :aria-label="isVisible ? 'Hide filters' : 'Show filters'">
+          <i v-if="isVisible" class="bi bi-chevron-up" aria-hidden="true"></i>
+          <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div id="surat-filters" class="row g-3" v-show="isVisible">
+        <div class="col-12 col-md-4 filter-item">
+          <label for="surah-select" class="form-label mt-2">Select Surah</label>
+          <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah" @change="fetchSurahDetails">
             <option value="" disabled>Select a Surah</option>
             <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
               {{ surah.number }}. {{ surah.englishName }} ({{ surah.name }})
             </option>
           </select>
         </div>
-        <div class="col-12 col-md-4">
-          <label for="reciter-select" class="form-label mt-2">Select Reciter:</label>
+        <div class="col-12 col-md-4 filter-item">
+          <label for="reciter-select" class="form-label mt-2">Select Reciter</label>
           <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
             <option value="" disabled>Select a reciter</option>
             <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
@@ -37,8 +50,8 @@
             </option>
           </select>
         </div>
-        <div class="col-12 col-md-4">
-          <label for="translation-select" class="form-label mt-2">Select Translation:</label>
+        <div class="col-12 col-md-4 filter-item">
+          <label for="translation-select" class="form-label mt-2">Select Translation</label>
           <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
             <option value="" disabled>Select Translation</option>
             <option v-for="translation in translationsSorted" :key="translation.identifier"
@@ -1655,15 +1668,15 @@ export default {
 .sticky-dropdown {
   position: sticky;
   z-index: 1000;
-  padding: 12px 14px;
-  border-radius: 18px;
+  padding: 14px 18px;
+  border-radius: 22px;
   margin-bottom: 1rem;
   overflow: hidden;
   max-height: 500px; /* expanded */
-  border: 1px solid rgba(15, 110, 99, 0.12);
-  background: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 14px 28px rgba(15, 53, 48, 0.08);
-  backdrop-filter: blur(10px) saturate(120%);
+  border: 1px solid rgba(15, 110, 99, 0.14);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 248, 0.94));
+  box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
+  backdrop-filter: blur(12px) saturate(120%);
 }
 
 .sticky-dropdown::before {
@@ -1671,8 +1684,9 @@ export default {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 15% 20%, rgba(255, 255, 255, 0.55), transparent 62%);
-  opacity: 0.35;
+    radial-gradient(circle at 12% 12%, rgba(255, 255, 255, 0.7), transparent 55%),
+    radial-gradient(circle at 88% 0%, rgba(15, 110, 99, 0.16), transparent 60%);
+  opacity: 0.45;
   pointer-events: none;
 }
 
@@ -1681,27 +1695,94 @@ export default {
   z-index: 1;
 }
 
+.filter-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.filter-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.filter-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f6e63;
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.2);
+  font-size: 1.1rem;
+}
+
+.filter-eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6b7280;
+  font-weight: 700;
+}
+
+.filter-subtitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.filter-toggle {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f6e63;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.filter-toggle:hover {
+  border-color: rgba(15, 110, 99, 0.4);
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
 .sticky-dropdown .form-select {
   font-size: 0.95rem;
-  background: rgba(255, 255, 255, 0.88);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 12px;
   border: 1px solid rgba(15, 110, 99, 0.2);
   color: #1c2b2f;
+  box-shadow: 0 8px 16px rgba(15, 53, 48, 0.06);
 }
 
 .sticky-dropdown label.form-label {
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  color: #1c2b2f;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: #4b5563;
+}
+
+.filter-item .form-label {
+  margin-bottom: 6px;
 }
 
 .sticky-dropdown option {
   color: #1f2933;
 }
 .sticky-dropdown.collapsed {
-  padding-top: 6px;
-  padding-bottom: 6px;
-  max-height: 44px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  max-height: 86px;
   margin-bottom: 0.65rem;
   /* fully hide any children besides the toggle icon */
   overflow: hidden;
@@ -1828,9 +1909,8 @@ export default {
 }
 
 /* Make sticky toggle icon a bit larger */
-.sticky-dropdown>span i {
-  font-size: 1.2rem;
-  padding-bottom: 5px;
+.filter-toggle i {
+  font-size: 1rem;
 }
 
 .progress-bar {
@@ -1952,6 +2032,19 @@ export default {
     border-radius: 12px;
   }
 
+  .filter-header {
+    margin-bottom: 8px;
+  }
+
+  .filter-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .filter-subtitle {
+    font-size: 0.85rem;
+  }
+
   /* Grid layout: Surah full width, Reciter + Translation side by side */
   .sticky-dropdown .row.g-3 {
     display: grid !important;
@@ -1997,8 +2090,36 @@ export default {
   }
 
   .sticky-dropdown {
-    background-color: rgba(34, 38, 43, 0.9);
-    backdrop-filter: saturate(120%) blur(6px);
+    background: linear-gradient(180deg, rgba(24, 28, 32, 0.96), rgba(20, 24, 28, 0.94));
+    border-color: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
+    backdrop-filter: saturate(120%) blur(8px);
+  }
+
+  .filter-subtitle {
+    color: #e5e7eb;
+  }
+
+  .filter-eyebrow,
+  .sticky-dropdown label.form-label {
+    color: rgba(229, 231, 235, 0.7);
+  }
+
+  .filter-icon {
+    background: rgba(15, 110, 99, 0.24);
+    color: #7ce0d0;
+  }
+
+  .filter-toggle {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: #cfeee8;
+  }
+
+  .sticky-dropdown .form-select {
+    background: rgba(255, 255, 255, 0.08);
+    color: #e5e7eb;
+    border-color: rgba(255, 255, 255, 0.16);
   }
 }
 
@@ -2239,32 +2360,26 @@ h1.display-5 { letter-spacing: -0.01em; }
 .control-btn:focus-visible,
 .icon-btn:focus-visible,
 .sticky-dropdown .form-select:focus-visible,
-.sticky-dropdown > span:focus-visible {
+.filter-toggle:focus-visible {
   outline: 2px solid var(--ic-accent);
   outline-offset: 2px;
   border-radius: 10px;
 }
 
 /* Sticky toggle affordance */
-.sticky-dropdown > span {
-  padding: 6px;
-  border-radius: 10px;
-  transition: background-color 0.15s ease, box-shadow 0.15s ease;
-}
-.sticky-dropdown > span:hover { background-color: rgba(255, 255, 255, 0.16); }
-.sticky-dropdown > span:focus-visible { box-shadow: 0 0 0 0.15rem rgba(210, 162, 75, 0.25); }
+.filter-toggle:focus-visible { box-shadow: 0 0 0 0.15rem rgba(210, 162, 75, 0.25); }
 
 /* Enhanced selects without markup change */
 .sticky-dropdown .form-select {
   border-radius: 12px;
   border: 1px solid rgba(15, 110, 99, 0.2);
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.95);
   color: #1c2b2f;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
 .sticky-dropdown .form-select:focus {
   border-color: rgba(15, 110, 99, 0.6);
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: rgba(255, 255, 255, 0.98);
   box-shadow: 0 0 0 0.15rem rgba(15, 110, 99, 0.2);
 }
 
