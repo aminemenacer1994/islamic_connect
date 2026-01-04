@@ -4,57 +4,101 @@
       <div class="modal-dialog modal-dialog-centered modal-xl">
         <div class="modal-content bookmark-modal">
           <div class="modal-header">
-            <div>
-              <h5 class="modal-title" id="bookmarkModalLabel">Save Ayah</h5>
-              <p class="modal-subtitle">Keep your reflections organized and easy to return to.</p>
+            <div class="header-title">
+              <span class="header-icon"><i class="fas fa-bookmark"></i></span>
+              <div>
+                <h5 class="modal-title" id="bookmarkModalLabel">Save Ayah</h5>
+                <p class="modal-subtitle">Keep your reflections organized and easy to return to.</p>
+                <div class="header-meta">Folders: {{ folderCount }} | Selected: {{ selectedCount }}</div>
+              </div>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div v-if="feedback" class="alert" :class="feedbackClass" role="alert">
-              {{ feedback }}
+            <div v-if="feedback" class="alert bookmark-alert" :class="feedbackClass" role="alert">
+              <span class="alert-icon">
+                <i :class="feedbackIcon"></i>
+              </span>
+              <span class="alert-text">{{ feedback }}</span>
             </div>
 
             <div class="row g-3">
               <div class="col-12 col-md-6">
                 <div class="section-card h-100">
                   <div class="section-header">
-                    <h6>Choose folders</h6>
-                    <span class="section-hint">Pick one or more</span>
+                    <div class="section-title">
+                      <span class="section-icon"><i class="fas fa-folder-open"></i></span>
+                      <div>
+                        <h6>Choose folders</h6>
+                      </div>
+                    </div>
+                    <div class="section-actions">
+                      <span class="section-hint">{{ selectedCount }} selected</span>
+                      <button type="button" class="btn btn-link btn-clear" @click="clearSelection" v-if="selectedCount">
+                        Clear
+                      </button>
+                      <button type="button" class="btn section-toggle" @click="toggleSection('folders')" :aria-expanded="sectionOpen.folders">
+                        <i class="fas" :class="sectionOpen.folders ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                      </button>
+                    </div>
                   </div>
-                  <div v-if="folders.length === 0" class="empty-state">No folders yet. Create one below.</div>
-                  <div v-else class="folder-grid">
-                    <label v-for="folder in folders" :key="folder.id" class="folder-pill" :class="folder.color ? `pill-${folder.color}` : 'pill-neutral'">
-                      <input type="checkbox" :value="folder.id" v-model="selectedFolderIds" />
-                      <span class="pill-icon">
-                        <i v-if="folder.icon" :class="folder.icon"></i>
-                        <i v-else class="bi bi-folder2"></i>
-                      </span>
-                      <span class="pill-meta">
-                        <span class="pill-title">{{ folder.name }}</span>
-                        <span class="pill-count">{{ folder.ayah_count }} ayat</span>
-                      </span>
-                      <span class="pill-check">
-                        <i class="bi bi-check-lg"></i>
-                      </span>
-                    </label>
+                  <div v-show="sectionOpen.folders">
+                    <input
+                      v-if="folders.length"
+                      v-model.trim="folderSearch"
+                      type="search"
+                      class="form-control form-control-sm folder-search"
+                      placeholder="Search folders"
+                    />
+                    <div v-if="filteredFolders.length === 0" class="empty-state">No folders yet. Create one below.</div>
+                    <div v-else class="folder-grid">
+                      <label v-for="folder in filteredFolders" :key="folder.id" class="folder-pill" :class="folder.color ? `pill-${folder.color}` : 'pill-neutral'">
+                        <input type="checkbox" :value="folder.id" v-model="selectedFolderIds" />
+                        <span class="pill-icon">
+                          <i v-if="folder.icon" :class="folder.icon"></i>
+                          <i v-else class="fas fa-folder"></i>
+                        </span>
+                        <span class="pill-meta">
+                          <span class="pill-title">{{ folder.name }}</span>
+                          <span class="pill-count">{{ folder.ayah_count }} ayat</span>
+                        </span>
+                        <span class="pill-check">
+                          <i class="fas fa-check"></i>
+                        </span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="col-12 col-md-6">
                 <div class="section-card h-100">
                   <div class="section-header">
-                    <h6>Create new folder</h6>
-                    <span class="section-hint">Add a custom collection</span>
+                    <div class="section-title">
+                      <span class="section-icon"><i class="fas fa-plus-circle"></i></span>
+                      <div>
+                        <h6>Create new folder</h6>
+                      </div>
+                    </div>
+                    <div class="section-actions">
+                      <span class="section-hint">Add a custom collection</span>
+                      <button type="button" class="btn section-toggle" @click="toggleSection('create')" :aria-expanded="sectionOpen.create">
+                        <i class="fas" :class="sectionOpen.create ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                      </button>
+                    </div>
                   </div>
-                  <div class="row g-2 align-items-end">
+                  <div v-show="sectionOpen.create" class="row g-2 align-items-end">
                     <div class="col-12">
                       <label class="form-label">Name</label>
                       <input v-model.trim="newFolder.name" type="text" class="form-control" placeholder="Reflection gems" />
                     </div>
                     <div class="col-12 col-md-6">
-                      <label class="form-label">Icon</label>
-                      <input v-model.trim="newFolder.icon" type="text" class="form-control" placeholder="bi-bookmark-heart" />
+                      <label class="form-label d-flex align-items-center justify-content-between">
+                        Icon
+                        <span class="icon-preview" :style="iconPreviewStyle">
+                          <i :class="newFolder.icon || 'fas fa-folder'"></i>
+                        </span>
+                      </label>
+                      <input v-model.trim="newFolder.icon" type="text" class="form-control" placeholder="fas fa-bookmark" />
                     </div>
                     <div class="col-12 col-md-6">
                       <label class="form-label">Color</label>
@@ -75,31 +119,79 @@
 
             <div class="section-card mt-3">
               <div class="section-header">
-                <h6>Folder contents</h6>
-                <span class="section-hint">Review or remove saved ayat</span>
-              </div>
-              <div v-if="folders.length === 0" class="empty-state">No folders to show yet.</div>
-              <div v-else class="folder-contents">
-                <div v-for="folder in folders" :key="`contents-${folder.id}`" class="folder-content">
-                  <button class="folder-toggle" type="button" @click="toggleFolderContents(folder)">
-                    <span class="folder-toggle-title">{{ folder.name }}</span>
-                    <span class="folder-toggle-meta">{{ folder.ayah_count }} ayat</span>
-                    <i class="bi" :class="folderExpanded[folder.id] ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                <div class="section-title">
+                  <span class="section-icon"><i class="fas fa-list-check"></i></span>
+                  <div>
+                    <h6>Folder contents</h6>
+                  </div>
+                </div>
+                <div class="section-actions">
+                  <span class="section-hint">Review or remove saved ayat</span>
+                  <button
+                    v-if="selectedFoldersForDelete.length"
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    @click="deleteSelectedFolders"
+                  >
+                    Delete selected ({{ selectedFoldersForDelete.length }})
                   </button>
-                  <div v-if="folderExpanded[folder.id]" class="folder-items">
-                    <div v-if="folderContents[folder.id]?.loading" class="text-muted">Loading...</div>
-                    <div v-else-if="!folderContents[folder.id]?.items?.length" class="text-muted">
-                      No ayat saved in this folder.
-                    </div>
-                    <div v-else class="folder-item" v-for="item in folderContents[folder.id].items" :key="item.id">
-                      <div class="folder-item-header">
-                        <span>{{ item.surah_name || 'Surah' }} • Ayah {{ item.ayah_number || item.ayah_num }}</span>
-                        <button class="btn btn-sm btn-outline-danger" @click="removeAyahFromFolder(item, folder)">
-                          Remove
+                  <button type="button" class="btn section-toggle" @click="toggleSection('contents')" :aria-expanded="sectionOpen.contents">
+                    <i class="fas" :class="sectionOpen.contents ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                  </button>
+                </div>
+              </div>
+              <div v-show="sectionOpen.contents">
+                <div v-if="folders.length === 0" class="empty-state">No folders to show yet.</div>
+                <div v-else class="folder-contents">
+                  <div v-for="folder in folders" :key="`contents-${folder.id}`" class="folder-content">
+                    <div class="folder-toggle">
+                      <button class="folder-toggle-main" type="button" @click="toggleFolderContents(folder)">
+                        <span class="folder-toggle-title">
+                          <span class="folder-toggle-icon"><i class="fas fa-folder"></i></span>
+                          {{ folder.name }}
+                        </span>
+                        <span v-if="folder.is_smart" class="folder-badge">Smart</span>
+                      </button>
+                    <div class="folder-toggle-actions">
+                      <span class="folder-toggle-meta">{{ folder.ayah_count }} ayat</span>
+                      <label class="folder-select">
+                        <input
+                          type="checkbox"
+                          :value="folder.id"
+                          v-model="selectedFoldersForDelete"
+                          :disabled="folder.is_smart"
+                        />
+                        <span>Select</span>
+                      </label>
+                      <button
+                        type="button"
+                        class="btn btn-sm btn-outline-danger"
+                        :disabled="folder.is_smart"
+                        @click="deleteFolder(folder)"
+                        >
+                          <i class="fas fa-trash me-1"></i>
+                          Delete
+                        </button>
+                        <button class="btn folder-toggle-button" type="button" @click="toggleFolderContents(folder)">
+                          <i class="fas" :class="folderExpanded[folder.id] ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                         </button>
                       </div>
-                      <div class="folder-item-ar" v-html="item.ayah_verse_ar || item.ayah?.ayah_text"></div>
-                      <div v-if="item.ayah_verse_en" class="folder-item-en">{{ item.ayah_verse_en }}</div>
+                    </div>
+                    <div v-if="folderExpanded[folder.id]" class="folder-items">
+                      <div v-if="folderContents[folder.id]?.loading" class="text-muted">Loading...</div>
+                      <div v-else-if="!folderContents[folder.id]?.items?.length" class="text-muted">
+                        No ayat saved in this folder.
+                      </div>
+                      <div v-else class="folder-item" v-for="item in folderContents[folder.id].items" :key="item.id">
+                        <div class="folder-item-header">
+                          <span>{{ item.surah_name || 'Surah' }} • Ayah {{ item.ayah_number || item.ayah_num }}</span>
+                          <button class="btn btn-sm btn-outline-danger" @click="removeAyahFromFolder(item, folder)">
+                            Remove
+                          </button>
+                        </div>
+                        <div class="folder-item-ar" v-html="item.ayah_verse_ar || item.ayah?.ayah_text"></div>
+                        <div v-if="item.ayah_verse_en" class="folder-item-en">{{ item.ayah_verse_en }}</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -145,14 +237,44 @@ export default {
       isCreatingFolder: false,
       feedback: '',
       feedbackVariant: 'success',
+      feedbackTimer: null,
       bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
       folderExpanded: {},
       folderContents: {},
+      sectionOpen: {
+        folders: true,
+        create: true,
+        contents: true,
+      },
+      selectedFoldersForDelete: [],
+      folderSearch: '',
     };
   },
   computed: {
     feedbackClass() {
       return this.feedbackVariant === 'danger' ? 'alert-danger' : 'alert-success';
+    },
+    selectedCount() {
+      return this.selectedFolderIds.length;
+    },
+    folderCount() {
+      return this.folders.length;
+    },
+    filteredFolders() {
+      const query = this.folderSearch.trim().toLowerCase();
+      if (!query) return this.folders;
+      return this.folders.filter((folder) => folder.name.toLowerCase().includes(query));
+    },
+    feedbackIcon() {
+      return this.feedbackVariant === 'danger' ? 'fas fa-triangle-exclamation' : 'fas fa-circle-check';
+    },
+    iconPreviewStyle() {
+      const color = this.newFolder.color || 'primary';
+      return {
+        color: `var(--bs-${color})`,
+        background: `rgba(var(--bs-${color}-rgb), 0.12)`,
+        borderColor: `rgba(var(--bs-${color}-rgb), 0.35)`,
+      };
     },
   },
   mounted() {
@@ -171,6 +293,7 @@ export default {
       const instance = Modal.getInstance(modalEl);
       if (instance) instance.dispose();
     }
+    clearTimeout(this.feedbackTimer);
     this.cleanupModalState();
   },
   methods: {
@@ -182,6 +305,7 @@ export default {
     },
     onHidden() {
       this.cleanupModalState();
+      clearTimeout(this.feedbackTimer);
     },
     cleanupModalState() {
       const backdrops = document.querySelectorAll('.modal-backdrop');
@@ -283,6 +407,68 @@ export default {
     setFeedback(message, variant) {
       this.feedback = message;
       this.feedbackVariant = variant;
+      clearTimeout(this.feedbackTimer);
+      this.feedbackTimer = setTimeout(() => {
+        this.feedback = '';
+      }, 5000);
+    },
+    clearSelection() {
+      this.selectedFolderIds = [];
+    },
+    toggleSection(section) {
+      this.sectionOpen = {
+        ...this.sectionOpen,
+        [section]: !this.sectionOpen[section],
+      };
+    },
+    async deleteFolder(folder) {
+      if (!folder || folder.is_smart) {
+        this.setFeedback('Smart folders cannot be deleted.', 'danger');
+        return;
+      }
+      if (!confirm(`Delete the "${folder.name}" folder? Bookmarks remain saved.`)) {
+        return;
+      }
+      try {
+        await axios.delete(`/api/folders/${folder.id}`);
+        this.folders = this.folders.filter((item) => item.id !== folder.id);
+        this.selectedFolderIds = this.selectedFolderIds.filter((id) => id !== folder.id);
+        const { [folder.id]: removedExpanded, ...expanded } = this.folderExpanded;
+        const { [folder.id]: removedContents, ...contents } = this.folderContents;
+        this.folderExpanded = expanded;
+        this.folderContents = contents;
+        this.setFeedback('Folder deleted.', 'success');
+      } catch (error) {
+        this.setFeedback('Unable to delete folder.', 'danger');
+      }
+    },
+    async deleteSelectedFolders() {
+      const ids = this.selectedFoldersForDelete.filter((id) => {
+        const folder = this.folders.find((item) => item.id === id);
+        return folder && !folder.is_smart;
+      });
+      if (!ids.length) {
+        this.setFeedback('Select folders to delete.', 'danger');
+        return;
+      }
+      if (!confirm(`Delete ${ids.length} folder(s)?`)) {
+        return;
+      }
+      try {
+        await Promise.all(ids.map((id) => axios.delete(`/api/folders/${id}`)));
+        this.folders = this.folders.filter((folder) => !ids.includes(folder.id));
+        this.selectedFolderIds = this.selectedFolderIds.filter((id) => !ids.includes(id));
+        this.selectedFoldersForDelete = [];
+        ids.forEach((id) => {
+          const { [id]: removedExpanded, ...expanded } = this.folderExpanded;
+          this.folderExpanded = expanded;
+          const { [id]: removedContents, ...contents } = this.folderContents;
+          this.folderContents = contents;
+        });
+        this.setFeedback('Folders deleted.', 'success');
+      } catch (error) {
+        this.setFeedback('Unable to delete selected folders.', 'danger');
+      }
     },
     async toggleFolderContents(folder) {
       const isOpen = this.folderExpanded[folder.id];
@@ -319,6 +505,9 @@ export default {
     async removeAyahFromFolder(bookmark, folder) {
       if (!bookmark?.id) return;
       try {
+        if (!confirm('Remove this ayah from the folder?')) {
+          return;
+        }
         await axios.delete(`/api/ayah-bookmarks/${bookmark.id}/folders/${folder.id}`);
         const items = this.folderContents[folder.id]?.items || [];
         this.folderContents = {
@@ -344,20 +533,58 @@ export default {
 
 <style scoped>
 .bookmark-modal {
+  position: relative;
   border-radius: 22px;
   border: 1px solid rgba(15, 23, 42, 0.08);
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafb 100%);
-  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+  background: linear-gradient(160deg, #ffffff 0%, #f6f9f9 100%);
+  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.2);
   overflow: hidden;
 }
 
+.bookmark-modal::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(15, 110, 99, 0.18), transparent 70%);
+  pointer-events: none;
+}
+
 .bookmark-modal .modal-header {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
   padding: 20px 24px;
+  background: linear-gradient(90deg, rgba(15, 110, 99, 0.08), rgba(255, 255, 255, 0));
+}
+
+.header-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f6e63;
+  font-size: 1.2rem;
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.18);
+}
+
+.header-meta {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin-top: 4px;
 }
 
 .bookmark-modal .modal-title {
-  font-size: 1.35rem;
+  font-size: 1.45rem;
   font-weight: 700;
   margin-bottom: 4px;
 }
@@ -372,6 +599,43 @@ export default {
   padding: 20px 24px 8px;
 }
 
+.bookmark-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.bookmark-alert.alert-success {
+  background: rgba(22, 163, 74, 0.12);
+  color: #166534;
+}
+
+.bookmark-alert.alert-danger {
+  background: rgba(220, 38, 38, 0.12);
+  color: #991b1b;
+}
+
+.alert-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  font-size: 1.05rem;
+}
+
+.alert-text {
+  font-size: 0.95rem;
+}
+
 .bookmark-modal .modal-footer {
   border-top: 1px solid rgba(15, 23, 42, 0.08);
   padding: 16px 24px 20px;
@@ -379,10 +643,29 @@ export default {
 
 .section-card {
   border-radius: 16px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.06);
   padding: 16px;
-  background: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #fbfcfc 100%);
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+}
+
+.section-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(15, 110, 99, 0.18), rgba(15, 110, 99, 0.05));
+  color: #0f6e63;
+  font-size: 1.2rem;
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.18);
 }
 
 .section-header {
@@ -392,9 +675,45 @@ export default {
   margin-bottom: 12px;
 }
 
+.section-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-clear {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #0f6e63;
+  text-decoration: none;
+  padding: 0;
+}
+
+.btn-clear:hover {
+  color: #0b5c53;
+}
+
+.section-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: #4b5563;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.section-toggle:hover {
+  border-color: rgba(15, 110, 99, 0.4);
+  color: #0f6e63;
+}
+
 .section-header h6 {
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   letter-spacing: 0.08em;
   font-weight: 700;
   margin: 0;
@@ -410,6 +729,12 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
+}
+
+.folder-search {
+  border-radius: 10px;
+  border-color: rgba(15, 23, 42, 0.12);
+  margin-bottom: 12px;
 }
 
 .folder-pill {
@@ -535,7 +860,7 @@ export default {
 }
 
 .btn-create {
-  background: #0f6e63;
+  background: linear-gradient(135deg, #0f6e63, #0b5c53);
   color: #fff;
   border: none;
   padding: 10px 16px;
@@ -548,6 +873,17 @@ export default {
   color: #fff;
 }
 
+.icon-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
 .btn-cancel {
   border-radius: 10px;
   border: 1px solid rgba(15, 23, 42, 0.16);
@@ -556,7 +892,7 @@ export default {
 
 .btn-save {
   border-radius: 10px;
-  background: #0f6e63;
+  background: linear-gradient(135deg, #0f6e63, #0b5c53);
   border: none;
   color: #fff;
   font-weight: 600;
@@ -574,7 +910,7 @@ export default {
 }
 
 .folder-content {
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.06);
   border-radius: 16px;
   background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
   padding: 14px 16px;
@@ -582,15 +918,40 @@ export default {
 }
 
 .folder-toggle {
-  width: 100%;
-  border: none;
-  background: transparent;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0 8px;
+}
+
+.folder-toggle-main {
+  border: none;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
   font-weight: 700;
   color: #111827;
-  padding: 4px 0 8px;
+  padding: 0;
+}
+
+.folder-toggle-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.folder-toggle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f6e63;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
 }
 
 .folder-toggle-meta {
@@ -598,6 +959,51 @@ export default {
   color: #6b7280;
   margin-left: auto;
   margin-right: 12px;
+}
+
+.folder-toggle-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.folder-select {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+.folder-select input {
+  width: 16px;
+  height: 16px;
+}
+
+.folder-toggle-button {
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: #4b5563;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.folder-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0f6e63;
+  background: rgba(15, 110, 99, 0.12);
 }
 
 .folder-items {
@@ -611,11 +1017,25 @@ export default {
 
 .folder-item {
   border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.06);
   padding: 14px 16px;
   background: #ffffff;
   box-shadow: 0 12px 22px rgba(15, 23, 42, 0.06);
   position: relative;
+}
+
+@media (max-width: 768px) {
+  .bookmark-modal .modal-header,
+  .bookmark-modal .modal-body,
+  .bookmark-modal .modal-footer {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .header-icon {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .folder-item-header {

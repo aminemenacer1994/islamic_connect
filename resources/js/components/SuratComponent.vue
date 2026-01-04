@@ -115,6 +115,7 @@
             <h4>
               <img src="/images/art.png" width="35px" alt="Art Icon" />
               {{ surahDetails?.surahNumber }} : {{ item.index + 1 }}
+              <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
             </h4>
             <button
               type="button"
@@ -373,6 +374,7 @@ export default {
       activeAyah: null,
       savedAyahKeys: {},
       savedAyahsLoaded: false,
+      savedAyahClearTimer: null,
     };
   },
   computed: {
@@ -522,6 +524,7 @@ export default {
     window.removeEventListener('scroll', this.onScrollVirtual);
     window.removeEventListener('resize', this.computeListTop);
     window.removeEventListener('resize', this.calibrateItemHeight);
+    clearTimeout(this.savedAyahClearTimer);
   },
   beforeDestroy() {
     window.removeEventListener('keydown', this.onKeydown);
@@ -529,13 +532,22 @@ export default {
     window.removeEventListener('scroll', this.onScrollVirtual);
     window.removeEventListener('resize', this.computeListTop);
     window.removeEventListener('resize', this.calibrateItemHeight);
+    clearTimeout(this.savedAyahClearTimer);
   },
   methods: {
     loadSavedAyahs() {
       if (this.savedAyahsLoaded) return;
       try {
-        const stored = localStorage.getItem('ic_saved_ayahs');
-        this.savedAyahKeys = stored ? JSON.parse(stored) : {};
+        const sessionStored = sessionStorage.getItem('ic_saved_ayahs_session');
+        if (sessionStored) {
+          this.savedAyahKeys = JSON.parse(sessionStored) || {};
+        } else {
+          const legacyStored = localStorage.getItem('ic_saved_ayahs');
+          this.savedAyahKeys = legacyStored ? JSON.parse(legacyStored) : {};
+          if (legacyStored) {
+            sessionStorage.setItem('ic_saved_ayahs_session', legacyStored);
+          }
+        }
       } catch (_) {
         this.savedAyahKeys = {};
       }
@@ -555,7 +567,7 @@ export default {
           }
         });
         this.savedAyahKeys = next;
-        localStorage.setItem('ic_saved_ayahs', JSON.stringify(next));
+        this.persistSavedAyahs(next);
       } catch (_) {
         // Ignore sync failures; local state still works.
       }
@@ -581,6 +593,10 @@ export default {
     },
     onBookmarkSaved(payload) {
       this.screenReaderMessage = 'Ayah saved to bookmarks.';
+      clearTimeout(this.savedAyahClearTimer);
+      this.savedAyahClearTimer = setTimeout(() => {
+        this.screenReaderMessage = '';
+      }, 5000);
       if (!payload) return;
       const surahNumber = Number(payload.surah_number);
       const ayahNumber = Number(payload.ayah_number);
@@ -588,7 +604,11 @@ export default {
       const next = { ...this.savedAyahKeys };
       next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
       this.savedAyahKeys = next;
+      this.persistSavedAyahs(next);
+    },
+    persistSavedAyahs(next) {
       try {
+        sessionStorage.setItem('ic_saved_ayahs_session', JSON.stringify(next));
         localStorage.setItem('ic_saved_ayahs', JSON.stringify(next));
       } catch (_) {
         // no-op
@@ -2334,8 +2354,8 @@ h1.display-5 {
 .ayah-card-container .rtl-text,
 .ayah-card-container .ltr-text {
   /* Keep content readable and centered instead of crammed */
-  --reading-width: clamp(56ch, 86vw, 96ch);
-  max-width: var(--reading-width);
+  /* --reading-width: clamp(56ch, 86vw, 96ch); */
+  /* max-width: var(--reading-width); */
   width: 100%;
   margin-left: auto;
   margin-right: auto;
@@ -2407,6 +2427,17 @@ h1.display-5 {
   gap: 8px;
   font-weight: 700;
   color: #1f2937;
+}
+
+.saved-pill {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f6e63;
+  border: 1px solid rgba(15, 110, 99, 0.3);
+  border-radius: 999px;
+  padding: 2px 8px;
 }
 
 .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text img {

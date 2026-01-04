@@ -59,6 +59,13 @@
       {{ status }}
     </div>
 
+    <div class="folder-search mb-3">
+      <div class="input-group">
+        <span class="input-group-text"><i class="bi bi-search"></i></span>
+        <input v-model.trim="searchQuery" type="text" class="form-control" placeholder="Search folders..." />
+      </div>
+    </div>
+
     <ul class="list-group">
       <li
         class="list-group-item d-flex align-items-center justify-content-between"
@@ -71,7 +78,7 @@
         </div>
       </li>
       <li
-        v-for="folder in folders"
+        v-for="folder in filteredFolders"
         :key="folder.id"
         class="list-group-item d-flex align-items-center justify-content-between"
         :class="{ active: selectedId === folder.id }"
@@ -120,6 +127,7 @@ export default {
       selectedId: null,
       showCreate: false,
       createMenuOpen: false,
+      searchQuery: '',
       newFolder: {
         name: '',
         icon: '',
@@ -137,6 +145,11 @@ export default {
   computed: {
     statusClass() {
       return this.statusVariant === 'danger' ? 'alert-danger' : 'alert-success';
+    },
+    filteredFolders() {
+      if (!this.searchQuery) return this.folders;
+      const query = this.searchQuery.toLowerCase();
+      return this.folders.filter((folder) => (folder.name || '').toLowerCase().includes(query));
     },
   },
   mounted() {
@@ -465,6 +478,20 @@ export default {
 .list-group-item.active {
   border-color: rgba(15, 110, 99, 0.3);
   box-shadow: 0 10px 20px rgba(15, 110, 99, 0.15);
+}
+
+.folder-search .input-group-text {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.folder-search .form-control {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.folder-search .form-control:focus {
+  box-shadow: 0 0 0 0.15rem rgba(15, 110, 99, 0.15);
+  border-color: rgba(15, 110, 99, 0.3);
 }
 
 .rename-modal {

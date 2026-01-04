@@ -6,12 +6,18 @@
       </div>
       <div class="col-12 col-lg-8">
         <div class="d-flex align-items-center justify-content-between mb-3">
-          <h5 class="mb-0">{{ selectedFolder ? selectedFolder.name : 'Folder contents' }}</h5>
+          <div>
+            <h5 class="mb-1">{{ selectedFolder ? selectedFolder.name : 'Folder contents' }}</h5>
+            <div class="text-muted small">{{ normalizedItems.length }} ayat</div>
+          </div>
           <span v-if="selectedFolder" class="badge text-bg-light">{{ sourceLabel }}</span>
         </div>
 
         <div v-if="loading" class="text-muted">Loading ayat...</div>
-        <div v-else-if="normalizedItems.length === 0" class="text-muted">No ayat yet. Drag any ayah onto a folder to begin.</div>
+        <div v-else-if="normalizedItems.length === 0" class="empty-state">
+          <div class="empty-title">No ayat saved yet</div>
+          <div class="empty-subtitle">Save ayat from the Quran page or drag them onto a folder.</div>
+        </div>
 
         <div v-else class="list-group ayah-list">
           <div v-for="item in normalizedItems" :key="item.row_key" class="list-group-item ayah-list-item">
@@ -167,5 +173,24 @@ export default {
   margin-top: 6px;
   color: #4b5563;
   line-height: 1.7;
+}
+
+.empty-state {
+  border-radius: 16px;
+  border: 1px dashed rgba(15, 23, 42, 0.12);
+  padding: 24px;
+  text-align: center;
+  color: #6b7280;
+  background: #f9fafb;
+}
+
+.empty-title {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+}
+
+.empty-subtitle {
+  font-size: 0.9rem;
 }
 </style>
