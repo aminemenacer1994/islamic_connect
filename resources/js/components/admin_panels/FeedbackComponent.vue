@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="admin-page">
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewFeedback" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
@@ -101,14 +101,26 @@
 
     <Column :exportable="true" style="min-width: 8rem">
       <template #body="slotProps">
-        <div class="wrapper text-center" style="display:flex">
-          <Button data-bs-toggle="modal" data-bs-target="#editNewFeedback" type="button" class="btn user-btn text-white text-center mr-2 action btn1" style="background-color: #1e88e5; display:flex" @click="editModal(slotProps.data)">
-            <i class="pi pi-eye mr-2"></i>
+        <div class="row-actions">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#editNewFeedback"
+            type="button"
+            class="btn btn-sm btn-primary"
+            @click="editModal(slotProps.data)"
+          >
+            <i class="pi pi-eye me-1"></i>
             View
-          </Button>
+          </button>
 
-          <button data-bs-toggle="modal" data-bs-target="#editNew" type="button" class="btn user-btn text-white text-center mr-2" style="background-color: #d91ab4" @click="editModal(slotProps.data)">
-            <i class="pi pi-send"></i>
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#editNew"
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            @click="editModal(slotProps.data)"
+          >
+            <i class="pi pi-send me-1"></i>
             Reply
           </button>
         </div>
@@ -206,23 +218,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
-.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
-.modal-modern .btn-close{filter:none}
-.modal-modern .input-group-text{background:#f1f5f9; border-color:#e2e8f0}
-.modal-modern .form-control:focus{box-shadow:0 0 0 .2rem rgba(11,128,111,.15); border-color: var(--bs-primary)}
-.modern-datatable{width:100%}
-.table-toolbar{display:flex; align-items:center; gap:.75rem}
-.table-toolbar .spacer{flex:1}
-.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
-.empty{color:#6b7280; padding:1rem}
-/* subtle teal accent */
-.modern-datatable .p-datatable-tbody > tr{transition:background .18s ease}
-.modern-datatable .p-datatable-tbody > tr:hover{background:#f1fcf9}
-/* outlined brand button for consistency */
-.btn-add,.btn-add.p-button{background:var(--ref-green)!important; border-color:var(--ref-green)!important; color:#fff!important; border:none; padding:.55rem .95rem; border-radius:10px; box-shadow:0 6px 14px rgba(0,191,166,.18)}
-.btn-add.outline{background:#fff!important; color:var(--ref-green)!important; border:2px solid var(--ref-green)!important; box-shadow:none}
-.btn-add.outline:hover{background:var(--ref-green)!important; color:#fff!important; box-shadow:0 6px 14px rgba(0,191,166,.18)}
-</style>

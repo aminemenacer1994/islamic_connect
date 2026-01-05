@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="profile-wrap">
+  <div id="app" class="profile-wrap admin-page">
 
 
     <div class="container mt-4">
@@ -402,7 +402,7 @@ export default {
 <style scoped>
 /* Colors inspired by reference */
 .profile-wrap {
-  background: linear-gradient(180deg, #f3f4f6, #eef1f4)
+  background: linear-gradient(180deg, #f7faf9, #eef5f4)
 }
 
 .profile-topbar {
@@ -449,10 +449,10 @@ export default {
 }
 
 .frosted {
-  background: #fbfcfd;
-  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, .06)
+  box-shadow: 0 16px 28px rgba(15, 23, 42, .08)
 }
 
 .avatar-lg {
@@ -461,10 +461,10 @@ export default {
 }
 
 .section-card {
-  background: #fafbfc;
-  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, .06)
+  box-shadow: 0 16px 28px rgba(15, 23, 42, .08)
 }
 
 .section-header {
@@ -472,7 +472,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 12px 16px;
-  border-bottom: 1px solid #eef2f5
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08)
 }
 
 .section-body {
@@ -480,28 +480,28 @@ export default {
 }
 
 .field {
-  background: #f8fafc;
-  border: 1px solid #e5e7eb;
+  background: #f8fbfa;
+  border: 1px solid var(--admin-border);
   border-radius: 12px;
   padding: 12px
 }
 
 .field-label {
   font-size: .8rem;
-  color: #475569;
+  color: var(--admin-muted);
   margin-bottom: 2px
 }
 
 .field-value {
   font-weight: 700;
-  color: #0f172a
+  color: var(--admin-ink)
 }
 
 /* Role badge */
 .role-badge {
-  background: #e6fcf7;
-  color: var(--ref-green);
-  border: 1px solid #b3efe3;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  border: 1px solid rgba(15, 110, 99, 0.3);
   padding: 4px 8px;
   border-radius: 999px;
   font-size: .75rem;
@@ -533,17 +533,17 @@ export default {
 
 /* Modern modal styling */
 .modal-modern .modal-content {
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  box-shadow: 0 16px 40px rgba(15, 23, 42, .18)
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, .16)
 }
 
 .modal-modern .modal-header {
-  background: #fff;
+  background: linear-gradient(90deg, rgba(15, 110, 99, 0.12), rgba(255, 255, 255, 0));
   color: #111;
-  border-bottom: 1px solid #e5e7eb;
-  border-top-left-radius: 16px;
-  border-top-right-radius: 16px
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  border-top-left-radius: 18px;
+  border-top-right-radius: 18px
 }
 
 .modal-modern .btn-close {
@@ -551,13 +551,13 @@ export default {
 }
 
 .modal-modern .input-group-text {
-  background: #f1f5f9;
-  border-color: #e2e8f0
+  background: #f1f7f6;
+  border-color: rgba(15, 23, 42, 0.12)
 }
 
 .modal-modern .form-control:focus {
-  box-shadow: 0 0 0 .2rem rgba(11, 128, 111, .15);
-  border-color: var(--ref-green)
+  box-shadow: 0 0 0 .2rem rgba(15, 110, 99, .15);
+  border-color: var(--admin-accent)
 }
 
 /* Mobile refinements */
@@ -587,11 +587,11 @@ export default {
   display: flex;
   align-items: center;
   gap: .75rem;
-  background: var(--surface-soft);
-  border: 1px solid #e5e7eb;
-  border-radius: var(--radius-lg);
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
   padding: 14px 16px;
-  box-shadow: var(--shadow-soft)
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08)
 }
 
 .stat-icon {
@@ -602,22 +602,22 @@ export default {
   justify-content: center;
   border-radius: 10px;
   color: #fff;
-  background: var(--ref-green)
+  background: var(--admin-accent)
 }
 
 .stat-icon.bg-teal {
-  background: var(--ref-green)
+  background: var(--admin-accent)
 }
 
 .stat-label {
   font-size: .8rem;
-  color: #64748b
+  color: var(--admin-muted)
 }
 
 .stat-value {
   font-weight: 800;
   font-size: 1.25rem;
-  color: #0f172a
+  color: var(--admin-ink)
 }
 
 .fade-pop {

@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <div class="admin-page">
   
    <!-- Notes Container -->
    <div class="pt-4">
-    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-      <div class="input-group" style="max-width:380px">
+    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2 admin-toolbar">
+      <div class="input-group admin-search">
         <span class="input-group-text"><i class="bi bi-search"></i></span>
         <input v-model="query" class="form-control" placeholder="Search notes..." />
       </div>
@@ -16,8 +16,10 @@
         <!-- <button type="button" class="btn btn-add outline" @click="openCreateModal"><i class="bi bi-plus-lg me-1"></i>New Note</button> -->
       </div>
     </div>
-    <h3 class="pb-3 text-center">
-     <strong>You have:</strong> <b style="color:rgb(0, 191, 166)">{{ notes.length }}</b> <strong>notes</strong>
+    <h3 class="pb-3 text-center admin-count">
+     <span class="count-label">You have</span>
+     <span class="count-pill">{{ notes.length }}</span>
+     <span class="count-label">notes</span>
     </h3>
     <div class="row">
       <div class="col-md-4 mb-4" v-for="note in filteredNotes" :key="note.id">
@@ -424,55 +426,60 @@ export default {
 </script>
 
 <style scoped>
+.admin-search {
+  max-width: 380px;
+}
+
 .note-card {
   position: relative;
-  background: #fff;
-  border: 1px solid #e6e8eb;
-  border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: default;
-  /* Ensure pointer events work */
   pointer-events: auto;
+  overflow: hidden;
 }
 
 .note-card:before {
   content: "";
   position: absolute;
   inset: 0;
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 1px;
-  background: linear-gradient(120deg, rgba(0, 191, 166, 0.4), rgba(0, 191, 166, 0) 40%, rgba(124, 77, 255, 0.15));
+  background: linear-gradient(120deg, rgba(15, 110, 99, 0.35), rgba(15, 110, 99, 0) 45%, rgba(12, 92, 83, 0.18));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  /* Critical: prevent pseudo-element from blocking clicks */
   pointer-events: none;
 }
 
 .note-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
 
 .note-chip {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  background: #e6fcf7;
-  color: #0f766e;
-  border: 1px solid #b3efe3;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  border: 1px solid rgba(15, 110, 99, 0.3);
   border-radius: 999px;
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   padding: 4px 10px;
   margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   pointer-events: none;
 }
 
 .note-body {
-  color: #0f172a;
+  color: var(--admin-ink);
   min-height: 96px;
   margin-bottom: 8px;
   pointer-events: none;
@@ -483,7 +490,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   margin-top: 8px;
-  color: #64748b;
+  color: var(--admin-muted);
   font-size: 0.85rem;
   pointer-events: none;
 }
@@ -492,28 +499,27 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin-top: 10px;
-  /* Ensure buttons are clickable */
+  margin-top: 12px;
   position: relative;
   z-index: 10;
 }
 
 .btn-icon {
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0;
-  border-radius: 10px;
-  /* Ensure buttons are clickable */
+  border-radius: 12px;
   pointer-events: auto;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .btn-icon:hover:not(:disabled) {
-  transform: scale(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
 }
 
 .btn-icon:disabled {
@@ -523,49 +529,50 @@ export default {
 
 .btn-success.outline {
   background: #fff !important;
-  color: #198754 !important;
-  border: 2px solid #198754 !important;
+  color: var(--admin-accent-strong) !important;
+  border: 1px solid rgba(15, 110, 99, 0.5) !important;
   box-shadow: none;
 }
 
 .btn-success.outline:hover:not(:disabled) {
-  background: #198754 !important;
-  color: #fff !important;
+  background: rgba(15, 110, 99, 0.12) !important;
+  color: var(--admin-accent-strong) !important;
 }
 
 .btn-danger.outline {
   background: #fff !important;
-  color: #b00020 !important;
-  border: 2px solid #b00020 !important;
+  color: #b42318 !important;
+  border: 1px solid rgba(180, 35, 24, 0.5) !important;
   box-shadow: none;
 }
 
 .btn-danger.outline:hover:not(:disabled) {
-  background: #b00020 !important;
-  color: #fff !important;
+  background: rgba(180, 35, 24, 0.1) !important;
+  color: #b42318 !important;
 }
 
 .btn-ghost {
   background: #fff;
-  border: 1px solid #e6e8eb;
-  color: #0f172a;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: var(--admin-ink);
 }
 
 .btn-ghost:hover {
-  background: #f7faf9;
+  background: #f7fbfa;
+  border-color: rgba(15, 110, 99, 0.3);
+  color: var(--admin-accent-strong);
 }
 
 .btn-add {
-  background: #00bfa6;
+  background: linear-gradient(135deg, var(--admin-accent), var(--admin-accent-strong));
   color: #fff;
   border: none;
 }
 
 .btn-add:hover {
-  background: #009688;
+  filter: brightness(0.95);
 }
 
-/* Ensure visually-hidden elements don't block clicks */
 .visually-hidden {
   pointer-events: none;
 }

@@ -6,15 +6,17 @@
           <i class="bi bi-folder2-open"></i>
         </div>
         <div>
-          <div class="folder-title">New Folder</div>
+          <div class="folder-title">Folder Studio</div>
           <div class="folder-count">{{ folders.length }} folders</div>
         </div>
       </div>
-      <button class="create-trigger" type="button" @click="toggleCreateMenu">
-        <i class="bi bi-plus-lg"></i>
-        <span>Create</span>
-        <i class="bi bi-chevron-down"></i>
-      </button>
+      <div class="folder-top-actions">
+        <button class="create-trigger" type="button" @click="toggleCreateMenu">
+          <i class="bi bi-plus-lg"></i>
+          <span>Create</span>
+          <i class="bi bi-chevron-down"></i>
+        </button>
+      </div>
       <div v-if="createMenuOpen" class="create-menu">
         <button class="create-item" type="button" @click="startCreate('folder')">
           <span class="create-icon"><i class="bi bi-folder2"></i></span>
@@ -66,36 +68,36 @@
       </div>
     </div>
 
-    <ul class="list-group">
+    <ul class="list-group folder-stack">
       <li
-        class="list-group-item d-flex align-items-center justify-content-between"
+        class="list-group-item folder-item d-flex align-items-center justify-content-between"
         :class="{ active: selectedId === 'all' }"
         @click="selectAll"
       >
-        <div class="d-flex align-items-center gap-2">
-          <i class="bi bi-collection"></i>
-          <span>All bookmarks</span>
+        <div class="folder-main">
+          <span class="folder-icon"><i class="bi bi-collection"></i></span>
+          <span class="folder-name">All bookmarks</span>
         </div>
       </li>
       <li
         v-for="folder in filteredFolders"
         :key="folder.id"
-        class="list-group-item d-flex align-items-center justify-content-between"
+        class="list-group-item folder-item d-flex align-items-center justify-content-between"
         :class="{ active: selectedId === folder.id }"
         @click="selectFolder(folder)"
         @dragover.prevent
         @drop="handleDrop($event, folder)"
       >
-        <div class="d-flex align-items-center gap-2">
-          <i v-if="folder.icon" :class="folder.icon"></i>
-          <span>{{ folder.name }}</span>
-          <span class="badge rounded-pill bg-light text-dark">{{ folder.ayah_count }}</span>
+        <div class="folder-main">
+          <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
+          <span class="folder-name">{{ folder.name }}</span>
         </div>
-        <div class="d-flex align-items-center gap-2" @click.stop>
-          <button class="btn btn-sm btn-outline-secondary" @click="startRename(folder)">
+        <div class="folder-actions" @click.stop>
+          <span class="folder-count-pill">{{ folder.ayah_count }}</span>
+          <button class="btn btn-sm btn-outline-secondary folder-action" @click="startRename(folder)">
             <i class="bi bi-pencil"></i>
           </button>
-          <button class="btn btn-sm btn-outline-danger" @click="deleteFolder(folder)">
+          <button class="btn btn-sm btn-outline-danger folder-action" @click="deleteFolder(folder)">
             <i class="bi bi-trash"></i>
           </button>
         </div>
@@ -339,8 +341,13 @@ export default {
 };
 </script>
 
-  <style scoped>
+<style scoped>
 .folder-list {
+  --folder-accent: #0f6e63;
+  --folder-accent-strong: #0b5c53;
+  --folder-gold: #c89b3a;
+  --folder-ink: #0f172a;
+  --folder-muted: #64748b;
   position: relative;
 }
 
@@ -350,44 +357,63 @@ export default {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 14px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #141414, #1f1f1f);
-  color: #f5f5f5;
-  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.25);
+  padding: 16px;
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, rgba(15, 110, 99, 0.95), rgba(10, 50, 46, 0.96));
+  color: #f8fafb;
+  box-shadow: 0 18px 36px rgba(9, 20, 19, 0.25);
   margin-bottom: 14px;
+  overflow: hidden;
+}
+
+.folder-top::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 20% 20%, rgba(200, 155, 58, 0.25), transparent 55%);
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 .folder-meta {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 .folder-icon-box {
-  width: 46px;
-  height: 46px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.12);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .folder-title {
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .folder-count {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.folder-top-actions {
+  position: relative;
+  z-index: 1;
 }
 
 .create-trigger {
-  border: none;
-  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.12);
   color: #f5f5f5;
   padding: 8px 14px;
   border-radius: 999px;
@@ -398,38 +424,41 @@ export default {
 }
 
 .create-trigger:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
 }
 
 .create-menu {
   position: absolute;
-  top: calc(100% + 10px);
+  top: calc(100% + 12px);
   right: 0;
   width: 320px;
-  padding: 12px;
+  padding: 14px;
   border-radius: 18px;
-  background: #1f1f1f;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+  background: #ffffff;
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.18);
   display: grid;
-  gap: 8px;
+  gap: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
   z-index: 20;
 }
 
 .create-item {
-  border: none;
-  background: transparent;
-  color: #f3f3f3;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  color: var(--folder-ink);
   text-align: left;
   display: flex;
   gap: 12px;
-  padding: 10px;
-  border-radius: 12px;
-  transition: background-color 0.2s ease;
+  padding: 12px;
+  border-radius: 14px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .create-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(15, 110, 99, 0.25);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
 }
 
 .create-item strong {
@@ -440,76 +469,139 @@ export default {
 .create-item small {
   display: block;
   font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--folder-muted);
 }
 
 .create-item:disabled {
-  opacity: 0.5;
+  opacity: 0.6;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .create-icon {
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(15, 110, 99, 0.12);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
+  color: var(--folder-accent);
 }
 
 .create-panel {
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 16px;
   background: #ffffff;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
 }
 
 .create-heading {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
-  margin-bottom: 10px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: var(--folder-ink);
 }
 
 .create-heading .btn-link {
   padding: 0;
   font-size: 0.85rem;
   text-decoration: none;
-}
-
-.list-group-item {
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 12px;
-  margin-bottom: 8px;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.list-group-item:hover {
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
-  transform: translateY(-1px);
-}
-
-.list-group-item.active {
-  border-color: rgba(15, 110, 99, 0.3);
-  box-shadow: 0 10px 20px rgba(15, 110, 99, 0.15);
+  color: var(--folder-accent-strong);
 }
 
 .folder-search .input-group-text {
   background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: var(--folder-muted);
 }
 
 .folder-search .form-control {
-  border: 1px solid rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
 }
 
 .folder-search .form-control:focus {
-  box-shadow: 0 0 0 0.15rem rgba(15, 110, 99, 0.15);
-  border-color: rgba(15, 110, 99, 0.3);
+  box-shadow: 0 0 0 0.2rem rgba(15, 110, 99, 0.16);
+  border-color: rgba(15, 110, 99, 0.35);
+}
+
+.folder-stack {
+  display: grid;
+  gap: 10px;
+}
+
+.folder-item {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 16px;
+  padding: 12px 14px;
+  background: #ffffff;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
+}
+
+.folder-item:hover {
+  box-shadow: 0 18px 28px rgba(15, 23, 42, 0.12);
+  transform: translateY(-2px);
+}
+
+.folder-item.active {
+  border-color: rgba(15, 110, 99, 0.4);
+  box-shadow: 0 18px 30px rgba(15, 110, 99, 0.18);
+  background: rgba(15, 110, 99, 0.08);
+  color: var(--folder-ink);
+}
+
+.folder-main {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--folder-ink);
+  font-weight: 600;
+}
+
+.folder-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: rgba(15, 110, 99, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--folder-accent);
+  font-size: 1.05rem;
+}
+
+.folder-name {
+  font-weight: 600;
+}
+
+.folder-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.folder-count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--folder-accent-strong);
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.folder-action {
+  border-radius: 10px;
 }
 
 .rename-modal {
@@ -519,5 +611,7 @@ export default {
   width: 320px;
   transform: translate(-50%, -50%);
   z-index: 1050;
+  border-radius: 16px;
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
 }
 </style>

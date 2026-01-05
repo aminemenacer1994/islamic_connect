@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="admin-page">
     
     <p class="lead container text-center">
       This page is a space to share your personal Islamic reflections and insights with others. Together, we can
@@ -25,9 +25,8 @@
         <div class="col-md-5 mb-4">
           <h5>
             <span v-for="option in filterOptions" :key="option.value" @click="handleFilterClick(option.value)"
-              class="badge me-2 mb-2 p-2"
-              :class="selectedFilter === option.value ? 'bg-primary-whatsapp text-white' : 'bg-secondary-whatsapp text-white'"
-              style="cursor: pointer; user-select: none;">
+              class="filter-chip"
+              :class="{ active: selectedFilter === option.value }">
               {{ option.label }}
             </span>
 
@@ -36,10 +35,16 @@
 
         <!-- Search Section -->
         <div class="col-md-7">
-          <input type="text" v-model="searchTerm" placeholder="Search notes keyword..." class="form-control mb-4"
-            style="border: 1px solid #075E54" />
+          <input
+            type="text"
+            v-model="searchTerm"
+            placeholder="Search notes keyword..."
+            class="form-control mb-4 group-search"
+          />
         </div>
-        <div class="fw-bold display-6 ">Total amount of notes: <b style="color: #075E54;"> {{ filteredNotes.length}}</b>
+        <div class="group-count">
+          <span class="count-label">Total notes</span>
+          <span class="count-pill">{{ filteredNotes.length }}</span>
         </div>
       </div>
 
@@ -84,7 +89,7 @@
 
     <!-- View Note Modal -->
     <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-fullscreen-md-down">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title text-dark"><b>View Note</b></h5>
@@ -303,10 +308,53 @@ export default {
   padding-top: 2rem;
 }
 
+.lead {
+  color: var(--admin-muted);
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.filter-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.1);
+  color: var(--admin-accent-strong);
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgba(15, 110, 99, 0.25);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.filter-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 16px rgba(15, 23, 42, 0.12);
+}
+
+.filter-chip.active {
+  background: rgba(15, 110, 99, 0.2);
+  color: var(--admin-accent-strong);
+  border-color: rgba(15, 110, 99, 0.4);
+}
+
+.group-search {
+  border-radius: 12px;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.group-count {
+  margin-top: 8px;
+  font-weight: 600;
+}
+
 .collage {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+  gap: 16px;
 }
 
 .collage-item {
@@ -315,29 +363,31 @@ export default {
 }
 
 .card {
-  background-color: #ffffff;
+  background: #ffffff;
   margin-bottom: 1.5em;
   min-height: 200px;
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  border: 2px solid rgba(0, 191, 166);
-  box-shadow: 0 4px 8px rgba(0, 191, 166, 0.1);
-  transition: transform 0.3s ease;
+  border-radius: 16px;
+  border: 1px solid var(--admin-border);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Card hover effect */
 .card:hover {
   transform: translateY(-5px);
+  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
 }
 
 i {
-  color: #000;
-  transition: color 0.3s ease;
+  color: var(--admin-muted);
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 i:hover {
-  color: #00bfa6;
+  color: var(--admin-accent-strong);
+  transform: translateY(-1px);
 }
 
 /* Media Queries for Responsive Layout */
@@ -353,32 +403,6 @@ i:hover {
     grid-template-columns: 1fr;
     /* 1 column on smaller screens */
   }
-}
-
-.highlight {
-  background-color: yellow;
-}
-
-.bg-primary-whatsapp {
-  background-color: #00bfa6;
-}
-
-.bg-secondary-whatsapp {
-  background-color: #075E54;
-}
-
-.text-green {
-  color: #00bfa6;
-}
-
-.text-white {
-  color: #FFFFFF;
-}
-
-.badge.active {
-  background-color: rgba(0, 191, 166, 0.2);
-  color: rgb(5, 32, 29);
-  border: 1px solid rgba(0, 191, 166);
 }
 
 .close {
@@ -397,20 +421,23 @@ i:hover {
 .card-body {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
 }
 
 .card-body h5 {
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--admin-muted);
 }
 
 .card-body p {
   font-size: 1rem;
-  color: #555;
+  color: var(--admin-ink);
 }
 
 .card-body hr {
-  border-color: #ddd;
+  border-color: rgba(15, 23, 42, 0.08);
 }
 </style>

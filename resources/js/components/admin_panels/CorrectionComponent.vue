@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="admin-page">
   <!-- view new Modal -->
   <div class="modal fade" id="editNewCorrection" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <DataTable ref="dt" class="pt-5" showGridlines stripedRows sortable :value="corrections" v-model:filters="filters" :globalFilterFields="(columns || []).map(c => c.field)" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
+  <DataTable ref="dt" class="pt-4 modern-datatable" showGridlines stripedRows sortable :value="corrections" v-model:filters="filters" :globalFilterFields="(columns || []).map(c => c.field)" paginator :rows="7" :rowsPerPageOptions="[5, 10, 20, 50]" removableSort width="100%" tableStyle="max-width:100%">
     <template #header>
       <div class="table-toolbar">
         <div class="title"><i class="bi bi-tools me-2"></i>Corrections</div>
@@ -67,13 +67,23 @@
 
     <Column :exportable="true" style="min-width: 8rem">
       <template #body="slotProps">
-        <div class="wrapper text-center" style="display:flex">
-          <Button data-bs-toggle="modal" data-bs-target="#editNewCorrection" type="button" class="btn user-btn text-white text-center mr-2 action btn1" style="background-color: #1e88e5; display:flex;display:inline-block" @click="editModal(slotProps.data)">
-            <i class="bi bi-eye mr-2"></i>
+        <div class="row-actions">
+          <button
+            data-bs-toggle="modal"
+            data-bs-target="#editNewCorrection"
+            type="button"
+            class="btn btn-sm btn-primary"
+            @click="editModal(slotProps.data)"
+          >
+            <i class="bi bi-eye me-1"></i>
             View
-          </Button>
-          <button class="btn text-white user-btn" style="background-color: #b71c1c" @click="deleteCorrection(slotProps.data.id)">
-            <i class="bi bi-trash"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-danger"
+            @click="deleteCorrection(slotProps.data.id)"
+          >
+            <i class="bi bi-trash me-1"></i>
             Delete
           </button>
         </div>
@@ -165,9 +175,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
-.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
-.modal-modern .btn-close{filter:none}
-</style>

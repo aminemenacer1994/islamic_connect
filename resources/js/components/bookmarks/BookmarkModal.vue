@@ -9,7 +9,17 @@
               <div>
                 <h5 class="modal-title" id="bookmarkModalLabel">Save Ayah</h5>
                 <p class="modal-subtitle">Keep your reflections organized and easy to return to.</p>
-                <div class="header-meta">Folders: {{ folderCount }} | Selected: {{ selectedCount }}</div>
+                <div class="header-meta">
+                  <span class="meta-item">
+                    <span class="meta-label">Folders</span>
+                    <span class="meta-value">{{ folderCount }}</span>
+                  </span>
+                  <span class="meta-divider"></span>
+                  <span class="meta-item">
+                    <span class="meta-label">Selected</span>
+                    <span class="meta-value">{{ selectedCount }}</span>
+                  </span>
+                </div>
               </div>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -52,8 +62,21 @@
                     />
                     <div v-if="filteredFolders.length === 0" class="empty-state">No folders yet. Create one below.</div>
                     <div v-else class="folder-grid">
-                      <label v-for="folder in filteredFolders" :key="folder.id" class="folder-pill" :class="folder.color ? `pill-${folder.color}` : 'pill-neutral'">
-                        <input type="checkbox" :value="folder.id" v-model="selectedFolderIds" />
+                      <label
+                        v-for="folder in filteredFolders"
+                        :key="folder.id"
+                        :class="[
+                          'folder-pill',
+                          folder.color ? `pill-${folder.color}` : 'pill-neutral',
+                          { 'is-selected': selectedFolderIds.includes(folder.id), 'is-disabled': folder.is_smart },
+                        ]"
+                      >
+                        <input
+                          type="checkbox"
+                          :value="folder.id"
+                          v-model="selectedFolderIds"
+                          :disabled="folder.is_smart"
+                        />
                         <span class="pill-icon">
                           <i v-if="folder.icon" :class="folder.icon"></i>
                           <i v-else class="fas fa-folder"></i>
@@ -131,7 +154,7 @@
               </div>
             </div>
 
-            <div class="section-card mt-3">
+            <div v-if="showFolderContents" class="section-card mt-3">
               <div class="section-header">
                 <div class="section-title">
                   <span class="section-icon"><i class="fas fa-list-check"></i></span>
@@ -167,7 +190,11 @@
                 </div>
                 <div v-if="folders.length === 0" class="empty-state">No folders to show yet.</div>
                 <div v-else class="folder-contents">
-                  <div v-for="folder in folders" :key="`contents-${folder.id}`" class="folder-content">
+                  <div
+                    v-for="folder in folders"
+                    :key="`contents-${folder.id}`"
+                    :class="['folder-content', { open: folderExpanded[folder.id] }]"
+                  >
                     <div class="folder-toggle">
                       <button class="folder-toggle-main" type="button" @click="toggleFolderContents(folder)">
                         <span class="folder-toggle-title">
@@ -268,6 +295,10 @@ export default {
       type: Object,
       default: null,
     },
+    showFolderContents: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -357,7 +388,8 @@ export default {
       this.cleanupModalState();
       this.feedback = '';
       this.selectedFolderIds = [];
-      this.fetchFolders().then(() => this.fetchCurrentBookmark());
+      this.currentBookmark = null;
+      Promise.all([this.fetchFolders(), this.fetchCurrentBookmark()]);
     },
     onHidden() {
       this.cleanupModalState();
@@ -373,19 +405,22 @@ export default {
       try {
         const response = await axios.get('/api/folders');
         this.folders = response.data.data || [];
+        this.normalizeSelectedFolders();
       } catch (error) {
         this.setFeedback('Unable to load folders right now.', 'danger');
       }
     },
     async fetchCurrentBookmark() {
-      if (!this.ayah || !this.ayah.surah_number || !this.ayah.ayah_number) {
+      const surahNumber = Number(this.ayah?.surah_number || this.ayah?.surah_id);
+      const ayahNumber = Number(this.ayah?.ayah_number || this.ayah?.ayah_num);
+      if (!this.ayah || !surahNumber || !ayahNumber) {
         return;
       }
       try {
         const response = await axios.get('/api/ayah-bookmarks', {
           params: {
-            surah_number: this.ayah.surah_number,
-            ayah_number: this.ayah.ayah_number,
+            surah_number: surahNumber,
+            ayah_number: ayahNumber,
           },
         });
         const bookmark = Array.isArray(response.data?.data) ? response.data.data[0] : null;
@@ -393,9 +428,23 @@ export default {
         if (bookmark?.folders) {
           this.selectedFolderIds = bookmark.folders.map((folder) => folder.id);
         }
+        this.normalizeSelectedFolders();
       } catch (error) {
         this.currentBookmark = null;
       }
+    },
+    normalizeSelectedFolders() {
+      if (!this.folders.length) {
+        return;
+      }
+      const allowedIds = new Set(
+        this.folders.filter((folder) => !folder.is_smart).map((folder) => folder.id),
+      );
+      this.selectedFolderIds = this.selectedFolderIds.filter((id) => allowedIds.has(id));
+    },
+    isSmartFolder(folderId) {
+      const folder = this.folders.find((item) => item.id === folderId);
+      return !!folder?.is_smart;
     },
     async createFolder() {
       if (!this.newFolder.name) {
@@ -440,26 +489,59 @@ export default {
       }
     },
     async saveBookmark() {
-      if (!this.ayah) {
+      const surahNumber = Number(this.ayah?.surah_number || this.ayah?.surah_id);
+      const ayahNumber = Number(this.ayah?.ayah_number || this.ayah?.ayah_num);
+      if (!this.ayah || !surahNumber || !ayahNumber) {
         this.setFeedback('Select an ayah first.', 'danger');
         return;
       }
 
       this.isSaving = true;
       try {
+        this.normalizeSelectedFolders();
+        const selectedIds = Array.from(new Set(this.selectedFolderIds));
+        const existingIds = this.currentBookmark?.folders?.map((folder) => folder.id) || [];
+        const removeIds = existingIds.filter((id) => !selectedIds.includes(id));
+        const removableIds = removeIds.filter((id) => !this.isSmartFolder(id));
+
         const payload = {
-          surah_number: this.ayah.surah_number,
-          ayah_number: this.ayah.ayah_number,
-          surah_name: this.ayah.surah_name,
-          ayah_verse_ar: this.ayah.ayah_verse_ar,
-          ayah_verse_en: this.ayah.ayah_verse_en,
-          folder_ids: this.selectedFolderIds,
+          surah_number: surahNumber,
+          ayah_number: ayahNumber,
+          surah_name: this.ayah.surah_name || this.ayah.surah?.name_en || 'Surah',
+          ayah_verse_ar: this.ayah.ayah_verse_ar || this.ayah.ayah?.ayah_text || '',
+          ayah_verse_en: this.ayah.ayah_verse_en || '',
+          folder_ids: selectedIds,
         };
-        await axios.post('/api/ayah-bookmarks', payload);
-        this.setFeedback('Ayah saved to your bookmarks.', 'success');
-        this.$emit('saved', payload);
-        this.fetchCurrentBookmark();
-        this.hideModal();
+        const response = await axios.post('/api/ayah-bookmarks', payload);
+        const bookmark = response.data?.bookmark || null;
+        if (bookmark) {
+          this.currentBookmark = bookmark;
+        }
+
+        let detachFailed = false;
+        if (removableIds.length && this.currentBookmark?.id) {
+          try {
+            await Promise.all(
+              removableIds.map((id) =>
+                axios.delete(`/api/ayah-bookmarks/${this.currentBookmark.id}/folders/${id}`),
+              ),
+            );
+          } catch (error) {
+            detachFailed = true;
+          }
+        }
+
+        await this.fetchCurrentBookmark();
+        this.setFeedback(
+          detachFailed
+            ? 'Bookmark saved, but some folders could not be removed.'
+            : 'Ayah saved to your bookmarks.',
+          detachFailed ? 'danger' : 'success',
+        );
+        this.$emit('saved', { ...payload, bookmark: this.currentBookmark });
+        if (!detachFailed) {
+          this.hideModal();
+        }
       } catch (error) {
         this.setFeedback('Failed to save the bookmark.', 'danger');
       } finally {
@@ -662,70 +744,139 @@ export default {
 
 <style scoped>
 .bookmark-modal {
+  --bookmark-accent: #0f6e63;
+  --bookmark-accent-strong: #0b5c53;
+  --bookmark-accent-soft: rgba(15, 110, 99, 0.2);
+  --bookmark-gold: #c89b3a;
+  --bookmark-ink: #0f172a;
+  --bookmark-muted: #64748b;
+  --bookmark-border: rgba(15, 23, 42, 0.1);
+  --bookmark-card: #ffffff;
+  --bookmark-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
   position: relative;
-  border-radius: 22px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: linear-gradient(160deg, #ffffff 0%, #f6f9f9 100%);
-  box-shadow: 0 28px 70px rgba(15, 23, 42, 0.2);
+  border-radius: 24px;
+  border: 1px solid var(--bookmark-border);
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(200, 155, 58, 0.12) 0%, transparent 45%),
+    radial-gradient(120% 120% at 100% 0%, rgba(15, 110, 99, 0.16) 0%, transparent 45%),
+    linear-gradient(160deg, #ffffff 0%, #f7fbfa 55%, #f6f0e7 100%);
+  box-shadow: var(--bookmark-shadow);
   overflow: hidden;
+  isolation: isolate;
+  font-family: "Manrope", "Plus Jakarta Sans", "Poppins", sans-serif;
+  color: var(--bookmark-ink);
+  animation: modal-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bookmark-modal::before {
   content: '';
   position: absolute;
-  top: -120px;
-  right: -120px;
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(15, 110, 99, 0.18), transparent 70%);
+  top: -140px;
+  right: -140px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(15, 110, 99, 0.22), transparent 70%);
   pointer-events: none;
+  opacity: 0.9;
+}
+
+.bookmark-modal::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(15, 110, 99, 0.04),
+    rgba(15, 110, 99, 0.04) 1px,
+    transparent 1px,
+    transparent 14px
+  );
+  pointer-events: none;
+  opacity: 0.4;
 }
 
 .bookmark-modal .modal-header {
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  padding: 20px 24px;
-  background: linear-gradient(90deg, rgba(15, 110, 99, 0.08), rgba(255, 255, 255, 0));
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 22px 26px;
+  background: linear-gradient(90deg, rgba(15, 110, 99, 0.18), rgba(255, 255, 255, 0.7));
+  position: relative;
+  z-index: 1;
 }
 
 .header-title {
   display: inline-flex;
   align-items: center;
-  gap: 16px;
+  gap: 18px;
 }
 
 .header-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 18px;
+  width: 56px;
+  height: 56px;
+  border-radius: 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(15, 110, 99, 0.12);
-  color: #0f6e63;
-  font-size: 1.2rem;
-  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.18);
+  background: linear-gradient(135deg, rgba(15, 110, 99, 0.24), rgba(200, 155, 58, 0.18));
+  color: var(--bookmark-accent);
+  font-size: 1.3rem;
+  box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.2), 0 12px 20px rgba(15, 23, 42, 0.12);
 }
 
 .header-meta {
-  font-size: 0.82rem;
-  color: #6b7280;
-  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  border: 1px solid rgba(15, 110, 99, 0.25);
+}
+
+.meta-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--bookmark-accent-strong);
+  font-weight: 700;
+}
+
+.meta-value {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--bookmark-ink);
+}
+
+.meta-divider {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.3);
 }
 
 .bookmark-modal .modal-title {
-  font-size: 1.45rem;
-  font-weight: 700;
-  margin-bottom: 4px;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
 }
 
 .bookmark-modal .modal-subtitle {
   margin: 0;
-  color: #6b7280;
-  font-size: 0.9rem;
+  color: var(--bookmark-muted);
+  font-size: 0.95rem;
 }
 
 .bookmark-modal .modal-body {
-  padding: 20px 24px 8px;
+  padding: 22px 26px 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .bookmark-alert {
@@ -733,21 +884,23 @@ export default {
   align-items: center;
   gap: 12px;
   padding: 12px 16px;
-  border-radius: 12px;
-  border: none;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
   font-weight: 600;
   margin-bottom: 16px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
 }
 
 .bookmark-alert.alert-success {
-  background: rgba(22, 163, 74, 0.12);
-  color: #166534;
+  color: #0b5c53;
+  background: rgba(15, 110, 99, 0.12);
 }
 
 .bookmark-alert.alert-danger {
-  background: rgba(220, 38, 38, 0.12);
   color: #991b1b;
+  background: rgba(220, 38, 38, 0.12);
 }
 
 .alert-icon {
@@ -757,7 +910,7 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(15, 110, 99, 0.12);
   font-size: 1.05rem;
 }
 
@@ -767,32 +920,54 @@ export default {
 
 .bookmark-modal .modal-footer {
   border-top: 1px solid rgba(15, 23, 42, 0.08);
-  padding: 16px 24px 20px;
+  padding: 18px 26px 22px;
+  background: linear-gradient(0deg, rgba(15, 110, 99, 0.08), rgba(255, 255, 255, 0));
+  position: relative;
+  z-index: 1;
 }
 
 .section-card {
-  border-radius: 16px;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  padding: 16px;
-  background: linear-gradient(180deg, #ffffff 0%, #fbfcfc 100%);
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 18px;
+  background: linear-gradient(180deg, #ffffff 0%, #f7fbfa 100%);
+  box-shadow: 0 18px 30px rgba(15, 23, 42, 0.08);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(15, 110, 99, 0.12), rgba(200, 155, 58, 0.06), transparent 60%);
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 36px rgba(15, 23, 42, 0.12);
 }
 
 .section-title {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  position: relative;
+  z-index: 1;
 }
 
 .section-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 18px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, rgba(15, 110, 99, 0.18), rgba(15, 110, 99, 0.05));
-  color: #0f6e63;
+  background: linear-gradient(135deg, rgba(15, 110, 99, 0.24), rgba(200, 155, 58, 0.12));
+  color: var(--bookmark-accent);
   font-size: 1.2rem;
   box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.18);
 }
@@ -801,7 +976,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  position: relative;
+  z-index: 1;
 }
 
 .section-actions {
@@ -811,15 +988,17 @@ export default {
 }
 
 .btn-clear {
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: #0f6e63;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--bookmark-accent);
   text-decoration: none;
   padding: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .btn-clear:hover {
-  color: #0b5c53;
+  color: var(--bookmark-accent-strong);
 }
 
 .section-toggle {
@@ -833,25 +1012,27 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 0;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .section-toggle:hover {
   border-color: rgba(15, 110, 99, 0.4);
-  color: #0f6e63;
+  color: var(--bookmark-accent);
+  transform: translateY(-1px);
 }
 
 .section-header h6 {
   text-transform: uppercase;
   font-size: 0.78rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   font-weight: 700;
   margin: 0;
   color: #111827;
 }
 
 .section-hint {
-  font-size: 0.8rem;
-  color: #6b7280;
+  font-size: 0.78rem;
+  color: var(--bookmark-muted);
 }
 
 .folder-grid {
@@ -861,9 +1042,12 @@ export default {
 }
 
 .folder-search {
-  border-radius: 10px;
+  border-radius: 14px;
   border-color: rgba(15, 23, 42, 0.12);
   margin-bottom: 12px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.9);
 }
 
 .folder-pill {
@@ -872,12 +1056,13 @@ export default {
   grid-template-columns: auto 1fr auto;
   gap: 10px;
   align-items: center;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #f8fafb;
+  padding: 12px 14px 12px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: var(--pill-bg, #f9fafb);
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border-left: 4px solid var(--pill-accent, rgba(148, 163, 184, 0.5));
 }
 
 .folder-pill input {
@@ -888,8 +1073,39 @@ export default {
 
 .folder-pill:hover {
   transform: translateY(-1px);
-  border-color: rgba(15, 110, 99, 0.3);
-  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.12);
+  border-color: rgba(15, 110, 99, 0.35);
+  box-shadow: 0 14px 24px rgba(15, 23, 42, 0.14);
+}
+
+.folder-pill.is-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.folder-pill.is-disabled:hover {
+  transform: none;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: none;
+}
+
+.folder-pill:focus-within {
+  border-color: rgba(15, 110, 99, 0.45);
+  box-shadow: 0 0 0 3px rgba(15, 110, 99, 0.15);
+}
+
+.folder-pill.is-selected {
+  border-color: rgba(15, 110, 99, 0.55);
+  box-shadow: 0 18px 30px rgba(15, 110, 99, 0.2);
+  transform: translateY(-1px);
+}
+
+.folder-pill.is-selected .pill-icon {
+  background: rgba(15, 110, 99, 0.2);
+}
+
+.folder-pill.is-selected .pill-title {
+  color: var(--bookmark-accent-strong);
 }
 
 .folder-pill input:checked ~ .pill-check {
@@ -898,19 +1114,19 @@ export default {
 }
 
 .folder-pill input:checked + .pill-icon {
-  color: #0f6e63;
+  color: var(--bookmark-accent);
 }
 
 .pill-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 12px;
-  background: rgba(15, 110, 99, 0.08);
+  width: 40px;
+  height: 40px;
+  border-radius: 14px;
+  background: rgba(15, 110, 99, 0.1);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   font-size: 1.2rem;
-  color: #0f6e63;
+  color: var(--bookmark-accent);
 }
 
 .pill-meta {
@@ -920,86 +1136,105 @@ export default {
 }
 
 .pill-title {
-  font-weight: 600;
+  font-weight: 700;
   color: #111827;
 }
 
 .pill-count {
   font-size: 0.75rem;
-  color: #6b7280;
+  color: var(--bookmark-muted);
 }
 
 .pill-check {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
   border: 1px solid rgba(15, 110, 99, 0.3);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #0f6e63;
-  background: #e6f4f1;
+  color: var(--bookmark-accent);
+  background: rgba(15, 110, 99, 0.12);
   opacity: 0;
   transform: scale(0.9);
   transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
 .pill-neutral {
-  background: #f8fafb;
+  --pill-accent: rgba(148, 163, 184, 0.6);
+  --pill-bg: #f8fafb;
 }
 
 .pill-primary {
-  background: rgba(13, 110, 253, 0.08);
+  --pill-accent: var(--bs-primary);
+  --pill-bg: rgba(13, 110, 253, 0.08);
 }
 
 .pill-secondary {
-  background: rgba(108, 117, 125, 0.08);
+  --pill-accent: var(--bs-secondary);
+  --pill-bg: rgba(108, 117, 125, 0.08);
 }
 
 .pill-success {
-  background: rgba(25, 135, 84, 0.08);
+  --pill-accent: var(--bs-success);
+  --pill-bg: rgba(25, 135, 84, 0.08);
 }
 
 .pill-danger {
-  background: rgba(220, 53, 69, 0.08);
+  --pill-accent: var(--bs-danger);
+  --pill-bg: rgba(220, 53, 69, 0.08);
 }
 
 .pill-warning {
-  background: rgba(255, 193, 7, 0.12);
+  --pill-accent: var(--bs-warning);
+  --pill-bg: rgba(255, 193, 7, 0.12);
 }
 
 .pill-info {
-  background: rgba(13, 202, 240, 0.12);
+  --pill-accent: var(--bs-info);
+  --pill-bg: rgba(13, 202, 240, 0.12);
 }
 
 .pill-light {
-  background: #f8fafb;
+  --pill-accent: rgba(148, 163, 184, 0.5);
+  --pill-bg: #f8fafb;
 }
 
 .pill-dark {
-  background: rgba(33, 37, 41, 0.08);
+  --pill-accent: var(--bs-dark);
+  --pill-bg: rgba(33, 37, 41, 0.08);
 }
 
 .empty-state {
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px dashed rgba(15, 23, 42, 0.12);
-  color: #6b7280;
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px dashed rgba(15, 23, 42, 0.16);
+  color: var(--bookmark-muted);
   text-align: center;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 .btn-create {
-  background: linear-gradient(135deg, #0f6e63, #0b5c53);
+  background: linear-gradient(135deg, #0f6e63, #0b5c53 65%, #1d9a84 100%);
   color: #fff;
   border: none;
-  padding: 10px 16px;
-  border-radius: 10px;
+  padding: 10px 18px;
+  border-radius: 12px;
   font-weight: 600;
+  box-shadow: 0 16px 26px rgba(15, 110, 99, 0.24);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-create:hover {
-  background: #0b5c53;
-  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 20px 30px rgba(15, 110, 99, 0.3);
+}
+
+.btn-create:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .icon-presets {
@@ -1010,20 +1245,27 @@ export default {
 }
 
 .icon-preset-btn {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.12);
   background: #ffffff;
-  color: #0f6e63;
+  color: var(--bookmark-accent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.icon-preset-btn:hover {
+  border-color: rgba(15, 110, 99, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(15, 23, 42, 0.12);
 }
 
 .icon-preset-btn.active {
   border-color: rgba(15, 110, 99, 0.5);
-  box-shadow: 0 8px 16px rgba(15, 53, 48, 0.12);
+  box-shadow: 0 10px 18px rgba(15, 53, 48, 0.14);
 }
 
 .color-swatches {
@@ -1034,11 +1276,17 @@ export default {
 }
 
 .color-swatch-btn {
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   border-radius: 999px;
   border: 2px solid rgba(255, 255, 255, 0.9);
   box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.color-swatch-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 2px rgba(15, 110, 99, 0.2);
 }
 
 .color-swatch-btn.active {
@@ -1046,23 +1294,40 @@ export default {
 }
 
 .btn-cancel {
-  border-radius: 10px;
+  border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.16);
   color: #4b5563;
+  background: #ffffff;
+  transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-cancel:hover {
+  border-color: rgba(15, 110, 99, 0.35);
+  color: var(--bookmark-accent);
+  transform: translateY(-1px);
 }
 
 .btn-save {
-  border-radius: 10px;
-  background: linear-gradient(135deg, #0f6e63, #0b5c53);
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0f6e63, #0b5c53 65%, #1d9a84 100%);
   border: none;
   color: #fff;
   font-weight: 600;
-  padding: 10px 18px;
+  padding: 10px 20px;
+  box-shadow: 0 18px 30px rgba(15, 110, 99, 0.26);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-save:hover {
-  background: #0b5c53;
-  color: #fff;
+  transform: translateY(-1px);
+  box-shadow: 0 22px 34px rgba(15, 110, 99, 0.3);
+}
+
+.btn-save:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
 }
 
 .folder-contents {
@@ -1071,11 +1336,23 @@ export default {
 }
 
 .folder-content {
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  border-radius: 16px;
-  background: linear-gradient(180deg, #f9fafb 0%, #ffffff 100%);
-  padding: 14px 16px;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fdfdfb 0%, #ffffff 100%);
+  padding: 16px 18px;
+  box-shadow: 0 16px 26px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  animation: list-pop 0.3s ease both;
+}
+
+.folder-content:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 20px 30px rgba(15, 23, 42, 0.12);
+  border-color: rgba(15, 110, 99, 0.2);
+}
+
+.folder-content.open {
+  border-color: rgba(15, 110, 99, 0.3);
 }
 
 .folder-toggle {
@@ -1083,7 +1360,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
-  padding: 4px 0 8px;
+  padding: 4px 0 10px;
 }
 
 .folder-toggle-main {
@@ -1097,6 +1374,7 @@ export default {
   padding: 0;
   flex: 1;
   min-width: 0;
+  letter-spacing: -0.01em;
 }
 
 .folder-toggle-title {
@@ -1106,11 +1384,11 @@ export default {
 }
 
 .folder-toggle-icon {
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
   border-radius: 14px;
   background: rgba(15, 110, 99, 0.12);
-  color: #0f6e63;
+  color: var(--bookmark-accent);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1121,7 +1399,7 @@ export default {
   display: inline-flex;
   align-items: center;
   font-size: 0.85rem;
-  color: #6b7280;
+  color: var(--bookmark-muted);
   margin-left: auto;
   margin-right: 8px;
   white-space: nowrap;
@@ -1135,7 +1413,7 @@ export default {
 }
 
 .delete-confirm {
-  border-radius: 14px;
+  border-radius: 16px;
   border: 1px solid rgba(239, 68, 68, 0.2);
   background: rgba(239, 68, 68, 0.08);
   padding: 12px 14px;
@@ -1162,21 +1440,6 @@ export default {
   gap: 8px;
 }
 
-.folder-select {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.8rem;
-  color: #6b7280;
-  white-space: nowrap;
-}
-
-.folder-select input {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-}
-
 .folder-toggle-button {
   width: 34px;
   height: 34px;
@@ -1188,6 +1451,13 @@ export default {
   align-items: center;
   justify-content: center;
   padding: 0;
+  transition: transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.folder-toggle-button:hover {
+  border-color: rgba(15, 110, 99, 0.4);
+  color: var(--bookmark-accent);
+  transform: translateY(-1px);
 }
 
 .folder-badge {
@@ -1199,7 +1469,7 @@ export default {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  color: #0f6e63;
+  color: var(--bookmark-accent);
   background: rgba(15, 110, 99, 0.12);
 }
 
@@ -1207,18 +1477,135 @@ export default {
   margin-top: 10px;
   display: grid;
   gap: 12px;
-  max-height: 300px;
+  max-height: 320px;
   overflow: auto;
   padding-right: 6px;
 }
 
+.folder-items::-webkit-scrollbar {
+  width: 6px;
+}
+
+.folder-items::-webkit-scrollbar-thumb {
+  background: rgba(15, 110, 99, 0.25);
+  border-radius: 999px;
+}
+
 .folder-item {
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  padding: 14px 16px;
-  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 16px 18px;
+  background: linear-gradient(135deg, #ffffff 0%, #f6fbfa 100%);
   box-shadow: 0 12px 22px rgba(15, 23, 42, 0.06);
   position: relative;
+  border-left: 4px solid rgba(15, 110, 99, 0.2);
+}
+
+.folder-item-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #374151;
+  margin-bottom: 10px;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  padding-bottom: 8px;
+  gap: 12px;
+}
+
+.folder-item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.folder-item-actions .btn {
+  min-width: 70px;
+}
+
+.move-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+}
+
+.move-group .form-select {
+  width: 140px;
+}
+
+.move-group {
+  min-width: 190px;
+}
+
+.move-group .form-select {
+  min-width: 120px;
+}
+
+.folder-item-ar {
+  font-size: 1.4rem;
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
+  direction: rtl;
+  text-align: right;
+  color: #0a2e2a;
+  line-height: 2;
+}
+
+.folder-item-en {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.7;
+}
+
+.folder-item .btn-outline-danger {
+  border-radius: 999px;
+  border-color: rgba(239, 68, 68, 0.5);
+  color: #b91c1c;
+  font-weight: 600;
+  padding: 4px 12px;
+}
+
+.folder-item .btn-outline-danger:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.8);
+}
+
+.bookmark-modal .form-control,
+.bookmark-modal .form-select {
+  border-radius: 12px;
+  border-color: rgba(15, 23, 42, 0.12);
+  box-shadow: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.bookmark-modal .form-control:focus,
+.bookmark-modal .form-select:focus {
+  border-color: rgba(15, 110, 99, 0.45);
+  box-shadow: 0 0 0 3px rgba(15, 110, 99, 0.12);
+}
+
+.bookmark-modal button:focus-visible,
+.bookmark-modal .btn:focus-visible {
+  outline: 2px solid rgba(15, 110, 99, 0.4);
+  outline-offset: 2px;
+}
+
+.modal-body .row .col-md-6:nth-child(1) .section-card {
+  animation: card-rise 0.35s ease both;
+  animation-delay: 0.05s;
+}
+
+.modal-body .row .col-md-6:nth-child(2) .section-card {
+  animation: card-rise 0.35s ease both;
+  animation-delay: 0.12s;
+}
+
+.modal-body > .section-card {
+  animation: card-rise 0.35s ease both;
+  animation-delay: 0.18s;
 }
 
 @media (max-width: 768px) {
@@ -1230,14 +1617,14 @@ export default {
   }
 
   .header-icon {
-    width: 44px;
-    height: 44px;
+    width: 46px;
+    height: 46px;
   }
 
   .section-header {
     flex-direction: column;
     align-items: flex-start;
-    gap: 8px;
+    gap: 10px;
   }
 
   .section-actions {
@@ -1287,74 +1674,55 @@ export default {
   }
 }
 
-.folder-item-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.85rem;
-  color: #374151;
-  margin-bottom: 10px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
-  padding-bottom: 8px;
-  gap: 12px;
+@media (prefers-reduced-motion: reduce) {
+  .bookmark-modal,
+  .section-card,
+  .folder-content {
+    animation: none;
+  }
+
+  .section-card,
+  .folder-content,
+  .btn-create,
+  .btn-save,
+  .section-toggle,
+  .folder-toggle-button,
+  .icon-preset-btn,
+  .color-swatch-btn {
+    transition: none;
+  }
 }
 
-.folder-item-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: nowrap;
+@keyframes modal-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.folder-item-actions .btn {
-  min-width: 70px;
+@keyframes card-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.move-group {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  width: auto;
+@keyframes list-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-.move-group .form-select {
-  width: 140px;
-}
-
-.move-group {
-  min-width: 190px;
-}
-
-.move-group .form-select {
-  min-width: 120px;
-}
-
-.folder-item-ar {
-  font-size: 1.35rem;
-  direction: rtl;
-  text-align: right;
-  color: #0a2e2a;
-  line-height: 2;
-}
-
-.folder-item-en {
-  margin-top: 8px;
-  font-size: 0.9rem;
-  color: #4b5563;
-  line-height: 1.7;
-}
-
-.folder-item .btn-outline-danger {
-  border-radius: 999px;
-  border-color: rgba(239, 68, 68, 0.5);
-  color: #b91c1c;
-  font-weight: 600;
-  padding: 4px 12px;
-}
-
-.folder-item .btn-outline-danger:hover {
-  background: rgba(239, 68, 68, 0.1);
-  border-color: rgba(239, 68, 68, 0.8);
-}
-
 </style>

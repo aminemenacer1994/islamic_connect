@@ -1,5 +1,5 @@
 <template>
-  <div class="dash-wrap">
+  <div class="dash-wrap admin-page">
     <!-- Top metric cards -->
     <div class="row g-3 mb-3 top-cards">
       <div class="col-md-4" v-for="c in cards" :key="c.key">
@@ -139,10 +139,11 @@ export default {
       const uValues = (this.series.users || []).map(x => x.c);
       const fValues = (this.series.feedback || []).map(x => x.c);
 
+      const accent = '#0f6e63';
       const common = {
         borderWidth: 2,
-        borderColor: '#00bfa6',
-        backgroundColor: 'rgba(0,191,166,.12)',
+        borderColor: accent,
+        backgroundColor: 'rgba(15, 110, 99, 0.12)',
         tension: .3,
         pointRadius: 0,
       };
@@ -151,14 +152,14 @@ export default {
       new Chart(ctx1, { type: 'line', data: { labels: dLabels, datasets: [{ label: 'Users', data: uValues, ...common }] }, options: { scales: { y: { beginAtZero: true } } } });
 
       const ctx2 = this.$refs.feedbackChart.getContext('2d');
-      new Chart(ctx2, { type: 'bar', data: { labels: dLabels, datasets: [{ label: 'Feedback', data: fValues, backgroundColor: 'rgba(0,191,166,.18)', borderColor: '#00bfa6', borderWidth: 1 }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
+      new Chart(ctx2, { type: 'bar', data: { labels: dLabels, datasets: [{ label: 'Feedback', data: fValues, backgroundColor: 'rgba(15, 110, 99, 0.2)', borderColor: accent, borderWidth: 1 }] }, options: { plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } } });
 
       // Pie: donations by currency
       const pie = this.$refs.donationPie.getContext('2d');
       const br = data.breakdown?.donationsByCurrency || [];
       const labels = br.map(x => x.currency || 'N/A');
       const values = br.map(x => x.c);
-      const colors = ['#00bfa6', '#66d9cc', '#ffd166', '#7c4dff', '#ff8a80', '#80cbc4'];
+      const colors = ['#0f6e63', '#5bc8b9', '#f2b84b', '#2f80ed', '#ef6f6c', '#18a999'];
       new Chart(pie, { type: 'pie', data: { labels, datasets: [{ data: values, backgroundColor: colors }] }, options: { plugins: { legend: { position: 'right' } } } });
     },
     async openModal(type) {
@@ -175,7 +176,7 @@ export default {
 
 <style scoped>
 .dash-wrap {
-  padding: 24px
+  padding: 8px;
 }
 
 .metric-card {
@@ -183,10 +184,16 @@ export default {
   align-items: center;
   gap: .75rem;
   background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  padding: 14px 16px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, .06)
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+  padding: 16px 18px;
+  box-shadow: 0 16px 28px rgba(15, 23, 42, .08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
 }
 
 .metric-icon {
@@ -197,42 +204,45 @@ export default {
   justify-content: center;
   border-radius: 10px;
   color: #fff;
-  background: var(--ref-green)
+  background: var(--admin-accent);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.4);
 }
 
 .metric-label {
-  font-size: .8rem;
-  color: #64748b
+  font-size: .75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--admin-muted);
 }
 
 .metric-value {
   font-weight: 800;
   font-size: 1.4rem;
-  color: #0f172a
+  color: var(--admin-ink);
 }
 
 .c1 {
-  background: linear-gradient(0deg, #e6fcf7, #fff)
+  background: linear-gradient(0deg, rgba(15, 110, 99, 0.12), #fff);
 }
 
 .c2 {
-  background: linear-gradient(0deg, #eaf2ff, #fff)
+  background: linear-gradient(0deg, rgba(79, 70, 229, 0.08), #fff);
 }
 
 .c3 {
-  background: linear-gradient(0deg, #fff7e6, #fff)
+  background: linear-gradient(0deg, rgba(234, 179, 8, 0.12), #fff);
 }
 
 .c4 {
-  background: linear-gradient(0deg, #f3f8ff, #fff)
+  background: linear-gradient(0deg, rgba(37, 99, 235, 0.1), #fff);
 }
 
 .c5 {
-  background: linear-gradient(0deg, #fdecef, #fff)
+  background: linear-gradient(0deg, rgba(244, 63, 94, 0.12), #fff);
 }
 
 .c6 {
-  background: linear-gradient(0deg, #f6faf9, #fff)
+  background: linear-gradient(0deg, rgba(14, 116, 144, 0.12), #fff);
 }
 
 .card-link {
@@ -241,16 +251,22 @@ export default {
 
 .panel-card {
   background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(15, 23, 42, .06);
-  padding: 12px
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+  box-shadow: 0 16px 28px rgba(15, 23, 42, .08);
+  padding: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.panel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
 }
 
 .panel-head {
   font-weight: 700;
-  color: #0f172a;
-  margin-bottom: 6px
+  color: var(--admin-ink);
+  margin-bottom: 8px
 }
 
 .list.clean {
@@ -264,7 +280,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px dashed #eef2f5
+  border-bottom: 1px dashed rgba(15, 23, 42, 0.08);
 }
 
 .list.clean li:last-child {
@@ -272,9 +288,9 @@ export default {
 }
 
 .pill {
-  background: #e6fcf7;
-  color: #0f766e;
-  border: 1px solid #b3efe3;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  border: 1px solid rgba(15, 110, 99, 0.3);
   border-radius: 999px;
   padding: 2px 8px;
   font-size: .75rem;
@@ -282,12 +298,18 @@ export default {
 }
 
 .muted {
-  color: #64748b;
+  color: var(--admin-muted);
   font-size: .85rem
 }
 
 .viewall {
-  font-size: .85rem
+  font-size: .85rem;
+  color: var(--admin-accent-strong);
+  text-decoration: none;
+}
+
+.viewall:hover {
+  text-decoration: underline;
 }
 
 .fade-pop {

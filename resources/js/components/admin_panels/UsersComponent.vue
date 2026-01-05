@@ -1,5 +1,5 @@
 <template>
-<div id="app">
+<div id="app" class="admin-page">
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewUser" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">

@@ -1,20 +1,12 @@
 <template>
-<div id="app">
+<div id="app" class="admin-page">
  <!-- <h1 class="pt-4 pb-3 text-center"><strong>Collections</strong></h1> -->
 
  <!-- Container visible only on mobile screens -->
  <div class="container text-center mt-3 d-md-none">
-  <div class="row pb-2 text-center">
-   <div class="col">
-    <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#B70D52;background:#ead1dc">
-     <a href="/bookmarks" style="text-decoration:none;color:#B70D52;background:#ead1dc">Bookmarks</a>
-    </span>
-   </div>
-   <div class="col">
-    <span class="badge h3" style="width:100%;font-size:18px;border-radius:10px; color:#3D8F67;background:#d1f4d0">
-     <a href="/notes" style="text-decoration:none;color:#3D8F67;background:#d1f4d0">Notes</a>
-    </span>
-   </div>
+  <div class="collection-nav">
+   <a class="collection-tab" href="/bookmarks">Bookmarks</a>
+   <a class="collection-tab" href="/notes">Notes</a>
   </div>
  </div>
 
@@ -41,32 +33,28 @@
  </div>
 
  <!-- Folder Selection -->
- <div class="row">
-  <div class="col-md-2">
-   <div class="button-63 " @click="openCreateFolderModal">
-    <b>Create New Collection</b>
-   </div>
+ <div class="row align-items-center mb-3">
+  <div class="col-md-3">
+   <button class="btn btn-primary create-collection-btn w-100" type="button" @click="openCreateFolderModal">
+    <i class="bi bi-plus-circle me-2"></i>
+    Create New Collection
+   </button>
   </div>
-  <div class="col-md-2"></div>
-  <div class="col-md-2"></div>
-  <div class="col-md-2"></div>
-  <div class="col-md-2"></div>
-  <div class="col-md-2"></div>
  </div>
 
-<div class="pt-5 pb-3">
-  <div class="container scrollmenu">
-    <a href="#" v-for="folder in folders" :key="folder.id" @click.prevent="selectFolder(folder.id)">
-      <div class="flex justify-content-center mr-1">
-        <button 
-          :class="['btn', 'btn-success', { 'highlight': highlightedIndex === index }]" 
-          @click="highlight(index)"         >
-          {{ folder.name }}        
-          <i class="bi bi-trash" @click.prevent="confirmDeleteFolder(folder.id)"></i>
-
-        </button>
-      </div>
-    </a>
+<div class="pt-4 pb-3">
+  <div class="container collection-scroll">
+    <button
+      v-for="folder in folders"
+      :key="folder.id"
+      type="button"
+      class="collection-pill"
+      :class="{ active: selectedFolderId === folder.id }"
+      @click="selectFolder(folder.id)"
+    >
+      <span>{{ folder.name }}</span>
+      <i class="bi bi-trash" @click.stop="confirmDeleteFolder(folder.id)"></i>
+    </button>
   </div>
 </div>
 
@@ -75,24 +63,33 @@
  <div v-if="selectedFolderId">
   <div class="row">
    <hr class="container">
-   <h5 class="pb-3 mt-3 text-center">
-    <strong>You have:</strong> <b style="color:rgb(0, 191, 166)">{{ bookmarks.length }}</b> <strong>bookmarks in this Collection</strong>
+   <h5 class="pb-3 mt-3 text-center admin-count">
+    <span class="count-label">You have</span>
+    <span class="count-pill">{{ bookmarks.length }}</span>
+    <span class="count-label">bookmarks in this collection</span>
    </h5>
 
    <div class="col-md-4 mb-4" v-for="bookmark in bookmarks" :key="bookmark.id">
-    <div class="card" style="border-radius:8px;padding:10px; border: 2px solid rgba(0, 191, 166);">
+    <div class="collection-card">
      <div class="card-body">
       <div class="truncate">
-       <h5><strong>Surah Name:</strong></h5>
-       {{ truncatedText(bookmark.surah_name) }}
+       <h6 class="section-label">Surah Name</h6>
+       <div class="section-value">{{ truncatedText(bookmark.surah_name) }}</div>
       </div>
       <div class="mt-2">
-       <h5><strong>Information:</strong></h5>
-       {{ truncatedText(bookmark.ayah_verse_en) }}
+       <h6 class="section-label">Information</h6>
+       <div class="section-value">{{ truncatedText(bookmark.ayah_verse_en) }}</div>
       </div>
-      <hr />
-      <i class="bi bi-eye-fill h4" style="color:rgb(0, 191, 166); cursor:pointer" @click="viewModal(bookmark)"></i>
-      <i class="bi bi-trash-fill h4 ml-3" style="color:rgb(0, 191, 166); cursor:pointer" @click="deleteBookmark(bookmark.id)"></i>
+      <div class="collection-actions">
+       <button class="btn btn-sm btn-outline-primary" type="button" @click="viewModal(bookmark)">
+        <i class="bi bi-eye me-1"></i>
+        View
+       </button>
+       <button class="btn btn-sm btn-outline-danger" type="button" @click="deleteBookmark(bookmark.id)">
+        <i class="bi bi-trash me-1"></i>
+        Delete
+       </button>
+      </div>
      </div>
     </div>
    </div>
@@ -108,23 +105,23 @@
      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
     <div class="modal-body">
-     <div class="card" style="border-radius:8px;padding:10px; border: 2px solid rgba(0, 191, 166);">
+     <div class="collection-card">
       <div class="card-body">
        <div class="truncate">
-        <h5><strong>Surah Name:</strong></h5>
-        {{ selectedBookmark.surah_name }}
+        <h6 class="section-label">Surah Name</h6>
+        <div class="section-value">{{ selectedBookmark.surah_name }}</div>
        </div>
        <div class="mt-2">
-        <h5><strong>Ayah Number:</strong></h5>
-        {{ selectedBookmark.ayah_num }}
+        <h6 class="section-label">Ayah Number</h6>
+        <div class="section-value">{{ selectedBookmark.ayah_num }}</div>
        </div>
        <div class="mt-2">
-        <h5><strong>Arabic Verse:</strong></h5>
-        {{ selectedBookmark.ayah_verse_ar }}
+        <h6 class="section-label">Arabic Verse</h6>
+        <div class="section-value">{{ selectedBookmark.ayah_verse_ar }}</div>
        </div>
        <div class="mt-2">
-        <h5><strong>English Translation:</strong></h5>
-        {{ selectedBookmark.ayah_verse_en }}
+        <h6 class="section-label">English Translation</h6>
+        <div class="section-value">{{ selectedBookmark.ayah_verse_en }}</div>
        </div>
       </div>
      </div>
@@ -144,7 +141,6 @@ import axios from "axios";
 export default {
  data() {
   return {
-   isHighlighted: false,
    folders: [],
    bookmarks: [],
    selectedFolderId: null,
@@ -158,9 +154,6 @@ export default {
  },
 
  methods: {
-  highlight(index) {
-   this.highlightedIndex = index; // Set the highlighted button's index
-  },
   async fetchFolders() {
    try {
     const response = await axios.get("/folders");
@@ -187,10 +180,6 @@ export default {
     console.error("Error creating folder:", error);
    }
   },
-  selectFolder(folderId) {
-      this.selectedFolderId = folderId; // Set the selected folder ID
-    },
-
   async selectFolder(folderId) {
    this.selectedFolderId = folderId;
    this.fetchBookmarksByFolder(folderId);
@@ -270,94 +259,120 @@ export default {
 </script>
 
 <style>
-.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
-.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
-.modal-modern .btn-close{filter:none}
-
-.btn {
-  transition: background-color 0.3s, color 0.3s;
+.collection-nav {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
 }
 
-.highlight {
-  background-color: rgb(0, 191, 166);;
-  color: rgb(255, 255, 255);
+.collection-tab {
+  flex: 1;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  font-weight: 700;
+  border: 1px solid rgba(15, 110, 99, 0.25);
 }
 
-.scrollmenu {
- white-space: nowrap;
- overflow-y: auto;
+.collection-tab:hover {
+  color: var(--admin-accent-strong);
+  background: rgba(15, 110, 99, 0.16);
 }
 
-.scrollmenu a {
- display: inline-block;
- text-align: center;
- text-decoration: none;
+.create-collection-btn {
+  background: linear-gradient(135deg, var(--admin-accent), var(--admin-accent-strong)) !important;
+  border: none !important;
+  box-shadow: 0 12px 24px rgba(15, 110, 99, 0.2);
 }
 
-.btn-success.active {
-  background-color: #228B22; /* Change to the desired color */
-  border-color: #228B22; /* Change to the desired color */
-  color: white;
+.create-collection-btn:hover {
+  filter: brightness(0.95);
 }
 
-
-@media (min-width: 768px) {
- .button-78 {
-  padding: 19px 32px;
- }
+.collection-scroll {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 6px;
 }
 
-.button-63 {
- align-items: center;
- background-image: linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB);
- border: 0;
- border-radius: 8px;
- box-shadow: rgba(151, 65, 252, 0.2) 0 15px 30px -5px;
- box-sizing: border-box;
- color: #FFFFFF;
- display: flex;
- font-family: Phantomsans, sans-serif;
- justify-content: center;
- line-height: 1em;
- padding: 9px 17px;
- text-decoration: none;
- cursor: pointer;
+.collection-scroll::-webkit-scrollbar {
+  height: 6px;
 }
 
-.button-63:active,
-.button-63:hover {
- outline: 0;
+.collection-scroll::-webkit-scrollbar-thumb {
+  background: rgba(15, 110, 99, 0.25);
+  border-radius: 999px;
 }
 
-@media (min-width: 768px) {
- .button-63 {
-  color: #FFF;
-  font-size: 18px;
-  min-width: 196px;
- }
+.collection-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 999px;
+  padding: 8px 14px;
+  border: 1px solid var(--admin-border);
+  background: #fff;
+  color: var(--admin-ink);
+  font-weight: 600;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
-/* .button-33 {
- background-color: #c2fbd7;
- border-radius: 100px;
- box-shadow: rgba(44, 187, 99, .2) 0 -25px 18px -14px inset, rgba(44, 187, 99, .15) 0 1px 2px, rgba(44, 187, 99, .15) 0 2px 4px, rgba(44, 187, 99, .15) 0 4px 8px, rgba(44, 187, 99, .15) 0 8px 16px, rgba(44, 187, 99, .15) 0 16px 32px;
- color: green;
- cursor: pointer;
- display: inline-block;
- font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
- padding: 7px 20px;
- text-align: center;
- text-decoration: none;
- transition: all 250ms;
- border: 0;
- font-size: 16px;
- user-select: none;
- -webkit-user-select: none;
- touch-action: manipulation;
+.collection-pill i {
+  color: var(--admin-muted);
 }
 
-.button-33:hover {
- box-shadow: rgba(44, 187, 99, .35) 0 -25px 18px -14px inset, rgba(44, 187, 99, .25) 0 1px 2px, rgba(44, 187, 99, .25) 0 2px 4px, rgba(44, 187, 99, .25) 0 4px 8px, rgba(44, 187, 99, .25) 0 8px 16px, rgba(44, 187, 99, .25) 0 16px 32px;
- transform: scale(1.05) rotate(-1deg);
-} */
+.collection-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+  border-color: rgba(15, 110, 99, 0.3);
+}
+
+.collection-pill.active {
+  background: rgba(15, 110, 99, 0.12);
+  border-color: rgba(15, 110, 99, 0.4);
+  color: var(--admin-accent-strong);
+}
+
+.collection-card {
+  border: 1px solid var(--admin-border);
+  border-radius: 16px;
+  padding: 12px;
+  background: #fff;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.collection-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 36px rgba(15, 23, 42, 0.12);
+}
+
+.collection-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--admin-muted);
+  margin: 0;
+}
+
+.section-value {
+  color: var(--admin-ink);
+  font-weight: 600;
+}
+
+.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>

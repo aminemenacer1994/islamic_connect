@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <div id="app" class="admin-page">
     <!-- Header: search & sort -->
     <div class="pt-4">
-      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
-        <div class="input-group" style="max-width:380px">
+      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2 admin-toolbar">
+        <div class="input-group admin-search">
           <span class="input-group-text"><i class="bi bi-search"></i></span>
           <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
         </div>
@@ -14,10 +14,10 @@
           </select>
         </div>
       </div>
-      <h3 class="pb-3 text-center">
-        <strong>You have: </strong>
-        <b style="color:rgb(0, 191, 166)"> {{ bookmarks.length }}</b>
-        <strong> bookmarks</strong>
+      <h3 class="pb-3 text-center admin-count">
+        <span class="count-label">You have</span>
+        <span class="count-pill">{{ bookmarks.length }}</span>
+        <span class="count-label">bookmarks</span>
       </h3>
 
       <!-- Grid cards -->
@@ -291,33 +291,156 @@ export default {
 </script>
 
 <style scoped>
-.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
-.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
-.modal-modern .btn-close{filter:none}
-.modal-title { color: #343a40; }
-.text-dark { color: #343a40 !important; }
-.modal-footer .btn-secondary { background-color: #6c757d; border-color: #6c757d; }
-.modal-footer .btn-secondary:hover { background-color: #5a6268; border-color: #545b62; }
-.modal-content { border-radius: 0.5rem; box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); }
-.modal-header { border-bottom: 1px solid #dee2e6; }
-.modal-footer { border-top: 1px solid #dee2e6; }
-.btn-close { outline: none; box-shadow: none; }
+.admin-search {
+  max-width: 380px;
+}
 
-/* Card UI (reused from Notes) */
-.note-card { position: relative; background: #fff; border: 1px solid #e6e8eb; border-radius: 16px; padding: 16px; box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06); transition: transform 0.18s ease, box-shadow 0.18s ease; cursor: default; pointer-events: auto; }
-.note-card:before { content: ""; position: absolute; inset: 0; border-radius: 16px; padding: 1px; background: linear-gradient(120deg, rgba(0, 191, 166, 0.4), rgba(0, 191, 166, 0) 40%, rgba(124, 77, 255, 0.15)); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; pointer-events: none; }
-.note-card:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(15, 23, 42, 0.12); }
-.note-chip { display: inline-flex; align-items: center; gap: 0.4rem; background: #e6fcf7; color: #0f766e; border: 1px solid #b3efe3; border-radius: 999px; font-weight: 700; font-size: 0.8rem; padding: 4px 10px; margin-bottom: 10px; pointer-events: none; }
-.note-body { color: #0f172a; min-height: 96px; margin-bottom: 8px; pointer-events: none; }
-.note-meta { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; color: #64748b; font-size: 0.85rem; pointer-events: none; }
-.note-actions { display: flex; align-items: center; gap: 0.5rem; margin-top: 10px; position: relative; z-index: 10; }
-.btn-icon { width: 34px; height: 34px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border-radius: 10px; pointer-events: auto; cursor: pointer; transition: all 0.2s ease; }
-.btn-icon:hover:not(:disabled) { transform: scale(1.05); }
-.btn-icon:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-danger.outline { background: #fff !important; color: #b00020 !important; border: 2px solid #b00020 !important; box-shadow: none; }
-.btn-danger.outline:hover:not(:disabled) { background: #b00020 !important; color: #fff !important; }
-.btn-ghost { background: #fff; border: 1px solid #e6e8eb; color: #0f172a; }
-.btn-ghost:hover { background: #f7faf9; }
-.empty { color:#6b7280; padding:1rem }
-.truncate{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.modal-modern .modal-content {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+
+.modal-modern .modal-header {
+  background: linear-gradient(90deg, rgba(15, 110, 99, 0.12), rgba(255, 255, 255, 0));
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.btn-close {
+  outline: none;
+  box-shadow: none;
+}
+
+.note-card {
+  position: relative;
+  background: var(--admin-card);
+  border: 1px solid var(--admin-border);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.note-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 18px;
+  padding: 1px;
+  background: linear-gradient(120deg, rgba(15, 110, 99, 0.35), rgba(15, 110, 99, 0) 45%, rgba(12, 92, 83, 0.18));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.note-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.note-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  border: 1px solid rgba(15, 110, 99, 0.3);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  padding: 4px 10px;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+.note-body {
+  color: var(--admin-ink);
+  min-height: 96px;
+  margin-bottom: 8px;
+  pointer-events: none;
+}
+
+.note-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  color: var(--admin-muted);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.note-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 12px;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-icon:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+
+.btn-icon:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-danger.outline {
+  background: #fff !important;
+  color: #b42318 !important;
+  border: 1px solid rgba(180, 35, 24, 0.5) !important;
+  box-shadow: none;
+}
+
+.btn-danger.outline:hover:not(:disabled) {
+  background: rgba(180, 35, 24, 0.1) !important;
+  color: #b42318 !important;
+}
+
+.btn-ghost {
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: var(--admin-ink);
+}
+
+.btn-ghost:hover {
+  background: #f7fbfa;
+  border-color: rgba(15, 110, 99, 0.3);
+  color: var(--admin-accent-strong);
+}
+
+.empty {
+  color: var(--admin-muted);
+  padding: 1rem;
+}
+
+.truncate {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-3">
+  <div class="container py-3 admin-page">
     <div class="d-flex align-items-center mb-3">
       <h3 class="me-3 mb-0">Analytics (Realtime)</h3>
       <span class="badge bg-secondary" v-if="status">{{ status }}</span>
@@ -222,15 +222,18 @@ export default {
 
 <style scoped>
 .card {
-  border-radius: 10px;
+  border-radius: 16px;
+  border: 1px solid var(--admin-border);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08);
 }
 
 code {
-  color: #555;
+  color: var(--admin-accent-strong);
 }
 
 .alert {
   padding: 6px 10px;
   margin-bottom: 8px;
+  border-radius: 12px;
 }
 </style>

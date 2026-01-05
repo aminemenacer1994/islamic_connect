@@ -13,7 +13,7 @@
         </div>
         <button
           type="button"
-          class="btn btn-sm btn-outline-secondary"
+          class="btn btn-sm btn-outline-secondary bookmark-quick"
           data-bs-toggle="modal"
           data-bs-target="#bookmarkModal"
           @click="emitBookmark"
@@ -75,11 +75,15 @@ export default {
 
 <style scoped>
 .ayah-row {
-  border: 0;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
 }
 .ayah-arabic {
-  font-size: 1.6rem;
+  font-size: 1.7rem;
+  font-family: "Amiri", "Noto Naskh Arabic", serif;
   direction: rtl;
   text-align: right;
   margin: 0.5rem 0 0.25rem;
@@ -87,5 +91,18 @@ export default {
 .ayah-translation {
   color: #475569;
   line-height: 1.7;
+}
+
+.bookmark-quick {
+  border-radius: 999px;
+  border-color: rgba(15, 110, 99, 0.25);
+  color: #0b5c53;
+  background: rgba(15, 110, 99, 0.08);
+}
+
+.bookmark-quick:hover {
+  background: rgba(15, 110, 99, 0.18);
+  border-color: rgba(15, 110, 99, 0.45);
+  color: #0b5c53;
 }
 </style>

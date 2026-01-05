@@ -258,6 +258,245 @@
   border: 1px solid #ffe3a3 !important;
 }
 
+/* Admin backend theme */
+body.has-admin-sidebar {
+  --admin-accent: #0f6e63;
+  --admin-accent-strong: #0b5c53;
+  --admin-accent-soft: rgba(15, 110, 99, 0.16);
+  --admin-ink: #0f172a;
+  --admin-muted: #64748b;
+  --admin-border: rgba(15, 23, 42, 0.1);
+  --admin-card: #ffffff;
+  --admin-surface: #f4faf8;
+  --admin-shadow: 0 18px 40px rgba(15, 23, 42, 0.1);
+  font-family: "Manrope", "Inter", system-ui, -apple-system, Segoe UI, sans-serif;
+  color: var(--admin-ink);
+}
+
+body.has-admin-sidebar .content-with-sidebar {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, #f2f8f7 100%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 24px 52px rgba(15, 23, 42, 0.12);
+  padding: 28px 32px 36px;
+}
+
+@media (max-width: 991.98px) {
+  body.has-admin-sidebar .content-with-sidebar {
+    padding: 20px 16px 28px;
+    border-radius: 18px;
+  }
+}
+
+body.has-admin-sidebar .admin-toolbar,
+body.has-admin-sidebar .table-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-card);
+  box-shadow: 0 12px 26px rgba(15, 23, 42, 0.08);
+}
+
+body.has-admin-sidebar .table-toolbar .title {
+  font-weight: 700;
+  color: var(--admin-ink);
+  letter-spacing: -0.01em;
+}
+
+body.has-admin-sidebar .table-toolbar .search-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 6px 10px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #f8fbfa;
+  min-width: 220px;
+}
+
+body.has-admin-sidebar .table-toolbar .search-wrapper i {
+  color: var(--admin-muted);
+}
+
+body.has-admin-sidebar .table-toolbar .search-wrapper .form-control {
+  background: transparent;
+  box-shadow: none;
+}
+
+@media (max-width: 576px) {
+  body.has-admin-sidebar .table-toolbar .search-wrapper {
+    width: 100%;
+  }
+}
+
+body.has-admin-sidebar .count-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+body.has-admin-sidebar .count-label {
+  color: var(--admin-muted);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+body.has-admin-sidebar .admin-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  width: 100%;
+}
+
+body.has-admin-sidebar .admin-page {
+  animation: admin-rise 0.35s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.has-admin-sidebar .admin-page {
+    animation: none;
+  }
+}
+
+@keyframes admin-rise {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+body.has-admin-sidebar .modern-datatable {
+  width: 100%;
+}
+
+body.has-admin-sidebar .modern-datatable .p-datatable-header {
+  background: transparent;
+  border: none;
+  padding: 0 0 14px;
+}
+
+body.has-admin-sidebar .modern-datatable .p-datatable-wrapper {
+  border-radius: 16px;
+  border: 1px solid var(--admin-border);
+  background: var(--admin-card);
+  box-shadow: var(--admin-shadow);
+  overflow: hidden;
+}
+
+body.has-admin-sidebar .modern-datatable .p-datatable-thead > tr > th {
+  background: #f1f7f6;
+  color: var(--admin-ink);
+  border-color: rgba(15, 23, 42, 0.08);
+  font-weight: 700;
+}
+
+body.has-admin-sidebar .modern-datatable .p-datatable-tbody > tr {
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+body.has-admin-sidebar .modern-datatable .p-datatable-tbody > tr:hover {
+  background: rgba(15, 110, 99, 0.06);
+}
+
+body.has-admin-sidebar .p-paginator {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  background: #f8fbfa;
+}
+
+body.has-admin-sidebar .p-paginator .p-paginator-page.p-highlight {
+  background: var(--admin-accent);
+  border-color: var(--admin-accent);
+  color: #fff;
+}
+
+body.has-admin-sidebar .row-actions .btn {
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+body.has-admin-sidebar .modal-modern .modal-content {
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
+}
+
+body.has-admin-sidebar .modal-modern .modal-header {
+  background: linear-gradient(90deg, rgba(15, 110, 99, 0.12), rgba(255, 255, 255, 0));
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+body.has-admin-sidebar .modal-modern .btn-close {
+  filter: none;
+}
+
+body.has-admin-sidebar .modal-modern .input-group-text {
+  background: #f1f7f6;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: var(--admin-muted);
+}
+
+body.has-admin-sidebar .form-control,
+body.has-admin-sidebar .form-select {
+  border-radius: 12px;
+  border-color: rgba(15, 23, 42, 0.12);
+}
+
+body.has-admin-sidebar .input-group-text {
+  background: #f1f7f6;
+  border-color: rgba(15, 23, 42, 0.12);
+  color: var(--admin-muted);
+}
+
+body.has-admin-sidebar .form-control:focus,
+body.has-admin-sidebar .form-select:focus {
+  border-color: rgba(15, 110, 99, 0.4);
+  box-shadow: 0 0 0 3px rgba(15, 110, 99, 0.12);
+}
+
+body.has-admin-sidebar .badge[data-status] {
+  border-radius: 999px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+}
+
+body.has-admin-sidebar .badge[data-status="succeeded"] {
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--admin-accent-strong);
+  border-color: rgba(15, 110, 99, 0.3);
+}
+
+body.has-admin-sidebar .badge[data-status="refunded"],
+body.has-admin-sidebar .badge[data-status="reversed"] {
+  background: rgba(234, 179, 8, 0.16);
+  color: #7a5200;
+  border-color: rgba(234, 179, 8, 0.35);
+}
+
+body.has-admin-sidebar .badge[data-status="failed"],
+body.has-admin-sidebar .badge[data-status="canceled"],
+body.has-admin-sidebar .badge[data-status="cancelled"] {
+  background: rgba(220, 38, 38, 0.12);
+  color: #991b1b;
+  border-color: rgba(220, 38, 38, 0.3);
+}
+
 /* Soft badges matching the soft palette */
 .badge-soft-success {
   background-color: #e9f7ef;

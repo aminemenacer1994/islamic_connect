@@ -579,7 +579,7 @@ export default {
         const response = await axios.get('/api/ayah-bookmarks');
         const bookmarks = response.data?.data || [];
         if (!Array.isArray(bookmarks)) return;
-        const next = { ...this.savedAyahKeys };
+        const next = {};
         bookmarks.forEach((bookmark) => {
           const surahNumber = Number(bookmark.surah_number || bookmark.ayah?.surah_id);
           const ayahNumber = Number(bookmark.ayah_number || bookmark.ayah_num);
@@ -602,15 +602,16 @@ export default {
     isAyahSaved(ayah) {
       if (!ayah || !this.surahDetails) return false;
       const surahNumber = Number(this.surahDetails.surahNumber);
-      const ayahNumber = Number(ayah.number);
+      const ayahNumber = Number(ayah.numberInSurah || ayah.number);
       return !!this.savedAyahKeys[this.buildAyahKey(surahNumber, ayahNumber)];
     },
     openBookmarkModal(ayah) {
       if (!this.surahDetails || !ayah) return;
+      const ayahNumber = Number(ayah.numberInSurah || ayah.number);
       this.activeAyah = {
         surah_number: Number(this.surahDetails.surahNumber),
         surah_name: this.surahDetails.englishName || this.surahDetails.name || 'Surah',
-        ayah_number: ayah.number,
+        ayah_number: ayahNumber,
         ayah_verse_ar: ayah.text || '',
         ayah_verse_en: ayah.translation || '',
       };
@@ -622,8 +623,9 @@ export default {
         this.screenReaderMessage = '';
       }, 5000);
       if (!payload) return;
-      const surahNumber = Number(payload.surah_number);
-      const ayahNumber = Number(payload.ayah_number);
+      const source = payload.bookmark || payload;
+      const surahNumber = Number(source.surah_number);
+      const ayahNumber = Number(source.ayah_number || source.ayah_num);
       if (!surahNumber || !ayahNumber) return;
       const next = { ...this.savedAyahKeys };
       next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
@@ -639,10 +641,11 @@ export default {
     },
     onAyahDragStart(ayah, event) {
       if (!event || !this.surahDetails || !ayah) return;
+      const ayahNumber = Number(ayah.numberInSurah || ayah.number);
       const payload = {
         surah_number: Number(this.surahDetails.surahNumber),
         surah_name: this.surahDetails.englishName || this.surahDetails.name || 'Surah',
-        ayah_number: ayah.number,
+        ayah_number: ayahNumber,
         ayah_verse_ar: ayah.text || '',
         ayah_verse_en: ayah.translation || '',
       };
@@ -1202,7 +1205,9 @@ export default {
                 const transText = translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available";
                 const words = text ? text.split(' ') : [];
                 return {
-                  number: ayah.number,
+                  number: ayah.numberInSurah || ayah.number,
+                  numberInSurah: ayah.numberInSurah,
+                  globalNumber: ayah.number,
                   text,
                   lowerText: text.toLowerCase(),
                   translation: transText,
@@ -1243,7 +1248,9 @@ export default {
               const transText = translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available";
               const words = text ? text.split(' ') : [];
               return {
-                number: ayah.number,
+                number: ayah.numberInSurah || ayah.number,
+                numberInSurah: ayah.numberInSurah,
+                globalNumber: ayah.number,
                 text,
                 lowerText: text.toLowerCase(),
                 translation: transText,

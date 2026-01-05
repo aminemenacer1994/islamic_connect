@@ -1,5 +1,5 @@
 <template>
-<div>
+<div class="admin-page">
 
   <!-- view new Modal -->
   <div class="modal fade" id="editNewMail" tabindex="-1" aria-labelledby="editNew" aria-hidden="true">
@@ -162,19 +162,3 @@ export default {
   },
 }
 </script>
-
-<style>
-.modal-modern .modal-content{border:1px solid #e5e7eb; border-radius:16px; box-shadow:0 16px 40px rgba(15,23,42,.18)}
-.modal-modern .modal-header{background:#fff; color:#111; border-bottom:1px solid #e5e7eb; border-top-left-radius:16px; border-top-right-radius:16px}
-.modal-modern .btn-close{filter:none}
-</style>
-
-<style>
-.table-toolbar{display:flex; align-items:center; gap:.75rem}
-.table-toolbar .spacer{flex:1}
-.table-toolbar .search-wrapper{display:flex; align-items:center; gap:.5rem; padding:.25rem .5rem; border:1px solid #e2e8f0; border-radius:8px; background:#fff}
-.btn-add,.btn-add.p-button{background:var(--ref-green)!important; border-color:var(--ref-green)!important; color:#fff!important; border:none; padding:.55rem .95rem; border-radius:10px; box-shadow:0 6px 14px rgba(0,191,166,.18)}
-.btn-add.outline{background:#fff!important; color:var(--ref-green)!important; border:2px solid var(--ref-green)!important; box-shadow:none}
-.btn-add.outline:hover{background:var(--ref-green)!important; color:#fff!important; box-shadow:0 6px 14px rgba(0,191,166,.18)}
-.row-actions{display:inline-flex; align-items:center; gap:.5rem}
-</style>
