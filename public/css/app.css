@@ -32441,6 +32441,11 @@ to {
   position: relative;
   z-index: 1;
 }
+.section-desc[data-v-9402092c] {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--bookmark-muted);
+}
 .section-icon[data-v-9402092c] {
   width: 48px;
   height: 48px;

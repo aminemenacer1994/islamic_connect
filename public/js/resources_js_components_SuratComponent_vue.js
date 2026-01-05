@@ -1384,6 +1384,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       feedback: '',
       feedbackVariant: 'success',
       feedbackTimer: null,
+      feedbackDurationMs: 4000,
+      closeTimer: null,
       bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
       folderExpanded: {},
       folderContents: {},
@@ -1457,6 +1459,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (instance) instance.dispose();
     }
     clearTimeout(this.feedbackTimer);
+    clearTimeout(this.closeTimer);
     this.cleanupModalState();
   },
   methods: {
@@ -1470,6 +1473,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     onHidden() {
       this.cleanupModalState();
       clearTimeout(this.feedbackTimer);
+      clearTimeout(this.closeTimer);
     },
     cleanupModalState() {
       const backdrops = document.querySelectorAll('.modal-backdrop');
@@ -1605,26 +1609,31 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           }
         }
         await this.fetchCurrentBookmark();
-        this.setFeedback(detachFailed ? 'Bookmark saved, but some folders could not be removed.' : 'Ayah saved to your bookmarks.', detachFailed ? 'danger' : 'success');
+        this.setFeedback(detachFailed ? 'Bookmark saved, but some folders could not be removed.' : 'Ayah saved to your bookmarks.', detachFailed ? 'danger' : 'success', {
+          autoClose: !detachFailed
+        });
         this.$emit('saved', _objectSpread(_objectSpread({}, payload), {}, {
           bookmark: this.currentBookmark
         }));
-        if (!detachFailed) {
-          this.hideModal();
-        }
       } catch (error) {
         this.setFeedback('Failed to save the bookmark.', 'danger');
       } finally {
         this.isSaving = false;
       }
     },
-    setFeedback(message, variant) {
+    setFeedback(message, variant, options = {}) {
       this.feedback = message;
       this.feedbackVariant = variant;
       clearTimeout(this.feedbackTimer);
       this.feedbackTimer = setTimeout(() => {
         this.feedback = '';
-      }, 5000);
+      }, this.feedbackDurationMs);
+      if (options.autoClose) {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = setTimeout(() => {
+          this.hideModal();
+        }, this.feedbackDurationMs);
+      }
     },
     clearSelection() {
       this.selectedFolderIds = [];
@@ -2696,7 +2705,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-folder-open"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Choose folders")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount) + " selected", 1 /* TEXT */), $options.selectedCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Choose folders"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-desc"
+  }, "Select where this ayah will be saved.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount) + " selected", 1 /* TEXT */), $options.selectedCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-link btn-clear",
@@ -2742,7 +2753,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-plus-circle"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Create new folder")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Create new folder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-desc"
+  }, "Start a fresh collection for your reflections.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "section-hint"
   }, "Add a custom collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -2797,7 +2810,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "section-icon"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-list-check"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Folder contents")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Folder contents"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "section-desc"
+  }, "Preview what is inside each folder.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "section-hint"
   }, "Review or remove saved ayat", -1 /* CACHED */)), $data.selectedFoldersForDelete.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,

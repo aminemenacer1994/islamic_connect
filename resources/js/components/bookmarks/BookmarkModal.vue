@@ -40,6 +40,7 @@
                       <span class="section-icon"><i class="fas fa-folder-open"></i></span>
                       <div>
                         <h6>Choose folders</h6>
+                        <p class="section-desc">Select where this ayah will be saved.</p>
                       </div>
                     </div>
                     <div class="section-actions">
@@ -100,6 +101,7 @@
                       <span class="section-icon"><i class="fas fa-plus-circle"></i></span>
                       <div>
                         <h6>Create new folder</h6>
+                        <p class="section-desc">Start a fresh collection for your reflections.</p>
                       </div>
                     </div>
                     <div class="section-actions">
@@ -160,6 +162,7 @@
                   <span class="section-icon"><i class="fas fa-list-check"></i></span>
                   <div>
                     <h6>Folder contents</h6>
+                    <p class="section-desc">Preview what is inside each folder.</p>
                   </div>
                 </div>
                 <div class="section-actions">
@@ -316,6 +319,8 @@ export default {
       feedback: '',
       feedbackVariant: 'success',
       feedbackTimer: null,
+      feedbackDurationMs: 4000,
+      closeTimer: null,
       bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
       folderExpanded: {},
       folderContents: {},
@@ -382,6 +387,7 @@ export default {
       if (instance) instance.dispose();
     }
     clearTimeout(this.feedbackTimer);
+    clearTimeout(this.closeTimer);
     this.cleanupModalState();
   },
   methods: {
@@ -395,6 +401,7 @@ export default {
     onHidden() {
       this.cleanupModalState();
       clearTimeout(this.feedbackTimer);
+      clearTimeout(this.closeTimer);
     },
     cleanupModalState() {
       const backdrops = document.querySelectorAll('.modal-backdrop');
@@ -538,24 +545,28 @@ export default {
             ? 'Bookmark saved, but some folders could not be removed.'
             : 'Ayah saved to your bookmarks.',
           detachFailed ? 'danger' : 'success',
+          { autoClose: !detachFailed },
         );
         this.$emit('saved', { ...payload, bookmark: this.currentBookmark });
-        if (!detachFailed) {
-          this.hideModal();
-        }
       } catch (error) {
         this.setFeedback('Failed to save the bookmark.', 'danger');
       } finally {
         this.isSaving = false;
       }
     },
-    setFeedback(message, variant) {
+    setFeedback(message, variant, options = {}) {
       this.feedback = message;
       this.feedbackVariant = variant;
       clearTimeout(this.feedbackTimer);
       this.feedbackTimer = setTimeout(() => {
         this.feedback = '';
-      }, 5000);
+      }, this.feedbackDurationMs);
+      if (options.autoClose) {
+        clearTimeout(this.closeTimer);
+        this.closeTimer = setTimeout(() => {
+          this.hideModal();
+        }, this.feedbackDurationMs);
+      }
     },
     clearSelection() {
       this.selectedFolderIds = [];
@@ -976,6 +987,12 @@ export default {
   gap: 12px;
   position: relative;
   z-index: 1;
+}
+
+.section-desc {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--bookmark-muted);
 }
 
 .section-icon {
