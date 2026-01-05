@@ -364,7 +364,7 @@ export default {
   color: #f8fafb;
   box-shadow: 0 18px 36px rgba(9, 20, 19, 0.25);
   margin-bottom: 14px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .folder-top::after {
@@ -374,6 +374,7 @@ export default {
   background: radial-gradient(circle at 20% 20%, rgba(200, 155, 58, 0.25), transparent 55%);
   opacity: 0.8;
   pointer-events: none;
+  border-radius: inherit;
 }
 
 .folder-meta {

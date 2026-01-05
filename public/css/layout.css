@@ -311,8 +311,8 @@ html {
         radial-gradient(120% 120% at 100% 0%, rgba(15, 110, 99, 0.16) 0%, transparent 45%),
         linear-gradient(160deg, #ffffff 0%, #f7fbfa 60%, #f6f0e7 100%);
     border: 1px solid rgba(15, 23, 42, 0.08);
-    border-radius: 18px;
-    box-shadow: 0 20px 44px rgba(15, 23, 42, 0.14);
+    border-radius: 14px;
+    box-shadow: 0 16px 34px rgba(15, 23, 42, 0.12);
     overflow: hidden;
     isolation: isolate
 }
@@ -320,13 +320,13 @@ html {
 .vc-sidebar::before {
     content: '';
     position: absolute;
-    top: -120px;
-    right: -120px;
-    width: 260px;
-    height: 260px;
+    top: -140px;
+    right: -140px;
+    width: 220px;
+    height: 220px;
     background: radial-gradient(circle, rgba(15, 110, 99, 0.2), transparent 70%);
     pointer-events: none;
-    opacity: 0.9
+    opacity: 0.7
 }
 
 .vc-sidebar::after {
@@ -341,13 +341,13 @@ html {
         transparent 14px
     );
     pointer-events: none;
-    opacity: 0.4
+    opacity: 0.25
 }
 
 .vc-sidebar .sidebar {
     position: relative;
     z-index: 1;
-    padding: 14px 12px 16px;
+    padding: 10px 8px 12px;
     font-family: "Manrope", "Plus Jakarta Sans", "Poppins", sans-serif;
     color: var(--sidebar-ink)
 }
@@ -369,14 +369,15 @@ html {
 .vc-sidebar .nav-link {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     color: var(--sidebar-ink);
-    border-radius: 14px;
-    padding: 9px 12px;
+    border-radius: 12px;
+    padding: 7px 10px;
     font-weight: 700;
+    font-size: 0.95rem;
     background: rgba(255, 255, 255, 0.78);
     border: 1px solid rgba(15, 23, 42, 0.08);
-    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    box-shadow: 0 8px 16px rgba(15, 23, 42, 0.08);
     transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease
 }
 
@@ -387,7 +388,7 @@ html {
 
 .vc-sidebar .nav-link:hover {
     transform: translateY(-1px);
-    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.12);
     border-color: rgba(15, 110, 99, 0.25)
 }
 
@@ -395,7 +396,7 @@ html {
     background: linear-gradient(120deg, rgba(15, 110, 99, 0.18), rgba(200, 155, 58, 0.12));
     color: var(--sidebar-accent-strong);
     border-color: rgba(15, 110, 99, 0.3);
-    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(15, 110, 99, 0.18)
+    box-shadow: 0 12px 22px rgba(15, 23, 42, 0.12), inset 0 0 0 1px rgba(15, 110, 99, 0.18)
 }
 
 .vc-sidebar .nav-link.active .label {
@@ -408,20 +409,20 @@ html {
 }
 
 .vc-sidebar .bi {
-    width: 32px;
-    height: 32px;
-    border-radius: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--sidebar-accent);
     background: rgba(15, 110, 99, 0.12);
     box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.18)
 }
 
 .vc-sidebar .nav-item + .nav-item {
-    margin-top: 6px
+    margin-top: 4px
 }
 
 /* Tablet tweaks */
