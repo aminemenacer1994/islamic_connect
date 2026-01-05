@@ -79,29 +79,38 @@
           <span class="folder-name">All bookmarks</span>
         </div>
       </li>
-      <li
-        v-for="folder in filteredFolders"
-        :key="folder.id"
-        class="list-group-item folder-item d-flex align-items-center justify-content-between"
-        :class="{ active: selectedId === folder.id }"
-        @click="selectFolder(folder)"
-        @dragover.prevent
-        @drop="handleDrop($event, folder)"
-      >
-        <div class="folder-main">
-          <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
-          <span class="folder-name">{{ folder.name }}</span>
-        </div>
-        <div class="folder-actions" @click.stop>
-          <span class="folder-count-pill">{{ folder.ayah_count }}</span>
-          <button class="btn btn-sm btn-outline-secondary folder-action" @click="startRename(folder)">
-            <i class="bi bi-pencil"></i>
-          </button>
-          <button class="btn btn-sm btn-outline-danger folder-action" @click="deleteFolder(folder)">
-            <i class="bi bi-trash"></i>
-          </button>
-        </div>
+      <li class="list-group-item folder-section">
+        <button type="button" class="folder-section-toggle" @click="showCustomFolders = !showCustomFolders">
+          <span class="section-title">Custom folders</span>
+          <span class="section-count">{{ filteredFolders.length }}</span>
+          <i class="bi" :class="showCustomFolders ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+        </button>
       </li>
+      <template v-if="showCustomFolders">
+        <li
+          v-for="folder in filteredFolders"
+          :key="folder.id"
+          class="list-group-item folder-item d-flex align-items-center justify-content-between"
+          :class="{ active: selectedId === folder.id }"
+          @click="selectFolder(folder)"
+          @dragover.prevent
+          @drop="handleDrop($event, folder)"
+        >
+          <div class="folder-main">
+            <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
+            <span class="folder-name" v-html="highlightFolderName(folder.name)"></span>
+          </div>
+          <div class="folder-actions" @click.stop>
+            <span class="folder-count-pill">{{ folder.ayah_count }}</span>
+            <button class="btn btn-sm btn-outline-secondary folder-action" @click="startRename(folder)">
+              <i class="bi bi-pencil"></i>
+            </button>
+            <button class="btn btn-sm btn-outline-danger folder-action" @click="deleteFolder(folder)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        </li>
+      </template>
     </ul>
 
     <div v-if="editingFolder" class="modal-backdrop fade show"></div>
@@ -129,6 +138,7 @@ export default {
       selectedId: null,
       showCreate: false,
       createMenuOpen: false,
+      showCustomFolders: true,
       searchQuery: '',
       newFolder: {
         name: '',
@@ -148,6 +158,12 @@ export default {
     statusClass() {
       return this.statusVariant === 'danger' ? 'alert-danger' : 'alert-success';
     },
+    highlightTerms() {
+      const query = (this.searchQuery || '').trim();
+      if (!query) return [];
+      const parts = query.split(/\s+/).filter(Boolean);
+      return Array.from(new Set(parts)).sort((a, b) => b.length - a.length);
+    },
     filteredFolders() {
       if (!this.searchQuery) return this.folders;
       const query = this.searchQuery.toLowerCase();
@@ -162,6 +178,32 @@ export default {
     document.removeEventListener('click', this.onOutsideClick);
   },
   methods: {
+    highlightFolderName(name) {
+      const clean = this.escapeHtml(String(name || ''));
+      const terms = this.highlightTerms;
+      if (!terms.length) return clean;
+      return terms.reduce((acc, term) => {
+        const regex = new RegExp(`(${this.escapeRegExp(term)})`, 'gi');
+        return acc.replace(regex, '<mark class="search-hit">$1</mark>');
+      }, clean);
+    },
+    escapeHtml(text) {
+      return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    },
+    escapeRegExp(text) {
+      return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+    adjustFolderCount(folderId, delta) {
+      const folder = this.folders.find((item) => item.id === folderId);
+      if (!folder) return;
+      const nextCount = Math.max(0, (folder.ayah_count || 0) + delta);
+      folder.ayah_count = nextCount;
+    },
     async fetchFolders() {
       try {
         const response = await axios.get('/api/folders');
@@ -532,6 +574,44 @@ export default {
   border-color: rgba(15, 110, 99, 0.35);
 }
 
+.folder-section {
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 2px 0 0;
+}
+
+.folder-section-toggle {
+  width: 100%;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--folder-ink);
+  border-radius: 999px;
+  padding: 6px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 0.82rem;
+  box-shadow: 0 10px 16px rgba(15, 23, 42, 0.08);
+}
+
+.folder-section-toggle .section-title {
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--folder-muted);
+}
+
+.folder-section-toggle .section-count {
+  margin-left: auto;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--folder-accent-strong);
+  font-weight: 700;
+}
+
 .folder-stack {
   display: grid;
   gap: 10px;
@@ -580,6 +660,13 @@ export default {
 
 .folder-name {
   font-weight: 600;
+}
+
+.search-hit {
+  background: rgba(15, 110, 99, 1);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0 3px;
 }
 
 .folder-actions {

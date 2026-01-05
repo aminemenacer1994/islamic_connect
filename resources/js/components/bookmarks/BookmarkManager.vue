@@ -1,45 +1,89 @@
 <template>
   <div class="container-fluid bookmark-manager">
-    <div class="row g-4">
-      <div class="col-12 col-lg-4">
-        <folder-list @folder-selected="onFolderSelected" />
+    <div class="row g-4 bookmark-layout">
+      <div
+        class="col-12 col-lg-4 folder-col"
+        :class="{ 'is-collapsed': isFolderCollapsed }"
+        :aria-hidden="isFolderCollapsed ? 'true' : 'false'"
+      >
+        <folder-list ref="folderList" @folder-selected="onFolderSelected" />
       </div>
-      <div class="col-12 col-lg-8">
+      <div
+        class="col-12 col-lg-8 panel-col"
+        :class="{ 'is-expanded': isFolderCollapsed }"
+      >
         <div class="bookmark-panel">
           <div class="panel-header">
             <div>
               <div class="panel-eyebrow">Collection</div>
               <h5 class="panel-title">{{ selectedFolder ? selectedFolder.name : 'Folder contents' }}</h5>
-              <div class="panel-subtitle">{{ normalizedItems.length }} ayat</div>
+              <div class="panel-subtitle">{{ panelCountLabel }}</div>
             </div>
             <div class="panel-actions">
+              <button
+                type="button"
+                class="panel-toggle"
+                @click="toggleFolderPane"
+                :aria-pressed="!isFolderCollapsed"
+                :aria-label="isFolderCollapsed ? 'Show folders' : 'Hide folders'"
+                :title="isFolderCollapsed ? 'Show folders' : 'Hide folders'"
+              >
+                <i class="bi" :class="isFolderCollapsed ? 'bi-layout-sidebar-inset' : 'bi-layout-sidebar-inset-reverse'"></i>
+              </button>
               <span v-if="selectedFolder" class="source-pill">{{ sourceLabel }}</span>
             </div>
           </div>
 
           <div class="panel-body">
+            <div v-if="panelMessage" class="panel-alert" :class="panelMessageVariant === 'danger' ? 'alert-danger' : 'alert-success'">
+              {{ panelMessage }}
+            </div>
+            <div class="panel-search">
+              <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
+                <button v-if="query" class="btn btn-outline-secondary" type="button" @click="clearSearch">
+                  Clear
+                </button>
+              </div>
+            </div>
             <div v-if="loading" class="loading-state">Loading ayat...</div>
-            <div v-else-if="normalizedItems.length === 0" class="empty-state">
-              <div class="empty-title">No ayat saved yet</div>
-              <div class="empty-subtitle">Save ayat from the Quran page or drag them onto a folder.</div>
+            <div v-else-if="filteredItems.length === 0" class="empty-state">
+              <div class="empty-title">No ayat match your search</div>
+              <div class="empty-subtitle">Try different terms or clear the filters.</div>
             </div>
 
             <div v-else class="list-group ayah-list">
-              <div v-for="item in normalizedItems" :key="item.row_key" class="list-group-item ayah-list-item">
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="ayah-list-meta">{{ item.surah_name }} • Ayah {{ item.ayah_number }}</div>
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-outline-secondary bookmark-quick"
-                    data-bs-toggle="modal"
-                    data-bs-target="#bookmarkModal"
-                    @click="prepareBookmark(item)"
-                  >
-                    <i class="bi bi-bookmark-plus"></i>
-                  </button>
+              <div v-for="item in filteredItems" :key="item.row_key" class="list-group-item ayah-list-item">
+                <div class="ayah-list-head">
+                  <div class="ayah-list-meta" v-html="formatMeta(item)"></div>
+                  <div class="ayah-list-actions">
+                    <select
+                      v-if="canMoveFromSelectedFolder"
+                      class="form-select form-select-sm move-select"
+                      :disabled="movingBookmarkId === item.bookmark_id || moveTargets.length === 0"
+                      @change="moveBookmark(item, $event)"
+                    >
+                      <option value="" selected disabled>
+                        {{ moveTargets.length ? 'Move to...' : 'No other folders' }}
+                      </option>
+                      <option v-for="folder in moveTargets" :key="`move-${folder.id}`" :value="folder.id">
+                        {{ folder.name }}
+                      </option>
+                    </select>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary bookmark-quick"
+                      data-bs-toggle="modal"
+                      data-bs-target="#bookmarkModal"
+                      @click="prepareBookmark(item)"
+                    >
+                      <i class="bi bi-bookmark-plus"></i>
+                    </button>
+                  </div>
                 </div>
-                <div class="ayah-list-ar" v-html="item.ayah_verse_ar"></div>
-                <div v-if="item.ayah_verse_en" class="ayah-list-en">{{ item.ayah_verse_en }}</div>
+                <div class="ayah-list-ar" v-html="highlightText(item.ayah_verse_ar, 'arabic')"></div>
+                <div v-if="item.ayah_verse_en" class="ayah-list-en" v-html="highlightText(item.ayah_verse_en, 'english')"></div>
               </div>
             </div>
           </div>
@@ -68,9 +112,16 @@ export default {
     return {
       selectedFolder: null,
       items: [],
+      folders: [],
       source: 'manual',
       loading: false,
       activeAyah: null,
+      movingBookmarkId: null,
+      panelMessage: '',
+      panelMessageVariant: 'success',
+      panelMessageTimer: null,
+      isFolderCollapsed: false,
+      query: '',
     };
   },
   computed: {
@@ -105,8 +156,175 @@ export default {
         };
       });
     },
+    parsedQuery() {
+      return this.parseQuery(this.query);
+    },
+    activeFieldKeys() {
+      return ['surah', 'ayah', 'arabic', 'english'];
+    },
+    highlightMap() {
+      const map = {
+        surah: [],
+        ayah: [],
+        arabic: [],
+        english: [],
+      };
+      const tokens = this.parsedQuery.filter((token) => !token.exclude);
+      tokens.forEach((token) => {
+        let targets = token.field ? this.mapFieldAlias(token.field) : this.activeFieldKeys;
+        if (!targets.length) {
+          targets = this.activeFieldKeys;
+        }
+        targets.forEach((fieldKey) => {
+          if (!map[fieldKey]) return;
+          map[fieldKey].push(token.term);
+        });
+      });
+      Object.keys(map).forEach((key) => {
+        const unique = Array.from(new Set(map[key].filter(Boolean)));
+        map[key] = unique.sort((a, b) => b.length - a.length);
+      });
+      return map;
+    },
+    filteredItems() {
+      const tokens = this.parsedQuery;
+      const fieldKeys = this.activeFieldKeys;
+      return this.normalizedItems.filter((item) => this.matchesItem(item, tokens, fieldKeys));
+    },
+    panelCountLabel() {
+      if (!this.query) {
+        return `${this.normalizedItems.length} ayat`;
+      }
+      return `${this.filteredItems.length} of ${this.normalizedItems.length} ayat`;
+    },
+    canMoveFromSelectedFolder() {
+      return !!this.selectedFolder && !this.selectedFolder.isAll && !this.selectedFolder.is_smart;
+    },
+    moveTargets() {
+      if (!this.canMoveFromSelectedFolder) return [];
+      return this.folders.filter(
+        (folder) => !folder.is_smart && folder.id !== this.selectedFolder.id,
+      );
+    },
+  },
+  mounted() {
+    this.fetchFolders();
+  },
+  beforeUnmount() {
+    clearTimeout(this.panelMessageTimer);
   },
   methods: {
+    clearSearch() {
+      this.query = '';
+    },
+    stripHtmlTags(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.innerHTML = text;
+      return div.textContent || div.innerText || '';
+    },
+    escapeHtml(text) {
+      return (text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    },
+    escapeRegExp(text) {
+      return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+    parseQuery(query) {
+      const tokens = [];
+      if (!query) return tokens;
+      const regex = /(-)?(?:(\w+):)?(?:"([^"]+)"|(\S+))/g;
+      let match;
+      while ((match = regex.exec(query)) !== null) {
+        const exclude = !!match[1];
+        const field = match[2] ? match[2].toLowerCase() : null;
+        const term = (match[3] || match[4] || '').trim();
+        if (!term) continue;
+        tokens.push({ exclude, field, term });
+      }
+      return tokens;
+    },
+    mapFieldAlias(field) {
+      const key = (field || '').toLowerCase();
+      if (!key) return [];
+      if (['surah', 's'].includes(key)) return ['surah'];
+      if (['ayah', 'a', 'num', 'number'].includes(key)) return ['ayah'];
+      if (['ar', 'arabic'].includes(key)) return ['arabic'];
+      if (['en', 'english'].includes(key)) return ['english'];
+      if (['text', 'verse'].includes(key)) return ['arabic', 'english'];
+      return [];
+    },
+    getFieldValue(item, fieldKey) {
+      switch (fieldKey) {
+        case 'surah':
+          return item.surah_name || '';
+        case 'ayah':
+          return item.ayah_number || '';
+        case 'arabic':
+          return item.ayah_verse_ar || '';
+        case 'english':
+          return item.ayah_verse_en || '';
+        default:
+          return '';
+      }
+    },
+    tokenMatchesItem(item, token, fieldKeys) {
+      const term = token.term.toLowerCase();
+      let fields = token.field ? this.mapFieldAlias(token.field) : fieldKeys;
+      if (!fields.length) {
+        fields = fieldKeys;
+      }
+      if (!fields.length) return false;
+      return fields.some((fieldKey) => {
+        const value = this.stripHtmlTags(this.getFieldValue(item, fieldKey)).toLowerCase();
+        return value.includes(term);
+      });
+    },
+    matchesItem(item, tokens, fieldKeys) {
+      if (!tokens.length) return true;
+      for (const token of tokens) {
+        const matched = this.tokenMatchesItem(item, token, fieldKeys);
+        if (token.exclude) {
+          if (matched) return false;
+        } else {
+          if (!matched) return false;
+        }
+      }
+      return true;
+    },
+    highlightText(text, fieldKey) {
+      const clean = this.stripHtmlTags(text || '');
+      const safe = this.escapeHtml(clean);
+      const terms = this.highlightMap[fieldKey] || [];
+      if (!terms.length) return safe;
+      return terms.reduce((acc, term) => {
+        const regex = new RegExp(`(${this.escapeRegExp(term)})`, 'gi');
+        return acc.replace(regex, '<mark class="search-hit">$1</mark>');
+      }, safe);
+    },
+    formatMeta(item) {
+      const surah = this.highlightText(item.surah_name || '', 'surah');
+      const ayah = this.highlightText(String(item.ayah_number || ''), 'ayah');
+      return `${surah} • Ayah ${ayah}`;
+    },
+    refreshFolderSidebar() {
+      return this.$refs.folderList?.fetchFolders?.();
+    },
+    toggleFolderPane() {
+      this.isFolderCollapsed = !this.isFolderCollapsed;
+    },
+    async fetchFolders() {
+      try {
+        const response = await axios.get('/api/folders');
+        this.folders = response.data?.data || [];
+      } catch (_) {
+        this.folders = [];
+      }
+    },
     async onFolderSelected(folder) {
       this.selectedFolder = folder;
       this.loading = true;
@@ -117,6 +335,7 @@ export default {
         const payload = response.data?.data ?? response.data?.bookmarks ?? response.data ?? [];
         this.items = Array.isArray(payload) ? payload : [];
         this.source = folder.isAll ? 'all' : response.data?.source || 'manual';
+        this.fetchFolders();
       } catch (error) {
         this.items = [];
       } finally {
@@ -136,6 +355,51 @@ export default {
       if (this.selectedFolder) {
         this.onFolderSelected(this.selectedFolder);
       }
+      this.refreshFolderSidebar();
+    },
+    async moveBookmark(item, event) {
+      const targetId = Number(event?.target?.value);
+      if (!targetId || !item?.bookmark_id || !this.canMoveFromSelectedFolder) {
+        if (event?.target) event.target.value = '';
+        return;
+      }
+      this.movingBookmarkId = item.bookmark_id;
+      try {
+        await axios.post(`/api/ayah-bookmarks/${item.bookmark_id}/folders`, {
+          folder_ids: [targetId],
+        });
+        await axios.delete(`/api/ayah-bookmarks/${item.bookmark_id}/folders/${this.selectedFolder.id}`);
+        const targetName = this.folders.find((folder) => folder.id === targetId)?.name || 'folder';
+        this.adjustFolderCount(this.selectedFolder.id, -1);
+        this.adjustFolderCount(targetId, 1);
+        if (this.source === 'manual') {
+          this.items = this.items.filter((row) => row.id !== item.bookmark_id);
+        }
+        this.setPanelMessage(`Moved to ${targetName}.`, 'success');
+      } catch (error) {
+        this.setPanelMessage('Unable to move this ayah.', 'danger');
+      } finally {
+        this.movingBookmarkId = null;
+        if (event?.target) {
+          event.target.value = '';
+        }
+      }
+    },
+    adjustFolderCount(folderId, delta) {
+      const folder = this.folders.find((item) => item.id === folderId);
+      if (folder) {
+        const nextCount = Math.max(0, (folder.ayah_count || 0) + delta);
+        folder.ayah_count = nextCount;
+      }
+      this.$refs.folderList?.adjustFolderCount?.(folderId, delta);
+    },
+    setPanelMessage(message, variant) {
+      this.panelMessage = message;
+      this.panelMessageVariant = variant;
+      clearTimeout(this.panelMessageTimer);
+      this.panelMessageTimer = setTimeout(() => {
+        this.panelMessage = '';
+      }, 3000);
     },
   },
 };
@@ -180,6 +444,50 @@ export default {
 .bookmark-manager > .row {
   position: relative;
   z-index: 1;
+}
+
+.bookmark-layout {
+  align-items: stretch;
+}
+
+.folder-col,
+.panel-col {
+  transition: flex-basis 0.3s cubic-bezier(0.22, 1, 0.36, 1), max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: flex-basis, max-width, opacity, transform;
+  contain: layout paint;
+  backface-visibility: hidden;
+}
+
+.panel-col {
+  min-width: 0;
+}
+
+@media (min-width: 992px) {
+  .folder-col {
+    flex: 0 0 33.3333%;
+    max-width: 33.3333%;
+  }
+
+  .panel-col {
+    flex: 0 0 66.6667%;
+    max-width: 66.6667%;
+  }
+
+  .folder-col.is-collapsed {
+    flex: 0 0 0;
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-12px);
+    pointer-events: none;
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+  }
+
+  .panel-col.is-expanded {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
 }
 
 .bookmark-panel {
@@ -231,6 +539,30 @@ export default {
   gap: 10px;
 }
 
+.panel-toggle {
+  width: 38px;
+  height: 38px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.25);
+  background: rgba(15, 110, 99, 0.1);
+  color: var(--bm-accent-strong);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.panel-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 22px rgba(15, 23, 42, 0.16);
+  border-color: rgba(15, 110, 99, 0.4);
+}
+
+.panel-toggle i {
+  font-size: 1.1rem;
+}
+
 .source-pill {
   display: inline-flex;
   align-items: center;
@@ -249,6 +581,76 @@ export default {
   padding: 20px 24px 24px;
 }
 
+.panel-search {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.panel-search .input-group {
+  max-width: 420px;
+}
+
+.panel-search .input-group-text {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  color: var(--bm-muted);
+}
+
+.panel-search .form-control {
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: var(--bm-ink);
+  box-shadow: none;
+}
+
+.panel-search .form-control::placeholder {
+  color: var(--bm-muted);
+}
+
+.panel-search .btn-outline-secondary {
+  border-color: rgba(15, 23, 42, 0.14);
+  color: var(--bm-ink);
+  background: #ffffff;
+}
+
+.panel-search .btn-outline-secondary:hover {
+  border-color: rgba(15, 110, 99, 0.3);
+  color: var(--bm-accent-strong);
+}
+
+.search-hit {
+  background: rgba(15, 110, 99, 1);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0 3px;
+}
+
+.panel-alert {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--bm-ink);
+  font-weight: 600;
+  margin-bottom: 14px;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.08);
+}
+
+.panel-alert.alert-success {
+  color: #0b5c53;
+  background: rgba(15, 110, 99, 0.12);
+}
+
+.panel-alert.alert-danger {
+  color: #991b1b;
+  background: rgba(220, 38, 38, 0.12);
+}
+
 .loading-state {
   padding: 24px;
   border-radius: 18px;
@@ -261,6 +663,37 @@ export default {
 .ayah-list {
   display: grid;
   gap: 14px;
+}
+
+.ayah-list-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+
+.ayah-list-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.move-select {
+  min-width: 160px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  background: rgba(15, 110, 99, 0.08);
+  color: var(--bm-ink);
+  font-weight: 600;
+  padding-right: 28px;
+}
+
+.move-select:focus {
+  border-color: rgba(15, 110, 99, 0.4);
+  box-shadow: 0 0 0 0.15rem rgba(15, 110, 99, 0.15);
 }
 
 .ayah-list-item {
@@ -294,6 +727,10 @@ export default {
   font-weight: 700;
   color: #1f2937;
   letter-spacing: -0.01em;
+}
+
+.ayah-list-meta mark.search-hit {
+  font-weight: 800;
 }
 
 .bookmark-quick {
@@ -354,6 +791,15 @@ export default {
   .panel-body {
     padding-left: 18px;
     padding-right: 18px;
+  }
+
+  .panel-search {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .panel-search .input-group {
+    max-width: 100%;
   }
 }
 

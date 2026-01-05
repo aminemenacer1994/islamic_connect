@@ -6,6 +6,9 @@
         <div class="input-group admin-search">
           <span class="input-group-text"><i class="bi bi-search"></i></span>
           <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
+          <button v-if="query" class="btn btn-outline-secondary" type="button" @click="clearSearch">
+            Clear
+          </button>
         </div>
         <div class="d-flex align-items-center gap-2">
           <select v-model="sortBy" class="form-select">
@@ -15,7 +18,9 @@
         </div>
       </div>
       <h3 class="pb-3 text-center admin-count">
-        <span class="count-label">You have</span>
+        <span class="count-label">Showing</span>
+        <span class="count-pill">{{ filteredBookmarks.length }}</span>
+        <span class="count-label">of</span>
         <span class="count-pill">{{ bookmarks.length }}</span>
         <span class="count-label">bookmarks</span>
       </h3>
@@ -29,8 +34,8 @@
               Bookmark
             </div>
             <div class="note-body">
-              <div class="fw-semibold mb-1">{{ bm.surah_name }} • Ayah {{ bm.ayah_num }}</div>
-              <div>{{ truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar) }}</div>
+              <div class="fw-semibold mb-1" v-html="formatMeta(bm)"></div>
+              <div v-html="highlightText(truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar), primaryTextField(bm))"></div>
             </div>
             <div class="note-meta">
               <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(bm.created_at) }}</span>
@@ -59,7 +64,7 @@
         </div>
       </div>
       <div v-if="!loading && filteredBookmarks.length === 0" class="empty text-center py-4">
-        No bookmarks yet. Save favorite ayahs from the Quran page to see them here.
+        No bookmarks match your search. Try different terms or filters.
       </div>
     </div>
 
@@ -193,6 +198,9 @@ export default {
     redirectToBookmark(url) {
       window.location.href = url;
     },
+    clearSearch() {
+      this.query = '';
+    },
     stripHtmlTags(text) {
       if (!text) return '';
       const div = document.createElement('div');
@@ -219,9 +227,104 @@ export default {
     },
     truncatedText(text) {
       if (!text) return '';
-      return text.length > this.maxLength
-        ? text.substring(0, this.maxLength) + '...'
-        : text;
+      const clean = this.stripHtmlTags(text);
+      return clean.length > this.maxLength
+        ? clean.substring(0, this.maxLength) + '...'
+        : clean;
+    },
+    escapeHtml(text) {
+      return (text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    },
+    escapeRegExp(text) {
+      return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+    parseQuery(query) {
+      const tokens = [];
+      if (!query) return tokens;
+      const regex = /(-)?(?:(\w+):)?(?:"([^"]+)"|(\S+))/g;
+      let match;
+      while ((match = regex.exec(query)) !== null) {
+        const exclude = !!match[1];
+        const field = match[2] ? match[2].toLowerCase() : null;
+        const term = (match[3] || match[4] || '').trim();
+        if (!term) continue;
+        tokens.push({ exclude, field, term });
+      }
+      return tokens;
+    },
+    mapFieldAlias(field) {
+      const key = (field || '').toLowerCase();
+      if (!key) return [];
+      if (['surah', 's'].includes(key)) return ['surah'];
+      if (['ayah', 'a', 'num', 'number'].includes(key)) return ['ayah'];
+      if (['ar', 'arabic'].includes(key)) return ['arabic'];
+      if (['en', 'english'].includes(key)) return ['english'];
+      if (['text', 'verse'].includes(key)) return ['arabic', 'english'];
+      if (['date', 'created'].includes(key)) return ['date'];
+      return [];
+    },
+    getFieldValue(bookmark, fieldKey) {
+      switch (fieldKey) {
+        case 'surah':
+          return bookmark.surah_name || '';
+        case 'ayah':
+          return bookmark.ayah_num || '';
+        case 'arabic':
+          return bookmark.ayah_verse_ar || '';
+        case 'english':
+          return bookmark.ayah_verse_en || '';
+        case 'date':
+          return this.extractDate(bookmark.created_at) || '';
+        default:
+          return '';
+      }
+    },
+    tokenMatchesBookmark(bookmark, token, fieldKeys) {
+      const term = token.term.toLowerCase();
+      let fields = token.field ? this.mapFieldAlias(token.field) : fieldKeys;
+      if (!fields.length) {
+        fields = fieldKeys;
+      }
+      if (!fields.length) return false;
+      return fields.some((fieldKey) => {
+        const value = this.stripHtmlTags(this.getFieldValue(bookmark, fieldKey)).toLowerCase();
+        return value.includes(term);
+      });
+    },
+    matchesBookmark(bookmark, tokens, fieldKeys) {
+      if (!tokens.length) return true;
+      for (const token of tokens) {
+        const matched = this.tokenMatchesBookmark(bookmark, token, fieldKeys);
+        if (token.exclude) {
+          if (matched) return false;
+        } else {
+          if (!matched) return false;
+        }
+      }
+      return true;
+    },
+    highlightText(text, fieldKey) {
+      const clean = this.stripHtmlTags(text || '');
+      const safe = this.escapeHtml(clean);
+      const terms = this.highlightMap[fieldKey] || [];
+      if (!terms.length) return safe;
+      return terms.reduce((acc, term) => {
+        const regex = new RegExp(`(${this.escapeRegExp(term)})`, 'gi');
+        return acc.replace(regex, '<mark class="search-hit">$1</mark>');
+      }, safe);
+    },
+    formatMeta(bookmark) {
+      const surah = this.highlightText(bookmark.surah_name || '', 'surah');
+      const ayah = this.highlightText(String(bookmark.ayah_num || ''), 'ayah');
+      return `${surah} • Ayah ${ayah}`;
+    },
+    primaryTextField(bookmark) {
+      return bookmark.ayah_verse_en ? 'english' : 'arabic';
     },
     viewModal(bookmark) {
       this.form = bookmark;
@@ -273,13 +376,41 @@ export default {
     isBusy(id) { return !!this.busy[id]; },
   },
   computed: {
-    filteredBookmarks() {
-      const q = (this.query || '').toLowerCase();
-      const list = (this.bookmarks || []).filter(bm => {
-        const parts = [bm.surah_name, String(bm.ayah_num), bm.ayah_verse_ar, bm.ayah_verse_en]
-          .map(v => this.stripHtmlTags((v || '').toString()).toLowerCase());
-        return !q || parts.some(p => p.includes(q));
+    parsedQuery() {
+      return this.parseQuery(this.query);
+    },
+    activeFieldKeys() {
+      return ['surah', 'ayah', 'arabic', 'english'];
+    },
+    highlightMap() {
+      const map = {
+        surah: [],
+        ayah: [],
+        arabic: [],
+        english: [],
+        date: [],
+      };
+      const tokens = this.parsedQuery.filter((token) => !token.exclude);
+      tokens.forEach((token) => {
+        let targets = token.field ? this.mapFieldAlias(token.field) : this.activeFieldKeys;
+        if (!targets.length) {
+          targets = this.activeFieldKeys;
+        }
+        targets.forEach((fieldKey) => {
+          if (!map[fieldKey]) return;
+          map[fieldKey].push(token.term);
+        });
       });
+      Object.keys(map).forEach((key) => {
+        const unique = Array.from(new Set(map[key].filter(Boolean)));
+        map[key] = unique.sort((a, b) => b.length - a.length);
+      });
+      return map;
+    },
+    filteredBookmarks() {
+      const tokens = this.parsedQuery;
+      const fieldKeys = this.activeFieldKeys;
+      const list = (this.bookmarks || []).filter((bm) => this.matchesBookmark(bm, tokens, fieldKeys));
       return list.sort((a, b) => {
         const da = new Date(a.created_at || 0).getTime();
         const db = new Date(b.created_at || 0).getTime();
@@ -293,6 +424,55 @@ export default {
 <style scoped>
 .admin-search {
   max-width: 380px;
+}
+
+.admin-search .form-control {
+  min-width: 220px;
+}
+
+.admin-toolbar {
+  background: rgba(15, 110, 99, 1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.admin-toolbar .input-group-text {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.admin-toolbar .form-control,
+.admin-toolbar .form-select {
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.admin-toolbar .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.admin-toolbar .btn-outline-secondary {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+}
+
+.admin-toolbar .btn-outline-secondary:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+}
+
+.admin-toolbar .form-select option {
+  color: #0f172a;
+}
+
+.search-hit {
+  background: rgba(15, 110, 99, 1);
+  color: #ffffff;
+  border-radius: 6px;
+  padding: 0 3px;
 }
 
 .modal-modern .modal-content {

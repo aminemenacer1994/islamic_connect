@@ -77,6 +77,9 @@ __webpack_require__.r(__webpack_exports__);
     redirectToBookmark(url) {
       window.location.href = url;
     },
+    clearSearch() {
+      this.query = '';
+    },
     stripHtmlTags(text) {
       if (!text) return '';
       const div = document.createElement('div');
@@ -104,7 +107,101 @@ __webpack_require__.r(__webpack_exports__);
     },
     truncatedText(text) {
       if (!text) return '';
-      return text.length > this.maxLength ? text.substring(0, this.maxLength) + '...' : text;
+      const clean = this.stripHtmlTags(text);
+      return clean.length > this.maxLength ? clean.substring(0, this.maxLength) + '...' : clean;
+    },
+    escapeHtml(text) {
+      return (text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+    },
+    escapeRegExp(text) {
+      return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    },
+    parseQuery(query) {
+      const tokens = [];
+      if (!query) return tokens;
+      const regex = /(-)?(?:(\w+):)?(?:"([^"]+)"|(\S+))/g;
+      let match;
+      while ((match = regex.exec(query)) !== null) {
+        const exclude = !!match[1];
+        const field = match[2] ? match[2].toLowerCase() : null;
+        const term = (match[3] || match[4] || '').trim();
+        if (!term) continue;
+        tokens.push({
+          exclude,
+          field,
+          term
+        });
+      }
+      return tokens;
+    },
+    mapFieldAlias(field) {
+      const key = (field || '').toLowerCase();
+      if (!key) return [];
+      if (['surah', 's'].includes(key)) return ['surah'];
+      if (['ayah', 'a', 'num', 'number'].includes(key)) return ['ayah'];
+      if (['ar', 'arabic'].includes(key)) return ['arabic'];
+      if (['en', 'english'].includes(key)) return ['english'];
+      if (['text', 'verse'].includes(key)) return ['arabic', 'english'];
+      if (['date', 'created'].includes(key)) return ['date'];
+      return [];
+    },
+    getFieldValue(bookmark, fieldKey) {
+      switch (fieldKey) {
+        case 'surah':
+          return bookmark.surah_name || '';
+        case 'ayah':
+          return bookmark.ayah_num || '';
+        case 'arabic':
+          return bookmark.ayah_verse_ar || '';
+        case 'english':
+          return bookmark.ayah_verse_en || '';
+        case 'date':
+          return this.extractDate(bookmark.created_at) || '';
+        default:
+          return '';
+      }
+    },
+    tokenMatchesBookmark(bookmark, token, fieldKeys) {
+      const term = token.term.toLowerCase();
+      let fields = token.field ? this.mapFieldAlias(token.field) : fieldKeys;
+      if (!fields.length) {
+        fields = fieldKeys;
+      }
+      if (!fields.length) return false;
+      return fields.some(fieldKey => {
+        const value = this.stripHtmlTags(this.getFieldValue(bookmark, fieldKey)).toLowerCase();
+        return value.includes(term);
+      });
+    },
+    matchesBookmark(bookmark, tokens, fieldKeys) {
+      if (!tokens.length) return true;
+      for (const token of tokens) {
+        const matched = this.tokenMatchesBookmark(bookmark, token, fieldKeys);
+        if (token.exclude) {
+          if (matched) return false;
+        } else {
+          if (!matched) return false;
+        }
+      }
+      return true;
+    },
+    highlightText(text, fieldKey) {
+      const clean = this.stripHtmlTags(text || '');
+      const safe = this.escapeHtml(clean);
+      const terms = this.highlightMap[fieldKey] || [];
+      if (!terms.length) return safe;
+      return terms.reduce((acc, term) => {
+        const regex = new RegExp(`(${this.escapeRegExp(term)})`, 'gi');
+        return acc.replace(regex, '<mark class="search-hit">$1</mark>');
+      }, safe);
+    },
+    formatMeta(bookmark) {
+      const surah = this.highlightText(bookmark.surah_name || '', 'surah');
+      const ayah = this.highlightText(String(bookmark.ayah_num || ''), 'ayah');
+      return `${surah} • Ayah ${ayah}`;
+    },
+    primaryTextField(bookmark) {
+      return bookmark.ayah_verse_en ? 'english' : 'arabic';
     },
     viewModal(bookmark) {
       var _window$bootstrap3;
@@ -173,12 +270,41 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    filteredBookmarks() {
-      const q = (this.query || '').toLowerCase();
-      const list = (this.bookmarks || []).filter(bm => {
-        const parts = [bm.surah_name, String(bm.ayah_num), bm.ayah_verse_ar, bm.ayah_verse_en].map(v => this.stripHtmlTags((v || '').toString()).toLowerCase());
-        return !q || parts.some(p => p.includes(q));
+    parsedQuery() {
+      return this.parseQuery(this.query);
+    },
+    activeFieldKeys() {
+      return ['surah', 'ayah', 'arabic', 'english'];
+    },
+    highlightMap() {
+      const map = {
+        surah: [],
+        ayah: [],
+        arabic: [],
+        english: [],
+        date: []
+      };
+      const tokens = this.parsedQuery.filter(token => !token.exclude);
+      tokens.forEach(token => {
+        let targets = token.field ? this.mapFieldAlias(token.field) : this.activeFieldKeys;
+        if (!targets.length) {
+          targets = this.activeFieldKeys;
+        }
+        targets.forEach(fieldKey => {
+          if (!map[fieldKey]) return;
+          map[fieldKey].push(token.term);
+        });
       });
+      Object.keys(map).forEach(key => {
+        const unique = Array.from(new Set(map[key].filter(Boolean)));
+        map[key] = unique.sort((a, b) => b.length - a.length);
+      });
+      return map;
+    },
+    filteredBookmarks() {
+      const tokens = this.parsedQuery;
+      const fieldKeys = this.activeFieldKeys;
+      const list = (this.bookmarks || []).filter(bm => this.matchesBookmark(bm, tokens, fieldKeys));
       return list.sort((a, b) => {
         const da = new Date(a.created_at || 0).getTime();
         const db = new Date(b.created_at || 0).getTime();
@@ -225,43 +351,45 @@ const _hoisted_7 = {
   class: "count-pill"
 };
 const _hoisted_8 = {
-  class: "row"
+  class: "count-pill"
 };
 const _hoisted_9 = {
-  class: "note-card"
+  class: "row"
 };
 const _hoisted_10 = {
-  class: "note-body"
+  class: "note-card"
 };
 const _hoisted_11 = {
-  class: "fw-semibold mb-1"
+  class: "note-body"
 };
-const _hoisted_12 = {
+const _hoisted_12 = ["innerHTML"];
+const _hoisted_13 = ["innerHTML"];
+const _hoisted_14 = {
   class: "note-meta"
 };
-const _hoisted_13 = {
+const _hoisted_15 = {
   class: "date"
 };
-const _hoisted_14 = {
+const _hoisted_16 = {
   class: "note-actions",
   role: "group",
   "aria-label": "Bookmark actions"
 };
-const _hoisted_15 = ["onClick"];
-const _hoisted_16 = ["disabled", "onClick", "title"];
-const _hoisted_17 = {
+const _hoisted_17 = ["onClick"];
+const _hoisted_18 = ["disabled", "onClick", "title"];
+const _hoisted_19 = {
   key: 0,
   class: "spinner-border spinner-border-sm"
 };
-const _hoisted_18 = {
+const _hoisted_20 = {
   key: 1,
   class: "bi bi-trash"
 };
-const _hoisted_19 = {
+const _hoisted_21 = {
   key: 0,
   class: "empty text-center py-4"
 };
-const _hoisted_20 = {
+const _hoisted_22 = {
   class: "modal fade",
   id: "viewBookmark",
   ref: "viewBookmarkModal",
@@ -269,23 +397,17 @@ const _hoisted_20 = {
   "aria-labelledby": "viewBookmarkLabel",
   "aria-hidden": "true"
 };
-const _hoisted_21 = {
+const _hoisted_23 = {
   class: "modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down"
 };
-const _hoisted_22 = {
+const _hoisted_24 = {
   class: "modal-content"
 };
-const _hoisted_23 = {
+const _hoisted_25 = {
   class: "modal-body"
 };
-const _hoisted_24 = {
-  class: "container"
-};
-const _hoisted_25 = {
-  class: "mb-3"
-};
 const _hoisted_26 = {
-  class: "mt-2 text-dark"
+  class: "container"
 };
 const _hoisted_27 = {
   class: "mb-3"
@@ -312,10 +434,16 @@ const _hoisted_34 = {
   class: "mt-2 text-dark"
 };
 const _hoisted_35 = {
+  class: "mb-3"
+};
+const _hoisted_36 = {
+  class: "mt-2 text-dark"
+};
+const _hoisted_37 = {
   class: "modal-footer"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header: search & sort "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header: search & sort "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "input-group-text"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search"
@@ -323,44 +451,56 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $data.query = $event),
     class: "form-control",
     placeholder: "Search bookmarks..."
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.sortBy = $event),
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), $data.query ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    class: "btn btn-outline-secondary",
+    type: "button",
+    onClick: _cache[1] || (_cache[1] = (...args) => $options.clearSearch && $options.clearSearch(...args))
+  }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.sortBy = $event),
     class: "form-select"
-  }, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "newest"
   }, "Newest first", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "oldest"
-  }, "Oldest first", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_6, [_cache[5] || (_cache[5] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Oldest first", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.sortBy]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_6, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "count-label"
-  }, "You have", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.bookmarks.length), 1 /* TEXT */), _cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, "Showing", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.filteredBookmarks.length), 1 /* TEXT */), _cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "count-label"
-  }, "bookmarks", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredBookmarks, bm => {
+  }, "of", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.bookmarks.length), 1 /* TEXT */), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "count-label"
+  }, "bookmarks", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Grid cards "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredBookmarks, bm => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       class: "col-md-4 mb-4",
       key: bm.id
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "note-chip"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-bookmark-fill me-1"
-    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bookmark ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bm.surah_name) + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bm.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar)), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Bookmark ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "fw-semibold mb-1",
+      innerHTML: $options.formatMeta(bm)
+    }, null, 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      innerHTML: $options.highlightText($options.truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar), $options.primaryTextField(bm))
+    }, null, 8 /* PROPS */, _hoisted_13)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_15, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-calendar3 me-1"
-    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate(bm.created_at)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate(bm.created_at)), 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-icon btn-ghost",
       onClick: $event => $options.viewModal(bm),
       title: "View",
       "aria-label": "View bookmark"
-    }, [...(_cache[8] || (_cache[8] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-eye"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_17), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-icon btn-danger outline",
       disabled: $options.isBusy(bm.id),
       onClick: $event => $options.deleteBookmark(bm.id),
       title: $options.isBusy(bm.id) ? 'Deleting…' : 'Delete',
       "aria-label": "Delete bookmark"
-    }, [$options.isBusy(bm.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_17)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_18))], 8 /* PROPS */, _hoisted_16)])])]);
-  }), 128 /* KEYED_FRAGMENT */))]), !$data.loading && $options.filteredBookmarks.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, " No bookmarks yet. Save favorite ayahs from the Quran page to see them here. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Bookmark Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [$options.isBusy(bm.id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_19)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_20))], 8 /* PROPS */, _hoisted_18)])])]);
+  }), 128 /* KEYED_FRAGMENT */))]), !$data.loading && $options.filteredBookmarks.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, " No bookmarks match your search. Try different terms or filters. ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" View Bookmark Modal "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title",
@@ -370,20 +510,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     "data-bs-dismiss": "modal",
     "aria-label": "Close"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Surah Name:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.surah_name), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Ayah Number:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_num), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Ayah Number:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_num), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Arabic Verse:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_30, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_ar), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Arabic Verse:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_ar), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "English Info:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "English Info:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.form.ayah_verse_en), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, "Date Created:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.extractDate($data.form.created_at)), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-secondary",
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.closeModal && $options.closeModal(...args)),
+    onClick: _cache[3] || (_cache[3] = (...args) => $options.closeModal && $options.closeModal(...args)),
     "data-bs-dismiss": "modal"
   }, "Close")])])])], 512 /* NEED_PATCH */)]);
 }
