@@ -73,6 +73,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AyahRow_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AyahRow.vue */ "./resources/js/components/bookmarks/AyahRow.vue");
 /* harmony import */ var _FolderList_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FolderList.vue */ "./resources/js/components/bookmarks/FolderList.vue");
 /* harmony import */ var _BookmarkModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./BookmarkModal.vue */ "./resources/js/components/bookmarks/BookmarkModal.vue");
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
 
@@ -93,6 +98,7 @@ __webpack_require__.r(__webpack_exports__);
       loading: false,
       activeAyah: null,
       movingBookmarkId: null,
+      deleteBusy: {},
       panelMessage: '',
       panelMessageVariant: 'success',
       panelMessageTimer: null,
@@ -176,6 +182,16 @@ __webpack_require__.r(__webpack_exports__);
     },
     canMoveFromSelectedFolder() {
       return !!this.selectedFolder && !this.selectedFolder.isAll && !this.selectedFolder.is_smart;
+    },
+    isSmartSelected() {
+      var _this$selectedFolder;
+      return !!((_this$selectedFolder = this.selectedFolder) !== null && _this$selectedFolder !== void 0 && _this$selectedFolder.is_smart);
+    },
+    deleteTooltip() {
+      var _this$selectedFolder2;
+      if (this.isSmartSelected) return 'Smart folders cannot be edited.';
+      if ((_this$selectedFolder2 = this.selectedFolder) !== null && _this$selectedFolder2 !== void 0 && _this$selectedFolder2.isAll) return 'Delete from all folders';
+      return 'Remove from this folder';
     },
     moveTargets() {
       if (!this.canMoveFromSelectedFolder) return [];
@@ -382,6 +398,40 @@ __webpack_require__.r(__webpack_exports__);
       this.panelMessageTimer = setTimeout(() => {
         this.panelMessage = '';
       }, 3000);
+    },
+    isDeleteBusy(id) {
+      return !!this.deleteBusy[id];
+    },
+    async removeBookmark(item) {
+      if (!(item !== null && item !== void 0 && item.bookmark_id) || !this.selectedFolder) return;
+      if (this.isSmartSelected) {
+        this.setPanelMessage('Smart folders cannot be edited.', 'danger');
+        return;
+      }
+      const confirmText = this.selectedFolder.isAll ? 'Delete this bookmark from all folders?' : 'Remove this ayah from the current folder?';
+      if (!confirm(confirmText)) return;
+      this.deleteBusy = _objectSpread(_objectSpread({}, this.deleteBusy), {}, {
+        [item.bookmark_id]: true
+      });
+      try {
+        if (this.selectedFolder.isAll) {
+          await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${item.bookmark_id}`);
+          this.items = this.items.filter(row => row.id !== item.bookmark_id);
+          this.setPanelMessage('Bookmark deleted.', 'success');
+          await this.refreshFolderSidebar();
+        } else {
+          await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${item.bookmark_id}/folders/${this.selectedFolder.id}`);
+          this.items = this.items.filter(row => row.id !== item.bookmark_id);
+          this.adjustFolderCount(this.selectedFolder.id, -1);
+          this.setPanelMessage('Ayah removed from folder.', 'success');
+        }
+      } catch (error) {
+        this.setPanelMessage('Unable to remove this ayah.', 'danger');
+      } finally {
+        this.deleteBusy = _objectSpread(_objectSpread({}, this.deleteBusy), {}, {
+          [item.bookmark_id]: false
+        });
+      }
     }
   }
 });
@@ -1273,8 +1323,17 @@ const _hoisted_21 = {
 };
 const _hoisted_22 = ["value"];
 const _hoisted_23 = ["onClick"];
-const _hoisted_24 = ["innerHTML"];
-const _hoisted_25 = ["innerHTML"];
+const _hoisted_24 = ["disabled", "title", "onClick"];
+const _hoisted_25 = {
+  key: 0,
+  class: "spinner-border spinner-border-sm"
+};
+const _hoisted_26 = {
+  key: 1,
+  class: "bi bi-trash"
+};
+const _hoisted_27 = ["innerHTML"];
+const _hoisted_28 = ["innerHTML"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_folder_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("folder-list");
   const _component_bookmark_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookmark-modal");
@@ -1346,14 +1405,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.prepareBookmark(item)
     }, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-bookmark-plus"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_23)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_23), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "btn btn-sm btn-outline-danger remove-quick",
+      disabled: $options.isDeleteBusy(item.bookmark_id) || $options.isSmartSelected,
+      title: $options.deleteTooltip,
+      onClick: $event => $options.removeBookmark(item)
+    }, [$options.isDeleteBusy(item.bookmark_id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_25)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_26))], 8 /* PROPS */, _hoisted_24)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "ayah-list-ar",
       innerHTML: $options.highlightText(item.ayah_verse_ar, 'arabic')
-    }, null, 8 /* PROPS */, _hoisted_24), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_27), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "ayah-list-en",
       innerHTML: $options.highlightText(item.ayah_verse_en, 'english')
-    }, null, 8 /* PROPS */, _hoisted_25)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }, null, 8 /* PROPS */, _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
   }), 128 /* KEYED_FRAGMENT */))]))])])], 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
     ayah: $data.activeAyah,
     onSaved: $options.onSaved

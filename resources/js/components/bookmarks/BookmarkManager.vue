@@ -80,6 +80,16 @@
                     >
                       <i class="bi bi-bookmark-plus"></i>
                     </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-danger remove-quick"
+                      :disabled="isDeleteBusy(item.bookmark_id) || isSmartSelected"
+                      :title="deleteTooltip"
+                      @click="removeBookmark(item)"
+                    >
+                      <span v-if="isDeleteBusy(item.bookmark_id)" class="spinner-border spinner-border-sm"></span>
+                      <i v-else class="bi bi-trash"></i>
+                    </button>
                   </div>
                 </div>
                 <div class="ayah-list-ar" v-html="highlightText(item.ayah_verse_ar, 'arabic')"></div>
@@ -117,6 +127,7 @@ export default {
       loading: false,
       activeAyah: null,
       movingBookmarkId: null,
+      deleteBusy: {},
       panelMessage: '',
       panelMessageVariant: 'success',
       panelMessageTimer: null,
@@ -199,6 +210,14 @@ export default {
     },
     canMoveFromSelectedFolder() {
       return !!this.selectedFolder && !this.selectedFolder.isAll && !this.selectedFolder.is_smart;
+    },
+    isSmartSelected() {
+      return !!this.selectedFolder?.is_smart;
+    },
+    deleteTooltip() {
+      if (this.isSmartSelected) return 'Smart folders cannot be edited.';
+      if (this.selectedFolder?.isAll) return 'Delete from all folders';
+      return 'Remove from this folder';
     },
     moveTargets() {
       if (!this.canMoveFromSelectedFolder) return [];
@@ -401,6 +420,38 @@ export default {
         this.panelMessage = '';
       }, 3000);
     },
+    isDeleteBusy(id) {
+      return !!this.deleteBusy[id];
+    },
+    async removeBookmark(item) {
+      if (!item?.bookmark_id || !this.selectedFolder) return;
+      if (this.isSmartSelected) {
+        this.setPanelMessage('Smart folders cannot be edited.', 'danger');
+        return;
+      }
+      const confirmText = this.selectedFolder.isAll
+        ? 'Delete this bookmark from all folders?'
+        : 'Remove this ayah from the current folder?';
+      if (!confirm(confirmText)) return;
+      this.deleteBusy = { ...this.deleteBusy, [item.bookmark_id]: true };
+      try {
+        if (this.selectedFolder.isAll) {
+          await axios.delete(`/api/ayah-bookmarks/${item.bookmark_id}`);
+          this.items = this.items.filter((row) => row.id !== item.bookmark_id);
+          this.setPanelMessage('Bookmark deleted.', 'success');
+          await this.refreshFolderSidebar();
+        } else {
+          await axios.delete(`/api/ayah-bookmarks/${item.bookmark_id}/folders/${this.selectedFolder.id}`);
+          this.items = this.items.filter((row) => row.id !== item.bookmark_id);
+          this.adjustFolderCount(this.selectedFolder.id, -1);
+          this.setPanelMessage('Ayah removed from folder.', 'success');
+        }
+      } catch (error) {
+        this.setPanelMessage('Unable to remove this ayah.', 'danger');
+      } finally {
+        this.deleteBusy = { ...this.deleteBusy, [item.bookmark_id]: false };
+      }
+    },
   },
 };
 </script>
@@ -501,6 +552,8 @@ export default {
   overflow: hidden;
   position: relative;
   animation: panel-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
 }
 
 .panel-header {
@@ -579,6 +632,42 @@ export default {
 
 .panel-body {
   padding: 20px 24px 24px;
+  overflow-y: auto;
+  scrollbar-gutter: stable;
+}
+
+@media (min-width: 992px) {
+  .bookmark-panel {
+    max-height: calc(100vh - 180px);
+  }
+}
+
+@media (max-width: 991.98px) {
+  .bookmark-panel {
+    max-height: none;
+  }
+  .panel-body {
+    overflow-y: visible;
+  }
+}
+
+.panel-body::-webkit-scrollbar {
+  width: 10px;
+}
+
+.panel-body::-webkit-scrollbar-track {
+  background: rgba(15, 110, 99, 0.08);
+  border-radius: 999px;
+}
+
+.panel-body::-webkit-scrollbar-thumb {
+  background: rgba(15, 110, 99, 0.35);
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+}
+
+.panel-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 110, 99, 0.5);
 }
 
 .panel-search {
@@ -744,6 +833,18 @@ export default {
   background: rgba(15, 110, 99, 0.18);
   border-color: rgba(15, 110, 99, 0.45);
   color: var(--bm-accent-strong);
+}
+
+.remove-quick {
+  border-radius: 999px;
+  border-color: rgba(185, 28, 28, 0.3);
+  color: #b91c1c;
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.remove-quick:hover {
+  border-color: rgba(185, 28, 28, 0.55);
+  background: rgba(239, 68, 68, 0.16);
 }
 
 .ayah-list-ar {
