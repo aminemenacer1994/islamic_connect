@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bookmark;
 use App\Models\Folder;
 use App\Models\SmartFolder;
 use Illuminate\Http\Request;
@@ -172,10 +173,18 @@ class FolderController extends Controller
     {
         $this->authorize('delete', $folder);
 
-        $folder->delete();
+        DB::transaction(function () use ($folder) {
+            $bookmarkIds = $folder->bookmarks()->pluck('bookmarks.id')->all();
+            if (!empty($bookmarkIds)) {
+                Bookmark::where('user_id', $folder->user_id)
+                    ->whereIn('id', $bookmarkIds)
+                    ->delete();
+            }
+            $folder->delete();
+        });
 
         return response()->json([
-            'message' => 'Folder deleted.',
+            'message' => 'Folder deleted with its bookmarks.',
         ]);
     }
 

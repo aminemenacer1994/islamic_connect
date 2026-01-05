@@ -91,25 +91,34 @@
                       <label class="form-label">Name</label>
                       <input v-model.trim="newFolder.name" type="text" class="form-control" placeholder="Reflection gems" />
                     </div>
-                    <!-- <div class="col-12 col-md-6">
+                    <div class="col-12">
                       <label class="form-label">Icon</label>
-                      <div class="input-group icon-input">
-                        <span class="input-group-text icon-preview" :style="iconPreviewStyle">
-                          <i :class="newFolder.icon || 'fas fa-folder'"></i>
-                        </span>
-                        <input v-model.trim="newFolder.icon" type="text" class="form-control" placeholder="fas fa-bookmark" />
+                      <div class="icon-presets">
+                        <button
+                          v-for="preset in iconPresets"
+                          :key="preset.icon"
+                          type="button"
+                          class="icon-preset-btn"
+                          :class="{ active: newFolder.icon === preset.icon }"
+                          @click="setIcon(preset.icon)"
+                        >
+                          <i :class="preset.icon"></i>
+                        </button>
                       </div>
-                      <small class="field-hint">Use a Font Awesome class, e.g. <strong>fas fa-bookmark</strong>.</small>
-                    </div> -->
-                    <div class="col-12 col-md-6">
+                    </div>
+                    <div class="col-12">
                       <label class="form-label">Color</label>
-                      <div class="input-group color-input">
-                        <span class="input-group-text color-swatch" :style="colorPreviewStyle"></span>
-                        <select v-model="newFolder.color" class="form-select">
-                          <option v-for="color in bootstrapColors" :key="color" :value="color">{{ color }}</option>
-                        </select>
+                      <div class="color-swatches">
+                        <button
+                          v-for="color in bootstrapColors"
+                          :key="`swatch-${color}`"
+                          type="button"
+                          class="color-swatch-btn"
+                          :class="{ active: newFolder.color === color }"
+                          :style="{ background: `var(--bs-${color})` }"
+                          @click="setColor(color)"
+                        ></button>
                       </div>
-                      <small class="field-hint">Matches Bootstrap theme colors.</small>
                     </div>
                     <div class="col-12">
                       <button class="btn btn-create" :disabled="isCreatingFolder" @click="createFolder">
@@ -149,7 +158,7 @@
                 <div v-if="pendingDelete" class="delete-confirm">
                   <div>
                     <div class="delete-title">{{ pendingDeleteTitle }}</div>
-                    <div class="delete-note">Bookmarks remain saved in your library.</div>
+                    <div class="delete-note">Ayat in this folder will also be deleted.</div>
                   </div>
                   <div class="delete-actions">
                     <button type="button" class="btn btn-outline-secondary btn-sm" @click="cancelDelete">Cancel</button>
@@ -169,7 +178,7 @@
                       </button>
                     <div class="folder-toggle-actions">
                       <span class="folder-toggle-meta">{{ folder.ayah_count }} ayat</span>
-                      <label class="folder-select">
+                      <!-- <label class="folder-select">
                         <input
                           type="checkbox"
                           :value="folder.id"
@@ -177,7 +186,7 @@
                           :disabled="folder.is_smart"
                         />
                         <span>Select</span>
-                      </label>
+                      </label> -->
                       <button
                         type="button"
                         class="btn btn-sm btn-outline-danger"
@@ -198,12 +207,34 @@
                         No ayat saved in this folder.
                       </div>
                       <div v-else class="folder-item" v-for="item in folderContents[folder.id].items" :key="item.id">
-                        <div class="folder-item-header">
-                          <span>{{ item.surah_name || 'Surah' }} • Ayah {{ item.ayah_number || item.ayah_num }}</span>
-                          <button class="btn btn-sm btn-outline-danger" @click="removeAyahFromFolder(item, folder)">
+                      <div class="folder-item-header">
+                        <span>{{ item.surah_name || 'Surah' }} • Ayah {{ item.ayah_number || item.ayah_num }}</span>
+                        <div class="folder-item-actions">
+                          <div class="input-group input-group-sm move-group">
+                            <select
+                              class="form-select"
+                              @change="moveAyahToFolder(item, folder, $event)"
+                              :disabled="folder.is_smart"
+                            >
+                              <option value="" disabled>Move to...</option>
+                              <option
+                                v-for="target in moveTargetFolders(folder)"
+                                :key="target.id"
+                                :value="target.id"
+                              >
+                                {{ target.name }}
+                              </option>
+                            </select>
+                          </div>
+                          <button
+                            class="btn btn-sm btn-outline-danger"
+                            :disabled="folder.is_smart"
+                            @click="removeAyahFromFolder(item, folder)"
+                          >
                             Remove
                           </button>
                         </div>
+                      </div>
                         <div class="folder-item-ar" v-html="item.ayah_verse_ar || item.ayah?.ayah_text"></div>
                         <div v-if="item.ayah_verse_en" class="folder-item-en">{{ item.ayah_verse_en }}</div>
                       </div>
@@ -245,7 +276,7 @@ export default {
       currentBookmark: null,
       newFolder: {
         name: '',
-        icon: '',
+        icon: 'fas fa-bookmark',
         color: 'primary',
       },
       isSaving: false,
@@ -264,6 +295,16 @@ export default {
       selectedFoldersForDelete: [],
       folderSearch: '',
       pendingDelete: null,
+      iconPresets: [
+        { icon: 'fas fa-bookmark' },
+        { icon: 'fas fa-star' },
+        { icon: 'fas fa-heart' },
+        { icon: 'fas fa-book' },
+        { icon: 'fas fa-book-open' },
+        { icon: 'fas fa-leaf' },
+        { icon: 'fas fa-mosque' },
+        { icon: 'fas fa-kaaba' },
+      ],
     };
   },
   computed: {
@@ -290,21 +331,6 @@ export default {
     },
     feedbackIcon() {
       return this.feedbackVariant === 'danger' ? 'fas fa-triangle-exclamation' : 'fas fa-circle-check';
-    },
-    iconPreviewStyle() {
-      const color = this.newFolder.color || 'primary';
-      return {
-        color: `var(--bs-${color})`,
-        background: `rgba(var(--bs-${color}-rgb), 0.12)`,
-        borderColor: `rgba(var(--bs-${color}-rgb), 0.35)`,
-      };
-    },
-    colorPreviewStyle() {
-      const color = this.newFolder.color || 'primary';
-      return {
-        background: `var(--bs-${color})`,
-        borderColor: `rgba(var(--bs-${color}-rgb), 0.4)`,
-      };
     },
   },
   mounted() {
@@ -376,11 +402,17 @@ export default {
         this.setFeedback('Folder name is required.', 'danger');
         return;
       }
+      const name = this.newFolder.name.trim();
+      const nameKey = name.toLowerCase();
+      if (this.folders.some((folder) => (folder.name || '').trim().toLowerCase() === nameKey)) {
+        this.setFeedback('Folder name already exists. Choose another.', 'danger');
+        return;
+      }
 
       this.isCreatingFolder = true;
       try {
         const response = await axios.post('/api/folders', {
-          name: this.newFolder.name,
+          name,
           icon: this.newFolder.icon || null,
           color: this.newFolder.color || null,
         });
@@ -394,11 +426,15 @@ export default {
           this.folderExpanded[folder.id] = true;
           this.folderContents[folder.id] = { loading: false, items: [] };
           this.newFolder.name = '';
-          this.newFolder.icon = '';
+          this.newFolder.icon = 'fas fa-bookmark';
+          this.newFolder.color = 'primary';
           this.setFeedback('Folder created.', 'success');
         }
       } catch (error) {
-        this.setFeedback('Failed to create folder.', 'danger');
+        const apiMessage =
+          error.response?.data?.message ||
+          error.response?.data?.errors?.name?.[0];
+        this.setFeedback(apiMessage || 'Failed to create folder.', 'danger');
       } finally {
         this.isCreatingFolder = false;
       }
@@ -423,11 +459,7 @@ export default {
         this.setFeedback('Ayah saved to your bookmarks.', 'success');
         this.$emit('saved', payload);
         this.fetchCurrentBookmark();
-        const modalEl = document.getElementById('bookmarkModal');
-        if (modalEl) {
-          const instance = Modal.getInstance(modalEl) || new Modal(modalEl);
-          instance.hide();
-        }
+        this.hideModal();
       } catch (error) {
         this.setFeedback('Failed to save the bookmark.', 'danger');
       } finally {
@@ -503,6 +535,14 @@ export default {
     cancelDelete() {
       this.pendingDelete = null;
     },
+    hideModal() {
+      this.$nextTick(() => {
+        const modalEl = document.getElementById('bookmarkModal');
+        if (!modalEl) return;
+        const instance = Modal.getInstance(modalEl) || new Modal(modalEl);
+        instance.hide();
+      });
+    },
     async toggleFolderContents(folder) {
       const isOpen = this.folderExpanded[folder.id];
       this.folderExpanded = {
@@ -537,6 +577,10 @@ export default {
     },
     async removeAyahFromFolder(bookmark, folder) {
       if (!bookmark?.id) return;
+      if (folder?.is_smart) {
+        this.setFeedback('Smart folders cannot be edited.', 'danger');
+        return;
+      }
       try {
         if (!confirm('Remove this ayah from the folder?')) {
           return;
@@ -558,6 +602,58 @@ export default {
         }
       } catch (error) {
         this.setFeedback('Unable to remove this ayah.', 'danger');
+      }
+    },
+    moveTargetFolders(folder) {
+      return this.folders.filter((target) => !target.is_smart && target.id !== folder.id);
+    },
+    setIcon(icon) {
+      this.newFolder.icon = icon;
+    },
+    setColor(color) {
+      this.newFolder.color = color;
+    },
+    async moveAyahToFolder(bookmark, fromFolder, event) {
+      const targetId = Number(event?.target?.value);
+      if (!bookmark?.id || !targetId) return;
+      if (fromFolder?.is_smart) {
+        this.setFeedback('Smart folders cannot be edited.', 'danger');
+        return;
+      }
+      try {
+        await axios.post(`/api/ayah-bookmarks/${bookmark.id}/folders`, {
+          folder_ids: [targetId],
+        });
+        await axios.delete(`/api/ayah-bookmarks/${bookmark.id}/folders/${fromFolder.id}`);
+
+        const fromItems = this.folderContents[fromFolder.id]?.items || [];
+        this.folderContents = {
+          ...this.folderContents,
+          [fromFolder.id]: {
+            loading: false,
+            items: fromItems.filter((item) => item.id !== bookmark.id),
+          },
+        };
+        const targetFolder = this.folders.find((folder) => folder.id === targetId);
+        if (targetFolder) {
+          targetFolder.ayah_count = (targetFolder.ayah_count || 0) + 1;
+          if (fromFolder.ayah_count > 0) fromFolder.ayah_count -= 1;
+          if (this.folderContents[targetId]?.items) {
+            this.folderContents = {
+              ...this.folderContents,
+              [targetId]: {
+                loading: false,
+                items: [bookmark, ...this.folderContents[targetId].items],
+              },
+            };
+          }
+        }
+        this.setFeedback('Ayah moved to another folder.', 'success');
+        if (event?.target) {
+          event.target.value = '';
+        }
+      } catch (error) {
+        this.setFeedback('Unable to move this ayah.', 'danger');
       }
     },
   },
@@ -630,13 +726,6 @@ export default {
 
 .bookmark-modal .modal-body {
   padding: 20px 24px 8px;
-}
-
-.field-hint {
-  display: block;
-  margin-top: 6px;
-  font-size: 0.78rem;
-  color: #94a3b8;
 }
 
 .bookmark-alert {
@@ -777,23 +866,6 @@ export default {
   margin-bottom: 12px;
 }
 
-.icon-input .form-control,
-.color-input .form-select {
-  border-left: 0;
-}
-
-.icon-input .input-group-text,
-.color-input .input-group-text {
-  border-radius: 10px 0 0 10px;
-  border-color: rgba(15, 23, 42, 0.12);
-  background: #ffffff;
-}
-
-.color-swatch {
-  width: 38px;
-  border-right: 0;
-}
-
 .folder-pill {
   position: relative;
   display: grid;
@@ -930,15 +1002,47 @@ export default {
   color: #fff;
 }
 
-.icon-preview {
+.icon-presets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.icon-preset-btn {
   width: 36px;
   height: 36px;
-  border-radius: 12px;
-  border: 1px solid transparent;
+  border-radius: 10px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: #ffffff;
+  color: #0f6e63;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1rem;
+}
+
+.icon-preset-btn.active {
+  border-color: rgba(15, 110, 99, 0.5);
+  box-shadow: 0 8px 16px rgba(15, 53, 48, 0.12);
+}
+
+.color-swatches {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.color-swatch-btn {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.12);
+}
+
+.color-swatch-btn.active {
+  box-shadow: 0 0 0 2px rgba(15, 110, 99, 0.35);
 }
 
 .btn-cancel {
@@ -991,6 +1095,8 @@ export default {
   font-weight: 700;
   color: #111827;
   padding: 0;
+  flex: 1;
+  min-width: 0;
 }
 
 .folder-toggle-title {
@@ -1012,16 +1118,20 @@ export default {
 }
 
 .folder-toggle-meta {
+  display: inline-flex;
+  align-items: center;
   font-size: 0.85rem;
   color: #6b7280;
   margin-left: auto;
-  margin-right: 12px;
+  margin-right: 8px;
+  white-space: nowrap;
 }
 
 .folder-toggle-actions {
   display: inline-flex;
   align-items: center;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 .delete-confirm {
@@ -1058,11 +1168,13 @@ export default {
   gap: 6px;
   font-size: 0.8rem;
   color: #6b7280;
+  white-space: nowrap;
 }
 
 .folder-select input {
   width: 16px;
   height: 16px;
+  margin: 0;
 }
 
 .folder-toggle-button {
@@ -1159,9 +1271,19 @@ export default {
     justify-content: flex-end;
   }
 
-  .icon-input .form-control,
-  .color-input .form-select {
-    font-size: 0.95rem;
+  .folder-item-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .folder-item-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .move-group {
+    width: 100%;
   }
 }
 
@@ -1174,6 +1296,37 @@ export default {
   margin-bottom: 10px;
   border-bottom: 1px solid rgba(15, 23, 42, 0.06);
   padding-bottom: 8px;
+  gap: 12px;
+}
+
+.folder-item-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.folder-item-actions .btn {
+  min-width: 70px;
+}
+
+.move-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  width: auto;
+}
+
+.move-group .form-select {
+  width: 140px;
+}
+
+.move-group {
+  min-width: 190px;
+}
+
+.move-group .form-select {
+  min-width: 120px;
 }
 
 .folder-item-ar {

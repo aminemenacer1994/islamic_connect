@@ -132,7 +132,7 @@
             </h4>
             <button
               type="button"
-              class="icon-btn"
+              class="icon-btn bookmark-btn"
               :class="{ 'is-saved': isAyahSaved(item.ayah) }"
               data-bs-toggle="modal"
               data-bs-target="#bookmarkModal"
@@ -442,6 +442,12 @@ export default {
     },
   },
   watch: {
+    savedAyahKeys: {
+      deep: true,
+      handler(next) {
+        this.persistSavedAyahs(next);
+      },
+    },
     searchQuery: function (val) {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = setTimeout(() => {
@@ -511,13 +517,15 @@ export default {
       this.$nextTick(this.updateVirtualWindow);
     }
   },
+  created() {
+    this.loadSavedAyahs();
+  },
   mounted() {
     window.addEventListener('keydown', this.onKeydown);
     this.updateIsMobile();
     window.addEventListener('resize', this.updateIsMobile);
     // Restore dismissal state for next-step card
     try { if (localStorage.getItem('suratNextStepDismissed') === '1') this.showNextStep = false; } catch (_) {}
-    this.loadSavedAyahs();
     this.syncSavedAyahsFromApi();
     // Virtualization hooks
     this.$nextTick(() => {
@@ -575,12 +583,15 @@ export default {
         bookmarks.forEach((bookmark) => {
           const surahNumber = Number(bookmark.surah_number || bookmark.ayah?.surah_id);
           const ayahNumber = Number(bookmark.ayah_number || bookmark.ayah_num);
+          const ayahInSurah = Number(bookmark.ayah?.ayah_id);
           if (surahNumber && ayahNumber) {
             next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
           }
+          if (surahNumber && ayahInSurah) {
+            next[this.buildAyahKey(surahNumber, ayahInSurah)] = true;
+          }
         });
         this.savedAyahKeys = next;
-        this.persistSavedAyahs(next);
       } catch (_) {
         // Ignore sync failures; local state still works.
       }
@@ -617,7 +628,6 @@ export default {
       const next = { ...this.savedAyahKeys };
       next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
       this.savedAyahKeys = next;
-      this.persistSavedAyahs(next);
     },
     persistSavedAyahs(next) {
       try {
@@ -2516,6 +2526,22 @@ h1.display-5 {
 }
 .ayah-card-container .icon-btn i { font-size: 1.4rem; }
 .ayah-card-container .icon-btn:hover { background: rgba(11, 128, 111, 0.1); }
+.ayah-card-container .bookmark-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 110, 99, 0.25);
+  box-shadow: 0 10px 22px rgba(15, 53, 48, 0.12);
+}
+.ayah-card-container .bookmark-btn i {
+  font-size: 1.6rem;
+}
+.ayah-card-container .bookmark-btn:hover {
+  background: rgba(15, 110, 99, 0.12);
+  border-color: rgba(15, 110, 99, 0.45);
+  transform: translateY(-1px);
+}
 .ayah-card-container .icon-btn.is-saved {
   background: linear-gradient(135deg, rgba(15, 110, 99, 0.22), rgba(210, 162, 75, 0.28));
   border-color: rgba(210, 162, 75, 0.7);

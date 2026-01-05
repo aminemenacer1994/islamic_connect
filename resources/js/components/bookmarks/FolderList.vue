@@ -209,10 +209,16 @@ export default {
         this.setStatus('Folder name is required.', 'danger');
         return;
       }
+      const name = this.newFolder.name.trim();
+      const nameKey = name.toLowerCase();
+      if (this.folders.some((folder) => (folder.name || '').trim().toLowerCase() === nameKey)) {
+        this.setStatus('Folder name already exists. Choose another.', 'danger');
+        return;
+      }
       this.isCreating = true;
       try {
         const response = await axios.post('/api/folders', {
-          name: this.newFolder.name,
+          name,
           icon: this.newFolder.icon || null,
           color: this.newFolder.color || null,
         });
@@ -227,7 +233,10 @@ export default {
           this.setStatus('Folder created.', 'success');
         }
       } catch (error) {
-        this.setStatus('Could not create folder.', 'danger');
+        const apiMessage =
+          error.response?.data?.message ||
+          error.response?.data?.errors?.name?.[0];
+        this.setStatus(apiMessage || 'Could not create folder.', 'danger');
       } finally {
         this.isCreating = false;
       }
@@ -244,9 +253,15 @@ export default {
       if (!this.editingFolder || !this.renameValue) {
         return;
       }
+      const name = this.renameValue.trim();
+      const nameKey = name.toLowerCase();
+      if (this.folders.some((folder) => folder.id !== this.editingFolder.id && (folder.name || '').trim().toLowerCase() === nameKey)) {
+        this.setStatus('Folder name already exists. Choose another.', 'danger');
+        return;
+      }
       try {
         const response = await axios.put(`/api/folders/${this.editingFolder.id}`, {
-          name: this.renameValue,
+          name,
         });
         const updated = response.data.folder;
         if (updated) {
@@ -255,13 +270,16 @@ export default {
           this.setStatus('Folder renamed.', 'success');
         }
       } catch (error) {
-        this.setStatus('Rename failed.', 'danger');
+        const apiMessage =
+          error.response?.data?.message ||
+          error.response?.data?.errors?.name?.[0];
+        this.setStatus(apiMessage || 'Rename failed.', 'danger');
       } finally {
         this.cancelRename();
       }
     },
     async deleteFolder(folder) {
-      if (!confirm('Delete this folder?')) return;
+      if (!confirm('Delete this folder and all saved ayat inside it?')) return;
       try {
         await axios.delete(`/api/folders/${folder.id}`);
         this.folders = this.folders.filter(item => item.id !== folder.id);
