@@ -9,6 +9,10 @@
         </p>
       </div>
     </div>
+    <div v-if="bookmarkToast" class="alert alert-success bookmark-toast" role="status">
+      <i class="bi bi-check-circle-fill me-2" aria-hidden="true"></i>
+      {{ bookmarkToast }}
+    </div>
 
     <!-- Sticky Dropdowns Container -->
     <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
@@ -20,16 +24,22 @@
             <div class="filter-subtitle">Surah, reciter, and translation</div>
           </div>
         </div>
-        <button
-          type="button"
-          class="filter-toggle"
-          @click="toggleVisibility"
-          :aria-expanded="isVisible"
-          aria-controls="surat-filters"
-          :aria-label="isVisible ? 'Hide filters' : 'Show filters'">
-          <i v-if="isVisible" class="bi bi-chevron-up" aria-hidden="true"></i>
-          <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
-        </button>
+        <div class="filter-actions">
+          <a href="/bookmarks" class="bookmark-cta-link">
+            <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
+            View saved bookmarks
+          </a>
+          <button
+            type="button"
+            class="filter-toggle"
+            @click="toggleVisibility"
+            :aria-expanded="isVisible"
+            aria-controls="surat-filters"
+            :aria-label="isVisible ? 'Hide filters' : 'Show filters'">
+            <i v-if="isVisible" class="bi bi-chevron-up" aria-hidden="true"></i>
+            <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
+          </button>
+        </div>
       </div>
       <div id="surat-filters" class="row g-3" v-show="isVisible">
         <div class="col-12 col-md-4 filter-item">
@@ -388,6 +398,8 @@ export default {
       savedAyahKeys: {},
       savedAyahsLoaded: false,
       savedAyahClearTimer: null,
+      bookmarkToast: '',
+      bookmarkToastTimer: null,
     };
   },
   computed: {
@@ -546,6 +558,7 @@ export default {
     window.removeEventListener('resize', this.computeListTop);
     window.removeEventListener('resize', this.calibrateItemHeight);
     clearTimeout(this.savedAyahClearTimer);
+    clearTimeout(this.bookmarkToastTimer);
   },
   beforeDestroy() {
     window.removeEventListener('keydown', this.onKeydown);
@@ -554,6 +567,7 @@ export default {
     window.removeEventListener('resize', this.computeListTop);
     window.removeEventListener('resize', this.calibrateItemHeight);
     clearTimeout(this.savedAyahClearTimer);
+    clearTimeout(this.bookmarkToastTimer);
   },
   methods: {
     loadSavedAyahs() {
@@ -622,6 +636,11 @@ export default {
       this.savedAyahClearTimer = setTimeout(() => {
         this.screenReaderMessage = '';
       }, 5000);
+      this.bookmarkToast = 'Bookmark saved successfully.';
+      clearTimeout(this.bookmarkToastTimer);
+      this.bookmarkToastTimer = setTimeout(() => {
+        this.bookmarkToast = '';
+      }, 4000);
       if (!payload) return;
       const source = payload.bookmark || payload;
       const surahNumber = Number(source.surah_number);
@@ -1574,10 +1593,56 @@ export default {
   z-index: 1;
 }
 
+.bookmark-cta-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.16);
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 14px 24px rgba(10, 30, 28, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.bookmark-cta-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 18px 30px rgba(10, 30, 28, 0.45);
+  color: #ffffff;
+}
+
+.bookmark-toast {
+  max-width: 520px;
+  margin: 0 auto 16px;
+  border-radius: 14px;
+  box-shadow: 0 12px 22px rgba(15, 53, 48, 0.12);
+}
+
+.filter-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
 @media (max-width: 768px) {
   .surat-premium {
     padding: 18px 14px 24px;
     border-radius: 18px;
+  }
+
+  .filter-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .bookmark-cta-link {
+    padding: 7px 12px;
+    font-size: 0.85rem;
   }
 }
 /* Consolidated base rules */

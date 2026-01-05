@@ -7,8 +7,8 @@
             <div class="header-title">
               <span class="header-icon"><i class="fas fa-bookmark"></i></span>
               <div>
-                <h5 class="modal-title" id="bookmarkModalLabel">Save Ayah</h5>
-                <p class="modal-subtitle">Keep your reflections organized and easy to return to.</p>
+                <h5 class="modal-title" id="bookmarkModalLabel">Save ayah</h5>
+                <p class="modal-subtitle">Pick a folder or create a new one.</p>
                 <div class="header-meta">
                   <span class="meta-item">
                     <span class="meta-label">Folders</span>
@@ -272,6 +272,7 @@
             </div>
           </div>
           <div class="modal-footer">
+            <a href="/bookmarks" class="btn btn-manage">Open bookmarks</a>
             <button type="button" class="btn btn-cancel" data-bs-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-save" :disabled="isSaving" @click="saveBookmark">
               <span v-if="isSaving" class="spinner-border spinner-border-sm me-2"></span>
@@ -320,8 +321,8 @@ export default {
       folderContents: {},
       sectionOpen: {
         folders: true,
-        create: true,
-        contents: true,
+        create: false,
+        contents: false,
       },
       selectedFoldersForDelete: [],
       folderSearch: '',
@@ -924,6 +925,24 @@ export default {
   background: linear-gradient(0deg, rgba(15, 110, 99, 0.08), rgba(255, 255, 255, 0));
   position: relative;
   z-index: 1;
+}
+
+.btn-manage {
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.35);
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--bookmark-accent-strong);
+  font-weight: 700;
+  padding: 8px 16px;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-manage:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 110, 99, 0.5);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+  color: var(--bookmark-accent-strong);
 }
 
 .section-card {
