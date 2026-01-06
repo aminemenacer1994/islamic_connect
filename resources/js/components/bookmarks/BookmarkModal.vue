@@ -321,6 +321,7 @@ export default {
       feedbackTimer: null,
       feedbackDurationMs: 4000,
       closeTimer: null,
+      authRedirectTimer: null,
       bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
       folderExpanded: {},
       folderContents: {},
@@ -388,20 +389,40 @@ export default {
     }
     clearTimeout(this.feedbackTimer);
     clearTimeout(this.closeTimer);
+    clearTimeout(this.authRedirectTimer);
     this.cleanupModalState();
   },
   methods: {
-    onShow() {
+    async onShow() {
       this.cleanupModalState();
       this.feedback = '';
       this.selectedFolderIds = [];
       this.currentBookmark = null;
+      const isAuthed = await this.ensureAuthenticated();
+      if (!isAuthed) return;
       Promise.all([this.fetchFolders(), this.fetchCurrentBookmark()]);
     },
     onHidden() {
       this.cleanupModalState();
       clearTimeout(this.feedbackTimer);
       clearTimeout(this.closeTimer);
+      clearTimeout(this.authRedirectTimer);
+    },
+    async ensureAuthenticated() {
+      try {
+        const response = await axios.get('/api/userId');
+        if (response.data?.userId) {
+          return true;
+        }
+      } catch (_) {
+        // fall through to redirect
+      }
+      this.setFeedback('Please log in to save bookmarks. Redirecting…', 'danger');
+      clearTimeout(this.authRedirectTimer);
+      this.authRedirectTimer = setTimeout(() => {
+        window.location.href = '/login';
+      }, 1500);
+      return false;
     },
     cleanupModalState() {
       const backdrops = document.querySelectorAll('.modal-backdrop');
@@ -455,6 +476,8 @@ export default {
       return !!folder?.is_smart;
     },
     async createFolder() {
+      const isAuthed = await this.ensureAuthenticated();
+      if (!isAuthed) return;
       if (!this.newFolder.name) {
         this.setFeedback('Folder name is required.', 'danger');
         return;
@@ -497,6 +520,8 @@ export default {
       }
     },
     async saveBookmark() {
+      const isAuthed = await this.ensureAuthenticated();
+      if (!isAuthed) return;
       const surahNumber = Number(this.ayah?.surah_number || this.ayah?.surah_id);
       const ayahNumber = Number(this.ayah?.ayah_number || this.ayah?.ayah_num);
       if (!this.ayah || !surahNumber || !ayahNumber) {

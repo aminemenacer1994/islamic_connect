@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-4 surat-premium" role="main" aria-label="Quran Explorer">
+  <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer }" role="main" aria-label="Quran Explorer">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Quran Explorer</h1>
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="filter-actions">
-          <a href="/bookmarks" class="bookmark-cta-link">
+          <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
             <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
             View saved bookmarks
           </a>
@@ -40,6 +40,11 @@
             <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
           </button>
         </div>
+      </div>
+      <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
+        <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+        <span>{{ authAlert }}</span>
+        <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
       </div>
       <div id="surat-filters" class="row g-3" v-show="isVisible">
         <div class="col-12 col-md-4 filter-item">
@@ -400,6 +405,8 @@ export default {
       savedAyahClearTimer: null,
       bookmarkToast: '',
       bookmarkToastTimer: null,
+      authAlert: '',
+      authAlertTimer: null,
     };
   },
   computed: {
@@ -559,6 +566,7 @@ export default {
     window.removeEventListener('resize', this.calibrateItemHeight);
     clearTimeout(this.savedAyahClearTimer);
     clearTimeout(this.bookmarkToastTimer);
+    clearTimeout(this.authAlertTimer);
   },
   beforeDestroy() {
     window.removeEventListener('keydown', this.onKeydown);
@@ -568,6 +576,7 @@ export default {
     window.removeEventListener('resize', this.calibrateItemHeight);
     clearTimeout(this.savedAyahClearTimer);
     clearTimeout(this.bookmarkToastTimer);
+    clearTimeout(this.authAlertTimer);
   },
   methods: {
     loadSavedAyahs() {
@@ -619,8 +628,10 @@ export default {
       const ayahNumber = Number(ayah.numberInSurah || ayah.number);
       return !!this.savedAyahKeys[this.buildAyahKey(surahNumber, ayahNumber)];
     },
-    openBookmarkModal(ayah) {
+    async openBookmarkModal(ayah) {
       if (!this.surahDetails || !ayah) return;
+      const isAuthed = await this.ensureAuthenticated();
+      if (!isAuthed) return;
       const ayahNumber = Number(ayah.numberInSurah || ayah.number);
       this.activeAyah = {
         surah_number: Number(this.surahDetails.surahNumber),
@@ -649,6 +660,31 @@ export default {
       const next = { ...this.savedAyahKeys };
       next[this.buildAyahKey(surahNumber, ayahNumber)] = true;
       this.savedAyahKeys = next;
+    },
+    async onBookmarksLinkClick() {
+      const isAuthed = await this.ensureAuthenticated();
+      if (isAuthed) {
+        window.location.href = '/bookmarks';
+      }
+    },
+    async ensureAuthenticated() {
+      try {
+        const response = await axios.get('/api/userId');
+        if (response.data?.userId) {
+          return true;
+        }
+      } catch (_) {
+        // fall through
+      }
+      this.showAuthAlert();
+      return false;
+    },
+    showAuthAlert() {
+      this.authAlert = 'Please log in to use bookmarks.';
+      clearTimeout(this.authAlertTimer);
+      this.authAlertTimer = setTimeout(() => {
+        this.authAlert = '';
+      }, 6000);
     },
     persistSavedAyahs(next) {
       try {
@@ -1588,6 +1624,10 @@ export default {
   padding: 26px 22px 32px;
 }
 
+.surat-premium.has-audio-player {
+  padding-bottom: calc(32px + 140px + env(safe-area-inset-bottom));
+}
+
 .surat-premium > * {
   position: relative;
   z-index: 1;
@@ -1629,10 +1669,63 @@ export default {
   gap: 10px;
 }
 
+.auth-alert {
+  margin: 0 0 12px;
+  border-radius: 16px;
+  box-shadow: 0 12px 22px rgba(15, 53, 48, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  background: rgba(255, 241, 214, 0.95);
+  color: #7a4b00;
+}
+
+.auth-alert .bi {
+  font-size: 1.1rem;
+}
+
+.auth-alert-link {
+  margin-left: auto;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 6px 12px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  color: #0b5c53;
+}
+
 @media (max-width: 768px) {
   .surat-premium {
     padding: 18px 14px 24px;
     border-radius: 18px;
+  }
+
+  .surat-premium.has-audio-player {
+    padding-bottom: calc(24px + 170px + env(safe-area-inset-bottom));
+  }
+
+  .sticky-dropdown {
+    padding: 10px 12px;
+    border-radius: 18px;
+  }
+
+  .filter-header {
+    gap: 10px;
+  }
+
+  .filter-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .filter-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .filter-actions {
+    gap: 8px;
   }
 
   .filter-actions {
@@ -1897,7 +1990,7 @@ export default {
   box-shadow: 0 -10px 24px rgba(10, 32, 30, 0.35);
   border-top: 1px solid rgba(210, 162, 75, 0.35);
   border-radius: 20px 20px 0 0;
-  padding: 12px 14px;
+  padding: 12px 14px calc(12px + env(safe-area-inset-bottom)) 14px;
   transition: transform 0.3s ease-in-out;
 }
 
@@ -1950,6 +2043,21 @@ export default {
 
   .volume-slider {
     width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .controls {
+    gap: 8px;
+  }
+
+  .controls .control-btn {
+    font-size: 1.5rem;
+    padding: 6px;
+  }
+
+  .controls .time {
+    flex-basis: 100%;
   }
 }
 
@@ -2116,6 +2224,10 @@ export default {
 
   .filter-header {
     margin-bottom: 8px;
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
+    padding-right: 52px;
   }
 
   .filter-icon {
@@ -2125,6 +2237,46 @@ export default {
 
   .filter-subtitle {
     font-size: 0.85rem;
+  }
+
+  .filter-title {
+    width: 100%;
+  }
+
+  .filter-actions {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    margin-top: 8px;
+  }
+
+  .filter-toggle {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  .bookmark-cta-link {
+    order: 2;
+    width: 100%;
+    white-space: normal;
+    text-align: center;
+    justify-content: center;
+  }
+
+  .auth-alert {
+    flex-wrap: wrap;
+    text-align: left;
+  }
+
+  .auth-alert-link {
+    margin-left: 0;
+    width: 100%;
+    text-align: center;
+  }
+
+  .sticky-dropdown.collapsed {
+    max-height: 120px;
   }
 
   /* Grid layout: Surah full width, Reciter + Translation side by side */
@@ -2161,6 +2313,21 @@ export default {
     border-radius: 10px !important;
     background-color: rgba(255, 255, 255, 0.92);
     border: 1px solid rgba(15, 110, 99, 0.2);
+  }
+}
+
+@media (max-width: 420px) {
+  .sticky-dropdown .row.g-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(2),
+  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(3) {
+    grid-column: 1 / -1;
+  }
+
+  .bookmark-cta-link {
+    font-size: 0.82rem;
   }
 }
 
@@ -2588,6 +2755,51 @@ h1.display-5 {
     max-width: 100%;
     margin-left: 0;
     margin-right: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text h4 {
+    flex: 1 1 100%;
+    font-size: 1rem;
+  }
+
+  .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text .bookmark-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text .bookmark-btn i {
+    font-size: 1.4rem;
+  }
+
+  .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text img {
+    width: 28px;
+  }
+}
+
+@media (max-width: 420px) {
+  .ayah-card-container .d-block.d-md-none .row.mb-3 {
+    flex-wrap: wrap;
+    border-radius: 18px;
+    padding: 10px 6px;
+  }
+
+  .ayah-card-container .d-block.d-md-none .row.mb-3 .col-2 {
+    flex: 0 0 33.333%;
+    max-width: 33.333%;
+    padding: 4px;
+  }
+
+  .ayah-card-container .icon-btn {
+    width: 42px;
+    height: 42px;
   }
 }
 .ayah-card-container .icon-btn {

@@ -187,7 +187,7 @@
     <style>
         body {
             padding-top: calc(3.5rem + 1rem);
-            background: linear-gradient(180deg, #fdfefe 0%, #f4f6fb 40%, #e9eef7 100%);
+            /* background: linear-gradient(180deg, #fdfefe 0%, #f4f6fb 40%, #e9eef7 100%); */
         }
 
         @media (max-width: 768px) {
@@ -225,6 +225,9 @@
                     <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
+                        </li>
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3" href="/surat" data-path="/surat" data-nav-item="primary"><b>Holy Quran</b></a>
                         </li>
                         <!-- <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Reverts corner</button>
@@ -295,7 +298,7 @@
                         </li> -->
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/holy" data-path="/holy" data-nav-item="primary"><b>Quran Portal</b></a>
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/quran" data-path="/quran" data-nav-item="primary"><b>Quran Companion</b></a>
                         </li>
 
                         <li class="nav-item mt-2">
@@ -313,10 +316,6 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
                         </li>
-
-                        <li class="nav-item mt-2">
-                            <a class="nav-link ml-3 pt-2 pl-3" href="/guide" data-path="/guide" data-nav-item="primary"><b>Islamic Guides</b></a>
-                        </li> 
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary"><b>Donations</b></a>
@@ -553,11 +552,11 @@
                 '/home': '/',
                 '/revert': '/revert',
                 '/welcome': '/',
-                // Quran portal (user-specified)
-                '/holy': '/holy',
-                '/quran': '/holy',
-                '/surat': '/holy',
-                '/history': '/holy',
+                // Quran routes
+                '/holy': '/quran',
+                '/quran': '/quran',
+                '/surat': '/surat',
+                '/history': '/surat',
                 '/about': '/about',
                 // Media center (user-specified)
                 '/media': '/media',

@@ -105,7 +105,7 @@
             <button class="btn btn-sm btn-outline-secondary folder-action" @click="startRename(folder)">
               <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger folder-action" @click="deleteFolder(folder)">
+            <button class="btn btn-sm btn-outline-danger folder-action" @click="openDeleteConfirm(folder)">
               <i class="bi bi-trash"></i>
             </button>
           </div>
@@ -121,6 +121,35 @@
         <div class="d-flex justify-content-end gap-2 mt-2">
           <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
           <button class="btn btn-primary" @click="saveRename">Save</button>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="deleteConfirmOpen" class="modal-backdrop fade show"></div>
+    <div
+      v-if="deleteConfirmOpen"
+      class="modal fade show delete-confirm-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      style="display: block;"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title">Delete folder?</h6>
+            <button type="button" class="btn-close" aria-label="Close" @click="closeDeleteConfirm"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-0">Delete this folder and all saved ayat inside it?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
+            <button type="button" class="btn btn-danger" :disabled="deleteBusy" @click="confirmDeleteFolder">
+              <span v-if="deleteBusy" class="spinner-border spinner-border-sm me-2"></span>
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -149,6 +178,9 @@ export default {
       isCreating: false,
       editingFolder: null,
       renameValue: '',
+      deleteConfirmOpen: false,
+      deleteCandidate: null,
+      deleteBusy: false,
       status: '',
       statusVariant: 'success',
       bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
@@ -293,6 +325,34 @@ export default {
       this.editingFolder = null;
       this.renameValue = '';
     },
+    openDeleteConfirm(folder) {
+      if (!folder) return;
+      this.deleteCandidate = folder;
+      this.deleteConfirmOpen = true;
+      document.body.classList.add('modal-open');
+    },
+    closeDeleteConfirm() {
+      this.deleteConfirmOpen = false;
+      this.deleteCandidate = null;
+      document.body.classList.remove('modal-open');
+    },
+    async confirmDeleteFolder() {
+      if (!this.deleteCandidate) return;
+      this.deleteBusy = true;
+      try {
+        await axios.delete(`/api/folders/${this.deleteCandidate.id}`);
+        this.folders = this.folders.filter(item => item.id !== this.deleteCandidate.id);
+        if (this.selectedId === this.deleteCandidate.id) {
+          this.selectedId = null;
+        }
+        this.setStatus('Folder deleted.', 'success');
+      } catch (error) {
+        this.setStatus('Delete failed.', 'danger');
+      } finally {
+        this.deleteBusy = false;
+        this.closeDeleteConfirm();
+      }
+    },
     async saveRename() {
       if (!this.editingFolder || !this.renameValue) {
         return;
@@ -320,19 +380,6 @@ export default {
         this.setStatus(apiMessage || 'Rename failed.', 'danger');
       } finally {
         this.cancelRename();
-      }
-    },
-    async deleteFolder(folder) {
-      if (!confirm('Delete this folder and all saved ayat inside it?')) return;
-      try {
-        await axios.delete(`/api/folders/${folder.id}`);
-        this.folders = this.folders.filter(item => item.id !== folder.id);
-        if (this.selectedId === folder.id) {
-          this.selectedId = null;
-        }
-        this.setStatus('Folder deleted.', 'success');
-      } catch (error) {
-        this.setStatus('Delete failed.', 'danger');
       }
     },
     async handleDrop(event, folder) {
@@ -475,7 +522,7 @@ export default {
   position: absolute;
   top: calc(100% + 12px);
   right: 0;
-  width: 320px;
+  width: min(320px, calc(100vw - 32px));
   padding: 14px;
   border-radius: 18px;
   background: #ffffff;
@@ -701,5 +748,129 @@ export default {
   z-index: 1050;
   border-radius: 16px;
   box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
+}
+
+.delete-confirm-modal .modal-content {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.18);
+}
+
+@media (max-width: 1199.98px) {
+  .folder-top {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .folder-top-actions {
+    width: 100%;
+  }
+
+  .create-trigger {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .create-menu {
+    left: 0;
+    right: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .folder-top {
+    padding: 12px;
+    border-radius: 16px;
+    box-shadow: 0 14px 28px rgba(9, 20, 19, 0.22);
+  }
+
+  .folder-icon-box {
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    font-size: 1.1rem;
+  }
+
+  .create-trigger {
+    padding: 6px 12px;
+    font-size: 0.9rem;
+  }
+
+  .create-menu {
+    right: 0;
+    left: auto;
+  }
+
+  .folder-item {
+    padding: 10px 12px;
+    border-radius: 14px;
+    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
+  }
+
+  .folder-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 576px) {
+  .folder-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .folder-count-pill {
+    margin-right: auto;
+  }
+}
+
+@media (max-width: 420px) {
+  .folder-top {
+    padding: 10px;
+  }
+
+  .folder-meta {
+    gap: 10px;
+  }
+
+  .folder-icon-box {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 1rem;
+  }
+
+  .folder-title {
+    font-size: 0.95rem;
+  }
+
+  .folder-count {
+    font-size: 0.75rem;
+  }
+
+  .create-menu {
+    width: calc(100vw - 24px);
+    right: 0;
+    left: auto;
+  }
+
+  .folder-item {
+    padding: 9px 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .folder-top {
+    padding: 8px;
+  }
+
+  .create-trigger {
+    padding: 5px 10px;
+    font-size: 0.85rem;
+  }
+
+  .folder-item {
+    padding: 8px 9px;
+  }
 }
 </style>

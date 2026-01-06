@@ -9,15 +9,17 @@
     <link rel="stylesheet" href="{{ mix('css/app.css') }}">
     @stack('styles')
     <style>
-        :root { --sidebar-width: 260px; --sidebar-collapsed: 72px; --accent: #00aaff; --frame-radius: 18px; --frame-shadow: 0 8px 30px rgba(0,0,0,.08); --card-radius: 12px; --card-border: #e8ecef; --muted:#6b7280; }
+        :root { --sidebar-width: 260px; --sidebar-collapsed: 72px; --accent: #00aaff; --frame-radius: 18px; --frame-shadow: 0 8px 30px rgba(0,0,0,.08); --card-radius: 12px; --card-border: #e8ecef; --muted:#6b7280; --nav-offset: 3.5rem; }
         body { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background: radial-gradient(1200px 600px at -10% -10%, #e8f7ef 0%, transparent 60%), radial-gradient(1200px 600px at 110% 110%, #e7f3ff 0%, transparent 60%), #f6f8f9; }
         /* App frame */
         .layout { display:flex; min-height:100vh; padding: 20px; }
-        .app-frame { background:#fff; border-radius: var(--frame-radius); box-shadow: var(--frame-shadow); width:100%; display:flex; overflow:hidden; }
-        .content-wrapper { flex:1; margin-left: var(--sidebar-width); transition: margin-left .3s ease; background:#fbfcfd; }
-        .content-inner { padding: 24px 28px; }
+        .app-frame { background:#fff; border-radius: var(--frame-radius); box-shadow: var(--frame-shadow); width:100%; display:flex; flex-direction: column; overflow:hidden; min-width: 0; }
+        .content-wrapper { flex:1; margin-left: var(--sidebar-width); transition: margin-left .3s ease; background:#fbfcfd; width: 100%; min-width: 0; }
+        .content-inner { padding: 24px 28px; min-width: 0; }
         .content-wrapper.collapsed { margin-left: var(--sidebar-collapsed); }
-        @media (max-width: 768px) { .layout{padding:10px;} .content-wrapper { margin-left: 0; } }
+        @media (max-width: 1024px) { .content-inner { padding: 20px; } }
+        @media (max-width: 768px) { .layout{padding:10px;} .content-wrapper { margin-left: 0; } .content-inner { padding: 16px; } }
+        @media (max-width: 576px) { .layout{padding:8px;} .content-inner { padding: 12px; } }
 
         /* Topbar */
         .main-navbar { position: sticky; top:0; z-index:1020; background: #fff; border-bottom: 1px solid #eef2f5; }
@@ -26,12 +28,13 @@
         /* Brand logo sizing */
         .navbar-brand img { height: 56px; width: auto; }
         @media (max-width: 576px) { .navbar-brand img { height: 44px; } }
-        .topbar-tools { display:flex; gap:10px; align-items:center; }
+        .topbar-tools { display:flex; gap:10px; align-items:center; flex-wrap: wrap; }
         .search-wrap { flex:1; max-width: 560px; position: relative; }
-        .search-wrap input { width:100%; border:1px solid #e6eaee; border-radius: 999px; padding:10px 14px 10px 40px; background:#fafbfc; }
+        .search-wrap input { width:100%; border:1px solid #e6eaee; border-radius: 999px; padding:10px 14px 10px 40px; background:#fafbfc; min-width: 0; }
         .search-wrap i { position:absolute; left:12px; top:50%; transform: translateY(-50%); color:#94a3b8; }
         .chip { font-size:12px; color:#0f5132; background:#d1f7e2; border:1px solid #a7efc3; padding:4px 8px; border-radius: 999px; }
         .premium-btn { background:linear-gradient(144deg,#AF40FF,#5B42F3 50%,#00DDEB); color:#fff; border:none; border-radius:10px; padding:8px 14px; }
+        .topbar-row { gap: 16px; flex-wrap: wrap; }
 
         /* Sidebar (merged, softened) */
         :root {
@@ -69,7 +72,7 @@
         .main-sidebar.collapsed .nav-link:hover::after { opacity:1; visibility:visible; }
         .sidebar-backdrop { position: fixed; inset:0; background: var(--backdrop-color); opacity:0; visibility:hidden; transition: opacity .3s ease, visibility .3s ease; z-index: 1025; }
         .sidebar-backdrop.active { opacity:1; visibility:visible; }
-        @media (max-width: 768px) { .main-sidebar { transform: translateX(calc(-1 * var(--sidebar-width))); } .main-sidebar.active { transform: translateX(0); } }
+        @media (max-width: 768px) { .main-sidebar { transform: translateX(calc(-1 * var(--sidebar-width))); box-shadow: 0 18px 40px rgba(0,0,0,.18); } .main-sidebar.active { transform: translateX(0); } }
 
         /* Card utilities */
         .card-lite { background:#fff; border:1px solid var(--card-border); border-radius: var(--card-radius); box-shadow: 0 1px 2px rgba(0,0,0,.03); }
@@ -78,6 +81,32 @@
         .grid-12 { display:grid; grid-template-columns: repeat(12, minmax(0,1fr)); gap:16px; }
         @media (max-width: 991px){ .grid-12 { grid-template-columns: repeat(6, minmax(0,1fr)); } }
         @media (max-width: 640px){ .grid-12 { grid-template-columns: repeat(1, minmax(0,1fr)); } }
+
+        @media (max-width: 768px) {
+            :root { --nav-offset: 3.75rem; }
+            .main-navbar .navbar-collapse.show,
+            .main-navbar .navbar-collapse.collapsing {
+                margin-top: 8px;
+                padding: 12px;
+                border-radius: 16px;
+                background: #ffffff;
+                border: 1px solid #eef2f5;
+                box-shadow: 0 16px 30px rgba(15, 23, 42, 0.12);
+            }
+            .main-navbar .navbar-nav { align-items: stretch; gap: 6px; }
+            .main-navbar .navbar-nav .nav-item { width: 100%; }
+            .main-navbar .navbar-nav .nav-link { padding: 8px 12px; }
+            .main-navbar .navbar-nav .btn,
+            .main-navbar .navbar-nav .premium-btn { width: 100%; }
+            .topbar-row { align-items: stretch; }
+            .topbar-row .search-wrap { flex-basis: 100%; max-width: 100%; }
+            .topbar-row .topbar-tools { width: 100%; justify-content: flex-start; }
+        }
+
+        @media (max-width: 576px) {
+            :root { --nav-offset: 3.25rem; }
+            .navbar-brand img { height: 40px; }
+        }
     </style>
 </head>
 <body class="light-theme">
@@ -141,7 +170,7 @@
     <div id="contentWrapper" class="content-wrapper">
         <div class="content-inner">
             <!-- Example top toolbar area matching reference -->
-            <div class="d-flex align-items-center justify-content-between mb-3">
+            <div class="d-flex align-items-center justify-content-between mb-3 topbar-row">
                 <div class="search-wrap me-3">
                     <i class="bi bi-search"></i>
                     <input type="search" placeholder="Search" aria-label="Search" />

@@ -30,6 +30,10 @@
               >
                 <i class="bi" :class="isFolderCollapsed ? 'bi-layout-sidebar-inset' : 'bi-layout-sidebar-inset-reverse'"></i>
               </button>
+              <a class="panel-cta" href="/surat">
+                Go back to the Holy Quran
+                <i class="bi bi-arrow-right ms-2"></i>
+              </a>
               <span v-if="selectedFolder" class="source-pill">{{ sourceLabel }}</span>
             </div>
           </div>
@@ -85,7 +89,7 @@
                       class="btn btn-sm btn-outline-danger remove-quick"
                       :disabled="isDeleteBusy(item.bookmark_id) || isSmartSelected"
                       :title="deleteTooltip"
-                      @click="removeBookmark(item)"
+                      @click="openRemoveConfirm(item)"
                     >
                       <span v-if="isDeleteBusy(item.bookmark_id)" class="spinner-border spinner-border-sm"></span>
                       <i v-else class="bi bi-trash"></i>
@@ -102,6 +106,35 @@
     </div>
 
     <bookmark-modal :ayah="activeAyah" @saved="onSaved" />
+
+    <div v-if="removeConfirmOpen" class="modal-backdrop fade show"></div>
+    <div
+      v-if="removeConfirmOpen"
+      class="modal fade show remove-confirm-modal"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      style="display: block;"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h6 class="modal-title">{{ removeConfirmTitle }}</h6>
+            <button type="button" class="btn-close" aria-label="Close" @click="closeRemoveConfirm"></button>
+          </div>
+          <div class="modal-body">
+            <p class="mb-0">{{ removeConfirmMessage }}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-outline-secondary" @click="closeRemoveConfirm">Cancel</button>
+            <button type="button" class="btn btn-danger" :disabled="removeBusy" @click="confirmRemoveBookmark">
+              <span v-if="removeBusy" class="spinner-border spinner-border-sm me-2"></span>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -128,6 +161,10 @@ export default {
       activeAyah: null,
       movingBookmarkId: null,
       deleteBusy: {},
+      removeConfirmOpen: false,
+      removeCandidate: null,
+      removeMode: 'folder',
+      removeBusy: false,
       panelMessage: '',
       panelMessageVariant: 'success',
       panelMessageTimer: null,
@@ -218,6 +255,15 @@ export default {
       if (this.isSmartSelected) return 'Smart folders cannot be edited.';
       if (this.selectedFolder?.isAll) return 'Delete from all folders';
       return 'Remove from this folder';
+    },
+    removeConfirmTitle() {
+      return this.removeMode === 'all' ? 'Delete bookmark?' : 'Remove from folder?';
+    },
+    removeConfirmMessage() {
+      if (this.removeMode === 'all') {
+        return 'Delete this bookmark from all folders?';
+      }
+      return 'Remove this ayah from the current folder?';
     },
     moveTargets() {
       if (!this.canMoveFromSelectedFolder) return [];
@@ -423,33 +469,45 @@ export default {
     isDeleteBusy(id) {
       return !!this.deleteBusy[id];
     },
-    async removeBookmark(item) {
+    openRemoveConfirm(item) {
       if (!item?.bookmark_id || !this.selectedFolder) return;
       if (this.isSmartSelected) {
         this.setPanelMessage('Smart folders cannot be edited.', 'danger');
         return;
       }
-      const confirmText = this.selectedFolder.isAll
-        ? 'Delete this bookmark from all folders?'
-        : 'Remove this ayah from the current folder?';
-      if (!confirm(confirmText)) return;
-      this.deleteBusy = { ...this.deleteBusy, [item.bookmark_id]: true };
+      this.removeCandidate = item;
+      this.removeMode = this.selectedFolder.isAll ? 'all' : 'folder';
+      this.removeConfirmOpen = true;
+      document.body.classList.add('modal-open');
+    },
+    closeRemoveConfirm() {
+      this.removeConfirmOpen = false;
+      this.removeCandidate = null;
+      this.removeBusy = false;
+      document.body.classList.remove('modal-open');
+    },
+    async confirmRemoveBookmark() {
+      if (!this.removeCandidate?.bookmark_id || !this.selectedFolder) return;
+      this.removeBusy = true;
+      const bookmarkId = this.removeCandidate.bookmark_id;
+      this.deleteBusy = { ...this.deleteBusy, [bookmarkId]: true };
       try {
-        if (this.selectedFolder.isAll) {
-          await axios.delete(`/api/ayah-bookmarks/${item.bookmark_id}`);
-          this.items = this.items.filter((row) => row.id !== item.bookmark_id);
+        if (this.removeMode === 'all') {
+          await axios.delete(`/api/ayah-bookmarks/${bookmarkId}`);
+          this.items = this.items.filter((row) => row.id !== bookmarkId);
           this.setPanelMessage('Bookmark deleted.', 'success');
           await this.refreshFolderSidebar();
         } else {
-          await axios.delete(`/api/ayah-bookmarks/${item.bookmark_id}/folders/${this.selectedFolder.id}`);
-          this.items = this.items.filter((row) => row.id !== item.bookmark_id);
+          await axios.delete(`/api/ayah-bookmarks/${bookmarkId}/folders/${this.selectedFolder.id}`);
+          this.items = this.items.filter((row) => row.id !== bookmarkId);
           this.adjustFolderCount(this.selectedFolder.id, -1);
           this.setPanelMessage('Ayah removed from folder.', 'success');
         }
       } catch (error) {
         this.setPanelMessage('Unable to remove this ayah.', 'danger');
       } finally {
-        this.deleteBusy = { ...this.deleteBusy, [item.bookmark_id]: false };
+        this.deleteBusy = { ...this.deleteBusy, [bookmarkId]: false };
+        this.closeRemoveConfirm();
       }
     },
   },
@@ -466,6 +524,7 @@ export default {
   --bm-border: rgba(15, 23, 42, 0.1);
   padding: 1rem 0;
   position: relative;
+  overflow-x: hidden;
 }
 
 .bookmark-manager::before {
@@ -499,6 +558,8 @@ export default {
 
 .bookmark-layout {
   align-items: stretch;
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 1.5rem;
 }
 
 .folder-col,
@@ -592,6 +653,30 @@ export default {
   gap: 10px;
 }
 
+.panel-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.3);
+  background: rgba(15, 110, 99, 0.12);
+  color: var(--bm-accent-strong);
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.panel-cta:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 110, 99, 0.5);
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
+  color: var(--bm-accent-strong);
+}
+
 .panel-toggle {
   width: 38px;
   height: 38px;
@@ -636,13 +721,13 @@ export default {
   scrollbar-gutter: stable;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1200px) {
   .bookmark-panel {
     max-height: calc(100vh - 180px);
   }
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1199.98px) {
   .bookmark-panel {
     max-height: none;
   }
@@ -847,6 +932,12 @@ export default {
   background: rgba(239, 68, 68, 0.16);
 }
 
+.remove-confirm-modal .modal-content {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.18);
+}
+
 .ayah-list-ar {
   margin-top: 12px;
   font-size: 1.7rem;
@@ -901,6 +992,169 @@ export default {
 
   .panel-search .input-group {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 1199.98px) {
+  .bookmark-layout {
+    --bs-gutter-x: 1.2rem;
+    --bs-gutter-y: 1.2rem;
+  }
+
+  .folder-col,
+  .panel-col {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .folder-col {
+    order: -1;
+  }
+
+  .folder-col.is-collapsed {
+    display: none;
+  }
+
+  .panel-col.is-expanded {
+    max-width: 100%;
+  }
+
+  .panel-header {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .panel-actions {
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .bookmark-manager {
+    padding: 0.75rem 0.5rem 1rem;
+  }
+
+  .bookmark-layout {
+    --bs-gutter-x: 0.9rem;
+    --bs-gutter-y: 1rem;
+  }
+
+  .bookmark-manager::before,
+  .bookmark-manager::after {
+    width: 200px;
+    height: 200px;
+    opacity: 0.35;
+  }
+
+  .bookmark-panel {
+    border-radius: 20px;
+    box-shadow: 0 18px 36px rgba(15, 23, 42, 0.14);
+  }
+
+  .panel-header {
+    padding: 16px 18px;
+  }
+
+  .panel-title {
+    font-size: 1.1rem;
+  }
+
+  .panel-actions {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .panel-cta {
+    width: 100%;
+    justify-content: center;
+    order: 3;
+  }
+
+  .panel-toggle {
+    width: 34px;
+    height: 34px;
+  }
+
+  .panel-body {
+    padding: 16px 18px 20px;
+  }
+
+  .ayah-list-item {
+    padding: 14px 16px;
+    border-left-width: 3px;
+    box-shadow: 0 14px 24px rgba(15, 23, 42, 0.1);
+  }
+
+  .ayah-list-ar {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .bookmark-panel {
+    border-radius: 18px;
+  }
+
+  .panel-title {
+    font-size: 1rem;
+  }
+
+  .panel-subtitle {
+    font-size: 0.8rem;
+  }
+
+  .panel-body {
+    padding: 14px 16px 18px;
+  }
+
+  .ayah-list-ar {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .bookmark-manager {
+    padding: 0.5rem 0.4rem 0.9rem;
+  }
+
+  .panel-header {
+    padding: 14px 16px;
+  }
+
+  .panel-actions {
+    gap: 8px;
+  }
+
+  .panel-body {
+    padding: 12px 14px 16px;
+  }
+
+  .ayah-list-item {
+    padding: 12px 14px;
+  }
+
+  .ayah-list-ar {
+    font-size: 1.35rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .panel-header {
+    padding: 12px 14px;
+  }
+
+  .panel-title {
+    font-size: 0.95rem;
+  }
+
+  .panel-body {
+    padding: 10px 12px 14px;
+  }
+
+  .ayah-list-item {
+    padding: 10px 12px;
   }
 }
 
