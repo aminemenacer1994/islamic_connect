@@ -51,6 +51,22 @@
               </button>
               <button
                 type="button"
+                class="btn btn-icon btn-ghost"
+                @click="copyBookmark(bm)"
+                title="Copy"
+                aria-label="Copy bookmark">
+                <i class="bi bi-clipboard"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-icon btn-ghost"
+                @click="shareBookmarkOnWhatsApp(bm)"
+                title="Share via WhatsApp"
+                aria-label="Share via WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+              </button>
+              <button
+                type="button"
                 class="btn btn-icon btn-danger outline"
                 :disabled="isBusy(bm.id)"
                 @click="deleteBookmark(bm.id)"
@@ -206,6 +222,70 @@ export default {
       const div = document.createElement('div');
       div.innerHTML = text;
       return div.textContent || div.innerText || '';
+    },
+    getBookmarkSurahLabel(bookmark) {
+      if (!bookmark) return 'Surah';
+      if (bookmark.surah_name) return `Surah ${this.stripHtmlTags(bookmark.surah_name)}`;
+      if (bookmark.surah_number) return `Surah ${bookmark.surah_number}`;
+      if (bookmark.surah_id) return `Surah ${bookmark.surah_id}`;
+      return 'Surah';
+    },
+    getBookmarkAyahNumber(bookmark) {
+      return bookmark?.ayah_num || bookmark?.ayah_number || bookmark?.ayah_id || '';
+    },
+    buildBookmarkMessage(bookmark) {
+      if (!bookmark) return '';
+      const surahLabel = this.getBookmarkSurahLabel(bookmark);
+      const ayahNumber = this.getBookmarkAyahNumber(bookmark);
+      const header = ayahNumber ? `${surahLabel} (Ayah ${ayahNumber})` : surahLabel;
+      const arabic = this.stripHtmlTags(bookmark.ayah_verse_ar || '');
+      const translation = this.stripHtmlTags(bookmark.ayah_verse_en || '');
+      const lines = [header];
+      if (arabic) lines.push(`Arabic: ${arabic}`);
+      if (translation) lines.push(`Translation: ${translation}`);
+      return lines.join('\n\n');
+    },
+    async copyText(text) {
+      if (!text) return false;
+      if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && navigator.clipboard?.writeText && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (_) {
+          // fall back
+        }
+      }
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        return success;
+      } catch (_) {
+        return false;
+      }
+    },
+    async copyBookmark(bookmark) {
+      const message = this.buildBookmarkMessage(bookmark);
+      if (!message) return;
+      const ok = await this.copyText(message);
+      if (ok) {
+        Swal.fire({ position: 'top-end', icon: 'success', title: 'Copied', timer: 1200, showConfirmButton: false });
+      } else {
+        Swal.fire({ icon: 'error', title: 'Copy failed', timer: 1400, showConfirmButton: false });
+      }
+    },
+    shareBookmarkOnWhatsApp(bookmark) {
+      const message = this.buildBookmarkMessage(bookmark);
+      if (!message) return;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+      window.open(whatsappLink, '_blank', 'noopener,noreferrer');
     },
     extractDate(dateTimeString) {
       if (!dateTimeString) return '';

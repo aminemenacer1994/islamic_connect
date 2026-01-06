@@ -1,8 +1,9 @@
 <template>
-  <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer }" role="main" aria-label="Quran Explorer">
+  <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer }" role="main"
+    aria-label="Quran Explorer">
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
-        <h1 class="display-5 fw-bold">Quran Explorer</h1>
+        <h1 class="display-5 fw-bold">The Holy Quran</h1>
         <p class="lead">
           Explore the Quran in Arabic, accompanied by translations and recitations from world-renowned Qaris.
           Listen to beautiful recitations to deepen your understanding.
@@ -15,7 +16,8 @@
     </div>
 
     <!-- Sticky Dropdowns Container -->
-    <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
+    <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown"
+      :class="{ collapsed: !isVisible }">
       <div class="filter-header">
         <div class="filter-title">
           <span class="filter-icon"><i class="fas fa-sliders-h" aria-hidden="true"></i></span>
@@ -29,13 +31,8 @@
             <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
             View saved bookmarks
           </a>
-          <button
-            type="button"
-            class="filter-toggle"
-            @click="toggleVisibility"
-            :aria-expanded="isVisible"
-            aria-controls="surat-filters"
-            :aria-label="isVisible ? 'Hide filters' : 'Show filters'">
+          <button type="button" class="filter-toggle" @click="toggleVisibility" :aria-expanded="isVisible"
+            aria-controls="surat-filters" :aria-label="isVisible ? 'Hide filters' : 'Show filters'">
             <i v-if="isVisible" class="bi bi-chevron-up" aria-hidden="true"></i>
             <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
           </button>
@@ -80,11 +77,8 @@
 
     <div v-show="showNextStep" class="next-step-wrapper">
       <div class="mx-auto mb-4 next-step-card">
-        <button
-          type="button"
-          :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
-          @click="toggleNextStepMinimized"
+        <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
+          :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'" @click="toggleNextStepMinimized"
           class="next-step-toggle">
           <i class="fas" :class="nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt'" aria-hidden="true"></i>
         </button>
@@ -106,14 +100,15 @@
               <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
             </div>
             <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
-              If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and scholars in
+              If you feel ready to move from listening to learning? Explore key milestones, preservation efforts, and
+              scholars in
               <a href="/history" class="fw-semibold text-decoration-none next-step-link">
                 the history of the Qur’an
               </a>
               to deepen your understanding.
             </p>
             <a v-show="!nextStepMinimized" href="/history"
-               class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
+              class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
               Explore History
               <i class="fas fa-arrow-up-right-from-square ms-2"></i>
             </a>
@@ -132,8 +127,7 @@
         :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
         :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
         @keydown.enter.prevent="toggleAudioPlayer(item.index)" @keydown.space.prevent="toggleAudioPlayer(item.index)"
-        draggable="true" @dragstart="onAyahDragStart(item.ayah, $event)"
-        :class="{
+        draggable="true" @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
           'highlighted': isHighlighted && currentlyPlayingIndex === item.index,
           'currently-playing': isAudioPlaying[item.index]
         }">
@@ -145,16 +139,12 @@
               {{ surahDetails?.surahNumber }} : {{ item.index + 1 }}
               <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
             </h4>
-            <button
-              type="button"
-              class="icon-btn bookmark-btn"
-              :class="{ 'is-saved': isAyahSaved(item.ayah) }"
-              data-bs-toggle="modal"
-              data-bs-target="#bookmarkModal"
-              @click.stop="openBookmarkModal(item.ayah)"
+            <button type="button" class="icon-btn bookmark-btn" :class="{ 'is-saved': isAyahSaved(item.ayah) }"
+              data-bs-toggle="modal" data-bs-target="#bookmarkModal" @click.stop="openBookmarkModal(item.ayah)"
               :aria-label="isAyahSaved(item.ayah) ? 'Ayah has been saved' : 'Save ayah'"
               :title="isAyahSaved(item.ayah) ? 'Ayah has been saved' : 'Save ayah'">
-              <i class="bi" :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'" aria-hidden="true"></i>
+              <i class="bi" :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'"
+                aria-hidden="true"></i>
             </button>
           </div>
 
@@ -167,6 +157,18 @@
                 <h2 class=" pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h2>
                 <p class="fw-regular  ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                   :style="{ fontSize: translationFontSize + 'px' }"></p>
+                <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                  <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)" aria-label="Copy ayah"
+                    title="Copy ayah">
+                    <i class="bi bi-clipboard" aria-hidden="true"></i>
+                    <span>Copy</span>
+                  </button>
+                  <button type="button" class="action-pill" @click.stop="shareOnWhatsApp(item.ayah)"
+                    aria-label="Share ayah on WhatsApp" title="Share via WhatsApp">
+                    <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                    <span>Share</span>
+                  </button>
+                </div>
               </div>
             </div>
             <div class="col-md-1 text-center">
@@ -185,7 +187,7 @@
                   title="Increase Font Size">
                   <i class="bi bi-plus-circle-fill" aria-hidden="true"></i>
                 </button>
-                <button class="icon-btn mb-3" @click="shareOnWhatsApp(ayah)" aria-label="Share on WhatsApp"
+                <button class="icon-btn mb-3" @click="shareOnWhatsApp(item.ayah)" aria-label="Share on WhatsApp"
                   title="Share on WhatsApp">
                   <i class="bi bi-share-fill" aria-hidden="true"></i>
                 </button>
@@ -202,6 +204,18 @@
               <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">Translation:</h4>
               <p class="fw-regular  ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                 :style="{ fontSize: translationFontSize + 'px' }"></p>
+              <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)" aria-label="Copy ayah"
+                  title="Copy ayah">
+                  <i class="bi bi-clipboard" aria-hidden="true"></i>
+                  <span>Copy</span>
+                </button>
+                <button type="button" class="action-pill" @click.stop="shareOnWhatsApp(item.ayah)"
+                  aria-label="Share ayah on WhatsApp" title="Share via WhatsApp">
+                  <i class="bi bi-whatsapp" aria-hidden="true"></i>
+                  <span>Share</span>
+                </button>
+              </div>
             </div>
             <div class="row card-teal mb-3" style="display: flex; justify-content: center; margin: 0 -5px;">
 
@@ -296,7 +310,8 @@
               <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
                 class="volume-slider" />
             </div>
-            <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0) }}
+            <span class="time" aria-live="polite">{{ formatTime(audioElements[currentlyPlayingIndex]?.currentTime || 0)
+            }}
               / {{
                 formatTime(audioElements[currentlyPlayingIndex]?.duration || 0) }}</span>
             <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
@@ -307,9 +322,7 @@
           <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
             :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0"
             :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
-            @click="seekToPosition"
-            @mousedown.prevent="onProgressDown"
-            @touchstart.prevent.passive="onProgressDown"
+            @click="seekToPosition" @mousedown.prevent="onProgressDown" @touchstart.prevent.passive="onProgressDown"
             ref="progressBar">
             <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
             <div class="audio-visualizer" ref="visualizer">
@@ -407,6 +420,8 @@ export default {
       bookmarkToastTimer: null,
       authAlert: '',
       authAlertTimer: null,
+      deepLinkTarget: null,
+      deepLinkHandled: false,
     };
   },
   computed: {
@@ -544,7 +559,7 @@ export default {
     this.updateIsMobile();
     window.addEventListener('resize', this.updateIsMobile);
     // Restore dismissal state for next-step card
-    try { if (localStorage.getItem('suratNextStepDismissed') === '1') this.showNextStep = false; } catch (_) {}
+    try { if (localStorage.getItem('suratNextStepDismissed') === '1') this.showNextStep = false; } catch (_) { }
     this.syncSavedAyahsFromApi();
     // Virtualization hooks
     this.$nextTick(() => {
@@ -556,7 +571,7 @@ export default {
       window.addEventListener('resize', this.calibrateItemHeight, { passive: true });
     });
     // Restore next-step minimized state
-    try { this.nextStepMinimized = localStorage.getItem('suratNextStepMinimized') === '1'; } catch (_) {}
+    try { this.nextStepMinimized = localStorage.getItem('suratNextStepMinimized') === '1'; } catch (_) { }
   },
   beforeUnmount() {
     window.removeEventListener('keydown', this.onKeydown);
@@ -579,6 +594,20 @@ export default {
     clearTimeout(this.authAlertTimer);
   },
   methods: {
+    showToast(message, timeout = 3500) {
+      this.bookmarkToast = message;
+      clearTimeout(this.bookmarkToastTimer);
+      this.bookmarkToastTimer = setTimeout(() => {
+        this.bookmarkToast = '';
+      }, timeout);
+    },
+    announce(message, timeout = 5000) {
+      this.screenReaderMessage = message;
+      clearTimeout(this.savedAyahClearTimer);
+      this.savedAyahClearTimer = setTimeout(() => {
+        this.screenReaderMessage = '';
+      }, timeout);
+    },
     loadSavedAyahs() {
       if (this.savedAyahsLoaded) return;
       try {
@@ -596,6 +625,59 @@ export default {
         this.savedAyahKeys = {};
       }
       this.savedAyahsLoaded = true;
+    },
+    buildAyahMessage(ayah, options = {}) {
+      if (!ayah) return '';
+      const includeAudio = options.includeAudio !== false;
+      const surahNumber = this.surahDetails?.surahNumber;
+      const surahName = this.surahDetails?.englishName || this.surahDetails?.name;
+      const ayahNumber = ayah.numberInSurah || ayah.number;
+      let header = 'Surah';
+      if (surahNumber) header += ` ${surahNumber}`;
+      if (surahName) header += ` - ${surahName}`;
+      if (ayahNumber) header += ` (Ayah ${ayahNumber})`;
+      const lines = [header];
+      if (ayah.text) lines.push(`Arabic: ${ayah.text}`);
+      if (ayah.translation) lines.push(`Translation: ${ayah.translation}`);
+      if (includeAudio && ayah.audio) lines.push(`Listen here: ${ayah.audio}`);
+      return lines.filter(Boolean).join('\n\n');
+    },
+    async copyText(text) {
+      if (!text) return false;
+      if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && navigator.clipboard?.writeText && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (_) {
+          // fall back
+        }
+      }
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        return success;
+      } catch (_) {
+        return false;
+      }
+    },
+    async copyAyah(ayah) {
+      const message = this.buildAyahMessage(ayah, { includeAudio: true });
+      if (!message) return;
+      const ok = await this.copyText(message);
+      if (ok) {
+        this.showToast('Ayah copied to clipboard.');
+        this.announce('Ayah copied to clipboard.');
+      } else {
+        this.$toast?.error('Unable to copy ayah.');
+        this.announce('Unable to copy ayah.');
+      }
     },
     async syncSavedAyahsFromApi() {
       try {
@@ -642,16 +724,8 @@ export default {
       };
     },
     onBookmarkSaved(payload) {
-      this.screenReaderMessage = 'Ayah saved to bookmarks.';
-      clearTimeout(this.savedAyahClearTimer);
-      this.savedAyahClearTimer = setTimeout(() => {
-        this.screenReaderMessage = '';
-      }, 5000);
-      this.bookmarkToast = 'Bookmark saved successfully.';
-      clearTimeout(this.bookmarkToastTimer);
-      this.bookmarkToastTimer = setTimeout(() => {
-        this.bookmarkToast = '';
-      }, 4000);
+      this.announce('Ayah saved to bookmarks.');
+      this.showToast('Bookmark saved successfully.', 4000);
       if (!payload) return;
       const source = payload.bookmark || payload;
       const surahNumber = Number(source.surah_number);
@@ -709,11 +783,11 @@ export default {
     },
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
-      try { localStorage.setItem('suratNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) {}
+      try { localStorage.setItem('suratNextStepMinimized', this.nextStepMinimized ? '1' : '0'); } catch (_) { }
     },
     dismissNextStep() {
       this.showNextStep = false;
-      try { localStorage.setItem('suratNextStepDismissed', '1'); } catch (_) {}
+      try { localStorage.setItem('suratNextStepDismissed', '1'); } catch (_) { }
     },
     calibrateItemHeight() {
       try {
@@ -762,6 +836,49 @@ export default {
       this.$nextTick(() => {
         this.computeListTop();
         this.updateVirtualWindow();
+      });
+    },
+    readDeepLinkTarget() {
+      if (typeof window === 'undefined') return null;
+      const params = new URLSearchParams(window.location.search || '');
+      const surah = Number(params.get('surah'));
+      const ayah = Number(params.get('ayah'));
+      if (!surah) return null;
+      return { surah, ayah: ayah || null };
+    },
+    maybeScrollToDeepLink() {
+      if (this.deepLinkHandled || !this.deepLinkTarget || !this.surahDetails) return;
+      const surahNumber = Number(this.deepLinkTarget.surah);
+      if (!surahNumber || Number(this.surahDetails.surahNumber) !== surahNumber) return;
+      const ayahNumber = Number(this.deepLinkTarget.ayah);
+      if (!ayahNumber) {
+        this.deepLinkHandled = true;
+        return;
+      }
+      const index = ayahNumber - 1;
+      if (!Array.isArray(this.surahDetails.ayahs) || index < 0 || index >= this.surahDetails.ayahs.length) {
+        this.deepLinkHandled = true;
+        return;
+      }
+      this.deepLinkHandled = true;
+      this.scrollToAyahIndex(index);
+    },
+    scrollToAyahIndex(index) {
+      const total = Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
+      if (!total || index < 0 || index >= total) return;
+      const start = Math.max(0, index - this.buffer);
+      const end = Math.min(total, start + this.windowSize + this.buffer * 2);
+      this.visibleStart = start;
+      this.visibleEnd = end;
+      this.$nextTick(() => {
+        this.computeListTop();
+        this.calibrateItemHeight();
+        this.$nextTick(() => {
+          const offset = this.isVisible ? 140 : 100;
+          const targetTop = this.listTop + (index * this.itemHeight) - offset;
+          window.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+          this.selectCard(index);
+        });
       });
     },
     // simple localStorage cache with TTL and SWR
@@ -1105,7 +1222,7 @@ export default {
       return (minutes < 10 ? '0' : '') + minutes + ':' + (secs < 10 ? '0' : '') + secs;
     },
     highlightText(text) {
-      if (!this.debouncedQuery.trim() && !this.selectedTag) return text;
+      if (!this.debouncedQuery.trim()) return text;
 
       let highlightedText = text;
 
@@ -1117,12 +1234,6 @@ export default {
       searchTerms.forEach(term => {
         const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
         highlightedText = highlightedText.replace(regex, '<span class="highlight-search">$1</span>');
-      });
-
-      const tagTerms = this.selectedTag ? [this.selectedTag, ...(this.tagSynonyms[this.selectedTag] || [])] : [];
-      tagTerms.forEach(term => {
-        const regex = new RegExp(`(${escapeRegExp(term)})`, 'gi');
-        highlightedText = highlightedText.replace(regex, '<span class="highlight-tag">$1</span>');
       });
 
       return highlightedText;
@@ -1139,14 +1250,11 @@ export default {
       if (this.translationFontSize > 12) this.translationFontSize -= 2;
     },
     shareOnWhatsApp: function (ayah) {
-      const message =
-        'Surah ' + this.surahDetails.surahNumber + ' - ' + this.surahDetails.englishName + ' (Ayah ' + ayah.number + ')\n\n' +
-        'Arabic: ' + ayah.text + '\n\n' +
-        'Translation: ' + ayah.translation + '\n\n' +
-        'Listen here: ' + ayah.audio;
+      const message = this.buildAyahMessage(ayah, { includeAudio: true });
+      if (!message) return;
       const encodedMessage = encodeURIComponent(message);
       const whatsappLink = 'https://api.whatsapp.com/send?text=' + encodedMessage;
-      window.open(whatsappLink, "_blank");
+      window.open(whatsappLink, '_blank', 'noopener,noreferrer');
     },
     getFlagFromLanguage: function (lang) {
       const languageFlags = {
@@ -1609,7 +1717,8 @@ export default {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 249, 248, 0.94));
   transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
 }
-.card-teal:hover { 
+
+.card-teal:hover {
   transform: translateY(-1px);
   border-color: rgba(15, 110, 99, 0.2);
   box-shadow: 0 16px 32px rgba(15, 53, 48, 0.14);
@@ -1628,7 +1737,7 @@ export default {
   padding-bottom: calc(32px + 140px + env(safe-area-inset-bottom));
 }
 
-.surat-premium > * {
+.surat-premium>* {
   position: relative;
   z-index: 1;
 }
@@ -1738,6 +1847,7 @@ export default {
     font-size: 0.85rem;
   }
 }
+
 /* Consolidated base rules */
 .surat-page {
   --surat-ink: #1d2b2f;
@@ -1774,10 +1884,11 @@ export default {
   pointer-events: none;
 }
 
-.surat-page > * {
+.surat-page>* {
   position: relative;
   z-index: 1;
 }
+
 .ayah-card-container {
   border-radius: 20px;
   transition: transform 0.2s ease;
@@ -1808,6 +1919,7 @@ export default {
   border-color: rgba(15, 110, 99, 0.16);
   box-shadow: 0 16px 32px rgba(15, 53, 48, 0.1);
 }
+
 .highlighted .ayah-surface {
   background: rgba(15, 110, 99, 0.05);
   border-color: rgba(15, 110, 99, 0.28);
@@ -1847,7 +1959,8 @@ export default {
   border-radius: 22px;
   margin-bottom: 1rem;
   overflow: hidden;
-  max-height: 500px; /* expanded */
+  max-height: 500px;
+  /* expanded */
   border: 1px solid rgba(15, 110, 99, 0.14);
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 248, 0.94));
   box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
@@ -1865,7 +1978,7 @@ export default {
   pointer-events: none;
 }
 
-.sticky-dropdown > * {
+.sticky-dropdown>* {
   position: relative;
   z-index: 1;
 }
@@ -1954,6 +2067,7 @@ export default {
 .sticky-dropdown option {
   color: #1f2933;
 }
+
 .sticky-dropdown.collapsed {
   padding-top: 10px;
   padding-bottom: 10px;
@@ -1962,6 +2076,7 @@ export default {
   /* fully hide any children besides the toggle icon */
   overflow: hidden;
 }
+
 /* Belt-and-suspenders: force inner content hidden when collapsed */
 .sticky-dropdown.collapsed .row,
 .sticky-dropdown.collapsed .form-label,
@@ -2015,7 +2130,9 @@ export default {
 }
 
 /* Align close button to the end on wider screens */
-.controls .control-btn[title="Close"] { margin-left: auto; }
+.controls .control-btn[title="Close"] {
+  margin-left: auto;
+}
 
 @media (max-width: 768px) {
 
@@ -2115,7 +2232,9 @@ export default {
   transition: background-color 0.2s ease;
 }
 
-.progress-bar:active { cursor: ew-resize; }
+.progress-bar:active {
+  cursor: ew-resize;
+}
 
 .progress-bar:hover {
   background-color: rgba(255, 255, 255, 0.3);
@@ -2147,7 +2266,7 @@ export default {
 .progress-bar:hover .progress::after,
 .progress-bar:focus-within .progress::after {
   transform: translateY(-50%) scale(1.05);
-  box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
 }
 
 .volume-slider {
@@ -2282,21 +2401,30 @@ export default {
   /* Grid layout: Surah full width, Reciter + Translation side by side */
   .sticky-dropdown .row.g-3 {
     display: grid !important;
-    grid-template-columns: 3fr 2fr; /* Reciter wider (60/40) */
+    grid-template-columns: 3fr 2fr;
+    /* Reciter wider (60/40) */
     grid-auto-rows: minmax(40px, auto);
     gap: 6px !important;
   }
-  .sticky-dropdown .row.g-3 > .col-12,
-  .sticky-dropdown .row.g-3 > .col-12.col-md-4 {
+
+  .sticky-dropdown .row.g-3>.col-12,
+  .sticky-dropdown .row.g-3>.col-12.col-md-4 {
     margin-top: 0 !important;
   }
+
   /* First block (Surah) spans two columns */
-  .sticky-dropdown .row.g-3 > .col-12.col-md-4:first-child {
+  .sticky-dropdown .row.g-3>.col-12.col-md-4:first-child {
     grid-column: 1 / -1;
   }
+
   /* Ensure 2nd (Reciter) and 3rd (Translation) sit left/right respectively */
-  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(2) { grid-column: 1; }
-  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(3) { grid-column: 2; }
+  .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(2) {
+    grid-column: 1;
+  }
+
+  .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(3) {
+    grid-column: 2;
+  }
 
   /* Labels: small but visible to preserve clarity */
   .sticky-dropdown label.form-label {
@@ -2321,8 +2449,8 @@ export default {
     grid-template-columns: 1fr;
   }
 
-  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(2),
-  .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(3) {
+  .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(2),
+  .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(3) {
     grid-column: 1 / -1;
   }
 
@@ -2556,33 +2684,52 @@ export default {
 .surat-page.density-compact {
   --ic-space-y: 0.65rem;
 }
+
 .surat-page.density-comfortable {
   --ic-space-y: 1rem;
 }
+
 .surat-page.density-spacious {
   --ic-space-y: 1.35rem;
 }
 
 /* Wire density to components */
-.surat-page.density-compact .ayah-card { padding: 10px; margin-bottom: var(--ic-space-y, 0.65rem); }
-.surat-page.density-comfortable .ayah-card { padding: 14px; margin-bottom: var(--ic-space-y, 1rem); }
-.surat-page.density-spacious .ayah-card { padding: 18px; margin-bottom: var(--ic-space-y, 1.35rem); }
+.surat-page.density-compact .ayah-card {
+  padding: 10px;
+  margin-bottom: var(--ic-space-y, 0.65rem);
+}
+
+.surat-page.density-comfortable .ayah-card {
+  padding: 14px;
+  margin-bottom: var(--ic-space-y, 1rem);
+}
+
+.surat-page.density-spacious .ayah-card {
+  padding: 18px;
+  margin-bottom: var(--ic-space-y, 1.35rem);
+}
 
 /* Minimal style variant: reduce shadows and borders */
 .surat-page.style-minimal .ayah-card {
   box-shadow: none;
   border: 1px solid var(--ic-border);
 }
+
 .surat-page.style-minimal .audio-player-container {
   box-shadow: none;
   background: linear-gradient(135deg, rgba(15, 47, 43, 0.92), rgba(20, 60, 55, 0.92));
 }
+
 .surat-page.style-minimal .sticky-dropdown {
   box-shadow: 0 6px 16px rgba(15, 53, 48, 0.12);
   border: 1px solid rgba(15, 110, 99, 0.16);
 }
+
 .surat-page.style-minimal .icon-btn:hover,
-.surat-page.style-minimal .control-btn:hover { transform: none; box-shadow: none; }
+.surat-page.style-minimal .control-btn:hover {
+  transform: none;
+  box-shadow: none;
+}
 
 /* Typography finesse */
 .surat-page {
@@ -2594,15 +2741,30 @@ export default {
   background: rgba(210, 162, 75, 0.25);
 }
 
-.lead { color: var(--ic-text-muted); }
-h1.display-5 { letter-spacing: -0.01em; }
+.lead {
+  color: var(--ic-text-muted);
+}
+
+h1.display-5 {
+  letter-spacing: -0.01em;
+}
 
 /* Arabic/translation rhythm and contrast */
-.arabic-text { color: #123532; line-height: 1.9; }
-.translation-text { color: #2f3f42; border-top: 1px solid rgba(15, 110, 99, 0.12); padding-top: 8px; }
+.arabic-text {
+  color: #123532;
+  line-height: 1.9;
+}
+
+.translation-text {
+  color: #2f3f42;
+  border-top: 1px solid rgba(15, 110, 99, 0.12);
+  padding-top: 8px;
+}
 
 @media (prefers-color-scheme: dark) {
-  .translation-text { border-top-color: rgba(255,255,255,0.12); }
+  .translation-text {
+    border-top-color: rgba(255, 255, 255, 0.12);
+  }
 }
 
 /* Focus-visible states */
@@ -2616,7 +2778,9 @@ h1.display-5 { letter-spacing: -0.01em; }
 }
 
 /* Sticky toggle affordance */
-.filter-toggle:focus-visible { box-shadow: 0 0 0 0.15rem rgba(210, 162, 75, 0.25); }
+.filter-toggle:focus-visible {
+  box-shadow: 0 0 0 0.15rem rgba(210, 162, 75, 0.25);
+}
 
 /* Enhanced selects without markup change */
 .sticky-dropdown .form-select {
@@ -2626,6 +2790,7 @@ h1.display-5 { letter-spacing: -0.01em; }
   color: #1c2b2f;
   transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
 }
+
 .sticky-dropdown .form-select:focus {
   border-color: rgba(15, 110, 99, 0.6);
   background-color: rgba(255, 255, 255, 0.98);
@@ -2637,6 +2802,7 @@ h1.display-5 { letter-spacing: -0.01em; }
   box-shadow: 0 6px 14px rgba(15, 53, 48, 0.08);
   transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease;
 }
+
 .ayah-card-container .icon-btn:hover {
   background-color: rgba(15, 110, 99, 0.12);
   border-color: rgba(15, 110, 99, 0.22);
@@ -2644,22 +2810,82 @@ h1.display-5 { letter-spacing: -0.01em; }
   transform: translateY(-1px);
 }
 
+/* Ayah quick actions */
+.ayah-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 12px 0 10px;
+}
+
+.action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.2);
+  background: rgba(255, 255, 255, 0.92);
+  color: #0b6e63;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.action-pill i {
+  font-size: 1rem;
+}
+
+.action-pill:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 110, 99, 0.35);
+  box-shadow: 0 8px 18px rgba(15, 53, 48, 0.12);
+}
+
+.action-pill:focus-visible {
+  outline: 2px solid var(--ic-accent);
+  outline-offset: 2px;
+}
+
 /* Entrance motion for ayah cards */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Density presets: add `density-compact` to `.surat-page` to activate */
-.density-compact .ayah-card { padding: 10px; margin-bottom: 0.65rem; }
-.density-compact .controls { gap: 8px; }
-.density-compact .arabic-text { font-size: 0.95em; }
-.density-compact .translation-text { font-size: 0.95em; }
-.density-compact .sticky-dropdown {  }
+.density-compact .ayah-card {
+  padding: 10px;
+  margin-bottom: 0.65rem;
+}
+
+.density-compact .controls {
+  gap: 8px;
+}
+
+.density-compact .arabic-text {
+  font-size: 0.95em;
+}
+
+.density-compact .translation-text {
+  font-size: 0.95em;
+}
+
+.density-compact .sticky-dropdown {}
 
 /* Reduce motion politely */
 @media (prefers-reduced-motion: reduce) {
-  * { transition: none !important; animation: none !important; }
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
 }
 
 /* Subtle global typography tuning */
@@ -2698,8 +2924,15 @@ h1.display-5 {
   letter-spacing: 0.2px;
   color: #082b27;
 }
-.ayah-card-container .ltr-text { color: #334155; }
-.ayah-card-container h4.fw-bold.hide-on-mobile-tablet { color: #1f2a37; opacity: 0.85; }
+
+.ayah-card-container .ltr-text {
+  color: #334155;
+}
+
+.ayah-card-container h4.fw-bold.hide-on-mobile-tablet {
+  color: #1f2a37;
+  opacity: 0.85;
+}
 
 .ayah-card-container h2,
 .ayah-card-container h4 {
@@ -2727,8 +2960,13 @@ h1.display-5 {
 
 /* Unified toolbar on all sizes: show mobile toolbar on desktop, hide desktop icon column */
 @media (min-width: 768px) {
-  .ayah-card-container .d-none.d-md-flex { display: none !important; }
-  .ayah-card-container .d-block.d-md-none { display: block !important; }
+  .ayah-card-container .d-none.d-md-flex {
+    display: none !important;
+  }
+
+  .ayah-card-container .d-block.d-md-none {
+    display: block !important;
+  }
 }
 
 /* Toolbar styling */
@@ -2748,6 +2986,7 @@ h1.display-5 {
 
 /* On narrow screens, let content breathe edge-to-edge */
 @media (max-width: 576px) {
+
   .ayah-card-container .rtl-text,
   .ayah-card-container .ltr-text,
   .ayah-card-container .d-block.d-md-none .row.mb-3 {
@@ -2802,14 +3041,22 @@ h1.display-5 {
     height: 42px;
   }
 }
+
 .ayah-card-container .icon-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #0b6e63;
 }
-.ayah-card-container .icon-btn i { font-size: 1.4rem; }
-.ayah-card-container .icon-btn:hover { background: rgba(11, 128, 111, 0.1); }
+
+.ayah-card-container .icon-btn i {
+  font-size: 1.4rem;
+}
+
+.ayah-card-container .icon-btn:hover {
+  background: rgba(11, 128, 111, 0.1);
+}
+
 .ayah-card-container .bookmark-btn {
   width: 46px;
   height: 46px;
@@ -2818,14 +3065,17 @@ h1.display-5 {
   border: 1px solid rgba(15, 110, 99, 0.25);
   box-shadow: 0 10px 22px rgba(15, 53, 48, 0.12);
 }
+
 .ayah-card-container .bookmark-btn i {
   font-size: 1.6rem;
 }
+
 .ayah-card-container .bookmark-btn:hover {
   background: rgba(15, 110, 99, 0.12);
   border-color: rgba(15, 110, 99, 0.45);
   transform: translateY(-1px);
 }
+
 .ayah-card-container .icon-btn.is-saved {
   background: linear-gradient(135deg, rgba(15, 110, 99, 0.22), rgba(210, 162, 75, 0.28));
   border-color: rgba(210, 162, 75, 0.7);
@@ -2833,6 +3083,7 @@ h1.display-5 {
   box-shadow: 0 12px 26px rgba(15, 53, 48, 0.18), 0 0 0 3px rgba(210, 162, 75, 0.15);
   transform: translateY(-1px) scale(1.02);
 }
+
 .ayah-card-container .icon-btn.is-saved i {
   color: #0b5c53;
   font-size: 1.6rem;
@@ -2873,16 +3124,25 @@ h1.display-5 {
 .ayah-card-container .d-block.d-md-none .row.mb-3::before {
   content: '';
   position: absolute;
-  left: 0; right: 0;
+  left: 0;
+  right: 0;
   top: -10px;
   height: 1px;
-  background: linear-gradient(90deg, rgba(0,0,0,0), rgba(0,0,0,0.08), rgba(0,0,0,0));
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.08), rgba(0, 0, 0, 0));
 }
 
 /* Desktop spacing tightening */
 @media (min-width: 992px) {
-  .ayah-card { padding: 16px 18px; }
-  .ayah-card-container .arabic-text { font-size: 2rem; }
-  .ayah-surface { padding: 22px 26px; }
+  .ayah-card {
+    padding: 16px 18px;
+  }
+
+  .ayah-card-container .arabic-text {
+    font-size: 2rem;
+  }
+
+  .ayah-surface {
+    padding: 22px 26px;
+  }
 }
 </style>

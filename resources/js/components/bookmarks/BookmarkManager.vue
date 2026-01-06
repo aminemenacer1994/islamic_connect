@@ -34,7 +34,7 @@
                 Go back to the Holy Quran
                 <i class="bi bi-arrow-right ms-2"></i>
               </a>
-              <span v-if="selectedFolder" class="source-pill">{{ sourceLabel }}</span>
+              <!-- <span v-if="selectedFolder" class="source-pill">{{ sourceLabel }}</span> -->
             </div>
           </div>
 
@@ -75,7 +75,7 @@
                         {{ folder.name }}
                       </option>
                     </select>
-                    <button
+                    <!-- <button
                       type="button"
                       class="btn btn-sm btn-outline-secondary bookmark-quick"
                       data-bs-toggle="modal"
@@ -83,6 +83,33 @@
                       @click="prepareBookmark(item)"
                     >
                       <i class="bi bi-bookmark-plus"></i>
+                    </button> -->
+                    <!-- <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary open-quick"
+                      @click="openInSurat(item)"
+                      title="Open in Quran"
+                      aria-label="Open ayah in Quran"
+                    >
+                      <i class="bi bi-box-arrow-up-right"></i>
+                    </button> -->
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary copy-quick"
+                      @click="copyBookmark(item)"
+                      title="Copy"
+                      aria-label="Copy ayah"
+                    >
+                      <i class="bi bi-clipboard"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline-secondary share-quick"
+                      @click="shareBookmarkOnWhatsApp(item)"
+                      title="Share via WhatsApp"
+                      aria-label="Share ayah via WhatsApp"
+                    >
+                      <i class="bi bi-whatsapp"></i>
                     </button>
                     <button
                       type="button"
@@ -287,6 +314,79 @@ export default {
       const div = document.createElement('div');
       div.innerHTML = text;
       return div.textContent || div.innerText || '';
+    },
+    getBookmarkSurahLabel(item) {
+      const name = this.stripHtmlTags(item?.surah_name || '');
+      if (name) return name;
+      if (item?.surah_number) return `Surah ${item.surah_number}`;
+      return 'Surah';
+    },
+    getBookmarkAyahNumber(item) {
+      return item?.ayah_number || '';
+    },
+    buildBookmarkMessage(item) {
+      if (!item) return '';
+      const surahLabel = this.getBookmarkSurahLabel(item);
+      const ayahNumber = this.getBookmarkAyahNumber(item);
+      const header = ayahNumber ? `${surahLabel} (Ayah ${ayahNumber})` : surahLabel;
+      const arabic = this.stripHtmlTags(item.ayah_verse_ar || '');
+      const translation = this.stripHtmlTags(item.ayah_verse_en || '');
+      const lines = [header];
+      if (arabic) lines.push(`Arabic: ${arabic}`);
+      if (translation) lines.push(`Translation: ${translation}`);
+      return lines.join('\n\n');
+    },
+    async copyText(text) {
+      if (!text) return false;
+      if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && navigator.clipboard?.writeText && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(text);
+          return true;
+        } catch (_) {
+          // fall back
+        }
+      }
+      try {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.setAttribute('readonly', '');
+        textarea.style.position = 'fixed';
+        textarea.style.top = '-9999px';
+        document.body.appendChild(textarea);
+        textarea.select();
+        const success = document.execCommand('copy');
+        document.body.removeChild(textarea);
+        return success;
+      } catch (_) {
+        return false;
+      }
+    },
+    async copyBookmark(item) {
+      const message = this.buildBookmarkMessage(item);
+      if (!message) return;
+      const ok = await this.copyText(message);
+      if (ok) {
+        this.setPanelMessage('Ayah copied to clipboard.', 'success');
+      } else {
+        this.setPanelMessage('Unable to copy ayah.', 'danger');
+      }
+    },
+    shareBookmarkOnWhatsApp(item) {
+      const message = this.buildBookmarkMessage(item);
+      if (!message) return;
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
+      window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+    },
+    openInSurat(item) {
+      const surahNumber = Number(item?.surah_number || item?.surah_id);
+      const ayahNumber = Number(item?.ayah_number || item?.ayah_num || item?.ayah_id);
+      if (!surahNumber || !ayahNumber) {
+        this.setPanelMessage('Unable to open this ayah.', 'danger');
+        return;
+      }
+      const url = `/surat?surah=${surahNumber}&ayah=${ayahNumber}`;
+      window.open(url, '_blank', 'noopener,noreferrer');
     },
     escapeHtml(text) {
       return (text || '')
@@ -919,6 +1019,45 @@ export default {
   background: rgba(15, 110, 99, 0.18);
   border-color: rgba(15, 110, 99, 0.45);
   color: var(--bm-accent-strong);
+}
+
+.copy-quick {
+  border-radius: 999px;
+  border-color: rgba(15, 110, 99, 0.25);
+  color: var(--bm-accent-strong);
+  background: rgba(15, 110, 99, 0.08);
+}
+
+.copy-quick:hover {
+  background: rgba(15, 110, 99, 0.18);
+  border-color: rgba(15, 110, 99, 0.45);
+  color: var(--bm-accent-strong);
+}
+
+.open-quick {
+  border-radius: 999px;
+  border-color: rgba(15, 110, 99, 0.25);
+  color: var(--bm-accent-strong);
+  background: rgba(15, 110, 99, 0.08);
+}
+
+.open-quick:hover {
+  background: rgba(15, 110, 99, 0.18);
+  border-color: rgba(15, 110, 99, 0.45);
+  color: var(--bm-accent-strong);
+}
+
+.share-quick {
+  border-radius: 999px;
+  border-color: rgba(34, 197, 94, 0.35);
+  color: #166534;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.share-quick:hover {
+  border-color: rgba(34, 197, 94, 0.55);
+  background: rgba(34, 197, 94, 0.2);
+  color: #166534;
 }
 
 .remove-quick {
