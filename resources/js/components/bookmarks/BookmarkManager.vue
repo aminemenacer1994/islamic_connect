@@ -566,9 +566,9 @@ export default {
 .panel-col {
   transition: flex-basis 0.3s cubic-bezier(0.22, 1, 0.36, 1), max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: flex-basis, max-width, opacity, transform;
-  contain: layout paint;
-  backface-visibility: hidden;
-}
+  /* contain: layout paint;
+  backface-visibility: hidden;*/
+} 
 
 .panel-col {
   min-width: 0;
@@ -598,7 +598,7 @@ export default {
 
   .panel-col.is-expanded {
     flex: 0 0 100%;
-    max-width: 100%;
+    max-width: 100%;  
   }
 }
 
@@ -609,7 +609,7 @@ export default {
     radial-gradient(120% 120% at 0% 0%, rgba(200, 155, 58, 0.12) 0%, transparent 50%),
     radial-gradient(120% 120% at 100% 0%, rgba(15, 110, 99, 0.16) 0%, transparent 50%),
     linear-gradient(160deg, #ffffff 0%, #f7fbfa 60%, #f6f0e7 100%);
-  box-shadow: 0 26px 60px rgba(15, 23, 42, 0.16);
+  /* box-shadow: 0 26px 60px rgba(15, 23, 42, 0.16); */
   overflow: hidden;
   position: relative;
   animation: panel-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -657,24 +657,25 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 999px;
-  border: 1px solid rgba(15, 110, 99, 0.3);
-  background: rgba(15, 110, 99, 0.12);
-  color: var(--bm-accent-strong);
-  font-weight: 700;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
+  border: 1px solid rgba(15, 110, 99, 0.45);
+  background: linear-gradient(135deg, #0f6e63, #15907f);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 12px 22px rgba(15, 110, 99, 0.25);
 }
 
 .panel-cta:hover {
   transform: translateY(-1px);
-  border-color: rgba(15, 110, 99, 0.5);
-  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
-  color: var(--bm-accent-strong);
+  border-color: rgba(15, 110, 99, 0.65);
+  box-shadow: 0 16px 26px rgba(15, 110, 99, 0.32);
+  color: #ffffff;
 }
 
 .panel-toggle {
