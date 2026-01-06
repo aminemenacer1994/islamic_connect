@@ -3098,7 +3098,8 @@ const celebrateFinalChapter = confettiFn => {
       sessionBannerVisible: false,
       touchPlaybackTriggered: false,
       touchPlaybackTimer: null,
-      scrollTopRetryTimer: null
+      scrollTopRetryTimer: null,
+      scrollListenerTarget: null
     };
   },
   computed: {
@@ -3939,16 +3940,14 @@ const celebrateFinalChapter = confettiFn => {
     window.addEventListener('beforeunload', () => {
       window.scrollTo(0, 0);
     });
-    window.addEventListener('scroll', this.updateScrollFab, {
-      passive: true
-    });
-    this.updateScrollFab();
     this.$nextTick(() => {
       this.confettiEnabled = true;
+      this.bindScrollListeners();
+      this.updateScrollFab();
     });
   },
   beforeUnmount() {
-    window.removeEventListener('scroll', this.updateScrollFab);
+    this.unbindScrollListeners();
     this.teardownMotionPreference();
     this.teardownPreviewAutoplayPreference();
     this.teardownProgressSync();
@@ -4085,18 +4084,62 @@ const celebrateFinalChapter = confettiFn => {
         setTimeout(run, 150);
       }
     },
+    resolveScrollContainer() {
+      if (typeof window === 'undefined' || typeof document === 'undefined') return null;
+      const lessonPane = document.querySelector('.lesson-pane');
+      if (lessonPane) {
+        const overflowY = window.getComputedStyle(lessonPane).overflowY;
+        if (overflowY === 'auto' || overflowY === 'scroll') {
+          return lessonPane;
+        }
+      }
+      return window;
+    },
+    bindScrollListeners() {
+      if (typeof window === 'undefined') return;
+      const nextTarget = this.resolveScrollContainer();
+      if (!nextTarget || this.scrollListenerTarget === nextTarget) return;
+      this.unbindScrollListeners();
+      this.scrollListenerTarget = nextTarget;
+      if (nextTarget === window) {
+        window.addEventListener('scroll', this.updateScrollFab, {
+          passive: true
+        });
+        return;
+      }
+      if (typeof nextTarget.addEventListener === 'function') {
+        nextTarget.addEventListener('scroll', this.updateScrollFab, {
+          passive: true
+        });
+      }
+    },
+    unbindScrollListeners() {
+      if (this.scrollListenerTarget && this.scrollListenerTarget !== window) {
+        if (typeof this.scrollListenerTarget.removeEventListener === 'function') {
+          this.scrollListenerTarget.removeEventListener('scroll', this.updateScrollFab);
+        }
+      }
+      window.removeEventListener('scroll', this.updateScrollFab);
+      this.scrollListenerTarget = null;
+    },
     updateScrollFab() {
       if (typeof window === 'undefined') {
         this.showScrollFab = false;
         return;
       }
+      const scrollTarget = this.resolveScrollContainer();
+      if (!scrollTarget) {
+        this.showScrollFab = false;
+        return;
+      }
       const doc = document.documentElement;
-      const scrollableHeight = doc.scrollHeight - window.innerHeight;
+      const scrollableHeight = scrollTarget === window ? doc.scrollHeight - window.innerHeight : scrollTarget.scrollHeight - scrollTarget.clientHeight;
       if (scrollableHeight <= 0) {
         this.showScrollFab = false;
         return;
       }
-      this.showScrollFab = window.scrollY / scrollableHeight > 1 / 6;
+      const scrollTop = scrollTarget === window ? window.scrollY : scrollTarget.scrollTop;
+      this.showScrollFab = scrollTop / scrollableHeight > 1 / 6;
     },
     /**
      * Resets the scroll position again after the initial navigation to cooperate with any
@@ -4135,6 +4178,8 @@ const celebrateFinalChapter = confettiFn => {
       const query = window.matchMedia('(min-width: 992px)');
       const handler = event => {
         this.previewAutoplayEnabled = event.matches;
+        this.bindScrollListeners();
+        this.updateScrollFab();
       };
       this.previewDesktopMediaQuery = query;
       this.previewDesktopListener = handler;
@@ -5238,19 +5283,19 @@ const celebrateFinalChapter = confettiFn => {
     scrollToTop({
       behavior = 'smooth'
     } = {}) {
-      if (typeof window !== 'undefined') {
-        window.scrollTo({
+      if (typeof window === 'undefined') return;
+      const scrollTarget = this.resolveScrollContainer();
+      if (scrollTarget && scrollTarget !== window && typeof scrollTarget.scrollTo === 'function') {
+        scrollTarget.scrollTo({
           top: 0,
           behavior
         });
+        return;
       }
-      const lessonSection = document.querySelector('.revert-content section');
-      if (lessonSection && typeof lessonSection.scrollTo === 'function') {
-        lessonSection.scrollTo({
-          top: 0,
-          behavior
-        });
-      }
+      window.scrollTo({
+        top: 0,
+        behavior
+      });
     },
     copyResourceLink() {
       var _this$activeResource, _navigator$clipboard;

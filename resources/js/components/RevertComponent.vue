@@ -1103,7 +1103,7 @@
               </div>
             </div>
           </div>
-        </div>
+         </div>
 
           <!-- share and uplift -->
           <div

@@ -6787,3 +6787,32 @@ p{
     word-break: break-word;
   }
 }
+
+@media (min-width: 992px) {
+  .revert-shell {
+    height: 100vh;
+    overflow: hidden;
+    padding-bottom: 0;
+  }
+
+  .revert-content {
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .revert-content .row {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .revert-content .lesson-pane {
+    min-height: 0;
+    height: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-right: 0.75rem;
+  }
+}
