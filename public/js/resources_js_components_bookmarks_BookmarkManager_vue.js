@@ -119,7 +119,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     normalizedItems() {
       if (!this.items.length) return [];
       return this.items.map(item => {
-        var _item$ayah, _item$ayah2, _item$ayah3;
+        var _item$ayah, _item$ayah2, _item$ayah3, _item$ayah4;
         if (this.source === 'smart') {
           var _item$surah;
           return {
@@ -137,8 +137,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           bookmark_id: item.id,
           surah_number: item.surah_number || ((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.surah_id),
           surah_name: item.surah_name || ((_item$ayah2 = item.ayah) === null || _item$ayah2 === void 0 || (_item$ayah2 = _item$ayah2.surah) === null || _item$ayah2 === void 0 ? void 0 : _item$ayah2.name_en) || 'Surah',
-          ayah_number: item.ayah_number || item.ayah_num,
-          ayah_verse_ar: item.ayah_verse_ar || ((_item$ayah3 = item.ayah) === null || _item$ayah3 === void 0 ? void 0 : _item$ayah3.ayah_text),
+          ayah_number: ((_item$ayah3 = item.ayah) === null || _item$ayah3 === void 0 ? void 0 : _item$ayah3.ayah_id) || item.ayah_number || item.ayah_num,
+          ayah_verse_ar: item.ayah_verse_ar || ((_item$ayah4 = item.ayah) === null || _item$ayah4 === void 0 ? void 0 : _item$ayah4.ayah_text),
           ayah_verse_en: item.ayah_verse_en || ''
         };
       });
@@ -336,11 +336,12 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return [];
     },
     getFieldValue(item, fieldKey) {
+      var _item$ayah5;
       switch (fieldKey) {
         case 'surah':
           return item.surah_name || '';
         case 'ayah':
-          return item.ayah_number || '';
+          return ((_item$ayah5 = item.ayah) === null || _item$ayah5 === void 0 ? void 0 : _item$ayah5.ayah_id) || item.ayah_number || '';
         case 'arabic':
           return item.ayah_verse_ar || '';
         case 'english':
@@ -384,8 +385,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, safe);
     },
     formatMeta(item) {
+      var _item$ayah6;
       const surah = this.highlightText(item.surah_name || '', 'surah');
-      const ayah = this.highlightText(String(item.ayah_number || ''), 'ayah');
+      const ayah = this.highlightText(String(((_item$ayah6 = item.ayah) === null || _item$ayah6 === void 0 ? void 0 : _item$ayah6.ayah_id) || item.ayah_number || ''), 'ayah');
       return `${surah} • Ayah ${ayah}`;
     },
     refreshFolderSidebar() {
@@ -1391,11 +1393,12 @@ const _hoisted_5 = {
   class: "ayah-translation"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _$props$ayah$ayah;
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     class: "card ayah-row mb-3",
     draggable: "true",
     onDragstart: _cache[1] || (_cache[1] = (...args) => $options.onDragStart && $options.onDragStart(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.surahLabel) + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.ayah.ayah_number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.surahLabel) + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_$props$ayah$ayah = $props.ayah.ayah) === null || _$props$ayah$ayah === void 0 ? void 0 : _$props$ayah$ayah.ayah_id) || $props.ayah.ayah_number), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ayah-arabic",
     innerHTML: $props.ayah.ayah_verse_ar
   }, null, 8 /* PROPS */, _hoisted_4), $props.ayah.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.ayah.ayah_verse_en), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -2085,11 +2088,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_62)])]), $data.folderExpanded[folder.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, [(_$data$folderContents = $data.folderContents[folder.id]) !== null && _$data$folderContents !== void 0 && _$data$folderContents.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, "Loading...")) : !((_$data$folderContents2 = $data.folderContents[folder.id]) !== null && _$data$folderContents2 !== void 0 && (_$data$folderContents2 = _$data$folderContents2.items) !== null && _$data$folderContents2 !== void 0 && _$data$folderContents2.length) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_65, " No ayat saved in this folder. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 2
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folderContents[folder.id].items, item => {
-      var _item$ayah;
+      var _item$ayah, _item$ayah2;
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         class: "folder-item",
         key: item.id
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surah_name || 'Surah') + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ayah_number || item.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surah_name || 'Surah') + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.ayah_id) || item.ayah_number || item.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_68, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
         class: "form-select",
         onChange: $event => $options.moveAyahToFolder(item, folder, $event),
         disabled: folder.is_smart
@@ -2107,7 +2110,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $event => $options.removeAyahFromFolder(item, folder)
       }, " Remove ", 8 /* PROPS */, _hoisted_71)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
         class: "folder-item-ar",
-        innerHTML: item.ayah_verse_ar || ((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.ayah_text)
+        innerHTML: item.ayah_verse_ar || ((_item$ayah2 = item.ayah) === null || _item$ayah2 === void 0 ? void 0 : _item$ayah2.ayah_text)
       }, null, 8 /* PROPS */, _hoisted_72), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_73, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.ayah_verse_en), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
     }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 2 /* CLASS */);
   }), 128 /* KEYED_FRAGMENT */))]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $data.sectionOpen.contents]])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_74, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {

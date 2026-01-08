@@ -353,7 +353,7 @@ export default {
         case 'surah':
           return bookmark.surah_name || '';
         case 'ayah':
-          return bookmark.ayah_num || '';
+          return bookmark.ayah?.ayah_id || bookmark.ayah_num || '';
         case 'arabic':
           return bookmark.ayah_verse_ar || '';
         case 'english':
@@ -400,7 +400,8 @@ export default {
     },
     formatMeta(bookmark) {
       const surah = this.highlightText(bookmark.surah_name || '', 'surah');
-      const ayah = this.highlightText(String(bookmark.ayah_num || ''), 'ayah');
+      const ayahNum = bookmark.ayah?.ayah_id || bookmark.ayah_num || '';
+      const ayah = this.highlightText(String(ayahNum), 'ayah');
       return `${surah} • Ayah ${ayah}`;
     },
     primaryTextField(bookmark) {

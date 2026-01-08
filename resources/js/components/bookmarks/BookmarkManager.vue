@@ -225,7 +225,7 @@ export default {
           bookmark_id: item.id,
           surah_number: item.surah_number || item.ayah?.surah_id,
           surah_name: item.surah_name || item.ayah?.surah?.name_en || 'Surah',
-          ayah_number: item.ayah_number || item.ayah_num,
+          ayah_number: item.ayah?.ayah_id || item.ayah_number || item.ayah_num,
           ayah_verse_ar: item.ayah_verse_ar || item.ayah?.ayah_text,
           ayah_verse_en: item.ayah_verse_en || '',
         };
@@ -428,7 +428,7 @@ export default {
         case 'surah':
           return item.surah_name || '';
         case 'ayah':
-          return item.ayah_number || '';
+          return item.ayah?.ayah_id || item.ayah_number || '';
         case 'arabic':
           return item.ayah_verse_ar || '';
         case 'english':
@@ -473,7 +473,7 @@ export default {
     },
     formatMeta(item) {
       const surah = this.highlightText(item.surah_name || '', 'surah');
-      const ayah = this.highlightText(String(item.ayah_number || ''), 'ayah');
+      const ayah = this.highlightText(String(item.ayah?.ayah_id || item.ayah_number || ''), 'ayah');
       return `${surah} • Ayah ${ayah}`;
     },
     refreshFolderSidebar() {

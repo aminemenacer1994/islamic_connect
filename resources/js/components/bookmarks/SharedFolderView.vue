@@ -229,7 +229,7 @@
                       </div>
                       <div v-else class="folder-item" v-for="item in folderContents[folder.id].items" :key="item.id">
                       <div class="folder-item-header">
-                        <span>{{ item.surah_name || 'Surah' }} • Ayah {{ item.ayah_number || item.ayah_num }}</span>
+                        <span>{{ item.surah_name || 'Surah' }} • Ayah {{ item.ayah?.ayah_id || item.ayah_number || item.ayah_num }}</span>
                         <div class="folder-item-actions">
                           <div class="input-group input-group-sm move-group">
                             <select

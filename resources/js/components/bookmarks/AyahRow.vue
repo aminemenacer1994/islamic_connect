@@ -7,7 +7,7 @@
     <div class="card-body">
       <div class="d-flex justify-content-between align-items-start gap-2">
         <div>
-          <div class="text-muted small">{{ surahLabel }} • Ayah {{ ayah.ayah_number }}</div>
+          <div class="text-muted small">{{ surahLabel }} • Ayah {{ ayah.ayah?.ayah_id || ayah.ayah_number }}</div>
           <div class="ayah-arabic" v-html="ayah.ayah_verse_ar"></div>
           <div v-if="ayah.ayah_verse_en" class="ayah-translation">{{ ayah.ayah_verse_en }}</div>
         </div>

@@ -222,11 +222,12 @@ __webpack_require__.r(__webpack_exports__);
       return [];
     },
     getFieldValue(bookmark, fieldKey) {
+      var _bookmark$ayah;
       switch (fieldKey) {
         case 'surah':
           return bookmark.surah_name || '';
         case 'ayah':
-          return bookmark.ayah_num || '';
+          return ((_bookmark$ayah = bookmark.ayah) === null || _bookmark$ayah === void 0 ? void 0 : _bookmark$ayah.ayah_id) || bookmark.ayah_num || '';
         case 'arabic':
           return bookmark.ayah_verse_ar || '';
         case 'english':
@@ -272,8 +273,10 @@ __webpack_require__.r(__webpack_exports__);
       }, safe);
     },
     formatMeta(bookmark) {
+      var _bookmark$ayah2;
       const surah = this.highlightText(bookmark.surah_name || '', 'surah');
-      const ayah = this.highlightText(String(bookmark.ayah_num || ''), 'ayah');
+      const ayahNum = ((_bookmark$ayah2 = bookmark.ayah) === null || _bookmark$ayah2 === void 0 ? void 0 : _bookmark$ayah2.ayah_id) || bookmark.ayah_num || '';
+      const ayah = this.highlightText(String(ayahNum), 'ayah');
       return `${surah} • Ayah ${ayah}`;
     },
     primaryTextField(bookmark) {
