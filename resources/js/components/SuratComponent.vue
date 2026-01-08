@@ -389,6 +389,19 @@
                                         ></i>
                                         <span>Copy</span>
                                     </button>
+                                    <button
+                                        type="button"
+                                        class="action-pill"
+                                        @click.stop="shareOnWhatsApp(item.ayah)"
+                                        aria-label="Share ayah"
+                                        title="Share ayah"
+                                    >
+                                        <i
+                                            class="bi bi-send"
+                                            aria-hidden="true"
+                                        ></i>
+                                        <span>Share</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -488,6 +501,19 @@
                                         aria-hidden="true"
                                     ></i>
                                     <span>Copy</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="action-pill"
+                                    @click.stop="shareOnWhatsApp(item.ayah)"
+                                    aria-label="Share ayah"
+                                    title="Share ayah"
+                                >
+                                    <i
+                                        class="bi bi-send"
+                                        aria-hidden="true"
+                                    ></i>
+                                    <span>Share</span>
                                 </button>
                             </div>
                         </div>
