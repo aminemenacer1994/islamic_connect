@@ -117,9 +117,7 @@
                                     :alt="blog.title" :loading="index < 4 ? 'eager' : 'lazy'" decoding="async"
                                     :fetchpriority="index < 4 ? 'high' : 'auto'">
                             </template>
-                            <template v-else>
-                                <div class="skeleton skeleton-image mb-4"></div>
-                            </template>
+
 
                             <h5 class="card-title" @click="openModal(blog)" aria-label="Read full blog post"
                                 v-html="highlight(blog.title)"></h5>
@@ -1230,31 +1228,7 @@ export default {
     border-radius: 20px;
 }
 
-/* Skeleton placeholders */
-.skeleton {
-    position: relative;
-    overflow: hidden;
-    background-color: #eef6f6;
-    border-radius: 10px;
-}
 
-.skeleton::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    transform: translateX(-100%);
-    background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 100%);
-    animation: shimmer 1.2s infinite;
-}
-
-.skeleton-image {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-}
-
-@keyframes shimmer {
-    100% { transform: translateX(100%); }
-}
 
 /* Modal content typography (use :deep for scoped CSS) */
 .modal-content-text { max-width: 860px; margin: 0 auto; }

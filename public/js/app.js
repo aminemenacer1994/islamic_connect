@@ -12,182 +12,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'SubscriptionComponent',
+  name: 'PricingComponent',
+  // Original script code commented out
+  /*
   data() {
-    var _document$querySelect, _window$appConfig, _window$appConfig2;
-    return {
-      csrfToken: ((_document$querySelect = document.querySelector('meta[name="csrf-token"]')) === null || _document$querySelect === void 0 ? void 0 : _document$querySelect.getAttribute('content')) || '',
-      selectedPlan: 'price_1SDrmPGsDD2PdzHqDOScwoI2',
-      loading: true,
-      submitting: false,
-      cancelling: false,
-      error: '',
-      success: '',
-      isSubscribed: false,
-      subscription: null,
-      faqs: [{
-        question: 'Can I cancel my subscription anytime?',
-        answer: 'Yes, you can cancel your subscription at any time. If you cancel, you\'ll continue to have access to premium features until the end of your current billing period.',
-        open: false
-      }, {
-        question: 'What payment methods do you accept?',
-        answer: 'We accept all major credit and debit cards through our secure payment processor, Stripe.',
-        open: false
-      }, {
-        question: 'Is there a free trial available?',
-        answer: 'We don\'t currently offer a free trial, but we have a free tier with basic features. You can upgrade to premium anytime to unlock all features.',
-        open: false
-      }],
-      plans: [{
-        value: ((_window$appConfig = window.appConfig) === null || _window$appConfig === void 0 || (_window$appConfig = _window$appConfig.stripePrices) === null || _window$appConfig === void 0 ? void 0 : _window$appConfig.monthly) || 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
-        name: 'Monthly',
-        price: '£1.99',
-        period: 'per month',
-        icon: 'fas fa-calendar-alt',
-        badge: 'Flexible',
-        featured: false,
-        features: ['All premium features', 'Cancel anytime', 'Monthly billing', '24/7 support']
-      }, {
-        value: ((_window$appConfig2 = window.appConfig) === null || _window$appConfig2 === void 0 || (_window$appConfig2 = _window$appConfig2.stripePrices) === null || _window$appConfig2 === void 0 ? void 0 : _window$appConfig2.yearly) || 'price_1SKJCyGsDD2PdzHq4qsR1TRh',
-        name: 'Yearly',
-        price: '£17.99',
-        period: 'per year',
-        savings: 'Save £5.88 per year',
-        icon: 'fas fa-star',
-        badge: 'Most Popular',
-        featured: true,
-        features: ['All premium features', 'Best value', 'Annual billing', 'Priority support']
-      }],
-      planDetails: (_window$appConfig3 => {
-        const ids = ((_window$appConfig3 = window.appConfig) === null || _window$appConfig3 === void 0 ? void 0 : _window$appConfig3.stripePrices) || {};
-        return {
-          [ids.monthly || 'price_1SKJCyGsDD2PdzHqUEaWiQkG']: 'Premium Monthly',
-          [ids.yearly || 'price_1SKJCyGsDD2PdzHq4qsR1TRh']: 'Premium Yearly'
-        };
-      })()
-    };
+    // ...
   },
-  computed: {
-    planDisplayName() {
-      var _this$subscription;
-      if (!((_this$subscription = this.subscription) !== null && _this$subscription !== void 0 && _this$subscription.stripe_price)) return 'Free';
-      return this.planDetails[this.subscription.stripe_price] || 'Premium';
-    }
-  },
+  // ...
+  */
   mounted() {
-    this.checkUrlParams();
-  },
-  methods: {
-    formatDate(dateString) {
-      if (!dateString) return 'Never';
-      return new Date(dateString).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    },
-    toggleFaq(index) {
-      this.faqs[index].open = !this.faqs[index].open;
-    },
-    async fetchSubscriptionStatus() {
-      try {
-        const response = await fetch('/subscription-status', {
-          headers: {
-            'X-CSRF-TOKEN': this.csrfToken,
-            'Accept': 'application/json'
-          }
-        });
-        if (!response.ok) throw new Error('Failed to fetch subscription status');
-        const data = await response.json();
-        this.isSubscribed = data.is_subscribed;
-        this.subscription = {
-          stripe_price: data.plan !== 'free' ? data.plan : null,
-          ends_at: data.ends_at
-        };
-        return data.is_subscribed;
-      } catch (err) {
-        console.error('Error fetching subscription:', err);
-        this.error = 'Error loading subscription status. Please refresh the page.';
-        return false;
-      }
-    },
-    async waitForSubscription() {
-      this.success = 'Subscription successful! Activating your subscription...';
-      let attempts = 0;
-      const maxAttempts = 15;
-      const checkStatus = async () => {
-        attempts++;
-        const subscribed = await this.fetchSubscriptionStatus();
-        if (subscribed) {
-          this.success = 'Subscription activated successfully! Welcome to Premium.';
-          this.loading = false;
-          setTimeout(() => {
-            this.success = '';
-          }, 5000);
-          return true;
-        }
-        if (attempts >= maxAttempts) {
-          this.error = 'Subscription is taking longer than expected. Please refresh the page or contact support.';
-          this.success = '';
-          this.loading = false;
-          return false;
-        }
-        setTimeout(checkStatus, 2000);
-        return false;
-      };
-      await checkStatus();
-    },
-    async checkUrlParams() {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has('success')) {
-        await this.waitForSubscription();
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } else if (urlParams.has('cancelled')) {
-        this.error = 'Subscription cancelled. You can try again when ready.';
-        await this.fetchSubscriptionStatus();
-        this.loading = false;
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } else {
-        await this.fetchSubscriptionStatus();
-        this.loading = false;
-      }
-    },
-    async handleCancelSubscription() {
-      if (!confirm('Are you sure you want to cancel your subscription? You will retain access until the end of your billing period.')) {
-        return;
-      }
-      this.cancelling = true;
-      this.error = '';
-      try {
-        const response = await fetch('/cancel', {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': this.csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await response.json();
-        if (response.ok && data.success) {
-          await this.fetchSubscriptionStatus();
-          this.success = `Subscription cancelled. You'll have access until ${this.formatDate(data.ends_at)}.`;
-          setTimeout(() => {
-            this.success = '';
-          }, 8000);
-        } else {
-          throw new Error(data.message || 'Failed to cancel subscription');
-        }
-      } catch (err) {
-        console.error('Error cancelling subscription:', err);
-        this.error = err.message || 'Error cancelling subscription. Please try again.';
-      } finally {
-        this.cancelling = false;
-      }
-    },
-    handleSubmit(e) {
-      this.submitting = true;
-      e.target.submit();
-    }
+    console.log('PricingComponent: Subscription disabled');
   }
 });
 
@@ -210,164 +44,19 @@ __webpack_require__.r(__webpack_exports__);
   setup(__props, {
     expose: __expose
   }) {
-    var _window$appConfig;
     __expose();
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-    const PRICE_IDS = ((_window$appConfig = window.appConfig) === null || _window$appConfig === void 0 ? void 0 : _window$appConfig.stripePrices) || {
-      monthly: 'price_1SKJCyGsDD2PdzHqUEaWiQkG',
-      yearly: 'price_1SKJCyGsDD2PdzHq4qsR1TRh'
-    };
-    const selectedPlan = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(PRICE_IDS.monthly);
-    const loading = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(true);
-    const submitting = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    const cancelling = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    const error = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    const success = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)('');
-    const isSubscribed = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(false);
-    const subscription = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(null);
-    const planDetails = {
-      [PRICE_IDS.monthly]: 'Premium Monthly (£1.99)',
-      [PRICE_IDS.yearly]: 'Premium Yearly (£17.99)'
-    };
-    const planDisplayName = (0,vue__WEBPACK_IMPORTED_MODULE_0__.computed)(() => {
-      var _subscription$value;
-      if (!((_subscription$value = subscription.value) !== null && _subscription$value !== void 0 && _subscription$value.stripe_price)) return 'Free';
-      return planDetails[subscription.value.stripe_price] || 'Premium';
+    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
+      console.log('SubscriptionForm: Subscription disabled');
     });
-    const formatDate = dateString => {
-      if (!dateString) return 'Never';
-      return new Date(dateString).toLocaleDateString('en-GB', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-    };
-    const fetchSubscriptionStatus = async () => {
-      try {
-        const response = await fetch('/subscription-status', {
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json'
-          }
-        });
-        if (!response.ok) throw new Error('Failed to fetch subscription status');
-        const data = await response.json();
-        isSubscribed.value = data.is_subscribed;
-        subscription.value = {
-          stripe_price: data.plan !== 'free' ? data.plan : null,
-          ends_at: data.ends_at
-        };
-        return data.is_subscribed;
-      } catch (err) {
-        console.error('Error fetching subscription:', err);
-        error.value = 'Error loading subscription status. Please refresh the page.';
-        return false;
-      }
-    };
-    const waitForSubscription = async () => {
-      success.value = 'Subscription successful! Activating your subscription...';
-      let attempts = 0;
-      const maxAttempts = 15; // 30 seconds total (15 attempts × 2 seconds)
 
-      const checkStatus = async () => {
-        attempts++;
-        const subscribed = await fetchSubscriptionStatus();
-        if (subscribed) {
-          success.value = 'Subscription activated successfully!';
-          loading.value = false;
-          // Clear success message after 5 seconds
-          setTimeout(() => {
-            success.value = '';
-          }, 5000);
-          return true;
-        }
-        if (attempts >= maxAttempts) {
-          error.value = 'Subscription is taking longer than expected to activate. Please refresh the page in a few moments or contact support if the issue persists.';
-          success.value = '';
-          loading.value = false;
-          return false;
-        }
+    // Original script commented out
+    /*
+    import { ref, onMounted, computed } from 'vue';
+    const csrfToken = ...
+    */
 
-        // Continue checking
-        setTimeout(checkStatus, 2000);
-        return false;
-      };
-      await checkStatus();
-    };
-    (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(async () => {
-      const urlParams = new URLSearchParams(window.location.search);
-
-      // Check if returning from successful payment
-      if (urlParams.has('success')) {
-        await waitForSubscription();
-        // Clean up URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } else if (urlParams.has('cancelled')) {
-        error.value = 'Subscription cancelled. You can try again when ready.';
-        await fetchSubscriptionStatus();
-        loading.value = false;
-        // Clean up URL
-        window.history.replaceState({}, document.title, window.location.pathname);
-      } else {
-        await fetchSubscriptionStatus();
-        loading.value = false;
-      }
-    });
-    const handleCancelSubscription = async () => {
-      if (!confirm('Are you sure you want to cancel your subscription? It will remain active until the end of your billing period.')) {
-        return;
-      }
-      cancelling.value = true;
-      error.value = '';
-      try {
-        const response = await fetch('/cancel', {
-          method: 'POST',
-          headers: {
-            'X-CSRF-TOKEN': csrfToken,
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          }
-        });
-        const data = await response.json();
-        if (response.ok && data.success) {
-          // Immediately reflect as not subscribed and show plans
-          await fetchSubscriptionStatus();
-          isSubscribed.value = false;
-          success.value = 'Subscription cancelled.';
-          // Optionally redirect to pricing/subscription to show plans cleanly
-          setTimeout(() => {
-            window.location.replace('/subscribe?cancelled=1');
-          }, 500);
-        } else {
-          throw new Error(data.message || 'Failed to cancel subscription');
-        }
-      } catch (err) {
-        console.error('Error cancelling subscription:', err);
-        error.value = err.message || 'Error cancelling subscription. Please try again.';
-      } finally {
-        cancelling.value = false;
-      }
-    };
     const __returned__ = {
-      csrfToken,
-      PRICE_IDS,
-      selectedPlan,
-      loading,
-      submitting,
-      cancelling,
-      error,
-      success,
-      isSubscribed,
-      subscription,
-      planDetails,
-      planDisplayName,
-      formatDate,
-      fetchSubscriptionStatus,
-      waitForSubscription,
-      handleCancelSubscription,
-      ref: vue__WEBPACK_IMPORTED_MODULE_0__.ref,
-      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted,
-      computed: vue__WEBPACK_IMPORTED_MODULE_0__.computed
+      onMounted: vue__WEBPACK_IMPORTED_MODULE_0__.onMounted
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,
@@ -1383,220 +1072,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
 const _hoisted_1 = {
-  id: "app",
   class: "subscription-container"
 };
-const _hoisted_2 = {
-  class: "subscription-main"
-};
-const _hoisted_3 = {
-  class: "container"
-};
-const _hoisted_4 = {
-  key: 0,
-  class: "notification success"
-};
-const _hoisted_5 = {
-  key: 1,
-  class: "notification error"
-};
-const _hoisted_6 = {
-  key: 2,
-  class: "loading-state"
-};
-const _hoisted_7 = {
-  class: "active-subscription"
-};
-const _hoisted_8 = {
-  class: "subscription-card"
-};
-const _hoisted_9 = {
-  class: "card-header"
-};
-const _hoisted_10 = {
-  class: "status-info"
-};
-const _hoisted_11 = {
-  class: "status-item"
-};
-const _hoisted_12 = {
-  class: "label"
-};
-const _hoisted_13 = {
-  class: "value"
-};
-const _hoisted_14 = {
-  class: "card-body"
-};
-const _hoisted_15 = ["disabled"];
-const _hoisted_16 = {
-  class: "plans-view"
-};
-const _hoisted_17 = {
-  class: "plans-grid"
-};
-const _hoisted_18 = ["onClick"];
-const _hoisted_19 = {
-  key: 0,
-  class: "plan-badge"
-};
-const _hoisted_20 = {
-  class: "plan-header"
-};
-const _hoisted_21 = {
-  class: "plan-icon"
-};
-const _hoisted_22 = {
-  class: "plan-price"
-};
-const _hoisted_23 = {
-  class: "amount"
-};
-const _hoisted_24 = {
-  class: "period"
-};
-const _hoisted_25 = {
-  key: 0,
-  class: "savings"
-};
-const _hoisted_26 = {
-  class: "plan-features"
-};
-const _hoisted_27 = {
-  class: "plan-selector"
-};
-const _hoisted_28 = ["id", "value"];
-const _hoisted_29 = ["for"];
-const _hoisted_30 = {
-  class: "payment-section"
-};
-const _hoisted_31 = ["value"];
-const _hoisted_32 = ["value"];
-const _hoisted_33 = ["disabled"];
-const _hoisted_34 = {
-  class: "faq-section"
-};
-const _hoisted_35 = {
-  class: "container"
-};
-const _hoisted_36 = {
-  class: "faq-list"
-};
-const _hoisted_37 = ["onClick"];
-const _hoisted_38 = {
-  key: 0,
-  class: "faq-answer"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$data$subscription, _$data$subscription2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Header Section "), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
-    class: "subscription-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "container"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "header-content"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription Management"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Manage your Islamic Connect subscription. Unlock premium features and support our mission.")])])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Main Content "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("main", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notifications "), $data.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [_cache[6] || (_cache[6] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-check-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.success), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[0] || (_cache[0] = $event => $data.success = ''),
-    class: "close-btn"
-  }, [...(_cache[5] || (_cache[5] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-times"
-  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [_cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-exclamation-triangle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[1] || (_cache[1] = $event => $data.error = ''),
-    class: "close-btn"
-  }, [...(_cache[7] || (_cache[7] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-times"
-  }, null, -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [...(_cache[9] || (_cache[9] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "spinner"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)]))])) : $data.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Active Subscription View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "card-badge"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-crown"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Active Subscription ")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "status-icon"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-check-circle"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.planDisplayName), 1 /* TEXT */), _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "subtitle"
-  }, "You're currently subscribed", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_12, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription = $data.subscription) !== null && _$data$subscription !== void 0 && _$data$subscription.ends_at ? 'Access until' : 'Status'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_13, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$data$subscription2 = $data.subscription) !== null && _$data$subscription2 !== void 0 && _$data$subscription2.ends_at ? $options.formatDate($data.subscription.ends_at) : 'Active & Unlimited'), 1 /* TEXT */)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<h3 data-v-d4146a7c>Premium Benefits</h3><div class=\"benefits-list\" data-v-d4146a7c><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Ad-free experience</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Offline access to content</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Advanced prayer time settings</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Priority support</span></div><div class=\"benefit-item\" data-v-d4146a7c><i class=\"fas fa-check\" data-v-d4146a7c></i><span data-v-d4146a7c>Early access to new features</span></div></div>", 2)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.handleCancelSubscription && $options.handleCancelSubscription(...args)),
-    class: "btn btn-cancel",
-    disabled: $data.cancelling
-  }, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-times-circle"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_15)])])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 4
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Plans View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_16, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "plans-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Choose Your Plan"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Select the plan that works best for you")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
-    method: "POST",
-    action: "/subscribe",
-    onSubmit: _cache[4] || (_cache[4] = (...args) => $options.handleSubmit && $options.handleSubmit(...args))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Plans Grid "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.plans, plan => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: plan.value,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["plan-card", {
-        'featured': plan.featured,
-        'selected': plan.value === $data.selectedPlan
-      }]),
-      onClick: $event => $data.selectedPlan = plan.value
-    }, [plan.featured ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.badge), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(plan.icon)
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.price), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.period), 1 /* TEXT */)]), plan.savings ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.savings), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(plan.features, feature => {
-      return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-        key: feature,
-        class: "feature-item"
-      }, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "fas fa-check"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(feature), 1 /* TEXT */)]);
-    }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-      type: "radio",
-      id: plan.value,
-      value: plan.value,
-      "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => $data.selectedPlan = $event),
-      class: "radio-input"
-    }, null, 8 /* PROPS */, _hoisted_28), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelRadio, $data.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
-      for: plan.value,
-      class: "radio-label"
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(plan.value === $data.selectedPlan ? 'Selected' : 'Select Plan'), 9 /* TEXT, PROPS */, _hoisted_29)])], 10 /* CLASS, PROPS */, _hoisted_18);
-  }), 128 /* KEYED_FRAGMENT */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Payment Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "hidden",
-    name: "_token",
-    value: $data.csrfToken
-  }, null, 8 /* PROPS */, _hoisted_31), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "hidden",
-    name: "price_lookup_key",
-    value: $data.selectedPlan
-  }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    class: "btn btn-primary",
-    disabled: $data.submitting
-  }, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-credit-card"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.submitting ? 'Processing...' : 'Continue to Payment'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_33), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "security-note"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: "fas fa-lock"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Secure payment powered by Stripe ")], -1 /* CACHED */))])], 32 /* NEED_HYDRATION */)])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" FAQ Section "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [_cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "faq-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", null, "Frequently Asked Questions")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.faqs, (faq, index) => {
-    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: index,
-      class: "faq-item"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "faq-question",
-      onClick: $event => $options.toggleFaq(index)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.question), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas fa-chevron-down", {
-        'open': faq.open
-      }])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_37), faq.open ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(faq.answer), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])])])]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription code commented out "), _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "container",
+    style: {
+      "padding": "100px",
+      "text-align": "center"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Subscription system is currently disabled.")], -1 /* CACHED */))]);
 }
 
 /***/ }),
@@ -1616,77 +1101,13 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   class: "subscription-wrapper"
 };
-const _hoisted_2 = {
-  key: 0,
-  class: "alert alert-success",
-  role: "status",
-  "aria-live": "polite"
-};
-const _hoisted_3 = {
-  key: 1,
-  class: "alert alert-error",
-  role: "alert",
-  "aria-live": "assertive"
-};
-const _hoisted_4 = {
-  key: 2,
-  class: "loading"
-};
-const _hoisted_5 = {
-  class: "subscription-details"
-};
-const _hoisted_6 = {
-  class: "subscription-card"
-};
-const _hoisted_7 = {
-  class: "plan-name"
-};
-const _hoisted_8 = {
-  class: "ends-at"
-};
-const _hoisted_9 = ["disabled"];
-const _hoisted_10 = {
-  class: "plans"
-};
-const _hoisted_11 = {
-  method: "POST",
-  action: "/subscribe",
-  class: "subscription-form"
-};
-const _hoisted_12 = ["value"];
-const _hoisted_13 = ["value"];
-const _hoisted_14 = ["value"];
-const _hoisted_15 = ["disabled"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  var _$setup$subscription, _$setup$subscription2;
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [_cache[4] || (_cache[4] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Success Message "), $setup.success ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.success), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Error Message "), $setup.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Loading State "), $setup.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_4, [...(_cache[1] || (_cache[1] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Loading subscription details...", -1 /* CACHED */)]))])) : $setup.isSubscribed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 3
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscribed View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [_cache[2] || (_cache[2] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", null, "Active Subscription", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.planDisplayName), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$subscription = $setup.subscription) !== null && _$setup$subscription !== void 0 && _$setup$subscription.ends_at ? 'Ends:' : 'Status:'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_$setup$subscription2 = $setup.subscription) !== null && _$setup$subscription2 !== void 0 && _$setup$subscription2.ends_at ? $setup.formatDate($setup.subscription.ends_at) : 'Active'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    onClick: $setup.handleCancelSubscription,
-    class: "btn btn-danger",
-    disabled: $setup.cancelling
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.cancelling ? 'Cancelling...' : 'Cancel Subscription'), 9 /* TEXT, PROPS */, _hoisted_9)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
-    key: 4
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription Selection View "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[3] || (_cache[3] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
-    id: "planHeading"
-  }, "Choose Your Plan", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    type: "hidden",
-    name: "_token",
-    value: $setup.csrfToken
-  }, null, 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
-    name: "price_lookup_key",
-    required: "",
-    "onUpdate:modelValue": _cache[0] || (_cache[0] = $event => $setup.selectedPlan = $event),
-    class: "form-control"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: $setup.PRICE_IDS.monthly
-  }, "Premium Monthly (£1.99)", 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
-    value: $setup.PRICE_IDS.yearly
-  }, "Premium Yearly (£17.99)", 8 /* PROPS */, _hoisted_14)], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.selectedPlan]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "submit",
-    class: "btn btn-primary",
-    disabled: $setup.submitting
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.submitting ? 'Processing...' : 'Subscribe'), 9 /* TEXT, PROPS */, _hoisted_15)])])], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */))]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Subscription code commented out "), _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    style: {
+      "text-align": "center",
+      "padding": "2rem"
+    }
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Subscription system is currently disabled.")], -1 /* CACHED */))]);
 }
 
 /***/ }),

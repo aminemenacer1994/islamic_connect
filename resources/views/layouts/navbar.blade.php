@@ -26,9 +26,9 @@
                 <li class="nav-item mt-3">
                     <a style="font-family:inter; color: black;" class="nav-link ml-4 pl-3 pr-5" href="/join_us">Mailing List</a>
                 </li>
-                <a class="btn btn-sm text-white" href="/pricing" style="background:linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);">
+                <!-- <a class="btn btn-sm text-white" href="/pricing" style="background:linear-gradient(144deg,#AF40FF, #5B42F3 50%,#00DDEB);">
                     Try Premium
-                </a>
+                </a> -->
 
                 <!-- Right Side Of Navbar -->
                 @guest

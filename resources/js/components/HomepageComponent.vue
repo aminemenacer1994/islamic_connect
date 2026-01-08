@@ -39,9 +39,9 @@
                         <i class="fas fa-rocket me-2"></i>Get Started Free
                       </a>
 
-                      <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost">
+                      <!-- <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost">
                         <i class="fas fa-heart me-2"></i>Support Our Mission
-                      </a>
+                      </a> -->
                     </div>
 
                     <!-- Trust Indicators -->
@@ -497,7 +497,8 @@
     </section>
 
     <!-- Premium CTA Section -->
-    <section class="py-5 ic-support" aria-labelledby="premium-heading" role="region">
+    <!-- Premium CTA Section -->
+    <!-- <section class="py-5 ic-support" aria-labelledby="premium-heading" role="region">
       <div class="container">
         <div class="row justify-content-center text-center mb-4">
           <div class="col-lg-8">
@@ -510,16 +511,13 @@
         </div>
 
 
-        <!-- Faith-centered quote -->
         <div class="row justify-content-center mb-4 quote-wrapper bg-white">
           <div class="col-lg-9">
             <div class="quote-card">
 
-              <!-- Subtle glowing accent -->
               <div class="quote-glow"></div>
 
               <div class="quote-content">
-                <!-- First Quote -->
                 <p class="faith-quote">
                   <span class="quote-mark" aria-hidden="true">“</span>
                   Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.
@@ -528,7 +526,6 @@
 
                 <div class="quote-ref">Hadith Sahih Muslim</div>
 
-                <!-- Decorative divider -->
                 <div class="quote-divider"></div>
               </div>
             </div>
@@ -592,7 +589,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <!-- Quick Join Section -->
     <!-- Enhanced Quick Join Section -->

@@ -158,7 +158,7 @@ class AyahBookmarkController extends Controller
         $bookmark->folders()->detach();
         $bookmark->delete();
 
-        $this->logEvent($bookmark->user_id, 'bookmark_deleted', $bookmark->id, null, $bookmark->ayah_id);
+        $this->logEvent($bookmark->user_id, 'bookmark_deleted', null, null, $bookmark->ayah_id);
         if (!empty($folderIds)) {
             Folder::whereIn('id', $folderIds)->update(['updated_at' => now()]);
         }

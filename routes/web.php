@@ -70,7 +70,7 @@ use App\Http\Controllers\RevertController;
 use App\Http\Controllers\MuslimController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\ReadController;
-use App\Http\Controllers\SubscriptionController;
+// use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\AyahBookmarkController;
 use App\Http\Controllers\Api\FolderController as ApiFolderController;
 use App\Http\Controllers\Api\SharedFolderController;
@@ -130,8 +130,8 @@ Route::get('/sitemap.xml', function () {
         ['loc' => url('/convert'), 'changefreq' => 'monthly', 'priority' => '0.5'],
         
         // Subscription & Support - medium priority
-        ['loc' => url('/subscribe'), 'changefreq' => 'monthly', 'priority' => '0.6'],
-        ['loc' => url('/pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        // ['loc' => url('/subscribe'), 'changefreq' => 'monthly', 'priority' => '0.6'],
+        // ['loc' => url('/pricing'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/support'), 'changefreq' => 'monthly', 'priority' => '0.6'],
         ['loc' => url('/charity'), 'changefreq' => 'monthly', 'priority' => '0.7'],
         ['loc' => url('/volunteer'), 'changefreq' => 'monthly', 'priority' => '0.6'],
@@ -208,10 +208,10 @@ Route::get('login/linkedin', [LoginController::class, 'redirectToLinkedIn'])->na
 Route::get('login/linkedin/callback', [LoginController::class, 'handleLinkedInCallback']);
 
 // Subscription Public Routes
-Route::view('/subscribe', 'subscribe')->name('subscribe');
-Route::get('/subscribe/success', [SubscriptionController::class, 'success'])->name('subscribe.success');
-Route::post('/stripe/webhook', [SubscriptionController::class, 'handleWebhook'])
-    ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
+// Route::view('/subscribe', 'subscribe')->name('subscribe');
+// Route::get('/subscribe/success', [SubscriptionController::class, 'success'])->name('subscribe.success');
+// Route::post('/stripe/webhook', [SubscriptionController::class, 'handleWebhook'])
+//     ->withoutMiddleware([\App\Http\Middleware\VerifyCsrfToken::class]);
 
 // Donation Routes
 Route::get('/donation/success', [SupportController::class, 'success'])->name('donation.success');
@@ -346,9 +346,9 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     // User & Subscription
     Route::get('/user', [MediaController::class, 'getUser']);
-    Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
-    Route::post('/subscribe', action: [SubscriptionController::class, 'createSubscription']);
-    Route::post('/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('cancel');
+    // Route::get('/subscription-status', [SubscriptionController::class, 'subscriptionStatus']);
+    // Route::post('/subscribe', action: [SubscriptionController::class, 'createSubscription']);
+    // Route::post('/cancel', [SubscriptionController::class, 'cancelSubscription'])->name('cancel');
     
     // Dashboard & Profile
     Route::get('/dashboard', fn() => view('dashboard'))->name('dashboard');
@@ -435,18 +435,18 @@ Route::middleware(['auth', 'web'])->group(function () {
 });
 
 // ========================================
-// SUBSCRIPTION-ONLY ROUTES (Premium Content)
-// ========================================
-Route::middleware(['auth', 'web', 'subscribed'])->group(function () {
-    Route::get('/content', [ContentController::class, 'index'])->name('content');
-    Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
-    Route::get('/radio', [RadioController::class, 'index'])->name('radio');
-    Route::get('/video', [VideoController::class, 'index'])->name('video');
-    Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
-    Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
-    Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
-    Route::get('/school', [SchoolController::class, 'index'])->name('school');
-    Route::get('/shop', [ShopController::class, 'index'])->name('shop');
+// // SUBSCRIPTION-ONLY ROUTES (Premium Content)
+// // ========================================
+// Route::middleware(['auth', 'web', 'subscribed'])->group(function () {
+//     Route::get('/content', [ContentController::class, 'index'])->name('content');
+//     Route::get('/streaming', [StreamingController::class, 'index'])->name('streaming');
+//     Route::get('/radio', [RadioController::class, 'index'])->name('radio');
+//     Route::get('/video', [VideoController::class, 'index'])->name('video');
+//     Route::get('/zakat', [ZakatController::class, 'index'])->name('zakat');
+//     Route::get('/qibla', [QiblaController::class, 'index'])->name('qibla');
+//     Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
+//     Route::get('/school', [SchoolController::class, 'index'])->name('school');
+//     Route::get('/shop', [ShopController::class, 'index'])->name('shop');
     
 
-});
+// });
