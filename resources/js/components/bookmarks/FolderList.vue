@@ -1,39 +1,22 @@
 <template>
   <div class="folder-list">
-    <div class="folder-top" ref="createMenuWrap">
-      <div class="folder-meta">
-        <div class="folder-icon-box">
-          <i class="bi bi-folder2-open"></i>
-        </div>
-        <div>
-          <div class="folder-title">Folder Studio</div>
-          <div class="folder-count">{{ folders.length }} folders</div>
-        </div>
+  <div class="folder-top">
+    <div class="folder-meta">
+      <div class="folder-icon-box">
+        <i class="bi bi-folder2-open"></i>
       </div>
-      <div class="folder-top-actions">
-        <button class="create-trigger" type="button" @click="toggleCreateMenu">
-          <i class="bi bi-plus-lg"></i>
-          <span>Create</span>
-          <i class="bi bi-chevron-down"></i>
-        </button>
-      </div>
-      <div v-if="createMenuOpen" class="create-menu">
-        <button class="create-item" type="button" @click="startCreate('folder')">
-          <span class="create-icon"><i class="bi bi-folder2"></i></span>
-          <span>
-            <strong>Folder</strong>
-            <small>Organize your saved ayat</small>
-          </span>
-        </button>
-        <button class="create-item" type="button" disabled>
-          <span class="create-icon"><i class="bi bi-stars"></i></span>
-          <span>
-            <strong>Smart folder</strong>
-            <small>Rule-based collection (coming soon)</small>
-          </span>
-        </button>
+      <div>
+        <div class="folder-title">Folder Studio</div>
+        <div class="folder-count">{{ folders.length }} folders</div>
       </div>
     </div>
+      <div class="folder-top-actions">
+        <button class="create-trigger" type="button" @click="startCreate('folder')">
+          <i class="bi bi-plus-lg"></i>
+          <span>Create folder</span>
+        </button>
+      </div>
+  </div>
 
     <div v-if="showCreate" class="create-panel mb-3 animate__animated animate__fadeIn">
       <div class="create-heading">
@@ -95,7 +78,8 @@
       </div>
     </div>
 
-    <ul class="list-group folder-stack">
+    <div class="folder-stack-wrap">
+      <ul class="list-group folder-stack">
       <li
         class="list-group-item folder-item d-flex align-items-center justify-content-between"
         :class="{ active: selectedId === 'all' }"
@@ -106,14 +90,15 @@
           <span class="folder-name">All bookmarks</span>
         </div>
       </li>
-      <li class="list-group-item folder-section">
-        <button type="button" class="folder-section-toggle" @click="showCustomFolders = !showCustomFolders">
-          <span class="section-title">Custom folders</span>
-          <span class="section-count">{{ filteredFolders.length }}</span>
-          <i class="bi" :class="showCustomFolders ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-        </button>
-      </li>
+      
       <template v-if="showCustomFolders">
+        <!-- <li>
+          <button type="button" class="folder-section-toggle pt-3" @click="showCustomFolders = !showCustomFolders">
+            <span class="section-title">Custom folders</span>
+            <span class="section-count">{{ filteredFolders.length }}</span>
+            <i class="bi" :class="showCustomFolders ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+          </button>
+        </li> -->
         <li
           v-for="folder in filteredFolders"
           :key="folder.id"
@@ -123,31 +108,44 @@
           @dragover.prevent
           @drop="handleDrop($event, folder)"
         >
+        
           <div class="folder-main">
             <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
             <span class="folder-name" v-html="highlightFolderName(folder.name)"></span>
           </div>
           <div class="folder-actions" @click.stop>
             <span class="folder-count-pill">{{ folder.ayah_count }}</span>
-            <button class="btn btn-sm btn-outline-secondary folder-action" @click="startRename(folder)">
+            <button type="button" class="folder-action rename" @click="startRename(folder)">
               <i class="bi bi-pencil"></i>
             </button>
-            <button class="btn btn-sm btn-outline-danger folder-action" @click="openDeleteConfirm(folder)">
+            <button type="button" class="folder-action delete" @click="openDeleteConfirm(folder)">
               <i class="bi bi-trash"></i>
             </button>
           </div>
         </li>
       </template>
-    </ul>
+      </ul>
+    </div>
 
     <div v-if="editingFolder" class="modal-backdrop fade show"></div>
-    <div v-if="editingFolder" class="rename-modal card">
-      <div class="card-body">
-        <h6 class="mb-2">Rename folder</h6>
-        <input v-model.trim="renameValue" class="form-control" />
-        <div class="d-flex justify-content-end gap-2 mt-2">
-          <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
-          <button class="btn btn-primary" @click="saveRename">Save</button>
+    <div
+      v-if="editingFolder"
+      class="modal fade show modal-wrapper"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      @click.self="cancelRename"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="rename-modal card p-3">
+          <div class="card-body">
+            <h6 class="modal-title mb-3">Rename folder</h6>
+            <input v-model.trim="renameValue" class="form-control mb-3" placeholder="New folder name" />
+            <div class="d-flex justify-content-end gap-2">
+              <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
+              <button class="btn btn-primary" @click="saveRename">Save</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -155,27 +153,24 @@
     <div v-if="deleteConfirmOpen" class="modal-backdrop fade show"></div>
     <div
       v-if="deleteConfirmOpen"
-      class="modal fade show delete-confirm-modal"
+      class="modal fade show modal-wrapper"
       tabindex="-1"
       role="dialog"
       aria-modal="true"
-      style="display: block;"
+      @click.self="closeDeleteConfirm"
     >
       <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h6 class="modal-title">Delete folder?</h6>
-            <button type="button" class="btn-close" aria-label="Close" @click="closeDeleteConfirm"></button>
-          </div>
-          <div class="modal-body">
+        <div class="delete-confirm-modal card p-3">
+          <div class="card-body">
+            <h6 class="modal-title mb-3">Delete folder?</h6>
             <p class="mb-0">Delete this folder and all saved ayat inside it?</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
-            <button type="button" class="btn btn-danger" :disabled="deleteBusy" @click="confirmDeleteFolder">
-              <span v-if="deleteBusy" class="spinner-border spinner-border-sm me-2"></span>
-              Delete
-            </button>
+            <div class="d-flex justify-content-end gap-2 mt-3">
+              <button class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
+              <button type="button" class="btn btn-danger" :disabled="deleteBusy" @click="confirmDeleteFolder">
+                <span v-if="deleteBusy" class="spinner-border spinner-border-sm me-2"></span>
+                Delete
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -193,7 +188,6 @@ export default {
       folders: [],
       selectedId: null,
       showCreate: false,
-      createMenuOpen: false,
       showCustomFolders: true,
       searchQuery: '',
       newFolder: {
@@ -243,10 +237,8 @@ export default {
   },
   mounted() {
     this.fetchFolders();
-    document.addEventListener('click', this.onOutsideClick);
   },
   beforeUnmount() {
-    document.removeEventListener('click', this.onOutsideClick);
   },
   methods: {
     highlightFolderName(name) {
@@ -302,22 +294,9 @@ export default {
     toggleCreate() {
       this.showCreate = !this.showCreate;
     },
-    toggleCreateMenu() {
-      this.createMenuOpen = !this.createMenuOpen;
-    },
     startCreate(type) {
       this.createType = type;
-      this.createMenuOpen = false;
-      if (!this.showCreate) {
-        this.showCreate = true;
-      }
-    },
-    onOutsideClick(event) {
-      const wrap = this.$refs.createMenuWrap;
-      if (!wrap || !this.createMenuOpen) return;
-      if (!wrap.contains(event.target)) {
-        this.createMenuOpen = false;
-      }
+      this.showCreate = true;
     },
     async createFolder() {
       if (!this.newFolder.name) {
@@ -471,291 +450,271 @@ export default {
 
 <style scoped>
 .folder-list {
-  --folder-accent: #0f6e63;
-  --folder-accent-strong: #0b5c53;
-  --folder-gold: #c89b3a;
-  --folder-ink: #0f172a;
-  --folder-muted: #64748b;
+  border-radius: 24px;
+  background: #fefefe;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 1.5rem 1.25rem 1.75rem;
+  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.1);
   position: relative;
+  max-width: 420px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
 }
 
 .folder-top {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 16px;
-  border-radius: 18px;
-  background:
-    linear-gradient(135deg, rgba(15, 110, 99, 0.95), rgba(10, 50, 46, 0.96));
-  color: #f8fafb;
-  box-shadow: 0 18px 36px rgba(9, 20, 19, 0.25);
-  margin-bottom: 14px;
-  overflow: visible;
-}
-
-.folder-top::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 20%, rgba(200, 155, 58, 0.25), transparent 55%);
-  opacity: 0.8;
-  pointer-events: none;
-  border-radius: inherit;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: #f3f6f4;
+  color: #0f172a;
+  margin-bottom: 16px;
 }
 
 .folder-meta {
   display: flex;
   align-items: center;
-  gap: 12px;
-  position: relative;
-  z-index: 1;
+  gap: 10px;
 }
 
 .folder-icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.12);
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  background: #e6f4ef;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  color: #0f6e63;
   font-size: 1.3rem;
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
 }
 
 .folder-title {
   font-size: 1rem;
   font-weight: 700;
+  letter-spacing: 0.05em;
 }
 
 .folder-count {
-  font-size: 0.82rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  color: #475569;
 }
 
 .folder-top-actions {
-  position: relative;
-  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .create-trigger {
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  background: rgba(255, 255, 255, 0.12);
-  color: #f5f5f5;
-  padding: 8px 14px;
-  border-radius: 999px;
+  border: none;
+  background: #0f6e63;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 12px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
 }
 
 .create-trigger:hover {
-  background: rgba(255, 255, 255, 0.2);
   transform: translateY(-1px);
+  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
 }
 
-.create-menu {
-  position: absolute;
-  top: calc(100% + 12px);
-  right: 0;
-  width: min(320px, calc(100vw - 32px));
-  padding: 14px;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.18);
-  display: grid;
-  gap: 10px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  z-index: 20;
+.coming-soon-chip {
+  font-size: 0.75rem;
+  color: #0f6e63;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 110, 99, 0.35);
+  padding: 3px 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
 }
 
-.create-item {
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  background: #ffffff;
-  color: var(--folder-ink);
-  text-align: left;
-  display: flex;
-  gap: 12px;
-  padding: 12px;
-  border-radius: 14px;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+.folder-search {
+  margin: 0;
 }
 
-.create-item:hover {
-  border-color: rgba(15, 110, 99, 0.25);
-  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.12);
-  transform: translateY(-1px);
-}
-
-.create-item strong {
-  display: block;
-  font-size: 0.95rem;
-}
-
-.create-item small {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--folder-muted);
-}
-
-.create-item:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.create-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: rgba(15, 110, 99, 0.12);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: var(--folder-accent);
-}
-
-.create-panel {
+.folder-search .input-group {
   border-radius: 16px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  padding: 16px;
-  background: #ffffff;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.1);
-}
-
-.create-heading {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-weight: 700;
-  margin-bottom: 12px;
-  color: var(--folder-ink);
-}
-
-.create-heading .btn-link {
-  padding: 0;
-  font-size: 0.85rem;
-  text-decoration: none;
-  color: var(--folder-accent-strong);
+  background: #f6f6f6;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.08);
 }
 
 .folder-search .input-group-text {
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  color: var(--folder-muted);
+  background: transparent;
+  border: none;
+  color: #94a3b8;
 }
 
 .folder-search .form-control {
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  border-radius: 12px;
-  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
-}
-
-.folder-search .form-control:focus {
-  box-shadow: 0 0 0 0.2rem rgba(15, 110, 99, 0.16);
-  border-color: rgba(15, 110, 99, 0.35);
-}
-
-.folder-section {
   border: none;
   background: transparent;
-  padding: 0;
-  margin: 2px 0 0;
+  box-shadow: none;
+  font-size: 0.95rem;
 }
 
-.folder-section-toggle {
-  width: 100%;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  background: rgba(255, 255, 255, 0.9);
-  color: var(--folder-ink);
-  border-radius: 12px;
-  padding: 6px 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-weight: 500;
-  font-size: 0.82rem;
-  box-shadow: 0 10px 16px rgba(15, 23, 42, 0.08);
+.folder-stack-wrap {
+  flex: 1;
+  max-height: calc(100vh - 360px);
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
-.folder-section-toggle .section-title {
-  text-transform: uppercase;
-  padding-top: 15px;
-  letter-spacing: 0.1em;
-  color: var(--folder-muted);
+.folder-stack-wrap::-webkit-scrollbar {
+  width: 8px;
 }
 
-.folder-section-toggle .section-count {
-  margin-left: auto;
-  padding: 2px 8px;
+.folder-stack-wrap::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.05);
   border-radius: 999px;
-  background: rgba(15, 110, 99, 0.12);
-  color: var(--folder-accent-strong);
-  font-weight: 700;
+}
+
+.folder-stack-wrap::-webkit-scrollbar-thumb {
+  background: rgba(15, 110, 99, 0.35);
+  border-radius: 999px;
 }
 
 .folder-stack {
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
 .folder-item {
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  border-radius: 16px;
-  padding: 12px 14px;
-  background: #ffffff;
-  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  /* box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08); */
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: #fdfdfd;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
 .folder-item:hover {
-  box-shadow: 0 18px 28px rgba(15, 23, 42, 0.12);
-  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
 }
 
 .folder-item.active {
-  border-color: rgba(15, 110, 99, 0.4);
-  box-shadow: 0 18px 30px rgba(15, 110, 99, 0.18);
-  background: rgba(15, 110, 99, 0.08);
-  color: var(--folder-ink);
+  background: #f0fbf8;
+  border-color: rgba(15, 110, 99, 0.35);
 }
 
 .folder-main {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: var(--folder-ink);
+  color: #0f172a;
   font-weight: 600;
 }
 
 .folder-icon {
   width: 34px;
   height: 34px;
-  border-radius: 12px;
-  background: rgba(15, 110, 99, 0.12);
+  border-radius: 10px;
+  background: #e6f4ef;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--folder-accent);
-  font-size: 1.05rem;
+  color: #0f6e63;
+  font-size: 1rem;
 }
 
-.folder-name {
+.folder-actions {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.folder-action {
+  border-radius: 10px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.75rem;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: #f7fafc;
+  color: #0f172a;
+}
+
+.folder-action.rename {
+  background: rgba(15, 110, 99, 0.08);
+  border-color: rgba(15, 110, 99, 0.25);
+  color: #0f6e63;
+}
+
+.folder-action.delete {
+  background: rgba(239, 68, 68, 0.14);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #b91c1c;
+}
+
+.folder-count-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f6e63;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
+.folder-section-toggle {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #475569;
+  border-radius: 12px;
+  padding: 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.folder-section-toggle .section-count {
+  background: rgba(15, 110, 99, 0.15);
+  color: #0f6e63;
+  padding: 2px 8px;
+  border-radius: 999px;
   font-weight: 600;
 }
 
-.search-hit {
-  background: rgba(15, 110, 99, 1);
-  color: #ffffff;
-  border-radius: 6px;
-  padding: 0 3px;
+.create-panel {
+  background: #f7fafc;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
+  margin-bottom: 1rem;
 }
 
+.create-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.create-heading .btn-link {
+  padding: 0;
+  font-size: 0.9rem;
+  color: #0f6e63;
+}
 
 .icon-picker-grid {
   display: grid;
@@ -764,35 +723,28 @@ export default {
   max-height: 160px;
   overflow-y: auto;
   padding: 8px;
-  background: #f8fafc;
-  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: 12px;
 }
 
 .icon-choice {
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  border: 1px solid transparent;
-  background: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  background: #f8fafc;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  color: #64748b;
-  transition: all 0.2s ease;
-  padding: 0;
-}
-
-.icon-choice:hover {
-  background: #f1f5f9;
-  color: #0f172a;
+  color: #6b7280;
 }
 
 .icon-choice.active {
   background: #0f6e63;
   color: #ffffff;
-  box-shadow: 0 2px 6px rgba(15, 110, 99, 0.2);
+  border-color: rgba(15, 110, 99, 0.8);
 }
 
 .color-picker-grid {
@@ -802,91 +754,67 @@ export default {
 }
 
 .color-choice {
-  width: 28px;
-  height: 28px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
   border: 3px solid transparent;
   transition: all 0.2s ease;
-  padding: 0;
 }
 
 .color-choice.active {
-  border-color: #ffffff;
-  box-shadow: 0 0 0 2px #e2e8f0;
+  border-color: #0f6e63;
   transform: scale(1.1);
 }
 
 .btn-premium-save {
-  background: linear-gradient(135deg, #c89b3a, #b0872d) !important;
+  background: linear-gradient(135deg, #0f6e63, #24a48c) !important;
   border: none !important;
   color: white !important;
   font-weight: 700;
   padding: 10px;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(200, 155, 58, 0.2);
+  box-shadow: 0 6px 18px rgba(15, 110, 99, 0.25);
   transition: all 0.2s ease;
 }
 
 .btn-premium-save:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(200, 155, 58, 0.3);
-  filter: brightness(1.1);
+  box-shadow: 0 8px 22px rgba(15, 110, 99, 0.3);
 }
 
 .btn-premium-save:disabled {
-  opacity: 0.6;
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-/* Base Styles Refinement */
-.create-panel {
+.rename-modal,
+.delete-confirm-modal {
+  border-radius: 18px;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 20px;
-  padding: 16px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.2);
 }
 
-.animate__animated {
-  animation-duration: 0.4s;
+.rename-modal .card-body,
+.delete-confirm-modal .card-body {
+  padding: 1rem;
 }
 
-
-.folder-count-pill {
-  display: inline-flex;
+.modal-wrapper {
+  position: fixed;
+  inset: 0;
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 30px;
-  padding: 2px 10px;
-  border-radius: 999px;
-  background: rgba(15, 110, 99, 0.12);
-  color: var(--folder-accent-strong);
-  font-weight: 700;
-  font-size: 0.8rem;
+  padding: 1rem;
+  z-index: 1070;
 }
 
-.folder-action {
-  border-radius: 10px;
+:deep(.modal-backdrop) {
+  background: rgba(15, 23, 42, 0.45);
 }
 
-.rename-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 320px;
-  transform: translate(-50%, -50%);
-  z-index: 1050;
-  border-radius: 16px;
-  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.2);
-}
-
-.delete-confirm-modal .modal-content {
-  border-radius: 16px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.18);
-}
-
-@media (max-width: 1199.98px) {
+@media (max-width: 992px) {
   .folder-top {
     flex-wrap: wrap;
     align-items: flex-start;
@@ -894,63 +822,50 @@ export default {
 
   .folder-top-actions {
     width: 100%;
-  }
-
-  .create-trigger {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .create-menu {
-    left: 0;
-    right: 0;
+    justify-content: flex-start;
   }
 }
 
 @media (max-width: 768px) {
-  .folder-top {
-    padding: 12px;
-    border-radius: 16px;
-    box-shadow: 0 14px 28px rgba(9, 20, 19, 0.22);
-  }
-
-  .folder-icon-box {
-    width: 42px;
-    height: 42px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-  }
-
-  .create-trigger {
-    padding: 6px 12px;
-    font-size: 0.9rem;
-  }
-
-  .create-menu {
-    right: 0;
-    left: auto;
+  .folder-list {
+    padding: 1rem;
   }
 
   .folder-item {
-    padding: 10px 12px;
-    border-radius: 14px;
-    box-shadow: 0 10px 18px rgba(15, 23, 42, 0.1);
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .folder-actions {
-    flex-wrap: wrap;
+    width: 100%;
     justify-content: flex-end;
   }
 }
 
 @media (max-width: 576px) {
-  .folder-actions {
-    width: 100%;
-    justify-content: flex-start;
+  .folder-list {
+    padding: 0.9rem;
+    border-radius: 20px;
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
   }
 
-  .folder-count-pill {
-    margin-right: auto;
+  .folder-top {
+    gap: 8px;
+  }
+
+  .folder-top-actions {
+    flex-direction: column;
+    width: 100%;
+    align-items: flex-start;
+  }
+
+  .create-trigger {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .folder-stack-wrap {
+    max-height: calc(100vh - 320px);
   }
 }
 
@@ -959,48 +874,17 @@ export default {
     padding: 10px;
   }
 
-  .folder-meta {
-    gap: 10px;
-  }
-
-  .folder-icon-box {
-    width: 38px;
-    height: 38px;
-    border-radius: 10px;
-    font-size: 1rem;
-  }
-
-  .folder-title {
-    font-size: 0.95rem;
-  }
-
-  .folder-count {
-    font-size: 0.75rem;
-  }
-
-  .create-menu {
-    width: calc(100vw - 24px);
-    right: 0;
-    left: auto;
+  .folder-list {
+    padding: 0.8rem;
   }
 
   .folder-item {
-    padding: 9px 10px;
-  }
-}
-
-@media (max-width: 360px) {
-  .folder-top {
-    padding: 8px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
-  .create-trigger {
-    padding: 5px 10px;
-    font-size: 0.85rem;
-  }
-
-  .folder-item {
-    padding: 8px 9px;
+  .folder-actions {
+    justify-content: flex-start;
   }
 }
 </style>
