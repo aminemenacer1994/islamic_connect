@@ -9,7 +9,7 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <h1 style="font-weight:bold"><strong>Welcome Back</strong></h1>
+                <h1>Welcome Back</h1>
             </div>
             
             <form method="POST" action="{{ route('login') }}">
@@ -55,7 +55,7 @@
                 <!-- <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p> -->
 
                 <div class="d-grid mb-3">
-                    <button type="submit" style="color: #ffffff; background: #00897b;" class="btn btn-lg">Sign In</button>
+                    <button type="submit" class="btn btn-lg btn-primary-auth">Sign In</button>
                 </div>
             </form>
             
@@ -80,13 +80,17 @@
 
 <style>
     :root {
-        --primary-color: #228B22;
-        --primary-hover: #1a6b1a;
-        --text-color: #1a1a1a;
-        --light-bg: #f8f9fa;
-        --border-radius: 8px;
-        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        --transition: all 0.3s ease;
+        --accent-color: #009e8a;
+        --accent-hover: #00897b;
+        --accent-soft: rgba(0, 158, 138, 0.12);
+        --text-color: #000000;
+        --text-muted: #64748b;
+        --light-bg: #ffffff;
+        --border-color: rgba(0, 0, 0, 0.1);
+        --border-radius: 12px;
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --transition: all 0.2s ease;
     }
     
     * {
@@ -96,7 +100,7 @@
     }
     
     body {
-        background-color: var(--light-bg);
+        background-color: #ffffff;
         font-family: 'Inter', sans-serif;
         color: var(--text-color);
         line-height: 1.6;
@@ -121,15 +125,15 @@
     }
     
     .nav-link:hover {
-        color: #00897b;
-        transition: color 0.3s ease;
+        color: var(--accent-color);
+        transition: color 0.2s ease;
     }
     
     .nav-link.active {
         font-weight: bold;
-        color: #00897b;
-        border-bottom: 2px solid #00897b;
-        transition: color 0.3s ease, border-bottom 0.3s ease;
+        color: var(--accent-color);
+        border-bottom: 2px solid var(--accent-color);
+        transition: color 0.2s ease, border-bottom 0.2s ease;
     }
     
     .navbar-toggler {
@@ -146,18 +150,18 @@
     }
     
     .login-card {
-        background: white;
+        background: #ffffff;
         border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
         box-shadow: var(--shadow);
         padding: 2.5rem;
         width: 100%;
         max-width: 550px;
         transition: var(--transition);
-        border-top: 4px solid #00897b;
     }
     
     .login-card:hover {
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--shadow-hover);
     }
     
     .login-header {
@@ -166,14 +170,15 @@
     }
     
     .login-header h1 {
-        font-weight: 600;
+        font-weight: 700;
         color: var(--text-color);
         margin-bottom: 0.5rem;
         font-size: 1.75rem;
+        letter-spacing: -0.01em;
     }
     
     .login-header p {
-        color: #6c757d;
+        color: var(--text-muted);
         margin-bottom: 0;
     }
     
@@ -198,15 +203,22 @@
     
     .form-control {
         padding: 0.75rem 1rem;
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
         transition: var(--transition);
         font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        color: var(--text-color);
     }
     
     .form-control:focus {
-        border-color: #00897b;
-        box-shadow: 0 0 0 0.2rem rgba(0, 107, 95, 0.25);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
+        outline: none;
+    }
+    
+    .form-control::placeholder {
+        color: var(--text-muted);
     }
     
     
@@ -220,12 +232,12 @@
     .divider::after {
         content: "";
         flex: 1;
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid var(--border-color);
     }
     
     .divider-text {
         padding: 0 1rem;
-        color: #6c757d;
+        color: var(--text-muted);
         font-size: 0.875rem;
         font-weight: 500;
     }
@@ -242,20 +254,21 @@
         align-items: center;
         justify-content: center;
         padding: 0.75rem;
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
-        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: #ffffff;
         transition: var(--transition);
         font-weight: 500;
-        color: #5f6368;
+        color: var(--text-muted);
         text-decoration: none;
     }
     
     .social-btn:hover {
-        background-color: #f8f9fa;
-        border-color: #adb5bd;
+        background-color: var(--accent-soft);
+        border-color: var(--accent-color);
         transform: translateY(-1px);
-        color: #5f6368;
+        color: var(--accent-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
     
     .social-btn i {
@@ -263,39 +276,60 @@
         font-size: 1.1rem;
     }
     
-    .btn-google {
-        color: #5f6368;
-    }
-    
-    .btn-google:hover {
-        background-color: #f8f9fa;
-        border-color: #dadce0;
-    }
-    
     .login-footer {
         text-align: center;
         margin-top: 1.5rem;
-        color: #6c757d;
+        color: var(--text-muted);
     }
     
     .login-footer a {
-        color: #00897b;
+        color: var(--accent-color);
         text-decoration: none;
         font-weight: 500;
     }
     
     .login-footer a:hover {
         text-decoration: underline;
+        color: var(--accent-hover);
     }
 
     .forgot-password-link {
-        color: #00897b;
+        color: var(--accent-color);
         font-weight: 500;
         font-size: 0.95rem;
     }
     .forgot-password-link:hover {
         text-decoration: underline;
-        color: var(--primary-hover);
+        color: var(--accent-hover);
+    }
+    
+    .btn-primary-auth {
+        background-color: var(--accent-color) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        transition: var(--transition);
+        box-shadow: 0 2px 4px rgba(0, 158, 138, 0.2);
+    }
+    
+    .btn-primary-auth:hover {
+        background-color: var(--accent-hover) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 8px rgba(0, 158, 138, 0.3);
+        transform: translateY(-1px);
+    }
+    
+    .btn-primary-auth:active {
+        transform: translateY(0);
+        background-color: var(--accent-hover) !important;
+    }
+    
+    .btn-primary-auth:focus {
+        background-color: var(--accent-color) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.2);
     }
     
     .invalid-feedback {
@@ -306,7 +340,7 @@
         position: absolute;
         top: -40px;
         left: 6px;
-        background: #00897b;
+        background: var(--accent-color);
         color: white;
         padding: 8px;
         z-index: 100;
@@ -350,8 +384,33 @@
     input:focus, 
     select:focus, 
     textarea:focus {
-        outline: 2px solid #00897b;
+        outline: 2px solid var(--accent-color);
         outline-offset: 2px;
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+    
+    .form-check-input:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
+    }
+    
+    .invalid-feedback {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .is-invalid {
+        border-color: #dc3545;
+    }
+    
+    .is-invalid:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
     }
     
     /* High contrast mode support */

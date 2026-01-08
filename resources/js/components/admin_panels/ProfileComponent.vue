@@ -96,7 +96,7 @@
       </div>
 
       <!-- Address section (placeholders if missing) -->
-      <div class="section-card mt-3">
+      <!-- <div class="section-card mt-3">
         <div class="section-header">
           <h6 class="m-0">Address</h6>
           <button class="btn btn-sm btn-amber" data-bs-toggle="modal" data-bs-target="#editNew"
@@ -126,7 +126,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Edit Profile Modal (Bootstrap 5) -->

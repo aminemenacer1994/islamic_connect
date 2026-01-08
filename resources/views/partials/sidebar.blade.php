@@ -3,102 +3,119 @@
   <nav class="mt-2" aria-label="Secondary navigation" role="navigation">
    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
     @if(auth()->user()->role === 'admin')
+    
     <li class="nav-item" data-search="dashboard admin home overview">
      <a href="/dashboard" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
-      <i class="bi bi-speedometer mr-3 "></i>
-      <span class="label mr-3">Dashboard</span>
+      <i class="bi bi-speedometer2 nav-icon"></i>
+      <span class="nav-label">Dashboard</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="users accounts members admin">
      <a href="/users" class="nav-link {{ request()->is('users*') ? 'active' : '' }}">
-      <i class="bi bi-people-fill mr-3"></i>
-      <span class="label">Users</span>
+      <i class="bi bi-people-fill nav-icon"></i>
+      <span class="nav-label">Users</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="feedback reports messages admin">
      <a href="/feedback" class="nav-link {{ request()->is('feedback') ? 'active' : '' }}">
-      <i class="bi bi-chat-left-text-fill mr-3"></i>
-      <span class="label">Feedback</span>
+      <i class="bi bi-chat-left-text-fill nav-icon"></i>
+      <span class="nav-label">Feedback</span>
      </a>
     </li>
     
     <li class="nav-item" data-search="payments transactions finance stripe">
      <a href="/payments" class="nav-link {{ request()->is('payments') ? 'active' : '' }}">
-      <i class="bi bi-credit-card-fill mr-3"></i>
-      <span class="label">Payments</span>
+      <i class="bi bi-credit-card-fill nav-icon"></i>
+      <span class="nav-label">Payments</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="mailing list newsletter subscribers">
      <a href="/mailing_list" class="nav-link {{ request()->is('mailing_list') ? 'active' : '' }}">
-      <i class="bi bi-envelope-at-fill mr-3"></i>
-      <span class="label">Mailing List</span>
+      <i class="bi bi-envelope-at-fill nav-icon"></i>
+      <span class="nav-label">Mailing List</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="profile account settings admin">
      <a href="/profile" class="nav-link {{ request()->is('profile') ? 'active' : '' }}">
-      <i class="bi bi-people-fill mr-3"></i>
-      <span class="label">Profile</span>
+      <i class="bi bi-person-circle nav-icon"></i>
+      <span class="nav-label">Profile</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="bookmarks saved items admin">
      <a href="/bookmarks" class="nav-link {{ request()->is('bookmarks') ? 'active' : '' }}">
-      <i class="bi bi-bookmark-dash-fill mr-3"></i>
-      <span class="label">Bookmarks</span>
+      <i class="bi bi-bookmark-star-fill nav-icon"></i>
+      <span class="nav-label">Bookmarks</span>
      </a>
     </li>
-    <!-- <li class="nav-item" data-search="collections library saved">
-     <a href="/collection" class="nav-link">
-      <i class="bi bi-bookmark-dash-fill mr-3"></i>
-      <span class="label">Collections</span>
-     </a>
-    </li> -->
+    
     <li class="nav-item" data-search="notes reflections writing">
      <a href="/notes" class="nav-link {{ request()->is('notes') ? 'active' : '' }}">
-      <i class="bi bi-file-earmark-text-fill mr-3"></i>
-      <span class="label">Notes</span>
+      <i class="bi bi-file-earmark-text-fill nav-icon"></i>
+      <span class="nav-label">Notes</span>
      </a>
     </li>
+    
+    <li class="nav-item nav-divider">
+     <hr class="sidebar-divider">
+    </li>
+    
     <li class="nav-item">
-     <a class="nav-link" href="{{ route('logout') }}"
+     <a class="nav-link nav-link-logout" href="{{ route('logout') }}"
       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-      <i class="bi bi-plug-fill" style="font-size: 22px"></i>
-      <span class="label mr-3 mb-2yes do ">{{ __('Logout') }}</span>
+      <i class="bi bi-box-arrow-right nav-icon"></i>
+      <span class="nav-label">{{ __('Logout') }}</span>
      </a>
      <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
       @csrf
      </form>
     </li>
+    
     @endif
 
     @if(auth()->user()->role === 'user')
+    
     <li class="nav-item" data-search="home landing start">
      <a href="/home" class="nav-link {{ request()->is('home') || request()->is('/') ? 'active' : '' }}">
-      <i class="bi bi-house mr-3"></i>
-      <span class="label">Home</span>
+      <i class="bi bi-house-door-fill nav-icon"></i>
+      <span class="nav-label">Home</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="profile account settings">
      <a href="/profile" class="nav-link {{ request()->is('profile') ? 'active' : '' }}">
-      <i class="bi bi-person-circle mr-3"></i>
-      <span class="label">Profile</span>
+      <i class="bi bi-person-circle nav-icon"></i>
+      <span class="nav-label">Profile</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="bookmarks saved items">
      <a href="/bookmarks" class="nav-link {{ request()->is('bookmarks') ? 'active' : '' }}">
-      <i class="bi bi-bookmark mr-3"></i>
-      <span class="label">Bookmarks</span>
+      <i class="bi bi-bookmark-heart-fill nav-icon"></i>
+      <span class="nav-label">Bookmarks</span>
      </a>
     </li>
+    
     <li class="nav-item" data-search="notes reflections writing">
      <a href="/notes" class="nav-link {{ request()->is('notes') ? 'active' : '' }}">
-      <i class="bi bi-file-earmark-text mr-3"></i>
-      <span class="label">Notes</span>
+      <i class="bi bi-file-earmark-text nav-icon"></i>
+      <span class="nav-label">Notes</span>
      </a>
     </li>
+    
+    <li class="nav-item nav-divider">
+     <hr class="sidebar-divider">
+    </li>
+    
     <li class="nav-item">
-     <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form-side').submit();">
-      <i class="bi bi-box-arrow-right mr-3"></i>
-      <span class="label">Logout</span>
+     <a class="nav-link nav-link-logout" href="{{ route('logout') }}" 
+      onclick="event.preventDefault(); document.getElementById('logout-form-side').submit();">
+      <i class="bi bi-box-arrow-right nav-icon"></i>
+      <span class="nav-label">Logout</span>
      </a>
      <form id="logout-form-side" action="{{ route('logout') }}" method="POST" class="d-none">
       @csrf
@@ -110,4 +127,95 @@
    </ul>
   </nav>
  </div>
-</aside> 
+</aside>
+
+<style>
+/* Simple Sidebar Styles */
+.vc-sidebar {
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.vc-sidebar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.sidebar {
+  overflow-x: hidden;
+}
+
+.nav-sidebar {
+  overflow-x: hidden;
+}
+
+.nav-sidebar {
+  padding: 1rem 0.5rem;
+  overflow-x: hidden;
+}
+
+.nav-item {
+  margin-bottom: 0.125rem;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 0.625rem 1rem;
+  color: #6b7280;
+  transition: all 0.15s ease;
+  position: relative;
+  border-left: 3px solid transparent;
+}
+
+.nav-link:hover {
+  background: #f9fafb;
+  color: #111827;
+}
+
+.nav-link.active {
+  background: #f3f4f6;
+  color: #4f46e5;
+  border-left-color: #4f46e5;
+}
+
+.nav-icon {
+  font-size: 1.125rem;
+  margin-right: 0.75rem;
+  min-width: 1.125rem;
+}
+
+.nav-label {
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.nav-divider {
+  margin: 0.75rem 0;
+  padding: 0;
+}
+
+.sidebar-divider {
+  border: none;
+  border-top: 1px solid #e5e7eb;
+  margin: 0;
+}
+
+.nav-link-logout {
+  color: #dc2626;
+}
+
+.nav-link-logout:hover {
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+/* Remove loading animations */
+.nav-item {
+  opacity: 1;
+  transform: none;
+}
+</style>

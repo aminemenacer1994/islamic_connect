@@ -633,19 +633,20 @@ export default {
   border: 1px solid rgba(15, 23, 42, 0.12);
   background: rgba(255, 255, 255, 0.9);
   color: var(--folder-ink);
-  border-radius: 999px;
+  border-radius: 12px;
   padding: 6px 12px;
   display: inline-flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  font-weight: 700;
+  font-weight: 500;
   font-size: 0.82rem;
   box-shadow: 0 10px 16px rgba(15, 23, 42, 0.08);
 }
 
 .folder-section-toggle .section-title {
   text-transform: uppercase;
+  padding-top: 15px;
   letter-spacing: 0.1em;
   color: var(--folder-muted);
 }
@@ -670,7 +671,7 @@ export default {
   padding: 12px 14px;
   background: #ffffff;
   transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08);
+  /* box-shadow: 0 12px 22px rgba(15, 23, 42, 0.08); */
 }
 
 .folder-item:hover {

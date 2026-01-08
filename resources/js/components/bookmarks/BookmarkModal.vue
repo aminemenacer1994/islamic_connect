@@ -7,7 +7,7 @@
             <div class="header-title">
               <span class="header-icon"><i class="fas fa-bookmark"></i></span>
               <div>
-                <h5 class="modal-title" id="bookmarkModalLabel">Save ayah</h5>
+                <h5 class="modal-title" id="bookmarkModalLabel">Save Ayah</h5>
                 <p class="modal-subtitle">Pick a folder or create a new one.</p>
                 <div class="header-meta">
                   <span class="meta-item">

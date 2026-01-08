@@ -615,29 +615,8 @@ export default {
 </script>
 
 <style scoped>
-.bookmark-manager {
-  --bm-accent: #0f6e63;
-  --bm-accent-strong: #0b5c53;
-  --bm-gold: #c89b3a;
-  --bm-ink: #0f172a;
-  --bm-muted: #64748b;
-  --bm-border: rgba(15, 23, 42, 0.1);
-  padding: 1rem 0;
-  position: relative;
-  overflow-x: hidden;
-}
 
-.bookmark-manager::before {
-  content: '';
-  position: absolute;
-  top: -80px;
-  right: -120px;
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(circle, rgba(15, 110, 99, 0.18), transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
+
 
 .bookmark-manager::after {
   content: '';
@@ -646,7 +625,6 @@ export default {
   left: -140px;
   width: 300px;
   height: 300px;
-  background: radial-gradient(circle, rgba(200, 155, 58, 0.14), transparent 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -703,7 +681,7 @@ export default {
 }
 
 .bookmark-panel {
-  border-radius: 24px;
+  /* border-radius: 24px; */
   border: 1px solid var(--bm-border);
   background:
     radial-gradient(120% 120% at 0% 0%, rgba(200, 155, 58, 0.12) 0%, transparent 50%),
@@ -852,9 +830,9 @@ export default {
   border: 2px solid rgba(255, 255, 255, 0.6);
 }
 
-.panel-body::-webkit-scrollbar-thumb:hover {
+/* .panel-body::-webkit-scrollbar-thumb:hover {
   background: rgba(15, 110, 99, 0.5);
-}
+} */
 
 .panel-search {
   display: flex;

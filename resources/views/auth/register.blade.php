@@ -6,7 +6,7 @@
     <div class="register-container">
         <div class="register-card">
             <div class="register-header">
-                <h1 class="mb-1"><strong>Create an account</strong></h1>
+                <h1>Create an account</h1>
             </div>
             
             <form method="POST" action="{{ route('register') }}">
@@ -60,7 +60,7 @@
                 <!-- <p class="text-muted small benefits-text">Create your free account to save bookmarks, write notes, sync across devices, and manage email preferences. No spam. Ever.</p> -->
 
                 <div class="d-grid mb-3">
-                    <button type="submit" style="color: #ffffff; background: #00897b;" class="btn btn-lg">Create Account</button>
+                    <button type="submit" class="btn btn-lg btn-primary-auth">Create Account</button>
                 </div>
             </form>
             
@@ -74,8 +74,8 @@
                 </a>
             </div>
             
-            <div class="register-footer" >
-                <p style="color:#6c757d">Already have an account? <a href="/login" style="color:#00897b;">Sign in here</a></p>
+            <div class="register-footer">
+                <p>Already have an account? <a href="/login">Sign in here</a></p>
             </div>
         </div>
     </div>
@@ -86,13 +86,17 @@
 
 <style>
     :root {
-        --primary-color: #228B22;
-        --primary-hover: #1a6b1a;
-        --text-color: #1a1a1a;
-        --light-bg: #f8f9fa;
-        --border-radius: 8px;
-        --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        --transition: all 0.3s ease;
+        --accent-color: #009e8a;
+        --accent-hover: #00897b;
+        --accent-soft: rgba(0, 158, 138, 0.12);
+        --text-color: #000000;
+        --text-muted: #64748b;
+        --light-bg: #ffffff;
+        --border-color: rgba(0, 0, 0, 0.1);
+        --border-radius: 12px;
+        --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
+        --transition: all 0.2s ease;
     }
     
     * {
@@ -102,7 +106,7 @@
     }
     
     body {
-        background-color: var(--light-bg);
+        background-color: #ffffff;
         font-family: 'Inter', sans-serif;
         color: var(--text-color);
         line-height: 1.6;
@@ -127,15 +131,15 @@
     }
     
     .nav-link:hover {
-        color: #00c4b4;
-        transition: color 0.3s ease;
+        color: var(--accent-color);
+        transition: color 0.2s ease;
     }
     
     .nav-link.active {
         font-weight: bold;
-        color: #00c4b4;
-        border-bottom: 2px solid #00c4b4;
-        transition: color 0.3s ease, border-bottom 0.3s ease;
+        color: var(--accent-color);
+        border-bottom: 2px solid var(--accent-color);
+        transition: color 0.2s ease, border-bottom 0.2s ease;
     }
     
     .navbar-toggler {
@@ -152,18 +156,18 @@
     }
     
     .register-card {
-        background: white;
+        background: #ffffff;
         border-radius: var(--border-radius);
+        border: 1px solid var(--border-color);
         box-shadow: var(--shadow);
         padding: 2.5rem;
         width: 100%;
         max-width: 550px;
         transition: var(--transition);
-        border-top: 4px solid #00897b;
     }
     
     .register-card:hover {
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+        box-shadow: var(--shadow-hover);
     }
     
     .register-header {
@@ -172,14 +176,15 @@
     }
     
     .register-header h1 {
-        font-weight: 600;
+        font-weight: 700;
         color: var(--text-color);
         margin-bottom: 0.5rem;
         font-size: 1.75rem;
+        letter-spacing: -0.01em;
     }
     
     .register-header p {
-        color: #6c757d;
+        color: var(--text-muted);
         margin-bottom: 0;
     }
     
@@ -204,15 +209,22 @@
     
     .form-control {
         padding: 0.75rem 1rem;
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
         transition: var(--transition);
         font-family: 'Inter', sans-serif;
+        background: #ffffff;
+        color: var(--text-color);
     }
     
     .form-control:focus {
-        border-color: #00c4b4;
-        box-shadow: 0 0 0 0.2rem rgba(0, 107, 95, 0.25);
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
+        outline: none;
+    }
+    
+    .form-control::placeholder {
+        color: var(--text-muted);
     }
     
     
@@ -226,12 +238,12 @@
     .divider::after {
         content: "";
         flex: 1;
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid var(--border-color);
     }
     
     .divider-text {
         padding: 0 1rem;
-        color: #6c757d;
+        color: var(--text-muted);
         font-size: 0.875rem;
         font-weight: 500;
     }
@@ -248,20 +260,21 @@
         align-items: center;
         justify-content: center;
         padding: 0.75rem;
-        border: 1px solid #dee2e6;
-        border-radius: 6px;
-        background: white;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        background: #ffffff;
         transition: var(--transition);
         font-weight: 500;
-        color: #5f6368;
+        color: var(--text-muted);
         text-decoration: none;
     }
     
     .social-btn:hover {
-        background-color: #f8f9fa;
-        border-color: #adb5bd;
+        background-color: var(--accent-soft);
+        border-color: var(--accent-color);
         transform: translateY(-1px);
-        color: #5f6368;
+        color: var(--accent-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
     
     .social-btn i {
@@ -269,29 +282,22 @@
         font-size: 1.1rem;
     }
     
-    .btn-google {
-        color: #5f6368;
-    }
-    
-    .btn-google:hover {
-        background-color: #f8f9fa;
-        border-color: #dadce0;
-    }
     
     .register-footer {
         text-align: center;
         margin-top: 1.5rem;
-        color: #6c757d;
+        color: var(--text-muted);
     }
     
     .register-footer a {
-        color: #00c4b4;
+        color: var(--accent-color);
         text-decoration: none;
         font-weight: 500;
     }
     
     .register-footer a:hover {
         text-decoration: underline;
+        color: var(--accent-hover);
     }
     
     .invalid-feedback {
@@ -300,7 +306,7 @@
     
     .password-requirements {
         font-size: 0.8rem;
-        color: #6c757d;
+        color: var(--text-muted);
         margin-top: 0.25rem;
     }
     
@@ -308,12 +314,41 @@
         position: absolute;
         top: -40px;
         left: 6px;
-        background: #00c4b4;
+        background: var(--accent-color);
         color: white;
         padding: 8px;
         z-index: 100;
         text-decoration: none;
         border-radius: 4px;
+    }
+    
+    .btn-primary-auth {
+        background-color: var(--accent-color) !important;
+        color: #ffffff !important;
+        border: none !important;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        transition: var(--transition);
+        box-shadow: 0 2px 4px rgba(0, 158, 138, 0.2);
+    }
+    
+    .btn-primary-auth:hover {
+        background-color: var(--accent-hover) !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 8px rgba(0, 158, 138, 0.3);
+        transform: translateY(-1px);
+    }
+    
+    .btn-primary-auth:active {
+        transform: translateY(0);
+        background-color: var(--accent-hover) !important;
+    }
+    
+    .btn-primary-auth:focus {
+        background-color: var(--accent-color) !important;
+        color: #ffffff !important;
+        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.2);
     }
     
     .skip-link:focus {
@@ -352,8 +387,33 @@
     input:focus, 
     select:focus, 
     textarea:focus {
-        outline: 2px solid #00c4b4;
+        outline: 2px solid var(--accent-color);
         outline-offset: 2px;
+    }
+    
+    .form-check-input:checked {
+        background-color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+    
+    .form-check-input:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
+    }
+    
+    .invalid-feedback {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .is-invalid {
+        border-color: #dc3545;
+    }
+    
+    .is-invalid:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
     }
     
     /* High contrast mode support */
@@ -381,6 +441,30 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
+    // Clear HTML elements on page load/reload
+    (function() {
+        // Clear immediately when script runs
+        function clearErrors() {
+            // Clear all validation error messages (both server-rendered and JS-generated)
+            const errorMessages = document.querySelectorAll('.invalid-feedback');
+            errorMessages.forEach(error => error.remove());
+            
+            // Remove invalid classes from all inputs
+            const invalidInputs = document.querySelectorAll('.is-invalid');
+            invalidInputs.forEach(input => input.classList.remove('is-invalid'));
+        }
+        
+        // Clear on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', clearErrors);
+        } else {
+            clearErrors(); // Already loaded, clear immediately
+        }
+        
+        // Clear on page load (after all resources loaded)
+        window.addEventListener('load', clearErrors);
+    })();
+
     // Enhanced form validation
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');
