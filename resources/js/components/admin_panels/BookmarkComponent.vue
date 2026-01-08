@@ -1,87 +1,140 @@
 <template>
   <div id="app" class="admin-page">
-    <!-- Header: search & sort -->
-    <div class="pt-4">
-      <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2 admin-toolbar">
-        <div class="input-group admin-search">
-          <span class="input-group-text"><i class="bi bi-search"></i></span>
-          <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
-          <button v-if="query" class="btn btn-outline-secondary" type="button" @click="clearSearch">
-            Clear
-          </button>
+    <!-- Premium Dashboard Header -->
+    <div class="dashboard-header pt-4">
+      <div class="row g-4 mb-4">
+        <!-- Total Bookmarks Card -->
+        <div class="col-md-4">
+          <div class="stat-card">
+            <div class="stat-icon bg-primary-soft"><i class="bi bi-bookmarks-fill"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Total Bookmarks</span>
+              <h3 class="stat-value">{{ bookmarks.length }}</h3>
+            </div>
+            <div class="stat-trend positive">
+              <i class="bi bi-arrow-up-short"></i> 12%
+            </div>
+          </div>
         </div>
-        <div class="d-flex align-items-center gap-2">
-          <select v-model="sortBy" class="form-select">
-            <option value="newest">Newest first</option>
-            <option value="oldest">Oldest first</option>
-          </select>
+        <!-- New Today Card -->
+        <div class="col-md-4">
+          <div class="stat-card">
+            <div class="stat-icon bg-success-soft"><i class="bi bi-calendar-check"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Added Today</span>
+              <h3 class="stat-value">{{ addedTodayCount }}</h3>
+            </div>
+            <div class="stat-trend">Fresh</div>
+          </div>
+        </div>
+        <!-- Latest Activity -->
+        <div class="col-md-4">
+          <div class="stat-card">
+            <div class="stat-icon bg-warning-soft"><i class="bi bi-clock-history"></i></div>
+            <div class="stat-info">
+              <span class="stat-label">Last Saved</span>
+              <h3 class="stat-value text-truncate" style="font-size: 1rem; max-width: 150px;">{{ lastSavedSurah }}</h3>
+            </div>
+          </div>
         </div>
       </div>
-      <h3 class="pb-3 text-center admin-count">
-        <span class="count-label">Showing</span>
-        <span class="count-pill">{{ filteredBookmarks.length }}</span>
-        <span class="count-label">of</span>
-        <span class="count-pill">{{ bookmarks.length }}</span>
-        <span class="count-label">bookmarks</span>
-      </h3>
 
-      <!-- Grid cards -->
-      <div class="row">
-        <div class="col-md-4 mb-4" v-for="bm in filteredBookmarks" :key="bm.id">
+      <!-- Control Bar -->
+      <div class="control-bar mb-4">
+        <div class="row align-items-center g-3">
+          <div class="col-lg-6">
+            <div class="input-group search-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input v-model="query" class="form-control" placeholder="Search by surah name, ayah, or content..." />
+              <button v-if="query" class="btn btn-clear" type="button" @click="clearSearch">
+                <i class="bi bi-x-lg"></i>
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="d-flex justify-content-lg-end gap-3">
+              <div class="sort-group d-flex align-items-center gap-2">
+                <span class="text-muted small fw-semibold">Sort:</span>
+                <select v-model="sortBy" class="form-select sort-select shadow-none">
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                </select>
+              </div>
+              <div class="view-status d-flex align-items-center gap-2">
+                <span class="badge bg-soft-dark shadow-none px-3 py-2">
+                  <i class="bi bi-funnel me-1"></i> {{ filteredBookmarks.length }} results
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grid cards -->
+    <div class="row g-4 mb-5">
+      <!-- Skeleton Loading State -->
+      <template v-if="loading">
+        <div class="col-md-4" v-for="i in 6" :key="'skel-' + i">
+          <div class="note-card skeleton-card">
+            <div class="skeleton-chip"></div>
+            <div class="skeleton-line full"></div>
+            <div class="skeleton-line half"></div>
+            <div class="skeleton-meta mt-4"></div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Results Grid -->
+      <template v-else>
+        <div class="col-md-4" v-for="bm in filteredBookmarks" :key="bm.id">
           <div class="note-card">
-            <div class="note-chip">
-              <i class="bi bi-bookmark-fill me-1"></i>
-              Bookmark
+            <div class="note-header">
+              <div class="note-chip glass-chip">
+                <i class="bi bi-bookmark-star-fill me-1"></i>
+                Ayah Reference
+              </div>
+              <div class="note-date">
+                <i class="bi bi-calendar3 me-1"></i>{{ extractDate(bm.created_at) }}
+              </div>
             </div>
+            
             <div class="note-body">
-              <div class="fw-semibold mb-1" v-html="formatMeta(bm)"></div>
-              <div v-html="highlightText(truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar), primaryTextField(bm))"></div>
+              <div class="ayah-meta mb-2" v-html="formatMeta(bm)"></div>
+              <p class="ayah-preview" v-html="highlightText(truncatedText(bm.ayah_verse_en || bm.ayah_verse_ar), primaryTextField(bm))"></p>
             </div>
-            <div class="note-meta">
-              <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(bm.created_at) }}</span>
-            </div>
-            <div class="note-actions" role="group" aria-label="Bookmark actions">
-              <button
-                type="button"
-                class="btn btn-icon btn-ghost"
-                @click="viewModal(bm)"
-                title="View"
-                aria-label="View bookmark">
-                <i class="bi bi-eye"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-icon btn-ghost"
-                @click="copyBookmark(bm)"
-                title="Copy"
-                aria-label="Copy bookmark">
-                <i class="bi bi-clipboard"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-icon btn-ghost"
-                @click="shareBookmarkOnWhatsApp(bm)"
-                title="Share via WhatsApp"
-                aria-label="Share via WhatsApp">
-                <i class="bi bi-whatsapp"></i>
-              </button>
-              <button
-                type="button"
-                class="btn btn-icon btn-danger outline"
+
+            <div class="note-footer">
+              <div class="action-group">
+                <button class="btn-premium-action" @click="viewModal(bm)" title="View Details">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button class="btn-premium-action" @click="copyBookmark(bm)" title="Copy Verses">
+                  <i class="bi bi-clipboard"></i>
+                </button>
+                <button class="btn-premium-action" @click="shareBookmarkOnWhatsApp(bm)" title="Share">
+                  <i class="bi bi-whatsapp"></i>
+                </button>
+              </div>
+              <button 
+                class="btn-delete-ghost" 
+                @click="deleteBookmark(bm.id)" 
                 :disabled="isBusy(bm.id)"
-                @click="deleteBookmark(bm.id)"
                 :title="isBusy(bm.id) ? 'Deleting…' : 'Delete'"
-                aria-label="Delete bookmark">
+              >
                 <span v-if="isBusy(bm.id)" class="spinner-border spinner-border-sm"></span>
                 <i v-else class="bi bi-trash"></i>
               </button>
             </div>
           </div>
         </div>
-      </div>
-      <div v-if="!loading && filteredBookmarks.length === 0" class="empty text-center py-4">
-        No bookmarks match your search. Try different terms or filters.
-      </div>
+      </template>
+    </div>
+
+    <div v-if="!loading && filteredBookmarks.length === 0" class="empty-state text-center py-5">
+      <div class="empty-icon"><i class="bi bi-search"></i></div>
+      <h4 class="mt-3">No bookmarks found</h4>
+      <p class="text-muted">Try adjusting your filters or search terms.</p>
     </div>
 
     <!-- View Bookmark Modal -->
@@ -96,7 +149,7 @@
       <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="viewBookmarkLabel"><strong>View Bookmark</strong></h5>
+            <h5 class="modal-title" id="viewBookmarkLabel"><strong>Bookmark Details</strong></h5>
             <button
               type="button"
               class="btn-close"
@@ -104,42 +157,32 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            <div class="container">
-              <div class="mb-3">
-                <label class="form-label"><strong>Surah Name:</strong></label>
-                <p class="mt-2 text-dark">
-                  {{ form.surah_name }}
-                </p>
+          <div class="modal-body p-4">
+            <div class="detail-grid">
+              <div class="detail-item full-width">
+                <label>Arabic Verse</label>
+                <p class="quran-text text-end">{{ form.ayah_verse_ar }}</p>
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Ayah Number:</strong></label>
-                <p class="mt-2 text-dark">
-                  {{ form.ayah_num }}
-                </p>
+              <div class="detail-item full-width">
+                <label>English Translation</label>
+                <p>{{ form.ayah_verse_en }}</p>
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Arabic Verse:</strong></label>
-                <p class="mt-2 text-dark">
-                  {{ form.ayah_verse_ar }}
-                </p>
+              <div class="detail-item">
+                <label>Surah Name</label>
+                <p class="fw-bold">{{ form.surah_name }}</p>
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>English Info:</strong></label>
-                <p class="mt-2 text-dark">
-                  {{ form.ayah_verse_en }}
-                </p>
+              <div class="detail-item">
+                <label>Ayah Number</label>
+                <p class="fw-bold">{{ form.ayah_num }}</p>
               </div>
-              <div class="mb-3">
-                <label class="form-label"><strong>Date Created:</strong></label>
-                <p class="mt-2 text-dark">
-                  {{ extractDate(form.created_at) }}
-                </p>
+              <div class="detail-item">
+                <label>Date Saved</label>
+                <p>{{ extractDate(form.created_at) }}</p>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" @click="closeModal" data-bs-dismiss="modal">Close</button>
+          <div class="modal-footer border-0">
+            <button type="button" class="btn btn-light px-4" @click="closeModal" data-bs-dismiss="modal">Close</button>
           </div>
         </div>
       </div>
@@ -463,6 +506,18 @@ export default {
     activeFieldKeys() {
       return ['surah', 'ayah', 'arabic', 'english'];
     },
+    bootstrapColors() {
+      return ['primary', 'success', 'warning', 'danger', 'info', 'secondary', 'dark'];
+    },
+    addedTodayCount() {
+      const today = new Date().toISOString().split('T')[0];
+      return this.bookmarks.filter(bm => bm.created_at && bm.created_at.startsWith(today)).length;
+    },
+    lastSavedSurah() {
+      if (!this.bookmarks.length) return 'N/A';
+      const sorted = [...this.bookmarks].sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+      return sorted[0].surah_name || 'N/A';
+    },
     highlightMap() {
       const map = {
         surah: [],
@@ -503,205 +558,309 @@ export default {
 </script>
 
 <style scoped>
-.admin-search {
-  max-width: 380px;
+.admin-page {
+  background-color: #f8fafc;
+  min-height: 100vh;
 }
 
-.admin-search .form-control {
-  min-width: 220px;
+/* Dashboard Header & Stats */
+.stat-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
+  border: 1px solid #f1f5f9;
+  position: relative;
+  overflow: hidden;
 }
 
-.admin-toolbar {
-  background: rgba(15, 110, 99, 1);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.2);
+.stat-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
 }
 
-.admin-toolbar .input-group-text {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
+.bg-primary-soft { background: rgba(15, 110, 99, 0.1); color: #0f6e63; }
+.bg-success-soft { background: rgba(34, 197, 94, 0.1); color: #22c55e; }
+.bg-warning-soft { background: rgba(245, 158, 11, 0.1); color: #f59e0b; }
+
+.stat-label {
+  display: block;
+  font-size: 0.85rem;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
 }
 
-.admin-toolbar .form-control,
-.admin-toolbar .form-select {
-  background: rgba(255, 255, 255, 0.14);
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.admin-toolbar .form-control::placeholder {
-  color: rgba(255, 255, 255, 0.75);
-}
-
-.admin-toolbar .btn-outline-secondary {
-  border-color: rgba(255, 255, 255, 0.35);
-  color: #ffffff;
-}
-
-.admin-toolbar .btn-outline-secondary:hover {
-  border-color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.16);
-  color: #ffffff;
-}
-
-.admin-toolbar .form-select option {
+.stat-value {
+  margin: 0;
+  font-weight: 800;
   color: #0f172a;
 }
 
-.search-hit {
-  background: rgba(15, 110, 99, 1);
-  color: #ffffff;
-  border-radius: 6px;
-  padding: 0 3px;
-}
-
-.modal-modern .modal-content {
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  border-radius: 18px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.16);
-}
-
-.modal-modern .modal-header {
-  background: linear-gradient(90deg, rgba(15, 110, 99, 0.12), rgba(255, 255, 255, 0));
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-}
-
-.btn-close {
-  outline: none;
-  box-shadow: none;
-}
-
-.note-card {
-  position: relative;
-  background: var(--admin-card);
-  border: 1px solid var(--admin-border);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 16px 32px rgba(15, 23, 42, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: default;
-  pointer-events: auto;
-  overflow: hidden;
-}
-
-.note-card::before {
-  content: "";
+.stat-trend {
   position: absolute;
-  inset: 0;
-  border-radius: 18px;
-  padding: 1px;
-  background: linear-gradient(120deg, rgba(15, 110, 99, 0.35), rgba(15, 110, 99, 0) 45%, rgba(12, 92, 83, 0.18));
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
+  top: 15px;
+  right: 15px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 8px;
+  border-radius: 99px;
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.stat-trend.positive {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+}
+
+/* Control Bar */
+.control-bar {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 16px 24px;
+  border: 1px solid #f1f5f9;
+  box-shadow: 0 2px 12px rgba(15, 23, 42, 0.03);
+}
+
+.search-group {
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.search-group:focus-within {
+  border-color: #0f6e63;
+  box-shadow: 0 0 0 4px rgba(15, 110, 99, 0.1);
+}
+
+.search-group .input-group-text {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  padding-left: 16px;
+}
+
+.search-group .form-control {
+  background: transparent;
+  border: none;
+  font-weight: 500;
+  color: #0f172a;
+  padding: 12px;
+}
+
+.btn-clear {
+  border: none;
+  color: #94a3b8;
+  padding: 0 16px;
+}
+
+.sort-select {
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #475569;
+  border-color: #e2e8f0;
+  padding: 8px 36px 8px 12px;
+}
+
+.bg-soft-dark {
+  background: #1e293b;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+/* Note Card */
+.note-card {
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 24px;
+  padding: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
 }
 
 .note-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+  border-color: rgba(15, 110, 99, 0.2);
 }
 
-.note-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  background: rgba(15, 110, 99, 0.12);
-  color: var(--admin-accent-strong);
-  border: 1px solid rgba(15, 110, 99, 0.3);
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.75rem;
-  padding: 4px 10px;
-  margin-bottom: 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  pointer-events: none;
-}
-
-.note-body {
-  color: var(--admin-ink);
-  min-height: 96px;
-  margin-bottom: 8px;
-  pointer-events: none;
-}
-
-.note-meta {
+.note-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 8px;
-  color: var(--admin-muted);
-  font-size: 0.85rem;
-  pointer-events: none;
-}
-
-.note-actions {
-  display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 12px;
-  position: relative;
-  z-index: 10;
+  margin-bottom: 20px;
 }
 
-.btn-icon {
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
+.glass-chip {
+  background: rgba(15, 110, 99, 0.08);
+  color: #0f6e63;
+  font-weight: 800;
+  font-size: 0.7rem;
+  padding: 6px 12px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.note-date {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.ayah-meta {
+  color: #0f172a;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.ayah-preview {
+  color: #475569;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.note-footer {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-premium-action {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #64748b;
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.btn-premium-action:hover {
+  background: #f8fafc;
+  color: #0f6e63;
+  border-color: #0f6e63;
+  transform: scale(1.05);
+}
+
+.btn-delete-ghost {
+  width: 40px;
+  height: 40px;
   border-radius: 12px;
-  pointer-events: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  transition: all 0.2s ease;
 }
 
-.btn-icon:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+.btn-delete-ghost:hover:not(:disabled) {
+  background: #fef2f2;
+  color: #ef4444;
 }
 
-.btn-icon:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* Skeleton Loading */
+.skeleton-card {
+  pointer-events: none;
 }
 
-.btn-danger.outline {
-  background: #fff !important;
-  color: #b42318 !important;
-  border: 1px solid rgba(180, 35, 24, 0.5) !important;
-  box-shadow: none;
+.skeleton-chip, .skeleton-line, .skeleton-meta {
+  background: linear-gradient(90deg, #f1f5f9 25%, #f8fafc 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 10px;
 }
 
-.btn-danger.outline:hover:not(:disabled) {
-  background: rgba(180, 35, 24, 0.1) !important;
-  color: #b42318 !important;
+.skeleton-chip { height: 24px; width: 100px; margin-bottom: 20px; }
+.skeleton-line { height: 16px; margin-bottom: 12px; }
+.skeleton-line.full { width: 100%; }
+.skeleton-line.half { width: 50%; }
+.skeleton-meta { height: 40px; border-radius: 12px; }
+
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
-.btn-ghost {
-  background: #fff;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  color: var(--admin-ink);
+/* Empty State */
+.empty-state {
+  background: #ffffff;
+  border-radius: 24px;
+  border: 2px dashed #e2e8f0;
 }
 
-.btn-ghost:hover {
-  background: #f7fbfa;
-  border-color: rgba(15, 110, 99, 0.3);
-  color: var(--admin-accent-strong);
+.empty-icon {
+  font-size: 3rem;
+  color: #cbd5e1;
 }
 
-.empty {
-  color: var(--admin-muted);
-  padding: 1rem;
+/* Modal Professional */
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
 }
 
-.truncate {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.detail-item.full-width {
+  grid-column: span 2;
+}
+
+.detail-item label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.detail-item p {
+  margin: 0;
+  color: #0f172a;
+}
+
+.quran-text {
+  font-size: 2rem;
+  line-height: 1.8;
+  font-family: 'Amiri', serif;
+}
+
+
+.search-hit {
+  background: rgba(15, 110, 99, 0.1);
+  color: #0f6e63;
+  border-radius: 4px;
+  padding: 0 4px;
+  font-weight: 600;
 }
 </style>
