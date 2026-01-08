@@ -329,7 +329,7 @@ export default {
       folderContents: {},
       sectionOpen: {
         folders: true,
-        create: false,
+        create: true,
         contents: false,
       },
       selectedFoldersForDelete: [],

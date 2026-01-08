@@ -273,30 +273,9 @@
                                 >Saved</span
                             >
                         </h4>
-                        <div class="d-flex align-items-center">
-                            <transition name="feedback-fade">
-                                <span
-                                    v-if="
-                                        feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                    item.ayah.number
-                                            )
-                                        ]
-                                    "
-                                    class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
-                                    :class="
-                                        feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                    item.ayah.number
-                                            )
-                                        ].class
-                                    "
-                                >
-                                    <i
+                            <div class="d-flex align-items-center">
+                                <transition name="feedback-fade">
+                                    <span
                                         v-if="
                                             feedbackMessages[
                                                 buildAyahKey(
@@ -304,70 +283,65 @@
                                                     item.ayah.numberInSurah ||
                                                         item.ayah.number
                                                 )
-                                            ].icon === 'check'
+                                            ]
                                         "
-                                        class="bi bi-check-circle-fill me-2 fs-5"
-                                    ></i>
-                                    <i
-                                        v-else-if="
+                                        class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
+                                        :class="
                                             feedbackMessages[
                                                 buildAyahKey(
                                                     surahDetails?.surahNumber,
                                                     item.ayah.numberInSurah ||
                                                         item.ayah.number
                                                 )
-                                            ].icon === 'trash'
+                                            ].class
                                         "
-                                        class="bi bi-trash-fill me-2 fs-5"
-                                    ></i>
-                                    {{
-                                        feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                    item.ayah.number
-                                            )
-                                        ].text
-                                    }}
-                                </span>
-                            </transition>
-                            <button
-                                type="button"
-                                class="icon-btn bookmark-btn"
-                                :class="{ 'is-saved': isAyahSaved(item.ayah) }"
-                                @click.stop="toggleBookmark(item.ayah)"
-                                :aria-label="
-                                    isAyahSaved(item.ayah)
-                                        ? 'Remove bookmark'
-                                        : 'Quick save bookmark'
-                                "
-                                :title="
-                                    isAyahSaved(item.ayah)
-                                        ? 'Remove bookmark'
-                                        : 'Quick save bookmark'
-                                "
-                            >
-                                <i
-                                    class="bi"
-                                    :class="
-                                        isAyahSaved(item.ayah)
-                                            ? 'bi-bookmark-check-fill'
-                                            : 'bi-bookmark-plus-fill'
-                                    "
-                                    aria-hidden="true"
-                                ></i>
-                            </button>
-                            <button
-                                type="button"
-                                class="icon-btn ms-2"
-                                @click.stop="openBookmarkModal(item.ayah)"
-                                title="Save to folder / Organize"
-                                aria-label="Save to folder or organize bookmark"
-                            >
-                                <i class="bi bi-folder-plus" aria-hidden="true"></i>
-                            </button>
+                                    >
+                                        <i
+                                            v-if="
+                                                feedbackMessages[
+                                                    buildAyahKey(
+                                                        surahDetails?.surahNumber,
+                                                        item.ayah.numberInSurah ||
+                                                            item.ayah.number
+                                                    )
+                                                ].icon === 'check'
+                                            "
+                                            class="bi bi-check-circle-fill me-2 fs-5"
+                                        ></i>
+                                        <i
+                                            v-else-if="
+                                                feedbackMessages[
+                                                    buildAyahKey(
+                                                        surahDetails?.surahNumber,
+                                                        item.ayah.numberInSurah ||
+                                                            item.ayah.number
+                                                    )
+                                                ].icon === 'trash'
+                                            "
+                                            class="bi bi-trash-fill me-2 fs-5"
+                                        ></i>
+                                        {{
+                                            feedbackMessages[
+                                                buildAyahKey(
+                                                    surahDetails?.surahNumber,
+                                                    item.ayah.numberInSurah ||
+                                                        item.ayah.number
+                                                )
+                                            ].text
+                                        }}
+                                    </span>
+                                </transition>
+                                <button
+                                    type="button"
+                                    class="icon-btn ms-2"
+                                    @click.stop="openBookmarkModal(item.ayah)"
+                                    title="Save to folder / Organize"
+                                    aria-label="Save to folder or organize bookmark"
+                                >
+                                    <i class="bi bi-folder-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
                     <!-- Desktop Layout: Icons on Left -->
                     <div
@@ -415,19 +389,6 @@
                                         ></i>
                                         <span>Copy</span>
                                     </button>
-                                    <button
-                                        type="button"
-                                        class="action-pill"
-                                        @click.stop="shareOnWhatsApp(item.ayah)"
-                                        aria-label="Share ayah on WhatsApp"
-                                        title="Share via WhatsApp"
-                                    >
-                                        <i
-                                            class="bi bi-whatsapp"
-                                            aria-hidden="true"
-                                        ></i>
-                                        <span>Share</span>
-                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -470,23 +431,13 @@
                                 </button>
                                 <button
                                     class="icon-btn mb-3"
-                                    @click="increaseFontSize"
-                                    aria-label="Increase font size"
-                                    title="Increase Font Size"
+                                    :class="{ 'is-saved': isAyahSaved(item.ayah) }"
+                                    @click.stop="toggleBookmark(item.ayah)"
+                                    :title="isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Quick save bookmark'"
                                 >
                                     <i
-                                        class="bi bi-plus-circle-fill"
-                                        aria-hidden="true"
-                                    ></i>
-                                </button>
-                                <button
-                                    class="icon-btn mb-3"
-                                    @click="shareOnWhatsApp(item.ayah)"
-                                    aria-label="Share on WhatsApp"
-                                    title="Share on WhatsApp"
-                                >
-                                    <i
-                                        class="bi bi-share-fill"
+                                        class="bi"
+                                        :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'"
                                         aria-hidden="true"
                                     ></i>
                                 </button>
@@ -538,30 +489,18 @@
                                     ></i>
                                     <span>Copy</span>
                                 </button>
-                                <button
-                                    type="button"
-                                    class="action-pill"
-                                    @click.stop="shareOnWhatsApp(item.ayah)"
-                                    aria-label="Share ayah on WhatsApp"
-                                    title="Share via WhatsApp"
-                                >
-                                    <i
-                                        class="bi bi-whatsapp"
-                                        aria-hidden="true"
-                                    ></i>
-                                    <span>Share</span>
-                                </button>
                             </div>
                         </div>
                         <div
-                            class="row card-teal mb-3"
+                            class="row card-teal mb-3 py-2"
                             style="
                                 display: flex;
                                 justify-content: center;
+                                align-items: center;
                                 margin: 0 -5px;
                             "
                         >
-                            <div class="col-2 text-center" style="padding: 3px">
+                            <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
                                     @click="decreaseFontSize"
@@ -570,12 +509,12 @@
                                 >
                                     <i
                                         class="bi bi-dash-circle-fill"
-                                        style="font-size: 1.7rem"
+                                        style="font-size: 1.6rem"
                                         aria-hidden="true"
                                     ></i>
                                 </button>
                             </div>
-                            <div class="col-2 text-center" style="padding: 3px">
+                            <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
                                     @click="increaseFontSize"
@@ -584,12 +523,12 @@
                                 >
                                     <i
                                         class="bi bi-plus-circle-fill"
-                                        style="font-size: 1.7rem"
+                                        style="font-size: 1.6rem"
                                         aria-hidden="true"
                                     ></i>
                                 </button>
                             </div>
-                            <div class="col-2 text-center" style="padding: 3px">
+                            <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
                                     @click="rewindAudio(item.index)"
@@ -598,12 +537,12 @@
                                 >
                                     <i
                                         class="bi bi-skip-backward-circle-fill"
-                                        style="font-size: 1.7rem"
+                                        style="font-size: 1.6rem"
                                         aria-hidden="true"
                                     ></i>
                                 </button>
                             </div>
-                            <div class="col-2 text-center" style="padding: 3px">
+                            <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
                                     @click="toggleAudioPlayer(item.index)"
@@ -625,12 +564,12 @@
                                                 ? 'bi-pause-circle-fill'
                                                 : 'bi-play-circle-fill'
                                         "
-                                        style="font-size: 1.7rem"
+                                        style="font-size: 1.8rem"
                                         aria-hidden="true"
                                     ></i>
                                 </button>
                             </div>
-                            <div class="col-2 text-center" style="padding: 3px">
+                            <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
                                     @click="fastForwardAudio(item.index)"
@@ -639,21 +578,21 @@
                                 >
                                     <i
                                         class="bi bi-skip-forward-circle-fill"
-                                        style="font-size: 1.7rem"
+                                        style="font-size: 1.6rem"
                                         aria-hidden="true"
                                     ></i>
                                 </button>
                             </div>
-                            <div class="col-2 text-center" style="padding: 3px">
+                            <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
-                                    @click="shareOnWhatsApp(item.ayah)"
-                                    aria-label="Share on WhatsApp"
-                                    title="Share on WhatsApp"
+                                    @click.stop="toggleBookmark(item.ayah)"
+                                    :title="isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Quick save bookmark'"
                                 >
                                     <i
-                                        class="bi bi-share-fill"
-                                        style="font-size: 1.5rem"
+                                        class="bi"
+                                        :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'"
+                                        style="font-size: 1.6rem"
                                         aria-hidden="true"
                                     ></i>
                                 </button>

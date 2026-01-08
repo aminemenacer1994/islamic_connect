@@ -596,7 +596,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       folderContents: {},
       sectionOpen: {
         folders: true,
-        create: false,
+        create: true,
         contents: false
       },
       selectedFoldersForDelete: [],
