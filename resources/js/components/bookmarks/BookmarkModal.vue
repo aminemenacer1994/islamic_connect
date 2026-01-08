@@ -208,15 +208,6 @@
                       </button>
                     <div class="folder-toggle-actions">
                       <span class="folder-toggle-meta">{{ folder.ayah_count }} ayat</span>
-                      <!-- <label class="folder-select">
-                        <input
-                          type="checkbox"
-                          :value="folder.id"
-                          v-model="selectedFoldersForDelete"
-                          :disabled="folder.is_smart"
-                        />
-                        <span>Select</span>
-                      </label> -->
                       <button
                         type="button"
                         class="btn btn-sm btn-outline-danger"
@@ -536,6 +527,7 @@ export default {
         const existingIds = this.currentBookmark?.folders?.map((folder) => folder.id) || [];
         const removeIds = existingIds.filter((id) => !selectedIds.includes(id));
         const removableIds = removeIds.filter((id) => !this.isSmartFolder(id));
+        const addIds = selectedIds.filter((id) => !existingIds.includes(id));
 
         const payload = {
           surah_number: surahNumber,
@@ -559,10 +551,25 @@ export default {
                 axios.delete(`/api/ayah-bookmarks/${this.currentBookmark.id}/folders/${id}`),
               ),
             );
+            // Decrement count for removed folders
+            removableIds.forEach((id) => {
+              const folder = this.folders.find((f) => f.id === id);
+              if (folder && folder.ayah_count > 0) {
+                folder.ayah_count -= 1;
+              }
+            });
           } catch (error) {
             detachFailed = true;
           }
         }
+
+        // Increment count for newly added folders
+        addIds.forEach((id) => {
+          const folder = this.folders.find((f) => f.id === id);
+          if (folder) {
+            folder.ayah_count = (folder.ayah_count || 0) + 1;
+          }
+        });
 
         await this.fetchCurrentBookmark();
         this.setFeedback(

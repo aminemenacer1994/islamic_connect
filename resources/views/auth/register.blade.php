@@ -441,30 +441,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
-    // Clear HTML elements on page load/reload
-    (function() {
-        // Clear immediately when script runs
-        function clearErrors() {
-            // Clear all validation error messages (both server-rendered and JS-generated)
-            const errorMessages = document.querySelectorAll('.invalid-feedback');
-            errorMessages.forEach(error => error.remove());
-            
-            // Remove invalid classes from all inputs
-            const invalidInputs = document.querySelectorAll('.is-invalid');
-            invalidInputs.forEach(input => input.classList.remove('is-invalid'));
-        }
-        
-        // Clear on DOM ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', clearErrors);
-        } else {
-            clearErrors(); // Already loaded, clear immediately
-        }
-        
-        // Clear on page load (after all resources loaded)
-        window.addEventListener('load', clearErrors);
-    })();
-
     // Enhanced form validation
     document.addEventListener('DOMContentLoaded', function() {
         const form = document.querySelector('form');

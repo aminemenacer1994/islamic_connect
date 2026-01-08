@@ -5,6 +5,7 @@
         <div class="folder-badge" :class="badgeClass">
           <i v-if="folder.icon" :class="folder.icon"></i>
           <span>{{ folder.name }}</span>
+          <span class="badge-count">{{ items.length }}</span>
         </div>
         <p class="text-muted mt-2">Shared Qur'an reflections</p>
       </div>
@@ -111,6 +112,22 @@ export default {
   padding: 0.5rem 1.2rem;
   border-radius: 999px;
   font-weight: 600;
+  position: relative;
+}
+.badge-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: currentColor;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-left: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .shared-ayah {
   border: 0;

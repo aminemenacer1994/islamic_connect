@@ -817,6 +817,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         const existingIds = ((_this$currentBookmark = this.currentBookmark) === null || _this$currentBookmark === void 0 || (_this$currentBookmark = _this$currentBookmark.folders) === null || _this$currentBookmark === void 0 ? void 0 : _this$currentBookmark.map(folder => folder.id)) || [];
         const removeIds = existingIds.filter(id => !selectedIds.includes(id));
         const removableIds = removeIds.filter(id => !this.isSmartFolder(id));
+        const addIds = selectedIds.filter(id => !existingIds.includes(id));
         const payload = {
           surah_number: surahNumber,
           ayah_number: ayahNumber,
@@ -834,10 +835,25 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         if (removableIds.length && (_this$currentBookmark2 = this.currentBookmark) !== null && _this$currentBookmark2 !== void 0 && _this$currentBookmark2.id) {
           try {
             await Promise.all(removableIds.map(id => axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${this.currentBookmark.id}/folders/${id}`)));
+            // Decrement count for removed folders
+            removableIds.forEach(id => {
+              const folder = this.folders.find(f => f.id === id);
+              if (folder && folder.ayah_count > 0) {
+                folder.ayah_count -= 1;
+              }
+            });
           } catch (error) {
             detachFailed = true;
           }
         }
+
+        // Increment count for newly added folders
+        addIds.forEach(id => {
+          const folder = this.folders.find(f => f.id === id);
+          if (folder) {
+            folder.ayah_count = (folder.ayah_count || 0) + 1;
+          }
+        });
         await this.fetchCurrentBookmark();
         this.setFeedback(detachFailed ? 'Bookmark saved, but some folders could not be removed.' : 'Ayah saved to your bookmarks.', detachFailed ? 'danger' : 'success', {
           autoClose: !detachFailed
@@ -2043,7 +2059,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "folder-toggle-icon"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-folder"
-    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */)]), folder.is_smart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_57, "Smart")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count) + " ayat", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <label class=\"folder-select\">\n                        <input\n                          type=\"checkbox\"\n                          :value=\"folder.id\"\n                          v-model=\"selectedFoldersForDelete\"\n                          :disabled=\"folder.is_smart\"\n                        />\n                        <span>Select</span>\n                      </label> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 1 /* TEXT */)]), folder.is_smart ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_57, "Smart")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_59, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count) + " ayat", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-danger",
       disabled: folder.is_smart,
