@@ -10,37 +10,75 @@
   </div>
  </div>
 
- <!-- Create Folder Modal -->
-  <div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-modern modal-fullscreen-md-down">
-   <div class="modal-content">
-    <div class="modal-header">
-     <h5 class="modal-title" id="createFolderModalLabel">Create New Collection</h5>
-     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-     <form @submit.prevent="createFolder">
-      <div class="mb-3">
-       <label for="folderName" class="form-label">Collection Name</label>
-       <input type="text" id="folderName" v-model="newFolderName" class="form-control" required />
-      </div>
-      <button type="submit" class="btn btn-success">Create Folder</button>
-
-     </form>
-    </div>
+  <!-- Create Folder Toggle -->
+  <div class="row align-items-center mb-3">
+   <div class="col-md-3">
+    <button class="btn btn-primary create-collection-btn w-100" type="button" @click="showCreate = !showCreate">
+     <i class="bi" :class="showCreate ? 'bi-dash-circle' : 'bi-plus-circle'"></i>
+     {{ showCreate ? 'Cancel' : 'Create New Collection' }}
+    </button>
    </div>
   </div>
- </div>
 
- <!-- Folder Selection -->
- <div class="row align-items-center mb-3">
-  <div class="col-md-3">
-   <button class="btn btn-primary create-collection-btn w-100" type="button" @click="openCreateFolderModal">
-    <i class="bi bi-plus-circle me-2"></i>
-    Create New Collection
-   </button>
+  <!-- Inline Create Folder Card -->
+  <div v-if="showCreate" class="create-panel-card mb-4 animate__animated animate__fadeIn">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="card-title mb-0"><strong>Create new folder</strong></h5>
+        <button type="button" class="btn-close" @click="showCreate = false"></button>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-4">
+          <label class="form-label">Folder Name</label>
+          <input v-model="newFolder.name" type="text" class="form-control" placeholder="Reflection Gems" required />
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Quick Icon</label>
+          <div class="icon-picker-grid">
+            <button 
+              v-for="preset in iconPresets" 
+              :key="preset.icon"
+              type="button" 
+              class="icon-choice"
+              :class="{ active: newFolder.icon === preset.icon }"
+              @click="newFolder.icon = preset.icon"
+              :title="preset.icon"
+            >
+              <i :class="preset.icon"></i>
+            </button>
+          </div>
+          <small class="text-muted mt-2 d-block">Select an icon to personalize this collection.</small>
+        </div>
+
+        <div class="col-md-4">
+          <label class="form-label">Theme Color</label>
+          <div class="color-picker-grid">
+            <button 
+              v-for="color in bootstrapColors" 
+              :key="color"
+              type="button" 
+              class="color-choice"
+              :class="['bg-' + color, { active: newFolder.color === color }]"
+              @click="newFolder.color = color"
+            ></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 text-end">
+        <button 
+          class="btn btn-premium-save px-4 py-2" 
+          @click="createFolder" 
+          :disabled="!newFolder.name || isCreating"
+        >
+          <span v-if="isCreating" class="spinner-border spinner-border-sm me-2"></span>
+          {{ isCreating ? 'Creating...' : 'Create Folder' }}
+        </button>
+      </div>
+    </div>
   </div>
- </div>
 
 <div class="pt-4 pb-3">
   <div class="container collection-scroll">
@@ -137,6 +175,7 @@
 
 <script>
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 export default {
  data() {
@@ -144,8 +183,27 @@ export default {
    folders: [],
    bookmarks: [],
    selectedFolderId: null,
-   newFolderName: "",
-   selectedBookmark: {}, // Holds the selected bookmark details for the modal
+   showCreate: false,
+   isCreating: false,
+   newFolder: {
+     name: "",
+     icon: "bi bi-folder2",
+     color: "primary",
+   },
+   iconPresets: [
+     { icon: 'bi bi-folder2' }, { icon: 'bi bi-heart' }, { icon: 'bi bi-star' },
+     { icon: 'bi bi-bookmark' }, { icon: 'bi bi-book' }, { icon: 'bi bi-journal-text' },
+     { icon: 'bi bi-lightbulb' }, { icon: 'bi bi-tags' }, { icon: 'bi bi-mosque' },
+     { icon: 'bi bi-moon-stars' }, { icon: 'bi bi-sun' }, { icon: 'bi bi-cloud-sun' },
+     { icon: 'bi bi-lightning-charge' }, { icon: 'bi bi-flower1' }, { icon: 'bi bi-leaf' },
+     { icon: 'bi bi-tree' }, { icon: 'bi bi-water' }, { icon: 'bi bi-gem' },
+     { icon: 'bi bi-gift' }, { icon: 'bi bi-emoji-smile' }, { icon: 'bi bi-mortarboard' },
+     { icon: 'bi bi-layers' }, { icon: 'bi bi-columns-gap' }, { icon: 'bi bi-compass' },
+     { icon: 'bi bi-flag' }, { icon: 'bi bi-shield-check' }, { icon: 'bi bi-cup-hot' },
+     { icon: 'bi bi-pencil-square' }, { icon: 'bi bi-chat-dots' }, { icon: 'bi bi-person-check' }
+   ],
+   selectedBookmark: {},
+   bootstrapColors: ['primary', 'success', 'warning', 'danger', 'info', 'secondary', 'dark'],
   };
  },
 
@@ -164,20 +222,46 @@ export default {
   },
 
   async createFolder() {
+   if (!this.newFolder.name.trim()) return;
+   
+   this.isCreating = true;
    try {
     const response = await axios.post("/folders", {
-     name: this.newFolderName,
+     name: this.newFolder.name,
+     icon: this.newFolder.icon,
+     color: this.newFolder.color,
     });
     this.folders.push(response.data.folder);
-    this.newFolderName = "";
-    const modal = bootstrap.Modal.getInstance(
-     document.getElementById("createFolderModal")
-    );
-    if (modal) {
-     modal.hide();
-    }
+    
+    // Reset and close
+    this.newFolder.name = "";
+    this.newFolder.icon = "bi bi-folder2";
+    this.newFolder.color = "primary";
+    this.showCreate = false;
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Collection Created',
+      text: 'Your new collection is ready!',
+      timer: 2000,
+      showConfirmButton: false,
+      background: '#ffffff',
+      color: '#0f172a',
+      iconColor: '#c89b3a', // Gold success icon
+      customClass: {
+        popup: 'premium-swal-popup',
+        title: 'premium-swal-title'
+      }
+    });
    } catch (error) {
     console.error("Error creating folder:", error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Failed to create collection',
+      text: error.response?.data?.message || 'Please try again.'
+    });
+   } finally {
+    this.isCreating = false;
    }
   },
   async selectFolder(folderId) {
@@ -201,9 +285,10 @@ export default {
     text: "You won't be able to revert this!",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
+    confirmButtonColor: "#c89b3a",
+    cancelButtonColor: "#64748b",
     confirmButtonText: "Yes, delete it!",
+    iconColor: '#c89b3a'
    });
 
    if (result.isConfirmed) {
@@ -219,7 +304,14 @@ export default {
      this.selectedFolderId = null;
      this.bookmarks = [];
     }
-    Swal.fire("Deleted!", "The folder has been deleted.", "success");
+    Swal.fire({
+      icon: 'success',
+      title: 'Deleted!',
+      text: 'The folder has been deleted.',
+      timer: 1500,
+      showConfirmButton: false,
+      iconColor: '#c89b3a'
+    });
    } catch (error) {
     console.error("Error deleting folder:", error);
     Swal.fire("Error!", "There was an issue deleting the folder.", "error");
@@ -227,10 +319,7 @@ export default {
   },
 
   openCreateFolderModal() {
-   const modal = new bootstrap.Modal(
-    document.getElementById("createFolderModal")
-   );
-   modal.show();
+   this.showCreate = !this.showCreate;
   },
 
   truncatedText(text) {
@@ -372,7 +461,105 @@ export default {
 .truncate {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2; /* Compatibility */
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* New Create Panel Styles */
+.create-panel-card {
+  background: #ffffff;
+  border: 1px solid var(--admin-border);
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.1);
+  overflow: hidden;
+  border-top: 4px solid var(--admin-accent);
+}
+
+.icon-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  max-height: 180px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+}
+
+.icon-choice {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.icon-choice:hover {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.icon-choice.active {
+  background: var(--admin-accent-strong);
+  color: #ffffff;
+  border-color: var(--admin-accent-strong);
+  box-shadow: 0 4px 12px rgba(15, 110, 99, 0.2);
+}
+
+.color-picker-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.color-choice {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.color-choice:hover {
+  transform: scale(1.1);
+}
+
+.color-choice.active {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px #e2e8f0;
+  transform: scale(1.1);
+}
+
+.btn-premium-save {
+  background: linear-gradient(135deg, #c89b3a, #b0872d) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(200, 155, 58, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-premium-save:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(200, 155, 58, 0.3);
+  filter: brightness(1.1);
+}
+
+.btn-premium-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.animate__animated {
+  animation-duration: 0.4s;
 }
 </style>

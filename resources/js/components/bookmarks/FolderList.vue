@@ -35,25 +35,52 @@
       </div>
     </div>
 
-    <div v-if="showCreate" class="create-panel mb-3">
+    <div v-if="showCreate" class="create-panel mb-3 animate__animated animate__fadeIn">
       <div class="create-heading">
         <span>Create new folder</span>
         <button class="btn btn-sm btn-link" type="button" @click="toggleCreate">
           Close
         </button>
       </div>
-      <div class="mb-2">
-        <input v-model.trim="newFolder.name" class="form-control" placeholder="New folder name" />
+      <div class="mb-3">
+        <label class="form-label small text-muted">Folder Name</label>
+        <input v-model.trim="newFolder.name" class="form-control" placeholder="Inspiration" />
       </div>
-      <div class="d-flex gap-2">
-        <input v-model.trim="newFolder.icon" class="form-control" placeholder="Icon class" />
-        <select v-model="newFolder.color" class="form-select">
-          <option v-for="color in bootstrapColors" :key="color" :value="color">{{ color }}</option>
-        </select>
+      
+      <div class="mb-3">
+        <label class="form-label small text-muted">Choose Icon</label>
+        <div class="icon-picker-grid">
+          <button 
+            v-for="preset in iconPresets" 
+            :key="preset.icon"
+            type="button" 
+            class="icon-choice"
+            :class="{ active: newFolder.icon === preset.icon }"
+            @click="newFolder.icon = preset.icon"
+            :title="preset.icon"
+          >
+            <i :class="preset.icon"></i>
+          </button>
+        </div>
       </div>
-      <button class="btn btn-primary mt-2" :disabled="isCreating" @click="createFolder">
+
+      <div class="mb-3">
+        <label class="form-label small text-muted">Theme Color</label>
+        <div class="color-picker-grid">
+          <button 
+            v-for="color in bootstrapColors" 
+            :key="color"
+            type="button" 
+            class="color-choice"
+            :class="['bg-' + color, { active: newFolder.color === color }]"
+            @click="newFolder.color = color"
+          ></button>
+        </div>
+      </div>
+
+      <button class="btn btn-premium-save w-100" :disabled="isCreating || !newFolder.name" @click="createFolder">
         <span v-if="isCreating" class="spinner-border spinner-border-sm me-2"></span>
-        Create folder
+        {{ isCreating ? 'Creating...' : 'Create folder' }}
       </button>
     </div>
 
@@ -183,7 +210,19 @@ export default {
       deleteBusy: false,
       status: '',
       statusVariant: 'success',
-      bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
+      iconPresets: [
+        { icon: 'bi bi-folder2' }, { icon: 'bi bi-heart' }, { icon: 'bi bi-star' },
+        { icon: 'bi bi-bookmark' }, { icon: 'bi bi-book' }, { icon: 'bi bi-journal-text' },
+        { icon: 'bi bi-lightbulb' }, { icon: 'bi bi-tags' }, { icon: 'bi bi-mosque' },
+        { icon: 'bi bi-moon-stars' }, { icon: 'bi bi-sun' }, { icon: 'bi bi-cloud-sun' },
+        { icon: 'bi bi-lightning-charge' }, { icon: 'bi bi-flower1' }, { icon: 'bi bi-leaf' },
+        { icon: 'bi bi-tree' }, { icon: 'bi bi-water' }, { icon: 'bi bi-gem' },
+        { icon: 'bi bi-gift' }, { icon: 'bi bi-emoji-smile' }, { icon: 'bi bi-mortarboard' },
+        { icon: 'bi bi-layers' }, { icon: 'bi bi-columns-gap' }, { icon: 'bi bi-compass' },
+        { icon: 'bi bi-flag' }, { icon: 'bi bi-shield-check' }, { icon: 'bi bi-cup-hot' },
+        { icon: 'bi bi-pencil-square' }, { icon: 'bi bi-chat-dots' }, { icon: 'bi bi-person-check' }
+      ],
+      bootstrapColors: ['primary', 'success', 'warning', 'danger', 'info', 'secondary', 'dark'],
     };
   },
   computed: {
@@ -717,11 +756,101 @@ export default {
   padding: 0 3px;
 }
 
-.folder-actions {
-  display: inline-flex;
+
+.icon-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  max-height: 160px;
+  overflow-y: auto;
+  padding: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.icon-choice {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: #ffffff;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #64748b;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.icon-choice:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.icon-choice.active {
+  background: #0f6e63;
+  color: #ffffff;
+  box-shadow: 0 2px 6px rgba(15, 110, 99, 0.2);
+}
+
+.color-picker-grid {
+  display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
+
+.color-choice {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.color-choice.active {
+  border-color: #ffffff;
+  box-shadow: 0 0 0 2px #e2e8f0;
+  transform: scale(1.1);
+}
+
+.btn-premium-save {
+  background: linear-gradient(135deg, #c89b3a, #b0872d) !important;
+  border: none !important;
+  color: white !important;
+  font-weight: 700;
+  padding: 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(200, 155, 58, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-premium-save:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(200, 155, 58, 0.3);
+  filter: brightness(1.1);
+}
+
+.btn-premium-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Base Styles Refinement */
+.create-panel {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.animate__animated {
+  animation-duration: 0.4s;
+}
+
 
 .folder-count-pill {
   display: inline-flex;
