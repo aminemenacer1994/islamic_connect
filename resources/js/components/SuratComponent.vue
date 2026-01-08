@@ -357,6 +357,15 @@
                                     aria-hidden="true"
                                 ></i>
                             </button>
+                            <button
+                                type="button"
+                                class="icon-btn ms-2"
+                                @click.stop="openBookmarkModal(item.ayah)"
+                                title="Save to folder / Organize"
+                                aria-label="Save to folder or organize bookmark"
+                            >
+                                <i class="bi bi-folder-plus" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
 
@@ -1327,7 +1336,7 @@ export default {
             // Local feedback
             this.triggerAyahFeedback(
                 key,
-                "Ayah saved successfully",
+                "Bookmark saved successfully",
                 "bg-dark text-white",
                 "check"
             );
@@ -1455,6 +1464,14 @@ export default {
                 ayah_verse_ar: ayah.text || "",
                 ayah_verse_en: ayah.translation || "",
             };
+
+            this.$nextTick(() => {
+                const modalEl = document.getElementById('bookmarkModal');
+                if (modalEl) {
+                    const modal = Modal.getInstance(modalEl) || new Modal(modalEl);
+                    modal.show();
+                }
+            });
         },
         onBookmarkSaved(payload) {
             if (!payload) return;
