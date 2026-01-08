@@ -90,7 +90,7 @@ class FolderController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('folders', 'name')->where('user_id', $user->id),
+                Rule::unique('folders', 'name')->where('user_id', $user->id)->whereNull('deleted_at'),
             ],
             'icon' => 'nullable|string|max:40',
             'color' => ['nullable', 'string', Rule::in(self::BOOTSTRAP_COLORS)],
@@ -142,7 +142,7 @@ class FolderController extends Controller
                 'required',
                 'string',
                 'max:255',
-                Rule::unique('folders', 'name')->where('user_id', $folder->user_id)->ignore($folder->id),
+                Rule::unique('folders', 'name')->where('user_id', $folder->user_id)->whereNull('deleted_at')->ignore($folder->id),
             ],
             'icon' => 'nullable|string|max:40',
             'color' => ['nullable', 'string', Rule::in(self::BOOTSTRAP_COLORS)],
@@ -180,7 +180,7 @@ class FolderController extends Controller
                     ->whereIn('id', $bookmarkIds)
                     ->delete();
             }
-            $folder->delete();
+            $folder->forceDelete();
         });
 
         return response()->json([
