@@ -586,6 +586,7 @@
                             <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
+                                    :class="{ 'is-saved': isAyahSaved(item.ayah) }"
                                     @click.stop="toggleBookmark(item.ayah)"
                                     :title="isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Quick save bookmark'"
                                 >
@@ -4156,20 +4157,21 @@ h1.display-5 {
 .ayah-card-container .icon-btn.is-saved {
     background: linear-gradient(
         135deg,
-        rgba(15, 110, 99, 0.22),
-        rgba(210, 162, 75, 0.28)
-    );
-    border-color: rgba(210, 162, 75, 0.7);
-    color: #0b5c53;
-    box-shadow: 0 12px 26px rgba(15, 53, 48, 0.18),
-        0 0 0 3px rgba(210, 162, 75, 0.15);
-    transform: translateY(-1px) scale(1.02);
+        #0f6e63 0%,
+        #0a4b45 100%
+    ) !important;
+    border-color: #0b5c53 !important;
+    color: #ffffff !important;
+    box-shadow: 0 8px 16px rgba(15, 110, 99, 0.2) !important;
+    transform: translateY(-1px) scale(1.04) !important;
+    z-index: 2;
 }
 
 .ayah-card-container .icon-btn.is-saved i {
-    color: #0b5c53;
-    font-size: 1.6rem;
-    text-shadow: 0 2px 6px rgba(15, 53, 48, 0.18);
+    color: #ffffff !important;
+    font-weight: 500;
+    font-size: 1.6rem !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text {

@@ -2694,7 +2694,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       },
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-      class: "icon-btn",
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["icon-btn", {
+        'is-saved': $options.isAyahSaved(item.ayah)
+      }]),
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleBookmark(item.ayah), ["stop"]),
       title: $options.isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Quick save bookmark'
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -2703,7 +2705,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "font-size": "1.6rem"
       },
       "aria-hidden": "true"
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_58)])])], 8 /* PROPS */, _hoisted_43)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_24);
+    }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_58)])])], 8 /* PROPS */, _hoisted_43)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_24);
   }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
       height: $options.bottomSpacerHeight + 'px'
