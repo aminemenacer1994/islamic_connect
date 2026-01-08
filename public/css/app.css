@@ -31617,6 +31617,23 @@ to {
   background: rgba(15, 110, 99, 0.35);
   border-radius: 999px;
 }
+.alert[data-v-275d2369] {
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+}
+.alert-success[data-v-275d2369] {
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f4a3a;
+  border-color: rgba(15, 110, 99, 0.26);
+}
+.alert-danger[data-v-275d2369] {
+  background: rgba(248, 113, 113, 0.15);
+  color: #7f1d1d;
+  border-color: rgba(239, 68, 68, 0.3);
+}
 .folder-stack[data-v-275d2369] {
   display: flex;
   flex-direction: column;
@@ -31796,28 +31813,34 @@ to {
   opacity: 0.7;
   cursor: not-allowed;
 }
-.rename-modal[data-v-275d2369],
-.delete-confirm-modal[data-v-275d2369] {
-  border-radius: 18px;
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.2);
-}
-.rename-modal .card-body[data-v-275d2369],
-.delete-confirm-modal .card-body[data-v-275d2369] {
-  padding: 1rem;
-}
-.modal-wrapper[data-v-275d2369] {
-  position: fixed;
-  inset: 0;
+.modal-section[data-v-275d2369] {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 1070;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
-[data-v-275d2369] .modal-backdrop {
-  background: rgba(15, 23, 42, 0.45);
+.modal-section .rename-modal[data-v-275d2369],
+.modal-section .delete-confirm-modal[data-v-275d2369] {
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  padding: 0.75rem;
+}
+.modal-section .modal-header[data-v-275d2369] {
+  padding-bottom: 0.5rem;
+}
+.modal-section .modal-body[data-v-275d2369] {
+  padding-bottom: 0.5rem;
+}
+.modal-section .modal-footer[data-v-275d2369] {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
 }
 @media (max-width: 992px) {
 .folder-top[data-v-275d2369] {

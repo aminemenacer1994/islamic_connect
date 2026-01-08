@@ -78,6 +78,36 @@
       </div>
     </div>
 
+    <div class="modal-section">
+      <div v-if="editingFolder" class="rename-modal fade show">
+        <div class="modal-header">
+          <h6 class="modal-title">Rename folder</h6>
+        </div>
+        <div class="modal-body">
+          <input v-model.trim="renameValue" class="form-control" placeholder="New folder name" />
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
+          <button class="btn btn-primary" @click="saveRename">Save</button>
+        </div>
+      </div>
+      <div v-if="deleteConfirmOpen" class="delete-confirm-modal fade show">
+        <div class="modal-header">
+          <h6 class="modal-title">Delete folder?</h6>
+        </div>
+        <div class="modal-body">
+          <p>Delete this folder and all saved ayat inside it?</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
+          <button type="button" class="btn btn-danger" :disabled="deleteBusy" @click="confirmDeleteFolder">
+            <span v-if="deleteBusy" class="spinner-border spinner-border-sm me-2"></span>
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+
     <div class="folder-stack-wrap">
       <ul class="list-group folder-stack">
       <li
@@ -127,7 +157,6 @@
       </ul>
     </div>
 
-    <div v-if="editingFolder" class="modal-backdrop fade show"></div>
     <div
       v-if="editingFolder"
       class="modal fade show modal-wrapper"
@@ -150,7 +179,6 @@
       </div>
     </div>
 
-    <div v-if="deleteConfirmOpen" class="modal-backdrop fade show"></div>
     <div
       v-if="deleteConfirmOpen"
       class="modal fade show modal-wrapper"
@@ -583,6 +611,26 @@ export default {
   border-radius: 999px;
 }
 
+.alert {
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+}
+
+.alert-success {
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f4a3a;
+  border-color: rgba(15, 110, 99, 0.26);
+}
+
+.alert-danger {
+  background: rgba(248, 113, 113, 0.15);
+  color: #7f1d1d;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 .folder-stack {
   display: flex;
   flex-direction: column;
@@ -787,31 +835,38 @@ export default {
   cursor: not-allowed;
 }
 
-.rename-modal,
-.delete-confirm-modal {
-  border-radius: 18px;
-  background: #ffffff;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  box-shadow: 0 22px 48px rgba(15, 23, 42, 0.2);
-}
-
-.rename-modal .card-body,
-.delete-confirm-modal .card-body {
-  padding: 1rem;
-}
-
-.modal-wrapper {
-  position: fixed;
-  inset: 0;
+.modal-section {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-  z-index: 1070;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #f8fafc;
+  padding: 0.75rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
-:deep(.modal-backdrop) {
-  background: rgba(15, 23, 42, 0.45);
+.modal-section .rename-modal,
+.modal-section .delete-confirm-modal {
+  border-radius: 14px;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
+  padding: 0.75rem;
+}
+
+.modal-section .modal-header {
+  padding-bottom: 0.5rem;
+}
+
+.modal-section .modal-body {
+  padding-bottom: 0.5rem;
+}
+
+.modal-section .modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
 }
 
 @media (max-width: 992px) {
