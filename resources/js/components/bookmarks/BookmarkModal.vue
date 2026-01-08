@@ -32,6 +32,17 @@
               <span class="alert-text">{{ feedback }}</span>
             </div>
 
+            <div v-if="pendingDelete" class="delete-confirm mb-3">
+              <div>
+                <div class="delete-title">{{ pendingDeleteTitle }}</div>
+                <div class="delete-note">Ayat in this folder will also be deleted.</div>
+              </div>
+              <div class="delete-actions">
+                <button type="button" class="btn btn-outline-secondary btn-sm" @click="cancelDelete">Cancel</button>
+                <button type="button" class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
+              </div>
+            </div>
+
             <div class="row g-3">
               <div class="col-12 col-md-6">
                 <div class="section-card h-100">
@@ -86,9 +97,18 @@
                           <span class="pill-title">{{ folder.name }}</span>
                           <span class="pill-count">{{ folder.ayah_count }} ayat</span>
                         </span>
-                        <span class="pill-check">
+                          <span class="pill-check">
                           <i class="fas fa-check"></i>
                         </span>
+                        <button
+                          v-if="!folder.is_smart"
+                          type="button"
+                          class="pill-delete"
+                          @click.stop.prevent="requestDeleteFolder(folder)"
+                          title="Delete folder"
+                        >
+                          <i class="fas fa-times"></i>
+                        </button>
                       </label>
                     </div>
                   </div>
@@ -181,16 +201,7 @@
                 </div>
               </div>
               <div v-show="sectionOpen.contents">
-                <div v-if="pendingDelete" class="delete-confirm">
-                  <div>
-                    <div class="delete-title">{{ pendingDeleteTitle }}</div>
-                    <div class="delete-note">Ayat in this folder will also be deleted.</div>
-                  </div>
-                  <div class="delete-actions">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" @click="cancelDelete">Cancel</button>
-                    <button type="button" class="btn btn-danger btn-sm" @click="confirmDelete">Delete</button>
-                  </div>
-                </div>
+
                 <div v-if="folders.length === 0" class="empty-state">No folders to show yet.</div>
                 <div v-else class="folder-contents">
                   <div
@@ -653,6 +664,7 @@ export default {
           this.folderContents = contents;
         });
         this.pendingDelete = null;
+        await this.fetchCurrentBookmark();
         this.setFeedback(ids.length === 1 ? 'Folder deleted.' : 'Folders deleted.', 'success');
       } catch (error) {
         this.setFeedback('Unable to delete selected folders.', 'danger');
@@ -1793,4 +1805,46 @@ export default {
     transform: translateY(0);
   }
 }
+
+/* Add new styles for pill delete button */
+.folder-pill {
+    padding-right: 36px;
+    position: relative;
+    /* other existing styles implicitly here via cascade if modifying, but we are appending so we assume it merges or we rely on scoped */
+}
+
+.pill-delete {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+.pill-delete:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.pill-delete:active {
+  background: #fecaca;
+  color: #dc2626;
+}
+
+/* Ensure check icon stays out of the way (it's absolute positioned usually? let's check existing CSS) */
+/* Assuming existing CSS handles it, or I might need to adjust. */
+/* Based on provided code, I don't see the full original CSS. I'll append this to the end inside the style block */
 </style>
