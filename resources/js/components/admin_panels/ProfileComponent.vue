@@ -1,60 +1,60 @@
 <template>
-  <div id="app" class="profile-wrap admin-page">
-
-
-    <div class="container mt-4">
-
-      <!-- Overview card -->
-      <div class="card frosted p-3 mb-3">
-        <div class="d-flex align-items-center gap-3">
-          <img :src="avatarUrl" alt="Avatar" class="avatar-lg rounded-circle">
-          <div class="flex-grow-1">
-            <h5 class="m-0 d-flex align-items-center gap-2">
-              <span>{{ user.name }} {{ user.lastname }}</span>
-              <span v-if="user?.user_type || user?.role" class="role-badge" aria-label="User role">{{ user.user_type ||
-                user.role }}</span>
-            </h5>
-            <div class="text-muted small">Member since {{ formattedJoin }}</div>
+  <div id="app">
+    <div class="profile-surface">
+      <div class="profile-banner">
+        <div class="banner-content">
+          <div class="d-flex align-items-center gap-3">
+            <img :src="avatarUrl" alt="Avatar" class="avatar-lg rounded-circle">
+            <div class="flex-grow-1">
+              <h5 class="m-0 d-flex align-items-center gap-2">
+                <h4 style="font-weight: 800;">{{ user.name }} {{ user.lastname }}</h4>
+                <span v-if="user?.user_type || user?.role" class="role-badge" aria-label="User role">{{ user.user_type || user.role }}</span>
+              </h5>
+              <div class="text-muted small">Member since {{ formattedJoin }}</div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="container mt-4 profile-panel">
 
       <!-- Quick Stats -->
       <div class="row g-3 mb-3">
         <div class="col-md-4">
-          <div class="stat-card fade-pop" aria-label="Collections count">
+          <a class="stat-card fade-pop stat-link" aria-label="Collections count" href="/bookmarks">
             <div class="stat-icon bg-teal"><i class="bi bi-collection"></i></div>
             <div class="stat-body">
               <div class="stat-label">Collections</div>
               <div class="stat-value">{{ (folders && folders.length) || 0 }}</div>
             </div>
-          </div>
+          </a>
         </div>
         <div class="col-md-4">
-          <div class="stat-card fade-pop" aria-label="Bookmarks count">
+          <a class="stat-card fade-pop stat-link" aria-label="Bookmarks count" href="/bookmarks">
             <div class="stat-icon bg-teal"><i class="bi bi-bookmark-star"></i></div>
             <div class="stat-body">
               <div class="stat-label">Bookmarks</div>
               <div class="stat-value">{{ (bookmarks && bookmarks.length) || 0 }}</div>
             </div>
-          </div>
+          </a>
         </div>
         <div class="col-md-4">
-          <div class="stat-card fade-pop" aria-label="Notes count">
+          <a class="stat-card fade-pop stat-link" aria-label="Notes count" href="/notes">
             <div class="stat-icon bg-teal"><i class="bi bi-journal-text"></i></div>
             <div class="stat-body">
               <div class="stat-label">Notes</div>
               <div class="stat-value">{{ (notes && notes.length) || 0 }}</div>
             </div>
-          </div>
+          </a>
         </div>
       </div>
 
       <!-- Personal Information section -->
       <div class="section-card">
         <div class="section-header">
-          <h6 class="m-0">Personal Information</h6>
-          <button class="btn btn-sm btn-amber" data-bs-toggle="modal" data-bs-target="#editNew"
+          <h4 class="m-0"><b>Personal Information</b></h4>
+          <button class="btn btn-sm btn-edit" data-bs-toggle="modal" data-bs-target="#editNew"
             @click="editModal(user)">
             <i class="bi bi-pencil-square me-1"></i> Edit
           </button>
@@ -63,7 +63,7 @@
           <div class="row g-3">
             <div class="col-md-4">
               <div class="field">
-                <div class="field-label">First Name</div>
+                <div class="field-label"><b>First Name</b></div>
                 <div class="field-value">{{ user.name || ' ' }}</div>
               </div>
             </div>
@@ -96,7 +96,8 @@
       </div>
 
       <!-- Address section (placeholders if missing) -->
-      <!-- <div class="section-card mt-3">
+      <!--
+      <div class="section-card mt-3">
         <div class="section-header">
           <h6 class="m-0">Address</h6>
           <button class="btn btn-sm btn-amber" data-bs-toggle="modal" data-bs-target="#editNew"
@@ -126,20 +127,21 @@
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
+      -->
     </div>
 
     <!-- Edit Profile Modal (Bootstrap 5) -->
     <div class="modal fade" id="editNew" tabindex="-1" aria-labelledby="editNewLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editNewLabel">Edit Profile</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="updateUser" novalidate>
-              <div class="row g-3">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editNewLabel">Edit Profile</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="modal-form" @submit.prevent="updateUser" novalidate>
+              <div class="modal-form-grid row g-3">
                 <div class="col-md-6">
                   <label class="form-label">First name</label>
                   <div class="input-group">
@@ -184,9 +186,9 @@
                   </div>
                 </div>
               </div>
-              <div class="d-flex justify-content-end gap-2 mt-4">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
+              <div class="modal-actions d-flex justify-content-end gap-3 mt-4">
+                <button type="button" class="btn btn-modal-light" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-modal-primary">Save changes</button>
               </div>
             </form>
           </div>
@@ -299,7 +301,7 @@ export default {
         this.userId = data.userId;
 
         if (this.userId) {
-          await this.fetchFolders(this.userId);
+          await this.fetchFolders();
         } else {
           console.error('User ID not found');
         }
@@ -307,9 +309,9 @@ export default {
         console.error('Error fetching user ID or folders:', error);
       }
     },
-    async fetchFolders(userId) {
+    async fetchFolders() {
       try {
-        const response = await fetch(`/api/fetch-folders/${userId}`);
+        const response = await fetch(`/fetch-folders`);
         if (!response.ok) {
           throw new Error('Failed to fetch folders');
         }
@@ -367,6 +369,15 @@ export default {
                 showConfirmButton: false,
                 timer: 1200,
               });
+              this.user = {
+                ...this.user,
+                name: this.form.name,
+                lastname: this.form.lastname,
+                email: this.form.email,
+                phone: this.form.phone,
+                user_type: this.form.user_type
+              };
+              this.form.password = "";
               this.hideEditModal();
             })
             .catch(() => {
@@ -400,239 +411,390 @@ export default {
 </script>
 
 <style scoped>
-/* Colors inspired by reference */
-.profile-wrap {
-  background: linear-gradient(180deg, #f7faf9, #eef5f4)
-}
-
-.profile-topbar {
-  background: var(--ref-green);
-  color: #fff;
-  padding: 12px 0;
-  border-bottom-left-radius: 14px;
-  border-bottom-right-radius: 14px
-}
-
-.profile-topbar .btn {
-  border-radius: 10px
-}
-
-.searchbar {
+.profile-surface {
   position: relative;
-  max-width: 560px;
-  flex: 1
+  max-width: 980px;
+  margin: 0 auto 2rem;
 }
 
-.searchbar i {
+.profile-surface::after {
+  content: "";
   position: absolute;
-  left: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #d9efe7
+  inset: 0;
+  border-radius: 35px;
+  background: radial-gradient(circle, rgba(14, 116, 144, 0.15), transparent 55%);
+  filter: blur(42px);
+  pointer-events: none;
+  opacity: 0.35;
 }
 
-.searchbar .form-control {
-  padding-left: 38px;
-  background: rgba(255, 255, 255, .08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, .2);
-  border-radius: 12px
-}
-
-.searchbar .form-control:focus {
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, .30);
-  border-color: #fff
-}
-
-.searchbar .form-control::placeholder {
-  color: #cfe7df
-}
-
-.frosted {
+.profile-banner {
+  border-radius: 30px;
+  padding: 1.75rem 2rem;
   background: #ffffff;
-  border: 1px solid var(--admin-border);
-  border-radius: 16px;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, .08)
+  color: #0f172a;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(14, 116, 144, 0.25);
+  box-shadow: 0 20px 35px rgba(14, 116, 144, 0.12);
+  isolation: isolate;
+}
+
+.banner-content {
+  position: relative;
+  z-index: 1;
+}
+
+.banner-meta {
+  opacity: 0.98;
+  transition: opacity 0.3s ease;
+}
+
+.banner-meta p {
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.75);
+}
+
+.banner-meta .btn {
+  box-shadow: 0 10px 25px rgba(14, 116, 144, 0.25);
+}
+
+.banner-meta .btn-primary {
+  background-color: #111827;
+  border-color: #111827;
+  color: #f8fafc;
+}
+
+.btn-edit {
+  background: transparent;
+  border: 1px solid rgba(14, 116, 144, 0.4);
+  color: #0f172a;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.4rem 0.75rem;
+  border-radius: 12px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.btn-edit:hover {
+  background: rgba(14, 116, 144, 0.1);
+  color: #0d9488;
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(14, 116, 144, 0.25) 15%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.ripple:active::after {
+  opacity: 1;
+  transition-duration: 0.1s;
+}
+
+.banner-meta:hover {
+  opacity: 1;
+}
+
+.profile-panel {
+  position: relative;
+  z-index: 10;
+}
+
+.card.frosted {
+  background: linear-gradient(180deg, #ffffff, #fbfcfc);
+  border: 1px solid rgba(14, 116, 144, 0.12);
+  border-radius: 25px;
+  box-shadow: 0 20px 45px rgba(14, 116, 144, 0.08);
+  backdrop-filter: blur(12px);
 }
 
 .avatar-lg {
-  width: 64px;
-  height: 64px
+  width: 95px;
+  height: 95px;
+  object-fit: cover;
+  border: 3px solid rgba(15, 23, 42, 0.12);
+}
+
+.role-badge {
+  background: rgba(14, 116, 144, 0.15);
+  color: #0f172a;
+  border-radius: 999px;
+  padding: 0.15rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.row.g-3 {
+  margin-bottom: 0.5rem;
+}
+
+.stat-card {
+  border-radius: 18px;
+  padding: 1rem 1.2rem;
+  background: #ffffff;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  border: 1px solid rgba(14, 116, 144, 0.15);
+}
+
+.stat-link {
+  color: inherit;
+  text-decoration: none;
+  display: flex;
+  width: 100%;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 20px rgba(14, 116, 144, 0.18);
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(14, 116, 144, 0.2);
+  color: #0f172a;
+  font-size: 1.4rem;
+}
+
+.stat-body {
+  flex: 1;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.65);
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 .section-card {
+  border-radius: 28px;
+  padding: 1.5rem;
   background: #ffffff;
-  border: 1px solid var(--admin-border);
-  border-radius: 16px;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, .08)
+  border: 1px solid rgba(14, 116, 144, 0.15);
+  box-shadow: 0 20px 40px rgba(14, 116, 144, 0.08);
 }
 
 .section-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08)
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.section-header h6 {
+  font-weight: 600;
+  color: #0f172a;
 }
 
 .section-body {
-  padding: 16px
+  background: transparent;
+  border-radius: 22px;
+  padding: 1.25rem;
+  border: 1px solid rgba(15, 23, 42, 0.05);
 }
 
 .field {
-  background: #f8fbfa;
-  border: 1px solid var(--admin-border);
-  border-radius: 12px;
-  padding: 12px
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 0.95rem 1rem;
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  min-height: 90px;
 }
 
 .field-label {
-  font-size: .8rem;
-  color: var(--admin-muted);
-  margin-bottom: 2px
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  color: rgba(15, 23, 42, 0.7);
+  font-weight: 700;
+  font-size: 1rem;
 }
 
 .field-value {
-  font-weight: 700;
-  color: var(--admin-ink)
+  font-size: 1rem;
+  color: rgba(15, 23, 42, 0.95);
+  font-weight: 400;
 }
 
-/* Role badge */
-.role-badge {
-  background: rgba(15, 110, 99, 0.12);
-  color: var(--admin-accent-strong);
-  border: 1px solid rgba(15, 110, 99, 0.3);
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: .75rem;
-  font-weight: 700
-}
-
-/* Amber button to match reference */
-.btn-amber {
-  background: var(--ref-amber);
-  border-color: var(--ref-amber);
-  color: #212529
-}
-
-.btn-amber:hover {
-  filter: brightness(.95)
-}
-
-/* Ghost light button for topbar actions */
-.btn-ghost-light {
-  background: transparent;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, .35)
-}
-
-.btn-ghost-light:hover {
-  background: rgba(255, 255, 255, .12);
-  color: #fff
-}
-
-/* Modern modal styling */
-.modal-modern .modal-content {
-  border: 1px solid rgba(15, 23, 42, 0.12);
+.modal-content {
+  border: 1px solid rgba(14, 116, 144, 0.2);
   border-radius: 18px;
-  box-shadow: 0 18px 40px rgba(15, 23, 42, .16)
-}
-
-.modal-modern .modal-header {
-  background: linear-gradient(90deg, rgba(15, 110, 99, 0.12), rgba(255, 255, 255, 0));
-  color: #111;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  border-top-left-radius: 18px;
-  border-top-right-radius: 18px
-}
-
-.modal-modern .btn-close {
-  filter: none
-}
-
-.modal-modern .input-group-text {
-  background: #f1f7f6;
-  border-color: rgba(15, 23, 42, 0.12)
-}
-
-.modal-modern .form-control:focus {
-  box-shadow: 0 0 0 .2rem rgba(15, 110, 99, .15);
-  border-color: var(--admin-accent)
-}
-
-/* Mobile refinements */
-@media (max-width: 576px) {
-  .profile-topbar {
-    padding: 10px 0
-  }
-
-  .avatar-lg {
-    width: 56px;
-    height: 56px
-  }
-}
-</style>
-
-<style>
-.links {
-  /*for text new colour (not worked)*/
-
-  color: rgb(119, 119, 119);
-  transition: opacity .9s, margin-left .5s, margin-right .5s;
-}
-</style>
-
-<style scoped>
-.stat-card {
-  display: flex;
-  align-items: center;
-  gap: .75rem;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.18);
   background: #ffffff;
-  border: 1px solid var(--admin-border);
-  border-radius: 16px;
-  padding: 14px 16px;
-  box-shadow: 0 16px 28px rgba(15, 23, 42, 0.08)
 }
 
-.stat-icon {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 10px;
-  color: #fff;
-  background: var(--admin-accent)
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+  /* background: linear-gradient(135deg, rgba(219, 234, 254, 0.8), rgba(255, 255, 255, 0.95)); */
+  border-radius: 18px 18px 0 0;
+  padding: 1.25rem 1.75rem;
+  box-shadow: inset 0 -1px 0 rgba(15, 23, 42, 0.06);
 }
 
-.stat-icon.bg-teal {
-  background: var(--admin-accent)
+.modal-title {
+  font-weight: 700;
+  color: #0f172a;
 }
 
-.stat-label {
-  font-size: .8rem;
-  color: var(--admin-muted)
+.modal-body {
+  padding-top: 1rem;
 }
 
-.stat-value {
-  font-weight: 800;
-  font-size: 1.25rem;
-  color: var(--admin-ink)
+.modal-body form {
+  gap: 1rem;
+}
+
+.modal-body .input-group-text {
+  background: #f3f6fc;
+  border-color: rgba(15, 23, 42, 0.1);
+  color: #0f172a;
+}
+
+.modal-body .form-control {
+  background: #fff;
+  border-color: rgba(15, 23, 42, 0.15);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-body .form-control:focus {
+  border-color: #111827;
+  box-shadow: 0 0 0 0.15rem rgba(17, 24, 39, 0.25);
+}
+
+.modal-footer {
+  border-top: none;
+  padding-top: 1rem;
+}
+
+.btn-outline-secondary {
+  border-color: rgba(15, 23, 42, 0.25);
+}
+
+.btn-outline-secondary:hover {
+  background-color: rgba(15, 23, 42, 0.05);
+}
+
+.modal-form-grid .form-label {
+  font-weight: 600;
+  color: rgba(15, 23, 42, 0.75);
+}
+
+.modal-form-grid .input-group {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
+}
+
+.modal-form-grid .form-control {
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.modal-form-grid .input-group-text {
+  background: rgba(243, 246, 252, 0.9);
+  border: none;
+  color: #0f172a;
+}
+
+.modal-form-grid .form-control:focus {
+  border: none;
+}
+
+.modal-actions {
+  width: 100%;
+}
+
+.btn-modal-light {
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  color: #0f172a;
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  font-weight: 600;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.btn-modal-light:hover {
+  background: rgba(15, 23, 42, 0.05);
+  border-color: rgba(15, 23, 42, 0.25);
+}
+
+.btn-modal-primary {
+  background: #111827;
+  border-color: #111827;
+  color: #f8fafc;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 10px 25px rgba(13, 148, 136, 0.35);
+}
+
+.btn-modal-primary:hover {
+  background: #1f2937;
+  border-color: #1f2937;
 }
 
 .fade-pop {
-  animation: fadePop var(--anim-soft) ease-out both
+  animation: pop 0.6s ease;
 }
 
-@keyframes fadePop {
+.links {
+  color: rgb(119, 119, 119);
+  transition: opacity .9s, margin-left .5s, margin-right .5s;
+}
+
+@keyframes pop {
   from {
     opacity: 0;
-    transform: translateY(6px) scale(.98)
+    transform: translateY(20px);
   }
-
   to {
     opacity: 1;
-    transform: translateY(0) scale(1)
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-surface {
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-banner {
+    padding: 1.4rem;
+  }
+
+  .stat-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .field {
+    min-height: auto;
   }
 }
 </style>

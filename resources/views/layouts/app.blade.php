@@ -344,7 +344,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
-                                <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> 
+                                <!-- <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a>  -->
                                 <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
                                 <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
