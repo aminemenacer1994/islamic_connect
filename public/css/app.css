@@ -3610,7 +3610,13 @@ to {
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 18px;
-  padding: 1.5rem 1rem;
+  padding: 1.75rem 1.25rem;
+  min-height: 195px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   backdrop-filter: blur(6px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -3622,6 +3628,8 @@ to {
 .stat-card p[data-v-2ba25654],
 .stat-card small[data-v-2ba25654] {
   color: #fff;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 .stat-card small[data-v-2ba25654] {
   opacity: 0.75;
@@ -10563,6 +10571,34 @@ i[data-v-4b451216]:hover {
 .mission-hero[data-v-39610a88] {
   animation: riseIn-39610a88 420ms ease-out both;
 }
+.mission-hero-support[data-v-39610a88] {
+  margin: 0 auto 12px;
+  padding: 1.25rem 1.4rem;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  border: 1px solid rgba(11, 128, 111, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.mission-hero-support__text[data-v-39610a88] {
+  max-width: 760px;
+}
+.mission-hero-support__stats[data-v-39610a88] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+  color: #0b3c3a;
+}
+.mission-hero-support__stats strong[data-v-39610a88] {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f766e;
+}
 .mission-hero .col-lg-10[data-v-39610a88],
 .mission-hero .col-xl-10[data-v-39610a88] {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(247, 244, 236, 0.95));
@@ -11116,6 +11152,102 @@ mark[data-v-39610a88] {
   box-shadow: 0 12px 24px rgba(15, 41, 32, 0.1);
   animation: riseIn-39610a88 420ms ease-out both;
   animation-delay: 80ms;
+}
+.timeline-intro[data-v-39610a88] {
+  padding: 1rem 1.25rem;
+  margin: 0 auto 12px;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 18px;
+  border: 1px solid rgba(15, 41, 32, 0.07);
+  box-shadow: 0 10px 30px rgba(15, 41, 32, 0.08);
+}
+.timeline-intro__upper[data-v-39610a88] {
+  width: 100%;
+}
+.mission-search[data-v-39610a88] {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 260px;
+  border-radius: 24px;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid rgba(11, 128, 111, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 30px rgba(15, 41, 32, 0.08);
+}
+.mission-search__icon[data-v-39610a88],
+.mission-search__clear[data-v-39610a88] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  color: rgba(11, 128, 111, 0.7);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 1rem;
+}
+.mission-search__input[data-v-39610a88] {
+  flex: 1;
+  border: none;
+  background: transparent;
+  min-width: 0;
+  padding: 0.3rem 0.2rem;
+}
+.mission-search__input[data-v-39610a88]:focus {
+  outline: none;
+}
+.mission-search__clear[data-v-39610a88] {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.timeline-progress[data-v-39610a88] {
+  width: 100%;
+  height: 5px;
+  background: rgba(15, 41, 32, 0.08);
+  border-radius: 500px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+}
+.timeline-progress__fill[data-v-39610a88] {
+  height: 100%;
+  background: linear-gradient(90deg, #0b806f, #1c6c7a);
+  transition: width 0.3s ease;
+}
+.event-meta-grid[data-v-39610a88] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+.event-meta-grid__info[data-v-39610a88] {
+  text-align: center;
+}
+.event-year[data-v-39610a88] {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+.event-meta-grid__stats[data-v-39610a88] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+}
+.event-meta-grid__stats .stat-chip[data-v-39610a88] {
+  background: rgba(11, 128, 111, 0.08);
+  border-color: rgba(11, 128, 111, 0.2);
+}
+@media (min-width: 768px) {
+.event-meta-grid[data-v-39610a88] {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.event-meta-grid__info[data-v-39610a88] {
+    text-align: left;
+}
 }
 
 /* WebKit scrollbar styling */

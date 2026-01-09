@@ -10,6 +10,23 @@
       </div>
     </div>
 
+    <div class="container px-2">
+      <section class="mission-hero-support">
+        <div class="mission-hero-support__text">
+          <p class="small text-uppercase text-muted mb-1">Faithfully curated</p>
+          <p class="mb-1 fw-semibold">Navigate pivotal moments with context cards, tactile actions, and a welcoming narrator.</p>
+          <p class="mb-0 text-muted">
+            Tap a milestone above, read the highlight, or let the audio companion guide you while you pause to reflect.
+          </p>
+        </div>
+        <ul class="mission-hero-support__stats">
+          <li><strong>270+</strong> trusted entries</li>
+          <li><strong>Audio</strong> ready</li>
+          <li><strong>Summaries</strong> on demand</li>
+        </ul>
+      </section>
+    </div>
+
     <!-- Next Step: From Qur'an History to Seerah Timeline -->
     <div class="container px-2">
       <div class="mx-auto mb-4 next-step-card animate-rise">
@@ -52,6 +69,31 @@
       </div>
     </div>
 
+    <div class="container px-2 mb-3 timeline-intro">
+      <div class="timeline-intro__upper d-flex flex-column flex-lg-row gap-3 align-items-lg-center justify-content-between">
+        <div>
+          <p class="text-uppercase small text-muted mb-1">Find your place in the Prophet’s story</p>
+          <p class="mb-0 fw-semibold">
+            Showing {{ events.length }} of {{ originalEvents.length }} moments • {{ displayIndex }} selected
+          </p>
+        </div>
+        <div class="mission-search">
+          <span class="mission-search__icon">
+            <i class="bi bi-search"></i>
+          </span>
+          <input type="search" class="mission-search__input" v-model="searchQuery"
+            @input="filterEvents" placeholder="Search events, locations, themes" aria-label="Search timeline" />
+          <button v-if="searchQuery" type="button" class="mission-search__clear" @click="clearSearch"
+            aria-label="Clear search">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="timeline-progress" role="presentation" aria-hidden="true">
+        <div class="timeline-progress__fill" :style="{ width: timelineProgress + '%' }"></div>
+      </div>
+    </div>
+
     <nav class="timeline-wrapper container" aria-label="Seerah timeline">
       <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav" tabindex="0">
         <li v-for="(event, index) in events" :key="event.id || event.year || index" class="timeline-point"
@@ -75,6 +117,26 @@
 
         <div class="fw-bold display-6 text-center mb-3" :id="`event-title-${currentIndex}`">{{
           events[currentIndex].title }}</div>
+        <div class="event-meta-grid mb-3">
+          <div class="event-meta-grid__info">
+            <p class="text-uppercase small text-muted mb-1">Milestone year</p>
+            <p class="event-year mb-1">{{ currentEvent.year || 'Historic moment' }}</p>
+            <p class="small text-muted mb-0">
+              {{ displayIndex }} / {{ events.length }} moments in this journey
+            </p>
+          </div>
+          <div class="event-meta-grid__stats">
+            <span class="stat-chip">
+              <i class="bi bi-book me-1"></i>Read <strong>{{ readTime }}m</strong>
+            </span>
+            <span class="stat-chip">
+              <i class="bi bi-headphones me-1"></i>Listen <strong>{{ listenTime }}m</strong>
+            </span>
+            <span class="stat-chip">
+              <i class="bi bi-file-earmark-word me-1"></i>Words <strong>{{ wordCount }}</strong>
+            </span>
+          </div>
+        </div>
 
         <!-- Combined Controls and Info Row -->
         <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
@@ -148,18 +210,6 @@
         </div>
 
         <!-- AI Summary and Play Button Row -->
-        <div class="container d-flex align-items-center flex-wrap gap-3 mb-3 mb-md-4">
-          <!-- Time Estimates -->
-          <div class="d-flex container align-items-center flex-wrap text-center gap-2 gap-sm-3" role="group"
-            aria-label="Time estimates">
-            <span class="stat-chip"><i class="bi bi-book me-1"></i><strong class="me-1">Read:</strong> {{ readTime
-              }}m</span>
-            <span class="stat-chip"><i class="bi bi-headphones me-1"></i><strong class="me-1">Listen:</strong> {{
-              listenTime }}m</span>
-            <span class="stat-chip"><i class="bi bi-file-earmark-word me-1"></i><strong class="me-1">Words:</strong> {{
-              wordCount }}</span>
-          </div>
-        </div>
 
         <!-- AI Summary Section (Premium) -->
         <transition name="fade-slide" class="card-teal">
@@ -432,6 +482,16 @@ export default {
         '--content-font-family': this.fontSettings.fontFamily || "'Nunito', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif",
         '--content-font-size': size,
       };
+    },
+    currentEvent() {
+      return this.events[this.currentIndex] || {};
+    },
+    timelineProgress() {
+      if (!this.events.length) return 0;
+      return Math.round(((this.currentIndex + 1) / this.events.length) * 100);
+    },
+    displayIndex() {
+      return this.events.length ? this.currentIndex + 1 : 0;
     },
     // heavy computeds removed; we now update cached values in updateCurrentMetrics
   },
@@ -1303,6 +1363,11 @@ export default {
         this.updateCurrentMetrics();
       }, 200);
     },
+    clearSearch() {
+      if (!this.searchQuery) return;
+      this.searchQuery = '';
+      this.filterEvents();
+    },
     copyToClipboard() {
       const rawHtml = this.events[this.currentIndex]?.description || '';
       const plainText = this.stripHtml(rawHtml);
@@ -1503,6 +1568,38 @@ export default {
 
 .mission-hero {
   animation: riseIn 420ms ease-out both;
+}
+
+.mission-hero-support {
+  margin: 0 auto 12px;
+  padding: 1.25rem 1.4rem;
+  background: rgba(255, 255, 255, 0.72);
+  border-radius: 20px;
+  border: 1px solid rgba(11, 128, 111, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mission-hero-support__text {
+  max-width: 760px;
+}
+
+.mission-hero-support__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.95rem;
+  color: #0b3c3a;
+}
+
+.mission-hero-support__stats strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f766e;
 }
 
 .mission-hero .col-lg-10,
@@ -2144,6 +2241,118 @@ mark {
   box-shadow: 0 12px 24px rgba(15, 41, 32, 0.1);
   animation: riseIn 420ms ease-out both;
   animation-delay: 80ms;
+}
+
+.timeline-intro {
+  padding: 1rem 1.25rem;
+  margin: 0 auto 12px;
+  background: rgba(255, 255, 255, 0.94);
+  border-radius: 18px;
+  border: 1px solid rgba(15, 41, 32, 0.07);
+  box-shadow: 0 10px 30px rgba(15, 41, 32, 0.08);
+}
+
+.timeline-intro__upper {
+  width: 100%;
+}
+
+.mission-search {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 260px;
+  border-radius: 24px;
+  padding: 0.15rem 0.55rem;
+  border: 1px solid rgba(11, 128, 111, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 12px 30px rgba(15, 41, 32, 0.08);
+}
+
+.mission-search__icon,
+.mission-search__clear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  width: 32px;
+  height: 32px;
+  color: rgba(11, 128, 111, 0.7);
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  font-size: 1rem;
+}
+
+.mission-search__input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  min-width: 0;
+  padding: 0.3rem 0.2rem;
+}
+
+.mission-search__input:focus {
+  outline: none;
+}
+
+.mission-search__clear {
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.timeline-progress {
+  width: 100%;
+  height: 5px;
+  background: rgba(15, 41, 32, 0.08);
+  border-radius: 500px;
+  margin-top: 0.75rem;
+  overflow: hidden;
+}
+
+.timeline-progress__fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0b806f, #1c6c7a);
+  transition: width 0.3s ease;
+}
+
+.event-meta-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.event-meta-grid__info {
+  text-align: center;
+}
+
+.event-year {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.event-meta-grid__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  justify-content: center;
+}
+
+.event-meta-grid__stats .stat-chip {
+  background: rgba(11, 128, 111, 0.08);
+  border-color: rgba(11, 128, 111, 0.2);
+}
+
+@media (min-width: 768px) {
+  .event-meta-grid {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .event-meta-grid__info {
+    text-align: left;
+  }
 }
 
 /* WebKit scrollbar styling */

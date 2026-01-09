@@ -1108,7 +1108,13 @@
   background: rgba(255, 255, 255, 0.12);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 18px;
-  padding: 1.5rem 1rem;
+  padding: 1.75rem 1.25rem;
+  min-height: 195px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
   backdrop-filter: blur(6px);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
@@ -1122,6 +1128,8 @@
 .stat-card p,
 .stat-card small {
   color: #fff;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .stat-card small {
