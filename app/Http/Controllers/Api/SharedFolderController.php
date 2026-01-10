@@ -76,7 +76,7 @@ class SharedFolderController extends Controller
 
         $items = $folder->bookmarks()
             ->with('ayah')
-            ->orderBy('bookmark_folder.created_at', 'desc')
+            ->orderBy('bookmarks.created_at', 'desc')
             ->get();
 
         return response()->json([

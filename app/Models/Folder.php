@@ -19,6 +19,7 @@ class Folder extends Model
         'color',
         'is_smart',
         'user_id',
+        'session_id',
     ];
 
     protected $casts = [

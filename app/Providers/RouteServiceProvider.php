@@ -29,6 +29,29 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->configureRateLimiting();
 
+        Route::bind('bookmark', function ($value) {
+            $request = request();
+            $query = \App\Models\Bookmark::query();
+
+            $userId = optional($request->user())->id;
+            $sessionId = trim((string) $request->header('X-Bookmark-Session', ''));
+
+            if ($userId && $sessionId) {
+                $query->where(function ($sub) use ($userId, $sessionId) {
+                    $sub->where('user_id', $userId)
+                        ->orWhere('session_id', $sessionId);
+                });
+            } elseif ($userId) {
+                $query->where('user_id', $userId);
+            } elseif ($sessionId) {
+                $query->where('session_id', $sessionId);
+            } else {
+                abort(403, 'Unable to resolve bookmark owner.');
+            }
+
+            return $query->where('id', $value)->firstOrFail();
+        });
+
         $this->routes(function () {
             Route::middleware('api')
                 ->prefix('api')

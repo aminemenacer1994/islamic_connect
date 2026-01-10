@@ -14,19 +14,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
 /* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'BookmarksApp',
-  mounted() {
+  async mounted() {
     var _window$bootstrap;
-    fetch("/api/userId").then(response => {
-      if (!response.ok) {
-        throw new Error("Failed to fetch user ID");
-      }
-      return response.json();
-    }).then(data => {
-      const userId = data.userId;
+    try {
+      const userId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.fetchUserIdFromApi)();
       console.log("UserId:", userId);
       if (userId) {
         this.userId = userId;
@@ -34,9 +31,15 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         console.error("User ID not found");
       }
-    }).catch(error => {
+    } catch (error) {
       console.error("Error fetching user ID:", error);
-    });
+    }
+    this.bookmarkEventHandler = event => this.handleBookmarksUpdated(event);
+    this.bookmarkStorageHandler = event => this.handleStorageBookmarksUpdated(event);
+    this.visibilityHandler = () => this.handleVisibilityChange();
+    window.addEventListener("bookmarks-updated", this.bookmarkEventHandler);
+    window.addEventListener("storage", this.bookmarkStorageHandler);
+    window.addEventListener("visibilitychange", this.visibilityHandler);
     // Bootstrap modal cleanup to avoid stuck backdrops
     const modalElement = this.$refs.viewBookmarkModal;
     if (modalElement && (_window$bootstrap = window.bootstrap) !== null && _window$bootstrap !== void 0 && _window$bootstrap.Modal) {
@@ -51,6 +54,9 @@ __webpack_require__.r(__webpack_exports__);
       const instance = (_window$bootstrap2 = window.bootstrap) === null || _window$bootstrap2 === void 0 || (_window$bootstrap2 = _window$bootstrap2.Modal) === null || _window$bootstrap2 === void 0 ? void 0 : _window$bootstrap2.getInstance(modalElement);
       if (instance) instance.dispose();
     }
+    if (this.bookmarkEventHandler) window.removeEventListener("bookmarks-updated", this.bookmarkEventHandler);
+    if (this.bookmarkStorageHandler) window.removeEventListener("storage", this.bookmarkStorageHandler);
+    if (this.visibilityHandler) window.removeEventListener("visibilitychange", this.visibilityHandler);
   },
   data() {
     return {
@@ -70,7 +76,11 @@ __webpack_require__.r(__webpack_exports__);
         ayah_notes: "",
         created_at: ""
       },
-      maxLength: 70
+      maxLength: 70,
+      bookmarkInstanceId: `admin-${Math.random().toString(36).slice(2)}`,
+      bookmarkEventHandler: null,
+      bookmarkStorageHandler: null,
+      visibilityHandler: null
     };
   },
   methods: {
@@ -315,6 +325,7 @@ __webpack_require__.r(__webpack_exports__);
           timer: 1200,
           showConfirmButton: false
         });
+        this.notifyBookmarkChange();
       } catch (e) {
         console.error('Delete error:', e);
         sweetalert2__WEBPACK_IMPORTED_MODULE_1___default().fire({
@@ -326,6 +337,38 @@ __webpack_require__.r(__webpack_exports__);
       } finally {
         this.busy[id] = false;
       }
+    },
+    notifyBookmarkChange(source = this.bookmarkInstanceId) {
+      const token = `${Date.now()}-${source}`;
+      try {
+        localStorage.setItem('bookmarkRefresh', token);
+      } catch (_) {
+        // ignore
+      }
+      window.dispatchEvent(new CustomEvent('bookmarks-updated', {
+        detail: {
+          token,
+          instance: source
+        }
+      }));
+    },
+    handleBookmarksUpdated(event) {
+      var _event$detail;
+      if ((event === null || event === void 0 || (_event$detail = event.detail) === null || _event$detail === void 0 ? void 0 : _event$detail.instance) === this.bookmarkInstanceId) return;
+      this.refreshAfterExternalUpdate();
+    },
+    handleStorageBookmarksUpdated(event) {
+      if (event.key !== 'bookmarkRefresh') return;
+      this.refreshAfterExternalUpdate();
+    },
+    handleVisibilityChange() {
+      if (document.visibilityState === 'visible') {
+        this.refreshAfterExternalUpdate();
+      }
+    },
+    refreshAfterExternalUpdate() {
+      if (!this.userId) return;
+      this.fetchBookmarks(this.userId);
     },
     closeModal() {
       var _window$bootstrap4;

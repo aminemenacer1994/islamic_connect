@@ -46,6 +46,10 @@ class EnforceCanonicalUrl
         $canonicalScheme = $canonicalUrl ? parse_url($canonicalUrl, PHP_URL_SCHEME) : null;
         $forceHttps = (bool) config('app.force_https', false);
 
+        if ($request->expectsJson() || $request->wantsJson() || $request->isXmlHttpRequest()) {
+            return null;
+        }
+
         $host = $request->getHost();
         $currentScheme = $request->getScheme();
         $targetScheme = $canonicalScheme ?: ($forceHttps ? 'https' : $currentScheme);
@@ -93,4 +97,3 @@ class EnforceCanonicalUrl
         }
     }
 }
-

@@ -3,38 +3,41 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Traits\BookmarkSessionAware;
 use App\Models\Folder;
-use Illuminate\Support\Facades\Auth;
 
 class FolderController extends Controller
 {
-    public function index()
+    use BookmarkSessionAware;
+
+    public function index(Request $request)
     {
-        // Fetch all folders belonging to the authenticated user
-        $folders = Auth::user()->folders;
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
+            return response()->json(['folders' => []]);
+        }
+
+        $folders = $this->applyOwnerScope(Folder::query(), $request)->get();
         return response()->json(['folders' => $folders]);
     }
 
-    public function fetchFolders()
+    public function fetchFolders(Request $request)
     {
-        if (!Auth::check()) {
-            return response()->json(['error' => 'User not authenticated'], 401);
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
+            return response()->json([]);
         }
-        $folders = Auth::user()->folders()->get();
+
+        $folders = $this->applyOwnerScope(Folder::query(), $request)->get();
         return response()->json($folders);
     }
 
 
     // In your FolderController or a dedicated BookmarkController
-    public function getBookmarksByFolder($folderId)
+    public function getBookmarksByFolder(Request $request, $folderId)
     {
         // Fetch the folder by ID
-        $folder = Folder::findOrFail($folderId);
-
-        // Ensure the folder belongs to the authenticated user
-        if ($folder->user_id !== Auth::id()) {
-            return response()->json(['error' => 'Unauthorized'], 403);
-        }
+        $folder = $this->applyOwnerScope(Folder::query(), $request)->findOrFail($folderId);
 
         // Retrieve the bookmarks associated with this folder
         $bookmarks = $folder->bookmarks()->get();
@@ -51,18 +54,23 @@ class FolderController extends Controller
         ]);
 
         // Create a new folder
-        $folder = Folder::create([
+        $ownerData = $this->ownerPayload($request);
+        $folder = Folder::create(array_merge([
             'name' => $validated['name'],
-            'user_id' => Auth::id(),
-        ]);
+        ], $ownerData));
 
         return response()->json(['message' => 'Folder created successfully!', 'folder' => $folder], 201);
     }
 
     // Method to get all folders for the authenticated user
-    public function getFolders()
+    public function getFolders(Request $request)
     {
-        $folders = Auth::user()->folders()->get();
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
+            return response()->json(['folders' => []]);
+        }
+
+        $folders = $this->applyOwnerScope(Folder::query(), $request)->get();
         return response()->json(['folders' => $folders]);
     }
 
@@ -71,23 +79,19 @@ class FolderController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate(['name' => 'required|string']);
-
-        // Find the folder belonging to the authenticated user and update it
-        $folder = Auth::user()->folders()->findOrFail($id);
+        $folder = $this->applyOwnerScope(Folder::query(), $request)->findOrFail($id);
         $folder->update($validated);
 
         return response()->json($folder);
     }
 
-    public function delete($id)
+    public function delete(Request $request, $id)
     {
-        // Find the folder by ID and ensure it belongs to the authenticated user
-        $folder = Auth::user()->folders()->findOrFail($id);
-        
+        $folder = $this->applyOwnerScope(Folder::query(), $request)->findOrFail($id);
+
         // Optionally, delete associated bookmarks or handle folder-related logic
         // $folder->bookmarks()->delete();
 
-        // Delete the folder
         $folder->delete();
 
         return response()->json(['message' => 'Folder deleted successfully']);

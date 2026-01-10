@@ -41,7 +41,7 @@
                             name="password" required autocomplete="new-password"
                             placeholder="Create a password">
                     <div class="password-requirements">
-                        Password must be at least 8 characters
+                        Password must be at least 6 characters
                     </div>
                     @error('password')
                         <span class="invalid-feedback" role="alert">
@@ -57,7 +57,7 @@
                             placeholder="Confirm your password">
                 </div>
                 
-                <!-- <p class="text-muted small benefits-text">Create your free account to save bookmarks, write notes, sync across devices, and manage email preferences. No spam. Ever.</p> -->
+                <p class="text-muted small benefits-text">Create your free account to save bookmarks, write notes & reflections and sync across multiple devices.</p>
 
                 <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-lg btn-primary-auth">Create Account</button>

@@ -293,6 +293,7 @@
 <script>
 import axios from 'axios';
 import { Modal } from 'bootstrap';
+import { fetchUserIdFromApi } from '../../utils/bookmarkAuth';
 
 export default {
   name: 'BookmarkModal',
@@ -411,13 +412,9 @@ export default {
       clearTimeout(this.authRedirectTimer);
     },
     async ensureAuthenticated() {
-      try {
-        const response = await axios.get('/api/userId');
-        if (response.data?.userId) {
-          return true;
-        }
-      } catch (_) {
-        // fall through to redirect
+      const userId = await fetchUserIdFromApi();
+      if (userId) {
+        return true;
       }
       this.setFeedback('Please log in to save bookmarks. Redirecting…', 'danger');
       clearTimeout(this.authRedirectTimer);

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\BookmarkSessionAware;
 use App\Models\Bookmark;
 use App\Models\Folder;
 use App\Models\SmartFolder;
@@ -13,6 +14,8 @@ use Illuminate\Validation\Rule;
 
 class FolderController extends Controller
 {
+    use BookmarkSessionAware;
+
     private const RULE_TYPES = ['surah', 'juz', 'revelation_type', 'topic', 'tag'];
 
     private const BOOTSTRAP_COLORS = [
@@ -26,11 +29,14 @@ class FolderController extends Controller
         'dark',
     ];
 
-    public function index()
+    public function index(Request $request)
     {
-        $user = Auth::user();
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
+            return response()->json(['data' => []]);
+        }
 
-        $folders = Folder::where('user_id', $user->id)
+        $folders = $this->applyOwnerScope(Folder::query(), $request)
             ->with(['smartFolder', 'sharedFolder'])
             ->withCount('bookmarks')
             ->orderBy('updated_at', 'desc')
@@ -85,6 +91,8 @@ class FolderController extends Controller
     {
         $user = Auth::user();
 
+        $ownerData = $this->ownerPayload($request);
+
         $validated = $request->validate([
             'name' => [
                 'required',
@@ -108,13 +116,14 @@ class FolderController extends Controller
 
         $folder = null;
 
-        DB::transaction(function () use ($validated, $user, $isSmart, &$folder) {
+        DB::transaction(function () use ($validated, $user, $isSmart, $ownerData, &$folder) {
             $folder = Folder::create([
                 'name' => $validated['name'],
                 'icon' => $validated['icon'] ?? null,
                 'color' => $validated['color'] ?? null,
                 'is_smart' => $isSmart,
                 'user_id' => $user->id,
+                'session_id' => $ownerData['session_id'] ?? null,
             ]);
 
             if ($isSmart) {
@@ -214,7 +223,7 @@ class FolderController extends Controller
 
         $bookmarks = $folder->bookmarks()
             ->with(['folders:id,name,color,icon', 'ayah'])
-            ->orderBy('bookmark_folder.created_at', 'desc')
+            ->orderByDesc('bookmarks.created_at')
             ->get();
 
         return response()->json([

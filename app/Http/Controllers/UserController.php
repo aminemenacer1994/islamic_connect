@@ -23,12 +23,10 @@ class UserController extends Controller
     public function getUserId()
     {
         $user = auth()->user();
-        if ($user) {
-            // Standardize on primary key id for client-side use
-            return response()->json(['userId' => (int) $user->id]);
-        } else {
-            return response()->json(['error' => 'User ID not found'], 404);
-        }
+        // Always respond so the client can decide how to handle anonymous visitors.
+        return response()->json([
+            'userId' => $user ? (int) $user->id : null,
+        ]);
     }
 
     public function getProfile()

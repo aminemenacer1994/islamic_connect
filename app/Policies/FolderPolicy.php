@@ -10,18 +10,36 @@ class FolderPolicy
 {
     use HandlesAuthorization;
 
-    public function view(User $user, Folder $folder): bool
+    public function view(?User $user, Folder $folder): bool
     {
-        return $user->id === $folder->user_id;
+        if ($user && $user->id === $folder->user_id) {
+            return true;
+        }
+        $sessionId = $this->resolveSessionId();
+        return $sessionId && $sessionId === $folder->session_id;
     }
 
-    public function update(User $user, Folder $folder): bool
+    public function update(?User $user, Folder $folder): bool
     {
-        return $user->id === $folder->user_id;
+        if ($user && $user->id === $folder->user_id) {
+            return true;
+        }
+        $sessionId = $this->resolveSessionId();
+        return $sessionId && $sessionId === $folder->session_id;
     }
 
-    public function delete(User $user, Folder $folder): bool
+    public function delete(?User $user, Folder $folder): bool
     {
-        return $user->id === $folder->user_id;
+        if ($user && $user->id === $folder->user_id) {
+            return true;
+        }
+        $sessionId = $this->resolveSessionId();
+        return $sessionId && $sessionId === $folder->session_id;
+    }
+
+    private function resolveSessionId(): ?string
+    {
+        $value = trim((string) request()->header('X-Bookmark-Session', ''));
+        return $value !== '' ? $value : null;
     }
 }

@@ -3,41 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Traits\BookmarkSessionAware;
 use App\Models\Bookmark;
 use App\Models\Folder;
 use Illuminate\Support\Facades\Auth;
 
 class BookmarkController extends Controller
 {
-    public function index()
+    use BookmarkSessionAware;
+
+    public function index(Request $request)
     {
-        // Retrieves bookmarks associated with the authenticated user
-        $user = Auth::user();
-        if (!$user) {
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
             return view('bookmark', ['bookmarks' => collect()]);
         }
 
-        // Bookmarks are scoped to the authenticated user's primary id
-        $bookmarks = Bookmark::where('user_id', (int) $user->id)
+        $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
             ->orderBy('created_at', 'desc')
             ->get();
 
         return view('bookmark', compact('bookmarks'));
     }
 
-    public function getBookmarks($userId)
+    public function getBookmarks(Request $request, $userId = null)
     {
-        $user = Auth::user();
-        if (!$user) {
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
             abort(401);
         }
 
-        // Client can only fetch its own bookmarks
-        if ((int) $userId !== (int) $user->id) {
-            abort(403);
-        }
-
-        $bookmarks = Bookmark::where('user_id', (int)$user->id)
+        $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -47,6 +43,7 @@ class BookmarkController extends Controller
     
     public function store(Request $request)
     {
+        $ownerData = $this->ownerPayload($request);
         // Check if this is a guide bookmark or Quran bookmark
         if ($request->has('title') && $request->has('content')) {
             // This is a guide bookmark
@@ -57,12 +54,11 @@ class BookmarkController extends Controller
             ]);
 
             // Create the guide bookmark
-            $bookmark = Bookmark::create([
+            $bookmark = Bookmark::create(array_merge([
                 'title' => $request->input('title'),
                 'ayah_verse_en' => $request->input('content'), // Using ayah_verse_en for content
                 'surah_name' => $request->input('category', 'Islamic Guide'), // Using surah_name for category
-                'user_id' => Auth::id(),
-            ]);
+            ], $ownerData));
 
             return response()->json([
                 'message' => 'Guide bookmark successfully saved!',
@@ -82,15 +78,14 @@ class BookmarkController extends Controller
             ]);
 
             // Create the bookmark
-            $bookmark = Bookmark::create([
+            $bookmark = Bookmark::create(array_merge([
                 'surah_name' => $request->input('surah_name'),
                 'ayah_num' => $request->input('ayah_num'),
                 'surah_number' => $request->input('surah_number'),
                 'ayah_number' => $request->input('ayah_num'),
                 'ayah_verse_ar' => $request->input('ayah_verse_ar'),
                 'ayah_verse_en' => $request->input('ayah_verse_en'),
-                'user_id' => Auth::id(),
-            ]);
+            ], $ownerData));
 
             $folderIds = collect($request->input('folder_ids', []))
                 ->push($request->input('folder_id'))
@@ -100,7 +95,7 @@ class BookmarkController extends Controller
                 ->all();
 
             if (!empty($folderIds)) {
-                $ownedFolderIds = Folder::where('user_id', Auth::id())
+                $ownedFolderIds = $this->applyOwnerScope(Folder::query(), $request)
                     ->where('is_smart', false)
                     ->whereIn('id', $folderIds)
                     ->pluck('id')
@@ -118,6 +113,7 @@ class BookmarkController extends Controller
 
     public function storeGuideBookmark(Request $request)
     {
+        $ownerData = $this->ownerPayload($request);
         $request->validate([
             'title' => 'required|string|max:255',
             'content' => 'required|string',
@@ -125,12 +121,11 @@ class BookmarkController extends Controller
         ]);
 
         // Create the guide bookmark
-        $bookmark = Bookmark::create([
+        $bookmark = Bookmark::create(array_merge([
             'title' => $request->input('title'),
             'ayah_verse_en' => $request->input('content'), // Using ayah_verse_en for content
             'surah_name' => $request->input('category', 'Islamic Guide'), // Using surah_name for category
-            'user_id' => Auth::id(),
-        ]);
+        ], $ownerData));
 
         return response()->json([
             'message' => 'Guide bookmark successfully saved!',
@@ -139,26 +134,26 @@ class BookmarkController extends Controller
     }
     
 
-    public function getBookmarksByFolder()
+    public function getBookmarksByFolder(Request $request)
     {
-        // Retrieve the folders and their associated bookmarks for the authenticated user
-        $folders = Auth::user()->folders()->with('bookmarks')->get();
+        $owner = $this->bookmarkOwner($request);
+        if (empty($owner)) {
+            return response()->json(['folders' => []]);
+        }
+
+        $folders = $this->applyOwnerScope(Folder::query(), $request)
+            ->with('bookmarks')
+            ->get();
 
         return response()->json(['folders' => $folders]);
     }
 
 
-    public function deleteBookmarks($id)
+    public function deleteBookmarks(Request $request, $id)
     {
-        // Retrieve the bookmark by ID
-        $bookmark = Bookmark::findOrFail($id);
-
-        // Ensure the authenticated user owns the bookmark
-        if (Auth::id() != $bookmark->user_id) {
-            abort(403); // Forbidden
-        }
-
-        // Delete the bookmark
+        $bookmark = $this->applyOwnerScope(Bookmark::query(), $request)->findOrFail($id);
+        $this->authorize('delete', $bookmark);
+        $bookmark->folders()->detach();
         $bookmark->delete();
 
         return response()->json(['message' => 'Bookmark deleted successfully']);

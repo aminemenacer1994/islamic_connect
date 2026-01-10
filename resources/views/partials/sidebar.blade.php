@@ -53,13 +53,6 @@
      </a>
     </li>
     
-    <li class="nav-item" data-search="notes reflections writing">
-     <a href="/notes" class="nav-link {{ request()->is('notes') ? 'active' : '' }}">
-      <i class="bi bi-file-earmark-text-fill nav-icon"></i>
-      <span class="nav-label">Notes</span>
-     </a>
-    </li>
-    
     <li class="nav-item nav-divider">
      <hr class="sidebar-divider">
     </li>
@@ -97,13 +90,6 @@
      <a href="/bookmarks" class="nav-link {{ request()->is('bookmarks') ? 'active' : '' }}">
       <i class="bi bi-bookmark-heart-fill nav-icon"></i>
       <span class="nav-label">Bookmarks</span>
-     </a>
-    </li>
-    
-    <li class="nav-item" data-search="notes reflections writing">
-     <a href="/notes" class="nav-link {{ request()->is('notes') ? 'active' : '' }}">
-      <i class="bi bi-file-earmark-text nav-icon"></i>
-      <span class="nav-label">Notes</span>
      </a>
     </li>
     

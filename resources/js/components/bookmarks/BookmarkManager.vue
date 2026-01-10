@@ -1,6 +1,20 @@
 <template>
   <div class="container-fluid bookmark-manager shadow-md">
-    <div class="row g-4 bookmark-layout">
+    <div v-if="authResolved && !isAuthenticated" class="bookmark-guest-state">
+      <div class="guest-card">
+        <i class="bi bi-lock-fill guest-icon" aria-hidden="true"></i>
+        <h5>Bookmarks are private</h5>
+        <p class="mb-3">
+          Sign in so your saved ayahs stay in sync between the Quran reader and this manager.
+        </p>
+        <div class="guest-actions">
+          <a class="btn btn-outline-secondary" href="/register">Create an account</a>
+          <a class="btn btn-success" href="/login">Log in</a>
+        </div>
+      </div>
+    </div>
+    <div v-else-if="authResolved">
+      <div class="row g-4 bookmark-layout">
       <div
         class="col-12 col-lg-4 folder-col"
         :class="{ 'is-collapsed': isFolderCollapsed }"
@@ -166,6 +180,7 @@
       </div>
     </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -174,6 +189,7 @@ import axios from 'axios';
 import AyahRow from './AyahRow.vue';
 import FolderList from './FolderList.vue';
 import BookmarkModal from './BookmarkModal.vue';
+import { fetchUserIdFromApi } from '../../utils/bookmarkAuth';
 
 export default {
   name: 'BookmarkManager',
@@ -201,6 +217,12 @@ export default {
       panelMessageTimer: null,
       isFolderCollapsed: false,
       query: '',
+      isAuthenticated: false,
+      authResolved: false,
+      bookmarkInstanceId: `bm-${Math.random().toString(36).slice(2)}`,
+      bookmarkEventHandler: null,
+      bookmarkStorageHandler: null,
+      visibilityHandler: null,
     };
   },
   computed: {
@@ -309,11 +331,25 @@ export default {
       );
     },
   },
-  mounted() {
+  async mounted() {
+    await this.initializeAuthentication();
+    if (!this.isAuthenticated) {
+      this.setPanelMessage('Sign in to view your saved bookmarks.', 'danger');
+      return;
+    }
     this.fetchFolders();
+    this.bookmarkEventHandler = (event) => this.handleBookmarksUpdated(event);
+    this.bookmarkStorageHandler = (event) => this.handleStorageBookmarksUpdated(event);
+    this.visibilityHandler = () => this.handleVisibilityChange();
+    window.addEventListener('bookmarks-updated', this.bookmarkEventHandler);
+    window.addEventListener('storage', this.bookmarkStorageHandler);
+    window.addEventListener('visibilitychange', this.visibilityHandler);
   },
   beforeUnmount() {
     clearTimeout(this.panelMessageTimer);
+    if (this.bookmarkEventHandler) window.removeEventListener('bookmarks-updated', this.bookmarkEventHandler);
+    if (this.bookmarkStorageHandler) window.removeEventListener('storage', this.bookmarkStorageHandler);
+    if (this.visibilityHandler) window.removeEventListener('visibilitychange', this.visibilityHandler);
   },
   methods: {
     clearSearch() {
@@ -489,10 +525,51 @@ export default {
     refreshFolderSidebar() {
       return this.$refs.folderList?.fetchFolders?.();
     },
+    async initializeAuthentication() {
+      this.isAuthenticated = !!(await fetchUserIdFromApi());
+      this.authResolved = true;
+    },
+    notifyBookmarkChange(source = this.bookmarkInstanceId) {
+      const token = `${Date.now()}-${source}`;
+      try {
+        localStorage.setItem('bookmarkRefresh', token);
+      } catch (_) {
+        // ignore storage errors (e.g., privacy mode)
+      }
+      window.dispatchEvent(new CustomEvent('bookmarks-updated', {
+        detail: { token, instance: source },
+      }));
+    },
+    handleBookmarksUpdated(event) {
+      if (!this.isAuthenticated) return;
+      if (event?.detail?.instance === this.bookmarkInstanceId) return;
+      this.refreshAfterExternalUpdate();
+    },
+    handleStorageBookmarksUpdated(event) {
+      if (!this.isAuthenticated) return;
+      if (event.key !== 'bookmarkRefresh') return;
+      this.refreshAfterExternalUpdate();
+    },
+    handleVisibilityChange() {
+      if (!this.isAuthenticated) return;
+      if (document.visibilityState === 'visible') {
+        this.refreshAfterExternalUpdate();
+      }
+    },
+    refreshAfterExternalUpdate() {
+      if (!this.isAuthenticated || this.loading) return;
+      const folder = this.selectedFolder || { id: 'all', name: 'All bookmarks', isAll: true };
+      this.onFolderSelected(folder);
+      this.refreshFolderSidebar();
+    },
     toggleFolderPane() {
       this.isFolderCollapsed = !this.isFolderCollapsed;
     },
     async fetchFolders() {
+      if (!this.isAuthenticated) {
+        this.folders = [];
+        return;
+      }
       try {
         const response = await axios.get('/api/folders');
         this.folders = response.data?.data || [];
@@ -501,6 +578,7 @@ export default {
       }
     },
     async onFolderSelected(folder) {
+      if (!this.isAuthenticated) return;
       this.selectedFolder = folder;
       this.loading = true;
       try {
@@ -531,6 +609,7 @@ export default {
         this.onFolderSelected(this.selectedFolder);
       }
       this.refreshFolderSidebar();
+      this.notifyBookmarkChange();
     },
     async moveBookmark(item, event) {
       const targetId = Number(event?.target?.value);
@@ -982,6 +1061,69 @@ export default {
 
   .ayah-list-item {
     padding: 14px 18px;
+  }
+}
+.bookmark-guest-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 260px;
+  padding: 2rem 1rem;
+}
+.guest-card {
+  max-width: 480px;
+  width: 100%;
+  padding: 2rem;
+  border-radius: 24px;
+  background: linear-gradient(135deg, #f3f9ff, #e2f4f2);
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.1);
+}
+.guest-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  color: #0f855a;
+}
+.guest-card h5 {
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+.guest-card p {
+  margin-bottom: 1rem;
+  color: #475467;
+}
+.guest-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+}
+.guest-actions .btn {
+  min-width: 140px;
+}
+.bookmark-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 260px;
+  gap: 0.75rem;
+  color: #475467;
+}
+.loading-spinner {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 4px solid rgba(15, 23, 42, 0.15);
+  border-top-color: #0f855a;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }
 </style>

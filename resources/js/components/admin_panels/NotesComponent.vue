@@ -154,6 +154,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { QuillEditor as Editor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import { fetchUserIdFromApi } from '../../utils/bookmarkAuth';
 
 export default {
   components: {
@@ -194,11 +195,9 @@ export default {
     },
     async initializeUser() {
       try {
-        const response = await fetch('/api/userId');
-        if (!response.ok) throw new Error('Failed to fetch user ID');
-        const data = await response.json();
-        if (data.userId) {
-          this.userId = data.userId;
+        const userId = await fetchUserIdFromApi();
+        if (userId) {
+          this.userId = userId;
           await this.fetchNotes(this.userId);
         } else {
           console.error('User ID not found');

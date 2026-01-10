@@ -391,6 +391,7 @@
 import { ref, onMounted, onUnmounted, computed, watch, nextTick } from 'vue';
 import guide from '../guides.json';
 import axios from 'axios';
+import { fetchUserIdFromApi } from '../utils/bookmarkAuth';
 
 export default {
   setup() {
@@ -492,17 +493,10 @@ export default {
     });
 
     const checkAuthentication = async () => {
-      try {
-        const response = await fetch('/api/userId');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.userId) {
-            isAuthenticated.value = true;
-            userId.value = data.userId;
-          }
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
+      const id = await fetchUserIdFromApi();
+      if (id) {
+        isAuthenticated.value = true;
+        userId.value = id;
       }
     };
 

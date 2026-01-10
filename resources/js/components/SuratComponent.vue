@@ -821,6 +821,7 @@
 import axios from "axios";
 import { Modal } from "bootstrap";
 import BookmarkModal from "./bookmarks/BookmarkModal.vue";
+import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 export default {
     name: "SuratComponent",
     components: {
@@ -899,14 +900,22 @@ export default {
             savedAyahKeys: {},
             savedAyahsLoaded: false,
             savedAyahClearTimer: null,
+            bookmarkStorageUserId: null,
+            bookmarkAnonId: null,
+            savedAyahStorageKey: "ic_saved_ayahs_session",
             feedbackMessages: {}, // Keyed by ayahID, value: { text, class }
             bookmarkToast: "",
             bookmarkToastAction: null,
             bookmarkToastTimer: null,
+            bookmarkInstanceId: `surat-${Math.random().toString(36).slice(2)}`,
+            bookmarkEventHandler: null,
+            bookmarkStorageHandler: null,
+            visibilityHandler: null,
             authAlert: "",
             authAlertTimer: null,
             deepLinkTarget: null,
             deepLinkHandled: false,
+            bookmarkAuthenticated: false,
         };
     },
     computed: {
@@ -1061,10 +1070,34 @@ export default {
         },
     },
     created() {
-        this.loadSavedAyahs();
+        // postpone loading until we know the authentication status
     },
-    mounted() {
+    async mounted() {
         window.addEventListener("keydown", this.onKeydown);
+        this._keydownHandler = (e) => {
+            if (!this.showAudioPlayer) return;
+            if (["INPUT", "TEXTAREA"].includes((e.target || {}).tagName))
+                return;
+            switch (e.key) {
+                case " ":
+                    e.preventDefault();
+                    this.toggleAudioPlayer(this.currentlyPlayingIndex);
+                    break;
+                case "ArrowRight":
+                    this.fastForwardAudio(this.currentlyPlayingIndex);
+                    break;
+                case "ArrowLeft":
+                    this.rewindAudio(this.currentlyPlayingIndex);
+                    break;
+                case "ArrowDown":
+                    this.playNextAyah(this.currentlyPlayingIndex);
+                    break;
+                case "ArrowUp":
+                    this.playPrevAyah(this.currentlyPlayingIndex);
+                    break;
+            }
+        };
+        window.addEventListener("keydown", this._keydownHandler);
         this.updateIsMobile();
         window.addEventListener("resize", this.updateIsMobile);
         // Restore dismissal state for next-step card
@@ -1072,7 +1105,13 @@ export default {
             if (localStorage.getItem("suratNextStepDismissed") === "1")
                 this.showNextStep = false;
         } catch (_) {}
-        this.syncSavedAyahsFromApi();
+        await this.initializeBookmarkAuth();
+        this.bookmarkEventHandler = (event) => this.handleBookmarksUpdated(event);
+        this.bookmarkStorageHandler = (event) => this.handleStorageBookmarksUpdated(event);
+        this.visibilityHandler = () => this.handleVisibilityChange();
+        window.addEventListener("bookmarks-updated", this.bookmarkEventHandler);
+        window.addEventListener("storage", this.bookmarkStorageHandler);
+        window.addEventListener("visibilitychange", this.visibilityHandler);
         // Virtualization hooks
         this.$nextTick(() => {
             this.computeListTop();
@@ -1093,13 +1132,53 @@ export default {
             this.nextStepMinimized =
                 localStorage.getItem("suratNextStepMinimized") === "1";
         } catch (_) {}
+        this.selectedSurah = "1";
+        this.selectedReciter = "ar.alafasy";
+        this.selectedTranslation = "en.ahmedali";
+        this.currentlyPlayingIndex = 0;
+        this.isHighlighted = false;
+        this.continuousPlayback =
+            JSON.parse(localStorage.getItem("continuousPlayback")) ?? true;
+        this.playbackSpeed =
+            JSON.parse(localStorage.getItem("playbackSpeed")) ?? 1;
+        Promise.all([
+            this.fetchReciters(),
+            this.fetchSurahs(),
+            this.fetchTranslations(),
+            this.fetchSurahDetails(),
+        ]).then(() => {
+            this.isInitialLoad = false;
+        });
     },
     beforeUnmount() {
+        this.isComponentAlive = false;
         window.removeEventListener("keydown", this.onKeydown);
+        if (this._keydownHandler)
+            window.removeEventListener("keydown", this._keydownHandler);
         window.removeEventListener("resize", this.updateIsMobile);
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
+        if (this._boundMove) {
+            window.removeEventListener("mousemove", this._boundMove);
+            window.removeEventListener("touchmove", this._boundMove);
+        }
+        if (this._boundUp) {
+            window.removeEventListener("mouseup", this._boundUp);
+            window.removeEventListener("touchend", this._boundUp);
+        }
+        if (this.bookmarkEventHandler)
+            window.removeEventListener("bookmarks-updated", this.bookmarkEventHandler);
+        if (this.bookmarkStorageHandler)
+            window.removeEventListener("storage", this.bookmarkStorageHandler);
+        if (this.visibilityHandler)
+            window.removeEventListener("visibilitychange", this.visibilityHandler);
+        if (this.audioElements && this.audioElements.forEach) {
+            this.audioElements.forEach((audio) => {
+                if (audio && audio.pause) audio.pause();
+                if (audio && audio.remove) audio.remove();
+            });
+        }
         clearTimeout(this.savedAyahClearTimer);
         clearTimeout(this.bookmarkToastTimer);
         this.bookmarkToastAction = null;
@@ -1107,6 +1186,8 @@ export default {
     },
     beforeDestroy() {
         window.removeEventListener("keydown", this.onKeydown);
+        if (this._keydownHandler)
+            window.removeEventListener("keydown", this._keydownHandler);
         window.removeEventListener("resize", this.updateIsMobile);
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
@@ -1133,23 +1214,37 @@ export default {
                 this.screenReaderMessage = "";
             }, timeout);
         },
-        loadSavedAyahs() {
+        async loadSavedAyahs() {
+            if (!this.bookmarkAuthenticated) {
+                this.savedAyahKeys = {};
+                this.savedAyahsLoaded = true;
+                return;
+            }
             if (this.savedAyahsLoaded) return;
+            await this.initializeSavedAyahStorageKey();
             try {
-                const sessionStored = sessionStorage.getItem(
-                    "ic_saved_ayahs_session"
-                );
-                if (sessionStored) {
-                    this.savedAyahKeys = JSON.parse(sessionStored) || {};
+                const stored =
+                    sessionStorage.getItem(this.savedAyahStorageKey) ||
+                    localStorage.getItem(this.savedAyahStorageKey);
+                if (stored) {
+                    this.savedAyahKeys = JSON.parse(stored) || {};
                 } else {
-                    const legacyStored = localStorage.getItem("ic_saved_ayahs");
-                    this.savedAyahKeys = legacyStored
-                        ? JSON.parse(legacyStored)
+                    const legacySession = sessionStorage.getItem(
+                        "ic_saved_ayahs_session"
+                    );
+                    const legacyGlobal = localStorage.getItem("ic_saved_ayahs");
+                    const fallback = legacySession || legacyGlobal;
+                    this.savedAyahKeys = fallback
+                        ? JSON.parse(fallback)
                         : {};
-                    if (legacyStored) {
+                    if (fallback) {
                         sessionStorage.setItem(
-                            "ic_saved_ayahs_session",
-                            legacyStored
+                            this.savedAyahStorageKey,
+                            fallback
+                        );
+                        localStorage.setItem(
+                            this.savedAyahStorageKey,
+                            fallback
                         );
                     }
                 }
@@ -1220,6 +1315,10 @@ export default {
             }
         },
         async syncSavedAyahsFromApi() {
+            if (!this.bookmarkAuthenticated) {
+                this.savedAyahKeys = {};
+                return;
+            }
             try {
                 const response = await axios.get("/api/ayah-bookmarks");
                 const bookmarks = response.data?.data || [];
@@ -1245,6 +1344,57 @@ export default {
                 this.savedAyahKeys = next;
             } catch (_) {
                 // Ignore sync failures; local state still works.
+            }
+        },
+        notifyBookmarkChange(source = this.bookmarkInstanceId) {
+            if (typeof window === "undefined") return;
+            const token = `${Date.now()}-${source}`;
+            try {
+                localStorage.setItem("bookmarkRefresh", token);
+            } catch (_) {
+                // ignore private mode errors
+            }
+            window.dispatchEvent(
+                new CustomEvent("bookmarks-updated", {
+                    detail: { token, instance: source },
+                })
+            );
+        },
+        handleBookmarksUpdated(event) {
+            if (event?.detail?.instance === this.bookmarkInstanceId) return;
+            this.syncSavedAyahsFromApi();
+        },
+        handleStorageBookmarksUpdated(event) {
+            if (event.key !== "bookmarkRefresh") return;
+            this.syncSavedAyahsFromApi();
+        },
+        handleVisibilityChange() {
+            if (document.visibilityState === "visible") {
+                this.syncSavedAyahsFromApi();
+            }
+        },
+        async initializeBookmarkAuth() {
+            const authed = await this.evaluateBookmarkAuth();
+            if (authed) {
+                await this.loadSavedAyahs();
+                await this.syncSavedAyahsFromApi();
+            } else {
+                this.clearSavedBookmarks();
+            }
+        },
+        async evaluateBookmarkAuth() {
+            const userId = await fetchUserIdFromApi();
+            this.bookmarkAuthenticated = !!userId;
+            return this.bookmarkAuthenticated;
+        },
+        clearSavedBookmarks() {
+            this.savedAyahKeys = {};
+            try {
+                const key = this.savedAyahStorageKey || "ic_saved_ayahs_session";
+                sessionStorage.removeItem(key);
+                localStorage.removeItem(key);
+            } catch (_) {
+                // ignore
             }
         },
         buildAyahKey(surahNumber, ayahNumber) {
@@ -1345,6 +1495,7 @@ export default {
                         },
                     });
                     this.announce("Ayah saved to bookmarks.");
+                    this.notifyBookmarkChange();
                 }
             } catch (error) {
                 // Revert
@@ -1397,11 +1548,13 @@ export default {
                 await axios.delete(`/api/ayah-bookmarks/${bookmarkId}`);
                 this.showToast("Bookmark removed.", 2000);
                 this.announce("Bookmark removed.");
+                this.notifyBookmarkChange();
             } catch (error) {
                 if (error.response && error.response.status === 404) {
                     // Already deleted on server, so this is a success state for us.
                     this.showToast("Bookmark removed.", 2000);
                     this.announce("Bookmark removed.");
+                    this.notifyBookmarkChange();
                 } else {
                     // Revert
                     this.savedAyahKeys = prevKeys;
@@ -1461,13 +1614,9 @@ export default {
             }
         },
         async ensureAuthenticated() {
-            try {
-                const response = await axios.get("/api/userId");
-                if (response.data?.userId) {
-                    return true;
-                }
-            } catch (_) {
-                // fall through
+            const userId = await fetchUserIdFromApi();
+            if (userId) {
+                return true;
             }
             this.showAuthAlert();
             return false;
@@ -1479,16 +1628,53 @@ export default {
                 this.authAlert = "";
             }, 6000);
         },
-        persistSavedAyahs(next) {
+        async persistSavedAyahs(next) {
+            if (!this.bookmarkAuthenticated) return;
             try {
-                sessionStorage.setItem(
-                    "ic_saved_ayahs_session",
-                    JSON.stringify(next)
-                );
-                localStorage.setItem("ic_saved_ayahs", JSON.stringify(next));
+                await this.initializeSavedAyahStorageKey();
+                const key = this.savedAyahStorageKey || "ic_saved_ayahs_session";
+                const payload = JSON.stringify(next);
+                sessionStorage.setItem(key, payload);
+                localStorage.setItem(key, payload);
             } catch (_) {
                 // no-op
             }
+        },
+        async initializeSavedAyahStorageKey() {
+            if (
+                this.savedAyahStorageKey &&
+                this.savedAyahStorageKey.startsWith("ic_saved_ayahs_user_") &&
+                this.bookmarkStorageUserId
+            ) {
+                return;
+            }
+            await this.fetchBookmarkStorageUserId();
+            this.savedAyahStorageKey = this.buildSavedAyahStorageKey();
+        },
+        buildSavedAyahStorageKey() {
+            const base = "ic_saved_ayahs";
+            if (this.bookmarkStorageUserId) {
+                return `${base}_user_${this.bookmarkStorageUserId}`;
+            }
+            if (!this.bookmarkAnonId) {
+                let anon = sessionStorage.getItem("ic_saved_ayahs_anon_id");
+                if (!anon) {
+                    anon = `anon-${Math.random().toString(36).slice(2)}`;
+                    sessionStorage.setItem("ic_saved_ayahs_anon_id", anon);
+                }
+                this.bookmarkAnonId = anon;
+            }
+            return `${base}_anon_${this.bookmarkAnonId}`;
+        },
+        async fetchBookmarkStorageUserId() {
+            if (this.bookmarkStorageUserId) {
+                return this.bookmarkStorageUserId;
+            }
+            const userId = await fetchUserIdFromApi();
+            if (userId) {
+                this.bookmarkStorageUserId = userId;
+            }
+            return this.bookmarkStorageUserId;
         },
         onAyahDragStart(ayah, event) {
             if (!event || !this.surahDetails || !ayah) return;
@@ -2666,78 +2852,6 @@ export default {
                 JSON.stringify(this.repeatCurrent)
             );
         },
-    },
-    mounted: function () {
-        // Keyboard shortcuts for better UX
-        this._keydownHandler = (e) => {
-            if (!this.showAudioPlayer) return;
-            if (["INPUT", "TEXTAREA"].includes((e.target || {}).tagName))
-                return;
-            switch (e.key) {
-                case " ":
-                    e.preventDefault();
-                    this.toggleAudioPlayer(this.currentlyPlayingIndex);
-                    break;
-                case "ArrowRight":
-                    this.fastForwardAudio(this.currentlyPlayingIndex);
-                    break;
-                case "ArrowLeft":
-                    this.rewindAudio(this.currentlyPlayingIndex);
-                    break;
-                case "ArrowDown":
-                    this.playNextAyah(this.currentlyPlayingIndex);
-                    break;
-                case "ArrowUp":
-                    this.playPrevAyah(this.currentlyPlayingIndex);
-                    break;
-            }
-        };
-        window.addEventListener("keydown", this._keydownHandler);
-        // removed scroll listeners and auto-scroll locking
-
-        this.selectedSurah = "1";
-        this.selectedReciter = "ar.alafasy";
-        this.selectedTranslation = "en.ahmedali";
-        this.currentlyPlayingIndex = 0;
-        this.isHighlighted = false;
-        this.continuousPlayback =
-            JSON.parse(localStorage.getItem("continuousPlayback")) ?? true; // Load preference
-        this.playbackSpeed =
-            JSON.parse(localStorage.getItem("playbackSpeed")) ?? 1; // Load playback speed preference
-
-        // removed programmatic scroll to top
-
-        Promise.all([
-            this.fetchReciters(),
-            this.fetchSurahs(),
-            this.fetchTranslations(),
-            this.fetchSurahDetails(),
-        ]).then(() => {
-            this.isInitialLoad = false;
-            this.$nextTick(() => {
-                // removed scroll-to-top after initial load
-            });
-        });
-    },
-    beforeUnmount: function () {
-        this.isComponentAlive = false;
-        window.removeEventListener("keydown", this._keydownHandler);
-        // clean up scrub listeners
-        if (this._boundMove) {
-            window.removeEventListener("mousemove", this._boundMove);
-            window.removeEventListener("touchmove", this._boundMove);
-        }
-        if (this._boundUp) {
-            window.removeEventListener("mouseup", this._boundUp);
-            window.removeEventListener("touchend", this._boundUp);
-        }
-        // removed scroll-related event listeners
-        if (this.audioElements && this.audioElements.forEach) {
-            this.audioElements.forEach((audio) => {
-                if (audio && audio.pause) audio.pause();
-                if (audio && audio.remove) audio.remove();
-            });
-        }
     },
 };
 </script>

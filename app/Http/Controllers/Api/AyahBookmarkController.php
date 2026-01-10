@@ -3,23 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\BookmarkSessionAware;
 use App\Models\Ayah;
 use App\Models\Bookmark;
 use App\Models\BookmarkEvent;
 use App\Models\Folder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class AyahBookmarkController extends Controller
 {
+    use BookmarkSessionAware;
+
     public function index(Request $request)
     {
-        $user = Auth::user();
+        $this->requireOwnerConstraint($request);
         $surahNumber = $request->query('surah_number');
         $ayahNumber = $request->query('ayah_number');
 
         if ($surahNumber && $ayahNumber) {
-            $bookmarks = Bookmark::where('user_id', $user->id)
+            $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
                 ->where('surah_number', (int) $surahNumber)
                 ->where('ayah_number', (int) $ayahNumber)
                 ->with(['folders:id,name,color,icon', 'ayah'])
@@ -33,10 +35,13 @@ class AyahBookmarkController extends Controller
 
         $folderId = $request->query('folder_id');
         if ($folderId) {
-            $folder = Folder::where('user_id', $user->id)->findOrFail($folderId);
-            $bookmarks = $folder->bookmarks()
-                ->with(['folders:id,name,color,icon', 'ayah'])
-                ->orderBy('bookmark_folder.created_at', 'desc')
+            $this->applyOwnerScope(Folder::query(), $request)->findOrFail($folderId);
+            $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
+            ->whereHas('folders', function ($query) use ($folderId) {
+                $query->where('folders.id', $folderId);
+            })
+            ->with(['folders:id,name,color,icon', 'ayah'])
+            ->orderByDesc('bookmarks.created_at')
                 ->get();
 
             return response()->json([
@@ -44,7 +49,7 @@ class AyahBookmarkController extends Controller
             ]);
         }
 
-        $bookmarks = Bookmark::where('user_id', $user->id)
+        $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
             ->with(['folders:id,name,color,icon', 'ayah'])
             ->orderBy('created_at', 'desc')
             ->get();
@@ -56,8 +61,6 @@ class AyahBookmarkController extends Controller
 
     public function store(Request $request)
     {
-        $user = Auth::user();
-
         $validated = $request->validate([
             'surah_number' => 'required|integer|min:1|max:114',
             'ayah_number' => 'required|integer|min:1',
@@ -72,34 +75,39 @@ class AyahBookmarkController extends Controller
             ->where('ayah_id', (string) $validated['ayah_number'])
             ->value('id');
 
-        $bookmark = Bookmark::firstOrCreate([
-            'user_id' => $user->id,
-            'surah_number' => $validated['surah_number'],
-            'ayah_number' => $validated['ayah_number'],
-        ], [
-            'surah_name' => $validated['surah_name'],
-            'ayah_num' => (string) $validated['ayah_number'],
-            'ayah_verse_ar' => $validated['ayah_verse_ar'],
-            'ayah_verse_en' => $validated['ayah_verse_en'] ?? null,
-            'ayah_id' => $ayahId,
-        ]);
+        $this->requireOwnerConstraint($request);
+        $ownerPayload = $this->ownerPayload($request);
+
+        $bookmark = $this->applyOwnerScope(Bookmark::query(), $request)
+            ->firstOrCreate([
+                'surah_number' => $validated['surah_number'],
+                'ayah_number' => $validated['ayah_number'],
+            ], array_merge([
+                'surah_name' => $validated['surah_name'],
+                'ayah_num' => (string) $validated['ayah_number'],
+                'ayah_verse_ar' => $validated['ayah_verse_ar'],
+                'ayah_verse_en' => $validated['ayah_verse_en'] ?? null,
+                'ayah_id' => $ayahId,
+            ], $ownerPayload));
 
         if (!$bookmark->ayah_id && $ayahId) {
             $bookmark->ayah_id = $ayahId;
             $bookmark->save();
         }
 
-        $folderIds = $this->normalizeFolderIds($user->id, $request->input('folder_ids', []));
+        $folderIds = $this->normalizeFolderIds($request, $request->input('folder_ids', []));
         if (!empty($folderIds)) {
             $bookmark->folders()->syncWithoutDetaching($folderIds);
             foreach ($folderIds as $folderId) {
-                $this->logEvent($user->id, 'bookmark_added_to_folder', $bookmark->id, $folderId, $bookmark->ayah_id);
+                $this->logEvent($bookmark->user_id, 'bookmark_added_to_folder', $bookmark->id, $folderId, $bookmark->ayah_id);
             }
-            Folder::whereIn('id', $folderIds)->update(['updated_at' => now()]);
+            $this->applyOwnerScope(Folder::query(), $request)
+                ->whereIn('id', $folderIds)
+                ->update(['updated_at' => now()]);
         }
 
         $event = $bookmark->wasRecentlyCreated ? 'bookmark_created' : 'bookmark_saved';
-        $this->logEvent($user->id, $event, $bookmark->id, null, $bookmark->ayah_id);
+        $this->logEvent($bookmark->user_id, $event, $bookmark->id, null, $bookmark->ayah_id);
 
         return response()->json([
             'message' => $bookmark->wasRecentlyCreated ? 'Ayah bookmarked.' : 'Bookmark updated.',
@@ -109,20 +117,24 @@ class AyahBookmarkController extends Controller
 
     public function attachFolders(Request $request, Bookmark $bookmark)
     {
-        $this->authorize('update', $bookmark);
+        if ($request->user()) {
+            $this->authorize('update', $bookmark);
+        }
 
         $validated = $request->validate([
             'folder_ids' => 'required|array',
             'folder_ids.*' => 'integer',
         ]);
 
-        $folderIds = $this->normalizeFolderIds($bookmark->user_id, $validated['folder_ids']);
+        $folderIds = $this->normalizeFolderIds($request, $validated['folder_ids']);
         $bookmark->folders()->syncWithoutDetaching($folderIds);
 
         foreach ($folderIds as $folderId) {
             $this->logEvent($bookmark->user_id, 'bookmark_added_to_folder', $bookmark->id, $folderId, $bookmark->ayah_id);
         }
-        Folder::whereIn('id', $folderIds)->update(['updated_at' => now()]);
+        $this->applyOwnerScope(Folder::query(), $request)
+            ->whereIn('id', $folderIds)
+            ->update(['updated_at' => now()]);
 
         return response()->json([
             'message' => 'Bookmark added to folders.',
@@ -130,10 +142,18 @@ class AyahBookmarkController extends Controller
         ]);
     }
 
-    public function detachFolder(Bookmark $bookmark, Folder $folder)
+    public function detachFolder(Request $request, Bookmark $bookmark, Folder $folder)
     {
-        $this->authorize('update', $bookmark);
-        $this->authorize('view', $folder);
+        if ($request->user()) {
+            $this->authorize('update', $bookmark);
+            $this->authorize('view', $folder);
+        } else {
+            // Check session ownership if guest
+            $sessionId = $this->resolveBookmarkSessionId($request);
+            if ($bookmark->session_id !== $sessionId || $folder->session_id !== $sessionId) {
+                abort(403, 'This action is unauthorized.');
+            }
+        }
 
         if ($folder->is_smart) {
             return response()->json([
@@ -150,8 +170,11 @@ class AyahBookmarkController extends Controller
         ]);
     }
 
-    public function destroy(Bookmark $bookmark)
+    public function destroy(Request $request, $bookmarkId)
     {
+        $bookmark = $this->applyOwnerScope(Bookmark::query(), $request)->findOrFail($bookmarkId);
+        
+        // Use Policy which now handles both user and session
         $this->authorize('delete', $bookmark);
 
         $folderIds = $bookmark->folders()->pluck('folders.id')->all();
@@ -160,7 +183,9 @@ class AyahBookmarkController extends Controller
 
         $this->logEvent($bookmark->user_id, 'bookmark_deleted', null, null, $bookmark->ayah_id);
         if (!empty($folderIds)) {
-            Folder::whereIn('id', $folderIds)->update(['updated_at' => now()]);
+            $this->applyOwnerScope(Folder::query(), $request)
+                ->whereIn('id', $folderIds)
+                ->update(['updated_at' => now()]);
         }
 
         return response()->json([
@@ -168,21 +193,22 @@ class AyahBookmarkController extends Controller
         ]);
     }
 
-    private function normalizeFolderIds(int $userId, array $folderIds): array
+    private function normalizeFolderIds(Request $request, array $folderIds): array
     {
         if (empty($folderIds)) {
             return [];
         }
 
-        return Folder::where('user_id', $userId)
+        $this->requireOwnerConstraint($request);
+
+        return $this->applyOwnerScope(Folder::query(), $request)
             ->where('is_smart', false)
             ->whereNull('deleted_at')
             ->whereIn('id', $folderIds)
             ->pluck('id')
             ->all();
     }
-
-    private function logEvent(int $userId, string $event, ?int $bookmarkId, ?int $folderId, ?int $ayahId): void
+    private function logEvent(?int $userId, string $event, ?int $bookmarkId, ?int $folderId, ?int $ayahId): void
     {
         BookmarkEvent::create([
             'user_id' => $userId,
@@ -191,5 +217,14 @@ class AyahBookmarkController extends Controller
             'ayah_id' => $ayahId,
             'event' => $event,
         ]);
+    }
+
+    private function requireOwnerConstraint(Request $request): array
+    {
+        $constraint = $this->ownerConstraint($request);
+        if (empty($constraint)) {
+            abort(403, 'Unable to resolve bookmark owner.');
+        }
+        return $constraint;
     }
 }

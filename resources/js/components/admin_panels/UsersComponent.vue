@@ -117,7 +117,7 @@
                       <i :class="showPassword ? 'bi bi-eye-slash' : 'bi bi-eye'"></i>
                     </button>
                   </div>
-                  <div class="form-text">Minimum 8 characters with letters and numbers</div>
+                  <!-- <div class="form-text">Minimum 8 characters with letters and numbers</div> -->
                 </div>
                 <div class="col-12">
                   <label class="form-label">User Role <span class="required">*</span></label>

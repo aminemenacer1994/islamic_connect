@@ -14,6 +14,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 /* harmony import */ var _guides_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../guides.json */ "./resources/js/guides.json");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
+
 
 
 
@@ -108,17 +110,10 @@ __webpack_require__.r(__webpack_exports__);
       return Math.max(1, Math.ceil(wordCount.value / 150));
     });
     const checkAuthentication = async () => {
-      try {
-        const response = await fetch('/api/userId');
-        if (response.ok) {
-          const data = await response.json();
-          if (data.userId) {
-            isAuthenticated.value = true;
-            userId.value = data.userId;
-          }
-        }
-      } catch (error) {
-        console.error('Error checking authentication:', error);
+      const id = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_3__.fetchUserIdFromApi)();
+      if (id) {
+        isAuthenticated.value = true;
+        userId.value = id;
       }
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {

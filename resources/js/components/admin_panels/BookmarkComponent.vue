@@ -193,31 +193,29 @@
 <script>
 import axios from "axios";
 import Swal from 'sweetalert2';
+import { fetchUserIdFromApi } from "../../utils/bookmarkAuth";
 
 export default {
   name: 'BookmarksApp',
-  mounted() {
-    fetch("/api/userId")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to fetch user ID");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        const userId = data.userId;
-        console.log("UserId:", userId);
-
-        if (userId) {
-          this.userId = userId;
-          this.fetchBookmarks(this.userId);
-        } else {
-          console.error("User ID not found");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching user ID:", error);
-      });
+  async mounted() {
+    try {
+      const userId = await fetchUserIdFromApi();
+      console.log("UserId:", userId);
+      if (userId) {
+        this.userId = userId;
+        this.fetchBookmarks(this.userId);
+      } else {
+        console.error("User ID not found");
+      }
+    } catch (error) {
+      console.error("Error fetching user ID:", error);
+    }
+    this.bookmarkEventHandler = (event) => this.handleBookmarksUpdated(event);
+    this.bookmarkStorageHandler = (event) => this.handleStorageBookmarksUpdated(event);
+    this.visibilityHandler = () => this.handleVisibilityChange();
+    window.addEventListener("bookmarks-updated", this.bookmarkEventHandler);
+    window.addEventListener("storage", this.bookmarkStorageHandler);
+    window.addEventListener("visibilitychange", this.visibilityHandler);
     // Bootstrap modal cleanup to avoid stuck backdrops
     const modalElement = this.$refs.viewBookmarkModal;
     if (modalElement && window.bootstrap?.Modal) {
@@ -231,6 +229,12 @@ export default {
       const instance = window.bootstrap?.Modal?.getInstance(modalElement);
       if (instance) instance.dispose();
     }
+    if (this.bookmarkEventHandler)
+      window.removeEventListener("bookmarks-updated", this.bookmarkEventHandler);
+    if (this.bookmarkStorageHandler)
+      window.removeEventListener("storage", this.bookmarkStorageHandler);
+    if (this.visibilityHandler)
+      window.removeEventListener("visibilitychange", this.visibilityHandler);
   },
   data() {
     return {
@@ -251,6 +255,10 @@ export default {
         created_at: ""
       },
       maxLength: 70,
+      bookmarkInstanceId: `admin-${Math.random().toString(36).slice(2)}`,
+      bookmarkEventHandler: null,
+      bookmarkStorageHandler: null,
+      visibilityHandler: null,
     };
   },
   methods: {
@@ -474,12 +482,41 @@ export default {
         await axios.delete(`/api/delete-bookmarks/${id}`);
         await this.fetchBookmarks(this.userId);
         Swal.fire({ position: 'top-end', icon: 'success', title: 'Bookmark deleted', timer: 1200, showConfirmButton: false });
+        this.notifyBookmarkChange();
       } catch (e) {
         console.error('Delete error:', e);
         Swal.fire({ icon: 'error', title: 'Delete failed', timer: 1400, showConfirmButton: false });
       } finally {
         this.busy[id] = false;
       }
+    },
+    notifyBookmarkChange(source = this.bookmarkInstanceId) {
+      const token = `${Date.now()}-${source}`;
+      try {
+        localStorage.setItem('bookmarkRefresh', token);
+      } catch (_) {
+        // ignore
+      }
+      window.dispatchEvent(new CustomEvent('bookmarks-updated', {
+        detail: { token, instance: source },
+      }));
+    },
+    handleBookmarksUpdated(event) {
+      if (event?.detail?.instance === this.bookmarkInstanceId) return;
+      this.refreshAfterExternalUpdate();
+    },
+    handleStorageBookmarksUpdated(event) {
+      if (event.key !== 'bookmarkRefresh') return;
+      this.refreshAfterExternalUpdate();
+    },
+    handleVisibilityChange() {
+      if (document.visibilityState === 'visible') {
+        this.refreshAfterExternalUpdate();
+      }
+    },
+    refreshAfterExternalUpdate() {
+      if (!this.userId) return;
+      this.fetchBookmarks(this.userId);
     },
     closeModal() {
       const el = this.$refs.viewBookmarkModal || document.getElementById('viewBookmark');

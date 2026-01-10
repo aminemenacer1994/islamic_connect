@@ -386,7 +386,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::get('ayah-bookmarks', [AyahBookmarkController::class, 'index']);
         Route::post('ayah-bookmarks', [AyahBookmarkController::class, 'store'])->middleware('throttle:30,1');
         Route::post('ayah-bookmarks/{bookmark}/folders', [AyahBookmarkController::class, 'attachFolders'])->middleware('throttle:30,1');
-        Route::delete('ayah-bookmarks/{bookmark}', [AyahBookmarkController::class, 'destroy'])->middleware('throttle:30,1');
+        Route::delete('ayah-bookmarks/{bookmarkId}', [AyahBookmarkController::class, 'destroy'])->middleware('throttle:30,1');
         Route::delete('ayah-bookmarks/{bookmark}/folders/{folder}', [AyahBookmarkController::class, 'detachFolder'])->middleware('throttle:30,1');
 
         Route::get('analytics/most-bookmarked-ayat', [AnalyticsController::class, 'mostBookmarkedAyat']);

@@ -21,16 +21,16 @@
 
       <!-- Quick Stats -->
       <div class="row g-3 mb-3">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <a class="stat-card fade-pop stat-link" aria-label="Collections count" href="/bookmarks">
             <div class="stat-icon bg-teal"><i class="bi bi-collection"></i></div>
             <div class="stat-body">
-              <div class="stat-label">Collections</div>
+              <div class="stat-label">Group Bookmarks</div>
               <div class="stat-value">{{ (folders && folders.length) || 0 }}</div>
             </div>
           </a>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <a class="stat-card fade-pop stat-link" aria-label="Bookmarks count" href="/bookmarks">
             <div class="stat-icon bg-teal"><i class="bi bi-bookmark-star"></i></div>
             <div class="stat-body">
@@ -39,14 +39,25 @@
             </div>
           </a>
         </div>
-        <div class="col-md-4">
-          <a class="stat-card fade-pop stat-link" aria-label="Notes count" href="/notes">
-            <div class="stat-icon bg-teal"><i class="bi bi-journal-text"></i></div>
+        <div class="col-md-3">
+          <div class="stat-card stat-card--disabled" aria-label="Notes coming soon">
+            <div class="stat-icon stat-icon--muted"><i class="bi bi-journal-text"></i></div>
             <div class="stat-body">
               <div class="stat-label">Notes</div>
               <div class="stat-value">{{ (notes && notes.length) || 0 }}</div>
+              <div class="stat-note">Coming very soon</div>
             </div>
-          </a>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="stat-card stat-card--disabled" aria-label="Group notes coming soon">
+            <div class="stat-icon stat-icon--muted"><i class="bi bi-people"></i></div>
+            <div class="stat-body">
+              <div class="stat-label">Group Notes</div>
+              <div class="stat-value">—</div>
+              <div class="stat-note">Coming very soon</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -201,6 +212,7 @@
 <script>
 import axios from "axios";
 import Swal from "sweetalert2";
+import { fetchUserIdFromApi } from "../../utils/bookmarkAuth";
 export default {
   props: {
     information: { type: Object, default: null },
@@ -255,17 +267,21 @@ export default {
     }
   },
   methods: {
+    async resolveProfileUserId() {
+      if (this.userId) {
+        return this.userId;
+      }
+      const userId = await fetchUserIdFromApi();
+      if (userId) {
+        this.userId = userId;
+      }
+      return this.userId;
+    },
     async fetchUserIdAndNotes() {
       try {
-        const response = await fetch('/api/userId');
-        if (!response.ok) {
-          throw new Error('Failed to fetch user ID');
-        }
-        const data = await response.json();
-        this.userId = data.userId;
-
-        if (this.userId) {
-          await this.fetchNotes(this.userId);
+        const userId = await this.resolveProfileUserId();
+        if (userId) {
+          await this.fetchNotes(userId);
         } else {
           console.error('User ID not found');
         }
@@ -275,15 +291,9 @@ export default {
     },
     async fetchUserIdAndBookmarks() {
       try {
-        const response = await fetch('/api/userId');
-        if (!response.ok) {
-          throw new Error('Failed to fetch user ID');
-        }
-        const data = await response.json();
-        this.userId = data.userId;
-
-        if (this.userId) {
-          await this.fetchBookmarks(this.userId);
+        const userId = await this.resolveProfileUserId();
+        if (userId) {
+          await this.fetchBookmarks(userId);
         } else {
           console.error('User ID not found');
         }
@@ -293,14 +303,8 @@ export default {
     },
     async fetchUserIdAndFolders() {
       try {
-        const response = await fetch('/api/userId');
-        if (!response.ok) {
-          throw new Error('Failed to fetch user ID');
-        }
-        const data = await response.json();
-        this.userId = data.userId;
-
-        if (this.userId) {
+        const userId = await this.resolveProfileUserId();
+        if (userId) {
           await this.fetchFolders();
         } else {
           console.error('User ID not found');
@@ -549,11 +553,28 @@ export default {
   border: 1px solid rgba(14, 116, 144, 0.15);
 }
 
+.stat-card--disabled {
+  background: #f5f5f7;
+  border-color: rgba(15, 23, 42, 0.07);
+  color: #6c7280;
+  pointer-events: none;
+  box-shadow: none;
+}
+
+.stat-card--disabled .stat-note {
+  color: #6c7280;
+}
+
 .stat-link {
   color: inherit;
   text-decoration: none;
   display: flex;
   width: 100%;
+}
+
+.stat-icon--muted {
+  background: rgba(15, 23, 42, 0.08);
+  color: rgba(15, 23, 42, 0.55);
 }
 
 .stat-card:hover {
@@ -586,6 +607,17 @@ export default {
   font-size: 1.75rem;
   font-weight: 700;
   color: #0f172a;
+}
+
+.stat-note {
+  font-size: 0.8rem;
+  margin-top: 0.35rem;
+  color: rgba(15, 23, 42, 0.65);
+  letter-spacing: 0.02em;
+}
+
+.stat-card--disabled .stat-value {
+  color: rgba(15, 23, 42, 0.6);
 }
 
 .section-card {

@@ -461,9 +461,21 @@ export default {
         }
         this.setStatus('Ayah added to folder.', 'success');
         this.fetchFolders();
+        this.emitBookmarkChange();
       } catch (error) {
         this.setStatus('Unable to add ayah to folder.', 'danger');
       }
+    },
+    emitBookmarkChange() {
+      const token = `folder-${Date.now()}`;
+      try {
+        localStorage.setItem('bookmarkRefresh', token);
+      } catch (_) {
+        // ignore
+      }
+      window.dispatchEvent(new CustomEvent('bookmarks-updated', {
+        detail: { token, instance: 'folder-list' },
+      }));
     },
     setStatus(message, variant) {
       this.status = message;

@@ -45,6 +45,16 @@
     <meta name="twitter:description" content="{{ $metaDescription }}">
     <meta name="twitter:image" content="{{ $metaImage }}">
     <meta name="twitter:image:alt" content="{{ $metaTitle }}">
+    @auth
+        <meta name="user" content="{{ auth()->id() }}">
+    @else
+        <meta name="user" content="">
+    @endauth
+    <script>
+        window.Laravel = window.Laravel || {};
+        window.Laravel.userId = {{ auth()->id() ? (int) auth()->id() : 'null' }};
+        window.Laravel.user = {!! auth()->user() ? json_encode(['id' => auth()->id()]) : 'null' !!};
+    </script>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
