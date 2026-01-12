@@ -88,10 +88,7 @@
 
           <div v-if="filteredFolders.length" class="selection-toolbar folder-selection-toolbar mb-3">
             <div class="selection-status">
-              <div class="selection-status__title">
-                <i class="bi bi-folder-check me-2"></i>
-                {{ selectedFolders.length ? 'Items selected' : 'Ready to select' }}
-              </div>
+              
               <div class="selection-status__count">
                 <span>{{ selectedFolders.length || 0 }}</span>
                 <small>folders held</small>

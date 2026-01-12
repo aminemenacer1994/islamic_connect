@@ -127,8 +127,8 @@
                                         <i class="bi bi-check-all me-1"></i>
                                         Select All
                                     </button>
-                                    <button type="button" class="btn btn-sm btn-outline-secondary"
-                                        @click="unselectAllBookmarks" :disabled="selectedBookmarkCount === 0">
+                                    <button v-if="selectedBookmarkCount > 0" type="button" class="btn btn-sm btn-outline-secondary"
+                                        @click="unselectAllBookmarks">
                                         <i class="bi bi-x-circle me-1"></i>
                                         Unselect All
                                     </button>
