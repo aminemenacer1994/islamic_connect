@@ -36,7 +36,7 @@
                     <div class="controls d-flex flex-row justify-content-start text-left ic-hero__actions ic-reveal"
                       style="--ic-delay: 0.4s;">
                       <a href="/surat" class="btn btn-lg btn-teal rounded-20 fw-bold px-4 ic-btn ic-btn--primary">
-                        <i class="fas fa-rocket me-2"></i>Get Started Free
+                        <i class="fas fa-rocket me-2"></i>Get Started
                       </a>
 
                       <!-- <a href="/subscribe" class="btn btn-lg rounded-20 fw-bold pt-2 px-4 ic-btn ic-btn--ghost">
@@ -139,24 +139,6 @@
                 </article>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row mt-5 gx-lg-5 gy-4">
-          <div class="col-md-6">
-            <h2 class="h5 fw-semibold">External references we trust</h2>
-            <p class="text-muted mb-2">High-quality partners and verified resources add credibility to the journeys
-              promoted in this hero section.</p>
-            <ul class="list-unstyled mb-0">
-              <li v-for="link in externalLinks" :key="link.href" class="mb-2">
-                <a :title="link.title" class="text-dark fw-semibold" :href="link.href" target="_blank"
-                  rel="noopener noreferrer">{{ link.text }}</a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-6">
-            <h2 class="h5 fw-semibold">Why we keep knowledge modern</h2>
-            <p class="text-muted bm-0">Blending server-rendered structure with Vue-powered interactivity ensures the
-              same narrative loads instantly.</p>
           </div>
         </div>
       </div>
@@ -337,28 +319,28 @@
             <div class="row container-fluid stats-grid">
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>85%</h3>
-                  <p>Accessibility</p>
-                  <small>Score </small>
+                  <h3>100%</h3>
+                  <p>Accessibility score</p>
+                  <small>Trusted by Google Lighthouse</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>75+</h3>
+                  <h3>85+</h3>
                   <p>Countries</p>
                   <small>Global reach</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>575+</h3>
+                  <h3>650+</h3>
                   <p>Cities/Towns</p>
                   <small>Worldwide presence</small>
                 </div>
               </div>
               <div class="col-md-3 col-6 mb-4">
                 <div class="stat-card">
-                  <h3>1,090%</h3>
+                  <h3>1090%</h3>
                   <p>Growth</p>
                   <small>Returning users</small>
                 </div>
@@ -2052,14 +2034,14 @@ export default {
       mailing: {},
       feedback: {},
       seoStats: [
-        { value: "85%", label: "Accessibility score" },
-        { value: "75+", label: "Countries served" },
-        { value: "575+", label: "Cities reached" }
+        { value: "100%", label: "Accessibility score" },
+        { value: "85+", label: "Countries served" },
+        { value: "650+", label: "Cities reached" }
       ],
       seoCards: [
         { title: "Quran Explorer", desc: "Open Quran translations, tafsir, and audio helpers.", href: "/quran" },
         { title: "Dua Collections", desc: "Search authentic supplications for gratitude and travel.", href: "/dua" },
-        { title: "Islamic Guides", desc: "Study modern spirituality of islamic topics.", href: "/guide" },
+        { title: "Audio Podcasts", desc: "Study modern spirituality of islamic audio podcasts.", href: "/content" },
         { title: "Seerah Timeline", desc: "Discover global impact of the prophet Muhammad.", href: "/mission" },
       ],
       externalLinks: [
