@@ -1,22 +1,22 @@
 <template>
   <div class="folder-list">
-  <div class="folder-top">
-    <div class="folder-meta">
-      <div class="folder-icon-box">
-        <i class="bi bi-folder2-open"></i>
+    <div class="folder-top">
+      <div class="folder-meta">
+        <div class="folder-icon-box">
+          <i class="bi bi-folder2-open"></i>
+        </div>
+        <div>
+          <div class="folder-title">Folder Studio</div>
+          <div class="folder-count">{{ folders.length }} folders</div>
+        </div>
       </div>
-      <div>
-        <div class="folder-title">Folder Studio</div>
-        <div class="folder-count">{{ folders.length }} folders</div>
-      </div>
-    </div>
       <div class="folder-top-actions">
         <button class="create-trigger" type="button" @click="startCreate('folder')">
           <i class="bi bi-plus-lg"></i>
           <span>Create folder</span>
         </button>
       </div>
-  </div>
+    </div>
 
     <div v-if="showCreate" class="create-panel mb-3 animate__animated animate__fadeIn">
       <div class="create-heading">
@@ -29,14 +29,14 @@
         <label class="form-label small text-muted">Folder Name</label>
         <input v-model.trim="newFolder.name" class="form-control" placeholder="Inspiration" />
       </div>
-      
+
       <div class="mb-3">
         <label class="form-label small text-muted">Choose Icon</label>
         <div class="icon-picker-grid">
-          <button 
-            v-for="preset in iconPresets" 
+          <button
+            v-for="preset in iconPresets"
             :key="preset.icon"
-            type="button" 
+            type="button"
             class="icon-choice"
             :class="{ active: newFolder.icon === preset.icon }"
             @click="newFolder.icon = preset.icon"
@@ -50,10 +50,10 @@
       <div class="mb-3">
         <label class="form-label small text-muted">Theme Color</label>
         <div class="color-picker-grid">
-          <button 
-            v-for="color in bootstrapColors" 
+          <button
+            v-for="color in bootstrapColors"
             :key="color"
-            type="button" 
+            type="button"
             class="color-choice"
             :class="['bg-' + color, { active: newFolder.color === color }]"
             @click="newFolder.color = color"
@@ -71,141 +71,155 @@
       {{ status }}
     </div>
 
-    <div class="folder-search mb-3">
-      <div class="input-group">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
-        <input v-model.trim="searchQuery" type="text" class="form-control" placeholder="Search folders..." />
+    <div class="folder-scroll-area">
+      <div class="folder-search mb-3">
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input
+            v-model.trim="searchQuery"
+            type="text"
+            class="form-control"
+            placeholder="Search folders..."
+          />
+        </div>
       </div>
-    </div>
 
-    <div class="modal-section">
-      <div v-if="editingFolder" class="rename-modal fade show">
-        <div class="modal-header">
-          <h6 class="modal-title">Rename folder</h6>
+      <div v-if="filteredFolders.length" class="selection-toolbar folder-selection-toolbar mb-3">
+        <div class="toolbar-left">
+          <button
+            type="button"
+            class="btn btn-sm btn-outline-success"
+            @click="selectAllVisibleFolders"
+            :disabled="filteredSelectableFolders.length === 0"
+          >
+            <i class="bi bi-check-all me-1"></i>
+            Select All
+          </button>
+          <button
+            v-if="selectedFolders.length"
+            type="button"
+            class="btn btn-sm btn-outline-secondary"
+            @click="unselectAllFolders"
+          >
+            <i class="bi bi-x-circle me-1"></i>
+            Unselect All
+          </button>
+          <span v-if="selectedFolders.length" class="selection-pill">
+            {{ selectedFolders.length }} selected
+          </span>
         </div>
-        <div class="modal-body">
-          <input v-model.trim="renameValue" class="form-control" placeholder="New folder name" />
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
-          <button class="btn btn-primary" @click="saveRename">Save</button>
-        </div>
-      </div>
-      <div v-if="deleteConfirmOpen" class="delete-confirm-modal fade show">
-        <div class="modal-header">
-          <h6 class="modal-title">Delete folder?</h6>
-        </div>
-        <div class="modal-body">
-          <p>Delete this folder and all saved ayat inside it?</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
-          <button type="button" class="btn btn-danger" :disabled="deleteBusy" @click="confirmDeleteFolder">
-            <span v-if="deleteBusy" class="spinner-border spinner-border-sm me-2"></span>
-            Delete
+        <div class="toolbar-right">
+          <button
+            v-if="selectedFolders.length"
+            type="button"
+            class="btn btn-sm btn-danger delete-selected"
+            @click="openBulkDeleteConfirm"
+            :disabled="bulkDeleteBusy"
+          >
+            <span
+              v-if="bulkDeleteBusy"
+              class="spinner-border spinner-border-sm me-1"
+            ></span>
+            <i v-else class="bi bi-trash me-1"></i>
+            Delete Selected
           </button>
         </div>
       </div>
-    </div>
 
-    <div class="folder-stack-wrap">
-      <ul class="list-group folder-stack">
-      <li
-        class="list-group-item folder-item d-flex align-items-center justify-content-between"
-        :class="{ active: selectedId === 'all' }"
-        @click="selectAll"
-      >
-        <div class="folder-main">
-          <span class="folder-icon"><i class="bi bi-collection"></i></span>
-          <span class="folder-name">All bookmarks</span>
+      <div class="modal-section">
+        <div v-if="editingFolder" class="rename-modal fade show">
+          <div class="modal-header">
+            <h6 class="modal-title">Rename folder</h6>
+          </div>
+          <div class="modal-body">
+            <input v-model.trim="renameValue" class="form-control" placeholder="New folder name" />
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
+            <button class="btn btn-primary" @click="saveRename">Save</button>
+          </div>
         </div>
-      </li>
-      
-      <template v-if="showCustomFolders">
-        <!-- <li>
-          <button type="button" class="folder-section-toggle pt-3" @click="showCustomFolders = !showCustomFolders">
-            <span class="section-title">Custom folders</span>
-            <span class="section-count">{{ filteredFolders.length }}</span>
-            <i class="bi" :class="showCustomFolders ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
-          </button>
-        </li> -->
-        <li
-          v-for="folder in filteredFolders"
-          :key="folder.id"
-          class="list-group-item folder-item d-flex align-items-center justify-content-between"
-          :class="{ active: selectedId === folder.id }"
-          @click="selectFolder(folder)"
-          @dragover.prevent
-          @drop="handleDrop($event, folder)"
-        >
-        
-          <div class="folder-main">
-            <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
-            <span class="folder-name" v-html="highlightFolderName(folder.name)"></span>
+        <div v-if="deleteConfirmOpen" class="delete-confirm-modal fade show">
+          <div class="modal-header">
+            <h6 class="modal-title">{{ deleteModalTitle }}</h6>
           </div>
-          <div class="folder-actions" @click.stop>
-            <span class="folder-count-pill">{{ folder.ayah_count }}</span>
-            <button type="button" class="folder-action rename" @click="startRename(folder)">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button type="button" class="folder-action delete" @click="openDeleteConfirm(folder)">
-              <i class="bi bi-trash"></i>
-            </button>
+          <div class="modal-body">
+            <p>{{ deleteModalMessage }}</p>
           </div>
-        </li>
-      </template>
-      </ul>
-    </div>
-
-    <div
-      v-if="editingFolder"
-      class="modal fade show modal-wrapper"
-      tabindex="-1"
-      role="dialog"
-      aria-modal="true"
-      @click.self="cancelRename"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="rename-modal card p-3">
-          <div class="card-body">
-            <h6 class="modal-title mb-3">Rename folder</h6>
-            <input v-model.trim="renameValue" class="form-control mb-3" placeholder="New folder name" />
-            <div class="d-flex justify-content-end gap-2">
-              <button class="btn btn-outline-secondary" @click="cancelRename">Cancel</button>
-              <button class="btn btn-primary" @click="saveRename">Save</button>
-            </div>
+          <div class="modal-footer">
+            <button class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              :disabled="currentDeleteBusy"
+              @click="deleteMode === 'bulk' ? confirmBulkDeleteFolders() : confirmDeleteFolder()"
+            >
+              <span v-if="currentDeleteBusy" class="spinner-border spinner-border-sm me-2"></span>
+              Delete
+            </button>
           </div>
         </div>
       </div>
-    </div>
 
-    <div
-      v-if="deleteConfirmOpen"
-      class="modal fade show modal-wrapper"
-      tabindex="-1"
-      role="dialog"
-      aria-modal="true"
-      @click.self="closeDeleteConfirm"
-    >
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="delete-confirm-modal card p-3">
-          <div class="card-body">
-            <h6 class="modal-title mb-3">Delete folder?</h6>
-            <p class="mb-0">Delete this folder and all saved ayat inside it?</p>
-            <div class="d-flex justify-content-end gap-2 mt-3">
-              <button class="btn btn-outline-secondary" @click="closeDeleteConfirm">Cancel</button>
-              <button type="button" class="btn btn-danger" :disabled="deleteBusy" @click="confirmDeleteFolder">
-                <span v-if="deleteBusy" class="spinner-border spinner-border-sm me-2"></span>
-                Delete
-              </button>
+      <div class="folder-stack-wrap">
+        <ul class="list-group folder-stack">
+          <li
+            class="list-group-item folder-item d-flex align-items-center justify-content-between"
+            :class="{ active: selectedId === 'all' }"
+            @click="selectAll"
+          >
+            <div class="folder-main">
+              <span class="folder-icon"><i class="bi bi-collection"></i></span>
+              <span class="folder-name">All bookmarks</span>
             </div>
-          </div>
-        </div>
+          </li>
+
+          <template v-if="showCustomFolders">
+            <li
+              v-for="folder in filteredFolders"
+              :key="folder.id"
+              class="list-group-item folder-item d-flex align-items-center justify-content-between gap-2"
+              :class="{
+                active: selectedId === folder.id,
+                'folder-item-selected': isFolderSelected(folder.id),
+              }"
+              @click="selectFolder(folder)"
+              @dragover.prevent
+              @drop="handleDrop($event, folder)"
+            >
+              <div class="folder-main-wrapper d-flex align-items-center flex-grow-1">
+                <div class="folder-select" @click.stop>
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    :id="`folder-select-${folder.id}`"
+                    :checked="isFolderSelected(folder.id)"
+                    :disabled="folder.is_smart"
+                    :title="folder.is_smart ? 'Smart folders cannot be deleted' : ''"
+                    @change="toggleFolderSelection(folder.id)"
+                  />
+                </div>
+                <div class="folder-main">
+                  <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
+                  <span class="folder-name" v-html="highlightFolderName(folder.name)"></span>
+                </div>
+              </div>
+              <div class="folder-actions" @click.stop>
+                <span class="folder-count-pill">{{ folder.ayah_count }}</span>
+                <button type="button" class="folder-action rename" @click="startRename(folder)">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button type="button" class="folder-action delete" @click="openDeleteConfirm(folder)">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </li>
+          </template>
+        </ul>
       </div>
     </div>
   </div>
 </template>
-
 <script>
 import axios from 'axios';
 
@@ -229,7 +243,11 @@ export default {
       renameValue: '',
       deleteConfirmOpen: false,
       deleteCandidate: null,
+      deleteMode: 'single',
       deleteBusy: false,
+      selectedFolders: [],
+      bulkDeleteBusy: false,
+      bulkDeleteCandidates: [],
       status: '',
       statusVariant: 'success',
       iconPresets: [
@@ -261,6 +279,25 @@ export default {
       if (!this.searchQuery) return this.folders;
       const query = this.searchQuery.toLowerCase();
       return this.folders.filter((folder) => (folder.name || '').toLowerCase().includes(query));
+    },
+    filteredSelectableFolders() {
+      return this.filteredFolders.filter((folder) => !folder.is_smart);
+    },
+    deleteModalTitle() {
+      if (this.deleteMode === 'bulk' && this.bulkDeleteCandidates.length) {
+        const count = this.bulkDeleteCandidates.length;
+        return `Delete ${count} folder${count === 1 ? '' : 's'}?`;
+      }
+      return 'Delete folder?';
+    },
+    deleteModalMessage() {
+      if (this.deleteMode === 'bulk' && this.bulkDeleteCandidates.length) {
+        return 'Delete the selected folders and all saved ayat inside them?';
+      }
+      return 'Delete this folder and all saved ayat inside it?';
+    },
+    currentDeleteBusy() {
+      return this.deleteMode === 'bulk' ? this.bulkDeleteBusy : this.deleteBusy;
     },
   },
   mounted() {
@@ -373,6 +410,11 @@ export default {
     },
     openDeleteConfirm(folder) {
       if (!folder) return;
+      if (folder.is_smart) {
+        this.setStatus('Smart folders cannot be deleted.', 'danger');
+        return;
+      }
+      this.deleteMode = 'single';
       this.deleteCandidate = folder;
       this.deleteConfirmOpen = true;
       document.body.classList.add('modal-open');
@@ -380,8 +422,21 @@ export default {
     closeDeleteConfirm() {
       this.deleteConfirmOpen = false;
       this.deleteCandidate = null;
+      this.bulkDeleteCandidates = [];
+      this.deleteMode = 'single';
       document.body.classList.remove('modal-open');
     },
+    selectAllCollection() {
+      const allFolder = {
+        id: 'all',
+        name: 'All bookmarks',
+        isAll: true,
+      };
+      this.selectedId = 'all';
+      this.selectedFolders = [];
+      this.$emit('folder-selected', allFolder);
+    },
+
     async confirmDeleteFolder() {
       if (!this.deleteCandidate) return;
       this.deleteBusy = true;
@@ -389,13 +444,81 @@ export default {
         await axios.delete(`/api/folders/${this.deleteCandidate.id}`);
         this.folders = this.folders.filter(item => item.id !== this.deleteCandidate.id);
         if (this.selectedId === this.deleteCandidate.id) {
-          this.selectedId = null;
+          this.selectAllCollection();
         }
+        this.selectedFolders = this.selectedFolders.filter(
+          (id) => id !== this.deleteCandidate?.id
+        );
         this.setStatus('Folder deleted.', 'success');
+        this.emitBookmarkChange();
       } catch (error) {
         this.setStatus('Delete failed.', 'danger');
       } finally {
         this.deleteBusy = false;
+        this.closeDeleteConfirm();
+      }
+    },
+    isFolderSelected(folderId) {
+      return this.selectedFolders.includes(folderId);
+    },
+    toggleFolderSelection(folderId) {
+      const folder = this.folders.find((item) => item.id === folderId);
+      if (!folder || folder.is_smart) return;
+      const index = this.selectedFolders.indexOf(folderId);
+      if (index > -1) {
+        this.selectedFolders.splice(index, 1);
+      } else {
+        this.selectedFolders.push(folderId);
+      }
+    },
+    selectAllVisibleFolders() {
+      const ids = this.filteredSelectableFolders.map((folder) => folder.id);
+      this.selectedFolders = [...ids];
+    },
+    unselectAllFolders() {
+      this.selectedFolders = [];
+    },
+    openBulkDeleteConfirm() {
+      const ids = this.selectedFolders.filter((id) => {
+        const folder = this.folders.find((item) => item.id === id);
+        return folder && !folder.is_smart;
+      });
+      if (!ids.length) {
+        this.setStatus('Select folders to delete.', 'danger');
+        return;
+      }
+      this.bulkDeleteCandidates = [...ids];
+      this.deleteMode = 'bulk';
+      this.deleteConfirmOpen = true;
+      document.body.classList.add('modal-open');
+    },
+    async confirmBulkDeleteFolders() {
+      if (!this.bulkDeleteCandidates.length) return;
+      this.bulkDeleteBusy = true;
+      try {
+        await Promise.all(
+          this.bulkDeleteCandidates.map((id) =>
+            axios.delete(`/api/folders/${id}`)
+          )
+        );
+        const removedIds = new Set(this.bulkDeleteCandidates);
+        this.folders = this.folders.filter((folder) => !removedIds.has(folder.id));
+        this.selectedFolders = this.selectedFolders.filter(
+          (id) => !removedIds.has(id)
+        );
+        if (removedIds.has(this.selectedId)) {
+          this.selectAllCollection();
+        }
+        const count = this.bulkDeleteCandidates.length;
+        this.setStatus(
+          `${count} folder${count === 1 ? '' : 's'} deleted.`,
+          'success'
+        );
+        this.emitBookmarkChange();
+      } catch (error) {
+        this.setStatus('Failed to delete selected folders.', 'danger');
+      } finally {
+        this.bulkDeleteBusy = false;
         this.closeDeleteConfirm();
       }
     },
@@ -647,6 +770,123 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.selection-toolbar.folder-selection-toolbar {
+  border-radius: 26px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0.4rem 1rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
+}
+
+.folder-selection-toolbar .toolbar-left,
+.folder-selection-toolbar .toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.selection-count {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0f6e63;
+}
+
+.folder-scroll-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  overflow-y: auto;
+}
+
+.folder-scroll-area .folder-search,
+.folder-scroll-area .selection-toolbar,
+.folder-scroll-area .modal-section {
+  flex: 0 0 auto;
+}
+
+.folder-stack-wrap {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.folder-selection-toolbar .btn {
+  padding: 0.2rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-width: 1.6px;
+  border-radius: 14px;
+  line-height: 1.2;
+}
+.selection-pill {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #0f6e63;
+  background: #d1f3e9;
+  border-radius: 999px;
+  padding: 0.25rem 0.9rem;
+}
+.delete-selected {
+  padding: 0.35rem 1rem;
+  border-radius: 18px;
+  background: #ef4444;
+  border-color: #ef4444;
+  color: #fff;
+  font-weight: 600;
+}
+.delete-selected:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+}
+.folder-selection-toolbar .btn-outline-success {
+  color: #0f6e63;
+  border-color: #0f6e63;
+}
+.folder-selection-toolbar .btn-outline-success:hover {
+  background: #0f6e63;
+  color: #fff;
+  border-color: #0f6e63;
+}
+.folder-selection-toolbar .btn-outline-dark {
+  color: #475569;
+  border-color: #475569;
+}
+.folder-selection-toolbar .btn-outline-dark:hover {
+  background: #475569;
+  color: #fff;
+  border-color: #475569;
+}
+
+.folder-select {
+  min-width: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.25rem;
+}
+
+.folder-select .form-check-input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+.folder-main-wrapper {
+  flex: 1;
+  min-width: 0;
+  gap: 0.65rem;
+}
+
+.folder-item-selected {
+  background: rgba(15, 110, 99, 0.08);
+  border-color: rgba(15, 110, 99, 0.35);
 }
 
 .folder-item {

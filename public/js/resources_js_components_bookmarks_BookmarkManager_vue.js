@@ -85,7 +85,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'BookmarkManager',
+  name: "BookmarkManager",
   components: {
     AyahRow: _AyahRow_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     FolderList: _FolderList_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -96,39 +96,42 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       selectedFolder: null,
       items: [],
       folders: [],
-      source: 'manual',
+      source: "manual",
       loading: false,
       activeAyah: null,
       movingBookmarkId: null,
       deleteBusy: {},
       removeConfirmOpen: false,
       removeCandidate: null,
-      removeMode: 'folder',
+      removeMode: "folder",
       removeBusy: false,
-      panelMessage: '',
-      panelMessageVariant: 'success',
+      panelMessage: "",
+      panelMessageVariant: "success",
       panelMessageTimer: null,
       isFolderCollapsed: false,
-      query: '',
+      query: "",
       isAuthenticated: false,
       authResolved: false,
       bookmarkInstanceId: `bm-${Math.random().toString(36).slice(2)}`,
       bookmarkEventHandler: null,
       bookmarkStorageHandler: null,
-      visibilityHandler: null
+      visibilityHandler: null,
+      showGuestNudge: true,
+      selectedBookmarkIds: [],
+      bulkDeleteBusy: false
     };
   },
   computed: {
     sourceLabel() {
-      if (this.source === 'smart') return 'Smart';
-      if (this.source === 'all') return 'All';
-      return 'Manual';
+      if (this.source === "smart") return "Smart";
+      if (this.source === "all") return "All";
+      return "Manual";
     },
     normalizedItems() {
       if (!this.items.length) return [];
       return this.items.map(item => {
         var _item$ayah, _item$ayah2, _item$ayah3, _item$ayah4;
-        if (this.source === 'smart') {
+        if (this.source === "smart") {
           var _item$surah;
           return {
             row_key: `smart-${item.id}`,
@@ -137,17 +140,17 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
             surah_name: ((_item$surah = item.surah) === null || _item$surah === void 0 ? void 0 : _item$surah.name_en) || `Surah ${item.surah_id}`,
             ayah_number: item.ayah_id,
             ayah_verse_ar: item.ayah_text,
-            ayah_verse_en: ''
+            ayah_verse_en: ""
           };
         }
         return {
           row_key: `bookmark-${item.id}`,
           bookmark_id: item.id,
           surah_number: item.surah_number || ((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.surah_id),
-          surah_name: item.surah_name || ((_item$ayah2 = item.ayah) === null || _item$ayah2 === void 0 || (_item$ayah2 = _item$ayah2.surah) === null || _item$ayah2 === void 0 ? void 0 : _item$ayah2.name_en) || 'Surah',
+          surah_name: item.surah_name || ((_item$ayah2 = item.ayah) === null || _item$ayah2 === void 0 || (_item$ayah2 = _item$ayah2.surah) === null || _item$ayah2 === void 0 ? void 0 : _item$ayah2.name_en) || "Surah",
           ayah_number: ((_item$ayah3 = item.ayah) === null || _item$ayah3 === void 0 ? void 0 : _item$ayah3.ayah_id) || item.ayah_number || item.ayah_num,
           ayah_verse_ar: item.ayah_verse_ar || ((_item$ayah4 = item.ayah) === null || _item$ayah4 === void 0 ? void 0 : _item$ayah4.ayah_text),
-          ayah_verse_en: item.ayah_verse_en || ''
+          ayah_verse_en: item.ayah_verse_en || ""
         };
       });
     },
@@ -155,7 +158,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return this.parseQuery(this.query);
     },
     activeFieldKeys() {
-      return ['surah', 'ayah', 'arabic', 'english'];
+      return ["surah", "ayah", "arabic", "english"];
     },
     highlightMap() {
       const map = {
@@ -193,10 +196,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return `${this.filteredItems.length} of ${this.normalizedItems.length} ayat`;
     },
     folderDescriptor() {
-      if (!this.selectedFolder) return 'Unified library';
-      if (this.selectedFolder.isAll) return 'Global collection';
-      if (this.selectedFolder.is_smart) return 'Smart folder';
-      return 'Curated collection';
+      if (!this.selectedFolder) return "Unified library";
+      if (this.selectedFolder.isAll) return "Global collection";
+      if (this.selectedFolder.is_smart) return "Smart folder";
+      return "Curated collection";
     },
     canMoveFromSelectedFolder() {
       return !!this.selectedFolder && !this.selectedFolder.isAll && !this.selectedFolder.is_smart;
@@ -207,79 +210,95 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     deleteTooltip() {
       var _this$selectedFolder2;
-      if (this.isSmartSelected) return 'Smart folders cannot be edited.';
-      if ((_this$selectedFolder2 = this.selectedFolder) !== null && _this$selectedFolder2 !== void 0 && _this$selectedFolder2.isAll) return 'Delete from all folders';
-      return 'Remove from this folder';
+      if (this.isSmartSelected) return "Smart folders cannot be edited.";
+      if ((_this$selectedFolder2 = this.selectedFolder) !== null && _this$selectedFolder2 !== void 0 && _this$selectedFolder2.isAll) return "Delete from all folders";
+      return "Remove from this folder";
     },
     removeConfirmTitle() {
-      return this.removeMode === 'all' ? 'Delete bookmark?' : 'Remove from folder?';
+      if (this.removeMode === "bulk") {
+        return `Delete ${this.selectedBookmarkCount} bookmark(s)?`;
+      }
+      return this.removeMode === "all" ? "Delete bookmark?" : "Remove from folder?";
     },
     removeConfirmMessage() {
-      if (this.removeMode === 'all') {
-        return 'Delete this bookmark from all folders?';
+      if (this.removeMode === "bulk") {
+        return `Are you sure you want to delete ${this.selectedBookmarkCount} selected bookmark(s)? This action cannot be undone.`;
       }
-      return 'Remove this ayah from the current folder?';
+      if (this.removeMode === "all") {
+        return "Delete this bookmark from all folders?";
+      }
+      return "Remove this ayah from the current folder?";
     },
     moveTargets() {
       if (!this.canMoveFromSelectedFolder) return [];
       return this.folders.filter(folder => !folder.is_smart && folder.id !== this.selectedFolder.id);
+    },
+    selectedBookmarkCount() {
+      return this.selectedBookmarkIds.length;
+    },
+    allBookmarksSelected() {
+      if (this.filteredItems.length === 0) return false;
+      const selectableIds = this.filteredItems.filter(item => item.bookmark_id).map(item => item.bookmark_id);
+      return selectableIds.length > 0 && selectableIds.every(id => this.selectedBookmarkIds.includes(id));
+    },
+    someBookmarksSelected() {
+      return this.selectedBookmarkIds.length > 0 && !this.allBookmarksSelected;
     }
   },
   async mounted() {
     await this.initializeAuthentication();
-    if (!this.isAuthenticated) {
-      this.setPanelMessage('Sign in to view your saved bookmarks.', 'danger');
-      return;
-    }
     this.fetchFolders();
     this.bookmarkEventHandler = event => this.handleBookmarksUpdated(event);
     this.bookmarkStorageHandler = event => this.handleStorageBookmarksUpdated(event);
     this.visibilityHandler = () => this.handleVisibilityChange();
-    window.addEventListener('bookmarks-updated', this.bookmarkEventHandler);
-    window.addEventListener('storage', this.bookmarkStorageHandler);
-    window.addEventListener('visibilitychange', this.visibilityHandler);
+    window.addEventListener("bookmarks-updated", this.bookmarkEventHandler);
+    window.addEventListener("storage", this.bookmarkStorageHandler);
+    window.addEventListener("visibilitychange", this.visibilityHandler);
   },
   beforeUnmount() {
     clearTimeout(this.panelMessageTimer);
-    if (this.bookmarkEventHandler) window.removeEventListener('bookmarks-updated', this.bookmarkEventHandler);
-    if (this.bookmarkStorageHandler) window.removeEventListener('storage', this.bookmarkStorageHandler);
-    if (this.visibilityHandler) window.removeEventListener('visibilitychange', this.visibilityHandler);
+    if (this.bookmarkEventHandler) window.removeEventListener("bookmarks-updated", this.bookmarkEventHandler);
+    if (this.bookmarkStorageHandler) window.removeEventListener("storage", this.bookmarkStorageHandler);
+    if (this.visibilityHandler) window.removeEventListener("visibilitychange", this.visibilityHandler);
   },
   methods: {
+    hideGuestNudge() {
+      this.showGuestNudge = false;
+    },
     clearSearch() {
-      this.query = '';
+      this.query = "";
     },
     stripHtmlTags(text) {
-      if (!text) return '';
-      const div = document.createElement('div');
+      if (!text) return "";
+      const div = document.createElement("div");
       div.innerHTML = text;
-      return div.textContent || div.innerText || '';
+      return div.textContent || div.innerText || "";
     },
     getBookmarkSurahLabel(item) {
-      const name = this.stripHtmlTags((item === null || item === void 0 ? void 0 : item.surah_name) || '');
+      const name = this.stripHtmlTags((item === null || item === void 0 ? void 0 : item.surah_name) || "");
       if (name) return name;
       if (item !== null && item !== void 0 && item.surah_number) return `Surah ${item.surah_number}`;
-      return 'Surah';
+      return "Surah";
     },
     getBookmarkAyahNumber(item) {
-      return (item === null || item === void 0 ? void 0 : item.ayah_number) || '';
+      return (item === null || item === void 0 ? void 0 : item.ayah_number) || "";
     },
     buildBookmarkMessage(item) {
-      if (!item) return '';
+      if (!item) return "";
       const surahLabel = this.getBookmarkSurahLabel(item);
       const ayahNumber = this.getBookmarkAyahNumber(item);
       const header = ayahNumber ? `${surahLabel} (Ayah ${ayahNumber})` : surahLabel;
-      const arabic = this.stripHtmlTags(item.ayah_verse_ar || '');
-      const translation = this.stripHtmlTags(item.ayah_verse_en || '');
+      const arabic = this.stripHtmlTags(item.ayah_verse_ar || "");
+      const translation = this.stripHtmlTags(item.ayah_verse_en || "");
       const lines = [header];
       if (arabic) lines.push(`Arabic: ${arabic}`);
       if (translation) lines.push(`Translation: ${translation}`);
-      return lines.join('\n\n');
+      return lines.join("\n\n");
     },
     async copyText(text) {
       var _navigator$clipboard;
       if (!text) return false;
-      if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && (_navigator$clipboard = navigator.clipboard) !== null && _navigator$clipboard !== void 0 && _navigator$clipboard.writeText && window.isSecureContext) {
+      if (typeof window !== "undefined" && typeof navigator !== "undefined" && (_navigator$clipboard = navigator.clipboard) !== null && _navigator$clipboard !== void 0 && _navigator$clipboard.writeText && window.isSecureContext) {
         try {
           await navigator.clipboard.writeText(text);
           return true;
@@ -288,14 +307,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }
       }
       try {
-        const textarea = document.createElement('textarea');
+        const textarea = document.createElement("textarea");
         textarea.value = text;
-        textarea.setAttribute('readonly', '');
-        textarea.style.position = 'fixed';
-        textarea.style.top = '-9999px';
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.top = "-9999px";
         document.body.appendChild(textarea);
         textarea.select();
-        const success = document.execCommand('copy');
+        const success = document.execCommand("copy");
         document.body.removeChild(textarea);
         return success;
       } catch (_) {
@@ -307,9 +326,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!message) return;
       const ok = await this.copyText(message);
       if (ok) {
-        this.setPanelMessage('Ayah copied to clipboard.', 'success');
+        this.setPanelMessage("Ayah copied to clipboard.", "success");
       } else {
-        this.setPanelMessage('Unable to copy ayah.', 'danger');
+        this.setPanelMessage("Unable to copy ayah.", "danger");
       }
     },
     shareBookmarkOnWhatsApp(item) {
@@ -317,23 +336,23 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!message) return;
       const encodedMessage = encodeURIComponent(message);
       const whatsappLink = `https://api.whatsapp.com/send?text=${encodedMessage}`;
-      window.open(whatsappLink, '_blank', 'noopener,noreferrer');
+      window.open(whatsappLink, "_blank", "noopener,noreferrer");
     },
     openInSurat(item) {
       const surahNumber = Number((item === null || item === void 0 ? void 0 : item.surah_number) || (item === null || item === void 0 ? void 0 : item.surah_id));
       const ayahNumber = Number((item === null || item === void 0 ? void 0 : item.ayah_number) || (item === null || item === void 0 ? void 0 : item.ayah_num) || (item === null || item === void 0 ? void 0 : item.ayah_id));
       if (!surahNumber || !ayahNumber) {
-        this.setPanelMessage('Unable to open this ayah.', 'danger');
+        this.setPanelMessage("Unable to open this ayah.", "danger");
         return;
       }
       const url = `/surat?surah=${surahNumber}&ayah=${ayahNumber}`;
-      window.open(url, '_blank', 'noopener,noreferrer');
+      window.open(url, "_blank", "noopener,noreferrer");
     },
     escapeHtml(text) {
-      return (text || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      return (text || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
     },
     escapeRegExp(text) {
-      return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     },
     parseQuery(query) {
       const tokens = [];
@@ -343,7 +362,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       while ((match = regex.exec(query)) !== null) {
         const exclude = !!match[1];
         const field = match[2] ? match[2].toLowerCase() : null;
-        const term = (match[3] || match[4] || '').trim();
+        const term = (match[3] || match[4] || "").trim();
         if (!term) continue;
         tokens.push({
           exclude,
@@ -354,28 +373,28 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return tokens;
     },
     mapFieldAlias(field) {
-      const key = (field || '').toLowerCase();
+      const key = (field || "").toLowerCase();
       if (!key) return [];
-      if (['surah', 's'].includes(key)) return ['surah'];
-      if (['ayah', 'a', 'num', 'number'].includes(key)) return ['ayah'];
-      if (['ar', 'arabic'].includes(key)) return ['arabic'];
-      if (['en', 'english'].includes(key)) return ['english'];
-      if (['text', 'verse'].includes(key)) return ['arabic', 'english'];
+      if (["surah", "s"].includes(key)) return ["surah"];
+      if (["ayah", "a", "num", "number"].includes(key)) return ["ayah"];
+      if (["ar", "arabic"].includes(key)) return ["arabic"];
+      if (["en", "english"].includes(key)) return ["english"];
+      if (["text", "verse"].includes(key)) return ["arabic", "english"];
       return [];
     },
     getFieldValue(item, fieldKey) {
       var _item$ayah5;
       switch (fieldKey) {
-        case 'surah':
-          return item.surah_name || '';
-        case 'ayah':
-          return ((_item$ayah5 = item.ayah) === null || _item$ayah5 === void 0 ? void 0 : _item$ayah5.ayah_id) || item.ayah_number || '';
-        case 'arabic':
-          return item.ayah_verse_ar || '';
-        case 'english':
-          return item.ayah_verse_en || '';
+        case "surah":
+          return item.surah_name || "";
+        case "ayah":
+          return ((_item$ayah5 = item.ayah) === null || _item$ayah5 === void 0 ? void 0 : _item$ayah5.ayah_id) || item.ayah_number || "";
+        case "arabic":
+          return item.ayah_verse_ar || "";
+        case "english":
+          return item.ayah_verse_en || "";
         default:
-          return '';
+          return "";
       }
     },
     tokenMatchesItem(item, token, fieldKeys) {
@@ -403,19 +422,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return true;
     },
     highlightText(text, fieldKey) {
-      const clean = this.stripHtmlTags(text || '');
+      const clean = this.stripHtmlTags(text || "");
       const safe = this.escapeHtml(clean);
       const terms = this.highlightMap[fieldKey] || [];
       if (!terms.length) return safe;
       return terms.reduce((acc, term) => {
-        const regex = new RegExp(`(${this.escapeRegExp(term)})`, 'gi');
+        const regex = new RegExp(`(${this.escapeRegExp(term)})`, "gi");
         return acc.replace(regex, '<mark class="search-hit">$1</mark>');
       }, safe);
     },
     formatMeta(item) {
       var _item$ayah6;
-      const surah = this.highlightText(item.surah_name || '', 'surah');
-      const ayah = this.highlightText(String(((_item$ayah6 = item.ayah) === null || _item$ayah6 === void 0 ? void 0 : _item$ayah6.ayah_id) || item.ayah_number || ''), 'ayah');
+      const surah = this.highlightText(item.surah_name || "", "surah");
+      const ayah = this.highlightText(String(((_item$ayah6 = item.ayah) === null || _item$ayah6 === void 0 ? void 0 : _item$ayah6.ayah_id) || item.ayah_number || ""), "ayah");
       return `${surah} • Ayah ${ayah}`;
     },
     refreshFolderSidebar() {
@@ -429,11 +448,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     notifyBookmarkChange(source = this.bookmarkInstanceId) {
       const token = `${Date.now()}-${source}`;
       try {
-        localStorage.setItem('bookmarkRefresh', token);
+        localStorage.setItem("bookmarkRefresh", token);
       } catch (_) {
         // ignore storage errors (e.g., privacy mode)
       }
-      window.dispatchEvent(new CustomEvent('bookmarks-updated', {
+      window.dispatchEvent(new CustomEvent("bookmarks-updated", {
         detail: {
           token,
           instance: source
@@ -442,26 +461,23 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     handleBookmarksUpdated(event) {
       var _event$detail;
-      if (!this.isAuthenticated) return;
       if ((event === null || event === void 0 || (_event$detail = event.detail) === null || _event$detail === void 0 ? void 0 : _event$detail.instance) === this.bookmarkInstanceId) return;
       this.refreshAfterExternalUpdate();
     },
     handleStorageBookmarksUpdated(event) {
-      if (!this.isAuthenticated) return;
-      if (event.key !== 'bookmarkRefresh') return;
+      if (event.key !== "bookmarkRefresh") return;
       this.refreshAfterExternalUpdate();
     },
     handleVisibilityChange() {
-      if (!this.isAuthenticated) return;
-      if (document.visibilityState === 'visible') {
+      if (document.visibilityState === "visible") {
         this.refreshAfterExternalUpdate();
       }
     },
     refreshAfterExternalUpdate() {
-      if (!this.isAuthenticated || this.loading) return;
+      if (this.loading) return;
       const folder = this.selectedFolder || {
-        id: 'all',
-        name: 'All bookmarks',
+        id: "all",
+        name: "All bookmarks",
         isAll: true
       };
       this.onFolderSelected(folder);
@@ -471,32 +487,27 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.isFolderCollapsed = !this.isFolderCollapsed;
     },
     async fetchFolders() {
-      if (!this.isAuthenticated) {
-        this.folders = [];
-        return;
-      }
       try {
         var _response$data;
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/folders');
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/folders");
         this.folders = ((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.data) || [];
       } catch (_) {
         this.folders = [];
       }
     },
     async onFolderSelected(folder) {
-      if (!this.isAuthenticated) return;
       this.selectedFolder = folder;
       this.loading = true;
       try {
         var _ref, _ref2, _response$data$data, _response$data2, _response$data3, _response$data4;
-        const response = folder.isAll ? await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/ayah-bookmarks') : await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/ayah-bookmarks', {
+        const response = folder.isAll ? await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks") : await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks", {
           params: {
             folder_id: folder.id
           }
         });
         const payload = (_ref = (_ref2 = (_response$data$data = (_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.data) !== null && _response$data$data !== void 0 ? _response$data$data : (_response$data3 = response.data) === null || _response$data3 === void 0 ? void 0 : _response$data3.bookmarks) !== null && _ref2 !== void 0 ? _ref2 : response.data) !== null && _ref !== void 0 ? _ref : [];
         this.items = Array.isArray(payload) ? payload : [];
-        this.source = folder.isAll ? 'all' : ((_response$data4 = response.data) === null || _response$data4 === void 0 ? void 0 : _response$data4.source) || 'manual';
+        this.source = folder.isAll ? "all" : ((_response$data4 = response.data) === null || _response$data4 === void 0 ? void 0 : _response$data4.source) || "manual";
         this.fetchFolders();
       } catch (error) {
         this.items = [];
@@ -524,7 +535,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       var _event$target;
       const targetId = Number(event === null || event === void 0 || (_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.value);
       if (!targetId || !(item !== null && item !== void 0 && item.bookmark_id) || !this.canMoveFromSelectedFolder) {
-        if (event !== null && event !== void 0 && event.target) event.target.value = '';
+        if (event !== null && event !== void 0 && event.target) event.target.value = "";
         return;
       }
       this.movingBookmarkId = item.bookmark_id;
@@ -534,19 +545,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           folder_ids: [targetId]
         });
         await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${item.bookmark_id}/folders/${this.selectedFolder.id}`);
-        const targetName = ((_this$folders$find = this.folders.find(folder => folder.id === targetId)) === null || _this$folders$find === void 0 ? void 0 : _this$folders$find.name) || 'folder';
+        const targetName = ((_this$folders$find = this.folders.find(folder => folder.id === targetId)) === null || _this$folders$find === void 0 ? void 0 : _this$folders$find.name) || "folder";
         this.adjustFolderCount(this.selectedFolder.id, -1);
         this.adjustFolderCount(targetId, 1);
-        if (this.source === 'manual') {
+        if (this.source === "manual") {
           this.items = this.items.filter(row => row.id !== item.bookmark_id);
         }
-        this.setPanelMessage(`Moved to ${targetName}.`, 'success');
+        this.setPanelMessage(`Moved to ${targetName}.`, "success");
       } catch (error) {
-        this.setPanelMessage('Unable to move this ayah.', 'danger');
+        this.setPanelMessage("Unable to move this ayah.", "danger");
       } finally {
         this.movingBookmarkId = null;
         if (event !== null && event !== void 0 && event.target) {
-          event.target.value = '';
+          event.target.value = "";
         }
       }
     },
@@ -564,7 +575,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.panelMessageVariant = variant;
       clearTimeout(this.panelMessageTimer);
       this.panelMessageTimer = setTimeout(() => {
-        this.panelMessage = '';
+        this.panelMessage = "";
       }, 3000);
     },
     isDeleteBusy(id) {
@@ -573,19 +584,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     openRemoveConfirm(item) {
       if (!(item !== null && item !== void 0 && item.bookmark_id) || !this.selectedFolder) return;
       if (this.isSmartSelected) {
-        this.setPanelMessage('Smart folders cannot be edited.', 'danger');
+        this.setPanelMessage("Smart folders cannot be edited.", "danger");
         return;
       }
       this.removeCandidate = item;
-      this.removeMode = this.selectedFolder.isAll ? 'all' : 'folder';
+      this.removeMode = this.selectedFolder.isAll ? "all" : "folder";
       this.removeConfirmOpen = true;
-      document.body.classList.add('modal-open');
+      document.body.classList.add("modal-open");
     },
     closeRemoveConfirm() {
       this.removeConfirmOpen = false;
       this.removeCandidate = null;
       this.removeBusy = false;
-      document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
     },
     async confirmRemoveBookmark() {
       var _this$removeCandidate;
@@ -596,23 +607,82 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         [bookmarkId]: true
       });
       try {
-        if (this.removeMode === 'all') {
+        if (this.removeMode === "all") {
           await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${bookmarkId}`);
           this.items = this.items.filter(row => row.id !== bookmarkId);
-          this.setPanelMessage('Bookmark deleted.', 'success');
+          this.setPanelMessage("Bookmark deleted.", "success");
           await this.refreshFolderSidebar();
         } else {
           await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${bookmarkId}/folders/${this.selectedFolder.id}`);
           this.items = this.items.filter(row => row.id !== bookmarkId);
           this.adjustFolderCount(this.selectedFolder.id, -1);
-          this.setPanelMessage('Ayah removed from folder.', 'success');
+          this.setPanelMessage("Ayah removed from folder.", "success");
         }
       } catch (error) {
-        this.setPanelMessage('Unable to remove this ayah.', 'danger');
+        this.setPanelMessage("Unable to remove this ayah.", "danger");
       } finally {
         this.deleteBusy = _objectSpread(_objectSpread({}, this.deleteBusy), {}, {
           [bookmarkId]: false
         });
+        this.closeRemoveConfirm();
+      }
+    },
+    toggleBookmarkSelection(bookmarkId) {
+      if (!bookmarkId) return;
+      const index = this.selectedBookmarkIds.indexOf(bookmarkId);
+      if (index > -1) {
+        this.selectedBookmarkIds.splice(index, 1);
+      } else {
+        this.selectedBookmarkIds.push(bookmarkId);
+      }
+    },
+    selectAllBookmarks() {
+      const selectableIds = this.filteredItems.filter(item => item.bookmark_id).map(item => item.bookmark_id);
+      this.selectedBookmarkIds = [...selectableIds];
+    },
+    unselectAllBookmarks() {
+      this.selectedBookmarkIds = [];
+    },
+    openBulkDeleteConfirm() {
+      var _this$selectedFolder3;
+      if (this.selectedBookmarkIds.length === 0) {
+        this.setPanelMessage("No bookmarks selected.", "danger");
+        return;
+      }
+      if (this.isSmartSelected) {
+        this.setPanelMessage("Smart folders cannot be edited.", "danger");
+        return;
+      }
+      this.removeMode = (_this$selectedFolder3 = this.selectedFolder) !== null && _this$selectedFolder3 !== void 0 && _this$selectedFolder3.isAll ? "all" : "bulk";
+      this.removeConfirmOpen = true;
+      document.body.classList.add("modal-open");
+    },
+    async confirmBulkDeleteBookmarks() {
+      if (this.selectedBookmarkIds.length === 0) return;
+      this.bulkDeleteBusy = true;
+      this.removeBusy = true;
+      try {
+        var _response$data5;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete("/api/ayah-bookmarks/bulk", {
+          data: {
+            bookmark_ids: this.selectedBookmarkIds
+          }
+        });
+        const deletedCount = ((_response$data5 = response.data) === null || _response$data5 === void 0 ? void 0 : _response$data5.deleted_count) || 0;
+
+        // Remove deleted bookmarks from the list
+        this.items = this.items.filter(item => !this.selectedBookmarkIds.includes(item.id));
+
+        // Clear selection
+        this.selectedBookmarkIds = [];
+        this.setPanelMessage(`Successfully deleted ${deletedCount} bookmark(s).`, "success");
+        await this.refreshFolderSidebar();
+      } catch (error) {
+        var _error$response;
+        const errorMsg = ((_error$response = error.response) === null || _error$response === void 0 || (_error$response = _error$response.data) === null || _error$response === void 0 ? void 0 : _error$response.message) || "Failed to delete bookmarks.";
+        this.setPanelMessage(errorMsg, "danger");
+      } finally {
+        this.bulkDeleteBusy = false;
         this.closeRemoveConfirm();
       }
     }
@@ -1201,7 +1271,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       renameValue: '',
       deleteConfirmOpen: false,
       deleteCandidate: null,
+      deleteMode: 'single',
       deleteBusy: false,
+      selectedFolders: [],
+      bulkDeleteBusy: false,
+      bulkDeleteCandidates: [],
       status: '',
       statusVariant: 'success',
       iconPresets: [{
@@ -1282,6 +1356,25 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!this.searchQuery) return this.folders;
       const query = this.searchQuery.toLowerCase();
       return this.folders.filter(folder => (folder.name || '').toLowerCase().includes(query));
+    },
+    filteredSelectableFolders() {
+      return this.filteredFolders.filter(folder => !folder.is_smart);
+    },
+    deleteModalTitle() {
+      if (this.deleteMode === 'bulk' && this.bulkDeleteCandidates.length) {
+        const count = this.bulkDeleteCandidates.length;
+        return `Delete ${count} folder${count === 1 ? '' : 's'}?`;
+      }
+      return 'Delete folder?';
+    },
+    deleteModalMessage() {
+      if (this.deleteMode === 'bulk' && this.bulkDeleteCandidates.length) {
+        return 'Delete the selected folders and all saved ayat inside them?';
+      }
+      return 'Delete this folder and all saved ayat inside it?';
+    },
+    currentDeleteBusy() {
+      return this.deleteMode === 'bulk' ? this.bulkDeleteBusy : this.deleteBusy;
     }
   },
   mounted() {
@@ -1386,6 +1479,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     openDeleteConfirm(folder) {
       if (!folder) return;
+      if (folder.is_smart) {
+        this.setStatus('Smart folders cannot be deleted.', 'danger');
+        return;
+      }
+      this.deleteMode = 'single';
       this.deleteCandidate = folder;
       this.deleteConfirmOpen = true;
       document.body.classList.add('modal-open');
@@ -1393,7 +1491,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     closeDeleteConfirm() {
       this.deleteConfirmOpen = false;
       this.deleteCandidate = null;
+      this.bulkDeleteCandidates = [];
+      this.deleteMode = 'single';
       document.body.classList.remove('modal-open');
+    },
+    selectAllCollection() {
+      const allFolder = {
+        id: 'all',
+        name: 'All bookmarks',
+        isAll: true
+      };
+      this.selectedId = 'all';
+      this.selectedFolders = [];
+      this.$emit('folder-selected', allFolder);
     },
     async confirmDeleteFolder() {
       if (!this.deleteCandidate) return;
@@ -1402,13 +1512,73 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/folders/${this.deleteCandidate.id}`);
         this.folders = this.folders.filter(item => item.id !== this.deleteCandidate.id);
         if (this.selectedId === this.deleteCandidate.id) {
-          this.selectedId = null;
+          this.selectAllCollection();
         }
+        this.selectedFolders = this.selectedFolders.filter(id => {
+          var _this$deleteCandidate;
+          return id !== ((_this$deleteCandidate = this.deleteCandidate) === null || _this$deleteCandidate === void 0 ? void 0 : _this$deleteCandidate.id);
+        });
         this.setStatus('Folder deleted.', 'success');
+        this.emitBookmarkChange();
       } catch (error) {
         this.setStatus('Delete failed.', 'danger');
       } finally {
         this.deleteBusy = false;
+        this.closeDeleteConfirm();
+      }
+    },
+    isFolderSelected(folderId) {
+      return this.selectedFolders.includes(folderId);
+    },
+    toggleFolderSelection(folderId) {
+      const folder = this.folders.find(item => item.id === folderId);
+      if (!folder || folder.is_smart) return;
+      const index = this.selectedFolders.indexOf(folderId);
+      if (index > -1) {
+        this.selectedFolders.splice(index, 1);
+      } else {
+        this.selectedFolders.push(folderId);
+      }
+    },
+    selectAllVisibleFolders() {
+      const ids = this.filteredSelectableFolders.map(folder => folder.id);
+      this.selectedFolders = [...ids];
+    },
+    unselectAllFolders() {
+      this.selectedFolders = [];
+    },
+    openBulkDeleteConfirm() {
+      const ids = this.selectedFolders.filter(id => {
+        const folder = this.folders.find(item => item.id === id);
+        return folder && !folder.is_smart;
+      });
+      if (!ids.length) {
+        this.setStatus('Select folders to delete.', 'danger');
+        return;
+      }
+      this.bulkDeleteCandidates = [...ids];
+      this.deleteMode = 'bulk';
+      this.deleteConfirmOpen = true;
+      document.body.classList.add('modal-open');
+    },
+    async confirmBulkDeleteFolders() {
+      if (!this.bulkDeleteCandidates.length) return;
+      this.bulkDeleteBusy = true;
+      try {
+        await Promise.all(this.bulkDeleteCandidates.map(id => axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/folders/${id}`)));
+        const removedIds = new Set(this.bulkDeleteCandidates);
+        this.folders = this.folders.filter(folder => !removedIds.has(folder.id));
+        this.selectedFolders = this.selectedFolders.filter(id => !removedIds.has(id));
+        if (removedIds.has(this.selectedId)) {
+          this.selectAllCollection();
+        }
+        const count = this.bulkDeleteCandidates.length;
+        this.setStatus(`${count} folder${count === 1 ? '' : 's'} deleted.`, 'success');
+        this.emitBookmarkChange();
+      } catch (error) {
+        this.setStatus('Failed to delete selected folders.', 'danger');
+      } finally {
+        this.bulkDeleteBusy = false;
         this.closeDeleteConfirm();
       }
     },
@@ -1565,88 +1735,121 @@ const _hoisted_1 = {
   class: "container-fluid bookmark-manager shadow-md"
 };
 const _hoisted_2 = {
-  key: 0,
-  class: "bookmark-guest-state"
+  key: 0
 };
 const _hoisted_3 = {
-  key: 1
+  key: 0,
+  class: "guest-nudge-banner"
 };
 const _hoisted_4 = {
+  class: "container-fluid d-flex align-items-center justify-content-between"
+};
+const _hoisted_5 = {
   class: "row g-4 bookmark-layout"
 };
-const _hoisted_5 = ["aria-hidden"];
-const _hoisted_6 = {
+const _hoisted_6 = ["aria-hidden"];
+const _hoisted_7 = {
   class: "bookmark-panel"
 };
-const _hoisted_7 = {
+const _hoisted_8 = {
   class: "panel-header"
 };
-const _hoisted_8 = {
+const _hoisted_9 = {
   class: "panel-title"
 };
-const _hoisted_9 = {
+const _hoisted_10 = {
   class: "panel-subtitle"
 };
-const _hoisted_10 = {
+const _hoisted_11 = {
   class: "panel-actions"
 };
-const _hoisted_11 = ["aria-pressed", "aria-label", "title"];
-const _hoisted_12 = {
+const _hoisted_12 = ["aria-pressed", "aria-label", "title"];
+const _hoisted_13 = {
   class: "panel-body"
 };
-const _hoisted_13 = {
+const _hoisted_14 = {
   class: "panel-search"
 };
-const _hoisted_14 = {
+const _hoisted_15 = {
   class: "input-group"
 };
-const _hoisted_15 = {
+const _hoisted_16 = {
   key: 1,
   class: "loading-state"
 };
-const _hoisted_16 = {
+const _hoisted_17 = {
   key: 2,
   class: "empty-state"
 };
-const _hoisted_17 = {
-  key: 3,
-  class: "list-wrapper"
-};
 const _hoisted_18 = {
-  class: "list-group ayah-list"
+  key: 3,
+  class: "selection-toolbar"
 };
 const _hoisted_19 = {
+  class: "toolbar-left"
+};
+const _hoisted_20 = ["disabled"];
+const _hoisted_21 = ["disabled"];
+const _hoisted_22 = {
+  key: 0,
+  class: "selection-count"
+};
+const _hoisted_23 = {
+  class: "toolbar-right"
+};
+const _hoisted_24 = ["disabled"];
+const _hoisted_25 = {
+  key: 0,
+  class: "spinner-border spinner-border-sm me-1"
+};
+const _hoisted_26 = {
+  key: 1,
+  class: "bi bi-trash me-1"
+};
+const _hoisted_27 = {
+  key: 4,
+  class: "list-wrapper"
+};
+const _hoisted_28 = {
+  class: "list-group ayah-list"
+};
+const _hoisted_29 = {
   class: "ayah-list-head"
 };
-const _hoisted_20 = ["innerHTML"];
-const _hoisted_21 = {
+const _hoisted_30 = {
+  key: 0,
+  class: "ayah-checkbox"
+};
+const _hoisted_31 = ["checked", "onChange"];
+const _hoisted_32 = ["innerHTML"];
+const _hoisted_33 = {
   class: "ayah-list-actions"
 };
-const _hoisted_22 = ["disabled", "onChange"];
-const _hoisted_23 = {
+const _hoisted_34 = ["disabled", "onChange"];
+const _hoisted_35 = {
   value: "",
   selected: "",
   disabled: ""
 };
-const _hoisted_24 = ["value"];
-const _hoisted_25 = ["onClick"];
-const _hoisted_26 = ["onClick"];
-const _hoisted_27 = ["disabled", "title", "onClick"];
-const _hoisted_28 = {
+const _hoisted_36 = ["value"];
+const _hoisted_37 = ["onClick"];
+const _hoisted_38 = ["onClick"];
+const _hoisted_39 = ["disabled", "title", "onClick"];
+const _hoisted_40 = {
   key: 0,
   class: "spinner-border spinner-border-sm"
 };
-const _hoisted_29 = {
+const _hoisted_41 = {
   key: 1,
   class: "bi bi-trash"
 };
-const _hoisted_30 = ["innerHTML"];
-const _hoisted_31 = ["innerHTML"];
-const _hoisted_32 = {
+const _hoisted_42 = ["innerHTML"];
+const _hoisted_43 = ["innerHTML"];
+const _hoisted_44 = {
   key: 0,
   class: "modal-backdrop fade show"
 };
-const _hoisted_33 = {
+const _hoisted_45 = {
   key: 1,
   class: "modal fade show remove-confirm-modal",
   tabindex: "-1",
@@ -1656,36 +1859,52 @@ const _hoisted_33 = {
     "display": "block"
   }
 };
-const _hoisted_34 = {
+const _hoisted_46 = {
   class: "modal-dialog modal-dialog-centered"
 };
-const _hoisted_35 = {
+const _hoisted_47 = {
   class: "modal-content"
 };
-const _hoisted_36 = {
+const _hoisted_48 = {
   class: "modal-header"
 };
-const _hoisted_37 = {
+const _hoisted_49 = {
   class: "modal-title"
 };
-const _hoisted_38 = {
+const _hoisted_50 = {
   class: "modal-body"
 };
-const _hoisted_39 = {
+const _hoisted_51 = {
   class: "mb-0"
 };
-const _hoisted_40 = {
+const _hoisted_52 = {
   class: "modal-footer"
 };
-const _hoisted_41 = ["disabled"];
-const _hoisted_42 = {
+const _hoisted_53 = ["disabled"];
+const _hoisted_54 = {
   key: 0,
   class: "spinner-border spinner-border-sm me-2"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_folder_list = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("folder-list");
   const _component_bookmark_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookmark-modal");
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [$data.authResolved && !$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [...(_cache[6] || (_cache[6] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"guest-card\" data-v-144e09ac><i class=\"bi bi-lock-fill guest-icon\" aria-hidden=\"true\" data-v-144e09ac></i><h5 data-v-144e09ac>Bookmarks are private</h5><p class=\"mb-3\" data-v-144e09ac> Sign in so your saved ayahs stay in sync between the Quran reader and this manager. </p><div class=\"guest-actions\" data-v-144e09ac><a class=\"btn btn-outline-secondary\" href=\"/register\" data-v-144e09ac>Create an account</a><a class=\"btn btn-success\" href=\"/login\" data-v-144e09ac>Log in</a></div></div>", 1)]))])) : $data.authResolved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [$data.authResolved ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    name: "fade"
+  }, {
+    default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [!$data.isAuthenticated ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[10] || (_cache[10] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "nudge-text"
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-info-circle-fill me-2"
+    }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("You're browsing as a guest. "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      href: "/login",
+      class: "fw-bold text-teal"
+    }, "Log in"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to sync bookmarks across devices.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      class: "btn-close btn-close-white",
+      onClick: _cache[0] || (_cache[0] = (...args) => $options.hideGuestNudge && $options.hideGuestNudge(...args))
+    })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
+    _: 1 /* STABLE */
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-lg-4 folder-col", {
       'is-collapsed': $data.isFolderCollapsed
     }]),
@@ -1693,111 +1912,136 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_folder_list, {
     ref: "folderList",
     onFolderSelected: $options.onFolderSelected
-  }, null, 8 /* PROPS */, ["onFolderSelected"])], 10 /* CLASS, PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 8 /* PROPS */, ["onFolderSelected"])], 10 /* CLASS, PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-lg-8 panel-col", {
       'is-expanded': $data.isFolderCollapsed
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[7] || (_cache[7] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "panel-eyebrow"
-  }, "Collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedFolder ? $data.selectedFolder.name : 'Folder contents'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.panelCountLabel) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderDescriptor), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedFolder ? $data.selectedFolder.name : "Folder contents"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.panelCountLabel) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderDescriptor), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "panel-toggle",
-    onClick: _cache[0] || (_cache[0] = (...args) => $options.toggleFolderPane && $options.toggleFolderPane(...args)),
+    onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleFolderPane && $options.toggleFolderPane(...args)),
     "aria-pressed": !$data.isFolderCollapsed,
     "aria-label": $data.isFolderCollapsed ? 'Show folders' : 'Hide folders',
     title: $data.isFolderCollapsed ? 'Show folders' : 'Hide folders'
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isFolderCollapsed ? 'bi-layout-sidebar-inset' : 'bi-layout-sidebar-inset-reverse'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_11), _cache[8] || (_cache[8] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_12), _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     class: "panel-cta",
     href: "/surat"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Go back to the Holy Quran "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right ms-2"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-if=\"selectedFolder\" class=\"source-pill\">{{ sourceLabel }}</span> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [$data.panelMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-if=\"selectedFolder\" class=\"source-pill\">{{ sourceLabel }}</span> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [$data.panelMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["panel-alert", $data.panelMessageVariant === 'danger' ? 'alert-danger' : 'alert-success'])
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.panelMessage), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [_cache[9] || (_cache[9] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.panelMessage), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "input-group-text"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[1] || (_cache[1] = $event => $data.query = $event),
+    "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.query = $event),
     class: "form-control",
     placeholder: "Search bookmarks..."
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.query]]), $data.query ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     class: "btn btn-outline-secondary",
     type: "button",
-    onClick: _cache[2] || (_cache[2] = (...args) => $options.clearSearch && $options.clearSearch(...args))
-  }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_15, "Loading ayat...")) : $options.filteredItems.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, [...(_cache[10] || (_cache[10] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[3] || (_cache[3] = (...args) => $options.clearSearch && $options.clearSearch(...args))
+  }, " Clear ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $data.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_16, " Loading ayat... ")) : $options.filteredItems.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "empty-title"
-  }, "No ayat match your search", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, " No ayat match your search ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "empty-subtitle"
-  }, "Try different terms or clear the filters.", -1 /* CACHED */)]))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredItems, item => {
+  }, " Try different terms or clear the filters. ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selection Toolbar "), !$data.loading && $options.filteredItems.length > 0 && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-sm btn-outline-primary",
+    onClick: _cache[4] || (_cache[4] = (...args) => $options.selectAllBookmarks && $options.selectAllBookmarks(...args)),
+    disabled: $options.allBookmarksSelected
+  }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-check-all me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Select All ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-sm btn-outline-secondary",
+    onClick: _cache[5] || (_cache[5] = (...args) => $options.unselectAllBookmarks && $options.unselectAllBookmarks(...args)),
+    disabled: $options.selectedBookmarkCount === 0
+  }, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-x-circle me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Unselect All ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_21), $options.selectedBookmarkCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedBookmarkCount) + " selected ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [$options.selectedBookmarkCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "btn btn-sm btn-danger",
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.openBulkDeleteConfirm && $options.openBulkDeleteConfirm(...args)),
+    disabled: $data.bulkDeleteBusy
+  }, [$data.bulkDeleteBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_25)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_26)), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete Selected ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_24)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.loading && $options.filteredItems.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredItems, item => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.row_key,
       class: "list-group-item ayah-list-item"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [item.bookmark_id && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "checkbox",
+      class: "form-check-input",
+      checked: $data.selectedBookmarkIds.includes(item.bookmark_id),
+      onChange: $event => $options.toggleBookmarkSelection(item.bookmark_id)
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_31)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "ayah-list-meta",
       innerHTML: $options.formatMeta(item)
-    }, null, 8 /* PROPS */, _hoisted_20), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [$options.canMoveFromSelectedFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    }, null, 8 /* PROPS */, _hoisted_32), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [$options.canMoveFromSelectedFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
       key: 0,
       class: "form-select form-select-sm move-select",
       disabled: $data.movingBookmarkId === item.bookmark_id || $options.moveTargets.length === 0,
       onChange: $event => $options.moveBookmark(item, $event)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.moveTargets.length ? 'Move to...' : 'No other folders'), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargets, folder => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_35, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.moveTargets.length ? "Move to..." : "No other folders"), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargets, folder => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
         key: `move-${folder.id}`,
         value: folder.id
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 9 /* TEXT, PROPS */, _hoisted_24);
-    }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_22)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary bookmark-quick\"\n                      data-bs-toggle=\"modal\"\n                      data-bs-target=\"#bookmarkModal\"\n                      @click=\"prepareBookmark(item)\"\n                    >\n                      <i class=\"bi bi-bookmark-plus\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary open-quick\"\n                      @click=\"openInSurat(item)\"\n                      title=\"Open in Quran\"\n                      aria-label=\"Open ayah in Quran\"\n                    >\n                      <i class=\"bi bi-box-arrow-up-right\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 9 /* TEXT, PROPS */, _hoisted_36);
+    }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_34)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary bookmark-quick\"\n                      data-bs-toggle=\"modal\"\n                      data-bs-target=\"#bookmarkModal\"\n                      @click=\"prepareBookmark(item)\"\n                    >\n                      <i class=\"bi bi-bookmark-plus\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary open-quick\"\n                      @click=\"openInSurat(item)\"\n                      title=\"Open in Quran\"\n                      aria-label=\"Open ayah in Quran\"\n                    >\n                      <i class=\"bi bi-box-arrow-up-right\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-secondary copy-quick",
       onClick: $event => $options.copyBookmark(item),
       title: "Copy",
       "aria-label": "Copy ayah"
-    }, [...(_cache[11] || (_cache[11] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[18] || (_cache[18] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_25), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-secondary share-quick",
       onClick: $event => $options.shareBookmarkOnWhatsApp(item),
       title: "Share via WhatsApp",
       "aria-label": "Share ayah via WhatsApp"
-    }, [...(_cache[12] || (_cache[12] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_26), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_38), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-danger remove-quick",
       disabled: $options.isDeleteBusy(item.bookmark_id) || $options.isSmartSelected,
       title: $options.deleteTooltip,
       onClick: $event => $options.openRemoveConfirm(item)
-    }, [$options.isDeleteBusy(item.bookmark_id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_28)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_29))], 8 /* PROPS */, _hoisted_27)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [$options.isDeleteBusy(item.bookmark_id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_40)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_41))], 8 /* PROPS */, _hoisted_39)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "ayah-list-ar",
       innerHTML: $options.highlightText(item.ayah_verse_ar, 'arabic')
-    }, null, 8 /* PROPS */, _hoisted_30), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+    }, null, 8 /* PROPS */, _hoisted_42), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
       class: "ayah-list-en",
       innerHTML: $options.highlightText(item.ayah_verse_en, 'english')
-    }, null, 8 /* PROPS */, _hoisted_31)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])]))])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
+    }, null, 8 /* PROPS */, _hoisted_43)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
     ayah: $data.activeAyah,
     onSaved: $options.onSaved
-  }, null, 8 /* PROPS */, ["ayah", "onSaved"]), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_37, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmTitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, ["ayah", "onSaved"]), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmTitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
-    onClick: _cache[3] || (_cache[3] = (...args) => $options.closeRemoveConfirm && $options.closeRemoveConfirm(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmMessage), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[7] || (_cache[7] = (...args) => $options.closeRemoveConfirm && $options.closeRemoveConfirm(...args))
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmMessage), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-secondary",
-    onClick: _cache[4] || (_cache[4] = (...args) => $options.closeRemoveConfirm && $options.closeRemoveConfirm(...args))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[8] || (_cache[8] = (...args) => $options.closeRemoveConfirm && $options.closeRemoveConfirm(...args))
+  }, " Cancel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-danger",
     disabled: $data.removeBusy,
-    onClick: _cache[5] || (_cache[5] = (...args) => $options.confirmRemoveBookmark && $options.confirmRemoveBookmark(...args))
-  }, [$data.removeBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_42)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_41)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    onClick: _cache[9] || (_cache[9] = $event => $data.removeMode === 'bulk' ? $options.confirmBulkDeleteBookmarks() : $options.confirmRemoveBookmark())
+  }, [$data.removeBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_53)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -2332,102 +2576,113 @@ const _hoisted_16 = {
   class: "spinner-border spinner-border-sm me-2"
 };
 const _hoisted_17 = {
-  class: "folder-search mb-3"
+  class: "folder-scroll-area"
 };
 const _hoisted_18 = {
-  class: "input-group"
+  class: "folder-search mb-3"
 };
 const _hoisted_19 = {
-  class: "modal-section"
+  class: "input-group"
 };
 const _hoisted_20 = {
   key: 0,
-  class: "rename-modal fade show"
+  class: "selection-toolbar folder-selection-toolbar mb-3"
 };
 const _hoisted_21 = {
-  class: "modal-body"
+  class: "toolbar-left"
 };
-const _hoisted_22 = {
-  class: "modal-footer"
-};
+const _hoisted_22 = ["disabled"];
 const _hoisted_23 = {
   key: 1,
-  class: "delete-confirm-modal fade show"
+  class: "selection-pill"
 };
 const _hoisted_24 = {
-  class: "modal-footer"
+  class: "toolbar-right"
 };
 const _hoisted_25 = ["disabled"];
 const _hoisted_26 = {
   key: 0,
-  class: "spinner-border spinner-border-sm me-2"
+  class: "spinner-border spinner-border-sm me-1"
 };
 const _hoisted_27 = {
-  class: "folder-stack-wrap"
+  key: 1,
+  class: "bi bi-trash me-1"
 };
 const _hoisted_28 = {
-  class: "list-group folder-stack"
+  class: "modal-section"
 };
-const _hoisted_29 = ["onClick", "onDrop"];
+const _hoisted_29 = {
+  key: 0,
+  class: "rename-modal fade show"
+};
 const _hoisted_30 = {
-  class: "folder-main"
+  class: "modal-body"
 };
 const _hoisted_31 = {
-  class: "folder-icon"
+  class: "modal-footer"
 };
-const _hoisted_32 = ["innerHTML"];
+const _hoisted_32 = {
+  key: 1,
+  class: "delete-confirm-modal fade show"
+};
 const _hoisted_33 = {
-  class: "folder-count-pill"
+  class: "modal-header"
 };
-const _hoisted_34 = ["onClick"];
-const _hoisted_35 = ["onClick"];
+const _hoisted_34 = {
+  class: "modal-title"
+};
+const _hoisted_35 = {
+  class: "modal-body"
+};
 const _hoisted_36 = {
-  class: "modal-dialog modal-dialog-centered"
+  class: "modal-footer"
 };
-const _hoisted_37 = {
-  class: "rename-modal card p-3"
-};
+const _hoisted_37 = ["disabled"];
 const _hoisted_38 = {
-  class: "card-body"
-};
-const _hoisted_39 = {
-  class: "d-flex justify-content-end gap-2"
-};
-const _hoisted_40 = {
-  class: "modal-dialog modal-dialog-centered"
-};
-const _hoisted_41 = {
-  class: "delete-confirm-modal card p-3"
-};
-const _hoisted_42 = {
-  class: "card-body"
-};
-const _hoisted_43 = {
-  class: "d-flex justify-content-end gap-2 mt-3"
-};
-const _hoisted_44 = ["disabled"];
-const _hoisted_45 = {
   key: 0,
   class: "spinner-border spinner-border-sm me-2"
 };
+const _hoisted_39 = {
+  class: "folder-stack-wrap"
+};
+const _hoisted_40 = {
+  class: "list-group folder-stack"
+};
+const _hoisted_41 = ["onClick", "onDrop"];
+const _hoisted_42 = {
+  class: "folder-main-wrapper d-flex align-items-center flex-grow-1"
+};
+const _hoisted_43 = ["id", "checked", "disabled", "title", "onChange"];
+const _hoisted_44 = {
+  class: "folder-main"
+};
+const _hoisted_45 = {
+  class: "folder-icon"
+};
+const _hoisted_46 = ["innerHTML"];
+const _hoisted_47 = {
+  class: "folder-count-pill"
+};
+const _hoisted_48 = ["onClick"];
+const _hoisted_49 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "folder-icon-box"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-folder2-open"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "folder-title"
   }, "Folder Studio", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.folders.length) + " folders", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "create-trigger",
     type: "button",
     onClick: _cache[0] || (_cache[0] = $event => $options.startCreate('folder'))
-  }, [...(_cache[22] || (_cache[22] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[19] || (_cache[19] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-plus-lg"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Create folder", -1 /* CACHED */)]))])])]), $data.showCreate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Create new folder", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Create folder", -1 /* CACHED */)]))])])]), $data.showCreate ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [_cache[20] || (_cache[20] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Create new folder", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-sm btn-link",
     type: "button",
     onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleCreate && $options.toggleCreate(...args))
-  }, " Close ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, " Close ")]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label small text-muted"
   }, "Folder Name", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     "onUpdate:modelValue": _cache[2] || (_cache[2] = $event => $data.newFolder.name = $event),
@@ -2435,7 +2690,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Inspiration"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.newFolder.name, void 0, {
     trim: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [_cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label small text-muted"
   }, "Choose Icon", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.iconPresets, preset => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -2449,7 +2704,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(preset.icon)
     }, null, 2 /* CLASS */)], 10 /* CLASS, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[23] || (_cache[23] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label small text-muted"
   }, "Theme Color", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.bootstrapColors, color => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
@@ -2468,7 +2723,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     key: 1,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["alert", $options.statusClass]),
     role: "alert"
-  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.status), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.status), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "input-group-text"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-search"
@@ -2479,42 +2734,56 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Search folders..."
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.searchQuery, void 0, {
     trim: true
-  }]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [$data.editingFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }]])])]), $options.filteredFolders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn btn-sm btn-outline-success",
+    onClick: _cache[5] || (_cache[5] = (...args) => $options.selectAllVisibleFolders && $options.selectAllVisibleFolders(...args)),
+    disabled: $options.filteredSelectableFolders.length === 0
+  }, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-check-all me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Select All ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_22), $data.selectedFolders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "btn btn-sm btn-outline-secondary",
+    onClick: _cache[6] || (_cache[6] = (...args) => $options.unselectAllFolders && $options.unselectAllFolders(...args))
+  }, [...(_cache[26] || (_cache[26] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-x-circle me-1"
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Unselect All ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.selectedFolders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedFolders.length) + " selected ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [$data.selectedFolders.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    class: "btn btn-sm btn-danger delete-selected",
+    onClick: _cache[7] || (_cache[7] = (...args) => $options.openBulkDeleteConfirm && $options.openBulkDeleteConfirm(...args)),
+    disabled: $data.bulkDeleteBusy
+  }, [$data.bulkDeleteBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_27)), _cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete Selected ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_25)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [$data.editingFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_29, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "modal-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     class: "modal-title"
-  }, "Rename folder")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => $data.renameValue = $event),
+  }, "Rename folder")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "onUpdate:modelValue": _cache[8] || (_cache[8] = $event => $data.renameValue = $event),
     class: "form-control",
     placeholder: "New folder name"
   }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.renameValue, void 0, {
     trim: true
-  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-secondary",
-    onClick: _cache[6] || (_cache[6] = (...args) => $options.cancelRename && $options.cancelRename(...args))
+    onClick: _cache[9] || (_cache[9] = (...args) => $options.cancelRename && $options.cancelRename(...args))
   }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-primary",
-    onClick: _cache[7] || (_cache[7] = (...args) => $options.saveRename && $options.saveRename(...args))
-  }, "Save")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.deleteConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-header"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    class: "modal-title"
-  }, "Delete folder?")], -1 /* CACHED */)), _cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: "modal-body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, "Delete this folder and all saved ayat inside it?")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    onClick: _cache[10] || (_cache[10] = (...args) => $options.saveRename && $options.saveRename(...args))
+  }, "Save")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.deleteConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.deleteModalTitle), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.deleteModalMessage), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-outline-secondary",
-    onClick: _cache[8] || (_cache[8] = (...args) => $options.closeDeleteConfirm && $options.closeDeleteConfirm(...args))
+    onClick: _cache[11] || (_cache[11] = (...args) => $options.closeDeleteConfirm && $options.closeDeleteConfirm(...args))
   }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-danger",
-    disabled: $data.deleteBusy,
-    onClick: _cache[9] || (_cache[9] = (...args) => $options.confirmDeleteFolder && $options.confirmDeleteFolder(...args))
-  }, [$data.deleteBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_25)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+    disabled: $options.currentDeleteBusy,
+    onClick: _cache[12] || (_cache[12] = $event => $data.deleteMode === 'bulk' ? $options.confirmBulkDeleteFolders() : $options.confirmDeleteFolder())
+  }, [$options.currentDeleteBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_38)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_37)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item folder-item d-flex align-items-center justify-content-between", {
       active: $data.selectedId === 'all'
     }]),
-    onClick: _cache[10] || (_cache[10] = (...args) => $options.selectAll && $options.selectAll(...args))
-  }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    onClick: _cache[13] || (_cache[13] = (...args) => $options.selectAll && $options.selectAll(...args))
+  }, [...(_cache[30] || (_cache[30] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "folder-main"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "folder-icon"
@@ -2522,79 +2791,51 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-collection"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "folder-name"
-  }, "All bookmarks")], -1 /* CACHED */)]))], 2 /* CLASS */), $data.showCustomFolders ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+  }, "All bookmarks")], -1 /* CACHED */)]))], 2 /* CLASS */), $data.showCustomFolders ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
     key: 0
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <li>\n          <button type=\"button\" class=\"folder-section-toggle pt-3\" @click=\"showCustomFolders = !showCustomFolders\">\n            <span class=\"section-title\">Custom folders</span>\n            <span class=\"section-count\">{{ filteredFolders.length }}</span>\n            <i class=\"bi\" :class=\"showCustomFolders ? 'bi-chevron-up' : 'bi-chevron-down'\"></i>\n          </button>\n        </li> "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
+  }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: folder.id,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item folder-item d-flex align-items-center justify-content-between", {
-        active: $data.selectedId === folder.id
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item folder-item d-flex align-items-center justify-content-between gap-2", {
+        active: $data.selectedId === folder.id,
+        'folder-item-selected': $options.isFolderSelected(folder.id)
       }]),
       onClick: $event => $options.selectFolder(folder),
-      onDragover: _cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["prevent"])),
+      onDragover: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["prevent"])),
       onDrop: $event => $options.handleDrop($event, folder)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+      class: "folder-select",
+      onClick: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      type: "checkbox",
+      class: "form-check-input",
+      id: `folder-select-${folder.id}`,
+      checked: $options.isFolderSelected(folder.id),
+      disabled: folder.is_smart,
+      title: folder.is_smart ? 'Smart folders cannot be deleted' : '',
+      onChange: $event => $options.toggleFolderSelection(folder.id)
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon || 'bi bi-folder2')
     }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "folder-name",
       innerHTML: $options.highlightFolderName(folder.name)
-    }, null, 8 /* PROPS */, _hoisted_32)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_46)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "folder-actions",
-      onClick: _cache[11] || (_cache[11] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      onClick: _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "folder-action rename",
       onClick: $event => $options.startRename(folder)
-    }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-pencil"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "folder-action delete",
       onClick: $event => $options.openDeleteConfirm(folder)
-    }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-trash"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_35)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_29);
-  }), 128 /* KEYED_FRAGMENT */))], 64 /* STABLE_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), $data.editingFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 2,
-    class: "modal fade show modal-wrapper",
-    tabindex: "-1",
-    role: "dialog",
-    "aria-modal": "true",
-    onClick: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.cancelRename && $options.cancelRename(...args), ["self"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    class: "modal-title mb-3"
-  }, "Rename folder", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
-    "onUpdate:modelValue": _cache[13] || (_cache[13] = $event => $data.renameValue = $event),
-    class: "form-control mb-3",
-    placeholder: "New folder name"
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.renameValue, void 0, {
-    trim: true
-  }]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-outline-secondary",
-    onClick: _cache[14] || (_cache[14] = (...args) => $options.cancelRename && $options.cancelRename(...args))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-primary",
-    onClick: _cache[15] || (_cache[15] = (...args) => $options.saveRename && $options.saveRename(...args))
-  }, "Save")])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.deleteConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-    key: 3,
-    class: "modal fade show modal-wrapper",
-    tabindex: "-1",
-    role: "dialog",
-    "aria-modal": "true",
-    onClick: _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.closeDeleteConfirm && $options.closeDeleteConfirm(...args), ["self"]))
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
-    class: "modal-title mb-3"
-  }, "Delete folder?", -1 /* CACHED */)), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "mb-0"
-  }, "Delete this folder and all saved ayat inside it?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    class: "btn btn-outline-secondary",
-    onClick: _cache[17] || (_cache[17] = (...args) => $options.closeDeleteConfirm && $options.closeDeleteConfirm(...args))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "btn btn-danger",
-    disabled: $data.deleteBusy,
-    onClick: _cache[18] || (_cache[18] = (...args) => $options.confirmDeleteFolder && $options.confirmDeleteFolder(...args))
-  }, [$data.deleteBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_44)])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_49)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_41);
+  }), 128 /* KEYED_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
 }
 
 /***/ }),

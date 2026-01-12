@@ -273,9 +273,30 @@
                                 >Saved</span
                             >
                         </h4>
-                            <div class="d-flex align-items-center">
-                                <transition name="feedback-fade">
-                                    <span
+                        <div class="d-flex align-items-center">
+                            <transition name="feedback-fade">
+                                <span
+                                    v-if="
+                                        feedbackMessages[
+                                            buildAyahKey(
+                                                surahDetails?.surahNumber,
+                                                item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                            )
+                                        ]
+                                    "
+                                    class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
+                                    :class="
+                                        feedbackMessages[
+                                            buildAyahKey(
+                                                surahDetails?.surahNumber,
+                                                item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                            )
+                                        ].class
+                                    "
+                                >
+                                    <i
                                         v-if="
                                             feedbackMessages[
                                                 buildAyahKey(
@@ -283,65 +304,47 @@
                                                     item.ayah.numberInSurah ||
                                                         item.ayah.number
                                                 )
-                                            ]
+                                            ].icon === 'check'
                                         "
-                                        class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
-                                        :class="
+                                        class="bi bi-check-circle-fill me-2 fs-5"
+                                    ></i>
+                                    <i
+                                        v-else-if="
                                             feedbackMessages[
                                                 buildAyahKey(
                                                     surahDetails?.surahNumber,
                                                     item.ayah.numberInSurah ||
                                                         item.ayah.number
                                                 )
-                                            ].class
+                                            ].icon === 'trash'
                                         "
-                                    >
-                                        <i
-                                            v-if="
-                                                feedbackMessages[
-                                                    buildAyahKey(
-                                                        surahDetails?.surahNumber,
-                                                        item.ayah.numberInSurah ||
-                                                            item.ayah.number
-                                                    )
-                                                ].icon === 'check'
-                                            "
-                                            class="bi bi-check-circle-fill me-2 fs-5"
-                                        ></i>
-                                        <i
-                                            v-else-if="
-                                                feedbackMessages[
-                                                    buildAyahKey(
-                                                        surahDetails?.surahNumber,
-                                                        item.ayah.numberInSurah ||
-                                                            item.ayah.number
-                                                    )
-                                                ].icon === 'trash'
-                                            "
-                                            class="bi bi-trash-fill me-2 fs-5"
-                                        ></i>
-                                        {{
-                                            feedbackMessages[
-                                                buildAyahKey(
-                                                    surahDetails?.surahNumber,
-                                                    item.ayah.numberInSurah ||
-                                                        item.ayah.number
-                                                )
-                                            ].text
-                                        }}
-                                    </span>
-                                </transition>
-                                <button
-                                    type="button"
-                                    class="icon-btn ms-2"
-                                    @click.stop="openBookmarkModal(item.ayah)"
-                                    title="Save to folder / Organize"
-                                    aria-label="Save to folder or organize bookmark"
-                                >
-                                    <i class="bi bi-folder-plus" aria-hidden="true"></i>
-                                </button>
-                            </div>
+                                        class="bi bi-trash-fill me-2 fs-5"
+                                    ></i>
+                                    {{
+                                        feedbackMessages[
+                                            buildAyahKey(
+                                                surahDetails?.surahNumber,
+                                                item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                            )
+                                        ].text
+                                    }}
+                                </span>
+                            </transition>
+                            <button
+                                type="button"
+                                class="icon-btn ms-2"
+                                @click.stop="openBookmarkModal(item.ayah)"
+                                title="Save to folder / Organize"
+                                aria-label="Save to folder or organize bookmark"
+                            >
+                                <i
+                                    class="bi bi-folder-plus"
+                                    aria-hidden="true"
+                                ></i>
+                            </button>
                         </div>
+                    </div>
 
                     <!-- Desktop Layout: Icons on Left -->
                     <div
@@ -444,13 +447,23 @@
                                 </button>
                                 <button
                                     class="icon-btn mb-3"
-                                    :class="{ 'is-saved': isAyahSaved(item.ayah) }"
+                                    :class="{
+                                        'is-saved': isAyahSaved(item.ayah),
+                                    }"
                                     @click.stop="toggleBookmark(item.ayah)"
-                                    :title="isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Quick save bookmark'"
+                                    :title="
+                                        isAyahSaved(item.ayah)
+                                            ? 'Remove bookmark'
+                                            : 'Quick save bookmark'
+                                    "
                                 >
                                     <i
                                         class="bi"
-                                        :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'"
+                                        :class="
+                                            isAyahSaved(item.ayah)
+                                                ? 'bi-bookmark-check-fill'
+                                                : 'bi-bookmark-plus-fill'
+                                        "
                                         aria-hidden="true"
                                     ></i>
                                 </button>
@@ -612,13 +625,23 @@
                             <div class="col text-center" style="padding: 2px">
                                 <button
                                     class="icon-btn"
-                                    :class="{ 'is-saved': isAyahSaved(item.ayah) }"
+                                    :class="{
+                                        'is-saved': isAyahSaved(item.ayah),
+                                    }"
                                     @click.stop="toggleBookmark(item.ayah)"
-                                    :title="isAyahSaved(item.ayah) ? 'Remove bookmark' : 'Quick save bookmark'"
+                                    :title="
+                                        isAyahSaved(item.ayah)
+                                            ? 'Remove bookmark'
+                                            : 'Quick save bookmark'
+                                    "
                                 >
                                     <i
                                         class="bi"
-                                        :class="isAyahSaved(item.ayah) ? 'bi-bookmark-check-fill' : 'bi-bookmark-plus-fill'"
+                                        :class="
+                                            isAyahSaved(item.ayah)
+                                                ? 'bi-bookmark-check-fill'
+                                                : 'bi-bookmark-plus-fill'
+                                        "
                                         style="font-size: 1.6rem"
                                         aria-hidden="true"
                                     ></i>
@@ -1106,8 +1129,10 @@ export default {
                 this.showNextStep = false;
         } catch (_) {}
         await this.initializeBookmarkAuth();
-        this.bookmarkEventHandler = (event) => this.handleBookmarksUpdated(event);
-        this.bookmarkStorageHandler = (event) => this.handleStorageBookmarksUpdated(event);
+        this.bookmarkEventHandler = (event) =>
+            this.handleBookmarksUpdated(event);
+        this.bookmarkStorageHandler = (event) =>
+            this.handleStorageBookmarksUpdated(event);
         this.visibilityHandler = () => this.handleVisibilityChange();
         window.addEventListener("bookmarks-updated", this.bookmarkEventHandler);
         window.addEventListener("storage", this.bookmarkStorageHandler);
@@ -1168,11 +1193,17 @@ export default {
             window.removeEventListener("touchend", this._boundUp);
         }
         if (this.bookmarkEventHandler)
-            window.removeEventListener("bookmarks-updated", this.bookmarkEventHandler);
+            window.removeEventListener(
+                "bookmarks-updated",
+                this.bookmarkEventHandler
+            );
         if (this.bookmarkStorageHandler)
             window.removeEventListener("storage", this.bookmarkStorageHandler);
         if (this.visibilityHandler)
-            window.removeEventListener("visibilitychange", this.visibilityHandler);
+            window.removeEventListener(
+                "visibilitychange",
+                this.visibilityHandler
+            );
         if (this.audioElements && this.audioElements.forEach) {
             this.audioElements.forEach((audio) => {
                 if (audio && audio.pause) audio.pause();
@@ -1215,11 +1246,6 @@ export default {
             }, timeout);
         },
         async loadSavedAyahs() {
-            if (!this.bookmarkAuthenticated) {
-                this.savedAyahKeys = {};
-                this.savedAyahsLoaded = true;
-                return;
-            }
             if (this.savedAyahsLoaded) return;
             await this.initializeSavedAyahStorageKey();
             try {
@@ -1234,9 +1260,7 @@ export default {
                     );
                     const legacyGlobal = localStorage.getItem("ic_saved_ayahs");
                     const fallback = legacySession || legacyGlobal;
-                    this.savedAyahKeys = fallback
-                        ? JSON.parse(fallback)
-                        : {};
+                    this.savedAyahKeys = fallback ? JSON.parse(fallback) : {};
                     if (fallback) {
                         sessionStorage.setItem(
                             this.savedAyahStorageKey,
@@ -1315,10 +1339,6 @@ export default {
             }
         },
         async syncSavedAyahsFromApi() {
-            if (!this.bookmarkAuthenticated) {
-                this.savedAyahKeys = {};
-                return;
-            }
             try {
                 const response = await axios.get("/api/ayah-bookmarks");
                 const bookmarks = response.data?.data || [];
@@ -1374,13 +1394,9 @@ export default {
             }
         },
         async initializeBookmarkAuth() {
-            const authed = await this.evaluateBookmarkAuth();
-            if (authed) {
-                await this.loadSavedAyahs();
-                await this.syncSavedAyahsFromApi();
-            } else {
-                this.clearSavedBookmarks();
-            }
+            await this.evaluateBookmarkAuth();
+            await this.loadSavedAyahs();
+            await this.syncSavedAyahsFromApi();
         },
         async evaluateBookmarkAuth() {
             const userId = await fetchUserIdFromApi();
@@ -1390,7 +1406,8 @@ export default {
         clearSavedBookmarks() {
             this.savedAyahKeys = {};
             try {
-                const key = this.savedAyahStorageKey || "ic_saved_ayahs_session";
+                const key =
+                    this.savedAyahStorageKey || "ic_saved_ayahs_session";
                 sessionStorage.removeItem(key);
                 localStorage.removeItem(key);
             } catch (_) {
@@ -1417,9 +1434,6 @@ export default {
             return val === true ? null : val; // handle historic boolean values
         },
         async toggleBookmark(ayah) {
-            const isAuthed = await this.ensureAuthenticated();
-            if (!isAuthed) return;
-
             if (this.isAyahSaved(ayah)) {
                 this.removeBookmark(ayah);
             } else {
@@ -1570,8 +1584,6 @@ export default {
         },
         async openBookmarkModal(ayah) {
             if (!this.surahDetails || !ayah) return;
-            const isAuthed = await this.ensureAuthenticated();
-            if (!isAuthed) return;
             const ayahNumber = Number(ayah.numberInSurah || ayah.number);
             this.activeAyah = {
                 surah_number: Number(this.surahDetails.surahNumber),
@@ -1585,9 +1597,10 @@ export default {
             };
 
             this.$nextTick(() => {
-                const modalEl = document.getElementById('bookmarkModal');
+                const modalEl = document.getElementById("bookmarkModal");
                 if (modalEl) {
-                    const modal = Modal.getInstance(modalEl) || new Modal(modalEl);
+                    const modal =
+                        Modal.getInstance(modalEl) || new Modal(modalEl);
                     modal.show();
                 }
             });
@@ -1632,7 +1645,8 @@ export default {
             if (!this.bookmarkAuthenticated) return;
             try {
                 await this.initializeSavedAyahStorageKey();
-                const key = this.savedAyahStorageKey || "ic_saved_ayahs_session";
+                const key =
+                    this.savedAyahStorageKey || "ic_saved_ayahs_session";
                 const payload = JSON.stringify(next);
                 sessionStorage.setItem(key, payload);
                 localStorage.setItem(key, payload);
@@ -4295,11 +4309,7 @@ h1.display-5 {
 }
 
 .ayah-card-container .icon-btn.is-saved {
-    background: linear-gradient(
-        135deg,
-        #0f6e63 0%,
-        #0a4b45 100%
-    ) !important;
+    background: linear-gradient(135deg, #0f6e63 0%, #0a4b45 100%) !important;
     border-color: #0b5c53 !important;
     color: #ffffff !important;
     box-shadow: 0 8px 16px rgba(15, 110, 99, 0.2) !important;

@@ -193,6 +193,69 @@ class AyahBookmarkController extends Controller
         ]);
     }
 
+    public function bulkDestroy(Request $request)
+    {
+        $validated = $request->validate([
+            'bookmark_ids' => 'required|array',
+            'bookmark_ids.*' => 'integer',
+        ]);
+
+        $bookmarkIds = $validated['bookmark_ids'];
+        
+        if (empty($bookmarkIds)) {
+            return response()->json([
+                'message' => 'No bookmarks selected.',
+                'deleted_count' => 0,
+            ], 422);
+        }
+
+        $this->requireOwnerConstraint($request);
+
+        // Fetch bookmarks owned by the user
+        $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
+            ->whereIn('id', $bookmarkIds)
+            ->get();
+
+        if ($bookmarks->isEmpty()) {
+            return response()->json([
+                'message' => 'No bookmarks found to delete.',
+                'deleted_count' => 0,
+            ], 404);
+        }
+
+        $deletedCount = 0;
+        $affectedFolderIds = [];
+
+        foreach ($bookmarks as $bookmark) {
+            // Use Policy for authorization
+            $this->authorize('delete', $bookmark);
+            
+            // Collect folder IDs before detaching
+            $folderIds = $bookmark->folders()->pluck('folders.id')->all();
+            $affectedFolderIds = array_merge($affectedFolderIds, $folderIds);
+            
+            // Detach from folders and delete
+            $bookmark->folders()->detach();
+            $bookmark->delete();
+            
+            $this->logEvent($bookmark->user_id, 'bookmark_deleted', null, null, $bookmark->ayah_id);
+            $deletedCount++;
+        }
+
+        // Update affected folders' timestamps
+        if (!empty($affectedFolderIds)) {
+            $uniqueFolderIds = array_unique($affectedFolderIds);
+            $this->applyOwnerScope(Folder::query(), $request)
+                ->whereIn('id', $uniqueFolderIds)
+                ->update(['updated_at' => now()]);
+        }
+
+        return response()->json([
+            'message' => "Successfully deleted {$deletedCount} bookmark(s).",
+            'deleted_count' => $deletedCount,
+        ]);
+    }
+
     private function normalizeFolderIds(Request $request, array $folderIds): array
     {
         if (empty($folderIds)) {

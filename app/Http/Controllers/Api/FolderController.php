@@ -197,6 +197,74 @@ class FolderController extends Controller
         ]);
     }
 
+    public function bulkDestroy(Request $request)
+    {
+        $validated = $request->validate([
+            'folder_ids' => 'required|array',
+            'folder_ids.*' => 'integer',
+        ]);
+
+        $folderIds = $validated['folder_ids'];
+        
+        if (empty($folderIds)) {
+            return response()->json([
+                'message' => 'No folders selected.',
+                'deleted_count' => 0,
+            ], 422);
+        }
+
+        // Fetch folders owned by the user
+        $folders = $this->applyOwnerScope(Folder::query(), $request)
+            ->whereIn('id', $folderIds)
+            ->get();
+
+        if ($folders->isEmpty()) {
+            return response()->json([
+                'message' => 'No folders found to delete.',
+                'deleted_count' => 0,
+            ], 404);
+        }
+
+        $deletedCount = 0;
+        $skippedSmartFolders = 0;
+
+        DB::transaction(function () use ($folders, &$deletedCount, &$skippedSmartFolders) {
+            foreach ($folders as $folder) {
+                // Skip smart folders
+                if ($folder->is_smart) {
+                    $skippedSmartFolders++;
+                    continue;
+                }
+
+                // Authorize deletion
+                $this->authorize('delete', $folder);
+                
+                // Delete associated bookmarks
+                $bookmarkIds = $folder->bookmarks()->pluck('bookmarks.id')->all();
+                if (!empty($bookmarkIds)) {
+                    Bookmark::where('user_id', $folder->user_id)
+                        ->whereIn('id', $bookmarkIds)
+                        ->delete();
+                }
+                
+                // Force delete the folder
+                $folder->forceDelete();
+                $deletedCount++;
+            }
+        });
+
+        $message = "Successfully deleted {$deletedCount} folder(s).";
+        if ($skippedSmartFolders > 0) {
+            $message .= " Skipped {$skippedSmartFolders} smart folder(s).";
+        }
+
+        return response()->json([
+            'message' => $message,
+            'deleted_count' => $deletedCount,
+            'skipped_count' => $skippedSmartFolders,
+        ]);
+    }
+
     public function bookmarks(Request $request, Folder $folder)
     {
         $this->authorize('view', $folder);

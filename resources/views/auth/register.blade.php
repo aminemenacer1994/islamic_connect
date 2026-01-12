@@ -40,9 +40,9 @@
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
                             name="password" required autocomplete="new-password"
                             placeholder="Create a password">
-                    <div class="password-requirements">
+                    <!-- <div class="password-requirements">
                         Password must be at least 6 characters
-                    </div>
+                    </div> -->
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

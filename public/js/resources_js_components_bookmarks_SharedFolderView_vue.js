@@ -25,7 +25,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'BookmarkModal',
+  name: "BookmarkModal",
   props: {
     ayah: {
       type: Object,
@@ -42,19 +42,19 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       selectedFolderIds: [],
       currentBookmark: null,
       newFolder: {
-        name: '',
-        icon: 'fas fa-bookmark',
-        color: 'primary'
+        name: "",
+        icon: "fas fa-bookmark",
+        color: "primary"
       },
       isSaving: false,
       isCreatingFolder: false,
-      feedback: '',
-      feedbackVariant: 'success',
+      feedback: "",
+      feedbackVariant: "success",
       feedbackTimer: null,
       feedbackDurationMs: 4000,
       closeTimer: null,
       authRedirectTimer: null,
-      bootstrapColors: ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark'],
+      bootstrapColors: ["primary", "secondary", "success", "danger", "warning", "info", "light", "dark"],
       folderExpanded: {},
       folderContents: {},
       sectionOpen: {
@@ -63,30 +63,30 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         contents: false
       },
       selectedFoldersForDelete: [],
-      folderSearch: '',
+      folderSearch: "",
       pendingDelete: null,
       iconPresets: [{
-        icon: 'fas fa-bookmark'
+        icon: "fas fa-bookmark"
       }, {
-        icon: 'fas fa-star'
+        icon: "fas fa-star"
       }, {
-        icon: 'fas fa-heart'
+        icon: "fas fa-heart"
       }, {
-        icon: 'fas fa-book'
+        icon: "fas fa-book"
       }, {
-        icon: 'fas fa-book-open'
+        icon: "fas fa-book-open"
       }, {
-        icon: 'fas fa-leaf'
+        icon: "fas fa-leaf"
       }, {
-        icon: 'fas fa-mosque'
+        icon: "fas fa-mosque"
       }, {
-        icon: 'fas fa-kaaba'
+        icon: "fas fa-kaaba"
       }]
     };
   },
   computed: {
     feedbackClass() {
-      return this.feedbackVariant === 'danger' ? 'alert-danger' : 'alert-success';
+      return this.feedbackVariant === "danger" ? "alert-danger" : "alert-success";
     },
     selectedCount() {
       return this.selectedFolderIds.length;
@@ -100,29 +100,29 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return this.folders.filter(folder => folder.name.toLowerCase().includes(query));
     },
     pendingDeleteTitle() {
-      if (!this.pendingDelete) return '';
-      if (this.pendingDelete.type === 'bulk') {
+      if (!this.pendingDelete) return "";
+      if (this.pendingDelete.type === "bulk") {
         return `Delete ${this.pendingDelete.count} folder(s)?`;
       }
       return `Delete the "${this.pendingDelete.name}" folder?`;
     },
     feedbackIcon() {
-      return this.feedbackVariant === 'danger' ? 'fas fa-triangle-exclamation' : 'fas fa-circle-check';
+      return this.feedbackVariant === "danger" ? "fas fa-triangle-exclamation" : "fas fa-circle-check";
     }
   },
   mounted() {
-    const modalEl = document.getElementById('bookmarkModal');
+    const modalEl = document.getElementById("bookmarkModal");
     if (modalEl) {
       this.cleanupModalState();
-      modalEl.addEventListener('show.bs.modal', this.onShow);
-      modalEl.addEventListener('hidden.bs.modal', this.onHidden);
+      modalEl.addEventListener("show.bs.modal", this.onShow);
+      modalEl.addEventListener("hidden.bs.modal", this.onHidden);
     }
   },
   beforeUnmount() {
-    const modalEl = document.getElementById('bookmarkModal');
+    const modalEl = document.getElementById("bookmarkModal");
     if (modalEl) {
-      modalEl.removeEventListener('show.bs.modal', this.onShow);
-      modalEl.removeEventListener('hidden.bs.modal', this.onHidden);
+      modalEl.removeEventListener("show.bs.modal", this.onShow);
+      modalEl.removeEventListener("hidden.bs.modal", this.onHidden);
       const instance = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(modalEl);
       if (instance) instance.dispose();
     }
@@ -134,7 +134,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   methods: {
     async onShow() {
       this.cleanupModalState();
-      this.feedback = '';
+      this.feedback = "";
       this.selectedFolderIds = [];
       this.currentBookmark = null;
       const isAuthed = await this.ensureAuthenticated();
@@ -152,29 +152,29 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (userId) {
         return true;
       }
-      this.setFeedback('Please log in to save bookmarks. Redirecting…', 'danger');
+      this.setFeedback("Please log in to save bookmarks. Redirecting…", "danger");
       clearTimeout(this.authRedirectTimer);
       this.authRedirectTimer = setTimeout(() => {
-        window.location.href = '/login';
+        window.location.href = "/login";
       }, 1500);
       return false;
     },
     cleanupModalState() {
-      const backdrops = document.querySelectorAll('.modal-backdrop');
+      const backdrops = document.querySelectorAll(".modal-backdrop");
       backdrops.forEach(backdrop => {
         var _backdrop$parentNode, _backdrop$parentNode$;
         return (_backdrop$parentNode = backdrop.parentNode) === null || _backdrop$parentNode === void 0 || (_backdrop$parentNode$ = _backdrop$parentNode.removeChild) === null || _backdrop$parentNode$ === void 0 ? void 0 : _backdrop$parentNode$.call(_backdrop$parentNode, backdrop);
       });
-      document.body.classList.remove('modal-open');
-      document.body.style.removeProperty('padding-right');
+      document.body.classList.remove("modal-open");
+      document.body.style.removeProperty("padding-right");
     },
     async fetchFolders() {
       try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/folders');
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/folders");
         this.folders = response.data.data || [];
         this.normalizeSelectedFolders();
       } catch (error) {
-        this.setFeedback('Unable to load folders right now.', 'danger');
+        this.setFeedback("Unable to load folders right now.", "danger");
       }
     },
     async fetchCurrentBookmark() {
@@ -186,7 +186,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
       try {
         var _response$data;
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/ayah-bookmarks', {
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks", {
           params: {
             surah_number: surahNumber,
             ayah_number: ayahNumber
@@ -217,7 +217,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const isAuthed = await this.ensureAuthenticated();
       if (!isAuthed) return;
       if (!this.newFolder.name) {
-        this.setFeedback('Folder name is required.', 'danger');
+        this.setFeedback("Folder name is required.", "danger");
         return;
       }
       const name = this.newFolder.name.trim();
@@ -225,13 +225,13 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       // Refresh folders list to get latest state from backend
       await this.fetchFolders();
       const nameKey = name.toLowerCase();
-      if (this.folders.some(folder => (folder.name || '').trim().toLowerCase() === nameKey)) {
-        this.setFeedback('Folder name already exists. Choose another.', 'danger');
+      if (this.folders.some(folder => (folder.name || "").trim().toLowerCase() === nameKey)) {
+        this.setFeedback("Folder name already exists. Choose another.", "danger");
         return;
       }
       this.isCreatingFolder = true;
       try {
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/folders', {
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/folders", {
           name,
           icon: this.newFolder.icon || null,
           color: this.newFolder.color || null
@@ -246,15 +246,15 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
             loading: false,
             items: []
           };
-          this.newFolder.name = '';
-          this.newFolder.icon = 'fas fa-bookmark';
-          this.newFolder.color = 'primary';
-          this.setFeedback('Folder created.', 'success');
+          this.newFolder.name = "";
+          this.newFolder.icon = "fas fa-bookmark";
+          this.newFolder.color = "primary";
+          this.setFeedback("Folder created.", "success");
         }
       } catch (error) {
         var _error$response, _error$response2;
         const apiMessage = ((_error$response = error.response) === null || _error$response === void 0 || (_error$response = _error$response.data) === null || _error$response === void 0 ? void 0 : _error$response.message) || ((_error$response2 = error.response) === null || _error$response2 === void 0 || (_error$response2 = _error$response2.data) === null || _error$response2 === void 0 || (_error$response2 = _error$response2.errors) === null || _error$response2 === void 0 || (_error$response2 = _error$response2.name) === null || _error$response2 === void 0 ? void 0 : _error$response2[0]);
-        this.setFeedback(apiMessage || 'Failed to create folder.', 'danger');
+        this.setFeedback(apiMessage || "Failed to create folder.", "danger");
       } finally {
         this.isCreatingFolder = false;
       }
@@ -266,7 +266,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const surahNumber = Number(((_this$ayah5 = this.ayah) === null || _this$ayah5 === void 0 ? void 0 : _this$ayah5.surah_number) || ((_this$ayah6 = this.ayah) === null || _this$ayah6 === void 0 ? void 0 : _this$ayah6.surah_id));
       const ayahNumber = Number(((_this$ayah7 = this.ayah) === null || _this$ayah7 === void 0 ? void 0 : _this$ayah7.ayah_number) || ((_this$ayah8 = this.ayah) === null || _this$ayah8 === void 0 ? void 0 : _this$ayah8.ayah_num));
       if (!this.ayah || !surahNumber || !ayahNumber) {
-        this.setFeedback('Select an ayah first.', 'danger');
+        this.setFeedback("Select an ayah first.", "danger");
         return;
       }
       this.isSaving = true;
@@ -281,12 +281,12 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         const payload = {
           surah_number: surahNumber,
           ayah_number: ayahNumber,
-          surah_name: this.ayah.surah_name || ((_this$ayah$surah = this.ayah.surah) === null || _this$ayah$surah === void 0 ? void 0 : _this$ayah$surah.name_en) || 'Surah',
-          ayah_verse_ar: this.ayah.ayah_verse_ar || ((_this$ayah$ayah = this.ayah.ayah) === null || _this$ayah$ayah === void 0 ? void 0 : _this$ayah$ayah.ayah_text) || '',
-          ayah_verse_en: this.ayah.ayah_verse_en || '',
+          surah_name: this.ayah.surah_name || ((_this$ayah$surah = this.ayah.surah) === null || _this$ayah$surah === void 0 ? void 0 : _this$ayah$surah.name_en) || "Surah",
+          ayah_verse_ar: this.ayah.ayah_verse_ar || ((_this$ayah$ayah = this.ayah.ayah) === null || _this$ayah$ayah === void 0 ? void 0 : _this$ayah$ayah.ayah_text) || "",
+          ayah_verse_en: this.ayah.ayah_verse_en || "",
           folder_ids: selectedIds
         };
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/ayah-bookmarks', payload);
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/ayah-bookmarks", payload);
         const bookmark = ((_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.bookmark) || null;
         if (bookmark) {
           this.currentBookmark = bookmark;
@@ -315,14 +315,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           }
         });
         await this.fetchCurrentBookmark();
-        this.setFeedback(detachFailed ? 'Bookmark saved, but some folders could not be removed.' : 'Ayah saved to your bookmarks.', detachFailed ? 'danger' : 'success', {
+        this.setFeedback(detachFailed ? "Bookmark saved, but some folders could not be removed." : "Ayah saved to your bookmarks.", detachFailed ? "danger" : "success", {
           autoClose: !detachFailed
         });
-        this.$emit('saved', _objectSpread(_objectSpread({}, payload), {}, {
+        this.$emit("saved", _objectSpread(_objectSpread({}, payload), {}, {
           bookmark: this.currentBookmark
         }));
       } catch (error) {
-        this.setFeedback('Failed to save the bookmark.', 'danger');
+        this.setFeedback("Failed to save the bookmark.", "danger");
       } finally {
         this.isSaving = false;
       }
@@ -332,7 +332,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.feedbackVariant = variant;
       clearTimeout(this.feedbackTimer);
       this.feedbackTimer = setTimeout(() => {
-        this.feedback = '';
+        this.feedback = "";
       }, this.feedbackDurationMs);
       if (options.autoClose) {
         clearTimeout(this.closeTimer);
@@ -351,11 +351,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     requestDeleteFolder(folder) {
       if (!folder || folder.is_smart) {
-        this.setFeedback('Smart folders cannot be deleted.', 'danger');
+        this.setFeedback("Smart folders cannot be deleted.", "danger");
         return;
       }
       this.pendingDelete = {
-        type: 'single',
+        type: "single",
         ids: [folder.id],
         name: folder.name
       };
@@ -366,11 +366,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return folder && !folder.is_smart;
       });
       if (!ids.length) {
-        this.setFeedback('Select folders to delete.', 'danger');
+        this.setFeedback("Select folders to delete.", "danger");
         return;
       }
       this.pendingDelete = {
-        type: 'bulk',
+        type: "bulk",
         ids,
         count: ids.length
       };
@@ -382,8 +382,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.pendingDelete = null;
         return;
       }
-      const deletingMessage = ids.length === 1 ? 'Deleting folder...' : 'Deleting folders...';
-      this.setFeedback(deletingMessage, 'success');
+      const deletingMessage = ids.length === 1 ? "Deleting folder..." : "Deleting folders...";
+      this.setFeedback(deletingMessage, "success");
       try {
         // Delete each folder from backend permanently
         const deletePromises = ids.map(async id => {
@@ -434,17 +434,17 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
         // Show appropriate feedback
         if (failedDeletes.length === 0) {
-          const successMessage = successfulDeletes.length === 1 ? 'Folder deleted permanently from backend.' : `${successfulDeletes.length} folders deleted permanently from backend.`;
-          this.setFeedback(successMessage, 'success');
+          const successMessage = successfulDeletes.length === 1 ? "Folder deleted permanently from backend." : `${successfulDeletes.length} folders deleted permanently from backend.`;
+          this.setFeedback(successMessage, "success");
         } else if (successfulDeletes.length === 0) {
-          this.setFeedback('Failed to delete folders from backend.', 'danger');
+          this.setFeedback("Failed to delete folders from backend.", "danger");
         } else {
-          this.setFeedback(`${successfulDeletes.length} deleted, ${failedDeletes.length} failed.`, 'danger');
+          this.setFeedback(`${successfulDeletes.length} deleted, ${failedDeletes.length} failed.`, "danger");
         }
       } catch (error) {
         var _error$response3;
-        const errorMessage = ((_error$response3 = error.response) === null || _error$response3 === void 0 || (_error$response3 = _error$response3.data) === null || _error$response3 === void 0 ? void 0 : _error$response3.message) || 'Unable to delete folders from backend.';
-        this.setFeedback(errorMessage, 'danger');
+        const errorMessage = ((_error$response3 = error.response) === null || _error$response3 === void 0 || (_error$response3 = _error$response3.data) === null || _error$response3 === void 0 ? void 0 : _error$response3.message) || "Unable to delete folders from backend.";
+        this.setFeedback(errorMessage, "danger");
         this.pendingDelete = null;
       }
     },
@@ -453,7 +453,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     hideModal() {
       this.$nextTick(() => {
-        const modalEl = document.getElementById('bookmarkModal');
+        const modalEl = document.getElementById("bookmarkModal");
         if (!modalEl) return;
         const instance = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(modalEl) || new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal(modalEl);
         instance.hide();
@@ -479,7 +479,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       });
       try {
         var _response$data3;
-        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/ayah-bookmarks', {
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks", {
           params: {
             folder_id: folder.id
           }
@@ -503,12 +503,12 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     async removeAyahFromFolder(bookmark, folder) {
       if (!(bookmark !== null && bookmark !== void 0 && bookmark.id)) return;
       if (folder !== null && folder !== void 0 && folder.is_smart) {
-        this.setFeedback('Smart folders cannot be edited.', 'danger');
+        this.setFeedback("Smart folders cannot be edited.", "danger");
         return;
       }
       try {
         var _this$folderContents$2, _this$currentBookmark3;
-        if (!confirm('Remove this ayah from the folder?')) {
+        if (!confirm("Remove this ayah from the folder?")) {
           return;
         }
         await axios__WEBPACK_IMPORTED_MODULE_0__["default"].delete(`/api/ayah-bookmarks/${bookmark.id}/folders/${folder.id}`);
@@ -526,7 +526,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           this.selectedFolderIds = this.selectedFolderIds.filter(id => id !== folder.id);
         }
       } catch (error) {
-        this.setFeedback('Unable to remove this ayah.', 'danger');
+        this.setFeedback("Unable to remove this ayah.", "danger");
       }
     },
     moveTargetFolders(folder) {
@@ -543,7 +543,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const targetId = Number(event === null || event === void 0 || (_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.value);
       if (!(bookmark !== null && bookmark !== void 0 && bookmark.id) || !targetId) return;
       if (fromFolder !== null && fromFolder !== void 0 && fromFolder.is_smart) {
-        this.setFeedback('Smart folders cannot be edited.', 'danger');
+        this.setFeedback("Smart folders cannot be edited.", "danger");
         return;
       }
       try {
@@ -573,13 +573,20 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
             });
           }
         }
-        this.setFeedback('Ayah moved to another folder.', 'success');
+        this.setFeedback("Ayah moved to another folder.", "success");
         if (event !== null && event !== void 0 && event.target) {
-          event.target.value = '';
+          event.target.value = "";
         }
       } catch (error) {
-        this.setFeedback('Unable to move this ayah.', 'danger');
+        this.setFeedback("Unable to move this ayah.", "danger");
       }
+    },
+    selectAllFolders() {
+      // Select all non-smart folders
+      this.selectedFoldersForDelete = this.folders.filter(folder => !folder.is_smart).map(folder => folder.id);
+    },
+    unselectAllFolders() {
+      this.selectedFoldersForDelete = [];
     }
   }
 });
@@ -821,9 +828,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     class: "modal-title",
     id: "bookmarkModalLabel"
-  }, "Save Ayah", -1 /* CACHED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, " Save Ayah ", -1 /* CACHED */)), _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "modal-subtitle"
-  }, "Pick a folder or create a new one.", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " Pick a folder or create a new one. ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_7, [_cache[12] || (_cache[12] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "meta-label"
   }, "Folders", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderCount), 1 /* TEXT */)]), _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "meta-divider"
@@ -848,7 +855,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fas fa-folder-open"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Choose folders"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-desc"
-  }, "Select where this ayah will be saved.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount) + " selected", 1 /* TEXT */), $options.selectedCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+  }, " Select where this ayah will be saved. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_19, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedCount) + " selected", 1 /* TEXT */), $options.selectedCount ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
     class: "btn btn-link btn-clear",
@@ -868,7 +875,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     placeholder: "Search folders"
   }, null, 512 /* NEED_PATCH */)), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.folderSearch, void 0, {
     trim: true
-  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.filteredFolders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, "No folders yet. Create one below.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
+  }]]) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.filteredFolders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_21, " No folders yet. Create one below. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_22, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("label", {
       key: folder.id,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['folder-pill', folder.color ? `pill-${folder.color}` : 'pill-neutral', {
@@ -896,7 +903,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fas fa-plus-circle"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Create new folder"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-desc"
-  }, "Start a fresh collection for your reflections.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " Start a fresh collection for your reflections. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [_cache[21] || (_cache[21] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "section-hint"
   }, "Add a custom collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -953,7 +960,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "fas fa-list-check"
   })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", null, "Folder contents"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "section-desc"
-  }, "Preview what is inside each folder.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, " Preview what is inside each folder. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [_cache[27] || (_cache[27] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "section-hint"
   }, "Review or remove saved ayat", -1 /* CACHED */)), $data.selectedFoldersForDelete.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
@@ -969,15 +976,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.sectionOpen.contents ? 'fa-chevron-up' : 'fa-chevron-down'])
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_48)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [$data.pendingDelete ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.pendingDeleteTitle), 1 /* TEXT */), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "delete-note"
-  }, "Ayat in this folder will also be deleted.", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Ayat in this folder will also be deleted. ", -1 /* CACHED */))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-secondary btn-sm",
     onClick: _cache[9] || (_cache[9] = (...args) => $options.cancelDelete && $options.cancelDelete(...args))
-  }, "Cancel"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Cancel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-danger btn-sm",
     onClick: _cache[10] || (_cache[10] = (...args) => $options.confirmDelete && $options.confirmDelete(...args))
-  }, "Delete")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.folders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, "No folders to show yet.")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folders, folder => {
+  }, " Delete ")])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.folders.length === 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, " No folders to show yet. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_53, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folders, folder => {
     var _$data$folderContents, _$data$folderContents2;
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: `contents-${folder.id}`,
@@ -1005,21 +1012,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.toggleFolderContents(folder)
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $data.folderExpanded[folder.id] ? 'fa-chevron-up' : 'fa-chevron-down'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_61)])]), $data.folderExpanded[folder.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_62, [(_$data$folderContents = $data.folderContents[folder.id]) !== null && _$data$folderContents !== void 0 && _$data$folderContents.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, "Loading...")) : !((_$data$folderContents2 = $data.folderContents[folder.id]) !== null && _$data$folderContents2 !== void 0 && (_$data$folderContents2 = _$data$folderContents2.items) !== null && _$data$folderContents2 !== void 0 && _$data$folderContents2.length) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, " No ayat saved in this folder. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_61)])]), $data.folderExpanded[folder.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_62, [(_$data$folderContents = $data.folderContents[folder.id]) !== null && _$data$folderContents !== void 0 && _$data$folderContents.loading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_63, " Loading... ")) : !((_$data$folderContents2 = $data.folderContents[folder.id]) !== null && _$data$folderContents2 !== void 0 && (_$data$folderContents2 = _$data$folderContents2.items) !== null && _$data$folderContents2 !== void 0 && _$data$folderContents2.length) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_64, " No ayat saved in this folder. ")) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
       key: 2
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.folderContents[folder.id].items, item => {
       var _item$ayah, _item$ayah2;
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
         class: "folder-item",
         key: item.id
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surah_name || 'Surah') + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.ayah_id) || item.ayah_number || item.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.surah_name || "Surah") + " • Ayah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(((_item$ayah = item.ayah) === null || _item$ayah === void 0 ? void 0 : _item$ayah.ayah_id) || item.ayah_number || item.ayah_num), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_66, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_67, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
         class: "form-select",
         onChange: $event => $options.moveAyahToFolder(item, folder, $event),
         disabled: folder.is_smart
       }, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
         value: "",
         disabled: ""
-      }, "Move to...", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargetFolders(folder), target => {
+      }, " Move to... ", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargetFolders(folder), target => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
           key: target.id,
           value: target.id
@@ -1040,7 +1047,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "button",
     class: "btn btn-cancel",
     "data-bs-dismiss": "modal"
-  }, "Cancel", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, " Cancel ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-save",
     disabled: $data.isSaving,

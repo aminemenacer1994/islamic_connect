@@ -379,11 +379,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, timeout);
     },
     async loadSavedAyahs() {
-      if (!this.bookmarkAuthenticated) {
-        this.savedAyahKeys = {};
-        this.savedAyahsLoaded = true;
-        return;
-      }
       if (this.savedAyahsLoaded) return;
       await this.initializeSavedAyahStorageKey();
       try {
@@ -464,10 +459,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     async syncSavedAyahsFromApi() {
-      if (!this.bookmarkAuthenticated) {
-        this.savedAyahKeys = {};
-        return;
-      }
       try {
         var _response$data;
         const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks");
@@ -521,13 +512,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     async initializeBookmarkAuth() {
-      const authed = await this.evaluateBookmarkAuth();
-      if (authed) {
-        await this.loadSavedAyahs();
-        await this.syncSavedAyahsFromApi();
-      } else {
-        this.clearSavedBookmarks();
-      }
+      await this.evaluateBookmarkAuth();
+      await this.loadSavedAyahs();
+      await this.syncSavedAyahsFromApi();
     },
     async evaluateBookmarkAuth() {
       const userId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_3__.fetchUserIdFromApi)();
@@ -561,8 +548,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return val === true ? null : val; // handle historic boolean values
     },
     async toggleBookmark(ayah) {
-      const isAuthed = await this.ensureAuthenticated();
-      if (!isAuthed) return;
       if (this.isAyahSaved(ayah)) {
         this.removeBookmark(ayah);
       } else {
@@ -679,8 +664,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     async openBookmarkModal(ayah) {
       if (!this.surahDetails || !ayah) return;
-      const isAuthed = await this.ensureAuthenticated();
-      if (!isAuthed) return;
       const ayahNumber = Number(ayah.numberInSurah || ayah.number);
       this.activeAyah = {
         surah_number: Number(this.surahDetails.surahNumber),
@@ -690,7 +673,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         ayah_verse_en: ayah.translation || ""
       };
       this.$nextTick(() => {
-        const modalEl = document.getElementById('bookmarkModal');
+        const modalEl = document.getElementById("bookmarkModal");
         if (modalEl) {
           const modal = bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal.getInstance(modalEl) || new bootstrap__WEBPACK_IMPORTED_MODULE_1__.Modal(modalEl);
           modal.show();
