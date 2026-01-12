@@ -621,15 +621,15 @@ export default {
 
 <style scoped>
 .folder-list {
-  border-radius: 20px;
-  background: #f5fdf9;
-  border: 1px solid rgba(15, 110, 99, 0.25);
-  padding: 1.2rem;
+  border-radius: 22px;
+  background: linear-gradient(180deg, #fdfdfd 0%, #f2faf5 100%);
+  border: 1px solid rgba(15, 110, 99, 0.15);
+  padding: 1.4rem;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
+  gap: 1.25rem;
+  box-shadow: 0 14px 38px rgba(15, 23, 42, 0.08);
 }
 
 .folder-top {
@@ -794,29 +794,30 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  background: #fff;
-  border-radius: 16px;
+  background: #f8fafc;
+  border-radius: 20px;
   border: 1px solid rgba(15, 110, 99, 0.1);
   padding: 1rem;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
 }
 
 .folder-panel {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
+  gap: 0.85rem;
 }
 
 .folder-panel__controls {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem;
+  gap: 1rem;
 }
 
 .folder-search .input-group {
-  border-radius: 14px;
-  background: #e8fbf7;
-  border: 1px solid rgba(15, 110, 99, 0.35);
-  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.12);
+  border-radius: 18px;
+  background: #effdf9;
+  border: 1px solid rgba(15, 110, 99, 0.25);
+  box-shadow: inset 0 2px 6px rgba(15, 23, 42, 0.08);
 }
 
 .folder-search .input-group-text {
@@ -829,6 +830,11 @@ export default {
   flex: 1;
   max-height: calc(100vh - 360px);
   overflow-y: auto;
+  padding: 0.75rem;
+  background: #f2f7f3;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 110, 99, 0.08);
+  box-shadow: inset 0 2px 10px rgba(15, 110, 99, 0.06);
 }
 
 .folder-stack-wrap::-webkit-scrollbar {
@@ -840,8 +846,17 @@ export default {
 }
 
 .folder-stack-wrap::-webkit-scrollbar-thumb {
-  background: rgba(15, 110, 99, 0.4);
+  background: rgba(15, 110, 99, 0.45);
   border-radius: 999px;
+}
+
+.folder-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .alert {
@@ -866,14 +881,14 @@ export default {
 
 .selection-toolbar.folder-selection-toolbar {
   border-radius: 20px;
-  padding: 0.45rem 1rem;
-  background: #def7ed;
-  border: 1px solid rgba(15, 110, 99, 0.3);
+  padding: 0.7rem 0.9rem;
+  background: #e6f7ef;
+  border: 1px solid rgba(15, 110, 99, 0.25);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.7rem;
 }
 
 .selection-status {
@@ -915,32 +930,35 @@ export default {
 }
 
 .selection-pill {
-  border-radius: 16px;
-  padding: 0.35rem 0.9rem;
-  font-size: 0.8rem;
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
   border: none;
   display: inline-flex;
   align-items: center;
-  gap: 0.35rem;
-  background: #fff;
-  color: #0f6e63;
+  gap: 0.45rem;
   box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
 .selection-pill--primary {
-  background: #0c8c75;
+  background: #0f6e63;
   color: #fff;
 }
 
-.selection-pill:hover {
+.selection-pill--muted {
+  background: #fff;
+  color: #0f6e63;
+}
+
+.selection-pill:hover:not(:disabled) {
   transform: translateY(-1px);
   box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
 }
 
 .selection-pill:disabled {
-  opacity: 0.7;
+  opacity: 0.65;
   cursor: not-allowed;
   box-shadow: none;
   transform: none;
@@ -969,24 +987,25 @@ export default {
 }
 
 .folder-item {
-  border: 1px solid rgba(15, 23, 42, 0.1);
-  border-radius: 14px;
-  padding: 0.9rem 1rem;
-  background: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 0.75rem 0.9rem;
+  background: #ffffff;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 .folder-item:hover {
   transform: translateY(-1px);
-  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.12);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.15);
 }
 
 .folder-item.active {
-  border-color: rgba(15, 110, 99, 0.4);
-  background: #ecfff8;
+  background: #edf9f4;
+  border: 1px solid rgba(15, 110, 99, 0.4);
 }
 
 .folder-main-wrapper {
@@ -1005,21 +1024,21 @@ export default {
 }
 
 .folder-icon {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
-  background: #e6f4ef;
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  background: #dff4ee;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   color: #0f6e63;
-  font-size: 1rem;
+  font-size: 1.05rem;
 }
 
 .folder-actions {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
 }
 
 .folder-action {
@@ -1034,6 +1053,19 @@ export default {
 .folder-action.delete {
   background: rgba(239, 68, 68, 0.1);
   color: #b91c1c;
+}
+
+.folder-select {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.4rem;
+}
+
+.folder-select input {
+  width: 18px;
+  height: 18px;
+  accent-color: #0f6e63;
 }
 
 .folder-count-pill {

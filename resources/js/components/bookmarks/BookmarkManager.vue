@@ -81,6 +81,49 @@
                                         "
                                     ></i>
                                 </button>
+                                <div class="dropdown export-dropdown ms-2">
+                                    <button
+                                        class="btn btn-sm btn-forest dropdown-toggle"
+                                        type="button"
+                                        id="bookmarkExportDropdown"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false"
+                                        :disabled="!canExportFolder"
+                                    >
+                                        <i class="bi bi-file-earmark-arrow-down-fill me-1"></i>
+                                        Export folder
+                                    </button>
+                                    <ul
+                                        class="dropdown-menu dropdown-menu-end export-menu"
+                                        aria-labelledby="bookmarkExportDropdown"
+                                    >
+                                        <li>
+                                    <button
+                                        class="dropdown-item export-item"
+                                                type="button"
+                                                @click="exportFolder('pdf')"
+                                                :disabled="!canExportFolder"
+                                            >
+                                                <i class="bi bi-filetype-pdf icon"></i>
+                                                PDF Document
+                                                
+                                                
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button
+                                                class="dropdown-item export-item"
+                                                type="button"
+                                                @click="exportFolder('word')"
+                                                :disabled="!canExportFolder"
+                                            >
+                                                <i class="bi bi-filetype-doc icon"></i>
+                                                Word Document
+                                                
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
                                 <a class="panel-cta" href="/surat">
                                     Go back to the Holy Quran
                                     <i class="bi bi-arrow-right ms-2"></i>
@@ -427,7 +470,10 @@ import AyahRow from "./AyahRow.vue";
 import FolderList from "./FolderList.vue";
 import BookmarkModal from "./BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../../utils/bookmarkAuth";
-
+import { saveAs } from "file-saver";
+import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, VerticalAlign, AlignmentType } from "docx";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 export default {
     name: "BookmarkManager",
     components: {
@@ -610,6 +656,9 @@ export default {
                 this.selectedBookmarkIds.length > 0 &&
                 !this.allBookmarksSelected
             );
+        },
+        canExportFolder() {
+            return !!this.selectedFolder && this.normalizedItems.length > 0;
         },
     },
     async mounted() {
@@ -980,6 +1029,233 @@ export default {
             this.panelMessageTimer = setTimeout(() => {
                 this.panelMessage = "";
             }, 3000);
+        },
+        async exportFolder(format) {
+            if (!this.canExportFolder) {
+                this.setPanelMessage(
+                    "Select a folder with bookmarks before exporting.",
+                    "danger"
+                );
+                return;
+            }
+            const rows = this.buildExportRows();
+            try {
+                if (format === "pdf") {
+                    await this.exportFolderPdf(rows);
+                } else if (format === "word") {
+                    await this.exportFolderDocx(rows);
+                }
+            } catch (error) {
+                console.error("Folder export failed:", error);
+                this.setPanelMessage("Unable to export folder.", "danger");
+            }
+        },
+        buildExportRows() {
+            return this.normalizedItems.map((item) => {
+                const surahLabel =
+                    item.surah_name ||
+                    (item.surah_number
+                        ? `Surah ${item.surah_number}`
+                        : "Surah");
+                return {
+                    surah: this.stripHtmlTags(surahLabel).trim(),
+                    ayah: item.ayah_number
+                        ? String(item.ayah_number)
+                        : "",
+                    arabic: this.stripHtmlTags(item.ayah_verse_ar || "").trim(),
+                    translation: this.stripHtmlTags(
+                        item.ayah_verse_en || ""
+                    ).trim(),
+                };
+            });
+        },
+        slugifyForFilename(value) {
+            if (!value) return "";
+            return value
+                .toString()
+                .normalize("NFKD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^\x00-\x7F]/g, "")
+                .replace(/[^a-zA-Z0-9]+/g, "_")
+                .replace(/^_+|_+$/g, "")
+                .toLowerCase();
+        },
+        generateExportFileName(extension) {
+            const folderName = this.selectedFolder?.name || "bookmarks";
+            const dateStamp = new Date().toISOString().split("T")[0];
+            const slug = this.slugifyForFilename(`${folderName}_${dateStamp}`);
+            const safeName = slug || "bookmarks";
+            return `${safeName}.${extension}`;
+        },
+        createExportPreview(rows) {
+            const folderName = this.selectedFolder?.name || "Bookmarks";
+            const wrapper = document.createElement("div");
+            wrapper.className = "bookmark-export-preview";
+            const rowsHtml = rows
+                .map(
+                    (row) => `
+<tr>
+  <td>${this.escapeHtml(row.surah)}</td>
+  <td>${this.escapeHtml(row.ayah)}</td>
+  <td class="arabic-col" dir="rtl">${this.escapeHtml(row.arabic)}</td>
+  <td>${this.escapeHtml(row.translation)}</td>
+</tr>`
+                )
+                .join("");
+            wrapper.innerHTML = `
+<div class="bookmark-export-sheet">
+  <div class="export-header">
+    <h1>Daily Reflections</h1>
+    <p class="export-subtitle">${this.escapeHtml(folderName)} · ${rows.length} ayah(s)</p>
+  </div>
+  <table>
+    <thead>
+      <tr>
+        <th>Surah</th>
+        <th>Ayah</th>
+        <th>Arabic</th>
+        <th>Translation</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${rowsHtml}
+    </tbody>
+  </table>
+</div>`;
+            return wrapper;
+        },
+        async exportFolderPdf(rows) {
+            const preview = this.createExportPreview(rows);
+            document.body.appendChild(preview);
+            try {
+                const canvas = await html2canvas(preview, {
+                    scale: Math.min(window.devicePixelRatio || 1, 2),
+                    backgroundColor: "#ffffff",
+                    useCORS: true,
+                });
+                const imgData = canvas.toDataURL("image/png");
+                const pdf = new jsPDF({
+                    orientation: "portrait",
+                    unit: "pt",
+                    format: "a4",
+                });
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight =
+                    (canvas.height * pdfWidth) / canvas.width;
+                pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save(this.generateExportFileName("pdf"));
+                this.setPanelMessage("Folder exported as PDF.", "success");
+            } finally {
+                if (preview.parentNode) {
+                    preview.parentNode.removeChild(preview);
+                }
+            }
+        },
+        async exportFolderDocx(rows) {
+            const tableRows = [
+                new TableRow({
+                    children: [
+                        new TableCell({
+                            width: { size: 30, type: WidthType.PERCENTAGE },
+                            verticalAlign: VerticalAlign.CENTER,
+                            children: [
+                                new Paragraph({
+                                    text: "Surah • Ayah",
+                                    bold: true,
+                                    alignment: AlignmentType.CENTER,
+                                }),
+                            ],
+                        }),
+                        new TableCell({
+                            width: { size: 35, type: WidthType.PERCENTAGE },
+                            verticalAlign: VerticalAlign.CENTER,
+                            children: [
+                                new Paragraph({
+                                    text: "Arabic",
+                                    bold: true,
+                                    alignment: AlignmentType.CENTER,
+                                }),
+                            ],
+                        }),
+                        new TableCell({
+                            width: { size: 35, type: WidthType.PERCENTAGE },
+                            verticalAlign: VerticalAlign.CENTER,
+                            children: [
+                                new Paragraph({
+                                    text: "Translation",
+                                    bold: true,
+                                    alignment: AlignmentType.CENTER,
+                                }),
+                            ],
+                        }),
+                    ],
+                }),
+                ...rows.map((row) => {
+                    const surahText = [
+                        row.surah || "Surah",
+                        row.ayah ? `• Ayah ${row.ayah}` : "",
+                    ]
+                        .filter(Boolean)
+                        .join(" ");
+                    return new TableRow({
+                        children: [
+                            new TableCell({
+                                children: [
+                                    new Paragraph({
+                                        text: surahText,
+                                        size: 26,
+                                    }),
+                                ],
+                            }),
+                            new TableCell({
+                                children: [
+                                    new Paragraph({
+                                        text: row.arabic || "",
+                                        size: 26,
+                                        bidi: true,
+                                    }),
+                                ],
+                            }),
+                            new TableCell({
+                                children: [
+                                    new Paragraph({
+                                        text: row.translation || "",
+                                        size: 24,
+                                    }),
+                                ],
+                            }),
+                        ],
+                    });
+                }),
+            ];
+
+            const table = new Table({
+                width: {
+                    size: 100,
+                    type: WidthType.PERCENTAGE,
+                },
+                rows: tableRows,
+            });
+            const doc = new Document({
+                sections: [
+                    {
+                        properties: {},
+                        children: [
+                            new Paragraph({
+                                text: "Daily Reflections",
+                                heading: "Heading1",
+                                alignment: AlignmentType.CENTER,
+                                spacing: { after: 300 },
+                            }),
+                            table,
+                        ],
+                    },
+                ],
+            });
+
+            const blob = await Packer.toBlob(doc);
+            saveAs(blob, this.generateExportFileName("docx"));
+            this.setPanelMessage("Folder exported as Word document.", "success");
         },
         isDeleteBusy(id) {
             return !!this.deleteBusy[id];
@@ -1625,5 +1901,98 @@ export default {
     to {
         transform: rotate(360deg);
     }
+}
+:global(.bookmark-export-preview) {
+    position: fixed;
+    top: -9999px;
+    left: -9999px;
+    width: 960px;
+    z-index: 9999;
+}
+:global(.bookmark-export-sheet) {
+    width: 100%;
+    padding: 32px;
+    background: #ffffff;
+    font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+    color: #0f172a;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    border-radius: 16px;
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+}
+:global(.bookmark-export-sheet h1) {
+    margin: 0;
+    font-size: 32px;
+    font-weight: 700;
+}
+:global(.bookmark-export-sheet .export-subtitle) {
+    margin: 6px 0;
+    color: #475467;
+}
+:global(.bookmark-export-sheet table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 14px;
+}
+:global(.bookmark-export-sheet th),
+:global(.bookmark-export-sheet td) {
+    padding: 10px 12px;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    word-break: break-word;
+}
+:global(.bookmark-export-sheet th) {
+    background: #0f172a;
+    color: #f8fafc;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+:global(.bookmark-export-sheet td.arabic-col) {
+    font-family: "Amiri", "Noto Naskh Arabic", "Cairo", serif;
+    text-align: right;
+    direction: rtl;
+}
+.export-dropdown .dropdown-toggle {
+    border-radius: 10px;
+    padding: 0.45rem 1.35rem;
+    font-size: 0.95rem;
+}
+.btn-forest {
+    border: 1px solid #0f6e63;
+    background-color: #0f6e63;
+    color: #f3fff2;
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-shadow: 0 10px 25px rgba(15, 81, 50, 0.25);
+}
+.btn-forest:disabled {
+    opacity: 0.5;
+    box-shadow: none;
+}
+.btn-forest:not(:disabled):hover {
+    background-color: #0f6e63;
+    transform: translateY(-1px);
+}
+.export-dropdown .dropdown-menu {
+    min-width: 18rem;
+}
+.export-menu {
+    min-width: 18rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(15, 23, 42, 0.15);
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+}
+.export-item {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-weight: 600;
+    color: #0f172a;
+}
+.export-item .badge {
+    font-size: 0.65rem;
+}
+.export-item .icon {
+    font-size: 1rem;
+    color: #0f6e63;
 }
 </style>
