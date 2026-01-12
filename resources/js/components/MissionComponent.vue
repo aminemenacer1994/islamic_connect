@@ -10,23 +10,6 @@
       </div>
     </div>
 
-    <div class="container px-2">
-      <section class="mission-hero-support">
-        <div class="mission-hero-support__text">
-          <p class="small text-uppercase text-muted mb-1">Faithfully curated</p>
-          <p class="mb-1 fw-semibold">Navigate pivotal moments with context cards, tactile actions, and a welcoming narrator.</p>
-          <p class="mb-0 text-muted">
-            Tap a milestone above, read the highlight, or let the audio companion guide you while you pause to reflect.
-          </p>
-        </div>
-        <ul class="mission-hero-support__stats">
-          <li><strong>270+</strong> trusted entries</li>
-          <li><strong>Audio</strong> ready</li>
-          <li><strong>Summaries</strong> on demand</li>
-        </ul>
-      </section>
-    </div>
-
     <!-- Next Step: From Qur'an History to Seerah Timeline -->
     <div class="container px-2">
       <div class="mx-auto mb-4 next-step-card animate-rise">
@@ -69,30 +52,7 @@
       </div>
     </div>
 
-    <div class="container px-2 mb-3 timeline-intro">
-      <div class="timeline-intro__upper d-flex flex-column flex-lg-row gap-3 align-items-lg-center justify-content-between">
-        <div>
-          <p class="text-uppercase small text-muted mb-1">Find your place in the Prophet’s story</p>
-          <p class="mb-0 fw-semibold">
-            Showing {{ events.length }} of {{ originalEvents.length }} moments • {{ displayIndex }} selected
-          </p>
-        </div>
-        <div class="mission-search">
-          <span class="mission-search__icon">
-            <i class="bi bi-search"></i>
-          </span>
-          <input type="search" class="mission-search__input" v-model="searchQuery"
-            @input="filterEvents" placeholder="Search events, locations, themes" aria-label="Search timeline" />
-          <button v-if="searchQuery" type="button" class="mission-search__clear" @click="clearSearch"
-            aria-label="Clear search">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
-      </div>
-      <div class="timeline-progress" role="presentation" aria-hidden="true">
-        <div class="timeline-progress__fill" :style="{ width: timelineProgress + '%' }"></div>
-      </div>
-    </div>
+    
 
     <nav class="timeline-wrapper container" aria-label="Seerah timeline">
       <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav" tabindex="0">
@@ -2236,9 +2196,8 @@ mark {
   scroll-snap-type: x proximity;
   padding: 10px 12px 12px;
   border-radius: 18px;
-  background: rgba(255, 255, 255, 0.82);
-  border: 1px solid rgba(11, 128, 111, 0.12);
-  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.1);
+  /* background: rgba(255, 255, 255, 0.82); */
+  /* border: 1px solid rgba(11, 128, 111, 0.12); */
   animation: riseIn 420ms ease-out both;
   animation-delay: 80ms;
 }

@@ -1707,6 +1707,9 @@
                   <p v-if="globalSearchActive" class="resource-filter-note mb-0">
                     Showing matches for "<span class="resource-filter-term">{{ resourceSearchTerm }}</span>".
                   </p>
+                  <p class="resource-entry-hint text-muted small mb-0">
+                    Tap the clipboard icon next to any entry to copy the reference or resource detail for quick notes.
+                  </p>
                 </div>
                 <div v-if="resourceSectionsWithKeys.length" class="resource-meta">
                   <span class="resource-meta-pill">
@@ -1749,16 +1752,31 @@
                         class="resource-group"
                       >
                         <p v-if="item.label" class="resource-group-label" v-html="highlightResourceText(item.label)"></p>
-                        <ul class="list-unstyled mb-0 resource-entry-list">
-                          <li
-                            v-for="(entry, entryIndex) in item.entries"
-                            :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
-                            class="resource-entry"
-                          >
-                            <span v-html="formatResourceEntry(entry, item.label)"></span>
-                          </li>
-                        </ul>
-                      </div>
+                          <ul class="list-unstyled mb-0 resource-entry-list">
+                            <li
+                              v-for="(entry, entryIndex) in item.entries"
+                              :key="`${section.title}-${sectionIndex}-${itemIndex}-${entryIndex}`"
+                              class="resource-entry"
+                            >
+                              <div class="resource-entry-body">
+                                <p v-if="resourceEntryParts(entry).reference" class="resource-entry-reference" v-html="formatResourceEntry(resourceEntryParts(entry).reference, item.label)"></p>
+                                <p v-if="resourceEntryParts(entry).detail" class="resource-entry-detail" v-html="formatResourceEntry(resourceEntryParts(entry).detail, item.label)"></p>
+                              </div>
+                              <div class="resource-entry-actions">
+                                <button
+                                  type="button"
+                                  class="resource-entry-copy-btn"
+                                  @click.stop="copyResourceEntry(entry)"
+                                  :title="`Copy reference for ${item.label || section.title || 'resource'}`"
+                                  :aria-label="`Copy reference for ${item.label || section.title || 'resource'}`"
+                                >
+                                  <i class="bi bi-clipboard"></i>
+                                  <span class="visually-hidden">Copy reference</span>
+                                </button>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
                     </div>
                   </transition>
                 </article>

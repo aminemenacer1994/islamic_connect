@@ -204,6 +204,7 @@ const videoTagCache = new WeakMap()
 const videoGenderCache = new WeakMap()
 const videoDurationCache = new WeakMap()
 const videoUrlIdCache = new Map()
+const resourceEntrySplitCache = new Map()
 
 const REVERTS_GUIDE_STEPS = [
   {
@@ -2467,6 +2468,42 @@ export default defineComponent({
       }
       return this.highlightResourceHtml(this.escapeHtml(text))
     },
+    splitResourceEntryText(entry = '') {
+      const raw = String(entry || '').trim()
+      if (!raw) return { reference: '', detail: '' }
+      if (resourceEntrySplitCache.has(raw)) {
+        return resourceEntrySplitCache.get(raw)
+      }
+      const separators = [' - ', ' – ', ' — ']
+      for (const sep of separators) {
+        const index = raw.indexOf(sep)
+        if (index > -1) {
+          const reference = raw.slice(0, index).trim() || raw
+          const detail = raw.slice(index + sep.length).trim()
+          if (detail) {
+            const payload = { reference, detail }
+            resourceEntrySplitCache.set(raw, payload)
+            return payload
+          }
+        }
+      }
+      const colonIndex = raw.indexOf(': ')
+      if (colonIndex > 0) {
+        const before = raw.slice(0, colonIndex).trim()
+        const after = raw.slice(colonIndex + 2).trim()
+        if (after && !before.toLowerCase().startsWith('http')) {
+          const payload = { reference: before, detail: after }
+          resourceEntrySplitCache.set(raw, payload)
+          return payload
+        }
+      }
+      const fallback = { reference: raw, detail: '' }
+      resourceEntrySplitCache.set(raw, fallback)
+      return fallback
+    },
+    resourceEntryParts(entry) {
+      return this.splitResourceEntryText(entry)
+    },
     shortenReference(reference, maxLength = 140) {
       if (!reference) return ''
       const text = String(reference).replace(/\s+/g, ' ').trim()
@@ -2815,6 +2852,17 @@ export default defineComponent({
           this.resourceCopyStatus = 'Unable to copy; please use your browser.'
           setTimeout(() => { this.resourceCopyStatus = '' }, 4000)
       })
+    },
+    copyResourceEntry(entry) {
+      const text = String(entry || '').trim()
+      if (!text) return
+      this.copyTextToClipboard(text)
+        .then(() => {
+          this.triggerCopyAlert('Reference copied!', 'success')
+        })
+        .catch(() => {
+          this.triggerCopyAlert('Unable to copy reference.', 'danger')
+        })
     },
     getShareLink() {
       if (typeof window === 'undefined') return ''
