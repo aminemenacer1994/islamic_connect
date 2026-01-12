@@ -72,64 +72,71 @@
     </div>
 
     <div class="folder-scroll-area">
-      <div class="folder-search mb-3">
-        <div class="input-group">
-          <span class="input-group-text"><i class="bi bi-search"></i></span>
-          <input
-            v-model.trim="searchQuery"
-            type="text"
-            class="form-control"
-            placeholder="Search folders..."
-          />
-        </div>
-      </div>
+      <div class="folder-panel">
+        <div class="folder-panel__controls">
+          <div class="folder-search mb-3">
+            <div class="input-group">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input
+                v-model.trim="searchQuery"
+                type="text"
+                class="form-control"
+                placeholder="Search folders..."
+              />
+            </div>
+          </div>
 
-      <div v-if="filteredFolders.length" class="selection-toolbar folder-selection-toolbar mb-3">
-        <div class="toolbar-left">
-          <button
-            type="button"
-            class="btn btn-sm btn-outline-success"
-            @click="selectAllVisibleFolders"
-            :disabled="filteredSelectableFolders.length === 0"
-          >
-            <i class="bi bi-check-all me-1"></i>
-            Select All
-          </button>
-          <button
-            v-if="selectedFolders.length"
-            type="button"
-            class="btn btn-sm btn-outline-secondary"
-            @click="unselectAllFolders"
-          >
-            <i class="bi bi-x-circle me-1"></i>
-            Unselect All
-          </button>
-          <span v-if="selectedFolders.length" class="selection-pill">
-            {{ selectedFolders.length }} selected
-          </span>
+          <div v-if="filteredFolders.length" class="selection-toolbar folder-selection-toolbar mb-3">
+            <div class="selection-status">
+              <div class="selection-status__title">
+                <i class="bi bi-folder-check me-2"></i>
+                {{ selectedFolders.length ? 'Items selected' : 'Ready to select' }}
+              </div>
+              <div class="selection-status__count">
+                <span>{{ selectedFolders.length || 0 }}</span>
+                <small>folders held</small>
+              </div>
+            </div>
+            <div class="toolbar-actions">
+              <button
+                type="button"
+                class="selection-pill selection-pill--primary"
+                @click="selectAllVisibleFolders"
+                :disabled="filteredSelectableFolders.length === 0"
+              >
+                <i class="bi bi-check-all"></i>
+                Select All
+              </button>
+              <button
+                v-if="selectedFolders.length"
+                type="button"
+                class="selection-pill selection-pill--muted"
+                @click="unselectAllFolders"
+              >
+                <i class="bi bi-x-circle"></i>
+                Clear Selection
+              </button>
+            </div>
+            <div class="toolbar-right">
+              <button
+                v-if="selectedFolders.length"
+                type="button"
+                class="btn delete-selected"
+                @click="openBulkDeleteConfirm"
+                :disabled="bulkDeleteBusy"
+              >
+                <span v-if="bulkDeleteBusy" class="spinner-border spinner-border-sm me-1"></span>
+                <i v-else class="bi bi-trash me-1"></i>
+                Delete Selected
+              </button>
+            </div>
+          </div>
         </div>
-        <div class="toolbar-right">
-          <button
-            v-if="selectedFolders.length"
-            type="button"
-            class="btn btn-sm btn-danger delete-selected"
-            @click="openBulkDeleteConfirm"
-            :disabled="bulkDeleteBusy"
-          >
-            <span
-              v-if="bulkDeleteBusy"
-              class="spinner-border spinner-border-sm me-1"
-            ></span>
-            <i v-else class="bi bi-trash me-1"></i>
-            Delete Selected
-          </button>
-        </div>
-      </div>
 
-      <div class="modal-section">
-        <div v-if="editingFolder" class="rename-modal fade show">
-          <div class="modal-header">
-            <h6 class="modal-title">Rename folder</h6>
+        <div class="modal-section">
+          <div v-if="editingFolder" class="rename-modal fade show">
+            <div class="modal-header">
+              <h6 class="modal-title">Rename folder</h6>
           </div>
           <div class="modal-body">
             <input v-model.trim="renameValue" class="form-control" placeholder="New folder name" />
@@ -158,6 +165,7 @@
               Delete
             </button>
           </div>
+        </div>
         </div>
       </div>
 
@@ -613,29 +621,27 @@ export default {
 
 <style scoped>
 .folder-list {
-  border-radius: 24px;
-  background: #fefefe;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  padding: 1.5rem 1.25rem 1.75rem;
-  box-shadow: 0 22px 40px rgba(15, 23, 42, 0.1);
-  position: relative;
-  max-width: 420px;
+  border-radius: 20px;
+  background: #f5fdf9;
+  border: 1px solid rgba(15, 110, 99, 0.25);
+  padding: 1.2rem;
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
+  box-shadow: 0 10px 25px rgba(15, 23, 42, 0.08);
 }
 
 .folder-top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
-  padding: 12px 14px;
-  border-radius: 16px;
-  background: #f3f6f4;
-  color: #0f172a;
-  margin-bottom: 16px;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: #e3fbf2;
+  color: #0f2926;
+  border: 1px solid rgba(15, 110, 99, 0.35);
 }
 
 .folder-meta {
@@ -645,361 +651,58 @@ export default {
 }
 
 .folder-icon-box {
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 12px;
-  background: #e6f4ef;
+  background: #0f6e63;
+  color: #fff;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #0f6e63;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 }
 
 .folder-title {
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.04em;
 }
 
 .folder-count {
   font-size: 0.8rem;
-  color: #475569;
+  color: #19534a;
 }
 
 .folder-top-actions {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .create-trigger {
   border: none;
   background: #0f6e63;
   color: #ffffff;
-  padding: 6px 14px;
+  padding: 6px 16px;
   border-radius: 12px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   font-weight: 600;
-  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.15);
 }
 
 .create-trigger:hover {
   transform: translateY(-1px);
-  box-shadow: 0 10px 22px rgba(15, 23, 42, 0.25);
-}
-
-.coming-soon-chip {
-  font-size: 0.75rem;
-  color: #0f6e63;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 110, 99, 0.35);
-  padding: 3px 10px;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-}
-
-.folder-search {
-  margin: 0;
-}
-
-.folder-search .input-group {
-  border-radius: 16px;
-  background: #f6f6f6;
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: inset 0 1px 4px rgba(15, 23, 42, 0.08);
-}
-
-.folder-search .input-group-text {
-  background: transparent;
-  border: none;
-  color: #94a3b8;
-}
-
-.folder-search .form-control {
-  border: none;
-  background: transparent;
-  box-shadow: none;
-  font-size: 0.95rem;
-}
-
-.folder-stack-wrap {
-  flex: 1;
-  max-height: calc(100vh - 360px);
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.folder-stack-wrap::-webkit-scrollbar {
-  width: 8px;
-}
-
-.folder-stack-wrap::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.05);
-  border-radius: 999px;
-}
-
-.folder-stack-wrap::-webkit-scrollbar-thumb {
-  background: rgba(15, 110, 99, 0.35);
-  border-radius: 999px;
-}
-
-.alert {
-  border-radius: 999px;
-  padding: 0.5rem 1rem;
-  border: 1px solid transparent;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-  font-weight: 600;
-}
-
-.alert-success {
-  background: rgba(15, 110, 99, 0.12);
-  color: #0f4a3a;
-  border-color: rgba(15, 110, 99, 0.26);
-}
-
-.alert-danger {
-  background: rgba(248, 113, 113, 0.15);
-  color: #7f1d1d;
-  border-color: rgba(239, 68, 68, 0.3);
-}
-
-.folder-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.selection-toolbar.folder-selection-toolbar {
-  border-radius: 26px;
-  border: 1px solid rgba(15, 23, 42, 0.12);
-  padding: 0.4rem 1rem;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-  box-shadow: 0 6px 24px rgba(15, 23, 42, 0.08);
-}
-
-.folder-selection-toolbar .toolbar-left,
-.folder-selection-toolbar .toolbar-right {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.selection-count {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: #0f6e63;
-}
-
-.folder-scroll-area {
-  flex: 1;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.85rem;
-  overflow-y: auto;
-}
-
-.folder-scroll-area .folder-search,
-.folder-scroll-area .selection-toolbar,
-.folder-scroll-area .modal-section {
-  flex: 0 0 auto;
-}
-
-.folder-stack-wrap {
-  flex: 1 1 auto;
-  min-height: 0;
-}
-
-.folder-selection-toolbar .btn {
-  padding: 0.2rem 0.8rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-  border-width: 1.6px;
-  border-radius: 14px;
-  line-height: 1.2;
-}
-.selection-pill {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: #0f6e63;
-  background: #d1f3e9;
-  border-radius: 999px;
-  padding: 0.25rem 0.9rem;
-}
-.delete-selected {
-  padding: 0.35rem 1rem;
-  border-radius: 18px;
-  background: #ef4444;
-  border-color: #ef4444;
-  color: #fff;
-  font-weight: 600;
-}
-.delete-selected:hover {
-  background: #dc2626;
-  border-color: #dc2626;
-}
-.folder-selection-toolbar .btn-outline-success {
-  color: #0f6e63;
-  border-color: #0f6e63;
-}
-.folder-selection-toolbar .btn-outline-success:hover {
-  background: #0f6e63;
-  color: #fff;
-  border-color: #0f6e63;
-}
-.folder-selection-toolbar .btn-outline-dark {
-  color: #475569;
-  border-color: #475569;
-}
-.folder-selection-toolbar .btn-outline-dark:hover {
-  background: #475569;
-  color: #fff;
-  border-color: #475569;
-}
-
-.folder-select {
-  min-width: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 0.25rem;
-}
-
-.folder-select .form-check-input {
-  width: 18px;
-  height: 18px;
-  margin: 0;
-}
-
-.folder-main-wrapper {
-  flex: 1;
-  min-width: 0;
-  gap: 0.65rem;
-}
-
-.folder-item-selected {
-  background: rgba(15, 110, 99, 0.08);
-  border-color: rgba(15, 110, 99, 0.35);
-}
-
-.folder-item {
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  border-radius: 14px;
-  padding: 10px 14px;
-  background: #fdfdfd;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  transition: box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-.folder-item:hover {
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
-  transform: translateY(-1px);
-}
-
-.folder-item.active {
-  background: #f0fbf8;
-  border-color: rgba(15, 110, 99, 0.35);
-}
-
-.folder-main {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: #0f172a;
-  font-weight: 600;
-}
-
-.folder-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: #e6f4ef;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  color: #0f6e63;
-  font-size: 1rem;
-}
-
-.folder-actions {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.folder-action {
-  border-radius: 10px;
-  padding: 0.35rem 0.7rem;
-  font-size: 0.75rem;
-  border: 1px solid rgba(15, 23, 42, 0.15);
-  background: #f7fafc;
-  color: #0f172a;
-}
-
-.folder-action.rename {
-  background: rgba(15, 110, 99, 0.08);
-  border-color: rgba(15, 110, 99, 0.25);
-  color: #0f6e63;
-}
-
-.folder-action.delete {
-  background: rgba(239, 68, 68, 0.14);
-  border-color: rgba(239, 68, 68, 0.35);
-  color: #b91c1c;
-}
-
-.folder-count-pill {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 32px;
-  padding: 2px 8px;
-  border-radius: 999px;
-  background: rgba(15, 110, 99, 0.12);
-  color: #0f6e63;
-  font-weight: 600;
-  font-size: 0.78rem;
-}
-
-.folder-section-toggle {
-  width: 100%;
-  border: none;
-  background: transparent;
-  color: #475569;
-  border-radius: 12px;
-  padding: 8px 12px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  font-weight: 600;
-  font-size: 0.85rem;
-}
-
-.folder-section-toggle .section-count {
-  background: rgba(15, 110, 99, 0.15);
-  color: #0f6e63;
-  padding: 2px 8px;
-  border-radius: 999px;
-  font-weight: 600;
+  box-shadow: 0 10px 18px rgba(15, 23, 42, 0.2);
 }
 
 .create-panel {
   background: #f7fafc;
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: 16px;
-  padding: 16px;
-  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.08);
-  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .create-heading {
@@ -1018,12 +721,12 @@ export default {
 
 .icon-picker-grid {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 8px;
   max-height: 160px;
   overflow-y: auto;
-  padding: 8px;
-  background: #ffffff;
+  padding: 0.5rem;
+  background: #fff;
   border: 1px solid rgba(226, 232, 240, 0.9);
   border-radius: 12px;
 }
@@ -1032,7 +735,7 @@ export default {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.5);
   background: #f8fafc;
   display: flex;
   align-items: center;
@@ -1067,19 +770,19 @@ export default {
 }
 
 .btn-premium-save {
-  background: linear-gradient(135deg, #0f6e63, #24a48c) !important;
-  border: none !important;
-  color: white !important;
+  background: linear-gradient(135deg, #0f6e63, #24a48c);
+  border: none;
+  color: white;
   font-weight: 700;
   padding: 10px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(15, 110, 99, 0.25);
+  border-radius: 10px;
+  box-shadow: 0 6px 14px rgba(15, 110, 99, 0.25);
   transition: all 0.2s ease;
 }
 
 .btn-premium-save:hover:not(:disabled) {
   transform: translateY(-1px);
-  box-shadow: 0 8px 22px rgba(15, 110, 99, 0.3);
+  box-shadow: 0 10px 18px rgba(15, 110, 99, 0.35);
 }
 
 .btn-premium-save:disabled {
@@ -1087,49 +790,295 @@ export default {
   cursor: not-allowed;
 }
 
+.folder-scroll-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 110, 99, 0.1);
+  padding: 1rem;
+}
+
+.folder-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.folder-panel__controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.folder-search .input-group {
+  border-radius: 14px;
+  background: #e8fbf7;
+  border: 1px solid rgba(15, 110, 99, 0.35);
+  box-shadow: inset 0 1px 3px rgba(15, 23, 42, 0.12);
+}
+
+.folder-search .input-group-text {
+  background: transparent;
+  border: none;
+  color: #0f6e63;
+}
+
+.folder-stack-wrap {
+  flex: 1;
+  max-height: calc(100vh - 360px);
+  overflow-y: auto;
+}
+
+.folder-stack-wrap::-webkit-scrollbar {
+  width: 7px;
+}
+
+.folder-stack-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.folder-stack-wrap::-webkit-scrollbar-thumb {
+  background: rgba(15, 110, 99, 0.4);
+  border-radius: 999px;
+}
+
+.alert {
+  border-radius: 999px;
+  padding: 0.45rem 1rem;
+  border: 1px solid transparent;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+  font-weight: 600;
+}
+
+.alert-success {
+  background: rgba(15, 110, 99, 0.12);
+  color: #0f4a3a;
+  border-color: rgba(15, 110, 99, 0.26);
+}
+
+.alert-danger {
+  background: rgba(248, 113, 113, 0.15);
+  color: #7f1d1d;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.selection-toolbar.folder-selection-toolbar {
+  border-radius: 20px;
+  padding: 0.45rem 1rem;
+  background: #def7ed;
+  border: 1px solid rgba(15, 110, 99, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.selection-status {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.selection-status__title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #0f6e63;
+}
+
+.selection-status__count {
+  display: flex;
+  align-items: baseline;
+  gap: 0.35rem;
+}
+
+.selection-status__count span {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #057a6d;
+}
+
+.selection-status__count small {
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #0f6e63;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.selection-pill {
+  border-radius: 16px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: #fff;
+  color: #0f6e63;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.15);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.selection-pill--primary {
+  background: #0c8c75;
+  color: #fff;
+}
+
+.selection-pill:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.18);
+}
+
+.selection-pill:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+.toolbar-right .btn {
+  padding: 0.35rem 1rem;
+  border-radius: 14px;
+  font-weight: 600;
+}
+
+.delete-selected {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  box-shadow: 0 8px 20px rgba(220, 38, 38, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.delete-selected:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.delete-selected:disabled {
+  opacity: 0.6;
+}
+
+.folder-item {
+  border: 1px solid rgba(15, 23, 42, 0.1);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: all 0.2s ease;
+}
+
+.folder-item:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 20px rgba(15, 23, 42, 0.12);
+}
+
+.folder-item.active {
+  border-color: rgba(15, 110, 99, 0.4);
+  background: #ecfff8;
+}
+
+.folder-main-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.folder-main {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.folder-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #e6f4ef;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #0f6e63;
+  font-size: 1rem;
+}
+
+.folder-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.folder-action {
+  border-radius: 12px;
+  padding: 0.3rem 0.7rem;
+  font-size: 0.75rem;
+  border: 1px solid transparent;
+  background: rgba(15, 23, 42, 0.05);
+  color: #0f172a;
+}
+
+.folder-action.delete {
+  background: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
+}
+
+.folder-count-pill {
+  min-width: 32px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(15, 110, 99, 0.15);
+  color: #0f6e63;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+
 .modal-section {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
-  background: #f8fafc;
-  padding: 0.75rem 1rem;
-  border-radius: 14px;
-  border: 1px solid rgba(15, 23, 42, 0.08);
 }
 
 .modal-section .rename-modal,
 .modal-section .delete-confirm-modal {
   border-radius: 14px;
-  background: #ffffff;
+  background: #fff;
   border: 1px solid rgba(15, 23, 42, 0.08);
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.12);
   padding: 0.75rem;
-}
-
-.modal-section .modal-header {
-  padding-bottom: 0.5rem;
-}
-
-.modal-section .modal-body {
-  padding-bottom: 0.5rem;
 }
 
 .modal-section .modal-footer {
   display: flex;
   justify-content: flex-end;
   gap: 0.5rem;
-  padding-top: 0.25rem;
+}
+
+.folder-panel__controls,
+.folder-stack-wrap {
+  width: 100%;
 }
 
 @media (max-width: 992px) {
   .folder-top {
     flex-wrap: wrap;
-    align-items: flex-start;
   }
 
-  .folder-top-actions {
-    width: 100%;
-    justify-content: flex-start;
+  .toolbar-actions {
+    flex-wrap: wrap;
   }
 }
 
@@ -1138,60 +1087,25 @@ export default {
     padding: 1rem;
   }
 
+  .folder-panel__controls {
+    gap: 0.4rem;
+  }
+
+  .folder-search .input-group {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
   .folder-item {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.4rem;
   }
 
   .folder-actions {
     width: 100%;
     justify-content: flex-end;
-  }
-}
-
-@media (max-width: 576px) {
-  .folder-list {
-    padding: 0.9rem;
-    border-radius: 20px;
-    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
-  }
-
-  .folder-top {
-    gap: 8px;
-  }
-
-  .folder-top-actions {
-    flex-direction: column;
-    width: 100%;
-    align-items: flex-start;
-  }
-
-  .create-trigger {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .folder-stack-wrap {
-    max-height: calc(100vh - 320px);
-  }
-}
-
-@media (max-width: 420px) {
-  .folder-top {
-    padding: 10px;
-  }
-
-  .folder-list {
-    padding: 0.8rem;
-  }
-
-  .folder-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .folder-actions {
-    justify-content: flex-start;
   }
 }
 </style>

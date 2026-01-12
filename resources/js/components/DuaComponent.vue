@@ -984,8 +984,25 @@ export default {
   background: var(--dua-surface);
 }
 
-.search-icon {
+.dua-search .search-icon {
   background-color: var(--dua-accent);
+  position: static;
+  transform: none;
+  margin: 0;
+  left: auto;
+  top: auto;
+  height: 100%;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  padding: 0;
+}
+
+.dua-search .search-icon i {
+  color: var(--dua-surface);
+  font-size: 1.2rem;
 }
 
 .dua-filter-panel {
