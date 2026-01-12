@@ -650,6 +650,12 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     <p class="export-subtitle">${this.escapeHtml(folderName)} · ${rows.length} ayah(s)</p>
   </div>
   <table>
+    <colgroup>
+      <col class="col-surah" />
+      <col class="col-ayah" />
+      <col class="col-arabic" />
+      <col class="col-translation" />
+    </colgroup>
     <thead>
       <tr>
         <th>Surah</th>
@@ -692,81 +698,49 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     async exportFolderDocx(rows) {
-      const tableRows = [new docx__WEBPACK_IMPORTED_MODULE_6__.TableRow({
-        children: [new docx__WEBPACK_IMPORTED_MODULE_6__.TableCell({
-          width: {
-            size: 30,
-            type: docx__WEBPACK_IMPORTED_MODULE_6__.WidthType.PERCENTAGE
-          },
-          verticalAlign: docx__WEBPACK_IMPORTED_MODULE_6__.VerticalAlign.CENTER,
-          children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-            text: "Surah • Ayah",
-            bold: true,
-            alignment: docx__WEBPACK_IMPORTED_MODULE_6__.AlignmentType.CENTER
-          })]
-        }), new docx__WEBPACK_IMPORTED_MODULE_6__.TableCell({
-          width: {
-            size: 35,
-            type: docx__WEBPACK_IMPORTED_MODULE_6__.WidthType.PERCENTAGE
-          },
-          verticalAlign: docx__WEBPACK_IMPORTED_MODULE_6__.VerticalAlign.CENTER,
-          children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-            text: "Arabic",
-            bold: true,
-            alignment: docx__WEBPACK_IMPORTED_MODULE_6__.AlignmentType.CENTER
-          })]
-        }), new docx__WEBPACK_IMPORTED_MODULE_6__.TableCell({
-          width: {
-            size: 35,
-            type: docx__WEBPACK_IMPORTED_MODULE_6__.WidthType.PERCENTAGE
-          },
-          verticalAlign: docx__WEBPACK_IMPORTED_MODULE_6__.VerticalAlign.CENTER,
-          children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-            text: "Translation",
-            bold: true,
-            alignment: docx__WEBPACK_IMPORTED_MODULE_6__.AlignmentType.CENTER
-          })]
-        })]
-      }), ...rows.map(row => {
-        const surahText = [row.surah || "Surah", row.ayah ? `• Ayah ${row.ayah}` : ""].filter(Boolean).join(" ");
-        return new docx__WEBPACK_IMPORTED_MODULE_6__.TableRow({
-          children: [new docx__WEBPACK_IMPORTED_MODULE_6__.TableCell({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-              text: surahText,
-              size: 26
-            })]
-          }), new docx__WEBPACK_IMPORTED_MODULE_6__.TableCell({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-              text: row.arabic || "",
-              size: 26,
-              bidi: true
-            })]
-          }), new docx__WEBPACK_IMPORTED_MODULE_6__.TableCell({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-              text: row.translation || "",
-              size: 24
-            })]
-          })]
-        });
+      const sections = [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
+        text: "Daily Reflections",
+        heading: "Heading1",
+        alignment: docx__WEBPACK_IMPORTED_MODULE_6__.AlignmentType.CENTER,
+        spacing: {
+          after: 300
+        }
       })];
-      const table = new docx__WEBPACK_IMPORTED_MODULE_6__.Table({
-        width: {
-          size: 100,
-          type: docx__WEBPACK_IMPORTED_MODULE_6__.WidthType.PERCENTAGE
-        },
-        rows: tableRows
+      rows.forEach(row => {
+        const surahText = [row.surah || "Surah", row.ayah ? `• Ayah ${row.ayah}` : ""].filter(Boolean).join(" ");
+        sections.push(new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
+          text: surahText,
+          bold: true,
+          size: 26,
+          spacing: {
+            after: 120
+          }
+        }));
+        if (row.arabic) {
+          sections.push(new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
+            text: row.arabic,
+            size: 28,
+            alignment: docx__WEBPACK_IMPORTED_MODULE_6__.AlignmentType.RIGHT,
+            bidi: true,
+            spacing: {
+              after: 60
+            }
+          }));
+        }
+        if (row.translation) {
+          sections.push(new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
+            text: row.translation,
+            size: 24,
+            spacing: {
+              after: 120
+            }
+          }));
+        }
       });
       const doc = new docx__WEBPACK_IMPORTED_MODULE_6__.Document({
         sections: [{
           properties: {},
-          children: [new docx__WEBPACK_IMPORTED_MODULE_6__.Paragraph({
-            text: "Daily Reflections",
-            heading: "Heading1",
-            alignment: docx__WEBPACK_IMPORTED_MODULE_6__.AlignmentType.CENTER,
-            spacing: {
-              after: 300
-            }
-          }), table]
+          children: sections
         }]
       });
       const blob = await docx__WEBPACK_IMPORTED_MODULE_6__.Packer.toBlob(doc);
@@ -2911,7 +2885,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "bi bi-folder2-open"
   })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "folder-title"
-  }, "Folder Studio", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.folders.length) + " folders", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Bookmark Folders", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.folders.length) + " folders", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "create-trigger",
     type: "button",
     onClick: _cache[0] || (_cache[0] = $event => $options.startCreate('folder'))

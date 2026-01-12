@@ -3,42 +3,23 @@
         <div v-if="authResolved">
             <transition name="fade">
                 <div v-if="!isAuthenticated" class="guest-nudge-banner">
-                    <div
-                        class="container-fluid d-flex align-items-center justify-content-between"
-                    >
+                    <div class="container-fluid d-flex align-items-center justify-content-between">
                         <div class="nudge-text">
                             <i class="bi bi-info-circle-fill me-2"></i>
-                            <span
-                                >You're browsing as a guest.
-                                <a href="/login" class="fw-bold text-teal"
-                                    >Log in</a
-                                >
-                                to sync bookmarks across devices.</span
-                            >
+                            <span>You're browsing as a guest.
+                                <a href="/login" class="fw-bold text-teal">Log in</a>
+                                to sync bookmarks across devices.</span>
                         </div>
-                        <button
-                            type="button"
-                            class="btn-close btn-close-white"
-                            @click="hideGuestNudge"
-                        ></button>
+                        <button type="button" class="btn-close btn-close-white" @click="hideGuestNudge"></button>
                     </div>
                 </div>
             </transition>
             <div class="row g-4 bookmark-layout">
-                <div
-                    class="col-12 col-lg-4 folder-col"
-                    :class="{ 'is-collapsed': isFolderCollapsed }"
-                    :aria-hidden="isFolderCollapsed ? 'true' : 'false'"
-                >
-                    <folder-list
-                        ref="folderList"
-                        @folder-selected="onFolderSelected"
-                    />
+                <div class="col-12 col-lg-4 folder-col" :class="{ 'is-collapsed': isFolderCollapsed }"
+                    :aria-hidden="isFolderCollapsed ? 'true' : 'false'">
+                    <folder-list ref="folderList" @folder-selected="onFolderSelected" />
                 </div>
-                <div
-                    class="col-12 col-lg-8 panel-col"
-                    :class="{ 'is-expanded': isFolderCollapsed }"
-                >
+                <div class="col-12 col-lg-8 panel-col" :class="{ 'is-expanded': isFolderCollapsed }">
                     <div class="bookmark-panel">
                         <div class="panel-header">
                             <div>
@@ -56,70 +37,43 @@
                                 </div>
                             </div>
                             <div class="panel-actions">
-                                <button
-                                    type="button"
-                                    class="panel-toggle"
-                                    @click="toggleFolderPane"
-                                    :aria-pressed="!isFolderCollapsed"
-                                    :aria-label="
-                                        isFolderCollapsed
+                                <button type="button" class="panel-toggle" @click="toggleFolderPane"
+                                    :aria-pressed="!isFolderCollapsed" :aria-label="isFolderCollapsed
                                             ? 'Show folders'
                                             : 'Hide folders'
-                                    "
-                                    :title="
-                                        isFolderCollapsed
+                                        " :title="isFolderCollapsed
                                             ? 'Show folders'
                                             : 'Hide folders'
-                                    "
-                                >
-                                    <i
-                                        class="bi"
-                                        :class="
-                                            isFolderCollapsed
-                                                ? 'bi-layout-sidebar-inset'
-                                                : 'bi-layout-sidebar-inset-reverse'
-                                        "
-                                    ></i>
+                                        ">
+                                    <i class="bi" :class="isFolderCollapsed
+                                            ? 'bi-layout-sidebar-inset'
+                                            : 'bi-layout-sidebar-inset-reverse'
+                                        "></i>
                                 </button>
                                 <div class="dropdown export-dropdown ms-2">
-                                    <button
-                                        class="btn btn-sm btn-forest dropdown-toggle"
-                                        type="button"
-                                        id="bookmarkExportDropdown"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false"
-                                        :disabled="!canExportFolder"
-                                    >
+                                    <button class="btn btn-sm btn-forest dropdown-toggle" type="button"
+                                        id="bookmarkExportDropdown" data-bs-toggle="dropdown" aria-expanded="false"
+                                        :disabled="!canExportFolder">
                                         <i class="bi bi-file-earmark-arrow-down-fill me-1"></i>
                                         Export folder
                                     </button>
-                                    <ul
-                                        class="dropdown-menu dropdown-menu-end export-menu"
-                                        aria-labelledby="bookmarkExportDropdown"
-                                    >
+                                    <ul class="dropdown-menu dropdown-menu-end export-menu"
+                                        aria-labelledby="bookmarkExportDropdown">
                                         <li>
-                                    <button
-                                        class="dropdown-item export-item"
-                                                type="button"
-                                                @click="exportFolder('pdf')"
-                                                :disabled="!canExportFolder"
-                                            >
+                                            <button class="dropdown-item export-item" type="button"
+                                                @click="exportFolder('pdf')" :disabled="!canExportFolder">
                                                 <i class="bi bi-filetype-pdf icon"></i>
                                                 PDF Document
-                                                
-                                                
+
+
                                             </button>
                                         </li>
                                         <li>
-                                            <button
-                                                class="dropdown-item export-item"
-                                                type="button"
-                                                @click="exportFolder('word')"
-                                                :disabled="!canExportFolder"
-                                            >
+                                            <button class="dropdown-item export-item" type="button"
+                                                @click="exportFolder('word')" :disabled="!canExportFolder">
                                                 <i class="bi bi-filetype-doc icon"></i>
                                                 Word Document
-                                                
+
                                             </button>
                                         </li>
                                     </ul>
@@ -133,33 +87,18 @@
                         </div>
 
                         <div class="panel-body">
-                            <div
-                                v-if="panelMessage"
-                                class="panel-alert"
-                                :class="
-                                    panelMessageVariant === 'danger'
-                                        ? 'alert-danger'
-                                        : 'alert-success'
-                                "
-                            >
+                            <div v-if="panelMessage" class="panel-alert" :class="panelMessageVariant === 'danger'
+                                    ? 'alert-danger'
+                                    : 'alert-success'
+                                ">
                                 {{ panelMessage }}
                             </div>
                             <div class="panel-search">
                                 <div class="input-group">
-                                    <span class="input-group-text"
-                                        ><i class="bi bi-search"></i
-                                    ></span>
-                                    <input
-                                        v-model="query"
-                                        class="form-control"
-                                        placeholder="Search bookmarks..."
-                                    />
-                                    <button
-                                        v-if="query"
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        @click="clearSearch"
-                                    >
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input v-model="query" class="form-control" placeholder="Search bookmarks..." />
+                                    <button v-if="query" class="btn btn-outline-secondary" type="button"
+                                        @click="clearSearch">
                                         Clear
                                     </button>
                                 </div>
@@ -167,10 +106,7 @@
                             <div v-if="loading" class="loading-state">
                                 Loading ayat...
                             </div>
-                            <div
-                                v-else-if="filteredItems.length === 0"
-                                class="empty-state"
-                            >
+                            <div v-else-if="filteredItems.length === 0" class="empty-state">
                                 <div class="empty-title">
                                     No ayat match your search
                                 </div>
@@ -180,52 +116,31 @@
                             </div>
 
                             <!-- Selection Toolbar -->
-                            <div
-                                v-if="
-                                    !loading &&
-                                    filteredItems.length > 0 &&
-                                    !isSmartSelected
-                                "
-                                class="selection-toolbar"
-                            >
+                            <div v-if="
+                                !loading &&
+                                filteredItems.length > 0 &&
+                                !isSmartSelected
+                            " class="selection-toolbar">
                                 <div class="toolbar-left">
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-outline-primary"
-                                        @click="selectAllBookmarks"
-                                        :disabled="allBookmarksSelected"
-                                    >
+                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                        @click="selectAllBookmarks" :disabled="allBookmarksSelected">
                                         <i class="bi bi-check-all me-1"></i>
                                         Select All
                                     </button>
-                                    <button
-                                        type="button"
-                                        class="btn btn-sm btn-outline-secondary"
-                                        @click="unselectAllBookmarks"
-                                        :disabled="selectedBookmarkCount === 0"
-                                    >
+                                    <button type="button" class="btn btn-sm btn-outline-secondary"
+                                        @click="unselectAllBookmarks" :disabled="selectedBookmarkCount === 0">
                                         <i class="bi bi-x-circle me-1"></i>
                                         Unselect All
                                     </button>
-                                    <span
-                                        v-if="selectedBookmarkCount > 0"
-                                        class="selection-count"
-                                    >
+                                    <span v-if="selectedBookmarkCount > 0" class="selection-count">
                                         {{ selectedBookmarkCount }} selected
                                     </span>
                                 </div>
                                 <div class="toolbar-right">
-                                    <button
-                                        v-if="selectedBookmarkCount > 0"
-                                        type="button"
-                                        class="btn btn-sm btn-danger"
-                                        @click="openBulkDeleteConfirm"
-                                        :disabled="bulkDeleteBusy"
-                                    >
-                                        <span
-                                            v-if="bulkDeleteBusy"
-                                            class="spinner-border spinner-border-sm me-1"
-                                        ></span>
+                                    <button v-if="selectedBookmarkCount > 0" type="button" class="btn btn-sm btn-danger"
+                                        @click="openBulkDeleteConfirm" :disabled="bulkDeleteBusy">
+                                        <span v-if="bulkDeleteBusy"
+                                            class="spinner-border spinner-border-sm me-1"></span>
                                         <i v-else class="bi bi-trash me-1"></i>
                                         Delete Selected
                                     </button>
@@ -234,72 +149,44 @@
 
                             <div v-if="!loading && filteredItems.length > 0" class="list-wrapper">
                                 <div class="list-group ayah-list">
-                                    <div
-                                        v-for="item in filteredItems"
-                                        :key="item.row_key"
-                                        class="list-group-item ayah-list-item"
-                                    >
+                                    <div v-for="item in filteredItems" :key="item.row_key"
+                                        class="list-group-item ayah-list-item">
                                         <div class="ayah-list-head">
-                                            <div
-                                                v-if="
-                                                    item.bookmark_id &&
-                                                    !isSmartSelected
-                                                "
-                                                class="ayah-checkbox"
-                                            >
-                                                <input
-                                                    type="checkbox"
-                                                    class="form-check-input"
-                                                    :checked="
-                                                        selectedBookmarkIds.includes(
-                                                            item.bookmark_id
-                                                        )
-                                                    "
-                                                    @change="
+                                            <div v-if="
+                                                item.bookmark_id &&
+                                                !isSmartSelected
+                                            " class="ayah-checkbox">
+                                                <input type="checkbox" class="form-check-input" :checked="selectedBookmarkIds.includes(
+                                                    item.bookmark_id
+                                                )
+                                                    " @change="
                                                         toggleBookmarkSelection(
                                                             item.bookmark_id
                                                         )
-                                                    "
-                                                />
+                                                        " />
                                             </div>
-                                            <div
-                                                class="ayah-list-meta"
-                                                v-html="formatMeta(item)"
-                                            ></div>
+                                            <div class="ayah-list-meta" v-html="formatMeta(item)"></div>
                                             <div class="ayah-list-actions">
-                                                <select
-                                                    v-if="
-                                                        canMoveFromSelectedFolder
-                                                    "
-                                                    class="form-select form-select-sm move-select"
-                                                    :disabled="
-                                                        movingBookmarkId ===
-                                                            item.bookmark_id ||
+                                                <select v-if="
+                                                    canMoveFromSelectedFolder
+                                                " class="form-select form-select-sm move-select" :disabled="movingBookmarkId ===
+                                                        item.bookmark_id ||
                                                         moveTargets.length === 0
-                                                    "
-                                                    @change="
+                                                        " @change="
                                                         moveBookmark(
                                                             item,
                                                             $event
                                                         )
-                                                    "
-                                                >
-                                                    <option
-                                                        value=""
-                                                        selected
-                                                        disabled
-                                                    >
+                                                        ">
+                                                    <option value="" selected disabled>
                                                         {{
                                                             moveTargets.length
                                                                 ? "Move to..."
                                                                 : "No other folders"
                                                         }}
                                                     </option>
-                                                    <option
-                                                        v-for="folder in moveTargets"
-                                                        :key="`move-${folder.id}`"
-                                                        :value="folder.id"
-                                                    >
+                                                    <option v-for="folder in moveTargets" :key="`move-${folder.id}`"
+                                                        :value="folder.id">
                                                         {{ folder.name }}
                                                     </option>
                                                 </select>
@@ -321,79 +208,45 @@
                     >
                       <i class="bi bi-box-arrow-up-right"></i>
                     </button> -->
-                                                <button
-                                                    type="button"
+                                                <button type="button"
                                                     class="btn btn-sm btn-outline-secondary copy-quick"
-                                                    @click="copyBookmark(item)"
-                                                    title="Copy"
-                                                    aria-label="Copy ayah"
-                                                >
-                                                    <i
-                                                        class="bi bi-clipboard"
-                                                    ></i>
+                                                    @click="copyBookmark(item)" title="Copy" aria-label="Copy ayah">
+                                                    <i class="bi bi-clipboard"></i>
                                                 </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-sm btn-outline-secondary share-quick"
-                                                    @click="
+                                                <button type="button"
+                                                    class="btn btn-sm btn-outline-secondary share-quick" @click="
                                                         shareBookmarkOnWhatsApp(
                                                             item
                                                         )
-                                                    "
-                                                    title="Share via WhatsApp"
-                                                    aria-label="Share ayah via WhatsApp"
-                                                >
-                                                    <i
-                                                        class="bi bi-whatsapp"
-                                                    ></i>
+                                                        " title="Share via WhatsApp" aria-label="Share ayah via WhatsApp">
+                                                    <i class="bi bi-whatsapp"></i>
                                                 </button>
-                                                <button
-                                                    type="button"
-                                                    class="btn btn-sm btn-outline-danger remove-quick"
-                                                    :disabled="
+                                                <button type="button" class="btn btn-sm btn-outline-danger remove-quick"
+                                                    :disabled="isDeleteBusy(
+                                                        item.bookmark_id
+                                                    ) || isSmartSelected
+                                                        " :title="deleteTooltip" @click="
+                                                        openRemoveConfirm(item)
+                                                        ">
+                                                    <span v-if="
                                                         isDeleteBusy(
                                                             item.bookmark_id
-                                                        ) || isSmartSelected
-                                                    "
-                                                    :title="deleteTooltip"
-                                                    @click="
-                                                        openRemoveConfirm(item)
-                                                    "
-                                                >
-                                                    <span
-                                                        v-if="
-                                                            isDeleteBusy(
-                                                                item.bookmark_id
-                                                            )
-                                                        "
-                                                        class="spinner-border spinner-border-sm"
-                                                    ></span>
-                                                    <i
-                                                        v-else
-                                                        class="bi bi-trash"
-                                                    ></i>
+                                                        )
+                                                    " class="spinner-border spinner-border-sm"></span>
+                                                    <i v-else class="bi bi-trash"></i>
                                                 </button>
                                             </div>
                                         </div>
-                                        <div
-                                            class="ayah-list-ar"
-                                            v-html="
-                                                highlightText(
-                                                    item.ayah_verse_ar,
-                                                    'arabic'
-                                                )
-                                            "
-                                        ></div>
-                                        <div
-                                            v-if="item.ayah_verse_en"
-                                            class="ayah-list-en"
-                                            v-html="
-                                                highlightText(
-                                                    item.ayah_verse_en,
-                                                    'english'
-                                                )
-                                            "
-                                        ></div>
+                                        <div class="ayah-list-ar" v-html="highlightText(
+                                            item.ayah_verse_ar,
+                                            'arabic'
+                                        )
+                                            "></div>
+                                        <div v-if="item.ayah_verse_en" class="ayah-list-en" v-html="highlightText(
+                                            item.ayah_verse_en,
+                                            'english'
+                                        )
+                                            "></div>
                                     </div>
                                 </div>
                             </div>
@@ -403,56 +256,31 @@
 
                 <bookmark-modal :ayah="activeAyah" @saved="onSaved" />
 
-                <div
-                    v-if="removeConfirmOpen"
-                    class="modal-backdrop fade show"
-                ></div>
-                <div
-                    v-if="removeConfirmOpen"
-                    class="modal fade show remove-confirm-modal"
-                    tabindex="-1"
-                    role="dialog"
-                    aria-modal="true"
-                    style="display: block"
-                >
+                <div v-if="removeConfirmOpen" class="modal-backdrop fade show"></div>
+                <div v-if="removeConfirmOpen" class="modal fade show remove-confirm-modal" tabindex="-1" role="dialog"
+                    aria-modal="true" style="display: block">
                     <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h6 class="modal-title">
                                     {{ removeConfirmTitle }}
                                 </h6>
-                                <button
-                                    type="button"
-                                    class="btn-close"
-                                    aria-label="Close"
-                                    @click="closeRemoveConfirm"
-                                ></button>
+                                <button type="button" class="btn-close" aria-label="Close"
+                                    @click="closeRemoveConfirm"></button>
                             </div>
                             <div class="modal-body">
                                 <p class="mb-0">{{ removeConfirmMessage }}</p>
                             </div>
                             <div class="modal-footer">
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-secondary"
-                                    @click="closeRemoveConfirm"
-                                >
+                                <button type="button" class="btn btn-outline-secondary" @click="closeRemoveConfirm">
                                     Cancel
                                 </button>
-                                <button
-                                    type="button"
-                                    class="btn btn-danger"
-                                    :disabled="removeBusy"
-                                    @click="
-                                        removeMode === 'bulk'
-                                            ? confirmBulkDeleteBookmarks()
-                                            : confirmRemoveBookmark()
-                                    "
-                                >
-                                    <span
-                                        v-if="removeBusy"
-                                        class="spinner-border spinner-border-sm me-2"
-                                    ></span>
+                                <button type="button" class="btn btn-danger" :disabled="removeBusy" @click="
+                                    removeMode === 'bulk'
+                                        ? confirmBulkDeleteBookmarks()
+                                        : confirmRemoveBookmark()
+                                    ">
+                                    <span v-if="removeBusy" class="spinner-border spinner-border-sm me-2"></span>
                                     Delete
                                 </button>
                             </div>
@@ -471,7 +299,7 @@ import FolderList from "./FolderList.vue";
 import BookmarkModal from "./BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../../utils/bookmarkAuth";
 import { saveAs } from "file-saver";
-import { Document, Packer, Paragraph, Table, TableRow, TableCell, WidthType, VerticalAlign, AlignmentType } from "docx";
+import { Document, Packer, Paragraph, AlignmentType } from "docx";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 export default {
@@ -939,8 +767,8 @@ export default {
                 const response = folder.isAll
                     ? await axios.get("/api/ayah-bookmarks")
                     : await axios.get("/api/ayah-bookmarks", {
-                          params: { folder_id: folder.id },
-                      });
+                        params: { folder_id: folder.id },
+                    });
                 const payload =
                     response.data?.data ??
                     response.data?.bookmarks ??
@@ -1109,6 +937,12 @@ export default {
     <p class="export-subtitle">${this.escapeHtml(folderName)} · ${rows.length} ayah(s)</p>
   </div>
   <table>
+    <colgroup>
+      <col class="col-surah" />
+      <col class="col-ayah" />
+      <col class="col-arabic" />
+      <col class="col-translation" />
+    </colgroup>
     <thead>
       <tr>
         <th>Surah</th>
@@ -1152,103 +986,57 @@ export default {
             }
         },
         async exportFolderDocx(rows) {
-            const tableRows = [
-                new TableRow({
-                    children: [
-                        new TableCell({
-                            width: { size: 30, type: WidthType.PERCENTAGE },
-                            verticalAlign: VerticalAlign.CENTER,
-                            children: [
-                                new Paragraph({
-                                    text: "Surah • Ayah",
-                                    bold: true,
-                                    alignment: AlignmentType.CENTER,
-                                }),
-                            ],
-                        }),
-                        new TableCell({
-                            width: { size: 35, type: WidthType.PERCENTAGE },
-                            verticalAlign: VerticalAlign.CENTER,
-                            children: [
-                                new Paragraph({
-                                    text: "Arabic",
-                                    bold: true,
-                                    alignment: AlignmentType.CENTER,
-                                }),
-                            ],
-                        }),
-                        new TableCell({
-                            width: { size: 35, type: WidthType.PERCENTAGE },
-                            verticalAlign: VerticalAlign.CENTER,
-                            children: [
-                                new Paragraph({
-                                    text: "Translation",
-                                    bold: true,
-                                    alignment: AlignmentType.CENTER,
-                                }),
-                            ],
-                        }),
-                    ],
-                }),
-                ...rows.map((row) => {
-                    const surahText = [
-                        row.surah || "Surah",
-                        row.ayah ? `• Ayah ${row.ayah}` : "",
-                    ]
-                        .filter(Boolean)
-                        .join(" ");
-                    return new TableRow({
-                        children: [
-                            new TableCell({
-                                children: [
-                                    new Paragraph({
-                                        text: surahText,
-                                        size: 26,
-                                    }),
-                                ],
-                            }),
-                            new TableCell({
-                                children: [
-                                    new Paragraph({
-                                        text: row.arabic || "",
-                                        size: 26,
-                                        bidi: true,
-                                    }),
-                                ],
-                            }),
-                            new TableCell({
-                                children: [
-                                    new Paragraph({
-                                        text: row.translation || "",
-                                        size: 24,
-                                    }),
-                                ],
-                            }),
-                        ],
-                    });
+            const sections = [
+                new Paragraph({
+                    text: "Daily Reflections",
+                    heading: "Heading1",
+                    alignment: AlignmentType.CENTER,
+                    spacing: { after: 300 },
                 }),
             ];
 
-            const table = new Table({
-                width: {
-                    size: 100,
-                    type: WidthType.PERCENTAGE,
-                },
-                rows: tableRows,
+            rows.forEach((row) => {
+                const surahText = [
+                    row.surah || "Surah",
+                    row.ayah ? `• Ayah ${row.ayah}` : "",
+                ]
+                    .filter(Boolean)
+                    .join(" ");
+                sections.push(
+                    new Paragraph({
+                        text: surahText,
+                        bold: true,
+                        size: 26,
+                        spacing: { after: 120 },
+                    })
+                );
+                if (row.arabic) {
+                    sections.push(
+                        new Paragraph({
+                            text: row.arabic,
+                            size: 28,
+                            alignment: AlignmentType.RIGHT,
+                            bidi: true,
+                            spacing: { after: 60 },
+                        })
+                    );
+                }
+                if (row.translation) {
+                    sections.push(
+                        new Paragraph({
+                            text: row.translation,
+                            size: 24,
+                            spacing: { after: 120 },
+                        })
+                    );
+                }
             });
+
             const doc = new Document({
                 sections: [
                     {
                         properties: {},
-                        children: [
-                            new Paragraph({
-                                text: "Daily Reflections",
-                                heading: "Heading1",
-                                alignment: AlignmentType.CENTER,
-                                spacing: { after: 300 },
-                            }),
-                            table,
-                        ],
+                        children: sections,
                     },
                 ],
             });
@@ -1417,7 +1205,7 @@ export default {
     color: #e0f2f1 !important;
 }
 
-.bookmark-manager > .row {
+.bookmark-manager>.row {
     position: relative;
     z-index: 1;
 }
@@ -1522,7 +1310,7 @@ export default {
     padding: 8px 16px;
     border-radius: 12px;
     border: none;
-    background: linear-gradient(125deg, #0f855a, #1abc9c);
+    background: #0f6e63;
     color: #ffffff;
     font-weight: 600;
     font-size: 0.9rem;
@@ -1839,6 +1627,7 @@ export default {
         padding: 14px 18px;
     }
 }
+
 .bookmark-guest-state {
     display: flex;
     justify-content: center;
@@ -1846,6 +1635,7 @@ export default {
     min-height: 260px;
     padding: 2rem 1rem;
 }
+
 .guest-card {
     max-width: 480px;
     width: 100%;
@@ -1855,28 +1645,34 @@ export default {
     text-align: center;
     box-shadow: 0 20px 50px rgba(15, 23, 42, 0.1);
 }
+
 .guest-icon {
     font-size: 2.5rem;
     margin-bottom: 0.75rem;
     color: #0f855a;
 }
+
 .guest-card h5 {
     margin-bottom: 0.5rem;
     font-weight: 700;
     color: #0f172a;
 }
+
 .guest-card p {
     margin-bottom: 1rem;
     color: #475467;
 }
+
 .guest-actions {
     display: flex;
     justify-content: center;
     gap: 0.75rem;
 }
+
 .guest-actions .btn {
     min-width: 140px;
 }
+
 .bookmark-loading {
     display: flex;
     flex-direction: column;
@@ -1886,6 +1682,7 @@ export default {
     gap: 0.75rem;
     color: #475467;
 }
+
 .loading-spinner {
     width: 52px;
     height: 52px;
@@ -1894,14 +1691,17 @@ export default {
     border-top-color: #0f855a;
     animation: spin 1s linear infinite;
 }
+
 @keyframes spin {
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
 }
+
 :global(.bookmark-export-preview) {
     position: fixed;
     top: -9999px;
@@ -1909,6 +1709,7 @@ export default {
     width: 960px;
     z-index: 9999;
 }
+
 :global(.bookmark-export-sheet) {
     width: 100%;
     padding: 32px;
@@ -1919,43 +1720,75 @@ export default {
     border-radius: 16px;
     box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
 }
+
 :global(.bookmark-export-sheet h1) {
     margin: 0;
     font-size: 32px;
     font-weight: 700;
 }
+
 :global(.bookmark-export-sheet .export-subtitle) {
     margin: 6px 0;
     color: #475467;
 }
+
 :global(.bookmark-export-sheet table) {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 14px;
+    table-layout: fixed;
 }
+
+:global(.bookmark-export-sheet .col-surah) {
+    width: 18%;
+}
+
+:global(.bookmark-export-sheet .col-ayah) {
+    width: 18%;
+}
+
+:global(.bookmark-export-sheet .col-arabic) {
+    width: 33%;
+}
+
+:global(.bookmark-export-sheet .col-translation) {
+    width: 33%;
+}
+
 :global(.bookmark-export-sheet th),
 :global(.bookmark-export-sheet td) {
     padding: 10px 12px;
     border: 1px solid rgba(15, 23, 42, 0.12);
     word-break: break-word;
 }
+
 :global(.bookmark-export-sheet th) {
     background: #0f172a;
     color: #f8fafc;
     font-weight: 600;
     letter-spacing: 0.02em;
 }
+
 :global(.bookmark-export-sheet td.arabic-col) {
     font-family: "Amiri", "Noto Naskh Arabic", "Cairo", serif;
     text-align: right;
     direction: rtl;
 }
+
+.export-item:focus,
+.export-item:active,
+.export-item:hover {
+    background: #f8fafc;
+    color: #0f172a;
+}
+
 .export-dropdown .dropdown-toggle {
     border-radius: 10px;
     padding: 0.45rem 1.35rem;
     font-size: 0.95rem;
 }
+
 .btn-forest {
     border: 1px solid #0f6e63;
     background-color: #0f6e63;
@@ -1964,33 +1797,41 @@ export default {
     transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     box-shadow: 0 10px 25px rgba(15, 81, 50, 0.25);
 }
+
 .btn-forest:disabled {
     opacity: 0.5;
     box-shadow: none;
 }
+
 .btn-forest:not(:disabled):hover {
     background-color: #0f6e63;
     transform: translateY(-1px);
 }
+
 .export-dropdown .dropdown-menu {
     min-width: 18rem;
 }
+
 .export-menu {
     min-width: 18rem;
     border-radius: 1rem;
     border: 1px solid rgba(15, 23, 42, 0.15);
     box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
 }
+
 .export-item {
     display: flex;
     align-items: center;
     gap: 0.45rem;
     font-weight: 600;
     color: #0f172a;
+    background: transparent;
 }
+
 .export-item .badge {
     font-size: 0.65rem;
 }
+
 .export-item .icon {
     font-size: 1rem;
     color: #0f6e63;

@@ -6,7 +6,7 @@
           <i class="bi bi-folder2-open"></i>
         </div>
         <div>
-          <div class="folder-title">Folder Studio</div>
+          <div class="folder-title">Bookmark Folders</div>
           <div class="folder-count">{{ folders.length }} folders</div>
         </div>
       </div>
