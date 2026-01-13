@@ -14,12 +14,12 @@
                     </div>
                 </div>
             </transition>
-            <div class="row g-4 bookmark-layout">
-                <div class="col-12 col-lg-4 folder-col" :class="{ 'is-collapsed': isFolderCollapsed }"
+            <div class="row g-4 bookmark-layout align-items-start">
+                <div class="col-12 col-lg-4 folder-col px-lg-0" :class="{ 'is-collapsed': isFolderCollapsed }"
                     :aria-hidden="isFolderCollapsed ? 'true' : 'false'">
                     <folder-list ref="folderList" @folder-selected="onFolderSelected" />
                 </div>
-                <div class="col-12 col-lg-8 panel-col" :class="{ 'is-expanded': isFolderCollapsed }">
+                <div class="col-12 col-lg-8 panel-col ps-lg-3" :class="{ 'is-expanded': isFolderCollapsed }">
                     <div class="bookmark-panel">
                         <div class="panel-header">
                             <div>
@@ -122,7 +122,7 @@
                                 !isSmartSelected
                             " class="selection-toolbar">
                                 <div class="toolbar-left">
-                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                    <button type="button"  style="color:#0f6e63; border-radius: 10px; padding:10px; border: 1px solid #0f6e63;"
                                         @click="selectAllBookmarks" :disabled="allBookmarksSelected">
                                         <i class="bi bi-check-all me-1"></i>
                                         Select All
@@ -137,7 +137,7 @@
                                     </span>
                                 </div>
                                 <div class="toolbar-right">
-                                    <button v-if="selectedBookmarkCount > 0" type="button" class="btn btn-sm btn-danger"
+                                    <button v-if="selectedBookmarkCount > 0" type="button" class="btn btn-sm btn-outline-danger"
                                         @click="openBulkDeleteConfirm" :disabled="bulkDeleteBusy">
                                         <span v-if="bulkDeleteBusy"
                                             class="spinner-border spinner-border-sm me-1"></span>
@@ -156,7 +156,7 @@
                                                 item.bookmark_id &&
                                                 !isSmartSelected
                                             " class="ayah-checkbox">
-                                                <input type="checkbox" class="form-check-input" :checked="selectedBookmarkIds.includes(
+                                                <input type="checkbox" style="width:20px;" :checked="selectedBookmarkIds.includes(
                                                     item.bookmark_id
                                                 )
                                                     " @change="
@@ -1257,10 +1257,10 @@ export default {
 }
 
 .bookmark-panel {
-    border-radius: 20px;
-    border: 1px solid rgba(15, 23, 42, 0.08);
-    background: #ffffff;
-    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    border-radius: 30px;
+    border: none;
+    background: linear-gradient(180deg, #fdfefd, #eff9f1);
+    box-shadow: 0 30px 60px rgba(15, 23, 42, 0.15);
     overflow: hidden;
     position: relative;
     display: flex;
@@ -1272,16 +1272,17 @@ export default {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    padding: 16px 24px;
-    border-bottom: 1px solid rgba(226, 232, 240, 0.8);
-    background: #ffffff;
+    padding: 24px 32px;
+    border-bottom: 1px solid rgba(200, 226, 220, 0.8);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
 }
 
 .panel-eyebrow {
     text-transform: uppercase;
-    letter-spacing: 0.18em;
-    font-size: 0.65rem;
-    color: #6b7280;
+    letter-spacing: 0.3em;
+    font-size: 0.78rem;
+    color: #0f6e63;
     font-weight: 700;
 }
 
@@ -1301,6 +1302,16 @@ export default {
     display: inline-flex;
     align-items: center;
     gap: 10px;
+}
+
+.panel-actions .panel-toggle {
+    border-radius: 999px;
+    border: none;
+    background: #0f6e63;
+    color: #fff;
+    padding: 0.45rem 1.25rem;
+    font-weight: 600;
+    box-shadow: 0 12px 30px rgba(15, 110, 99, 0.25);
 }
 
 .panel-cta {
@@ -1353,6 +1364,10 @@ export default {
     max-height: calc(100vh - 320px);
     overflow-y: auto;
     padding-right: 4px;
+    background: #ffffff;
+    border-radius: 24px;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow: inset 0 10px 20px rgba(15, 23, 42, 0.04);
 }
 
 .list-wrapper::-webkit-scrollbar {
@@ -1459,9 +1474,10 @@ export default {
 .panel-search .input-group {
     width: 100%;
     max-width: 100%;
-    border-radius: 18px;
-    background: #f8fafc;
-    border: 1px solid rgba(226, 232, 240, 0.8);
+    border-radius: 20px;
+    background: #ffffff;
+    border: 1px solid rgba(15, 110, 99, 0.15);
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
 }
 
 .panel-search .input-group-text {
@@ -1532,11 +1548,11 @@ export default {
 }
 
 .ayah-list-item {
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    border-radius: 16px;
-    padding: 16px 20px;
-    background: #ffffff;
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+    border: 1px solid rgba(15, 110, 99, 0.2);
+    border-radius: 22px;
+    padding: 20px 24px;
+    background: linear-gradient(180deg, #ffffff, #f4fbf6);
+    box-shadow: 0 18px 50px rgba(15, 23, 42, 0.1);
 }
 
 .ayah-list-head {

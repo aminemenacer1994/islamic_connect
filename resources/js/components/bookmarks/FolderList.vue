@@ -193,8 +193,10 @@
               @drop="handleDrop($event, folder)"
             >
               <div class="folder-main-wrapper d-flex align-items-center flex-grow-1">
-                <div class="folder-select" @click.stop>
+                
+                <div class="folder-main">
                   <input
+                    @click.stop
                     type="checkbox"
                     class="form-check-input"
                     :id="`folder-select-${folder.id}`"
@@ -203,8 +205,6 @@
                     :title="folder.is_smart ? 'Smart folders cannot be deleted' : ''"
                     @change="toggleFolderSelection(folder.id)"
                   />
-                </div>
-                <div class="folder-main">
                   <span class="folder-icon"><i :class="folder.icon || 'bi bi-folder2'"></i></span>
                   <span class="folder-name" v-html="highlightFolderName(folder.name)"></span>
                 </div>
@@ -617,6 +617,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .folder-list {
   border-radius: 22px;
   background: linear-gradient(180deg, #fdfdfd 0%, #f2faf5 100%);

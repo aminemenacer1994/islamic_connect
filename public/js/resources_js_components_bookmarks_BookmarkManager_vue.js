@@ -1914,7 +1914,7 @@ const _hoisted_4 = {
   class: "container-fluid d-flex align-items-center justify-content-between"
 };
 const _hoisted_5 = {
-  class: "row g-4 bookmark-layout"
+  class: "row g-4 bookmark-layout align-items-start"
 };
 const _hoisted_6 = ["aria-hidden"];
 const _hoisted_7 = {
@@ -2083,7 +2083,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     })])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]),
     _: 1 /* STABLE */
   }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-lg-4 folder-col", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-lg-4 folder-col px-lg-0", {
       'is-collapsed': $data.isFolderCollapsed
     }]),
     "aria-hidden": $data.isFolderCollapsed ? 'true' : 'false'
@@ -2091,7 +2091,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "folderList",
     onFolderSelected: $options.onFolderSelected
   }, null, 8 /* PROPS */, ["onFolderSelected"])], 10 /* CLASS, PROPS */, _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-lg-8 panel-col", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["col-12 col-lg-8 panel-col ps-lg-3", {
       'is-expanded': $data.isFolderCollapsed
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -2155,7 +2155,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "empty-subtitle"
   }, " Try different terms or clear the filters. ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selection Toolbar "), !$data.loading && $options.filteredItems.length > 0 && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    class: "btn btn-sm btn-outline-primary",
+    style: {
+      "color": "#0f6e63",
+      "border-radius": "10px",
+      "padding": "10px",
+      "border": "1px solid #0f6e63"
+    },
     onClick: _cache[6] || (_cache[6] = (...args) => $options.selectAllBookmarks && $options.selectAllBookmarks(...args)),
     disabled: $options.allBookmarksSelected
   }, [...(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
@@ -2170,7 +2175,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Unselect All ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.selectedBookmarkCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.selectedBookmarkCount) + " selected ", 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [$options.selectedBookmarkCount > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
     key: 0,
     type: "button",
-    class: "btn btn-sm btn-danger",
+    class: "btn btn-sm btn-outline-danger",
     onClick: _cache[8] || (_cache[8] = (...args) => $options.openBulkDeleteConfirm && $options.openBulkDeleteConfirm(...args)),
     disabled: $data.bulkDeleteBusy
   }, [$data.bulkDeleteBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_29)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_30)), _cache[22] || (_cache[22] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete Selected ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_28)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.loading && $options.filteredItems.length > 0 ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredItems, item => {
@@ -2179,7 +2184,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "list-group-item ayah-list-item"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [item.bookmark_id && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "checkbox",
-      class: "form-check-input",
+      style: {
+        "width": "20px"
+      },
       checked: $data.selectedBookmarkIds.includes(item.bookmark_id),
       onChange: $event => $options.toggleBookmarkSelection(item.bookmark_id)
     }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_35)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -2861,10 +2868,10 @@ const _hoisted_44 = ["onClick", "onDrop"];
 const _hoisted_45 = {
   class: "folder-main-wrapper d-flex align-items-center flex-grow-1"
 };
-const _hoisted_46 = ["id", "checked", "disabled", "title", "onChange"];
-const _hoisted_47 = {
+const _hoisted_46 = {
   class: "folder-main"
 };
+const _hoisted_47 = ["id", "checked", "disabled", "title", "onChange"];
 const _hoisted_48 = {
   class: "folder-icon"
 };
@@ -3012,10 +3019,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.selectFolder(folder),
       onDragover: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["prevent"])),
       onDrop: $event => $options.handleDrop($event, folder)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
-      class: "folder-select",
-      onClick: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+      onClick: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
       type: "checkbox",
       class: "form-check-input",
       id: `folder-select-${folder.id}`,
@@ -3023,7 +3028,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: folder.is_smart,
       title: folder.is_smart ? 'Smart folders cannot be deleted' : '',
       onChange: $event => $options.toggleFolderSelection(folder.id)
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_46)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon || 'bi bi-folder2')
     }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "folder-name",
