@@ -380,6 +380,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::put('folders/{folder}', [ApiFolderController::class, 'update']);
         Route::delete('folders/{folder}', [ApiFolderController::class, 'destroy']);
         Route::get('folders/{folder}/bookmarks', [ApiFolderController::class, 'bookmarks']);
+        Route::post('folders/order', [ApiFolderController::class, 'reorder']);
         Route::post('folders/{folder}/share', [SharedFolderController::class, 'store']);
         Route::delete('folders/{folder}/share', [SharedFolderController::class, 'destroy']);
 
@@ -389,6 +390,7 @@ Route::middleware(['auth', 'web'])->group(function () {
         Route::delete('ayah-bookmarks/bulk', [AyahBookmarkController::class, 'bulkDestroy'])->middleware('throttle:20,1');
         Route::delete('ayah-bookmarks/{bookmarkId}', [AyahBookmarkController::class, 'destroy'])->middleware('throttle:30,1');
         Route::delete('ayah-bookmarks/{bookmark}/folders/{folder}', [AyahBookmarkController::class, 'detachFolder'])->middleware('throttle:30,1');
+        Route::post('ayah-bookmarks/order', [AyahBookmarkController::class, 'reorder'])->middleware('throttle:30,1');
 
         Route::delete('folders/bulk', [ApiFolderController::class, 'bulkDestroy'])->middleware('throttle:20,1');
 

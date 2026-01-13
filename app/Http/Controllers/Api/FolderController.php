@@ -39,7 +39,8 @@ class FolderController extends Controller
         $folders = $this->applyOwnerScope(Folder::query(), $request)
             ->with(['smartFolder', 'sharedFolder'])
             ->withCount('bookmarks')
-            ->orderBy('updated_at', 'desc')
+            ->orderByRaw('COALESCE(position, 0) ASC')
+            ->orderByDesc('updated_at')
             ->get();
 
         $data = $folders->map(function (Folder $folder) {
@@ -55,6 +56,7 @@ class FolderController extends Controller
                 'color' => $folder->color,
                 'is_smart' => $folder->is_smart,
                 'ayah_count' => $ayahCount,
+                'position' => $folder->position,
                 'updated_at' => $folder->updated_at,
                 'shared_token' => $folder->sharedFolder?->token,
             ];
@@ -116,12 +118,16 @@ class FolderController extends Controller
 
         $folder = null;
 
-        DB::transaction(function () use ($validated, $user, $isSmart, $ownerData, &$folder) {
+        $positionQuery = $this->applyOwnerScope(Folder::query(), $request);
+        $maxPosition = $positionQuery->max('position');
+
+        DB::transaction(function () use ($validated, $user, $isSmart, $ownerData, $maxPosition, &$folder) {
             $folder = Folder::create([
                 'name' => $validated['name'],
                 'icon' => $validated['icon'] ?? null,
                 'color' => $validated['color'] ?? null,
                 'is_smart' => $isSmart,
+                'position' => ($maxPosition ?? -1) + 1,
                 'user_id' => $user->id,
                 'session_id' => $ownerData['session_id'] ?? null,
             ]);
@@ -265,6 +271,46 @@ class FolderController extends Controller
         ]);
     }
 
+    public function reorder(Request $request)
+    {
+        $validated = $request->validate([
+            'folder_ids' => 'required|array',
+            'folder_ids.*' => 'integer',
+        ]);
+
+        if (empty($validated['folder_ids'])) {
+            return response()->json([
+                'message' => 'No folders provided for reordering.',
+            ], 422);
+        }
+
+        $folders = $this->applyOwnerScope(Folder::query(), $request)
+            ->whereIn('id', $validated['folder_ids'])
+            ->get()
+            ->keyBy('id');
+
+        DB::transaction(function () use ($validated, $folders) {
+            $position = 0;
+            foreach ($validated['folder_ids'] as $folderId) {
+                $folder = $folders->get($folderId);
+                if (!$folder) {
+                    continue;
+                }
+                if ((int) $folder->position === $position) {
+                    $position++;
+                    continue;
+                }
+                $folder->position = $position;
+                $folder->save();
+                $position++;
+            }
+        });
+
+        return response()->json([
+            'message' => 'Folder order updated.',
+        ]);
+    }
+
     public function bookmarks(Request $request, Folder $folder)
     {
         $this->authorize('view', $folder);
@@ -291,7 +337,8 @@ class FolderController extends Controller
 
         $bookmarks = $folder->bookmarks()
             ->with(['folders:id,name,color,icon', 'ayah'])
-            ->orderByDesc('bookmarks.created_at')
+            ->orderBy('bookmark_folder.position')
+            ->orderByDesc('bookmark_folder.created_at')
             ->get();
 
         return response()->json([

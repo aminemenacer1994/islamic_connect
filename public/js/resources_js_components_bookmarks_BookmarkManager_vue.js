@@ -80,11 +80,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
 /* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_7__);
 /* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 
@@ -100,6 +102,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     AyahRow: _AyahRow_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     FolderList: _FolderList_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
     BookmarkModal: _BookmarkModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  },
+  watch: {
+    canReorderBookmarks() {
+      this.updateBookmarkSorterState();
+    }
   },
   data() {
     return {
@@ -128,7 +135,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       visibilityHandler: null,
       showGuestNudge: true,
       selectedBookmarkIds: [],
-      bulkDeleteBusy: false
+      bulkDeleteBusy: false,
+      bookmarkSorter: null
     };
   },
   computed: {
@@ -256,6 +264,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     canExportFolder() {
       return !!this.selectedFolder && this.normalizedItems.length > 0;
+    },
+    canReorderBookmarks() {
+      return !!this.selectedFolder && !this.selectedFolder.isAll && !this.selectedFolder.is_smart && !this.loading && !this.query && this.source === "manual" && this.items.length > 1;
     }
   },
   async mounted() {
@@ -273,6 +284,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     if (this.bookmarkEventHandler) window.removeEventListener("bookmarks-updated", this.bookmarkEventHandler);
     if (this.bookmarkStorageHandler) window.removeEventListener("storage", this.bookmarkStorageHandler);
     if (this.visibilityHandler) window.removeEventListener("visibilitychange", this.visibilityHandler);
+    if (this.bookmarkSorter) {
+      this.bookmarkSorter.destroy();
+      this.bookmarkSorter = null;
+    }
   },
   methods: {
     hideGuestNudge() {
@@ -526,6 +541,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.items = [];
       } finally {
         this.loading = false;
+        this.$nextTick(() => {
+          this.initializeBookmarkSorter();
+          this.updateBookmarkSorterState();
+        });
       }
     },
     prepareBookmark(payload) {
@@ -853,6 +872,52 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       } finally {
         this.bulkDeleteBusy = false;
         this.closeRemoveConfirm();
+      }
+    },
+    initializeBookmarkSorter() {
+      const list = this.$refs.ayahList;
+      if (!list || this.bookmarkSorter) {
+        this.updateBookmarkSorterState();
+        return;
+      }
+      this.bookmarkSorter = sortablejs__WEBPACK_IMPORTED_MODULE_9__["default"].create(list, {
+        animation: 180,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        ghostClass: "ayah-drag-ghost",
+        dragClass: "ayah-dragging",
+        draggable: ".ayah-list-item",
+        handle: ".ayah-handle",
+        onEnd: event => this.handleBookmarkSortEnd(event)
+      });
+      this.updateBookmarkSorterState();
+    },
+    updateBookmarkSorterState() {
+      if (!this.bookmarkSorter) return;
+      this.bookmarkSorter.option("disabled", !this.canReorderBookmarks);
+    },
+    handleBookmarkSortEnd(event) {
+      if (event.oldIndex === event.newIndex || event.oldIndex == null || event.newIndex == null || !this.canReorderBookmarks) {
+        return;
+      }
+      const previousItems = [...this.items];
+      const updatedItems = [...this.items];
+      const [moved] = updatedItems.splice(event.oldIndex, 1);
+      updatedItems.splice(event.newIndex, 0, moved);
+      this.items = updatedItems;
+      this.persistBookmarkOrder(updatedItems.map(item => item.id), previousItems);
+    },
+    async persistBookmarkOrder(bookmarkIds, previousItems) {
+      var _this$selectedFolder6;
+      if (!bookmarkIds.length || !((_this$selectedFolder6 = this.selectedFolder) !== null && _this$selectedFolder6 !== void 0 && _this$selectedFolder6.id)) return;
+      try {
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post("/api/ayah-bookmarks/order", {
+          folder_id: this.selectedFolder.id,
+          bookmark_ids: bookmarkIds
+        });
+      } catch (error) {
+        this.items = previousItems;
+        this.setPanelMessage("Unable to save bookmark order.", "danger");
       }
     }
   }
@@ -1414,11 +1479,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var sortablejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! sortablejs */ "./node_modules/sortablejs/modular/sortable.esm.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'FolderList',
@@ -1447,6 +1514,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       bulkDeleteCandidates: [],
       status: '',
       statusVariant: 'success',
+      folderSorter: null,
       iconPresets: [{
         icon: 'bi bi-folder2'
       }, {
@@ -1544,12 +1612,26 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     currentDeleteBusy() {
       return this.deleteMode === 'bulk' ? this.bulkDeleteBusy : this.deleteBusy;
+    },
+    canReorderFolders() {
+      return this.showCustomFolders && !this.searchQuery && this.filteredFolders.length > 1;
+    }
+  },
+  watch: {
+    canReorderFolders() {
+      this.updateFolderSorterState();
     }
   },
   mounted() {
     this.fetchFolders();
+    this.$nextTick(() => this.initializeFolderSorter());
   },
-  beforeUnmount() {},
+  beforeUnmount() {
+    if (this.folderSorter) {
+      this.folderSorter.destroy();
+      this.folderSorter = null;
+    }
+  },
   methods: {
     highlightFolderName(name) {
       const clean = this.escapeHtml(String(name || ''));
@@ -1579,8 +1661,55 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         if (!this.selectedId) {
           this.selectAll();
         }
+        this.$nextTick(() => this.updateFolderSorterState());
       } catch (error) {
         this.setStatus('Failed to load folders.', 'danger');
+      }
+    },
+    initializeFolderSorter() {
+      const list = this.$refs.folderStack;
+      if (!list || this.folderSorter) {
+        this.updateFolderSorterState();
+        return;
+      }
+      this.folderSorter = sortablejs__WEBPACK_IMPORTED_MODULE_1__["default"].create(list, {
+        animation: 180,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        ghostClass: 'folder-drag-ghost',
+        dragClass: 'folder-dragging',
+        draggable: '.folder-item--draggable',
+        handle: '.folder-handle',
+        onEnd: event => this.handleFolderSortEnd(event)
+      });
+      this.updateFolderSorterState();
+    },
+    updateFolderSorterState() {
+      if (!this.folderSorter) return;
+      this.folderSorter.option('disabled', !this.canReorderFolders);
+    },
+    handleFolderSortEnd() {
+      var _this$$refs$folderSta;
+      if (!this.canReorderFolders) return;
+      const items = Array.from(((_this$$refs$folderSta = this.$refs.folderStack) === null || _this$$refs$folderSta === void 0 ? void 0 : _this$$refs$folderSta.querySelectorAll('.folder-item--draggable')) || []).map(el => Number(el.dataset.folderId));
+      if (!items.length) return;
+      const previousFolders = [...this.folders];
+      const orderedFolders = items.map(id => this.folders.find(folder => folder.id === id)).filter(Boolean);
+      if (orderedFolders.length !== this.folders.length) {
+        return;
+      }
+      this.folders = orderedFolders;
+      this.persistFolderOrder(items, previousFolders);
+    },
+    async persistFolderOrder(folderIds, previousFolders) {
+      try {
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].post('/api/folders/order', {
+          folder_ids: folderIds
+        });
+        this.setStatus('Folder order saved.', 'success');
+      } catch (error) {
+        this.folders = previousFolders;
+        this.setStatus('Unable to save folder order.', 'danger');
       }
     },
     selectAll() {
@@ -1995,45 +2124,51 @@ const _hoisted_31 = {
   class: "list-wrapper"
 };
 const _hoisted_32 = {
-  class: "list-group ayah-list"
+  class: "list-group ayah-list",
+  ref: "ayahList"
 };
 const _hoisted_33 = {
-  class: "ayah-list-head"
+  key: 0,
+  class: "ayah-handle",
+  "aria-hidden": "true"
 };
 const _hoisted_34 = {
+  class: "ayah-list-head"
+};
+const _hoisted_35 = {
   key: 0,
   class: "ayah-checkbox"
 };
-const _hoisted_35 = ["checked", "onChange"];
-const _hoisted_36 = ["innerHTML"];
-const _hoisted_37 = {
+const _hoisted_36 = ["checked", "onChange"];
+const _hoisted_37 = ["innerHTML"];
+const _hoisted_38 = {
   class: "ayah-list-actions"
 };
-const _hoisted_38 = ["disabled", "onChange"];
-const _hoisted_39 = {
+const _hoisted_39 = ["disabled", "onChange"];
+const _hoisted_40 = {
   value: "",
   selected: "",
   disabled: ""
 };
-const _hoisted_40 = ["value"];
-const _hoisted_41 = ["onClick"];
+const _hoisted_41 = ["value"];
 const _hoisted_42 = ["onClick"];
-const _hoisted_43 = ["disabled", "title", "onClick"];
-const _hoisted_44 = {
+const _hoisted_43 = ["onClick"];
+const _hoisted_44 = ["disabled", "title", "onClick"];
+const _hoisted_45 = {
   key: 0,
   class: "spinner-border spinner-border-sm"
 };
-const _hoisted_45 = {
+const _hoisted_46 = {
   key: 1,
   class: "bi bi-trash"
 };
-const _hoisted_46 = ["innerHTML"];
 const _hoisted_47 = ["innerHTML"];
-const _hoisted_48 = {
+const _hoisted_48 = ["innerHTML"];
+const _hoisted_49 = {
   key: 0,
   class: "modal-backdrop fade show"
 };
-const _hoisted_49 = {
+const _hoisted_50 = {
   key: 1,
   class: "modal fade show remove-confirm-modal",
   tabindex: "-1",
@@ -2043,29 +2178,29 @@ const _hoisted_49 = {
     "display": "block"
   }
 };
-const _hoisted_50 = {
+const _hoisted_51 = {
   class: "modal-dialog modal-dialog-centered"
 };
-const _hoisted_51 = {
+const _hoisted_52 = {
   class: "modal-content"
 };
-const _hoisted_52 = {
+const _hoisted_53 = {
   class: "modal-header"
 };
-const _hoisted_53 = {
+const _hoisted_54 = {
   class: "modal-title"
 };
-const _hoisted_54 = {
+const _hoisted_55 = {
   class: "modal-body"
 };
-const _hoisted_55 = {
+const _hoisted_56 = {
   class: "mb-0"
 };
-const _hoisted_56 = {
+const _hoisted_57 = {
   class: "modal-footer"
 };
-const _hoisted_57 = ["disabled"];
-const _hoisted_58 = {
+const _hoisted_58 = ["disabled"];
+const _hoisted_59 = {
   key: 0,
   class: "spinner-border spinner-border-sm me-2"
 };
@@ -2183,65 +2318,67 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: item.row_key,
       class: "list-group-item ayah-list-item"
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [item.bookmark_id && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [$options.canReorderBookmarks ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_33, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-grip-vertical"
+    }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [item.bookmark_id && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       type: "checkbox",
       style: {
         "width": "20px"
       },
       checked: $data.selectedBookmarkIds.includes(item.bookmark_id),
       onChange: $event => $options.toggleBookmarkSelection(item.bookmark_id)
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_35)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_36)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "ayah-list-meta",
       innerHTML: $options.formatMeta(item)
-    }, null, 8 /* PROPS */, _hoisted_36), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [$options.canMoveFromSelectedFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
+    }, null, 8 /* PROPS */, _hoisted_37), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [$options.canMoveFromSelectedFolder ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("select", {
       key: 0,
       class: "form-select form-select-sm move-select",
       disabled: $data.movingBookmarkId === item.bookmark_id || $options.moveTargets.length === 0,
       onChange: $event => $options.moveBookmark(item, $event)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.moveTargets.length ? "Move to..." : "No other folders"), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargets, folder => {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.moveTargets.length ? "Move to..." : "No other folders"), 1 /* TEXT */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.moveTargets, folder => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
         key: `move-${folder.id}`,
         value: folder.id
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 9 /* TEXT, PROPS */, _hoisted_40);
-    }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_38)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary bookmark-quick\"\n                      data-bs-toggle=\"modal\"\n                      data-bs-target=\"#bookmarkModal\"\n                      @click=\"prepareBookmark(item)\"\n                    >\n                      <i class=\"bi bi-bookmark-plus\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary open-quick\"\n                      @click=\"openInSurat(item)\"\n                      title=\"Open in Quran\"\n                      aria-label=\"Open ayah in Quran\"\n                    >\n                      <i class=\"bi bi-box-arrow-up-right\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.name), 9 /* TEXT, PROPS */, _hoisted_41);
+    }), 128 /* KEYED_FRAGMENT */))], 40 /* PROPS, NEED_HYDRATION */, _hoisted_39)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary bookmark-quick\"\n                      data-bs-toggle=\"modal\"\n                      data-bs-target=\"#bookmarkModal\"\n                      @click=\"prepareBookmark(item)\"\n                    >\n                      <i class=\"bi bi-bookmark-plus\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      type=\"button\"\n                      class=\"btn btn-sm btn-outline-secondary open-quick\"\n                      @click=\"openInSurat(item)\"\n                      title=\"Open in Quran\"\n                      aria-label=\"Open ayah in Quran\"\n                    >\n                      <i class=\"bi bi-box-arrow-up-right\"></i>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-secondary copy-quick",
       onClick: $event => $options.copyBookmark(item),
       title: "Copy",
       "aria-label": "Copy ayah"
-    }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_41), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-secondary share-quick",
       onClick: $event => $options.shareBookmarkOnWhatsApp(item),
       title: "Share via WhatsApp",
       "aria-label": "Share ayah via WhatsApp"
-    }, [...(_cache[24] || (_cache[24] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[25] || (_cache[25] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-whatsapp"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn btn-sm btn-outline-danger remove-quick",
       disabled: $options.isDeleteBusy(item.bookmark_id) || $options.isSmartSelected,
       title: $options.deleteTooltip,
       onClick: $event => $options.openRemoveConfirm(item)
-    }, [$options.isDeleteBusy(item.bookmark_id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_44)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_45))], 8 /* PROPS */, _hoisted_43)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, [$options.isDeleteBusy(item.bookmark_id) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_45)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_46))], 8 /* PROPS */, _hoisted_44)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "ayah-list-ar",
       innerHTML: $options.highlightText(item.ayah_verse_ar, 'arabic')
-    }, null, 8 /* PROPS */, _hoisted_46), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
-      key: 0,
+    }, null, 8 /* PROPS */, _hoisted_47), item.ayah_verse_en ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 1,
       class: "ayah-list-en",
       innerHTML: $options.highlightText(item.ayah_verse_en, 'english')
-    }, null, 8 /* PROPS */, _hoisted_47)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
-  }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
+    }, null, 8 /* PROPS */, _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])], 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_bookmark_modal, {
     ayah: $data.activeAyah,
     onSaved: $options.onSaved
-  }, null, 8 /* PROPS */, ["ayah", "onSaved"]), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_48)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmTitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, ["ayah", "onSaved"]), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_49)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.removeConfirmOpen ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmTitle), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn-close",
     "aria-label": "Close",
     onClick: _cache[9] || (_cache[9] = (...args) => $options.closeRemoveConfirm && $options.closeRemoveConfirm(...args))
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_54, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmMessage), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_55, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_56, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.removeConfirmMessage), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-outline-secondary",
     onClick: _cache[10] || (_cache[10] = (...args) => $options.closeRemoveConfirm && $options.closeRemoveConfirm(...args))
@@ -2250,7 +2387,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn btn-danger",
     disabled: $data.removeBusy,
     onClick: _cache[11] || (_cache[11] = $event => $data.removeMode === 'bulk' ? $options.confirmBulkDeleteBookmarks() : $options.confirmRemoveBookmark())
-  }, [$data.removeBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_58)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[25] || (_cache[25] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_57)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
+  }, [$data.removeBusy ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_59)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[26] || (_cache[26] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Delete ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_58)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]);
 }
 
 /***/ }),
@@ -2863,25 +3000,31 @@ const _hoisted_42 = {
   class: "folder-stack-wrap"
 };
 const _hoisted_43 = {
-  class: "list-group folder-stack"
+  class: "list-group folder-stack",
+  ref: "folderStack"
 };
-const _hoisted_44 = ["onClick", "onDrop"];
+const _hoisted_44 = ["data-folder-id", "onClick", "onDrop"];
 const _hoisted_45 = {
   class: "folder-main-wrapper d-flex align-items-center flex-grow-1"
 };
 const _hoisted_46 = {
+  key: 0,
+  class: "folder-handle",
+  "aria-hidden": "true"
+};
+const _hoisted_47 = {
   class: "folder-main"
 };
-const _hoisted_47 = ["id", "checked", "disabled", "title", "onChange"];
-const _hoisted_48 = {
+const _hoisted_48 = ["id", "checked", "disabled", "title", "onChange"];
+const _hoisted_49 = {
   class: "folder-icon"
 };
-const _hoisted_49 = ["innerHTML"];
-const _hoisted_50 = {
+const _hoisted_50 = ["innerHTML"];
+const _hoisted_51 = {
   class: "folder-count-pill"
 };
-const _hoisted_51 = ["onClick"];
 const _hoisted_52 = ["onClick"];
+const _hoisted_53 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "folder-icon-box"
@@ -3013,14 +3156,17 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.filteredFolders, folder => {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
       key: folder.id,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item folder-item d-flex align-items-center justify-content-between gap-2", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["list-group-item folder-item folder-item--draggable d-flex align-items-center justify-content-between gap-2", {
         active: $data.selectedId === folder.id,
         'folder-item-selected': $options.isFolderSelected(folder.id)
       }]),
+      "data-folder-id": folder.id,
       onClick: $event => $options.selectFolder(folder),
       onDragover: _cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["prevent"])),
       onDrop: $event => $options.handleDrop($event, folder)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [$options.canReorderFolders ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_46, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "bi bi-grip-vertical"
+    }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
       onClick: _cache[14] || (_cache[14] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"])),
       type: "checkbox",
       class: "form-check-input",
@@ -3029,28 +3175,28 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       disabled: folder.is_smart,
       title: folder.is_smart ? 'Smart folders cannot be deleted' : '',
       onChange: $event => $options.toggleFolderSelection(folder.id)
-    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(folder.icon || 'bi bi-folder2')
     }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "folder-name",
       innerHTML: $options.highlightFolderName(folder.name)
-    }, null, 8 /* PROPS */, _hoisted_49)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 8 /* PROPS */, _hoisted_50)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "folder-actions",
       onClick: _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)(() => {}, ["stop"]))
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(folder.ayah_count), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "folder-action rename",
       onClick: $event => $options.startRename(folder)
-    }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-pencil"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_51), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "folder-action delete",
       onClick: $event => $options.openDeleteConfirm(folder)
-    }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-trash"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_44);
-  }), 128 /* KEYED_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])]);
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_53)])], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_44);
+  }), 128 /* KEYED_FRAGMENT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */)])])]);
 }
 
 /***/ }),

@@ -167,7 +167,7 @@
       </div>
 
       <div class="folder-stack-wrap">
-        <ul class="list-group folder-stack">
+        <ul class="list-group folder-stack" ref="folderStack">
           <li
             class="list-group-item folder-item d-flex align-items-center justify-content-between"
             :class="{ active: selectedId === 'all' }"
@@ -180,20 +180,23 @@
           </li>
 
           <template v-if="showCustomFolders">
-            <li
-              v-for="folder in filteredFolders"
-              :key="folder.id"
-              class="list-group-item folder-item d-flex align-items-center justify-content-between gap-2"
-              :class="{
-                active: selectedId === folder.id,
-                'folder-item-selected': isFolderSelected(folder.id),
-              }"
-              @click="selectFolder(folder)"
-              @dragover.prevent
-              @drop="handleDrop($event, folder)"
-            >
+          <li
+            v-for="folder in filteredFolders"
+            :key="folder.id"
+            class="list-group-item folder-item folder-item--draggable d-flex align-items-center justify-content-between gap-2"
+            :data-folder-id="folder.id"
+            :class="{
+              active: selectedId === folder.id,
+              'folder-item-selected': isFolderSelected(folder.id),
+            }"
+            @click="selectFolder(folder)"
+            @dragover.prevent
+            @drop="handleDrop($event, folder)"
+          >
               <div class="folder-main-wrapper d-flex align-items-center flex-grow-1">
-                
+                <span v-if="canReorderFolders" class="folder-handle" aria-hidden="true">
+                  <i class="bi bi-grip-vertical"></i>
+                </span>
                 <div class="folder-main">
                   <input
                     @click.stop
@@ -227,6 +230,7 @@
 </template>
 <script>
 import axios from 'axios';
+import Sortable from 'sortablejs';
 
 export default {
   name: 'FolderList',
@@ -255,6 +259,7 @@ export default {
       bulkDeleteCandidates: [],
       status: '',
       statusVariant: 'success',
+      folderSorter: null,
       iconPresets: [
         { icon: 'bi bi-folder2' }, { icon: 'bi bi-heart' }, { icon: 'bi bi-star' },
         { icon: 'bi bi-bookmark' }, { icon: 'bi bi-book' }, { icon: 'bi bi-journal-text' },
@@ -304,11 +309,24 @@ export default {
     currentDeleteBusy() {
       return this.deleteMode === 'bulk' ? this.bulkDeleteBusy : this.deleteBusy;
     },
+    canReorderFolders() {
+      return this.showCustomFolders && !this.searchQuery && this.filteredFolders.length > 1;
+    },
+  },
+  watch: {
+    canReorderFolders() {
+      this.updateFolderSorterState();
+    },
   },
   mounted() {
     this.fetchFolders();
+    this.$nextTick(() => this.initializeFolderSorter());
   },
   beforeUnmount() {
+    if (this.folderSorter) {
+      this.folderSorter.destroy();
+      this.folderSorter = null;
+    }
   },
   methods: {
     highlightFolderName(name) {
@@ -344,8 +362,58 @@ export default {
         if (!this.selectedId) {
           this.selectAll();
         }
+        this.$nextTick(() => this.updateFolderSorterState());
       } catch (error) {
         this.setStatus('Failed to load folders.', 'danger');
+      }
+    },
+    initializeFolderSorter() {
+      const list = this.$refs.folderStack;
+      if (!list || this.folderSorter) {
+        this.updateFolderSorterState();
+        return;
+      }
+      this.folderSorter = Sortable.create(list, {
+        animation: 180,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        ghostClass: 'folder-drag-ghost',
+        dragClass: 'folder-dragging',
+        draggable: '.folder-item--draggable',
+        handle: '.folder-handle',
+        onEnd: (event) => this.handleFolderSortEnd(event),
+      });
+      this.updateFolderSorterState();
+    },
+    updateFolderSorterState() {
+      if (!this.folderSorter) return;
+      this.folderSorter.option('disabled', !this.canReorderFolders);
+    },
+    handleFolderSortEnd() {
+      if (!this.canReorderFolders) return;
+      const items = Array.from(
+        this.$refs.folderStack?.querySelectorAll('.folder-item--draggable') || []
+      ).map((el) => Number(el.dataset.folderId));
+      if (!items.length) return;
+      const previousFolders = [...this.folders];
+      const orderedFolders = items
+        .map((id) => this.folders.find((folder) => folder.id === id))
+        .filter(Boolean);
+      if (orderedFolders.length !== this.folders.length) {
+        return;
+      }
+      this.folders = orderedFolders;
+      this.persistFolderOrder(items, previousFolders);
+    },
+    async persistFolderOrder(folderIds, previousFolders) {
+      try {
+        await axios.post('/api/folders/order', {
+          folder_ids: folderIds,
+        });
+        this.setStatus('Folder order saved.', 'success');
+      } catch (error) {
+        this.folders = previousFolders;
+        this.setStatus('Unable to save folder order.', 'danger');
       }
     },
     selectAll() {
@@ -930,7 +998,7 @@ export default {
 
 .selection-pill {
   border-radius: 999px;
-  /* padding: 0.4rem 1rem; */
+  padding: 0.4rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
   border: none;
@@ -1138,5 +1206,31 @@ export default {
     width: 100%;
     justify-content: flex-end;
   }
+}
+.folder-item--draggable.folder-dragging {
+  opacity: 0.75;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.15);
+  border-color: rgba(15, 110, 99, 0.4);
+}
+
+.folder-drag-ghost {
+  border: 1px dashed rgba(15, 110, 99, 0.4);
+  background: #ffffff;
+}
+.folder-handle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 10px;
+  background: rgba(15, 110, 99, 0.08);
+  color: #0f6e63;
+  cursor: grab;
+  transition: background 0.2s ease;
+}
+.folder-handle:hover {
+  background: rgba(15, 110, 99, 0.16);
 }
 </style>

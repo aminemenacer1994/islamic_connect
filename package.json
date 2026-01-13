@@ -89,6 +89,7 @@
         "rss-parser": "^3.13.0",
         "rss-parser-browser": "^2.2.2",
         "shetabit-laravel-vue-pagination": "^2.3.7",
+        "sortablejs": "^1.15.6",
         "stream-browserify": "^3.0.0",
         "stream-http": "^3.2.0",
         "stripe": "^14.15.0",

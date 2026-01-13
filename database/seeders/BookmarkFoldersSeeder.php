@@ -35,11 +35,28 @@ class BookmarkFoldersSeeder extends Seeder
         }
 
         $folderDefinitions = [
-            ['name' => 'Daily Reflections', 'icon' => 'bi bi-sun', 'color' => 'warning', 'bookmark_count' => 4],
-            ['name' => 'Ayahs For Growth', 'icon' => 'bi bi-leaf', 'color' => 'success', 'bookmark_count' => 4],
-            ['name' => 'Guided Duas', 'icon' => 'bi bi-heart', 'color' => 'danger', 'bookmark_count' => 4],
-            ['name' => 'Study Highlights', 'icon' => 'bi bi-bookmark-star', 'color' => 'info', 'bookmark_count' => 4],
+            ['name' => 'Daily Reflections', 'icon' => 'bi bi-sun', 'color' => 'warning', 'bookmark_count' => 6],
+            ['name' => 'Ayahs For Growth', 'icon' => 'bi bi-leaf', 'color' => 'success', 'bookmark_count' => 7],
+            ['name' => 'Guided Duas', 'icon' => 'bi bi-heart', 'color' => 'danger', 'bookmark_count' => 12],
+            ['name' => 'Study Highlights', 'icon' => 'bi bi-bookmark-star', 'color' => 'info', 'bookmark_count' => 9],
         ];
+
+        $additionalFolders = [
+            ['name' => 'Evening Reflections', 'icon' => 'bi bi-moon-stars', 'color' => 'primary'],
+            ['name' => 'Morning Gratitude', 'icon' => 'bi bi-brightness-high', 'color' => 'success'],
+            ['name' => 'Patience Practice', 'icon' => 'bi bi-hourglass', 'color' => 'secondary'],
+            ['name' => 'Heartfelt Supplications', 'icon' => 'bi bi-patch-heart', 'color' => 'danger'],
+            ['name' => 'Wisdom Notes', 'icon' => 'bi bi-lightbulb', 'color' => 'warning'],
+            ['name' => 'Strength & Courage', 'icon' => 'bi bi-shield-lock', 'color' => 'dark'],
+            ['name' => 'Grateful Journeys', 'icon' => 'bi bi-flag', 'color' => 'info'],
+            ['name' => 'Family & Unity', 'icon' => 'bi bi-people', 'color' => 'success'],
+        ];
+
+        foreach ($additionalFolders as $definition) {
+            $folderDefinitions[] = array_merge($definition, [
+                'bookmark_count' => rand(8, 15),
+            ]);
+        }
 
         $totalBookmarks = array_sum(array_column($folderDefinitions, 'bookmark_count'));
 

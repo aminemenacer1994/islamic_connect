@@ -9,6 +9,7 @@ use App\Models\Bookmark;
 use App\Models\BookmarkEvent;
 use App\Models\Folder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AyahBookmarkController extends Controller
 {
@@ -37,11 +38,12 @@ class AyahBookmarkController extends Controller
         if ($folderId) {
             $this->applyOwnerScope(Folder::query(), $request)->findOrFail($folderId);
             $bookmarks = $this->applyOwnerScope(Bookmark::query(), $request)
-            ->whereHas('folders', function ($query) use ($folderId) {
-                $query->where('folders.id', $folderId);
-            })
-            ->with(['folders:id,name,color,icon', 'ayah'])
-            ->orderByDesc('bookmarks.created_at')
+                ->select('bookmarks.*')
+                ->join('bookmark_folder', 'bookmark_folder.bookmark_id', '=', 'bookmarks.id')
+                ->where('bookmark_folder.folder_id', $folderId)
+                ->with(['folders:id,name,color,icon', 'ayah'])
+                ->orderBy('bookmark_folder.position')
+                ->orderByDesc('bookmark_folder.created_at')
                 ->get();
 
             return response()->json([
@@ -100,6 +102,7 @@ class AyahBookmarkController extends Controller
             $bookmark->folders()->syncWithoutDetaching($folderIds);
             foreach ($folderIds as $folderId) {
                 $this->logEvent($bookmark->user_id, 'bookmark_added_to_folder', $bookmark->id, $folderId, $bookmark->ayah_id);
+                $this->reindexFolderBookmarks($folderId);
             }
             $this->applyOwnerScope(Folder::query(), $request)
                 ->whereIn('id', $folderIds)
@@ -131,6 +134,7 @@ class AyahBookmarkController extends Controller
 
         foreach ($folderIds as $folderId) {
             $this->logEvent($bookmark->user_id, 'bookmark_added_to_folder', $bookmark->id, $folderId, $bookmark->ayah_id);
+            $this->reindexFolderBookmarks($folderId);
         }
         $this->applyOwnerScope(Folder::query(), $request)
             ->whereIn('id', $folderIds)
@@ -254,6 +258,57 @@ class AyahBookmarkController extends Controller
             'message' => "Successfully deleted {$deletedCount} bookmark(s).",
             'deleted_count' => $deletedCount,
         ]);
+    }
+
+    public function reorder(Request $request)
+    {
+        $validated = $request->validate([
+            'folder_id' => 'required|integer',
+            'bookmark_ids' => 'required|array',
+            'bookmark_ids.*' => 'integer',
+        ]);
+
+        $bookmarkIds = array_values(array_unique($validated['bookmark_ids']));
+        if (empty($bookmarkIds)) {
+            return response()->json([
+                'message' => 'No bookmarks provided for reordering.',
+            ], 422);
+        }
+
+        $this->requireOwnerConstraint($request);
+        $folder = $this->applyOwnerScope(Folder::query(), $request)->findOrFail($validated['folder_id']);
+        if ($folder->is_smart) {
+            return response()->json([
+                'message' => 'Smart folders cannot be reordered.',
+            ], 422);
+        }
+
+        DB::transaction(function () use ($folder, $bookmarkIds) {
+            foreach ($bookmarkIds as $position => $bookmarkId) {
+                DB::table('bookmark_folder')
+                    ->where('folder_id', $folder->id)
+                    ->where('bookmark_id', $bookmarkId)
+                    ->update(['position' => $position]);
+            }
+        });
+
+        return response()->json([
+            'message' => 'Bookmark order updated.',
+        ]);
+    }
+
+    protected function reindexFolderBookmarks(int $folderId): void
+    {
+        $rows = DB::table('bookmark_folder')
+            ->where('folder_id', $folderId)
+            ->orderByDesc('created_at')
+            ->get();
+
+        foreach ($rows as $index => $row) {
+            DB::table('bookmark_folder')
+                ->where('id', $row->id)
+                ->update(['position' => $index]);
+        }
     }
 
     private function normalizeFolderIds(Request $request, array $folderIds): array
