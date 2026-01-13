@@ -20,7 +20,7 @@
                     <folder-list ref="folderList" @folder-selected="onFolderSelected" />
                 </div>
                 <div class="col-12 col-lg-8 panel-col ps-lg-3" :class="{ 'is-expanded': isFolderCollapsed }">
-                    <div class="bookmark-panel">
+                    <div class="bookmark-panel" style="border-radius: 22px;">
                         <div class="panel-header">
                             <div>
                                 <div class="panel-eyebrow">Collection</div>
@@ -37,19 +37,7 @@
                                 </div>
                             </div>
                             <div class="panel-actions">
-                                <button type="button" class="panel-toggle" @click="toggleFolderPane"
-                                    :aria-pressed="!isFolderCollapsed" :aria-label="isFolderCollapsed
-                                            ? 'Show folders'
-                                            : 'Hide folders'
-                                        " :title="isFolderCollapsed
-                                            ? 'Show folders'
-                                            : 'Hide folders'
-                                        ">
-                                    <i class="bi" :class="isFolderCollapsed
-                                            ? 'bi-layout-sidebar-inset'
-                                            : 'bi-layout-sidebar-inset-reverse'
-                                        "></i>
-                                </button>
+                                
                                 <div class="dropdown export-dropdown ms-2">
                                     <button class="btn btn-sm btn-forest dropdown-toggle" type="button"
                                         id="bookmarkExportDropdown" data-bs-toggle="dropdown" aria-expanded="false"
@@ -82,11 +70,23 @@
                                     Go back to the Holy Quran
                                     <i class="bi bi-arrow-right ms-2"></i>
                                 </a>
-                                <!-- <span v-if="selectedFolder" class="source-pill">{{ sourceLabel }}</span> -->
+                                <button type="button" class="panel-toggle" @click="toggleFolderPane"
+                                    :aria-pressed="!isFolderCollapsed" :aria-label="isFolderCollapsed
+                                            ? 'Show folders'
+                                            : 'Hide folders'
+                                        " :title="isFolderCollapsed
+                                            ? 'Show folders'
+                                            : 'Hide folders'
+                                        ">
+                                    <i class="bi" :class="isFolderCollapsed
+                                            ? 'bi-layout-sidebar-inset'
+                                            : 'bi-layout-sidebar-inset-reverse'
+                                        "></i>
+                                </button>
                             </div>
                         </div>
 
-                        <div class="panel-body">
+                        <div class="panel-body" style="border-radius: 22px;">
                             <div v-if="panelMessage" class="panel-alert" :class="panelMessageVariant === 'danger'
                                     ? 'alert-danger'
                                     : 'alert-success'
@@ -122,7 +122,7 @@
                                 !isSmartSelected
                             " class="selection-toolbar">
                                 <div class="toolbar-left">
-                                    <button type="button"  style="color:#0f6e63; border-radius: 10px; padding:10px; border: 1px solid #0f6e63;"
+                                    <button type="button" class="btn btn-sm btn-outline-success"
                                         @click="selectAllBookmarks" :disabled="allBookmarksSelected">
                                         <i class="bi bi-check-all me-1"></i>
                                         Select All
@@ -1261,7 +1261,7 @@ export default {
     border: none;
     background: linear-gradient(180deg, #fdfefd, #eff9f1);
     box-shadow: 0 30px 60px rgba(15, 23, 42, 0.15);
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1273,9 +1273,12 @@ export default {
     justify-content: space-between;
     gap: 12px;
     padding: 24px 32px;
+    border-radius: 22px;
     border-bottom: 1px solid rgba(200, 226, 220, 0.8);
     background: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(12px);
+    position: relative;
+    z-index: 3;
 }
 
 .panel-eyebrow {
@@ -1826,6 +1829,10 @@ export default {
 
 .export-dropdown .dropdown-menu {
     min-width: 18rem;
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 2200;
 }
 
 .export-menu {

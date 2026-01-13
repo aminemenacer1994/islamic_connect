@@ -1918,7 +1918,10 @@ const _hoisted_5 = {
 };
 const _hoisted_6 = ["aria-hidden"];
 const _hoisted_7 = {
-  class: "bookmark-panel"
+  class: "bookmark-panel",
+  style: {
+    "border-radius": "22px"
+  }
 };
 const _hoisted_8 = {
   class: "panel-header"
@@ -1932,19 +1935,22 @@ const _hoisted_10 = {
 const _hoisted_11 = {
   class: "panel-actions"
 };
-const _hoisted_12 = ["aria-pressed", "aria-label", "title"];
-const _hoisted_13 = {
+const _hoisted_12 = {
   class: "dropdown export-dropdown ms-2"
 };
-const _hoisted_14 = ["disabled"];
-const _hoisted_15 = {
+const _hoisted_13 = ["disabled"];
+const _hoisted_14 = {
   class: "dropdown-menu dropdown-menu-end export-menu",
   "aria-labelledby": "bookmarkExportDropdown"
 };
+const _hoisted_15 = ["disabled"];
 const _hoisted_16 = ["disabled"];
-const _hoisted_17 = ["disabled"];
+const _hoisted_17 = ["aria-pressed", "aria-label", "title"];
 const _hoisted_18 = {
-  class: "panel-body"
+  class: "panel-body",
+  style: {
+    "border-radius": "22px"
+  }
 };
 const _hoisted_19 = {
   class: "panel-search"
@@ -2096,16 +2102,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }])
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[13] || (_cache[13] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "panel-eyebrow"
-  }, "Collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedFolder ? $data.selectedFolder.name : "Folder contents"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.panelCountLabel) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderDescriptor), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-    type: "button",
-    class: "panel-toggle",
-    onClick: _cache[1] || (_cache[1] = (...args) => $options.toggleFolderPane && $options.toggleFolderPane(...args)),
-    "aria-pressed": !$data.isFolderCollapsed,
-    "aria-label": $data.isFolderCollapsed ? 'Show folders' : 'Hide folders',
-    title: $data.isFolderCollapsed ? 'Show folders' : 'Hide folders'
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isFolderCollapsed ? 'bi-layout-sidebar-inset' : 'bi-layout-sidebar-inset-reverse'])
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_12), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, "Collection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.selectedFolder ? $data.selectedFolder.name : "Folder contents"), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.panelCountLabel) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.folderDescriptor), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "btn btn-sm btn-forest dropdown-toggle",
     type: "button",
     id: "bookmarkExportDropdown",
@@ -2114,26 +2111,35 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: !$options.canExportFolder
   }, [...(_cache[14] || (_cache[14] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-file-earmark-arrow-down-fill me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Export folder ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_14), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Export folder ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_13), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "dropdown-item export-item",
     type: "button",
-    onClick: _cache[2] || (_cache[2] = $event => $options.exportFolder('pdf')),
+    onClick: _cache[1] || (_cache[1] = $event => $options.exportFolder('pdf')),
     disabled: !$options.canExportFolder
   }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-filetype-pdf icon"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" PDF Document ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_16)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" PDF Document ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_15)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     class: "dropdown-item export-item",
     type: "button",
-    onClick: _cache[3] || (_cache[3] = $event => $options.exportFolder('word')),
+    onClick: _cache[2] || (_cache[2] = $event => $options.exportFolder('word')),
     disabled: !$options.canExportFolder
   }, [...(_cache[16] || (_cache[16] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-filetype-doc icon"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Word Document ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_17)])])]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Word Document ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_16)])])]), _cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     class: "panel-cta",
     href: "/surat"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Go back to the Holy Quran "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-arrow-right ms-2"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span v-if=\"selectedFolder\" class=\"source-pill\">{{ sourceLabel }}</span> ")])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.panelMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "panel-toggle",
+    onClick: _cache[3] || (_cache[3] = (...args) => $options.toggleFolderPane && $options.toggleFolderPane(...args)),
+    "aria-pressed": !$data.isFolderCollapsed,
+    "aria-label": $data.isFolderCollapsed ? 'Show folders' : 'Hide folders',
+    title: $data.isFolderCollapsed ? 'Show folders' : 'Hide folders'
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["bi", $data.isFolderCollapsed ? 'bi-layout-sidebar-inset' : 'bi-layout-sidebar-inset-reverse'])
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_17)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [$data.panelMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     key: 0,
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["panel-alert", $data.panelMessageVariant === 'danger' ? 'alert-danger' : 'alert-success'])
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.panelMessage), 3 /* TEXT, CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [_cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -2155,12 +2161,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "empty-subtitle"
   }, " Try different terms or clear the filters. ", -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Selection Toolbar "), !$data.loading && $options.filteredItems.length > 0 && !$options.isSmartSelected ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
-    style: {
-      "color": "#0f6e63",
-      "border-radius": "10px",
-      "padding": "10px",
-      "border": "1px solid #0f6e63"
-    },
+    class: "btn btn-sm btn-outline-success",
     onClick: _cache[6] || (_cache[6] = (...args) => $options.selectAllBookmarks && $options.selectAllBookmarks(...args)),
     disabled: $options.allBookmarksSelected
   }, [...(_cache[20] || (_cache[20] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {

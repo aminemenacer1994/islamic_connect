@@ -930,7 +930,7 @@ export default {
 
 .selection-pill {
   border-radius: 999px;
-  padding: 0.4rem 1rem;
+  /* padding: 0.4rem 1rem; */
   font-size: 0.85rem;
   font-weight: 600;
   border: none;
