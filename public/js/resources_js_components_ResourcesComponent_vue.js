@@ -12,7 +12,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'ResourcesComponent'
+  name: 'ResourcesComponent',
+  data() {
+    return {
+      resources: [{
+        title: 'Websites',
+        description: 'Curated Islamic knowledge hubs, live series, and multimedia reminders for every stage of faith.',
+        icon: 'fas fa-globe'
+      }, {
+        title: 'Mobile App',
+        description: 'Prayer trackers, daily dua prompts, and Qurʾan reflections that travel with you on your phone.',
+        icon: 'fas fa-mobile'
+      }, {
+        title: 'Books',
+        description: 'Classics and contemporary reads that explain belief, manners, and the beauty of Islamic scholarship.',
+        icon: 'fas fa-book-open'
+      }, {
+        title: 'Scriptures',
+        description: 'Translations, transliterations, and tafsir excerpts that illuminate the Qurʾan and authentic hadith.',
+        icon: 'fas fa-scroll'
+      }]
+    };
+  }
 });
 
 /***/ }),
@@ -32,8 +53,47 @@ __webpack_require__.r(__webpack_exports__);
 const _hoisted_1 = {
   id: "app"
 };
+const _hoisted_2 = {
+  class: "container py-5"
+};
+const _hoisted_3 = {
+  class: "resources-page"
+};
+const _hoisted_4 = {
+  class: "row g-4"
+};
+const _hoisted_5 = {
+  class: "resource-card"
+};
+const _hoisted_6 = {
+  class: "resource-card__header"
+};
+const _hoisted_7 = {
+  class: "resource-card__icon"
+};
+const _hoisted_8 = {
+  class: "resource-card__title"
+};
+const _hoisted_9 = {
+  class: "resource-card__body"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [...(_cache[0] || (_cache[0] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"container py-5\" data-v-26d79603><div class=\"row justify-content-center text-center\" data-v-26d79603><div class=\"col-lg-10 col-xl-10\" data-v-26d79603><h1 class=\"display-5 fw-bold\" style=\"color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;\" data-v-26d79603>Islamic Resources</h1><p class=\"lead\" style=\"color:#475569;max-width:920px;margin:0 auto;\" data-v-26d79603>Discover live Quranic reciters stations from renowned reciters worldwide.</p></div></div><div class=\"resources-page\" data-v-26d79603><div class=\"resource-card\" data-v-26d79603><div class=\"resource-card__header\" data-v-26d79603><div class=\"resource-card__icon\" data-v-26d79603><i class=\"bi bi-brightness-high\" data-v-26d79603></i></div><h2 class=\"resource-card__title\" data-v-26d79603>Focus of This Lesson</h2></div><p class=\"resource-card__body\" data-v-26d79603> To understand the definitive Islamic descriptions of Paradise and Hell their nature, inhabitants, conditions for entry, and the profound implications these eternal realities should have on our present lives. </p></div></div></div>", 1)]))]);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "row justify-content-center text-center mb-5"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    class: "col-lg-10 col-xl-10"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
+    class: "display-5 mb-3 fw-bold heading"
+  }, "Islamic Resources"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "lead subhead"
+  }, " A curated library of Islamic tools such as: websites, mobile apps, books, and scriptures that nurture tafsir study, dua, and spiritual reflection of islam. ")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.resources, resource => {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      class: "col-md-6",
+      key: resource.title
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(resource.icon)
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.title), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_9, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(resource.description), 1 /* TEXT */)])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])]);
 }
 
 /***/ }),

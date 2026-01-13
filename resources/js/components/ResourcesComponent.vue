@@ -1,43 +1,86 @@
 <template>
   <div id="app">
     <div class="container py-5">
-      <div class="row justify-content-center text-center ">
+      <div class="row justify-content-center text-center mb-5">
         <div class="col-lg-10 col-xl-10">
-          <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">Islamic
-            Resources</h1>
-          <p class="lead" style="color:#475569;max-width:920px;margin:0 auto;">Discover live Quranic reciters stations
-            from renowned reciters worldwide.</p>
+          <h1 class="display-5 mb-3 fw-bold heading">Islamic Resources</h1>
+          <p class="lead subhead">
+            A curated library of Islamic tools such as: websites, mobile apps, books, and scriptures that nurture tafsir study, dua, and spiritual reflection of islam.
+          </p>
         </div>
       </div>
-    <div class="resources-page">
-      <div class="resource-card">
-        <div class="resource-card__header">
-          <div class="resource-card__icon">
-            <i class="bi bi-brightness-high"></i>
+      <div class="resources-page">
+        <div class="row g-4">
+          <div
+            class="col-md-6"
+            v-for="resource in resources"
+            :key="resource.title"
+          >
+            <div class="resource-card">
+              <div class="resource-card__header">
+                <div class="resource-card__icon">
+                  <i :class="resource.icon"></i>
+                </div>
+                <h2 class="resource-card__title">{{ resource.title }}</h2>
+              </div>
+              <p class="resource-card__body">{{ resource.description }}</p>
+            </div>
           </div>
-          <h2 class="resource-card__title">Focus of This Lesson</h2>
         </div>
-        <p class="resource-card__body">
-          To understand the definitive Islamic descriptions of Paradise and Hell their nature, inhabitants,
-          conditions for entry, and the profound implications these eternal realities should have on our present lives.
-        </p>
       </div>
-    </div>
     </div>
   </div>
 </template>
 <script>
 export default {
   name: 'ResourcesComponent',
+  data() {
+    return {
+      resources: [
+        {
+          title: 'Websites',
+          description:
+            'Curated Islamic knowledge hubs, live series, and multimedia reminders for every stage of faith.',
+          icon: 'fas fa-globe',
+        },
+        {
+          title: 'Mobile App',
+          description:
+            'Prayer trackers, daily dua prompts, and Qurʾan reflections that travel with you on your phone.',
+          icon: 'fas fa-mobile',
+        },
+        {
+          title: 'Books',
+          description:
+            'Classics and contemporary reads that explain belief, manners, and the beauty of Islamic scholarship.',
+          icon: 'fas fa-book-open',
+        },
+        {
+          title: 'Scriptures',
+          description:
+            'Translations, transliterations, and tafsir excerpts that illuminate the Qurʾan and authentic hadith.',
+          icon: 'fas fa-scroll',
+        },
+      ],
+    };
+  },
 };
 </script>
 <style scoped>
 .resources-page {
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  padding-bottom: 2rem;
+}
+
+.heading {
+  color: #0b1320;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.subhead {
+  color: #475569;
+  max-width: 920px;
+  margin: 0 auto;
 }
 
 .resource-card {
@@ -64,7 +107,7 @@ export default {
   display: grid;
   place-items: center;
   font-size: 1.35rem;
-  color: #1f1e43;
+  color: #000;
 }
 
 .resource-card__title {
@@ -73,22 +116,6 @@ export default {
   font-size: 1.65rem;
   font-weight: 600;
   color: #121020;
-}
-
-.resource-card__controls {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.control-btn {
-  border: none;
-  border-radius: 999px;
-  padding: 0.4rem 0.75rem;
-  font-weight: 600;
-  background: #fff;
-  box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.15);
-  color: #1f1e43;
-  cursor: default;
 }
 
 .resource-card__body {

@@ -36161,11 +36161,17 @@ to {
 
 
 .resources-page[data-v-26d79603] {
-  min-height: 60vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
+  padding-bottom: 2rem;
+}
+.heading[data-v-26d79603] {
+  color: #0b1320;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+.subhead[data-v-26d79603] {
+  color: #475569;
+  max-width: 920px;
+  margin: 0 auto;
 }
 .resource-card[data-v-26d79603] {
   width: min(720px, 100%);
@@ -36189,7 +36195,7 @@ to {
   display: grid;
   place-items: center;
   font-size: 1.35rem;
-  color: #1f1e43;
+  color: #000;
 }
 .resource-card__title[data-v-26d79603] {
   flex: 1;
@@ -36197,20 +36203,6 @@ to {
   font-size: 1.65rem;
   font-weight: 600;
   color: #121020;
-}
-.resource-card__controls[data-v-26d79603] {
-  display: flex;
-  gap: 0.5rem;
-}
-.control-btn[data-v-26d79603] {
-  border: none;
-  border-radius: 999px;
-  padding: 0.4rem 0.75rem;
-  font-weight: 600;
-  background: #fff;
-  box-shadow: inset 0 0 0 1px rgba(17, 24, 39, 0.15);
-  color: #1f1e43;
-  cursor: default;
 }
 .resource-card__body[data-v-26d79603] {
   margin: 0;
