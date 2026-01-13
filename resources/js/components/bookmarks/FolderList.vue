@@ -381,6 +381,9 @@ export default {
         dragClass: 'folder-dragging',
         draggable: '.folder-item--draggable',
         handle: '.folder-handle',
+        delay: 100,
+        delayOnTouchOnly: true,
+        touchStartThreshold: 5,
         onEnd: (event) => this.handleFolderSortEnd(event),
       });
       this.updateFolderSorterState();
@@ -1232,5 +1235,18 @@ export default {
 }
 .folder-handle:hover {
   background: rgba(15, 110, 99, 0.16);
+}
+
+@media (max-width: 768px) {
+  .folder-handle {
+    width: 36px;
+    height: 36px;
+    margin-right: 8px;
+    background: rgba(15, 110, 99, 0.12);
+  }
+  .folder-item {
+    padding-left: 0.8rem;
+    padding-right: 0.8rem;
+  }
 }
 </style>

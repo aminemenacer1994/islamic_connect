@@ -151,9 +151,6 @@
                                 <div class="list-group ayah-list" ref="ayahList">
                                     <div v-for="item in filteredItems" :key="item.row_key"
                                         class="list-group-item ayah-list-item">
-                                        <span v-if="canReorderBookmarks" class="ayah-handle" aria-hidden="true">
-                                            <i class="bi bi-grip-vertical"></i>
-                                        </span>
                                         <div class="ayah-list-head">
                                             <div v-if="
                                                 item.bookmark_id &&
@@ -305,18 +302,12 @@ import { saveAs } from "file-saver";
 import { Document, Packer, Paragraph, AlignmentType } from "docx";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import Sortable from "sortablejs";
 export default {
     name: "BookmarkManager",
     components: {
         AyahRow,
         FolderList,
         BookmarkModal,
-    },
-    watch: {
-        canReorderBookmarks() {
-            this.updateBookmarkSorterState();
-        },
     },
     data() {
         return {
@@ -346,7 +337,6 @@ export default {
             showGuestNudge: true,
             selectedBookmarkIds: [],
             bulkDeleteBusy: false,
-            bookmarkSorter: null,
         };
     },
     computed: {
@@ -498,17 +488,6 @@ export default {
         canExportFolder() {
             return !!this.selectedFolder && this.normalizedItems.length > 0;
         },
-        canReorderBookmarks() {
-            return (
-                !!this.selectedFolder &&
-                !this.selectedFolder.isAll &&
-                !this.selectedFolder.is_smart &&
-                !this.loading &&
-                !this.query &&
-                this.source === "manual" &&
-                this.items.length > 1
-            );
-        },
     },
     async mounted() {
         await this.initializeAuthentication();
@@ -536,10 +515,6 @@ export default {
                 "visibilitychange",
                 this.visibilityHandler
             );
-        if (this.bookmarkSorter) {
-            this.bookmarkSorter.destroy();
-            this.bookmarkSorter = null;
-        }
     },
     methods: {
         hideGuestNudge() {
@@ -808,10 +783,6 @@ export default {
                 this.items = [];
             } finally {
                 this.loading = false;
-                this.$nextTick(() => {
-                    this.initializeBookmarkSorter();
-                    this.updateBookmarkSorterState();
-                });
             }
         },
         prepareBookmark(payload) {
@@ -1205,60 +1176,6 @@ export default {
                 this.closeRemoveConfirm();
             }
         },
-        initializeBookmarkSorter() {
-            const list = this.$refs.ayahList;
-            if (!list || this.bookmarkSorter) {
-                this.updateBookmarkSorterState();
-                return;
-            }
-            this.bookmarkSorter = Sortable.create(list, {
-                animation: 180,
-                fallbackOnBody: true,
-                swapThreshold: 0.65,
-                ghostClass: "ayah-drag-ghost",
-                dragClass: "ayah-dragging",
-                draggable: ".ayah-list-item",
-                handle: ".ayah-handle",
-                onEnd: (event) => this.handleBookmarkSortEnd(event),
-            });
-            this.updateBookmarkSorterState();
-        },
-        updateBookmarkSorterState() {
-            if (!this.bookmarkSorter) return;
-            this.bookmarkSorter.option("disabled", !this.canReorderBookmarks);
-        },
-        handleBookmarkSortEnd(event) {
-            if (
-                event.oldIndex === event.newIndex ||
-                event.oldIndex == null ||
-                event.newIndex == null ||
-                !this.canReorderBookmarks
-            ) {
-                return;
-            }
-
-            const previousItems = [...this.items];
-            const updatedItems = [...this.items];
-            const [moved] = updatedItems.splice(event.oldIndex, 1);
-            updatedItems.splice(event.newIndex, 0, moved);
-            this.items = updatedItems;
-            this.persistBookmarkOrder(
-                updatedItems.map((item) => item.id),
-                previousItems
-            );
-        },
-        async persistBookmarkOrder(bookmarkIds, previousItems) {
-            if (!bookmarkIds.length || !this.selectedFolder?.id) return;
-            try {
-                await axios.post("/api/ayah-bookmarks/order", {
-                    folder_id: this.selectedFolder.id,
-                    bookmark_ids: bookmarkIds,
-                });
-            } catch (error) {
-                this.items = previousItems;
-                this.setPanelMessage("Unable to save bookmark order.", "danger");
-            }
-        },
     },
 };
 </script>
@@ -1314,34 +1231,6 @@ export default {
 .ayah-list-item.ayah-dragging {
     opacity: 0.75;
     box-shadow: 0 12px 26px rgba(15, 23, 42, 0.18);
-}
-
-.ayah-drag-ghost {
-    border: 1px dashed rgba(15, 110, 99, 0.35);
-    transform: scale(0.98);
-    background: #ffffff;
-}
-
-.ayah-handle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    margin-right: 12px;
-    border-radius: 10px;
-    background: rgba(15, 110, 99, 0.08);
-    color: #0f6e63;
-    cursor: grab;
-    transition: background 0.2s ease;
-}
-
-.ayah-handle:hover {
-    background: rgba(15, 110, 99, 0.16);
-}
-
-.ayah-handle i {
-    font-size: 1rem;
 }
 
 @media (min-width: 992px) {
@@ -1487,6 +1376,7 @@ export default {
     border-radius: 24px;
     border: 1px solid rgba(15, 23, 42, 0.08);
     box-shadow: inset 0 10px 20px rgba(15, 23, 42, 0.04);
+    touch-action: pan-y;
 }
 
 .list-wrapper::-webkit-scrollbar {
