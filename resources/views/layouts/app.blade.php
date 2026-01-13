@@ -327,6 +327,10 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
                         </li>
 
+                        <li class="nav-item mt-2">
+                            <a class="nav-link ml-3 pt-2 pl-3" href="/resource" data-path="/resource" data-nav-item="primary"><b>Resources</b></a>
+                        </li>
+
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary"><b>Donations</b></a>
                         </li> -->
@@ -561,6 +565,8 @@
                 '/': '/',
                 '/home': '/',
                 '/revert': '/revert',
+                '/resource': '/resource',
+                '/about': '/',
                 '/welcome': '/',
                 // Quran routes
                 '/holy': '/quran',

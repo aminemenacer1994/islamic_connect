@@ -194,6 +194,8 @@ const asyncComponentLoaders = {
   "muslim-component": () => import("./components/MuslimComponent.vue"),
   "bookmark-manager": () => import("./components/bookmarks/BookmarkManager.vue"),
   "shared-folder-view": () => import("./components/bookmarks/SharedFolderView.vue"),
+  "resources-component": () => import("./components/ResourcesComponent.vue"),
+
 
 };
 

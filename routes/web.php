@@ -70,6 +70,8 @@ use App\Http\Controllers\RevertController;
 use App\Http\Controllers\MuslimController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\ReadController;
+use App\Http\Controllers\ResourcesController;
+
 // use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Api\AyahBookmarkController;
 use App\Http\Controllers\Api\FolderController as ApiFolderController;
@@ -236,7 +238,7 @@ Route::get('/mosque', [MosqueController::class, 'index'])->name('mosque');
 Route::get('/school', [SchoolController::class, 'index'])->name('school');
 Route::get('/shop', [ShopController::class, 'index'])->name('shop');
 
-
+Route::get('/resource', [ResourcesController::class, 'index'])->name('resource');
 Route::get('/revert', [RevertController::class, 'index'])->name('revert');
 Route::get('/muslim', [MuslimController::class, 'index'])->name('muslim');
 
