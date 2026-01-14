@@ -236,9 +236,6 @@
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
-                        <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/surat" data-path="/surat" data-nav-item="primary"><b>Holy Quran</b></a>
-                        </li>
                         <!-- <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Reverts corner</button>
                         </li>
@@ -309,6 +306,10 @@
 
                         <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/quran" data-path="/quran" data-nav-item="primary"><b>Quran Companion</b></a>
+                        </li>
+
+                        <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3" href="/surat" data-path="/surat" data-nav-item="primary"><b>Holy Quran</b></a>
                         </li>
 
                         <li class="nav-item mt-2">

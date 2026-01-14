@@ -1,10 +1,6 @@
 <template>
-    <div
-        class="container py-4 surat-premium"
-        :class="{ 'has-audio-player': showAudioPlayer }"
-        role="main"
-        aria-label="Quran Explorer"
-    >
+    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer }" role="main"
+        aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
                 <h1 class="display-5 fw-bold">The Holy Quran</h1>
@@ -15,17 +11,11 @@
                 </p>
             </div>
         </div>
-        <div
-            class="sticky-dropdown"
-            :style="{ top: isVisible ? '80px' : '60px' }"
-            ref="stickyDropdown"
-            :class="{ collapsed: !isVisible }"
-        >
+        <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown"
+            :class="{ collapsed: !isVisible }">
             <div class="filter-header">
                 <div class="filter-title">
-                    <span class="filter-icon"
-                        ><i class="fas fa-sliders-h" aria-hidden="true"></i
-                    ></span>
+                    <span class="filter-icon"><i class="fas fa-sliders-h" aria-hidden="true"></i></span>
                     <div>
                         <div class="filter-eyebrow">Filters</div>
                         <div class="filter-subtitle">
@@ -34,68 +24,30 @@
                     </div>
                 </div>
                 <div class="filter-actions">
-                    <a
-                        href="/bookmarks"
-                        class="bookmark-cta-link"
-                        @click.prevent="onBookmarksLinkClick"
-                    >
-                        <i
-                            class="bi bi-bookmark-heart-fill me-2"
-                            aria-hidden="true"
-                        ></i>
+                    <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
+                        <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
                         View saved bookmarks
                     </a>
-                    <button
-                        type="button"
-                        class="filter-toggle"
-                        @click="toggleVisibility"
-                        :aria-expanded="isVisible"
-                        aria-controls="surat-filters"
-                        :aria-label="
-                            isVisible ? 'Hide filters' : 'Show filters'
-                        "
-                    >
-                        <i
-                            v-if="isVisible"
-                            class="bi bi-chevron-up"
-                            aria-hidden="true"
-                        ></i>
-                        <i
-                            v-else
-                            class="bi bi-chevron-down"
-                            aria-hidden="true"
-                        ></i>
+                    <button type="button" class="filter-toggle" @click="toggleVisibility" :aria-expanded="isVisible"
+                        aria-controls="surat-filters" :aria-label="isVisible ? 'Hide filters' : 'Show filters'
+                            ">
+                        <i v-if="isVisible" class="bi bi-chevron-up" aria-hidden="true"></i>
+                        <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
                     </button>
                 </div>
             </div>
-            <div
-                v-if="authAlert"
-                class="alert alert-warning auth-alert"
-                role="status"
-            >
+            <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
                 <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
                 <span>{{ authAlert }}</span>
-                <a href="/login" class="btn btn-sm btn-light auth-alert-link"
-                    >Log in</a
-                >
+                <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
             </div>
             <div id="surat-filters" class="row g-3" v-show="isVisible">
                 <div class="col-12 col-md-4 filter-item">
-                    <label for="surah-select" class="form-label mt-2"
-                        >Select Surah</label
-                    >
-                    <select
-                        id="surah-select"
-                        class="form-select shadow-sm"
-                        v-model="selectedSurah"
-                        @change="fetchSurahDetails"
-                    >
+                    <label for="surah-select" class="form-label mt-2">Select Surah</label>
+                    <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah"
+                        @change="fetchSurahDetails">
                         <option value="" disabled>Select a Surah</option>
-                        <option
-                            v-for="surah in surahs"
-                            :key="surah.number"
-                            :value="surah.number"
-                        >
+                        <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
                             {{ surah.number }}. {{ surah.englishName }} ({{
                                 surah.name
                             }})
@@ -103,39 +55,20 @@
                     </select>
                 </div>
                 <div class="col-12 col-md-4 filter-item">
-                    <label for="reciter-select" class="form-label mt-2"
-                        >Select Reciter</label
-                    >
-                    <select
-                        id="reciter-select"
-                        class="form-select shadow-sm"
-                        v-model="selectedReciter"
-                    >
+                    <label for="reciter-select" class="form-label mt-2">Select Reciter</label>
+                    <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
                         <option value="" disabled>Select a reciter</option>
-                        <option
-                            v-for="reciter in recitersSorted"
-                            :key="reciter.identifier"
-                            :value="reciter.identifier"
-                        >
+                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
                             {{ reciter.englishName }}
                         </option>
                     </select>
                 </div>
                 <div class="col-12 col-md-4 filter-item">
-                    <label for="translation-select" class="form-label mt-2"
-                        >Select Translation</label
-                    >
-                    <select
-                        id="translation-select"
-                        class="form-select shadow-sm"
-                        v-model="selectedTranslation"
-                    >
+                    <label for="translation-select" class="form-label mt-2">Select Translation</label>
+                    <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
                         <option value="" disabled>Select Translation</option>
-                        <option
-                            v-for="translation in translationsSorted"
-                            :key="translation.identifier"
-                            :value="translation.identifier"
-                        >
+                        <option v-for="translation in translationsSorted" :key="translation.identifier"
+                            :value="translation.identifier">
                             {{
                                 `${translation.flag} ${translation.englishName} (${translation.language})`
                             }}
@@ -147,26 +80,14 @@
 
         <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
-                <button
-                    type="button"
-                    :title="nextStepMinimized ? 'Restore' : 'Minimize'"
-                    :aria-label="
-                        nextStepMinimized
-                            ? 'Restore next step'
-                            : 'Minimize next step'
-                    "
-                    @click="toggleNextStepMinimized"
-                    class="next-step-toggle"
-                >
-                    <i
-                        class="fas"
-                        :class="
-                            nextStepMinimized
-                                ? 'fa-expand-alt'
-                                : 'fa-compress-alt'
-                        "
-                        aria-hidden="true"
-                    ></i>
+                <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="nextStepMinimized
+                        ? 'Restore next step'
+                        : 'Minimize next step'
+                    " @click="toggleNextStepMinimized" class="next-step-toggle">
+                    <i class="fas" :class="nextStepMinimized
+                            ? 'fa-expand-alt'
+                            : 'fa-compress-alt'
+                        " aria-hidden="true"></i>
                 </button>
                 <div class="d-flex align-items-start gap-3 text-start">
                     <div class="flex-shrink-0 mt-1">
@@ -175,50 +96,29 @@
                         </div>
                     </div>
                     <div class="flex-grow-1">
-                        <p
-                            class="mb-2 fw-semibold text-uppercase next-step-eyebrow"
-                        >
+                        <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
                             NEXT STEP
                         </p>
                         <!-- Minimized teaser -->
-                        <div
-                            v-show="nextStepMinimized"
-                            class="mb-2 next-step-teaser"
-                        >
-                            <a
-                                href="/history"
-                                class="fw-semibold text-decoration-none next-step-link"
-                            >
-                                Explore Qur’an history
+                        <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
+                            <a href="/history" class="fw-semibold text-decoration-none next-step-link">
+                                Explore the Seerah timeline
                             </a>
-                            <i
-                                class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"
-                            ></i>
+                            <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
                         </div>
-                        <p
-                            v-show="!nextStepMinimized"
-                            class="mb-3 next-step-text"
-                        >
-                            If you feel ready to move from listening to
-                            learning? Explore key milestones, preservation
-                            efforts, and scholars in
-                            <a
-                                href="/history"
-                                class="fw-semibold text-decoration-none next-step-link"
-                            >
-                                the history of the Qur’an
+                        <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
+                            Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently
+                            continue with the life of the Messenger who lived its message. Walk through a simple,
+                            welcoming
+                            <a href="/mission" class="fw-semibold text-decoration-none next-step-link">
+                                Seerah timeline
                             </a>
-                            to deepen your understanding.
+                            to see the journey unfold.
                         </p>
-                        <a
-                            v-show="!nextStepMinimized"
-                            href="/history"
-                            class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta"
-                        >
-                            Explore History
-                            <i
-                                class="fas fa-arrow-up-right-from-square ms-2"
-                            ></i>
+                        <a v-show="!nextStepMinimized" href="/mission"
+                            class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
+                            Explore Seerah
+                            <i class="fas fa-arrow-up-right-from-square ms-2"></i>
                         </a>
                     </div>
                 </div>
@@ -227,182 +127,108 @@
 
         <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-        <div
-            class="row rtl-text"
-            ref="listContainer"
-            role="list"
-            aria-label="Ayah cards list"
-        >
+        <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
             <div :style="{ height: topSpacerHeight + 'px' }"></div>
 
-            <div
-                style="padding: 12px; border-radius: 8px"
-                ref="audioCard"
-                v-for="item in visibleWindow"
-                :key="item.ayah.number"
-                class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md"
-                role="listitem"
-                :id="`ayah-card-${item.index}`"
-                @click="selectCard(item.index)"
+            <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
+                :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
+                :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
                 @keydown.enter.prevent="toggleAudioPlayer(item.index)"
-                @keydown.space.prevent="toggleAudioPlayer(item.index)"
-                draggable="true"
-                @dragstart="onAyahDragStart(item.ayah, $event)"
-                :class="{
+                @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true"
+                @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
                     highlighted:
                         isHighlighted && currentlyPlayingIndex === item.index,
                     'currently-playing': isAudioPlaying[item.index],
-                }"
-            >
+                }">
                 <div class="ayah-surface h-100 rtl-text d-flex flex-column">
                     <!-- Surah and Ayah Number -->
-                    <div
-                        class="d-flex justify-content-between text-muted ltr-text"
-                    >
+                    <div class="d-flex justify-content-between text-muted ltr-text">
                         <h4>
-                            <img
-                                src="/images/art.png"
-                                width="35px"
-                                alt="Art Icon"
-                            />
+                            <img src="/images/art.png" width="35px" alt="Art Icon" />
                             {{ surahDetails?.surahNumber }} :
                             {{ item.index + 1 }}
-                            <span
-                                v-if="isAyahSaved(item.ayah)"
-                                class="saved-pill"
-                                >Saved</span
-                            >
+                            <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
                         </h4>
                         <div class="d-flex align-items-center">
                             <transition name="feedback-fade">
-                                <span
-                                    v-if="
-                                        feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                    item.ayah.number
-                                            )
-                                        ]
-                                    "
+                                <span v-if="
+                                    feedbackMessages[
+                                    buildAyahKey(
+                                        surahDetails?.surahNumber,
+                                        item.ayah.numberInSurah ||
+                                        item.ayah.number
+                                    )
+                                    ]
+                                "
                                     class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
-                                    :class="
-                                        feedbackMessages[
+                                    :class="feedbackMessages[
                                             buildAyahKey(
                                                 surahDetails?.surahNumber,
                                                 item.ayah.numberInSurah ||
-                                                    item.ayah.number
+                                                item.ayah.number
                                             )
                                         ].class
-                                    "
-                                >
-                                    <i
-                                        v-if="
-                                            feedbackMessages[
-                                                buildAyahKey(
-                                                    surahDetails?.surahNumber,
-                                                    item.ayah.numberInSurah ||
-                                                        item.ayah.number
-                                                )
-                                            ].icon === 'check'
-                                        "
-                                        class="bi bi-check-circle-fill me-2 fs-5"
-                                    ></i>
-                                    <i
-                                        v-else-if="
-                                            feedbackMessages[
-                                                buildAyahKey(
-                                                    surahDetails?.surahNumber,
-                                                    item.ayah.numberInSurah ||
-                                                        item.ayah.number
-                                                )
-                                            ].icon === 'trash'
-                                        "
-                                        class="bi bi-trash-fill me-2 fs-5"
-                                    ></i>
+                                        ">
+                                    <i v-if="
+                                        feedbackMessages[
+                                            buildAyahKey(
+                                                surahDetails?.surahNumber,
+                                                item.ayah.numberInSurah ||
+                                                item.ayah.number
+                                            )
+                                        ].icon === 'check'
+                                    " class="bi bi-check-circle-fill me-2 fs-5"></i>
+                                    <i v-else-if="
+                                        feedbackMessages[
+                                            buildAyahKey(
+                                                surahDetails?.surahNumber,
+                                                item.ayah.numberInSurah ||
+                                                item.ayah.number
+                                            )
+                                        ].icon === 'trash'
+                                    " class="bi bi-trash-fill me-2 fs-5"></i>
                                     {{
                                         feedbackMessages[
                                             buildAyahKey(
                                                 surahDetails?.surahNumber,
                                                 item.ayah.numberInSurah ||
-                                                    item.ayah.number
+                                                item.ayah.number
                                             )
                                         ].text
                                     }}
                                 </span>
                             </transition>
-                            <button
-                                type="button"
-                                class="icon-btn ms-2"
-                                @click.stop="openBookmarkModal(item.ayah)"
-                                title="Save to folder / Organize"
-                                aria-label="Save to folder or organize bookmark"
-                            >
-                                <i
-                                    class="bi bi-folder-plus"
-                                    aria-hidden="true"
-                                ></i>
+                            <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
+                                title="Save to folder / Organize" aria-label="Save to folder or organize bookmark">
+                                <i class="bi bi-folder-plus" aria-hidden="true"></i>
                             </button>
                         </div>
                     </div>
 
                     <!-- Desktop Layout: Icons on Left -->
-                    <div
-                        class="row d-none d-md-flex"
-                        role="group"
-                        aria-label="Ayah controls (desktop)"
-                        :aria-hidden="isMobile"
-                    >
+                    <div class="row d-none d-md-flex" role="group" aria-label="Ayah controls (desktop)"
+                        :aria-hidden="isMobile">
                         <div class="col-md-11">
                             <div style="padding: 4px">
-                                <p
-                                    class="arabic-text rtl-text fw-bold text-end mb-3"
-                                    v-html="highlightedText(item.ayah)"
-                                    :style="{ fontSize: arabicFontSize + 'px' }"
-                                ></p>
-                                <h2
-                                    class="pt-2 ltr-text hide-on-mobile-tablet ml-2"
-                                >
+                                <p class="arabic-text rtl-text fw-bold text-end mb-3"
+                                    v-html="highlightedText(item.ayah)" :style="{ fontSize: arabicFontSize + 'px' }">
+                                </p>
+                                <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
                                 </h2>
-                                <p
-                                    class="fw-regular ltr-text flex-grow-1"
-                                    v-html="
-                                        highlightText(item.ayah.translation)
-                                    "
-                                    :style="{
+                                <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)
+                                    " :style="{
                                         fontSize: translationFontSize + 'px',
-                                    }"
-                                ></p>
-                                <div
-                                    class="ayah-quick-actions ltr-text"
-                                    role="group"
-                                    aria-label="Quick actions"
-                                >
-                                    <button
-                                        type="button"
-                                        class="action-pill"
-                                        @click.stop="copyAyah(item.ayah)"
-                                        aria-label="Copy ayah"
-                                        title="Copy ayah"
-                                    >
-                                        <i
-                                            class="bi bi-clipboard"
-                                            aria-hidden="true"
-                                        ></i>
+                                    }"></p>
+                                <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                                    <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
+                                        aria-label="Copy ayah" title="Copy ayah">
+                                        <i class="bi bi-clipboard" aria-hidden="true"></i>
                                         <span>Copy</span>
                                     </button>
-                                    <button
-                                        type="button"
-                                        class="action-pill"
-                                        @click.stop="shareOnWhatsApp(item.ayah)"
-                                        aria-label="Share ayah"
-                                        title="Share ayah"
-                                    >
-                                        <i
-                                            class="bi bi-send"
-                                            aria-hidden="true"
-                                        ></i>
+                                    <button type="button" class="action-pill" @click.stop="shareOnWhatsApp(item.ayah)"
+                                        aria-label="Share ayah" title="Share ayah">
+                                        <i class="bi bi-send" aria-hidden="true"></i>
                                         <span>Share</span>
                                     </button>
                                 </div>
@@ -410,241 +236,120 @@
                         </div>
                         <div class="col-md-1 text-center">
                             <div class="d-flex flex-column align-items-center">
-                                <button
-                                    class="icon-btn mb-3"
-                                    @click="toggleAudioPlayer(item.index)"
-                                    :aria-label="
-                                        isAudioPlaying[item.index]
-                                            ? 'Pause ayah ' + (item.index + 1)
-                                            : 'Play ayah ' + (item.index + 1)
-                                    "
-                                    :title="
-                                        isAudioPlaying[item.index]
+                                <button class="icon-btn mb-3" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
+                                        ? 'Pause ayah ' + (item.index + 1)
+                                        : 'Play ayah ' + (item.index + 1)
+                                    " :title="isAudioPlaying[item.index]
                                             ? 'Pause'
                                             : 'Play'
-                                    "
-                                >
-                                    <i
-                                        class="bi"
-                                        :class="
-                                            isAudioPlaying[item.index]
-                                                ? 'bi-pause-circle-fill'
-                                                : 'bi-play-circle-fill'
-                                        "
-                                        aria-hidden="true"
-                                    ></i>
+                                        ">
+                                    <i class="bi" :class="isAudioPlaying[item.index]
+                                            ? 'bi-pause-circle-fill'
+                                            : 'bi-play-circle-fill'
+                                        " aria-hidden="true"></i>
                                 </button>
-                                <button
-                                    class="icon-btn mb-3"
-                                    @click="decreaseFontSize"
-                                    aria-label="Decrease font size"
-                                    title="Decrease Font Size"
-                                >
-                                    <i
-                                        class="bi bi-dash-circle-fill"
-                                        aria-hidden="true"
-                                    ></i>
+                                <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size"
+                                    title="Decrease Font Size">
+                                    <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
                                 </button>
-                                <button
-                                    class="icon-btn mb-3"
-                                    :class="{
-                                        'is-saved': isAyahSaved(item.ayah),
-                                    }"
-                                    @click.stop="toggleBookmark(item.ayah)"
-                                    :title="
-                                        isAyahSaved(item.ayah)
+                                <button class="icon-btn mb-3" :class="{
+                                    'is-saved': isAyahSaved(item.ayah),
+                                }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
                                             ? 'Remove bookmark'
                                             : 'Quick save bookmark'
-                                    "
-                                >
-                                    <i
-                                        class="bi"
-                                        :class="
-                                            isAyahSaved(item.ayah)
-                                                ? 'bi-bookmark-check-fill'
-                                                : 'bi-bookmark-plus-fill'
-                                        "
-                                        aria-hidden="true"
-                                    ></i>
+                                        ">
+                                    <i class="bi" :class="isAyahSaved(item.ayah)
+                                            ? 'bi-bookmark-check-fill'
+                                            : 'bi-bookmark-plus-fill'
+                                        " aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                     <!-- Mobile/Tablet Layout: Text then Icons -->
 
-                    <div
-                        style=""
-                        class="d-block d-md-none"
-                        role="group"
-                        aria-label="Ayah controls (mobile)"
-                        :aria-hidden="!isMobile"
-                    >
+                    <div style="" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)"
+                        :aria-hidden="!isMobile">
                         <div>
-                            <p
-                                class="arabic-text rtl-text fw-bold text-end mb-3"
-                                v-html="highlightedText(item.ayah)"
-                                :style="{ fontSize: arabicFontSize + 'px' }"
-                            ></p>
-                            <h4
-                                class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
-                            >
+                            <p class="arabic-text rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
+                                :style="{ fontSize: arabicFontSize + 'px' }"></p>
+                            <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                 Translation:
                             </h4>
-                            <p
-                                class="fw-regular ltr-text flex-grow-1"
-                                v-html="highlightText(item.ayah.translation)"
+                            <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
                                 :style="{
                                     fontSize: translationFontSize + 'px',
-                                }"
-                            ></p>
-                            <div
-                                class="ayah-quick-actions ltr-text"
-                                role="group"
-                                aria-label="Quick actions"
-                            >
-                                <button
-                                    type="button"
-                                    class="action-pill"
-                                    @click.stop="copyAyah(item.ayah)"
-                                    aria-label="Copy ayah"
-                                    title="Copy ayah"
-                                >
-                                    <i
-                                        class="bi bi-clipboard"
-                                        aria-hidden="true"
-                                    ></i>
+                                }"></p>
+                            <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                                <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
+                                    aria-label="Copy ayah" title="Copy ayah">
+                                    <i class="bi bi-clipboard" aria-hidden="true"></i>
                                     <span>Copy</span>
                                 </button>
-                                <button
-                                    type="button"
-                                    class="action-pill"
-                                    @click.stop="shareOnWhatsApp(item.ayah)"
-                                    aria-label="Share ayah"
-                                    title="Share ayah"
-                                >
-                                    <i
-                                        class="bi bi-send"
-                                        aria-hidden="true"
-                                    ></i>
+                                <button type="button" class="action-pill" @click.stop="shareOnWhatsApp(item.ayah)"
+                                    aria-label="Share ayah" title="Share ayah">
+                                    <i class="bi bi-send" aria-hidden="true"></i>
                                     <span>Share</span>
                                 </button>
                             </div>
                         </div>
-                        <div
-                            class="row card-teal mb-3 py-2"
-                            style="
+                        <div class="row card-teal mb-3 py-2" style="
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
                                 margin: 0 -5px;
-                            "
-                        >
+                            ">
                             <div class="col text-center" style="padding: 2px">
-                                <button
-                                    class="icon-btn"
-                                    @click="decreaseFontSize"
-                                    aria-label="Decrease font size"
-                                    title="Decrease Font Size"
-                                >
-                                    <i
-                                        class="bi bi-dash-circle-fill"
-                                        style="font-size: 1.6rem"
-                                        aria-hidden="true"
-                                    ></i>
+                                <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size"
+                                    title="Decrease Font Size">
+                                    <i class="bi bi-dash-circle-fill" style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="col text-center" style="padding: 2px">
-                                <button
-                                    class="icon-btn"
-                                    @click="increaseFontSize"
-                                    aria-label="Increase font size"
-                                    title="Increase Font Size"
-                                >
-                                    <i
-                                        class="bi bi-plus-circle-fill"
-                                        style="font-size: 1.6rem"
-                                        aria-hidden="true"
-                                    ></i>
+                                <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size"
+                                    title="Increase Font Size">
+                                    <i class="bi bi-plus-circle-fill" style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="col text-center" style="padding: 2px">
-                                <button
-                                    class="icon-btn"
-                                    @click="rewindAudio(item.index)"
-                                    aria-label="Rewind 15 seconds"
-                                    title="Rewind"
-                                >
-                                    <i
-                                        class="bi bi-skip-backward-circle-fill"
-                                        style="font-size: 1.6rem"
-                                        aria-hidden="true"
-                                    ></i>
+                                <button class="icon-btn" @click="rewindAudio(item.index)" aria-label="Rewind 15 seconds"
+                                    title="Rewind">
+                                    <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.6rem"
+                                        aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="col text-center" style="padding: 2px">
-                                <button
-                                    class="icon-btn"
-                                    @click="toggleAudioPlayer(item.index)"
-                                    :aria-label="
-                                        isAudioPlaying[item.index]
-                                            ? 'Pause ayah ' + (item.index + 1)
-                                            : 'Play ayah ' + (item.index + 1)
-                                    "
-                                    :title="
-                                        isAudioPlaying[item.index]
+                                <button class="icon-btn" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
+                                        ? 'Pause ayah ' + (item.index + 1)
+                                        : 'Play ayah ' + (item.index + 1)
+                                    " :title="isAudioPlaying[item.index]
                                             ? 'Pause'
                                             : 'Play'
-                                    "
-                                >
-                                    <i
-                                        class="bi"
-                                        :class="
-                                            isAudioPlaying[item.index]
-                                                ? 'bi-pause-circle-fill'
-                                                : 'bi-play-circle-fill'
-                                        "
-                                        style="font-size: 1.8rem"
-                                        aria-hidden="true"
-                                    ></i>
+                                        ">
+                                    <i class="bi" :class="isAudioPlaying[item.index]
+                                            ? 'bi-pause-circle-fill'
+                                            : 'bi-play-circle-fill'
+                                        " style="font-size: 1.8rem" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="col text-center" style="padding: 2px">
-                                <button
-                                    class="icon-btn"
-                                    @click="fastForwardAudio(item.index)"
-                                    aria-label="Fast forward 20 seconds"
-                                    title="Fast Forward"
-                                >
-                                    <i
-                                        class="bi bi-skip-forward-circle-fill"
-                                        style="font-size: 1.6rem"
-                                        aria-hidden="true"
-                                    ></i>
+                                <button class="icon-btn" @click="fastForwardAudio(item.index)"
+                                    aria-label="Fast forward 20 seconds" title="Fast Forward">
+                                    <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.6rem"
+                                        aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="col text-center" style="padding: 2px">
-                                <button
-                                    class="icon-btn"
-                                    :class="{
-                                        'is-saved': isAyahSaved(item.ayah),
-                                    }"
-                                    @click.stop="toggleBookmark(item.ayah)"
-                                    :title="
-                                        isAyahSaved(item.ayah)
+                                <button class="icon-btn" :class="{
+                                    'is-saved': isAyahSaved(item.ayah),
+                                }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
                                             ? 'Remove bookmark'
                                             : 'Quick save bookmark'
-                                    "
-                                >
-                                    <i
-                                        class="bi"
-                                        :class="
-                                            isAyahSaved(item.ayah)
-                                                ? 'bi-bookmark-check-fill'
-                                                : 'bi-bookmark-plus-fill'
-                                        "
-                                        style="font-size: 1.6rem"
-                                        aria-hidden="true"
-                                    ></i>
+                                        ">
+                                    <i class="bi" :class="isAyahSaved(item.ayah)
+                                            ? 'bi-bookmark-check-fill'
+                                            : 'bi-bookmark-plus-fill'
+                                        " style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div>
                         </div>
@@ -660,10 +365,8 @@
             {{ screenReaderMessage }}
         </div>
         <!-- Empty state -->
-        <div
-            v-if="!isLoading && surahDetails && filteredAyahs.length === 0"
-            class="empty-state text-center text-muted py-4"
-        >
+        <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0"
+            class="empty-state text-center text-muted py-4">
             No verses match your current search or filters.
         </div>
 
@@ -674,164 +377,87 @@
             <div v-if="showAudioPlayer" class="audio-player-container">
                 <div class="custom-audio-player">
                     <div class="controls">
-                        <button
-                            @click="rewindAudio(currentlyPlayingIndex)"
-                            class="control-btn"
-                            title="Rewind"
-                            aria-label="Rewind 15 seconds"
-                        >
+                        <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
+                            aria-label="Rewind 15 seconds">
                             <i class="bi bi-skip-backward-fill"></i>
                         </button>
-                        <button
-                            @click="toggleAudioPlayer(currentlyPlayingIndex)"
-                            class="control-btn play-pause"
-                            title="Play/Pause"
-                            aria-label="Play or Pause"
-                        >
-                            <i
-                                :class="
-                                    isAudioPlaying[currentlyPlayingIndex]
-                                        ? 'bi bi-pause-fill'
-                                        : 'bi bi-play-fill'
-                                "
-                            ></i>
+                        <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
+                            title="Play/Pause" aria-label="Play or Pause">
+                            <i :class="isAudioPlaying[currentlyPlayingIndex]
+                                    ? 'bi bi-pause-fill'
+                                    : 'bi bi-play-fill'
+                                "></i>
                         </button>
-                        <button
-                            @click="fastForwardAudio(currentlyPlayingIndex)"
-                            class="control-btn"
-                            title="Fast Forward"
-                            aria-label="Fast forward 20 seconds"
-                        >
+                        <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
+                            title="Fast Forward" aria-label="Fast forward 20 seconds">
                             <i class="bi bi-skip-forward-fill"></i>
                         </button>
-                        <button
-                            @click="stopAudio(currentlyPlayingIndex)"
-                            class="control-btn"
-                            title="Stop"
-                            aria-label="Stop"
-                        >
+                        <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop"
+                            aria-label="Stop">
                             <i class="bi bi-stop-fill"></i>
                         </button>
-                        <button
-                            @click="toggleVolume"
-                            class="control-btn"
-                            title="Volume"
-                            aria-label="Toggle volume slider"
-                        >
-                            <i
-                                class="bi"
-                                :class="`bi-volume-${
-                                    volume > 0.5
-                                        ? 'up'
-                                        : volume > 0
+                        <button @click="toggleVolume" class="control-btn" title="Volume"
+                            aria-label="Toggle volume slider">
+                            <i class="bi" :class="`bi-volume-${volume > 0.5
+                                    ? 'up'
+                                    : volume > 0
                                         ? 'down'
                                         : 'mute'
-                                }-fill`"
-                            ></i>
+                                }-fill`"></i>
                         </button>
-                        <button
-                            @click="cyclePlaybackSpeed"
-                            class="control-btn"
-                            :title="'Speed: ' + playbackSpeed + 'x'"
-                        >
-                            <i
-                                class="bi bi-speedometer2"
-                                :style="{
-                                    color:
-                                        playbackSpeed !== 1
-                                            ? '#ff6b6b'
-                                            : '#ccc',
-                                }"
-                            ></i>
-                            <span class="speed-indicator"
-                                >{{ playbackSpeed }}x</span
-                            >
+                        <button @click="cyclePlaybackSpeed" class="control-btn"
+                            :title="'Speed: ' + playbackSpeed + 'x'">
+                            <i class="bi bi-speedometer2" :style="{
+                                color:
+                                    playbackSpeed !== 1
+                                        ? '#ff6b6b'
+                                        : '#ccc',
+                            }"></i>
+                            <span class="speed-indicator">{{ playbackSpeed }}x</span>
                         </button>
-                        <button
-                            @click="toggleRepeat"
-                            class="control-btn"
-                            :title="
-                                repeatCurrent
-                                    ? 'Repeat current ayah: on'
-                                    : 'Repeat current ayah: off'
-                            "
-                            :aria-pressed="repeatCurrent"
-                            aria-label="Toggle repeat current ayah"
-                        >
-                            <i
-                                class="bi bi-arrow-repeat"
-                                :style="{
-                                    color: repeatCurrent ? '#00bfa6' : '#ccc',
-                                }"
-                            ></i>
+                        <button @click="toggleRepeat" class="control-btn" :title="repeatCurrent
+                                ? 'Repeat current ayah: on'
+                                : 'Repeat current ayah: off'
+                            " :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
+                            <i class="bi bi-arrow-repeat" :style="{
+                                color: repeatCurrent ? '#00bfa6' : '#ccc',
+                            }"></i>
                         </button>
                         <div v-if="showVolumeBar" class="volume-bar-container">
-                            <input
-                                type="range"
-                                v-model="volume"
-                                min="0"
-                                max="1"
-                                step="0.1"
-                                @input="updateVolume"
-                                class="volume-slider"
-                            />
+                            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume"
+                                class="volume-slider" />
                         </div>
-                        <span class="time" aria-live="polite"
-                            >{{
-                                formatTime(
-                                    audioElements[currentlyPlayingIndex]
-                                        ?.currentTime || 0
-                                )
-                            }}
+                        <span class="time" aria-live="polite">{{
+                            formatTime(
+                                audioElements[currentlyPlayingIndex]
+                                    ?.currentTime || 0
+                            )
+                        }}
                             /
                             {{
                                 formatTime(
                                     audioElements[currentlyPlayingIndex]
                                         ?.duration || 0
                                 )
-                            }}</span
-                        >
-                        <button
-                            @click="closeAudioPlayer"
-                            class="control-btn"
-                            title="Close"
-                            aria-label="Close player"
-                            style="margin-left: auto"
-                        >
+                            }}</span>
+                        <button @click="closeAudioPlayer" class="control-btn" title="Close" aria-label="Close player"
+                            style="margin-left: auto">
                             <i class="bi bi-x-lg mb-2"></i>
                         </button>
                     </div>
-                    <div
-                        class="progress-bar"
-                        role="progressbar"
-                        aria-label="Audio playback progress"
-                        :aria-valuemin="0"
-                        :aria-valuemax="100"
-                        :aria-valuenow="progress[currentlyPlayingIndex] || 0"
-                        :aria-valuetext="`Progress ${Math.round(
+                    <div class="progress-bar" role="progressbar" aria-label="Audio playback progress" :aria-valuemin="0"
+                        :aria-valuemax="100" :aria-valuenow="progress[currentlyPlayingIndex] || 0" :aria-valuetext="`Progress ${Math.round(
                             progress[currentlyPlayingIndex] || 0
-                        )} percent`"
-                        @click="seekToPosition"
-                        @mousedown.prevent="onProgressDown"
-                        @touchstart.prevent.passive="onProgressDown"
-                        ref="progressBar"
-                    >
-                        <div
-                            class="progress"
-                            :style="{
-                                width: progress[currentlyPlayingIndex] + '%',
-                            }"
-                        ></div>
+                        )} percent`" @click="seekToPosition" @mousedown.prevent="onProgressDown"
+                        @touchstart.prevent.passive="onProgressDown" ref="progressBar">
+                        <div class="progress" :style="{
+                            width: progress[currentlyPlayingIndex] + '%',
+                        }"></div>
                         <div class="audio-visualizer" ref="visualizer">
-                            <div
-                                v-for="(bar, index) in visualizerBars"
-                                :key="index"
-                                class="visualizer-bar"
-                                :style="{
-                                    height: bar + '%',
-                                    animationDelay: index * 0.1 + 's',
-                                }"
-                            ></div>
+                            <div v-for="(bar, index) in visualizerBars" :key="index" class="visualizer-bar" :style="{
+                                height: bar + '%',
+                                animationDelay: index * 0.1 + 's',
+                            }"></div>
                         </div>
                     </div>
                 </div>
@@ -1127,7 +753,7 @@ export default {
         try {
             if (localStorage.getItem("suratNextStepDismissed") === "1")
                 this.showNextStep = false;
-        } catch (_) {}
+        } catch (_) { }
         await this.initializeBookmarkAuth();
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
@@ -1156,7 +782,7 @@ export default {
         try {
             this.nextStepMinimized =
                 localStorage.getItem("suratNextStepMinimized") === "1";
-        } catch (_) {}
+        } catch (_) { }
         this.selectedSurah = "1";
         this.selectedReciter = "ar.alafasy";
         this.selectedTranslation = "en.ahmedali";
@@ -1713,13 +1339,13 @@ export default {
                     "suratNextStepMinimized",
                     this.nextStepMinimized ? "1" : "0"
                 );
-            } catch (_) {}
+            } catch (_) { }
         },
         dismissNextStep() {
             this.showNextStep = false;
             try {
                 localStorage.setItem("suratNextStepDismissed", "1");
-            } catch (_) {}
+            } catch (_) { }
         },
         calibrateItemHeight() {
             try {
@@ -1730,7 +1356,7 @@ export default {
                     this.itemHeight = Math.round(rect.height + 24); // include margins/padding buffer
                     this.updateVirtualWindow();
                 }
-            } catch (_) {}
+            } catch (_) { }
         },
         computeListTop() {
             try {
@@ -1864,7 +1490,7 @@ export default {
                         return { data, fromCache: true };
                     }
                 }
-            } catch (_) {}
+            } catch (_) { }
 
             const res = await fetch(url);
             if (!res.ok) throw new Error(`${res.status}`);
@@ -1874,7 +1500,7 @@ export default {
                     cacheKey,
                     JSON.stringify({ ts: Date.now(), data: json })
                 );
-            } catch (_) {}
+            } catch (_) { }
             return { data: json, fromCache: false };
         },
         onKeydown(e) {
@@ -2043,10 +1669,10 @@ export default {
                 console.log("Pausing currently playing audio");
                 try {
                     this.currentlyPlaying.pause();
-                } catch (_) {}
+                } catch (_) { }
                 try {
                     this.currentlyPlaying.currentTime = 0;
-                } catch (_) {}
+                } catch (_) { }
             }
             // Pause any stray audios just in case
             if (Array.isArray(this.audioElements)) {
@@ -2054,7 +1680,7 @@ export default {
                     if (a && i !== index) {
                         try {
                             a.pause();
-                        } catch (_) {}
+                        } catch (_) { }
                     }
                 });
             }
@@ -2086,7 +1712,7 @@ export default {
             if (audio.src !== ayah.audio) {
                 try {
                     audio.pause();
-                } catch (_) {}
+                } catch (_) { }
                 audio.src = ayah.audio || "";
             }
             audio.playbackRate = this.playbackSpeed;
@@ -2103,8 +1729,7 @@ export default {
             // Setup metadata and word timing
             audio.onloadedmetadata = () => {
                 console.log(
-                    `Metadata loaded for ayah ${index + 1}, duration: ${
-                        this.currentlyPlaying.duration
+                    `Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration
                     }`
                 );
                 const duration = this.currentlyPlaying.duration;
@@ -2157,7 +1782,7 @@ export default {
                             audio.removeEventListener("canplay", onCanPlay);
                             const p2 = audio.play();
                             if (p2 && typeof p2.then === "function") {
-                                p2.then(() => markPlaying()).catch(() => {});
+                                p2.then(() => markPlaying()).catch(() => { });
                             } else {
                                 markPlaying();
                             }
@@ -2237,11 +1862,11 @@ export default {
             if (a.src !== nextAyah.audio) {
                 try {
                     a.pause();
-                } catch (_) {}
+                } catch (_) { }
                 a.src = nextAyah.audio;
                 try {
                     a.load();
-                } catch (_) {}
+                } catch (_) { }
             }
             a.volume = this.volume;
             a.playbackRate = this.playbackSpeed;
@@ -2426,7 +2051,7 @@ export default {
                                                 r.englishName.toLowerCase()
                                             )
                                     );
-                        } catch (_) {}
+                        } catch (_) { }
                     }, 0);
             } catch (error) {
                 console.error("Error fetching Reciters:", error);
@@ -2491,15 +2116,15 @@ export default {
                                 a.flag < b.flag
                                     ? -1
                                     : a.flag > b.flag
-                                    ? 1
-                                    : a.englishName < b.englishName
-                                    ? -1
-                                    : a.englishName > b.englishName
-                                    ? 1
-                                    : 0
+                                        ? 1
+                                        : a.englishName < b.englishName
+                                            ? -1
+                                            : a.englishName > b.englishName
+                                                ? 1
+                                                : 0
                             );
                             this.translations = trs;
-                        } catch (_) {}
+                        } catch (_) { }
                     }, 0);
             } catch (error) {
                 console.error("Error fetching Translations:", error);
@@ -2535,7 +2160,7 @@ export default {
                                 const text = ayah.text || "";
                                 const transText =
                                     translation.ayahs[index] &&
-                                    translation.ayahs[index].text
+                                        translation.ayahs[index].text
                                         ? translation.ayahs[index].text
                                         : "Translation not available";
                                 const words = text ? text.split(" ") : [];
@@ -2560,12 +2185,12 @@ export default {
                         });
                     }
                 }
-            } catch (_) {}
+            } catch (_) { }
 
             // Abort any in-flight request
             try {
                 if (this._surahAborter) this._surahAborter.abort();
-            } catch (_) {}
+            } catch (_) { }
             this._surahAborter = new AbortController();
             const { signal } = this._surahAborter;
             return fetch(
@@ -2587,7 +2212,7 @@ export default {
                             cacheKey,
                             JSON.stringify({ ts: Date.now(), data })
                         );
-                    } catch (_) {}
+                    } catch (_) { }
                     const arabicText = data.data[0];
                     const translation = data.data[1];
                     this.surahDetails = {
@@ -2598,7 +2223,7 @@ export default {
                             const text = ayah.text || "";
                             const transText =
                                 translation.ayahs[index] &&
-                                translation.ayahs[index].text
+                                    translation.ayahs[index].text
                                     ? translation.ayahs[index].text
                                     : "Translation not available";
                             const words = text ? text.split(" ") : [];
@@ -2641,7 +2266,7 @@ export default {
                     this.audioElements.forEach((audio) => {
                         try {
                             if (audio && audio.pause) audio.pause();
-                        } catch (_) {}
+                        } catch (_) { }
                     });
                 }
                 this.audioElements = new Array(this.filteredAyahs.length).fill(
@@ -2668,8 +2293,7 @@ export default {
                     this.playNextAyah(index);
                 } else {
                     console.log(
-                        `Continuous playback disabled, stopping after ayah ${
-                            index + 1
+                        `Continuous playback disabled, stopping after ayah ${index + 1
                         }`
                     );
                 }
@@ -2875,11 +2499,9 @@ export default {
     border-radius: 999px;
     border: 1px solid rgba(15, 110, 99, 0.12);
     box-shadow: 0 12px 26px rgba(15, 53, 48, 0.1);
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.98),
-        rgba(246, 249, 248, 0.94)
-    );
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(246, 249, 248, 0.94));
     transition: transform 180ms ease, box-shadow 180ms ease,
         border-color 180ms ease;
 }
@@ -2903,7 +2525,7 @@ export default {
     padding-bottom: calc(32px + 140px + env(safe-area-inset-bottom));
 }
 
-.surat-premium > * {
+.surat-premium>* {
     position: relative;
     z-index: 1;
 }
@@ -3032,16 +2654,12 @@ export default {
     color: var(--surat-ink);
     position: relative;
     border-radius: 28px;
-    background: radial-gradient(
-            320px 220px at 8% 8%,
+    background: radial-gradient(320px 220px at 8% 8%,
             rgba(210, 162, 75, 0.16),
-            transparent 65%
-        ),
-        radial-gradient(
-            320px 220px at 92% 0%,
+            transparent 65%),
+        radial-gradient(320px 220px at 92% 0%,
             rgba(15, 110, 99, 0.15),
-            transparent 68%
-        ),
+            transparent 68%),
         linear-gradient(180deg, #fffdf7 0%, #f7fbf7 55%, #f0f6f4 100%);
     box-shadow: var(--surat-shadow);
     overflow: hidden;
@@ -3051,21 +2669,17 @@ export default {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-            circle at 15% 20%,
+    background: radial-gradient(circle at 15% 20%,
             rgba(255, 255, 255, 0.6),
-            transparent 55%
-        ),
-        repeating-linear-gradient(
-            125deg,
+            transparent 55%),
+        repeating-linear-gradient(125deg,
             rgba(15, 110, 99, 0.06) 0 12px,
-            transparent 12px 26px
-        );
+            transparent 12px 26px);
     opacity: 0.6;
     pointer-events: none;
 }
 
-.surat-page > * {
+.surat-page>* {
     position: relative;
     z-index: 1;
 }
@@ -3110,11 +2724,9 @@ export default {
 }
 
 .currently-playing .ayah-surface {
-    background: linear-gradient(
-        135deg,
-        rgba(15, 110, 99, 0.08),
-        rgba(210, 162, 75, 0.08)
-    );
+    background: linear-gradient(135deg,
+            rgba(15, 110, 99, 0.08),
+            rgba(210, 162, 75, 0.08));
     border-color: rgba(15, 110, 99, 0.28);
     box-shadow: 0 18px 34px rgba(15, 53, 48, 0.14);
     transform: translateY(-1px);
@@ -3148,11 +2760,9 @@ export default {
     max-height: 500px;
     /* expanded */
     border: 1px solid rgba(15, 110, 99, 0.14);
-    background: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.98),
-        rgba(245, 250, 248, 0.94)
-    );
+    background: linear-gradient(180deg,
+            rgba(255, 255, 255, 0.98),
+            rgba(245, 250, 248, 0.94));
     box-shadow: 0 18px 36px rgba(15, 53, 48, 0.12);
     backdrop-filter: blur(12px) saturate(120%);
 }
@@ -3161,21 +2771,17 @@ export default {
     content: "";
     position: absolute;
     inset: 0;
-    background: radial-gradient(
-            circle at 12% 12%,
+    background: radial-gradient(circle at 12% 12%,
             rgba(255, 255, 255, 0.7),
-            transparent 55%
-        ),
-        radial-gradient(
-            circle at 88% 0%,
+            transparent 55%),
+        radial-gradient(circle at 88% 0%,
             rgba(15, 110, 99, 0.16),
-            transparent 60%
-        );
+            transparent 60%);
     opacity: 0.45;
     pointer-events: none;
 }
 
-.sticky-dropdown > * {
+.sticky-dropdown>* {
     position: relative;
     z-index: 1;
 }
@@ -3299,11 +2905,9 @@ export default {
     left: 0;
     width: 100%;
     z-index: 1001;
-    background: linear-gradient(
-        135deg,
-        rgba(15, 47, 43, 0.98),
-        rgba(20, 60, 55, 0.95)
-    );
+    background: linear-gradient(135deg,
+            rgba(15, 47, 43, 0.98),
+            rgba(20, 60, 55, 0.95));
     box-shadow: 0 -10px 24px rgba(10, 32, 30, 0.35);
     border-top: 1px solid rgba(210, 162, 75, 0.35);
     border-radius: 20px 20px 0 0;
@@ -3609,22 +3213,22 @@ export default {
         gap: 6px !important;
     }
 
-    .sticky-dropdown .row.g-3 > .col-12,
-    .sticky-dropdown .row.g-3 > .col-12.col-md-4 {
+    .sticky-dropdown .row.g-3>.col-12,
+    .sticky-dropdown .row.g-3>.col-12.col-md-4 {
         margin-top: 0 !important;
     }
 
     /* First block (Surah) spans two columns */
-    .sticky-dropdown .row.g-3 > .col-12.col-md-4:first-child {
+    .sticky-dropdown .row.g-3>.col-12.col-md-4:first-child {
         grid-column: 1 / -1;
     }
 
     /* Ensure 2nd (Reciter) and 3rd (Translation) sit left/right respectively */
-    .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(2) {
+    .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(2) {
         grid-column: 1;
     }
 
-    .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(3) {
+    .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(3) {
         grid-column: 2;
     }
 
@@ -3651,8 +3255,8 @@ export default {
         grid-template-columns: 1fr;
     }
 
-    .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(2),
-    .sticky-dropdown .row.g-3 > .col-12.col-md-4:nth-child(3) {
+    .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(2),
+    .sticky-dropdown .row.g-3>.col-12.col-md-4:nth-child(3) {
         grid-column: 1 / -1;
     }
 
@@ -3669,11 +3273,9 @@ export default {
     }
 
     .sticky-dropdown {
-        background: linear-gradient(
-            180deg,
-            rgba(24, 28, 32, 0.96),
-            rgba(20, 24, 28, 0.94)
-        );
+        background: linear-gradient(180deg,
+                rgba(24, 28, 32, 0.96),
+                rgba(20, 24, 28, 0.94));
         border-color: rgba(255, 255, 255, 0.08);
         box-shadow: 0 18px 36px rgba(0, 0, 0, 0.35);
         backdrop-filter: saturate(120%) blur(8px);
@@ -3921,11 +3523,9 @@ export default {
 
 .surat-page.style-minimal .audio-player-container {
     box-shadow: none;
-    background: linear-gradient(
-        135deg,
-        rgba(15, 47, 43, 0.92),
-        rgba(20, 60, 55, 0.92)
-    );
+    background: linear-gradient(135deg,
+            rgba(15, 47, 43, 0.92),
+            rgba(20, 60, 55, 0.92));
 }
 
 .surat-page.style-minimal .sticky-dropdown {
@@ -4089,8 +3689,8 @@ h1.display-5 {
     font-size: 0.95em;
 }
 
-.density-compact .sticky-dropdown {
-}
+.density-compact .sticky-dropdown {}
+
 .feedback-fade-enter-active,
 .feedback-fade-leave-active {
     transition: opacity 0.5s ease;
@@ -4100,6 +3700,7 @@ h1.display-5 {
 .feedback-fade-leave-to {
     opacity: 0;
 }
+
 /* Reduce motion politely */
 @media (prefers-reduced-motion: reduce) {
     * {
@@ -4191,11 +3792,9 @@ h1.display-5 {
 
 /* Toolbar styling */
 .ayah-card-container .d-block.d-md-none .row.mb-3 {
-    background: linear-gradient(
-        135deg,
-        rgba(248, 250, 251, 0.95),
-        rgba(236, 245, 242, 0.9)
-    );
+    background: linear-gradient(135deg,
+            rgba(248, 250, 251, 0.95),
+            rgba(236, 245, 242, 0.9));
     border: 1px solid rgba(11, 128, 111, 0.14);
     border-radius: 999px;
     padding: 8px 6px;
@@ -4210,6 +3809,7 @@ h1.display-5 {
 
 /* On narrow screens, let content breathe edge-to-edge */
 @media (max-width: 576px) {
+
     .ayah-card-container .rtl-text,
     .ayah-card-container .ltr-text,
     .ayah-card-container .d-block.d-md-none .row.mb-3 {
@@ -4226,31 +3826,22 @@ h1.display-5 {
         gap: 8px;
     }
 
-    .ayah-card-container
-        .d-flex.justify-content-between.text-muted.ltr-text
-        h4 {
+    .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text h4 {
         flex: 1 1 100%;
         font-size: 1rem;
     }
 
-    .ayah-card-container
-        .d-flex.justify-content-between.text-muted.ltr-text
-        .bookmark-btn {
+    .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text .bookmark-btn {
         width: 40px;
         height: 40px;
         border-radius: 12px;
     }
 
-    .ayah-card-container
-        .d-flex.justify-content-between.text-muted.ltr-text
-        .bookmark-btn
-        i {
+    .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text .bookmark-btn i {
         font-size: 1.4rem;
     }
 
-    .ayah-card-container
-        .d-flex.justify-content-between.text-muted.ltr-text
-        img {
+    .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text img {
         width: 28px;
     }
 }
@@ -4362,12 +3953,10 @@ h1.display-5 {
     right: 0;
     top: -10px;
     height: 1px;
-    background: linear-gradient(
-        90deg,
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 0.08),
-        rgba(0, 0, 0, 0)
-    );
+    background: linear-gradient(90deg,
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0.08),
+            rgba(0, 0, 0, 0));
 }
 
 /* Desktop spacing tightening */

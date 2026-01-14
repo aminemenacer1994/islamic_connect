@@ -322,8 +322,6 @@ export default {
   letter-spacing: -0.02em;
 }
 
-
-
 .resources-page {
   padding-bottom: 2rem;
 }
@@ -596,7 +594,7 @@ export default {
 .modal-card__cta {
   padding: 0.35rem 1.35rem;
   font-size: 0.85rem;
-  border-radius: 20px;
+  border-radius: 10px;
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
   background: #000;
   color: #fff;

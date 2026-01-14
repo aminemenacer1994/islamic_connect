@@ -79,11 +79,7 @@
           events[currentIndex].title }}</div>
         <div class="event-meta-grid mb-3">
           <div class="event-meta-grid__info">
-            <p class="text-uppercase small text-muted mb-1">Milestone year</p>
             <p class="event-year mb-1">{{ currentEvent.year || 'Historic moment' }}</p>
-            <p class="small text-muted mb-0">
-              {{ displayIndex }} / {{ events.length }} moments in this journey
-            </p>
           </div>
           <div class="event-meta-grid__stats">
             <span class="stat-chip">
