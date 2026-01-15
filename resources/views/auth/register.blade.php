@@ -3,17 +3,20 @@
 
 <!-- Main Content -->
 <main id="main-content">
-    <div class="register-container">
-        <div class="register-card">
-            <div class="register-header">
-                <h1>Create an account</h1>
-            </div>
+    <div class="auth-page" role="region" aria-label="Registration form">
+        <div class="auth-page__glow auth-page__glow--left" aria-hidden="true"></div>
+        <div class="auth-page__glow auth-page__glow--right" aria-hidden="true"></div>
+        <div class="auth-card">
             
-            <form method="POST" action="{{ route('register') }}">
+
+            <form method="POST" action="{{ route('register') }}" novalidate>
+                <div >
+                    <h1>Create an account</h1>
+                </div>
                 @csrf
-                <div class="mb-3">
+                <div class="auth-field">
                     <label for="name" class="form-label">First Name</label>
-                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
+                    <input id="name" type="text" class="form-control auth-input @error('name') is-invalid @enderror"
                             name="name" value="{{ old('name') }}" required autocomplete="name" autofocus
                             placeholder="Enter your first name">
                     @error('name')
@@ -22,10 +25,10 @@
                         </span>
                     @enderror
                 </div>
-                
-                <div class="mb-3">
+
+                <div class="auth-field">
                     <label for="email" class="form-label">Email Address</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                    <input id="email" type="email" class="form-control auth-input @error('email') is-invalid @enderror"
                             name="email" value="{{ old('email') }}" required autocomplete="email"
                             placeholder="Enter your email">
                     @error('email')
@@ -34,47 +37,47 @@
                         </span>
                     @enderror
                 </div>
-                
-                <div class="mb-3">
+
+                <div class="auth-field">
                     <label for="password" class="form-label">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                    <input id="password" type="password"
+                            class="form-control auth-input @error('password') is-invalid @enderror"
                             name="password" required autocomplete="new-password"
                             placeholder="Create a password">
-                    <!-- <div class="password-requirements">
-                        Password must be at least 6 characters
-                    </div> -->
                     @error('password')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                
-                <div class="mb-3">
+
+                <div class="auth-field">
                     <label for="password-confirm" class="form-label">Confirm Password</label>
-                    <input id="password-confirm" type="password" class="form-control" 
+                    <input id="password-confirm" type="password" class="form-control auth-input"
                             name="password_confirmation" required autocomplete="new-password"
                             placeholder="Confirm your password">
                 </div>
-                
-                <p class="text-muted small benefits-text">Create your free account to save bookmarks, write notes & reflections and sync across multiple devices.</p>
 
-                <div class="d-grid mb-3">
+                <!-- <p class="auth-card__benefits">
+                    Create your free account to save bookmarks, write notes &amp; reflections, and keep everything synchronized on every device.
+                </p> -->
+
+                <div class="auth-card__button">
                     <button type="submit" class="btn btn-lg btn-primary-auth">Create Account</button>
                 </div>
             </form>
-            
+
             <div class="divider">
-                <span class="divider-text">Or sign up with</span>
+                <span>Or sign up with</span>
             </div>
-            
-            <div class="social-register">
+
+            <div class="social-auth">
                 <a href="/auth/google" class="social-btn btn-google" aria-label="Sign up with Google">
                     <i class="bi bi-google"></i> Google
                 </a>
             </div>
-            
-            <div class="register-footer">
+
+            <div class="auth-card__footer">
                 <p>Already have an account? <a href="/login">Sign in here</a></p>
             </div>
         </div>
@@ -86,355 +89,280 @@
 
 <style>
     :root {
-        --accent-color: #009e8a;
-        --accent-hover: #00897b;
-        --accent-soft: rgba(0, 158, 138, 0.12);
-        --text-color: #000000;
-        --text-muted: #64748b;
-        --light-bg: #ffffff;
-        --border-color: rgba(0, 0, 0, 0.1);
-        --border-radius: 12px;
-        --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
-        --transition: all 0.2s ease;
+        --auth-teal: #0f9c7f;
+        --auth-teal-dark: #0a6d60;
+        --auth-muted: #5e6570;
+        --auth-border: rgba(15, 110, 99, 0.18);
     }
-    
+
     * {
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
     }
-    
+
     body {
-        background-color: #ffffff;
-        font-family: 'Inter', sans-serif;
-        color: var(--text-color);
-        line-height: 1.6;
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Nunito', 'Inter', sans-serif;
+        color: #0c1f1b;
+        background: radial-gradient(circle at top left, #fdfdf7, #f5f8f7 45%, #eef7f4);
         padding-top: 70px;
     }
-    
-    /* Navbar Styles - Matching your existing navbar */
+
+    #main-content {
+        min-height: calc(100vh - 70px);
+    }
+
     .navbar {
-        background-color: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        background-color: #ffffff;
+        box-shadow: 0 18px 40px rgba(13, 39, 33, 0.08);
     }
-    
-    .navbar-brand img {
-        max-height: 50px;
-        width: auto;
-    }
-    
+
     .nav-link {
-        color: black;
-        text-decoration: none;
+        color: #051818;
         font-weight: 500;
     }
-    
-    .nav-link:hover {
-        color: var(--accent-color);
-        transition: color 0.2s ease;
-    }
-    
+
+    .nav-link:hover,
     .nav-link.active {
-        font-weight: bold;
-        color: var(--accent-color);
-        border-bottom: 2px solid var(--accent-color);
-        transition: color 0.2s ease, border-bottom 0.2s ease;
+        color: var(--auth-teal);
     }
-    
-    .navbar-toggler {
-        border: none;
-    }
-    
-    /* Register Container */
-    .register-container {
+
+    .auth-page {
         min-height: calc(100vh - 70px);
+        padding: clamp(2rem, 5vw, 3.5rem);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2rem 0;
+        position: relative;
+        overflow: hidden;
     }
-    
-    .register-card {
+
+    .auth-page__glow {
+        position: absolute;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.55;
+    }
+
+    .auth-page__glow--left {
+        top: -80px;
+        left: -40px;
+        background: rgba(13, 182, 145, 0.35);
+    }
+
+    .auth-page__glow--right {
+        bottom: -120px;
+        right: -20px;
+        background: rgba(9, 95, 84, 0.25);
+    }
+
+    .auth-card {
+        width: min(520px, 92vw);
+        border-radius: 36px;
+        border: 1px solid rgba(15, 110, 99, 0.15);
+        padding: clamp(2rem, 3vw, 3rem);
         background: #ffffff;
-        border-radius: var(--border-radius);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow);
-        padding: 2.5rem;
-        width: 100%;
-        max-width: 550px;
-        transition: var(--transition);
+        box-shadow: 0 30px 70px rgba(15, 53, 48, 0.15);
+        position: relative;
+        z-index: 1;
     }
-    
-    .register-card:hover {
-        box-shadow: var(--shadow-hover);
+
+    .auth-card__header {
+        margin-bottom: 1.4rem;
     }
-    
-    .register-header {
-        text-align: center;
-        margin-bottom: 2rem;
+
+    .auth-card__badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 1rem;
+        border-radius: 999px;
+        background: rgba(15, 156, 125, 0.12);
+        color: #0f6258;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.45rem;
     }
-    
-    .register-header h1 {
-        font-weight: 700;
-        color: var(--text-color);
-        margin-bottom: 0.5rem;
-        font-size: 1.75rem;
-        letter-spacing: -0.01em;
+
+    .auth-card__header h1 {
+        margin-bottom: 0.25rem;
+        font-size: clamp(2.2rem, 4vw, 2.9rem);
+        color: #0f2b2a;
     }
-    
-    .register-header p {
-        color: var(--text-muted);
-        margin-bottom: 0;
+
+    .auth-card__lead {
+        color: var(--auth-muted);
+        line-height: 1.6;
+        font-size: 1rem;
+        
     }
-    
-    .benefits-text {
-        max-width: 44rem;
-        margin: 0.5rem auto 0;
-        font-size: 0.95rem; /* slightly larger than small */
-        line-height: 1.55;
-        text-align: center;
-        margin-bottom: 0.9rem;
+
+    .auth-field {
+        margin-bottom: 1rem;
     }
-    @media (min-width: 992px) {
-        .benefits-text {
-            font-size: 1rem; /* subtle bump on large screens */
-        }
+
+    .auth-card form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
     }
-    
+
     .form-label {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #0c1f1b;
+        margin-bottom: 0.35rem;
+        display: block;
     }
-    
-    .form-control {
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        transition: var(--transition);
-        font-family: 'Inter', sans-serif;
-        background: #ffffff;
-        color: var(--text-color);
+
+    .auth-input {
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        border-radius: 14px;
+        border: 1px solid var(--auth-border);
+        background: #fdfdfd;
+        font-size: 1rem;
+        color: #0b1a19;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    
-    .form-control:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
+
+    .auth-input:focus {
+        border-color: var(--auth-teal);
+        box-shadow: 0 0 0 0.2rem rgba(15, 156, 125, 0.3);
         outline: none;
     }
-    
-    .form-control::placeholder {
-        color: var(--text-muted);
+
+    .auth-card__benefits {
+        text-align: center;
+        margin: 0 0 1.25rem;
+        color: var(--auth-muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
     }
-    
-    
+
+    .auth-card__button {
+        margin-bottom: 0.35rem;
+    }
+
+    .btn-primary-auth {
+        width: 100%;
+        padding: 0.95rem 1.25rem;
+        border-radius: 16px;
+        border: none;
+        background: linear-gradient(135deg, var(--auth-teal), var(--auth-teal-dark));
+        color: #fff !important;
+        font-size: 1.05rem;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        box-shadow: 0 12px 30px rgba(15, 110, 99, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary-auth:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 36px rgba(15, 110, 99, 0.35);
+    }
+
     .divider {
         display: flex;
         align-items: center;
+        gap: 0.75rem;
+        color: #8a92a0;
+        font-size: 0.9rem;
         margin: 1.5rem 0;
     }
-    
+
     .divider::before,
     .divider::after {
         content: "";
         flex: 1;
-        border-bottom: 1px solid var(--border-color);
+        height: 1px;
+        border-radius: 999px;
+        background: rgba(15, 110, 99, 0.18);
     }
-    
-    .divider-text {
-        padding: 0 1rem;
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        font-weight: 500;
-    }
-    
-    .social-register {
+
+    .social-auth {
         display: flex;
         gap: 0.75rem;
-        margin-bottom: 1.5rem;
     }
-    
+
     .social-btn {
-        flex: 1;
+        width: 100%;
+        padding: 0.85rem;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        background: #ffffff;
-        transition: var(--transition);
-        font-weight: 500;
-        color: var(--text-muted);
+        gap: 0.6rem;
+        font-weight: 600;
+        color: #28343f;
         text-decoration: none;
+        background: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
-    
+
     .social-btn:hover {
-        background-color: var(--accent-soft);
-        border-color: var(--accent-color);
         transform: translateY(-1px);
-        color: var(--accent-color);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 14px 32px rgba(15, 110, 99, 0.25);
+        background: rgba(15, 156, 125, 0.08);
+        border-color: rgba(15, 110, 99, 0.4);
+        color: #0f5c4f;
     }
-    
+
     .social-btn i {
-        margin-right: 0.5rem;
         font-size: 1.1rem;
     }
-    
-    
-    .register-footer {
-        text-align: center;
+
+    .auth-card__footer {
         margin-top: 1.5rem;
-        color: var(--text-muted);
+        text-align: center;
+        color: var(--auth-muted);
+        font-size: 0.95rem;
     }
-    
-    .register-footer a {
-        color: var(--accent-color);
-        text-decoration: none;
-        font-weight: 500;
+
+    .auth-card__footer a {
+        color: var(--auth-teal);
+        font-weight: 600;
     }
-    
-    .register-footer a:hover {
+
+    .auth-card__footer a:hover {
         text-decoration: underline;
-        color: var(--accent-hover);
     }
-    
+
     .invalid-feedback {
         display: block;
+        color: #dc3545;
+        margin-top: 0.35rem;
+        font-size: 0.9rem;
     }
-    
-    .password-requirements {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        margin-top: 0.25rem;
+
+    .auth-input.is-invalid {
+        border-color: #dc3545;
     }
-    
-    .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: var(--accent-color);
-        color: white;
-        padding: 8px;
-        z-index: 100;
-        text-decoration: none;
-        border-radius: 4px;
+
+    .auth-input.is-invalid:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
     }
-    
-    .btn-primary-auth {
-        background-color: var(--accent-color) !important;
-        color: #ffffff !important;
-        border: none !important;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        transition: var(--transition);
-        box-shadow: 0 2px 4px rgba(0, 158, 138, 0.2);
-    }
-    
-    .btn-primary-auth:hover {
-        background-color: var(--accent-hover) !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 8px rgba(0, 158, 138, 0.3);
-        transform: translateY(-1px);
-    }
-    
-    .btn-primary-auth:active {
-        transform: translateY(0);
-        background-color: var(--accent-hover) !important;
-    }
-    
-    .btn-primary-auth:focus {
-        background-color: var(--accent-color) !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.2);
-    }
-    
-    .skip-link:focus {
-        top: 6px;
-    }
-    
-    /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-        .register-card {
-            padding: 2rem 1.5rem;
-            margin: 0 1rem;
-        }
-        
-        .social-register {
-            flex-direction: column;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .register-header h1 {
-            font-size: 1.5rem;
-        }
-        
-        .register-card {
-            padding: 1.5rem 1rem;
-        }
-        
-        .btn-primary {
-            padding: 0.65rem;
-        }
-    }
-    
-    /* Focus styles for accessibility */
-    button:focus, 
-    a:focus, 
-    input:focus, 
-    select:focus, 
+
+    button:focus,
+    input:focus,
+    select:focus,
     textarea:focus {
-        outline: 2px solid var(--accent-color);
+        outline: 2px solid rgba(15, 156, 125, 0.5);
         outline-offset: 2px;
     }
-    
-    .form-check-input:checked {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
-    
-    .form-check-input:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
-    }
-    
-    .invalid-feedback {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 0.25rem;
-    }
-    
-    .is-invalid {
-        border-color: #dc3545;
-    }
-    
-    .is-invalid:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-    }
-    
-    /* High contrast mode support */
-    @media (prefers-contrast: high) {
-        :root {
-            --text-color: #000;
+
+    @media (max-width: 600px) {
+        .auth-card {
+            padding: 1.75rem;
         }
-        
-        .navbar {
-            border-bottom: 2px solid #000;
-        }
-        
-        .register-card {
-            border: 1px solid #000;
-        }
-    }
-    
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-        * {
-            transition: none !important;
+
+        .auth-card__badge {
+            font-size: 0.8rem;
         }
     }
 </style>

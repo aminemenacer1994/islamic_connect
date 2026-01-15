@@ -6,29 +6,33 @@
 
 <!-- Main Content -->
 <main id="main-content">
-    <div class="login-container">
-        <div class="login-card">
-            <div class="login-header">
-                <h1>Welcome Back</h1>
-            </div>
+    <div class="auth-page" role="region" aria-label="Sign-in form">
+        <div class="auth-page__glow auth-page__glow--left" aria-hidden="true"></div>
+        <div class="auth-page__glow auth-page__glow--right" aria-hidden="true"></div>
+        <div class="auth-card">
             
-            <form method="POST" action="{{ route('login') }}">
+
+            <form method="POST" action="{{ route('login') }}" novalidate>
+                <div >
+                    <h1>Welcome Back</h1>
+                </div>
                 @csrf
-                <div class="mb-3">
+                <div class="auth-field">
                     <label for="email" class="form-label">Email Address</label>
-                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
+                    <input id="email" type="email" class="form-control auth-input @error('email') is-invalid @enderror"
                             name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
-                            placeholder="Enter your email" aria-describedby="emailHelp">
+                            placeholder="Enter your email">
                     @error('email')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                 </div>
-                
-                <div class="mb-3">
+
+                <div class="auth-field">
                     <label for="password" class="form-label">Password</label>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
+                    <input id="password" type="password"
+                            class="form-control auth-input @error('password') is-invalid @enderror"
                             name="password" required autocomplete="current-password"
                             placeholder="Enter your password">
                     @error('password')
@@ -37,8 +41,8 @@
                         </span>
                     @enderror
                 </div>
-                
-                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                <div class="auth-card__options">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="form-check-label" for="remember">
@@ -46,30 +50,28 @@
                         </label>
                     </div>
                     @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="text-decoration-none forgot-password-link">
+                    <a href="{{ route('password.request') }}" class="forgot-password-link">
                         Forgot password?
                     </a>
                     @endif
                 </div>
-                
-                <!-- <p class="text-muted small benefits-text">Create an account to save bookmarks, write reflections, report errors, and manage your subscriptions.</p> -->
 
-                <div class="d-grid mb-3">
+                <div class="auth-card__button">
                     <button type="submit" class="btn btn-lg btn-primary-auth">Sign In</button>
                 </div>
             </form>
-            
+
             <div class="divider">
-                <span class="divider-text">Or continue with</span>
+                <span>Or continue with</span>
             </div>
-            
-            <div class="social-login">
+
+            <div class="social-auth">
                 <a href="/auth/google" class="social-btn btn-google" aria-label="Sign in with Google">
                     <i class="bi bi-google"></i> Google
                 </a>
             </div>
-            
-            <div class="login-footer">
+
+            <div class="auth-card__footer">
                 <p>Don't have an account? <a href="/register">Create account</a></p>
             </div>
         </div>
@@ -80,358 +82,296 @@
 
 <style>
     :root {
-        --accent-color: #009e8a;
-        --accent-hover: #00897b;
-        --accent-soft: rgba(0, 158, 138, 0.12);
-        --text-color: #000000;
-        --text-muted: #64748b;
-        --light-bg: #ffffff;
-        --border-color: rgba(0, 0, 0, 0.1);
-        --border-radius: 12px;
-        --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
-        --transition: all 0.2s ease;
+        --auth-teal: #0f9c7f;
+        --auth-teal-dark: #0a6d60;
+        --auth-muted: #5e6570;
+        --auth-border: rgba(15, 110, 99, 0.18);
     }
-    
+
     * {
-        margin: 0;
-        padding: 0;
         box-sizing: border-box;
     }
-    
+
     body {
-        background-color: #ffffff;
-        font-family: 'Inter', sans-serif;
-        color: var(--text-color);
-        line-height: 1.6;
+        margin: 0;
+        min-height: 100vh;
+        font-family: 'Inter', 'Poppins', sans-serif;
+        color: #0c1f1b;
+        background: radial-gradient(circle at top left, #fdfdf7, #f5f8f7 45%, #eef7f4);
         padding-top: 70px;
     }
-    
-    /* Navbar Styles - Matching your existing navbar */
+
+    #main-content {
+        min-height: calc(100vh - 70px);
+    }
+
     .navbar {
-        background-color: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        background-color: #ffffff;
+        box-shadow: 0 18px 40px rgba(13, 39, 33, 0.08);
     }
-    
-    .navbar-brand img {
-        max-height: 50px;
-        width: auto;
-    }
-    
+
     .nav-link {
-        color: black;
-        text-decoration: none;
+        color: #051818;
         font-weight: 500;
     }
-    
-    .nav-link:hover {
-        color: var(--accent-color);
-        transition: color 0.2s ease;
-    }
-    
+
+    .nav-link:hover,
     .nav-link.active {
-        font-weight: bold;
-        color: var(--accent-color);
-        border-bottom: 2px solid var(--accent-color);
-        transition: color 0.2s ease, border-bottom 0.2s ease;
+        color: var(--auth-teal);
     }
-    
-    .navbar-toggler {
-        border: none;
-    }
-    
-    /* Login Container */
-    .login-container {
+
+    .auth-page {
         min-height: calc(100vh - 70px);
+        padding: clamp(2rem, 5vw, 3.5rem);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 2rem 0;
+        position: relative;
+        overflow: hidden;
     }
-    
-    .login-card {
+
+    .auth-page__glow {
+        position: absolute;
+        width: 360px;
+        height: 360px;
+        border-radius: 50%;
+        filter: blur(70px);
+        opacity: 0.55;
+    }
+
+    .auth-page__glow--left {
+        top: -80px;
+        left: -40px;
+        background: rgba(13, 182, 145, 0.35);
+    }
+
+    .auth-page__glow--right {
+        bottom: -120px;
+        right: -20px;
+        background: rgba(9, 95, 84, 0.25);
+    }
+
+    .auth-card {
+        width: min(520px, 92vw);
+        border-radius: 36px;
+        border: 1px solid rgba(15, 110, 99, 0.15);
+        padding: clamp(2rem, 3vw, 3rem);
         background: #ffffff;
-        border-radius: var(--border-radius);
-        border: 1px solid var(--border-color);
-        box-shadow: var(--shadow);
-        padding: 2.5rem;
-        width: 100%;
-        max-width: 550px;
-        transition: var(--transition);
+        box-shadow: 0 30px 70px rgba(15, 53, 48, 0.15);
+        position: relative;
+        z-index: 1;
     }
-    
-    .login-card:hover {
-        box-shadow: var(--shadow-hover);
+
+    .auth-card__header {
+        margin-bottom: 1.4rem;
     }
-    
-    .login-header {
-        text-align: center;
-        margin-bottom: 2rem;
+
+    .auth-card__badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.35rem 1rem;
+        border-radius: 999px;
+        background: rgba(15, 156, 125, 0.12);
+        color: #0f6258;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        margin-bottom: 0.45rem;
     }
-    
-    .login-header h1 {
-        font-weight: 700;
-        color: var(--text-color);
-        margin-bottom: 0.5rem;
-        font-size: 1.75rem;
-        letter-spacing: -0.01em;
+
+    .auth-card__header h1 {
+        margin-bottom: 0.25rem;
+        font-size: clamp(2.2rem, 4vw, 2.9rem);
+        color: #0f2b2a;
     }
-    
-    .login-header p {
-        color: var(--text-muted);
-        margin-bottom: 0;
+
+    .auth-card__lead {
+        color: var(--auth-muted);
+        line-height: 1.6;
+        font-size: 1rem;
+        font-family: 'Inter', 'Poppins', sans-serif;
     }
-    
-    .benefits-text {
-        max-width: 44rem;
-        margin: 0.5rem auto 0;
-        font-size: 0.95rem; /* slightly larger than small */
-        line-height: 1.55;
-        text-align: center;
-        margin-bottom: 0.9rem;
+
+    .auth-field {
+        margin-bottom: 1rem;
     }
-    @media (min-width: 992px) {
-        .benefits-text {
-            font-size: 1rem; /* subtle bump on large screens */
-        }
+
+    .auth-card form {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
     }
-    
+
     .form-label {
-        font-weight: 500;
-        margin-bottom: 0.5rem;
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #0c1f1b;
+        margin-bottom: 0.35rem;
+        display: block;
     }
-    
-    .form-control {
-        padding: 0.75rem 1rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        transition: var(--transition);
-        font-family: 'Inter', sans-serif;
-        background: #ffffff;
-        color: var(--text-color);
+
+    .auth-input {
+        width: 100%;
+        padding: 0.9rem 1.2rem;
+        border-radius: 14px;
+        border: 1px solid var(--auth-border);
+        background: #fdfdfd;
+        font-size: 1rem;
+        color: #0b1a19;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    
-    .form-control:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
+
+    .auth-input:focus {
+        border-color: var(--auth-teal);
+        box-shadow: 0 0 0 0.2rem rgba(15, 156, 125, 0.3);
         outline: none;
     }
-    
-    .form-control::placeholder {
-        color: var(--text-muted);
+
+    .auth-card__options {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 0.95rem;
     }
-    
-    
+
+    .form-check {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .forgot-password-link {
+        color: var(--auth-teal);
+        font-weight: 600;
+    }
+
+    .forgot-password-link:hover {
+        text-decoration: underline;
+    }
+
+    .auth-card__button {
+        margin-bottom: 0.35rem;
+    }
+
+    .btn-primary-auth {
+        width: 100%;
+        padding: 0.95rem 1.25rem;
+        border-radius: 16px;
+        border: none;
+        background: linear-gradient(135deg, var(--auth-teal), var(--auth-teal-dark));
+        color: #fff !important;
+        font-size: 1.05rem;
+        font-weight: 600;
+        font-family: 'Poppins', 'Inter', sans-serif;
+        letter-spacing: 0.03em;
+        box-shadow: 0 12px 30px rgba(15, 110, 99, 0.3);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-primary-auth:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 18px 36px rgba(15, 110, 99, 0.35);
+    }
+
     .divider {
         display: flex;
         align-items: center;
+        gap: 0.75rem;
+        color: #8a92a0;
+        font-size: 0.9rem;
         margin: 1.5rem 0;
     }
-    
+
     .divider::before,
     .divider::after {
         content: "";
         flex: 1;
-        border-bottom: 1px solid var(--border-color);
+        height: 1px;
+        border-radius: 999px;
+        background: rgba(15, 110, 99, 0.18);
     }
-    
-    .divider-text {
-        padding: 0 1rem;
-        color: var(--text-muted);
-        font-size: 0.875rem;
-        font-weight: 500;
-    }
-    
-    .social-login {
+
+    .social-auth {
         display: flex;
         gap: 0.75rem;
-        margin-bottom: 1.5rem;
     }
-    
+
     .social-btn {
-        flex: 1;
+        width: 100%;
+        padding: 0.85rem;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.2);
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 0.75rem;
-        border: 1px solid var(--border-color);
-        border-radius: 8px;
-        background: #ffffff;
-        transition: var(--transition);
-        font-weight: 500;
-        color: var(--text-muted);
+        gap: 0.6rem;
+        font-weight: 600;
+        color: #28343f;
         text-decoration: none;
-    }
-    
-    .social-btn:hover {
-        background-color: var(--accent-soft);
-        border-color: var(--accent-color);
-        transform: translateY(-1px);
-        color: var(--accent-color);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    }
-    
-    .social-btn i {
-        margin-right: 0.5rem;
-        font-size: 1.1rem;
-    }
-    
-    .login-footer {
-        text-align: center;
-        margin-top: 1.5rem;
-        color: var(--text-muted);
-    }
-    
-    .login-footer a {
-        color: var(--accent-color);
-        text-decoration: none;
-        font-weight: 500;
-    }
-    
-    .login-footer a:hover {
-        text-decoration: underline;
-        color: var(--accent-hover);
+        background: #fff;
+        transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
     }
 
-    .forgot-password-link {
-        color: var(--accent-color);
-        font-weight: 500;
+    .social-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 14px 32px rgba(15, 110, 99, 0.25);
+        background: rgba(15, 156, 125, 0.08);
+        border-color: rgba(15, 110, 99, 0.4);
+        color: #0f5c4f;
+    }
+
+    .social-btn i {
+        font-size: 1.1rem;
+    }
+
+    .auth-card__footer {
+        margin-top: 1.5rem;
+        text-align: center;
+        color: var(--auth-muted);
         font-size: 0.95rem;
     }
-    .forgot-password-link:hover {
-        text-decoration: underline;
-        color: var(--accent-hover);
-    }
-    
-    .btn-primary-auth {
-        background-color: var(--accent-color) !important;
-        color: #ffffff !important;
-        border: none !important;
+
+    .auth-card__footer a {
+        color: var(--auth-teal);
         font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        border-radius: 8px;
-        transition: var(--transition);
-        box-shadow: 0 2px 4px rgba(0, 158, 138, 0.2);
     }
-    
-    .btn-primary-auth:hover {
-        background-color: var(--accent-hover) !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 8px rgba(0, 158, 138, 0.3);
-        transform: translateY(-1px);
+
+    .auth-card__footer a:hover {
+        text-decoration: underline;
     }
-    
-    .btn-primary-auth:active {
-        transform: translateY(0);
-        background-color: var(--accent-hover) !important;
-    }
-    
-    .btn-primary-auth:focus {
-        background-color: var(--accent-color) !important;
-        color: #ffffff !important;
-        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.2);
-    }
-    
+
     .invalid-feedback {
         display: block;
+        color: #dc3545;
+        margin-top: 0.35rem;
+        font-size: 0.9rem;
     }
-    
-    .skip-link {
-        position: absolute;
-        top: -40px;
-        left: 6px;
-        background: var(--accent-color);
-        color: white;
-        padding: 8px;
-        z-index: 100;
-        text-decoration: none;
-        border-radius: 4px;
+
+    .auth-input.is-invalid {
+        border-color: #dc3545;
     }
-    
-    .skip-link:focus {
-        top: 6px;
+
+    .auth-input.is-invalid:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
     }
-    
-    /* Mobile Responsiveness */
-    @media (max-width: 768px) {
-        .login-card {
-            padding: 2rem 1.5rem;
-            margin: 0 1rem;
-        }
-        
-        .social-login {
-            flex-direction: column;
-        }
-    }
-    
-    @media (max-width: 576px) {
-        .login-header h1 {
-            font-size: 1.5rem;
-        }
-        
-        .login-card {
-            padding: 1.5rem 1rem;
-        }
-        
-        .btn-primary {
-            padding: 0.65rem;
-        }
-    }
-    
-    /* Focus styles for accessibility */
-    button:focus, 
-    a:focus, 
-    input:focus, 
-    select:focus, 
+
+    button:focus,
+    input:focus,
+    select:focus,
     textarea:focus {
-        outline: 2px solid var(--accent-color);
+        outline: 2px solid rgba(15, 156, 125, 0.5);
         outline-offset: 2px;
     }
-    
-    .form-check-input:checked {
-        background-color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
-    
-    .form-check-input:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 0 3px rgba(0, 158, 138, 0.1);
-    }
-    
-    .invalid-feedback {
-        color: #dc3545;
-        font-size: 0.875rem;
-        margin-top: 0.25rem;
-    }
-    
-    .is-invalid {
-        border-color: #dc3545;
-    }
-    
-    .is-invalid:focus {
-        border-color: #dc3545;
-        box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
-    }
-    
-    /* High contrast mode support */
-    @media (prefers-contrast: high) {
-        :root {
-            --text-color: #000;
+
+    @media (max-width: 600px) {
+        .auth-card {
+            padding: 1.75rem;
         }
-        
-        .navbar {
-            border-bottom: 2px solid #000;
-        }
-        
-        .login-card {
-            border: 1px solid #000;
-        }
-    }
-    
-    /* Reduced motion support */
-    @media (prefers-reduced-motion: reduce) {
-        * {
-            transition: none !important;
+
+        .auth-card__badge {
+            font-size: 0.8rem;
         }
     }
 </style>
