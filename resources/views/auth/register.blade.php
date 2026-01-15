@@ -10,8 +10,8 @@
             
 
             <form method="POST" action="{{ route('register') }}" novalidate>
-                <div >
-                    <h1>Create an account</h1>
+                <div class="mb-2">
+                    <h2 style="color:black; font-weight: bold;" class="text-center">Create an account</h2>
                 </div>
                 @csrf
                 <div class="auth-field">
@@ -160,10 +160,10 @@
 
     .auth-card {
         width: min(520px, 92vw);
-        border-radius: 36px;
-        border: 1px solid rgba(15, 110, 99, 0.15);
+        border-radius: 20px;
+        border: 3px solid rgba(15, 110, 99, 0.15);
         padding: clamp(2rem, 3vw, 3rem);
-        background: #ffffff;
+        /* background: #ffffff; */
         box-shadow: 0 30px 70px rgba(15, 53, 48, 0.15);
         position: relative;
         z-index: 1;
