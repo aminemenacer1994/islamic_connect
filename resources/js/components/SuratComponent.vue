@@ -405,61 +405,57 @@
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
                     <div class="modal-content reflection-modal">
                         <div class="modal-header">
-                            <h5 class="modal-title text-dark" id="reflectionModalLabel">
-                                Reflect and Save a Thought
+                            <h5 class="modal-title" id="reflectionModalLabel">
+                                <b>Reflect and Save a Thought</b>
                             </h5>
                             <button type="button" class="btn-close" @click="hideReflectionModal" aria-label="Close reflection modal"></button>
                         </div>
-                        <div class="modal-body">
-                            <p class="reflection-note-info">
-                                Capture how this verse touched your heart. Notes & Reflections help you revisit
-                                lessons, keep track of spiritual growth, and our admin team can surface community highlights
-                                later if you choose to share.
-                                <strong>Both subject and message are required, and messages must be at least {{ reflectionMessageMinLength }} chars.</strong>
-                            </p>
-                            <form @submit.prevent="submitReflectionForm" novalidate>
-                                <div class="mb-3">
-                                    <label class="form-label">Subject</label>
-                                    <input type="text" class="form-control" v-model="reflectionForm.subject"
-                                        placeholder="Give this reflection a title" required />
+                        <div class="modal-body pt-0">
+                            
+                            <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm" novalidate>
+                                <div>
+                                    <label class="form-label fw-semibold mb-1 small-label">Title</label>
+                                    <input type="text" class="form-control form-control-lg" v-model="reflectionForm.subject"
+                                        placeholder="Title this reflection" required />
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Message</label>
-                                    <textarea class="form-control" v-model="reflectionForm.message" rows="4"
+                                <div>
+                                    <label class="form-label fw-semibold mb-1 small-label">Message</label>
+                                    <textarea class="form-control form-control-lg" v-model="reflectionForm.message" rows="5"
                                         :minlength="reflectionMessageMinLength"
-                                        placeholder="Write how this verse inspires you"
+                                        placeholder="Describe how this verse inspires you..."
                                         required></textarea>
-                                    <div class="d-flex justify-content-between align-items-center mt-1">
+                                    <div class="d-flex justify-content-between align-items-center mt-2">
                                         <small class="text-muted">Message must be at least {{ reflectionMessageMinLength }} characters.</small>
-                                        <small class="text-muted">{{ (reflectionForm.message || '').trim().length }} characters</small>
+                                        <span class="text-muted small">{{ (reflectionForm.message || '').trim().length }} characters</span>
                                     </div>
                                 </div>
-                                <div class="note-suggestions mb-3">
-                                    <p class="mb-1 fw-semibold">Subject suggestions</p>
-                                    <div class="d-flex flex-wrap gap-2 mb-2">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm"
-                                            v-for="subject in reflectionSubjectSuggestions" :key="subject"
-                                            @click="applySubjectSuggestion(subject)">
-                                            {{ subject }}
+                                <div class="note-suggestions">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <div>
+                                            <span class="fw-semibold text-dark me-2">Message prompts</span>
+                                            <small class="text-muted">Tap to adapt</small>
+                                        </div>
+                                        <button type="button" class="btn btn-ghost p-0 small" @click="carouselCollapsed = !carouselCollapsed">
+                                            <i class="bi" :class="carouselCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                                            {{ carouselCollapsed ? 'show prompts' : 'collapse' }}
                                         </button>
                                     </div>
-                                    <p class="mb-1 fw-semibold">Message prompts</p>
-                                    <div class="d-flex flex-wrap gap-2">
-                                        <button type="button" class="btn btn-outline-secondary btn-sm"
-                                            v-for="prompt in reflectionMessageSuggestions" :key="prompt"
-                                            @click="applyMessageSuggestion(prompt)">
-                                            {{ prompt }}
+                                    <div class="suggestion-grid" :class="{ collapsed: carouselCollapsed }">
+                                        <button type="button" class="suggestion-pill light"
+                                            v-for="(prompt, idx) in reflectionMessagePrompts" :key="`msg-${idx}`"
+                                            @click="applyMessageSuggestion(prompt.text)">
+                                            {{ prompt.icon }} {{ prompt.text }}
                                         </button>
                                     </div>
                                 </div>
-                                <div v-if="reflectionErrorMessage" class="text-danger small mb-3">
+                                <div v-if="reflectionErrorMessage" class="alert alert-danger py-2 small">
                                     {{ reflectionErrorMessage }}
                                 </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-outline-secondary" @click="hideReflectionModal">
+                                <div class="modal-footer justify-content-end border-0 p-0 mt-2 gap-2 small-actions">
+                                    <button type="button" class="btn btn-outline-secondary btn-lg" @click="hideReflectionModal">
                                         Cancel
                                     </button>
-                                    <button type="submit" class="btn btn-primary"
+                                    <button type="submit" class="btn btn-lg btn-primary ms-2"
                                         :disabled="!canSubmitReflection || isSavingReflection">
                                         <span v-if="isSavingReflection" class="spinner-border spinner-border-sm me-2"
                                             role="status" aria-hidden="true"></span>
@@ -679,15 +675,22 @@ export default {
                 "How this verse comforts me",
                 "Commitment to the lesson",
             ],
-            reflectionMessageSuggestions: [
-                "This reminded me to pause and thank Allah for His mercy.",
-                "I can implement this by showing patience with my family today.",
-                "I feel my trust in Allah growing every time I read this.",
-                "Let this verse guide the way I handle challenges.",
+            reflectionMessagePrompts: [
+                { icon: "✨", text: "This reminded me to pause and thank Allah for His mercy." },
+                { icon: "🌿", text: "I can implement this by showing patience with my family today." },
+                { icon: "🕊️", text: "I feel my trust in Allah growing every time I read this." },
+                { icon: "🔥", text: "Let this verse guide the way I handle challenges." },
+                { icon: "💭", text: "I promise to keep this verse in mind during moments of doubt." },
+                { icon: "🌙", text: "It gave me strength to keep my prayers steady tonight." },
+                { icon: "🧭", text: "The advice feels like a compass when I need direction." },
+                { icon: "🌟", text: "I am taking this lesson with me into today’s actions." },
+                { icon: "🤲", text: "This verse inspires me to make dua for others." },
             ],
             reflectionMessageMinLength: 10,
             reflectionErrorMessage: "",
             isSavingReflection: false,
+            showReflectionHighlight: true,
+            carouselCollapsed: false,
         };
     },
     computed: {
@@ -1457,6 +1460,9 @@ export default {
         },
         applyMessageSuggestion(text) {
             this.reflectionForm.message = text;
+        },
+        toggleReflectionHelp() {
+            this.showReflectionHighlight = false;
         },
         async submitReflectionForm() {
             const subject = (this.reflectionForm.subject || "").trim();
@@ -2832,16 +2838,225 @@ export default {
 .reflection-btn.has-reflection i {
     color: #0f766e;
 }
-.reflection-note-info {
-    font-size: 0.95rem;
-    color: #475467;
-}
-.note-suggestions .btn {
-    border-radius: 999px;
-    padding: 0.35rem 0.9rem;
-}
 .reflection-modal .modal-body {
     padding-bottom: 0.5rem;
+}
+.reflection-modal .modal-content {
+    border-radius: 28px;
+    overflow: hidden;
+}
+.reflection-highlight {
+    background: linear-gradient(135deg, rgba(11, 128, 111, 0.08), rgba(15, 110, 99, 0.15));
+    border: 1px solid rgba(11, 128, 111, 0.2);
+    position: relative;
+}
+.reflection-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(11, 128, 111, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #0b806f;
+}
+.suggestion-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.35rem 0.9rem;
+    color: #0b806f;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.suggestion-pill.light {
+    border-color: rgba(15, 110, 99, 0.2);
+    color: #0f766e;
+}
+.suggestion-pill:hover {
+    background: rgba(11, 128, 111, 0.1);
+    border-color: rgba(11, 128, 111, 0.55);
+}
+.note-suggestions .btn-close.small {
+    font-size: 0.75rem;
+    opacity: 0.6;
+}
+.suggestion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+.suggestion-grid.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.small-label {
+    font-size: 0.85rem;
+    color: #475467;
+}
+.btn-ghost {
+    border: none;
+    background: none;
+    color: #0f766e;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    padding: 0;
+}
+.suggestion-grid button {
+    min-height: 48px;
+}
+.modal-footer .btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 1.1rem;
+}
+.modal-body input,
+.modal-body textarea {
+    font-size: 0.95rem;
+}
+.modal-body input::placeholder,
+.modal-body textarea::placeholder {
+    font-size: 0.9rem;
+    color: #6b7280;
+}
+
+.premium-bg {
+    background: linear-gradient(135deg, rgba(236, 255, 255, 0.9), rgba(222, 248, 244, 0.85));
+    border: 1px solid rgba(11, 128, 111, 0.2);
+}
+.suggestion-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.75rem;
+}
+.suggestion-grid.collapsed {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.suggestion-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.35rem 0.9rem;
+    color: #0b806f;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-height: 48px;
+    text-align: left;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.suggestion-pill.light {
+    border-color: rgba(15, 110, 99, 0.2);
+}
+.suggestion-pill:hover {
+    background: rgba(11, 128, 111, 0.15);
+    border-color: rgba(11, 128, 111, 0.55);
+}
+.modal-footer .btn {
+    font-size: 0.85rem;
+    padding: 0.4rem 1.25rem;
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.modal-footer .btn-primary {
+    background: linear-gradient(135deg, #0ca68d, #0f8f71);
+    border: none;
+    box-shadow: 0 8px 20px rgba(12, 166, 141, 0.25);
+}
+.modal-footer .btn-primary:hover {
+    transform: translateY(-2px);
+}
+.modal-footer .btn-outline-secondary {
+    border-radius: 12px;
+}
+.modal-body .form-control {
+    font-size: 0.95rem;
+    border-radius: 14px;
+    border-color: rgba(15, 110, 99, 0.3);
+    box-shadow: inset 0 4px 12px rgba(15, 110, 99, 0.08);
+}
+.modal-body textarea {
+    min-height: 160px;
+}
+.reflection-highlight {
+    background: linear-gradient(135deg, rgba(11, 128, 111, 0.08), rgba(15, 110, 99, 0.15));
+    border: 1px solid rgba(11, 128, 111, 0.2);
+}
+.reflection-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    background: rgba(11, 128, 111, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: #0b806f;
+}
+.suggestion-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.35rem 0.9rem;
+    color: #0b806f;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.suggestion-pill.light {
+    border-color: rgba(15, 110, 99, 0.2);
+    color: #0f766e;
+}
+.suggestion-pill:hover {
+    background: rgba(11, 128, 111, 0.1);
+    border-color: rgba(11, 128, 111, 0.55);
+}
+.reflection-highlight {
+    background: linear-gradient(135deg, #e6f7ff, #f2f7ff);
+    border: 1px solid rgba(11, 128, 111, 0.2);
+}
+.reflection-badge {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(11, 128, 111, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #0b806f;
+}
+.suggestion-pill {
+    border-radius: 999px;
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    background: rgba(255, 255, 255, 0.95);
+    padding: 0.35rem 0.9rem;
+    color: #0b806f;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.suggestion-pill.light {
+    border-color: rgba(15, 110, 99, 0.2);
+    color: #0f766e;
+}
+.suggestion-pill:hover {
+    background: rgba(11, 128, 111, 0.1);
+    border-color: rgba(11, 128, 111, 0.5);
 }
 </style>
 
