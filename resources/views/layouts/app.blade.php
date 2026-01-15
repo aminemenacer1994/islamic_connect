@@ -200,6 +200,38 @@
             /* background: linear-gradient(180deg, #fdfefe 0%, #f4f6fb 40%, #e9eef7 100%); */
         }
 
+        .navbar {
+            background-color: transparent !important;
+            border: none;
+            backdrop-filter: blur(8px);
+        }
+
+        .navbar.navbar-transparent {
+            background: transparent !important;
+            background-image: none !important;
+        }
+
+        .navbar.navbar-transparent .navbar-brand,
+        .navbar.navbar-transparent .nav-link,
+        .navbar.navbar-transparent .navbar-toggler {
+            color: #121212 !important;
+        }
+
+        .navbar.navbar-transparent .navbar-nav .nav-link,
+        .navbar.navbar-transparent .navbar-nav .nav-link:focus-visible,
+        .navbar.navbar-transparent .navbar-nav .nav-link:active,
+        .navbar.navbar-transparent .navbar-nav .nav-link:visited,
+        .navbar.navbar-transparent .navbar-nav .nav-link:hover {
+            color: #121212 !important;
+            background: transparent !important;
+            box-shadow: none !important;
+        }
+
+        .navbar.navbar-transparent .navbar-nav .nav-link::after,
+        .navbar.navbar-transparent .navbar-nav .nav-link.active::after {
+            display: none !important;
+        }
+
         @media (max-width: 768px) {
             body {
                 padding-top: calc(4.25rem + 1rem);
@@ -212,7 +244,7 @@
 <body>
     <div>
         <!-- Navbar -->
-        <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
+        <nav class="navbar navbar-expand-md navbar-light navbar-transparent fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/welcome" data-path="/welcome" aria-label="Home">
                     <img
@@ -234,7 +266,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav justify-content-end pr-4 flex-grow-1" aria-label="Primary menu">
                         <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
+                            <a class="nav-link pt-2 ml-3 pl-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
                         <!-- <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Reverts corner</button>
@@ -937,9 +969,10 @@
 .navbar-nav .nav-link {
   position: relative;
   transition: color 0.2s ease;
+  color: #121212;
 }
 .navbar-nav .nav-link.active {
-  color: #0f62fe;
+  color: #121212;
   font-weight: 600;
 }
 .navbar-nav .nav-link.active::after {
@@ -953,7 +986,7 @@
   background: linear-gradient(90deg, #0f62fe, #6f42c1, #f45b69);
 }
 .navbar-nav .nav-link:hover:not(.active) {
-  color: #0a4dff;
+  color: #121212;
 }
 
 .button[data-nav-item="primary"] {

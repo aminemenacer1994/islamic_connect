@@ -684,6 +684,17 @@ export default {
     toggleVisibility() {
       this.isVisible = !this.isVisible;
     },
+    shortDescription(text, maxLength = 90) {
+      if (!text) return '';
+      const normalized = text.replace(/\s+/g, ' ').trim();
+      if (normalized.length <= maxLength) return normalized;
+      return normalized.slice(0, maxLength).replace(/\s+$/, '') + '…';
+    },
+    cardAccentGradient(podcast) {
+      const primary = (podcast && podcast.accentPrimary) || '#ecfdf5';
+      const secondary = (podcast && podcast.accentSecondary) || '#dbeefe';
+      return `linear-gradient(135deg, ${primary}, ${secondary})`;
+    },
     onSearchInput() {
       if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
       this.searchDebounceTimer = setTimeout(() => {
@@ -1592,7 +1603,6 @@ export default {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 20px;
   overflow: hidden;
-  background: #ffffff;
   box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
   border: 2px solid transparent;
   position: relative;
@@ -1666,12 +1676,12 @@ export default {
   color: #2c3e50;
   text-align: center;
   line-height: 1.4;
-  background: #ffffff;
+  /* background: #ffffff; */
 }
 
 /* Selected Podcast Section */
 .selected-podcast-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  /* background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); */
   border-radius: 20px;
   padding: 2.5rem;
   margin-bottom: 3rem;
@@ -1752,11 +1762,11 @@ export default {
     0 0 0 3px rgba(11, 179, 154, 0.35),
     0 10px 28px rgba(11, 179, 154, 0.22);
   transform: translateY(-3px);
-  background: linear-gradient(135deg, #ffffff 0%, #f3fffc 100%);
+  /* background: linear-gradient(135deg, #ffffff 0%, #f3fffc 100%); */
 }
 
 .podcast-card {
-  background: #ffffff;
+  /* background: #ffffff; */
   border-radius: 20px;
   box-shadow: 0 6px 18px rgba(13, 182, 145, 0.10);
   border: 1px solid rgba(0, 0, 0, 0.06);

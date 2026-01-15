@@ -2515,10 +2515,12 @@ export default {
 .surat-premium {
     position: relative;
     border-radius: 24px;
-    border: 1px solid rgba(15, 110, 99, 0.06);
-    background: linear-gradient(180deg, #ffffff 0%, #f7f7f3 55%, #f2f5f4 100%);
-    box-shadow: 0 18px 40px rgba(15, 53, 48, 0.08);
+    /* border: 1px solid rgba(15, 110, 99, 0.06); */
+    /* box-shadow: 0 18px 40px rgba(15, 53, 48, 0.08); */
     padding: 26px 22px 32px;
+    width: min(1500px, calc(100% - 32px));
+    max-width: none;
+    margin-inline: auto;
 }
 
 .surat-premium.has-audio-player {
@@ -2649,7 +2651,7 @@ export default {
     --surat-border: rgba(15, 110, 99, 0.18);
     --surat-shadow: 0 20px 46px rgba(15, 53, 48, 0.12);
     min-height: 100vh;
-    max-width: 1180px;
+    max-width: min(1800px, calc(100% - 24px));
     margin: 0 auto;
     color: var(--surat-ink);
     position: relative;
@@ -2691,7 +2693,7 @@ export default {
 
 .ayah-surface {
     border-radius: 18px;
-    background: #ffffff;
+    /* background: #ffffff; */
     border: 1px solid rgba(15, 110, 99, 0.07);
     box-shadow: 0 10px 26px rgba(15, 53, 48, 0.06);
     padding: 18px 20px;

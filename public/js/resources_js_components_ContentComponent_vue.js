@@ -275,6 +275,17 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     toggleVisibility() {
       this.isVisible = !this.isVisible;
     },
+    shortDescription(text, maxLength = 90) {
+      if (!text) return '';
+      const normalized = text.replace(/\s+/g, ' ').trim();
+      if (normalized.length <= maxLength) return normalized;
+      return normalized.slice(0, maxLength).replace(/\s+$/, '') + '…';
+    },
+    cardAccentGradient(podcast) {
+      const primary = podcast && podcast.accentPrimary || '#ecfdf5';
+      const secondary = podcast && podcast.accentSecondary || '#dbeefe';
+      return `linear-gradient(135deg, ${primary}, ${secondary})`;
+    },
     onSearchInput() {
       if (this.searchDebounceTimer) clearTimeout(this.searchDebounceTimer);
       this.searchDebounceTimer = setTimeout(() => {
