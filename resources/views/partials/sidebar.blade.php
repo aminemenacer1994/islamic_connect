@@ -52,6 +52,13 @@
       <span class="nav-label">Bookmarks</span>
      </a>
     </li>
+
+    <li class="nav-item" data-search="notes reflections journal admin">
+     <a href="/notes" class="nav-link {{ request()->is('notes*') ? 'active' : '' }}">
+      <i class="bi bi-journal-text nav-icon"></i>
+      <span class="nav-label">Notes</span>
+     </a>
+    </li>
     
     <li class="nav-item nav-divider">
      <hr class="sidebar-divider">

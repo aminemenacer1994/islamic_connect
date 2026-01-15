@@ -626,7 +626,6 @@ export default {
 <style>
 /* Enhanced Global Styles */
 .admin-page {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
   min-height: 100vh;
   padding: 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;

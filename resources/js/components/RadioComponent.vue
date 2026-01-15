@@ -1321,7 +1321,7 @@ const playAudio = (index) => {
 
 .filters-panel {
   border-radius: 16px;
-  background: linear-gradient(135deg, #eff4f8, #d9f7ef);
+  padding:20px;
   border: 1px solid rgba(6, 182, 172, 0.28);
   box-shadow: 0 8px 22px rgba(2, 44, 34, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.45);
   position: sticky;

@@ -892,7 +892,6 @@ body.has-admin-sidebar .badge[data-status="cancelled"] {
 
 /* Enhanced Global Styles */
 .admin-page {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
   min-height: 100vh;
   padding: 2rem;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
@@ -10290,6 +10289,24 @@ to { opacity: 0.2;
   transform: translateY(-2px);
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
 }
+.note-title[data-v-dfb236de] {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--admin-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.note-reference[data-v-dfb236de] {
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
 .note-chip[data-v-dfb236de] {
   display: inline-flex;
   align-items: center;
@@ -15008,7 +15025,7 @@ mark[data-v-7926cb50] {
 }
 .filters-panel[data-v-87252526] {
   border-radius: 16px;
-  background: linear-gradient(135deg, #eff4f8, #d9f7ef);
+  padding:20px;
   border: 1px solid rgba(6, 182, 172, 0.28);
   box-shadow: 0 8px 22px rgba(2, 44, 34, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.45);
   position: sticky;
@@ -33369,6 +33386,27 @@ to {
 /* Assuming existing CSS handles it, or I might need to adjust. */
 
 /* Based on provided code, I don't see the full original CSS. I'll append this to the end inside the style block */
+
+
+.reflection-pill.has-reflection[data-v-828f3036] {
+    color: #0f766e;
+    border-color: #0f766e;
+    background-color: rgba(15, 118, 110, 0.1);
+}
+.reflection-btn.has-reflection i[data-v-828f3036] {
+    color: #0f766e;
+}
+.reflection-note-info[data-v-828f3036] {
+    font-size: 0.95rem;
+    color: #475467;
+}
+.note-suggestions .btn[data-v-828f3036] {
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+}
+.reflection-modal .modal-body[data-v-828f3036] {
+    padding-bottom: 0.5rem;
+}
 
 
 .card-teal[data-v-828f3036] {

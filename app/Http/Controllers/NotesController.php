@@ -85,20 +85,23 @@ class NotesController extends Controller
 
     public function store(Request $request)
     {
+        if (!auth()->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
+        }
+
         // Validate the input data
         $validatedData = $request->validate([
             'surah_name' => 'nullable|string',
             'ayah_num' => 'nullable|string',
             'ayah_verse_ar' => 'nullable|string',
             'ayah_verse_en' => 'nullable|string',
-            'ayah_info' => 'nullable|string',
-            'ayah_notes' => 'required|string', 
+            'ayah_info' => 'required|string|max:255',
+            'ayah_notes' => 'required|string|min:10',
             'is_speech_to_text' => 'boolean',
         ]);
 
-        // Set the user ID to the effective user identifier
-        $user = auth()->user();
-        $validatedData['user_id'] = $user ? (int) $user->id : null;
+        // Assign to authenticated user
+        $validatedData['user_id'] = (int) auth()->id();
 
         // Handle file uploads (if applicable)
         if ($request->hasFile('ayah_images')) {

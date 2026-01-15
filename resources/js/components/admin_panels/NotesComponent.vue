@@ -22,16 +22,23 @@
      <span class="count-label">notes</span>
     </h3>
     <div class="row">
-      <div class="col-md-4 mb-4" v-for="note in filteredNotes" :key="note.id">
-        <div class="note-card">
+        <div class="col-md-4 mb-4" v-for="note in filteredNotes" :key="note.id">
+          <div class="note-card">
           <div class="note-chip">
             <i class="bi bi-journal-text me-1"></i>
             Note
           </div>
-          <div class="note-body" v-html="truncatedHtml(note.ayah_notes, 220)"></div>
-          <div class="note-meta">
-            <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(note.created_at) }}</span>
+          <div v-if="note.ayah_info" class="note-title">
+            {{ note.ayah_info }}
           </div>
+          <div v-if="note.surah_name || note.ayah_num" class="note-reference">
+            <span v-if="note.surah_name">{{ note.surah_name }}</span>
+            <span v-if="note.ayah_num"> • Ayah {{ note.ayah_num }}</span>
+          </div>
+          <div class="note-body" v-html="truncatedHtml(note.ayah_notes, 220)"></div>
+            <div class="note-meta">
+              <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(note.created_at) }}</span>
+            </div>
           <div class="note-actions" role="group" aria-label="Note actions">
             <button 
               type="button" 
@@ -68,83 +75,89 @@
    </div>
 
   <!-- Create Note Modal -->
-  <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true" data-bs-backdrop="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title text-dark" id="createNoteLabel"><strong>Create Note</strong></h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form @submit.prevent="createNote">
-            <div class="mb-3">
-              <label class="form-label">Notes</label>
-              <Editor theme="snow" v-model:content="newNote" contentType="html" class="editor"/>
-            </div>
-            <div class="d-flex justify-content-end gap-2">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" class="btn btn-primary">Create</button>
-            </div>
-          </form>
+  <teleport to="body">
+    <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true" data-bs-backdrop="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-dark" id="createNoteLabel"><strong>Create Note</strong></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="createNote">
+              <div class="mb-3">
+                <label class="form-label">Notes</label>
+                <Editor theme="snow" v-model:content="newNote" contentType="html" class="editor"/>
+              </div>
+              <div class="d-flex justify-content-end gap-2">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Create</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </teleport>
 
    <!-- Edit Note Modal -->
-   <div class="modal fade" id="editNotes" tabindex="-1" aria-labelledby="editNotesLabel" aria-hidden="true" data-bs-backdrop="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-     <div class="modal-content">
-      <div class="modal-header">
-       <h5 class="modal-title text-dark" id="editNotesLabel"><strong>Edit Note</strong></h5>
-       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-       <form @submit.prevent="updateNotes">
-        <div class="mb-3">
-         <label class="form-label"><b>Edit your note:</b></label>
-         <Editor theme="snow" v-model:content="form.ayah_notes" contentType="html" class="editor"/>
+   <teleport to="body">
+     <div class="modal fade" id="editNotes" tabindex="-1" aria-labelledby="editNotesLabel" aria-hidden="true" data-bs-backdrop="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+       <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title text-dark" id="editNotesLabel"><strong>Edit Note</strong></h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-         <button type="submit" class="btn btn-success">Update</button>
-        </div>
-       </form>
-      </div>
-     </div>
-    </div>
-   </div>
-  
-   <!-- View Note Modal -->
-   <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true" data-bs-backdrop="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-     <div class="modal-content">
-      <div class="modal-header">
-       <h5 class="modal-title text-dark" id="viewNotesLabel"><b>View Note</b></h5>
-       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-       <div class="container">
-        <div class="mb-3" v-if="form.surah_name">
-         <label class="form-label"><strong>Surah Name:</strong></label>
-         <p class="mt-2 text-dark text-left">{{ form.surah_name }}</p>
-        </div>
-        <div class="mb-3">
-         <label class="form-label"><strong>Notes:</strong></label>
-         <div class="mt-2 text-dark text-left" v-html="form.ayah_notes"></div>
-        </div>
-        <div class="mb-3">
-         <label class="form-label"><strong>Date Created:</strong></label>
-         <p class="mt-2 text-dark text-left">{{ extractDate(form.created_at) }}</p>
+        <div class="modal-body">
+         <form @submit.prevent="updateNotes">
+          <div class="mb-3">
+           <label class="form-label"><b>Edit your note:</b></label>
+           <Editor theme="snow" v-model:content="form.ayah_notes" contentType="html" class="editor"/>
+          </div>
+          <div class="modal-footer">
+           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+           <button type="submit" class="btn btn-success">Update</button>
+          </div>
+         </form>
         </div>
        </div>
       </div>
-      <div class="modal-footer">
-       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+     </div>
+   </teleport>
+  
+   <!-- View Note Modal -->
+   <teleport to="body">
+     <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true" data-bs-backdrop="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+       <div class="modal-content">
+        <div class="modal-header">
+         <h5 class="modal-title text-dark" id="viewNotesLabel"><b>View Note</b></h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+         <div class="container">
+          <div class="mb-3" v-if="form.surah_name">
+           <label class="form-label"><strong>Surah Name:</strong></label>
+           <p class="mt-2 text-dark text-left">{{ form.surah_name }}</p>
+          </div>
+          <div class="mb-3">
+           <label class="form-label"><strong>Notes:</strong></label>
+           <div class="mt-2 text-dark text-left" v-html="form.ayah_notes"></div>
+          </div>
+          <div class="mb-3">
+           <label class="form-label"><strong>Date Created:</strong></label>
+           <p class="mt-2 text-dark text-left">{{ extractDate(form.created_at) }}</p>
+          </div>
+         </div>
+        </div>
+        <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+       </div>
       </div>
      </div>
-    </div>
-   </div>
+   </teleport>
   
   </div>
 </template>
@@ -458,6 +471,26 @@ export default {
 .note-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
+}
+
+.note-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: var(--admin-ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note-reference {
+  font-size: 0.85rem;
+  color: var(--admin-muted);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .note-chip {

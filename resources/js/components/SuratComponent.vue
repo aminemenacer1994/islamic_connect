@@ -291,6 +291,19 @@
                                     <i class="bi bi-send" aria-hidden="true"></i>
                                     <span>Share</span>
                                 </button>
+                                <button type="button"
+                                    class="action-pill reflection-pill-fill"
+                                    :class="{ 'has-reflection': hasReflection(item.ayah) }"
+                                    @click.stop="openReflectionModal(item.ayah)"
+                                    :aria-label="hasReflection(item.ayah)
+                                        ? 'Edit reflection'
+                                        : 'Add reflection'"
+                                    :title="hasReflection(item.ayah)
+                                        ? 'Edit reflection'
+                                        : 'Add reflection'">
+                                    <i class="bi bi-journal-text" aria-hidden="true"></i>
+                                    <span>Reflect</span>
+                                </button>
                             </div>
                         </div>
                         <div class="row card-teal mb-3 py-2" style="
@@ -340,6 +353,19 @@
                                 </button>
                             </div>
                             <div class="col text-center" style="padding: 2px">
+                                <button class="icon-btn reflection-btn"
+                                    :class="{ 'has-reflection': hasReflection(item.ayah) }"
+                                    @click.stop="openReflectionModal(item.ayah)"
+                                    :aria-label="hasReflection(item.ayah)
+                                        ? 'Edit reflection'
+                                        : 'Add reflection'"
+                                    :title="hasReflection(item.ayah)
+                                        ? 'Edit reflection'
+                                        : 'Add reflection'">
+                                    <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                            <div class="col text-center" style="padding: 2px">
                                 <button class="icon-btn" :class="{
                                     'is-saved': isAyahSaved(item.ayah),
                                 }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
@@ -371,6 +397,81 @@
         </div>
 
         <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
+
+        <!-- Notes & Reflections Modal -->
+        <teleport to="body">
+            <div class="modal fade" id="ayahReflectionModal" tabindex="-1" aria-labelledby="reflectionModalLabel"
+                aria-hidden="true" data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+                    <div class="modal-content reflection-modal">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-dark" id="reflectionModalLabel">
+                                Reflect and Save a Thought
+                            </h5>
+                            <button type="button" class="btn-close" @click="hideReflectionModal" aria-label="Close reflection modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="reflection-note-info">
+                                Capture how this verse touched your heart. Notes & Reflections help you revisit
+                                lessons, keep track of spiritual growth, and our admin team can surface community highlights
+                                later if you choose to share.
+                                <strong>Both subject and message are required, and messages must be at least {{ reflectionMessageMinLength }} chars.</strong>
+                            </p>
+                            <form @submit.prevent="submitReflectionForm" novalidate>
+                                <div class="mb-3">
+                                    <label class="form-label">Subject</label>
+                                    <input type="text" class="form-control" v-model="reflectionForm.subject"
+                                        placeholder="Give this reflection a title" required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Message</label>
+                                    <textarea class="form-control" v-model="reflectionForm.message" rows="4"
+                                        :minlength="reflectionMessageMinLength"
+                                        placeholder="Write how this verse inspires you"
+                                        required></textarea>
+                                    <div class="d-flex justify-content-between align-items-center mt-1">
+                                        <small class="text-muted">Message must be at least {{ reflectionMessageMinLength }} characters.</small>
+                                        <small class="text-muted">{{ (reflectionForm.message || '').trim().length }} characters</small>
+                                    </div>
+                                </div>
+                                <div class="note-suggestions mb-3">
+                                    <p class="mb-1 fw-semibold">Subject suggestions</p>
+                                    <div class="d-flex flex-wrap gap-2 mb-2">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            v-for="subject in reflectionSubjectSuggestions" :key="subject"
+                                            @click="applySubjectSuggestion(subject)">
+                                            {{ subject }}
+                                        </button>
+                                    </div>
+                                    <p class="mb-1 fw-semibold">Message prompts</p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm"
+                                            v-for="prompt in reflectionMessageSuggestions" :key="prompt"
+                                            @click="applyMessageSuggestion(prompt)">
+                                            {{ prompt }}
+                                        </button>
+                                    </div>
+                                </div>
+                                <div v-if="reflectionErrorMessage" class="text-danger small mb-3">
+                                    {{ reflectionErrorMessage }}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-secondary" @click="hideReflectionModal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary"
+                                        :disabled="!canSubmitReflection || isSavingReflection">
+                                        <span v-if="isSavingReflection" class="spinner-border spinner-border-sm me-2"
+                                            role="status" aria-hidden="true"></span>
+                                        Save reflection
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
 
         <!-- Global Custom Audio Player -->
         <teleport to="body">
@@ -565,6 +666,28 @@ export default {
             deepLinkTarget: null,
             deepLinkHandled: false,
             bookmarkAuthenticated: false,
+            ayahReflections: {},
+            reflectionModalId: "ayahReflectionModal",
+            reflectionModalInstance: null,
+            selectedAyahForReflection: null,
+            reflectionForm: {
+                subject: "",
+                message: "",
+            },
+            reflectionSubjectSuggestions: [
+                "Gratitude for divine guidance",
+                "How this verse comforts me",
+                "Commitment to the lesson",
+            ],
+            reflectionMessageSuggestions: [
+                "This reminded me to pause and thank Allah for His mercy.",
+                "I can implement this by showing patience with my family today.",
+                "I feel my trust in Allah growing every time I read this.",
+                "Let this verse guide the way I handle challenges.",
+            ],
+            reflectionMessageMinLength: 10,
+            reflectionErrorMessage: "",
+            isSavingReflection: false,
         };
     },
     computed: {
@@ -629,6 +752,11 @@ export default {
             const end = Math.max(this.visibleEnd, this.visibleStart);
             const remaining = Math.max(0, this.totalItems - end);
             return remaining * this.itemHeight;
+        },
+        canSubmitReflection() {
+            const subject = (this.reflectionForm.subject || "").trim();
+            const message = (this.reflectionForm.message || "").trim();
+            return subject.length > 0 && message.length >= this.reflectionMessageMinLength;
         },
     },
     watch: {
@@ -1023,6 +1151,9 @@ export default {
             await this.evaluateBookmarkAuth();
             await this.loadSavedAyahs();
             await this.syncSavedAyahsFromApi();
+            if (this.bookmarkAuthenticated) {
+                await this.loadAyahReflections();
+            }
         },
         async evaluateBookmarkAuth() {
             const userId = await fetchUserIdFromApi();
@@ -1252,16 +1383,214 @@ export default {
                 window.location.href = "/bookmarks";
             }
         },
-        async ensureAuthenticated() {
+        hasReflection(ayah) {
+            if (!ayah) return false;
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            if (!surahNumber || !ayahNumber) return false;
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            return !!this.ayahReflections[key];
+        },
+        async openReflectionModal(ayah) {
+            if (!ayah) return;
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            if (!surahNumber || !ayahNumber) return;
+
+            const isAuthed = await this.ensureAuthenticated(
+                "Please log in to save reflections."
+            );
+            if (!isAuthed) return;
+
+            if (this.bookmarkAuthenticated && !Object.keys(this.ayahReflections).length) {
+                await this.loadAyahReflections();
+            }
+
+            const surahLabel =
+                this.surahDetails?.englishName ||
+                this.surahDetails?.name ||
+                "Surah";
+            const surahName = `${surahNumber} - ${surahLabel}`;
+
+            this.selectedAyahForReflection = {
+                surahNumber,
+                ayahNumber,
+                surahName,
+                ayahArabic: ayah.text || "",
+                ayahTranslation: ayah.translation || "",
+            };
+
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const existing = this.ayahReflections[key];
+            this.reflectionForm.subject = existing?.subject || "";
+            this.reflectionForm.message = existing?.message || "";
+            this.reflectionErrorMessage = "";
+            this.isSavingReflection = false;
+
+            this.$nextTick(() => {
+                const modalEl = document.getElementById(this.reflectionModalId);
+                if (!modalEl) return;
+                this.reflectionModalInstance =
+                    Modal.getInstance(modalEl) || new Modal(modalEl);
+                this.reflectionModalInstance.show();
+            });
+        },
+        hideReflectionModal() {
+            const modalEl = document.getElementById(this.reflectionModalId);
+            const modal =
+                this.reflectionModalInstance ||
+                (modalEl ? Modal.getInstance(modalEl) : null);
+            if (modal) {
+                modal.hide();
+            }
+            this.reflectionModalInstance = null;
+            this.selectedAyahForReflection = null;
+            this.clearReflectionForm();
+            this.reflectionErrorMessage = "";
+        },
+        clearReflectionForm() {
+            this.reflectionForm.subject = "";
+            this.reflectionForm.message = "";
+        },
+        applySubjectSuggestion(text) {
+            this.reflectionForm.subject = text;
+        },
+        applyMessageSuggestion(text) {
+            this.reflectionForm.message = text;
+        },
+        async submitReflectionForm() {
+            const subject = (this.reflectionForm.subject || "").trim();
+            const message = (this.reflectionForm.message || "").trim();
+            if (!subject) {
+                this.reflectionErrorMessage = "Please enter a subject for your reflection.";
+                return;
+            }
+            if (!message) {
+                this.reflectionErrorMessage = "Add a reflection message to continue.";
+                return;
+            }
+            if (message.length < this.reflectionMessageMinLength) {
+                this.reflectionErrorMessage = `Reflection must be at least ${this.reflectionMessageMinLength} characters.`;
+                return;
+            }
+            if (!this.selectedAyahForReflection) return;
+
+            this.reflectionErrorMessage = "";
+            this.isSavingReflection = true;
+
+            const {
+                surahNumber,
+                ayahNumber,
+                surahName,
+                ayahArabic,
+                ayahTranslation,
+            } = this.selectedAyahForReflection;
+            const payload = {
+                surah_name: surahName,
+                ayah_num: String(ayahNumber),
+                ayah_verse_ar: ayahArabic,
+                ayah_verse_en: ayahTranslation,
+                ayah_info: subject,
+                ayah_notes: message,
+                is_speech_to_text: false,
+            };
+
+            try {
+                const response = await axios.post("/api/submit-note", payload);
+                const note = response.data?.note || null;
+                const key = this.buildAyahKey(surahNumber, ayahNumber);
+                const nextEntry = {
+                    id: note?.id || null,
+                    subject,
+                    message,
+                    surah_name: payload.surah_name,
+                    ayah_verse_ar: ayahArabic,
+                    ayah_verse_en: ayahTranslation,
+                };
+                this.ayahReflections = {
+                    ...this.ayahReflections,
+                    [key]: nextEntry,
+                };
+                this.showToast("Reflection saved.", 4000);
+                this.announce("Reflection saved.");
+                this.hideReflectionModal();
+            } catch (error) {
+                console.error("Error saving reflection", error);
+                this.reflectionErrorMessage =
+                    error?.response?.data?.message ||
+                    "Unable to save reflection right now.";
+                this.showToast(
+                    "Unable to save reflection. Please try again.",
+                    3000
+                );
+            } finally {
+                this.isSavingReflection = false;
+            }
+        },
+        async loadAyahReflections() {
+            if (!this.bookmarkAuthenticated) return;
+            try {
+                const response = await axios.get("/api/fetch-notes");
+                const notes = Array.isArray(response.data)
+                    ? response.data
+                    : response.data?.notes || [];
+                const next = {};
+                notes.forEach((note) => {
+                    const surahNumber = this.extractSurahNumberFromNoteName(
+                        note.surah_name
+                    );
+                    const ayahNumber = Number(note.ayah_num);
+                    if (!surahNumber || !ayahNumber) return;
+                    const key = this.buildAyahKey(surahNumber, ayahNumber);
+                    next[key] = {
+                        id: note.id,
+                        subject: (note.ayah_info || "").trim(),
+                        message: this.stripHtmlTags(note.ayah_notes),
+                        surah_name: note.surah_name,
+                        ayah_verse_ar: note.ayah_verse_ar,
+                        ayah_verse_en: note.ayah_verse_en,
+                    };
+                });
+                this.ayahReflections = next;
+            } catch (error) {
+                console.error("Error loading reflections", error);
+            }
+        },
+        extractSurahNumberFromNoteName(name) {
+            if (!name) return null;
+            const trimmed = name.trim();
+            const match = /^(\d+)/.exec(trimmed);
+            if (match) {
+                return Number(match[1]);
+            }
+            const fallback = trimmed.split(/\D+/);
+            for (const part of fallback) {
+                const num = Number(part);
+                if (!Number.isNaN(num)) return num;
+            }
+            return null;
+        },
+        stripHtmlTags(value) {
+            if (!value) return "";
+            const div = document.createElement("div");
+            div.innerHTML = value;
+            return (div.textContent || div.innerText || "").trim();
+        },
+        async ensureAuthenticated(
+            message = "Please log in to access bookmarks & reflections."
+        ) {
             const userId = await fetchUserIdFromApi();
-            if (userId) {
+            const isAuthed = !!userId;
+            if (isAuthed) {
+                this.bookmarkAuthenticated = true;
                 return true;
             }
-            this.showAuthAlert();
+            this.bookmarkAuthenticated = false;
+            this.showAuthAlert(message);
             return false;
         },
-        showAuthAlert() {
-            this.authAlert = "Please log in to use bookmarks.";
+        showAuthAlert(message = "Please log in to access bookmarks & reflections.") {
+            this.authAlert = message;
             clearTimeout(this.authAlertTimer);
             this.authAlertTimer = setTimeout(() => {
                 this.authAlert = "";
@@ -2493,6 +2822,28 @@ export default {
     },
 };
 </script>
+
+<style scoped>
+.reflection-pill.has-reflection {
+    color: #0f766e;
+    border-color: #0f766e;
+    background-color: rgba(15, 118, 110, 0.1);
+}
+.reflection-btn.has-reflection i {
+    color: #0f766e;
+}
+.reflection-note-info {
+    font-size: 0.95rem;
+    color: #475467;
+}
+.note-suggestions .btn {
+    border-radius: 999px;
+    padding: 0.35rem 0.9rem;
+}
+.reflection-modal .modal-body {
+    padding-bottom: 0.5rem;
+}
+</style>
 
 <style scoped>
 .card-teal {
