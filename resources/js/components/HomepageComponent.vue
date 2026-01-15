@@ -48,15 +48,15 @@
                     <div class="mt-3 d-flex align-items-center ic-trust ic-reveal" style="--ic-delay: 0.5s;">
                       <div class="d-flex align-items-center">
                         <i class="fas fa-shield-alt text-success me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">Secure Platform</small>
+                        <small style="color: #4a5568; font-weight: 800;">Secure Platform</small>
                       </div>
                       <div class="d-flex align-items-center">
                         <i class="fas fa-clock text-warning me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">Instant Access</small>
+                        <small style="color: #4a5568; font-weight: 800;">Instant Access</small>
                       </div>
                       <div class="d-flex align-items-center">
                         <i class="fas fa-user-check text-info me-2"></i>
-                        <small style="color: #4a5568; font-weight: 600;">No Registration</small>
+                        <small style="color: #4a5568; font-weight: 800;">No Registration</small>
                       </div>
                     </div>
 
@@ -1790,9 +1790,6 @@
   
 }
 
-.hero-wrapper {
-  padding: clamp(2rem, 3.5vw, 3rem) 0 2rem;
-}
 
 @media (min-width: 992px) {
   .hero-wrapper {
@@ -2760,7 +2757,7 @@ h4 {
   }
 
   .lead {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
   }
 
   .py-4 {

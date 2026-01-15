@@ -4213,9 +4213,6 @@ p.fs-6[data-v-2ba25654] {
 }
 @media (max-width: 768px) {
 }
-.hero-wrapper[data-v-2ba25654] {
-  padding: clamp(2rem, 3.5vw, 3rem) 0 2rem;
-}
 @media (min-width: 992px) {
 .hero-wrapper[data-v-2ba25654] {
     padding: clamp(2.5rem, 3vw, 3.25rem) 0 2.5rem;
@@ -4868,7 +4865,7 @@ h4[data-v-2ba25654] {
     font-size: 2rem !important;
 }
 .lead[data-v-2ba25654] {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
 }
 .py-4[data-v-2ba25654] {
     padding-top: 2rem !important;
@@ -14518,11 +14515,13 @@ h1 {
   --dua-ink: #0f172a;
   --dua-muted: #5b6470;
   --dua-surface: #ffffff;
-  --dua-soft: #f7f5f0;
+  --dua-soft: #fdf9f1;
   --dua-border: #e5e0d6;
   background: transparent;
   border: 0;
   border-radius: 28px;
+  padding: 3rem 1rem 3.5rem;
+  box-shadow: 0 35px 70px rgba(11, 38, 34, 0.12);
 }
 .dua-hero[data-v-7926cb50] {
   background: var(--dua-surface);
@@ -14750,16 +14749,69 @@ h1 {
 
 /* Base Card Styles */
 .dua-card[data-v-7926cb50] {
-  border-radius: 18px;
+  border-radius: 24px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   background-color: var(--dua-surface);
   margin-bottom: 1.5rem;
-  border: 1px solid var(--dua-border);
-  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.08);
+  border: 1px solid rgba(15, 41, 32, 0.08);
+  box-shadow: 0 24px 45px rgba(15, 41, 32, 0.1);
 }
 .dua-card[data-v-7926cb50]:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 18px 30px rgba(15, 41, 32, 0.14) !important;
+  box-shadow: 0 34px 60px rgba(15, 41, 32, 0.16) !important;
+}
+.dua-card-title-row[data-v-7926cb50] {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(15, 41, 32, 0.07);
+}
+.dua-card-icon[data-v-7926cb50] {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+.dua-card-icon img[data-v-7926cb50] {
+  filter: drop-shadow(0 2px 6px rgba(2, 17, 18, 0.5));
+}
+.dua-card-arabic-panel[data-v-7926cb50] {
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  background: #f7f7fb;
+  border: 1px solid rgba(15, 41, 32, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  text-align: right;
+}
+.dua-card-translation-wrap[data-v-7926cb50] {
+  border-left: 3px solid rgba(11, 128, 111, 0.25);
+  padding-left: 1rem;
+}
+.dua-card-footer[data-v-7926cb50] {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid rgba(15, 41, 32, 0.08);
+  margin-top: 1.25rem;
+}
+.dua-card-footer .font-control[data-v-7926cb50] {
+  border: none;
+  background: rgba(11, 128, 111, 0.08);
+}
+.dua-card-footer .action-btn[data-v-7926cb50] {
+  background: rgba(11, 128, 111, 0.07);
+  border: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.dua-card-footer .action-btn[data-v-7926cb50]:hover {
+  background: rgba(11, 128, 111, 0.25);
 }
 .liked-badge[data-v-7926cb50] {
   width: 32px;
@@ -14779,6 +14831,8 @@ h1 {
 .translation-text[data-v-7926cb50] {
   color: var(--dua-muted);
   font-style: italic;
+  font-weight: 500;
+  opacity: 0.9;
 }
 .reference-text[data-v-7926cb50] {
   font-style: italic;
@@ -36202,7 +36256,6 @@ to {
 .list-group[data-v-26d79603] {
   margin-top: 1.5rem;
   padding: 0;
-  display: grid;
   grid-template-columns: repeat(2, minmax(240px, 1fr));
   gap: 1rem;
 }
@@ -36243,6 +36296,7 @@ to {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 .resource-list-item__actions .btn[data-v-26d79603] {
   border-radius: 8px;

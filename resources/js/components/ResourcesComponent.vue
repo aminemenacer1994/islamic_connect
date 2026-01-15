@@ -162,12 +162,7 @@ export default {
               features: ['Sahih Bukhari & Muslim', 'Grading included', 'Arabic & English'],
               link: 'https://play.google.com/store/apps/details?id=com.greentech.hadith',
             },
-            {
-              title: 'Muslim Central',
-              description: 'One-stop hub for authentic lectures, podcasts, and dua reminders.',
-              features: ['Hundreds of Islamic podcasts', 'Downloadable lectures', 'Daily reminders'],
-              link: 'https://muslimcentral.com',
-            },
+            
           ],
         },
         {
@@ -205,12 +200,7 @@ export default {
               features: ['Prayer times', 'Hijri calendar', 'Articles & tools'],
               link: 'https://www.islamicfinder.org',
             },
-            {
-              title: 'Al-Islam.org',
-              description: 'Comprehensive library built for seekers of Islamic knowledge.',
-              features: ['Scholarly articles', 'Historical sources', 'Spiritual reflections'],
-              link: 'https://www.al-islam.org',
-            },
+            
           ],
         },
         {
@@ -248,12 +238,7 @@ export default {
               features: ['Imam Nawawi', 'Focused on ethics'],
               link: 'https://sunnah.com/nawawi40',
             },
-            {
-              title: 'Purification of the Heart',
-              description: 'Imam al-Mawlud explains the diseases of the heart and how to cleanse them.',
-              features: ['Practical steps', 'Rooted in hadith', 'English commentary available'],
-              link: 'https://www.goodreads.com/book/show/129893.Purification_of_the_Heart',
-            },
+            
           ],
         },
         {
@@ -291,12 +276,7 @@ export default {
               features: ['Uthmani script', 'Khat El-Madina', 'Verse indexes'],
               link: 'https://qurancomplex.gov.sa',
             },
-            {
-              title: 'Tafsir Al-Muyassar',
-              description: 'Modern accessible tafsir offered by the Saudi Ministry of Islamic Affairs.',
-              features: ['Clear Arabic & English', 'Summaries per verse'],
-              link: 'https://qurancomplex.gov.sa/en/tafseer',
-            },
+            
           ],
         },
       ],
@@ -407,7 +387,6 @@ export default {
 .list-group {
   margin-top: 1.5rem;
   padding: 0;
-  display: grid;
   grid-template-columns: repeat(2, minmax(240px, 1fr));
   gap: 1rem;
 }
@@ -455,6 +434,7 @@ export default {
   display: flex;
   gap: 0.5rem;
   flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .resource-list-item__actions .btn {

@@ -215,23 +215,30 @@
 
               <!-- Card Body -->
               <div class="card-body d-flex flex-column p-3 p-md-4 text-black">
-                <!-- Title -->
-                <h4 class="card-title fw-semibold mb-3 position-relative pb-2" :id="`dua-title-${dua.id}`"
-                  :style="{ fontSize: 'calc(var(--font-size-base) * 1)' }"><img src="images/art.png" width="20px"
-                    class="me-2 " alt="Category icon" /> <span v-html="highlightText(dua.title)"></span>
-                </h4>
+                <!-- Title with icon -->
+                <div class="dua-card-title-row mb-3">
+                  <span class="dua-card-icon" aria-hidden="true">
+                    <img src="images/art.png" width="20" height="20" alt="" />
+                  </span>
+                  <h4 class="card-title fw-semibold mb-0" :id="`dua-title-${dua.id}`"
+                    :style="{ fontSize: 'calc(var(--font-size-base) * 1)' }">
+                    <span v-html="highlightText(dua.title)"></span>
+                  </h4>
+                </div>
 
                 <!-- Arabic Text -->
-                <div class="rounded-3 p-3 mb-3 text-center shadow-md bg-light">
+                <div class="dua-card-arabic-panel shadow-sm mb-3">
                   <p class="mb-0 font-arabic" lang="ar" dir="rtl"
                     :style="{ fontSize: 'calc(var(--font-size-base) * 1.5)', lineHeight: '2.5' }"
                     v-html="highlightText(dua.arabic)" aria-label="Dua in Arabic"></p>
                 </div>
 
                 <!-- Translation -->
-                <p class="mb-3 translation-text text-muted"
-                  :style="{ fontSize: 'calc(var(--font-size-base))', lineHeight: '1.6' }"
-                  v-html="highlightText(dua.translation)" aria-label="Dua translation"></p>
+                <div class="dua-card-translation-wrap mb-2">
+                  <p class="mb-0 translation-text text-muted"
+                    :style="{ fontSize: 'calc(var(--font-size-base))', lineHeight: '1.6' }"
+                    v-html="highlightText(dua.translation)" aria-label="Dua translation"></p>
+                </div>
 
                 <!-- Reference -->
                 <p class="text-muted mb-0 reference-text" :style="{ fontSize: 'calc(var(--font-size-base) * 0.9)' }"
@@ -239,10 +246,10 @@
               </div>
 
               <!-- Card Footer with Actions -->
-              <div class="card-footer bg-light p-2 p-md-3">
+              <div class="card-footer dua-card-footer border-0 px-3 py-2 py-md-3">
                 <div class="d-flex justify-content-between align-items-center w-100">
                   <!-- Font Controls -->
-                  <div class="d-flex align-items-center bg-white rounded-pill px-2 shadow-sm font-control">
+                  <div class="d-flex align-items-center rounded-pill px-2 shadow-sm font-control">
                     <button class="btn btn-link p-1 font-control-btn" @click="changeFontSize('decrease')"
                       :disabled="fontSize <= 14" aria-label="Decrease Font Size">
                       <i class="bi bi-dash-circle-fill fs-5"></i>
@@ -849,11 +856,13 @@ export default {
   --dua-ink: #0f172a;
   --dua-muted: #5b6470;
   --dua-surface: #ffffff;
-  --dua-soft: #f7f5f0;
+  --dua-soft: #fdf9f1;
   --dua-border: #e5e0d6;
   background: transparent;
   border: 0;
   border-radius: 28px;
+  padding: 3rem 1rem 3.5rem;
+  box-shadow: 0 35px 70px rgba(11, 38, 34, 0.12);
 }
 
 .dua-hero {
@@ -1117,17 +1126,79 @@ export default {
 
 /* Base Card Styles */
 .dua-card {
-  border-radius: 18px;
+  border-radius: 24px;
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   background-color: var(--dua-surface);
   margin-bottom: 1.5rem;
-  border: 1px solid var(--dua-border);
-  box-shadow: 0 12px 24px rgba(15, 41, 32, 0.08);
+  border: 1px solid rgba(15, 41, 32, 0.08);
+  box-shadow: 0 24px 45px rgba(15, 41, 32, 0.1);
 }
 
 .dua-card:hover {
   transform: translateY(-0.25rem);
-  box-shadow: 0 18px 30px rgba(15, 41, 32, 0.14) !important;
+  box-shadow: 0 34px 60px rgba(15, 41, 32, 0.16) !important;
+}
+
+.dua-card-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid rgba(15, 41, 32, 0.07);
+}
+
+.dua-card-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+}
+
+.dua-card-icon img {
+  filter: drop-shadow(0 2px 6px rgba(2, 17, 18, 0.5));
+}
+
+.dua-card-arabic-panel {
+  border-radius: 20px;
+  padding: 1.75rem 1.5rem;
+  background: #f7f7fb;
+  border: 1px solid rgba(15, 41, 32, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  text-align: right;
+}
+
+.dua-card-translation-wrap {
+  border-left: 3px solid rgba(11, 128, 111, 0.25);
+  padding-left: 1rem;
+}
+
+.dua-card-footer {
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 0 0;
+  border-top: 1px solid rgba(15, 41, 32, 0.08);
+  margin-top: 1.25rem;
+}
+
+.dua-card-footer .font-control {
+  border: none;
+  background: rgba(11, 128, 111, 0.08);
+}
+
+.dua-card-footer .action-btn {
+  background: rgba(11, 128, 111, 0.07);
+  border: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.dua-card-footer .action-btn:hover {
+  background: rgba(11, 128, 111, 0.25);
 }
 
 .liked-badge {
@@ -1148,6 +1219,8 @@ export default {
 .translation-text {
   color: var(--dua-muted);
   font-style: italic;
+  font-weight: 500;
+  opacity: 0.9;
 }
 
 .reference-text {

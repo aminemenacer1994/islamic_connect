@@ -44,11 +44,6 @@ __webpack_require__.r(__webpack_exports__);
           description: 'Large collection of authentic hadith books.',
           features: ['Sahih Bukhari & Muslim', 'Grading included', 'Arabic & English'],
           link: 'https://play.google.com/store/apps/details?id=com.greentech.hadith'
-        }, {
-          title: 'Muslim Central',
-          description: 'One-stop hub for authentic lectures, podcasts, and dua reminders.',
-          features: ['Hundreds of Islamic podcasts', 'Downloadable lectures', 'Daily reminders'],
-          link: 'https://muslimcentral.com'
         }]
       }, {
         title: 'Websites',
@@ -79,11 +74,6 @@ __webpack_require__.r(__webpack_exports__);
           description: 'One of the oldest and most reliable Islamic portals.',
           features: ['Prayer times', 'Hijri calendar', 'Articles & tools'],
           link: 'https://www.islamicfinder.org'
-        }, {
-          title: 'Al-Islam.org',
-          description: 'Comprehensive library built for seekers of Islamic knowledge.',
-          features: ['Scholarly articles', 'Historical sources', 'Spiritual reflections'],
-          link: 'https://www.al-islam.org'
         }]
       }, {
         title: 'Books',
@@ -114,11 +104,6 @@ __webpack_require__.r(__webpack_exports__);
           description: 'Concise collection of prophetic teachings on creed and manners.',
           features: ['Imam Nawawi', 'Focused on ethics'],
           link: 'https://sunnah.com/nawawi40'
-        }, {
-          title: 'Purification of the Heart',
-          description: 'Imam al-Mawlud explains the diseases of the heart and how to cleanse them.',
-          features: ['Practical steps', 'Rooted in hadith', 'English commentary available'],
-          link: 'https://www.goodreads.com/book/show/129893.Purification_of_the_Heart'
         }]
       }, {
         title: 'Scriptures',
@@ -149,11 +134,6 @@ __webpack_require__.r(__webpack_exports__);
           description: 'Standard Arabic Quranic mushaf with vowels, borders, and summaries.',
           features: ['Uthmani script', 'Khat El-Madina', 'Verse indexes'],
           link: 'https://qurancomplex.gov.sa'
-        }, {
-          title: 'Tafsir Al-Muyassar',
-          description: 'Modern accessible tafsir offered by the Saudi Ministry of Islamic Affairs.',
-          features: ['Clear Arabic & English', 'Summaries per verse'],
-          link: 'https://qurancomplex.gov.sa/en/tafseer'
         }]
       }],
       modalItem: null,
