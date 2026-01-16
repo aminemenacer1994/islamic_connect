@@ -6245,6 +6245,9 @@ to { opacity: 1; transform: translateY(0);
 }
 .w-100[data-v-7416ffac] { width: 100%;
 }
+[data-v-7416ffac] .p-dropdown-filter-icon {
+  display: none;
+}
 .glossy[data-v-7416ffac] .p-dropdown {
   width: 100%;
   background: var(--surface-2);

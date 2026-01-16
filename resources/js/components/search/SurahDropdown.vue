@@ -198,6 +198,10 @@ export default {
 
 .w-100 { width: 100%; }
 
+:deep(.p-dropdown-filter-icon) {
+  display: none;
+}
+
 .glossy :deep(.p-dropdown) {
   width: 100%;
   background: var(--surface-2);
