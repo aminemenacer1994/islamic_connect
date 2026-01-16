@@ -184,7 +184,7 @@
         {{ fetchError }}
       </div>
       <div class="episodes-filters-bar-wrapper"
-           :style="'background:#fff;border:1px solid #e5ecef;border-radius:10px;padding:.5rem .75rem;margin-bottom:1rem;position:sticky;top:8px;z-index:50'">
+           :style="'background:linear-gradient(135deg,#f5fff1 0%,#e0f6ec 60%,#d3edf5 100%);border:1px solid rgba(11,179,154,0.25);border-radius:10px;padding:.5rem .75rem;margin-bottom:1rem;position:sticky;top:8px;z-index:50'">
         <div class="row g-2 align-items-center">
           <!-- Search -->
           <div class="col-12 col-md-6 order-2 order-md-1">
@@ -3251,8 +3251,9 @@ export default {
 }
 
 .episodes-filters-bar-wrapper {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: linear-gradient(135deg, #f5fff1 0%, #e0f6ec 60%, #d3edf5 100%);
   border-radius: 20px;
+  border: 1px solid rgba(11, 179, 154, 0.25);
   box-shadow: 0 2px 12px rgba(11, 179, 154, 0.08);
   padding: 1rem 1rem;
   margin-bottom: 2.2rem;

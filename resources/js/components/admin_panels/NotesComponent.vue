@@ -1,32 +1,35 @@
 <template>
   <div class="admin-page">
-  
-   <!-- Notes Container -->
-  <div class="pt-4">
-    <div class="toolbar-row mb-3">
-      <div class="input-group admin-search">
-        <span class="input-group-text"><i class="bi bi-search"></i></span>
-        <input v-model="query" class="form-control" placeholder="Search notes..." />
+    <div class="pt-4">
+      <div class="search-toolbar-panel mb-3">
+        <div class="toolbar-row">
+          <div class="admin-search-wrapper">
+            <div class="input-group admin-search">
+              <span class="input-group-text"><i class="bi bi-search"></i></span>
+              <input v-model="query" class="form-control" placeholder="Search notes..." />
+            </div>
+          </div>
+          <div class="filters d-flex align-items-center gap-2">
+            <select v-model="surahFilter" class="form-select">
+              <option value="all">All surahs</option>
+              <option v-for="(surah, idx) in surahFilterOptions" :key="`filter-${surah}-${idx}`" :value="surah">
+                {{ surah }}
+              </option>
+            </select>
+            <select v-model="sortBy" class="form-select">
+              <option value="newest">Newest first</option>
+              <option value="oldest">Oldest first</option>
+            </select>
+            <select v-model="lengthFilter" class="form-select">
+              <option value="all">Any length</option>
+              <option value="short">Short (under 100 chars)</option>
+              <option value="medium">Medium (100‑199 chars)</option>
+              <option value="long">Long (200+ chars)</option>
+            </select>
+          </div>
+        </div>
       </div>
-      <div class="filters d-flex align-items-center gap-2">
-        <select v-model="surahFilter" class="form-select">
-          <option value="all">All surahs</option>
-          <option v-for="(surah, idx) in surahFilterOptions" :key="`filter-${surah}-${idx}`" :value="surah">
-            {{ surah }}
-          </option>
-        </select>
-        <select v-model="sortBy" class="form-select">
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
-        </select>
-        <select v-model="lengthFilter" class="form-select">
-          <option value="all">Any length</option>
-          <option value="short">Short (under 100 chars)</option>
-          <option value="medium">Medium (100‑199 chars)</option>
-          <option value="long">Long (200+ chars)</option>
-        </select>
-      </div>
-    </div>
+
     <h3 class="pb-3 text-center admin-count">
      <span class="count-label">You have</span>
      <span class="count-pill">{{ notes.length }}</span>
@@ -96,8 +99,8 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
-   </div>
 
     <!-- Create Note Modal -->
     <teleport to="body">
@@ -585,7 +588,100 @@ export default {
 
 <style scoped>
 .admin-search {
-  max-width: 380px;
+  max-width: 460px;
+  width: 100%;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), #eef8f4);
+  border-radius: 28px;
+  padding: 0.25rem 0.35rem;
+  box-shadow: 0 15px 40px rgba(4, 120, 87, 0.15);
+  border: 1px solid rgba(15, 110, 99, 0.14);
+  transition: border-color 0.3s ease, transform 0.3s ease;
+}
+.admin-search:focus-within {
+  border-color: rgba(15, 110, 99, 0.6);
+  transform: translateY(-1px);
+}
+
+.admin-search .input-group {
+  background: transparent;
+  padding: 0;
+  border: none;
+}
+
+.admin-search .input-group-text {
+  background: transparent;
+  border: none;
+  color: #0f766e;
+  font-size: 1.1rem;
+}
+
+.admin-search .form-control {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #0f172a;
+  padding-left: 0;
+  letter-spacing: 0.01em;
+}
+
+.admin-search .form-control::placeholder {
+  color: #657483;
+  opacity: 1;
+  font-weight: 400;
+}
+
+.admin-search .form-control:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.search-toolbar-panel {
+  border-radius: 30px;
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(232, 245, 240, 0.95));
+  border: 1px solid rgba(15, 110, 99, 0.18);
+  box-shadow: 0 20px 50px rgba(4, 120, 87, 0.15);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.filters {
+  margin-left: auto;
+}
+
+.admin-search-wrapper {
+  flex: 1 1 320px;
+  min-width: 450px;
+}
+
+.admin-count {
+  font-size: 1.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  display: flex;
+  justify-content: center;
+  gap: 0.8rem;
+  color: #0f2f23;
+}
+
+.count-pill {
+  background: rgba(15, 118, 110, 0.12);
+  padding: 0.2rem 0.85rem;
+  border-radius: 999px;
+  font-weight: 700;
+  border: 1px solid rgba(15, 118, 110, 0.3);
+}
+
+.count-label {
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  color: #526066;
 }
 
 .toolbar-row {

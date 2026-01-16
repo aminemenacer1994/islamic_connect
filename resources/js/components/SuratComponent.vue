@@ -498,6 +498,28 @@
                                 <div v-if="reflectionErrorMessage" class="alert alert-danger py-2 small">
                                     {{ reflectionErrorMessage }}
                                 </div>
+                                <div v-if="currentAyahReflections.length" class="reflection-history mt-4">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <span class="fw-semibold text-dark small-title">Saved reflections</span>
+                                        <small class="text-muted">
+                                            {{ currentAyahReflections.length }} {{ currentAyahReflections.length === 1 ? 'reflection' : 'reflections' }}
+                                        </small>
+                                    </div>
+                                    <div class="reflection-history-list">
+                                        <article
+                                            v-for="(note, index) in currentAyahReflections"
+                                            :key="note.id || index"
+                                            class="reflection-history-entry mb-3"
+                                        >
+                                            <p class="reflection-history-subject mb-1">
+                                                {{ note.subject || 'Untitled reflection' }}
+                                            </p>
+                                            <p class="reflection-history-message mb-0">
+                                                {{ note.message }}
+                                            </p>
+                                        </article>
+                                    </div>
+                                </div>
                                 <div class="modal-footer justify-content-end border-0 p-0 mt-2 gap-2 small-actions">
                                     <button type="button" class="btn btn-outline-secondary btn-lg" @click="hideReflectionModal">
                                         Cancel
@@ -709,11 +731,12 @@ export default {
             deepLinkTarget: null,
             deepLinkHandled: false,
             bookmarkAuthenticated: false,
-            ayahReflections: {},
+            ayahReflections: {}, // key -> array of reflection entries
             reflectionModalId: "ayahReflectionModal",
             reflectionModalInstance: null,
             reflectionModalHiddenHandler: null,
             selectedAyahForReflection: null,
+            selectedReflectionKey: "",
             reflectionForm: {
                 subject: "",
                 message: "",
@@ -809,6 +832,11 @@ export default {
             const end = Math.max(this.visibleEnd, this.visibleStart);
             const remaining = Math.max(0, this.totalItems - end);
             return remaining * this.itemHeight;
+        },
+        currentAyahReflections() {
+            if (!this.selectedReflectionKey) return [];
+            const reflections = this.ayahReflections[this.selectedReflectionKey];
+            return Array.isArray(reflections) ? reflections : [];
         },
         canSubmitReflection() {
             const subject = (this.reflectionForm.subject || "").trim();
@@ -1465,7 +1493,14 @@ export default {
             const ayahNumber = Number(ayah.numberInSurah || ayah.number);
             if (!surahNumber || !ayahNumber) return false;
             const key = this.buildAyahKey(surahNumber, ayahNumber);
-            return !!this.ayahReflections[key] || !!this.ayahReflectionKeys[key];
+            const stored = this.ayahReflections[key];
+            if (Array.isArray(stored)) {
+                return stored.length > 0;
+            }
+            if (stored && typeof stored === "object") {
+                return true;
+            }
+            return !!this.ayahReflectionKeys[key];
         },
         async openReflectionModal(ayah) {
             if (!ayah) return;
@@ -1497,9 +1532,8 @@ export default {
             };
 
             const key = this.buildAyahKey(surahNumber, ayahNumber);
-            const existing = this.ayahReflections[key];
-            this.reflectionForm.subject = existing?.subject || "";
-            this.reflectionForm.message = existing?.message || "";
+            this.selectedReflectionKey = key;
+            this.clearReflectionForm();
             this.reflectionErrorMessage = "";
             this.isSavingReflection = false;
 
@@ -1537,6 +1571,7 @@ export default {
             this.reflectionModalHiddenHandler = null;
             this.reflectionModalInstance = null;
             this.selectedAyahForReflection = null;
+            this.selectedReflectionKey = "";
             this.clearReflectionForm();
             this.reflectionErrorMessage = "";
             this.reflectionSuccessMessage = "";
@@ -1614,9 +1649,15 @@ export default {
                     ayah_verse_ar: ayahArabic,
                     ayah_verse_en: ayahTranslation,
                 };
+                const existing = this.ayahReflections[key];
+                const normalizedExisting = Array.isArray(existing)
+                    ? existing
+                    : existing
+                        ? [existing]
+                        : [];
                 this.ayahReflections = {
                     ...this.ayahReflections,
-                    [key]: nextEntry,
+                    [key]: [...normalizedExisting, nextEntry],
                 };
                 this.flagReflectionKey(key);
                 this.showToast("Reflection saved.", 4000);
@@ -1657,7 +1698,7 @@ export default {
                     const ayahNumber = Number(note.ayah_num);
                     if (!surahNumber || !ayahNumber) return;
                     const key = this.buildAyahKey(surahNumber, ayahNumber);
-                    next[key] = {
+                    const entry = {
                         id: note.id,
                         subject: (note.ayah_info || "").trim(),
                         message: this.stripHtmlTags(note.ayah_notes),
@@ -1665,6 +1706,10 @@ export default {
                         ayah_verse_ar: note.ayah_verse_ar,
                         ayah_verse_en: note.ayah_verse_en,
                     };
+                    const existingEntries = next[key];
+                    next[key] = Array.isArray(existingEntries)
+                        ? [...existingEntries, entry]
+                        : [entry];
                 });
                 const cachedKeys = {};
                 Object.keys(next).forEach((key) => {
@@ -3084,6 +3129,36 @@ export default {
     margin: 0.35rem 0 0;
     font-size: 0.9rem;
     color: #475467;
+}
+.reflection-history {
+    border: 1px solid rgba(15, 118, 110, 0.2);
+    border-radius: 16px;
+    padding: 1rem 1.2rem;
+    background: #f5fdf9;
+}
+.reflection-history-list {
+    display: flex;
+    flex-direction: column;
+}
+.reflection-history-entry {
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.14);
+}
+.reflection-history-entry:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.reflection-history-subject {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #0f766e;
+}
+.reflection-history-message {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #1f2937;
+    white-space: pre-wrap;
 }
 .reflection-highlight {
     background: linear-gradient(135deg, rgba(11, 128, 111, 0.08), rgba(15, 110, 99, 0.15));
