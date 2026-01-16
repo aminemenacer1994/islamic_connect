@@ -556,6 +556,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.scrollToEvent(index);
       this.updateCurrentMetrics();
       this.updateDocumentTitle();
+      this.scrollEventContentToTop();
     },
     scrollToEvent(index) {
       const refs = this.$refs.eventRefs;
@@ -573,22 +574,32 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     scrollEventContentToTop() {
-      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-        return;
-      }
-      if (typeof document !== 'undefined') {
-        const docEl = document.documentElement || document.body;
-        if (docEl && typeof docEl.scrollTo === 'function') {
-          docEl.scrollTo({
+      this.$nextTick(() => {
+        const target = this.$refs.eventDetails;
+        if (target && typeof target.scrollIntoView === 'function') {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+          return;
+        }
+        if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          window.scrollTo({
             top: 0,
             behavior: 'smooth'
           });
+          return;
         }
-      }
+        if (typeof document !== 'undefined') {
+          const docEl = document.documentElement || document.body;
+          if (docEl && typeof docEl.scrollTo === 'function') {
+            docEl.scrollTo({
+              top: 0,
+              behavior: 'smooth'
+            });
+          }
+        }
+      });
     },
     prev() {
       if (this.currentIndex > 0) {
@@ -1490,7 +1501,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: $data.currentIndex,
       class: "event-box event-details",
       role: "region",
-      "aria-labelledby": `event-title-${$data.currentIndex}`
+      "aria-labelledby": `event-title-${$data.currentIndex}`,
+      ref: "eventDetails"
     }, [$data.copySuccess ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_12, " Text copied to clipboard! ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: "fw-bold display-6 text-center mb-3",
       id: `event-title-${$data.currentIndex}`

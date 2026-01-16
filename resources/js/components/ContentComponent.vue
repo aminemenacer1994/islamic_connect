@@ -5,9 +5,9 @@
       <div class="col-lg-10 col-xl-10">
         <h1 class="display-5 fw-bold">Islamic Podcasts</h1>
         <p class="lead">
-          Explore and discover the latest Islamic podcasts offering a diverse range of insightful discussions,
-          thought-provoking reflections, and inspiring content. These podcasts cover various topics designed to deepen
-          your understanding of Islam.
+          Tune into thoughtfully curated Islamic audio that brings together scholars, storytellers, and community voices.
+          Every episode blends reflection, practical guidance, and inspiration to help deepen your connection and spark
+          meaningful conversations throughout your day.
         </p>
       </div>
     </div>
@@ -15,8 +15,7 @@
     <!-- Podcast Selection Section -->
     <div class="selection-section">
       <div class="section-header">
-        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Choose Your Podcast</h2>
-        <p class="section-subtitle">Click on any podcast below to start listening</p>
+        <p class="section-subtitle">Tap on a podcast to unlock immersive audio journeys and fresh perspectives.</p>
       </div>
       <div class="podcast-selection-grid">
         <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
@@ -31,7 +30,7 @@
               <span class="play-text">Click to Select</span>
             </div>
           </div>
-          <h5 class="podcast-selection-name fw-bold" :style="'padding:1.25rem;margin:0;font-size:1.15rem;color:#0b1320;text-align:center;background:#fff'">{{ podcast.name }}</h5>
+          <!-- <h5 class="podcast-selection-name fw-bold" :style="'padding:1.25rem;margin:0;font-size:1.15rem;color:#0b1320;text-align:center;background:#fff'">{{ podcast.name }}</h5> -->
         </div>
       </div>
     </div>
@@ -39,10 +38,6 @@
     <!-- Selected Podcast Details -->
     <div class="selected-podcast-section card-teal" v-if="selectedPodcast" ref="podcastDetailSection"
          :style="'position:relative;overflow:hidden;padding:2rem;box-shadow:0 10px 40px rgba(0,0,0,.12);border:2px solid rgba(11,179,154,.12)'">
-      <div class="section-header">
-        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Now Playing</h2>
-        <p class="section-subtitle">Episodes from {{ selectedPodcast.name }}</p>
-      </div>
       <div class="selected-podcast-header" :style="'display:flex;align-items:center;gap:1.5rem;margin-bottom:1rem'">
         <div class="selected-podcast-info">
           <h3 class="selected-podcast-title" :style="'font-size:2rem;font-weight:800;color:#0b1320;margin:0 0 .5rem'">{{ selectedPodcast.name }}</h3>
@@ -183,7 +178,7 @@
     <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
       <div class="section-header">
         <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Available Episodes</h2>
-        <p class="section-subtitle">Click the play button to start listening</p>
+        <p class="section-subtitle">Press play to experience each episode’s rich audio storytelling.</p>
       </div>
       <div v-if="fetchError" class="alert alert-danger" role="alert">
         {{ fetchError }}
@@ -1452,6 +1447,12 @@ export default {
 }
 .card-teal:hover { 
   transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
+
+:global(body) {
+  font-family: 'Inter', 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: #f6fbfb;
+  color: #0b1320;
 }
 /* Theme tokens */
 :root {

@@ -12193,6 +12193,11 @@ body[data-v-3b32bfde] {
 .card-teal[data-v-e4489e22]:hover { 
   transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12);
 }
+body {
+  font-family: 'Inter', 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: #f6fbfb;
+  color: #0b1320;
+}
 /* Theme tokens */
 [data-v-e4489e22]:root {
   /* Harmonized teal → blue‑teal accents */

@@ -70,7 +70,7 @@
 
     <transition name="fade" mode="out-in" class="container">
       <div v-if="events.length" :key="currentIndex" class="event-box event-details" role="region"
-        :aria-labelledby="`event-title-${currentIndex}`">
+        :aria-labelledby="`event-title-${currentIndex}`" ref="eventDetails">
         <div v-if="copySuccess" class="alert alert-success" role="status" aria-live="polite">
           Text copied to clipboard!
         </div>
@@ -867,6 +867,7 @@ export default {
       this.scrollToEvent(index);
       this.updateCurrentMetrics();
       this.updateDocumentTitle();
+      this.scrollEventContentToTop();
     },
     scrollToEvent(index) {
       const refs = this.$refs.eventRefs;
@@ -880,16 +881,23 @@ export default {
       }
     },
     scrollEventContentToTop() {
-      if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      if (typeof document !== 'undefined') {
-        const docEl = document.documentElement || document.body;
-        if (docEl && typeof docEl.scrollTo === 'function') {
-          docEl.scrollTo({ top: 0, behavior: 'smooth' });
+      this.$nextTick(() => {
+        const target = this.$refs.eventDetails;
+        if (target && typeof target.scrollIntoView === 'function') {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
         }
-      }
+        if (typeof window !== 'undefined' && typeof window.scrollTo === 'function') {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
+        if (typeof document !== 'undefined') {
+          const docEl = document.documentElement || document.body;
+          if (docEl && typeof docEl.scrollTo === 'function') {
+            docEl.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      });
     },
     prev() {
       if (this.currentIndex > 0) {
