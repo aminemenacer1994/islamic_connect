@@ -768,6 +768,7 @@ html {
         padding: .75rem 0 !important; /* vertical rhythm, no left/right padding */
         margin: 0 !important;          /* neutralize ml-* from markup */
         border-bottom: 2px solid transparent; /* reserve space for active underline */
+        border-left: 0 !important;           /* suppress sidebar-style left indicator */
     }
 }
 

@@ -28,6 +28,10 @@
                         <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
                         View saved bookmarks
                     </a>
+                    <a href="/notes" class="bookmark-cta-link notes-cta-link ms-3" @click.prevent="onNotesLinkClick">
+                        <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
+                        View notes & reflections
+                    </a>
                     <button type="button" class="filter-toggle" @click="toggleVisibility" :aria-expanded="isVisible"
                         aria-controls="surat-filters" :aria-label="isVisible ? 'Hide filters' : 'Show filters'
                             ">
@@ -302,7 +306,7 @@
                                         ? 'Edit reflection'
                                         : 'Add reflection'">
                                     <i class="bi bi-journal-text" aria-hidden="true"></i>
-                                    <span>Reflect</span>
+                                    <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
                                 </button>
                             </div>
                         </div>
@@ -352,7 +356,7 @@
                                         aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <div class="col text-center" style="padding: 2px">
+                            <!-- <div class="col text-center" style="padding: 2px">
                                 <button class="icon-btn reflection-btn"
                                     :class="{ 'has-reflection': hasReflection(item.ayah) }"
                                     @click.stop="openReflectionModal(item.ayah)"
@@ -364,7 +368,7 @@
                                         : 'Add reflection'">
                                     <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
-                            </div>
+                            </div> -->
                             <div class="col text-center" style="padding: 2px">
                                 <button class="icon-btn" :class="{
                                     'is-saved': isAyahSaved(item.ayah),
@@ -405,32 +409,42 @@
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
                     <div class="modal-content reflection-modal">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="reflectionModalLabel">
+                            <h6 class="modal-title" id="reflectionModalLabel">
                                 <b>Reflect and Save a Thought</b>
-                            </h5>
+                            </h6>
                             <button type="button" class="btn-close" @click="hideReflectionModal" aria-label="Close reflection modal"></button>
                         </div>
                         <div class="modal-body pt-0">
-                            
+                            <div class="reflection-intro">
+                                <p class="reflection-intro-title">Why reflections matter</p>
+                                <p class="reflection-intro-copy">
+                                    Capturing what moves you about this verse keeps its guidance fresh, anchors your spiritual
+                                    growth, and helps the community spot inspirations worth sharing.
+                                </p>
+                            </div>
                             <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm" novalidate>
-                                <div>
-                                    <label class="form-label fw-semibold mb-1 small-label">Title</label>
-                                    <input type="text" class="form-control form-control-lg" v-model="reflectionForm.subject"
-                                        placeholder="Title this reflection" required />
+                                <div v-if="reflectionSuccessMessage" class="reflection-success-banner reflection-success-top">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>{{ reflectionSuccessMessage }}</span>
                                 </div>
                                 <div>
-                                    <label class="form-label fw-semibold mb-1 small-label">Message</label>
+                                    <label class="form-label fw-bold mb-1 medium-label">Title</label>
+                                    <input type="text" class="form-control form-control-lg" v-model="reflectionForm.subject"
+                                        placeholder="Give this reflection a guiding intention" required />
+                                </div>
+                                <div>
+                                    <label class="form-label fw-bold mb-1 medium-label">Message</label>
                                     <textarea class="form-control form-control-lg" v-model="reflectionForm.message" rows="5"
                                         :minlength="reflectionMessageMinLength"
-                                        placeholder="Describe how this verse inspires you..."
+                                        placeholder="Type how this verse moved you today..."
                                         required></textarea>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <small class="text-muted">Message must be at least {{ reflectionMessageMinLength }} characters.</small>
                                         <span class="text-muted small">{{ (reflectionForm.message || '').trim().length }} characters</span>
                                     </div>
                                 </div>
-                                <div class="note-suggestions">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="note-suggestions" :class="{ collapsed: carouselCollapsed }">
+                                    <div class="note-suggestions-header d-flex justify-content-between align-items-center mb-3">
                                         <div>
                                             <span class="fw-semibold text-dark me-2">Message prompts</span>
                                             <small class="text-muted">Tap to adapt</small>
@@ -440,13 +454,46 @@
                                             {{ carouselCollapsed ? 'show prompts' : 'collapse' }}
                                         </button>
                                     </div>
-                                    <div class="suggestion-grid" :class="{ collapsed: carouselCollapsed }">
-                                        <button type="button" class="suggestion-pill light"
-                                            v-for="(prompt, idx) in reflectionMessagePrompts" :key="`msg-${idx}`"
-                                            @click="applyMessageSuggestion(prompt.text)">
-                                            {{ prompt.icon }} {{ prompt.text }}
-                                        </button>
+                                    <div class="suggestion-marquee-stack">
+                                        <div
+                                            v-for="rowIndex in promptRowCount"
+                                            :key="`row-${rowIndex}`"
+                                            class="suggestion-marquee-row"
+                                        >
+                                            <div class="suggestion-marquee">
+                                                <div
+                                                    class="suggestion-track"
+                                                    :class="{ 'is-paused': carouselCollapsed }"
+                                                    :style="suggestionTrackStyle(rowIndex)"
+                                                >
+                                                    <div
+                                                        v-for="loopIndex in 2"
+                                                        :key="`loop-${rowIndex}-${loopIndex}`"
+                                                        class="suggestion-track-group"
+                                                        :aria-hidden="loopIndex > 1"
+                                                    >
+                                                        <button
+                                                            type="button"
+                                                            class="suggestion-pill light"
+                                                            v-for="(prompt, idx) in reflectionMessagePrompts"
+                                                            :key="`msg-${rowIndex}-${loopIndex}-${idx}`"
+                                                            @click="applyMessageSuggestion(prompt.text)"
+                                                        >
+                                                            <span class="lead">{{ prompt.icon }}</span>
+                                                            <span>{{ prompt.text }}</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
+                                </div>
+                                <div v-if="carouselCollapsed" class="note-suggestions-collapsed d-flex justify-content-between align-items-center">
+                                    <span class="text-muted small">Message prompts are hidden</span>
+                                    <button type="button" class="btn note-suggestions-toggle p-0" @click="carouselCollapsed = false">
+                                        <i class="bi bi-chevron-down me-1"></i>
+                                        Show prompts
+                                    </button>
                                 </div>
                                 <div v-if="reflectionErrorMessage" class="alert alert-danger py-2 small">
                                     {{ reflectionErrorMessage }}
@@ -665,6 +712,7 @@ export default {
             ayahReflections: {},
             reflectionModalId: "ayahReflectionModal",
             reflectionModalInstance: null,
+            reflectionModalHiddenHandler: null,
             selectedAyahForReflection: null,
             reflectionForm: {
                 subject: "",
@@ -688,9 +736,15 @@ export default {
             ],
             reflectionMessageMinLength: 10,
             reflectionErrorMessage: "",
+            reflectionSuccessMessage: "",
+            reflectionSuccessTimeout: null,
+            ayahReflectionKeys: {},
+            reflectionCacheKey: "",
+            reflectionGeneralStorageKey: "ic_reflection_keys",
             isSavingReflection: false,
             showReflectionHighlight: true,
             carouselCollapsed: false,
+            promptRowCount: 3,
         };
     },
     computed: {
@@ -977,14 +1031,24 @@ export default {
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
         window.removeEventListener("resize", this.updateIsMobile);
-        window.removeEventListener("scroll", this.onScrollVirtual);
-        window.removeEventListener("resize", this.computeListTop);
-        window.removeEventListener("resize", this.calibrateItemHeight);
-        clearTimeout(this.savedAyahClearTimer);
-        clearTimeout(this.bookmarkToastTimer);
-        this.bookmarkToastAction = null;
-        clearTimeout(this.authAlertTimer);
-    },
+            window.removeEventListener("scroll", this.onScrollVirtual);
+            window.removeEventListener("resize", this.computeListTop);
+            window.removeEventListener("resize", this.calibrateItemHeight);
+            clearTimeout(this.savedAyahClearTimer);
+            clearTimeout(this.bookmarkToastTimer);
+            this.bookmarkToastAction = null;
+            clearTimeout(this.authAlertTimer);
+            if (this.reflectionModalHiddenHandler) {
+                const modalEl = document.getElementById(this.reflectionModalId);
+                if (modalEl) {
+                    modalEl.removeEventListener(
+                        "hidden.bs.modal",
+                        this.reflectionModalHiddenHandler
+                    );
+                }
+                this.reflectionModalHiddenHandler = null;
+            }
+        },
     methods: {
         showToast(message, timeout = 3500, action = null) {
             this.bookmarkToast = message;
@@ -1153,6 +1217,7 @@ export default {
         async initializeBookmarkAuth() {
             await this.evaluateBookmarkAuth();
             await this.loadSavedAyahs();
+            await this.initializeReflectionCacheKey();
             await this.syncSavedAyahsFromApi();
             if (this.bookmarkAuthenticated) {
                 await this.loadAyahReflections();
@@ -1386,13 +1451,21 @@ export default {
                 window.location.href = "/bookmarks";
             }
         },
+        async onNotesLinkClick() {
+            const isAuthed = await this.ensureAuthenticated(
+                "Please log in to save and view reflections."
+            );
+            if (isAuthed) {
+                window.location.href = "/notes";
+            }
+        },
         hasReflection(ayah) {
             if (!ayah) return false;
             const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
             const ayahNumber = Number(ayah.numberInSurah || ayah.number);
             if (!surahNumber || !ayahNumber) return false;
             const key = this.buildAyahKey(surahNumber, ayahNumber);
-            return !!this.ayahReflections[key];
+            return !!this.ayahReflections[key] || !!this.ayahReflectionKeys[key];
         },
         async openReflectionModal(ayah) {
             if (!ayah) return;
@@ -1435,6 +1508,12 @@ export default {
                 if (!modalEl) return;
                 this.reflectionModalInstance =
                     Modal.getInstance(modalEl) || new Modal(modalEl);
+                if (this.reflectionModalHiddenHandler) {
+                    modalEl.removeEventListener("hidden.bs.modal", this.reflectionModalHiddenHandler);
+                }
+                const handler = () => this.onReflectionModalHidden();
+                modalEl.addEventListener("hidden.bs.modal", handler);
+                this.reflectionModalHiddenHandler = handler;
                 this.reflectionModalInstance.show();
             });
         },
@@ -1446,10 +1525,25 @@ export default {
             if (modal) {
                 modal.hide();
             }
+        },
+        onReflectionModalHidden() {
+            const modalEl = document.getElementById(this.reflectionModalId);
+            if (modalEl && this.reflectionModalHiddenHandler) {
+                modalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.reflectionModalHiddenHandler
+                );
+            }
+            this.reflectionModalHiddenHandler = null;
             this.reflectionModalInstance = null;
             this.selectedAyahForReflection = null;
             this.clearReflectionForm();
             this.reflectionErrorMessage = "";
+            this.reflectionSuccessMessage = "";
+            if (this.reflectionSuccessTimeout) {
+                clearTimeout(this.reflectionSuccessTimeout);
+                this.reflectionSuccessTimeout = null;
+            }
         },
         clearReflectionForm() {
             this.reflectionForm.subject = "";
@@ -1464,6 +1558,13 @@ export default {
         toggleReflectionHelp() {
             this.showReflectionHighlight = false;
         },
+            suggestionTrackStyle(rowIndex) {
+                const base = 32 + (rowIndex - 1) * 5;
+                return {
+                    animationDuration: `${base}s`,
+                    animationDirection: rowIndex % 2 === 0 ? "reverse" : "normal",
+                };
+            },
         async submitReflectionForm() {
             const subject = (this.reflectionForm.subject || "").trim();
             const message = (this.reflectionForm.message || "").trim();
@@ -1517,9 +1618,17 @@ export default {
                     ...this.ayahReflections,
                     [key]: nextEntry,
                 };
+                this.flagReflectionKey(key);
                 this.showToast("Reflection saved.", 4000);
                 this.announce("Reflection saved.");
-                this.hideReflectionModal();
+                this.reflectionSuccessMessage = "Your reflection has been saved.";
+                if (this.reflectionSuccessTimeout) {
+                    clearTimeout(this.reflectionSuccessTimeout);
+                }
+                this.reflectionSuccessTimeout = setTimeout(() => {
+                    this.hideReflectionModal();
+                    this.reflectionSuccessTimeout = null;
+                }, 1200);
             } catch (error) {
                 console.error("Error saving reflection", error);
                 this.reflectionErrorMessage =
@@ -1557,6 +1666,16 @@ export default {
                         ayah_verse_en: note.ayah_verse_en,
                     };
                 });
+                const cachedKeys = {};
+                Object.keys(next).forEach((key) => {
+                    cachedKeys[key] = true;
+                });
+                this.ayahReflectionKeys = {
+                    ...(this.ayahReflectionKeys || {}),
+                    ...cachedKeys,
+                };
+                this.persistReflectionKeys(this.ayahReflectionKeys);
+                this.persistGeneralReflectionKeys(this.ayahReflectionKeys);
                 this.ayahReflections = next;
             } catch (error) {
                 console.error("Error loading reflections", error);
@@ -1589,6 +1708,8 @@ export default {
             const isAuthed = !!userId;
             if (isAuthed) {
                 this.bookmarkAuthenticated = true;
+                this.bookmarkStorageUserId = userId;
+                await this.initializeReflectionCacheKey();
                 return true;
             }
             this.bookmarkAuthenticated = false;
@@ -1625,6 +1746,81 @@ export default {
             }
             await this.fetchBookmarkStorageUserId();
             this.savedAyahStorageKey = this.buildSavedAyahStorageKey();
+        },
+        buildReflectionCacheKey() {
+            if (this.bookmarkStorageUserId) {
+                return `ic_reflection_keys_user_${this.bookmarkStorageUserId}`;
+            }
+            if (!this.bookmarkAnonId) {
+                return "";
+            }
+            return `ic_reflection_keys_anon_${this.bookmarkAnonId}`;
+        },
+        async initializeReflectionCacheKey() {
+            await this.fetchBookmarkStorageUserId();
+            const nextKey = this.buildReflectionCacheKey();
+            if (nextKey && this.reflectionCacheKey === nextKey) {
+                this.loadReflectionKeyCache();
+                return;
+            }
+            this.reflectionCacheKey = nextKey;
+            this.loadReflectionKeyCache();
+        },
+        loadReflectionKeyCache() {
+            const generalKeys = this.loadGeneralReflectionKeyCache();
+            let combined = { ...(generalKeys || {}) };
+            if (this.reflectionCacheKey) {
+                try {
+                    const stored = localStorage.getItem(this.reflectionCacheKey);
+                    if (stored) {
+                        const parsed = JSON.parse(stored || "{}");
+                        combined = {
+                            ...combined,
+                            ...parsed,
+                        };
+                    }
+                } catch (_) {
+                    // ignore JSON errors
+                }
+            }
+            this.ayahReflectionKeys = combined;
+        },
+        loadGeneralReflectionKeyCache() {
+            if (!this.reflectionGeneralStorageKey) return {};
+            try {
+                const stored = localStorage.getItem(this.reflectionGeneralStorageKey);
+                return stored ? JSON.parse(stored) : {};
+            } catch (_) {
+                return {};
+            }
+        },
+        persistReflectionKeys(keys = this.ayahReflectionKeys) {
+            if (!this.reflectionCacheKey) return;
+            try {
+                const payload = JSON.stringify(keys || {});
+                localStorage.setItem(this.reflectionCacheKey, payload);
+            } catch (_) {
+                // no-op
+            }
+        },
+        persistGeneralReflectionKeys(keys = this.ayahReflectionKeys) {
+            if (!this.reflectionGeneralStorageKey) return;
+            try {
+                const payload = JSON.stringify(keys || {});
+                localStorage.setItem(this.reflectionGeneralStorageKey, payload);
+            } catch (_) {
+                // no-op
+            }
+        },
+        flagReflectionKey(key) {
+            if (!key) return;
+            const next = {
+                ...(this.ayahReflectionKeys || {}),
+                [key]: true,
+            };
+            this.ayahReflectionKeys = next;
+            this.persistReflectionKeys(next);
+            this.persistGeneralReflectionKeys(next);
         },
         buildSavedAyahStorageKey() {
             const base = "ic_saved_ayahs";
@@ -2835,15 +3031,59 @@ export default {
     border-color: #0f766e;
     background-color: rgba(15, 118, 110, 0.1);
 }
+.reflection-pill-fill.has-reflection {
+    color: #0f766e;
+    border-color: #0f766e;
+    background-color: rgba(15, 118, 110, 0.12);
+}
+.reflection-pill-fill.has-reflection i,
+.reflection-pill-fill.has-reflection span {
+    color: #0f766e;
+}
 .reflection-btn.has-reflection i {
     color: #0f766e;
 }
+.reflection-btn.has-reflection {
+    border-color: rgba(15, 118, 110, 0.4);
+    background: rgba(15, 118, 110, 0.08);
+    box-shadow: 0 5px 12px rgba(15, 118, 110, 0.15);
+}
 .reflection-modal .modal-body {
-    padding-bottom: 0.5rem;
+    padding: 1.6rem 1.8rem 1.5rem;
 }
 .reflection-modal .modal-content {
     border-radius: 28px;
     overflow: hidden;
+    background: #fff;
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow:
+        0 15px 25px rgba(15, 23, 42, 0.1),
+        0 35px 80px rgba(15, 23, 42, 0.15);
+}
+.reflection-modal .modal-header {
+    border-bottom: 0;
+    padding-bottom: 0.6rem;
+}
+.reflection-modal .modal-title b {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+.reflection-intro {
+    border-radius: 16px;
+    padding: 1rem 1.3rem;
+    background: rgba(15, 118, 110, 0.05);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.reflection-intro-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f766e;
+}
+.reflection-intro-copy {
+    margin: 0.35rem 0 0;
+    font-size: 0.9rem;
+    color: #475467;
 }
 .reflection-highlight {
     background: linear-gradient(135deg, rgba(11, 128, 111, 0.08), rgba(15, 110, 99, 0.15));
@@ -2861,18 +3101,112 @@ export default {
     font-size: 1.25rem;
     color: #0b806f;
 }
+.note-suggestions {
+    padding-top: 0.75rem;
+    padding-bottom: 0.25rem;
+}
+.note-suggestions.collapsed {
+    display: none;
+}
+.note-suggestions .btn-ghost {
+    border: none;
+    background: none;
+    color: #0f766e;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    padding: 0;
+}
+.suggestion-marquee-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.suggestion-marquee-stack.collapsed {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-10px);
+}
+.suggestion-marquee-row {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+}
+.suggestion-marquee {
+    position: relative;
+    overflow: hidden;
+    border-radius: 20px;
+    background: rgba(13, 110, 253, 0.04);
+    padding: 0.4rem 0;
+    transition: height 0.4s ease, opacity 0.4s ease;
+}
+.suggestion-marquee.collapsed {
+    height: 0;
+    opacity: 0;
+    pointer-events: none;
+    padding: 0;
+}
+.suggestion-marquee::before,
+.suggestion-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 60px;
+    pointer-events: none;
+    z-index: 2;
+    background: linear-gradient(
+        to right,
+        rgba(255, 255, 255, 1),
+        rgba(255, 255, 255, 0)
+    );
+}
+.suggestion-marquee::after {
+    right: 0;
+    transform: rotate(180deg);
+}
+.suggestion-marquee::before {
+    left: 0;
+}
+.suggestion-track {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 200%;
+    animation-name: suggestionScroll;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+.suggestion-track.is-paused {
+    animation-play-state: paused;
+}
+.suggestion-track-group {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+.suggestion-track-group[aria-hidden="true"] {
+    pointer-events: none;
+}
 .suggestion-pill {
     border-radius: 999px;
     border: 1px solid rgba(11, 128, 111, 0.35);
     background: rgba(255, 255, 255, 0.95);
-    padding: 0.35rem 0.9rem;
-    color: #0b806f;
-    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+    color: #0b766f;
+    font-size: 0.9rem;
     font-weight: 500;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
+    transition: transform 0.3s ease, border-color 0.2s ease;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: inline-flex;
+    gap: 0.3rem;
+    align-items: center;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.suggestion-pill span {
+    display: inline-block;
 }
 .suggestion-pill.light {
     border-color: rgba(15, 110, 99, 0.2);
@@ -2881,21 +3215,66 @@ export default {
 .suggestion-pill:hover {
     background: rgba(11, 128, 111, 0.1);
     border-color: rgba(11, 128, 111, 0.55);
+    transform: translateY(-1px);
 }
-.note-suggestions .btn-close.small {
+.note-suggestions-collapsed {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-top: 1px solid rgba(15, 118, 110, 0.15);
+}
+.note-suggestions-toggle {
+    color: #475467;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.85rem;
+    font-weight: 500;
+    border: none;
+    background: none;
+    padding: 0;
+}
+.note-suggestions-toggle:focus-visible {
+    outline: 2px solid rgba(12, 166, 141, 0.6);
+    outline-offset: 2px;
+}
+.reflection-success-banner {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-radius: 14px;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid rgba(15, 118, 110, 0.3);
+    background: linear-gradient(135deg, rgba(15, 118, 110, 0.12), rgba(255, 255, 255, 0.8));
+    color: #0f766e;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.reflection-success-top {
+    margin-bottom: 0.5rem;
+}
+.suggestion-tip {
     font-size: 0.75rem;
-    opacity: 0.6;
 }
-.suggestion-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
+.suggestion-marquee.collapsed .suggestion-track {
+    animation: none;
 }
-.suggestion-grid.collapsed {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
+@keyframes suggestionScroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+.modal-footer .btn {
+    font-size: 1rem;
+    padding: 0.6rem 1.75rem;
+    border-radius: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.modal-footer .btn-primary {
+    font-size: 1rem;
+    padding: 0.65rem 1.8rem;
 }
 .small-label {
     font-size: 0.85rem;
@@ -2911,13 +3290,6 @@ export default {
     font-size: 0.85rem;
     padding: 0;
 }
-.suggestion-grid button {
-    min-height: 48px;
-}
-.modal-footer .btn {
-    font-size: 0.85rem;
-    padding: 0.4rem 1.1rem;
-}
 .modal-body input,
 .modal-body textarea {
     font-size: 0.95rem;
@@ -2926,137 +3298,6 @@ export default {
 .modal-body textarea::placeholder {
     font-size: 0.9rem;
     color: #6b7280;
-}
-
-.premium-bg {
-    background: linear-gradient(135deg, rgba(236, 255, 255, 0.9), rgba(222, 248, 244, 0.85));
-    border: 1px solid rgba(11, 128, 111, 0.2);
-}
-.suggestion-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.75rem;
-}
-.suggestion-grid.collapsed {
-    max-height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-}
-.suggestion-pill {
-    border-radius: 999px;
-    border: 1px solid rgba(11, 128, 111, 0.35);
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.35rem 0.9rem;
-    color: #0b806f;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-height: 48px;
-    text-align: left;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
-.suggestion-pill.light {
-    border-color: rgba(15, 110, 99, 0.2);
-}
-.suggestion-pill:hover {
-    background: rgba(11, 128, 111, 0.15);
-    border-color: rgba(11, 128, 111, 0.55);
-}
-.modal-footer .btn {
-    font-size: 0.85rem;
-    padding: 0.4rem 1.25rem;
-    border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.modal-footer .btn-primary {
-    background: linear-gradient(135deg, #0ca68d, #0f8f71);
-    border: none;
-    box-shadow: 0 8px 20px rgba(12, 166, 141, 0.25);
-}
-.modal-footer .btn-primary:hover {
-    transform: translateY(-2px);
-}
-.modal-footer .btn-outline-secondary {
-    border-radius: 12px;
-}
-.modal-body .form-control {
-    font-size: 0.95rem;
-    border-radius: 14px;
-    border-color: rgba(15, 110, 99, 0.3);
-    box-shadow: inset 0 4px 12px rgba(15, 110, 99, 0.08);
-}
-.modal-body textarea {
-    min-height: 160px;
-}
-.reflection-highlight {
-    background: linear-gradient(135deg, rgba(11, 128, 111, 0.08), rgba(15, 110, 99, 0.15));
-    border: 1px solid rgba(11, 128, 111, 0.2);
-}
-.reflection-badge {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
-    background: rgba(11, 128, 111, 0.12);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.25rem;
-    color: #0b806f;
-}
-.suggestion-pill {
-    border-radius: 999px;
-    border: 1px solid rgba(11, 128, 111, 0.35);
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.35rem 0.9rem;
-    color: #0b806f;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-.suggestion-pill.light {
-    border-color: rgba(15, 110, 99, 0.2);
-    color: #0f766e;
-}
-.suggestion-pill:hover {
-    background: rgba(11, 128, 111, 0.1);
-    border-color: rgba(11, 128, 111, 0.55);
-}
-.reflection-highlight {
-    background: linear-gradient(135deg, #e6f7ff, #f2f7ff);
-    border: 1px solid rgba(11, 128, 111, 0.2);
-}
-.reflection-badge {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: rgba(11, 128, 111, 0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    color: #0b806f;
-}
-.suggestion-pill {
-    border-radius: 999px;
-    border: 1px solid rgba(11, 128, 111, 0.35);
-    background: rgba(255, 255, 255, 0.95);
-    padding: 0.35rem 0.9rem;
-    color: #0b806f;
-    font-size: 0.85rem;
-    font-weight: 500;
-    transition: background-color 0.2s ease, border-color 0.2s ease;
-}
-.suggestion-pill.light {
-    border-color: rgba(15, 110, 99, 0.2);
-    color: #0f766e;
-}
-.suggestion-pill:hover {
-    background: rgba(11, 128, 111, 0.1);
-    border-color: rgba(11, 128, 111, 0.5);
 }
 </style>
 
@@ -3120,6 +3361,14 @@ export default {
     border-color: rgba(255, 255, 255, 0.45);
     box-shadow: 0 18px 30px rgba(10, 30, 28, 0.45);
     color: #ffffff;
+}
+.notes-cta-link {
+    background: rgba(255, 255, 255, 0.84);
+    color: #12263a;
+    border-color: rgba(12, 166, 141, 0.3);
+}
+.notes-cta-link i {
+    color: #0f766e;
 }
 
 .bookmark-toast {

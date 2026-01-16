@@ -1,8 +1,9 @@
+@php $authUser = auth()->user(); @endphp
 <aside id="tablet-sidebar" class="vc-sidebar fixed-sidebar">
  <div class="sidebar">
   <nav class="mt-2" aria-label="Secondary navigation" role="navigation">
    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-    @if(auth()->user()->role === 'admin')
+    @if($authUser && $authUser->role === 'admin')
     
     <li class="nav-item" data-search="dashboard admin home overview">
      <a href="/dashboard" class="nav-link {{ request()->is('dashboard') ? 'active' : '' }}">
@@ -77,7 +78,7 @@
     
     @endif
 
-    @if(auth()->user()->role === 'user')
+    @if($authUser && $authUser->role === 'user')
     
     <li class="nav-item" data-search="home landing start">
      <a href="/home" class="nav-link {{ request()->is('home') || request()->is('/') ? 'active' : '' }}">

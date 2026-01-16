@@ -2,18 +2,29 @@
   <div class="admin-page">
   
    <!-- Notes Container -->
-   <div class="pt-4">
-    <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2 admin-toolbar">
+  <div class="pt-4">
+    <div class="toolbar-row mb-3">
       <div class="input-group admin-search">
         <span class="input-group-text"><i class="bi bi-search"></i></span>
         <input v-model="query" class="form-control" placeholder="Search notes..." />
       </div>
-      <div class="d-flex align-items-center gap-2">
+      <div class="filters d-flex align-items-center gap-2">
+        <select v-model="surahFilter" class="form-select">
+          <option value="all">All surahs</option>
+          <option v-for="(surah, idx) in surahFilterOptions" :key="`filter-${surah}-${idx}`" :value="surah">
+            {{ surah }}
+          </option>
+        </select>
         <select v-model="sortBy" class="form-select">
           <option value="newest">Newest first</option>
           <option value="oldest">Oldest first</option>
         </select>
-        <!-- <button type="button" class="btn btn-add outline" @click="openCreateModal"><i class="bi bi-plus-lg me-1"></i>New Note</button> -->
+        <select v-model="lengthFilter" class="form-select">
+          <option value="all">Any length</option>
+          <option value="short">Short (under 100 chars)</option>
+          <option value="medium">Medium (100‑199 chars)</option>
+          <option value="long">Long (200+ chars)</option>
+        </select>
       </div>
     </div>
     <h3 class="pb-3 text-center admin-count">
@@ -28,14 +39,12 @@
             <i class="bi bi-journal-text me-1"></i>
             Note
           </div>
-          <div v-if="note.ayah_info" class="note-title">
-            {{ note.ayah_info }}
-          </div>
+          <div v-if="note.ayah_info" class="note-title" v-html="highlightMatches(note.ayah_info)"></div>
           <div v-if="note.surah_name || note.ayah_num" class="note-reference">
-            <span v-if="note.surah_name">{{ note.surah_name }}</span>
+            <span v-if="note.surah_name">{{ displaySurahName(note.surah_name) }}</span>
             <span v-if="note.ayah_num"> • Ayah {{ note.ayah_num }}</span>
           </div>
-          <div class="note-body" v-html="truncatedHtml(note.ayah_notes, 220)"></div>
+          <div class="note-body" v-html="renderNoteExcerpt(note)"></div>
             <div class="note-meta">
               <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(note.created_at) }}</span>
             </div>
@@ -68,37 +77,53 @@
               <span v-if="isBusy(note.id)" class="spinner-border spinner-border-sm"></span>
               <i v-else class="bi bi-trash"></i>
             </button>
+            <button 
+              type="button" 
+              class="btn btn-icon btn-ghost" 
+              @click="copyNoteToClipboard(note)"
+              title="Copy note"
+              aria-label="Copy note to clipboard">
+              <i class="bi bi-clipboard"></i>
+            </button>
+            <button 
+              type="button" 
+              class="btn btn-icon btn-ghost" 
+              @click="shareNoteOnWhatsApp(note)"
+              title="Share on WhatsApp"
+              aria-label="Share note on WhatsApp">
+              <i class="bi bi-whatsapp"></i>
+            </button>
           </div>
         </div>
       </div>
     </div>
    </div>
 
-  <!-- Create Note Modal -->
-  <teleport to="body">
-    <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true" data-bs-backdrop="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title text-dark" id="createNoteLabel"><strong>Create Note</strong></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <form @submit.prevent="createNote">
-              <div class="mb-3">
-                <label class="form-label">Notes</label>
-                <Editor theme="snow" v-model:content="newNote" contentType="html" class="editor"/>
-              </div>
-              <div class="d-flex justify-content-end gap-2">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Create</button>
-              </div>
-            </form>
+    <!-- Create Note Modal -->
+    <teleport to="body">
+      <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true" data-bs-backdrop="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="createNoteLabel"><strong>Create Note</strong></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="createNote">
+                <div class="mb-3">
+                  <label class="form-label">Notes</label>
+                  <Editor theme="snow" v-model:content="newNote" contentType="html" class="editor"/>
+                </div>
+                <div class="d-flex justify-content-end gap-2">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </teleport>
+    </teleport>
 
    <!-- Edit Note Modal -->
    <teleport to="body">
@@ -158,7 +183,6 @@
       </div>
      </div>
    </teleport>
-  
   </div>
 </template>
   
@@ -180,6 +204,8 @@ export default {
       query: '',
       sortBy: 'newest',
       newNote: '',
+      surahFilter: 'all',
+      lengthFilter: 'all',
       busy: {},
       form: {
         id: null,
@@ -341,14 +367,97 @@ export default {
       };
       // no programmatic show; rely on data-bs-toggle for reliability
     },
-    truncatedHtml(html, maxLength = 150) {
-      const div = document.createElement("div");
-      div.innerHTML = html || '';
-      const plainText = div.textContent || div.innerText || "";
-      if (plainText.length > maxLength) {
-        return plainText.substring(0, maxLength) + '...';
+    displaySurahName(name) {
+      const clean = this.stripSurahPrefix(name || "");
+      return clean || (name || "");
+    },
+    stripSurahPrefix(name) {
+      if (!name) return "";
+      return name.replace(/^\s*\d+\s*[-–—]\s*/, "").trim();
+    },
+    escapeHtml(value = "") {
+      return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    },
+    escapeRegExp(value = "") {
+      return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    },
+    highlightMatches(text = "") {
+      const escaped = this.escapeHtml(text);
+      const query = (this.query || "").trim();
+      if (!query) {
+        return escaped;
       }
-      return plainText;
+      const regex = new RegExp(`(${this.escapeRegExp(query)})`, "gi");
+      return escaped.replace(regex, '<mark class="search-highlight">$1</mark>');
+    },
+    renderNoteExcerpt(note, maxLength = 220) {
+      const plain = this.stripHtmlTags(note.ayah_notes || "");
+      const truncated =
+        plain.length > maxLength ? plain.slice(0, maxLength).trim() + "..." : plain;
+      return this.highlightMatches(truncated);
+    },
+    composeNoteText(note) {
+      const segments = [];
+      if (note.ayah_info) {
+        segments.push(note.ayah_info);
+      }
+      const surahName = this.displaySurahName(note.surah_name);
+      if (surahName || note.ayah_num) {
+        const reference = [surahName, note.ayah_num ? `Ayah ${note.ayah_num}` : ""]
+          .filter(Boolean)
+          .join(" • ");
+        if (reference) {
+          segments.push(reference);
+        }
+      }
+      const body = this.stripHtmlTags(note.ayah_notes || "");
+      if (body) {
+        segments.push(body);
+      }
+      return segments.join("\n");
+    },
+    async copyNoteToClipboard(note) {
+      const text = this.composeNoteText(note);
+      if (!text) return;
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(text);
+        } else {
+          const textarea = document.createElement("textarea");
+          textarea.value = text;
+          textarea.style.position = "fixed";
+          textarea.style.opacity = "0";
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textarea);
+        }
+        Swal.fire({
+          icon: "success",
+          title: "Copied to clipboard",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      } catch (error) {
+        console.error("Clipboard copy failed", error);
+        Swal.fire({
+          icon: "error",
+          title: "Unable to copy",
+          timer: 1200,
+          showConfirmButton: false,
+        });
+      }
+    },
+    shareNoteOnWhatsApp(note) {
+      const text = this.composeNoteText(note);
+      if (!text) return;
+      const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank", "noopener");
     },
     async updateNotes() {
       const strippedContent = this.stripHtmlTags(this.form.ayah_notes || '');
@@ -421,12 +530,49 @@ export default {
     },
   },
   computed: {
-    filteredNotes() {
-      const q = (this.query || '').toLowerCase();
-      const list = this.notes.filter(n => {
-        const plain = this.stripHtmlTags((n.ayah_notes || '').toString()).toLowerCase();
-        return !q || plain.includes(q);
+    surahFilterOptions() {
+      const set = new Set();
+      this.notes.forEach(note => {
+        const name = this.displaySurahName(note.surah_name);
+        if (name) {
+          set.add(name);
+        }
       });
+      return Array.from(set).sort((a, b) => a.localeCompare(b));
+    },
+    filteredNotes() {
+      const query = (this.query || '').toLowerCase().trim();
+      const list = this.notes.filter(note => {
+        const noteText = [
+          note.ayah_info,
+          note.surah_name,
+          note.ayah_verse_en,
+          this.stripHtmlTags(note.ayah_notes || '')
+        ]
+          .map(val => (val || '').toString().toLowerCase())
+          .join(" ");
+        if (query && !noteText.includes(query)) {
+          return false;
+        }
+
+        if (this.surahFilter !== 'all') {
+          const filteredSurah = this.displaySurahName(note.surah_name).toLowerCase();
+          if (!filteredSurah || filteredSurah !== this.surahFilter.toLowerCase()) {
+            return false;
+          }
+        }
+
+        if (this.lengthFilter !== 'all') {
+          const length = this.stripHtmlTags(note.ayah_notes || '').length;
+          if (this.lengthFilter === 'short' && length >= 100) return false;
+          if (this.lengthFilter === 'medium' && (length < 100 || length >= 200))
+            return false;
+          if (this.lengthFilter === 'long' && length < 200) return false;
+        }
+
+        return true;
+      });
+
       return list.sort((a, b) => {
         const da = new Date(a.created_at || 0).getTime();
         const db = new Date(b.created_at || 0).getTime();
@@ -440,6 +586,17 @@ export default {
 <style scoped>
 .admin-search {
   max-width: 380px;
+}
+
+.toolbar-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.toolbar-row .filters {
+  margin-left: auto;
 }
 
 .note-card {
@@ -534,6 +691,13 @@ export default {
   margin-top: 12px;
   position: relative;
   z-index: 10;
+}
+
+.search-highlight {
+  background: rgba(15, 110, 99, 0.15);
+  color: #0f6e63;
+  padding: 1px 4px;
+  border-radius: 4px;
 }
 
 .btn-icon {

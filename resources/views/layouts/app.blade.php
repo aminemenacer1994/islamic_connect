@@ -227,11 +227,6 @@
             box-shadow: none !important;
         }
 
-        .navbar.navbar-transparent .navbar-nav .nav-link::after,
-        .navbar.navbar-transparent .navbar-nav .nav-link.active::after {
-            display: none !important;
-        }
-
         @media (max-width: 768px) {
             body {
                 padding-top: calc(4.25rem + 1rem);
@@ -391,7 +386,7 @@
                             </a>
                             <div class="dropdown-menu dropdown-menu-end" role="menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" role="menuitem" href="/bookmarks">Bookmarks</a>
-                                <!-- <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a>  -->
+                                <a class="dropdown-item" role="menuitem" href="/notes">Notes & Reflections</a> 
                                 <a class="dropdown-item" role="menuitem" href="/profile">Profile</a>
                                 <a class="dropdown-item" role="menuitem" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
