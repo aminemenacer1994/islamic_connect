@@ -11,29 +11,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
+
 const {
   createDuaMetadata
 } = __webpack_require__(/*! ../utils/duaSlugs */ "./resources/js/utils/duaSlugs.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
-    const initialUserId = (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_0__.resolveClientUserId)();
-    const storagePrefix = initialUserId ? `user:${initialUserId}` : 'guest';
-    const readArray = (key, fallback = []) => {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(`${storagePrefix}:${key}`);
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    };
+    const initialUserId = (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.resolveClientUserId)();
     return {
       duaCollection: [],
       searchQuery: '',
@@ -44,8 +36,9 @@ const {
       showCopyMessage: false,
       fontSize: 18,
       storageUserId: initialUserId,
-      storagePrefix,
-      likedDuas: readArray('likedDuas', []),
+      isAuthenticated: !!initialUserId,
+      preferencesLoaded: false,
+      likedDuas: [],
       viewMode: 'all',
       searchTags: ['All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience', 'Success', 'Mercy', 'Peace', 'Provision', 'Strength', 'Repentance'],
       selectedTag: '',
@@ -171,31 +164,35 @@ const {
     }
   },
   methods: {
-    storageKey(key) {
-      return this.storagePrefix ? `${this.storagePrefix}:${key}` : key;
-    },
-    readStorageArray(key, fallback = []) {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(this.storageKey(key));
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    },
-    writeStorageArray(key, value) {
-      if (typeof localStorage === 'undefined') return;
-      try {
-        localStorage.setItem(this.storageKey(key), JSON.stringify(value));
-      } catch (e) {}
-    },
     async resolveStorageScope() {
-      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_0__.fetchUserIdFromApi)();
-      if (resolvedId && resolvedId !== this.storageUserId) {
-        this.storageUserId = resolvedId;
-        this.storagePrefix = `user:${resolvedId}`;
-        this.likedDuas = this.readStorageArray('likedDuas', []);
+      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.fetchUserIdFromApi)();
+      this.storageUserId = resolvedId;
+      this.isAuthenticated = !!resolvedId;
+      if (this.isAuthenticated) {
+        await this.loadPreferences();
+      } else {
+        this.likedDuas = [];
+        this.preferencesLoaded = true;
       }
+    },
+    async loadPreferences() {
+      try {
+        var _response$data;
+        const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get('/api/preferences/liked_duas');
+        this.likedDuas = Array.isArray((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.value) ? response.data.value : [];
+      } catch (e) {
+        this.likedDuas = [];
+      } finally {
+        this.preferencesLoaded = true;
+      }
+    },
+    async savePreferences() {
+      if (!this.isAuthenticated) return;
+      try {
+        await axios__WEBPACK_IMPORTED_MODULE_0__["default"].put('/api/preferences/liked_duas', {
+          value: this.likedDuas
+        });
+      } catch (e) {}
     },
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
@@ -385,6 +382,7 @@ const {
       this.currentlyPlayingAudioId = null;
     },
     toggleLike(duaId) {
+      if (!this.isAuthenticated) return;
       if (!duaId) return;
       const updatedLikedDuas = [...this.likedDuas];
       if (updatedLikedDuas.includes(duaId)) {
@@ -393,9 +391,10 @@ const {
         updatedLikedDuas.push(duaId);
       }
       this.likedDuas = updatedLikedDuas;
-      this.writeStorageArray('likedDuas', this.likedDuas);
+      this.savePreferences();
     },
     toggleAllInCategory(categoryId) {
+      if (!this.isAuthenticated) return;
       const category = this.duaCollection.find(c => c.id === categoryId);
       if (!category) return;
       this.actionFeedback[categoryId] = true;
@@ -407,15 +406,16 @@ const {
         updatedLikedDuas = [...new Set([...updatedLikedDuas, ...category.duas.map(dua => dua.id)])];
       }
       this.likedDuas = updatedLikedDuas;
-      this.writeStorageArray('likedDuas', this.likedDuas);
+      this.savePreferences();
       setTimeout(() => {
         this.actionFeedback[categoryId] = false;
       }, 1000);
     },
     clearAllLikedDuas() {
+      if (!this.isAuthenticated) return;
       this.actionFeedback['clearAll'] = true;
       this.likedDuas = [];
-      this.writeStorageArray('likedDuas', this.likedDuas);
+      this.savePreferences();
       setTimeout(() => {
         this.actionFeedback['clearAll'] = false;
       }, 1000);
@@ -486,7 +486,6 @@ const {
     try {
       console.debug('[DuaComponent] created()');
     } catch (e) {}
-    this.likedDuas = this.readStorageArray('likedDuas', []);
     this.resolveStorageScope();
 
     // Robust path for JSON under public/

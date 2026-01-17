@@ -1208,6 +1208,11 @@ export default {
         },
         async loadSavedAyahs() {
             if (this.savedAyahsLoaded) return;
+            if (!this.bookmarkAuthenticated) {
+                this.savedAyahKeys = {};
+                this.savedAyahsLoaded = true;
+                return;
+            }
             await this.initializeSavedAyahStorageKey();
             try {
                 const stored =
@@ -1300,6 +1305,7 @@ export default {
             }
         },
         async syncSavedAyahsFromApi() {
+            if (!this.bookmarkAuthenticated) return;
             try {
                 const response = await axios.get("/api/ayah-bookmarks");
                 const bookmarks = response.data?.data || [];
@@ -1356,6 +1362,11 @@ export default {
         },
         async initializeBookmarkAuth() {
             await this.evaluateBookmarkAuth();
+            if (!this.bookmarkAuthenticated) {
+                this.savedAyahKeys = {};
+                this.savedAyahsLoaded = true;
+                return;
+            }
             await this.loadSavedAyahs();
             await this.initializeReflectionCacheKey();
             await this.syncSavedAyahsFromApi();
@@ -1399,6 +1410,12 @@ export default {
             return val === true ? null : val; // handle historic boolean values
         },
         async toggleBookmark(ayah) {
+            if (!this.bookmarkAuthenticated) {
+                const isAuthed = await this.ensureAuthenticated(
+                    "Please log in to manage bookmarks."
+                );
+                if (!isAuthed) return;
+            }
             if (this.isAyahSaved(ayah)) {
                 this.removeBookmark(ayah);
             } else {

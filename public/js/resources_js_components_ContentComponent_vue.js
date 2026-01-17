@@ -12,7 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _translation_ChatBot_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translation/ChatBot.vue */ "./resources/js/components/translation/ChatBot.vue");
-/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
@@ -20,22 +21,13 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
     ChatBot: _translation_ChatBot_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
   data() {
-    const initialUserId = (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.resolveClientUserId)();
-    const storagePrefix = initialUserId ? `user:${initialUserId}` : 'guest';
-    const readArray = (key, fallback = []) => {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(`${storagePrefix}:${key}`);
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    };
+    const initialUserId = (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.resolveClientUserId)();
     return {
       smallScreen: false,
       isVisible: true,
@@ -77,7 +69,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       // error state for fetch failures
       fetchError: null,
       storageUserId: initialUserId,
-      storagePrefix,
+      isAuthenticated: !!initialUserId,
+      preferencesLoaded: false,
+      progressMap: {},
+      progressSyncTimer: null,
       islamicPodcasts: [{
         name: "The Mad Mamluks",
         rssUrl: "https://themadmamluks.libsyn.com/rss",
@@ -182,9 +177,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       itemsPerLoad: 8,
       visibleCount: 0,
       isLoadingMore: false,
-      bookmarks: readArray('bookmarks'),
-      favourites: readArray('favourites'),
-      recentPlays: readArray('recentPlays', []),
+      bookmarks: [],
+      favourites: [],
+      recentPlays: [],
       sortOption: 'mostViewed',
       dateFilter: 'weekly',
       durationFilter: '',
@@ -219,7 +214,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return this.applySorting([...this.filteredPodcasts]);
     }
   },
-  mounted() {
+  async mounted() {
     // Responsive inline toggles for compact layout
     const setSize = () => {
       try {
@@ -255,24 +250,36 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const savedSpeed = localStorage.getItem('content_speed');
       if (savedSpeed !== null) this.playbackSpeed = Number(savedSpeed) || 1.0;
     } catch (e) {}
+    await this.resolveStorageScope();
 
     // Restore last selected podcast
     try {
-      const savedPodcast = localStorage.getItem(this.storageKey(this.lastSelectedPodcastKey));
+      const savedPodcast = localStorage.getItem(this.lastSelectedPodcastKey);
       if (savedPodcast) {
         const parsed = JSON.parse(savedPodcast);
         if (parsed && parsed.rssUrl) this.selectedPodcast = parsed;
       }
     } catch (e) {}
 
-    // Build Continue Listening list from localStorage for current selection
+    // Build Continue Listening list from saved progress
     this.buildContinueListening();
 
     // Prune recent plays to last 50
     if (Array.isArray(this.recentPlays) && this.recentPlays.length > 50) {
       this.recentPlays = this.recentPlays.slice(0, 50);
-      this.writeStorageArray('recentPlays', this.recentPlays);
+      if (this.isAuthenticated) {
+        this.savePreference('podcast_recent', this.recentPlays);
+      }
     }
+    this.fetchPodcasts().then(() => {
+      this.applyFilters();
+      this.fetchEpisodeCounts();
+      this.$nextTick(() => {
+        this.visibleCount = Math.min(this.itemsPerLoad, this.filteredAndSearchedPodcasts.length || 0);
+        this.setupInfiniteScroll();
+        this.buildContinueListening();
+      });
+    });
   },
   beforeUnmount() {
     try {
@@ -285,37 +292,60 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     } catch (e) {}
   },
   methods: {
-    storageKey(key) {
-      return this.storagePrefix ? `${this.storagePrefix}:${key}` : key;
-    },
-    readStorageArray(key, fallback = []) {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(this.storageKey(key));
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    },
-    writeStorageArray(key, value) {
-      if (typeof localStorage === 'undefined') return;
-      try {
-        localStorage.setItem(this.storageKey(key), JSON.stringify(value));
-      } catch (e) {}
-    },
     async resolveStorageScope() {
-      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.fetchUserIdFromApi)();
-      if (resolvedId && resolvedId !== this.storageUserId) {
-        this.storageUserId = resolvedId;
-        this.storagePrefix = `user:${resolvedId}`;
-        this.refreshStoredState();
-        this.buildContinueListening();
+      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.fetchUserIdFromApi)();
+      this.storageUserId = resolvedId;
+      this.isAuthenticated = !!resolvedId;
+      if (this.isAuthenticated) {
+        await this.loadPreferences();
+      } else {
+        this.bookmarks = [];
+        this.favourites = [];
+        this.recentPlays = [];
+        this.progressMap = {};
+        this.continueListening = [];
+        this.preferencesLoaded = true;
       }
     },
-    refreshStoredState() {
-      this.bookmarks = this.readStorageArray('bookmarks');
-      this.favourites = this.readStorageArray('favourites');
-      this.recentPlays = this.readStorageArray('recentPlays', []);
+    async loadPreferences() {
+      try {
+        const [bookmarks, favourites, recent, progress] = await Promise.all([this.fetchPreference('podcast_bookmarks'), this.fetchPreference('podcast_favourites'), this.fetchPreference('podcast_recent'), this.fetchPreference('podcast_progress')]);
+        this.bookmarks = Array.isArray(bookmarks) ? bookmarks : [];
+        this.favourites = Array.isArray(favourites) ? favourites : [];
+        this.recentPlays = Array.isArray(recent) ? recent : [];
+        this.progressMap = progress && typeof progress === 'object' ? progress : {};
+        this.buildContinueListening();
+      } catch (e) {
+        this.bookmarks = [];
+        this.favourites = [];
+        this.recentPlays = [];
+        this.progressMap = {};
+        this.continueListening = [];
+      } finally {
+        this.preferencesLoaded = true;
+      }
+    },
+    async fetchPreference(key) {
+      var _response$data$value, _response$data;
+      if (!this.isAuthenticated) return [];
+      const response = await axios__WEBPACK_IMPORTED_MODULE_1__["default"].get(`/api/preferences/${key}`);
+      return (_response$data$value = (_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.value) !== null && _response$data$value !== void 0 ? _response$data$value : [];
+    },
+    async savePreference(key, value) {
+      if (!this.isAuthenticated) return;
+      await axios__WEBPACK_IMPORTED_MODULE_1__["default"].put(`/api/preferences/${key}`, {
+        value
+      });
+    },
+    queueProgressSync() {
+      if (!this.isAuthenticated) return;
+      if (this.progressSyncTimer) return;
+      this.progressSyncTimer = setTimeout(async () => {
+        this.progressSyncTimer = null;
+        try {
+          await this.savePreference('podcast_progress', this.progressMap);
+        } catch (e) {}
+      }, 1500);
     },
     toggleVisibility() {
       this.isVisible = !this.isVisible;
@@ -652,7 +682,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     selectPodcast(podcast) {
       this.selectedPodcast = podcast;
       try {
-        localStorage.setItem(this.storageKey(this.lastSelectedPodcastKey), JSON.stringify(podcast));
+        localStorage.setItem(this.lastSelectedPodcastKey, JSON.stringify(podcast));
       } catch (e) {}
       this.fetchPodcasts();
       this.$nextTick(() => {
@@ -675,9 +705,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return title.replace(new RegExp(`(${this.searchQuery})`, "gi"), `<span style="background-color: rgba(0, 191, 166, 0.6); padding: 4px; border-radius: 5px;">$1</span>`);
     },
     toggleBookmark(podcast) {
+      if (!this.isAuthenticated) return;
       const index = this.bookmarks.findIndex(item => item.title === podcast.title);
       if (index > -1) this.bookmarks.splice(index, 1);else this.bookmarks.push(podcast);
-      this.writeStorageArray('bookmarks', this.bookmarks);
+      this.savePreference('podcast_bookmarks', this.bookmarks);
     },
     isBookmarked(podcast) {
       return this.bookmarks.some(bookmark => bookmark.title === podcast.title);
@@ -733,24 +764,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       while (this.audioElements.length < needed) this.audioElements.push(null);
     },
     buildContinueListening() {
+      if (!this.isAuthenticated) {
+        this.continueListening = [];
+        return;
+      }
       try {
-        const entries = [];
-        const prefix = this.storageKey('content_progress_');
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (!key || !key.startsWith(prefix)) continue;
-          const title = key.substring(prefix.length);
-          const savedTime = Number(localStorage.getItem(key));
-          if (isNaN(savedTime) || savedTime < 5) continue;
-          const match = this.podcasts.find(p => p.title === title) || this.filteredPodcasts.find(p => p.title === title);
-          entries.push({
-            title,
-            savedTime,
+        const entries = Object.entries(this.progressMap || {}).map(([title, savedTime]) => ({
+          title,
+          savedTime: Number(savedTime || 0)
+        })).filter(entry => !isNaN(entry.savedTime) && entry.savedTime >= 5);
+        const withMeta = entries.map(entry => {
+          const match = this.podcasts.find(p => p.title === entry.title) || this.filteredPodcasts.find(p => p.title === entry.title);
+          return _objectSpread(_objectSpread({}, entry), {}, {
             duration: (match === null || match === void 0 ? void 0 : match.duration) || 0
           });
-        }
-        // Sort by most recent progress (approx by storage order not guaranteed) then limit
-        this.continueListening = entries.slice(0, 6);
+        });
+        this.continueListening = withMeta.slice(0, 6);
       } catch (e) {
         this.continueListening = [];
       }
@@ -786,8 +815,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         audio.addEventListener('timeupdate', () => {
           this.updateProgress(index, audio);
           try {
-            const key = this.storageKey(`content_progress_${podcast === null || podcast === void 0 ? void 0 : podcast.title}`);
-            localStorage.setItem(key, String(audio.currentTime || 0));
+            if (this.isAuthenticated && podcast !== null && podcast !== void 0 && podcast.title) {
+              this.progressMap[podcast.title] = Number(audio.currentTime || 0);
+              this.queueProgressSync();
+            }
           } catch (e) {}
         }, {
           passive: true
@@ -804,9 +835,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.playingIndex = index;
       // Restore last position for this episode
       try {
+        var _this$progressMap;
         const _podcast = this.visiblePodcasts[index];
-        const key = this.storageKey(`content_progress_${_podcast.title}`);
-        const saved = Number(localStorage.getItem(key));
+        const saved = Number((_this$progressMap = this.progressMap) === null || _this$progressMap === void 0 ? void 0 : _this$progressMap[_podcast.title]);
         if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
           this.currentlyPlaying.currentTime = saved;
         }
@@ -933,6 +964,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return this.favourites.some(f => f.title === podcast.title && f.audioUrl === podcast.audioUrl);
     },
     toggleFavourite(podcast) {
+      if (!this.isAuthenticated) return;
       const exists = this.isFavourite(podcast);
       if (exists) {
         this.favourites = this.favourites.filter(f => !(f.title === podcast.title && f.audioUrl === podcast.audioUrl));
@@ -945,7 +977,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           likedAt: Date.now()
         }, ...this.favourites].slice(0, 100);
       }
-      this.writeStorageArray('favourites', this.favourites);
+      this.savePreference('podcast_favourites', this.favourites);
     },
     playFromFavourites(fav) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
@@ -1037,17 +1069,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       window.removeEventListener('mousemove', this.onSeekMove);
       window.removeEventListener('mouseup', this.stopSeek);
     }
-  },
-  async mounted() {
-    await this.resolveStorageScope();
-    this.fetchPodcasts().then(() => {
-      this.applyFilters();
-      this.fetchEpisodeCounts();
-      this.$nextTick(() => {
-        this.visibleCount = Math.min(this.itemsPerLoad, this.filteredAndSearchedPodcasts.length || 0);
-        this.setupInfiniteScroll();
-      });
-    });
   },
   watch: {
     volume(newVal) {

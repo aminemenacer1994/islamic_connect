@@ -424,6 +424,7 @@
 </template>
 <script>
 import ChatBot from './translation/ChatBot.vue';
+import axios from 'axios';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 
 export default {
@@ -432,16 +433,6 @@ export default {
   },
   data() {
     const initialUserId = resolveClientUserId();
-    const storagePrefix = initialUserId ? `user:${initialUserId}` : 'guest';
-    const readArray = (key, fallback = []) => {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(`${storagePrefix}:${key}`);
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    };
     return {
       smallScreen: false,
       isVisible: true,
@@ -478,7 +469,10 @@ export default {
       // error state for fetch failures
       fetchError: null,
       storageUserId: initialUserId,
-      storagePrefix,
+      isAuthenticated: !!initialUserId,
+      preferencesLoaded: false,
+      progressMap: {},
+      progressSyncTimer: null,
       islamicPodcasts: [
         {
           name: "The Mad Mamluks",
@@ -596,9 +590,9 @@ export default {
       itemsPerLoad: 8,
       visibleCount: 0,
       isLoadingMore: false,
-      bookmarks: readArray('bookmarks'),
-      favourites: readArray('favourites'),
-      recentPlays: readArray('recentPlays', []),
+      bookmarks: [],
+      favourites: [],
+      recentPlays: [],
       sortOption: 'mostViewed',
       dateFilter: 'weekly',
       durationFilter: '',
@@ -638,7 +632,7 @@ export default {
     }
   },
 
-  mounted() {
+  async mounted() {
     // Responsive inline toggles for compact layout
     const setSize = () => { try { this.smallScreen = window.innerWidth <= 576; } catch(e){} };
     setSize();
@@ -669,23 +663,37 @@ export default {
       if (savedSpeed !== null) this.playbackSpeed = Number(savedSpeed) || 1.0;
     } catch (e) {}
 
+    await this.resolveStorageScope();
+
     // Restore last selected podcast
     try {
-      const savedPodcast = localStorage.getItem(this.storageKey(this.lastSelectedPodcastKey));
+      const savedPodcast = localStorage.getItem(this.lastSelectedPodcastKey);
       if (savedPodcast) {
         const parsed = JSON.parse(savedPodcast);
         if (parsed && parsed.rssUrl) this.selectedPodcast = parsed;
       }
     } catch (e) {}
 
-    // Build Continue Listening list from localStorage for current selection
+    // Build Continue Listening list from saved progress
     this.buildContinueListening();
 
     // Prune recent plays to last 50
     if (Array.isArray(this.recentPlays) && this.recentPlays.length > 50) {
       this.recentPlays = this.recentPlays.slice(0, 50);
-      this.writeStorageArray('recentPlays', this.recentPlays);
+      if (this.isAuthenticated) {
+        this.savePreference('podcast_recent', this.recentPlays);
+      }
     }
+
+    this.fetchPodcasts().then(() => {
+      this.applyFilters();
+      this.fetchEpisodeCounts();
+      this.$nextTick(() => {
+        this.visibleCount = Math.min(this.itemsPerLoad, this.filteredAndSearchedPodcasts.length || 0);
+        this.setupInfiniteScroll();
+        this.buildContinueListening();
+      });
+    });
   },
 
   beforeUnmount() {
@@ -696,37 +704,62 @@ export default {
   },
 
   methods: {
-    storageKey(key) {
-      return this.storagePrefix ? `${this.storagePrefix}:${key}` : key;
-    },
-    readStorageArray(key, fallback = []) {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(this.storageKey(key));
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    },
-    writeStorageArray(key, value) {
-      if (typeof localStorage === 'undefined') return;
-      try {
-        localStorage.setItem(this.storageKey(key), JSON.stringify(value));
-      } catch (e) {}
-    },
     async resolveStorageScope() {
       const resolvedId = await fetchUserIdFromApi();
-      if (resolvedId && resolvedId !== this.storageUserId) {
-        this.storageUserId = resolvedId;
-        this.storagePrefix = `user:${resolvedId}`;
-        this.refreshStoredState();
-        this.buildContinueListening();
+      this.storageUserId = resolvedId;
+      this.isAuthenticated = !!resolvedId;
+      if (this.isAuthenticated) {
+        await this.loadPreferences();
+      } else {
+        this.bookmarks = [];
+        this.favourites = [];
+        this.recentPlays = [];
+        this.progressMap = {};
+        this.continueListening = [];
+        this.preferencesLoaded = true;
       }
     },
-    refreshStoredState() {
-      this.bookmarks = this.readStorageArray('bookmarks');
-      this.favourites = this.readStorageArray('favourites');
-      this.recentPlays = this.readStorageArray('recentPlays', []);
+    async loadPreferences() {
+      try {
+        const [bookmarks, favourites, recent, progress] = await Promise.all([
+          this.fetchPreference('podcast_bookmarks'),
+          this.fetchPreference('podcast_favourites'),
+          this.fetchPreference('podcast_recent'),
+          this.fetchPreference('podcast_progress'),
+        ]);
+        this.bookmarks = Array.isArray(bookmarks) ? bookmarks : [];
+        this.favourites = Array.isArray(favourites) ? favourites : [];
+        this.recentPlays = Array.isArray(recent) ? recent : [];
+        this.progressMap = progress && typeof progress === 'object' ? progress : {};
+        this.buildContinueListening();
+      } catch (e) {
+        this.bookmarks = [];
+        this.favourites = [];
+        this.recentPlays = [];
+        this.progressMap = {};
+        this.continueListening = [];
+      } finally {
+        this.preferencesLoaded = true;
+      }
+    },
+    async fetchPreference(key) {
+      if (!this.isAuthenticated) return [];
+      const response = await axios.get(`/api/preferences/${key}`);
+      return response.data?.value ?? [];
+    },
+    async savePreference(key, value) {
+      if (!this.isAuthenticated) return;
+      await axios.put(`/api/preferences/${key}`, { value });
+    },
+    queueProgressSync() {
+      if (!this.isAuthenticated) return;
+      if (this.progressSyncTimer) return;
+      this.progressSyncTimer = setTimeout(async () => {
+        this.progressSyncTimer = null;
+        try {
+          await this.savePreference('podcast_progress', this.progressMap);
+        } catch (e) {}
+      }, 1500);
     },
     toggleVisibility() {
       this.isVisible = !this.isVisible;
@@ -1079,7 +1112,7 @@ export default {
 
     selectPodcast(podcast) {
       this.selectedPodcast = podcast;
-      try { localStorage.setItem(this.storageKey(this.lastSelectedPodcastKey), JSON.stringify(podcast)); } catch (e) {}
+      try { localStorage.setItem(this.lastSelectedPodcastKey, JSON.stringify(podcast)); } catch (e) {}
       this.fetchPodcasts();
       this.$nextTick(() => {
         const section = this.$refs.podcastDetailSection;
@@ -1105,10 +1138,11 @@ export default {
     },
 
     toggleBookmark(podcast) {
+      if (!this.isAuthenticated) return;
       const index = this.bookmarks.findIndex(item => item.title === podcast.title);
       if (index > -1) this.bookmarks.splice(index, 1);
       else this.bookmarks.push(podcast);
-      this.writeStorageArray('bookmarks', this.bookmarks);
+      this.savePreference('podcast_bookmarks', this.bookmarks);
     },
 
     isBookmarked(podcast) {
@@ -1166,21 +1200,27 @@ export default {
     },
 
     buildContinueListening() {
+      if (!this.isAuthenticated) {
+        this.continueListening = [];
+        return;
+      }
       try {
-        const entries = [];
-        const prefix = this.storageKey('content_progress_');
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
-          if (!key || !key.startsWith(prefix)) continue;
-          const title = key.substring(prefix.length);
-          const savedTime = Number(localStorage.getItem(key));
-          if (isNaN(savedTime) || savedTime < 5) continue;
-          const match = this.podcasts.find(p => p.title === title) || this.filteredPodcasts.find(p => p.title === title);
-          entries.push({ title, savedTime, duration: match?.duration || 0 });
-        }
-        // Sort by most recent progress (approx by storage order not guaranteed) then limit
-        this.continueListening = entries.slice(0, 6);
-      } catch (e) { this.continueListening = []; }
+        const entries = Object.entries(this.progressMap || {})
+          .map(([title, savedTime]) => ({
+            title,
+            savedTime: Number(savedTime || 0),
+          }))
+          .filter(entry => !isNaN(entry.savedTime) && entry.savedTime >= 5);
+
+        const withMeta = entries.map(entry => {
+          const match = this.podcasts.find(p => p.title === entry.title) || this.filteredPodcasts.find(p => p.title === entry.title);
+          return { ...entry, duration: match?.duration || 0 };
+        });
+
+        this.continueListening = withMeta.slice(0, 6);
+      } catch (e) {
+        this.continueListening = [];
+      }
     },
 
     resumeFromSaved(item) {
@@ -1212,8 +1252,10 @@ export default {
         audio.addEventListener('timeupdate', () => {
           this.updateProgress(index, audio);
           try {
-            const key = this.storageKey(`content_progress_${podcast?.title}`);
-            localStorage.setItem(key, String(audio.currentTime || 0));
+            if (this.isAuthenticated && podcast?.title) {
+              this.progressMap[podcast.title] = Number(audio.currentTime || 0);
+              this.queueProgressSync();
+            }
           } catch (e) {}
         }, { passive: true });
         audio.addEventListener('loadedmetadata', () => { this.progress[index] = 0; });
@@ -1227,8 +1269,7 @@ export default {
       // Restore last position for this episode
       try {
         const podcast = this.visiblePodcasts[index];
-        const key = this.storageKey(`content_progress_${podcast.title}`);
-        const saved = Number(localStorage.getItem(key));
+        const saved = Number(this.progressMap?.[podcast.title]);
         if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
           this.currentlyPlaying.currentTime = saved;
         }
@@ -1344,13 +1385,14 @@ export default {
       return this.favourites.some(f => f.title === podcast.title && f.audioUrl === podcast.audioUrl);
     },
     toggleFavourite(podcast) {
+      if (!this.isAuthenticated) return;
       const exists = this.isFavourite(podcast);
       if (exists) {
         this.favourites = this.favourites.filter(f => !(f.title === podcast.title && f.audioUrl === podcast.audioUrl));
       } else {
         this.favourites = [{ title: podcast.title, audioUrl: podcast.audioUrl, pubDate: podcast.pubDate, views: podcast.views, likedAt: Date.now() }, ...this.favourites].slice(0, 100);
       }
-      this.writeStorageArray('favourites', this.favourites);
+      this.savePreference('podcast_favourites', this.favourites);
     },
     playFromFavourites(fav) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
@@ -1440,18 +1482,6 @@ export default {
       window.removeEventListener('mousemove', this.onSeekMove);
       window.removeEventListener('mouseup', this.stopSeek);
     },
-  },
-
-  async mounted() {
-    await this.resolveStorageScope();
-    this.fetchPodcasts().then(() => {
-      this.applyFilters();
-      this.fetchEpisodeCounts();
-      this.$nextTick(() => {
-        this.visibleCount = Math.min(this.itemsPerLoad, this.filteredAndSearchedPodcasts.length || 0);
-        this.setupInfiniteScroll();
-      });
-    });
   },
 
   watch: {

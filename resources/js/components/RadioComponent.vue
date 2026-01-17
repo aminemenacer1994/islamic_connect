@@ -418,11 +418,11 @@
 </template>
 <script setup>
 import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount, watch, markRaw } from 'vue';
+import axios from 'axios';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 
 const storageUserId = ref(resolveClientUserId());
-const storagePrefix = ref(storageUserId.value ? `user:${storageUserId.value}` : 'guest');
-const storageKey = (key) => (storagePrefix.value ? `${storagePrefix.value}:${key}` : key);
+const isAuthenticated = ref(!!storageUserId.value);
 
 const defaultPopularReciters = markRaw([
   {
@@ -830,12 +830,13 @@ const applyVolume = (id) => {
 };
 
 const addToRecentlyPlayed = (id) => {
+  if (!isAuthenticated.value) return;
   const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
   if (!station) return;
   recentlyPlayed.value = recentlyPlayed.value.filter(s => s.id !== id);
   recentlyPlayed.value.unshift({ ...station, lastPlayed: new Date().toISOString() });
   if (recentlyPlayed.value.length > 10) recentlyPlayed.value.pop();
-  localStorage.setItem(storageKey('recentlyPlayed'), JSON.stringify(recentlyPlayed.value));
+  saveRecentlyPlayed();
 };
 
 const togglePlay = async (id) => {
@@ -1171,35 +1172,64 @@ const initializeVolumes = () => {
 };
 
 const toggleLike = (station) => {
+  if (!isAuthenticated.value) return;
   const index = likedStations.value.findIndex((s) => s.id === station.id);
   if (index === -1) {
     likedStations.value.push(station);
   } else {
     likedStations.value.splice(index, 1);
   }
-  localStorage.setItem(storageKey('likedStations'), JSON.stringify(likedStations.value));
+  saveLikedStations();
 };
 
 const isLiked = (id) => likedStations.value.some((s) => s.id === id);
 
 const loadLikedStations = () => {
-  const liked = JSON.parse(localStorage.getItem(storageKey('likedStations')) || '[]');
-  likedStations.value = liked.filter((s) => stations.value.some((station) => station.id === s.id));
+  if (!isAuthenticated.value) {
+    likedStations.value = [];
+    return;
+  }
+  axios.get('/api/preferences/liked_reciters')
+    .then((response) => {
+      const liked = Array.isArray(response.data?.value) ? response.data.value : [];
+      likedStations.value = liked.filter((s) => stations.value.some((station) => station.id === s.id));
+    })
+    .catch(() => {
+      likedStations.value = [];
+    });
 };
 
 const loadRecentlyPlayed = () => {
-  const recent = JSON.parse(localStorage.getItem(storageKey('recentlyPlayed')) || '[]');
-  recentlyPlayed.value = recent.filter((s) => stations.value.some((station) => station.id === s.id));
+  if (!isAuthenticated.value) {
+    recentlyPlayed.value = [];
+    return;
+  }
+  axios.get('/api/preferences/reciter_recent')
+    .then((response) => {
+      const recent = Array.isArray(response.data?.value) ? response.data.value : [];
+      recentlyPlayed.value = recent.filter((s) => stations.value.some((station) => station.id === s.id));
+    })
+    .catch(() => {
+      recentlyPlayed.value = [];
+    });
+};
+
+const saveLikedStations = () => {
+  if (!isAuthenticated.value) return;
+  axios.put('/api/preferences/liked_reciters', { value: likedStations.value }).catch(() => {});
+};
+
+const saveRecentlyPlayed = () => {
+  if (!isAuthenticated.value) return;
+  axios.put('/api/preferences/reciter_recent', { value: recentlyPlayed.value }).catch(() => {});
 };
 
 const resolveStorageScope = async () => {
   const resolvedId = await fetchUserIdFromApi();
-  if (resolvedId && resolvedId !== storageUserId.value) {
-    storageUserId.value = resolvedId;
-    storagePrefix.value = `user:${resolvedId}`;
-    loadLikedStations();
-    loadRecentlyPlayed();
-  }
+  storageUserId.value = resolvedId;
+  isAuthenticated.value = !!resolvedId;
+  loadLikedStations();
+  loadRecentlyPlayed();
 };
 
 const retryPlayback = (id) => {

@@ -175,12 +175,19 @@ Route::get('/debug/ga4', fn() => ['config' => config('services.ga4.property_id')
  * Cache the homepage HTML so that repeated hits stay under 0.4s.
  */
 $homeResponder = function () {
+    if (auth()->check()) {
+        return response()
+            ->view('home')
+            ->header('Cache-Control', 'no-store, private, max-age=0');
+    }
+
     $rendered = Cache::remember('home.page.html', 300, function () {
         return view('home')->render();
     });
 
     return response($rendered)
-        ->header('Cache-Control', 'public, max-age=300, s-maxage=600, stale-while-revalidate=60');
+        ->header('Cache-Control', 'public, max-age=300, s-maxage=600, stale-while-revalidate=60')
+        ->header('Vary', 'Cookie');
 };
 
 Route::get('/welcome', $homeResponder);
@@ -376,6 +383,9 @@ Route::middleware(['auth', 'web'])->group(function () {
 
     // Bookmark folders (new API)
     Route::prefix('api')->group(function () {
+        Route::get('preferences/{key}', [\App\Http\Controllers\Api\UserPreferenceController::class, 'show']);
+        Route::put('preferences/{key}', [\App\Http\Controllers\Api\UserPreferenceController::class, 'update']);
+
         Route::get('folders', [ApiFolderController::class, 'index']);
         Route::post('folders', [ApiFolderController::class, 'store']);
         Route::get('folders/{folder}', [ApiFolderController::class, 'show']);

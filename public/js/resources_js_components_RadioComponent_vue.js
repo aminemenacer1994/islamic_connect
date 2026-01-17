@@ -12,12 +12,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
-/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -26,9 +28,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     expose: __expose
   }) {
     __expose();
-    const storageUserId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)((0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.resolveClientUserId)());
-    const storagePrefix = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(storageUserId.value ? `user:${storageUserId.value}` : 'guest');
-    const storageKey = key => storagePrefix.value ? `${storagePrefix.value}:${key}` : key;
+    const storageUserId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)((0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.resolveClientUserId)());
+    const isAuthenticated = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(!!storageUserId.value);
     const defaultPopularReciters = (0,vue__WEBPACK_IMPORTED_MODULE_0__.markRaw)([{
       id: 1,
       name: 'Mishary Rashid Alafasy',
@@ -409,6 +410,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     };
     const addToRecentlyPlayed = id => {
+      if (!isAuthenticated.value) return;
       const station = defaultPopularReciters.find(s => s.id === id) || stations.value.find(s => s.id === id);
       if (!station) return;
       recentlyPlayed.value = recentlyPlayed.value.filter(s => s.id !== id);
@@ -416,7 +418,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         lastPlayed: new Date().toISOString()
       }));
       if (recentlyPlayed.value.length > 10) recentlyPlayed.value.pop();
-      localStorage.setItem(storageKey('recentlyPlayed'), JSON.stringify(recentlyPlayed.value));
+      saveRecentlyPlayed();
     };
     const togglePlay = async id => {
       await initializeAudio(id);
@@ -726,31 +728,60 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       });
     };
     const toggleLike = station => {
+      if (!isAuthenticated.value) return;
       const index = likedStations.value.findIndex(s => s.id === station.id);
       if (index === -1) {
         likedStations.value.push(station);
       } else {
         likedStations.value.splice(index, 1);
       }
-      localStorage.setItem(storageKey('likedStations'), JSON.stringify(likedStations.value));
+      saveLikedStations();
     };
     const isLiked = id => likedStations.value.some(s => s.id === id);
     const loadLikedStations = () => {
-      const liked = JSON.parse(localStorage.getItem(storageKey('likedStations')) || '[]');
-      likedStations.value = liked.filter(s => stations.value.some(station => station.id === s.id));
+      if (!isAuthenticated.value) {
+        likedStations.value = [];
+        return;
+      }
+      axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/api/preferences/liked_reciters').then(response => {
+        var _response$data;
+        const liked = Array.isArray((_response$data = response.data) === null || _response$data === void 0 ? void 0 : _response$data.value) ? response.data.value : [];
+        likedStations.value = liked.filter(s => stations.value.some(station => station.id === s.id));
+      }).catch(() => {
+        likedStations.value = [];
+      });
     };
     const loadRecentlyPlayed = () => {
-      const recent = JSON.parse(localStorage.getItem(storageKey('recentlyPlayed')) || '[]');
-      recentlyPlayed.value = recent.filter(s => stations.value.some(station => station.id === s.id));
+      if (!isAuthenticated.value) {
+        recentlyPlayed.value = [];
+        return;
+      }
+      axios__WEBPACK_IMPORTED_MODULE_1__["default"].get('/api/preferences/reciter_recent').then(response => {
+        var _response$data2;
+        const recent = Array.isArray((_response$data2 = response.data) === null || _response$data2 === void 0 ? void 0 : _response$data2.value) ? response.data.value : [];
+        recentlyPlayed.value = recent.filter(s => stations.value.some(station => station.id === s.id));
+      }).catch(() => {
+        recentlyPlayed.value = [];
+      });
+    };
+    const saveLikedStations = () => {
+      if (!isAuthenticated.value) return;
+      axios__WEBPACK_IMPORTED_MODULE_1__["default"].put('/api/preferences/liked_reciters', {
+        value: likedStations.value
+      }).catch(() => {});
+    };
+    const saveRecentlyPlayed = () => {
+      if (!isAuthenticated.value) return;
+      axios__WEBPACK_IMPORTED_MODULE_1__["default"].put('/api/preferences/reciter_recent', {
+        value: recentlyPlayed.value
+      }).catch(() => {});
     };
     const resolveStorageScope = async () => {
-      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.fetchUserIdFromApi)();
-      if (resolvedId && resolvedId !== storageUserId.value) {
-        storageUserId.value = resolvedId;
-        storagePrefix.value = `user:${resolvedId}`;
-        loadLikedStations();
-        loadRecentlyPlayed();
-      }
+      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.fetchUserIdFromApi)();
+      storageUserId.value = resolvedId;
+      isAuthenticated.value = !!resolvedId;
+      loadLikedStations();
+      loadRecentlyPlayed();
     };
     const retryPlayback = id => {
       playbackErrors.value[id] = null;
@@ -846,8 +877,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     };
     const __returned__ = {
       storageUserId,
-      storagePrefix,
-      storageKey,
+      isAuthenticated,
       defaultPopularReciters,
       showSuggestions,
       filteredSuggestions,
@@ -947,6 +977,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       isLiked,
       loadLikedStations,
       loadRecentlyPlayed,
+      saveLikedStations,
+      saveRecentlyPlayed,
       resolveStorageScope,
       retryPlayback,
       updateListenerCounts,
@@ -963,11 +995,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       onBeforeUnmount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeUnmount,
       watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
       markRaw: vue__WEBPACK_IMPORTED_MODULE_0__.markRaw,
+      get axios() {
+        return axios__WEBPACK_IMPORTED_MODULE_1__["default"];
+      },
       get fetchUserIdFromApi() {
-        return _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.fetchUserIdFromApi;
+        return _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.fetchUserIdFromApi;
       },
       get resolveClientUserId() {
-        return _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.resolveClientUserId;
+        return _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_2__.resolveClientUserId;
       }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {

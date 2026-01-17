@@ -492,6 +492,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     async loadSavedAyahs() {
       if (this.savedAyahsLoaded) return;
+      if (!this.bookmarkAuthenticated) {
+        this.savedAyahKeys = {};
+        this.savedAyahsLoaded = true;
+        return;
+      }
       await this.initializeSavedAyahStorageKey();
       try {
         const stored = sessionStorage.getItem(this.savedAyahStorageKey) || localStorage.getItem(this.savedAyahStorageKey);
@@ -571,6 +576,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     async syncSavedAyahsFromApi() {
+      if (!this.bookmarkAuthenticated) return;
       try {
         var _response$data;
         const response = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get("/api/ayah-bookmarks");
@@ -625,6 +631,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     async initializeBookmarkAuth() {
       await this.evaluateBookmarkAuth();
+      if (!this.bookmarkAuthenticated) {
+        this.savedAyahKeys = {};
+        this.savedAyahsLoaded = true;
+        return;
+      }
       await this.loadSavedAyahs();
       await this.initializeReflectionCacheKey();
       await this.syncSavedAyahsFromApi();
@@ -664,6 +675,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return val === true ? null : val; // handle historic boolean values
     },
     async toggleBookmark(ayah) {
+      if (!this.bookmarkAuthenticated) {
+        const isAuthed = await this.ensureAuthenticated("Please log in to manage bookmarks.");
+        if (!isAuthed) return;
+      }
       if (this.isAyahSaved(ayah)) {
         this.removeBookmark(ayah);
       } else {

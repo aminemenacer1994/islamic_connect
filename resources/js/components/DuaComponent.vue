@@ -329,21 +329,12 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 const { createDuaMetadata } = require('../utils/duaSlugs');
 export default {
   data() {
     const initialUserId = resolveClientUserId();
-    const storagePrefix = initialUserId ? `user:${initialUserId}` : 'guest';
-    const readArray = (key, fallback = []) => {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(`${storagePrefix}:${key}`);
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    };
     return {
       duaCollection: [],
       searchQuery: '',
@@ -354,8 +345,9 @@ export default {
       showCopyMessage: false,
       fontSize: 18,
       storageUserId: initialUserId,
-      storagePrefix,
-      likedDuas: readArray('likedDuas', []),
+      isAuthenticated: !!initialUserId,
+      preferencesLoaded: false,
+      likedDuas: [],
       viewMode: 'all',
       searchTags: [
         'All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience',
@@ -512,29 +504,32 @@ export default {
     },
   },
   methods: {
-    storageKey(key) {
-      return this.storagePrefix ? `${this.storagePrefix}:${key}` : key;
-    },
-    readStorageArray(key, fallback = []) {
-      if (typeof localStorage === 'undefined') return fallback;
-      try {
-        const raw = localStorage.getItem(this.storageKey(key));
-        return raw ? JSON.parse(raw) : fallback;
-      } catch (e) {
-        return fallback;
-      }
-    },
-    writeStorageArray(key, value) {
-      if (typeof localStorage === 'undefined') return;
-      try { localStorage.setItem(this.storageKey(key), JSON.stringify(value)); } catch (e) {}
-    },
     async resolveStorageScope() {
       const resolvedId = await fetchUserIdFromApi();
-      if (resolvedId && resolvedId !== this.storageUserId) {
-        this.storageUserId = resolvedId;
-        this.storagePrefix = `user:${resolvedId}`;
-        this.likedDuas = this.readStorageArray('likedDuas', []);
+      this.storageUserId = resolvedId;
+      this.isAuthenticated = !!resolvedId;
+      if (this.isAuthenticated) {
+        await this.loadPreferences();
+      } else {
+        this.likedDuas = [];
+        this.preferencesLoaded = true;
       }
+    },
+    async loadPreferences() {
+      try {
+        const response = await axios.get('/api/preferences/liked_duas');
+        this.likedDuas = Array.isArray(response.data?.value) ? response.data.value : [];
+      } catch (e) {
+        this.likedDuas = [];
+      } finally {
+        this.preferencesLoaded = true;
+      }
+    },
+    async savePreferences() {
+      if (!this.isAuthenticated) return;
+      try {
+        await axios.put('/api/preferences/liked_duas', { value: this.likedDuas });
+      } catch (e) {}
     },
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
@@ -737,6 +732,7 @@ export default {
       this.currentlyPlayingAudioId = null;
     },
     toggleLike(duaId) {
+      if (!this.isAuthenticated) return;
       if (!duaId) return;
       const updatedLikedDuas = [...this.likedDuas];
       if (updatedLikedDuas.includes(duaId)) {
@@ -745,9 +741,10 @@ export default {
         updatedLikedDuas.push(duaId);
       }
       this.likedDuas = updatedLikedDuas;
-      this.writeStorageArray('likedDuas', this.likedDuas);
+      this.savePreferences();
     },
     toggleAllInCategory(categoryId) {
+      if (!this.isAuthenticated) return;
       const category = this.duaCollection.find(c => c.id === categoryId);
       if (!category) return;
       this.actionFeedback[categoryId] = true;
@@ -759,15 +756,16 @@ export default {
         updatedLikedDuas = [...new Set([...updatedLikedDuas, ...category.duas.map(dua => dua.id)])];
       }
       this.likedDuas = updatedLikedDuas;
-      this.writeStorageArray('likedDuas', this.likedDuas);
+      this.savePreferences();
       setTimeout(() => {
         this.actionFeedback[categoryId] = false;
       }, 1000);
     },
     clearAllLikedDuas() {
+      if (!this.isAuthenticated) return;
       this.actionFeedback['clearAll'] = true;
       this.likedDuas = [];
-      this.writeStorageArray('likedDuas', this.likedDuas);
+      this.savePreferences();
       setTimeout(() => {
         this.actionFeedback['clearAll'] = false;
       }, 1000);
@@ -828,7 +826,6 @@ export default {
   },
   created() {
     try { console.debug('[DuaComponent] created()'); } catch (e) { }
-    this.likedDuas = this.readStorageArray('likedDuas', []);
     this.resolveStorageScope();
 
     // Robust path for JSON under public/
