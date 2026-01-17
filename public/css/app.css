@@ -33922,7 +33922,7 @@ to {
 .surah-layout[data-v-828f3036] {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 12px;
     align-items: start;
 }
 .surah-layout>.sticky-dropdown[data-v-828f3036],
@@ -33949,6 +33949,7 @@ to {
     overflow-x: hidden;
     border-radius: 0;
     margin-bottom: 0;
+    background: linear-gradient(180deg, rgba(14, 74, 66, 0.98), rgba(11, 41, 38, 0.98));
     box-shadow: 10px 0 32px rgba(10, 32, 30, 0.25);
     padding-bottom: 24px;
 }
@@ -34295,22 +34296,21 @@ to {
     color: #ffffff;
 }
 .surah-layout .surah-list .filter-option[data-v-828f3036] {
-    grid-template-columns: auto 1fr auto;
-}
-.surah-layout .surah-list .filter-option-title[data-v-828f3036] {
-    grid-column: 2;
-}
-.surah-layout .surah-list .filter-option-subtitle[data-v-828f3036] {
-    grid-column: 3;
-    grid-row: 1;
-    align-self: center;
-    margin-left: 8px;
-    text-align: right;
-    direction: rtl;
-}
-.surah-layout .surah-list .filter-option[data-v-828f3036] {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     background: rgba(255, 255, 255, 0.08);
     border-color: rgba(255, 255, 255, 0.12);
+}
+.surah-layout .surah-list .filter-option-title[data-v-828f3036] {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.surah-layout .surah-list .filter-option-subtitle[data-v-828f3036] {
+    margin-left: auto;
+    white-space: nowrap;
+    text-align: right;
+    direction: rtl;
 }
 .surah-layout .surah-list .filter-option.active[data-v-828f3036] {
     background: rgba(255, 255, 255, 0.16);
@@ -34327,79 +34327,46 @@ to {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    width: 100%;
 }
 .surah-playback-controls .form-select[data-v-828f3036] {
-    min-width: 200px;
-    flex: 1 1 220px;
-    height: 42px;
-    padding: 6px 12px;
+    min-width: 0;
+    flex: 1 1 0;
 }
 .surah-playback-controls .btn[data-v-828f3036] {
     flex: 0 0 auto;
-    padding: 8px 16px;
-    font-size: 0.95rem;
-}
-.surah-toolbar[data-v-828f3036] {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 10px;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(15, 110, 99, 0.12);
-    box-shadow: 0 10px 24px rgba(15, 53, 48, 0.08);
 }
 .surah-toolbar-main[data-v-828f3036] {
     display: grid;
-    grid-template-columns: minmax(220px, 1fr) auto;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
     align-items: center;
     gap: 12px;
 }
 .surah-title-block[data-v-828f3036] {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-.surah-eyebrow[data-v-828f3036] {
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #6b7b7b;
-    font-weight: 700;
+    min-width: 0;
 }
 .surah-title-row[data-v-828f3036] {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
 }
 .surah-title[data-v-828f3036] {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #1d2b2f;
+    font-size: 1.05rem;
 }
 .surah-meta[data-v-828f3036] {
-    font-size: 0.85rem;
-    color: #6b7b7b;
-    font-weight: 600;
+    font-size: 0.82rem;
 }
 .ayah-links-bar[data-v-828f3036] {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    margin-top: 6px;
 }
 .ayah-links-bar .bookmark-cta-link[data-v-828f3036],
 .ayah-links-bar .notes-cta-link[data-v-828f3036] {
     color: #0b5c53;
-    background: rgba(11, 92, 83, 0.08);
-    border-color: rgba(11, 92, 83, 0.2);
-    box-shadow: 0 6px 12px rgba(11, 92, 83, 0.1);
-    padding: 6px 12px;
-    font-size: 0.9rem;
+    background: rgba(11, 92, 83, 0.12);
+    border-color: rgba(11, 92, 83, 0.25);
+    box-shadow: 0 12px 20px rgba(11, 92, 83, 0.16);
 }
 .ayah-links-bar .bookmark-cta-link[data-v-828f3036]:hover,
 .ayah-links-bar .notes-cta-link[data-v-828f3036]:hover {
@@ -34467,10 +34434,10 @@ to {
     box-shadow: 0 8px 16px rgba(15, 53, 48, 0.06);
 }
 .sticky-dropdown label.form-label[data-v-828f3036] {
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-weight: 800;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #4b5563;
 }
 .filter-item .form-label[data-v-828f3036] {

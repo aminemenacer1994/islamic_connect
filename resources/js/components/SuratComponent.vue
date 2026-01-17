@@ -1,6 +1,6 @@
 <template>
-    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true }" role="main"
-        aria-label="Quran Explorer">
+    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true }"
+        role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
                 <h1 class="display-5 fw-bold">Quran Explorer</h1>
@@ -58,180 +58,241 @@
             </div>
         </div>
         <div class="surah-layout">
-        <div class="sticky-dropdown" ref="stickyDropdown"
-            :class="{ collapsed: !isVisible }">
-            <div class="filter-header">
-                <div class="filter-actions"></div>
+            <div class="sticky-dropdown" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
+                <div class="filter-header">
+                    <div class="filter-actions"></div>
+                </div>
+                <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
+                    <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+                    <span>{{ authAlert }}</span>
+                    <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
+                </div>
+                <div id="surat-filters" class="row g-3" v-show="isVisible">
+                    <div class="col-12 col-md-12 filter-item surah-list">
+                        <label class="form-label mt-2">Select Surah</label>
+                        <div class="filter-list">
+                            <button type="button" class="filter-option" v-for="surah in surahs" :key="surah.number"
+                                :class="{ active: String(selectedSurah) === String(surah.number) }"
+                                @click="selectSurah(surah.number)">
+                                <span class="filter-option-number">{{ surah.number }}</span>
+                                <span class="filter-option-title">{{ surah.englishName }}</span>
+                                <span class="filter-option-subtitle">{{ surah.name }}</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- <div class="col-12 col-md-4 filter-item"></div>
+                <div class="col-12 col-md-4 filter-item"></div> -->
+                </div>
             </div>
-            <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
-                <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
-                <span>{{ authAlert }}</span>
-                <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
-            </div>
-            <div id="surat-filters" class="row g-3" v-show="isVisible">
-                <div class="col-12 col-md-12 filter-item surah-list">
-                    <label class="form-label mt-2">Select Surah</label>
-                    <div class="filter-list">
-                        <button type="button" class="filter-option"
-                            v-for="surah in surahs" :key="surah.number"
-                            :class="{ active: String(selectedSurah) === String(surah.number) }"
-                            @click="selectSurah(surah.number)">
-                            <span class="filter-option-number">{{ surah.number }}</span>
-                            <span class="filter-option-title">{{ surah.englishName }}</span>
-                            <span class="filter-option-subtitle">{{ surah.name }}</span>
+            <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
+                <div class="surah-toolbar-main">
+                    <div class="surah-title-block">
+                        <span class="surah-eyebrow">Now viewing</span>
+                        <div class="surah-title-row">
+                            <span class="surah-title">
+                                Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
+                                }}
+                            </span>
+                            <span class="surah-meta">
+                                {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
+                            </span>
+                        </div>
+                    </div>
+                    <div class="surah-playback-controls">
+                        <select class="form-select shadow-sm" v-model="selectedReciter" aria-label="Select reciter">
+                            <option value="" disabled>Select a reciter</option>
+                            <option v-for="reciter in recitersSorted" :key="reciter.identifier"
+                                :value="reciter.identifier">
+                                {{ reciter.englishName }}
+                            </option>
+                        </select>
+                        <select class="form-select shadow-sm" v-model="selectedTranslation"
+                            aria-label="Select translation">
+                            <option value="" disabled>Select Translation</option>
+                            <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                :value="translation.identifier">
+                                {{
+                                    `${translation.flag} ${translation.englishName} (${translation.language})`
+                                }}
+                            </option>
+                        </select>
+                        <button type="button" class="btn btn-primary btn-lg" :disabled="!canPlaySurah"
+                            @click="playSurahContinuously" aria-label="Play every ayah in this surah">
+                            <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
+                            Play full surah
                         </button>
                     </div>
                 </div>
-                <!-- <div class="col-12 col-md-4 filter-item"></div>
-                <div class="col-12 col-md-4 filter-item"></div> -->
             </div>
-        </div>
-        <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
-            <div class="surah-toolbar-main">
-                <div class="surah-title-block">
-                    <span class="surah-eyebrow">Now viewing</span>
-                    <div class="surah-title-row">
-                        <span class="surah-title">
-                            Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
-                        </span>
-                        <span class="surah-meta">
-                            {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
-                        </span>
-                    </div>
-                </div>
-                <div class="surah-playback-controls">
-                <select class="form-select shadow-sm" v-model="selectedReciter" aria-label="Select reciter">
-                    <option value="" disabled>Select a reciter</option>
-                    <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
-                        {{ reciter.englishName }}
-                    </option>
-                </select>
-                <select class="form-select shadow-sm" v-model="selectedTranslation" aria-label="Select translation">
-                    <option value="" disabled>Select Translation</option>
-                    <option v-for="translation in translationsSorted" :key="translation.identifier"
-                        :value="translation.identifier">
-                        {{
-                            `${translation.flag} ${translation.englishName} (${translation.language})`
-                        }}
-                    </option>
-                </select>
-                <button type="button"
-                    class="btn btn-primary btn-lg"
-                    :disabled="!canPlaySurah"
-                    @click="playSurahContinuously"
-                    aria-label="Play every ayah in this surah">
-                    <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
-                    Play full surah
-                </button>
-                </div>
+
+            <div class="ayah-links-bar">
+                <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
+                    <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
+                    View saved bookmarks
+                </a>
+                <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
+                    <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
+                    View notes & reflections
+                </a>
             </div>
-        </div>
 
-        <div class="ayah-links-bar">
-            <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
-                <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
-                View saved bookmarks
-            </a>
-            <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
-                <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
-                View notes & reflections
-            </a>
-        </div>
 
-        
 
-        <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
+            <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-        <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
-            <div :style="{ height: topSpacerHeight + 'px' }"></div>
+            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
+                <div :style="{ height: topSpacerHeight + 'px' }"></div>
 
-            <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
-                :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
-                :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
-                @keydown.enter.prevent="toggleAudioPlayer(item.index)"
-                @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true"
-                @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
-                    highlighted:
-                        isHighlighted && currentlyPlayingIndex === item.index,
-                    'currently-playing': isAudioPlaying[item.index],
-                }">
-                <div class="ayah-surface h-100 rtl-text d-flex flex-column">
-                    <!-- Surah and Ayah Number -->
-                    <div class="d-flex justify-content-between text-muted ltr-text">
-                        <h4>
-                            <img src="/images/art.png" width="35px" alt="Art Icon" />
-                            {{ surahDetails?.surahNumber }} :
-                            {{ item.index + 1 }}
-                            <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
-                        </h4>
-                        <div class="d-flex align-items-center">
-                            <transition name="feedback-fade">
-                                <span v-if="
-                                    feedbackMessages[
-                                    buildAyahKey(
-                                        surahDetails?.surahNumber,
-                                        item.ayah.numberInSurah ||
-                                        item.ayah.number
-                                    )
-                                    ]
-                                " class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
-                                    :class="feedbackMessages[
+                <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
+                    :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
+                    :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
+                    @keydown.enter.prevent="toggleAudioPlayer(item.index)"
+                    @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true"
+                    @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
+                        highlighted:
+                            isHighlighted && currentlyPlayingIndex === item.index,
+                        'currently-playing': isAudioPlaying[item.index],
+                    }">
+                    <div class="ayah-surface h-100 rtl-text d-flex flex-column">
+                        <!-- Surah and Ayah Number -->
+                        <div class="d-flex justify-content-between text-muted ltr-text">
+                            <h4>
+                                <img src="/images/art.png" width="35px" alt="Art Icon" />
+                                {{ surahDetails?.surahNumber }} :
+                                {{ item.index + 1 }}
+                                <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
+                            </h4>
+                            <div class="d-flex align-items-center">
+                                <transition name="feedback-fade">
+                                    <span v-if="
+                                        feedbackMessages[
                                         buildAyahKey(
                                             surahDetails?.surahNumber,
                                             item.ayah.numberInSurah ||
                                             item.ayah.number
                                         )
-                                    ].class
-                                        ">
-                                    <i v-if="
-                                        feedbackMessages[
+                                        ]
+                                    " class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
+                                        :class="feedbackMessages[
                                             buildAyahKey(
                                                 surahDetails?.surahNumber,
                                                 item.ayah.numberInSurah ||
                                                 item.ayah.number
                                             )
-                                        ].icon === 'check'
-                                    " class="bi bi-check-circle-fill me-2 fs-5"></i>
-                                    <i v-else-if="
-                                        feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                item.ayah.number
-                                            )
-                                        ].icon === 'trash'
-                                    " class="bi bi-trash-fill me-2 fs-5"></i>
-                                    {{
-                                        feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                item.ayah.number
-                                            )
-                                        ].text
-                                    }}
-                                </span>
-                            </transition>
-                            <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
-                                title="Save to folder / Organize" aria-label="Save to folder or organize bookmark">
-                                <i class="bi bi-folder-plus" aria-hidden="true"></i>
-                            </button>
+                                        ].class
+                                            ">
+                                        <i v-if="
+                                            feedbackMessages[
+                                                buildAyahKey(
+                                                    surahDetails?.surahNumber,
+                                                    item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                                )
+                                            ].icon === 'check'
+                                        " class="bi bi-check-circle-fill me-2 fs-5"></i>
+                                        <i v-else-if="
+                                            feedbackMessages[
+                                                buildAyahKey(
+                                                    surahDetails?.surahNumber,
+                                                    item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                                )
+                                            ].icon === 'trash'
+                                        " class="bi bi-trash-fill me-2 fs-5"></i>
+                                        {{
+                                            feedbackMessages[
+                                                buildAyahKey(
+                                                    surahDetails?.surahNumber,
+                                                    item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                                )
+                                            ].text
+                                        }}
+                                    </span>
+                                </transition>
+                                <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
+                                    title="Save to folder / Organize" aria-label="Save to folder or organize bookmark">
+                                    <i class="bi bi-folder-plus" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Desktop Layout: Icons on Left -->
-                    <div class="row d-none d-md-flex" role="group" aria-label="Ayah controls (desktop)"
-                        :aria-hidden="isMobile">
-                        <div class="col-md-11">
-                            <div style="padding: 4px">
+                        <!-- Desktop Layout: Icons on Left -->
+                        <div class="row d-none d-md-flex" role="group" aria-label="Ayah controls (desktop)"
+                            :aria-hidden="isMobile">
+                            <div class="col-md-11">
+                                <div style="padding: 4px">
+                                    <p class="arabic-text rtl-text fw-bold text-end mb-3"
+                                        v-html="highlightedText(item.ayah)"
+                                        :style="{ fontSize: arabicFontSize + 'px' }">
+                                    </p>
+                                    <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                        Translation:
+                                    </h2>
+                                    <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)
+                                        " :style="{
+                                        fontSize: translationFontSize + 'px',
+                                    }"></p>
+                                    <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                                        <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
+                                            aria-label="Copy ayah" title="Copy ayah">
+                                            <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                            <span>Copy</span>
+                                        </button>
+                                        <button type="button" class="action-pill"
+                                            @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
+                                            title="Share ayah">
+                                            <i class="bi bi-send" aria-hidden="true"></i>
+                                            <span>Share</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1 text-center">
+                                <div class="d-flex flex-column align-items-center">
+                                    <button class="icon-btn mb-3" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
+                                        ? 'Pause ayah ' + (item.index + 1)
+                                        : 'Play ayah ' + (item.index + 1)
+                                        " :title="isAudioPlaying[item.index]
+                                        ? 'Pause'
+                                        : 'Play'
+                                        ">
+                                        <i class="bi" :class="isAudioPlaying[item.index]
+                                            ? 'bi-pause-circle-fill'
+                                            : 'bi-play-circle-fill'
+                                            " aria-hidden="true"></i>
+                                    </button>
+                                    <button class="icon-btn mb-3" @click="decreaseFontSize"
+                                        aria-label="Decrease font size" title="Decrease Font Size">
+                                        <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="icon-btn mb-3" :class="{
+                                        'is-saved': isAyahSaved(item.ayah),
+                                    }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
+                                    ? 'Remove bookmark'
+                                    : 'Quick save bookmark'
+                                    ">
+                                        <i class="bi" :class="isAyahSaved(item.ayah)
+                                            ? 'bi-bookmark-check-fill'
+                                            : 'bi-bookmark-plus-fill'
+                                            " aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Mobile/Tablet Layout: Text then Icons -->
+
+                        <div style="" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)"
+                            :aria-hidden="!isMobile">
+                            <div>
                                 <p class="arabic-text rtl-text fw-bold text-end mb-3"
                                     v-html="highlightedText(item.ayah)" :style="{ fontSize: arabicFontSize + 'px' }">
                                 </p>
-                                <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
-                                </h2>
-                                <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)
-                                    " :style="{
+                                </h4>
+                                <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
+                                    :style="{
                                         fontSize: translationFontSize + 'px',
                                     }"></p>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
@@ -245,125 +306,67 @@
                                         <i class="bi bi-send" aria-hidden="true"></i>
                                         <span>Share</span>
                                     </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-1 text-center">
-                            <div class="d-flex flex-column align-items-center">
-                                <button class="icon-btn mb-3" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
-                                    ? 'Pause ayah ' + (item.index + 1)
-                                    : 'Play ayah ' + (item.index + 1)
-                                    " :title="isAudioPlaying[item.index]
-                                        ? 'Pause'
-                                        : 'Play'
-                                        ">
-                                    <i class="bi" :class="isAudioPlaying[item.index]
-                                        ? 'bi-pause-circle-fill'
-                                        : 'bi-play-circle-fill'
-                                        " aria-hidden="true"></i>
-                                </button>
-                                <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size"
-                                    title="Decrease Font Size">
-                                    <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
-                                </button>
-                                <button class="icon-btn mb-3" :class="{
-                                    'is-saved': isAyahSaved(item.ayah),
-                                }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                    ? 'Remove bookmark'
-                                    : 'Quick save bookmark'
-                                    ">
-                                    <i class="bi" :class="isAyahSaved(item.ayah)
-                                        ? 'bi-bookmark-check-fill'
-                                        : 'bi-bookmark-plus-fill'
-                                        " aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Mobile/Tablet Layout: Text then Icons -->
-
-                    <div style="" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)"
-                        :aria-hidden="!isMobile">
-                        <div>
-                            <p class="arabic-text rtl-text fw-bold text-end mb-3" v-html="highlightedText(item.ayah)"
-                                :style="{ fontSize: arabicFontSize + 'px' }"></p>
-                            <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
-                                Translation:
-                            </h4>
-                            <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
-                                :style="{
-                                    fontSize: translationFontSize + 'px',
-                                }"></p>
-                            <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
-                                <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
-                                    aria-label="Copy ayah" title="Copy ayah">
-                                    <i class="bi bi-clipboard" aria-hidden="true"></i>
-                                    <span>Copy</span>
-                                </button>
-                                <button type="button" class="action-pill" @click.stop="shareOnWhatsApp(item.ayah)"
-                                    aria-label="Share ayah" title="Share ayah">
-                                    <i class="bi bi-send" aria-hidden="true"></i>
-                                    <span>Share</span>
-                                </button>
-                                <button type="button" class="action-pill reflection-pill-fill"
-                                    :class="{ 'has-reflection': hasReflection(item.ayah) }"
-                                    @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
-                                        ? 'Edit reflection'
-                                        : 'Add reflection'" :title="hasReflection(item.ayah)
+                                    <button type="button" class="action-pill reflection-pill-fill"
+                                        :class="{ 'has-reflection': hasReflection(item.ayah) }"
+                                        @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
+                                            ? 'Edit reflection'
+                                            : 'Add reflection'" :title="hasReflection(item.ayah)
                                             ? 'Edit reflection'
                                             : 'Add reflection'">
-                                    <i class="bi bi-journal-text" aria-hidden="true"></i>
-                                    <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
-                                </button>
+                                        <i class="bi bi-journal-text" aria-hidden="true"></i>
+                                        <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row card-teal mb-3 py-2" style="
+                            <div class="row card-teal mb-3 py-2" style="
                                 display: flex;
                                 justify-content: center;
                                 align-items: center;
                                 margin: 0 -5px;
                             ">
-                            <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size"
-                                    title="Decrease Font Size">
-                                    <i class="bi bi-dash-circle-fill" style="font-size: 1.6rem" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size"
-                                    title="Increase Font Size">
-                                    <i class="bi bi-plus-circle-fill" style="font-size: 1.6rem" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn" @click="rewindAudio(item.index)" aria-label="Rewind 15 seconds"
-                                    title="Rewind">
-                                    <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.6rem"
-                                        aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
-                                    ? 'Pause ayah ' + (item.index + 1)
-                                    : 'Play ayah ' + (item.index + 1)
-                                    " :title="isAudioPlaying[item.index]
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="icon-btn" @click="decreaseFontSize" aria-label="Decrease font size"
+                                        title="Decrease Font Size">
+                                        <i class="bi bi-dash-circle-fill" style="font-size: 1.6rem"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="icon-btn" @click="increaseFontSize" aria-label="Increase font size"
+                                        title="Increase Font Size">
+                                        <i class="bi bi-plus-circle-fill" style="font-size: 1.6rem"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="icon-btn" @click="rewindAudio(item.index)"
+                                        aria-label="Rewind 15 seconds" title="Rewind">
+                                        <i class="bi bi-skip-backward-circle-fill" style="font-size: 1.6rem"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="icon-btn" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
+                                        ? 'Pause ayah ' + (item.index + 1)
+                                        : 'Play ayah ' + (item.index + 1)
+                                        " :title="isAudioPlaying[item.index]
                                         ? 'Pause'
                                         : 'Play'
                                         ">
-                                    <i class="bi" :class="isAudioPlaying[item.index]
-                                        ? 'bi-pause-circle-fill'
-                                        : 'bi-play-circle-fill'
-                                        " style="font-size: 1.8rem" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn" @click="fastForwardAudio(item.index)"
-                                    aria-label="Fast forward 20 seconds" title="Fast Forward">
-                                    <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.6rem"
-                                        aria-hidden="true"></i>
-                                </button>
-                            </div>
-                            <!-- <div class="col text-center" style="padding: 2px">
+                                        <i class="bi" :class="isAudioPlaying[item.index]
+                                            ? 'bi-pause-circle-fill'
+                                            : 'bi-play-circle-fill'
+                                            " style="font-size: 1.8rem" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="icon-btn" @click="fastForwardAudio(item.index)"
+                                        aria-label="Fast forward 20 seconds" title="Fast Forward">
+                                        <i class="bi bi-skip-forward-circle-fill" style="font-size: 1.6rem"
+                                            aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <!-- <div class="col text-center" style="padding: 2px">
                                 <button class="icon-btn reflection-btn"
                                     :class="{ 'has-reflection': hasReflection(item.ayah) }"
                                     @click.stop="openReflectionModal(item.ayah)"
@@ -376,36 +379,36 @@
                                     <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div> -->
-                            <div class="col text-center" style="padding: 2px">
-                                <button class="icon-btn" :class="{
-                                    'is-saved': isAyahSaved(item.ayah),
-                                }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="icon-btn" :class="{
+                                        'is-saved': isAyahSaved(item.ayah),
+                                    }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
                                     ? 'Remove bookmark'
                                     : 'Quick save bookmark'
                                     ">
-                                    <i class="bi" :class="isAyahSaved(item.ayah)
-                                        ? 'bi-bookmark-check-fill'
-                                        : 'bi-bookmark-plus-fill'
-                                        " style="font-size: 1.6rem" aria-hidden="true"></i>
-                                </button>
+                                        <i class="bi" :class="isAyahSaved(item.ayah)
+                                            ? 'bi-bookmark-check-fill'
+                                            : 'bi-bookmark-plus-fill'
+                                            " style="font-size: 1.6rem" aria-hidden="true"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div :style="{ height: bottomSpacerHeight + 'px' }"></div>
             </div>
 
-            <div :style="{ height: bottomSpacerHeight + 'px' }"></div>
-        </div>
-
-        <!-- Screen reader live region -->
-        <div class="visually-hidden" aria-live="polite" aria-atomic="true">
-            {{ screenReaderMessage }}
-        </div>
-        <!-- Empty state -->
-        <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0"
-            class="empty-state text-center text-muted py-4">
-            No verses match your current search or filters.
-        </div>
+            <!-- Screen reader live region -->
+            <div class="visually-hidden" aria-live="polite" aria-atomic="true">
+                {{ screenReaderMessage }}
+            </div>
+            <!-- Empty state -->
+            <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0"
+                class="empty-state text-center text-muted py-4">
+                No verses match your current search or filters.
+            </div>
         </div>
 
         <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
@@ -452,9 +455,9 @@
                                         placeholder="Type how this verse moved you today..." required></textarea>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
                                         <small class="text-muted">Message must be at least {{ reflectionMessageMinLength
-                                        }} characters.</small>
+                                            }} characters.</small>
                                         <span class="text-muted small">{{ (reflectionForm.message || '').trim().length
-                                        }} characters</span>
+                                            }} characters</span>
                                     </div>
                                 </div>
                                 <div v-if="editingReflectionId"
@@ -655,23 +658,14 @@
                             }"></div>
                         </div>
                     </div>
-                    <div class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
+                    <!-- <div class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
                         <span class="ayah-scrollbar-label">Ayah</span>
-                        <input
-                            class="ayah-scrollbar-input"
-                            type="range"
-                            min="1"
-                            :max="Math.max(totalItems, 1)"
-                            :value="ayahScrubValue"
-                            @input="onAyahScrubInput"
-                            @change="onAyahScrubChange"
-                            :aria-valuemin="1"
-                            :aria-valuemax="Math.max(totalItems, 1)"
-                            :aria-valuenow="ayahScrubValue"
-                            :aria-valuetext="`Ayah ${ayahScrubValue} of ${Math.max(totalItems, 1)}`"
-                        />
+                        <input class="ayah-scrollbar-input" type="range" min="1" :max="Math.max(totalItems, 1)"
+                            :value="ayahScrubValue" @input="onAyahScrubInput" @change="onAyahScrubChange"
+                            :aria-valuemin="1" :aria-valuemax="Math.max(totalItems, 1)" :aria-valuenow="ayahScrubValue"
+                            :aria-valuetext="`Ayah ${ayahScrubValue} of ${Math.max(totalItems, 1)}`" />
                         <span class="ayah-scrollbar-count">{{ ayahScrubValue }} / {{ Math.max(totalItems, 1) }}</span>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </teleport>
@@ -3742,7 +3736,7 @@ export default {
 .surah-layout {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 12px;
     align-items: start;
 }
 
@@ -3772,6 +3766,7 @@ export default {
     overflow-x: hidden;
     border-radius: 0;
     margin-bottom: 0;
+    background: linear-gradient(180deg, rgba(14, 74, 66, 0.98), rgba(11, 41, 38, 0.98));
     box-shadow: 10px 0 32px rgba(10, 32, 30, 0.25);
     padding-bottom: 24px;
 }
@@ -4170,25 +4165,23 @@ export default {
 }
 
 .surah-layout .surah-list .filter-option {
-    grid-template-columns: auto 1fr auto;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 .surah-layout .surah-list .filter-option-title {
-    grid-column: 2;
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 .surah-layout .surah-list .filter-option-subtitle {
-    grid-column: 3;
-    grid-row: 1;
-    align-self: center;
-    margin-left: 8px;
+    margin-left: auto;
+    white-space: nowrap;
     text-align: right;
     direction: rtl;
-}
-
-.surah-layout .surah-list .filter-option {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.12);
 }
 
 .surah-layout .surah-list .filter-option.active {
@@ -4208,90 +4201,55 @@ export default {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
+    width: 100%;
 }
 
 .surah-playback-controls .form-select {
-    min-width: 200px;
-    flex: 1 1 220px;
-    height: 42px;
-    padding: 6px 12px;
+    min-width: 0;
+    flex: 1 1 0;
 }
 
 .surah-playback-controls .btn {
     flex: 0 0 auto;
-    padding: 8px 16px;
-    font-size: 0.95rem;
-}
-
-.surah-toolbar {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 10px;
-    padding: 12px 16px;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.7);
-    border: 1px solid rgba(15, 110, 99, 0.12);
-    box-shadow: 0 10px 24px rgba(15, 53, 48, 0.08);
 }
 
 .surah-toolbar-main {
     display: grid;
-    grid-template-columns: minmax(220px, 1fr) auto;
+    grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
     align-items: center;
     gap: 12px;
 }
 
 .surah-title-block {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.surah-eyebrow {
-    font-size: 0.75rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: #6b7b7b;
-    font-weight: 700;
+    min-width: 0;
 }
 
 .surah-title-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: baseline;
-    gap: 10px;
+    align-items: center;
+    gap: 8px;
 }
 
 .surah-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #1d2b2f;
+    font-size: 1.05rem;
 }
 
 .surah-meta {
-    font-size: 0.85rem;
-    color: #6b7b7b;
-    font-weight: 600;
+    font-size: 0.82rem;
 }
 
 .ayah-links-bar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
+    margin-top: 6px;
 }
 
 .ayah-links-bar .bookmark-cta-link,
 .ayah-links-bar .notes-cta-link {
     color: #0b5c53;
-    background: rgba(11, 92, 83, 0.08);
-    border-color: rgba(11, 92, 83, 0.2);
-    box-shadow: 0 6px 12px rgba(11, 92, 83, 0.1);
-    padding: 6px 12px;
-    font-size: 0.9rem;
+    background: rgba(11, 92, 83, 0.12);
+    border-color: rgba(11, 92, 83, 0.25);
+    box-shadow: 0 12px 20px rgba(11, 92, 83, 0.16);
 }
 
 .ayah-links-bar .bookmark-cta-link:hover,
@@ -4369,10 +4327,10 @@ export default {
 }
 
 .sticky-dropdown label.form-label {
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-weight: 800;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: #4b5563;
 }
 
