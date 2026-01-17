@@ -80,6 +80,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       lastAutoScrollAt: 0,
       isManualScrolling: false,
       manualScrollTimer: null,
+      ayahScrubValue: 1,
       // perf throttles
       lastProgressAt: 0,
       lastVizAt: 0,
@@ -329,7 +330,13 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       // Reset virtualization window to top
       this.visibleStart = 0;
       this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+      this.ayahScrubValue = Math.min(Math.max(1, this.ayahScrubValue), Math.max(n, 1));
       this.$nextTick(this.updateVirtualWindow);
+    },
+    currentlyPlayingIndex(next) {
+      if (typeof next !== "number" || next < 0) return;
+      this.ayahScrubValue = next + 1;
+      this.syncPlaybackScroll(next);
     }
   },
   created() {
@@ -1977,16 +1984,20 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       localStorage.setItem(key, JSON.stringify(value));
     },
     handleAyahEnd: function (index) {
-      if (this.isAudioPlaying[index]) {
-        this.stopAudio(index);
-        if (this.repeatCurrent) {
-          this.toggleAudioPlayer(index);
-        } else if (this.continuousPlayback) {
-          this.playNextAyah(index);
-        } else {
-          console.log(`Continuous playback disabled, stopping after ayah ${index + 1}`);
+      this.stopAudio(index);
+      if (this.repeatCurrent) {
+        this.toggleAudioPlayer(index);
+        return;
+      }
+      if (this.continuousPlayback) {
+        const nextIndex = index + 1;
+        if (nextIndex < this.filteredAyahs.length) {
+          setTimeout(() => this.playAudio(nextIndex), 50);
+          return;
         }
       }
+      this.showAudioPlayer = false;
+      this.currentlyPlayingIndex = -1;
     },
     // playNextAyah: function () {
     //   if (this.filteredAyahs.length > 0) {
@@ -2029,6 +2040,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!this.canPlaySurah) return;
       this.continuousPlayback = true;
       this.savePreference("continuousPlayback", true);
+      this.repeatCurrent = false;
+      localStorage.setItem("repeatCurrent", JSON.stringify(this.repeatCurrent));
       const startIndex = 0;
       if (typeof this.currentlyPlayingIndex === "number" && this.currentlyPlayingIndex >= 0 && this.currentlyPlayingIndex < this.filteredAyahs.length) {
         this.stopAudio(this.currentlyPlayingIndex);
@@ -2036,6 +2049,26 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.currentlyPlayingIndex = startIndex;
       this.selectCard(startIndex);
       this.playAudio(startIndex);
+    },
+    syncPlaybackScroll(index) {
+      const now = window.performance ? performance.now() : Date.now();
+      if (now - this.lastAutoScrollAt < 400) return;
+      this.lastAutoScrollAt = now;
+      this.scrollToAyahIndex(index);
+    },
+    onAyahScrubInput(event) {
+      var _event$target;
+      const raw = Number(((_event$target = event.target) === null || _event$target === void 0 ? void 0 : _event$target.value) || 1);
+      this.ayahScrubValue = Math.min(Math.max(1, raw), Math.max(this.totalItems, 1));
+    },
+    onAyahScrubChange(event) {
+      var _event$target2;
+      const raw = Number(((_event$target2 = event.target) === null || _event$target2 === void 0 ? void 0 : _event$target2.value) || 1);
+      const targetIndex = Math.min(Math.max(0, raw - 1), Math.max(this.totalItems - 1, 0));
+      this.ayahScrubValue = targetIndex + 1;
+      this.selectCard(targetIndex);
+      this.scrollToAyahIndex(targetIndex);
+      this.playAudio(targetIndex);
     },
     toggleVolume: function () {
       this.showVolumeBar = !this.showVolumeBar;
@@ -3056,6 +3089,15 @@ const _hoisted_109 = {
   class: "audio-visualizer",
   ref: "visualizer"
 };
+const _hoisted_110 = {
+  class: "ayah-scrollbar",
+  role: "group",
+  "aria-label": "Surah verse navigator"
+};
+const _hoisted_111 = ["max", "value", "aria-valuemax", "aria-valuenow", "aria-valuetext"];
+const _hoisted_112 = {
+  class: "ayah-scrollbar-count"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   var _ctx$audioElements$_c, _ctx$audioElements$_c2;
   const _component_bookmark_modal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("bookmark-modal");
@@ -3065,7 +3107,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }]),
     role: "main",
     "aria-label": "Quran Explorer"
-  }, [_cache[82] || (_cache[82] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, [_cache[85] || (_cache[85] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "row justify-content-center text-center mb-3"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "col-lg-10 col-xl-10"
@@ -3081,18 +3123,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       top: _ctx.isVisible ? '80px' : '60px'
     }),
     ref: "stickyDropdown"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"filter-title\" data-v-828f3036><span class=\"filter-icon\" data-v-828f3036><i class=\"fas fa-sliders-h\" aria-hidden=\"true\" data-v-828f3036></i></span><div data-v-828f3036><div class=\"filter-eyebrow\" data-v-828f3036>Filters</div><div class=\"filter-subtitle\" data-v-828f3036> Surah, reciter, and translation </div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"filter-title\" data-v-828f3036><span class=\"filter-icon\" data-v-828f3036><i class=\"fas fa-sliders-h\" aria-hidden=\"true\" data-v-828f3036></i></span><div data-v-828f3036><div class=\"filter-eyebrow\" data-v-828f3036>Filters</div><div class=\"filter-subtitle\" data-v-828f3036> Surah, reciter, and translation </div></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/bookmarks",
     class: "bookmark-cta-link",
     onClick: _cache[0] || (_cache[0] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.onBookmarksLinkClick && $options.onBookmarksLinkClick(...args), ["prevent"]))
-  }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-bookmark-heart-fill me-2",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View saved bookmarks ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/notes",
     class: "bookmark-cta-link notes-cta-link ms-3",
     onClick: _cache[1] || (_cache[1] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.onNotesLinkClick && $options.onNotesLinkClick(...args), ["prevent"]))
-  }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journal-text me-2",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" View notes & reflections ", -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3102,13 +3144,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-expanded": _ctx.isVisible,
     "aria-controls": "surat-filters",
     "aria-label": _ctx.isVisible ? 'Hide filters' : 'Show filters'
-  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_5))], 8 /* PROPS */, _hoisted_3)])]), _ctx.authAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_ctx.isVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_4)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("i", _hoisted_5))], 8 /* PROPS */, _hoisted_3)])]), _ctx.authAlert ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_6, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-exclamation-circle-fill",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.authAlert), 1 /* TEXT */), _cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.authAlert), 1 /* TEXT */), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/login",
     class: "btn btn-sm btn-light auth-alert-link"
-  }, "Log in", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, "Log in", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_7, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_8, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "surah-select",
     class: "form-label mt-2"
   }, "Select Surah", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
@@ -3116,7 +3158,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "form-select shadow-sm",
     "onUpdate:modelValue": _cache[3] || (_cache[3] = $event => _ctx.selectedSurah = $event),
     onChange: _cache[4] || (_cache[4] = (...args) => $options.fetchSurahDetails && $options.fetchSurahDetails(...args))
-  }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a Surah", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(_ctx.surahs, surah => {
@@ -3124,14 +3166,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: surah.number,
       value: surah.number
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.number) + ". " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.englishName) + " (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(surah.name) + ") ", 9 /* TEXT, PROPS */, _hoisted_9);
-  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 544 /* NEED_HYDRATION, NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedSurah]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_10, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "reciter-select",
     class: "form-label mt-2"
   }, "Select Reciter", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "reciter-select",
     class: "form-select shadow-sm",
     "onUpdate:modelValue": _cache[5] || (_cache[5] = $event => _ctx.selectedReciter = $event)
-  }, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select a reciter", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.recitersSorted, reciter => {
@@ -3139,14 +3181,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: reciter.identifier,
       value: reciter.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reciter.englishName), 9 /* TEXT, PROPS */, _hoisted_11);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedReciter]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [_cache[45] || (_cache[45] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     for: "translation-select",
     class: "form-label mt-2"
   }, "Select Translation", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     id: "translation-select",
     class: "form-select shadow-sm",
     "onUpdate:modelValue": _cache[6] || (_cache[6] = $event => _ctx.selectedTranslation = $event)
-  }, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
+  }, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("option", {
     value: "",
     disabled: ""
   }, "Select Translation", -1 /* CACHED */)), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.translationsSorted, translation => {
@@ -3154,7 +3196,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       key: translation.identifier,
       value: translation.identifier
     }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(`${translation.flag} ${translation.englishName} (${translation.language})`), 9 /* TEXT, PROPS */, _hoisted_13);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])], 6 /* CLASS, STYLE */), _ctx.surahDetails ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, _ctx.selectedTranslation]])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])], 6 /* CLASS, STYLE */), _ctx.surahDetails ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_14, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[46] || (_cache[46] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-1 fw-semibold text-uppercase text-muted"
   }, "Now viewing", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_16, " Surah " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahDetails.surahNumber) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahDetails.englishName || _ctx.surahDetails.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.surahDetails.ayahs ? _ctx.surahDetails.ayahs.length : $options.filteredAyahs.length) + " verses ", 1 /* TEXT */)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -3162,7 +3204,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: !$options.canPlaySurah,
     onClick: _cache[7] || (_cache[7] = (...args) => $options.playSurahContinuously && $options.playSurahContinuously(...args)),
     "aria-label": "Play every ayah in this surah"
-  }, [...(_cache[45] || (_cache[45] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-play-fill me-2",
     "aria-hidden": "true"
   }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Play full surah ", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_18)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3174,23 +3216,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", _ctx.nextStepMinimized ? 'fa-expand-alt' : 'fa-compress-alt']),
     "aria-hidden": "true"
-  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_cache[52] || (_cache[52] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "flex-shrink-0 mt-1"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "next-step-icon-circle"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-quran"
-  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[49] || (_cache[49] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  })])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "mb-2 fw-semibold text-uppercase next-step-eyebrow"
-  }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [...(_cache[46] || (_cache[46] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, " NEXT STEP ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Minimized teaser "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/history",
     class: "fw-semibold text-decoration-none next-step-link"
   }, " Explore the Seerah timeline ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"
-  }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, [...(_cache[47] || (_cache[47] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently continue with the life of the Messenger who lived its message. Walk through a simple, welcoming ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_25, [...(_cache[49] || (_cache[49] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently continue with the life of the Messenger who lived its message. Walk through a simple, welcoming ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     href: "/mission",
     class: "fw-semibold text-decoration-none next-step-link"
-  }, " Seerah timeline ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to see the journey unfold. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_26, [...(_cache[48] || (_cache[48] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Explore Seerah ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, " Seerah timeline ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" to see the journey unfold. ", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", _hoisted_26, [...(_cache[50] || (_cache[50] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Explore Seerah ", -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-arrow-up-right-from-square ms-2"
   }, null, -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, !_ctx.nextStepMinimized]])])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.showNextStep]]), _ctx.isLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_27, "Loading Surah...")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_28, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
@@ -3216,7 +3258,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onKeydown: [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleAudioPlayer(item.index), ["prevent"]), ["enter"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.toggleAudioPlayer(item.index), ["prevent"]), ["space"])],
       draggable: "true",
       onDragstart: $event => $options.onAyahDragStart(item.ayah, $event)
-    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[51] || (_cache[51] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Surah and Ayah Number "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", null, [_cache[53] || (_cache[53] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
       src: "/images/art.png",
       width: "35px",
       alt: "Art Icon"
@@ -3237,7 +3279,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.openBookmarkModal(item.ayah), ["stop"]),
       title: "Save to folder / Organize",
       "aria-label": "Save to folder or organize bookmark"
-    }, [...(_cache[52] || (_cache[52] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-folder-plus",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_36)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Desktop Layout: Icons on Left "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
@@ -3251,7 +3293,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_40), _cache[55] || (_cache[55] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_40), _cache[57] || (_cache[57] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
       class: "pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, " Translation: ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "fw-regular ltr-text flex-grow-1",
@@ -3265,7 +3307,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.copyAyah(item.ayah), ["stop"]),
       "aria-label": "Copy ayah",
       title: "Copy ayah"
-    }, [...(_cache[53] || (_cache[53] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[55] || (_cache[55] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3274,7 +3316,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.shareOnWhatsApp(item.ayah), ["stop"]),
       "aria-label": "Share ayah",
       title: "Share ayah"
-    }, [...(_cache[54] || (_cache[54] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[56] || (_cache[56] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-send",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_44)])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3290,7 +3332,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[9] || (_cache[9] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
       "aria-label": "Decrease font size",
       title: "Decrease Font Size"
-    }, [...(_cache[56] || (_cache[56] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-dash-circle-fill",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3314,7 +3356,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
       })
-    }, null, 12 /* STYLE, PROPS */, _hoisted_50), _cache[60] || (_cache[60] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
+    }, null, 12 /* STYLE, PROPS */, _hoisted_50), _cache[62] || (_cache[62] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h4", {
       class: "fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2"
     }, " Translation: ", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
       class: "fw-regular ltr-text flex-grow-1",
@@ -3328,7 +3370,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.copyAyah(item.ayah), ["stop"]),
       "aria-label": "Copy ayah",
       title: "Copy ayah"
-    }, [...(_cache[57] || (_cache[57] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[59] || (_cache[59] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-clipboard",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_53), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3337,7 +3379,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.shareOnWhatsApp(item.ayah), ["stop"]),
       "aria-label": "Share ayah",
       title: "Share ayah"
-    }, [...(_cache[58] || (_cache[58] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[60] || (_cache[60] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-send",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3348,7 +3390,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)($event => $options.openReflectionModal(item.ayah), ["stop"]),
       "aria-label": $options.hasReflection(item.ayah) ? 'Edit reflection' : 'Add reflection',
       title: $options.hasReflection(item.ayah) ? 'Edit reflection' : 'Add reflection'
-    }, [_cache[59] || (_cache[59] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [_cache[61] || (_cache[61] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-journal-text",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.hasReflection(item.ayah) ? 'Reflected' : 'Reflect'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_55)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_56, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3356,7 +3398,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[10] || (_cache[10] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
       "aria-label": "Decrease font size",
       title: "Decrease Font Size"
-    }, [...(_cache[61] || (_cache[61] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[63] || (_cache[63] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-dash-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -3367,7 +3409,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[11] || (_cache[11] = (...args) => $options.increaseFontSize && $options.increaseFontSize(...args)),
       "aria-label": "Increase font size",
       title: "Increase Font Size"
-    }, [...(_cache[62] || (_cache[62] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[64] || (_cache[64] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-plus-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -3378,7 +3420,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.rewindAudio(item.index),
       "aria-label": "Rewind 15 seconds",
       title: "Rewind"
-    }, [...(_cache[63] || (_cache[63] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[65] || (_cache[65] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-backward-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -3400,7 +3442,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: $event => $options.fastForwardAudio(item.index),
       "aria-label": "Fast forward 20 seconds",
       title: "Fast Forward"
-    }, [...(_cache[64] || (_cache[64] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[66] || (_cache[66] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-skip-forward-circle-fill",
       style: {
         "font-size": "1.6rem"
@@ -3428,7 +3470,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onSaved: $options.onBookmarkSaved
   }, null, 8 /* PROPS */, ["ayah", "onSaved"]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Notes & Reflections Modal "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[65] || (_cache[65] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_69, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_70, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_71, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_72, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     class: "modal-title",
     id: "reflectionModalLabel"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, "Reflect and Save a Thought")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
@@ -3436,7 +3478,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "btn-close",
     onClick: _cache[12] || (_cache[12] = (...args) => $options.hideReflectionModal && $options.hideReflectionModal(...args)),
     "aria-label": "Close reflection modal"
-  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [_cache[77] || (_cache[77] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_73, [_cache[79] || (_cache[79] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "reflection-intro"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "reflection-intro-title"
@@ -3446,9 +3488,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "d-flex flex-column gap-3 mt-3",
     onSubmit: _cache[19] || (_cache[19] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.submitReflectionForm && $options.submitReflectionForm(...args), ["prevent"])),
     novalidate: ""
-  }, [_ctx.reflectionSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [_cache[66] || (_cache[66] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_ctx.reflectionSuccessMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_74, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-check-circle-fill"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionSuccessMessage), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[67] || (_cache[67] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionSuccessMessage), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label fw-bold mb-1 medium-label"
   }, "Title", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",
@@ -3456,7 +3498,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "onUpdate:modelValue": _cache[13] || (_cache[13] = $event => _ctx.reflectionForm.subject = $event),
     placeholder: "Give this reflection a guiding intention",
     required: ""
-  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.subject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[68] || (_cache[68] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.subject]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "form-label fw-bold mb-1 medium-label"
   }, "Message", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
     class: "form-control form-control-lg",
@@ -3465,7 +3507,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     minlength: _ctx.reflectionMessageMinLength,
     placeholder: "Type how this verse moved you today...",
     required: ""
-  }, null, 8 /* PROPS */, _hoisted_75), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_77, "Message must be at least " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionMessageMinLength) + " characters.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx.reflectionForm.message || '').trim().length) + " characters", 1 /* TEXT */)])]), _ctx.editingReflectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_79, [_cache[69] || (_cache[69] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Editing saved reflection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_75), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, _ctx.reflectionForm.message]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_76, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_77, "Message must be at least " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionMessageMinLength) + " characters.", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_78, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)((_ctx.reflectionForm.message || '').trim().length) + " characters", 1 /* TEXT */)])]), _ctx.editingReflectionId ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_79, [_cache[71] || (_cache[71] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Editing saved reflection", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn btn-link btn-sm text-decoration-underline p-0 small",
     onClick: _cache[15] || (_cache[15] = (...args) => $options.cancelReflectionEdit && $options.cancelReflectionEdit(...args))
@@ -3473,7 +3515,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["note-suggestions", {
       collapsed: _ctx.carouselCollapsed
     }])
-  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [_cache[70] || (_cache[70] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_80, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "fw-semibold text-dark me-2"
   }, "Message prompts"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", {
     class: "text-muted"
@@ -3500,15 +3542,15 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $event => $options.applyMessageSuggestion(prompt.text)
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_85, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.icon), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(prompt.text), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_84);
     }), 128 /* KEYED_FRAGMENT */))])], 6 /* CLASS, STYLE */)])]);
-  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */), _ctx.carouselCollapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [_cache[72] || (_cache[72] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }), 128 /* KEYED_FRAGMENT */))])], 2 /* CLASS */), _ctx.carouselCollapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_86, [_cache[74] || (_cache[74] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted small"
   }, "Message prompts are hidden", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "btn note-suggestions-toggle p-0",
     onClick: _cache[17] || (_cache[17] = $event => _ctx.carouselCollapsed = false)
-  }, [...(_cache[71] || (_cache[71] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[73] || (_cache[73] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-chevron-down me-1"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show prompts ", -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.reflectionErrorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_87, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionErrorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentAyahReflections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [_cache[73] || (_cache[73] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Show prompts ", -1 /* CACHED */)]))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _ctx.reflectionErrorMessage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_87, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.reflectionErrorMessage), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.currentAyahReflections.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_88, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_89, [_cache[75] || (_cache[75] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "reflection-history-title"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-journal-text me-1 reflection-title-icon",
@@ -3521,14 +3563,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       type: "button",
       class: "btn reflection-action edit-action",
       onClick: $event => $options.startEditingReflection(note, index)
-    }, [...(_cache[74] || (_cache[74] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[76] || (_cache[76] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-pencil",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Edit", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_95), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "btn reflection-action delete-action",
       onClick: $event => $options.deleteReflection(note, index)
-    }, [...(_cache[75] || (_cache[75] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    }, [...(_cache[77] || (_cache[77] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "bi bi-trash",
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Delete", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_96)])]);
@@ -3540,14 +3582,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     type: "submit",
     class: "btn btn-lg btn-primary ms-2",
     disabled: !$options.canSubmitReflection || _ctx.isSavingReflection
-  }, [_ctx.isSavingReflection ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_99)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[76] || (_cache[76] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save reflection ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_98)])], 32 /* NEED_HYDRATION */)])])])])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
+  }, [_ctx.isSavingReflection ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_99)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[78] || (_cache[78] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Save reflection ", -1 /* CACHED */))], 8 /* PROPS */, _hoisted_98)])], 32 /* NEED_HYDRATION */)])])])])])), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Global Custom Audio Player "), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Teleport, {
     to: "body"
   }, [_ctx.showAudioPlayer ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_100, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_101, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_102, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[20] || (_cache[20] = $event => $options.rewindAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Rewind",
     "aria-label": "Rewind 15 seconds"
-  }, [...(_cache[78] || (_cache[78] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[80] || (_cache[80] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-backward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[21] || (_cache[21] = $event => $options.toggleAudioPlayer(_ctx.currentlyPlayingIndex)),
@@ -3561,14 +3603,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     class: "control-btn",
     title: "Fast Forward",
     "aria-label": "Fast forward 20 seconds"
-  }, [...(_cache[79] || (_cache[79] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[81] || (_cache[81] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-skip-forward-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[23] || (_cache[23] = $event => $options.stopAudio(_ctx.currentlyPlayingIndex)),
     class: "control-btn",
     title: "Stop",
     "aria-label": "Stop"
-  }, [...(_cache[80] || (_cache[80] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[82] || (_cache[82] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-stop-fill"
   }, null, -1 /* CACHED */)]))]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[24] || (_cache[24] = (...args) => $options.toggleVolume && $options.toggleVolume(...args)),
@@ -3613,7 +3655,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     style: {
       "margin-left": "auto"
     }
-  }, [...(_cache[81] || (_cache[81] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[83] || (_cache[83] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-x-lg mb-2"
   }, null, -1 /* CACHED */)]))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "progress-bar",
@@ -3641,7 +3683,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         animationDelay: index * 0.1 + 's'
       })
     }, null, 4 /* STYLE */);
-  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_108)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))], 2 /* CLASS */);
+  }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */)], 40 /* PROPS, NEED_HYDRATION */, _hoisted_108), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_110, [_cache[84] || (_cache[84] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    class: "ayah-scrollbar-label"
+  }, "Ayah", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    class: "ayah-scrollbar-input",
+    type: "range",
+    min: "1",
+    max: Math.max($options.totalItems, 1),
+    value: _ctx.ayahScrubValue,
+    onInput: _cache[33] || (_cache[33] = (...args) => $options.onAyahScrubInput && $options.onAyahScrubInput(...args)),
+    onChange: _cache[34] || (_cache[34] = (...args) => $options.onAyahScrubChange && $options.onAyahScrubChange(...args)),
+    "aria-valuemin": 1,
+    "aria-valuemax": Math.max($options.totalItems, 1),
+    "aria-valuenow": _ctx.ayahScrubValue,
+    "aria-valuetext": `Ayah ${_ctx.ayahScrubValue} of ${Math.max($options.totalItems, 1)}`
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_111), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_112, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(_ctx.ayahScrubValue) + " / " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(Math.max($options.totalItems, 1)), 1 /* TEXT */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]))], 2 /* CLASS */);
 }
 
 /***/ }),

@@ -664,6 +664,23 @@
                             }"></div>
                         </div>
                     </div>
+                    <div class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
+                        <span class="ayah-scrollbar-label">Ayah</span>
+                        <input
+                            class="ayah-scrollbar-input"
+                            type="range"
+                            min="1"
+                            :max="Math.max(totalItems, 1)"
+                            :value="ayahScrubValue"
+                            @input="onAyahScrubInput"
+                            @change="onAyahScrubChange"
+                            :aria-valuemin="1"
+                            :aria-valuemax="Math.max(totalItems, 1)"
+                            :aria-valuenow="ayahScrubValue"
+                            :aria-valuetext="`Ayah ${ayahScrubValue} of ${Math.max(totalItems, 1)}`"
+                        />
+                        <span class="ayah-scrollbar-count">{{ ayahScrubValue }} / {{ Math.max(totalItems, 1) }}</span>
+                    </div>
                 </div>
             </div>
         </teleport>
@@ -732,6 +749,7 @@ export default {
             lastAutoScrollAt: 0,
             isManualScrolling: false,
             manualScrollTimer: null,
+            ayahScrubValue: 1,
             // perf throttles
             lastProgressAt: 0,
             lastVizAt: 0,
@@ -994,7 +1012,13 @@ export default {
             // Reset virtualization window to top
             this.visibleStart = 0;
             this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+            this.ayahScrubValue = Math.min(Math.max(1, this.ayahScrubValue), Math.max(n, 1));
             this.$nextTick(this.updateVirtualWindow);
+        },
+        currentlyPlayingIndex(next) {
+            if (typeof next !== "number" || next < 0) return;
+            this.ayahScrubValue = next + 1;
+            this.syncPlaybackScroll(next);
         },
     },
     created() {
@@ -2981,19 +3005,20 @@ export default {
             localStorage.setItem(key, JSON.stringify(value));
         },
         handleAyahEnd: function (index) {
-            if (this.isAudioPlaying[index]) {
-                this.stopAudio(index);
-                if (this.repeatCurrent) {
-                    this.toggleAudioPlayer(index);
-                } else if (this.continuousPlayback) {
-                    this.playNextAyah(index);
-                } else {
-                    console.log(
-                        `Continuous playback disabled, stopping after ayah ${index + 1
-                        }`
-                    );
+            this.stopAudio(index);
+            if (this.repeatCurrent) {
+                this.toggleAudioPlayer(index);
+                return;
+            }
+            if (this.continuousPlayback) {
+                const nextIndex = index + 1;
+                if (nextIndex < this.filteredAyahs.length) {
+                    setTimeout(() => this.playAudio(nextIndex), 50);
+                    return;
                 }
             }
+            this.showAudioPlayer = false;
+            this.currentlyPlayingIndex = -1;
         },
         // playNextAyah: function () {
         //   if (this.filteredAyahs.length > 0) {
@@ -3036,6 +3061,8 @@ export default {
             if (!this.canPlaySurah) return;
             this.continuousPlayback = true;
             this.savePreference("continuousPlayback", true);
+            this.repeatCurrent = false;
+            localStorage.setItem("repeatCurrent", JSON.stringify(this.repeatCurrent));
             const startIndex = 0;
             if (
                 typeof this.currentlyPlayingIndex === "number" &&
@@ -3047,6 +3074,30 @@ export default {
             this.currentlyPlayingIndex = startIndex;
             this.selectCard(startIndex);
             this.playAudio(startIndex);
+        },
+        syncPlaybackScroll(index) {
+            const now = window.performance ? performance.now() : Date.now();
+            if (now - this.lastAutoScrollAt < 400) return;
+            this.lastAutoScrollAt = now;
+            this.scrollToAyahIndex(index);
+        },
+        onAyahScrubInput(event) {
+            const raw = Number(event.target?.value || 1);
+            this.ayahScrubValue = Math.min(
+                Math.max(1, raw),
+                Math.max(this.totalItems, 1)
+            );
+        },
+        onAyahScrubChange(event) {
+            const raw = Number(event.target?.value || 1);
+            const targetIndex = Math.min(
+                Math.max(0, raw - 1),
+                Math.max(this.totalItems - 1, 0)
+            );
+            this.ayahScrubValue = targetIndex + 1;
+            this.selectCard(targetIndex);
+            this.scrollToAyahIndex(targetIndex);
+            this.playAudio(targetIndex);
         },
         toggleVolume: function () {
             this.showVolumeBar = !this.showVolumeBar;
@@ -4112,6 +4163,35 @@ export default {
     flex-direction: column;
     color: white;
     padding: 6px 12px;
+}
+
+.ayah-scrollbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.ayah-scrollbar-label {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.ayah-scrollbar-input {
+    flex: 1;
+    accent-color: #d2a24b;
+}
+
+.ayah-scrollbar-count {
+    font-weight: 600;
+    color: #fff;
+    min-width: 64px;
+    text-align: right;
 }
 
 .controls {

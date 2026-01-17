@@ -34295,6 +34295,31 @@ to {
     color: white;
     padding: 6px 12px;
 }
+.ayah-scrollbar[data-v-828f3036] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 14px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.08);
+}
+.ayah-scrollbar-label[data-v-828f3036] {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: rgba(255, 255, 255, 0.65);
+}
+.ayah-scrollbar-input[data-v-828f3036] {
+    flex: 1;
+    accent-color: #d2a24b;
+}
+.ayah-scrollbar-count[data-v-828f3036] {
+    font-weight: 600;
+    color: #fff;
+    min-width: 64px;
+    text-align: right;
+}
 .controls[data-v-828f3036] {
     display: flex;
     align-items: center;
