@@ -12,11 +12,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   __name: 'RadioComponent',
@@ -24,6 +26,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     expose: __expose
   }) {
     __expose();
+    const storageUserId = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)((0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.resolveClientUserId)());
+    const storagePrefix = (0,vue__WEBPACK_IMPORTED_MODULE_0__.ref)(storageUserId.value ? `user:${storageUserId.value}` : 'guest');
+    const storageKey = key => storagePrefix.value ? `${storagePrefix.value}:${key}` : key;
     const defaultPopularReciters = (0,vue__WEBPACK_IMPORTED_MODULE_0__.markRaw)([{
       id: 1,
       name: 'Mishary Rashid Alafasy',
@@ -411,7 +416,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         lastPlayed: new Date().toISOString()
       }));
       if (recentlyPlayed.value.length > 10) recentlyPlayed.value.pop();
-      localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed.value));
+      localStorage.setItem(storageKey('recentlyPlayed'), JSON.stringify(recentlyPlayed.value));
     };
     const togglePlay = async id => {
       await initializeAudio(id);
@@ -727,16 +732,25 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       } else {
         likedStations.value.splice(index, 1);
       }
-      localStorage.setItem('likedStations', JSON.stringify(likedStations.value));
+      localStorage.setItem(storageKey('likedStations'), JSON.stringify(likedStations.value));
     };
     const isLiked = id => likedStations.value.some(s => s.id === id);
     const loadLikedStations = () => {
-      const liked = JSON.parse(localStorage.getItem('likedStations') || '[]');
+      const liked = JSON.parse(localStorage.getItem(storageKey('likedStations')) || '[]');
       likedStations.value = liked.filter(s => stations.value.some(station => station.id === s.id));
     };
     const loadRecentlyPlayed = () => {
-      const recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
+      const recent = JSON.parse(localStorage.getItem(storageKey('recentlyPlayed')) || '[]');
       recentlyPlayed.value = recent.filter(s => stations.value.some(station => station.id === s.id));
+    };
+    const resolveStorageScope = async () => {
+      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.fetchUserIdFromApi)();
+      if (resolvedId && resolvedId !== storageUserId.value) {
+        storageUserId.value = resolvedId;
+        storagePrefix.value = `user:${resolvedId}`;
+        loadLikedStations();
+        loadRecentlyPlayed();
+      }
     };
     const retryPlayback = id => {
       playbackErrors.value[id] = null;
@@ -797,6 +811,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     };
     (0,vue__WEBPACK_IMPORTED_MODULE_0__.onMounted)(() => {
+      resolveStorageScope();
       fetchStations();
       // Initialize infinite scroll observer after initial fetch completes
       // A slight delay ensures the sentinel is in the DOM
@@ -830,6 +845,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, 300);
     };
     const __returned__ = {
+      storageUserId,
+      storagePrefix,
+      storageKey,
       defaultPopularReciters,
       showSuggestions,
       filteredSuggestions,
@@ -929,6 +947,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       isLiked,
       loadLikedStations,
       loadRecentlyPlayed,
+      resolveStorageScope,
       retryPlayback,
       updateListenerCounts,
       stopPlayback,
@@ -943,7 +962,13 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       nextTick: vue__WEBPACK_IMPORTED_MODULE_0__.nextTick,
       onBeforeUnmount: vue__WEBPACK_IMPORTED_MODULE_0__.onBeforeUnmount,
       watch: vue__WEBPACK_IMPORTED_MODULE_0__.watch,
-      markRaw: vue__WEBPACK_IMPORTED_MODULE_0__.markRaw
+      markRaw: vue__WEBPACK_IMPORTED_MODULE_0__.markRaw,
+      get fetchUserIdFromApi() {
+        return _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.fetchUserIdFromApi;
+      },
+      get resolveClientUserId() {
+        return _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_1__.resolveClientUserId;
+      }
     };
     Object.defineProperty(__returned__, '__isScriptSetup', {
       enumerable: false,

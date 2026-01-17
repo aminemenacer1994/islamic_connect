@@ -29,6 +29,7 @@ trait BookmarkSessionAware
         $owner = [];
         if ($user = $request->user()) {
             $owner['user_id'] = $user->id;
+            return $owner;
         }
         if ($sessionId = $this->resolveBookmarkSessionId($request)) {
             $owner['session_id'] = $sessionId;
@@ -61,14 +62,6 @@ trait BookmarkSessionAware
     {
         $owner = $this->bookmarkOwner($request);
         if (empty($owner)) {
-            return $query;
-        }
-
-        if (!empty($owner['user_id']) && !empty($owner['session_id'])) {
-            $query->where(function (Builder $sub) use ($owner) {
-                $sub->where('user_id', $owner['user_id'])
-                    ->orWhere('session_id', $owner['session_id']);
-            });
             return $query;
         }
 

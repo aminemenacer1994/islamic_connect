@@ -15,6 +15,9 @@ class FolderPolicy
         if ($user && $user->id === $folder->user_id) {
             return true;
         }
+        if ($user) {
+            return false;
+        }
         $sessionId = $this->resolveSessionId();
         return $sessionId && $sessionId === $folder->session_id;
     }
@@ -24,6 +27,9 @@ class FolderPolicy
         if ($user && $user->id === $folder->user_id) {
             return true;
         }
+        if ($user) {
+            return false;
+        }
         $sessionId = $this->resolveSessionId();
         return $sessionId && $sessionId === $folder->session_id;
     }
@@ -32,6 +38,9 @@ class FolderPolicy
     {
         if ($user && $user->id === $folder->user_id) {
             return true;
+        }
+        if ($user) {
+            return false;
         }
         $sessionId = $this->resolveSessionId();
         return $sessionId && $sessionId === $folder->session_id;

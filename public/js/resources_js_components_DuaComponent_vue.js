@@ -11,16 +11,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/bookmarkAuth */ "./resources/js/utils/bookmarkAuth.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 const {
   createDuaMetadata
 } = __webpack_require__(/*! ../utils/duaSlugs */ "./resources/js/utils/duaSlugs.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
+    const initialUserId = (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_0__.resolveClientUserId)();
+    const storagePrefix = initialUserId ? `user:${initialUserId}` : 'guest';
+    const readArray = (key, fallback = []) => {
+      if (typeof localStorage === 'undefined') return fallback;
+      try {
+        const raw = localStorage.getItem(`${storagePrefix}:${key}`);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    };
     return {
       duaCollection: [],
       searchQuery: '',
@@ -30,7 +43,9 @@ const {
       duasPerPage: 20,
       showCopyMessage: false,
       fontSize: 18,
-      likedDuas: [],
+      storageUserId: initialUserId,
+      storagePrefix,
+      likedDuas: readArray('likedDuas', []),
       viewMode: 'all',
       searchTags: ['All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience', 'Success', 'Mercy', 'Peace', 'Provision', 'Strength', 'Repentance'],
       selectedTag: '',
@@ -156,6 +171,32 @@ const {
     }
   },
   methods: {
+    storageKey(key) {
+      return this.storagePrefix ? `${this.storagePrefix}:${key}` : key;
+    },
+    readStorageArray(key, fallback = []) {
+      if (typeof localStorage === 'undefined') return fallback;
+      try {
+        const raw = localStorage.getItem(this.storageKey(key));
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    },
+    writeStorageArray(key, value) {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem(this.storageKey(key), JSON.stringify(value));
+      } catch (e) {}
+    },
+    async resolveStorageScope() {
+      const resolvedId = await (0,_utils_bookmarkAuth__WEBPACK_IMPORTED_MODULE_0__.fetchUserIdFromApi)();
+      if (resolvedId && resolvedId !== this.storageUserId) {
+        this.storageUserId = resolvedId;
+        this.storagePrefix = `user:${resolvedId}`;
+        this.likedDuas = this.readStorageArray('likedDuas', []);
+      }
+    },
     toggleNextStepMinimized() {
       this.nextStepMinimized = !this.nextStepMinimized;
     },
@@ -352,7 +393,7 @@ const {
         updatedLikedDuas.push(duaId);
       }
       this.likedDuas = updatedLikedDuas;
-      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+      this.writeStorageArray('likedDuas', this.likedDuas);
     },
     toggleAllInCategory(categoryId) {
       const category = this.duaCollection.find(c => c.id === categoryId);
@@ -366,7 +407,7 @@ const {
         updatedLikedDuas = [...new Set([...updatedLikedDuas, ...category.duas.map(dua => dua.id)])];
       }
       this.likedDuas = updatedLikedDuas;
-      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+      this.writeStorageArray('likedDuas', this.likedDuas);
       setTimeout(() => {
         this.actionFeedback[categoryId] = false;
       }, 1000);
@@ -374,7 +415,7 @@ const {
     clearAllLikedDuas() {
       this.actionFeedback['clearAll'] = true;
       this.likedDuas = [];
-      localStorage.setItem('likedDuas', JSON.stringify(this.likedDuas));
+      this.writeStorageArray('likedDuas', this.likedDuas);
       setTimeout(() => {
         this.actionFeedback['clearAll'] = false;
       }, 1000);
@@ -445,10 +486,8 @@ const {
     try {
       console.debug('[DuaComponent] created()');
     } catch (e) {}
-    const storedLikedDuas = localStorage.getItem('likedDuas');
-    if (storedLikedDuas) {
-      this.likedDuas = JSON.parse(storedLikedDuas);
-    }
+    this.likedDuas = this.readStorageArray('likedDuas', []);
+    this.resolveStorageScope();
 
     // Robust path for JSON under public/
     fetch(`${window.location.origin}/duaCollection.json`).then(response => {

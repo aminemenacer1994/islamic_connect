@@ -36,12 +36,7 @@ class RouteServiceProvider extends ServiceProvider
             $userId = optional($request->user())->id;
             $sessionId = trim((string) $request->header('X-Bookmark-Session', ''));
 
-            if ($userId && $sessionId) {
-                $query->where(function ($sub) use ($userId, $sessionId) {
-                    $sub->where('user_id', $userId)
-                        ->orWhere('session_id', $sessionId);
-                });
-            } elseif ($userId) {
+            if ($userId) {
                 $query->where('user_id', $userId);
             } elseif ($sessionId) {
                 $query->where('session_id', $sessionId);

@@ -424,12 +424,24 @@
 </template>
 <script>
 import ChatBot from './translation/ChatBot.vue';
+import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 
 export default {
   components: {
     ChatBot
   },
   data() {
+    const initialUserId = resolveClientUserId();
+    const storagePrefix = initialUserId ? `user:${initialUserId}` : 'guest';
+    const readArray = (key, fallback = []) => {
+      if (typeof localStorage === 'undefined') return fallback;
+      try {
+        const raw = localStorage.getItem(`${storagePrefix}:${key}`);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    };
     return {
       smallScreen: false,
       isVisible: true,
@@ -465,6 +477,8 @@ export default {
       showVolumeBar: false,
       // error state for fetch failures
       fetchError: null,
+      storageUserId: initialUserId,
+      storagePrefix,
       islamicPodcasts: [
         {
           name: "The Mad Mamluks",
@@ -582,9 +596,9 @@ export default {
       itemsPerLoad: 8,
       visibleCount: 0,
       isLoadingMore: false,
-      bookmarks: JSON.parse(localStorage.getItem('bookmarks')) || [],
-      favourites: JSON.parse(localStorage.getItem('favourites')) || [],
-      recentPlays: JSON.parse(localStorage.getItem('recentPlays') || '[]'),
+      bookmarks: readArray('bookmarks'),
+      favourites: readArray('favourites'),
+      recentPlays: readArray('recentPlays', []),
       sortOption: 'mostViewed',
       dateFilter: 'weekly',
       durationFilter: '',
@@ -657,7 +671,7 @@ export default {
 
     // Restore last selected podcast
     try {
-      const savedPodcast = localStorage.getItem(this.lastSelectedPodcastKey);
+      const savedPodcast = localStorage.getItem(this.storageKey(this.lastSelectedPodcastKey));
       if (savedPodcast) {
         const parsed = JSON.parse(savedPodcast);
         if (parsed && parsed.rssUrl) this.selectedPodcast = parsed;
@@ -670,7 +684,7 @@ export default {
     // Prune recent plays to last 50
     if (Array.isArray(this.recentPlays) && this.recentPlays.length > 50) {
       this.recentPlays = this.recentPlays.slice(0, 50);
-      try { localStorage.setItem('recentPlays', JSON.stringify(this.recentPlays)); } catch (e) {}
+      this.writeStorageArray('recentPlays', this.recentPlays);
     }
   },
 
@@ -682,6 +696,38 @@ export default {
   },
 
   methods: {
+    storageKey(key) {
+      return this.storagePrefix ? `${this.storagePrefix}:${key}` : key;
+    },
+    readStorageArray(key, fallback = []) {
+      if (typeof localStorage === 'undefined') return fallback;
+      try {
+        const raw = localStorage.getItem(this.storageKey(key));
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    },
+    writeStorageArray(key, value) {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem(this.storageKey(key), JSON.stringify(value));
+      } catch (e) {}
+    },
+    async resolveStorageScope() {
+      const resolvedId = await fetchUserIdFromApi();
+      if (resolvedId && resolvedId !== this.storageUserId) {
+        this.storageUserId = resolvedId;
+        this.storagePrefix = `user:${resolvedId}`;
+        this.refreshStoredState();
+        this.buildContinueListening();
+      }
+    },
+    refreshStoredState() {
+      this.bookmarks = this.readStorageArray('bookmarks');
+      this.favourites = this.readStorageArray('favourites');
+      this.recentPlays = this.readStorageArray('recentPlays', []);
+    },
     toggleVisibility() {
       this.isVisible = !this.isVisible;
     },
@@ -1033,7 +1079,7 @@ export default {
 
     selectPodcast(podcast) {
       this.selectedPodcast = podcast;
-      try { localStorage.setItem(this.lastSelectedPodcastKey, JSON.stringify(podcast)); } catch (e) {}
+      try { localStorage.setItem(this.storageKey(this.lastSelectedPodcastKey), JSON.stringify(podcast)); } catch (e) {}
       this.fetchPodcasts();
       this.$nextTick(() => {
         const section = this.$refs.podcastDetailSection;
@@ -1062,7 +1108,7 @@ export default {
       const index = this.bookmarks.findIndex(item => item.title === podcast.title);
       if (index > -1) this.bookmarks.splice(index, 1);
       else this.bookmarks.push(podcast);
-      localStorage.setItem('bookmarks', JSON.stringify(this.bookmarks));
+      this.writeStorageArray('bookmarks', this.bookmarks);
     },
 
     isBookmarked(podcast) {
@@ -1122,7 +1168,7 @@ export default {
     buildContinueListening() {
       try {
         const entries = [];
-        const prefix = 'content_progress_';
+        const prefix = this.storageKey('content_progress_');
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (!key || !key.startsWith(prefix)) continue;
@@ -1166,7 +1212,7 @@ export default {
         audio.addEventListener('timeupdate', () => {
           this.updateProgress(index, audio);
           try {
-            const key = `content_progress_${podcast?.title}`;
+            const key = this.storageKey(`content_progress_${podcast?.title}`);
             localStorage.setItem(key, String(audio.currentTime || 0));
           } catch (e) {}
         }, { passive: true });
@@ -1181,7 +1227,7 @@ export default {
       // Restore last position for this episode
       try {
         const podcast = this.visiblePodcasts[index];
-        const key = `content_progress_${podcast.title}`;
+        const key = this.storageKey(`content_progress_${podcast.title}`);
         const saved = Number(localStorage.getItem(key));
         if (!isNaN(saved) && saved > 0 && this.currentlyPlaying && Math.abs((this.currentlyPlaying.currentTime || 0) - saved) > 1) {
           this.currentlyPlaying.currentTime = saved;
@@ -1304,7 +1350,7 @@ export default {
       } else {
         this.favourites = [{ title: podcast.title, audioUrl: podcast.audioUrl, pubDate: podcast.pubDate, views: podcast.views, likedAt: Date.now() }, ...this.favourites].slice(0, 100);
       }
-      try { localStorage.setItem('favourites', JSON.stringify(this.favourites)); } catch (e) {}
+      this.writeStorageArray('favourites', this.favourites);
     },
     playFromFavourites(fav) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
@@ -1396,7 +1442,8 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
+    await this.resolveStorageScope();
     this.fetchPodcasts().then(() => {
       this.applyFilters();
       this.fetchEpisodeCounts();

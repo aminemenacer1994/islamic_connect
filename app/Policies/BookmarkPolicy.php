@@ -29,6 +29,9 @@ class BookmarkPolicy
         if ($user && $user->id === $bookmark->user_id) {
             return true;
         }
+        if ($user) {
+            return false;
+        }
 
         return $bookmark->session_id === $this->getSessionId();
     }
@@ -38,6 +41,9 @@ class BookmarkPolicy
         if ($user && $user->id === $bookmark->user_id) {
             return true;
         }
+        if ($user) {
+            return false;
+        }
 
         return $bookmark->session_id === $this->getSessionId();
     }
@@ -46,6 +52,9 @@ class BookmarkPolicy
     {
         if ($user && $user->id === $bookmark->user_id) {
             return true;
+        }
+        if ($user) {
+            return false;
         }
 
         return $bookmark->session_id === $this->getSessionId();

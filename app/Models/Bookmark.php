@@ -56,13 +56,6 @@ class Bookmark extends Model
             return $query;
         }
 
-        if (!empty($owner['user_id']) && !empty($owner['session_id'])) {
-            return $query->where(function (Builder $sub) use ($owner) {
-                $sub->where('user_id', $owner['user_id'])
-                    ->orWhere('session_id', $owner['session_id']);
-            });
-        }
-
         if (!empty($owner['user_id'])) {
             return $query->where('user_id', $owner['user_id']);
         }
@@ -84,6 +77,7 @@ class Bookmark extends Model
 
         if ($user = $request->user()) {
             $owner['user_id'] = $user->id;
+            return $owner;
         }
 
         $sessionId = trim((string) $request->header('X-Bookmark-Session', ''));

@@ -418,6 +418,11 @@
 </template>
 <script setup>
 import { ref, computed, onMounted, reactive, nextTick, onBeforeUnmount, watch, markRaw } from 'vue';
+import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
+
+const storageUserId = ref(resolveClientUserId());
+const storagePrefix = ref(storageUserId.value ? `user:${storageUserId.value}` : 'guest');
+const storageKey = (key) => (storagePrefix.value ? `${storagePrefix.value}:${key}` : key);
 
 const defaultPopularReciters = markRaw([
   {
@@ -830,7 +835,7 @@ const addToRecentlyPlayed = (id) => {
   recentlyPlayed.value = recentlyPlayed.value.filter(s => s.id !== id);
   recentlyPlayed.value.unshift({ ...station, lastPlayed: new Date().toISOString() });
   if (recentlyPlayed.value.length > 10) recentlyPlayed.value.pop();
-  localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed.value));
+  localStorage.setItem(storageKey('recentlyPlayed'), JSON.stringify(recentlyPlayed.value));
 };
 
 const togglePlay = async (id) => {
@@ -1172,19 +1177,29 @@ const toggleLike = (station) => {
   } else {
     likedStations.value.splice(index, 1);
   }
-  localStorage.setItem('likedStations', JSON.stringify(likedStations.value));
+  localStorage.setItem(storageKey('likedStations'), JSON.stringify(likedStations.value));
 };
 
 const isLiked = (id) => likedStations.value.some((s) => s.id === id);
 
 const loadLikedStations = () => {
-  const liked = JSON.parse(localStorage.getItem('likedStations') || '[]');
+  const liked = JSON.parse(localStorage.getItem(storageKey('likedStations')) || '[]');
   likedStations.value = liked.filter((s) => stations.value.some((station) => station.id === s.id));
 };
 
 const loadRecentlyPlayed = () => {
-  const recent = JSON.parse(localStorage.getItem('recentlyPlayed') || '[]');
+  const recent = JSON.parse(localStorage.getItem(storageKey('recentlyPlayed')) || '[]');
   recentlyPlayed.value = recent.filter((s) => stations.value.some((station) => station.id === s.id));
+};
+
+const resolveStorageScope = async () => {
+  const resolvedId = await fetchUserIdFromApi();
+  if (resolvedId && resolvedId !== storageUserId.value) {
+    storageUserId.value = resolvedId;
+    storagePrefix.value = `user:${resolvedId}`;
+    loadLikedStations();
+    loadRecentlyPlayed();
+  }
 };
 
 const retryPlayback = (id) => {
@@ -1252,6 +1267,7 @@ const nextStation = () => {
 };
 
 onMounted(() => {
+  resolveStorageScope();
   fetchStations();
   // Initialize infinite scroll observer after initial fetch completes
   // A slight delay ensures the sentinel is in the DOM
