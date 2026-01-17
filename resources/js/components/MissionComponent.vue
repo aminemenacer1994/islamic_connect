@@ -62,12 +62,13 @@
           <p class="timeline-subtitle">Scroll the years or search by title, year, or keyword.</p>
         </div>
         <div class="mission-search" role="search">
-          <button class="mission-search__icon" type="button" aria-label="Search">
+          <button class="mission-search__icon" type="button" aria-label="Search" @click="focusSearchInput">
             <i class="bi bi-search"></i>
           </button>
           <input
             type="search"
             class="mission-search__input"
+            ref="searchInput"
             v-model="searchQuery"
             @input="filterEvents"
             placeholder="Search year or event"
@@ -639,6 +640,10 @@ export default {
         const el = refs && refs[this.currentIndex] ? refs[this.currentIndex].querySelector('button') : null;
         if (el) el.focus();
       });
+    },
+    focusSearchInput() {
+      const el = this.$refs.searchInput;
+      if (el && el.focus) el.focus();
     },
     keyboardSeek(deltaPercent) {
       const idx = this.currentlyPlayingIndex;

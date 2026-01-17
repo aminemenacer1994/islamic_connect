@@ -167,7 +167,7 @@
                     :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
                     :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
                     @keydown.enter.prevent="toggleAudioPlayer(item.index)"
-                    @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true"
+                    @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true" tabindex="0"
                     @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
                         highlighted:
                             isHighlighted && currentlyPlayingIndex === item.index,
