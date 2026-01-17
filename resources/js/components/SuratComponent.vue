@@ -1,5 +1,5 @@
 <template>
-    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer }" role="main"
+    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true }" role="main"
         aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
@@ -11,98 +11,6 @@
                 </p>
             </div>
         </div>
-        <div class="sticky-dropdown" :style="{ top: isVisible ? '80px' : '60px' }" ref="stickyDropdown"
-            :class="{ collapsed: !isVisible }">
-            <div class="filter-header">
-                <div class="filter-title">
-                    <span class="filter-icon"><i class="fas fa-sliders-h" aria-hidden="true"></i></span>
-                    <div>
-                        <div class="filter-eyebrow">Filters</div>
-                        <div class="filter-subtitle">
-                            Surah, reciter, and translation
-                        </div>
-                    </div>
-                </div>
-                <div class="filter-actions">
-                    <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
-                        <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
-                        View saved bookmarks
-                    </a>
-                    <a href="/notes" class="bookmark-cta-link notes-cta-link ms-3" @click.prevent="onNotesLinkClick">
-                        <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
-                        View notes & reflections
-                    </a>
-                    <button type="button" class="filter-toggle" @click="toggleVisibility" :aria-expanded="isVisible"
-                        aria-controls="surat-filters" :aria-label="isVisible ? 'Hide filters' : 'Show filters'
-                            ">
-                        <i v-if="isVisible" class="bi bi-chevron-up" aria-hidden="true"></i>
-                        <i v-else class="bi bi-chevron-down" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-            <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
-                <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
-                <span>{{ authAlert }}</span>
-                <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
-            </div>
-            <div id="surat-filters" class="row g-3" v-show="isVisible">
-                <div class="col-12 col-md-4 filter-item">
-                    <label for="surah-select" class="form-label mt-2">Select Surah</label>
-                    <select id="surah-select" class="form-select shadow-sm" v-model="selectedSurah"
-                        @change="fetchSurahDetails">
-                        <option value="" disabled>Select a Surah</option>
-                        <option v-for="surah in surahs" :key="surah.number" :value="surah.number">
-                            {{ surah.number }}. {{ surah.englishName }} ({{
-                                surah.name
-                            }})
-                        </option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-4 filter-item">
-                    <label for="reciter-select" class="form-label mt-2">Select Reciter</label>
-                    <select id="reciter-select" class="form-select shadow-sm" v-model="selectedReciter">
-                        <option value="" disabled>Select a reciter</option>
-                        <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
-                            {{ reciter.englishName }}
-                        </option>
-                    </select>
-                </div>
-                <div class="col-12 col-md-4 filter-item">
-                    <label for="translation-select" class="form-label mt-2">Select Translation</label>
-                    <select id="translation-select" class="form-select shadow-sm" v-model="selectedTranslation">
-                        <option value="" disabled>Select Translation</option>
-                        <option v-for="translation in translationsSorted" :key="translation.identifier"
-                            :value="translation.identifier">
-                            {{
-                                `${translation.flag} ${translation.englishName} (${translation.language})`
-                            }}
-                        </option>
-                    </select>
-                </div>
-            </div>
-        </div>
-        <div v-if="surahDetails" class="surah-playback-bar d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
-            <div>
-                <p class="mb-1 fw-semibold text-uppercase text-muted">Now viewing</p>
-                <div class="d-flex flex-column flex-sm-row gap-2 align-items-sm-center">
-                    <span class="fs-5 fw-bold text-dark lh-1">
-                        Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
-                    </span>
-                    <span class="text-muted small">
-                        {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
-                    </span>
-                </div>
-            </div>
-            <button type="button"
-                class="btn btn-primary btn-lg"
-                :disabled="!canPlaySurah"
-                @click="playSurahContinuously"
-                aria-label="Play every ayah in this surah">
-                <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
-                Play full surah
-            </button>
-        </div>
-
         <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
                 <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="nextStepMinimized
@@ -149,6 +57,88 @@
                 </div>
             </div>
         </div>
+        <div class="surah-layout">
+        <div class="sticky-dropdown" ref="stickyDropdown"
+            :class="{ collapsed: !isVisible }">
+            <div class="filter-header">
+                <div class="filter-actions"></div>
+            </div>
+            <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
+                <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
+                <span>{{ authAlert }}</span>
+                <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
+            </div>
+            <div id="surat-filters" class="row g-3" v-show="isVisible">
+                <div class="col-12 col-md-12 filter-item surah-list">
+                    <label class="form-label mt-2">Select Surah</label>
+                    <div class="filter-list">
+                        <button type="button" class="filter-option"
+                            v-for="surah in surahs" :key="surah.number"
+                            :class="{ active: String(selectedSurah) === String(surah.number) }"
+                            @click="selectSurah(surah.number)">
+                            <span class="filter-option-number">{{ surah.number }}</span>
+                            <span class="filter-option-title">{{ surah.englishName }}</span>
+                            <span class="filter-option-subtitle">{{ surah.name }}</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div class="col-12 col-md-4 filter-item"></div>
+                <div class="col-12 col-md-4 filter-item"></div> -->
+            </div>
+        </div>
+        <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
+            <div class="surah-toolbar-main">
+                <div class="surah-title-block">
+                    <span class="surah-eyebrow">Now viewing</span>
+                    <div class="surah-title-row">
+                        <span class="surah-title">
+                            Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
+                        </span>
+                        <span class="surah-meta">
+                            {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
+                        </span>
+                    </div>
+                </div>
+                <div class="surah-playback-controls">
+                <select class="form-select shadow-sm" v-model="selectedReciter" aria-label="Select reciter">
+                    <option value="" disabled>Select a reciter</option>
+                    <option v-for="reciter in recitersSorted" :key="reciter.identifier" :value="reciter.identifier">
+                        {{ reciter.englishName }}
+                    </option>
+                </select>
+                <select class="form-select shadow-sm" v-model="selectedTranslation" aria-label="Select translation">
+                    <option value="" disabled>Select Translation</option>
+                    <option v-for="translation in translationsSorted" :key="translation.identifier"
+                        :value="translation.identifier">
+                        {{
+                            `${translation.flag} ${translation.englishName} (${translation.language})`
+                        }}
+                    </option>
+                </select>
+                <button type="button"
+                    class="btn btn-primary btn-lg"
+                    :disabled="!canPlaySurah"
+                    @click="playSurahContinuously"
+                    aria-label="Play every ayah in this surah">
+                    <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
+                    Play full surah
+                </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ayah-links-bar">
+            <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
+                <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
+                View saved bookmarks
+            </a>
+            <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
+                <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
+                View notes & reflections
+            </a>
+        </div>
+
+        
 
         <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
@@ -415,6 +405,7 @@
         <div v-if="!isLoading && surahDetails && filteredAyahs.length === 0"
             class="empty-state text-center text-muted py-4">
             No verses match your current search or filters.
+        </div>
         </div>
 
         <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
@@ -3075,6 +3066,16 @@ export default {
             this.selectCard(startIndex);
             this.playAudio(startIndex);
         },
+        selectSurah(number) {
+            this.selectedSurah = String(number);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        },
+        selectReciter(identifier) {
+            this.selectedReciter = identifier;
+        },
+        selectTranslation(identifier) {
+            this.selectedTranslation = identifier;
+        },
         syncPlaybackScroll(index) {
             const now = window.performance ? performance.now() : Date.now();
             if (now - this.lastAutoScrollAt < 400) return;
@@ -3732,8 +3733,68 @@ export default {
     margin-inline: auto;
 }
 
+.surat-premium.has-sidebar {
+    width: calc(100% - 360px);
+    margin-left: 360px;
+    margin-right: 0;
+}
+
+.surah-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+.surah-layout>.sticky-dropdown,
+.surah-layout>.surah-playback-bar,
+.surah-layout>.next-step-wrapper {
+    grid-column: 1;
+}
+
+.surah-layout>.loading-placeholder,
+.surah-layout>.row.rtl-text,
+.surah-layout>.visually-hidden,
+.surah-layout>.empty-state {
+    grid-column: 1;
+}
+
+.surah-layout>.sticky-dropdown {
+    position: fixed;
+    top: var(--nav-offset, 72px);
+    left: 0;
+    width: 360px;
+    height: calc(100vh - var(--nav-offset, 72px));
+    max-height: none;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    border-radius: 0;
+    margin-bottom: 0;
+    box-shadow: 10px 0 32px rgba(10, 32, 30, 0.25);
+    padding-bottom: 24px;
+}
+
+.surah-layout>.sticky-dropdown .filter-item {
+    flex: 1;
+    min-height: 0;
+}
+
+.surah-layout>.sticky-dropdown #surat-filters {
+    flex: 1;
+    min-height: 0;
+}
+
+.surah-layout>.sticky-dropdown .filter-list {
+    max-height: none;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
 .surat-premium.has-audio-player {
-    padding-bottom: calc(32px + 140px + env(safe-area-inset-bottom));
+    padding-bottom: calc(32px + 220px + env(safe-area-inset-bottom));
 }
 
 .surat-premium>* {
@@ -3839,7 +3900,7 @@ export default {
     }
 
     .surat-premium.has-audio-player {
-        padding-bottom: calc(24px + 170px + env(safe-area-inset-bottom));
+        padding-bottom: calc(24px + 240px + env(safe-area-inset-bottom));
     }
 
     .sticky-dropdown {
@@ -3873,6 +3934,31 @@ export default {
     .bookmark-cta-link {
         padding: 7px 12px;
         font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .surah-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .surah-layout>* {
+        grid-column: 1;
+    }
+
+    .sticky-dropdown {
+        position: relative;
+        top: auto;
+        left: auto;
+        width: 100%;
+        height: auto;
+    }
+
+    .surat-premium.has-sidebar {
+        width: calc(100% - 32px);
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 
@@ -4033,6 +4119,193 @@ export default {
     margin-bottom: 12px;
 }
 
+.filter-option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2px 10px;
+    align-items: center;
+    text-align: left;
+    padding: 10px 12px;
+    width: 100%;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    background: rgba(15, 110, 99, 0.06);
+    color: #1d2b2f;
+    transition: background 0.2s ease, border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.filter-option:hover {
+    transform: translateY(-1px);
+    background: rgba(15, 110, 99, 0.1);
+    border-color: rgba(15, 110, 99, 0.18);
+}
+
+.filter-option.active {
+    background: rgba(15, 110, 99, 0.16);
+    border-color: rgba(15, 110, 99, 0.3);
+    font-weight: 600;
+}
+
+.filter-option-number {
+    font-weight: 700;
+    color: #0f6e63;
+}
+
+.filter-option-title {
+    font-weight: 600;
+}
+
+.filter-option-subtitle {
+    grid-column: 2;
+    font-size: 0.85rem;
+    color: rgba(29, 43, 47, 0.7);
+}
+
+.surah-layout .surah-list .filter-option,
+.surah-layout .surah-list .filter-option-title,
+.surah-layout .surah-list .filter-option-subtitle,
+.surah-layout .surah-list .filter-option-number {
+    color: #ffffff;
+}
+
+.surah-layout .surah-list .filter-option {
+    grid-template-columns: auto 1fr auto;
+}
+
+.surah-layout .surah-list .filter-option-title {
+    grid-column: 2;
+}
+
+.surah-layout .surah-list .filter-option-subtitle {
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    margin-left: 8px;
+    text-align: right;
+    direction: rtl;
+}
+
+.surah-layout .surah-list .filter-option {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.surah-layout .surah-list .filter-option.active {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.24);
+}
+
+.surah-layout .surah-list .filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.surah-playback-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+}
+
+.surah-playback-controls .form-select {
+    min-width: 200px;
+    flex: 1 1 220px;
+    height: 42px;
+    padding: 6px 12px;
+}
+
+.surah-playback-controls .btn {
+    flex: 0 0 auto;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+}
+
+.surah-toolbar {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(15, 110, 99, 0.12);
+    box-shadow: 0 10px 24px rgba(15, 53, 48, 0.08);
+}
+
+.surah-toolbar-main {
+    display: grid;
+    grid-template-columns: minmax(220px, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+}
+
+.surah-title-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.surah-eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b7b7b;
+    font-weight: 700;
+}
+
+.surah-title-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.surah-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1d2b2f;
+}
+
+.surah-meta {
+    font-size: 0.85rem;
+    color: #6b7b7b;
+    font-weight: 600;
+}
+
+.ayah-links-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.ayah-links-bar .bookmark-cta-link,
+.ayah-links-bar .notes-cta-link {
+    color: #0b5c53;
+    background: rgba(11, 92, 83, 0.08);
+    border-color: rgba(11, 92, 83, 0.2);
+    box-shadow: 0 6px 12px rgba(11, 92, 83, 0.1);
+    padding: 6px 12px;
+    font-size: 0.9rem;
+}
+
+.ayah-links-bar .bookmark-cta-link:hover,
+.ayah-links-bar .notes-cta-link:hover {
+    color: #08433e;
+    background: rgba(11, 92, 83, 0.18);
+    border-color: rgba(11, 92, 83, 0.35);
+}
+
+.ayah-links-bar .bookmark-cta-link i,
+.ayah-links-bar .notes-cta-link i {
+    color: inherit;
+}
+
 .filter-title {
     display: inline-flex;
     align-items: center;
@@ -4099,7 +4372,7 @@ export default {
     font-weight: 700;
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    font-size: 0.7rem;
+    font-size: 1.2rem;
     color: #4b5563;
 }
 
@@ -4155,7 +4428,7 @@ export default {
 }
 
 .surat-page {
-    padding-bottom: calc(120px + env(safe-area-inset-bottom));
+    padding-bottom: calc(190px + env(safe-area-inset-bottom));
 }
 
 .custom-audio-player {
