@@ -11019,10 +11019,12 @@ i[data-v-4b451216]:hover {
   border-radius: 22px;
   /* consistent rounded aesthetic */
   box-shadow: 0 20px 42px rgba(15, 41, 32, 0.14);
-  padding: 20px;
+  padding: 24px;
   margin: 0 auto;
+  max-width: 1100px;
   border: 1px solid rgba(11, 128, 111, 0.16);
   position: relative;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(246, 245, 241, 0.96));
 }
 .content-card[data-v-39610a88] {
   color: var(--content-fg, var(--mission-ink));
@@ -11073,6 +11075,12 @@ i[data-v-4b451216]:hover {
   color: var(--mission-ink);
   font-weight: 600;
   box-shadow: 0 10px 20px rgba(15, 41, 32, 0.1);
+}
+.event-actions[data-v-39610a88] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem;
 }
 
 /* Extra Small Screens (<400px) */
@@ -11297,10 +11305,8 @@ mark[data-v-39610a88] {
   scrollbar-color: var(--mission-accent) var(--mission-border);
   /* Firefox */
   scroll-snap-type: x proximity;
-  padding: 10px 12px 12px;
-  border-radius: 18px;
-  /* background: rgba(255, 255, 255, 0.82); */
-  /* border: 1px solid rgba(11, 128, 111, 0.12); */
+  padding: 14px 16px 16px;
+
   animation: riseIn-39610a88 420ms ease-out both;
   animation-delay: 80ms;
 }
@@ -11313,7 +11319,32 @@ mark[data-v-39610a88] {
   box-shadow: 0 10px 30px rgba(15, 41, 32, 0.08);
 }
 .timeline-intro__upper[data-v-39610a88] {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   width: 100%;
+}
+.timeline-intro__text[data-v-39610a88] {
+  max-width: 700px;
+}
+.timeline-kicker[data-v-39610a88] {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(11, 128, 111, 0.8);
+}
+.timeline-heading[data-v-39610a88] {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  color: var(--mission-ink);
+}
+.timeline-subtitle[data-v-39610a88] {
+  margin: 0;
+  color: var(--mission-muted);
+  font-size: 0.98rem;
 }
 .mission-search[data-v-39610a88] {
   display: flex;
@@ -11353,6 +11384,23 @@ mark[data-v-39610a88] {
   font-size: 0.9rem;
   cursor: pointer;
 }
+.timeline-meta[data-v-39610a88] {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--mission-muted);
+}
+.timeline-count[data-v-39610a88] {
+  font-weight: 600;
+  color: var(--mission-ink);
+}
+.timeline-current[data-v-39610a88] {
+  color: rgba(15, 41, 32, 0.85);
+  font-weight: 600;
+}
 .timeline-progress[data-v-39610a88] {
   width: 100%;
   height: 5px;
@@ -11366,38 +11414,67 @@ mark[data-v-39610a88] {
   background: linear-gradient(90deg, #0b806f, #1c6c7a);
   transition: width 0.3s ease;
 }
-.event-meta-grid[data-v-39610a88] {
+.event-header[data-v-39610a88] {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
-.event-meta-grid__info[data-v-39610a88] {
-  text-align: center;
+.event-header__main[data-v-39610a88] {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
-.event-year[data-v-39610a88] {
-  font-size: 1.5rem;
-  font-weight: 600;
+.event-kicker[data-v-39610a88] {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(15, 41, 32, 0.55);
   margin: 0;
 }
-.event-meta-grid__stats[data-v-39610a88] {
+.event-title[data-v-39610a88] {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.7vw, 2.4rem);
+  font-weight: 700;
+  color: var(--mission-ink);
+}
+.event-year-chip[data-v-39610a88] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: -moz-fit-content;
+  width: fit-content;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 128, 111, 0.2);
+  background: rgba(11, 128, 111, 0.08);
+  color: #0f766e;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+.event-header__stats[data-v-39610a88] {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  justify-content: center;
 }
-.event-meta-grid__stats .stat-chip[data-v-39610a88] {
+.event-header__stats .stat-chip[data-v-39610a88] {
   background: rgba(11, 128, 111, 0.08);
   border-color: rgba(11, 128, 111, 0.2);
 }
 @media (min-width: 768px) {
-.event-meta-grid[data-v-39610a88] {
+.timeline-intro__upper[data-v-39610a88] {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 }
-.event-meta-grid__info[data-v-39610a88] {
-    text-align: left;
+.event-header[data-v-39610a88] {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+.event-header__stats[data-v-39610a88] {
+    justify-content: flex-end;
 }
 }
 
@@ -11419,7 +11496,7 @@ mark[data-v-39610a88] {
   margin: 0;
   display: flex;
   flex-wrap: nowrap;
-  gap: 12px;
+  gap: 16px;
   min-width: -moz-max-content;
   min-width: max-content;
 }
@@ -11632,14 +11709,17 @@ mark[data-v-39610a88] {
 .action-row[data-v-39610a88] {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px 16px;
   flex-wrap: wrap;
   border: 1px solid rgba(11, 128, 111, 0.12);
-  border-radius: 999px;
-  padding: 8px 12px;
+  border-radius: 18px;
+  padding: 12px 16px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 12px 22px rgba(15, 41, 32, 0.12);
   backdrop-filter: blur(10px);
+  max-width: 980px;
+  width: 100%;
+  justify-content: center;
 }
 .action-group[data-v-39610a88] {
   display: flex;
@@ -33917,6 +33997,10 @@ to {
     margin-left: 400px;
     margin-right: 0;
 }
+.surat-premium.sidebar-collapsed[data-v-828f3036] {
+    width: calc(100% - 72px);
+    margin-left: 72px;
+}
 .surah-layout[data-v-828f3036] {
     display: grid;
     grid-template-columns: 1fr;
@@ -33950,6 +34034,51 @@ to {
     background: linear-gradient(180deg, rgba(14, 74, 66, 0.98), rgba(11, 41, 38, 0.98));
     box-shadow: 10px 0 32px rgba(10, 32, 30, 0.25);
     padding-bottom: 24px;
+}
+.surah-layout>.sticky-dropdown[data-v-828f3036] {
+    transition: width 0.2s ease;
+}
+.surat-premium.sidebar-collapsed .surah-layout>.sticky-dropdown[data-v-828f3036] {
+    width: 72px;
+}
+.surat-premium.sidebar-collapsed .surah-layout>.sticky-dropdown .surah-search[data-v-828f3036],
+.surat-premium.sidebar-collapsed .surah-layout>.sticky-dropdown .filter-list[data-v-828f3036] {
+    display: none;
+}
+.sidebar-toggle[data-v-828f3036] {
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px 12px;
+    margin: -18px -18px 12px;
+    background: linear-gradient(180deg, rgba(34, 96, 88, 0.98), rgba(27, 77, 71, 0.98));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 18px rgba(8, 40, 36, 0.28);
+}
+.sidebar-toggle-btn[data-v-828f3036] {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(12, 35, 33, 0.35);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+.sidebar-toggle-btn[data-v-828f3036]:hover {
+    background: rgba(12, 35, 33, 0.5);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+.sidebar-toggle-label[data-v-828f3036] {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
 }
 .surah-layout>.sticky-dropdown .filter-item[data-v-828f3036] {
     flex: 1;
@@ -34107,6 +34236,70 @@ to {
         width: calc(100% - 32px);
         margin-left: auto;
         margin-right: auto;
+}
+.surat-premium.sidebar-collapsed[data-v-828f3036] {
+        width: calc(100% - 32px);
+        margin-left: auto;
+        margin-right: auto;
+}
+.surah-toolbar[data-v-828f3036] {
+        position: static;
+}
+.surah-toolbar-main[data-v-828f3036] {
+        grid-template-columns: 1fr;
+}
+.surah-playback-controls[data-v-828f3036] {
+        grid-template-columns: 1fr;
+        width: 100%;
+}
+.surah-play-button[data-v-828f3036] {
+        width: 100%;
+}
+.surah-toolbar[data-v-828f3036] {
+        padding: 12px;
+}
+.surah-title-row[data-v-828f3036] {
+        gap: 6px;
+}
+.ayah-links-bar[data-v-828f3036] {
+        padding: 6px 4px;
+        gap: 12px;
+}
+}
+@media (max-width: 576px) {
+.surat-premium[data-v-828f3036] {
+        padding: 16px 12px 22px;
+}
+.surah-toolbar[data-v-828f3036] {
+        padding: 10px 12px;
+}
+.surah-title[data-v-828f3036] {
+        font-size: 1rem;
+}
+.surah-badge[data-v-828f3036] {
+        font-size: 0.68rem;
+}
+.ayah-links-bar[data-v-828f3036] {
+        padding: 4px 6px;
+        gap: 12px;
+}
+.ayah-links-bar .bookmark-cta-link[data-v-828f3036],
+    .ayah-links-bar .notes-cta-link[data-v-828f3036] {
+        width: 100%;
+        justify-content: center;
+}
+.surah-toolbar-main[data-v-828f3036] {
+        gap: 10px;
+}
+.surah-playback-controls[data-v-828f3036] {
+        gap: 10px;
+}
+.surah-playback-controls .surah-select[data-v-828f3036],
+    .surah-play-button[data-v-828f3036] {
+        height: 44px;
+}
+.next-step-card[data-v-828f3036] {
+        padding: 14px;
 }
 }
 

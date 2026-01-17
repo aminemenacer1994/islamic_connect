@@ -1,5 +1,5 @@
 <template>
-    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true }"
+    <div class="container py-4 surat-premium" :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true, 'sidebar-collapsed': sidebarCollapsed }"
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
@@ -67,7 +67,15 @@
                     <span>{{ authAlert }}</span>
                     <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
                 </div>
-                <div id="surat-filters" class="row g-3" v-show="isVisible">
+                <div class="sidebar-toggle">
+                    <button type="button" class="sidebar-toggle-btn" @click="toggleSidebar"
+                        :aria-expanded="!sidebarCollapsed"
+                        :aria-label="sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
+                        <i class="bi" :class="sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+                    </button>
+                    <span class="sidebar-toggle-label" v-if="!sidebarCollapsed">Collapse sidebar</span>
+                </div>
+                <div id="surat-filters" class="row g-3" v-show="isVisible && !sidebarCollapsed">
                     <div class="col-12 col-md-12 filter-item surah-list">
                         <div class="surah-search">
                             <input type="search" class="form-control surah-search-input"
@@ -824,6 +832,7 @@ export default {
             carouselCollapsed: false,
             promptRowCount: 3,
             surahSearchQuery: "",
+            sidebarCollapsed: false,
         };
     },
     computed: {
@@ -3098,6 +3107,9 @@ export default {
         selectTranslation(identifier) {
             this.selectedTranslation = identifier;
         },
+        toggleSidebar() {
+            this.sidebarCollapsed = !this.sidebarCollapsed;
+        },
         syncPlaybackScroll(index) {
             const now = window.performance ? performance.now() : Date.now();
             if (now - this.lastAutoScrollAt < 400) return;
@@ -3759,6 +3771,11 @@ export default {
     margin-right: 0;
 }
 
+.surat-premium.sidebar-collapsed {
+    width: calc(100% - 72px);
+    margin-left: 72px;
+}
+
 .surah-layout {
     display: grid;
     grid-template-columns: 1fr;
@@ -3795,6 +3812,58 @@ export default {
     background: linear-gradient(180deg, rgba(14, 74, 66, 0.98), rgba(11, 41, 38, 0.98));
     box-shadow: 10px 0 32px rgba(10, 32, 30, 0.25);
     padding-bottom: 24px;
+}
+
+.surah-layout>.sticky-dropdown {
+    transition: width 0.2s ease;
+}
+
+.surat-premium.sidebar-collapsed .surah-layout>.sticky-dropdown {
+    width: 72px;
+}
+
+.surat-premium.sidebar-collapsed .surah-layout>.sticky-dropdown .surah-search,
+.surat-premium.sidebar-collapsed .surah-layout>.sticky-dropdown .filter-list {
+    display: none;
+}
+
+.sidebar-toggle {
+    position: sticky;
+    top: 0;
+    z-index: 7;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 18px 12px;
+    margin: -18px -18px 12px;
+    background: linear-gradient(180deg, rgba(34, 96, 88, 0.98), rgba(27, 77, 71, 0.98));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+    box-shadow: 0 8px 18px rgba(8, 40, 36, 0.28);
+}
+
+.sidebar-toggle-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(12, 35, 33, 0.35);
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.sidebar-toggle-btn:hover {
+    background: rgba(12, 35, 33, 0.5);
+    border-color: rgba(255, 255, 255, 0.35);
+}
+
+.sidebar-toggle-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
 }
 
 .surah-layout>.sticky-dropdown .filter-item {
@@ -3980,6 +4049,88 @@ export default {
         width: calc(100% - 32px);
         margin-left: auto;
         margin-right: auto;
+    }
+
+    .surat-premium.sidebar-collapsed {
+        width: calc(100% - 32px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .surah-toolbar {
+        position: static;
+    }
+
+    .surah-toolbar-main {
+        grid-template-columns: 1fr;
+    }
+
+    .surah-playback-controls {
+        grid-template-columns: 1fr;
+        width: 100%;
+    }
+
+    .surah-play-button {
+        width: 100%;
+    }
+
+    .surah-toolbar {
+        padding: 12px;
+    }
+
+    .surah-title-row {
+        gap: 6px;
+    }
+
+    .ayah-links-bar {
+        padding: 6px 4px;
+        gap: 12px;
+    }
+}
+
+@media (max-width: 576px) {
+    .surat-premium {
+        padding: 16px 12px 22px;
+    }
+
+    .surah-toolbar {
+        padding: 10px 12px;
+    }
+
+    .surah-title {
+        font-size: 1rem;
+    }
+
+    .surah-badge {
+        font-size: 0.68rem;
+    }
+
+    .ayah-links-bar {
+        padding: 4px 6px;
+        gap: 12px;
+    }
+
+    .ayah-links-bar .bookmark-cta-link,
+    .ayah-links-bar .notes-cta-link {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .surah-toolbar-main {
+        gap: 10px;
+    }
+
+    .surah-playback-controls {
+        gap: 10px;
+    }
+
+    .surah-playback-controls .surah-select,
+    .surah-play-button {
+        height: 44px;
+    }
+
+    .next-step-card {
+        padding: 14px;
     }
 }
 

@@ -54,6 +54,43 @@
 
     
 
+    <section class="timeline-intro container">
+      <div class="timeline-intro__upper">
+        <div class="timeline-intro__text">
+          <p class="timeline-kicker">Navigate the Seerah</p>
+          <h2 class="timeline-heading">Choose a moment in the life of the Prophet</h2>
+          <p class="timeline-subtitle">Scroll the years or search by title, year, or keyword.</p>
+        </div>
+        <div class="mission-search" role="search">
+          <button class="mission-search__icon" type="button" aria-label="Search">
+            <i class="bi bi-search"></i>
+          </button>
+          <input
+            type="search"
+            class="mission-search__input"
+            v-model="searchQuery"
+            @input="filterEvents"
+            placeholder="Search year or event"
+            aria-label="Search the Seerah timeline"
+          />
+          <button v-if="searchQuery" class="mission-search__clear" type="button" @click="clearSearch"
+            aria-label="Clear search">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+      </div>
+      <div class="timeline-progress" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
+        :aria-valuenow="timelineProgress">
+        <div class="timeline-progress__fill" :style="{ width: timelineProgress + '%' }"></div>
+      </div>
+      <div class="timeline-meta">
+        <span class="timeline-count">Event {{ displayIndex }} of {{ events.length }}</span>
+        <span v-if="currentEvent.title" class="timeline-current">
+          {{ currentEvent.year ? currentEvent.year + ' · ' : '' }}{{ currentEvent.title }}
+        </span>
+      </div>
+    </section>
+
     <nav class="timeline-wrapper container" aria-label="Seerah timeline">
       <ol class="timeline mb-3" role="list" @keydown="onTimelineKeydown" ref="timelineNav" tabindex="0">
         <li v-for="(event, index) in events" :key="event.id || event.year || index" class="timeline-point"
@@ -75,13 +112,16 @@
           Text copied to clipboard!
         </div>
 
-        <div class="fw-bold display-6 text-center mb-3" :id="`event-title-${currentIndex}`">{{
-          events[currentIndex].title }}</div>
-        <div class="event-meta-grid mb-3">
-          <div class="event-meta-grid__info">
-            <p class="event-year mb-1">{{ currentEvent.year || 'Historic moment' }}</p>
+        <div class="event-header">
+          <div class="event-header__main">
+            <p class="event-kicker">Event {{ displayIndex }} of {{ events.length }}</p>
+            <h2 class="event-title" :id="`event-title-${currentIndex}`">{{ events[currentIndex].title }}</h2>
+            <div class="event-year-chip">
+              <i class="bi bi-calendar3 me-1"></i>
+              {{ currentEvent.year || 'Historic moment' }}
+            </div>
           </div>
-          <div class="event-meta-grid__stats">
+          <div class="event-header__stats">
             <span class="stat-chip">
               <i class="bi bi-book me-1"></i>Read <strong>{{ readTime }}m</strong>
             </span>
@@ -95,7 +135,7 @@
         </div>
 
         <!-- Combined Controls and Info Row -->
-        <div class="d-flex justify-content-center align-items-center gap-2 gap-sm-4 mb-3 mb-md-4 flex-wrap">
+        <div class="event-actions">
           <!-- Actions Toolbar (evenly spaced row) -->
           <div class="action-row shadow-sm bg-white" role="toolbar" aria-label="Event actions toolbar">
             <!-- AI Summary -->
@@ -1865,10 +1905,12 @@ export default {
   border-radius: 22px;
   /* consistent rounded aesthetic */
   box-shadow: 0 20px 42px rgba(15, 41, 32, 0.14);
-  padding: 20px;
+  padding: 24px;
   margin: 0 auto;
+  max-width: 1100px;
   border: 1px solid rgba(11, 128, 111, 0.16);
   position: relative;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.98), rgba(246, 245, 241, 0.96));
 }
 
 .content-card {
@@ -1924,6 +1966,13 @@ export default {
   color: var(--mission-ink);
   font-weight: 600;
   box-shadow: 0 10px 20px rgba(15, 41, 32, 0.1);
+}
+
+.event-actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1.25rem;
 }
 
 /* Extra Small Screens (<400px) */
@@ -2194,10 +2243,8 @@ mark {
   scrollbar-color: var(--mission-accent) var(--mission-border);
   /* Firefox */
   scroll-snap-type: x proximity;
-  padding: 10px 12px 12px;
-  border-radius: 18px;
-  /* background: rgba(255, 255, 255, 0.82); */
-  /* border: 1px solid rgba(11, 128, 111, 0.12); */
+  padding: 14px 16px 16px;
+
   animation: riseIn 420ms ease-out both;
   animation-delay: 80ms;
 }
@@ -2212,7 +2259,36 @@ mark {
 }
 
 .timeline-intro__upper {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   width: 100%;
+}
+
+.timeline-intro__text {
+  max-width: 700px;
+}
+
+.timeline-kicker {
+  margin: 0 0 0.35rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(11, 128, 111, 0.8);
+}
+
+.timeline-heading {
+  margin: 0 0 0.4rem;
+  font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+  font-weight: 700;
+  color: var(--mission-ink);
+}
+
+.timeline-subtitle {
+  margin: 0;
+  color: var(--mission-muted);
+  font-size: 0.98rem;
 }
 
 .mission-search {
@@ -2258,6 +2334,26 @@ mark {
   cursor: pointer;
 }
 
+.timeline-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem 1.25rem;
+  margin-top: 0.85rem;
+  font-size: 0.9rem;
+  color: var(--mission-muted);
+}
+
+.timeline-count {
+  font-weight: 600;
+  color: var(--mission-ink);
+}
+
+.timeline-current {
+  color: rgba(15, 41, 32, 0.85);
+  font-weight: 600;
+}
+
 .timeline-progress {
   width: 100%;
   height: 5px;
@@ -2273,44 +2369,75 @@ mark {
   transition: width 0.3s ease;
 }
 
-.event-meta-grid {
+.event-header {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
-  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
 }
 
-.event-meta-grid__info {
-  text-align: center;
+.event-header__main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
 }
 
-.event-year {
-  font-size: 1.5rem;
-  font-weight: 600;
+.event-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(15, 41, 32, 0.55);
   margin: 0;
 }
 
-.event-meta-grid__stats {
+.event-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 2.7vw, 2.4rem);
+  font-weight: 700;
+  color: var(--mission-ink);
+}
+
+.event-year-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  width: fit-content;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgba(11, 128, 111, 0.2);
+  background: rgba(11, 128, 111, 0.08);
+  color: #0f766e;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.event-header__stats {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  justify-content: center;
 }
 
-.event-meta-grid__stats .stat-chip {
+.event-header__stats .stat-chip {
   background: rgba(11, 128, 111, 0.08);
   border-color: rgba(11, 128, 111, 0.2);
 }
 
 @media (min-width: 768px) {
-  .event-meta-grid {
+  .timeline-intro__upper {
     flex-direction: row;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 
-  .event-meta-grid__info {
-    text-align: left;
+  .event-header {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .event-header__stats {
+    justify-content: flex-end;
   }
 }
 
@@ -2335,7 +2462,7 @@ mark {
   margin: 0;
   display: flex;
   flex-wrap: nowrap;
-  gap: 12px;
+  gap: 16px;
   min-width: max-content;
 }
 
@@ -2583,14 +2710,17 @@ mark {
 .action-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px 16px;
   flex-wrap: wrap;
   border: 1px solid rgba(11, 128, 111, 0.12);
-  border-radius: 999px;
-  padding: 8px 12px;
+  border-radius: 18px;
+  padding: 12px 16px;
   background: rgba(255, 255, 255, 0.9);
   box-shadow: 0 12px 22px rgba(15, 41, 32, 0.12);
   backdrop-filter: blur(10px);
+  max-width: 980px;
+  width: 100%;
+  justify-content: center;
 }
 
 .action-group {
