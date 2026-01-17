@@ -1338,7 +1338,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "letter-spacing": "-.02em",
       "margin-bottom": ".25rem"
     }
-  }, "Islamic Reciters Stations"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+  }, "Qur'an Airwaves"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "lead",
     style: {
       "color": "#475569",
@@ -1431,7 +1431,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-heart-fill"
-  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Liked Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  })], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Favorite Stations (" + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($setup.likedStations.length) + ") ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([$setup.showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down', "ms-1"])
   }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_16), $setup.showLiked ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($setup.likedStations, station => {
     var _$setup$currentAudio;
@@ -1535,7 +1535,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     decoding: "async",
     alt: "decorative",
     class: "mb-1"
-  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reciters Stations:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Reciter Stations:")], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[11] || (_cache[11] = $event => $setup.viewMode = 'grid'),
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["btn btn-outline-dark", {
       active: $setup.viewMode === 'grid'

@@ -3,8 +3,8 @@
     <div class="container py-5">
       <div class="row justify-content-center text-center mb-3">
         <div class="col-lg-10 col-xl-10">
-          <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">Islamic
-            Reciters Stations</h1>
+          <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">Qur'an
+            Airwaves</h1>
           <p class="lead" style="color:#475569;max-width:920px;margin:0 auto;">Discover live Quranic reciters stations
             from renowned reciters worldwide.</p>
         </div>
@@ -91,7 +91,7 @@
             style="display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:#e6fffb;border:1px solid rgba(6,182,172,.35);color:#0bb39a;">
             <i class="bi bi-heart-fill"></i>
           </span>
-          Liked Stations ({{ likedStations.length }})
+          Favorite Stations ({{ likedStations.length }})
           <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
         </h3>
         <div v-if="showLiked" class="section-animate" id="liked-stations">
@@ -166,7 +166,7 @@
       <section id="reciters" class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h3 class="fw-bold fs-3 text-dark"><img src="images/art.png" width="30" height="30" loading="lazy"
-              decoding="async" alt="decorative" class="mb-1" /> Reciters Stations:</h3>
+              decoding="async" alt="decorative" class="mb-1" /> Reciter Stations:</h3>
           <div class="d-flex align-items-center gap-2">
             <button @click="viewMode = 'grid'" class="btn btn-outline-dark" :class="{ active: viewMode === 'grid' }"
               aria-label="Grid View">

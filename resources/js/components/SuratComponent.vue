@@ -3,7 +3,7 @@
         aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
-                <h1 class="display-5 fw-bold">The Holy Quran</h1>
+                <h1 class="display-5 fw-bold">Quran Explorer</h1>
                 <p class="lead">
                     Explore the Quran in Arabic, accompanied by translations and
                     recitations from world-renowned Qaris. Listen to beautiful
@@ -81,16 +81,37 @@
                 </div>
             </div>
         </div>
+        <div v-if="surahDetails" class="surah-playback-bar d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+            <div>
+                <p class="mb-1 fw-semibold text-uppercase text-muted">Now viewing</p>
+                <div class="d-flex flex-column flex-sm-row gap-2 align-items-sm-center">
+                    <span class="fs-5 fw-bold text-dark lh-1">
+                        Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
+                    </span>
+                    <span class="text-muted small">
+                        {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
+                    </span>
+                </div>
+            </div>
+            <button type="button"
+                class="btn btn-primary btn-lg"
+                :disabled="!canPlaySurah"
+                @click="playSurahContinuously"
+                aria-label="Play every ayah in this surah">
+                <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
+                Play full surah
+            </button>
+        </div>
 
         <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
                 <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="nextStepMinimized
-                        ? 'Restore next step'
-                        : 'Minimize next step'
+                    ? 'Restore next step'
+                    : 'Minimize next step'
                     " @click="toggleNextStepMinimized" class="next-step-toggle">
                     <i class="fas" :class="nextStepMinimized
-                            ? 'fa-expand-alt'
-                            : 'fa-compress-alt'
+                        ? 'fa-expand-alt'
+                        : 'fa-compress-alt'
                         " aria-hidden="true"></i>
                 </button>
                 <div class="d-flex align-items-start gap-3 text-start">
@@ -163,15 +184,14 @@
                                         item.ayah.number
                                     )
                                     ]
-                                "
-                                    class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
+                                " class="me-3 badge rounded-pill shadow-lg border-0 px-4 py-2 fs-6 fw-bold feedback-badge"
                                     :class="feedbackMessages[
-                                            buildAyahKey(
-                                                surahDetails?.surahNumber,
-                                                item.ayah.numberInSurah ||
-                                                item.ayah.number
-                                            )
-                                        ].class
+                                        buildAyahKey(
+                                            surahDetails?.surahNumber,
+                                            item.ayah.numberInSurah ||
+                                            item.ayah.number
+                                        )
+                                    ].class
                                         ">
                                     <i v-if="
                                         feedbackMessages[
@@ -241,15 +261,15 @@
                         <div class="col-md-1 text-center">
                             <div class="d-flex flex-column align-items-center">
                                 <button class="icon-btn mb-3" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
-                                        ? 'Pause ayah ' + (item.index + 1)
-                                        : 'Play ayah ' + (item.index + 1)
+                                    ? 'Pause ayah ' + (item.index + 1)
+                                    : 'Play ayah ' + (item.index + 1)
                                     " :title="isAudioPlaying[item.index]
-                                            ? 'Pause'
-                                            : 'Play'
+                                        ? 'Pause'
+                                        : 'Play'
                                         ">
                                     <i class="bi" :class="isAudioPlaying[item.index]
-                                            ? 'bi-pause-circle-fill'
-                                            : 'bi-play-circle-fill'
+                                        ? 'bi-pause-circle-fill'
+                                        : 'bi-play-circle-fill'
                                         " aria-hidden="true"></i>
                                 </button>
                                 <button class="icon-btn mb-3" @click="decreaseFontSize" aria-label="Decrease font size"
@@ -259,12 +279,12 @@
                                 <button class="icon-btn mb-3" :class="{
                                     'is-saved': isAyahSaved(item.ayah),
                                 }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                            ? 'Remove bookmark'
-                                            : 'Quick save bookmark'
-                                        ">
+                                    ? 'Remove bookmark'
+                                    : 'Quick save bookmark'
+                                    ">
                                     <i class="bi" :class="isAyahSaved(item.ayah)
-                                            ? 'bi-bookmark-check-fill'
-                                            : 'bi-bookmark-plus-fill'
+                                        ? 'bi-bookmark-check-fill'
+                                        : 'bi-bookmark-plus-fill'
                                         " aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -295,16 +315,13 @@
                                     <i class="bi bi-send" aria-hidden="true"></i>
                                     <span>Share</span>
                                 </button>
-                                <button type="button"
-                                    class="action-pill reflection-pill-fill"
+                                <button type="button" class="action-pill reflection-pill-fill"
                                     :class="{ 'has-reflection': hasReflection(item.ayah) }"
-                                    @click.stop="openReflectionModal(item.ayah)"
-                                    :aria-label="hasReflection(item.ayah)
+                                    @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
                                         ? 'Edit reflection'
-                                        : 'Add reflection'"
-                                    :title="hasReflection(item.ayah)
-                                        ? 'Edit reflection'
-                                        : 'Add reflection'">
+                                        : 'Add reflection'" :title="hasReflection(item.ayah)
+                                            ? 'Edit reflection'
+                                            : 'Add reflection'">
                                     <i class="bi bi-journal-text" aria-hidden="true"></i>
                                     <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
                                 </button>
@@ -337,15 +354,15 @@
                             </div>
                             <div class="col text-center" style="padding: 2px">
                                 <button class="icon-btn" @click="toggleAudioPlayer(item.index)" :aria-label="isAudioPlaying[item.index]
-                                        ? 'Pause ayah ' + (item.index + 1)
-                                        : 'Play ayah ' + (item.index + 1)
+                                    ? 'Pause ayah ' + (item.index + 1)
+                                    : 'Play ayah ' + (item.index + 1)
                                     " :title="isAudioPlaying[item.index]
-                                            ? 'Pause'
-                                            : 'Play'
+                                        ? 'Pause'
+                                        : 'Play'
                                         ">
                                     <i class="bi" :class="isAudioPlaying[item.index]
-                                            ? 'bi-pause-circle-fill'
-                                            : 'bi-play-circle-fill'
+                                        ? 'bi-pause-circle-fill'
+                                        : 'bi-play-circle-fill'
                                         " style="font-size: 1.8rem" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -373,12 +390,12 @@
                                 <button class="icon-btn" :class="{
                                     'is-saved': isAyahSaved(item.ayah),
                                 }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                            ? 'Remove bookmark'
-                                            : 'Quick save bookmark'
-                                        ">
+                                    ? 'Remove bookmark'
+                                    : 'Quick save bookmark'
+                                    ">
                                     <i class="bi" :class="isAyahSaved(item.ayah)
-                                            ? 'bi-bookmark-check-fill'
-                                            : 'bi-bookmark-plus-fill'
+                                        ? 'bi-bookmark-check-fill'
+                                        : 'bi-bookmark-plus-fill'
                                         " style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div>
@@ -412,73 +429,76 @@
                             <h6 class="modal-title" id="reflectionModalLabel">
                                 <b>Reflect and Save a Thought</b>
                             </h6>
-                            <button type="button" class="btn-close" @click="hideReflectionModal" aria-label="Close reflection modal"></button>
+                            <button type="button" class="btn-close" @click="hideReflectionModal"
+                                aria-label="Close reflection modal"></button>
                         </div>
                         <div class="modal-body pt-0">
                             <div class="reflection-intro">
                                 <p class="reflection-intro-title">Why reflections matter</p>
                                 <p class="reflection-intro-copy">
-                                    Capturing what moves you about this verse keeps its guidance fresh, anchors your spiritual
+                                    Capturing what moves you about this verse keeps its guidance fresh, anchors your
+                                    spiritual
                                     growth, and helps the community spot inspirations worth sharing.
                                 </p>
                             </div>
-                            <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm" novalidate>
-                                <div v-if="reflectionSuccessMessage" class="reflection-success-banner reflection-success-top">
+                            <form class="d-flex flex-column gap-3 mt-3" @submit.prevent="submitReflectionForm"
+                                novalidate>
+                                <div v-if="reflectionSuccessMessage"
+                                    class="reflection-success-banner reflection-success-top">
                                     <i class="bi bi-check-circle-fill"></i>
                                     <span>{{ reflectionSuccessMessage }}</span>
                                 </div>
                                 <div>
                                     <label class="form-label fw-bold mb-1 medium-label">Title</label>
-                                    <input type="text" class="form-control form-control-lg" v-model="reflectionForm.subject"
+                                    <input type="text" class="form-control form-control-lg"
+                                        v-model="reflectionForm.subject"
                                         placeholder="Give this reflection a guiding intention" required />
                                 </div>
                                 <div>
                                     <label class="form-label fw-bold mb-1 medium-label">Message</label>
-                                    <textarea class="form-control form-control-lg" v-model="reflectionForm.message" rows="5"
-                                        :minlength="reflectionMessageMinLength"
-                                        placeholder="Type how this verse moved you today..."
-                                        required></textarea>
+                                    <textarea class="form-control form-control-lg" v-model="reflectionForm.message"
+                                        rows="5" :minlength="reflectionMessageMinLength"
+                                        placeholder="Type how this verse moved you today..." required></textarea>
                                     <div class="d-flex justify-content-between align-items-center mt-2">
-                                        <small class="text-muted">Message must be at least {{ reflectionMessageMinLength }} characters.</small>
-                                        <span class="text-muted small">{{ (reflectionForm.message || '').trim().length }} characters</span>
+                                        <small class="text-muted">Message must be at least {{ reflectionMessageMinLength
+                                        }} characters.</small>
+                                        <span class="text-muted small">{{ (reflectionForm.message || '').trim().length
+                                        }} characters</span>
                                     </div>
                                 </div>
+                                <div v-if="editingReflectionId"
+                                    class="alert alert-info d-flex justify-content-between align-items-center small">
+                                    <span>Editing saved reflection</span>
+                                    <button type="button"
+                                        class="btn btn-link btn-sm text-decoration-underline p-0 small"
+                                        @click="cancelReflectionEdit">Cancel edit</button>
+                                </div>
                                 <div class="note-suggestions" :class="{ collapsed: carouselCollapsed }">
-                                    <div class="note-suggestions-header d-flex justify-content-between align-items-center mb-3">
+                                    <div
+                                        class="note-suggestions-header d-flex justify-content-between align-items-center mb-3">
                                         <div>
                                             <span class="fw-semibold text-dark me-2">Message prompts</span>
                                             <small class="text-muted">Tap to adapt</small>
                                         </div>
-                                        <button type="button" class="btn btn-ghost p-0 small" @click="carouselCollapsed = !carouselCollapsed">
-                                            <i class="bi" :class="carouselCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+                                        <button type="button" class="btn btn-ghost p-0 small"
+                                            @click="carouselCollapsed = !carouselCollapsed">
+                                            <i class="bi"
+                                                :class="carouselCollapsed ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
                                             {{ carouselCollapsed ? 'show prompts' : 'collapse' }}
                                         </button>
                                     </div>
                                     <div class="suggestion-marquee-stack">
-                                        <div
-                                            v-for="rowIndex in promptRowCount"
-                                            :key="`row-${rowIndex}`"
-                                            class="suggestion-marquee-row"
-                                        >
+                                        <div v-for="(rowPrompts, rowIndex) in reflectionMessagePromptRows"
+                                            :key="`row-${rowIndex}`" class="suggestion-marquee-row">
                                             <div class="suggestion-marquee">
-                                                <div
-                                                    class="suggestion-track"
+                                                <div class="suggestion-track"
                                                     :class="{ 'is-paused': carouselCollapsed }"
-                                                    :style="suggestionTrackStyle(rowIndex)"
-                                                >
-                                                    <div
-                                                        v-for="loopIndex in 2"
-                                                        :key="`loop-${rowIndex}-${loopIndex}`"
-                                                        class="suggestion-track-group"
-                                                        :aria-hidden="loopIndex > 1"
-                                                    >
-                                                        <button
-                                                            type="button"
-                                                            class="suggestion-pill light"
-                                                            v-for="(prompt, idx) in reflectionMessagePrompts"
-                                                            :key="`msg-${rowIndex}-${loopIndex}-${idx}`"
-                                                            @click="applyMessageSuggestion(prompt.text)"
-                                                        >
+                                                    :style="suggestionTrackStyle(rowIndex + 1)">
+                                                    <div class="suggestion-track-group" :aria-hidden="false">
+                                                        <button type="button" class="suggestion-pill light"
+                                                            v-for="(prompt, idx) in rowPrompts"
+                                                            :key="`msg-${rowIndex}-${idx}`"
+                                                            @click="applyMessageSuggestion(prompt.text)">
                                                             <span class="lead">{{ prompt.icon }}</span>
                                                             <span>{{ prompt.text }}</span>
                                                         </button>
@@ -488,9 +508,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div v-if="carouselCollapsed" class="note-suggestions-collapsed d-flex justify-content-between align-items-center">
+                                <div v-if="carouselCollapsed"
+                                    class="note-suggestions-collapsed d-flex justify-content-between align-items-center">
                                     <span class="text-muted small">Message prompts are hidden</span>
-                                    <button type="button" class="btn note-suggestions-toggle p-0" @click="carouselCollapsed = false">
+                                    <button type="button" class="btn note-suggestions-toggle p-0"
+                                        @click="carouselCollapsed = false">
                                         <i class="bi bi-chevron-down me-1"></i>
                                         Show prompts
                                     </button>
@@ -498,30 +520,46 @@
                                 <div v-if="reflectionErrorMessage" class="alert alert-danger py-2 small">
                                     {{ reflectionErrorMessage }}
                                 </div>
-                                <div v-if="currentAyahReflections.length" class="reflection-history mt-4">
-                                    <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="fw-semibold text-dark small-title">Saved reflections</span>
-                                        <small class="text-muted">
-                                            {{ currentAyahReflections.length }} {{ currentAyahReflections.length === 1 ? 'reflection' : 'reflections' }}
-                                        </small>
+                                <div v-if="currentAyahReflections.length"
+                                    class="reflection-history reflection-history-card mt-4">
+                                    <div class="reflection-history-header">
+                                        <span class="reflection-history-title">
+                                            <i class="bi bi-journal-text me-1 reflection-title-icon"
+                                                aria-hidden="true"></i>
+                                            Saved reflections
+                                        </span>
+                                        <span class="reflection-history-count">
+                                            {{ currentAyahReflections.length }} {{ currentAyahReflections.length === 1 ?
+                                                'reflection' : 'reflections' }}
+                                        </span>
                                     </div>
                                     <div class="reflection-history-list">
-                                        <article
-                                            v-for="(note, index) in currentAyahReflections"
-                                            :key="note.id || index"
-                                            class="reflection-history-entry mb-3"
-                                        >
-                                            <p class="reflection-history-subject mb-1">
+                                        <article v-for="(note, index) in currentAyahReflections" :key="note.id || index"
+                                            class="reflection-history-entry">
+                                            <p class="reflection-history-subject">
                                                 {{ note.subject || 'Untitled reflection' }}
                                             </p>
-                                            <p class="reflection-history-message mb-0">
+                                            <p class="reflection-history-message">
                                                 {{ note.message }}
                                             </p>
+                                            <div class="reflection-history-entry-actions">
+                                                <button type="button" class="btn reflection-action edit-action"
+                                                    @click="startEditingReflection(note, index)">
+                                                    <i class="bi bi-pencil" aria-hidden="true"></i>
+                                                    <span>Edit</span>
+                                                </button>
+                                                <button type="button" class="btn reflection-action delete-action"
+                                                    @click="deleteReflection(note, index)">
+                                                    <i class="bi bi-trash" aria-hidden="true"></i>
+                                                    <span>Delete</span>
+                                                </button>
+                                            </div>
                                         </article>
                                     </div>
                                 </div>
                                 <div class="modal-footer justify-content-end border-0 p-0 mt-2 gap-2 small-actions">
-                                    <button type="button" class="btn btn-outline-secondary btn-lg" @click="hideReflectionModal">
+                                    <button type="button" class="btn btn-outline-secondary btn-lg"
+                                        @click="hideReflectionModal">
                                         Cancel
                                     </button>
                                     <button type="submit" class="btn btn-lg btn-primary ms-2"
@@ -550,8 +588,8 @@
                         <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
                             title="Play/Pause" aria-label="Play or Pause">
                             <i :class="isAudioPlaying[currentlyPlayingIndex]
-                                    ? 'bi bi-pause-fill'
-                                    : 'bi bi-play-fill'
+                                ? 'bi bi-pause-fill'
+                                : 'bi bi-play-fill'
                                 "></i>
                         </button>
                         <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
@@ -565,10 +603,10 @@
                         <button @click="toggleVolume" class="control-btn" title="Volume"
                             aria-label="Toggle volume slider">
                             <i class="bi" :class="`bi-volume-${volume > 0.5
-                                    ? 'up'
-                                    : volume > 0
-                                        ? 'down'
-                                        : 'mute'
+                                ? 'up'
+                                : volume > 0
+                                    ? 'down'
+                                    : 'mute'
                                 }-fill`"></i>
                         </button>
                         <button @click="cyclePlaybackSpeed" class="control-btn"
@@ -582,8 +620,8 @@
                             <span class="speed-indicator">{{ playbackSpeed }}x</span>
                         </button>
                         <button @click="toggleRepeat" class="control-btn" :title="repeatCurrent
-                                ? 'Repeat current ayah: on'
-                                : 'Repeat current ayah: off'
+                            ? 'Repeat current ayah: on'
+                            : 'Repeat current ayah: off'
                             " :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
                             <i class="bi bi-arrow-repeat" :style="{
                                 color: repeatCurrent ? '#00bfa6' : '#ccc',
@@ -762,6 +800,8 @@ export default {
             reflectionSuccessMessage: "",
             reflectionSuccessTimeout: null,
             ayahReflectionKeys: {},
+            editingReflectionId: null,
+            editingReflectionIndex: null,
             reflectionCacheKey: "",
             reflectionGeneralStorageKey: "ic_reflection_keys",
             isSavingReflection: false,
@@ -771,6 +811,25 @@ export default {
         };
     },
     computed: {
+        reflectionMessagePromptRows() {
+            const prompts = this.reflectionMessagePrompts || [];
+            const perRow = 5;
+            const rows = [];
+            if (!prompts.length) return rows;
+            for (let rowIndex = 0; rowIndex < this.promptRowCount; rowIndex++) {
+                const start = (rowIndex * perRow) % prompts.length;
+                const rowPrompts = [];
+                for (let offset = 0; offset < perRow; offset++) {
+                    const prompt = prompts[(start + offset) % prompts.length];
+                    if (!rowPrompts.some((p) => p.text === prompt.text)) {
+                        rowPrompts.push(prompt);
+                    }
+                    if (rowPrompts.length >= perRow) break;
+                }
+                rows.push(rowPrompts);
+            }
+            return rows;
+        },
         filteredAyahs: function () {
             if (!this.surahDetails) return [];
             if (!this.debouncedQuery) return this.surahDetails.ayahs;
@@ -837,6 +896,13 @@ export default {
             if (!this.selectedReflectionKey) return [];
             const reflections = this.ayahReflections[this.selectedReflectionKey];
             return Array.isArray(reflections) ? reflections : [];
+        },
+        canPlaySurah() {
+            return (
+                !this.isLoading &&
+                Array.isArray(this.filteredAyahs) &&
+                this.filteredAyahs.length > 0
+            );
         },
         canSubmitReflection() {
             const subject = (this.reflectionForm.subject || "").trim();
@@ -1059,24 +1125,24 @@ export default {
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
         window.removeEventListener("resize", this.updateIsMobile);
-            window.removeEventListener("scroll", this.onScrollVirtual);
-            window.removeEventListener("resize", this.computeListTop);
-            window.removeEventListener("resize", this.calibrateItemHeight);
-            clearTimeout(this.savedAyahClearTimer);
-            clearTimeout(this.bookmarkToastTimer);
-            this.bookmarkToastAction = null;
-            clearTimeout(this.authAlertTimer);
-            if (this.reflectionModalHiddenHandler) {
-                const modalEl = document.getElementById(this.reflectionModalId);
-                if (modalEl) {
-                    modalEl.removeEventListener(
-                        "hidden.bs.modal",
-                        this.reflectionModalHiddenHandler
-                    );
-                }
-                this.reflectionModalHiddenHandler = null;
+        window.removeEventListener("scroll", this.onScrollVirtual);
+        window.removeEventListener("resize", this.computeListTop);
+        window.removeEventListener("resize", this.calibrateItemHeight);
+        clearTimeout(this.savedAyahClearTimer);
+        clearTimeout(this.bookmarkToastTimer);
+        this.bookmarkToastAction = null;
+        clearTimeout(this.authAlertTimer);
+        if (this.reflectionModalHiddenHandler) {
+            const modalEl = document.getElementById(this.reflectionModalId);
+            if (modalEl) {
+                modalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.reflectionModalHiddenHandler
+                );
             }
-        },
+            this.reflectionModalHiddenHandler = null;
+        }
+    },
     methods: {
         showToast(message, timeout = 3500, action = null) {
             this.bookmarkToast = message;
@@ -1497,10 +1563,10 @@ export default {
             if (Array.isArray(stored)) {
                 return stored.length > 0;
             }
-            if (stored && typeof stored === "object") {
+            if (stored && typeof stored === "object" && Object.keys(stored).length) {
                 return true;
             }
-            return !!this.ayahReflectionKeys[key];
+            return false;
         },
         async openReflectionModal(ayah) {
             if (!ayah) return;
@@ -1559,6 +1625,7 @@ export default {
             if (modal) {
                 modal.hide();
             }
+            this.cancelReflectionEdit();
         },
         onReflectionModalHidden() {
             const modalEl = document.getElementById(this.reflectionModalId);
@@ -1590,16 +1657,56 @@ export default {
         applyMessageSuggestion(text) {
             this.reflectionForm.message = text;
         },
+        startEditingReflection(note, index) {
+            if (!note) return;
+            this.editingReflectionId = note.id || null;
+            this.editingReflectionIndex = typeof index === "number" ? index : null;
+            this.reflectionForm.subject = note.subject || "";
+            this.reflectionForm.message = note.message || "";
+            this.reflectionErrorMessage = "";
+            this.reflectionSuccessMessage = "";
+        },
+        cancelReflectionEdit() {
+            this.editingReflectionId = null;
+            this.editingReflectionIndex = null;
+            this.clearReflectionForm();
+        },
+        async deleteReflection(note, index) {
+            if (!note) return;
+            const proceed = confirm("Delete this reflection?");
+            if (!proceed) return;
+            if (note.id) {
+                try {
+                    await axios.delete(`/api/delete-notes/${note.id}`);
+                } catch (error) {
+                    console.error("Delete reflection failed", error);
+                    this.showToast("Unable to delete reflection.", 3000);
+                    return;
+                }
+            }
+            const key = this.selectedReflectionKey;
+            if (!key) return;
+            const current = Array.isArray(this.ayahReflections[key]) ? [...this.ayahReflections[key]] : [];
+            current.splice(index, 1);
+            this.ayahReflections = {
+                ...this.ayahReflections,
+                [key]: current,
+            };
+            if (this.editingReflectionIndex === index) {
+                this.cancelReflectionEdit();
+            }
+            this.showToast("Reflection deleted.", 2000);
+        },
         toggleReflectionHelp() {
             this.showReflectionHighlight = false;
         },
-            suggestionTrackStyle(rowIndex) {
-                const base = 32 + (rowIndex - 1) * 5;
-                return {
-                    animationDuration: `${base}s`,
-                    animationDirection: rowIndex % 2 === 0 ? "reverse" : "normal",
-                };
-            },
+        suggestionTrackStyle(rowIndex) {
+            const base = 32 + (rowIndex - 1) * 5;
+            return {
+                animationDuration: `${base}s`,
+                animationDirection: rowIndex % 2 === 0 ? "reverse" : "normal",
+            };
+        },
         async submitReflectionForm() {
             const subject = (this.reflectionForm.subject || "").trim();
             const message = (this.reflectionForm.message || "").trim();
@@ -1619,7 +1726,6 @@ export default {
 
             this.reflectionErrorMessage = "";
             this.isSavingReflection = true;
-
             const {
                 surahNumber,
                 ayahNumber,
@@ -1637,39 +1743,60 @@ export default {
                 is_speech_to_text: false,
             };
 
+            const isEditing = !!this.editingReflectionId;
             try {
-                const response = await axios.post("/api/submit-note", payload);
+                const response = isEditing
+                    ? await axios.post(`/api/update-notes/${this.editingReflectionId}`, payload)
+                    : await axios.post("/api/submit-note", payload);
                 const note = response.data?.note || null;
                 const key = this.buildAyahKey(surahNumber, ayahNumber);
-                const nextEntry = {
-                    id: note?.id || null,
+                const entryPayload = {
+                    id: note?.id || this.editingReflectionId || null,
                     subject,
                     message,
                     surah_name: payload.surah_name,
                     ayah_verse_ar: ayahArabic,
                     ayah_verse_en: ayahTranslation,
                 };
-                const existing = this.ayahReflections[key];
-                const normalizedExisting = Array.isArray(existing)
-                    ? existing
-                    : existing
-                        ? [existing]
-                        : [];
-                this.ayahReflections = {
-                    ...this.ayahReflections,
-                    [key]: [...normalizedExisting, nextEntry],
-                };
-                this.flagReflectionKey(key);
-                this.showToast("Reflection saved.", 4000);
-                this.announce("Reflection saved.");
-                this.reflectionSuccessMessage = "Your reflection has been saved.";
-                if (this.reflectionSuccessTimeout) {
-                    clearTimeout(this.reflectionSuccessTimeout);
+                const existing = Array.isArray(this.ayahReflections[key])
+                    ? [...this.ayahReflections[key]]
+                    : [];
+                if (!isEditing) {
+                    this.ayahReflections = {
+                        ...this.ayahReflections,
+                        [key]: [...existing, entryPayload],
+                    };
+                } else {
+                    const targetIndex =
+                        typeof this.editingReflectionIndex === "number"
+                            ? this.editingReflectionIndex
+                            : existing.findIndex((item) => item.id === this.editingReflectionId);
+                    if (targetIndex >= 0) {
+                        existing[targetIndex] = {
+                            ...existing[targetIndex],
+                            ...entryPayload,
+                        };
+                    }
+                    this.ayahReflections = {
+                        ...this.ayahReflections,
+                        [key]: existing,
+                    };
+                    this.cancelReflectionEdit();
+                    this.reflectionSuccessMessage = "Reflection updated.";
                 }
-                this.reflectionSuccessTimeout = setTimeout(() => {
-                    this.hideReflectionModal();
-                    this.reflectionSuccessTimeout = null;
-                }, 1200);
+                if (!isEditing) {
+                    this.flagReflectionKey(key);
+                    this.showToast("Reflection saved.", 4000);
+                    this.announce("Reflection saved.");
+                    this.reflectionSuccessMessage = "Your reflection has been saved.";
+                    if (this.reflectionSuccessTimeout) {
+                        clearTimeout(this.reflectionSuccessTimeout);
+                    }
+                    this.reflectionSuccessTimeout = setTimeout(() => {
+                        this.hideReflectionModal();
+                        this.reflectionSuccessTimeout = null;
+                    }, 1200);
+                }
             } catch (error) {
                 console.error("Error saving reflection", error);
                 this.reflectionErrorMessage =
@@ -2266,25 +2393,19 @@ export default {
             let audio = this.audioElements[index];
             if (!audio) {
                 audio = new Audio();
-                // use auto for current, metadata for preloaded next
                 audio.preload = "auto";
-                audio.addEventListener("timeupdate", () =>
-                    this.updateProgress(index)
-                );
-                audio.addEventListener("ended", () =>
-                    this.handleAyahEnd(index)
-                );
-                audio.addEventListener("error", (e) => {
-                    console.error(`Audio error for ayah ${index + 1}:`, e);
-                    clearTimeout(this.loadingTimers[index]);
-                    this.isAudioLoading[index] = false;
-                    this.isAudioPlaying[index] = false;
-                    this.$toast?.error(
-                        `Failed to load audio for ayah ${index + 1}`
-                    );
-                });
                 this.audioElements[index] = audio;
             }
+            audio.onended = () => this.handleAyahEnd(index);
+            audio.onerror = (e) => {
+                console.error(`Audio error for ayah ${index + 1}:`, e);
+                clearTimeout(this.loadingTimers[index]);
+                this.isAudioLoading[index] = false;
+                this.isAudioPlaying[index] = false;
+                this.$toast?.error(
+                    `Failed to load audio for ayah ${index + 1}`
+                );
+            };
             if (audio.src !== ayah.audio) {
                 try {
                     audio.pause();
@@ -2305,8 +2426,7 @@ export default {
             // Setup metadata and word timing
             audio.onloadedmetadata = () => {
                 console.log(
-                    `Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration
-                    }`
+                    `Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`
                 );
                 const duration = this.currentlyPlaying.duration;
                 const wordCount = (
@@ -2912,6 +3032,22 @@ export default {
                 this.toggleAudioPlayer(prev);
             }
         },
+        playSurahContinuously() {
+            if (!this.canPlaySurah) return;
+            this.continuousPlayback = true;
+            this.savePreference("continuousPlayback", true);
+            const startIndex = 0;
+            if (
+                typeof this.currentlyPlayingIndex === "number" &&
+                this.currentlyPlayingIndex >= 0 &&
+                this.currentlyPlayingIndex < this.filteredAyahs.length
+            ) {
+                this.stopAudio(this.currentlyPlayingIndex);
+            }
+            this.currentlyPlayingIndex = startIndex;
+            this.selectCard(startIndex);
+            this.playAudio(startIndex);
+        },
         toggleVolume: function () {
             this.showVolumeBar = !this.showVolumeBar;
         },
@@ -3076,26 +3212,32 @@ export default {
     border-color: #0f766e;
     background-color: rgba(15, 118, 110, 0.1);
 }
+
 .reflection-pill-fill.has-reflection {
     color: #0f766e;
     border-color: #0f766e;
     background-color: rgba(15, 118, 110, 0.12);
 }
+
 .reflection-pill-fill.has-reflection i,
 .reflection-pill-fill.has-reflection span {
     color: #0f766e;
 }
+
 .reflection-btn.has-reflection i {
     color: #0f766e;
 }
+
 .reflection-btn.has-reflection {
     border-color: rgba(15, 118, 110, 0.4);
     background: rgba(15, 118, 110, 0.08);
     box-shadow: 0 5px 12px rgba(15, 118, 110, 0.15);
 }
+
 .reflection-modal .modal-body {
     padding: 1.6rem 1.8rem 1.5rem;
 }
+
 .reflection-modal .modal-content {
     border-radius: 28px;
     overflow: hidden;
@@ -3105,66 +3247,168 @@ export default {
         0 15px 25px rgba(15, 23, 42, 0.1),
         0 35px 80px rgba(15, 23, 42, 0.15);
 }
+
 .reflection-modal .modal-header {
     border-bottom: 0;
     padding-bottom: 0.6rem;
 }
+
 .reflection-modal .modal-title b {
     font-size: 1.75rem;
     font-weight: 600;
 }
+
 .reflection-intro {
     border-radius: 16px;
     padding: 1rem 1.3rem;
     background: rgba(15, 118, 110, 0.05);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
+
 .reflection-intro-title {
     margin: 0;
     font-size: 1rem;
     font-weight: 600;
     color: #0f766e;
 }
+
 .reflection-intro-copy {
     margin: 0.35rem 0 0;
     font-size: 0.9rem;
     color: #475467;
 }
+
 .reflection-history {
-    border: 1px solid rgba(15, 118, 110, 0.2);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 1rem 1.2rem;
     background: #f5fdf9;
 }
+
 .reflection-history-list {
     display: flex;
     flex-direction: column;
 }
+
 .reflection-history-entry {
-    padding-bottom: 0.85rem;
-    border-bottom: 1px solid rgba(15, 118, 110, 0.14);
+    background: #fff;
+    border-radius: 14px;
+    padding: 0.9rem 1.05rem 0.7rem;
+    margin-bottom: 0.85rem;
+    border: 1px solid rgba(15, 118, 110, 0.15);
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
 }
+
 .reflection-history-entry:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
+    margin-bottom: 0;
 }
+
 .reflection-history-subject {
     margin: 0;
     font-size: 0.95rem;
     font-weight: 600;
     color: #0f766e;
 }
+
 .reflection-history-message {
     margin: 0;
     font-size: 0.95rem;
     color: #1f2937;
     white-space: pre-wrap;
 }
+
+.reflection-history-entry-actions {
+    margin-top: 0.75rem;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    padding-top: 0.35rem;
+    border-top: 1px solid rgba(15, 118, 110, 0.12);
+}
+
+.reflection-history-entry-actions button {
+    font-size: 0.8rem;
+    padding: 0;
+}
+
+.reflection-action {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 1.1rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    transition: background 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.reflection-action i {
+    font-size: 1rem;
+}
+
+.reflection-action span {
+    font-weight: 600;
+}
+
+.reflection-action.edit-action {
+    color: #0f766e;
+
+}
+
+.reflection-action.edit-action:hover {
+    background: rgba(15, 118, 110, 0.16);
+}
+
+.reflection-action.delete-action {
+    color: #b91c1c;
+
+}
+
+.reflection-action.delete-action:hover {
+    background: rgba(185, 28, 28, 0.18);
+}
+
+.reflection-title-icon {
+    font-size: 1.1rem;
+    color: #0f766e;
+}
+
+.reflection-history-card {
+    border-radius: 18px;
+    padding: 1.1rem 1.3rem;
+    background: #f2f8f6;
+    border: 1px solid rgba(15, 118, 110, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
+.reflection-history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.reflection-history-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #0f2f23;
+}
+
+.reflection-history-count {
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #0f766e;
+}
+
 .reflection-highlight {
     background: linear-gradient(135deg, rgba(11, 128, 111, 0.08), rgba(15, 110, 99, 0.15));
     border: 1px solid rgba(11, 128, 111, 0.2);
     position: relative;
 }
+
 .reflection-badge {
     width: 48px;
     height: 48px;
@@ -3176,13 +3420,16 @@ export default {
     font-size: 1.25rem;
     color: #0b806f;
 }
+
 .note-suggestions {
     padding-top: 0.75rem;
     padding-bottom: 0.25rem;
 }
+
 .note-suggestions.collapsed {
     display: none;
 }
+
 .note-suggestions .btn-ghost {
     border: none;
     background: none;
@@ -3193,22 +3440,26 @@ export default {
     font-size: 0.85rem;
     padding: 0;
 }
+
 .suggestion-marquee-stack {
     display: flex;
     flex-direction: column;
     gap: 0.55rem;
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
+
 .suggestion-marquee-stack.collapsed {
     opacity: 0;
     pointer-events: none;
     transform: translateY(-10px);
 }
+
 .suggestion-marquee-row {
     position: relative;
     width: 100%;
     overflow: hidden;
 }
+
 .suggestion-marquee {
     position: relative;
     overflow: hidden;
@@ -3217,12 +3468,14 @@ export default {
     padding: 0.4rem 0;
     transition: height 0.4s ease, opacity 0.4s ease;
 }
+
 .suggestion-marquee.collapsed {
     height: 0;
     opacity: 0;
     pointer-events: none;
     padding: 0;
 }
+
 .suggestion-marquee::before,
 .suggestion-marquee::after {
     content: "";
@@ -3232,19 +3485,20 @@ export default {
     width: 60px;
     pointer-events: none;
     z-index: 2;
-    background: linear-gradient(
-        to right,
-        rgba(255, 255, 255, 1),
-        rgba(255, 255, 255, 0)
-    );
+    background: linear-gradient(to right,
+            rgba(255, 255, 255, 1),
+            rgba(255, 255, 255, 0));
 }
+
 .suggestion-marquee::after {
     right: 0;
     transform: rotate(180deg);
 }
+
 .suggestion-marquee::before {
     left: 0;
 }
+
 .suggestion-track {
     display: flex;
     align-items: center;
@@ -3254,17 +3508,21 @@ export default {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
 }
+
 .suggestion-track.is-paused {
     animation-play-state: paused;
 }
+
 .suggestion-track-group {
     display: flex;
     gap: 1rem;
     align-items: center;
 }
+
 .suggestion-track-group[aria-hidden="true"] {
     pointer-events: none;
 }
+
 .suggestion-pill {
     border-radius: 999px;
     border: 1px solid rgba(11, 128, 111, 0.35);
@@ -3280,23 +3538,28 @@ export default {
     align-items: center;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
 }
+
 .suggestion-pill span {
     display: inline-block;
 }
+
 .suggestion-pill.light {
     border-color: rgba(15, 110, 99, 0.2);
     color: #0f766e;
 }
+
 .suggestion-pill:hover {
     background: rgba(11, 128, 111, 0.1);
     border-color: rgba(11, 128, 111, 0.55);
     transform: translateY(-1px);
 }
+
 .note-suggestions-collapsed {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     border-top: 1px solid rgba(15, 118, 110, 0.15);
 }
+
 .note-suggestions-toggle {
     color: #475467;
     display: inline-flex;
@@ -3308,10 +3571,12 @@ export default {
     background: none;
     padding: 0;
 }
+
 .note-suggestions-toggle:focus-visible {
     outline: 2px solid rgba(12, 166, 141, 0.6);
     outline-offset: 2px;
 }
+
 .reflection-success-banner {
     display: flex;
     align-items: center;
@@ -3324,37 +3589,46 @@ export default {
     font-weight: 500;
     font-size: 0.9rem;
 }
+
 .reflection-success-top {
     margin-bottom: 0.5rem;
 }
+
 .suggestion-tip {
     font-size: 0.75rem;
 }
+
 .suggestion-marquee.collapsed .suggestion-track {
     animation: none;
 }
+
 @keyframes suggestionScroll {
     from {
         transform: translateX(0);
     }
+
     to {
         transform: translateX(-50%);
     }
 }
+
 .modal-footer .btn {
     font-size: 1rem;
     padding: 0.6rem 1.75rem;
     border-radius: 14px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
+
 .modal-footer .btn-primary {
     font-size: 1rem;
     padding: 0.65rem 1.8rem;
 }
+
 .small-label {
     font-size: 0.85rem;
     color: #475467;
 }
+
 .btn-ghost {
     border: none;
     background: none;
@@ -3365,10 +3639,12 @@ export default {
     font-size: 0.85rem;
     padding: 0;
 }
+
 .modal-body input,
 .modal-body textarea {
     font-size: 0.95rem;
 }
+
 .modal-body input::placeholder,
 .modal-body textarea::placeholder {
     font-size: 0.9rem;
@@ -3437,13 +3713,33 @@ export default {
     box-shadow: 0 18px 30px rgba(10, 30, 28, 0.45);
     color: #ffffff;
 }
+
 .notes-cta-link {
-    background: rgba(255, 255, 255, 0.84);
-    color: #12263a;
-    border-color: rgba(12, 166, 141, 0.3);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
+    font-weight: 700;
+    text-decoration: none;
+    box-shadow: 0 14px 24px rgba(10, 30, 28, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+        border-color 0.2s ease;
+    white-space: nowrap;
 }
+
 .notes-cta-link i {
-    color: #0f766e;
+    color: #ffffff;
+}
+
+.notes-cta-link:hover {
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 18px 30px rgba(10, 30, 28, 0.45);
+    color: #ffffff;
 }
 
 .bookmark-toast {
@@ -3821,10 +4117,15 @@ export default {
 .controls {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 18px;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 10px;
+}
+
+.control-btn {
+    padding: 12px;
+    border-radius: 14px;
 }
 
 /* Align close button to the end on wider screens */

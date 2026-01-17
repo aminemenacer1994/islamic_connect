@@ -1862,7 +1862,6 @@ export default {
 }
 
 .event-box {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(248, 246, 242, 0.98));
   border-radius: 22px;
   /* consistent rounded aesthetic */
   box-shadow: 0 20px 42px rgba(15, 41, 32, 0.14);
@@ -1873,8 +1872,6 @@ export default {
 }
 
 .content-card {
-  background: var(--content-bg, var(--mission-surface));
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.35), rgba(255, 255, 255, 0));
   color: var(--content-fg, var(--mission-ink));
   border-radius: 22px;
   border: 1px solid rgba(11, 128, 111, 0.14);
@@ -1891,7 +1888,6 @@ export default {
   top: 0;
   bottom: 0;
   width: 4px;
-  background: linear-gradient(180deg, var(--mission-accent), rgba(11, 128, 111, 0.15));
   opacity: 0.55;
 }
 

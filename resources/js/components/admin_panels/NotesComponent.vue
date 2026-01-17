@@ -30,81 +30,61 @@
         </div>
       </div>
 
-    <h3 class="pb-3 text-center admin-count">
-     <span class="count-label">You have</span>
-     <span class="count-pill">{{ notes.length }}</span>
-     <span class="count-label">notes</span>
-    </h3>
-    <div class="row">
-        <div class="col-md-4 mb-4" v-for="note in filteredNotes" :key="note.id">
-          <div class="note-card">
-          <div class="note-chip">
-            <i class="bi bi-journal-text me-1"></i>
-            Note
-          </div>
-          <div v-if="note.ayah_info" class="note-title" v-html="highlightMatches(note.ayah_info)"></div>
-          <div v-if="note.surah_name || note.ayah_num" class="note-reference">
-            <span v-if="note.surah_name">{{ displaySurahName(note.surah_name) }}</span>
-            <span v-if="note.ayah_num"> • Ayah {{ note.ayah_num }}</span>
-          </div>
-          <div class="note-body" v-html="renderNoteExcerpt(note)"></div>
-            <div class="note-meta">
-              <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(note.created_at) }}</span>
+      <h3 class="pb-3 text-center admin-count">
+        <span class="count-label">Reflections</span>
+        <span class="count-pill">{{ notes.length }}</span>
+      </h3>
+      <div class="notes-grid-wrapper">
+        <div class="row">
+          <div class="col-md-4 mb-4" v-for="note in filteredNotes" :key="note.id">
+            <div class="note-card">
+              <div class="note-chip">
+                <i class="bi bi-journal-text me-1"></i>
+                Note
+              </div>
+              <div v-if="note.ayah_info" class="note-title" v-html="highlightMatches(note.ayah_info)"></div>
+              <div v-if="note.surah_name || note.ayah_num" class="note-reference">
+                <span v-if="note.surah_name">{{ displaySurahName(note.surah_name) }}</span>
+                <span v-if="note.ayah_num"> • Ayah {{ note.ayah_num }}</span>
+              </div>
+              <div class="note-body" v-html="renderNoteExcerpt(note)"></div>
+              <div class="note-meta">
+                <span class="date"><i class="bi bi-calendar3 me-1"></i>{{ extractDate(note.created_at) }}</span>
+              </div>
+              <div class="note-actions" role="group" aria-label="Note actions">
+                <button type="button" class="btn btn-icon btn-ghost" @click="viewModal(note)" title="View"
+                  aria-label="View note">
+                  <i class="bi bi-eye"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-success outline" data-bs-toggle="modal"
+                  data-bs-target="#editNotes" @click="editModal(note)" title="Edit" aria-label="Edit note">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-danger outline" :disabled="isBusy(note.id)"
+                  @click="deleteNote(note.id)" :title="isBusy(note.id) ? 'Deleting…' : 'Delete'"
+                  aria-label="Delete note">
+                  <span v-if="isBusy(note.id)" class="spinner-border spinner-border-sm"></span>
+                  <i v-else class="bi bi-trash"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-ghost" @click="copyNoteToClipboard(note)"
+                  title="Copy note" aria-label="Copy note to clipboard">
+                  <i class="bi bi-clipboard"></i>
+                </button>
+                <button type="button" class="btn btn-icon btn-ghost" @click="shareNoteOnWhatsApp(note)"
+                  title="Share on WhatsApp" aria-label="Share note on WhatsApp">
+                  <i class="bi bi-whatsapp"></i>
+                </button>
+              </div>
             </div>
-          <div class="note-actions" role="group" aria-label="Note actions">
-            <button 
-              type="button" 
-              class="btn btn-icon btn-ghost" 
-              @click="viewModal(note)"
-              title="View"
-              aria-label="View note">
-              <i class="bi bi-eye"></i>
-            </button>
-            <button 
-              type="button" 
-              class="btn btn-icon btn-success outline" 
-              data-bs-toggle="modal"
-              data-bs-target="#editNotes"
-              @click="editModal(note)"
-              title="Edit"
-              aria-label="Edit note">
-              <i class="bi bi-pencil"></i>
-            </button>
-            <button 
-              type="button" 
-              class="btn btn-icon btn-danger outline" 
-              :disabled="isBusy(note.id)" 
-              @click="deleteNote(note.id)"
-              :title="isBusy(note.id) ? 'Deleting…' : 'Delete'"
-              aria-label="Delete note">
-              <span v-if="isBusy(note.id)" class="spinner-border spinner-border-sm"></span>
-              <i v-else class="bi bi-trash"></i>
-            </button>
-            <button 
-              type="button" 
-              class="btn btn-icon btn-ghost" 
-              @click="copyNoteToClipboard(note)"
-              title="Copy note"
-              aria-label="Copy note to clipboard">
-              <i class="bi bi-clipboard"></i>
-            </button>
-            <button 
-              type="button" 
-              class="btn btn-icon btn-ghost" 
-              @click="shareNoteOnWhatsApp(note)"
-              title="Share on WhatsApp"
-              aria-label="Share note on WhatsApp">
-              <i class="bi bi-whatsapp"></i>
-            </button>
           </div>
         </div>
-      </div>
       </div>
     </div>
 
     <!-- Create Note Modal -->
     <teleport to="body">
-      <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true" data-bs-backdrop="true">
+      <div class="modal fade" id="createNote" tabindex="-1" aria-labelledby="createNoteLabel" aria-hidden="true"
+        data-bs-backdrop="true">
         <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
           <div class="modal-content">
             <div class="modal-header">
@@ -115,7 +95,7 @@
               <form @submit.prevent="createNote">
                 <div class="mb-3">
                   <label class="form-label">Notes</label>
-                  <Editor theme="snow" v-model:content="newNote" contentType="html" class="editor"/>
+                  <Editor theme="snow" v-model:content="newNote" contentType="html" class="editor" />
                 </div>
                 <div class="d-flex justify-content-end gap-2">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -128,67 +108,69 @@
       </div>
     </teleport>
 
-   <!-- Edit Note Modal -->
-   <teleport to="body">
-     <div class="modal fade" id="editNotes" tabindex="-1" aria-labelledby="editNotesLabel" aria-hidden="true" data-bs-backdrop="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-       <div class="modal-content">
-        <div class="modal-header">
-         <h5 class="modal-title text-dark" id="editNotesLabel"><strong>Edit Note</strong></h5>
-         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-         <form @submit.prevent="updateNotes">
-          <div class="mb-3">
-           <label class="form-label"><b>Edit your note:</b></label>
-           <Editor theme="snow" v-model:content="form.ayah_notes" contentType="html" class="editor"/>
+    <!-- Edit Note Modal -->
+    <teleport to="body">
+      <div class="modal fade" id="editNotes" tabindex="-1" aria-labelledby="editNotesLabel" aria-hidden="true"
+        data-bs-backdrop="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="editNotesLabel"><strong>Edit Note</strong></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form @submit.prevent="updateNotes">
+                <div class="mb-3">
+                  <label class="form-label"><b>Edit your note:</b></label>
+                  <Editor theme="snow" v-model:content="form.ayah_notes" contentType="html" class="editor" />
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-success">Update</button>
+                </div>
+              </form>
+            </div>
           </div>
-          <div class="modal-footer">
-           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-           <button type="submit" class="btn btn-success">Update</button>
-          </div>
-         </form>
         </div>
-       </div>
       </div>
-     </div>
-   </teleport>
-  
-   <!-- View Note Modal -->
-   <teleport to="body">
-     <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true" data-bs-backdrop="true">
-      <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
-       <div class="modal-content">
-        <div class="modal-header">
-         <h5 class="modal-title text-dark" id="viewNotesLabel"><b>View Note</b></h5>
-         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-         <div class="container">
-          <div class="mb-3" v-if="form.surah_name">
-           <label class="form-label"><strong>Surah Name:</strong></label>
-           <p class="mt-2 text-dark text-left">{{ form.surah_name }}</p>
+    </teleport>
+
+    <!-- View Note Modal -->
+    <teleport to="body">
+      <div class="modal fade" id="viewNotes" tabindex="-1" aria-labelledby="viewNotesLabel" aria-hidden="true"
+        data-bs-backdrop="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-dark" id="viewNotesLabel"><b>View Note</b></h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="container">
+                <div class="mb-3" v-if="form.surah_name">
+                  <label class="form-label"><strong>Surah Name:</strong></label>
+                  <p class="mt-2 text-dark text-left">{{ form.surah_name }}</p>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label"><strong>Notes:</strong></label>
+                  <div class="mt-2 text-dark text-left" v-html="form.ayah_notes"></div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label"><strong>Date Created:</strong></label>
+                  <p class="mt-2 text-dark text-left">{{ extractDate(form.created_at) }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer flex-wrap gap-2">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
           </div>
-          <div class="mb-3">
-           <label class="form-label"><strong>Notes:</strong></label>
-           <div class="mt-2 text-dark text-left" v-html="form.ayah_notes"></div>
-          </div>
-          <div class="mb-3">
-           <label class="form-label"><strong>Date Created:</strong></label>
-           <p class="mt-2 text-dark text-left">{{ extractDate(form.created_at) }}</p>
-          </div>
-         </div>
         </div>
-        <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-       </div>
       </div>
-     </div>
-   </teleport>
+    </teleport>
   </div>
 </template>
-  
+
 <script>
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -210,6 +192,7 @@ export default {
       surahFilter: 'all',
       lengthFilter: 'all',
       busy: {},
+      viewingNote: null,
       form: {
         id: null,
         surah_name: '',
@@ -270,9 +253,9 @@ export default {
         return;
       }
       try {
-        await axios.post('api/submit-note', { 
-          ayah_notes: this.newNote, 
-          is_speech_to_text: false 
+        await axios.post('api/submit-note', {
+          ayah_notes: this.newNote,
+          is_speech_to_text: false
         });
         this.newNote = '';
         this.closeModal('createNote');
@@ -341,6 +324,7 @@ export default {
         visibility_option: vis,
         created_at: note.created_at || '',
       };
+      this.viewingNote = note;
       this.cleanupModalBackdrops();
       this.$nextTick(() => {
         try {
@@ -353,6 +337,32 @@ export default {
           console.error('Error opening view modal:', e);
         }
       });
+    },
+    openEditNotesModal() {
+      try {
+        const modalEl = document.getElementById('editNotes');
+        if (modalEl && window.bootstrap?.Modal) {
+          const modal = window.bootstrap.Modal.getOrCreateInstance(modalEl);
+          modal.show();
+        }
+      } catch (e) {
+        console.error('Error opening edit modal:', e);
+      }
+    },
+    openEditFromViewModal() {
+      if (!this.viewingNote) return;
+      this.editModal(this.viewingNote);
+      this.closeModal('viewNotes');
+      this.$nextTick(() => {
+        this.openEditNotesModal();
+      });
+    },
+    async handleDeleteFromView() {
+      if (!this.viewingNote) return;
+      const deleted = await this.deleteNote(this.viewingNote.id);
+      if (deleted) {
+        this.closeModal('viewNotes');
+      }
     },
     editModal(note) {
       console.log('Edit clicked:', note.id);
@@ -478,7 +488,7 @@ export default {
         confirmButtonText: "Yes, update note!",
       });
 
-      if (!result.isConfirmed) return;
+      if (!result.isConfirmed) return false;
 
       try {
         const payload = { ...this.form, visibility_option: this.normalizeVisibility(this.form.visibility_option) };
@@ -500,7 +510,7 @@ export default {
     isBusy(id) {
       return !!this.busy[id];
     },
-    normalizeVisibility(val){
+    normalizeVisibility(val) {
       if (val === 'private' || val === 1 || val === '1') return 1;
       if (val === 'public' || val === 0 || val === '0' || val === undefined || val === null) return 0;
       return val ? 1 : 0;
@@ -524,12 +534,14 @@ export default {
         await axios.delete(`/api/delete-notes/${id}`);
         await this.fetchNotes(this.userId);
         Swal.fire({ icon: 'success', title: 'Note deleted', timer: 1200, showConfirmButton: false });
+        return true;
       } catch (e) {
         console.error('Delete error:', e);
         Swal.fire({ icon: 'error', title: 'Delete failed', timer: 1400, showConfirmButton: false });
       } finally {
         this.busy[id] = false;
       }
+      return false;
     },
   },
   computed: {
@@ -597,6 +609,7 @@ export default {
   border: 1px solid rgba(15, 110, 99, 0.14);
   transition: border-color 0.3s ease, transform 0.3s ease;
 }
+
 .admin-search:focus-within {
   border-color: rgba(15, 110, 99, 0.6);
   transform: translateY(-1px);
@@ -644,10 +657,6 @@ export default {
   border: 1px solid rgba(15, 110, 99, 0.18);
   box-shadow: 0 20px 50px rgba(4, 120, 87, 0.15);
   margin-bottom: 1.5rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
 }
 
 .filters {
@@ -721,6 +730,15 @@ export default {
   pointer-events: none;
 }
 
+.notes-grid-wrapper {
+  background: #fff;
+  border-radius: 32px;
+  padding: 2rem;
+  border: 1px solid rgba(15, 110, 99, 0.15);
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.08);
+  margin-bottom: 2rem;
+}
+
 .note-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 20px 40px rgba(15, 23, 42, 0.12);
@@ -783,10 +801,13 @@ export default {
 .note-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: space-between;
+  width: 100%;
   margin-top: 12px;
   position: relative;
   z-index: 10;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .search-highlight {
@@ -869,7 +890,7 @@ export default {
   pointer-events: none;
 }
 </style>
-  
+
 <style>
 .editor {
   height: 320px;

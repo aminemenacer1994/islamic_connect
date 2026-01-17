@@ -49,15 +49,15 @@
 
 
     <!-- show a message when recording starts -->
-    <div v-if="isListening" class="listening-container d-flex align-items-center justify-content-center">
-      <!-- Spinner -->
-      <div class="spinner-border text-secondary" role="status" style="width: 3rem; height: 3rem;">
-        <span class="visually-hidden">Loading...</span>
+    <div v-if="isListening" class="listening-container listening-status-card">
+      <div class="listening-icon-wrapper">
+        <div class="listening-icon-ring"></div>
+        <i class="bi bi-mic-fill listening-icon"></i>
       </div>
-      <!-- Listening Text -->
-      <span class="listening-text ml-3 mt-3" style="color: black;">
-        <p>Listening</p>
-      </span>
+      <div class="listening-copy">
+        <p class="listening-title">Listening</p>
+        <small class="listening-subtitle">Speak now and we’ll fetch the verses.</small>
+      </div>
     </div>
     <!-- Offcanvas for Search Results -->
     <div class="offcanvas offcanvas-end custom-offcanvas" tabindex="-1" id="offcanvasResults">
@@ -355,78 +355,83 @@ export default {
 }
 
 .listening-container {
-  top: 5px;
+  margin-top: 1.25rem;
+}
+
+.listening-status-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 420px;
+  width: min(420px, 90vw);
+  margin: 0 auto 2rem;
+  padding: 1.25rem 1.5rem 1.75rem;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(255, 255, 255, 0.95));
+  border: 1px solid rgba(15, 118, 110, 0.25);
+  box-shadow: 0 20px 30px rgba(11, 76, 69, 0.12), 0 12px 20px rgba(15, 118, 110, 0.15);
+}
+
+.listening-icon-wrapper {
+  position: relative;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1em;
-  font-weight: 300;
-  color: rgb(0, 0, 0);
-  background-color: #f5f5f5;
-  padding: 12px;
-  border-radius: 6px;
-  max-width: 300px;
-  margin: 0 auto;
-  text-align: center;
+}
+
+.listening-icon-ring {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: 3px solid rgba(15, 118, 110, 0.25);
+  border-top-color: transparent;
+  animation: spin 1.4s linear infinite;
 }
 
 .listening-icon {
-  font-size: 1.3em;
-  color: #000000;
+  position: relative;
+  font-size: 1.75rem;
+  color: #0f766e;
 }
 
-.listening-text {
-  color: #000000;
-  font-size: 30px;
-  font-weight: bold;
+.listening-copy {
+  flex: 1;
+  text-align: left;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.2rem;
 }
 
-.dot-typing {
-  padding-left: 10px;
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  background-color: #119457;
-  border-radius: 50%;
-  animation: blink 1.4s infinite ease-in-out both;
+.listening-title {
+  margin: 0;
+  font-weight: 700;
+  font-size: 1.35rem;
+  color: #0f2f23;
+  white-space: nowrap;
+  line-height: 1.2;
 }
 
-.dot-typing:before,
-.dot-typing:after {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  padding-left: 10px;
-  background-color: #000000;
-  border-radius: 50%;
-  animation: blink 1.4s infinite ease-in-out both;
+.listening-subtitle {
+  margin: 0;
+  color: #3c5560;
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.dot-typing:before {
-  animation-delay: 0.2s;
-}
-
-.dot-typing:after {
-  animation-delay: 0.4s;
-}
-
-/* Blinking dots animation */
-@keyframes blink {
-
-  0%,
-  80%,
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
   100% {
-    transform: scale(0);
-  }
-
-  40% {
-    transform: scale(1);
+    transform: rotate(360deg);
   }
 }
-
 /* CSS */
 .button-36 {
   background-image: linear-gradient(92.88deg, #455EB5 9.16%, #5643CC 43.89%, #673FD7 64.72%);

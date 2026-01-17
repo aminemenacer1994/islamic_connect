@@ -3,7 +3,7 @@
     <!-- Header Section -->
     <div class="row justify-content-center text-center mb-3">
       <div class="col-lg-10 col-xl-10">
-        <h1 class="display-5 fw-bold">Islamic Podcasts</h1>
+        <h1 class="display-5 fw-bold">Islamic Audio Library</h1>
         <p class="lead">
           Tune into thoughtfully curated Islamic audio that brings together scholars, storytellers, and community voices.
           Every episode blends reflection, practical guidance, and inspiration to help deepen your connection and spark
@@ -95,7 +95,7 @@
     <!-- Favorites Section -->
     <div v-if="favourites && favourites.length" class="favorites-section">
       <div class="section-header">
-        <h2 class="section-title">Your Favorites</h2>
+        <h2 class="section-title">Favorites</h2>
         <p class="section-subtitle">Quick access to episodes you loved</p>
       </div>
       <div>
@@ -177,7 +177,7 @@
     <!-- Podcast Episodes Section -->
     <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
       <div class="section-header">
-        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Available Episodes</h2>
+        <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Episodes</h2>
         <p class="section-subtitle">Press play to experience each episode’s rich audio storytelling.</p>
       </div>
       <div v-if="fetchError" class="alert alert-danger" role="alert">
