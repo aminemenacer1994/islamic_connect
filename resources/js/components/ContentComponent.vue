@@ -94,51 +94,57 @@
 
     <!-- Favorites Section -->
     <div v-if="favourites && favourites.length" class="favorites-section">
-      <div class="section-header">
-        <h2 class="section-title">Favorites</h2>
-        <p class="section-subtitle">Quick access to episodes you loved</p>
+      <div class="favorites-hero">
+        <div class="favorites-hero__text">
+          <p class="favorites-kicker">Saved for you</p>
+          <h2 class="favorites-title">Favorites</h2>
+          <p class="favorites-subtitle">Quick access to episodes you loved</p>
+        </div>
+        <div class="favorites-hero__actions">
+          <span class="favorites-count">{{ favourites.length }} saved</span>
+          <button class="favorites-toggle" @click="toggleVisibility">
+            <i class="fas" :class="isVisible ? 'fa-eye-slash' : 'fa-eye'"></i>
+            {{ isVisible ? 'Hide favorites' : 'Show favorites' }}
+          </button>
+        </div>
       </div>
-      <div>
-    <button 
-      class="toggle-button" 
-      @click="toggleVisibility" 
-      style="margin-bottom: 10px; padding: 8px 16px; cursor: pointer;"
-    >
-      {{ isVisible ? 'Hide Favourites' : 'Show Favourites' }}
-    </button>
-    <div v-if="isVisible" class="card-teal podcast-cards-grid border-md" style="padding: 5px;">
-      <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
-        <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(fav) }]" style="padding: 1.2rem;">
-          <div class="card-body">
-            <div class="podcast-card-top">
-              <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
-              <div class="podcast-card-info">
-                <h4 class="podcast-title">{{ fav.title }}</h4>
-                <div class="podcast-extra-info">
-                  <span class="lang-badge" :title="'Published'">
-                    <i class="bi bi-calendar3" style="font-size:1.1rem;"></i>
-                    {{ formatDate(fav.pubDate) }}
-                  </span>
-                  <span v-if="fav.likedAt" class="lang-badge" :title="'Liked on'" style="margin-left:8px;">
-                    <i class="bi bi-heart-fill" style="font-size:1.1rem;"></i>
-                    {{ new Date(fav.likedAt).toLocaleString() }}
-                  </span>
+
+      <transition name="fade">
+        <div v-show="isVisible" class="favorites-grid">
+          <div v-for="fav in favourites" :key="fav.title + fav.audioUrl" class="podcast-card-wrapper">
+            <div :class="['podcast-card', 'favorite-card', { 'highlighted': isCurrentlyPlaying(fav) }]">
+              <div class="card-body">
+                <div class="podcast-card-top">
+                  <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image"
+                    :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
+                  <div class="podcast-card-info">
+                    <h4 class="podcast-title">{{ fav.title }}</h4>
+                    <div class="podcast-extra-info favorites-meta">
+                      <span class="favorite-chip" :title="'Published'">
+                        <i class="fas fa-calendar-alt"></i>
+                        {{ formatDate(fav.pubDate) }}
+                      </span>
+                      <span v-if="fav.likedAt" class="favorite-chip" :title="'Liked on'">
+                        <i class="fas fa-heart"></i>
+                        {{ new Date(fav.likedAt).toLocaleString() }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="audio-controls-inline favorites-actions">
+                    <button class="control-button play-btn favorite-play" @click="playFromFavourites(fav)" title="Play">
+                      <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-button favorite-remove" @click="toggleFavourite(fav)"
+                      title="Remove from favorites">
+                      <i class="fas fa-heart"></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div class="audio-controls-inline">
-                <button class="control-button play-btn" @click="playFromFavourites(fav)" title="Play">
-                  <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
-                </button>
-                <button class="control-button" @click="toggleFavourite(fav)" title="Remove from favorites">
-                  <i class="bi bi-heart-fill text-danger" style="font-size:1.3rem;"></i>
-                </button>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
+      </transition>
     </div>
 
     <!-- Recently Played Section -->
@@ -1464,16 +1470,6 @@ export default {
   --pod-muted: #e9ecef;
   --pod-dark: #1f2a2e;
 }
-.toggle-button {
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.toggle-button:hover {
-  background-color: #e0e0e0;
-}
 .volume-slider {
   accent-color: #0db691;
   vertical-align: middle;
@@ -1582,6 +1578,188 @@ export default {
   color: #55616a; /* Increased contrast vs. light backgrounds for WCAG AA */
   margin: 0;
   line-height: 1.5;
+}
+
+/* Favorites section */
+.favorites-section {
+  position: relative;
+  margin: 3rem 0 3.5rem;
+  padding: clamp(1.5rem, 3vw, 2.6rem);
+  border-radius: 20px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #f8fbfb;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.favorites-hero {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+
+.favorites-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #64748b;
+  margin-bottom: 0.35rem;
+}
+
+.favorites-title {
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+  color: #0f172a;
+}
+
+.favorites-subtitle {
+  margin: 0;
+  font-size: 1rem;
+  color: #475569;
+  max-width: 520px;
+}
+
+.favorites-hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.favorites-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.1);
+}
+
+.favorites-toggle {
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #0f172a;
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  box-shadow: 0 6px 14px rgba(15, 23, 42, 0.08);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.favorites-toggle:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.16);
+}
+
+.favorites-grid {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 16px;
+  padding: clamp(0.6rem, 2vw, 1rem);
+  background: #ffffff;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.favorites-grid .podcast-card-wrapper {
+  padding: 0;
+}
+
+.favorite-card {
+  padding: 1rem;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: #ffffff;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+}
+
+.favorites-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.favorite-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #475569;
+  background: #f1f5f9;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+.favorite-chip i {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.favorites-actions .control-button {
+  border: none;
+  height: 30px;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  box-shadow: none;
+  background: transparent;
+  border: none;
+  color: #64748b;
+}
+
+.favorite-play {
+  background: transparent;
+  color: #0f172a;
+}
+
+.favorite-play i,
+.favorite-remove i {
+  font-size: 0.95rem;
+}
+
+.favorite-remove {
+  background: transparent;
+  color: #64748b;
+  border: none;
+}
+
+.favorites-actions .control-button:hover {
+  transform: translateY(-1px);
+  background: transparent;
+  color: #0f172a;
+}
+
+@media (max-width: 767.98px) {
+  .favorites-hero__actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .favorites-toggle {
+    flex: 1;
+    justify-content: center;
+  }
 }
 
 /* Podcast Selection Grid */
