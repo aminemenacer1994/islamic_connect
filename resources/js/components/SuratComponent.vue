@@ -69,9 +69,15 @@
                 </div>
                 <div id="surat-filters" class="row g-3" v-show="isVisible">
                     <div class="col-12 col-md-12 filter-item surah-list">
-                        <label class="form-label mt-2">Select Surah</label>
+                        <div class="surah-search">
+                            <input type="search" class="form-control surah-search-input"
+                                v-model="surahSearchQuery"
+                                placeholder="Search surah (English or Arabic)"
+                                aria-label="Search surah by English or Arabic name" />
+                        </div>
                         <div class="filter-list">
-                            <button type="button" class="filter-option" v-for="surah in surahs" :key="surah.number"
+                            <button type="button" class="filter-option" v-for="surah in filteredSurahs"
+                                :key="surah.number"
                                 :class="{ active: String(selectedSurah) === String(surah.number) }"
                                 @click="selectSurah(surah.number)">
                                 <span class="filter-option-number">{{ surah.number }}</span>
@@ -81,7 +87,7 @@
                         </div>
                     </div>
                     <!-- <div class="col-12 col-md-4 filter-item"></div>
-                <div class="col-12 col-md-4 filter-item"></div> -->
+                    <div class="col-12 col-md-4 filter-item"></div> -->
                 </div>
             </div>
             <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
@@ -93,20 +99,22 @@
                                 Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
                                 }}
                             </span>
-                            <span class="surah-meta">
+                            <span class="surah-dot" aria-hidden="true">•</span>
+                            <span class="surah-badge">
                                 {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
                             </span>
                         </div>
                     </div>
                     <div class="surah-playback-controls">
-                        <select class="form-select shadow-sm" v-model="selectedReciter" aria-label="Select reciter">
+                        <select class="form-select shadow-sm surah-select" v-model="selectedReciter"
+                            aria-label="Select reciter">
                             <option value="" disabled>Select a reciter</option>
                             <option v-for="reciter in recitersSorted" :key="reciter.identifier"
                                 :value="reciter.identifier">
                                 {{ reciter.englishName }}
                             </option>
                         </select>
-                        <select class="form-select shadow-sm" v-model="selectedTranslation"
+                        <select class="form-select shadow-sm surah-select" v-model="selectedTranslation"
                             aria-label="Select translation">
                             <option value="" disabled>Select Translation</option>
                             <option v-for="translation in translationsSorted" :key="translation.identifier"
@@ -116,7 +124,8 @@
                                 }}
                             </option>
                         </select>
-                        <button type="button" class="btn btn-primary btn-lg" :disabled="!canPlaySurah"
+                        <button type="button" class="btn btn-primary btn-lg surah-play-button"
+                            :disabled="!canPlaySurah"
                             @click="playSurahContinuously" aria-label="Play every ayah in this surah">
                             <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
                             Play full surah
@@ -126,7 +135,7 @@
             </div>
 
             <div class="ayah-links-bar">
-                <a href="/bookmarks" class="bookmark-cta-link" @click.prevent="onBookmarksLinkClick">
+                <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
                     <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
                     View saved bookmarks
                 </a>
@@ -811,6 +820,7 @@ export default {
             showReflectionHighlight: true,
             carouselCollapsed: false,
             promptRowCount: 3,
+            surahSearchQuery: "",
         };
     },
     computed: {
@@ -843,6 +853,21 @@ export default {
                     (ayah.lowerTranslation &&
                         ayah.lowerTranslation.includes(query))
             );
+        },
+        filteredSurahs() {
+            if (!Array.isArray(this.surahs)) return [];
+            const raw = (this.surahSearchQuery || "").trim().toLowerCase();
+            if (!raw) return this.surahs;
+            return this.surahs.filter((surah) => {
+                const english = (surah.englishName || "").toLowerCase();
+                const arabic = (surah.name || "").toLowerCase();
+                const number = String(surah.number || "");
+                return (
+                    english.includes(raw) ||
+                    arabic.includes(raw) ||
+                    number.includes(raw)
+                );
+            });
         },
         recitersSorted() {
             if (!Array.isArray(this.reciters)) return [];
@@ -3696,9 +3721,7 @@ export default {
     font-size: 0.9rem;
     color: #6b7280;
 }
-</style>
 
-<style scoped>
 .card-teal {
     border-radius: 999px;
     border: 1px solid rgba(15, 110, 99, 0.12);
@@ -4076,6 +4099,7 @@ export default {
     padding: 14px 18px;
     border-radius: 22px;
     margin-bottom: 1rem;
+    top:0px;
     overflow: hidden;
     max-height: 500px;
     /* expanded */
@@ -4197,32 +4221,67 @@ export default {
     overflow-x: hidden;
 }
 
-.surah-playback-controls {
+.surah-toolbar {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-direction: column;
     gap: 8px;
-    width: 100%;
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(238, 247, 244, 0.72));
+    border: 1px solid rgba(15, 110, 99, 0.16);
+    box-shadow: 0 14px 26px rgba(15, 53, 48, 0.08);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+    position: sticky;
+    top: var(--nav-offset, 72px);
+    z-index: 900;
 }
 
-.surah-playback-controls .form-select {
-    min-width: 0;
-    flex: 1 1 0;
+.surah-toolbar::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 8% 20%, rgba(210, 162, 75, 0.16), transparent 55%),
+        radial-gradient(circle at 92% 0%, rgba(15, 110, 99, 0.18), transparent 60%);
+    opacity: 0.65;
+    pointer-events: none;
 }
 
-.surah-playback-controls .btn {
-    flex: 0 0 auto;
+.surah-toolbar::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    bottom: 0;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(15, 110, 99, 0.5), rgba(210, 162, 75, 0.6), rgba(15, 110, 99, 0.35));
+    opacity: 0.7;
 }
 
 .surah-toolbar-main {
     display: grid;
-    grid-template-columns: minmax(220px, 1fr) minmax(0, 2fr);
+    grid-template-columns: minmax(240px, 1fr) auto;
     align-items: center;
-    gap: 12px;
+    gap: 16px;
 }
 
 .surah-title-block {
     min-width: 0;
+}
+
+.surah-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #5a6b6b;
+    font-weight: 700;
+    background: rgba(15, 110, 99, 0.1);
+    padding: 4px 8px;
+    border-radius: 999px;
+    width: fit-content;
 }
 
 .surah-title-row {
@@ -4233,15 +4292,71 @@ export default {
 }
 
 .surah-title {
-    font-size: 1.05rem;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #153532;
 }
 
-.surah-meta {
-    font-size: 0.82rem;
+.surah-dot {
+    color: #95a5a6;
+    font-weight: 700;
+}
+
+.surah-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
+    border-radius: 999px;
+    background: rgba(15, 110, 99, 0.16);
+    color: #0b5c53;
+}
+
+.surah-playback-controls {
+    display: grid;
+    grid-template-columns: minmax(200px, 240px) minmax(240px, 300px) auto;
+    align-items: center;
+    gap: 12px;
+    width: auto;
+}
+
+.surah-playback-controls .form-select {
+    min-width: 0;
+    width: 100%;
+}
+
+.surah-playback-controls .surah-select {
+    height: 40px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border-color: rgba(15, 110, 99, 0.18);
+    box-shadow: 0 6px 12px rgba(15, 53, 48, 0.08);
+    background-color: #ffffff;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.surah-playback-controls .surah-select:focus {
+    border-color: rgba(15, 110, 99, 0.4);
+    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.14);
+}
+
+.surah-playback-controls .btn {
+    flex: 0 0 auto;
+    border-radius: 10px;
+}
+
+.surah-play-button {
+    height: 40px;
+    padding: 8px 18px;
+    font-weight: 600;
+    border-radius: 10px;
+    box-shadow: 0 10px 18px rgba(8, 94, 84, 0.18);
 }
 
 .ayah-links-bar {
-    margin-top: 6px;
+
+    gap: 12px;
 }
 
 .ayah-links-bar .bookmark-cta-link,
@@ -4250,6 +4365,7 @@ export default {
     background: rgba(11, 92, 83, 0.12);
     border-color: rgba(11, 92, 83, 0.25);
     box-shadow: 0 12px 20px rgba(11, 92, 83, 0.16);
+    border-radius: 10px;
 }
 
 .ayah-links-bar .bookmark-cta-link:hover,
@@ -4328,10 +4444,76 @@ export default {
 
 .sticky-dropdown label.form-label {
     font-weight: 800;
-    letter-spacing: 0.07em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    font-size: 1.4rem;
-    color: #4b5563;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.82);
+    position: relative;
+    padding-left: 14px;
+    margin-bottom: 12px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    display: block;
+    margin-right: -18px;
+    padding-left: 32px;
+    padding-right: 18px;
+    background: linear-gradient(180deg, rgba(35, 108, 98, 0.9), rgba(35, 108, 98, 0.7));
+}
+
+.sticky-dropdown label.form-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: #d2a24b;
+    transform: translateY(-50%);
+    box-shadow: 0 0 0 4px rgba(210, 162, 75, 0.18);
+}
+
+.sticky-dropdown label.form-label::after {
+    content: "";
+    display: block;
+    margin-top: 8px;
+    width: 72px;
+    height: 2px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(210, 162, 75, 0.9), rgba(210, 162, 75, 0));
+}
+
+.surah-search {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    padding: 12px 18px;
+    margin: 0 -18px 12px;
+    background: linear-gradient(180deg, rgba(35, 108, 98, 0.95), rgba(35, 108, 98, 0.75));
+    border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.surah-search-input {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(12, 35, 33, 0.28);
+    color: #ffffff;
+    padding: 10px 12px;
+}
+
+.surah-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+}
+
+.surah-search-input::-webkit-search-cancel-button {
+    filter: invert(1);
+}
+
+.surah-search-input::-ms-clear {
+    filter: invert(1);
 }
 
 .filter-item .form-label {

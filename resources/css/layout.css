@@ -31,7 +31,6 @@
 
 body {
     padding-top: var(--navbar-h);
-    scroll-padding-top: calc(var(--navbar-h) + 0.5rem);
 }
 
 html {
