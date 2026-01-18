@@ -101,6 +101,73 @@
                     <div class="col-12 col-md-4 filter-item"></div> -->
                 </div>
             </div>
+            <div class="surah-offcanvas-trigger">
+                <button type="button" class="btn btn-primary surah-offcanvas-toggle" data-bs-toggle="offcanvas"
+                    data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas">
+                    <i class="bi bi-sliders me-2" aria-hidden="true"></i>
+                    Filters & info
+                </button>
+            </div>
+            <div class="offcanvas offcanvas-start surah-offcanvas" tabindex="-1" id="surahOffcanvas"
+                aria-labelledby="surahOffcanvasLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="surahOffcanvasLabel">Surah controls</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="surah-offcanvas-section surah-offcanvas-search">
+                        <p class="surah-offcanvas-eyebrow">Now viewing</p>
+                        <div v-if="surahDetails" class="surah-offcanvas-title">
+                            Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
+                        </div>
+                        <div v-else class="surah-offcanvas-title">Select a surah to begin</div>
+                        <div v-if="surahDetails" class="surah-offcanvas-badge">
+                            {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
+                        </div>
+                    </div>
+                    <div class="surah-offcanvas-section">
+                        <label class="form-label surah-offcanvas-label">Search surah</label>
+                        <input type="search" class="form-control surah-offcanvas-input"
+                            v-model="surahSearchQuery"
+                            placeholder="Search surah (English or Arabic)"
+                            aria-label="Search surah by English or Arabic name" />
+                        <label class="form-label surah-offcanvas-label mt-3">Select surah</label>
+                        <select class="form-select surah-offcanvas-select" v-model="selectedSurah"
+                            @change="selectSurah(selectedSurah)" aria-label="Select surah">
+                            <option v-for="surah in filteredSurahs" :key="surah.number" :value="String(surah.number)">
+                                {{ surah.number }} · {{ surah.englishName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="surah-offcanvas-section">
+                        <label class="form-label surah-offcanvas-label">Select reciter</label>
+                        <select class="form-select surah-offcanvas-select" v-model="selectedReciter"
+                            aria-label="Select reciter">
+                            <option value="" disabled>Select a reciter</option>
+                            <option v-for="reciter in recitersSorted" :key="reciter.identifier"
+                                :value="reciter.identifier">
+                                {{ reciter.englishName }}
+                            </option>
+                        </select>
+                        <label class="form-label surah-offcanvas-label mt-3">Select translation</label>
+                        <select class="form-select surah-offcanvas-select" v-model="selectedTranslation"
+                            aria-label="Select translation">
+                            <option value="" disabled>Select Translation</option>
+                            <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                :value="translation.identifier">
+                                {{ `${translation.flag} ${translation.englishName} (${translation.language})` }}
+                            </option>
+                        </select>
+                        <button type="button" class="btn btn-primary surah-offcanvas-play"
+                            :disabled="!canPlaySurah" @click="playSurahContinuously"
+                            aria-label="Play every ayah in this surah">
+                            <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
+                            Play full surah
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
                 <div class="surah-toolbar-main">
                     <div class="surah-title-block">
@@ -219,6 +286,15 @@
                                                 )
                                             ].icon === 'trash'
                                         " class="bi bi-trash-fill me-2 fs-5"></i>
+                                        <i v-else-if="
+                                            feedbackMessages[
+                                                buildAyahKey(
+                                                    surahDetails?.surahNumber,
+                                                    item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                                )
+                                            ].icon === 'warning'
+                                        " class="bi bi-exclamation-triangle-fill me-2 fs-5"></i>
                                         {{
                                             feedbackMessages[
                                                 buildAyahKey(
@@ -1412,7 +1488,8 @@ export default {
         async toggleBookmark(ayah) {
             if (!this.bookmarkAuthenticated) {
                 const isAuthed = await this.ensureAuthenticated(
-                    "Please log in to manage bookmarks."
+                    "Please log in to manage bookmarks.",
+                    { ayah }
                 );
                 if (!isAuthed) return;
             }
@@ -1566,6 +1643,13 @@ export default {
         },
         async openBookmarkModal(ayah) {
             if (!this.surahDetails || !ayah) return;
+            if (!this.bookmarkAuthenticated) {
+                const isAuthed = await this.ensureAuthenticated(
+                    "Please log in to manage bookmarks.",
+                    { ayah }
+                );
+                if (!isAuthed) return;
+            }
             const ayahNumber = Number(ayah.numberInSurah || ayah.number);
             this.activeAyah = {
                 surah_number: Number(this.surahDetails.surahNumber),
@@ -1638,7 +1722,8 @@ export default {
             if (!surahNumber || !ayahNumber) return;
 
             const isAuthed = await this.ensureAuthenticated(
-                "Please log in to save reflections."
+                "Please log in to save reflections.",
+                { ayah }
             );
             if (!isAuthed) return;
 
@@ -1937,7 +2022,8 @@ export default {
             return (div.textContent || div.innerText || "").trim();
         },
         async ensureAuthenticated(
-            message = "Please log in to access bookmarks & reflections."
+            message = "Please log in to access bookmarks & reflections.",
+            options = {}
         ) {
             const userId = await fetchUserIdFromApi();
             const isAuthed = !!userId;
@@ -1948,8 +2034,25 @@ export default {
                 return true;
             }
             this.bookmarkAuthenticated = false;
-            this.showAuthAlert(message);
+            if (options.ayah) {
+                this.showAyahAuthWarning(options.ayah, message);
+            } else {
+                this.showAuthAlert(message);
+            }
             return false;
+        },
+        showAyahAuthWarning(ayah, message) {
+            if (!ayah) return;
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            if (!surahNumber || !ayahNumber) return;
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            this.triggerAyahFeedback(
+                key,
+                message,
+                "bg-warning text-dark",
+                "warning"
+            );
         },
         showAuthAlert(message = "Please log in to access bookmarks & reflections.") {
             this.authAlert = message;
@@ -4062,6 +4165,21 @@ export default {
         height: auto;
     }
 
+    .surah-layout>.sticky-dropdown {
+        display: none;
+    }
+
+    .surah-offcanvas-trigger {
+        display: flex;
+        justify-content: flex-end;
+        position: sticky;
+        top: calc(var(--nav-offset, 72px) + 8px);
+        z-index: 920;
+        padding: 8px 0;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 248, 0.92));
+        border-radius: 12px;
+    }
+
     .surat-premium.has-sidebar {
         width: calc(100% - 32px);
         margin-left: auto;
@@ -4093,6 +4211,10 @@ export default {
 
     .surah-toolbar {
         padding: 12px;
+    }
+
+    .surah-toolbar {
+        display: none;
     }
 
     .surah-title-row {
@@ -4418,7 +4540,7 @@ export default {
     box-shadow: 0 14px 26px rgba(15, 53, 48, 0.08);
     backdrop-filter: blur(10px);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     position: sticky;
     top: var(--nav-offset, 72px);
     z-index: 900;
@@ -4518,12 +4640,18 @@ export default {
     border-color: rgba(15, 110, 99, 0.18);
     box-shadow: 0 6px 12px rgba(15, 53, 48, 0.08);
     background-color: #ffffff;
+    color: #153532;
     transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .surah-playback-controls .surah-select:focus {
     border-color: rgba(15, 110, 99, 0.4);
     box-shadow: 0 8px 16px rgba(15, 53, 48, 0.14);
+}
+
+.surah-playback-controls .surah-select option,
+.surah-offcanvas-select option {
+    color: #153532;
 }
 
 .surah-playback-controls .btn {
@@ -4720,6 +4848,214 @@ export default {
     box-shadow: 0 0 0 3px rgba(210, 162, 75, 0.2);
 }
 
+.surah-offcanvas-trigger {
+    display: none;
+    margin-bottom: 12px;
+}
+
+.surah-offcanvas-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    background: linear-gradient(135deg, rgba(11, 128, 111, 0.95), rgba(26, 95, 122, 0.95));
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    box-shadow: 0 12px 26px rgba(11, 92, 83, 0.24);
+}
+
+.surah-offcanvas-toggle i {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+
+.surah-offcanvas-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 16px 30px rgba(11, 92, 83, 0.28);
+}
+
+.surah-offcanvas-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(11, 128, 111, 0.35), 0 16px 30px rgba(11, 92, 83, 0.24);
+}
+
+.surah-offcanvas {
+    --bs-offcanvas-width: min(92vw, 360px);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 248, 0.96));
+}
+
+.surah-offcanvas .offcanvas-header {
+    border-bottom: 1px solid rgba(15, 110, 99, 0.12);
+}
+
+.surah-offcanvas-section {
+    padding: 8px 0 16px;
+    border-bottom: 1px solid rgba(15, 110, 99, 0.1);
+}
+
+.surah-offcanvas-search {
+    display: none;
+}
+
+
+.surah-offcanvas-section:last-child {
+    border-bottom: 0;
+}
+
+.surah-offcanvas-eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #5a6b6b;
+    margin-bottom: 6px;
+}
+
+.surah-offcanvas-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #153532;
+}
+
+.surah-offcanvas-badge {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 8px;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(15, 110, 99, 0.12);
+    color: #0b5c53;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.surah-offcanvas-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #4a5e5a;
+}
+
+.surah-offcanvas-input,
+.surah-offcanvas-select {
+    border-radius: 12px;
+    border: 1px solid rgba(15, 110, 99, 0.22);
+    background: #ffffff;
+    color: #153532;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    box-shadow: inset 0 0 0 1px rgba(15, 110, 99, 0.08);
+}
+
+.surah-offcanvas-input::placeholder {
+    color: rgba(21, 53, 50, 0.55);
+}
+
+.surah-offcanvas-play {
+    width: 100%;
+    margin-top: 14px;
+    border-radius: 12px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 12px;
+    line-height: 1.1;
+    text-align: center;
+    white-space: nowrap;
+    font-size: clamp(0.9rem, 3.6vw, 1rem);
+}
+
+@media (max-width: 576px) {
+    .surah-offcanvas-play {
+        font-size: 0.9rem;
+        padding: 9px 10px;
+    }
+}
+
+@media (max-width: 992px) {
+    .surah-offcanvas-trigger {
+        display: flex;
+        justify-content: flex-end;
+        position: sticky;
+        top: calc(var(--navbar-h, 72px) + 8px);
+        z-index: 920;
+        padding: 6px 0 10px;
+        background: transparent;
+        border-radius: 0;
+    }
+
+    .surah-toolbar {
+        display: none !important;
+    }
+
+    .surah-layout > .sticky-dropdown {
+        display: none !important;
+    }
+
+    .surat-premium {
+        overflow-x: hidden;
+        padding-top: 8px;
+    }
+
+    .surah-offcanvas-search,
+    .surah-offcanvas-play,
+    .surah-search {
+        display: none;
+    }
+}
+
+@media (max-width: 1199.98px) {
+    .surah-offcanvas-trigger {
+        display: flex;
+        justify-content: flex-end;
+        position: sticky;
+        top: calc(var(--navbar-h, 72px) + 8px);
+        z-index: 920;
+        padding: 6px 0 10px;
+        background: transparent;
+        border-radius: 0;
+    }
+
+    .surah-toolbar {
+        display: none !important;
+    }
+
+    .surah-layout > .sticky-dropdown {
+        display: none !important;
+    }
+
+    .surat-premium.has-sidebar,
+    .surat-premium.sidebar-collapsed {
+        width: calc(100% - 32px);
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .surat-premium {
+        overflow-x: hidden;
+        padding-top: 8px;
+    }
+
+    .surah-offcanvas-search,
+    .surah-offcanvas-play,
+    .surah-search {
+        display: none;
+    }
+}
+
 .filter-item .form-label {
     margin-bottom: 6px;
 }
@@ -4831,9 +5167,27 @@ export default {
 }
 
 @media (max-width: 768px) {
+    .controls {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+        justify-items: center;
+    }
+
     .controls .control-btn[title="Close"] {
         margin-left: 0;
         /* Remove the margin-left: auto to align with other buttons */
+    }
+
+    .controls .time {
+        grid-column: span 2;
+        justify-self: center;
+        text-align: center;
+        order: 9;
+    }
+
+    .controls .control-btn[title="Close"] {
+        order: 10;
     }
 
     .time {
@@ -4903,6 +5257,16 @@ export default {
     cursor: pointer;
     transition: background-color 0.18s ease, border-color 0.18s ease,
         transform 0.18s ease;
+}
+
+.card-teal .icon-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+}
+
+.card-teal .icon-btn i {
+    font-size: 1.25rem !important;
 }
 
 /* Increase icon sizes for per-ayah actions (desktop) */
@@ -5138,6 +5502,7 @@ export default {
         background-color: rgba(255, 255, 255, 0.92);
         border: 1px solid rgba(15, 110, 99, 0.2);
     }
+
 }
 
 @media (max-width: 420px) {
