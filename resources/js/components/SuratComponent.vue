@@ -705,7 +705,7 @@
                                     : 'mute'
                                 }-fill`"></i>
                         </button>
-                        <button @click="cyclePlaybackSpeed" class="control-btn"
+                        <button @click="cyclePlaybackSpeed" class="control-btn speed-control"
                             :title="'Speed: ' + playbackSpeed + 'x'">
                             <i class="bi bi-speedometer2" :style="{
                                 color:
@@ -715,7 +715,7 @@
                             }"></i>
                             <span class="speed-indicator">{{ playbackSpeed }}x</span>
                         </button>
-                        <button @click="toggleRepeat" class="control-btn" :title="repeatCurrent
+                        <button @click="toggleRepeat" class="control-btn repeat-control" :title="repeatCurrent
                             ? 'Repeat current ayah: on'
                             : 'Repeat current ayah: off'
                             " :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
@@ -5186,10 +5186,12 @@ export default {
 .controls {
     display: flex;
     align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    justify-content: center;
+    gap: 14px;
+    flex-wrap: nowrap;
+    justify-content: space-between;
     margin-bottom: 10px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .control-btn {
@@ -5202,12 +5204,17 @@ export default {
     margin-left: auto;
 }
 
+.controls .speed-control,
+.controls .repeat-control {
+    display: none;
+}
+
 @media (max-width: 768px) {
     .controls {
-        display: grid;
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        display: flex;
+        flex-wrap: nowrap;
         gap: 10px;
-        justify-items: center;
+        justify-content: space-between;
     }
 
     .controls .control-btn[title="Close"] {
@@ -5215,21 +5222,11 @@ export default {
         /* Remove the margin-left: auto to align with other buttons */
     }
 
-    .controls .time {
-        grid-column: span 2;
-        justify-self: center;
-        text-align: center;
-        order: 9;
-    }
-
-    .controls .control-btn[title="Close"] {
-        order: 10;
-    }
-
     .time {
         font-size: 0.8rem !important;
-        min-width: 100px;
+        min-width: 88px;
         text-align: center;
+        white-space: nowrap;
     }
 
     .volume-bar-container {
@@ -5257,9 +5254,6 @@ export default {
         padding: 6px;
     }
 
-    .controls .time {
-        flex-basis: 100%;
-    }
 }
 
 .control-btn {
