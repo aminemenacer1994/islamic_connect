@@ -324,7 +324,7 @@
                     <i class="bi" :class="isAudioPlaying[index] ? 'bi-pause-fill' : 'bi-play-fill'" style="font-size:1.5rem; cursor:pointer;color:#0b1320"></i>
                   </button>
                 <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
-                  <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;color:#0b1320"></i>
+                  <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
                 </button>
                 </div>
               </div>
@@ -340,21 +340,7 @@
         </div>
       </div>
     </div>
-    <div v-else-if="!loading && !visiblePodcasts.length" class="empty-state"
-         :style="'display:flex;align-items:center;justify-content:center;padding:2.2rem;margin:1rem 0;border-radius:20px;background:linear-gradient(135deg,#ffffff,#f5fbfb);border:1px solid rgba(6,182,172,.18);box-shadow:0 12px 24px rgba(0,0,0,.06)'">
-      <div class="empty-state-content text-center mb-2">
-        <i class="bi bi-headphones empty-state-icon" style="font-size:2.4rem;color:#06b6ac;"></i>
-        <h3 class="empty-state-title" style="margin:.5rem 0 0;color:#0b1320;font-weight:800;">No Episodes Found</h3>
-        <p class="empty-state-description" style="margin:.25rem 0 1rem 0;color:#334155;">Try selecting a different podcast or check back later for new episodes.</p>
-        <button class="empty-state-button mb-2" @click="selectedPodcast = null"
-                :style="'display:inline-flex;align-items:center;gap:.5rem;padding:.6rem 1rem;border-radius:20px;background:linear-gradient(135deg,#06b6ac,#0a9bd1);color:#fff;border:0;box-shadow:0 10px 22px rgba(10,155,209,.18);transition:transform .12s ease, box-shadow .12s ease'"
-                @mouseenter="$event.currentTarget.style.transform='translateY(-1px)';$event.currentTarget.style.boxShadow='0 14px 28px rgba(10,155,209,.22)';"
-                @mouseleave="$event.currentTarget.style.transform='';$event.currentTarget.style.boxShadow='0 10px 22px rgba(10,155,209,.18)';">
-          <i class="bi bi-arrow-left" style="font-size:1rem;"></i>
-          <span>Choose Another Podcast</span>
-        </button>
-      </div>
-    </div>
+    <!-- empty state hidden by request -->
 
     <!-- Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container" :style="'border-radius:20px 20px 0 0;position:fixed;bottom:0;left:0;width:100%;background:linear-gradient(180deg,#2b3a3f 0%,#1e262a 100%);box-shadow:0 -10px 30px rgba(0,0,0,.35);z-index:1000;padding:12px 16px;border-top:1px solid rgba(255,255,255,.06)'">
@@ -463,6 +449,7 @@ export default {
       // fixed: remove duplicate selectedDateFilter declaration
       selectedPodcast: "",
       lastSelectedPodcastKey: 'content_last_selected_podcast',
+      localFavouritesKey: 'content_podcast_favourites_local',
       continueListening: [],
       volume: 1,
       showVolumeBar: false,
@@ -581,7 +568,7 @@ export default {
       toastType: '',
       podcasts: [],
       filteredPodcasts: [],
-      loading: true,
+      loading: false,
       rssUrl: 'https://themadmamluks.libsyn.com/rss',
       searchQuery: '',
       searchInput: '',
@@ -665,14 +652,7 @@ export default {
 
     await this.resolveStorageScope();
 
-    // Restore last selected podcast
-    try {
-      const savedPodcast = localStorage.getItem(this.lastSelectedPodcastKey);
-      if (savedPodcast) {
-        const parsed = JSON.parse(savedPodcast);
-        if (parsed && parsed.rssUrl) this.selectedPodcast = parsed;
-      }
-    } catch (e) {}
+    // Do not auto-select a podcast on page load.
 
     // Build Continue Listening list from saved progress
     this.buildContinueListening();
@@ -712,7 +692,7 @@ export default {
         await this.loadPreferences();
       } else {
         this.bookmarks = [];
-        this.favourites = [];
+        this.favourites = this.loadLocalFavourites();
         this.recentPlays = [];
         this.progressMap = {};
         this.continueListening = [];
@@ -750,6 +730,18 @@ export default {
     async savePreference(key, value) {
       if (!this.isAuthenticated) return;
       await axios.put(`/api/preferences/${key}`, { value });
+    },
+    loadLocalFavourites() {
+      try {
+        const raw = localStorage.getItem(this.localFavouritesKey);
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
+    },
+    saveLocalFavourites() {
+      try { localStorage.setItem(this.localFavouritesKey, JSON.stringify(this.favourites)); } catch (e) {}
     },
     queueProgressSync() {
       if (!this.isAuthenticated) return;
@@ -951,6 +943,35 @@ export default {
     // duplicate removed
 
     // Fetch podcasts from RSS feed
+    async fetchRssText(rssUrl) {
+      const sources = [
+        async () => {
+          const response = await fetch(rssUrl);
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        },
+        async () => {
+          const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+          const response = await fetch(proxyUrl);
+          if (!response.ok) throw new Error(`Proxy HTTP ${response.status}`);
+          const data = await response.json();
+          if (!data || !data.contents) throw new Error("Proxy response missing contents");
+          return data.contents;
+        }
+      ];
+
+      let lastError = null;
+      for (const source of sources) {
+        try {
+          return await source();
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      throw lastError || new Error("Failed to fetch RSS feed");
+    },
+
     async fetchPodcasts() {
       if (!this.selectedPodcast) return;
       this.loading = true;
@@ -958,9 +979,7 @@ export default {
       this.fetchError = null;
 
       try {
-        const response = await fetch(this.rssUrl);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.text();
+        const data = await this.fetchRssText(this.rssUrl);
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data, 'text/xml');
         const items = xmlDoc.getElementsByTagName('item');
@@ -1092,10 +1111,9 @@ export default {
     async fetchEpisodeCounts() {
       for (let podcast of this.islamicPodcasts) {
         try {
-          const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(podcast.rssUrl)}`);
-          const data = await response.json();
+          const data = await this.fetchRssText(podcast.rssUrl);
           const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+          const xmlDoc = parser.parseFromString(data, "text/xml");
           const episodeCount = xmlDoc.getElementsByTagName("item").length;
 
           podcast.episodeCount = episodeCount;
@@ -1385,14 +1403,17 @@ export default {
       return this.favourites.some(f => f.title === podcast.title && f.audioUrl === podcast.audioUrl);
     },
     toggleFavourite(podcast) {
-      if (!this.isAuthenticated) return;
       const exists = this.isFavourite(podcast);
       if (exists) {
         this.favourites = this.favourites.filter(f => !(f.title === podcast.title && f.audioUrl === podcast.audioUrl));
       } else {
         this.favourites = [{ title: podcast.title, audioUrl: podcast.audioUrl, pubDate: podcast.pubDate, views: podcast.views, likedAt: Date.now() }, ...this.favourites].slice(0, 100);
       }
-      this.savePreference('podcast_favourites', this.favourites);
+      if (this.isAuthenticated) {
+        this.savePreference('podcast_favourites', this.favourites);
+      } else {
+        this.saveLocalFavourites();
+      }
     },
     playFromFavourites(fav) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
