@@ -109,14 +109,15 @@
                 </button>
             </div>
             <div class="offcanvas offcanvas-start surah-offcanvas" tabindex="-1" id="surahOffcanvas"
+                ref="surahOffcanvas"
                 aria-labelledby="surahOffcanvasLabel">
                 <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="surahOffcanvasLabel">Surah controls</h5>
+                    <h4 class="offcanvas-title" id="surahOffcanvasLabel"><b>Surah controls</b></h4>
                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
                         aria-label="Close"></button>
                 </div>
                 <div class="offcanvas-body">
-                    <div class="surah-offcanvas-section surah-offcanvas-search">
+                    <div class="surah-offcanvas-section surah-offcanvas-search" v-if="false">
                         <p class="surah-offcanvas-eyebrow">Now viewing</p>
                         <div v-if="surahDetails" class="surah-offcanvas-title">
                             Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
@@ -127,12 +128,12 @@
                         </div>
                     </div>
                     <div class="surah-offcanvas-section">
-                        <label class="form-label surah-offcanvas-label">Search surah</label>
+                        <!-- <label class="form-label surah-offcanvas-label">Search surah</label>
                         <input type="search" class="form-control surah-offcanvas-input"
                             v-model="surahSearchQuery"
                             placeholder="Search surah (English or Arabic)"
-                            aria-label="Search surah by English or Arabic name" />
-                        <label class="form-label surah-offcanvas-label mt-3">Select surah</label>
+                            aria-label="Search surah by English or Arabic name" /> -->
+                        <label class="form-label surah-offcanvas-label">Select surah</label>
                         <select class="form-select surah-offcanvas-select" v-model="selectedSurah"
                             @change="selectSurah(selectedSurah)" aria-label="Select surah">
                             <option v-for="surah in filteredSurahs" :key="surah.number" :value="String(surah.number)">
@@ -164,6 +165,11 @@
                             aria-label="Play every ayah in this surah">
                             <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
                             Play full surah
+                        </button>
+                        <button type="button" class="btn btn-outline-primary surah-offcanvas-submit"
+                            @click="applyOffcanvasFilters" aria-label="Apply filters and close">
+                            <i class="bi bi-search me-2" aria-hidden="true"></i>
+                            Search
                         </button>
                     </div>
                 </div>
@@ -3408,6 +3414,13 @@ export default {
                 JSON.stringify(this.repeatCurrent)
             );
         },
+        applyOffcanvasFilters() {
+            const el = this.$refs.surahOffcanvas;
+            if (!el || !(window && window.bootstrap && window.bootstrap.Offcanvas)) return;
+            const instance = window.bootstrap.Offcanvas.getInstance(el) ||
+                window.bootstrap.Offcanvas.getOrCreateInstance(el);
+            instance.hide();
+        },
     },
 };
 </script>
@@ -3885,6 +3898,12 @@ export default {
     margin-inline: auto;
 }
 
+@media (max-width: 1199.98px) {
+    .surat-premium {
+        margin-top: calc(var(--navbar-h, 72px) * 0.15);
+    }
+}
+
 .surat-premium.has-sidebar {
     width: calc(100% - 400px);
     margin-left: 400px;
@@ -3896,12 +3915,12 @@ export default {
     margin-left: 72px;
 }
 
-.surah-layout {
+/* .surah-layout {
     display: grid;
     grid-template-columns: 1fr;
     gap: 12px;
     align-items: start;
-}
+} */
 
 .surah-layout>.sticky-dropdown,
 .surah-layout>.surah-playback-bar,
@@ -4856,7 +4875,7 @@ export default {
 .surah-offcanvas-toggle {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 5px;
     border-radius: 999px;
     padding: 10px 18px;
     font-weight: 700;
@@ -4902,7 +4921,7 @@ export default {
 }
 
 .surah-offcanvas-search {
-    display: none;
+    display: none !important;
 }
 
 
@@ -4978,6 +4997,18 @@ export default {
     font-size: clamp(0.9rem, 3.6vw, 1rem);
 }
 
+.surah-offcanvas-submit {
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 12px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 12px;
+}
+
 @media (max-width: 576px) {
     .surah-offcanvas-play {
         font-size: 0.9rem;
@@ -5018,6 +5049,11 @@ export default {
 }
 
 @media (max-width: 1199.98px) {
+    .surah-offcanvas {
+        top: var(--navbar-h, 72px);
+        height: calc(100% - var(--navbar-h, 72px));
+    }
+
     .surah-offcanvas-trigger {
         display: flex;
         justify-content: flex-end;
@@ -5695,9 +5731,9 @@ export default {
 }
 
 /* Next Step spacing */
-.next-step-wrapper {
+/* .next-step-wrapper {
     padding: 10px;
-}
+} */
 
 /* Theme tokens (scoped to this component container) */
 .surat-page {
