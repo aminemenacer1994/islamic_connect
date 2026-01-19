@@ -81,16 +81,23 @@
                         </div>
 
                         <div class="filter-list">
-                            <button type="button" class="filter-option" v-for="surah in filteredSurahs"
-                                :key="surah.number" :class="{ active: String(selectedSurah) === String(surah.number) }"
-                                @click="selectSurah(surah.number)">
+                            <div class="filter-option" v-for="surah in filteredSurahs" :key="surah.number"
+                                :class="{ active: String(selectedSurah) === String(surah.number) }"
+                                role="button" tabindex="0" @click="selectSurah(surah.number)"
+                                @keydown.enter.prevent="selectSurah(surah.number)"
+                                @keydown.space.prevent="selectSurah(surah.number)"
+                                :aria-pressed="String(selectedSurah) === String(surah.number)">
                                 <span class="filter-option-number">{{ surah.number }}</span>
                                 <span class="filter-option-title">{{ surah.englishName }}</span>
                                 <span class="filter-option-meta">
                                     {{ surah.numberOfAyahs }} ayahs · {{ surah.revelationType }}
                                 </span>
                                 <span class="filter-option-subtitle">{{ surah.name }}</span>
-                            </button>
+                                <button type="button" class="surah-info-btn" @click.stop="openSurahInfo(surah)"
+                                    :aria-label="`View information for ${surah.englishName}`" title="Surah info">
+                                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <!-- <div class="col-12 col-md-4 filter-item"></div>
@@ -192,6 +199,11 @@
                                 Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
                                 }}
                             </span>
+                            <button type="button" class="surah-info-inline" @click="openSurahInfo(currentSurahInfo)"
+                                :disabled="!currentSurahInfo" aria-label="View surah information"
+                                title="Surah info">
+                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                            </button>
                             <span class="surah-dot" aria-hidden="true">•</span>
                             <span class="surah-badge">
                                 {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
@@ -578,6 +590,62 @@
             </div>
         </teleport>
 
+        <teleport to="body">
+            <div class="modal fade" id="surahInfoModal" tabindex="-1" aria-labelledby="surahInfoLabel"
+                aria-hidden="true" data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
+                    <div class="modal-content surah-info-modal">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="surahInfoLabel">
+                                <b>Surah information</b>
+                            </h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div v-if="surahInfo" class="surah-info-card">
+                                <div class="surah-info-hero">
+                                    <div class="surah-info-arabic-large" v-if="surahInfo.name">
+                                        {{ surahInfo.name }}
+                                    </div>
+                                    <div class="surah-info-english">
+                                        {{ surahInfo.englishName }}
+                                    </div>
+                                    <div class="surah-info-meta">
+                                        <span>Ayahs: {{ surahInfo.numberOfAyahs || surahDetails?.ayahs?.length || "Unknown" }}</span>
+                                        <span class="surah-info-meta-dot" aria-hidden="true">·</span>
+                                        <span>Revelation Place: {{ surahInfo.revelationType || "Unknown" }}</span>
+                                    </div>
+                                </div>
+
+                                <div v-if="surahInfoShortText" class="surah-info-lead" v-html="surahInfoShortText">
+                                </div>
+
+                                <div v-if="surahInfoLoading" class="surah-info-loading">
+                                    Loading surah details...
+                                </div>
+                                <div v-else-if="surahInfoError" class="surah-info-error">
+                                    {{ surahInfoError }}
+                                </div>
+                                <div v-else-if="surahInfoText" class="surah-info-content" v-html="surahInfoText">
+                                </div>
+                                <div v-else class="surah-info-empty">
+                                    Detailed info is not available yet.
+                                </div>
+
+                                <div v-if="surahInfoSource" class="surah-info-source">
+                                    Source: {{ surahInfoSource }}
+                                </div>
+                            </div>
+                            <div v-else class="text-muted small">
+                                Surah details are not available yet. Please try again in a moment.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
         <!-- Notes & Reflections Modal -->
         <teleport to="body">
             <div class="modal fade" id="ayahReflectionModal" tabindex="-1" aria-labelledby="reflectionModalLabel"
@@ -868,6 +936,14 @@ export default {
             reciters: [],
             translations: [],
             surahDetails: null,
+            surahInfo: null,
+            surahInfoText: "",
+            surahInfoShortText: "",
+            surahInfoSource: "",
+            surahInfoLoading: false,
+            surahInfoError: "",
+            surahInfoModalId: "surahInfoModal",
+            surahInfoModalInstance: null,
             searchQuery: "",
             debouncedQuery: "",
             debounceTimer: null,
@@ -1064,6 +1140,11 @@ export default {
                     number.includes(raw)
                 );
             });
+        },
+        currentSurahInfo() {
+            const target = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            if (!target || !Array.isArray(this.surahs)) return null;
+            return this.surahs.find((surah) => Number(surah.number) === target) || null;
         },
         recitersSorted() {
             if (!Array.isArray(this.reciters)) return [];
@@ -1788,6 +1869,43 @@ export default {
                     modal.show();
                 }
             });
+        },
+        openSurahInfo(surah) {
+            if (!surah) return;
+            this.surahInfo = { ...surah };
+            this.surahInfoText = "";
+            this.surahInfoShortText = "";
+            this.surahInfoSource = "";
+            this.surahInfoError = "";
+            this.surahInfoLoading = true;
+            this.$nextTick(() => {
+                const modalEl = document.getElementById(this.surahInfoModalId);
+                if (!modalEl) return;
+                this.surahInfoModalInstance =
+                    Modal.getInstance(modalEl) || new Modal(modalEl);
+                this.surahInfoModalInstance.show();
+            });
+            this.fetchSurahInfoDetails(Number(surah.number));
+        },
+        async fetchSurahInfoDetails(surahNumber) {
+            if (!surahNumber) return;
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    `https://api.quran.com/api/v4/chapters/${surahNumber}/info?language=en`,
+                    `cache:surah-info:${surahNumber}`,
+                    7 * 24 * 60 * 60 * 1000
+                );
+                const info = data?.chapter_info || {};
+                this.surahInfoText = info.text || "";
+                this.surahInfoShortText = info.short_text || "";
+                this.surahInfoSource = info.source || "";
+                this.surahInfoLoading = false;
+            } catch (error) {
+                this.surahInfoLoading = false;
+                this.surahInfoError =
+                    "Unable to load detailed surah info right now.";
+                console.error("Error fetching surah info:", error);
+            }
         },
         onBookmarkSaved(payload) {
             if (!payload) return;
@@ -4723,7 +4841,7 @@ export default {
 
 .surah-layout .surah-list .filter-option {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr auto auto;
     grid-template-rows: auto auto;
     align-items: center;
     column-gap: 10px;
@@ -4755,9 +4873,180 @@ export default {
     direction: rtl;
 }
 
+.surah-layout .surah-list .surah-info-btn {
+    grid-column: 4;
+    grid-row: 1;
+    justify-self: end;
+}
+
 .surah-layout .surah-list .filter-option.active {
     background: rgba(255, 255, 255, 0.16);
     border-color: rgba(255, 255, 255, 0.24);
+}
+
+.surah-info-btn {
+    border: 0;
+    background: rgba(255, 255, 255, 0.12);
+    color: #ffffff;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.surah-info-btn:hover {
+    background: rgba(255, 255, 255, 0.22);
+    transform: translateY(-1px);
+}
+
+.surah-info-btn:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+.surah-info-inline {
+    border: 0;
+    background: rgba(15, 110, 99, 0.12);
+    color: #0f6e63;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 8px;
+}
+
+.surah-info-inline:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+:deep(.surah-info-modal .modal-content) {
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: #1f2227;
+    color: #e6e6e6;
+    font-family: "Merriweather", "Times New Roman", serif;
+    box-shadow:
+        0 24px 50px rgba(0, 0, 0, 0.45),
+        0 40px 80px rgba(0, 0, 0, 0.4);
+}
+
+:deep(.surah-info-modal .modal-header) {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:deep(.surah-info-modal .modal-title),
+:deep(.surah-info-modal .modal-title b) {
+    color: #f5f5f5;
+}
+
+:deep(.surah-info-modal .btn-close) {
+    filter: invert(1);
+    opacity: 0.7;
+}
+
+:deep(.surah-info-modal .modal-body) {
+    padding: 1.6rem 1.8rem 1.7rem;
+    max-height: 70vh;
+    overflow: auto;
+    color: #e6e6e6;
+}
+
+:deep(.surah-info-card) {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 18px;
+    padding: 1.25rem 1.5rem 1.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:deep(.surah-info-hero) {
+    display: grid;
+    gap: 0.3rem;
+    padding-bottom: 1.2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1.2rem;
+}
+
+:deep(.surah-info-arabic-large) {
+    font-size: 2.3rem;
+    font-weight: 600;
+    direction: rtl;
+    text-align: left;
+    color: #f7f7f7;
+    font-family: "Amiri", "Times New Roman", serif;
+}
+
+:deep(.surah-info-english) {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f0f0f0;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+:deep(.surah-info-meta) {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+:deep(.surah-info-meta-dot) {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+:deep(.surah-info-lead) {
+    padding: 0.75rem 0;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    margin-bottom: 1.2rem;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+:deep(.surah-info-content) {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.8;
+    font-size: 1rem;
+    font-family: "Merriweather", "Times New Roman", serif;
+}
+
+:deep(.surah-info-content h2),
+:deep(.surah-info-content h3),
+:deep(.surah-info-content h4) {
+    color: #ffffff;
+    font-size: 1.15rem;
+    margin: 1.2rem 0 0.6rem;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+:deep(.surah-info-content p) {
+    margin-bottom: 0.9rem;
+}
+
+:deep(.surah-info-loading),
+:deep(.surah-info-empty),
+:deep(.surah-info-error) {
+    padding: 0.8rem 0;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.95rem;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+}
+
+:deep(.surah-info-error) {
+    color: #f87171;
+}
+
+:deep(.surah-info-source) {
+    margin-top: 1.2rem;
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.6);
 }
 
 .surah-layout .surah-list .filter-list {
