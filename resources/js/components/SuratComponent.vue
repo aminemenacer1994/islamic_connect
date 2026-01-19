@@ -5007,6 +5007,9 @@ export default {
     justify-content: center;
     gap: 8px;
     padding: 9px 12px;
+    background: #0b806f;
+    border-color: #0b806f;
+    color: #fff;
 }
 
 @media (max-width: 576px) {
