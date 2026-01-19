@@ -991,12 +991,31 @@ export default {
             isLoading: false,
             continuousPlayback: true, // New data property for playback mode
             visualizerBars: Array(20).fill(10),
-            playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2],
+            playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
             currentSpeedIndex: 2,
             repeatCurrent: JSON.parse(
                 localStorage.getItem("repeatCurrent") || "false"
             ),
-            highlightLeadSeconds: 0.08,
+            highlightLeadSeconds: 0.05,
+            reciterLeadOffsets: {},
+            reciterDefaultLeadOffsets: {
+                "ar.abdulbasitmurattal": 0.05,
+                "ar.abdurrahmaansudais": 0.05,
+                "ar.hanirifai": 0.05,
+                "ar.husary": 0.05,
+                "ar.alafasy": 0.05,
+                "ar.minshawi": 0.05,
+                "ar.saoodshuraym": 0.05,
+            },
+            reciterTimingMap: {
+                "ar.abdulbasitmurattal": 2,
+                "ar.abdurrahmaansudais": 3,
+                "ar.hanirifai": 5,
+                "ar.husary": 6,
+                "ar.alafasy": 7,
+                "ar.minshawi": 9,
+                "ar.saoodshuraym": 10,
+            },
             favoriteReciters: ["ar.alafasy", "ar.abdulbasitmurattal"],
             favoriteTranslations: ["en.ahmedali", "en.sahih"],
             lastAutoScrollAt: 0,
@@ -1258,6 +1277,7 @@ export default {
             if (newVal && !this.isLoading) {
                 this.isLoading = true;
                 this.savePreference("selectedReciter", newVal);
+                this.highlightLeadSeconds = this.getReciterLeadOffset(newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
 
@@ -1434,6 +1454,10 @@ export default {
         ]).then(() => {
             this.isInitialLoad = false;
         });
+        this.loadReciterLeadOffsets();
+        this.highlightLeadSeconds = this.getReciterLeadOffset(
+            this.selectedReciter
+        );
     },
     beforeUnmount() {
         this.isComponentAlive = false;
@@ -1509,6 +1533,25 @@ export default {
                 this.bookmarkToast = "";
                 this.bookmarkToastAction = null;
             }, timeout);
+        },
+        loadReciterLeadOffsets() {
+            try {
+                const stored = localStorage.getItem("reciterLeadOffsets");
+                this.reciterLeadOffsets = stored ? JSON.parse(stored) : {};
+            } catch (_) {
+                this.reciterLeadOffsets = {};
+            }
+        },
+        getReciterLeadOffset(reciterId) {
+            if (!reciterId) return this.highlightLeadSeconds;
+            const raw = this.reciterLeadOffsets[reciterId];
+            const parsed = Number(raw);
+            if (Number.isFinite(parsed)) return parsed;
+            const fallback = this.reciterDefaultLeadOffsets
+                ? this.reciterDefaultLeadOffsets[reciterId]
+                : null;
+            if (Number.isFinite(Number(fallback))) return Number(fallback);
+            return this.highlightLeadSeconds;
         },
         announce(message, timeout = 5000) {
             this.screenReaderMessage = message;
@@ -1948,8 +1991,10 @@ export default {
                     7 * 24 * 60 * 60 * 1000
                 );
                 const info = data?.chapter_info || {};
-                this.surahInfoText = info.text || "";
-                this.surahInfoShortText = info.short_text || "";
+                this.surahInfoText = this.normalizeSurahInfoHtml(info.text);
+                this.surahInfoShortText = this.normalizeSurahInfoHtml(
+                    info.short_text
+                );
                 this.surahInfoSource = info.source || "";
                 this.surahInfoLoading = false;
             } catch (error) {
@@ -1957,6 +2002,57 @@ export default {
                 this.surahInfoError =
                     "Unable to load detailed surah info right now.";
                 console.error("Error fetching surah info:", error);
+            }
+        },
+        normalizeSurahInfoHtml(html) {
+            if (!html) return "";
+            if (typeof window === "undefined" || !window.DOMParser)
+                return html;
+            try {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, "text/html");
+                doc.querySelectorAll("a[href]").forEach((link) => {
+                    const text = (link.textContent || "").toLowerCase();
+                    const href = link.getAttribute("href") || "";
+                    let targetHref = href;
+                    let hostOverride = "";
+
+                    if (href.startsWith("http")) {
+                        try {
+                            const url = new URL(href);
+                            if (
+                                url.hostname.includes("quran.com") ||
+                                url.hostname.includes("api.quran.com")
+                            ) {
+                                hostOverride = "quran.com";
+                            } else if (url.hostname.includes("sunnah.com")) {
+                                hostOverride = "sunnah.com";
+                            }
+                            if (hostOverride) {
+                                url.hostname = hostOverride;
+                                url.protocol = "https:";
+                                targetHref = url.toString();
+                            }
+                        } catch (_) { }
+                    } else {
+                        const isHadith =
+                            text.includes("hadith") ||
+                            text.includes("sunnah") ||
+                            href.includes("sunnah") ||
+                            href.includes("hadith");
+                        const base = isHadith
+                            ? "https://sunnah.com"
+                            : "https://quran.com";
+                        targetHref = `${base}${href.startsWith("/") ? "" : "/"}${href}`;
+                    }
+
+                    link.setAttribute("href", targetHref);
+                    link.setAttribute("target", "_blank");
+                    link.setAttribute("rel", "noopener noreferrer");
+                });
+                return doc.body.innerHTML;
+            } catch (_) {
+                return html;
             }
         },
         onBookmarkSaved(payload) {
@@ -2844,6 +2940,56 @@ export default {
                 this.wordTimings = [];
             }
         },
+        getQuranRecitationId(reciterId) {
+            if (!reciterId) return null;
+            return this.reciterTimingMap
+                ? this.reciterTimingMap[reciterId]
+                : null;
+        },
+        async enrichSurahWithQuranSegments() {
+            const recitationId = this.getQuranRecitationId(
+                this.selectedReciter
+            );
+            if (!recitationId || !this.surahDetails?.ayahs?.length) return;
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    `https://api.quran.com/api/v4/verses/by_chapter/${this.selectedSurah}?audio=${recitationId}&words=true&per_page=300`,
+                    `cache:quran-timing:${this.selectedSurah}:${recitationId}`,
+                    7 * 24 * 60 * 60 * 1000
+                );
+                const verses = Array.isArray(data?.verses) ? data.verses : [];
+                const byKey = new Map();
+                verses.forEach((verse) => {
+                    if (verse?.verse_key) byKey.set(verse.verse_key, verse);
+                });
+                this.surahDetails.ayahs = this.surahDetails.ayahs.map(
+                    (ayah, index) => {
+                        const key = `${this.selectedSurah}:${ayah.numberInSurah || index + 1}`;
+                        const match = byKey.get(key);
+                        if (!match?.audio) return ayah;
+                        const audioUrl = match.audio.url
+                            ? `https://audio.qurancdn.com/${match.audio.url}`
+                            : ayah.audio;
+                        const segments = Array.isArray(match.audio.segments)
+                            ? match.audio.segments
+                                .filter((seg) => Array.isArray(seg) && seg.length >= 4)
+                                .map((seg) => ({
+                                    wordIndex: seg[0],
+                                    start: seg[2] / 1000,
+                                    end: seg[3] / 1000,
+                                }))
+                            : null;
+                        return {
+                            ...ayah,
+                            audio: audioUrl,
+                            audioSegments: segments,
+                        };
+                    }
+                );
+            } catch (error) {
+                console.warn("Unable to load Quran.com timing data:", error);
+            }
+        },
         startHighlightLoop() {
             if (this._highlightRafId) return;
             const step = () => {
@@ -2879,7 +3025,12 @@ export default {
                 Math.max(0, currentTime + lead)
             );
             let index = -1;
-            if (this.wordTimings.length === wordCount) {
+            if (Array.isArray(ayah?.audioSegments) && ayah.audioSegments.length) {
+                const match = ayah.audioSegments.find(
+                    (seg) => adjustedTime >= seg.start && adjustedTime < seg.end
+                );
+                index = match ? match.wordIndex : ayah.audioSegments[ayah.audioSegments.length - 1].wordIndex;
+            } else if (this.wordTimings.length === wordCount) {
                 index = this.wordTimings.findIndex((t, i, arr) => {
                     return (
                         adjustedTime >= t &&
@@ -3506,11 +3657,14 @@ export default {
                             ),
                         };
                         this.isLoading = false;
-                        // Pre-warm current and next from cache path as well
-                        this.$nextTick(() => {
-                            this.prepareNextAudio(0);
-                            this.prepareNextAudio(1);
-                        });
+                        this.enrichSurahWithQuranSegments()
+                            .finally(() => {
+                                // Pre-warm current and next from cache path as well
+                                this.$nextTick(() => {
+                                    this.prepareNextAudio(0);
+                                    this.prepareNextAudio(1);
+                                });
+                            });
                     }
                 }
             } catch (_) { }
@@ -3593,11 +3747,14 @@ export default {
                     };
                     console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
-                    // Pre-warm the first and next ayah for instant playback
-                    this.$nextTick(() => {
-                        this.prepareNextAudio(0);
-                        this.prepareNextAudio(1);
-                    });
+                    this.enrichSurahWithQuranSegments()
+                        .finally(() => {
+                            // Pre-warm the first and next ayah for instant playback
+                            this.$nextTick(() => {
+                                this.prepareNextAudio(0);
+                                this.prepareNextAudio(1);
+                            });
+                        });
                 })
                 .catch((error) => {
                     if (error?.name === "AbortError") return; // expected on change
@@ -5193,6 +5350,12 @@ export default {
 
 :deep(.surah-info-content p) {
     margin-bottom: 0.9rem;
+}
+
+:deep(.surah-info-content a),
+:deep(.surah-info-lead a) {
+    color: #0f6e63;
+    text-decoration: underline;
 }
 
 :deep(.surah-info-content ul) {

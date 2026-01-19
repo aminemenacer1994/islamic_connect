@@ -34850,6 +34850,10 @@ to {
 [data-v-828f3036] .surah-info-content p {
     margin-bottom: 0.9rem;
 }
+[data-v-828f3036] .surah-info-content a,[data-v-828f3036] .surah-info-lead a {
+    color: #0f6e63;
+    text-decoration: underline;
+}
 [data-v-828f3036] .surah-info-content ul {
     padding-left: 1.4rem;
     margin-bottom: 1rem;
