@@ -63,11 +63,6 @@
                 <div class="filter-header">
                     <div class="filter-actions"></div>
                 </div>
-                <div v-if="authAlert" class="alert alert-warning auth-alert" role="status">
-                    <i class="bi bi-exclamation-circle-fill" aria-hidden="true"></i>
-                    <span>{{ authAlert }}</span>
-                    <a href="/login" class="btn btn-sm btn-light auth-alert-link">Log in</a>
-                </div>
                 <div class="sidebar-toggle">
                     <button type="button" class="sidebar-toggle-btn" @click="toggleSidebar"
                         :aria-expanded="!sidebarCollapsed"
@@ -281,14 +276,14 @@
                     }">
                     <div class="ayah-surface h-100 rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
-                        <div class="d-flex justify-content-between text-muted ltr-text">
+                        <div class="d-flex justify-content-between text-muted ltr-text ayah-card-header">
                             <h4>
                                 <img src="/images/art.png" width="35px" alt="Art Icon" />
                                 {{ surahDetails?.surahNumber }} :
                                 {{ item.index + 1 }}
                                 <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
                             </h4>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center ayah-card-header-actions">
                                 <transition name="feedback-fade">
                                     <span v-if="
                                         feedbackMessages[
@@ -2178,11 +2173,15 @@ export default {
             );
         },
         showAuthAlert(message = "Please log in to access bookmarks & reflections.") {
-            this.authAlert = message;
-            clearTimeout(this.authAlertTimer);
-            this.authAlertTimer = setTimeout(() => {
-                this.authAlert = "";
-            }, 6000);
+            const fallbackAyah =
+                this.filteredAyahs?.[this.selectedCardIndex] ||
+                this.filteredAyahs?.[this.currentlyPlayingIndex] ||
+                this.filteredAyahs?.[0];
+            if (fallbackAyah) {
+                this.showAyahAuthWarning(fallbackAyah, message);
+                return;
+            }
+            this.showToast(message, 6000);
         },
         async persistSavedAyahs(next) {
             if (!this.bookmarkAuthenticated) return;
@@ -6519,6 +6518,30 @@ h1.display-5 {
 .feedback-fade-enter-from,
 .feedback-fade-leave-to {
     opacity: 0;
+}
+
+.ayah-card-header {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+}
+
+.ayah-card-header h4 {
+    margin-bottom: 0;
+}
+
+.ayah-card-header-actions {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+    max-width: 100%;
+}
+
+.feedback-badge {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: left;
 }
 
 /* Reduce motion politely */

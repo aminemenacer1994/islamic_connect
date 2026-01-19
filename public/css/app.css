@@ -36233,6 +36233,26 @@ to {
 .feedback-fade-leave-to[data-v-828f3036] {
     opacity: 0;
 }
+.ayah-card-header[data-v-828f3036] {
+    flex-wrap: wrap;
+    gap: 8px 12px;
+    align-items: center;
+}
+.ayah-card-header h4[data-v-828f3036] {
+    margin-bottom: 0;
+}
+.ayah-card-header-actions[data-v-828f3036] {
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-end;
+    max-width: 100%;
+}
+.feedback-badge[data-v-828f3036] {
+    max-width: 100%;
+    white-space: normal;
+    line-height: 1.2;
+    text-align: left;
+}
 
 /* Reduce motion politely */
 @media (prefers-reduced-motion: reduce) {
