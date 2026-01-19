@@ -35991,7 +35991,7 @@ h4[data-v-828f3036] {
         font-size: 1.8rem;
 }
 }
-.highlighted-word[data-v-828f3036] {
+[data-v-828f3036] .highlighted-word {
     background: #0f6e63;
     color: #fff;
     border-radius: 4px;

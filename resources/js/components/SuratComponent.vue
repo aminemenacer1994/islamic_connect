@@ -433,7 +433,8 @@
                             :aria-hidden="!isMobile">
                             <div>
                                 <p class="arabic-text rtl-text fw-bold text-end mb-3"
-                                    v-html="highlightedText(item.ayah)" :style="{ fontSize: arabicFontSize + 'px' }">
+                                    v-html="highlightedText(item.ayah)"
+                                    :style="{ fontSize: arabicFontSize + 'px' }">
                                 </p>
                                 <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
@@ -975,7 +976,6 @@ export default {
             arabicFontSize: 28,
             translationFontSize: 20,
             showTajweed: true,
-            highlightedWordIndex: -1,
             progress: [],
             audioElements: [],
             playbackSpeed: 1.0,
@@ -996,6 +996,7 @@ export default {
             repeatCurrent: JSON.parse(
                 localStorage.getItem("repeatCurrent") || "false"
             ),
+            highlightLeadSeconds: 0.08,
             favoriteReciters: ["ar.alafasy", "ar.abdulbasitmurattal"],
             favoriteTranslations: ["en.ahmedali", "en.sahih"],
             lastAutoScrollAt: 0,
@@ -1336,6 +1337,14 @@ export default {
             try {
                 localStorage.setItem("suratShowTajweed", next ? "1" : "0");
             } catch (_) { }
+            const index = this.currentlyPlayingIndex;
+            const audio = this.audioElements[index];
+            const ayah = this.filteredAyahs[index];
+            if (audio && ayah && audio.duration) {
+                this.updateWordTimings(ayah, audio.duration);
+            }
+            this._lastHighlightIndex = -1;
+            this.clearActiveWordHighlight();
         },
     },
     created() {
@@ -1428,6 +1437,7 @@ export default {
     },
     beforeUnmount() {
         this.isComponentAlive = false;
+        this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
@@ -1467,6 +1477,7 @@ export default {
         clearTimeout(this.authAlertTimer);
     },
     beforeDestroy() {
+        this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
@@ -2789,20 +2800,124 @@ export default {
             if (!ayah || (!ayah.text && !ayah.words && !ayah.tajweedText))
                 return "";
             const useTajweed = this.showTajweed && ayah.tajweedText;
-            if (useTajweed) {
-                return this.formatTajweedText(ayah.tajweedText);
-            }
-            const words = ayah.words || (ayah.text ? ayah.text.split(" ") : []);
+            const words = this.getAyahDisplayWords(ayah);
             return words
                 .map((word, index) => {
-                    const isHighlighted =
-                        index === this.highlightedWordIndex
-                            ? "highlighted-word"
-                            : "";
-                    const content = this.escapeHtml(word);
-                    return `<span class="${isHighlighted}">${content}</span>`;
+                    const content = useTajweed
+                        ? this.formatTajweedText(word)
+                        : this.escapeHtml(word);
+                    return `<span class="ayah-word" data-word-index="${index}">${content}</span>`;
                 })
                 .join(" ");
+        },
+        getAyahDisplayWords(ayah) {
+            if (!ayah) return [];
+            if (this.showTajweed && ayah.tajweedText)
+                return ayah.tajweedText.split(" ");
+            if (Array.isArray(ayah.words) && ayah.words.length)
+                return ayah.words;
+            if (ayah.text) return ayah.text.split(" ");
+            return [];
+        },
+        getAyahWordList(ayah) {
+            if (!ayah) return [];
+            if (
+                this.showTajweed &&
+                Array.isArray(ayah.tajweedWords) &&
+                ayah.tajweedWords.length
+            )
+                return ayah.tajweedWords;
+            if (Array.isArray(ayah.words) && ayah.words.length)
+                return ayah.words;
+            if (ayah.text) return ayah.text.split(" ");
+            return [];
+        },
+        updateWordTimings(ayah, duration) {
+            const wordCount = this.getAyahWordList(ayah).length;
+            if (wordCount > 0 && duration > 0) {
+                const step = duration / wordCount;
+                this.wordTimings = Array.from(
+                    { length: wordCount },
+                    (_, i) => i * step
+                );
+            } else {
+                this.wordTimings = [];
+            }
+        },
+        startHighlightLoop() {
+            if (this._highlightRafId) return;
+            const step = () => {
+                if (!this.isAudioPlaying[this.currentlyPlayingIndex]) {
+                    this.stopHighlightLoop();
+                    return;
+                }
+                this.updateHighlightFrame();
+                this._highlightRafId = requestAnimationFrame(step);
+            };
+            this._highlightRafId = requestAnimationFrame(step);
+        },
+        stopHighlightLoop() {
+            if (this._highlightRafId) {
+                cancelAnimationFrame(this._highlightRafId);
+                this._highlightRafId = null;
+            }
+            this._lastHighlightIndex = -1;
+            this.clearActiveWordHighlight();
+        },
+        updateHighlightFrame() {
+            const audio = this.currentlyPlaying;
+            if (!audio) return;
+            const duration = audio.duration || 0;
+            if (!duration || !isFinite(duration)) return;
+            const ayah = this.filteredAyahs[this.currentlyPlayingIndex];
+            const wordCount = this.getAyahWordList(ayah).length;
+            if (!wordCount) return;
+            const currentTime = audio.currentTime;
+            const lead = this.highlightLeadSeconds || 0;
+            const adjustedTime = Math.min(
+                duration,
+                Math.max(0, currentTime + lead)
+            );
+            let index = -1;
+            if (this.wordTimings.length === wordCount) {
+                index = this.wordTimings.findIndex((t, i, arr) => {
+                    return (
+                        adjustedTime >= t &&
+                        (i === arr.length - 1 || adjustedTime < arr[i + 1])
+                    );
+                });
+            } else {
+                index = Math.min(
+                    wordCount - 1,
+                    Math.floor((adjustedTime / duration) * wordCount)
+                );
+            }
+            if (index === this._lastHighlightIndex) return;
+            this._lastHighlightIndex = index;
+            this.applyWordHighlight(index);
+        },
+        clearActiveWordHighlight() {
+            if (Array.isArray(this._lastHighlightEls)) {
+                this._lastHighlightEls.forEach((el) =>
+                    el.classList.remove("highlighted-word")
+                );
+            }
+            this._lastHighlightEls = [];
+        },
+        applyWordHighlight(wordIndex) {
+            const card = document.getElementById(
+                `ayah-card-${this.currentlyPlayingIndex}`
+            );
+            if (!card) return;
+            this.clearActiveWordHighlight();
+            const matches = Array.from(
+                card.querySelectorAll(
+                    `.arabic-text [data-word-index="${wordIndex}"]`
+                )
+            );
+            if (!matches.length) return;
+            matches.forEach((el) => el.classList.add("highlighted-word"));
+            this._lastHighlightEls = matches;
         },
         escapeHtml(value) {
             return String(value)
@@ -2931,26 +3046,10 @@ export default {
                 console.log(
                     `Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`
                 );
-                const duration = this.currentlyPlaying.duration;
-                const wordCount = (
-                    (this.showTajweed && ayah.tajweedWords?.length
-                        ? ayah.tajweedWords
-                        : ayah.words || (ayah.text ? ayah.text.split(" ") : []))
-                ).length;
-                if (wordCount > 0 && duration > 0) {
-                    const step = duration / wordCount;
-                    this.wordTimings = Array.from(
-                        { length: wordCount },
-                        (_, i) => i * step
-                    );
-                } else {
-                    this.wordTimings = [];
-                }
+                this.updateWordTimings(ayah, this.currentlyPlaying.duration);
             };
 
-            this.highlightedWordIndex = -1;
             audio.ontimeupdate = () => {
-                this.syncHighlight();
                 const now = window.performance ? performance.now() : Date.now();
                 if (now - this.lastProgressAt > 100) {
                     // ~10fps progress updates
@@ -2967,6 +3066,7 @@ export default {
                 this.isAudioLoading[index] = false;
                 this.isHighlighted = true;
                 this.showAudioPlayer = true;
+                this.startHighlightLoop();
                 this.animateVisualizer();
                 // Opportunistically warm next ayah
                 this.prepareNextAudio(index + 1);
@@ -3006,6 +3106,7 @@ export default {
                 clearTimeout(this.loadingTimers[index]);
                 this.isAudioPlaying[index] = false;
                 this.isAudioLoading[index] = false;
+                this.stopHighlightLoop();
             }
         },
         toggleAudioPlayer: function (index) {
@@ -3026,6 +3127,7 @@ export default {
                 this.isAudioLoading[index] = false;
                 this.progress[index] = 0;
                 this.isHighlighted = false;
+                this.stopHighlightLoop();
             }
         },
         rewindAudio: function (index) {
@@ -3662,18 +3764,6 @@ export default {
             this.currentlyPlayingIndex = 0;
             this.currentlyPlaying = null;
             this.isHighlighted = false;
-        },
-        syncHighlight: function () {
-            const audio = this.currentlyPlaying;
-            if (!audio || !this.wordTimings.length) return;
-            const currentTime = audio.currentTime;
-            const index = this.wordTimings.findIndex((t, i, arr) => {
-                return (
-                    currentTime >= t &&
-                    (i === arr.length - 1 || currentTime < arr[i + 1])
-                );
-            });
-            this.highlightedWordIndex = index;
         },
         seekToPosition: function (event) {
             const audio = this.audioElements[this.currentlyPlayingIndex];
@@ -6415,7 +6505,7 @@ export default {
     }
 }
 
-.highlighted-word {
+:deep(.highlighted-word) {
     background: #0f6e63;
     color: #fff;
     border-radius: 4px;
