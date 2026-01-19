@@ -259,6 +259,11 @@
                     aria-label="Open filters and info">
                     <i class="bi bi-sliders" aria-hidden="true"></i>
                 </button>
+                <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
+                    @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
+                    aria-label="View surah information" title="Surah info">
+                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                </button>
                 <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
                     <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
                     View saved bookmarks
@@ -596,14 +601,28 @@
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
                     <div class="modal-content surah-info-modal">
                         <div class="modal-header">
-                            <h6 class="modal-title" id="surahInfoLabel">
+                            <h4 class="modal-title" id="surahInfoLabel">
                                 <b>Surah information</b>
-                            </h6>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            </h4>
+                            <div class="surah-info-actions">
+                                <button type="button" class="surah-info-font-btn" @click="decreaseSurahInfoFontSize"
+                                    :disabled="surahInfoFontSize <= surahInfoFontSizeMin"
+                                    aria-label="Decrease surah info font size" title="Decrease font size">
+                                    <i class="bi bi-dash-lg" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="surah-info-font-btn" @click="increaseSurahInfoFontSize"
+                                    :disabled="surahInfoFontSize >= surahInfoFontSizeMax"
+                                    aria-label="Increase surah info font size" title="Increase font size">
+                                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
                         </div>
                         <div class="modal-body">
-                            <div v-if="surahInfo" class="surah-info-card">
+                            <div v-if="surahInfo" :style="{
+                                '--surah-info-font-size': surahInfoFontSize + 'px'
+                            }">
                                 <div class="surah-info-hero">
                                     <div class="surah-info-arabic-large" v-if="surahInfo.name">
                                         {{ surahInfo.name }}
@@ -612,9 +631,12 @@
                                         {{ surahInfo.englishName }}
                                     </div>
                                     <div class="surah-info-meta">
-                                        <span>Ayahs: {{ surahInfo.numberOfAyahs || surahDetails?.ayahs?.length || "Unknown" }}</span>
-                                        <span class="surah-info-meta-dot" aria-hidden="true">·</span>
-                                        <span>Revelation Place: {{ surahInfo.revelationType || "Unknown" }}</span>
+                                        <span class="surah-info-chip">
+                                            Ayahs: {{ surahInfo.numberOfAyahs || surahDetails?.ayahs?.length || "Unknown" }}
+                                        </span>
+                                        <span class="surah-info-chip">
+                                            Revelation Place: {{ surahInfo.revelationType || "Unknown" }}
+                                        </span>
                                     </div>
                                 </div>
 
@@ -944,6 +966,9 @@ export default {
             surahInfoError: "",
             surahInfoModalId: "surahInfoModal",
             surahInfoModalInstance: null,
+            surahInfoFontSize: 16,
+            surahInfoFontSizeMin: 14,
+            surahInfoFontSizeMax: 22,
             searchQuery: "",
             debouncedQuery: "",
             debounceTimer: null,
@@ -1878,6 +1903,8 @@ export default {
             this.surahInfoSource = "";
             this.surahInfoError = "";
             this.surahInfoLoading = true;
+            this.surahInfoFontSize =
+                Number(this.surahInfoFontSize) || 16;
             this.$nextTick(() => {
                 const modalEl = document.getElementById(this.surahInfoModalId);
                 if (!modalEl) return;
@@ -1886,6 +1913,20 @@ export default {
                 this.surahInfoModalInstance.show();
             });
             this.fetchSurahInfoDetails(Number(surah.number));
+        },
+        increaseSurahInfoFontSize() {
+            const next = Math.min(
+                this.surahInfoFontSize + 1,
+                this.surahInfoFontSizeMax
+            );
+            this.surahInfoFontSize = next;
+        },
+        decreaseSurahInfoFontSize() {
+            const next = Math.max(
+                this.surahInfoFontSize - 1,
+                this.surahInfoFontSizeMin
+            );
+            this.surahInfoFontSize = next;
         },
         async fetchSurahInfoDetails(surahNumber) {
             if (!surahNumber) return;
@@ -4925,128 +4966,170 @@ export default {
     cursor: not-allowed;
 }
 
-:deep(.surah-info-modal .modal-content) {
+.surah-info-inline-mobile {
+    display: none;
+}
+
+:deep(.surah-info-modal) {
     border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    background: #1f2227;
-    color: #e6e6e6;
-    font-family: "Merriweather", "Times New Roman", serif;
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: linear-gradient(180deg, #ffffff 0%, #f7fafc 100%);
+    color: #0f172a;
     box-shadow:
-        0 24px 50px rgba(0, 0, 0, 0.45),
-        0 40px 80px rgba(0, 0, 0, 0.4);
+        0 18px 40px rgba(15, 23, 42, 0.15),
+        0 40px 90px rgba(15, 23, 42, 0.12);
 }
 
 :deep(.surah-info-modal .modal-header) {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 1.2rem 1.6rem 1rem;
 }
 
 :deep(.surah-info-modal .modal-title),
 :deep(.surah-info-modal .modal-title b) {
-    color: #f5f5f5;
+    color: #0f172a;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+:deep(.surah-info-actions) {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+:deep(.surah-info-font-btn) {
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: #ffffff;
+    color: #0f172a;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+:deep(.surah-info-font-btn:hover) {
+    background: rgba(15, 118, 110, 0.08);
+    border-color: rgba(15, 118, 110, 0.25);
+    transform: translateY(-1px);
+}
+
+:deep(.surah-info-font-btn:disabled) {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
 }
 
 :deep(.surah-info-modal .btn-close) {
-    filter: invert(1);
-    opacity: 0.7;
+    filter: none;
+    opacity: 0.6;
 }
 
 :deep(.surah-info-modal .modal-body) {
-    padding: 1.6rem 1.8rem 1.7rem;
-    max-height: 70vh;
+    padding: 1.6rem 1.8rem 1.8rem;
+    max-height: 72vh;
     overflow: auto;
-    color: #e6e6e6;
+    color: #1f2937;
 }
 
-:deep(.surah-info-card) {
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: 18px;
-    padding: 1.25rem 1.5rem 1.6rem;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-}
+
 
 :deep(.surah-info-hero) {
     display: grid;
-    gap: 0.3rem;
+    gap: 0.4rem;
     padding-bottom: 1.2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
     margin-bottom: 1.2rem;
 }
 
 :deep(.surah-info-arabic-large) {
-    font-size: 2.3rem;
+    font-size: 2.6rem;
     font-weight: 600;
     direction: rtl;
     text-align: left;
-    color: #f7f7f7;
+    color: #0f172a;
     font-family: "Amiri", "Times New Roman", serif;
 }
 
 :deep(.surah-info-english) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: #f0f0f0;
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #0f172a;
 }
 
 :deep(.surah-info-meta) {
-    font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.7);
-    display: inline-flex;
-    gap: 0.4rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
     align-items: center;
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
 }
 
-:deep(.surah-info-meta-dot) {
-    color: rgba(255, 255, 255, 0.5);
+:deep(.surah-info-chip) {
+    font-size: 0.85rem;
+    color: #1f2937;
+    background: rgba(15, 118, 110, 0.08);
+    border: 1px solid rgba(15, 118, 110, 0.2);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    letter-spacing: 0.01em;
 }
 
 :deep(.surah-info-lead) {
-    padding: 0.75rem 0;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 0.75rem 0 1rem;
+    color: #334155;
+    font-size: calc(var(--surah-info-font-size, 16px) + 1px);
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
     margin-bottom: 1.2rem;
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
 }
 
 :deep(.surah-info-content) {
-    color: rgba(255, 255, 255, 0.9);
-    line-height: 1.8;
-    font-size: 1rem;
-    font-family: "Merriweather", "Times New Roman", serif;
+    color: #1f2937;
+    line-height: 2;
+    font-size: calc(var(--surah-info-font-size, 16px) + 1px);
 }
 
 :deep(.surah-info-content h2),
 :deep(.surah-info-content h3),
 :deep(.surah-info-content h4) {
-    color: #ffffff;
-    font-size: 1.15rem;
-    margin: 1.2rem 0 0.6rem;
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    color: #0f172a;
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 1.4rem 0 0.7rem;
+    letter-spacing: 0.01em;
 }
 
 :deep(.surah-info-content p) {
     margin-bottom: 0.9rem;
 }
 
+:deep(.surah-info-content ul) {
+    padding-left: 1.4rem;
+    margin-bottom: 1rem;
+}
+
+:deep(.surah-info-content li) {
+    margin-bottom: 0.5rem;
+}
+
 :deep(.surah-info-loading),
 :deep(.surah-info-empty),
 :deep(.surah-info-error) {
     padding: 0.8rem 0;
-    color: rgba(255, 255, 255, 0.7);
+    color: #64748b;
     font-size: 0.95rem;
-    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
 }
 
 :deep(.surah-info-error) {
-    color: #f87171;
+    color: #b91c1c;
 }
 
 :deep(.surah-info-source) {
     margin-top: 1.2rem;
     font-size: 0.8rem;
-    color: rgba(255, 255, 255, 0.6);
+    color: #94a3b8;
 }
 
 .surah-layout .surah-list .filter-list {
@@ -5254,6 +5337,12 @@ export default {
 }
 
 .surah-offcanvas-inline:hover {
+    background: rgba(11, 92, 83, 0.18);
+    border-color: rgba(11, 92, 83, 0.35);
+    color: #08433e;
+}
+
+.surah-info-inline-mobile:hover {
     background: rgba(11, 92, 83, 0.18);
     border-color: rgba(11, 92, 83, 0.35);
     color: #08433e;
@@ -5722,6 +5811,19 @@ export default {
 @media (max-width: 1199.98px) {
     .surah-offcanvas-inline {
         display: inline-flex;
+    }
+
+    .surah-info-inline-mobile {
+        display: inline-flex;
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+        padding: 0;
+        margin-left: 0;
+        background: rgba(11, 92, 83, 0.12);
+        border: 1px solid rgba(11, 92, 83, 0.25);
+        color: #0b5c53;
+        box-shadow: 0 10px 18px rgba(11, 92, 83, 0.12);
     }
 
     .surah-offcanvas {

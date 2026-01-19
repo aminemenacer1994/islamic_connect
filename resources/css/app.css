@@ -46,6 +46,7 @@
 }
 
 /* Global theme variables (light/dark + high contrast) */
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;600;700&display=swap');
 @import './themes.css';
 
 @import './premium.css';
