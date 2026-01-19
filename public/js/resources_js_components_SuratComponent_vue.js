@@ -55,6 +55,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       debounceTimer: null,
       arabicFontSize: 28,
       translationFontSize: 20,
+      showTajweed: true,
       highlightedWordIndex: -1,
       progress: [],
       audioElements: [],
@@ -1543,12 +1544,59 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     // removed scrollToElement and smoothScrollToAyah
     highlightedText: function (ayah) {
-      if (!ayah || !ayah.text && !ayah.words) return "";
+      if (!ayah || !ayah.text && !ayah.words && !ayah.tajweedText) return "";
+      const useTajweed = this.showTajweed && ayah.tajweedText;
+      if (useTajweed) {
+        return this.formatTajweedText(ayah.tajweedText, this.highlightedWordIndex);
+      }
       const words = ayah.words || (ayah.text ? ayah.text.split(" ") : []);
       return words.map((word, index) => {
         const isHighlighted = index === this.highlightedWordIndex ? "highlighted-word" : "";
-        return `<span class="${isHighlighted}">${word}</span>`;
+        const content = this.escapeHtml(word);
+        return `<span class="${isHighlighted}">${content}</span>`;
       }).join(" ");
+    },
+    escapeHtml(value) {
+      return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    },
+    formatTajweedText(value) {
+      if (!value) return "";
+      let output = "";
+      let i = 0;
+      const stack = [];
+      while (i < value.length) {
+        if (value[i] === "[") {
+          const marker = value.slice(i).match(/^\[([a-z]+)(?::\d+)?\[/);
+          if (marker) {
+            output += `<span class="tajweed tajweed-${marker[1]}">`;
+            stack.push(marker[1]);
+            i += marker[0].length;
+            continue;
+          }
+          const closeIndex = value.indexOf("]", i + 1);
+          if (closeIndex !== -1) {
+            const inner = value.slice(i + 1, closeIndex);
+            output += this.escapeHtml(inner);
+            i = closeIndex + 1;
+            continue;
+          }
+        }
+        if (value[i] === "]") {
+          if (stack.length) {
+            output += "</span>";
+            stack.pop();
+          }
+          i += 1;
+          continue;
+        }
+        output += this.escapeHtml(value[i]);
+        i += 1;
+      }
+      while (stack.length) {
+        output += "</span>";
+        stack.pop();
+      }
+      return output;
     },
     // removed bulk initialization and preloading for performance
     playAudio: function (index) {
@@ -1616,9 +1664,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
       // Setup metadata and word timing
       audio.onloadedmetadata = () => {
+        var _ayah$tajweedWords;
         console.log(`Metadata loaded for ayah ${index + 1}, duration: ${this.currentlyPlaying.duration}`);
         const duration = this.currentlyPlaying.duration;
-        const wordCount = (ayah.words || (ayah.text ? ayah.text.split(" ") : [])).length;
+        const wordCount = (this.showTajweed && (_ayah$tajweedWords = ayah.tajweedWords) !== null && _ayah$tajweedWords !== void 0 && _ayah$tajweedWords.length ? ayah.tajweedWords : ayah.words || (ayah.text ? ayah.text.split(" ") : [])).length;
         if (wordCount > 0 && duration > 0) {
           const step = duration / wordCount;
           this.wordTimings = Array.from({
@@ -1910,7 +1959,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     fetchSurahDetails: function () {
       if (!this.selectedSurah || !this.selectedReciter || !this.selectedTranslation) return Promise.resolve();
       this.isLoading = true;
-      const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}`;
+      const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}:tajweed`;
 
       // Serve from cache immediately if available
       try {
@@ -1919,16 +1968,30 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
           const obj = JSON.parse(cached);
           if (obj && obj.ts) {
             const data = obj.data;
-            const arabicText = data.data[0];
-            const translation = data.data[1];
+            const editions = Array.isArray(data === null || data === void 0 ? void 0 : data.data) ? data.data : [];
+            const arabicText = editions.find(item => {
+              var _item$edition;
+              return (item === null || item === void 0 || (_item$edition = item.edition) === null || _item$edition === void 0 ? void 0 : _item$edition.identifier) === this.selectedReciter;
+            }) || editions[0];
+            const translation = editions.find(item => {
+              var _item$edition2;
+              return (item === null || item === void 0 || (_item$edition2 = item.edition) === null || _item$edition2 === void 0 ? void 0 : _item$edition2.identifier) === this.selectedTranslation;
+            }) || editions[1];
+            const tajweed = editions.find(item => {
+              var _item$edition3;
+              return (item === null || item === void 0 || (_item$edition3 = item.edition) === null || _item$edition3 === void 0 ? void 0 : _item$edition3.identifier) === "quran-tajweed";
+            });
             this.surahDetails = {
               surahNumber: this.selectedSurah,
-              englishName: arabicText.englishName,
-              name: arabicText.name,
-              ayahs: arabicText.ayahs.map((ayah, index) => {
+              englishName: arabicText === null || arabicText === void 0 ? void 0 : arabicText.englishName,
+              name: arabicText === null || arabicText === void 0 ? void 0 : arabicText.name,
+              ayahs: ((arabicText === null || arabicText === void 0 ? void 0 : arabicText.ayahs) || []).map((ayah, index) => {
+                var _tajweed$ayahs, _translation$ayahs;
+                const tajweedText = (tajweed === null || tajweed === void 0 || (_tajweed$ayahs = tajweed.ayahs) === null || _tajweed$ayahs === void 0 || (_tajweed$ayahs = _tajweed$ayahs[index]) === null || _tajweed$ayahs === void 0 ? void 0 : _tajweed$ayahs.text) || "";
                 const text = ayah.text || "";
-                const transText = translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available";
+                const transText = translation !== null && translation !== void 0 && (_translation$ayahs = translation.ayahs) !== null && _translation$ayahs !== void 0 && (_translation$ayahs = _translation$ayahs[index]) !== null && _translation$ayahs !== void 0 && _translation$ayahs.text ? translation.ayahs[index].text : "Translation not available";
                 const words = text ? text.split(" ") : [];
+                const tajweedWords = tajweedText ? tajweedText.split(" ") : [];
                 return {
                   number: ayah.numberInSurah || ayah.number,
                   numberInSurah: ayah.numberInSurah,
@@ -1938,7 +2001,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
                   translation: transText,
                   lowerTranslation: transText.toLowerCase(),
                   audio: ayah.audio || "",
-                  words
+                  words,
+                  tajweedText,
+                  tajweedWords
                 };
               })
             };
@@ -1960,7 +2025,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const {
         signal
       } = this._surahAborter;
-      return fetch(`https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`, {
+      return fetch(`https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation},quran-tajweed`, {
         signal
       }).then(response => {
         if (!response.ok) throw new Error(`Failed to fetch Surah details: ${response.status}`);
@@ -1974,16 +2039,30 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
             data
           }));
         } catch (_) {}
-        const arabicText = data.data[0];
-        const translation = data.data[1];
+        const editions = Array.isArray(data === null || data === void 0 ? void 0 : data.data) ? data.data : [];
+        const arabicText = editions.find(item => {
+          var _item$edition4;
+          return (item === null || item === void 0 || (_item$edition4 = item.edition) === null || _item$edition4 === void 0 ? void 0 : _item$edition4.identifier) === this.selectedReciter;
+        }) || editions[0];
+        const translation = editions.find(item => {
+          var _item$edition5;
+          return (item === null || item === void 0 || (_item$edition5 = item.edition) === null || _item$edition5 === void 0 ? void 0 : _item$edition5.identifier) === this.selectedTranslation;
+        }) || editions[1];
+        const tajweed = editions.find(item => {
+          var _item$edition6;
+          return (item === null || item === void 0 || (_item$edition6 = item.edition) === null || _item$edition6 === void 0 ? void 0 : _item$edition6.identifier) === "quran-tajweed";
+        });
         this.surahDetails = {
           surahNumber: this.selectedSurah,
-          englishName: arabicText.englishName,
-          name: arabicText.name,
-          ayahs: arabicText.ayahs.map((ayah, index) => {
+          englishName: arabicText === null || arabicText === void 0 ? void 0 : arabicText.englishName,
+          name: arabicText === null || arabicText === void 0 ? void 0 : arabicText.name,
+          ayahs: ((arabicText === null || arabicText === void 0 ? void 0 : arabicText.ayahs) || []).map((ayah, index) => {
+            var _tajweed$ayahs2, _translation$ayahs2;
+            const tajweedText = (tajweed === null || tajweed === void 0 || (_tajweed$ayahs2 = tajweed.ayahs) === null || _tajweed$ayahs2 === void 0 || (_tajweed$ayahs2 = _tajweed$ayahs2[index]) === null || _tajweed$ayahs2 === void 0 ? void 0 : _tajweed$ayahs2.text) || "";
             const text = ayah.text || "";
-            const transText = translation.ayahs[index] && translation.ayahs[index].text ? translation.ayahs[index].text : "Translation not available";
+            const transText = translation !== null && translation !== void 0 && (_translation$ayahs2 = translation.ayahs) !== null && _translation$ayahs2 !== void 0 && (_translation$ayahs2 = _translation$ayahs2[index]) !== null && _translation$ayahs2 !== void 0 && _translation$ayahs2.text ? translation.ayahs[index].text : "Translation not available";
             const words = text ? text.split(" ") : [];
+            const tajweedWords = tajweedText ? tajweedText.split(" ") : [];
             return {
               number: ayah.numberInSurah || ayah.number,
               numberInSurah: ayah.numberInSurah,
@@ -1993,7 +2072,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
               translation: transText,
               lowerTranslation: transText.toLowerCase(),
               audio: ayah.audio || "",
-              words
+              words,
+              tajweedText,
+              tajweedWords
             };
           })
         };

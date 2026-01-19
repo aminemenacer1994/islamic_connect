@@ -810,6 +810,7 @@ export default {
             debounceTimer: null,
             arabicFontSize: 28,
             translationFontSize: 20,
+            showTajweed: true,
             highlightedWordIndex: -1,
             progress: [],
             audioElements: [],
@@ -2511,7 +2512,15 @@ export default {
 
         // removed scrollToElement and smoothScrollToAyah
         highlightedText: function (ayah) {
-            if (!ayah || (!ayah.text && !ayah.words)) return "";
+            if (!ayah || (!ayah.text && !ayah.words && !ayah.tajweedText))
+                return "";
+            const useTajweed = this.showTajweed && ayah.tajweedText;
+            if (useTajweed) {
+                return this.formatTajweedText(
+                    ayah.tajweedText,
+                    this.highlightedWordIndex
+                );
+            }
             const words = ayah.words || (ayah.text ? ayah.text.split(" ") : []);
             return words
                 .map((word, index) => {
@@ -2519,9 +2528,60 @@ export default {
                         index === this.highlightedWordIndex
                             ? "highlighted-word"
                             : "";
-                    return `<span class="${isHighlighted}">${word}</span>`;
+                    const content = this.escapeHtml(word);
+                    return `<span class="${isHighlighted}">${content}</span>`;
                 })
                 .join(" ");
+        },
+        escapeHtml(value) {
+            return String(value)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+        },
+        formatTajweedText(value) {
+            if (!value) return "";
+            let output = "";
+            let i = 0;
+            const stack = [];
+
+            while (i < value.length) {
+                if (value[i] === "[") {
+                    const marker = value
+                        .slice(i)
+                        .match(/^\[([a-z]+)(?::\d+)?\[/);
+                    if (marker) {
+                        output += `<span class="tajweed tajweed-${marker[1]}">`;
+                        stack.push(marker[1]);
+                        i += marker[0].length;
+                        continue;
+                    }
+                    const closeIndex = value.indexOf("]", i + 1);
+                    if (closeIndex !== -1) {
+                        const inner = value.slice(i + 1, closeIndex);
+                        output += this.escapeHtml(inner);
+                        i = closeIndex + 1;
+                        continue;
+                    }
+                }
+                if (value[i] === "]") {
+                    if (stack.length) {
+                        output += "</span>";
+                        stack.pop();
+                    }
+                    i += 1;
+                    continue;
+                }
+                output += this.escapeHtml(value[i]);
+                i += 1;
+            }
+
+            while (stack.length) {
+                output += "</span>";
+                stack.pop();
+            }
+
+            return output;
         },
         // removed bulk initialization and preloading for performance
         playAudio: function (index) {
@@ -2602,7 +2662,9 @@ export default {
                 );
                 const duration = this.currentlyPlaying.duration;
                 const wordCount = (
-                    ayah.words || (ayah.text ? ayah.text.split(" ") : [])
+                    (this.showTajweed && ayah.tajweedWords?.length
+                        ? ayah.tajweedWords
+                        : ayah.words || (ayah.text ? ayah.text.split(" ") : []))
                 ).length;
                 if (wordCount > 0 && duration > 0) {
                     const step = duration / wordCount;
@@ -3009,7 +3071,7 @@ export default {
             )
                 return Promise.resolve();
             this.isLoading = true;
-            const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}`;
+            const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}:tajweed`;
 
             // Serve from cache immediately if available
             try {
@@ -3018,32 +3080,57 @@ export default {
                     const obj = JSON.parse(cached);
                     if (obj && obj.ts) {
                         const data = obj.data;
-                        const arabicText = data.data[0];
-                        const translation = data.data[1];
+                        const editions = Array.isArray(data?.data)
+                            ? data.data
+                            : [];
+                        const arabicText =
+                            editions.find(
+                                (item) =>
+                                    item?.edition?.identifier ===
+                                    this.selectedReciter
+                            ) || editions[0];
+                        const translation =
+                            editions.find(
+                                (item) =>
+                                    item?.edition?.identifier ===
+                                    this.selectedTranslation
+                            ) || editions[1];
+                        const tajweed = editions.find(
+                            (item) =>
+                                item?.edition?.identifier === "quran-tajweed"
+                        );
                         this.surahDetails = {
                             surahNumber: this.selectedSurah,
-                            englishName: arabicText.englishName,
-                            name: arabicText.name,
-                            ayahs: arabicText.ayahs.map((ayah, index) => {
-                                const text = ayah.text || "";
-                                const transText =
-                                    translation.ayahs[index] &&
-                                        translation.ayahs[index].text
-                                        ? translation.ayahs[index].text
-                                        : "Translation not available";
-                                const words = text ? text.split(" ") : [];
-                                return {
-                                    number: ayah.numberInSurah || ayah.number,
-                                    numberInSurah: ayah.numberInSurah,
-                                    globalNumber: ayah.number,
-                                    text,
-                                    lowerText: text.toLowerCase(),
-                                    translation: transText,
-                                    lowerTranslation: transText.toLowerCase(),
-                                    audio: ayah.audio || "",
-                                    words,
-                                };
-                            }),
+                            englishName: arabicText?.englishName,
+                            name: arabicText?.name,
+                            ayahs: (arabicText?.ayahs || []).map(
+                                (ayah, index) => {
+                                    const tajweedText =
+                                        tajweed?.ayahs?.[index]?.text || "";
+                                    const text = ayah.text || "";
+                                    const transText =
+                                        translation?.ayahs?.[index]?.text
+                                            ? translation.ayahs[index].text
+                                            : "Translation not available";
+                                    const words = text ? text.split(" ") : [];
+                                    const tajweedWords = tajweedText
+                                        ? tajweedText.split(" ")
+                                        : [];
+                                    return {
+                                        number: ayah.numberInSurah || ayah.number,
+                                        numberInSurah: ayah.numberInSurah,
+                                        globalNumber: ayah.number,
+                                        text,
+                                        lowerText: text.toLowerCase(),
+                                        translation: transText,
+                                        lowerTranslation: transText.toLowerCase(),
+                                        audio: ayah.audio || "",
+                                        words,
+                                        tajweedText,
+                                        tajweedWords,
+                                    };
+                                }
+                            ),
                         };
                         this.isLoading = false;
                         // Pre-warm current and next from cache path as well
@@ -3062,7 +3149,7 @@ export default {
             this._surahAborter = new AbortController();
             const { signal } = this._surahAborter;
             return fetch(
-                `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation}`,
+                `https://api.alquran.cloud/v1/surah/${this.selectedSurah}/editions/${this.selectedReciter},${this.selectedTranslation},quran-tajweed`,
                 { signal }
             )
                 .then((response) => {
@@ -3081,20 +3168,41 @@ export default {
                             JSON.stringify({ ts: Date.now(), data })
                         );
                     } catch (_) { }
-                    const arabicText = data.data[0];
-                    const translation = data.data[1];
+                    const editions = Array.isArray(data?.data)
+                        ? data.data
+                        : [];
+                    const arabicText =
+                        editions.find(
+                            (item) =>
+                                item?.edition?.identifier ===
+                                this.selectedReciter
+                        ) || editions[0];
+                    const translation =
+                        editions.find(
+                            (item) =>
+                                item?.edition?.identifier ===
+                                this.selectedTranslation
+                        ) || editions[1];
+                    const tajweed = editions.find(
+                        (item) =>
+                            item?.edition?.identifier === "quran-tajweed"
+                    );
                     this.surahDetails = {
                         surahNumber: this.selectedSurah,
-                        englishName: arabicText.englishName,
-                        name: arabicText.name,
-                        ayahs: arabicText.ayahs.map((ayah, index) => {
+                        englishName: arabicText?.englishName,
+                        name: arabicText?.name,
+                        ayahs: (arabicText?.ayahs || []).map((ayah, index) => {
+                            const tajweedText =
+                                tajweed?.ayahs?.[index]?.text || "";
                             const text = ayah.text || "";
                             const transText =
-                                translation.ayahs[index] &&
-                                    translation.ayahs[index].text
+                                translation?.ayahs?.[index]?.text
                                     ? translation.ayahs[index].text
                                     : "Translation not available";
                             const words = text ? text.split(" ") : [];
+                            const tajweedWords = tajweedText
+                                ? tajweedText.split(" ")
+                                : [];
                             return {
                                 number: ayah.numberInSurah || ayah.number,
                                 numberInSurah: ayah.numberInSurah,
@@ -3105,6 +3213,8 @@ export default {
                                 lowerTranslation: transText.toLowerCase(),
                                 audio: ayah.audio || "",
                                 words,
+                                tajweedText,
+                                tajweedWords,
                             };
                         }),
                     };
@@ -5849,6 +5959,82 @@ h1.display-5 {
 .arabic-text {
     color: #123532;
     line-height: 1.9;
+}
+
+:deep(.tajweed) {
+    font-weight: inherit;
+}
+
+:deep(.tajweed-h) {
+    color: #0b6e4f;
+}
+
+:deep(.tajweed-l) {
+    color: #8b1d3d;
+}
+
+:deep(.tajweed-n) {
+    color: #0f4c81;
+}
+
+:deep(.tajweed-p) {
+    color: #9a3412;
+}
+
+:deep(.tajweed-m) {
+    color: #6b21a8;
+}
+
+:deep(.tajweed-q) {
+    color: #1f2937;
+}
+
+:deep(.tajweed-f) {
+    color: #0f766e;
+}
+
+:deep(.tajweed-u) {
+    color: #b45309;
+}
+
+:deep(.tajweed-o) {
+    color: #1d4ed8;
+}
+
+:deep(.tajweed-a) {
+    color: #a21caf;
+}
+
+:deep(.tajweed-i) {
+    color: #15803d;
+}
+
+:deep(.tajweed-g) {
+    color: #7c2d12;
+}
+
+:deep(.tajweed-c) {
+    color: #9333ea;
+}
+
+:deep(.tajweed-d) {
+    color: #0f172a;
+}
+
+:deep(.tajweed-e) {
+    color: #0369a1;
+}
+
+:deep(.tajweed-r) {
+    color: #9f1239;
+}
+
+:deep(.tajweed-s) {
+    color: #0f172a;
+}
+
+:deep(.tajweed-t) {
+    color: #4d7c0f;
 }
 
 .translation-text {
