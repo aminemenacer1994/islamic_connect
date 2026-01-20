@@ -90,6 +90,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       currentSpeedIndex: 2,
       repeatCurrent: JSON.parse(localStorage.getItem("repeatCurrent") || "false"),
       highlightLeadSeconds: 0.05,
+      _lastSegmentIndex: -1,
       reciterLeadOffsets: {},
       reciterDefaultLeadOffsets: {
         "ar.abdulbasitmurattal": 0.05,
@@ -1991,29 +1992,158 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     // removed scrollToElement and smoothScrollToAyah
     highlightedText: function (ayah) {
       if (!ayah || !ayah.text && !ayah.words && !ayah.tajweedText) return "";
-      const useTajweed = this.showTajweed && ayah.tajweedText;
       const words = this.getAyahDisplayWords(ayah);
+      const wordTranslations = this.mapWordTranslations(words, this.getAyahWordTranslations(ayah));
+      const useTajweed = this.shouldUseTajweedWords(ayah, words.length);
       return words.map((word, index) => {
         const content = useTajweed ? this.formatTajweedText(word) : this.escapeHtml(word);
-        return `<span class="ayah-word" data-word-index="${index}">${content}</span>`;
+        const translation = wordTranslations.length ? this.escapeHtml(this.cleanWordTranslation(wordTranslations[index] || "")) : "";
+        return `<span class="ayah-word" data-word-index="${index}"><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
       }).join(" ");
     },
-    getAyahDisplayWords(ayah) {
+    getAyahBaseWords(ayah) {
       if (!ayah) return [];
-      if (this.showTajweed && ayah.tajweedText) return ayah.tajweedText.split(" ");
-      if (Array.isArray(ayah.words) && ayah.words.length) return ayah.words;
-      if (ayah.text) return ayah.text.split(" ");
+      if (Array.isArray(ayah.words) && ayah.words.length) return this.normalizeAyahWords(ayah.words);
+      if (ayah.text) return this.normalizeAyahWords(ayah.text.split(" "));
       return [];
+    },
+    getAyahIntroWordCount(ayah, baseWords) {
+      const words = Array.isArray(baseWords) ? baseWords : this.getAyahBaseWords(ayah);
+      if (words.length < 4) return 0;
+      const normalized = words.slice(0, 4).map(word => this.normalizeArabicToken(word));
+      const expected = ["بسم", "الله", "الرحمن", "الرحيم"];
+      for (let i = 0; i < expected.length; i++) {
+        if (normalized[i] !== expected[i]) return 0;
+      }
+      return 4;
+    },
+    normalizeArabicToken(token) {
+      return this.cleanAyahToken(token).replace(/[\u0622\u0623\u0625\u0671]/g, "\u0627").replace(/[\u064B-\u0652\u0653-\u0655\u0670]/g, "").replace(/\u0640/g, "").trim();
+    },
+    normalizeAyahWords(tokens) {
+      if (!Array.isArray(tokens)) return [];
+      const out = [];
+      const letterRegex = /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
+      tokens.forEach(token => {
+        if (!token) return;
+        const cleaned = this.cleanAyahToken(token);
+        if (!cleaned) return;
+        const hasLetter = letterRegex.test(cleaned);
+        if (!hasLetter) return;
+        out.push(cleaned);
+      });
+      return out;
+    },
+    cleanAyahToken(token) {
+      return String(token).replace(/[\u0615-\u061A\u06D6-\u06ED\u06DD]/g, "").trim();
+    },
+    normalizeTajweedWords(tokens) {
+      if (!Array.isArray(tokens)) return [];
+      const out = [];
+      const letterRegex = /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
+      tokens.forEach(token => {
+        if (!token) return;
+        const plain = this.cleanAyahToken(this.stripTajweedMarkers(token));
+        if (!plain) return;
+        const hasLetter = letterRegex.test(plain);
+        if (!hasLetter) return;
+        out.push(token);
+      });
+      return out;
+    },
+    stripTajweedMarkers(value) {
+      return String(value).replace(/\[[a-z]+(?::\d+)?\[/g, "").replace(/]/g, "");
+    },
+    shouldUseTajweedWords(ayah, fallbackLength = 0) {
+      if (!this.showTajweed || !ayah) return false;
+      if (!Array.isArray(ayah.tajweedWords) || !ayah.tajweedWords.length) return false;
+      const normalized = this.normalizeTajweedWords(ayah.tajweedWords);
+      const baseWords = this.getAyahBaseWords(ayah);
+      const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+      const matchesFull = fallbackLength && normalized.length === fallbackLength;
+      const matchesIntro = fallbackLength && introCount && normalized.length === fallbackLength - introCount;
+      if (!matchesFull && !matchesIntro) return false;
+      return true;
+    },
+    getAyahDisplayWords(ayah) {
+      var _ayah$tajweedWords;
+      if (!ayah) return [];
+      const baseWords = this.getAyahBaseWords(ayah);
+      if (!this.showTajweed || !((_ayah$tajweedWords = ayah.tajweedWords) !== null && _ayah$tajweedWords !== void 0 && _ayah$tajweedWords.length)) return baseWords;
+      const tajweedWords = this.normalizeTajweedWords(ayah.tajweedWords);
+      const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+      if (introCount && tajweedWords.length === baseWords.length - introCount) {
+        return [...baseWords.slice(0, introCount), ...tajweedWords];
+      }
+      if (this.shouldUseTajweedWords(ayah, baseWords.length)) return tajweedWords;
+      return baseWords;
+    },
+    getAyahWordTranslations(ayah) {
+      if (!ayah || !Array.isArray(ayah.wordTranslations)) return [];
+      return ayah.wordTranslations;
+    },
+    cleanWordTranslation(text) {
+      return String(text).replace(/[\[\]\(\)]/g, "").replace(/\s{2,}/g, " ").trim();
+    },
+    mapWordTranslations(words, translations) {
+      if (!Array.isArray(words)) return [];
+      if (!Array.isArray(translations) || !translations.length) return [];
+      const introCount = this.getAyahIntroWordCount(null, words);
+      if (introCount && translations.length === words.length - introCount) {
+        return ["In (the) name", "Allah", "the Most Gracious", "the Most Merciful", ...translations];
+      }
+      const letterRegex = /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
+      const mapped = [];
+      let tIndex = 0;
+      words.forEach(word => {
+        const hasLetter = letterRegex.test(this.stripTajweedMarkers(word));
+        if (hasLetter && tIndex < translations.length) {
+          mapped.push(translations[tIndex]);
+          tIndex += 1;
+        } else {
+          mapped.push("");
+        }
+      });
+      return mapped;
     },
     getAyahWordList(ayah) {
       if (!ayah) return [];
-      if (this.showTajweed && Array.isArray(ayah.tajweedWords) && ayah.tajweedWords.length) return ayah.tajweedWords;
-      if (Array.isArray(ayah.words) && ayah.words.length) return ayah.words;
-      if (ayah.text) return ayah.text.split(" ");
+      const baseWords = this.getAyahBaseWords(ayah);
+      if (baseWords.length) return baseWords;
+      if (this.showTajweed && Array.isArray(ayah.tajweedWords)) return this.normalizeTajweedWords(ayah.tajweedWords);
       return [];
     },
+    getAyahAudioWordCount(ayah) {
+      if (!ayah) return 0;
+      if (Array.isArray(ayah.audioSegments) && ayah.audioSegments.length) {
+        const maxIndex = ayah.audioSegments.reduce((acc, seg) => typeof (seg === null || seg === void 0 ? void 0 : seg.wordIndex) === "number" && seg.wordIndex > acc ? seg.wordIndex : acc, -1);
+        return Math.max(0, maxIndex + 1);
+      }
+      if (Array.isArray(ayah.wordTranslations) && ayah.wordTranslations.length) return ayah.wordTranslations.length;
+      return this.getAyahBaseWords(ayah).length;
+    },
+    getAyahHighlightOffset(ayah, audioWordCount) {
+      const baseWords = this.getAyahBaseWords(ayah);
+      const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+      if (!introCount) return 0;
+      const displayCount = this.getAyahDisplayWords(ayah).length;
+      if (displayCount === audioWordCount + introCount) return introCount;
+      return 0;
+    },
+    getHighlightDisplayIndex(ayah, audioIndex, audioWordCount) {
+      const baseWords = this.getAyahBaseWords(ayah);
+      const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+      const displayCount = this.getAyahDisplayWords(ayah).length;
+      if (!introCount) return audioIndex;
+      if (displayCount === audioWordCount) {
+        if (audioIndex < introCount) return null;
+        return audioIndex;
+      }
+      if (displayCount === audioWordCount + introCount) return audioIndex + introCount;
+      return audioIndex;
+    },
     updateWordTimings(ayah, duration) {
-      const wordCount = this.getAyahWordList(ayah).length;
+      const wordCount = this.getAyahAudioWordCount(ayah);
       if (wordCount > 0 && duration > 0) {
         const step = duration / wordCount;
         this.wordTimings = Array.from({
@@ -2029,30 +2159,39 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     async enrichSurahWithQuranSegments() {
       var _this$surahDetails1;
+      if (!((_this$surahDetails1 = this.surahDetails) !== null && _this$surahDetails1 !== void 0 && (_this$surahDetails1 = _this$surahDetails1.ayahs) !== null && _this$surahDetails1 !== void 0 && _this$surahDetails1.length)) return;
       const recitationId = this.getQuranRecitationId(this.selectedReciter);
-      if (!recitationId || !((_this$surahDetails1 = this.surahDetails) !== null && _this$surahDetails1 !== void 0 && (_this$surahDetails1 = _this$surahDetails1.ayahs) !== null && _this$surahDetails1 !== void 0 && _this$surahDetails1.length)) return;
+      const audioParam = recitationId ? `audio=${recitationId}&` : "";
       try {
         const {
           data
-        } = await this.cachedFetchJSON(`https://api.quran.com/api/v4/verses/by_chapter/${this.selectedSurah}?audio=${recitationId}&words=true&per_page=300`, `cache:quran-timing:${this.selectedSurah}:${recitationId}`, 7 * 24 * 60 * 60 * 1000);
+        } = await this.cachedFetchJSON(`https://api.quran.com/api/v4/verses/by_chapter/${this.selectedSurah}?${audioParam}words=true&per_page=300`, `cache:quran-timing:${this.selectedSurah}:${recitationId || "noaudio"}`, 7 * 24 * 60 * 60 * 1000);
         const verses = Array.isArray(data === null || data === void 0 ? void 0 : data.verses) ? data.verses : [];
         const byKey = new Map();
         verses.forEach(verse => {
           if (verse !== null && verse !== void 0 && verse.verse_key) byKey.set(verse.verse_key, verse);
         });
         this.surahDetails.ayahs = this.surahDetails.ayahs.map((ayah, index) => {
+          var _match$audio, _match$audio2;
           const key = `${this.selectedSurah}:${ayah.numberInSurah || index + 1}`;
           const match = byKey.get(key);
-          if (!(match !== null && match !== void 0 && match.audio)) return ayah;
-          const audioUrl = match.audio.url ? `https://audio.qurancdn.com/${match.audio.url}` : ayah.audio;
-          const segments = Array.isArray(match.audio.segments) ? match.audio.segments.filter(seg => Array.isArray(seg) && seg.length >= 4).map(seg => ({
+          const verseWords = Array.isArray(match === null || match === void 0 ? void 0 : match.words) ? match.words.filter(word => (word === null || word === void 0 ? void 0 : word.char_type_name) === "word") : [];
+          const quranWords = verseWords.map(word => (word === null || word === void 0 ? void 0 : word.text) || (word === null || word === void 0 ? void 0 : word.code_v1) || "");
+          const wordTranslations = verseWords.map(word => {
+            var _word$translation;
+            return (word === null || word === void 0 || (_word$translation = word.translation) === null || _word$translation === void 0 ? void 0 : _word$translation.text) || "";
+          });
+          const audioUrl = match !== null && match !== void 0 && (_match$audio = match.audio) !== null && _match$audio !== void 0 && _match$audio.url ? `https://audio.qurancdn.com/${match.audio.url}` : ayah.audio;
+          const segments = Array.isArray(match === null || match === void 0 || (_match$audio2 = match.audio) === null || _match$audio2 === void 0 ? void 0 : _match$audio2.segments) ? match.audio.segments.filter(seg => Array.isArray(seg) && seg.length >= 4).map(seg => ({
             wordIndex: seg[0],
             start: seg[2] / 1000,
             end: seg[3] / 1000
           })) : null;
           return _objectSpread(_objectSpread({}, ayah), {}, {
             audio: audioUrl,
-            audioSegments: segments
+            audioSegments: segments,
+            quranWords,
+            wordTranslations
           });
         });
       } catch (error) {
@@ -2086,15 +2225,38 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       const duration = audio.duration || 0;
       if (!duration || !isFinite(duration)) return;
       const ayah = this.filteredAyahs[this.currentlyPlayingIndex];
-      const wordCount = this.getAyahWordList(ayah).length;
+      const wordCount = this.getAyahAudioWordCount(ayah);
       if (!wordCount) return;
       const currentTime = audio.currentTime;
       const lead = this.highlightLeadSeconds || 0;
       const adjustedTime = Math.min(duration, Math.max(0, currentTime + lead));
       let index = -1;
       if (Array.isArray(ayah === null || ayah === void 0 ? void 0 : ayah.audioSegments) && ayah.audioSegments.length) {
-        const match = ayah.audioSegments.find(seg => adjustedTime >= seg.start && adjustedTime < seg.end);
-        index = match ? match.wordIndex : ayah.audioSegments[ayah.audioSegments.length - 1].wordIndex;
+        const segments = ayah.audioSegments;
+        let segIndex = this._lastSegmentIndex;
+        if (segIndex >= 0 && segIndex < segments.length) {
+          const seg = segments[segIndex];
+          if (seg && adjustedTime >= seg.start && adjustedTime < seg.end) {
+            index = seg.wordIndex;
+          }
+        }
+        if (index === -1) {
+          if (segIndex < 0) segIndex = 0;
+          if (segments[segIndex] && adjustedTime >= segments[segIndex].end) {
+            while (segIndex < segments.length - 1 && adjustedTime >= segments[segIndex].end) {
+              segIndex += 1;
+            }
+          } else if (segments[segIndex] && adjustedTime < segments[segIndex].start) {
+            while (segIndex > 0 && adjustedTime < segments[segIndex].start) {
+              segIndex -= 1;
+            }
+          }
+          const seg = segments[segIndex] || segments[segments.length - 1];
+          if (seg) {
+            index = seg.wordIndex;
+            this._lastSegmentIndex = segIndex;
+          }
+        }
       } else if (this.wordTimings.length === wordCount) {
         index = this.wordTimings.findIndex((t, i, arr) => {
           return adjustedTime >= t && (i === arr.length - 1 || adjustedTime < arr[i + 1]);
@@ -2104,7 +2266,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
       if (index === this._lastHighlightIndex) return;
       this._lastHighlightIndex = index;
-      this.applyWordHighlight(index);
+      const targetIndex = this.getHighlightDisplayIndex(ayah, index, wordCount);
+      if (targetIndex == null) {
+        this.clearActiveWordHighlight();
+        return;
+      }
+      const displayCount = this.getAyahDisplayWords(ayah).length;
+      const clamped = Math.min(displayCount - 1, Math.max(0, targetIndex));
+      this.applyWordHighlight(clamped);
     },
     clearActiveWordHighlight() {
       if (Array.isArray(this._lastHighlightEls)) {
@@ -2167,6 +2336,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     playAudio: function (index) {
       console.log("Attempting to play audio for index:", index);
       if (index < 0 || index >= this.filteredAyahs.length) return;
+      this._lastHighlightIndex = -1;
+      this._lastSegmentIndex = -1;
+      this.clearActiveWordHighlight();
 
       // Defer showing loading spinner to avoid flicker; only show if slow (>200ms)
       clearTimeout(this.loadingTimers[index]);
@@ -2563,7 +2735,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
                   audio: ayah.audio || "",
                   words,
                   tajweedText,
-                  tajweedWords
+                  tajweedWords,
+                  quranWords: [],
+                  wordTranslations: []
                 };
               })
             };
@@ -2636,7 +2810,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
               audio: ayah.audio || "",
               words,
               tajweedText,
-              tajweedWords
+              tajweedWords,
+              quranWords: [],
+              wordTranslations: []
             };
           })
         };
@@ -4300,7 +4476,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Ayah controls (desktop)",
       "aria-hidden": _ctx.isMobile
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_64, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_65, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      class: "arabic-text rtl-text fw-bold text-end mb-3",
+      class: "arabic-text rtl-text text-end mb-3",
       innerHTML: $options.highlightedText(item.ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'
@@ -4369,7 +4545,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-label": "Ayah controls (mobile)",
       "aria-hidden": !_ctx.isMobile
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-      class: "arabic-text rtl-text fw-bold text-end mb-3",
+      class: "arabic-text rtl-text text-end mb-3",
       innerHTML: $options.highlightedText(item.ayah),
       style: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeStyle)({
         fontSize: _ctx.arabicFontSize + 'px'

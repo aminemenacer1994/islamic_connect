@@ -35591,7 +35591,7 @@ to {
     padding: 9px 12px;
     background: #0b806f;
     border-color: #0b806f;
-    color: #fff;
+    color: #0a3b35;
 }
 @media (max-width: 576px) {
 .surah-offcanvas-play[data-v-828f3036] {
@@ -36150,13 +36150,36 @@ h4[data-v-828f3036] {
         font-size: 1.8rem;
 }
 }
-[data-v-828f3036] .highlighted-word {
+[data-v-828f3036] .ayah-word {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    margin: 0 4px;
+    white-space: nowrap;
+}
+[data-v-828f3036] .ayah-word-ar {
+    display: block;
+}
+[data-v-828f3036] .ayah-word-translation {
+    direction: ltr;
+    unicode-bidi: plaintext;
+    display: block;
+    font-size: 0.5em;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 2px;
+    text-align: center;
+}
+[data-v-828f3036] .ayah-word.highlighted-word .ayah-word-ar {
     background: #0f6e63;
     color: #fff;
-    border-radius: 4px;
-    padding: 0 2px;
+    border-radius: 8px;
+    padding: 0 3px;
     box-shadow: 0 1px 0 rgba(15, 110, 99, 0.25);
-    transition: background 0.2s, box-shadow 0.2s;
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+}
+[data-v-828f3036] .ayah-word.highlighted-word .ayah-word-translation {
+    color: #0f6e63;
 }
 
 /* Audio Visualizer Styles */

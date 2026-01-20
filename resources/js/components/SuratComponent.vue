@@ -419,7 +419,7 @@
                             :aria-hidden="isMobile">
                             <div class="col-md-11">
                                 <div style="padding: 4px">
-                                    <p class="arabic-text rtl-text fw-bold text-end mb-3"
+                                    <p class="arabic-text rtl-text text-end mb-3"
                                         v-html="highlightedText(item.ayah)"
                                         :style="{ fontSize: arabicFontSize + 'px' }">
                                     </p>
@@ -492,7 +492,7 @@
                         <div style="" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)"
                             :aria-hidden="!isMobile">
                             <div>
-                                <p class="arabic-text rtl-text fw-bold text-end mb-3"
+                                <p class="arabic-text rtl-text text-end mb-3"
                                     v-html="highlightedText(item.ayah)"
                                     :style="{ fontSize: arabicFontSize + 'px' }">
                                 </p>
@@ -1084,6 +1084,7 @@ export default {
                 localStorage.getItem("repeatCurrent") || "false"
             ),
             highlightLeadSeconds: 0.05,
+            _lastSegmentIndex: -1,
             reciterLeadOffsets: {},
             reciterDefaultLeadOffsets: {
                 "ar.abdulbasitmurattal": 0.05,
@@ -3250,41 +3251,224 @@ export default {
         highlightedText: function (ayah) {
             if (!ayah || (!ayah.text && !ayah.words && !ayah.tajweedText))
                 return "";
-            const useTajweed = this.showTajweed && ayah.tajweedText;
             const words = this.getAyahDisplayWords(ayah);
+            const wordTranslations = this.mapWordTranslations(
+                words,
+                this.getAyahWordTranslations(ayah)
+            );
+            const useTajweed = this.shouldUseTajweedWords(ayah, words.length);
             return words
                 .map((word, index) => {
                     const content = useTajweed
                         ? this.formatTajweedText(word)
                         : this.escapeHtml(word);
-                    return `<span class="ayah-word" data-word-index="${index}">${content}</span>`;
+                    const translation = wordTranslations.length
+                        ? this.escapeHtml(
+                            this.cleanWordTranslation(
+                                wordTranslations[index] || ""
+                            )
+                        )
+                        : "";
+                    return `<span class="ayah-word" data-word-index="${index}"><span class="ayah-word-ar">${content}</span>${translation ? `<span class="ayah-word-translation text-muted">${translation}</span>` : ""}</span>`;
                 })
                 .join(" ");
         },
+        getAyahBaseWords(ayah) {
+            if (!ayah) return [];
+            if (Array.isArray(ayah.words) && ayah.words.length)
+                return this.normalizeAyahWords(ayah.words);
+            if (ayah.text) return this.normalizeAyahWords(ayah.text.split(" "));
+            return [];
+        },
+        getAyahIntroWordCount(ayah, baseWords) {
+            const words = Array.isArray(baseWords)
+                ? baseWords
+                : this.getAyahBaseWords(ayah);
+            if (words.length < 4) return 0;
+            const normalized = words
+                .slice(0, 4)
+                .map((word) => this.normalizeArabicToken(word));
+            const expected = ["بسم", "الله", "الرحمن", "الرحيم"];
+            for (let i = 0; i < expected.length; i++) {
+                if (normalized[i] !== expected[i]) return 0;
+            }
+            return 4;
+        },
+        normalizeArabicToken(token) {
+            return this.cleanAyahToken(token)
+                .replace(/[\u0622\u0623\u0625\u0671]/g, "\u0627")
+                .replace(/[\u064B-\u0652\u0653-\u0655\u0670]/g, "")
+                .replace(/\u0640/g, "")
+                .trim();
+        },
+        normalizeAyahWords(tokens) {
+            if (!Array.isArray(tokens)) return [];
+            const out = [];
+            const letterRegex =
+                /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
+            tokens.forEach((token) => {
+                if (!token) return;
+                const cleaned = this.cleanAyahToken(token);
+                if (!cleaned) return;
+                const hasLetter = letterRegex.test(cleaned);
+                if (!hasLetter) return;
+                out.push(cleaned);
+            });
+            return out;
+        },
+        cleanAyahToken(token) {
+            return String(token)
+                .replace(/[\u0615-\u061A\u06D6-\u06ED\u06DD]/g, "")
+                .trim();
+        },
+        normalizeTajweedWords(tokens) {
+            if (!Array.isArray(tokens)) return [];
+            const out = [];
+            const letterRegex =
+                /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
+            tokens.forEach((token) => {
+                if (!token) return;
+                const plain = this.cleanAyahToken(
+                    this.stripTajweedMarkers(token)
+                );
+                if (!plain) return;
+                const hasLetter = letterRegex.test(plain);
+                if (!hasLetter) return;
+                out.push(token);
+            });
+            return out;
+        },
+        stripTajweedMarkers(value) {
+            return String(value)
+                .replace(/\[[a-z]+(?::\d+)?\[/g, "")
+                .replace(/]/g, "");
+        },
+        shouldUseTajweedWords(ayah, fallbackLength = 0) {
+            if (!this.showTajweed || !ayah) return false;
+            if (!Array.isArray(ayah.tajweedWords) || !ayah.tajweedWords.length)
+                return false;
+            const normalized = this.normalizeTajweedWords(ayah.tajweedWords);
+            const baseWords = this.getAyahBaseWords(ayah);
+            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+            const matchesFull =
+                fallbackLength && normalized.length === fallbackLength;
+            const matchesIntro =
+                fallbackLength &&
+                introCount &&
+                normalized.length === fallbackLength - introCount;
+            if (!matchesFull && !matchesIntro)
+                return false;
+            return true;
+        },
         getAyahDisplayWords(ayah) {
             if (!ayah) return [];
-            if (this.showTajweed && ayah.tajweedText)
-                return ayah.tajweedText.split(" ");
-            if (Array.isArray(ayah.words) && ayah.words.length)
-                return ayah.words;
-            if (ayah.text) return ayah.text.split(" ");
-            return [];
+            const baseWords = this.getAyahBaseWords(ayah);
+            if (!this.showTajweed || !ayah.tajweedWords?.length)
+                return baseWords;
+            const tajweedWords = this.normalizeTajweedWords(ayah.tajweedWords);
+            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+            if (introCount && tajweedWords.length === baseWords.length - introCount) {
+                return [
+                    ...baseWords.slice(0, introCount),
+                    ...tajweedWords,
+                ];
+            }
+            if (this.shouldUseTajweedWords(ayah, baseWords.length))
+                return tajweedWords;
+            return baseWords;
+        },
+        getAyahWordTranslations(ayah) {
+            if (!ayah || !Array.isArray(ayah.wordTranslations))
+                return [];
+            return ayah.wordTranslations;
+        },
+        cleanWordTranslation(text) {
+            return String(text)
+                .replace(/[\[\]\(\)]/g, "")
+                .replace(/\s{2,}/g, " ")
+                .trim();
+        },
+        mapWordTranslations(words, translations) {
+            if (!Array.isArray(words)) return [];
+            if (!Array.isArray(translations) || !translations.length)
+                return [];
+            const introCount = this.getAyahIntroWordCount(null, words);
+            if (
+                introCount &&
+                translations.length === words.length - introCount
+            ) {
+                return [
+                    "In (the) name",
+                    "Allah",
+                    "the Most Gracious",
+                    "the Most Merciful",
+                    ...translations,
+                ];
+            }
+            const letterRegex =
+                /[\u0621-\u064A\u066E-\u066F\u0671-\u06D3\u06FA-\u06FC]/;
+            const mapped = [];
+            let tIndex = 0;
+            words.forEach((word) => {
+                const hasLetter = letterRegex.test(
+                    this.stripTajweedMarkers(word)
+                );
+                if (hasLetter && tIndex < translations.length) {
+                    mapped.push(translations[tIndex]);
+                    tIndex += 1;
+                } else {
+                    mapped.push("");
+                }
+            });
+            return mapped;
         },
         getAyahWordList(ayah) {
             if (!ayah) return [];
-            if (
-                this.showTajweed &&
-                Array.isArray(ayah.tajweedWords) &&
-                ayah.tajweedWords.length
-            )
-                return ayah.tajweedWords;
-            if (Array.isArray(ayah.words) && ayah.words.length)
-                return ayah.words;
-            if (ayah.text) return ayah.text.split(" ");
+            const baseWords = this.getAyahBaseWords(ayah);
+            if (baseWords.length) return baseWords;
+            if (this.showTajweed && Array.isArray(ayah.tajweedWords))
+                return this.normalizeTajweedWords(ayah.tajweedWords);
             return [];
         },
+        getAyahAudioWordCount(ayah) {
+            if (!ayah) return 0;
+            if (Array.isArray(ayah.audioSegments) && ayah.audioSegments.length) {
+                const maxIndex = ayah.audioSegments.reduce(
+                    (acc, seg) =>
+                        typeof seg?.wordIndex === "number" && seg.wordIndex > acc
+                            ? seg.wordIndex
+                            : acc,
+                    -1
+                );
+                return Math.max(0, maxIndex + 1);
+            }
+            if (Array.isArray(ayah.wordTranslations) && ayah.wordTranslations.length)
+                return ayah.wordTranslations.length;
+            return this.getAyahBaseWords(ayah).length;
+        },
+        getAyahHighlightOffset(ayah, audioWordCount) {
+            const baseWords = this.getAyahBaseWords(ayah);
+            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+            if (!introCount) return 0;
+            const displayCount = this.getAyahDisplayWords(ayah).length;
+            if (displayCount === audioWordCount + introCount) return introCount;
+            return 0;
+        },
+        getHighlightDisplayIndex(ayah, audioIndex, audioWordCount) {
+            const baseWords = this.getAyahBaseWords(ayah);
+            const introCount = this.getAyahIntroWordCount(ayah, baseWords);
+            const displayCount = this.getAyahDisplayWords(ayah).length;
+            if (!introCount) return audioIndex;
+            if (displayCount === audioWordCount) {
+                if (audioIndex < introCount) return null;
+                return audioIndex;
+            }
+            if (displayCount === audioWordCount + introCount)
+                return audioIndex + introCount;
+            return audioIndex;
+        },
         updateWordTimings(ayah, duration) {
-            const wordCount = this.getAyahWordList(ayah).length;
+            const wordCount = this.getAyahAudioWordCount(ayah);
             if (wordCount > 0 && duration > 0) {
                 const step = duration / wordCount;
                 this.wordTimings = Array.from(
@@ -3302,14 +3486,15 @@ export default {
                 : null;
         },
         async enrichSurahWithQuranSegments() {
+            if (!this.surahDetails?.ayahs?.length) return;
             const recitationId = this.getQuranRecitationId(
                 this.selectedReciter
             );
-            if (!recitationId || !this.surahDetails?.ayahs?.length) return;
+            const audioParam = recitationId ? `audio=${recitationId}&` : "";
             try {
                 const { data } = await this.cachedFetchJSON(
-                    `https://api.quran.com/api/v4/verses/by_chapter/${this.selectedSurah}?audio=${recitationId}&words=true&per_page=300`,
-                    `cache:quran-timing:${this.selectedSurah}:${recitationId}`,
+                    `https://api.quran.com/api/v4/verses/by_chapter/${this.selectedSurah}?${audioParam}words=true&per_page=300`,
+                    `cache:quran-timing:${this.selectedSurah}:${recitationId || "noaudio"}`,
                     7 * 24 * 60 * 60 * 1000
                 );
                 const verses = Array.isArray(data?.verses) ? data.verses : [];
@@ -3321,11 +3506,21 @@ export default {
                     (ayah, index) => {
                         const key = `${this.selectedSurah}:${ayah.numberInSurah || index + 1}`;
                         const match = byKey.get(key);
-                        if (!match?.audio) return ayah;
-                        const audioUrl = match.audio.url
+                        const verseWords = Array.isArray(match?.words)
+                            ? match.words.filter(
+                                (word) => word?.char_type_name === "word"
+                            )
+                            : [];
+                        const quranWords = verseWords.map(
+                            (word) => word?.text || word?.code_v1 || ""
+                        );
+                        const wordTranslations = verseWords.map(
+                            (word) => word?.translation?.text || ""
+                        );
+                        const audioUrl = match?.audio?.url
                             ? `https://audio.qurancdn.com/${match.audio.url}`
                             : ayah.audio;
-                        const segments = Array.isArray(match.audio.segments)
+                        const segments = Array.isArray(match?.audio?.segments)
                             ? match.audio.segments
                                 .filter((seg) => Array.isArray(seg) && seg.length >= 4)
                                 .map((seg) => ({
@@ -3338,6 +3533,8 @@ export default {
                             ...ayah,
                             audio: audioUrl,
                             audioSegments: segments,
+                            quranWords,
+                            wordTranslations,
                         };
                     }
                 );
@@ -3372,7 +3569,7 @@ export default {
             const duration = audio.duration || 0;
             if (!duration || !isFinite(duration)) return;
             const ayah = this.filteredAyahs[this.currentlyPlayingIndex];
-            const wordCount = this.getAyahWordList(ayah).length;
+            const wordCount = this.getAyahAudioWordCount(ayah);
             if (!wordCount) return;
             const currentTime = audio.currentTime;
             const lead = this.highlightLeadSeconds || 0;
@@ -3382,10 +3579,37 @@ export default {
             );
             let index = -1;
             if (Array.isArray(ayah?.audioSegments) && ayah.audioSegments.length) {
-                const match = ayah.audioSegments.find(
-                    (seg) => adjustedTime >= seg.start && adjustedTime < seg.end
-                );
-                index = match ? match.wordIndex : ayah.audioSegments[ayah.audioSegments.length - 1].wordIndex;
+                const segments = ayah.audioSegments;
+                let segIndex = this._lastSegmentIndex;
+                if (segIndex >= 0 && segIndex < segments.length) {
+                    const seg = segments[segIndex];
+                    if (seg && adjustedTime >= seg.start && adjustedTime < seg.end) {
+                        index = seg.wordIndex;
+                    }
+                }
+                if (index === -1) {
+                    if (segIndex < 0) segIndex = 0;
+                    if (segments[segIndex] && adjustedTime >= segments[segIndex].end) {
+                        while (
+                            segIndex < segments.length - 1 &&
+                            adjustedTime >= segments[segIndex].end
+                        ) {
+                            segIndex += 1;
+                        }
+                    } else if (segments[segIndex] && adjustedTime < segments[segIndex].start) {
+                        while (
+                            segIndex > 0 &&
+                            adjustedTime < segments[segIndex].start
+                        ) {
+                            segIndex -= 1;
+                        }
+                    }
+                    const seg = segments[segIndex] || segments[segments.length - 1];
+                    if (seg) {
+                        index = seg.wordIndex;
+                        this._lastSegmentIndex = segIndex;
+                    }
+                }
             } else if (this.wordTimings.length === wordCount) {
                 index = this.wordTimings.findIndex((t, i, arr) => {
                     return (
@@ -3401,7 +3625,21 @@ export default {
             }
             if (index === this._lastHighlightIndex) return;
             this._lastHighlightIndex = index;
-            this.applyWordHighlight(index);
+            const targetIndex = this.getHighlightDisplayIndex(
+                ayah,
+                index,
+                wordCount
+            );
+            if (targetIndex == null) {
+                this.clearActiveWordHighlight();
+                return;
+            }
+            const displayCount = this.getAyahDisplayWords(ayah).length;
+            const clamped = Math.min(
+                displayCount - 1,
+                Math.max(0, targetIndex)
+            );
+            this.applyWordHighlight(clamped);
         },
         clearActiveWordHighlight() {
             if (Array.isArray(this._lastHighlightEls)) {
@@ -3480,6 +3718,9 @@ export default {
         playAudio: function (index) {
             console.log("Attempting to play audio for index:", index);
             if (index < 0 || index >= this.filteredAyahs.length) return;
+            this._lastHighlightIndex = -1;
+            this._lastSegmentIndex = -1;
+            this.clearActiveWordHighlight();
 
             // Defer showing loading spinner to avoid flicker; only show if slow (>200ms)
             clearTimeout(this.loadingTimers[index]);
@@ -4012,6 +4253,8 @@ export default {
                                         words,
                                         tajweedText,
                                         tajweedWords,
+                                        quranWords: [],
+                                        wordTranslations: [],
                                     };
                                 }
                             ),
@@ -4102,6 +4345,8 @@ export default {
                                 words,
                                 tajweedText,
                                 tajweedWords,
+                                quranWords: [],
+                                wordTranslations: [],
                             };
                         }),
                     };
@@ -6417,7 +6662,7 @@ export default {
     padding: 9px 12px;
     background: #0b806f;
     border-color: #0b806f;
-    color: #fff;
+    color: #0a3b35;
 }
 
 @media (max-width: 576px) {
@@ -7067,13 +7312,40 @@ export default {
     }
 }
 
-:deep(.highlighted-word) {
+:deep(.ayah-word) {
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+    margin: 0 4px;
+    white-space: nowrap;
+}
+
+:deep(.ayah-word-ar) {
+    display: block;
+}
+
+:deep(.ayah-word-translation) {
+    direction: ltr;
+    unicode-bidi: plaintext;
+    display: block;
+    font-size: 0.5em;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-top: 2px;
+    text-align: center;
+}
+
+:deep(.ayah-word.highlighted-word .ayah-word-ar) {
     background: #0f6e63;
     color: #fff;
-    border-radius: 4px;
-    padding: 0 2px;
+    border-radius: 8px;
+    padding: 0 3px;
     box-shadow: 0 1px 0 rgba(15, 110, 99, 0.25);
-    transition: background 0.2s, box-shadow 0.2s;
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+}
+
+:deep(.ayah-word.highlighted-word .ayah-word-translation) {
+    color: #0f6e63;
 }
 
 /* Audio Visualizer Styles */
