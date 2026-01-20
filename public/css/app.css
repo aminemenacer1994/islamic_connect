@@ -35411,6 +35411,12 @@ to {
     flex: 1 1 240px;
     min-width: 220px;
 }
+.surah-offcanvas-toggle-group[data-v-828f3036] {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
 .surah-offcanvas-toggle-inline[data-v-828f3036] {
     flex: 0 0 auto;
     display: flex;
@@ -35467,6 +35473,13 @@ to {
 .surah-offcanvas-play[data-v-828f3036] {
         font-size: 0.9rem;
         padding: 9px 10px;
+}
+}
+@media (max-width: 991.98px) {
+.surah-offcanvas-toggle-group[data-v-828f3036] {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
 }
 }
 @media (max-width: 992px) {

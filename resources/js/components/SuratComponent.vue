@@ -165,14 +165,28 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="surah-offcanvas-toggle-inline">
-                                <label class="form-label surah-offcanvas-label">Tajweed colors</label>
-                                <div class="ml-4 form-check form-switch surah-tajweed-toggle">
-                                    <input class=" form-check-input" type="checkbox" role="switch"
-                                        id="surahTajweedToggle" v-model="showTajweed" />
-                                    <label class="form-check-label" for="surahTajweedToggle">
-                                        Tajweed colors
-                                    </label>
+                            <div class="surah-offcanvas-toggle-group">
+                                <div class="surah-offcanvas-toggle-inline">
+                                    <label class="form-label surah-offcanvas-label">Tajweed colors</label>
+                                    <div class="ml-4 form-check form-switch surah-tajweed-toggle">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="surahTajweedToggle" v-model="showTajweed" />
+                                        <label class="form-check-label" for="surahTajweedToggle">
+                                            Tajweed colors
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="surah-offcanvas-toggle-inline">
+                                    <label class="form-label surah-offcanvas-label">Realtime color highlighting</label>
+                                    <div class="ml-4 form-check form-switch surah-tajweed-toggle">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="surahRealtimeHighlightToggle"
+                                            v-model="showRealtimeHighlighting" />
+                                        <label class="form-check-label"
+                                            for="surahRealtimeHighlightToggle">
+                                            Realtime color highlighting
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -217,6 +231,17 @@
                                     id="surahTajweedToggleInline" v-model="showTajweed" />
                                 <label class="form-check-label" for="surahTajweedToggleInline">
                                     Tajweed colors
+                                </label>
+                            </div>
+                        </div>
+                        <div class="surah-tajweed-toggle-wrap surah-tajweed-toggle-inline">
+                            <div class="form-check form-switch surah-tajweed-toggle">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="surahRealtimeHighlightToggleInline"
+                                    v-model="showRealtimeHighlighting" />
+                                <label class="form-check-label"
+                                    for="surahRealtimeHighlightToggleInline">
+                                    Realtime color highlighting
                                 </label>
                             </div>
                         </div>
@@ -656,8 +681,14 @@
                                     Detailed info is not available yet.
                                 </div>
 
-                                <div v-if="surahInfoSource" class="surah-info-source">
-                                    Source: {{ surahInfoSource }}
+                                <div class="surah-info-source">
+                                    Reference:
+                                    <a v-if="surahInfoSourceUrl" :href="surahInfoSourceUrl" target="_blank"
+                                        rel="noopener noreferrer">
+                                        {{ surahInfoSourceLabel }}
+                                    </a>
+                                    <span v-else>{{ surahInfoSourceLabel }}</span>
+                                    <span v-if="surahInfoSourceHost">({{ surahInfoSourceHost }})</span>
                                 </div>
                             </div>
                             <div v-else class="text-muted small">
@@ -963,6 +994,7 @@ export default {
             surahInfoText: "",
             surahInfoShortText: "",
             surahInfoSource: "",
+            surahInfoSourceUrl: "",
             surahInfoLoading: false,
             surahInfoError: "",
             surahInfoModalId: "surahInfoModal",
@@ -976,6 +1008,8 @@ export default {
             arabicFontSize: 28,
             translationFontSize: 20,
             showTajweed: true,
+            showRealtimeHighlighting: true,
+            realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
             progress: [],
             audioElements: [],
             playbackSpeed: 1.0,
@@ -1140,6 +1174,17 @@ export default {
                     label: this.tajweedRuleMap[name]?.en || name,
                     ar: this.tajweedRuleMap[name]?.ar || "",
                 }));
+        },
+        surahInfoSourceLabel() {
+            return this.surahInfoSource || "Quran.com";
+        },
+        surahInfoSourceHost() {
+            const rawUrl = this.surahInfoSourceUrl || "https://quran.com";
+            try {
+                return new URL(rawUrl).hostname.replace(/^www\./, "");
+            } catch (_) {
+                return "";
+            }
         },
         reflectionMessagePromptRows() {
             const prompts = this.reflectionMessagePrompts || [];
@@ -1373,6 +1418,27 @@ export default {
             this._lastHighlightIndex = -1;
             this.clearActiveWordHighlight();
         },
+        showRealtimeHighlighting(next) {
+            try {
+                localStorage.setItem(
+                    "suratShowRealtimeHighlighting",
+                    next ? "1" : "0"
+                );
+            } catch (_) { }
+            if (this.bookmarkAuthenticated) {
+                this.savePreference(this.realtimeHighlightPreferenceKey, {
+                    enabled: !!next,
+                });
+            }
+            if (!next) {
+                this.stopHighlightLoop();
+                return;
+            }
+            this._lastHighlightIndex = -1;
+            if (this.isAudioPlaying[this.currentlyPlayingIndex]) {
+                this.startHighlightLoop();
+            }
+        },
     },
     created() {
         // postpone loading until we know the authentication status
@@ -1411,6 +1477,7 @@ export default {
                 this.showNextStep = false;
         } catch (_) { }
         await this.initializeBookmarkAuth();
+        await this.loadRealtimeHighlightPreference();
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
         this.bookmarkStorageHandler = (event) =>
@@ -1452,6 +1519,13 @@ export default {
             const storedTajweed = localStorage.getItem("suratShowTajweed");
             if (storedTajweed !== null)
                 this.showTajweed = storedTajweed === "1";
+        } catch (_) { }
+        try {
+            const storedHighlighting = localStorage.getItem(
+                "suratShowRealtimeHighlighting"
+            );
+            if (storedHighlighting !== null)
+                this.showRealtimeHighlighting = storedHighlighting === "1";
         } catch (_) { }
         Promise.all([
             this.fetchReciters(),
@@ -1540,6 +1614,28 @@ export default {
                 this.bookmarkToast = "";
                 this.bookmarkToastAction = null;
             }, timeout);
+        },
+        async fetchPreference(key) {
+            if (!this.bookmarkAuthenticated) return null;
+            const response = await axios.get(`/api/preferences/${key}`);
+            return response.data?.value ?? null;
+        },
+        async savePreference(key, value) {
+            if (!this.bookmarkAuthenticated) return;
+            try {
+                await axios.put(`/api/preferences/${key}`, { value });
+            } catch (_) { }
+        },
+        async loadRealtimeHighlightPreference() {
+            if (!this.bookmarkAuthenticated) return;
+            try {
+                const pref = await this.fetchPreference(
+                    this.realtimeHighlightPreferenceKey
+                );
+                if (pref && typeof pref.enabled === "boolean") {
+                    this.showRealtimeHighlighting = pref.enabled;
+                }
+            } catch (_) { }
         },
         loadReciterLeadOffsets() {
             try {
@@ -1962,6 +2058,7 @@ export default {
             this.surahInfoText = "";
             this.surahInfoShortText = "";
             this.surahInfoSource = "";
+            this.surahInfoSourceUrl = "";
             this.surahInfoError = "";
             this.surahInfoLoading = true;
             this.surahInfoFontSize =
@@ -2003,6 +2100,11 @@ export default {
                     info.short_text
                 );
                 this.surahInfoSource = info.source || "";
+                this.surahInfoSourceUrl = info.source_url || "";
+                if (!this.surahInfoSource) {
+                    this.surahInfoSource = "Quran.com";
+                    this.surahInfoSourceUrl = "https://quran.com";
+                }
                 this.surahInfoLoading = false;
             } catch (error) {
                 this.surahInfoLoading = false;
@@ -2998,6 +3100,7 @@ export default {
             }
         },
         startHighlightLoop() {
+            if (!this.showRealtimeHighlighting) return;
             if (this._highlightRafId) return;
             const step = () => {
                 if (!this.isAudioPlaying[this.currentlyPlayingIndex]) {
@@ -3224,7 +3327,11 @@ export default {
                 this.isAudioLoading[index] = false;
                 this.isHighlighted = true;
                 this.showAudioPlayer = true;
-                this.startHighlightLoop();
+                if (this.showRealtimeHighlighting) {
+                    this.startHighlightLoop();
+                } else {
+                    this.stopHighlightLoop();
+                }
                 this.animateVisualizer();
                 // Opportunistically warm next ayah
                 this.prepareNextAudio(index + 1);
@@ -5980,6 +6087,13 @@ export default {
     min-width: 220px;
 }
 
+.surah-offcanvas-toggle-group {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
+
 .surah-offcanvas-toggle-inline {
     flex: 0 0 auto;
     display: flex;
@@ -6040,6 +6154,14 @@ export default {
     .surah-offcanvas-play {
         font-size: 0.9rem;
         padding: 9px 10px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .surah-offcanvas-toggle-group {
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
     }
 }
 

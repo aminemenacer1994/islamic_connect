@@ -16,6 +16,7 @@ class UserPreferenceController extends Controller
         'liked_duas',
         'liked_reciters',
         'reciter_recent',
+        'surat_realtime_highlighting',
     ];
 
     public function show(Request $request, string $key)
