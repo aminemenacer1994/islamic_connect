@@ -104,6 +104,11 @@
                 @mouseleave="$event.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,.06)'; $event.currentTarget.style.transform = '';">
                 <div class="d-flex justify-content-between align-items-center p-4 card-teal">
                   <div class="station-info">
+                    <div v-if="loginWarnings[station.id]" class="alert alert-warning station-login-warning" role="alert">
+                      <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+                      <span>{{ loginWarnings[station.id] }}</span>
+                      <a class="station-login-cta" href="/login">Log in</a>
+                    </div>
                     <h5 class="card-title mb-1 fw-bold" :id="'station-title-' + station.id"
                       v-html="highlightSearch(station.name)" style="color:#0b1320"></h5>
                     <p class="text-muted mb-1 fs-sm">
@@ -201,6 +206,11 @@
                 :aria-labelledby="'station-title-' + station.id" :data-station-id="station.id"
                 @keydown="onStationKeydown(station.id, $event)" @focus="focusedStationId = station.id">
                 <div class="card-body">
+                  <div v-if="loginWarnings[station.id]" class="alert alert-warning station-login-warning" role="alert">
+                    <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+                    <span>{{ loginWarnings[station.id] }}</span>
+                    <a class="station-login-cta" href="/login">Log in</a>
+                  </div>
                   <div class="d-flex align-items-center gap-3">
                     <div class="flex-grow-1">
                       <div class="d-flex justify-content-between align-items-start">
@@ -280,8 +290,13 @@
               role="listitem" :tabindex="focusedStationId === station.id ? 0 : -1"
               :aria-labelledby="'station-title-' + station.id" :data-station-id="station.id"
               @keydown="onStationKeydown(station.id, $event)" @focus="focusedStationId = station.id">
-              <div class="card-body">
-                <div class="d-flex align-items-center gap-3">
+                    <div class="card-body">
+                      <div v-if="loginWarnings[station.id]" class="alert alert-warning station-login-warning" role="alert">
+                        <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+                        <span>{{ loginWarnings[station.id] }}</span>
+                        <a class="station-login-cta" href="/login">Log in</a>
+                      </div>
+                      <div class="d-flex align-items-center gap-3">
                   <div class="flex-grow-1">
                     <div class="d-flex justify-content-between align-items-start">
                       <div>
@@ -423,6 +438,8 @@ import { fetchUserIdFromApi, resolveClientUserId } from '../utils/bookmarkAuth';
 
 const storageUserId = ref(resolveClientUserId());
 const isAuthenticated = ref(!!storageUserId.value);
+const loginWarnings = reactive({});
+const warningTimers = {};
 
 const defaultPopularReciters = markRaw([
   {
@@ -1171,8 +1188,22 @@ const initializeVolumes = () => {
   });
 };
 
+const showLoginWarning = (station) => {
+  const stationId = station?.id;
+  if (!stationId) return;
+  loginWarnings[stationId] = 'Please log in to save this station.';
+  if (warningTimers[stationId]) clearTimeout(warningTimers[stationId]);
+  warningTimers[stationId] = setTimeout(() => {
+    delete loginWarnings[stationId];
+    delete warningTimers[stationId];
+  }, 5000);
+};
+
 const toggleLike = (station) => {
-  if (!isAuthenticated.value) return;
+  if (!isAuthenticated.value) {
+    showLoginWarning(station);
+    return;
+  }
   const index = likedStations.value.findIndex((s) => s.id === station.id);
   if (index === -1) {
     likedStations.value.push(station);
@@ -1307,6 +1338,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   clearInterval(listenerInterval);
+  Object.values(warningTimers).forEach((timerId) => clearTimeout(timerId));
   if (observer) observer.disconnect();
 });
 
@@ -1363,6 +1395,44 @@ const playAudio = (index) => {
 /* Optional: make header look clickable */
 .cursor-pointer:hover {
   opacity: 0.9;
+}
+
+.station-login-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 12px;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  background: linear-gradient(135deg, rgba(255, 242, 214, 0.98), rgba(255, 235, 205, 0.92));
+  color: #7a4b00;
+  box-shadow: 0 10px 18px rgba(217, 119, 6, 0.12);
+  font-weight: 600;
+  font-size: 0.92rem;
+  margin-bottom: 0.75rem;
+}
+
+.station-login-warning i {
+  font-size: 1.05rem;
+}
+
+.station-login-cta {
+  margin-left: auto;
+  text-decoration: none;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(122, 75, 0, 0.3);
+  background: #fff7e6;
+  color: #7a4b00;
+  font-weight: 700;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.station-login-cta:hover {
+  background: #fff1cf;
+  color: #6a3f00;
 }
 
 .filters-panel {

@@ -109,6 +109,13 @@
           </a>
         </li>
       </ul>
+      <transition name="fade">
+        <div v-if="authWarning" class="alert alert-warning auth-warning text-center mt-3" role="alert">
+          <i class="bi bi-shield-lock-fill me-2" aria-hidden="true"></i>
+          <span>{{ authWarning }}</span>
+          <a class="auth-warning-cta ms-2" href="/login">Log in</a>
+        </div>
+      </transition>
       <!-- Clear All Liked Duas Button -->
       <div v-if="viewMode === 'liked' && likedDuasCount > 0" class="text-center mt-3">
         <button class="btn btn-outline-danger" :class="{ disabled: likedDuasCount === 0 }" @click="clearAllLikedDuas"
@@ -215,6 +222,11 @@
 
               <!-- Card Body -->
               <div class="card-body d-flex flex-column p-3 p-md-4 text-black">
+                <div v-if="loginWarnings[dua.id]" class="alert alert-warning dua-login-warning" role="alert">
+                  <i class="bi bi-shield-lock-fill me-2" aria-hidden="true"></i>
+                  <span>{{ loginWarnings[dua.id] }}</span>
+                  <a class="auth-warning-cta ms-2" href="/login">Log in</a>
+                </div>
                 <!-- Title with icon -->
                 <div class="dua-card-title-row mb-3">
                   <span class="dua-card-icon" aria-hidden="true">
@@ -348,6 +360,10 @@ export default {
       isAuthenticated: !!initialUserId,
       preferencesLoaded: false,
       likedDuas: [],
+      loginWarnings: {},
+      warningTimers: {},
+      authWarning: '',
+      authWarningTimer: null,
       viewMode: 'all',
       searchTags: [
         'All', 'Forgiveness', 'Protection', 'Gratitude', 'Healing', 'Guidance', 'Patience',
@@ -731,8 +747,38 @@ export default {
       }
       this.currentlyPlayingAudioId = null;
     },
+    showLoginWarning(duaId) {
+      if (!duaId) return;
+      this.loginWarnings = {
+        ...this.loginWarnings,
+        [duaId]: 'Please log in to save this dua.',
+      };
+      if (this.warningTimers[duaId]) {
+        clearTimeout(this.warningTimers[duaId]);
+      }
+      this.warningTimers[duaId] = setTimeout(() => {
+        const next = { ...this.loginWarnings };
+        delete next[duaId];
+        this.loginWarnings = next;
+        delete this.warningTimers[duaId];
+      }, 5000);
+    },
+    showAuthWarning(message = 'Please log in to save your liked duas.') {
+      this.authWarning = message;
+      if (this.authWarningTimer) {
+        clearTimeout(this.authWarningTimer);
+      }
+      this.authWarningTimer = setTimeout(() => {
+        this.authWarning = '';
+        this.authWarningTimer = null;
+      }, 5000);
+    },
     toggleLike(duaId) {
-      if (!this.isAuthenticated) return;
+      if (!this.isAuthenticated) {
+        this.showLoginWarning(duaId);
+        this.showAuthWarning();
+        return;
+      }
       if (!duaId) return;
       const updatedLikedDuas = [...this.likedDuas];
       if (updatedLikedDuas.includes(duaId)) {
@@ -744,7 +790,10 @@ export default {
       this.savePreferences();
     },
     toggleAllInCategory(categoryId) {
-      if (!this.isAuthenticated) return;
+      if (!this.isAuthenticated) {
+        this.showAuthWarning();
+        return;
+      }
       const category = this.duaCollection.find(c => c.id === categoryId);
       if (!category) return;
       this.actionFeedback[categoryId] = true;
@@ -762,7 +811,10 @@ export default {
       }, 1000);
     },
     clearAllLikedDuas() {
-      if (!this.isAuthenticated) return;
+      if (!this.isAuthenticated) {
+        this.showAuthWarning();
+        return;
+      }
       this.actionFeedback['clearAll'] = true;
       this.likedDuas = [];
       this.savePreferences();
@@ -878,6 +930,8 @@ export default {
   beforeDestroy() {
     this.stopAudioPlayback();
     window.removeEventListener('scroll', this.handleScroll);
+    Object.values(this.warningTimers || {}).forEach(timerId => clearTimeout(timerId));
+    if (this.authWarningTimer) clearTimeout(this.authWarningTimer);
   },
 };
 </script>
@@ -896,6 +950,44 @@ export default {
   border-radius: 28px;
   padding: 3rem 1rem 3.5rem;
   box-shadow: 0 35px 70px rgba(11, 38, 34, 0.12);
+}
+
+.auth-warning,
+.dua-login-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  background: linear-gradient(135deg, rgba(255, 242, 214, 0.98), rgba(255, 235, 205, 0.92));
+  color: #7a4b00;
+  box-shadow: 0 10px 18px rgba(217, 119, 6, 0.12);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.dua-login-warning {
+  margin-bottom: 0.8rem;
+}
+
+.auth-warning-cta {
+  margin-left: auto;
+  text-decoration: none;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(122, 75, 0, 0.3);
+  background: #fff7e6;
+  color: #7a4b00;
+  font-weight: 700;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.auth-warning-cta:hover {
+  background: #fff1cf;
+  color: #6a3f00;
 }
 
 .dua-hero {

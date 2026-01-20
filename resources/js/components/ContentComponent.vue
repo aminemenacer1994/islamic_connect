@@ -147,39 +147,6 @@
       </transition>
     </div>
 
-    <!-- Recently Played Section -->
-    <div v-if="recentPlays && recentPlays.length" class="recently-played-section">
-      <div class="section-header">
-        <h2 class="section-title">Recently Played</h2>
-        <p class="section-subtitle">Your recent listening history</p>
-      </div>
-      <div class="podcast-cards-grid border-md" style="padding: 5px;">
-        <div v-for="rp in recentPlays" :key="rp.title + rp.audioUrl + rp.playedAt" class="podcast-card-wrapper">
-          <div :class="['podcast-card', { 'highlighted': isCurrentlyPlaying(rp) }]" style="padding: 1.2rem;">
-            <div class="card-body card-teal">
-              <div class="podcast-card-top">
-                <img v-if="selectedPodcast && selectedPodcast.image" :src="selectedPodcast.image" :alt="selectedPodcast.name" class="episode-avatar" loading="lazy" />
-                <div class="podcast-card-info">
-                  <h4 class="podcast-title">{{ rp.title }}</h4>
-                  <div class="podcast-extra-info">
-                    <span class="lang-badge" :title="'Played at'">
-                      <i class="bi bi-clock" style="font-size:1.1rem;"></i>
-                      {{ new Date(rp.playedAt).toLocaleString() }}
-                    </span>
-                  </div>
-                </div>
-                <div class="audio-controls-inline">
-                  <button class="control-button play-btn" @click="playFromHistory(rp)" title="Play">
-                    <i class="bi bi-play-fill" style="font-size:1.5rem; cursor:pointer;"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Podcast Episodes Section -->
     <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
       <div class="section-header">
@@ -283,6 +250,11 @@
           <div :class="['podcast-card', { 'highlighted': playingIndex === index }]"
                :style="((playingIndex===index)?'outline:2px solid #0bb39a;background:linear-gradient(135deg,#f0fffb 0%,#ddfff5 100%);box-shadow:0 14px 30px rgba(11,179,154,.26),0 1.5px 8px rgba(0,0,0,.06);':'') + 'padding:1.2rem;border-radius:20px;background:linear-gradient(135deg,#ffffff,#eefef9);border:1px solid rgba(11,179,154,.18);box-shadow:0 8px 18px rgba(0,0,0,.08);transition:transform .12s ease-out, box-shadow .12s ease-out'">
             <div class="card-header" :style="'border-bottom:1px solid rgba(0,0,0,.06);padding-bottom:.5rem'">
+              <div v-if="loginWarnings[getEpisodeKey(podcast)]" class="alert alert-warning episode-warning" role="alert">
+                <i class="bi bi-shield-lock-fill" aria-hidden="true"></i>
+                <span class="episode-warning-text">{{ loginWarnings[getEpisodeKey(podcast)] }}</span>
+                <a class="episode-warning-cta" href="/login">Log in</a>
+              </div>
               <div class="podcast-meta" :style="'display:flex;justify-content:space-between;align-items:center;gap:' + (smallScreen? '8px':'16px')">
                 <div class="views-badge" :title="'Views'"
                      :style="'display:flex;align-items:center;gap:8px;padding:' + (smallScreen? '6px 10px':'8px 14px') + ';background:#fff;border-radius:20px;border:1px solid rgba(11,179,154,.18);box-shadow:0 4px 10px rgba(0,0,0,.06)'">
@@ -294,6 +266,7 @@
                   <i class="bi bi-calendar3" :style="'font-size:' + (smallScreen? '1rem':'1.1rem') + ';color:#0bb39a'"></i>
                   <span class="meta-text" :style="'color:#0b1320;font-weight:600'">{{ formatDate(podcast.pubDate) }}</span>
                   <span v-if="isNewEpisode(podcast.pubDate)" class="new-badge" aria-label="New episode">NEW</span>
+                  <span v-if="isEpisodePlayed(podcast)" class="badge bg-success" style="margin-left:6px;">Played</span>
                 </div>
               </div>
             </div>
@@ -389,10 +362,6 @@
                 <option :value="2">2x</option>
               </select>
             </div>
-            <button @click="isPlayerMinimized = !isPlayerMinimized" class="control-btn" :title="isPlayerMinimized ? 'Expand' : 'Minimize'" :aria-pressed="isPlayerMinimized ? 'true' : 'false'" aria-label="Minimize player">
-              <i class="bi" :class="isPlayerMinimized ? 'bi-arrows-angle-expand' : 'bi-arrows-angle-contract'"></i>
-            </button>
-            
             <button @click="closeAudioPlayer" class="control-btn close-btn" title="Close">
               <i class="bi bi-x-lg"></i>
             </button>
@@ -449,7 +418,6 @@ export default {
       // fixed: remove duplicate selectedDateFilter declaration
       selectedPodcast: "",
       lastSelectedPodcastKey: 'content_last_selected_podcast',
-      localFavouritesKey: 'content_podcast_favourites_local',
       continueListening: [],
       volume: 1,
       showVolumeBar: false,
@@ -460,6 +428,11 @@ export default {
       preferencesLoaded: false,
       progressMap: {},
       progressSyncTimer: null,
+      playedEpisodes: {},
+      loginWarnings: {},
+      warningTimers: {},
+      localRecentPlaysKey: 'content_podcast_recent_local',
+      localPlayedKey: 'content_podcast_played_local',
       islamicPodcasts: [
         {
           name: "The Mad Mamluks",
@@ -662,6 +635,8 @@ export default {
       this.recentPlays = this.recentPlays.slice(0, 50);
       if (this.isAuthenticated) {
         this.savePreference('podcast_recent', this.recentPlays);
+      } else {
+        this.saveLocalRecentPlays();
       }
     }
 
@@ -681,6 +656,10 @@ export default {
     // Remove keyboard event listener and disconnect observer
     document.removeEventListener('keydown', this.handleKeydown);
     try { this._infiniteObserver && this._infiniteObserver.disconnect && this._infiniteObserver.disconnect(); } catch (e) {}
+    try {
+      Object.values(this.warningTimers || {}).forEach((t) => clearTimeout(t));
+      this.warningTimers = {};
+    } catch (e) {}
   },
 
   methods: {
@@ -692,8 +671,9 @@ export default {
         await this.loadPreferences();
       } else {
         this.bookmarks = [];
-        this.favourites = this.loadLocalFavourites();
-        this.recentPlays = [];
+        this.favourites = [];
+        this.recentPlays = this.loadLocalRecentPlays();
+        this.playedEpisodes = this.loadLocalPlayed();
         this.progressMap = {};
         this.continueListening = [];
         this.preferencesLoaded = true;
@@ -701,22 +681,25 @@ export default {
     },
     async loadPreferences() {
       try {
-        const [bookmarks, favourites, recent, progress] = await Promise.all([
+        const [bookmarks, favourites, recent, progress, played] = await Promise.all([
           this.fetchPreference('podcast_bookmarks'),
           this.fetchPreference('podcast_favourites'),
           this.fetchPreference('podcast_recent'),
           this.fetchPreference('podcast_progress'),
+          this.fetchPreference('podcast_played'),
         ]);
         this.bookmarks = Array.isArray(bookmarks) ? bookmarks : [];
         this.favourites = Array.isArray(favourites) ? favourites : [];
         this.recentPlays = Array.isArray(recent) ? recent : [];
         this.progressMap = progress && typeof progress === 'object' ? progress : {};
+        this.playedEpisodes = played && typeof played === 'object' ? played : {};
         this.buildContinueListening();
       } catch (e) {
         this.bookmarks = [];
         this.favourites = [];
         this.recentPlays = [];
         this.progressMap = {};
+        this.playedEpisodes = {};
         this.continueListening = [];
       } finally {
         this.preferencesLoaded = true;
@@ -731,17 +714,29 @@ export default {
       if (!this.isAuthenticated) return;
       await axios.put(`/api/preferences/${key}`, { value });
     },
-    loadLocalFavourites() {
+    loadLocalRecentPlays() {
       try {
-        const raw = localStorage.getItem(this.localFavouritesKey);
+        const raw = localStorage.getItem(this.localRecentPlaysKey);
         const parsed = raw ? JSON.parse(raw) : [];
         return Array.isArray(parsed) ? parsed : [];
       } catch (e) {
         return [];
       }
     },
-    saveLocalFavourites() {
-      try { localStorage.setItem(this.localFavouritesKey, JSON.stringify(this.favourites)); } catch (e) {}
+    saveLocalRecentPlays() {
+      try { localStorage.setItem(this.localRecentPlaysKey, JSON.stringify(this.recentPlays)); } catch (e) {}
+    },
+    loadLocalPlayed() {
+      try {
+        const raw = localStorage.getItem(this.localPlayedKey);
+        const parsed = raw ? JSON.parse(raw) : {};
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (e) {
+        return {};
+      }
+    },
+    saveLocalPlayed() {
+      try { localStorage.setItem(this.localPlayedKey, JSON.stringify(this.playedEpisodes)); } catch (e) {}
     },
     queueProgressSync() {
       if (!this.isAuthenticated) return;
@@ -761,6 +756,48 @@ export default {
       const normalized = text.replace(/\s+/g, ' ').trim();
       if (normalized.length <= maxLength) return normalized;
       return normalized.slice(0, maxLength).replace(/\s+$/, '') + '…';
+    },
+    getEpisodeKey(podcast) {
+      return `${podcast?.title || ''}||${podcast?.audioUrl || ''}`;
+    },
+    isEpisodePlayed(podcast) {
+      return !!this.playedEpisodes[this.getEpisodeKey(podcast)];
+    },
+    showLoginWarning(podcast, message) {
+      const key = this.getEpisodeKey(podcast);
+      if (!key) return;
+      this.loginWarnings = { ...this.loginWarnings, [key]: message };
+      if (this.warningTimers[key]) clearTimeout(this.warningTimers[key]);
+      this.warningTimers[key] = setTimeout(() => {
+        const next = { ...this.loginWarnings };
+        delete next[key];
+        this.loginWarnings = next;
+        delete this.warningTimers[key];
+      }, 5000);
+    },
+    markAsPlayed(podcast) {
+      if (!podcast || !podcast.audioUrl) return;
+      const key = this.getEpisodeKey(podcast);
+      const playedAt = Date.now();
+      this.playedEpisodes = { ...this.playedEpisodes, [key]: playedAt };
+      const entry = {
+        title: podcast.title,
+        audioUrl: podcast.audioUrl,
+        pubDate: podcast.pubDate,
+        views: podcast.views,
+        playedAt,
+      };
+      this.recentPlays = [
+        entry,
+        ...this.recentPlays.filter(rp => !(rp.title === podcast.title && rp.audioUrl === podcast.audioUrl)),
+      ].slice(0, 50);
+      if (this.isAuthenticated) {
+        this.savePreference('podcast_played', this.playedEpisodes);
+        this.savePreference('podcast_recent', this.recentPlays);
+      } else {
+        this.saveLocalPlayed();
+        this.saveLocalRecentPlays();
+      }
     },
     cardAccentGradient(podcast) {
       const primary = (podcast && podcast.accentPrimary) || '#ecfdf5';
@@ -1258,6 +1295,7 @@ export default {
     },
     playAudio(index) {
       const podcast = this.visiblePodcasts[index];
+      this.markAsPlayed(podcast);
       // Stop and reset previous
       if (this.currentlyPlaying && this.currentlyPlaying !== this.audioElements[index]) {
         try { this.currentlyPlaying.pause(); } catch (e) {}
@@ -1403,17 +1441,17 @@ export default {
       return this.favourites.some(f => f.title === podcast.title && f.audioUrl === podcast.audioUrl);
     },
     toggleFavourite(podcast) {
+      if (!this.isAuthenticated) {
+        this.showLoginWarning(podcast, 'Please log in to save this episode.');
+        return;
+      }
       const exists = this.isFavourite(podcast);
       if (exists) {
         this.favourites = this.favourites.filter(f => !(f.title === podcast.title && f.audioUrl === podcast.audioUrl));
       } else {
         this.favourites = [{ title: podcast.title, audioUrl: podcast.audioUrl, pubDate: podcast.pubDate, views: podcast.views, likedAt: Date.now() }, ...this.favourites].slice(0, 100);
       }
-      if (this.isAuthenticated) {
-        this.savePreference('podcast_favourites', this.favourites);
-      } else {
-        this.saveLocalFavourites();
-      }
+      this.savePreference('podcast_favourites', this.favourites);
     },
     playFromFavourites(fav) {
       const fullIndex = this.filteredAndSearchedPodcasts.findIndex(p => p.title === fav.title && p.audioUrl === fav.audioUrl);
@@ -1584,6 +1622,47 @@ export default {
 
 .podcast-card-wrapper {
   padding: 10px;
+}
+
+.episode-warning {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 12px;
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  background: linear-gradient(135deg, rgba(255, 242, 214, 0.98), rgba(255, 235, 205, 0.92));
+  color: #7a4b00;
+  box-shadow: 0 10px 18px rgba(217, 119, 6, 0.12);
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.6rem;
+}
+
+.episode-warning i {
+  font-size: 1.1rem;
+}
+
+.episode-warning-text {
+  flex: 1;
+}
+
+.episode-warning-cta {
+  text-decoration: none;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid rgba(122, 75, 0, 0.3);
+  background: #fff7e6;
+  color: #7a4b00;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.episode-warning-cta:hover {
+  background: #fff1cf;
+  color: #6a3f00;
 }
 
 /* Subtle entrance animation for cards */

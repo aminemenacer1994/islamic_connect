@@ -13,6 +13,7 @@ class UserPreferenceController extends Controller
         'podcast_favourites',
         'podcast_recent',
         'podcast_progress',
+        'podcast_played',
         'liked_duas',
         'liked_reciters',
         'reciter_recent',

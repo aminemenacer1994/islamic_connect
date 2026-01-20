@@ -380,6 +380,31 @@
                                                 )
                                             ].text
                                         }}
+                                        <a v-if="
+                                            feedbackMessages[
+                                                buildAyahKey(
+                                                    surahDetails?.surahNumber,
+                                                    item.ayah.numberInSurah ||
+                                                    item.ayah.number
+                                                )
+                                            ].link
+                                        " class="auth-alert-link ms-2" :href="feedbackMessages[
+                                            buildAyahKey(
+                                                surahDetails?.surahNumber,
+                                                item.ayah.numberInSurah ||
+                                                item.ayah.number
+                                            )
+                                        ].link" @click.stop>
+                                            {{
+                                                feedbackMessages[
+                                                    buildAyahKey(
+                                                        surahDetails?.surahNumber,
+                                                        item.ayah.numberInSurah ||
+                                                        item.ayah.number
+                                                    )
+                                                ].linkText || "Log in"
+                                            }}
+                                        </a>
                                     </span>
                                 </transition>
                                 <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
@@ -438,17 +463,27 @@
                                         aria-label="Decrease font size" title="Decrease Font Size">
                                         <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
                                     </button>
-                                    <button class="icon-btn mb-3" :class="{
-                                        'is-saved': isAyahSaved(item.ayah),
-                                    }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                        ? 'Remove bookmark'
-                                        : 'Quick save bookmark'
-                                        ">
-                                        <i class="bi" :class="isAyahSaved(item.ayah)
-                                            ? 'bi-bookmark-check-fill'
-                                            : 'bi-bookmark-plus-fill'
-                                            " aria-hidden="true"></i>
-                                    </button>
+                                    <div class="d-flex align-items-center gap-2 mb-3">
+                                        <button class="icon-btn" :class="{
+                                            'is-saved': isAyahSaved(item.ayah),
+                                        }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
+                                            ? 'Remove bookmark'
+                                            : 'Quick save bookmark'
+                                            ">
+                                            <i class="bi" :class="isAyahSaved(item.ayah)
+                                                ? 'bi-bookmark-check-fill'
+                                                : 'bi-bookmark-plus-fill'
+                                                " aria-hidden="true"></i>
+                                        </button>
+                                        <button class="played-toggle" :class="{
+                                            'is-played': isAyahPlayed(item.ayah),
+                                        }" @click.stop="togglePlayedAyah(item.ayah)" :title="isAyahPlayed(item.ayah)
+                                            ? 'Unmark played'
+                                            : 'Mark as played'
+                                            ">
+                                            {{ isAyahPlayed(item.ayah) ? 'Played' : 'Mark played' }}
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -563,6 +598,16 @@
                                             ? 'bi-bookmark-check-fill'
                                             : 'bi-bookmark-plus-fill'
                                             " style="font-size: 1.6rem" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                                <div class="col text-center" style="padding: 2px">
+                                    <button class="played-toggle" :class="{
+                                        'is-played': isAyahPlayed(item.ayah),
+                                    }" @click.stop="togglePlayedAyah(item.ayah)" :title="isAyahPlayed(item.ayah)
+                                        ? 'Unmark played'
+                                        : 'Mark as played'
+                                        ">
+                                        {{ isAyahPlayed(item.ayah) ? 'Played' : 'Mark played' }}
                                     </button>
                                 </div>
                             </div>
@@ -1085,6 +1130,10 @@ export default {
             savedAyahKeys: {},
             savedAyahsLoaded: false,
             savedAyahClearTimer: null,
+            playedAyahKeys: {},
+            playedAyahsLoaded: false,
+            playedAyahStorageKey: "ic_played_ayahs_session",
+            playedAyahPreferenceKey: "surat_played_ayahs",
             bookmarkStorageUserId: null,
             bookmarkAnonId: null,
             savedAyahStorageKey: "ic_saved_ayahs_session",
@@ -1334,7 +1383,15 @@ export default {
         recitersSorted() {
             if (!Array.isArray(this.reciters)) return [];
             const fav = new Set(this.favoriteReciters);
+            const synced = new Set(
+                this.reciterTimingMap
+                    ? Object.keys(this.reciterTimingMap)
+                    : []
+            );
             return [...this.reciters].sort((a, b) => {
+                const as = synced.has(a.identifier) ? 0 : 1;
+                const bs = synced.has(b.identifier) ? 0 : 1;
+                if (as !== bs) return as - bs;
                 const ap = fav.has(a.identifier) ? 0 : 1;
                 const bp = fav.has(b.identifier) ? 0 : 1;
                 if (ap !== bp) return ap - bp;
@@ -1795,6 +1852,30 @@ export default {
             }
             this.savedAyahsLoaded = true;
         },
+        async loadPlayedAyahs() {
+            if (this.playedAyahsLoaded) return;
+            if (this.bookmarkAuthenticated) {
+                try {
+                    const pref = await this.fetchPreference(
+                        this.playedAyahPreferenceKey
+                    );
+                    this.playedAyahKeys =
+                        pref && typeof pref === "object" ? pref : {};
+                } catch (_) {
+                    this.playedAyahKeys = {};
+                }
+                this.playedAyahsLoaded = true;
+                return;
+            }
+            await this.initializePlayedAyahStorageKey();
+            try {
+                const stored = localStorage.getItem(this.playedAyahStorageKey);
+                this.playedAyahKeys = stored ? JSON.parse(stored) : {};
+            } catch (_) {
+                this.playedAyahKeys = {};
+            }
+            this.playedAyahsLoaded = true;
+        },
         buildAyahMessage(ayah, options = {}) {
             if (!ayah) return "";
             const includeAudio = options.includeAudio !== false;
@@ -1917,9 +1998,11 @@ export default {
             if (!this.bookmarkAuthenticated) {
                 this.savedAyahKeys = {};
                 this.savedAyahsLoaded = true;
+                await this.loadPlayedAyahs();
                 return;
             }
             await this.loadSavedAyahs();
+            await this.loadPlayedAyahs();
             await this.initializeReflectionCacheKey();
             await this.syncSavedAyahsFromApi();
             if (this.bookmarkAuthenticated) {
@@ -1944,6 +2027,14 @@ export default {
         },
         buildAyahKey(surahNumber, ayahNumber) {
             return `${surahNumber}:${ayahNumber}`;
+        },
+        isAyahPlayed(ayah) {
+            if (!ayah || !this.surahDetails) return false;
+            const surahNumber = Number(this.surahDetails.surahNumber);
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            return !!this.playedAyahKeys[
+                this.buildAyahKey(surahNumber, ayahNumber)
+            ];
         },
         isAyahSaved(ayah) {
             if (!ayah || !this.surahDetails) return false;
@@ -1975,11 +2066,26 @@ export default {
                 this.quickSaveBookmark(ayah);
             }
         },
-        triggerAyahFeedback(key, text, cssClass, icon) {
+        async togglePlayedAyah(ayah) {
+            if (!ayah || !this.surahDetails) return;
+            const surahNumber = Number(this.surahDetails.surahNumber);
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            if (!surahNumber || !ayahNumber) return;
+            const key = this.buildAyahKey(surahNumber, ayahNumber);
+            const next = { ...(this.playedAyahKeys || {}) };
+            if (next[key]) {
+                delete next[key];
+            } else {
+                next[key] = Date.now();
+            }
+            this.playedAyahKeys = next;
+            await this.persistPlayedAyahs(next);
+        },
+        triggerAyahFeedback(key, text, cssClass, icon, link = "", linkText = "") {
             // Use reactive assignment
             this.feedbackMessages = {
                 ...this.feedbackMessages,
-                [key]: { text, class: cssClass, icon },
+                [key]: { text, class: cssClass, icon, link, linkText },
             };
 
             setTimeout(() => {
@@ -2619,6 +2725,8 @@ export default {
                 this.bookmarkAuthenticated = true;
                 this.bookmarkStorageUserId = userId;
                 await this.initializeReflectionCacheKey();
+                this.playedAyahsLoaded = false;
+                await this.loadPlayedAyahs();
                 return true;
             }
             this.bookmarkAuthenticated = false;
@@ -2638,8 +2746,10 @@ export default {
             this.triggerAyahFeedback(
                 key,
                 message,
-                "bg-warning text-dark",
-                "warning"
+                "feedback-warning",
+                "warning",
+                "/login",
+                "Log in"
             );
         },
         showAuthAlert(message = "Please log in to access bookmarks & reflections.") {
@@ -2676,6 +2786,32 @@ export default {
             }
             await this.fetchBookmarkStorageUserId();
             this.savedAyahStorageKey = this.buildSavedAyahStorageKey();
+        },
+        async persistPlayedAyahs(next) {
+            if (this.bookmarkAuthenticated) {
+                await this.savePreference(this.playedAyahPreferenceKey, next);
+                return;
+            }
+            try {
+                await this.initializePlayedAyahStorageKey();
+                const key =
+                    this.playedAyahStorageKey || "ic_played_ayahs_session";
+                const payload = JSON.stringify(next);
+                localStorage.setItem(key, payload);
+            } catch (_) {
+                // no-op
+            }
+        },
+        async initializePlayedAyahStorageKey() {
+            if (
+                this.playedAyahStorageKey &&
+                this.playedAyahStorageKey.startsWith("ic_played_ayahs_user_") &&
+                this.bookmarkStorageUserId
+            ) {
+                return;
+            }
+            await this.fetchBookmarkStorageUserId();
+            this.playedAyahStorageKey = this.buildPlayedAyahStorageKey();
         },
         buildReflectionCacheKey() {
             if (this.bookmarkStorageUserId) {
@@ -2762,6 +2898,21 @@ export default {
                 if (!anon) {
                     anon = `anon-${Math.random().toString(36).slice(2)}`;
                     sessionStorage.setItem("ic_saved_ayahs_anon_id", anon);
+                }
+                this.bookmarkAnonId = anon;
+            }
+            return `${base}_anon_${this.bookmarkAnonId}`;
+        },
+        buildPlayedAyahStorageKey() {
+            const base = "ic_played_ayahs";
+            if (this.bookmarkStorageUserId) {
+                return `${base}_user_${this.bookmarkStorageUserId}`;
+            }
+            if (!this.bookmarkAnonId) {
+                let anon = sessionStorage.getItem("ic_played_ayahs_anon_id");
+                if (!anon) {
+                    anon = `anon-${Math.random().toString(36).slice(2)}`;
+                    sessionStorage.setItem("ic_played_ayahs_anon_id", anon);
                 }
                 this.bookmarkAnonId = anon;
             }
@@ -7443,6 +7594,25 @@ h1.display-5 {
     text-align: left;
 }
 
+.feedback-warning {
+    background: rgba(255, 241, 214, 0.95) !important;
+    color: #7a4b00 !important;
+    border: 1px solid rgba(217, 119, 6, 0.35) !important;
+    box-shadow: 0 10px 18px rgba(217, 119, 6, 0.18);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.feedback-warning .auth-alert-link {
+    margin-left: 8px;
+    padding: 4px 10px;
+    font-size: 0.72rem;
+    background: #fff7e6;
+    border-color: rgba(122, 75, 0, 0.3);
+    color: #7a4b00;
+}
+
 /* Reduce motion politely */
 @media (prefers-reduced-motion: reduce) {
     * {
@@ -7655,6 +7825,31 @@ h1.display-5 {
     font-weight: 500;
     font-size: 1.6rem !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.played-toggle {
+    border: 1px solid rgba(14, 116, 144, 0.25);
+    background: #ffffff;
+    color: #0b5568;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 999px;
+    padding: 6px 10px;
+    transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
+    box-shadow: 0 6px 14px rgba(14, 116, 144, 0.12);
+}
+
+.played-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(14, 116, 144, 0.2);
+}
+
+.played-toggle.is-played {
+    background: linear-gradient(135deg, #0e7490 0%, #0b5568 100%);
+    border-color: #0b5568;
+    color: #ffffff;
 }
 
 .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text {
