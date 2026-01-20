@@ -106,7 +106,8 @@
             </div>
             <div class="surah-offcanvas-trigger">
                 <button type="button" class="btn btn-primary surah-offcanvas-toggle icon-only" data-bs-toggle="offcanvas"
-                    data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas">
+                    data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
+                    @click="prepareSettingsDraft">
                     <i class="bi bi-sliders" aria-hidden="true"></i>
                     <span class="visually-hidden">Filters & info</span>
                 </button>
@@ -170,7 +171,7 @@
                                     <label class="form-label surah-offcanvas-label">Tajweed colors</label>
                                     <div class="ml-4 form-check form-switch surah-tajweed-toggle">
                                         <input class="form-check-input" type="checkbox" role="switch"
-                                            id="surahTajweedToggle" v-model="showTajweed" />
+                                            id="surahTajweedToggle" v-model="settingsDraft.showTajweed" />
                                         <label class="form-check-label" for="surahTajweedToggle">
                                             Tajweed colors
                                         </label>
@@ -181,10 +182,21 @@
                                     <div class="ml-4 form-check form-switch surah-tajweed-toggle">
                                         <input class="form-check-input" type="checkbox" role="switch"
                                             id="surahRealtimeHighlightToggle"
-                                            v-model="showRealtimeHighlighting" />
+                                            v-model="settingsDraft.showRealtimeHighlighting" />
                                         <label class="form-check-label"
                                             for="surahRealtimeHighlightToggle">
                                             Realtime color highlighting
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="surah-offcanvas-toggle-inline">
+                                    <label class="form-label surah-offcanvas-label">Word by word translation</label>
+                                    <div class="ml-4 form-check form-switch surah-tajweed-toggle">
+                                        <input class="form-check-input" type="checkbox" role="switch"
+                                            id="surahWordTranslationToggle"
+                                            v-model="settingsDraft.showWordTranslation" />
+                                        <label class="form-check-label" for="surahWordTranslationToggle">
+                                            Word by word translation
                                         </label>
                                     </div>
                                 </div>
@@ -225,44 +237,39 @@
                         </div>
                     </div>
                     <div class="surah-playback-controls">
-                        <div class="surah-tajweed-toggle-wrap surah-tajweed-toggle-inline">
-                            <div class="form-check form-switch surah-tajweed-toggle">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    id="surahTajweedToggleInline" v-model="showTajweed" />
-                                <label class="form-check-label" for="surahTajweedToggleInline">
-                                    Tajweed colors
-                                </label>
-                            </div>
+                        <div class="surah-control-group">
+                            <label class="surah-control-label" for="surahReciterSelect">Reciter</label>
+                            <select id="surahReciterSelect" class="form-select shadow-sm surah-select"
+                                v-model="selectedReciter" aria-label="Select reciter">
+                                <option value="" disabled>Select a reciter</option>
+                                <option v-for="reciter in recitersSorted" :key="reciter.identifier"
+                                    :value="reciter.identifier">
+                                    {{ reciter.englishName }}
+                                </option>
+                            </select>
                         </div>
-                        <div class="surah-tajweed-toggle-wrap surah-tajweed-toggle-inline">
-                            <div class="form-check form-switch surah-tajweed-toggle">
-                                <input class="form-check-input" type="checkbox" role="switch"
-                                    id="surahRealtimeHighlightToggleInline"
-                                    v-model="showRealtimeHighlighting" />
-                                <label class="form-check-label"
-                                    for="surahRealtimeHighlightToggleInline">
-                                    Realtime color highlighting
-                                </label>
-                            </div>
+                        <div class="surah-control-group">
+                            <label class="surah-control-label" for="surahTranslationSelect">Translation</label>
+                            <select id="surahTranslationSelect" class="form-select shadow-sm surah-select"
+                                v-model="selectedTranslation" aria-label="Select translation">
+                                <option value="" disabled>Select Translation</option>
+                                <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                    :value="translation.identifier">
+                                    {{
+                                        `${translation.flag} ${translation.englishName} (${translation.language})`
+                                    }}
+                                </option>
+                            </select>
                         </div>
-                        <select class="form-select shadow-sm surah-select" v-model="selectedReciter"
-                            aria-label="Select reciter">
-                            <option value="" disabled>Select a reciter</option>
-                            <option v-for="reciter in recitersSorted" :key="reciter.identifier"
-                                :value="reciter.identifier">
-                                {{ reciter.englishName }}
-                            </option>
-                        </select>
-                        <select class="form-select shadow-sm surah-select" v-model="selectedTranslation"
-                            aria-label="Select translation">
-                            <option value="" disabled>Select Translation</option>
-                            <option v-for="translation in translationsSorted" :key="translation.identifier"
-                                :value="translation.identifier">
-                                {{
-                                    `${translation.flag} ${translation.englishName} (${translation.language})`
-                                }}
-                            </option>
-                        </select>
+                        <button type="button"
+                            class="icon-btn surah-settings-btn d-none d-md-flex"
+                            data-bs-toggle="modal"
+                            data-bs-target="#surahSettingsModal"
+                            @click="prepareSettingsDraft"
+                            aria-label="Open display settings"
+                            title="Display settings">
+                            <i class="fas fa-cog" aria-hidden="true"></i>
+                        </button>
                         <button v-if="false" type="button" class="btn btn-primary btn-lg surah-play-button"
                             :disabled="!canPlaySurah" @click="playSurahContinuously"
                             aria-label="Play every ayah in this surah">
@@ -281,7 +288,7 @@
                 </button>
                 <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
                     data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
-                    aria-label="Open filters and info">
+                    aria-label="Open filters and info" @click="prepareSettingsDraft">
                     <i class="bi bi-sliders" aria-hidden="true"></i>
                 </button>
                 <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
@@ -475,14 +482,6 @@
                                                 : 'bi-bookmark-plus-fill'
                                                 " aria-hidden="true"></i>
                                         </button>
-                                        <button class="played-toggle" :class="{
-                                            'is-played': isAyahPlayed(item.ayah),
-                                        }" @click.stop="togglePlayedAyah(item.ayah)" :title="isAyahPlayed(item.ayah)
-                                            ? 'Unmark played'
-                                            : 'Mark as played'
-                                            ">
-                                            {{ isAyahPlayed(item.ayah) ? 'Played' : 'Mark played' }}
-                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -598,16 +597,6 @@
                                             ? 'bi-bookmark-check-fill'
                                             : 'bi-bookmark-plus-fill'
                                             " style="font-size: 1.6rem" aria-hidden="true"></i>
-                                    </button>
-                                </div>
-                                <div class="col text-center" style="padding: 2px">
-                                    <button class="played-toggle" :class="{
-                                        'is-played': isAyahPlayed(item.ayah),
-                                    }" @click.stop="togglePlayedAyah(item.ayah)" :title="isAyahPlayed(item.ayah)
-                                        ? 'Unmark played'
-                                        : 'Mark as played'
-                                        ">
-                                        {{ isAyahPlayed(item.ayah) ? 'Played' : 'Mark played' }}
                                     </button>
                                 </div>
                             </div>
@@ -747,6 +736,56 @@
                             <div v-else class="text-muted small">
                                 Surah details are not available yet. Please try again in a moment.
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div class="modal fade" id="surahSettingsModal" tabindex="-1" aria-labelledby="surahSettingsLabel"
+                aria-hidden="true" data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-md modal-modern">
+                    <div class="modal-content surah-settings-modal">
+                        <div class="modal-header">
+                            <h6 class="modal-title" id="surahSettingsLabel">
+                                <b>Display settings</b>
+                            </h6>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="surah-settings-group">
+                                <label class="form-label">Tajweed colors</label>
+                                <select class="form-select" v-model="settingsDraft.showTajweed"
+                                    aria-label="Tajweed colors">
+                                    <option :value="true">On</option>
+                                    <option :value="false">Off</option>
+                                </select>
+                            </div>
+                            <div class="surah-settings-group">
+                                <label class="form-label">Realtime color highlighting</label>
+                                <select class="form-select" v-model="settingsDraft.showRealtimeHighlighting"
+                                    aria-label="Realtime color highlighting">
+                                    <option :value="true">On</option>
+                                    <option :value="false">Off</option>
+                                </select>
+                            </div>
+                            <div class="surah-settings-group">
+                                <label class="form-label">Word by word translation</label>
+                                <select class="form-select" v-model="settingsDraft.showWordTranslation"
+                                    aria-label="Word by word translation">
+                                    <option :value="true">On</option>
+                                    <option :value="false">Off</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer border-0">
+                            <button type="button" class="btn surah-settings-submit"
+                                @click="applySettingsModal"
+                                aria-label="Apply settings">
+                                Search
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -1052,6 +1091,8 @@ export default {
             surahInfoError: "",
             surahInfoModalId: "surahInfoModal",
             surahInfoModalInstance: null,
+            settingsModalId: "surahSettingsModal",
+            settingsModalInstance: null,
             surahInfoFontSize: 16,
             surahInfoFontSizeMin: 14,
             surahInfoFontSizeMax: 22,
@@ -1062,7 +1103,9 @@ export default {
             translationFontSize: 20,
             showTajweed: true,
             showRealtimeHighlighting: true,
+            showWordTranslation: true,
             realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
+            wordTranslationPreferenceKey: "surat_show_word_translation",
             progress: [],
             audioElements: [],
             playbackSpeed: 1.0,
@@ -1131,10 +1174,6 @@ export default {
             savedAyahKeys: {},
             savedAyahsLoaded: false,
             savedAyahClearTimer: null,
-            playedAyahKeys: {},
-            playedAyahsLoaded: false,
-            playedAyahStorageKey: "ic_played_ayahs_session",
-            playedAyahPreferenceKey: "surat_played_ayahs",
             bookmarkStorageUserId: null,
             bookmarkAnonId: null,
             savedAyahStorageKey: "ic_saved_ayahs_session",
@@ -1192,6 +1231,11 @@ export default {
             promptRowCount: 3,
             surahSearchQuery: "",
             sidebarCollapsed: false,
+            settingsDraft: {
+                showTajweed: true,
+                showRealtimeHighlighting: true,
+                showWordTranslation: true,
+            },
             tajweedRuleMap: {
                 h: {
                     en: "Hamzat Wasl",
@@ -1381,15 +1425,28 @@ export default {
             if (!target || !Array.isArray(this.surahs)) return null;
             return this.surahs.find((surah) => Number(surah.number) === target) || null;
         },
+        mainReciterIds() {
+            const primary = this.reciterTimingMap
+                ? Object.keys(this.reciterTimingMap)
+                : [];
+            if (primary.length) return new Set(primary);
+            return new Set(this.favoriteReciters || []);
+        },
         recitersSorted() {
             if (!Array.isArray(this.reciters)) return [];
+            const mainIds = this.mainReciterIds;
+            const reciters = mainIds.size
+                ? this.reciters.filter((reciter) =>
+                    mainIds.has(reciter.identifier)
+                )
+                : this.reciters;
             const fav = new Set(this.favoriteReciters);
             const synced = new Set(
                 this.reciterTimingMap
                     ? Object.keys(this.reciterTimingMap)
                     : []
             );
-            return [...this.reciters].sort((a, b) => {
+            return [...reciters].sort((a, b) => {
                 const as = synced.has(a.identifier) ? 0 : 1;
                 const bs = synced.has(b.identifier) ? 0 : 1;
                 if (as !== bs) return as - bs;
@@ -1592,6 +1649,14 @@ export default {
                 this.startHighlightLoop();
             }
         },
+        showWordTranslation(next) {
+            try {
+                localStorage.setItem(
+                    "suratShowWordTranslation",
+                    next ? "1" : "0"
+                );
+            } catch (_) { }
+        },
     },
     created() {
         // postpone loading until we know the authentication status
@@ -1680,6 +1745,13 @@ export default {
             if (storedHighlighting !== null)
                 this.showRealtimeHighlighting = storedHighlighting === "1";
         } catch (_) { }
+        try {
+            const storedWordTranslation = localStorage.getItem(
+                "suratShowWordTranslation"
+            );
+            if (storedWordTranslation !== null)
+                this.showWordTranslation = storedWordTranslation === "1";
+        } catch (_) { }
         Promise.all([
             this.fetchReciters(),
             this.fetchSurahs(),
@@ -1692,6 +1764,7 @@ export default {
         this.highlightLeadSeconds = this.getReciterLeadOffset(
             this.selectedReciter
         );
+        this.prepareSettingsDraft();
     },
     beforeUnmount() {
         this.isComponentAlive = false;
@@ -1767,6 +1840,28 @@ export default {
                 this.bookmarkToast = "";
                 this.bookmarkToastAction = null;
             }, timeout);
+        },
+        prepareSettingsDraft() {
+            if (!this.settingsDraft) return;
+            this.settingsDraft.showTajweed = !!this.showTajweed;
+            this.settingsDraft.showRealtimeHighlighting = !!this.showRealtimeHighlighting;
+            this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
+        },
+        applySettingsDraft() {
+            if (!this.settingsDraft) return;
+            this.showTajweed = !!this.settingsDraft.showTajweed;
+            this.showRealtimeHighlighting = !!this.settingsDraft.showRealtimeHighlighting;
+            this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
+        },
+        applySettingsModal() {
+            this.applySettingsDraft();
+            const modalEl = document.getElementById(this.settingsModalId);
+            if (!modalEl) return;
+            this.settingsModalInstance =
+                this.settingsModalInstance ||
+                Modal.getInstance(modalEl) ||
+                new Modal(modalEl);
+            this.settingsModalInstance.hide();
         },
         async fetchPreference(key) {
             if (!this.bookmarkAuthenticated) return null;
@@ -1852,30 +1947,6 @@ export default {
                 this.savedAyahKeys = {};
             }
             this.savedAyahsLoaded = true;
-        },
-        async loadPlayedAyahs() {
-            if (this.playedAyahsLoaded) return;
-            if (this.bookmarkAuthenticated) {
-                try {
-                    const pref = await this.fetchPreference(
-                        this.playedAyahPreferenceKey
-                    );
-                    this.playedAyahKeys =
-                        pref && typeof pref === "object" ? pref : {};
-                } catch (_) {
-                    this.playedAyahKeys = {};
-                }
-                this.playedAyahsLoaded = true;
-                return;
-            }
-            await this.initializePlayedAyahStorageKey();
-            try {
-                const stored = localStorage.getItem(this.playedAyahStorageKey);
-                this.playedAyahKeys = stored ? JSON.parse(stored) : {};
-            } catch (_) {
-                this.playedAyahKeys = {};
-            }
-            this.playedAyahsLoaded = true;
         },
         buildAyahMessage(ayah, options = {}) {
             if (!ayah) return "";
@@ -1999,11 +2070,9 @@ export default {
             if (!this.bookmarkAuthenticated) {
                 this.savedAyahKeys = {};
                 this.savedAyahsLoaded = true;
-                await this.loadPlayedAyahs();
                 return;
             }
             await this.loadSavedAyahs();
-            await this.loadPlayedAyahs();
             await this.initializeReflectionCacheKey();
             await this.syncSavedAyahsFromApi();
             if (this.bookmarkAuthenticated) {
@@ -2028,14 +2097,6 @@ export default {
         },
         buildAyahKey(surahNumber, ayahNumber) {
             return `${surahNumber}:${ayahNumber}`;
-        },
-        isAyahPlayed(ayah) {
-            if (!ayah || !this.surahDetails) return false;
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            return !!this.playedAyahKeys[
-                this.buildAyahKey(surahNumber, ayahNumber)
-            ];
         },
         isAyahSaved(ayah) {
             if (!ayah || !this.surahDetails) return false;
@@ -2066,21 +2127,6 @@ export default {
             } else {
                 this.quickSaveBookmark(ayah);
             }
-        },
-        async togglePlayedAyah(ayah) {
-            if (!ayah || !this.surahDetails) return;
-            const surahNumber = Number(this.surahDetails.surahNumber);
-            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
-            if (!surahNumber || !ayahNumber) return;
-            const key = this.buildAyahKey(surahNumber, ayahNumber);
-            const next = { ...(this.playedAyahKeys || {}) };
-            if (next[key]) {
-                delete next[key];
-            } else {
-                next[key] = Date.now();
-            }
-            this.playedAyahKeys = next;
-            await this.persistPlayedAyahs(next);
         },
         triggerAyahFeedback(key, text, cssClass, icon, link = "", linkText = "") {
             // Use reactive assignment
@@ -2726,8 +2772,6 @@ export default {
                 this.bookmarkAuthenticated = true;
                 this.bookmarkStorageUserId = userId;
                 await this.initializeReflectionCacheKey();
-                this.playedAyahsLoaded = false;
-                await this.loadPlayedAyahs();
                 return true;
             }
             this.bookmarkAuthenticated = false;
@@ -2787,32 +2831,6 @@ export default {
             }
             await this.fetchBookmarkStorageUserId();
             this.savedAyahStorageKey = this.buildSavedAyahStorageKey();
-        },
-        async persistPlayedAyahs(next) {
-            if (this.bookmarkAuthenticated) {
-                await this.savePreference(this.playedAyahPreferenceKey, next);
-                return;
-            }
-            try {
-                await this.initializePlayedAyahStorageKey();
-                const key =
-                    this.playedAyahStorageKey || "ic_played_ayahs_session";
-                const payload = JSON.stringify(next);
-                localStorage.setItem(key, payload);
-            } catch (_) {
-                // no-op
-            }
-        },
-        async initializePlayedAyahStorageKey() {
-            if (
-                this.playedAyahStorageKey &&
-                this.playedAyahStorageKey.startsWith("ic_played_ayahs_user_") &&
-                this.bookmarkStorageUserId
-            ) {
-                return;
-            }
-            await this.fetchBookmarkStorageUserId();
-            this.playedAyahStorageKey = this.buildPlayedAyahStorageKey();
         },
         buildReflectionCacheKey() {
             if (this.bookmarkStorageUserId) {
@@ -2899,21 +2917,6 @@ export default {
                 if (!anon) {
                     anon = `anon-${Math.random().toString(36).slice(2)}`;
                     sessionStorage.setItem("ic_saved_ayahs_anon_id", anon);
-                }
-                this.bookmarkAnonId = anon;
-            }
-            return `${base}_anon_${this.bookmarkAnonId}`;
-        },
-        buildPlayedAyahStorageKey() {
-            const base = "ic_played_ayahs";
-            if (this.bookmarkStorageUserId) {
-                return `${base}_user_${this.bookmarkStorageUserId}`;
-            }
-            if (!this.bookmarkAnonId) {
-                let anon = sessionStorage.getItem("ic_played_ayahs_anon_id");
-                if (!anon) {
-                    anon = `anon-${Math.random().toString(36).slice(2)}`;
-                    sessionStorage.setItem("ic_played_ayahs_anon_id", anon);
                 }
                 this.bookmarkAnonId = anon;
             }
@@ -3262,7 +3265,7 @@ export default {
                     const content = useTajweed
                         ? this.formatTajweedText(word)
                         : this.escapeHtml(word);
-                    const translation = wordTranslations.length
+                    const translation = this.showWordTranslation && wordTranslations.length
                         ? this.escapeHtml(
                             this.cleanWordTranslation(
                                 wordTranslations[index] || ""
@@ -4648,6 +4651,7 @@ export default {
             );
         },
         applyOffcanvasFilters() {
+            this.applySettingsDraft();
             const el = this.$refs.surahOffcanvas;
             if (!el || !(window && window.bootstrap && window.bootstrap.Offcanvas)) return;
             const instance = window.bootstrap.Offcanvas.getInstance(el) ||
@@ -4688,6 +4692,45 @@ export default {
 
 .reflection-modal .modal-body {
     padding: 1.6rem 1.8rem 1.5rem;
+}
+
+.surah-settings-modal .modal-body {
+    padding: 1.25rem 1.5rem;
+}
+
+.surah-settings-group {
+    margin-bottom: 1rem;
+}
+
+.surah-settings-submit {
+    background: #0b3d2e;
+    border-color: #0b3d2e;
+    color: #f8fbf9;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+}
+
+.surah-settings-submit:hover,
+.surah-settings-submit:focus-visible {
+    background: #093226;
+    border-color: #093226;
+    color: #ffffff;
+}
+
+.surah-settings-btn {
+    margin-left: 0.35rem;
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+}
+
+.surah-settings-btn i {
+    line-height: 1;
+    font-size: 1.1rem;
 }
 
 .reflection-modal .modal-content {
@@ -6091,11 +6134,27 @@ export default {
 }
 
 .surah-playback-controls {
-    display: grid;
-    grid-template-columns: max-content minmax(200px, 240px) minmax(240px, 300px);
-    align-items: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
     gap: 12px;
     width: auto;
+}
+
+.surah-control-group {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.surah-control-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #5a6b6b;
+    font-weight: 700;
 }
 
 .surah-playback-controls .form-select {
@@ -6662,7 +6721,7 @@ export default {
     padding: 9px 12px;
     background: #0b806f;
     border-color: #0b806f;
-    color: #0a3b35;
+    color: #ffffff;
 }
 
 @media (max-width: 576px) {
@@ -7346,6 +7405,22 @@ export default {
 
 :deep(.ayah-word.highlighted-word .ayah-word-translation) {
     color: #0f6e63;
+}
+
+@media (max-width: 768px) {
+    :deep(.ayah-word) {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        white-space: normal;
+        margin: 0 3px 8px;
+        max-width: min(10ch, 32vw);
+    }
+
+    :deep(.ayah-word-translation) {
+        white-space: normal;
+        word-break: break-word;
+    }
 }
 
 /* Audio Visualizer Styles */
@@ -8099,30 +8174,6 @@ h1.display-5 {
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
-.played-toggle {
-    border: 1px solid rgba(14, 116, 144, 0.25);
-    background: #ffffff;
-    color: #0b5568;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    border-radius: 999px;
-    padding: 6px 10px;
-    transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-    box-shadow: 0 6px 14px rgba(14, 116, 144, 0.12);
-}
-
-.played-toggle:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(14, 116, 144, 0.2);
-}
-
-.played-toggle.is-played {
-    background: linear-gradient(135deg, #0e7490 0%, #0b5568 100%);
-    border-color: #0b5568;
-    color: #ffffff;
-}
 
 .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text {
     align-items: center;

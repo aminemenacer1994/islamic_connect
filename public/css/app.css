@@ -33887,6 +33887,39 @@ to {
 .reflection-modal .modal-body[data-v-828f3036] {
     padding: 1.6rem 1.8rem 1.5rem;
 }
+.surah-settings-modal .modal-body[data-v-828f3036] {
+    padding: 1.25rem 1.5rem;
+}
+.surah-settings-group[data-v-828f3036] {
+    margin-bottom: 1rem;
+}
+.surah-settings-submit[data-v-828f3036] {
+    background: #0b3d2e;
+    border-color: #0b3d2e;
+    color: #f8fbf9;
+    font-weight: 600;
+    padding: 0.6rem 1.4rem;
+}
+.surah-settings-submit[data-v-828f3036]:hover,
+.surah-settings-submit[data-v-828f3036]:focus-visible {
+    background: #093226;
+    border-color: #093226;
+    color: #ffffff;
+}
+.surah-settings-btn[data-v-828f3036] {
+    margin-left: 0.35rem;
+    align-self: flex-end;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+}
+.surah-settings-btn i[data-v-828f3036] {
+    line-height: 1;
+    font-size: 1.1rem;
+}
 .reflection-modal .modal-content[data-v-828f3036] {
     border-radius: 28px;
     overflow: hidden;
@@ -35087,11 +35120,25 @@ to {
     color: #0b5c53;
 }
 .surah-playback-controls[data-v-828f3036] {
-    display: grid;
-    grid-template-columns: max-content minmax(200px, 240px) minmax(240px, 300px);
-    align-items: center;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
     gap: 12px;
     width: auto;
+}
+.surah-control-group[data-v-828f3036] {
+    display: flex;
+    flex: 1 1 0;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.surah-control-label[data-v-828f3036] {
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #5a6b6b;
+    font-weight: 700;
 }
 .surah-playback-controls .form-select[data-v-828f3036] {
     min-width: 0;
@@ -35591,7 +35638,7 @@ to {
     padding: 9px 12px;
     background: #0b806f;
     border-color: #0b806f;
-    color: #0a3b35;
+    color: #ffffff;
 }
 @media (max-width: 576px) {
 .surah-offcanvas-play[data-v-828f3036] {
@@ -36180,6 +36227,20 @@ h4[data-v-828f3036] {
 }
 [data-v-828f3036] .ayah-word.highlighted-word .ayah-word-translation {
     color: #0f6e63;
+}
+@media (max-width: 768px) {
+[data-v-828f3036] .ayah-word {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        white-space: normal;
+        margin: 0 3px 8px;
+        max-width: min(10ch, 32vw);
+}
+[data-v-828f3036] .ayah-word-translation {
+        white-space: normal;
+        word-break: break-word;
+}
 }
 
 /* Audio Visualizer Styles */
@@ -36839,28 +36900,6 @@ h1.display-5[data-v-828f3036] {
     font-weight: 500;
     font-size: 1.6rem !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-}
-.played-toggle[data-v-828f3036] {
-    border: 1px solid rgba(14, 116, 144, 0.25);
-    background: #ffffff;
-    color: #0b5568;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    border-radius: 999px;
-    padding: 6px 10px;
-    transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease;
-    box-shadow: 0 6px 14px rgba(14, 116, 144, 0.12);
-}
-.played-toggle[data-v-828f3036]:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(14, 116, 144, 0.2);
-}
-.played-toggle.is-played[data-v-828f3036] {
-    background: linear-gradient(135deg, #0e7490 0%, #0b5568 100%);
-    border-color: #0b5568;
-    color: #ffffff;
 }
 .ayah-card-container .d-flex.justify-content-between.text-muted.ltr-text[data-v-828f3036] {
     align-items: center;
