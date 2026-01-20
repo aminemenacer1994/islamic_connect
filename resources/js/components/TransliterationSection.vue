@@ -19,6 +19,7 @@
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }">
               {{ expanded ? information.transliteration : information.transliteration }}
             </h4>
+            <p class="transliteration-credit">Transliteration by King Fahd Complex</p>
             <div v-if="!isVisible" class="row collapse pt-3" id="collapseExample">
               <div class="d-flex flex-wrap gap-2 pb-2">
                 <button type="button" class="btn btn-dark btn-sm px-3 py-2" @click="downloadAsCsv">
@@ -696,6 +697,13 @@ export default {
 
 .ayah-translation {
   font-size: 1.2rem;
+}
+
+.transliteration-credit {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 100;
 }
 
 .btn {

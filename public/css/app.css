@@ -6573,6 +6573,12 @@ to { opacity: 1; transform: translateY(0);
 .ayah-translation[data-v-71167b92] {
   font-size: 1.2rem;
 }
+.transliteration-credit[data-v-71167b92] {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 100;
+}
 .btn[data-v-71167b92] {
   display: flex;
   justify-content: flex-end;
@@ -6651,6 +6657,12 @@ to { opacity: 1; transform: translateY(0);
   font-size: 16px;
   color: #333;
   margin-bottom: 20px;
+}
+.translation-credit[data-v-a9f18ac2] {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 100;
 }
 
 /* .btn {
@@ -6881,6 +6893,12 @@ audio[data-v-2fc20ed8] {
 }
 .ayah-translation[data-v-2fc20ed8] {
   font-size: 1.2rem;
+}
+.tafseer-credit[data-v-2fc20ed8] {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 100;
 }
 .btn[data-v-2fc20ed8] {
   display: flex;
@@ -36311,6 +36329,12 @@ h1.display-5[data-v-828f3036] {
     color: #2f3f42;
     border-top: 1px solid rgba(15, 110, 99, 0.12);
     padding-top: 8px;
+}
+.translation-credit[data-v-828f3036] {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 100;
 }
 @media (prefers-color-scheme: dark) {
 .translation-text[data-v-828f3036] {

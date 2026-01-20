@@ -360,6 +360,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return (a.englishName || "").localeCompare(b.englishName || "");
       });
     },
+    currentTranslationName() {
+      if (!Array.isArray(this.translations)) return "Translation";
+      const match = this.translations.find(t => t.identifier === this.selectedTranslation);
+      return (match === null || match === void 0 ? void 0 : match.englishName) || "Translation";
+    },
     totalItems() {
       return Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
     },

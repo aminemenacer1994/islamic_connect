@@ -1213,6 +1213,13 @@ export default {
                 return (a.englishName || "").localeCompare(b.englishName || "");
             });
         },
+        currentTranslationName() {
+            if (!Array.isArray(this.translations)) return "Translation";
+            const match = this.translations.find(
+                (t) => t.identifier === this.selectedTranslation
+            );
+            return match?.englishName || "Translation";
+        },
         totalItems() {
             return Array.isArray(this.filteredAyahs)
                 ? this.filteredAyahs.length
@@ -7030,6 +7037,13 @@ h1.display-5 {
     color: #2f3f42;
     border-top: 1px solid rgba(15, 110, 99, 0.12);
     padding-top: 8px;
+}
+
+.translation-credit {
+    margin: 8px 0 0;
+    font-size: 0.85rem;
+    color: #6b7280;
+    font-weight: 100;
 }
 
 @media (prefers-color-scheme: dark) {

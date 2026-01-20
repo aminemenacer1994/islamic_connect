@@ -18,6 +18,7 @@
           <h4 class="fw-bold pt-2 hide-on-mobile-tablet" v-if="ayah == null && !dropdownHidden">Translation:</h4>
           <h3 class="ayah-translation" style="color:dimgrey;" v-html="renderedText"
             :style="{ fontSize: fontSize + 'em', lineHeight: '1.8em' }"></h3>
+          <p class="translation-credit">Translated by Abdullah Yusuf Ali</p>
 
           <!-- <div class="d-flex align-items-center mt-3">
             <img src="/images/art.png" class="pr-2" width="30px" alt="lamp" loading="lazy" />
@@ -1137,6 +1138,13 @@ export default {
   font-size: 16px;
   color: #333;
   margin-bottom: 20px;
+}
+
+.translation-credit {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 100;
 }
 
 /* .btn {

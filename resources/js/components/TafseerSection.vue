@@ -19,6 +19,7 @@
 
             <h4 class="ayah-translation" v-html="renderedText" style="color:dimgrey;"
               :style="{ fontSize: fontSize + 'em', lineHeight: '1.6em' }"></h4>
+            <p class="tafseer-credit">Tafseer by Tafsir Ibn Kathir</p>
 
             <div v-if="!isVisible" class="row collapse pt-3 pb-2" id="collapseExample">
               <div class="d-flex flex-wrap gap-2 pb-2">
@@ -1132,6 +1133,13 @@ audio {
 
 .ayah-translation {
   font-size: 1.2rem;
+}
+
+.tafseer-credit {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  font-weight: 100;
 }
 
 .btn {
