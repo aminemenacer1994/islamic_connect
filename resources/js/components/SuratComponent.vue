@@ -602,15 +602,23 @@
                             <div v-if="tajweedLegend.length" class="tajweed-rules-grid">
                                 <div v-for="item in tajweedLegend" :key="item.name" class="tajweed-rule-row">
                                     <div class="tajweed-rule-en">
-                                        <span class="tajweed-rule-code">{{ item.code }}</span>
-                                        <span>{{ item.label }}</span>
+                                        <div class="tajweed-rule-title">
+                                            <span class="tajweed-rule-code">{{ item.code }}</span>
+                                            <span class="tajweed-rule-label">{{ item.label }}</span>
+                                        </div>
+                                        <div class="tajweed-rule-desc" v-if="item.desc">
+                                            {{ item.desc }}
+                                        </div>
                                     </div>
                                     <div class="tajweed-rule-color">
                                         <span class="tajweed-swatch" :class="`tajweed-${item.name}`"
                                             aria-hidden="true"></span>
                                     </div>
                                     <div class="tajweed-rule-ar" v-if="item.ar">
-                                        {{ item.ar }}
+                                        <div class="tajweed-rule-ar-title">{{ item.ar }}</div>
+                                        <div class="tajweed-rule-ar-desc" v-if="item.arDesc">
+                                            {{ item.arDesc }}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1135,23 +1143,108 @@ export default {
             surahSearchQuery: "",
             sidebarCollapsed: false,
             tajweedRuleMap: {
-                h: { en: "Hamzat Wasl", ar: "همزة وصل" },
-                l: { en: "Lam Shamsiyyah", ar: "لام شمسية" },
-                n: { en: "Madd Normal", ar: "مد طبيعي" },
-                p: { en: "Madd Permissible", ar: "مد جائز" },
-                m: { en: "Madd Necessary", ar: "مد لازم" },
-                o: { en: "Madd Obligatory", ar: "مد واجب" },
-                a: { en: "Idgham with Ghunnah", ar: "إدغام بغنة" },
-                u: { en: "Idgham without Ghunnah", ar: "إدغام بدون غنة" },
-                g: { en: "Ghunnah", ar: "غنة" },
-                q: { en: "Qalqalah", ar: "قلقلة" },
-                f: { en: "Ikhfa", ar: "إخفاء" },
-                c: { en: "Ikhfa Shafawi", ar: "إخفاء شفوي" },
-                w: { en: "Idgham Shafawi", ar: "إدغام شفوي" },
-                i: { en: "Iqlab", ar: "إقلاب" },
-                d: { en: "Idgham Mutajanisayn", ar: "إدغام متجانسين" },
-                b: { en: "Idgham Mutaqaribayn", ar: "إدغام متقاربين" },
-                s: { en: "Silent", ar: "ساكن" },
+                h: {
+                    en: "Hamzat Wasl",
+                    ar: "همزة وصل",
+                    desc: "Pronounced only when starting the word; dropped when connected.",
+                    arDesc: "تُنطق في بداية الكلمة وتسقط عند الوصل.",
+                },
+                l: {
+                    en: "Lam Shamsiyyah",
+                    ar: "لام شمسية",
+                    desc: "The lam is silent and the next letter is doubled.",
+                    arDesc: "تُسقط اللام ويُشدَّد الحرف الذي بعدها.",
+                },
+                n: {
+                    en: "Madd Normal",
+                    ar: "مد طبيعي",
+                    desc: "Basic stretch of 2 counts.",
+                    arDesc: "مد طبيعي بمقدار حركتين.",
+                },
+                p: {
+                    en: "Madd Permissible",
+                    ar: "مد جائز",
+                    desc: "Stretch 2, 4, or 6 counts when a hamzah comes in the next word.",
+                    arDesc: "يمد ٢ أو ٤ أو ٦ حركات عند وجود همزة في الكلمة التالية.",
+                },
+                m: {
+                    en: "Madd Necessary",
+                    ar: "مد لازم",
+                    desc: "Stretch 6 counts because of a permanent sukun.",
+                    arDesc: "يمد ٦ حركات لوجود سكون لازم.",
+                },
+                o: {
+                    en: "Madd Obligatory",
+                    ar: "مد واجب",
+                    desc: "Stretch 4 or 5 counts when a hamzah is in the same word.",
+                    arDesc: "يمد ٤ أو ٥ حركات لوجود همزة في نفس الكلمة.",
+                },
+                a: {
+                    en: "Idgham with Ghunnah",
+                    ar: "إدغام بغنة",
+                    desc: "Merge the noon or tanwin into the next letter with a nasal sound.",
+                    arDesc: "إدماج النون أو التنوين مع غنة.",
+                },
+                u: {
+                    en: "Idgham without Ghunnah",
+                    ar: "إدغام بدون غنة",
+                    desc: "Merge the noon or tanwin into the next letter without nasal sound.",
+                    arDesc: "إدماج النون أو التنوين بدون غنة.",
+                },
+                g: {
+                    en: "Ghunnah",
+                    ar: "غنة",
+                    desc: "Hold a nasal sound for about 2 counts.",
+                    arDesc: "غنة بمقدار حركتين.",
+                },
+                q: {
+                    en: "Qalqalah",
+                    ar: "قلقلة",
+                    desc: "Give a light echo on ق ط ب ج د when they are sakin.",
+                    arDesc: "قلقلة خفيفة لحروف قطب جد عند السكون.",
+                },
+                f: {
+                    en: "Ikhfa",
+                    ar: "إخفاء",
+                    desc: "Hide the noon or tanwin with a nasal sound before certain letters.",
+                    arDesc: "إخفاء النون أو التنوين مع غنة قبل حروف الإخفاء.",
+                },
+                c: {
+                    en: "Ikhfa Shafawi",
+                    ar: "إخفاء شفوي",
+                    desc: "Lightly hide م before ب with a nasal sound.",
+                    arDesc: "إخفاء الميم قبل الباء مع غنة خفيفة.",
+                },
+                w: {
+                    en: "Idgham Shafawi",
+                    ar: "إدغام شفوي",
+                    desc: "Merge م into the next م with a nasal sound.",
+                    arDesc: "إدغام الميم في الميم مع غنة.",
+                },
+                i: {
+                    en: "Iqlab",
+                    ar: "إقلاب",
+                    desc: "Change noon or tanwin to a hidden م sound before ب.",
+                    arDesc: "قلب النون أو التنوين إلى ميم مخفاة قبل الباء.",
+                },
+                d: {
+                    en: "Idgham Mutajanisayn",
+                    ar: "إدغام متجانسين",
+                    desc: "Merge letters from the same articulation group.",
+                    arDesc: "إدغام حرفين من مخرج واحد.",
+                },
+                b: {
+                    en: "Idgham Mutaqaribayn",
+                    ar: "إدغام متقاربين",
+                    desc: "Merge letters that are close in articulation.",
+                    arDesc: "إدغام حرفين متقاربين في المخرج.",
+                },
+                s: {
+                    en: "Silent",
+                    ar: "ساكن",
+                    desc: "No vowel sound on the letter.",
+                    arDesc: "حرف بلا حركة صوتية.",
+                },
             },
         };
     },
@@ -1173,6 +1266,8 @@ export default {
                     code: name,
                     label: this.tajweedRuleMap[name]?.en || name,
                     ar: this.tajweedRuleMap[name]?.ar || "",
+                    desc: this.tajweedRuleMap[name]?.desc || "",
+                    arDesc: this.tajweedRuleMap[name]?.arDesc || "",
                 }));
         },
         surahInfoSourceLabel() {
@@ -5749,7 +5844,7 @@ export default {
 .tajweed-rule-row {
     display: grid;
     grid-template-columns: minmax(160px, 1fr) auto minmax(140px, 1fr);
-    align-items: center;
+    align-items: start;
     gap: 12px;
     padding: 10px 12px;
     border-radius: 12px;
@@ -5758,11 +5853,17 @@ export default {
 }
 
 .tajweed-rule-en {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 400;
+    color: #0f172a;
+}
+
+.tajweed-rule-title {
     display: inline-flex;
     gap: 8px;
     align-items: center;
-    font-weight: 400;
-    color: #0f172a;
 }
 
 .tajweed-rule-code {
@@ -5779,6 +5880,7 @@ export default {
 .tajweed-rule-color {
     display: flex;
     justify-content: center;
+    align-self: center;
 }
 
 .tajweed-rule-ar {
@@ -5789,9 +5891,26 @@ export default {
     color: #0f4c3e;
 }
 
-.tajweed-rule-en span:last-child {
+.tajweed-rule-ar-title {
     font-size: 1.05rem;
-    font-weight: 400;
+    font-weight: 600;
+}
+
+.tajweed-rule-ar-desc {
+    font-size: 0.9rem;
+    color: #2f5e53;
+    line-height: 1.4;
+}
+
+.tajweed-rule-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.tajweed-rule-desc {
+    font-size: 0.9rem;
+    color: #475569;
+    line-height: 1.4;
 }
 
 @media (max-width: 576px) {
