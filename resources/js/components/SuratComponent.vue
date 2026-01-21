@@ -4,12 +4,7 @@
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
-                <h1 class="display-5 fw-bold">Quran Explorer</h1>
-                <p class="lead">
-                    Explore the Quran in Arabic, accompanied by translations and
-                    recitations from world-renowned Qaris. Listen to beautiful
-                    recitations to deepen your understanding.
-                </p>
+                <h1 class="display-5 fw-bold">The Holy Quran</h1>
             </div>
         </div>
         <!-- <div v-show="showNextStep" class="next-step-wrapper">

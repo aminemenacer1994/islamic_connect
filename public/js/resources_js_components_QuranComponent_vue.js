@@ -4919,7 +4919,7 @@ __webpack_require__.r(__webpack_exports__);
       // Set the desired padding
       targetTranslationElement.style.padding = "10px"; // Adjust this value as needed
 
-      const unwantedElements = ['.icon-container, .settings, .summary, .href, .mobile-only, .bar, .pitch, .rate, .container.text-center, ' + '.custom-icon-play, .bi-rewind-circle-fill, .bi-plus-circle-fill, .bi-dash-circle-fill, ' + '.bi-play-circle-fill, .bi-pause-circle-fill, .bi-stop-circle-fill, .custom-icon-decrease, .word-count'];
+      const unwantedElements = ['.icon-container, .settings, .summary, .href, .mobile-only, .bar, .pitch, .rate, .container.text-center, ' + '.custom-icon-play, .bi-rewind-circle-fill, .bi-plus, .bi-dash, ' + '.bi-play, .bi-pause, .bi-stop, .custom-icon-decrease, .word-count'];
 
       // Function to hide elements
       const hideElements = selectorArray => {

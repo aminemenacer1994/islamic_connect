@@ -69,11 +69,11 @@ export default {
       '.container.text-center', 
       '.custom-icon-play', 
       '.bi-rewind-circle-fill', 
-      '.bi-plus-circle-fill', 
-      '.bi-dash-circle-fill', 
-      '.bi-play-circle-fill', 
-      '.bi-pause-circle-fill', 
-      '.bi-stop-circle-fill', 
+      '.bi-plus', 
+      '.bi-dash', 
+      '.bi-play', 
+      '.bi-pause', 
+      '.bi-stop', 
       '.custom-icon-decrease', 
       '.word-count'
     ];

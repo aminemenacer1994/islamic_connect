@@ -28,7 +28,7 @@ export default {
 
             // Select all the elements you want to hide
             const unwantedElements = document.querySelectorAll(
-                '.icon-container, .href, .mobile-only, .bar, .pitch, .rate, .container.text-center, .custom-icon-play, , .bi-rewind-circle-fill, .bi-play-circle-fill .bi-stop-circle-fill, .custom-icon-decrease'
+                '.icon-container, .href, .mobile-only, .bar, .pitch, .rate, .container.text-center, .custom-icon-play, , .bi-rewind-circle-fill, .bi-play .bi-stop, .custom-icon-decrease'
             );
 
             // Store the original display styles of the elements
