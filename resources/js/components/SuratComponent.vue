@@ -126,20 +126,21 @@
                                         Surah {{ surahDetails.englishName }}
                                     </div>
                                     <div class="sidebar-item" v-for="verse in filteredVersesList" :key="verse.key"
+                                         :class="{ active: currentlyPlayingIndex === (verse.number - 1) }"
                                          @click="selectVerseFromSidebar(verse.number)">
                                          <div class="d-flex w-100 align-items-center">
                                              <div class="item-number-container me-2">
                                                  <span class="item-number">{{ verse.number }}</span>
                                              </div>
-                                             <div class="flex-grow-1 overflow-hidden d-flex align-items-center">
+                                             <div class="flex-grow-1 overflow-hidden d-flex align-items-center py-2">
                                                  <!-- English (Left) (50%) -->
                                                  <div class="items-text-preview text-start text-truncate pe-2 border-end border-white-10" 
-                                                      style="color: #ffffff; font-weight: 700; font-size: 0.9rem; flex: 0 0 50%; max-width: 50%;">
+                                                      style="color: #ffffff; font-weight: 700; font-size: 0.85rem; flex: 0 0 50%; max-width: 50%;">
                                                      {{ verse.translation || 'Loading...' }}
                                                  </div>
                                                  <!-- Arabic (Right) (50%) -->
                                                  <div class="item-title-ar text-end text-truncate ps-2" 
-                                                      style="font-size: 1.1rem; color: #ffffff; font-weight: normal; flex: 0 0 50%; max-width: 50%;">
+                                                      style="font-size: 1.2rem; color: #ffffff; font-weight: normal; flex: 0 0 50%; max-width: 50%; font-family: 'Amiri', serif !important;">
                                                      {{ verse.text }}
                                                  </div>
                                              </div>
@@ -152,10 +153,16 @@
 
                                 <!-- Juz List -->
                                 <div v-if="activeSidebarTab === 'juz'" class="list-group list-group-flush">
-                                    <div class="sidebar-item" v-for="juz in filteredJuzs" :key="juz"
-                                         @click="selectJuz(juz)">
+                                    <div class="sidebar-item" v-for="juz in filteredJuzs" :key="juz.number"
+                                         :class="{ active: selectedJuz === juz.number }"
+                                         @click="selectJuz(juz.number)">
                                          <div class="d-flex w-100 align-items-center justify-content-between">
-                                             <span class="item-title-en">Juz {{ juz }}</span>
+                                             <div class="text-start">
+                                                 <span class="item-title-en">Juz {{ juz.number }}</span>
+                                                 <div class="small text-white-50" style="font-size: 0.75rem;">
+                                                     Starts at: {{ juz.surahName }}:{{ juz.ayahNumber }}
+                                                 </div>
+                                             </div>
                                               <i class="bi bi-chevron-right text-white-50 small"></i>
                                          </div>
                                     </div>
@@ -280,94 +287,98 @@
                     </div>
                 </div>
             </div>
-            <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
-                <div class="surah-toolbar-main">
-                    <div class="surah-title-block">
-                        <span class="surah-eyebrow">Now viewing</span>
-                        <div class="surah-title-row">
-                            <span class="surah-title">
-                                Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
-                                }}
-                            </span>
-                            <button type="button" class="surah-info-inline" @click="openSurahInfo(currentSurahInfo)"
-                                :disabled="!currentSurahInfo" aria-label="View surah information"
-                                title="Surah info">
+            <div class="surah-header-sticky" :class="{ 'is-collapsed': headerCollapsed }">
+                <transition name="header-slide">
+                    <div v-show="!headerCollapsed">
+                        <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
+                            <div class="surah-toolbar-main">
+                                <div class="surah-title-block">
+                                    <span class="surah-eyebrow">Now viewing</span>
+                                    <div class="surah-title-row">
+                                        <span class="surah-title">
+                                            Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
+                                            }}
+                                        </span>
+                                        <button type="button" class="surah-info-inline" @click="openSurahInfo(currentSurahInfo)"
+                                            :disabled="!currentSurahInfo" aria-label="View surah information"
+                                            title="Surah info">
+                                            <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                        </button>
+                                        <span class="surah-dot" aria-hidden="true">•</span>
+                                        <span class="surah-badge">
+                                            {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="surah-playback-controls">
+                                    <div class="surah-control-group">
+                                        <label class="surah-control-label" for="surahReciterSelect">Reciter</label>
+                                        <select id="surahReciterSelect" class="form-select shadow-sm surah-select"
+                                            v-model="selectedReciter" aria-label="Select reciter">
+                                            <option value="" disabled>Select a reciter</option>
+                                            <option v-for="reciter in recitersSorted" :key="reciter.identifier"
+                                                :value="reciter.identifier">
+                                                {{ reciter.englishName }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="surah-control-group">
+                                        <label class="surah-control-label" for="surahTranslationSelect">Translation</label>
+                                        <select id="surahTranslationSelect" class="form-select shadow-sm surah-select"
+                                            v-model="selectedTranslation" aria-label="Select translation">
+                                            <option value="" disabled>Select Translation</option>
+                                            <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                                :value="translation.identifier">
+                                                {{
+                                                    `${translation.flag} ${translation.englishName} (${translation.language})`
+                                                }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <button type="button"
+                                        class="icon-btn surah-settings-btn d-none d-md-flex"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#surahSettingsModal"
+                                        @click="prepareSettingsDraft"
+                                        aria-label="Open display settings"
+                                        title="Display settings">
+                                        <i class="fas fa-cog" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="ayah-links-bar">
+                            <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
+                                data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
+                                <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                <span class="tajweed-rules-label">Tajweed Rules</span>
+                            </button>
+                            <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
+                                data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
+                                aria-label="Open filters and info" @click="prepareSettingsDraft">
+                                <i class="bi bi-sliders" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
+                                @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
+                                aria-label="View surah information" title="Surah info">
                                 <i class="bi bi-info-circle" aria-hidden="true"></i>
                             </button>
-                            <span class="surah-dot" aria-hidden="true">•</span>
-                            <span class="surah-badge">
-                                {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
-                            </span>
+                            <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
+                                <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
+                                View saved bookmarks
+                            </a>
+                            <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
+                                <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
+                                View notes & reflections
+                            </a>
                         </div>
                     </div>
-                    <div class="surah-playback-controls">
-                        <div class="surah-control-group">
-                            <label class="surah-control-label" for="surahReciterSelect">Reciter</label>
-                            <select id="surahReciterSelect" class="form-select shadow-sm surah-select"
-                                v-model="selectedReciter" aria-label="Select reciter">
-                                <option value="" disabled>Select a reciter</option>
-                                <option v-for="reciter in recitersSorted" :key="reciter.identifier"
-                                    :value="reciter.identifier">
-                                    {{ reciter.englishName }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="surah-control-group">
-                            <label class="surah-control-label" for="surahTranslationSelect">Translation</label>
-                            <select id="surahTranslationSelect" class="form-select shadow-sm surah-select"
-                                v-model="selectedTranslation" aria-label="Select translation">
-                                <option value="" disabled>Select Translation</option>
-                                <option v-for="translation in translationsSorted" :key="translation.identifier"
-                                    :value="translation.identifier">
-                                    {{
-                                        `${translation.flag} ${translation.englishName} (${translation.language})`
-                                    }}
-                                </option>
-                            </select>
-                        </div>
-                        <button type="button"
-                            class="icon-btn surah-settings-btn d-none d-md-flex"
-                            data-bs-toggle="modal"
-                            data-bs-target="#surahSettingsModal"
-                            @click="prepareSettingsDraft"
-                            aria-label="Open display settings"
-                            title="Display settings">
-                            <i class="fas fa-cog" aria-hidden="true"></i>
-                        </button>
-                        <button v-if="false" type="button" class="btn btn-primary btn-lg surah-play-button"
-                            :disabled="!canPlaySurah" @click="playSurahContinuously"
-                            aria-label="Play every ayah in this surah">
-                            <i class="bi bi-play-fill me-2" aria-hidden="true"></i>
-                            Play full surah
-                        </button>
-                    </div>
+                </transition>
+                
+                <div class="header-collapse-toggle" @click="toggleHeader">
+                    <i :class="headerCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
                 </div>
-            </div>
-
-            <div class="ayah-links-bar">
-                <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
-                    data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
-                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                    <span class="tajweed-rules-label">Tajweed Rules</span>
-                </button>
-                <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
-                    data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
-                    aria-label="Open filters and info" @click="prepareSettingsDraft">
-                    <i class="bi bi-sliders" aria-hidden="true"></i>
-                </button>
-                <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
-                    @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
-                    aria-label="View surah information" title="Surah info">
-                    <i class="bi bi-info-circle" aria-hidden="true"></i>
-                </button>
-                <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
-                    <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
-                    View saved bookmarks
-                </a>
-                <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
-                    <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
-                    View notes & reflections
-                </a>
             </div>
 
 
@@ -1101,14 +1112,14 @@
                             }"></div>
                         </div>
                     </div>
-                    <!-- <div class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
+                    <div class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
                         <span class="ayah-scrollbar-label">Ayah</span>
                         <input class="ayah-scrollbar-input" type="range" min="1" :max="Math.max(totalItems, 1)"
                             :value="ayahScrubValue" @input="onAyahScrubInput" @change="onAyahScrubChange"
                             :aria-valuemin="1" :aria-valuemax="Math.max(totalItems, 1)" :aria-valuenow="ayahScrubValue"
                             :aria-valuetext="`Ayah ${ayahScrubValue} of ${Math.max(totalItems, 1)}`" />
                         <span class="ayah-scrollbar-count">{{ ayahScrubValue }} / {{ Math.max(totalItems, 1) }}</span>
-                    </div> -->
+                    </div>
                 </div>
             </div>
         </teleport>
@@ -1184,6 +1195,8 @@ export default {
             _boundUp: null,
             wordTimings: [],
             isLoading: false,
+            isNavigating: false, // Prevents scroll conflicts during jumps
+            headerCollapsed: false, // Controls whether the toolbar/links are visible
             continuousPlayback: true, // New data property for playback mode
             visualizerBars: Array(20).fill(10),
             playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
@@ -1297,6 +1310,7 @@ export default {
             surahSearchQuery: "",
             activeSidebarTab: "surah",
             sidebarSearchQuery: "",
+            selectedJuz: null,
             sidebarCollapsed: false,
             settingsDraft: {
                 showTajweed: true,
@@ -1413,10 +1427,29 @@ export default {
         filteredJuzs() {
             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
             const allJuz = Array.from({ length: 30 }, (_, i) => i + 1);
-            if (!query) return allJuz;
-            return allJuz.filter(j => 
-                j.toString().includes(query) || 
-                `juz ${j}`.includes(query)
+            
+            // Map to objects with metadata
+            const juzWithMetadata = allJuz.map(j => {
+                const start = JUZ_START_MAPPING[j];
+                let surahName = "";
+                if (start && this.surahs.length > 0) {
+                    const s = this.surahs.find(s => s.number === start.surah);
+                    surahName = s ? s.englishName : `Surah ${start.surah}`;
+                }
+                return {
+                    number: j,
+                    surahNumber: start ? start.surah : 0,
+                    ayahNumber: start ? start.ayah : 0,
+                    surahName: surahName
+                };
+            });
+
+            if (!query) return juzWithMetadata;
+
+            return juzWithMetadata.filter(j => 
+                j.number.toString().includes(query) || 
+                `juz ${j.number}`.includes(query) ||
+                j.surahName.toLowerCase().includes(query)
             );
         },
         filteredPages() {
@@ -1730,9 +1763,11 @@ export default {
                 if (this.audioElements[i] === undefined)
                     this.audioElements[i] = null;
             // Do not pre-create audio elements; create on-demand for faster starts
-            // Reset virtualization window to top
-            this.visibleStart = 0;
-            this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+            // Reset virtualization window to top ONLY if not navigating
+            if (!this.isNavigating) {
+                this.visibleStart = 0;
+                this.visibleEnd = Math.min(this.windowSize + this.buffer * 2, n);
+            }
             this.ayahScrubValue = Math.min(Math.max(1, this.ayahScrubValue), Math.max(n, 1));
             this.$nextTick(this.updateVirtualWindow);
         },
@@ -3114,6 +3149,11 @@ export default {
             }
         },
         onScrollVirtual() {
+            this.isManualScrolling = true;
+            clearTimeout(this.manualScrollTimer);
+            this.manualScrollTimer = setTimeout(() => {
+                this.isManualScrolling = false;
+            }, 1000);
             this.updateVirtualWindow();
         },
         updateVirtualWindow() {
@@ -3123,7 +3163,10 @@ export default {
                 this.visibleEnd = 0;
                 return;
             }
-            const y = window.scrollY - this.listTop;
+            // Account for the 180px sticky header offset when determining which card is "active" at the top
+            const offset = 180;
+            const y = window.scrollY - this.listTop + offset;
+            
             // If we are at or above the list top, pin to start
             if (window.scrollY <= this.listTop + 5) {
                 this.visibleStart = 0;
@@ -3142,6 +3185,16 @@ export default {
             if (start !== this.visibleStart || end !== this.visibleEnd) {
                 this.visibleStart = start;
                 this.visibleEnd = end;
+                
+                // UX Improvement: Sync sidebar highlights on scroll (if not playing)
+                const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
+                if (!this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex]) {
+                    // Critical: Use a silent update or check isManualScrolling 
+                    // to prevent syncPlaybackScroll from snap-jumping during user scroll.
+                    this.currentlyPlayingIndex = approxIndex;
+                    this.isHighlighted = true;
+                    this.selectedJuz = this.filteredAyahs[approxIndex].juz;
+                }
             }
         },
         syncVirtualWindowAfterSelection() {
@@ -3198,27 +3251,43 @@ export default {
             const total = Array.isArray(this.filteredAyahs)
                 ? this.filteredAyahs.length
                 : 0;
-            if (!total || index < 0 || index >= total) return;
+            if (!total || index < 0 || index >= total) {
+                this.isNavigating = false;
+                return;
+            }
+            
+            // Ensure target is in visible start/end for virtual scroll
             const start = Math.max(0, index - this.buffer);
             const end = Math.min(
                 total,
                 start + this.windowSize + this.buffer * 2
             );
-            this.visibleStart = start;
-            this.visibleEnd = end;
+            
+            if (index < this.visibleStart || index >= this.visibleEnd) {
+                this.visibleStart = start;
+                this.visibleEnd = end;
+            }
+
+            // Reduced nested ticks for an "instant" jump feel
             this.$nextTick(() => {
                 this.computeListTop();
                 this.calibrateItemHeight();
-                this.$nextTick(() => {
-                    const offset = this.isVisible ? 140 : 100;
-                    const targetTop =
-                        this.listTop + index * this.itemHeight - offset;
-                    window.scrollTo({
-                        top: Math.max(0, targetTop),
-                        behavior: "smooth",
-                    });
-                    this.selectCard(index);
+
+                const offset = 180;
+                const targetTop = this.listTop + index * this.itemHeight - offset;
+                
+                window.scrollTo({
+                    top: Math.max(0, targetTop),
+                    behavior: "smooth",
                 });
+
+                this.selectCard(index);
+
+                // Delay resetting the navigation flag to let scrolls settle fully.
+                // 1000ms ensures smooth scroll completes before auto-locking resumes.
+                setTimeout(() => {
+                    this.isNavigating = false;
+                }, 1000);
             });
         },
         // simple localStorage cache with TTL and SWR
@@ -3280,6 +3349,8 @@ export default {
         },
         selectCard(index) {
             this.selectedCardIndex = index;
+            this.currentlyPlayingIndex = index;
+            this.isHighlighted = true;
             // ensure card is visible
             // removed programmatic scrolling
             const verseNum = index + 1;
@@ -4378,6 +4449,8 @@ export default {
                                         lowerText: text.toLowerCase(),
                                         translation: transText,
                                         lowerTranslation: transText.toLowerCase(),
+                                        juz: ayah.juz,
+                                        page: ayah.page,
                                         audio: ayah.audio || "",
                                         words,
                                         tajweedText,
@@ -4470,6 +4543,8 @@ export default {
                                 lowerText: text.toLowerCase(),
                                 translation: transText,
                                 lowerTranslation: transText.toLowerCase(),
+                                juz: ayah.juz,
+                                page: ayah.page,
                                 audio: ayah.audio || "",
                                 words,
                                 tajweedText,
@@ -4602,61 +4677,49 @@ export default {
             this.sidebarSearchQuery = "";
         },
         async selectJuz(juzNumber) {
+            this.isNavigating = true;
+            this.selectedJuz = juzNumber;
             const start = getJuzStart(juzNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
-                await this.selectSurah(start.surah);
-                // Give a tiny tick for UI to stabilize before scrolling
-                this.$nextTick(() => {
-                    this.scrollToAyah(start.ayah - 1);
-                });
+                await this.selectSurah(start.surah, { skipScroll: true });
+                // No search clearing needed here as we are jumping to a specific Juz start
+                this.scrollToAyah(start.ayah - 1);
             }
         },
         async selectPage(pageNumber) {
+            this.isNavigating = true;
             const start = getPageStart(pageNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
-                await this.selectSurah(start.surah);
-                // Give a tiny tick for UI to stabilize before scrolling
-                this.$nextTick(() => {
-                    this.scrollToAyah(start.ayah - 1);
-                });
+                await this.selectSurah(start.surah, { skipScroll: true });
+                this.scrollToAyah(start.ayah - 1);
             } else {
                  console.log("Page navigation mapping incomplete");
+                 this.isNavigating = false;
              }
         },
         selectVerseFromSidebar(verseIndex) {
-            this.scrollToAyah(verseIndex - 1);
+            this.isNavigating = true;
+            // Clear main view search to ensure verse is visible
+            this.searchQuery = "";
+            this.debouncedQuery = "";
+            
+            this.$nextTick(() => {
+                this.scrollToAyahIndex(verseIndex - 1);
+            });
+
             if (this.isMobile && !this.sidebarCollapsed) {
                 this.toggleSidebar();
             }
         },
         scrollToAyah(index) {
-             const elementId = `ayah-card-${index}`;
-             const element = document.getElementById(elementId);
-             
-             this.selectCard(index);
-
-             if (element) {
-                 element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-             } else {
-                 // Virtualized list: jump to estimated position first
-                 this.computeListTop();
-                 const targetY = this.listTop + (index * this.itemHeight) - (window.innerHeight / 2);
-                 window.scrollTo({ top: Math.max(0, targetY), behavior: 'auto' });
-                 
-                 // Now that we've jumped, the virtual viewer should render the cards.
-                 // We wait a tick and then fine-tune.
-                 const retry = () => {
-                     const el = document.getElementById(elementId);
-                     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                 };
-                 this.$nextTick(retry);
-                 setTimeout(retry, 200); 
-             }
+            this.scrollToAyahIndex(index);
         },
-        selectSurah(number) {
+        selectSurah(number, options = {}) {
             return new Promise((resolve, reject) => {
+                const { skipScroll = false } = options;
+                
                 if (String(this.selectedSurah) === String(number) && !this.isLoading) {
                     resolve();
                     return;
@@ -4670,7 +4733,10 @@ export default {
                 // Reset state
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                
+                if (!skipScroll) {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                }
 
                 this.fetchSurahDetails()
                     .then(() => {
@@ -4694,7 +4760,18 @@ export default {
         toggleSidebar() {
             this.sidebarCollapsed = !this.sidebarCollapsed;
         },
+        toggleHeader() {
+            this.headerCollapsed = !this.headerCollapsed;
+            // Recalculate list top after header height change
+            this.$nextTick(() => {
+                this.computeListTop();
+            });
+        },
         syncPlaybackScroll(index) {
+            // If user is manually scrolling or we are in the middle of a nav jump, 
+            // don't force a "snap-back" scroll.
+            if (this.isManualScrolling || this.isNavigating) return;
+
             const now = window.performance ? performance.now() : Date.now();
             if (now - this.lastAutoScrollAt < 400) return;
             this.lastAutoScrollAt = now;
@@ -4708,15 +4785,23 @@ export default {
             );
         },
         onAyahScrubChange(event) {
+            this.isNavigating = true;
             const raw = Number(event.target?.value || 1);
             const targetIndex = Math.min(
                 Math.max(0, raw - 1),
                 Math.max(this.totalItems - 1, 0)
             );
-            this.ayahScrubValue = targetIndex + 1;
-            this.selectCard(targetIndex);
-            this.scrollToAyahIndex(targetIndex);
-            this.playAudio(targetIndex);
+
+            // Clear search filter so the jumped ayah is actually in the DOM
+            this.searchQuery = "";
+            this.debouncedQuery = "";
+
+            this.$nextTick(() => {
+                this.ayahScrubValue = targetIndex + 1;
+                this.selectCard(targetIndex);
+                this.scrollToAyahIndex(targetIndex);
+                this.playAudio(targetIndex);
+            });
         },
         toggleVolume: function () {
             this.showVolumeBar = !this.showVolumeBar;
@@ -6251,22 +6336,65 @@ export default {
     overflow-x: hidden;
 }
 
+.surah-header-sticky {
+    position: sticky;
+    top: var(--nav-offset, 72px);
+    z-index: 900;
+    background: #f8faf9; 
+    padding-bottom: 0;
+    margin-bottom: 12px;
+    border-radius: 0 0 16px 16px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.surah-header-sticky.is-collapsed {
+    padding-bottom: 0;
+}
+
+.header-collapse-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 24px;
+    cursor: pointer;
+    color: #0f6e63;
+    opacity: 0.6;
+    transition: all 0.2s ease;
+    border-top: 1px solid rgba(15, 110, 99, 0.05);
+}
+
+.header-collapse-toggle:hover {
+    opacity: 1;
+    background: rgba(15, 110, 99, 0.03);
+}
+
+/* Header Slide Transition */
+.header-slide-enter-active,
+.header-slide-leave-active {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: 400px;
+    overflow: hidden;
+}
+
+.header-slide-enter-from,
+.header-slide-leave-to {
+    max-height: 0;
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
 .surah-toolbar {
     display: flex;
     flex-direction: column;
     gap: 8px;
-    margin-bottom: 10px;
-    padding: 12px 16px;
+    padding: 10px 16px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(238, 247, 244, 0.72));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(245, 250, 248, 1));
     border: 1px solid rgba(15, 110, 99, 0.16);
-    box-shadow: 0 14px 26px rgba(15, 53, 48, 0.08);
-    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(15, 53, 48, 0.05);
     position: relative;
     overflow: visible;
-    position: sticky;
-    top: var(--nav-offset, 72px);
-    z-index: 900;
 }
 
 .surah-toolbar::before {
@@ -6294,7 +6422,7 @@ export default {
 .surah-toolbar-main {
     display: grid;
     grid-template-columns: minmax(240px, 1fr) auto;
-    align-items: center;
+    align-items: start;
     gap: 16px;
 }
 
@@ -6303,13 +6431,13 @@ export default {
 }
 
 .surah-eyebrow {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 0.16em;
     text-transform: uppercase;
     color: #5a6b6b;
     font-weight: 700;
     background: rgba(15, 110, 99, 0.1);
-    padding: 4px 8px;
+    padding: 2px 8px;
     border-radius: 999px;
     width: fit-content;
 }
@@ -7325,6 +7453,7 @@ export default {
     }
 
     .arabic-text {
+        font-family: 'Amiri', serif !important;
         font-size: 1.7rem !important;
         /* line-height: 5.8vh; */
     }
@@ -7823,6 +7952,7 @@ h1.display-5 {
 
 /* Arabic/translation rhythm and contrast */
 .arabic-text {
+    font-family: 'Amiri', serif !important;
     color: #123532;
     line-height: 1.9;
 }
@@ -8194,6 +8324,7 @@ h1.display-5 {
 
 /* Translation and Arabic text subtle contrast */
 .arabic-text {
+    font-family: 'Amiri', serif !important;
     color: #0a2e2a;
 }
 
@@ -8210,6 +8341,7 @@ h1.display-5 {
 
 /* Ayah card polish: typography, layout, toolbar */
 .ayah-card-container .arabic-text {
+    font-family: 'Amiri', serif !important;
     line-height: 2.1;
     letter-spacing: 0.2px;
     color: #082b27;
@@ -8537,9 +8669,14 @@ h1.display-5 {
     color: #f3f4f6;
 }
 
+.sidebar-item.active {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-left: 3px solid #22c55e;
+}
+
 .item-title-ar {
-    /* font-family: inherit; removed to use original font */
-    font-size: 1.1rem;
+    font-family: 'Amiri', serif !important;
+    font-size: 1.25rem;
     font-weight: normal;
     color: #e5e7eb;
 }
