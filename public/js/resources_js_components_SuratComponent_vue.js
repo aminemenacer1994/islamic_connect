@@ -509,6 +509,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     totalItems() {
       return Array.isArray(this.filteredAyahs) ? this.filteredAyahs.length : 0;
     },
+    currentHeaderOffset() {
+      // Precise pixel calculations for the sticky header in both states
+      return this.headerCollapsed ? 40 : 180;
+    },
     visibleWindow() {
       const start = Math.max(0, Math.min(this.visibleStart, this.totalItems));
       const end = Math.max(start, Math.min(this.visibleEnd, this.totalItems));
@@ -1815,8 +1819,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.visibleEnd = 0;
         return;
       }
-      // Account for the 180px sticky header offset when determining which card is "active" at the top
-      const offset = 180;
+      // Account for the dynamic sticky header offset when determining which card is "active" at the top
+      const offset = this.currentHeaderOffset;
       const y = window.scrollY - this.listTop + offset;
 
       // If we are at or above the list top, pin to start
@@ -1900,7 +1904,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.$nextTick(() => {
         this.computeListTop();
         this.calibrateItemHeight();
-        const offset = 180;
+        const offset = this.currentHeaderOffset;
         const targetTop = this.listTop + index * this.itemHeight - offset;
         window.scrollTo({
           top: Math.max(0, targetTop),

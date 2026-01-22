@@ -1639,6 +1639,10 @@ export default {
                 ? this.filteredAyahs.length
                 : 0;
         },
+        currentHeaderOffset() {
+            // Precise pixel calculations for the sticky header in both states
+            return this.headerCollapsed ? 40 : 180;
+        },
         visibleWindow() {
             const start = Math.max(
                 0,
@@ -3163,8 +3167,8 @@ export default {
                 this.visibleEnd = 0;
                 return;
             }
-            // Account for the 180px sticky header offset when determining which card is "active" at the top
-            const offset = 180;
+            // Account for the dynamic sticky header offset when determining which card is "active" at the top
+            const offset = this.currentHeaderOffset;
             const y = window.scrollY - this.listTop + offset;
             
             // If we are at or above the list top, pin to start
@@ -3273,7 +3277,7 @@ export default {
                 this.computeListTop();
                 this.calibrateItemHeight();
 
-                const offset = 180;
+                const offset = this.currentHeaderOffset;
                 const targetTop = this.listTop + index * this.itemHeight - offset;
                 
                 window.scrollTo({
@@ -6340,11 +6344,11 @@ export default {
     position: sticky;
     top: var(--nav-offset, 72px);
     z-index: 900;
-    background: #f8faf9; 
+    background: transparent; 
     padding-bottom: 0;
     margin-bottom: 12px;
     border-radius: 0 0 16px 16px;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    box-shadow: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -6361,7 +6365,7 @@ export default {
     color: #0f6e63;
     opacity: 0.6;
     transition: all 0.2s ease;
-    border-top: 1px solid rgba(15, 110, 99, 0.05);
+    border-top: none;
 }
 
 .header-collapse-toggle:hover {
@@ -6390,7 +6394,8 @@ export default {
     gap: 8px;
     padding: 10px 16px;
     border-radius: 12px;
-    background: linear-gradient(135deg, rgba(255, 255, 255, 1), rgba(245, 250, 248, 1));
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(245, 250, 248, 0.5));
+    backdrop-filter: blur(8px);
     border: 1px solid rgba(15, 110, 99, 0.16);
     box-shadow: 0 4px 12px rgba(15, 53, 48, 0.05);
     position: relative;
@@ -8634,7 +8639,7 @@ h1.display-5 {
 
 /* List Items */
 .sidebar-item {
-    padding: 12px 16px;
+    padding: 8px 16px;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Dark divider */
     cursor: pointer;
     transition: background 0.15s;
