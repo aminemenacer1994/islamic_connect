@@ -5622,24 +5622,25 @@ export default {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 8px 14px;
+    padding: 7px 18px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    background: rgba(255, 255, 255, 0.16);
-    color: #ffffff;
+    border: 1px solid rgba(15, 110, 99, 0.15);
+    background: rgba(15, 110, 99, 0.04);
+    color: #127a6f;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 14px 24px rgba(10, 30, 28, 0.35);
-    transition: transform 0.2s ease, box-shadow 0.2s ease,
-        border-color 0.2s ease;
+    box-shadow: 0 4px 12px rgba(15, 110, 99, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     white-space: nowrap;
+    font-size: 0.88rem;
 }
 
 .bookmark-cta-link:hover {
-    transform: translateY(-1px);
-    border-color: rgba(255, 255, 255, 0.45);
-    box-shadow: 0 18px 30px rgba(10, 30, 28, 0.45);
-    color: #ffffff;
+    background: rgba(15, 110, 99, 0.08);
+    border-color: rgba(15, 110, 99, 0.4);
+    color: #0d544c;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(15, 110, 99, 0.14);
 }
 
 .notes-cta-link {
@@ -6356,15 +6357,29 @@ export default {
     position: sticky;
     top: var(--nav-offset, 72px);
     z-index: 900;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    padding: 12px 16px 4px 16px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(15, 110, 99, 0.1);
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(20px) saturate(200%);
+    -webkit-backdrop-filter: blur(20px) saturate(200%);
+    padding: 14px 20px 6px 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(15, 110, 99, 0.08);
+    border-left: 4px solid #0f6e63;
+    border-radius: 0 0 24px 24px;
+    box-shadow: 
+        0 10px 40px -10px rgba(15, 53, 48, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.surah-header-sticky::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+    z-index: 1;
 }
 
 .surah-header-sticky.is-collapsed {
@@ -6451,14 +6466,16 @@ export default {
 
 .surah-eyebrow {
     font-size: 0.65rem;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: #5a6b6b;
-    font-weight: 700;
-    background: rgba(15, 110, 99, 0.1);
-    padding: 2px 8px;
+    color: #1a4d46;
+    font-weight: 800;
+    background: rgba(15, 110, 99, 0.08);
+    padding: 3px 10px;
     border-radius: 999px;
     width: fit-content;
+    border: 1px solid rgba(15, 110, 99, 0.12);
+    margin-bottom: 2px;
 }
 
 .surah-title-row {
@@ -6469,9 +6486,13 @@ export default {
 }
 
 .surah-title {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #153532;
+    font-size: 1.45rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, #0f3531 0%, #0f6e63 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -0.02em;
 }
 
 .surah-dot {
@@ -6480,14 +6501,17 @@ export default {
 }
 
 .surah-badge {
-    font-size: 0.72rem;
-    font-weight: 700;
+    font-size: 0.68rem;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    padding: 4px 8px;
+    letter-spacing: 0.12em;
+    padding: 4px 12px;
     border-radius: 999px;
-    background: rgba(15, 110, 99, 0.16);
-    color: #0b5c53;
+    background: rgba(15, 110, 99, 0.06);
+    color: #127a6f;
+    border: 1px solid rgba(15, 110, 99, 0.15);
+    display: inline-flex;
+    align-items: center;
 }
 
 .surah-playback-controls {
@@ -6520,19 +6544,25 @@ export default {
 }
 
 .surah-playback-controls .surah-select {
-    height: 40px;
-    padding: 6px 12px;
-    border-radius: 8px;
-    border-color: rgba(15, 110, 99, 0.18);
-    box-shadow: 0 6px 12px rgba(15, 53, 48, 0.08);
-    background-color: #ffffff;
-    color: #153532;
-    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    height: 42px;
+    padding: 6px 16px;
+    border-radius: 12px;
+    border: 1.5px solid rgba(15, 110, 99, 0.12);
+    box-shadow: 0 4px 12px rgba(15, 53, 48, 0.04);
+    background-color: rgba(255, 255, 255, 0.85);
+    color: #0f3531;
+    font-weight: 600;
+    font-size: 0.92rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
 }
 
 .surah-playback-controls .surah-select:focus {
-    border-color: rgba(15, 110, 99, 0.4);
-    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.14);
+    border-color: rgba(15, 110, 99, 0.45);
+    box-shadow: 0 12px 24px rgba(15, 53, 48, 0.14);
+    background-color: #ffffff;
+    outline: none;
+    transform: translateY(-1px) scale(1.01);
 }
 
 .surah-playback-controls .surah-select option,
@@ -6569,18 +6599,18 @@ export default {
 }
 
 .tajweed-rules-trigger {
-    height: 40px;
-    width: auto;
-    border-radius: 12px;
-    padding: 0 12px;
+    height: 38px;
+    border-radius: 999px;
+    padding: 0 18px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    background: rgba(11, 92, 83, 0.12);
-    border: 1px solid rgba(11, 92, 83, 0.25);
-    color: #0b5c53;
-    box-shadow: 0 10px 18px rgba(11, 92, 83, 0.12);
+    gap: 10px;
+    background: rgba(15, 110, 99, 0.04);
+    border: 1px solid rgba(15, 110, 99, 0.15);
+    color: #127a6f;
+    box-shadow: 0 4px 12px rgba(15, 110, 99, 0.06);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .tajweed-rules-label {
@@ -6591,9 +6621,11 @@ export default {
 }
 
 .tajweed-rules-trigger:hover {
-    background: rgba(11, 92, 83, 0.18);
-    border-color: rgba(11, 92, 83, 0.35);
-    color: #08433e;
+    background: rgba(15, 110, 99, 0.08);
+    border-color: rgba(15, 110, 99, 0.4);
+    color: #0d544c;
+    transform: translateY(-3px) scale(1.03);
+    box-shadow: 0 12px 24px rgba(15, 110, 99, 0.14);
 }
 
 .surah-offcanvas-inline {
