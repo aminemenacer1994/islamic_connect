@@ -4604,24 +4604,24 @@ export default {
         async selectJuz(juzNumber) {
             const start = getJuzStart(juzNumber);
             if (start) {
-                if (String(this.selectedSurah) !== String(start.surah)) {
-                   await this.selectSurah(start.surah);
-                }
-                setTimeout(() => {
-                     this.scrollToAyah(start.ayah - 1);
-                }, 500); 
+                // Ensure surah is loaded first (selectSurah returns a promise)
+                await this.selectSurah(start.surah);
+                // Give a tiny tick for UI to stabilize before scrolling
+                this.$nextTick(() => {
+                    this.scrollToAyah(start.ayah - 1);
+                });
             }
         },
         async selectPage(pageNumber) {
-             const start = getPageStart(pageNumber);
-             if (start) {
-                 if (String(this.selectedSurah) !== String(start.surah)) {
-                    await this.selectSurah(start.surah);
-                 }
-                 setTimeout(() => {
-                      this.scrollToAyah(start.ayah - 1);
-                 }, 500);
-             } else {
+            const start = getPageStart(pageNumber);
+            if (start) {
+                // Ensure surah is loaded first (selectSurah returns a promise)
+                await this.selectSurah(start.surah);
+                // Give a tiny tick for UI to stabilize before scrolling
+                this.$nextTick(() => {
+                    this.scrollToAyah(start.ayah - 1);
+                });
+            } else {
                  console.log("Page navigation mapping incomplete");
              }
         },
@@ -4634,22 +4634,56 @@ export default {
         scrollToAyah(index) {
              const elementId = `ayah-card-${index}`;
              const element = document.getElementById(elementId);
+             
+             this.selectCard(index);
+
              if (element) {
                  element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                 this.selectCard(index);
              } else {
-                 this.selectCard(index);
+                 // Virtualized list: jump to estimated position first
+                 this.computeListTop();
+                 const targetY = this.listTop + (index * this.itemHeight) - (window.innerHeight / 2);
+                 window.scrollTo({ top: Math.max(0, targetY), behavior: 'auto' });
+                 
+                 // Now that we've jumped, the virtual viewer should render the cards.
+                 // We wait a tick and then fine-tune.
                  const retry = () => {
                      const el = document.getElementById(elementId);
                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
                  };
                  this.$nextTick(retry);
-                 setTimeout(retry, 500); // Retry fallback
+                 setTimeout(retry, 200); 
              }
         },
         selectSurah(number) {
-            this.selectedSurah = String(number);
-            window.scrollTo({ top: 0, behavior: "smooth" });
+            return new Promise((resolve, reject) => {
+                if (String(this.selectedSurah) === String(number) && !this.isLoading) {
+                    resolve();
+                    return;
+                }
+
+                // Set loading true to bypass watcher
+                this.isLoading = true;
+                this.selectedSurah = String(number);
+                this.savePreference("selectedSurah", this.selectedSurah);
+                
+                // Reset state
+                this.currentlyPlayingIndex = 0;
+                this.isHighlighted = false;
+                window.scrollTo({ top: 0, behavior: "smooth" });
+
+                this.fetchSurahDetails()
+                    .then(() => {
+                        this.resetAllAudioPlayers();
+                        this.isLoading = false;
+                        this.syncVirtualWindowAfterSelection();
+                        resolve();
+                    })
+                    .catch((error) => {
+                        this.isLoading = false;
+                        reject(error);
+                    });
+            });
         },
         selectReciter(identifier) {
             this.selectedReciter = identifier;
