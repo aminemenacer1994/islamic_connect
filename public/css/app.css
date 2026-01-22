@@ -36955,6 +36955,116 @@ h1.display-5[data-v-828f3036] {
 }
 }
 
+/* Sidebar Dark Theme Overrides */
+.sidebar-dark-content[data-v-828f3036] {
+    background-color: #111827; /* Dark Slate as base */
+    color: #ffffff;
+    height: 100%;
+}
+.sticky-dropdown[data-v-828f3036] {
+    /* Ensure the dropdown container takes style cues or at least doesn't overflow */
+    padding: 0 !important;
+    overflow: hidden;
+    background-color: #111827 !important; /* Force dark background on container */
+    border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* Tabs */
+.sidebar-tabs .tab-btn[data-v-828f3036] {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+.sidebar-tabs .tab-btn[data-v-828f3036]:hover {
+    color: #ffffff;
+}
+.sidebar-tabs .tab-btn.active[data-v-828f3036] {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+
+/* Search Input */
+.sidebar-search-input[data-v-828f3036] {
+    background: rgba(255, 255, 255, 0.08) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border-radius: 6px;
+    padding: 10px 12px;
+}
+.sidebar-search-input[data-v-828f3036]::-moz-placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+.sidebar-search-input[data-v-828f3036]::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+.sidebar-search-input[data-v-828f3036]:focus {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* List Items */
+.sidebar-item[data-v-828f3036] {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Dark divider */
+    cursor: pointer;
+    transition: background 0.15s;
+    color: #ffffff;
+}
+.sidebar-item[data-v-828f3036]:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+.sidebar-item.active[data-v-828f3036] {
+    background: rgba(255, 255, 255, 0.15);
+}
+.item-number[data-v-828f3036] {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    width: 28px;
+    text-align: center;
+}
+.item-title-en[data-v-828f3036] {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f3f4f6;
+}
+.item-title-ar[data-v-828f3036] {
+    font-family: inherit; 
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: #e5e7eb;
+}
+.item-meta[data-v-828f3036] {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+.items-text-preview[data-v-828f3036] {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+.list-group-flush .sidebar-item[data-v-828f3036]:last-child {
+    border-bottom: none;
+}
+.filter-header[data-v-828f3036], .sidebar-toggle[data-v-828f3036] {
+    /* Hide or style original header elements if they conflict, 
+       but we are inside .surah-list so scope is limited */
+}
+
+/* Utility */
+.border-white-10[data-v-828f3036] {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+.opacity-50[data-v-828f3036] { opacity: 0.5;
+}
+.hover-opacity-100[data-v-828f3036]:hover { opacity: 1;
+}
+
 
 .bookmark-manager[data-v-144e09ac] {
     padding: 1.5rem 1.25rem;

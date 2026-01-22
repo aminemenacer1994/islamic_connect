@@ -68,30 +68,88 @@
                     <span class="sidebar-toggle-label" v-if="!sidebarCollapsed">Collapse sidebar</span>
                 </div>
                 <div id="surat-filters" class="row g-3" v-show="isVisible && !sidebarCollapsed">
-                    <div class="col-12 col-md-12 filter-item surah-list">
-                        <div class="surah-search">
-                            <input type="search" class="form-control surah-search-input" v-model="surahSearchQuery"
-                                placeholder="Search surah (English or Arabic)"
-                                aria-label="Search surah by English or Arabic name" />
-                        </div>
+                    <div class="col-12 col-md-12 filter-item surah-list p-0">
+                         <!-- Dark Sidebar Content -->
+                        <div class="sidebar-dark-content d-flex flex-column h-100">
+                            
+                            <!-- Sidebar Header: Tabs & Search -->
+                            <div class="sidebar-header pt-3 px-3 pb-2">
+                                <!-- Navigation Tabs -->
+                                <div class="sidebar-tabs d-flex gap-2 mb-3">
+                                    <button class="tab-btn flex-fill" 
+                                        :class="{ active: activeSidebarTab === 'surah' }"
+                                        @click="setActiveSidebarTab('surah')">Surah</button>
+                                    <button class="tab-btn flex-fill" 
+                                        :class="{ active: activeSidebarTab === 'verse' }"
+                                        @click="setActiveSidebarTab('verse')">Verse</button>
+                                    <button class="tab-btn flex-fill" 
+                                        :class="{ active: activeSidebarTab === 'juz' }"
+                                        @click="setActiveSidebarTab('juz')">Juz</button>
+                                </div>
 
-                        <div class="filter-list">
-                            <div class="filter-option" v-for="surah in filteredSurahs" :key="surah.number"
-                                :class="{ active: String(selectedSurah) === String(surah.number) }"
-                                role="button" tabindex="0" @click="selectSurah(surah.number)"
-                                @keydown.enter.prevent="selectSurah(surah.number)"
-                                @keydown.space.prevent="selectSurah(surah.number)"
-                                :aria-pressed="String(selectedSurah) === String(surah.number)">
-                                <span class="filter-option-number">{{ surah.number }}</span>
-                                <span class="filter-option-title">{{ surah.englishName }}</span>
-                                <span class="filter-option-meta">
-                                    {{ surah.numberOfAyahs }} ayahs · {{ surah.revelationType }}
-                                </span>
-                                <span class="filter-option-subtitle">{{ surah.name }}</span>
-                                <button type="button" class="surah-info-btn" @click.stop="openSurahInfo(surah)"
-                                    :aria-label="`View information for ${surah.englishName}`" title="Surah info">
-                                    <i class="bi bi-info-circle" aria-hidden="true"></i>
-                                </button>
+                                <!-- Search Input -->
+                                <div class="search-container">
+                                    <input type="search" class="form-control sidebar-search-input" 
+                                        v-model="sidebarSearchQuery"
+                                        :placeholder="`Search ${activeSidebarTab}...`"
+                                        aria-label="Search content" />
+                                </div>
+                            </div>
+
+                            <!-- Lists Container -->
+                            <div class="sidebar-list-container flex-grow-1 px-0 pb-5">
+                                
+                                <!-- Surah List -->
+                                <div v-if="activeSidebarTab === 'surah'" class="list-group list-group-flush">
+                                    <div class="sidebar-item" v-for="surah in filteredSurahs_sidebar" :key="surah.number"
+                                        :class="{ active: String(selectedSurah) === String(surah.number) }"
+                                        role="button" @click="selectSurah(surah.number)">
+                                        <div class="d-flex align-items-center w-100">
+                                            <span class="item-number me-3">{{ surah.number }}</span>
+                                            <div class="flex-grow-1 text-start">
+                                                <div class="item-title-en">{{ surah.englishName }}</div>
+                                            </div>
+                                            <!-- Arabic Name aligned right -->
+                                            <div class="item-title-ar ms-2 me-2">{{ surah.name }}</div>
+                                            <!-- Info Button inline -->
+                                            <button type="button" class="btn btn-link text-white p-0 ms-1 opacity-50 hover-opacity-100" 
+                                                @click.stop="openSurahInfo(surah)">
+                                                <i class="bi bi-info-circle"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Verse List -->
+                                <div v-if="activeSidebarTab === 'verse'" class="list-group list-group-flush">
+                                    <div class="p-3 text-white-50 small text-center border-bottom border-white-10" v-if="surahDetails">
+                                        Surah {{ surahDetails.englishName }}
+                                    </div>
+                                    <div class="sidebar-item" v-for="verse in filteredVersesList" :key="verse.key"
+                                         @click="selectVerseFromSidebar(verse.number)">
+                                         <div class="d-flex w-100 align-items-center">
+                                             <span class="item-number me-3">{{ verse.number }}</span>
+                                             <div class="flex-grow-1 text-truncate items-text-preview">
+                                                 {{ verse.text }}
+                                             </div>
+                                         </div>
+                                    </div>
+                                    <div v-if="filteredVersesList.length === 0" class="text-center text-white-50 py-4">
+                                        No verses found.
+                                    </div>
+                                </div>
+
+                                <!-- Juz List -->
+                                <div v-if="activeSidebarTab === 'juz'" class="list-group list-group-flush">
+                                    <div class="sidebar-item" v-for="juz in filteredJuzs" :key="juz"
+                                         @click="selectJuz(juz)">
+                                         <div class="d-flex w-100 align-items-center justify-content-between">
+                                             <span class="item-title-en">Juz {{ juz }}</span>
+                                              <i class="bi bi-chevron-right text-white-50 small"></i>
+                                         </div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -1048,6 +1106,7 @@
 
 <script>
 import axios from "axios";
+import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from "../utils/quran-mappings";
 import { Modal } from "bootstrap";
 import BookmarkModal from "./bookmarks/BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
@@ -1225,6 +1284,8 @@ export default {
             carouselCollapsed: false,
             promptRowCount: 3,
             surahSearchQuery: "",
+            activeSidebarTab: "surah",
+            sidebarSearchQuery: "",
             sidebarCollapsed: false,
             settingsDraft: {
                 showTajweed: true,
@@ -1338,6 +1399,65 @@ export default {
         };
     },
     computed: {
+        filteredJuzs() {
+            const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
+            const allJuz = Array.from({ length: 30 }, (_, i) => i + 1);
+            if (!query) return allJuz;
+            return allJuz.filter(j => 
+                j.toString().includes(query) || 
+                `juz ${j}`.includes(query)
+            );
+        },
+        filteredPages() {
+             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
+             const allPages = Array.from({ length: 604 }, (_, i) => i + 1);
+             if (!query) return allPages;
+             return allPages.filter(p => 
+                 p.toString().includes(query) || 
+                 `page ${p}`.includes(query)
+             );
+        },
+        filteredVersesList() {
+             if (!this.surahDetails || !this.surahDetails.ayahs) return [];
+             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
+             
+             if (!query) {
+                 return this.surahDetails.ayahs.map(a => ({
+                     number: a.numberInSurah,
+                     text: a.text,
+                     translation: a.translation,
+                     key: a.numberInSurah
+                 }));
+             }
+
+             return this.surahDetails.ayahs
+                .filter(a => 
+                    String(a.numberInSurah).includes(query) ||
+                    (a.lowerText && a.lowerText.includes(query)) ||
+                    (a.lowerTranslation && a.lowerTranslation.includes(query))
+                )
+                .map(a => ({
+                     number: a.numberInSurah,
+                     text: a.text,
+                     translation: a.translation,
+                     key: a.numberInSurah
+                 }));
+        },
+        filteredSurahs_sidebar() {
+             if (!Array.isArray(this.surahs)) return [];
+             const raw = (this.sidebarSearchQuery || "").trim().toLowerCase();
+             if (!raw) return this.surahs;
+             return this.surahs.filter((surah) => {
+                 const english = (surah.englishName || "").toLowerCase();
+                 const arabic = (surah.name || "").toLowerCase();
+                 const number = String(surah.number || "");
+                 return (
+                     english.includes(raw) ||
+                     arabic.includes(raw) ||
+                     number.includes(raw)
+                 );
+             });
+        },
         tajweedLegend() {
             if (!this.surahDetails?.ayahs) return [];
             const codes = new Set();
@@ -4465,6 +4585,56 @@ export default {
             this.currentlyPlayingIndex = startIndex;
             this.selectCard(startIndex);
             this.playAudio(startIndex);
+        },
+        setActiveSidebarTab(tab) {
+            this.activeSidebarTab = tab;
+            this.sidebarSearchQuery = "";
+        },
+        async selectJuz(juzNumber) {
+            const start = getJuzStart(juzNumber);
+            if (start) {
+                if (String(this.selectedSurah) !== String(start.surah)) {
+                   await this.selectSurah(start.surah);
+                }
+                setTimeout(() => {
+                     this.scrollToAyah(start.ayah - 1);
+                }, 500); 
+            }
+        },
+        async selectPage(pageNumber) {
+             const start = getPageStart(pageNumber);
+             if (start) {
+                 if (String(this.selectedSurah) !== String(start.surah)) {
+                    await this.selectSurah(start.surah);
+                 }
+                 setTimeout(() => {
+                      this.scrollToAyah(start.ayah - 1);
+                 }, 500);
+             } else {
+                 console.log("Page navigation mapping incomplete");
+             }
+        },
+        selectVerseFromSidebar(verseIndex) {
+            this.scrollToAyah(verseIndex - 1);
+            if (this.isMobile && !this.sidebarCollapsed) {
+                this.toggleSidebar();
+            }
+        },
+        scrollToAyah(index) {
+             const elementId = `ayah-card-${index}`;
+             const element = document.getElementById(elementId);
+             if (element) {
+                 element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 this.selectCard(index);
+             } else {
+                 this.selectCard(index);
+                 const retry = () => {
+                     const el = document.getElementById(elementId);
+                     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                 };
+                 this.$nextTick(retry);
+                 setTimeout(retry, 500); // Retry fallback
+             }
         },
         selectSurah(number) {
             this.selectedSurah = String(number);
@@ -8228,4 +8398,124 @@ h1.display-5 {
         padding: 22px 26px;
     }
 }
+
+/* Sidebar Dark Theme Overrides */
+.sidebar-dark-content {
+    background-color: #111827; /* Dark Slate as base */
+    color: #ffffff;
+    height: 100%;
+}
+
+.sticky-dropdown {
+    /* Ensure the dropdown container takes style cues or at least doesn't overflow */
+    padding: 0 !important;
+    overflow: hidden;
+    background-color: #111827 !important; /* Force dark background on container */
+    border: 1px solid rgba(255,255,255,0.1) !important;
+}
+
+/* Tabs */
+.sidebar-tabs .tab-btn {
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 8px 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+}
+
+.sidebar-tabs .tab-btn:hover {
+    color: #ffffff;
+}
+
+.sidebar-tabs .tab-btn.active {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+
+/* Search Input */
+.sidebar-search-input {
+    background: rgba(255, 255, 255, 0.08) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+    border-radius: 6px;
+    padding: 10px 12px;
+}
+
+.sidebar-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.sidebar-search-input:focus {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* List Items */
+.sidebar-item {
+    padding: 12px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08); /* Dark divider */
+    cursor: pointer;
+    transition: background 0.15s;
+    color: #ffffff;
+}
+
+.sidebar-item:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-item.active {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.item-number {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.5);
+    width: 28px;
+    text-align: center;
+}
+
+.item-title-en {
+    font-weight: 600;
+    font-size: 1rem;
+    color: #f3f4f6;
+}
+
+.item-title-ar {
+    font-family: inherit; 
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: #e5e7eb;
+}
+
+.item-meta {
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.items-text-preview {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.list-group-flush .sidebar-item:last-child {
+    border-bottom: none;
+}
+
+.filter-header, .sidebar-toggle {
+    /* Hide or style original header elements if they conflict, 
+       but we are inside .surah-list so scope is limited */
+}
+
+/* Utility */
+.border-white-10 {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+.opacity-50 { opacity: 0.5; }
+.hover-opacity-100:hover { opacity: 1; }
 </style>
