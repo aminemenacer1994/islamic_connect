@@ -1123,6 +1123,17 @@
                 </div>
             </div>
         </teleport>
+
+        <!-- Scroll to Top FAB -->
+        <transition name="fab-fade">
+            <button v-show="showScrollTopButton" 
+                    class="btn scroll-to-top-fab" 
+                    @click="scrollToTop"
+                    aria-label="Scroll to top"
+                    title="Scroll to top">
+                <i class="bi bi-chevron-up"></i>
+            </button>
+        </transition>
     </div>
 </template>
 
