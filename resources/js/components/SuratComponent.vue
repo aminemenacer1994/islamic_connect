@@ -58,14 +58,14 @@
                 <div class="filter-header">
                     <div class="filter-actions"></div>
                 </div>
-                <div class="sidebar-toggle">
-                    <button type="button" class="sidebar-toggle-btn" @click="toggleSidebar"
+                <div class="sidebar-toggle mt-3 mb-2 px-3">
+                    <button type="button" class="btn btn-sm btn-outline-light w-100 d-flex align-items-center justify-content-center gap-2" 
+                        @click="toggleSidebar"
                         :aria-expanded="!sidebarCollapsed"
                         :aria-label="sidebarCollapsed ? 'Expand sidebar' : 'Collapse sidebar'">
-                        <i class="bi"
-                            :class="sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+                        <i class="bi" :class="sidebarCollapsed ? 'bi-chevron-double-right' : 'bi-chevron-double-left'"></i>
+                        <span v-if="!sidebarCollapsed">Collapse Custom Sidebar</span>
                     </button>
-                    <span class="sidebar-toggle-label" v-if="!sidebarCollapsed">Collapse sidebar</span>
                 </div>
                 <div id="surat-filters" class="row g-3" v-show="isVisible && !sidebarCollapsed">
                     <div class="col-12 col-md-12 filter-item surah-list p-0">
@@ -128,9 +128,20 @@
                                     <div class="sidebar-item" v-for="verse in filteredVersesList" :key="verse.key"
                                          @click="selectVerseFromSidebar(verse.number)">
                                          <div class="d-flex w-100 align-items-center">
-                                             <span class="item-number me-3">{{ verse.number }}</span>
-                                             <div class="flex-grow-1 text-truncate items-text-preview">
-                                                 {{ verse.text }}
+                                             <div class="item-number-container me-2">
+                                                 <span class="item-number">{{ verse.number }}</span>
+                                             </div>
+                                             <div class="flex-grow-1 overflow-hidden d-flex align-items-center">
+                                                 <!-- English (Left) (50%) -->
+                                                 <div class="items-text-preview text-start text-truncate pe-2 border-end border-white-10" 
+                                                      style="color: #ffffff; font-weight: 700; font-size: 0.9rem; flex: 0 0 50%; max-width: 50%;">
+                                                     {{ verse.translation || 'Loading...' }}
+                                                 </div>
+                                                 <!-- Arabic (Right) (50%) -->
+                                                 <div class="item-title-ar text-end text-truncate ps-2" 
+                                                      style="font-size: 1.1rem; color: #ffffff; font-weight: normal; flex: 0 0 50%; max-width: 50%;">
+                                                     {{ verse.text }}
+                                                 </div>
                                              </div>
                                          </div>
                                     </div>
@@ -8401,7 +8412,7 @@ h1.display-5 {
 
 /* Sidebar Dark Theme Overrides */
 .sidebar-dark-content {
-    background-color: #111827; /* Dark Slate as base */
+    background-color: rgba(14, 74, 66, 0.98); /* Requested Dark Teal */
     color: #ffffff;
     height: 100%;
 }
@@ -8410,7 +8421,7 @@ h1.display-5 {
     /* Ensure the dropdown container takes style cues or at least doesn't overflow */
     padding: 0 !important;
     overflow: hidden;
-    background-color: #111827 !important; /* Force dark background on container */
+    background-color: rgba(14, 74, 66, 0.98) !important; /* Force requested background */
     border: 1px solid rgba(255,255,255,0.1) !important;
 }
 
@@ -8472,11 +8483,18 @@ h1.display-5 {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.item-number {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.5);
+
+.item-number-container {
     width: 28px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.item-number {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
 }
 
 .item-title-en {
@@ -8486,7 +8504,7 @@ h1.display-5 {
 }
 
 .item-title-ar {
-    font-family: inherit; 
+    /* font-family: inherit; removed to use original font */
     font-size: 1.1rem;
     font-weight: normal;
     color: #e5e7eb;
@@ -8518,4 +8536,10 @@ h1.display-5 {
 
 .opacity-50 { opacity: 0.5; }
 .hover-opacity-100:hover { opacity: 1; }
+/* Wider Sidebar on Desktop */
+@media (min-width: 992px) {
+    .surah-layout {
+        grid-template-columns: 450px 1fr !important;
+    }
+}
 </style>

@@ -36957,7 +36957,7 @@ h1.display-5[data-v-828f3036] {
 
 /* Sidebar Dark Theme Overrides */
 .sidebar-dark-content[data-v-828f3036] {
-    background-color: #111827; /* Dark Slate as base */
+    background-color: rgba(14, 74, 66, 0.98); /* Requested Dark Teal */
     color: #ffffff;
     height: 100%;
 }
@@ -36965,7 +36965,7 @@ h1.display-5[data-v-828f3036] {
     /* Ensure the dropdown container takes style cues or at least doesn't overflow */
     padding: 0 !important;
     overflow: hidden;
-    background-color: #111827 !important; /* Force dark background on container */
+    background-color: rgba(14, 74, 66, 0.98) !important; /* Force requested background */
     border: 1px solid rgba(255,255,255,0.1) !important;
 }
 
@@ -37023,11 +37023,16 @@ h1.display-5[data-v-828f3036] {
 .sidebar-item.active[data-v-828f3036] {
     background: rgba(255, 255, 255, 0.15);
 }
-.item-number[data-v-828f3036] {
-    font-size: 0.9rem;
-    color: rgba(255, 255, 255, 0.5);
+.item-number-container[data-v-828f3036] {
     width: 28px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.item-number[data-v-828f3036] {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 600;
 }
 .item-title-en[data-v-828f3036] {
     font-weight: 600;
@@ -37035,7 +37040,7 @@ h1.display-5[data-v-828f3036] {
     color: #f3f4f6;
 }
 .item-title-ar[data-v-828f3036] {
-    font-family: inherit; 
+    /* font-family: inherit; removed to use original font */
     font-size: 1.1rem;
     font-weight: normal;
     color: #e5e7eb;
@@ -37063,6 +37068,13 @@ h1.display-5[data-v-828f3036] {
 .opacity-50[data-v-828f3036] { opacity: 0.5;
 }
 .hover-opacity-100[data-v-828f3036]:hover { opacity: 1;
+}
+
+/* Wider Sidebar on Desktop */
+@media (min-width: 992px) {
+.surah-layout[data-v-828f3036] {
+        grid-template-columns: 450px 1fr !important;
+}
 }
 
 
