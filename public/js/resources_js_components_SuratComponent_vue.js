@@ -1781,6 +1781,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       } catch (_) {}
     },
     calibrateItemHeight() {
+      if (this.isInitialLoad) return;
       try {
         const el = this.$el.querySelector(".ayah-card-container");
         if (!el) return;
@@ -1839,7 +1840,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
         // UX Improvement: Sync sidebar highlights on scroll (if not playing)
         const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-        if (!this.isNavigating && !isPlayingAny && (_this$filteredAyahs4 = this.filteredAyahs) !== null && _this$filteredAyahs4 !== void 0 && _this$filteredAyahs4[approxIndex]) {
+        if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && (_this$filteredAyahs4 = this.filteredAyahs) !== null && _this$filteredAyahs4 !== void 0 && _this$filteredAyahs4[approxIndex]) {
           // Critical: Use a silent update or check isManualScrolling 
           // to prevent syncPlaybackScroll from snap-jumping during user scroll.
           this.currentlyPlayingIndex = approxIndex;
@@ -1908,7 +1909,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         const targetTop = this.listTop + index * this.itemHeight - offset;
         window.scrollTo({
           top: Math.max(0, targetTop),
-          behavior: "smooth"
+          behavior: this.isInitialLoad ? "auto" : "smooth"
         });
         this.selectCard(index);
 

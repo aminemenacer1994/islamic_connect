@@ -3140,6 +3140,7 @@ export default {
             } catch (_) { }
         },
         calibrateItemHeight() {
+            if (this.isInitialLoad) return;
             try {
                 const el = this.$el.querySelector(".ayah-card-container");
                 if (!el) return;
@@ -3203,7 +3204,7 @@ export default {
                 
                 // UX Improvement: Sync sidebar highlights on scroll (if not playing)
                 const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-                if (!this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex]) {
+                if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex]) {
                     // Critical: Use a silent update or check isManualScrolling 
                     // to prevent syncPlaybackScroll from snap-jumping during user scroll.
                     this.currentlyPlayingIndex = approxIndex;
@@ -3293,7 +3294,7 @@ export default {
                 
                 window.scrollTo({
                     top: Math.max(0, targetTop),
-                    behavior: "smooth",
+                    behavior: this.isInitialLoad ? "auto" : "smooth",
                 });
 
                 this.selectCard(index);
