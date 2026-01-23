@@ -35163,17 +35163,9 @@ to {
 }
 .surah-header-sticky[data-v-828f3036] {
     position: sticky;
-    top: var(--nav-offset, 72px);
-    z-index: 900;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    padding: 12px 16px 4px 16px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(15, 110, 99, 0.1);
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 15px;
+    border-radius: 20px;
+    border: 3px solid rgba(15, 110, 99, 0.421);
 }
 .surah-header-sticky.is-collapsed[data-v-828f3036] {
     padding-bottom: 0;
@@ -35216,7 +35208,6 @@ to {
     backdrop-filter: none;
     border: none;
     box-shadow: none;
-    position: relative;
     overflow: visible;
 }
 .surah-toolbar[data-v-828f3036]::before {

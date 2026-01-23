@@ -192,9 +192,8 @@
                 </div>
                 <div class="offcanvas-body">
                     <div class="surah-offcanvas-section surah-offcanvas-search" v-if="false">
-                        <p class="surah-offcanvas-eyebrow">Now viewing</p>
                         <div v-if="surahDetails" class="surah-offcanvas-title">
-                            Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name }}
+                            Surah {{ surahDetails.surahNumber }} {{ surahDetails.englishName || surahDetails.name }}
                         </div>
                         <div v-else class="surah-offcanvas-title">Select a surah to begin</div>
                         <div v-if="surahDetails" class="surah-offcanvas-badge">
@@ -292,7 +291,7 @@
                     <div v-show="!headerCollapsed">
                         <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
                             <div class="surah-toolbar-main">
-                                <div class="surah-title-block">
+                                <div class="surah-title-block pb-2">
                                     <span class="surah-eyebrow">Now viewing</span>
                                     <div class="surah-title-row">
                                         <span class="surah-title">
@@ -6350,17 +6349,9 @@ export default {
 
 .surah-header-sticky {
     position: sticky;
-    top: var(--nav-offset, 72px);
-    z-index: 900;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(15px) saturate(180%);
-    -webkit-backdrop-filter: blur(15px) saturate(180%);
-    padding: 12px 16px 4px 16px;
-    margin-bottom: 12px;
-    border-bottom: 1px solid rgba(15, 110, 99, 0.1);
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding: 15px;
+    border-radius: 20px;
+    border: 3px solid rgba(15, 110, 99, 0.421);
 }
 
 .surah-header-sticky.is-collapsed {
@@ -6408,7 +6399,6 @@ export default {
     backdrop-filter: none;
     border: none;
     box-shadow: none;
-    position: relative;
     overflow: visible;
 }
 
