@@ -201,14 +201,10 @@
                         </div>
                     </div>
                     <div class="surah-offcanvas-section">
-                        <!-- <label class="form-label surah-offcanvas-label">Search surah</label>
-                        <input type="search" class="form-control surah-offcanvas-input"
-                            v-model="surahSearchQuery"
-                            placeholder="Search surah (English or Arabic)"
-                            aria-label="Search surah by English or Arabic name" /> -->
                         <label class="form-label surah-offcanvas-label">Select surah</label>
                         <select class="form-select surah-offcanvas-select" v-model="selectedSurah"
                             @change="selectSurah(selectedSurah)" aria-label="Select surah">
+                            <option value="" disabled>Select surah</option>
                             <option v-for="surah in filteredSurahs" :key="surah.number" :value="String(surah.number)">
                                 {{ surah.number }} · {{ surah.englishName }}
                             </option>
@@ -240,8 +236,8 @@
                                 <div class="surah-offcanvas-toggle-inline">
                                     <label class="form-label surah-offcanvas-label">Tajweed colors</label>
                                     <div class="ml-4 form-check form-switch surah-tajweed-toggle">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                            id="surahTajweedToggle" v-model="settingsDraft.showTajweed" />
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="surahTajweedToggle" v-model="showTajweed" />
                                         <label class="form-check-label" for="surahTajweedToggle">
                                             Tajweed colors
                                         </label>
@@ -250,9 +246,9 @@
                                 <div class="surah-offcanvas-toggle-inline">
                                     <label class="form-label surah-offcanvas-label">Realtime color highlighting</label>
                                     <div class="ml-4 form-check form-switch surah-tajweed-toggle">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                            id="surahRealtimeHighlightToggle"
-                                            v-model="settingsDraft.showRealtimeHighlighting" />
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="surahRealtimeHighlightToggle"
+                                    v-model="showRealtimeHighlighting" />
                                         <label class="form-check-label"
                                             for="surahRealtimeHighlightToggle">
                                             Realtime color highlighting
@@ -262,9 +258,9 @@
                                 <div class="surah-offcanvas-toggle-inline">
                                     <label class="form-label surah-offcanvas-label">Word by word translation</label>
                                     <div class="ml-4 form-check form-switch surah-tajweed-toggle">
-                                        <input class="form-check-input" type="checkbox" role="switch"
-                                            id="surahWordTranslationToggle"
-                                            v-model="settingsDraft.showWordTranslation" />
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="surahWordTranslationToggle"
+                                    v-model="showWordTranslation" />
                                         <label class="form-check-label" for="surahWordTranslationToggle">
                                             Word by word translation
                                         </label>
@@ -279,9 +275,9 @@
                             Play full surah
                         </button>
                         <button type="button" class="btn btn-outline-primary surah-offcanvas-submit"
-                            @click="applyOffcanvasFilters" aria-label="Apply filters and close">
-                            <i class="bi bi-search me-2" aria-hidden="true"></i>
-                            Search
+                            @click="closeOffcanvas" aria-label="Close filters and info">
+                            <i class="bi bi-check me-2" aria-hidden="true"></i>
+                            Done
                         </button>
                     </div>
                 </div>
@@ -1244,6 +1240,7 @@ export default {
             visibleStart: 0,
             visibleEnd: 0,
             listTop: 0,
+            _heightMeasureRaf: null,
             // Next-step card visibility
             showNextStep: true,
             nextStepMinimized: false,
@@ -1930,9 +1927,9 @@ export default {
         );
         this.prepareSettingsDraft();
     },
-    beforeUnmount() {
-        this.isComponentAlive = false;
-        this.stopHighlightLoop();
+        beforeUnmount() {
+            this.isComponentAlive = false;
+            this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
@@ -1970,10 +1967,14 @@ export default {
         clearTimeout(this.bookmarkToastTimer);
         this.bookmarkToastAction = null;
         clearTimeout(this.authAlertTimer);
+        if (this._heightMeasureRaf && typeof window !== "undefined") {
+            window.cancelAnimationFrame(this._heightMeasureRaf);
+            this._heightMeasureRaf = null;
+        }
     },
-    beforeDestroy() {
-        this.stopHighlightLoop();
-        window.removeEventListener("keydown", this.onKeydown);
+        beforeDestroy() {
+            this.stopHighlightLoop();
+            window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
             window.removeEventListener("keydown", this._keydownHandler);
         window.removeEventListener("resize", this.updateIsMobile);
@@ -1982,19 +1983,23 @@ export default {
         window.removeEventListener("resize", this.calibrateItemHeight);
         clearTimeout(this.savedAyahClearTimer);
         clearTimeout(this.bookmarkToastTimer);
-        this.bookmarkToastAction = null;
-        clearTimeout(this.authAlertTimer);
-        if (this.reflectionModalHiddenHandler) {
-            const modalEl = document.getElementById(this.reflectionModalId);
-            if (modalEl) {
-                modalEl.removeEventListener(
-                    "hidden.bs.modal",
-                    this.reflectionModalHiddenHandler
-                );
+            this.bookmarkToastAction = null;
+            clearTimeout(this.authAlertTimer);
+            if (this.reflectionModalHiddenHandler) {
+                const modalEl = document.getElementById(this.reflectionModalId);
+                if (modalEl) {
+                    modalEl.removeEventListener(
+                        "hidden.bs.modal",
+                        this.reflectionModalHiddenHandler
+                    );
+                }
+                this.reflectionModalHiddenHandler = null;
             }
-            this.reflectionModalHiddenHandler = null;
-        }
-    },
+            if (this._heightMeasureRaf && typeof window !== "undefined") {
+                window.cancelAnimationFrame(this._heightMeasureRaf);
+                this._heightMeasureRaf = null;
+            }
+        },
     methods: {
         showToast(message, timeout = 3500, action = null) {
             this.bookmarkToast = message;
@@ -2594,7 +2599,7 @@ export default {
         async onBookmarksLinkClick() {
             const isAuthed = await this.ensureAuthenticated();
             if (isAuthed) {
-                window.location.href = "/bookmarks";
+                window.open("/bookmarks", "_blank");
             }
         },
         async onNotesLinkClick() {
@@ -2602,7 +2607,7 @@ export default {
                 "Please log in to save and view reflections."
             );
             if (isAuthed) {
-                window.location.href = "/notes";
+                window.open("/notes", "_blank");
             }
         },
         hasReflection(ayah) {
@@ -3127,16 +3132,33 @@ export default {
                 localStorage.setItem("suratNextStepDismissed", "1");
             } catch (_) { }
         },
-        calibrateItemHeight() {
+        calibrateItemHeight(force = false) {
             try {
-                const el = this.$el.querySelector(".ayah-card-container");
-                if (!el) return;
-                const rect = el.getBoundingClientRect();
-                if (rect && rect.height > 0) {
-                    this.itemHeight = Math.round(rect.height + 24); // include margins/padding buffer
-                    this.updateVirtualWindow();
-                }
+                const nodes = this.$refs.audioCard;
+                if (!nodes) return;
+                const refs = Array.isArray(nodes) ? nodes : [nodes];
+                const maxHeight = refs.reduce((max, node) => {
+                    if (!node) return max;
+                    const rect = node.getBoundingClientRect();
+                    return rect.height > max ? rect.height : max;
+                }, 0);
+                if (!maxHeight) return;
+                const candidate = Math.round(maxHeight + 24);
+                if (!force && Math.abs(this.itemHeight - candidate) < 2) return;
+                this.itemHeight = candidate;
+                this.updateVirtualWindow();
             } catch (_) { }
+        },
+        scheduleHeightCalibration(force = false) {
+            if (typeof window === "undefined" || !window.requestAnimationFrame) return;
+            if (this._heightMeasureRaf) {
+                window.cancelAnimationFrame(this._heightMeasureRaf);
+                this._heightMeasureRaf = null;
+            }
+            this._heightMeasureRaf = window.requestAnimationFrame(() => {
+                this._heightMeasureRaf = null;
+                this.calibrateItemHeight(force);
+            });
         },
         computeListTop() {
             try {
@@ -3172,11 +3194,16 @@ export default {
             
             // If we are at or above the list top, pin to start
             if (window.scrollY <= this.listTop + 5) {
-                this.visibleStart = 0;
-                this.visibleEnd = Math.min(
+                const start = 0;
+                const end = Math.min(
                     n,
                     this.windowSize + this.buffer * 2
                 );
+                if (start !== this.visibleStart || end !== this.visibleEnd) {
+                    this.visibleStart = start;
+                    this.visibleEnd = end;
+                    this.scheduleHeightCalibration(true);
+                }
                 return;
             }
             const approxIndex = Math.max(
@@ -3198,6 +3225,7 @@ export default {
                     this.isHighlighted = true;
                     this.selectedJuz = this.filteredAyahs[approxIndex].juz;
                 }
+                this.scheduleHeightCalibration(true);
             }
         },
         syncVirtualWindowAfterSelection() {
@@ -4950,8 +4978,8 @@ export default {
                 JSON.stringify(this.repeatCurrent)
             );
         },
-        applyOffcanvasFilters() {
-            this.applySettingsDraft();
+        closeOffcanvas() {
+            this.prepareSettingsDraft();
             const el = this.$refs.surahOffcanvas;
             if (!el || !(window && window.bootstrap && window.bootstrap.Offcanvas)) return;
             const instance = window.bootstrap.Offcanvas.getInstance(el) ||
@@ -5047,6 +5075,7 @@ export default {
     border-bottom: 0;
     padding-bottom: 0.6rem;
 }
+
 
 .reflection-modal .modal-title b {
     font-size: 1.75rem;
