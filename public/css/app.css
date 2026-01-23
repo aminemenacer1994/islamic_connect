@@ -1,7 +1,9 @@
+@import url(https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;600;700&display=swap);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 @import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css);
+
 /* Local fonts with swap to improve FOIT */
 @font-face {
   font-family: 'Amiri';
@@ -59,6 +61,7 @@
   --bs-primary-rgb: 34,139,34;
   --bs-success: #009e8a;
   --bs-warning: #ffd166;
+  --ic-quran-arabic-font: 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif;
 }
 .btn-primary{background-color:var(--bs-primary)!important; border-color:var(--bs-primary)!important}
 .btn-primary:hover{filter:brightness(.95)}
@@ -34441,6 +34444,11 @@ to {
 .surah-layout>.next-step-wrapper[data-v-828f3036] {
     grid-column: 1;
 }
+.surah-layout>.surah-playback-bar[data-v-828f3036] {
+    width: 50%;
+    max-width: 960px;
+    margin: 0 auto;
+}
 .surah-layout>.loading-placeholder[data-v-828f3036],
 .surah-layout>.row.rtl-text[data-v-828f3036],
 .surah-layout>.visually-hidden[data-v-828f3036],
@@ -35078,7 +35086,7 @@ to {
     direction: rtl;
     text-align: left;
     color: #0f172a;
-    font-family: "Amiri", "Times New Roman", serif;
+    font-family: var(--ic-quran-arabic-font);
 }
 [data-v-828f3036] .surah-info-english {
     font-size: 1.35rem;
@@ -36137,7 +36145,7 @@ to {
         padding: 10px;
 }
 .arabic-text[data-v-828f3036] {
-        font-family: 'Amiri', serif !important;
+        font-family: var(--ic-quran-arabic-font) !important;
         font-size: 1.7rem !important;
         /* line-height: 5.8vh; */
 }
@@ -36577,7 +36585,7 @@ h1.display-5[data-v-828f3036] {
 
 /* Arabic/translation rhythm and contrast */
 .arabic-text[data-v-828f3036] {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     color: #123532;
     line-height: 1.9;
 }
@@ -36896,7 +36904,7 @@ h1.display-5[data-v-828f3036] {
 
 /* Translation and Arabic text subtle contrast */
 .arabic-text[data-v-828f3036] {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     color: #0a2e2a;
 }
 .translation-text[data-v-828f3036] {
@@ -36911,7 +36919,7 @@ h1.display-5[data-v-828f3036] {
 
 /* Ayah card polish: typography, layout, toolbar */
 .ayah-card-container .arabic-text[data-v-828f3036] {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     line-height: 2.1;
     letter-spacing: 0.2px;
     color: #082b27;
@@ -37206,7 +37214,7 @@ h1.display-5[data-v-828f3036] {
     border-left: 3px solid #22c55e;
 }
 .item-title-ar[data-v-828f3036] {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     font-size: 1.25rem;
     font-weight: normal;
     color: #e5e7eb;

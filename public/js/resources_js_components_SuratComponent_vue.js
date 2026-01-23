@@ -3906,7 +3906,7 @@ const _hoisted_29 = {
     "font-weight": "normal",
     "flex": "0 0 50%",
     "max-width": "50%",
-    "font-family": "'Amiri', serif !important"
+    "font-family": "var(--ic-quran-arabic-font) !important"
   }
 };
 const _hoisted_30 = {

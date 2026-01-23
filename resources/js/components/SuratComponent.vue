@@ -140,7 +140,7 @@
                                                  </div>
                                                  <!-- Arabic (Right) (50%) -->
                                                  <div class="item-title-ar text-end text-truncate ps-2" 
-                                                      style="font-size: 1.2rem; color: #ffffff; font-weight: normal; flex: 0 0 50%; max-width: 50%; font-family: 'Amiri', serif !important;">
+                                                      style="font-size: 1.2rem; color: #ffffff; font-weight: normal; flex: 0 0 50%; max-width: 50%; font-family: var(--ic-quran-arabic-font) !important;">
                                                      {{ verse.text }}
                                                  </div>
                                              </div>
@@ -5505,6 +5505,12 @@ export default {
     grid-column: 1;
 }
 
+.surah-layout>.surah-playback-bar {
+    width: 50%;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
 .surah-layout>.loading-placeholder,
 .surah-layout>.row.rtl-text,
 .surah-layout>.visually-hidden,
@@ -6247,7 +6253,7 @@ export default {
     direction: rtl;
     text-align: left;
     color: #0f172a;
-    font-family: "Amiri", "Times New Roman", serif;
+    font-family: var(--ic-quran-arabic-font);
 }
 
 :deep(.surah-info-english) {
@@ -7462,7 +7468,7 @@ export default {
     }
 
     .arabic-text {
-        font-family: 'Amiri', serif !important;
+        font-family: var(--ic-quran-arabic-font) !important;
         font-size: 1.7rem !important;
         /* line-height: 5.8vh; */
     }
@@ -7961,7 +7967,7 @@ h1.display-5 {
 
 /* Arabic/translation rhythm and contrast */
 .arabic-text {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     color: #123532;
     line-height: 1.9;
 }
@@ -8333,7 +8339,7 @@ h1.display-5 {
 
 /* Translation and Arabic text subtle contrast */
 .arabic-text {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     color: #0a2e2a;
 }
 
@@ -8350,7 +8356,7 @@ h1.display-5 {
 
 /* Ayah card polish: typography, layout, toolbar */
 .ayah-card-container .arabic-text {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     line-height: 2.1;
     letter-spacing: 0.2px;
     color: #082b27;
@@ -8684,7 +8690,7 @@ h1.display-5 {
 }
 
 .item-title-ar {
-    font-family: 'Amiri', serif !important;
+    font-family: var(--ic-quran-arabic-font) !important;
     font-size: 1.25rem;
     font-weight: normal;
     color: #e5e7eb;

@@ -1,4 +1,6 @@
 /* Local fonts with swap to improve FOIT */
+@import url('https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;600;700&display=swap');
+
 @font-face {
   font-family: 'Amiri';
   src: url('/fonts/Amiri-Regular.woff2') format('woff2'),
@@ -69,6 +71,7 @@
   --bs-primary-rgb: 34,139,34;
   --bs-success: #009e8a;
   --bs-warning: #ffd166;
+  --ic-quran-arabic-font: 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif;
 }
 .btn-primary{background-color:var(--bs-primary)!important; border-color:var(--bs-primary)!important}
 .btn-primary:hover{filter:brightness(.95)}
