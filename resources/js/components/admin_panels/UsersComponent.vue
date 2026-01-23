@@ -47,11 +47,17 @@
                 </div>
                 <div class="detail-item">
                   <span class="detail-label">Account Status:</span>
-                  <span class="status-badge active">Active</span>
+                  <span :class="['status-badge', statusClass(form.status)]">
+                    {{ form.status ? capitalizeStatus(form.status) : "Active" }}
+                  </span>
                 </div>
                 <div class="detail-item">
                   <span class="detail-label">Last Login:</span>
                   <span class="detail-value">2 hours ago</span>
+                </div>
+                <div class="detail-item" v-if="form.role">
+                  <span class="detail-label">System Role:</span>
+                  <span class="detail-value">{{ capitalizeRole(form.role) }}</span>
                 </div>
               </div>
             </div>
@@ -119,6 +125,10 @@
                   </div>
                   <!-- <div class="form-text">Minimum 8 characters with letters and numbers</div> -->
                 </div>
+                <div class="col-md-6">
+                  <label class="form-label">Confirm Password <span class="required">*</span></label>
+                  <input v-model="form.password_confirmation" :type="showPassword ? 'text' : 'password'" class="form-control" placeholder="Confirm password" required />
+                </div>
                 <div class="col-12">
                   <label class="form-label">User Role <span class="required">*</span></label>
                   <select class="form-select" v-model="form.user_type" required>
@@ -131,6 +141,23 @@
                     <option value="Volunteer">Volunteer</option>
                   </select>
                   <div class="form-text">Defines user permissions and access levels</div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Account Status <span class="required">*</span></label>
+                  <select class="form-select" v-model="form.status" required>
+                    <option value="" disabled>Select Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">System Role <span class="required">*</span></label>
+                  <select class="form-select" v-model="form.role" required>
+                    <option value="" disabled>Select Role</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
                 </div>
               </div>
               <div class="modal-footer mt-4">
@@ -198,6 +225,23 @@
                     <option value="Editor">Editor</option>
                     <option value="Viewer">Viewer</option>
                     <option value="Volunteer">Volunteer</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Account Status <span class="required">*</span></label>
+                  <select class="form-select" v-model="form.status" required>
+                    <option value="" disabled>Select Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                    <option value="pending">Pending</option>
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">System Role <span class="required">*</span></label>
+                  <select class="form-select" v-model="form.role" required>
+                    <option value="" disabled>Select Role</option>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
                   </select>
                 </div>
                 <div class="col-12">
@@ -330,122 +374,115 @@
   
       <!-- Table Card -->
       <div class="table-card">
-        <DataTable
-          :value="filteredUsers"
-          :loading="loading"
-          ref="dt"
-          stripedRows
-          responsiveLayout="scroll"
-          v-model:filters="filters"
-          :globalFilterFields="globalFields"
-          paginator
-          :rows="10"
-          :rowsPerPageOptions="[10, 20, 50, 100]"
-          paginatorTemplate="RowsPerPageDropdown FirstPageLink PrevPageLink CurrentPageReport NextPageLink LastPageLink"
-          currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users"
-          sortField="name"
-          :sortOrder="1"
-        >
-          <Column field="name" header="First Name" sortable>
-            <template #body="{ data }">
-              <div class="user-cell">
-                <div class="user-avatar">
-                  {{ data.name.charAt(0).toUpperCase() }}
-                </div>
-                <div>
-                  <div class="user-name">{{ data.name }}</div>
-                  <div class="user-id">#{{ data.id }}</div>
-                </div>
-              </div>
-            </template>
-          </Column>
-          
-          <Column field="lastname" header="Last Name" sortable>
-            <template #body="{ data }">
-              <div class="user-lastname">{{ data.lastname }}</div>
-            </template>
-          </Column>
-          
-          <Column field="email" header="Email" sortable>
-            <template #body="{ data }">
-              <div class="email-cell">
-                <i class="bi bi-envelope me-2"></i>
-                {{ data.email }}
-              </div>
-            </template>
-          </Column>
-          
-          <Column field="user_type" header="Role" sortable>
-            <template #body="{ data }">
-              <span :class="getRoleClass(data.user_type)">{{ data.user_type }}</span>
-            </template>
-          </Column>
-          
-          <Column field="status" header="Status" sortable>
-            <template #body="{ data }">
-              <span class="status-badge active">Active</span>
-            </template>
-          </Column>
-          
-          <Column field="last_login" header="Last Login" sortable>
-            <template #body="{ data }">
-              <div class="last-login">2 hours ago</div>
-            </template>
-          </Column>
-          
-          <Column header="Actions" :exportable="false" style="width: 150px">
-            <template #body="{ data }">
-              <div class="action-buttons">
-                <button 
-                  data-bs-toggle="modal" 
-                  data-bs-target="#viewUserModal" 
-                  class="action-btn view-btn"
-                  @click="viewModal(data)"
-                  title="View Details">
-                  <i class="bi bi-eye"></i>
-                </button>
-                <button 
-                  data-bs-toggle="modal" 
-                  data-bs-target="#editUserModal" 
-                  class="action-btn edit-btn"
-                  @click="editModal(data)"
-                  title="Edit User">
-                  <i class="bi bi-pencil"></i>
-                </button>
-                <button 
-                  class="action-btn delete-btn"
-                  @click="confirmDelete(data)"
-                  title="Delete User">
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
-            </template>
-          </Column>
-  
-          <template #empty>
-            <div class="empty-state">
-              <i class="bi bi-people"></i>
-              <h4>No users found</h4>
-              <p>Try adjusting your search or filter to find what you're looking for.</p>
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
-                <i class="bi bi-plus-circle me-1"></i>Add First User
-              </button>
+        <div class="table-wrapper">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Status</th>
+                <th>Last Login</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="user in paginatedUsers" :key="user.id">
+                <td>
+                  <div class="user-cell">
+                    <div class="user-avatar">
+                      {{ user.name ? user.name.charAt(0).toUpperCase() : "#" }}
+                    </div>
+                    <div>
+                      <div class="user-name">{{ user.name || "Unknown" }}</div>
+                      <div class="user-id">#{{ user.id || "—" }}</div>
+                    </div>
+                  </div>
+                </td>
+                <td class="user-lastname">{{ user.lastname || "—" }}</td>
+                <td>
+                  <div class="email-cell">
+                    <i class="bi bi-envelope me-2"></i>
+                    {{ user.email || "—" }}
+                  </div>
+                </td>
+                <td>
+                  <span :class="getRoleClass(user.user_type)">{{ user.user_type || "Member" }}</span>
+                </td>
+                <td>
+                  <span :class="['status-badge', statusClass(user.status)]">
+                    {{ user.status ? user.status.charAt(0).toUpperCase() + user.status.slice(1) : "Active" }}
+                  </span>
+                </td>
+                <td>
+                  <div class="last-login">{{ user.last_login || "2 hours ago" }}</div>
+                </td>
+                <td>
+                  <div class="action-buttons">
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#viewUserModal"
+                      class="action-btn view-btn"
+                      @click="viewModal(user)"
+                      title="View Details">
+                      <i class="bi bi-eye"></i>
+                    </button>
+                    <button
+                      data-bs-toggle="modal"
+                      data-bs-target="#editUserModal"
+                      class="action-btn edit-btn"
+                      @click="editModal(user)"
+                      title="Edit User">
+                      <i class="bi bi-pencil"></i>
+                    </button>
+                    <button
+                      class="action-btn delete-btn"
+                      @click="confirmDelete(user)"
+                      title="Delete User">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr v-if="!paginatedUsers.length">
+                <td colspan="7">
+                  <div class="empty-state no-results">
+                    <i class="bi bi-people"></i>
+                    <h4>No users found</h4>
+                    <p>Try adjusting your search or filters to find what you're looking for.</p>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addUserModal">
+                      <i class="bi bi-plus-circle me-1"></i>Add First User
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="table-footer">
+          <div class="footer-info">{{ paginationLabel }}</div>
+          <div class="footer-actions">
+            <div class="rows-per-page">
+              <label for="rowsPerPageSelect">Rows per page</label>
+              <select id="rowsPerPageSelect" v-model.number="rowsPerPage">
+                <option v-for="option in rowsPerPageOptions" :key="option" :value="option">
+                  {{ option }}
+                </option>
+              </select>
             </div>
-          </template>
-          
-          <template #footer>
-            <div class="table-footer">
-              <div class="footer-info">
-                Showing <strong>{{ filteredUsers.length }}</strong> of <strong>{{ totalUsers }}</strong> users
-              </div>
-              <div class="footer-actions">
-                <button class="btn btn-sm btn-outline-secondary">
-                  <i class="bi bi-download me-1"></i>Export Data
-                </button>
-              </div>
+            <div class="pagination-controls">
+              <button class="pagination-btn" :disabled="currentPage === 1" @click="goToPage(1)">«</button>
+              <button class="pagination-btn" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">‹</button>
+              <span class="pagination-label">{{ currentPage }} / {{ totalPages }}</span>
+              <button class="pagination-btn" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">›</button>
+              <button class="pagination-btn" :disabled="currentPage === totalPages" @click="goToPage(totalPages)">»</button>
             </div>
-          </template>
-        </DataTable>
+            <button class="btn btn-sm btn-outline-secondary">
+              <i class="bi bi-download me-1"></i>Export Data
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -453,12 +490,16 @@
 
 <script>
 import axios from "axios";
-import { FilterMatchMode } from 'primevue/api'
 
 export default {
   mounted() {
     this.loadUsers();
     this.InitializeForm();
+    this.attachBackdropCleanup();
+  },
+  beforeUnmount() {
+    this.detachBackdropCleanup();
+    this.cleanupModalBackdrops();
   },
   data() {
     return {
@@ -466,48 +507,69 @@ export default {
       users: [],
       filteredUsers: [],
       searchValue: "",
-      filters: { global: { value: null, matchMode: FilterMatchMode.CONTAINS } },
       selectedRole: "",
       selectedStatus: "",
       showPassword: false,
-      columns: [
-        { field: "name", header: "First Name", sortable: true },
-        { field: "lastname", header: "Last Name", sortable: true },
-        { field: "email", header: "Email", sortable: true },
-        { field: "user_type", header: "Role", sortable: true },
-        { field: "status", header: "Status", sortable: true },
-        { field: "last_login", header: "Last Login", sortable: true }
-      ],
-      form: new Form({
-        id: "",
-        name: "",
-        lastname: "",
-        email: "",
-        phone: "",
-        password: "",
-        user_type: "",
-      }),
-    }
+    rowsPerPage: 10,
+    rowsPerPageOptions: [10, 20, 50, 100],
+    currentPage: 1,
+    modalListeners: {},
+    form: new Form({
+      id: "",
+      name: "",
+      lastname: "",
+      email: "",
+      phone: "",
+      password: "",
+      user_type: "",
+      status: "",
+      role: "",
+      password_confirmation: "",
+    }),
+  }
   },
   computed: {
-    globalFields(){
-      return (this.columns || []).map(c => c.field);
-    },
     totalUsers() {
       return this.users.length;
     },
     activeUsers() {
-      return this.users.length; // In real app, filter by status
+      return this.users.length;
     },
     adminCount() {
-      return this.users.filter(u => 
+      return this.users.filter(u =>
         u.user_type === 'Super Admin' || u.user_type === 'Admin'
       ).length;
+    },
+    paginatedUsers() {
+      const start = (this.currentPage - 1) * this.rowsPerPage;
+      const end = start + this.rowsPerPage;
+      return this.filteredUsers.slice(start, end);
+    },
+    totalPages() {
+      const total = Math.ceil(this.filteredUsers.length / this.rowsPerPage);
+      return total === 0 ? 1 : total;
+    },
+    paginationLabel() {
+      if (!this.filteredUsers.length) {
+        return "Showing 0 users";
+      }
+      const start = (this.currentPage - 1) * this.rowsPerPage + 1;
+      const end = Math.min(this.filteredUsers.length, this.currentPage * this.rowsPerPage);
+      return `Showing ${start} to ${end} of ${this.filteredUsers.length} users`;
+    }
+  },
+  watch: {
+    rowsPerPage() {
+      this.goToPage(1);
+    },
+    filteredUsers() {
+      if (this.currentPage > this.totalPages) {
+        this.currentPage = this.totalPages;
+      }
     }
   },
   methods: {
-    onGlobalFilter(e){
-      this.filters.global.value = e.target.value;
+    onGlobalFilter() {
       this.applyFilters();
     },
     filterByRole() {
@@ -518,26 +580,62 @@ export default {
     },
     applyFilters() {
       let filtered = [...this.users];
-      
+
+      const searchTerm = this.searchValue.trim().toLowerCase();
+      if (searchTerm) {
+        filtered = filtered.filter(user => {
+          const fields = [
+            user.name,
+            user.lastname,
+            user.email,
+            user.user_type
+          ];
+          return fields.some(value =>
+            value && value.toLowerCase().includes(searchTerm)
+          );
+        });
+      }
+
       if (this.selectedRole) {
-        filtered = filtered.filter(user => 
+        filtered = filtered.filter(user =>
           user.user_type === this.selectedRole
         );
       }
-      
+
       if (this.selectedStatus) {
-        // In real app, filter by actual status
-        filtered = filtered; // Placeholder
+        filtered = filtered.filter(user =>
+          (user.status || "").toLowerCase() === this.selectedStatus.toLowerCase()
+        );
       }
-      
+
       this.filteredUsers = filtered;
+      this.currentPage = 1;
     },
     clearFilters() {
       this.selectedRole = "";
       this.selectedStatus = "";
       this.searchValue = "";
-      this.filters.global.value = null;
-      this.filteredUsers = [...this.users];
+      this.rowsPerPage = this.rowsPerPageOptions[0];
+      this.currentPage = 1;
+      this.applyFilters();
+    },
+    statusClass(status) {
+      const normalized = (status || "active").toLowerCase();
+      if (normalized === "inactive") return "inactive";
+      if (normalized === "pending") return "pending";
+      return "active";
+    },
+    capitalizeStatus(value) {
+      if (!value) {
+        return "";
+      }
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    },
+    capitalizeRole(value) {
+      if (!value) {
+        return "";
+      }
+      return value.charAt(0).toUpperCase() + value.slice(1);
     },
     getRoleClass(role) {
       const classes = {
@@ -550,34 +648,157 @@ export default {
       };
       return classes[role] || 'role-badge';
     },
+    goToPage(page) {
+      const normalizedPage = Math.max(1, Math.min(page, this.totalPages));
+      this.currentPage = normalizedPage;
+    },
     InitializeForm() {
-      this.form.id = "";
-      this.form.name = "";
-      this.form.lastname = "";
-      this.form.email = "";
-      this.form.phone = "";
-      this.form.password = "";
-      this.form.user_type = "";
+      this.form.reset();
       this.showPassword = false;
     },
     resetForm(event) {
-      event.preventDefault();
+      if (event) {
+        event.preventDefault();
+      }
       this.InitializeForm();
+    },
+    closeModal(modalId) {
+      if (typeof window === "undefined" || !window.bootstrap) {
+        return;
+      }
+      const modalEl = document.getElementById(modalId);
+      if (!modalEl) {
+        return;
+      }
+      const modalInstance =
+        window.bootstrap.Modal.getInstance(modalEl) ||
+        window.bootstrap.Modal.getOrCreateInstance(modalEl);
+      modalInstance?.hide();
+      this.cleanupModalBackdrops();
+    },
+    cleanupModalBackdrops() {
+      if (typeof document === "undefined") return;
+      document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+      document.body.classList.remove('modal-open');
+      document.body.style.paddingRight = "";
+    },
+    attachBackdropCleanup() {
+      if (typeof document === "undefined") return;
+      ["viewUserModal", "addUserModal", "editUserModal"].forEach((id) => {
+        const modalEl = document.getElementById(id);
+        if (!modalEl) {
+          return;
+        }
+        const handler = () => this.cleanupModalBackdrops();
+        modalEl.addEventListener("hidden.bs.modal", handler);
+        this.modalListeners[id] = handler;
+      });
+    },
+    detachBackdropCleanup() {
+      if (typeof document === "undefined") return;
+      Object.entries(this.modalListeners).forEach(([id, handler]) => {
+        const modalEl = document.getElementById(id);
+        if (!modalEl) {
+          return;
+        }
+        modalEl.removeEventListener("hidden.bs.modal", handler);
+      });
+      this.modalListeners = {};
     },
     loadUsers() {
       this.loading = true;
-      axios.get("api/fetch-users").then((data) => {
-        this.users = data.data;
-        this.filteredUsers = [...data.data];
-      }).finally(() => {
-        this.loading = false;
-      });
+      axios
+        .get("api/fetch-users")
+        .then((data) => {
+          this.users = data.data;
+          this.applyFilters();
+        })
+        .finally(() => {
+          this.loading = false;
+        });
     },
     createUser() {
-      // ... existing createUser logic ...
+      Swal.fire({
+        title: "Create user?",
+        text: "This will send a request to create the new user account.",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#198754",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Create user"
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          return;
+        }
+        this.loading = true;
+        axios
+          .post("api/create-users", this.form)
+          .then((response) => {
+            const apiSuccess = response?.data?.success;
+            if (apiSuccess === false) {
+              Swal.fire("Error", "Unable to create user.", "error");
+              return;
+            }
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User created successfully",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.closeModal("addUserModal");
+            this.InitializeForm();
+            this.loadUsers();
+          })
+          .catch((error) => {
+            console.error("createUser error", error);
+            Swal.fire("Error", "Unable to create user.", "error");
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      });
     },
     updateUser() {
-      // ... existing updateUser logic ...
+      if (!this.form.id) {
+        Swal.fire("Error", "Missing user selection to update.", "warning");
+        return;
+      }
+      Swal.fire({
+        title: "Update user?",
+        text: "Please confirm the updates before submitting.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0d6efd",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Save changes"
+      }).then((result) => {
+        if (!result.isConfirmed) {
+          return;
+        }
+        this.loading = true;
+        axios
+          .post(`api/update-users/${this.form.id}`, this.form)
+          .then(() => {
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User updated successfully",
+              showConfirmButton: false,
+              timer: 1500
+            });
+            this.closeModal("editUserModal");
+            this.InitializeForm();
+            this.loadUsers();
+          })
+          .catch((error) => {
+            console.error("updateUser error", error);
+            Swal.fire("Error", "Unable to save changes.", "error");
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+      });
     },
     confirmDelete(user) {
       Swal.fire({
@@ -611,7 +832,6 @@ export default {
       });
     },
     editModal(user) {
-      this.editmode = true;
       this.form.reset();
       this.form.fill(user);
     },
@@ -840,6 +1060,128 @@ export default {
   margin-top: 1rem;
 }
 
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.users-table thead th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  background: rgba(243, 244, 246, 0.8);
+}
+
+.users-table tbody td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  font-size: 15px;
+  color: #1f2937;
+}
+
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.users-table tbody tr {
+  transition: background 0.2s ease;
+}
+
+.users-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.07);
+}
+
+.empty-state.no-results {
+  gap: 0.5rem;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.pagination-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-size: 18px;
+  line-height: 0;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background: #4338ca;
+  color: white;
+  border-color: transparent;
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-label {
+  min-width: 56px;
+  text-align: center;
+  font-weight: 600;
+  color: #374151;
+}
+
+.rows-per-page {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.rows-per-page select {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 0.4rem 0.8rem;
+  font-size: 14px;
+  min-width: 90px;
+  background: white;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rows-per-page select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+.pagination-controls,
+.rows-per-page {
+  margin-right: 1rem;
+}
+
+.footer-actions {
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
 /* User Cell */
 .user-cell {
   display: flex;
@@ -942,6 +1284,12 @@ export default {
   background: rgba(239, 68, 68, 0.1);
   color: #dc2626;
   border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
 /* Last Login */

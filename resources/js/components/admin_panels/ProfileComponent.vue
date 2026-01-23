@@ -7,7 +7,7 @@
             <img :src="avatarUrl" alt="Avatar" class="avatar-lg rounded-circle">
             <div class="flex-grow-1">
               <h5 class="m-0 d-flex align-items-center gap-2">
-                <h4 style="font-weight: 800;">{{ user.name }} {{ user.lastname }}</h4>
+                <span class="profile-display-name" style="font-weight: 800;">{{ user.name }} {{ user.lastname }}</span>
                 <span v-if="user?.user_type || user?.role" class="role-badge" aria-label="User role">{{ user.user_type || user.role }}</span>
               </h5>
               <div class="text-muted small">Member since {{ formattedJoin }}</div>

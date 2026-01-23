@@ -93,15 +93,20 @@
                 @click.stop="doClearAllSessions">Delete</button>
             </div>
           </div>
-          <button v-for="session in chatSessions" :key="session.id" type="button"
-            class="ai-session-inline__dropdown-item" @click="selectSessionFromList(session.id)">
+          <div v-for="session in chatSessions" :key="session.id"
+            class="ai-session-inline__dropdown-item" role="option" tabindex="0"
+            @click="selectSessionFromList(session.id)"
+            @keydown.enter.prevent="selectSessionFromList(session.id)">
             <span>{{ formatSessionLabel(session) }}</span>
             <small>{{ formatSessionTimestamp(session.updatedAt) }}</small>
-            <button type="button" class="ai-session-inline__dropdown-remove"
-              @click.stop="prepareDeleteSession(session.id)" aria-label="Delete this saved chat">
+            <span role="button" class="ai-session-inline__dropdown-remove"
+              tabindex="0"
+              @click.stop="prepareDeleteSession(session.id)"
+              @keydown.enter.stop.prevent="prepareDeleteSession(session.id)"
+              aria-label="Delete this saved chat">
               <i class="fas fa-times" aria-hidden="true"></i>
-            </button>
-          </button>
+            </span>
+          </div>
         </div>
         <div v-if="pendingDeleteSessionId" class="ai-session-inline__alert ai-session-inline__alert--warning"
           role="alert">

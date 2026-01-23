@@ -79,12 +79,12 @@
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'surah' }"
                                         @click="setActiveSidebarTab('surah')">Surah</button>
-                                    <button class="tab-btn flex-fill" 
+                                    <!-- <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'verse' }"
                                         @click="setActiveSidebarTab('verse')">Verse</button>
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'juz' }"
-                                        @click="setActiveSidebarTab('juz')">Juz</button>
+                                        @click="setActiveSidebarTab('juz')">Juz</button> -->
                                 </div>
 
                                 <!-- Search Input -->
@@ -1112,7 +1112,7 @@
                             }"></div>
                         </div>
                     </div>
-                    <div class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
+                    <div v-if="false" class="ayah-scrollbar" role="group" aria-label="Surah verse navigator">
                         <span class="ayah-scrollbar-label">Ayah</span>
                         <input class="ayah-scrollbar-input" type="range" min="1" :max="Math.max(totalItems, 1)"
                             :value="ayahScrubValue" @input="onAyahScrubInput" @change="onAyahScrubChange"

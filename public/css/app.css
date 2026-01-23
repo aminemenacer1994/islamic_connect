@@ -12,6 +12,14 @@
   font-display: swap;
 }
 @font-face {
+  font-family: 'UthmanicHafs';
+  src: url('/fonts/UthmanicHafs-Regular.woff2') format('woff2'),
+       url('/fonts/UthmanicHafs-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
   font-family: 'bootstrap-icons';
   src: url('/fonts/bootstrap-icons.woff2') format('woff2'),
        url('/fonts/bootstrap-icons.woff') format('woff');
@@ -1077,6 +1085,110 @@ body.has-admin-sidebar .badge[data-status="cancelled"] {
   overflow: hidden;
   margin-top: 1rem;
 }
+.table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+.users-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.users-table thead th {
+  padding: 1rem 1.25rem;
+  text-align: left;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 0.4px;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  background: rgba(243, 244, 246, 0.8);
+}
+.users-table tbody td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: middle;
+  font-size: 15px;
+  color: #1f2937;
+}
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+.users-table tbody tr {
+  transition: background 0.2s ease;
+}
+.users-table tbody tr:hover {
+  background: rgba(99, 102, 241, 0.07);
+}
+.empty-state.no-results {
+  gap: 0.5rem;
+  padding: 3rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.pagination-btn {
+  width: 36px;
+  height: 36px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  font-size: 18px;
+  line-height: 0;
+  color: #4b5563;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.pagination-btn:hover:not(:disabled) {
+  background: #4338ca;
+  color: white;
+  border-color: transparent;
+}
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.pagination-label {
+  min-width: 56px;
+  text-align: center;
+  font-weight: 600;
+  color: #374151;
+}
+.rows-per-page {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 14px;
+  color: #4b5563;
+}
+.rows-per-page select {
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  padding: 0.4rem 0.8rem;
+  font-size: 14px;
+  min-width: 90px;
+  background: white;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.rows-per-page select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+.pagination-controls,
+.rows-per-page {
+  margin-right: 1rem;
+}
+.footer-actions {
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
 /* User Cell */
 .user-cell {
   display: flex;
@@ -1164,6 +1276,11 @@ body.has-admin-sidebar .badge[data-status="cancelled"] {
   background: rgba(239, 68, 68, 0.1);
   color: #dc2626;
   border: 1px solid rgba(239, 68, 68, 0.2);
+}
+.status-badge.pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #d97706;
+  border: 1px solid rgba(245, 158, 11, 0.2);
 }
 /* Last Login */
 .last-login {
