@@ -236,7 +236,7 @@
                                 <div class="surah-offcanvas-toggle-inline">
                                     <label class="form-label surah-offcanvas-label">Tajweed colors</label>
                                     <div class="ml-4 form-check form-switch surah-tajweed-toggle">
-                                <input class="form-check-input" type="checkbox" role="switch"
+                                 <input class="form-check-input" type="checkbox" role="switch"
                                     id="surahTajweedToggle" v-model="showTajweed" />
                                         <label class="form-check-label" for="surahTajweedToggle">
                                             Tajweed colors
@@ -285,88 +285,147 @@
             <div class="surah-header-sticky" :class="{ 'is-collapsed': headerCollapsed }">
                 <transition name="header-slide">
                     <div v-show="!headerCollapsed">
-                        <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
-                            <div class="surah-toolbar-main">
-                                <div class="surah-title-block pb-2">
-                                    <span class="surah-eyebrow">Now viewing</span>
-                                    <div class="surah-title-row">
-                                        <span class="surah-title">
-                                            Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
-                                            }}
-                                        </span>
-                                        <button type="button" class="surah-info-inline" @click="openSurahInfo(currentSurahInfo)"
-                                            :disabled="!currentSurahInfo" aria-label="View surah information"
-                                            title="Surah info">
-                                            <i class="bi bi-info-circle" aria-hidden="true"></i>
-                                        </button>
-                                        <span class="surah-dot" aria-hidden="true">•</span>
-                                        <span class="surah-badge">
-                                            {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="surah-playback-controls">
-                                    <div class="surah-control-group">
-                                        <label class="surah-control-label" for="surahReciterSelect">Reciter</label>
-                                        <select id="surahReciterSelect" class="form-select shadow-sm surah-select"
-                                            v-model="selectedReciter" aria-label="Select reciter">
-                                            <option value="" disabled>Select a reciter</option>
-                                            <option v-for="reciter in recitersSorted" :key="reciter.identifier"
-                                                :value="reciter.identifier">
-                                                {{ reciter.englishName }}
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="surah-control-group">
-                                        <label class="surah-control-label" for="surahTranslationSelect">Translation</label>
-                                        <select id="surahTranslationSelect" class="form-select shadow-sm surah-select"
-                                            v-model="selectedTranslation" aria-label="Select translation">
-                                            <option value="" disabled>Select Translation</option>
-                                            <option v-for="translation in translationsSorted" :key="translation.identifier"
-                                                :value="translation.identifier">
-                                                {{
-                                                    `${translation.flag} ${translation.englishName} (${translation.language})`
-                                                }}
-                                            </option>
-                                        </select>
-                                    </div>
+                        <div v-if="isMobile" class="surat-mobile-header">
+                            <div class="surat-mobile-header-meta">
+                                <span class="mobile-page-label">{{ mobilePageLabel }}</span>
+                                <span v-if="mobileJuzLabel && mobileHizbLabel" class="mobile-juz-label">
+                                    {{ mobileJuzLabel }} / {{ mobileHizbLabel }}
+                                </span>
+                                <span v-else-if="mobileJuzLabel" class="mobile-juz-label">
+                                    {{ mobileJuzLabel }}
+                                </span>
+                            </div>
+                            <div class="surat-mobile-header-main">
+                                <button type="button"
+                                    class="mobile-surah-trigger"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#surahOffcanvas"
+                                    aria-controls="surahOffcanvas"
+                                    @click="prepareSettingsDraft">
+                                    <span class="mobile-surah-title">{{ mobileSurahLabel }}</span>
+                                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
+                                </button>
+                                <div class="mobile-toolbar-icons">
                                     <button type="button"
-                                        class="icon-btn surah-settings-btn d-none d-md-flex"
+                                        class="icon-btn"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#tajweedRulesModal"
+                                        aria-label="View tajweed rules">
+                                        <i class="bi bi-list-columns-reverse"></i>
+                                    </button>
+                                    <button type="button"
+                                        class="icon-btn"
+                                        @click="openSurahInfo(currentSurahInfo)"
+                                        :disabled="!currentSurahInfo"
+                                        aria-label="View surah information"
+                                        title="Surah info">
+                                        <i class="bi bi-info-circle"></i>
+                                    </button>
+                                    <button type="button"
+                                        class="icon-btn"
                                         data-bs-toggle="modal"
                                         data-bs-target="#surahSettingsModal"
                                         @click="prepareSettingsDraft"
-                                        aria-label="Open display settings"
+                                        aria-label="Display settings"
                                         title="Display settings">
-                                        <i class="fas fa-cog" aria-hidden="true"></i>
+                                        <i class="fas fa-cog"></i>
                                     </button>
                                 </div>
                             </div>
+                            <div class="surat-mobile-header-settings">
+                                <span>Tajweed colors</span>
+                                <select class="form-select form-select-sm"
+                                    v-model="showTajweed"
+                                    aria-label="Tajweed colors">
+                                    <option :value="true">On</option>
+                                    <option :value="false">Off</option>
+                                </select>
+                            </div>
                         </div>
+                        <div v-else>
+                            <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
+                                <div class="surah-toolbar-main">
+                                    <div class="surah-title-block pb-2">
+                                        <span class="surah-eyebrow">Now viewing</span>
+                                        <div class="surah-title-row">
+                                            <span class="surah-title">
+                                                Surah {{ surahDetails.surahNumber }} · {{ surahDetails.englishName || surahDetails.name
+                                                }}
+                                            </span>
+                                            <button type="button" class="surah-info-inline" @click="openSurahInfo(currentSurahInfo)"
+                                                :disabled="!currentSurahInfo" aria-label="View surah information"
+                                                title="Surah info">
+                                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                            </button>
+                                            <span class="surah-dot" aria-hidden="true">•</span>
+                                            <span class="surah-badge">
+                                                {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="surah-playback-controls">
+                                        <div class="surah-control-group">
+                                            <label class="surah-control-label" for="surahReciterSelect">Reciter</label>
+                                            <select id="surahReciterSelect" class="form-select shadow-sm surah-select"
+                                                v-model="selectedReciter" aria-label="Select reciter">
+                                                <option value="" disabled>Select a reciter</option>
+                                                <option v-for="reciter in recitersSorted" :key="reciter.identifier"
+                                                    :value="reciter.identifier">
+                                                    {{ reciter.englishName }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="surah-control-group">
+                                            <label class="surah-control-label" for="surahTranslationSelect">Translation</label>
+                                            <select id="surahTranslationSelect" class="form-select shadow-sm surah-select"
+                                                v-model="selectedTranslation" aria-label="Select translation">
+                                                <option value="" disabled>Select Translation</option>
+                                                <option v-for="translation in translationsSorted" :key="translation.identifier"
+                                                    :value="translation.identifier">
+                                                    {{
+                                                        `${translation.flag} ${translation.englishName} (${translation.language})`
+                                                    }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <button type="button"
+                                            class="icon-btn surah-settings-btn d-none d-md-flex"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#surahSettingsModal"
+                                            @click="prepareSettingsDraft"
+                                            aria-label="Open display settings"
+                                            title="Display settings">
+                                            <i class="fas fa-cog" aria-hidden="true"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
 
-                        <div class="ayah-links-bar">
-                            <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
-                                data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
-                                <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                                <span class="tajweed-rules-label">Tajweed Rules</span>
-                            </button>
-                            <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
-                                data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
-                                aria-label="Open filters and info" @click="prepareSettingsDraft">
-                                <i class="bi bi-sliders" aria-hidden="true"></i>
-                            </button>
-                            <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
-                                @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
-                                aria-label="View surah information" title="Surah info">
-                                <i class="bi bi-info-circle" aria-hidden="true"></i>
-                            </button>
-                            <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
-                                <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
-                                View saved bookmarks
-                            </a>
-                            <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
-                                <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
-                                View notes & reflections
-                            </a>
+                            <div class="ayah-links-bar">
+                                <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
+                                    data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
+                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                    <span class="tajweed-rules-label">Tajweed Rules</span>
+                                </button>
+                                <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
+                                    data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
+                                    aria-label="Open filters and info" @click="prepareSettingsDraft">
+                                    <i class="bi bi-sliders" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
+                                    @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
+                                    aria-label="View surah information" title="Surah info">
+                                    <i class="bi bi-info-circle" aria-hidden="true"></i>
+                                </button>
+                                <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
+                                    <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
+                                    View saved bookmarks
+                                </a>
+                                <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
+                                    <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
+                                    View notes & reflections
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </transition>
@@ -1579,6 +1638,48 @@ export default {
             const target = Number(this.surahDetails?.surahNumber || this.selectedSurah);
             if (!target || !Array.isArray(this.surahs)) return null;
             return this.surahs.find((surah) => Number(surah.number) === target) || null;
+        },
+        currentMobileAyah() {
+            const ayahs = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs
+                : [];
+            if (!ayahs.length) return null;
+            const index = Math.min(
+                Math.max(0, Number(this.currentlyPlayingIndex) || 0),
+                ayahs.length - 1
+            );
+            return ayahs[index] || ayahs[0];
+        },
+        mobilePageLabel() {
+            const page = this.currentMobileAyah?.page;
+            if (page) return `Page ${page}`;
+            return "Page —";
+        },
+        mobileJuzLabel() {
+            const juz = this.currentMobileAyah?.juz;
+            return juz ? `Juz ${juz}` : "";
+        },
+        mobileHizbLabel() {
+            const hizb =
+                this.currentMobileAyah?.hizb ||
+                (typeof this.currentMobileAyah?.hizbQuarter === "number"
+                    ? Math.ceil(this.currentMobileAyah.hizbQuarter / 4)
+                    : null);
+            return hizb ? `Hizb ${hizb}` : "";
+        },
+        mobileSurahLabel() {
+            const surahNumber =
+                this.surahDetails?.surahNumber || this.selectedSurah;
+            const surahName =
+                this.surahDetails?.englishName ||
+                this.surahDetails?.name ||
+                this.currentSurahInfo?.englishName ||
+                this.currentSurahInfo?.name ||
+                "Surah";
+            if (surahNumber && surahName) {
+                return `${surahNumber}. ${surahName}`;
+            }
+            return surahName;
         },
         mainReciterIds() {
             const primary = this.reciterTimingMap
@@ -4481,6 +4582,8 @@ export default {
                                         translation: transText,
                                         lowerTranslation: transText.toLowerCase(),
                                         juz: ayah.juz,
+                                        hizb: ayah.hizb,
+                                        hizbQuarter: ayah.hizbQuarter,
                                         page: ayah.page,
                                         audio: ayah.audio || "",
                                         words,
@@ -4575,6 +4678,8 @@ export default {
                                 translation: transText,
                                 lowerTranslation: transText.toLowerCase(),
                                 juz: ayah.juz,
+                                hizb: ayah.hizb,
+                                hizbQuarter: ayah.hizbQuarter,
                                 page: ayah.page,
                                 audio: ayah.audio || "",
                                 words,
@@ -5775,6 +5880,94 @@ export default {
         padding: 7px 12px;
         font-size: 0.85rem;
     }
+
+    .surah-header-sticky {
+        position: sticky;
+        top: 0;
+        z-index: 1050;
+        background: transparent;
+        border: none;
+    }
+
+    .surah-header-sticky .ayah-links-bar {
+        background: transparent;
+    }
+
+    .surat-mobile-header {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 0;
+        border: none;
+        background: transparent;
+        position: sticky;
+        top: 0;
+        z-index: 1055;
+        backdrop-filter: blur(16px);
+    }
+
+    .surat-mobile-header-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #0f6e63;
+        font-weight: 600;
+    }
+
+    .surat-mobile-header-main {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .mobile-surah-trigger {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.35);
+        background: rgba(15, 110, 99, 0.08);
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: inherit;
+    }
+
+    .mobile-surah-trigger .bi-chevron-down {
+        font-size: 1rem;
+    }
+
+    .mobile-toolbar-icons {
+        display: flex;
+        gap: 6px;
+    }
+
+    .mobile-toolbar-icons .icon-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.2);
+        background: rgba(15, 110, 99, 0.04);
+        color: #0b3d2e;
+    }
+
+    .surat-mobile-header-settings {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 4px 0;
+        font-size: 0.9rem;
+        color: #1d2b2f;
+    }
+
+    .surat-mobile-header-settings .form-select-sm {
+        max-width: 140px;
+    }
 }
 
 @media (max-width: 992px) {
@@ -6378,13 +6571,25 @@ export default {
 
 .surah-header-sticky {
     position: sticky;
-    padding: 15px;
-    border-radius: 20px;
-    border: 3px solid rgba(15, 110, 99, 0.421);
+    top: calc(var(--navbar-h, 72px) + 8px);
+    z-index: 1050;
+    background: transparent;
+    border: none;
+    padding: 8px 0 0;
+    backdrop-filter: blur(10px);
 }
 
-.surah-header-sticky.is-collapsed {
-    padding-bottom: 0;
+@media (min-width: 769px) {
+    .surah-header-sticky {
+        padding: 15px;
+        border-radius: 20px;
+        border: 3px solid rgba(15, 110, 99, 0.421);
+        background: transparent;
+    }
+
+    .surah-header-sticky.is-collapsed {
+        padding-bottom: 0;
+    }
 }
 
 .header-collapse-toggle {
@@ -6953,6 +7158,8 @@ export default {
 .surah-offcanvas {
     --bs-offcanvas-width: min(92vw, 360px);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 248, 0.96));
+    overflow-y: auto;
+    padding-bottom: 1.5rem;
 }
 
 .surah-offcanvas .offcanvas-header {
@@ -7034,14 +7241,15 @@ export default {
 }
 
 .surah-offcanvas-toggle-group {
-    flex: 0 0 auto;
+    width: 100%;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: stretch;
     gap: 14px;
 }
 
 .surah-offcanvas-toggle-inline {
-    flex: 0 0 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

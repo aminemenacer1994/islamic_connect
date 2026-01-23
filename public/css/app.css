@@ -34653,6 +34653,83 @@ to {
         padding: 7px 12px;
         font-size: 0.85rem;
 }
+.surah-header-sticky[data-v-828f3036] {
+        position: sticky;
+        top: 0;
+        z-index: 1050;
+        background: transparent;
+        border: none;
+}
+.surah-header-sticky .ayah-links-bar[data-v-828f3036] {
+        background: transparent;
+}
+.surat-mobile-header[data-v-828f3036] {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 10px 12px;
+        border-radius: 0;
+        border: none;
+        background: transparent;
+        position: sticky;
+        top: 0;
+        z-index: 1055;
+        backdrop-filter: blur(16px);
+}
+.surat-mobile-header-meta[data-v-828f3036] {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #0f6e63;
+        font-weight: 600;
+}
+.surat-mobile-header-main[data-v-828f3036] {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+}
+.mobile-surah-trigger[data-v-828f3036] {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.35);
+        background: rgba(15, 110, 99, 0.08);
+        padding: 10px 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: inherit;
+}
+.mobile-surah-trigger .bi-chevron-down[data-v-828f3036] {
+        font-size: 1rem;
+}
+.mobile-toolbar-icons[data-v-828f3036] {
+        display: flex;
+        gap: 6px;
+}
+.mobile-toolbar-icons .icon-btn[data-v-828f3036] {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.2);
+        background: rgba(15, 110, 99, 0.04);
+        color: #0b3d2e;
+}
+.surat-mobile-header-settings[data-v-828f3036] {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 4px 0;
+        font-size: 0.9rem;
+        color: #1d2b2f;
+}
+.surat-mobile-header-settings .form-select-sm[data-v-828f3036] {
+        max-width: 140px;
+}
 }
 @media (max-width: 992px) {
 .surah-layout[data-v-828f3036] {
@@ -35163,12 +35240,23 @@ to {
 }
 .surah-header-sticky[data-v-828f3036] {
     position: sticky;
-    padding: 15px;
-    border-radius: 20px;
-    border: 3px solid rgba(15, 110, 99, 0.421);
+    top: calc(var(--navbar-h, 72px) + 8px);
+    z-index: 1050;
+    background: transparent;
+    border: none;
+    padding: 8px 0 0;
+    backdrop-filter: blur(10px);
+}
+@media (min-width: 769px) {
+.surah-header-sticky[data-v-828f3036] {
+        padding: 15px;
+        border-radius: 20px;
+        border: 3px solid rgba(15, 110, 99, 0.421);
+        background: transparent;
 }
 .surah-header-sticky.is-collapsed[data-v-828f3036] {
-    padding-bottom: 0;
+        padding-bottom: 0;
+}
 }
 .header-collapse-toggle[data-v-828f3036] {
     display: flex;
@@ -35672,6 +35760,8 @@ to {
 .surah-offcanvas[data-v-828f3036] {
     --bs-offcanvas-width: min(92vw, 360px);
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 250, 248, 0.96));
+    overflow-y: auto;
+    padding-bottom: 1.5rem;
 }
 .surah-offcanvas .offcanvas-header[data-v-828f3036] {
     border-bottom: 1px solid rgba(15, 110, 99, 0.12);
@@ -35740,13 +35830,14 @@ to {
     min-width: 220px;
 }
 .surah-offcanvas-toggle-group[data-v-828f3036] {
-    flex: 0 0 auto;
+    width: 100%;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    align-items: stretch;
     gap: 14px;
 }
 .surah-offcanvas-toggle-inline[data-v-828f3036] {
-    flex: 0 0 auto;
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
