@@ -287,7 +287,7 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="surah-header-sticky" :class="{ 'is-collapsed': headerCollapsed }">
+            <div class="surah-header-sticky" :class="{ 'is-collapsed': headerCollapsed }">
                 <transition name="header-slide">
                     <div v-show="!headerCollapsed">
                         <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
@@ -379,13 +379,12 @@
                 <div class="header-collapse-toggle" @click="toggleHeader">
                     <i :class="headerCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
                 </div>
-            </div> -->
+            </div>
 
 
 
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-            <div id="scroll-anchor" style="height: 0; width: 0; visibility: hidden; pointer-events: none;"></div>
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
                 <div :style="{ height: topSpacerHeight + 'px' }"></div>
 
@@ -1124,17 +1123,6 @@
                 </div>
             </div>
         </teleport>
-
-        <!-- Scroll to Top FAB -->
-        <transition name="fab-fade">
-            <button v-show="showScrollTopButton" 
-                    class="btn scroll-to-top-fab" 
-                    @click="scrollToTop"
-                    aria-label="Scroll to top"
-                    title="Scroll to top">
-                <i class="bi bi-chevron-up"></i>
-            </button>
-        </transition>
     </div>
 </template>
 
@@ -1243,7 +1231,6 @@ export default {
             isManualScrolling: false,
             manualScrollTimer: null,
             ayahScrubValue: 1,
-            lastManualNavigationAt: 0,
             // perf throttles
             lastProgressAt: 0,
             lastVizAt: 0,
@@ -1840,9 +1827,6 @@ export default {
         // postpone loading until we know the authentication status
     },
     async mounted() {
-        if (typeof history !== "undefined" && "scrollRestoration" in history) {
-            history.scrollRestoration = "manual";
-        }
         window.addEventListener("keydown", this.onKeydown);
         this._keydownHandler = (e) => {
             if (!this.showAudioPlayer) return;
@@ -1887,7 +1871,6 @@ export default {
         window.addEventListener("visibilitychange", this.visibilityHandler);
         // Virtualization hooks
         this.$nextTick(() => {
-            window.scrollTo(0, 0); // Force scroll to top on initial mount
             this.computeListTop();
             this.updateVirtualWindow();
             this.$nextTick(this.calibrateItemHeight);
@@ -1934,7 +1917,6 @@ export default {
             if (storedWordTranslation !== null)
                 this.showWordTranslation = storedWordTranslation === "1";
         } catch (_) { }
-        this.deepLinkTarget = this.readDeepLinkTarget();
         Promise.all([
             this.fetchReciters(),
             this.fetchSurahs(),
@@ -1942,10 +1924,6 @@ export default {
             this.fetchSurahDetails(),
         ]).then(() => {
             this.isInitialLoad = false;
-            // Handle deep link after all surah info is available
-            this.$nextTick(() => {
-                this.maybeScrollToDeepLink();
-            });
         });
         this.loadReciterLeadOffsets();
         this.highlightLeadSeconds = this.getReciterLeadOffset(
@@ -1955,9 +1933,6 @@ export default {
     },
     beforeUnmount() {
         this.isComponentAlive = false;
-        if (typeof history !== "undefined" && "scrollRestoration" in history) {
-            history.scrollRestoration = "auto";
-        }
         this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
@@ -1998,9 +1973,6 @@ export default {
         clearTimeout(this.authAlertTimer);
     },
     beforeDestroy() {
-        if (typeof history !== "undefined" && "scrollRestoration" in history) {
-            history.scrollRestoration = "auto";
-        }
         this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
@@ -3157,7 +3129,6 @@ export default {
             } catch (_) { }
         },
         calibrateItemHeight() {
-            if (this.isInitialLoad || this.isNavigating) return;
             try {
                 const el = this.$el.querySelector(".ayah-card-container");
                 if (!el) return;
@@ -3170,7 +3141,7 @@ export default {
         },
         computeListTop() {
             try {
-                const el = document.getElementById("scroll-anchor") || this.$refs.listContainer;
+                const el = this.$refs.listContainer;
                 if (!el) {
                     this.listTop = 0;
                     return;
@@ -3182,7 +3153,6 @@ export default {
             }
         },
         onScrollVirtual() {
-            if (this.isNavigating) return;
             this.isManualScrolling = true;
             clearTimeout(this.manualScrollTimer);
             this.manualScrollTimer = setTimeout(() => {
@@ -3222,9 +3192,7 @@ export default {
                 
                 // UX Improvement: Sync sidebar highlights on scroll (if not playing)
                 const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-                const manualNavCooldown = 900;
-                const timeSinceManualNav = Date.now() - this.lastManualNavigationAt;
-                if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex] && timeSinceManualNav > manualNavCooldown) {
+                if (!this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex]) {
                     // Critical: Use a silent update or check isManualScrolling 
                     // to prevent syncPlaybackScroll from snap-jumping during user scroll.
                     this.currentlyPlayingIndex = approxIndex;
@@ -3284,14 +3252,14 @@ export default {
             this.scrollToAyahIndex(index);
         },
         scrollToAyahIndex(index) {
-            const total = this.totalItems;
+            const total = Array.isArray(this.filteredAyahs)
+                ? this.filteredAyahs.length
+                : 0;
             if (!total || index < 0 || index >= total) {
                 this.isNavigating = false;
                 return;
             }
             
-            this.isNavigating = true;
-
             // Ensure target is in visible start/end for virtual scroll
             const start = Math.max(0, index - this.buffer);
             const end = Math.min(
@@ -3299,41 +3267,28 @@ export default {
                 start + this.windowSize + this.buffer * 2
             );
             
-            // Set immediately so cards are in DOM before we try to measure them
-            this.visibleStart = start;
-            this.visibleEnd = end;
+            if (index < this.visibleStart || index >= this.visibleEnd) {
+                this.visibleStart = start;
+                this.visibleEnd = end;
+            }
 
+            // Reduced nested ticks for an "instant" jump feel
             this.$nextTick(() => {
                 this.computeListTop();
-                
-                // Pinpoint Accuracy: Use actual element rect if it exists
-                const el = document.getElementById(`ayah-card-${index}`);
+                this.calibrateItemHeight();
+
                 const offset = this.currentHeaderOffset;
-                let targetTop;
-
-                if (el) {
-                    const rect = el.getBoundingClientRect();
-                    targetTop = Math.max(0, rect.top + window.scrollY - offset);
-                } else {
-                    // Fallback to estimation
-                    targetTop = Math.max(0, this.listTop + index * this.itemHeight - offset);
-                }
-
-                // Scroll Threshold: Skip if already very close to target to prevent jitter
-                if (Math.abs(window.scrollY - targetTop) < 5) {
-                    this.selectCard(index);
-                    setTimeout(() => { this.isNavigating = false; }, 100);
-                    return;
-                }
-
+                const targetTop = this.listTop + index * this.itemHeight - offset;
+                
                 window.scrollTo({
-                    top: targetTop,
-                    behavior: this.isInitialLoad ? "auto" : "smooth",
+                    top: Math.max(0, targetTop),
+                    behavior: "smooth",
                 });
 
                 this.selectCard(index);
 
                 // Delay resetting the navigation flag to let scrolls settle fully.
+                // 1000ms ensures smooth scroll completes before auto-locking resumes.
                 setTimeout(() => {
                     this.isNavigating = false;
                 }, 1000);
@@ -3400,11 +3355,6 @@ export default {
             this.selectedCardIndex = index;
             this.currentlyPlayingIndex = index;
             this.isHighlighted = true;
-            const ayah = this.filteredAyahs?.[index];
-            if (ayah && typeof ayah.juz === "number") {
-                this.selectedJuz = ayah.juz;
-            }
-            this.lastManualNavigationAt = Date.now();
             // ensure card is visible
             // removed programmatic scrolling
             const verseNum = index + 1;
@@ -4731,22 +4681,18 @@ export default {
             this.sidebarSearchQuery = "";
         },
         async selectJuz(juzNumber) {
-            if (this.selectedJuz === juzNumber && this.isNavigating) return;
             this.isNavigating = true;
             this.selectedJuz = juzNumber;
-            this.lastManualNavigationAt = Date.now();
             const start = getJuzStart(juzNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
                 await this.selectSurah(start.surah, { skipScroll: true });
+                // No search clearing needed here as we are jumping to a specific Juz start
                 this.scrollToAyah(start.ayah - 1);
-            } else {
-                this.isNavigating = false;
             }
         },
         async selectPage(pageNumber) {
             this.isNavigating = true;
-            this.lastManualNavigationAt = Date.now();
             const start = getPageStart(pageNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
@@ -4778,24 +4724,8 @@ export default {
             return new Promise((resolve, reject) => {
                 const { skipScroll = false } = options;
                 
-                if (String(this.selectedSurah) === String(number)) {
-                    if (!this.isLoading) {
-                        resolve();
-                        return;
-                    }
-                    // Wait for existing load if applicable
-                    const checkInterval = setInterval(() => {
-                        if (!this.isLoading) {
-                            clearInterval(checkInterval);
-                            resolve();
-                        }
-                    }, 50);
-                    return;
-                }
-
-                if (this.isLoading) {
-                    // Prevent concurrent different-surah loads if one is active
-                    resolve(); 
+                if (String(this.selectedSurah) === String(number) && !this.isLoading) {
+                    resolve();
                     return;
                 }
 
@@ -4845,6 +4775,8 @@ export default {
             // If user is manually scrolling or we are in the middle of a nav jump, 
             // don't force a "snap-back" scroll.
             if (this.isManualScrolling || this.isNavigating) return;
+            const manualNavCooldown = 800;
+            if (Date.now() - this.lastManualNavigationAt < manualNavCooldown) return;
 
             const now = window.performance ? performance.now() : Date.now();
             if (now - this.lastAutoScrollAt < 400) return;
@@ -5680,25 +5612,24 @@ export default {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 7px 18px;
+    padding: 8px 14px;
     border-radius: 999px;
-    border: 1px solid rgba(15, 110, 99, 0.15);
-    background: rgba(15, 110, 99, 0.04);
-    color: #127a6f;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.16);
+    color: #ffffff;
     font-weight: 700;
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(15, 110, 99, 0.06);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 14px 24px rgba(10, 30, 28, 0.35);
+    transition: transform 0.2s ease, box-shadow 0.2s ease,
+        border-color 0.2s ease;
     white-space: nowrap;
-    font-size: 0.88rem;
 }
 
 .bookmark-cta-link:hover {
-    background: rgba(15, 110, 99, 0.08);
-    border-color: rgba(15, 110, 99, 0.4);
-    color: #0d544c;
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 12px 24px rgba(15, 110, 99, 0.14);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.45);
+    box-shadow: 0 18px 30px rgba(10, 30, 28, 0.45);
+    color: #ffffff;
 }
 
 .notes-cta-link {
@@ -6415,29 +6346,15 @@ export default {
     position: sticky;
     top: var(--nav-offset, 72px);
     z-index: 900;
-    background: rgba(255, 255, 255, 0.88);
-    backdrop-filter: blur(20px) saturate(200%);
-    -webkit-backdrop-filter: blur(20px) saturate(200%);
-    padding: 14px 20px 6px 20px;
-    margin-bottom: 20px;
-    border-bottom: 1px solid rgba(15, 110, 99, 0.08);
-    border-left: 4px solid #0f6e63;
-    border-radius: 0 0 24px 24px;
-    box-shadow: 
-        0 10px 40px -10px rgba(15, 53, 48, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-
-.surah-header-sticky::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-    z-index: 1;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(15px) saturate(180%);
+    -webkit-backdrop-filter: blur(15px) saturate(180%);
+    padding: 12px 16px 4px 16px;
+    margin-bottom: 12px;
+    border-bottom: 1px solid rgba(15, 110, 99, 0.1);
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 10px 25px -10px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .surah-header-sticky.is-collapsed {
@@ -6524,16 +6441,14 @@ export default {
 
 .surah-eyebrow {
     font-size: 0.65rem;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: #1a4d46;
-    font-weight: 800;
-    background: rgba(15, 110, 99, 0.08);
-    padding: 3px 10px;
+    color: #5a6b6b;
+    font-weight: 700;
+    background: rgba(15, 110, 99, 0.1);
+    padding: 2px 8px;
     border-radius: 999px;
     width: fit-content;
-    border: 1px solid rgba(15, 110, 99, 0.12);
-    margin-bottom: 2px;
 }
 
 .surah-title-row {
@@ -6544,13 +6459,9 @@ export default {
 }
 
 .surah-title {
-    font-size: 1.45rem;
-    font-weight: 800;
-    background: linear-gradient(135deg, #0f3531 0%, #0f6e63 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #153532;
 }
 
 .surah-dot {
@@ -6559,17 +6470,14 @@ export default {
 }
 
 .surah-badge {
-    font-size: 0.68rem;
-    font-weight: 800;
+    font-size: 0.72rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    padding: 4px 12px;
+    letter-spacing: 0.1em;
+    padding: 4px 8px;
     border-radius: 999px;
-    background: rgba(15, 110, 99, 0.06);
-    color: #127a6f;
-    border: 1px solid rgba(15, 110, 99, 0.15);
-    display: inline-flex;
-    align-items: center;
+    background: rgba(15, 110, 99, 0.16);
+    color: #0b5c53;
 }
 
 .surah-playback-controls {
@@ -6602,25 +6510,19 @@ export default {
 }
 
 .surah-playback-controls .surah-select {
-    height: 42px;
-    padding: 6px 16px;
-    border-radius: 12px;
-    border: 1.5px solid rgba(15, 110, 99, 0.12);
-    box-shadow: 0 4px 12px rgba(15, 53, 48, 0.04);
-    background-color: rgba(255, 255, 255, 0.85);
-    color: #0f3531;
-    font-weight: 600;
-    font-size: 0.92rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    cursor: pointer;
+    height: 40px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border-color: rgba(15, 110, 99, 0.18);
+    box-shadow: 0 6px 12px rgba(15, 53, 48, 0.08);
+    background-color: #ffffff;
+    color: #153532;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .surah-playback-controls .surah-select:focus {
-    border-color: rgba(15, 110, 99, 0.45);
-    box-shadow: 0 12px 24px rgba(15, 53, 48, 0.14);
-    background-color: #ffffff;
-    outline: none;
-    transform: translateY(-1px) scale(1.01);
+    border-color: rgba(15, 110, 99, 0.4);
+    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.14);
 }
 
 .surah-playback-controls .surah-select option,
@@ -6657,18 +6559,18 @@ export default {
 }
 
 .tajweed-rules-trigger {
-    height: 38px;
-    border-radius: 999px;
-    padding: 0 18px;
+    height: 40px;
+    width: auto;
+    border-radius: 12px;
+    padding: 0 12px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    background: rgba(15, 110, 99, 0.04);
-    border: 1px solid rgba(15, 110, 99, 0.15);
-    color: #127a6f;
-    box-shadow: 0 4px 12px rgba(15, 110, 99, 0.06);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 8px;
+    background: rgba(11, 92, 83, 0.12);
+    border: 1px solid rgba(11, 92, 83, 0.25);
+    color: #0b5c53;
+    box-shadow: 0 10px 18px rgba(11, 92, 83, 0.12);
 }
 
 .tajweed-rules-label {
@@ -6679,11 +6581,9 @@ export default {
 }
 
 .tajweed-rules-trigger:hover {
-    background: rgba(15, 110, 99, 0.08);
-    border-color: rgba(15, 110, 99, 0.4);
-    color: #0d544c;
-    transform: translateY(-3px) scale(1.03);
-    box-shadow: 0 12px 24px rgba(15, 110, 99, 0.14);
+    background: rgba(11, 92, 83, 0.18);
+    border-color: rgba(11, 92, 83, 0.35);
+    color: #08433e;
 }
 
 .surah-offcanvas-inline {
