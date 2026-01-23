@@ -340,10 +340,6 @@
                         </li>
 
                         <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/quran-pages" data-path="/quran-pages" data-nav-item="primary"><b>Quran Pages</b></a>
-                        </li>
-
-                        <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/content" data-path="/content" data-nav-item="primary"><b>Audio Podcasts</b></a>
                         </li>
 
@@ -604,7 +600,6 @@
                 // Quran routes
                 '/holy': '/quran',
                 '/quran': '/quran',
-                '/quran-pages': '/quran-pages',
                 '/surat': '/surat',
                 '/history': '/surat',
                 '/about': '/about',

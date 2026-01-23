@@ -138,7 +138,6 @@ const asyncComponentLoaders = {
   "ahadith-component": () => import("./components/AhadithComponent.vue"),
   "correction-component": () => import("./components/admin_panels/CorrectionComponent.vue"),
   "quran-component": () => import("./components/QuranComponent.vue"),
-  "quran-pages-component": () => import("./components/QuranPagesComponent.vue"),
   "about-component": () => import("./components/AboutComponent.vue"),
   "about-us-component": () => import("./components/AboutUsComponent.vue"),
   "bookmark-component": () => import("./components/admin_panels/BookmarkComponent.vue"),

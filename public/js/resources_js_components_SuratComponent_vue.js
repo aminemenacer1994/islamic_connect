@@ -126,6 +126,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       isManualScrolling: false,
       manualScrollTimer: null,
       ayahScrubValue: 1,
+      lastManualNavigationAt: 0,
       // perf throttles
       lastProgressAt: 0,
       lastVizAt: 0,
@@ -672,6 +673,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   },
   async mounted() {
     var _JSON$parse, _JSON$parse2;
+    if (typeof history !== "undefined" && "scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+    }
     window.addEventListener("keydown", this.onKeydown);
     this._keydownHandler = e => {
       if (!this.showAudioPlayer) return;
@@ -763,6 +767,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   },
   beforeUnmount() {
     this.isComponentAlive = false;
+    if (typeof history !== "undefined" && "scrollRestoration" in history) {
+      history.scrollRestoration = "auto";
+    }
     this.stopHighlightLoop();
     window.removeEventListener("keydown", this.onKeydown);
     if (this._keydownHandler) window.removeEventListener("keydown", this._keydownHandler);
@@ -793,6 +800,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     clearTimeout(this.authAlertTimer);
   },
   beforeDestroy() {
+    if (typeof history !== "undefined" && "scrollRestoration" in history) {
+      history.scrollRestoration = "auto";
+    }
     this.stopHighlightLoop();
     window.removeEventListener("keydown", this.onKeydown);
     if (this._keydownHandler) window.removeEventListener("keydown", this._keydownHandler);
@@ -1847,7 +1857,9 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
 
         // UX Improvement: Sync sidebar highlights on scroll (if not playing)
         const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-        if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && (_this$filteredAyahs4 = this.filteredAyahs) !== null && _this$filteredAyahs4 !== void 0 && _this$filteredAyahs4[approxIndex]) {
+        const manualNavCooldown = 900;
+        const timeSinceManualNav = Date.now() - this.lastManualNavigationAt;
+        if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && (_this$filteredAyahs4 = this.filteredAyahs) !== null && _this$filteredAyahs4 !== void 0 && _this$filteredAyahs4[approxIndex] && timeSinceManualNav > manualNavCooldown) {
           // Critical: Use a silent update or check isManualScrolling 
           // to prevent syncPlaybackScroll from snap-jumping during user scroll.
           this.currentlyPlayingIndex = approxIndex;
@@ -2002,9 +2014,15 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }
     },
     selectCard(index) {
+      var _this$filteredAyahs5;
       this.selectedCardIndex = index;
       this.currentlyPlayingIndex = index;
       this.isHighlighted = true;
+      const ayah = (_this$filteredAyahs5 = this.filteredAyahs) === null || _this$filteredAyahs5 === void 0 ? void 0 : _this$filteredAyahs5[index];
+      if (ayah && typeof ayah.juz === "number") {
+        this.selectedJuz = ayah.juz;
+      }
+      this.lastManualNavigationAt = Date.now();
       // ensure card is visible
       // removed programmatic scrolling
       const verseNum = index + 1;
@@ -3027,6 +3045,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (this.selectedJuz === juzNumber && this.isNavigating) return;
       this.isNavigating = true;
       this.selectedJuz = juzNumber;
+      this.lastManualNavigationAt = Date.now();
       const start = (0,_utils_quran_mappings__WEBPACK_IMPORTED_MODULE_1__.getJuzStart)(juzNumber);
       if (start) {
         // Ensure surah is loaded first (selectSurah returns a promise)
@@ -3040,6 +3059,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     async selectPage(pageNumber) {
       this.isNavigating = true;
+      this.lastManualNavigationAt = Date.now();
       const start = (0,_utils_quran_mappings__WEBPACK_IMPORTED_MODULE_1__.getPageStart)(pageNumber);
       if (start) {
         // Ensure surah is loaded first (selectSurah returns a promise)

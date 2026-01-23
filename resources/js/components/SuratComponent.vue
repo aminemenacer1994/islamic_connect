@@ -1243,6 +1243,7 @@ export default {
             isManualScrolling: false,
             manualScrollTimer: null,
             ayahScrubValue: 1,
+            lastManualNavigationAt: 0,
             // perf throttles
             lastProgressAt: 0,
             lastVizAt: 0,
@@ -1839,6 +1840,9 @@ export default {
         // postpone loading until we know the authentication status
     },
     async mounted() {
+        if (typeof history !== "undefined" && "scrollRestoration" in history) {
+            history.scrollRestoration = "manual";
+        }
         window.addEventListener("keydown", this.onKeydown);
         this._keydownHandler = (e) => {
             if (!this.showAudioPlayer) return;
@@ -1951,6 +1955,9 @@ export default {
     },
     beforeUnmount() {
         this.isComponentAlive = false;
+        if (typeof history !== "undefined" && "scrollRestoration" in history) {
+            history.scrollRestoration = "auto";
+        }
         this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
@@ -1991,6 +1998,9 @@ export default {
         clearTimeout(this.authAlertTimer);
     },
     beforeDestroy() {
+        if (typeof history !== "undefined" && "scrollRestoration" in history) {
+            history.scrollRestoration = "auto";
+        }
         this.stopHighlightLoop();
         window.removeEventListener("keydown", this.onKeydown);
         if (this._keydownHandler)
@@ -3212,7 +3222,9 @@ export default {
                 
                 // UX Improvement: Sync sidebar highlights on scroll (if not playing)
                 const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-                if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex]) {
+                const manualNavCooldown = 900;
+                const timeSinceManualNav = Date.now() - this.lastManualNavigationAt;
+                if (!this.isInitialLoad && !this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex] && timeSinceManualNav > manualNavCooldown) {
                     // Critical: Use a silent update or check isManualScrolling 
                     // to prevent syncPlaybackScroll from snap-jumping during user scroll.
                     this.currentlyPlayingIndex = approxIndex;
@@ -3388,6 +3400,11 @@ export default {
             this.selectedCardIndex = index;
             this.currentlyPlayingIndex = index;
             this.isHighlighted = true;
+            const ayah = this.filteredAyahs?.[index];
+            if (ayah && typeof ayah.juz === "number") {
+                this.selectedJuz = ayah.juz;
+            }
+            this.lastManualNavigationAt = Date.now();
             // ensure card is visible
             // removed programmatic scrolling
             const verseNum = index + 1;
@@ -4717,6 +4734,7 @@ export default {
             if (this.selectedJuz === juzNumber && this.isNavigating) return;
             this.isNavigating = true;
             this.selectedJuz = juzNumber;
+            this.lastManualNavigationAt = Date.now();
             const start = getJuzStart(juzNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
@@ -4728,6 +4746,7 @@ export default {
         },
         async selectPage(pageNumber) {
             this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
             const start = getPageStart(pageNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
