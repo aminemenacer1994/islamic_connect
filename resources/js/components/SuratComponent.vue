@@ -287,7 +287,7 @@
                     </div>
                 </div>
             </div>
-            <div class="surah-header-sticky" :class="{ 'is-collapsed': headerCollapsed }">
+            <!-- <div class="surah-header-sticky" :class="{ 'is-collapsed': headerCollapsed }">
                 <transition name="header-slide">
                     <div v-show="!headerCollapsed">
                         <div v-if="surahDetails" class="surah-playback-bar surah-toolbar">
@@ -379,12 +379,13 @@
                 <div class="header-collapse-toggle" @click="toggleHeader">
                     <i :class="headerCollapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
                 </div>
-            </div>
+            </div> -->
 
 
 
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
+            <div id="scroll-anchor" style="height: 0; width: 0; visibility: hidden; pointer-events: none;"></div>
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
                 <div :style="{ height: topSpacerHeight + 'px' }"></div>
 
@@ -1882,6 +1883,7 @@ export default {
         window.addEventListener("visibilitychange", this.visibilityHandler);
         // Virtualization hooks
         this.$nextTick(() => {
+            window.scrollTo(0, 0); // Force scroll to top on initial mount
             this.computeListTop();
             this.updateVirtualWindow();
             this.$nextTick(this.calibrateItemHeight);
@@ -1928,6 +1930,7 @@ export default {
             if (storedWordTranslation !== null)
                 this.showWordTranslation = storedWordTranslation === "1";
         } catch (_) { }
+        this.deepLinkTarget = this.readDeepLinkTarget();
         Promise.all([
             this.fetchReciters(),
             this.fetchSurahs(),
@@ -1935,6 +1938,10 @@ export default {
             this.fetchSurahDetails(),
         ]).then(() => {
             this.isInitialLoad = false;
+            // Handle deep link after all surah info is available
+            this.$nextTick(() => {
+                this.maybeScrollToDeepLink();
+            });
         });
         this.loadReciterLeadOffsets();
         this.highlightLeadSeconds = this.getReciterLeadOffset(
@@ -3140,7 +3147,7 @@ export default {
             } catch (_) { }
         },
         calibrateItemHeight() {
-            if (this.isInitialLoad) return;
+            if (this.isInitialLoad || this.isNavigating) return;
             try {
                 const el = this.$el.querySelector(".ayah-card-container");
                 if (!el) return;
@@ -3153,7 +3160,7 @@ export default {
         },
         computeListTop() {
             try {
-                const el = this.$refs.listContainer;
+                const el = document.getElementById("scroll-anchor") || this.$refs.listContainer;
                 if (!el) {
                     this.listTop = 0;
                     return;
@@ -3165,6 +3172,7 @@ export default {
             }
         },
         onScrollVirtual() {
+            if (this.isNavigating) return;
             this.isManualScrolling = true;
             clearTimeout(this.manualScrollTimer);
             this.manualScrollTimer = setTimeout(() => {
@@ -3264,14 +3272,14 @@ export default {
             this.scrollToAyahIndex(index);
         },
         scrollToAyahIndex(index) {
-            const total = Array.isArray(this.filteredAyahs)
-                ? this.filteredAyahs.length
-                : 0;
+            const total = this.totalItems;
             if (!total || index < 0 || index >= total) {
                 this.isNavigating = false;
                 return;
             }
             
+            this.isNavigating = true;
+
             // Ensure target is in visible start/end for virtual scroll
             const start = Math.max(0, index - this.buffer);
             const end = Math.min(
@@ -3279,28 +3287,41 @@ export default {
                 start + this.windowSize + this.buffer * 2
             );
             
-            if (index < this.visibleStart || index >= this.visibleEnd) {
-                this.visibleStart = start;
-                this.visibleEnd = end;
-            }
+            // Set immediately so cards are in DOM before we try to measure them
+            this.visibleStart = start;
+            this.visibleEnd = end;
 
-            // Reduced nested ticks for an "instant" jump feel
             this.$nextTick(() => {
                 this.computeListTop();
-                this.calibrateItemHeight();
-
-                const offset = this.currentHeaderOffset;
-                const targetTop = this.listTop + index * this.itemHeight - offset;
                 
+                // Pinpoint Accuracy: Use actual element rect if it exists
+                const el = document.getElementById(`ayah-card-${index}`);
+                const offset = this.currentHeaderOffset;
+                let targetTop;
+
+                if (el) {
+                    const rect = el.getBoundingClientRect();
+                    targetTop = Math.max(0, rect.top + window.scrollY - offset);
+                } else {
+                    // Fallback to estimation
+                    targetTop = Math.max(0, this.listTop + index * this.itemHeight - offset);
+                }
+
+                // Scroll Threshold: Skip if already very close to target to prevent jitter
+                if (Math.abs(window.scrollY - targetTop) < 5) {
+                    this.selectCard(index);
+                    setTimeout(() => { this.isNavigating = false; }, 100);
+                    return;
+                }
+
                 window.scrollTo({
-                    top: Math.max(0, targetTop),
+                    top: targetTop,
                     behavior: this.isInitialLoad ? "auto" : "smooth",
                 });
 
                 this.selectCard(index);
 
                 // Delay resetting the navigation flag to let scrolls settle fully.
-                // 1000ms ensures smooth scroll completes before auto-locking resumes.
                 setTimeout(() => {
                     this.isNavigating = false;
                 }, 1000);
@@ -4693,14 +4714,16 @@ export default {
             this.sidebarSearchQuery = "";
         },
         async selectJuz(juzNumber) {
+            if (this.selectedJuz === juzNumber && this.isNavigating) return;
             this.isNavigating = true;
             this.selectedJuz = juzNumber;
             const start = getJuzStart(juzNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
                 await this.selectSurah(start.surah, { skipScroll: true });
-                // No search clearing needed here as we are jumping to a specific Juz start
                 this.scrollToAyah(start.ayah - 1);
+            } else {
+                this.isNavigating = false;
             }
         },
         async selectPage(pageNumber) {
@@ -4736,8 +4759,24 @@ export default {
             return new Promise((resolve, reject) => {
                 const { skipScroll = false } = options;
                 
-                if (String(this.selectedSurah) === String(number) && !this.isLoading) {
-                    resolve();
+                if (String(this.selectedSurah) === String(number)) {
+                    if (!this.isLoading) {
+                        resolve();
+                        return;
+                    }
+                    // Wait for existing load if applicable
+                    const checkInterval = setInterval(() => {
+                        if (!this.isLoading) {
+                            clearInterval(checkInterval);
+                            resolve();
+                        }
+                    }, 50);
+                    return;
+                }
+
+                if (this.isLoading) {
+                    // Prevent concurrent different-surah loads if one is active
+                    resolve(); 
                     return;
                 }
 

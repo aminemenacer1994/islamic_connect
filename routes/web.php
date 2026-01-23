@@ -70,6 +70,7 @@ use App\Http\Controllers\RevertController;
 use App\Http\Controllers\MuslimController;
 use App\Http\Controllers\DebugController;
 use App\Http\Controllers\ReadController;
+use App\Http\Controllers\QuranPageController;
 use App\Http\Controllers\ResourcesController;
 
 // use App\Http\Controllers\SubscriptionController;
@@ -254,6 +255,8 @@ Route::get('/muslim', [MuslimController::class, 'index'])->name('muslim');
 
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
 Route::get('/quran', [QuranController::class, 'index']);
+Route::get('/quran-pages', [QuranPageController::class, 'index'])->name('quran-pages');
+Route::get('/api/quran-pages/{pageNumber}', [QuranPageController::class, 'getPageMetadata']);
 Route::get('/contact', [ContactController::class, 'index']);
 // Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');
 Route::get('/charity', [CharityController::class, 'index'])->name('charity');
