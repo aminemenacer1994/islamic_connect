@@ -1,5 +1,5 @@
 <template>
-    <div class="container py-4 surat-premium"
+    <div class="container  surat-premium"
         :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true, 'sidebar-collapsed': sidebarCollapsed }"
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
@@ -70,9 +70,9 @@
                 <div id="surat-filters" class="row g-3" v-show="isVisible && !sidebarCollapsed">
                     <div class="col-12 col-md-12 filter-item surah-list p-0">
                          <!-- Dark Sidebar Content -->
-                        <div class="sidebar-dark-content d-flex flex-column h-100">
-                            
-                            <!-- Sidebar Header: Tabs & Search -->
+                    <div class="sidebar-dark-content d-flex flex-column h-100">
+                        
+                        <!-- Sidebar Header: Tabs & Search -->
                             <div class="sidebar-header pt-3 px-3 pb-2">
                                 <!-- Navigation Tabs -->
                                 <div class="sidebar-tabs d-flex gap-2 mb-3">
@@ -108,6 +108,20 @@
                                             <span class="item-number me-3">{{ surah.number }}</span>
                                             <div class="flex-grow-1 text-start">
                                                 <div class="item-title-en">{{ surah.englishName }}</div>
+                                                <div class="sidebar-item-meta">
+                                                    <span v-if="surah.numberOfAyahs || surah.number_ayahs">
+                                                        {{ surah.numberOfAyahs || surah.number_ayahs }} ayahs
+                                                    </span>
+                                                    <span v-if="surah.revelationType">
+                                                        · Origin: {{ surah.revelationType }}
+                                                    </span>
+                                                </div>
+                                                <div class="sidebar-item-extra" v-if="surah.englishNameTranslation">
+                                                    <span>{{ surah.englishNameTranslation }}</span>
+                                                    <span v-if="surah.numberOfAyahs || surah.number_ayahs">
+                                                        · {{ surah.numberOfAyahs || surah.number_ayahs }} total verses
+                                                    </span>
+                                                </div>
                                             </div>
                                             <!-- Arabic Name aligned right -->
                                             <div class="item-title-ar ms-2 me-2">{{ surah.name }}</div>
@@ -296,15 +310,16 @@
                                 </span>
                             </div>
                             <div class="surat-mobile-header-main">
-                                <button type="button"
-                                    class="mobile-surah-trigger"
-                                    data-bs-toggle="offcanvas"
-                                    data-bs-target="#surahOffcanvas"
-                                    aria-controls="surahOffcanvas"
-                                    @click="prepareSettingsDraft">
-                                    <span class="mobile-surah-title">{{ mobileSurahLabel }}</span>
-                                    <i class="bi bi-chevron-down" aria-hidden="true"></i>
-                                </button>
+                                <select class="form-select mobile-surah-select"
+                                    v-model="selectedSurah"
+                                    @change="selectSurah(selectedSurah)"
+                                    aria-label="Select surah">
+                                    <option value="" disabled>Select surah</option>
+                                    <option v-for="surah in filteredSurahs" :key="surah.number"
+                                        :value="String(surah.number)">
+                                        {{ surah.number }}. {{ surah.englishName }}
+                                    </option>
+                                </select>
                                 <div class="mobile-toolbar-icons">
                                     <button type="button"
                                         class="icon-btn"
@@ -331,15 +346,6 @@
                                         <i class="fas fa-cog"></i>
                                     </button>
                                 </div>
-                            </div>
-                            <div class="surat-mobile-header-settings">
-                                <span>Tajweed colors</span>
-                                <select class="form-select form-select-sm"
-                                    v-model="showTajweed"
-                                    aria-label="Tajweed colors">
-                                    <option :value="true">On</option>
-                                    <option :value="false">Off</option>
-                                </select>
                             </div>
                         </div>
                         <div v-else>
@@ -401,31 +407,31 @@
                                 </div>
                             </div>
 
-                            <div class="ayah-links-bar">
-                                <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
-                                    data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
-                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
-                                    <span class="tajweed-rules-label">Tajweed Rules</span>
-                                </button>
-                                <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
-                                    data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
-                                    aria-label="Open filters and info" @click="prepareSettingsDraft">
-                                    <i class="bi bi-sliders" aria-hidden="true"></i>
-                                </button>
-                                <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
-                                    @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
-                                    aria-label="View surah information" title="Surah info">
-                                    <i class="bi bi-info-circle" aria-hidden="true"></i>
-                                </button>
-                                <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
-                                    <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
-                                    View saved bookmarks
-                                </a>
-                                <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
-                                    <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
-                                    View notes & reflections
-                                </a>
-                            </div>
+                        <div class="ayah-links-bar" v-if="isMobile">
+                            <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
+                                data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
+                                <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                <span class="tajweed-rules-label">Tajweed Rules</span>
+                            </button>
+                            <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
+                                data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
+                                aria-label="Open filters and info" @click="prepareSettingsDraft">
+                                <i class="bi bi-sliders" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" class="btn surah-info-inline surah-info-inline-mobile"
+                                @click="openSurahInfo(currentSurahInfo)" :disabled="!currentSurahInfo"
+                                aria-label="View surah information" title="Surah info">
+                                <i class="bi bi-info-circle" aria-hidden="true"></i>
+                            </button>
+                            <a href="/bookmarks" class="bookmark-cta-link pr-3" @click.prevent="onBookmarksLinkClick">
+                                <i class="bi bi-bookmark-heart-fill me-2" aria-hidden="true"></i>
+                                View saved bookmarks
+                            </a>
+                            <a href="/notes" class="bookmark-cta-link notes-cta-link" @click.prevent="onNotesLinkClick">
+                                <i class="bi bi-journal-text me-2" aria-hidden="true"></i>
+                                View notes & reflections
+                            </a>
+                        </div>
                         </div>
                     </div>
                 </transition>
@@ -543,10 +549,10 @@
                                         </a>
                                     </span>
                                 </transition>
-                                <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
+                                <!-- <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
                                     title="Save to folder / Organize" aria-label="Save to folder or organize bookmark">
                                     <i class="bi bi-folder-plus" aria-hidden="true"></i>
-                                </button>
+                                </button> -->
                             </div>
                         </div>
 
@@ -642,7 +648,7 @@
                                         <i class="bi bi-send" aria-hidden="true"></i>
                                         <span>Share</span>
                                     </button>
-                                    <button type="button" class="action-pill reflection-pill-fill"
+                                    <!-- <button type="button" class="action-pill reflection-pill-fill"
                                         :class="{ 'has-reflection': hasReflection(item.ayah) }"
                                         @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
                                             ? 'Edit reflection'
@@ -651,7 +657,7 @@
                                                 : 'Add reflection'">
                                         <i class="bi bi-journal-text" aria-hidden="true"></i>
                                         <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                             <div class="row card-teal mb-3 py-2" style="
@@ -715,7 +721,7 @@
                                     <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div> -->
-                                <div class="col text-center" style="padding: 2px">
+                                <!-- <div class="col text-center" style="padding: 2px">
                                     <button class="icon-btn" :class="{
                                         'is-saved': isAyahSaved(item.ayah),
                                     }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
@@ -727,7 +733,7 @@
                                             : 'bi-bookmark-plus-fill'
                                             " style="font-size: 1.6rem" aria-hidden="true"></i>
                                     </button>
-                                </div>
+                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -892,7 +898,7 @@
                                     <option :value="false">Off</option>
                                 </select>
                             </div>
-                            <div class="surah-settings-group">
+                            <!-- <div class="surah-settings-group">
                                 <label class="form-label">Realtime color highlighting</label>
                                 <select class="form-select" v-model="settingsDraft.showRealtimeHighlighting"
                                     aria-label="Realtime color highlighting">
@@ -907,7 +913,7 @@
                                     <option :value="true">On</option>
                                     <option :value="false">Off</option>
                                 </select>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="modal-footer border-0">
                             <button type="button" class="btn surah-settings-submit"
@@ -1638,6 +1644,21 @@ export default {
             const target = Number(this.surahDetails?.surahNumber || this.selectedSurah);
             if (!target || !Array.isArray(this.surahs)) return null;
             return this.surahs.find((surah) => Number(surah.number) === target) || null;
+        },
+        currentSurahMeta() {
+            if (!this.surahDetails && !this.surahInfo) return {};
+            const inSurah = this.surahDetails?.ayahs?.length || 0;
+            const cached = this.surahInfo;
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            return {
+                ayahCount:
+                    cached?.numberOfAyahs ||
+                    inSurah ||
+                    this.currentSurahInfo?.numberOfAyahs ||
+                    (this.currentSurahInfo?.ayahs?.length || 0),
+                origin: cached?.revelationType || this.currentSurahInfo?.revelationType,
+                number: surahNumber || this.currentSurahInfo?.number,
+            };
         },
         currentMobileAyah() {
             const ayahs = Array.isArray(this.filteredAyahs)
@@ -3274,6 +3295,12 @@ export default {
                 this.listTop = 0;
             }
         },
+        scrollToListTop() {
+            if (typeof window === "undefined") return;
+            const offset = this.currentHeaderOffset + 12;
+            const target = Math.max(0, this.listTop - offset);
+            window.scrollTo({ top: target, behavior: "auto" });
+        },
         onScrollVirtual() {
             this.isManualScrolling = true;
             clearTimeout(this.manualScrollTimer);
@@ -3339,6 +3366,7 @@ export default {
             this.$nextTick(() => {
                 this.computeListTop();
                 this.updateVirtualWindow();
+                this.scrollToListTop();
             });
         },
         readDeepLinkTarget() {
@@ -5135,6 +5163,21 @@ export default {
     margin-bottom: 1rem;
 }
 
+    .surah-settings-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 0.75rem;
+    }
+
+    .surah-settings-actions .btn {
+        flex: 1 1 200px;
+        border-radius: 12px;
+        font-weight: 600;
+        color: #0b3d2e;
+        border-color: rgba(11, 128, 111, 0.35);
+    }
+
 .surah-settings-submit {
     background: #0b3d2e;
     border-color: #0b3d2e;
@@ -5650,6 +5693,9 @@ export default {
 .surah-layout>.empty-state {
     grid-column: 1;
 }
+.surah-layout>.row.rtl-text {
+    margin-top: 20px;
+}
 
 .surah-layout>.sticky-dropdown {
     position: fixed;
@@ -5900,11 +5946,14 @@ export default {
         padding: 10px 12px;
         border-radius: 0;
         border: none;
-        background: transparent;
-        position: sticky;
+        background: rgba(255, 255, 255, 0.92);
+        position: fixed;
         top: 0;
-        z-index: 1055;
+        left: 0;
+        right: 0;
+        z-index: 1060;
         backdrop-filter: blur(16px);
+        box-shadow: 0 8px 24px rgba(15, 53, 48, 0.24);
     }
 
     .surat-mobile-header-meta {
@@ -5941,6 +5990,16 @@ export default {
         font-size: 1rem;
     }
 
+    .mobile-surah-select {
+        flex: 1;
+        border-radius: 12px;
+        border: 1px solid rgba(15, 110, 99, 0.35);
+        background: rgba(255, 255, 255, 0.98);
+        padding: 8px 12px;
+        font-weight: 600;
+        color: #0b3d2e;
+    }
+
     .mobile-toolbar-icons {
         display: flex;
         gap: 6px;
@@ -5955,19 +6014,6 @@ export default {
         color: #0b3d2e;
     }
 
-    .surat-mobile-header-settings {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 4px 0;
-        font-size: 0.9rem;
-        color: #1d2b2f;
-    }
-
-    .surat-mobile-header-settings .form-select-sm {
-        max-width: 140px;
-    }
 }
 
 @media (max-width: 992px) {
@@ -6590,7 +6636,9 @@ export default {
     .surah-header-sticky.is-collapsed {
         padding-bottom: 0;
     }
+
 }
+
 
 .header-collapse-toggle {
     display: flex;
@@ -7257,13 +7305,13 @@ export default {
     padding-bottom: 2px;
 }
 
-.surah-offcanvas-toggle-inline .form-check {
-    margin: 0;
-}
+    .surah-offcanvas-toggle-inline .form-check {
+        margin: 0;
+    }
 
-.surah-offcanvas-input::placeholder {
-    color: rgba(21, 53, 50, 0.55);
-}
+    .surah-offcanvas-input::placeholder {
+        color: rgba(21, 53, 50, 0.55);
+    }
 
 .surah-tajweed-toggle-wrap {
     margin-top: 14px;
@@ -8921,6 +8969,26 @@ h1.display-5 {
     font-size: 1.25rem;
     font-weight: normal;
     color: #e5e7eb;
+}
+
+.sidebar-item-meta {
+    margin-top: 4px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.65);
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.sidebar-item-extra {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
 }
 
 .item-meta {
