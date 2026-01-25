@@ -214,12 +214,7 @@
               :class="{ 'border-start border-danger border-3': viewMode === 'liked' }"
               :style="{ '--font-size-base': fontSize + 'px' }" role="listitem" :aria-labelledby="`dua-title-${dua.id}`">
 
-              <!-- Liked Badge -->
-              <div v-if="viewMode === 'liked'"
-                class="position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2 liked-badge">
-                <i class="bi bi-heart-fill text-danger"></i>
-              </div>
-
+          
               <!-- Card Body -->
               <div class="card-body d-flex flex-column p-3 p-md-4 text-black">
                 <div v-if="loginWarnings[dua.id]" class="alert alert-warning dua-login-warning" role="alert">

@@ -708,66 +708,62 @@ const _hoisted_35 = {
 };
 const _hoisted_36 = ["aria-labelledby"];
 const _hoisted_37 = {
-  key: 0,
-  class: "position-absolute top-0 end-0 bg-white rounded-circle d-flex align-items-center justify-content-center m-2 liked-badge"
-};
-const _hoisted_38 = {
   class: "card-body d-flex flex-column p-3 p-md-4 text-black"
 };
-const _hoisted_39 = {
+const _hoisted_38 = {
   key: 0,
   class: "alert alert-warning dua-login-warning",
   role: "alert"
 };
-const _hoisted_40 = {
+const _hoisted_39 = {
   class: "dua-card-title-row mb-3"
 };
-const _hoisted_41 = ["id"];
-const _hoisted_42 = ["innerHTML"];
-const _hoisted_43 = {
+const _hoisted_40 = ["id"];
+const _hoisted_41 = ["innerHTML"];
+const _hoisted_42 = {
   class: "dua-card-arabic-panel shadow-sm mb-3"
 };
-const _hoisted_44 = ["innerHTML"];
-const _hoisted_45 = {
+const _hoisted_43 = ["innerHTML"];
+const _hoisted_44 = {
   class: "dua-card-translation-wrap mb-2"
 };
+const _hoisted_45 = ["innerHTML"];
 const _hoisted_46 = ["innerHTML"];
-const _hoisted_47 = ["innerHTML"];
-const _hoisted_48 = {
+const _hoisted_47 = {
   class: "card-footer dua-card-footer border-0 px-3 py-2 py-md-3"
 };
-const _hoisted_49 = {
+const _hoisted_48 = {
   class: "d-flex justify-content-between align-items-center w-100"
 };
-const _hoisted_50 = {
+const _hoisted_49 = {
   class: "d-flex align-items-center rounded-pill px-2 shadow-sm font-control"
 };
+const _hoisted_50 = ["disabled"];
 const _hoisted_51 = ["disabled"];
-const _hoisted_52 = ["disabled"];
-const _hoisted_53 = {
+const _hoisted_52 = {
   class: "d-flex gap-2"
 };
-const _hoisted_54 = ["onClick", "aria-label"];
-const _hoisted_55 = {
+const _hoisted_53 = ["onClick", "aria-label"];
+const _hoisted_54 = {
   class: "action-tooltip"
 };
+const _hoisted_55 = ["onClick"];
 const _hoisted_56 = ["onClick"];
-const _hoisted_57 = ["onClick"];
-const _hoisted_58 = {
+const _hoisted_57 = {
   key: 1,
   class: "d-flex justify-content-center mt-4"
 };
-const _hoisted_59 = {
+const _hoisted_58 = {
   "aria-label": "Dua pagination"
 };
-const _hoisted_60 = {
+const _hoisted_59 = {
   class: "pagination"
 };
+const _hoisted_60 = ["onClick"];
 const _hoisted_61 = ["onClick"];
 const _hoisted_62 = ["onClick"];
-const _hoisted_63 = ["onClick"];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("main", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Hero Section "), _cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("header", {
     class: "hero-section mb-5"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", {
     id: "dua-title",
@@ -935,15 +931,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }),
         role: "listitem",
         "aria-labelledby": `dua-title-${dua.id}`
-      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Badge "), $data.viewMode === 'liked' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_37, [...(_cache[28] || (_cache[28] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-        class: "bi bi-heart-fill text-danger"
-      }, null, -1 /* CACHED */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [$data.loginWarnings[dua.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_39, [_cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Body "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [$data.loginWarnings[dua.id] ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_38, [_cache[28] || (_cache[28] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-shield-lock-fill me-2",
         "aria-hidden": "true"
-      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loginWarnings[dua.id]), 1 /* TEXT */), _cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.loginWarnings[dua.id]), 1 /* TEXT */), _cache[29] || (_cache[29] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
         class: "auth-warning-cta ms-2",
         href: "/login"
-      }, "Log in", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title with icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [_cache[31] || (_cache[31] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, "Log in", -1 /* CACHED */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Title with icon "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [_cache[30] || (_cache[30] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "dua-card-icon",
         "aria-hidden": "true"
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
@@ -959,7 +953,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         }
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         innerHTML: $options.highlightText(dua.title)
-      }, null, 8 /* PROPS */, _hoisted_42)], 8 /* PROPS */, _hoisted_41)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_41)], 8 /* PROPS */, _hoisted_40)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Arabic Text "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "mb-0 font-arabic",
         lang: "ar",
         dir: "rtl",
@@ -969,7 +963,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: $options.highlightText(dua.arabic),
         "aria-label": "Dua in Arabic"
-      }, null, 8 /* PROPS */, _hoisted_44)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_43)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Translation "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "mb-0 translation-text text-muted",
         style: {
           fontSize: 'calc(var(--font-size-base))',
@@ -977,21 +971,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         },
         innerHTML: $options.highlightText(dua.translation),
         "aria-label": "Dua translation"
-      }, null, 8 /* PROPS */, _hoisted_46)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+      }, null, 8 /* PROPS */, _hoisted_45)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Reference "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
         class: "text-muted mb-0 reference-text",
         style: {
           fontSize: 'calc(var(--font-size-base) * 0.9)'
         },
         innerHTML: $options.highlightText('- ' + dua.reference),
         "aria-label": "Dua reference"
-      }, null, 8 /* PROPS */, _hoisted_47)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_50, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 8 /* PROPS */, _hoisted_46)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Card Footer with Actions "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Font Controls "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_49, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-link p-1 font-control-btn",
         onClick: _cache[12] || (_cache[12] = $event => $options.changeFontSize('decrease')),
         disabled: $data.fontSize <= 14,
         "aria-label": "Decrease Font Size"
-      }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[31] || (_cache[31] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-dash-circle-fill fs-5"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_51), _cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_50), _cache[33] || (_cache[33] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "mx-1 bg-light",
         style: {
           "width": "1px",
@@ -1002,32 +996,32 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[13] || (_cache[13] = $event => $options.changeFontSize('increase')),
         disabled: $data.fontSize >= 28,
         "aria-label": "Increase Font Size"
-      }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-plus-circle-fill fs-5"
-      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_52)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_53, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      :class=\"getAudioButtonClasses(dua)\"\n                      style=\"width: 36px; height: 36px;\" @click=\"handleAudioPlayback(dua)\"\n                      :aria-label=\"isAudioPlaying(dua) ? 'Stop Dua audio' : 'Play Dua audio'\">\n                      <i :class=\"isAudioPlaying(dua) ? 'bi bi-stop-fill' : 'bi bi-volume-up-fill'\"></i>\n                      <span class=\"action-tooltip\">\n                        {{ isAudioPlaying(dua) ? 'Stop audio' : hasRecordedAudio(dua) ? 'Play recorded dua' : 'Play spoken dua' }}\n                      </span>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_51)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Action Buttons "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <button\n                      :class=\"getAudioButtonClasses(dua)\"\n                      style=\"width: 36px; height: 36px;\" @click=\"handleAudioPlayback(dua)\"\n                      :aria-label=\"isAudioPlaying(dua) ? 'Stop Dua audio' : 'Play Dua audio'\">\n                      <i :class=\"isAudioPlaying(dua) ? 'bi bi-stop-fill' : 'bi bi-volume-up-fill'\"></i>\n                      <span class=\"action-tooltip\">\n                        {{ isAudioPlaying(dua) ? 'Stop audio' : hasRecordedAudio(dua) ? 'Play recorded dua' : 'Play spoken dua' }}\n                      </span>\n                    </button> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle",
         onClick: $event => $options.toggleLike(dua.id),
         "aria-label": $data.likedDuas.includes(dua.id) ? 'Unlike Dua' : 'Like Dua'
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($data.likedDuas.includes(dua.id) ? 'bi bi-heart-fill text-danger' : 'bi bi-heart')
-      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_55, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_54), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_54, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.likedDuas.includes(dua.id) ? 'Unlike' : 'Like'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_53), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle",
         onClick: $event => $options.shareOnWhatsApp(dua),
         "aria-label": "Share on WhatsApp"
-      }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-share-fill"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "action-tooltip"
-      }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      }, "Share", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_55), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "btn btn-sm btn-outline-secondary rounded-circle p-0 d-flex align-items-center justify-content-center action-btn action-circle",
         onClick: $event => $options.copyContent(dua),
         "aria-label": "Copy Content"
-      }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      }, [...(_cache[35] || (_cache[35] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
         class: "bi bi-clipboard-fill"
       }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
         class: "action-tooltip"
-      }, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_57)])])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_36)]);
-    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), !category.collapsed && category.duas.length > $data.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_60, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+      }, "Copy", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_56)])])])], 14 /* CLASS, STYLE, PROPS */, _hoisted_36)]);
+    }), 128 /* KEYED_FRAGMENT */))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Pagination Controls "), !category.collapsed && category.duas.length > $data.duasPerPage ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_58, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_59, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: $data.currentPage[category.id] === 1
       }])
@@ -1035,9 +1029,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "page-link",
       onClick: $event => $options.changePage('prev', category.id),
       "aria-label": "Previous page"
-    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_61)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages(category.duas), page => {
+    }, "« Previous", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_60)], 2 /* CLASS */), ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($options.totalPages(category.duas), page => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: page,
         class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
@@ -1046,7 +1040,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
         class: "page-link",
         onClick: $event => $data.currentPage[category.id] = page
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_62)], 2 /* CLASS */);
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(page), 9 /* TEXT, PROPS */, _hoisted_61)], 2 /* CLASS */);
     }), 128 /* KEYED_FRAGMENT */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["page-item", {
         disabled: $data.currentPage[category.id] === $options.totalPages(category.duas)
@@ -1055,9 +1049,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: "page-link",
       onClick: $event => $options.changePage('next', category.id),
       "aria-label": "Next page"
-    }, [...(_cache[38] || (_cache[38] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       "aria-hidden": "true"
-    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_63)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_30);
+    }, "Next »", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_62)], 2 /* CLASS */)])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 8 /* PROPS */, _hoisted_30);
   }), 128 /* KEYED_FRAGMENT */))])]);
 }
 

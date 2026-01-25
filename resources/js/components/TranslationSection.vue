@@ -148,7 +148,9 @@
 
       </div>
 
-
+      <div class="mt-4">
+        <BottomAudioPlayer :information="information" />
+      </div>
 
       <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
         :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
@@ -161,6 +163,7 @@
 import AyahInfo from "./translation/AyahInfo.vue";
 import MainAyah from "./translation/MainAyah.vue";
 import Translator from "./translation/Translator.vue";
+import BottomAudioPlayer from "./translation/BottomAudioPlayer.vue";
 import AlertModal from "./modals/AlertModal.vue";
 import ScreenReader from "./accesibility/ScreenReader.vue";
 import Magnifier from "./search/Magnifier.vue";
@@ -193,6 +196,7 @@ export default {
     AyahInfo,
     MainAyah,
     Translator,
+    BottomAudioPlayer,
     AlertModal,
     ScreenReader,
     Magnifier

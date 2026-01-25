@@ -1514,13 +1514,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     style: {
       "display": "inline-flex",
-      "width": "28px",
-      "height": "28px",
       "border-radius": "50%",
       "align-items": "center",
       "justify-content": "center",
-      "background": "#e6fffb",
-      "border": "1px solid rgba(6,182,172,.35)",
       "color": "#0bb39a"
     }
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {

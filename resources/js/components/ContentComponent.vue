@@ -266,7 +266,7 @@
                   <i class="bi bi-calendar3" :style="'font-size:' + (smallScreen? '1rem':'1.1rem') + ';color:#0bb39a'"></i>
                   <span class="meta-text" :style="'color:#0b1320;font-weight:600'">{{ formatDate(podcast.pubDate) }}</span>
                   <span v-if="isNewEpisode(podcast.pubDate)" class="new-badge" aria-label="New episode">NEW</span>
-                  <span v-if="isEpisodePlayed(podcast)" class="badge bg-success" style="margin-left:6px;">Played</span>
+
                 </div>
               </div>
             </div>

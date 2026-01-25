@@ -49,9 +49,9 @@ export default {
             debounceTimer: null,
             arabicFontSize: 28,
             translationFontSize: 20,
-            showTajweed: true,
-            showRealtimeHighlighting: true,
-            showWordTranslation: true,
+            showTajweed: false,
+            showRealtimeHighlighting: false,
+            showWordTranslation: false,
             realtimeHighlightPreferenceKey: "surat_realtime_highlighting",
             wordTranslationPreferenceKey: "surat_show_word_translation",
             progress: [],
@@ -69,7 +69,7 @@ export default {
             isLoading: false,
             isNavigating: false, // Prevents scroll conflicts during jumps
             headerCollapsed: false, // Controls whether the toolbar/links are visible
-            continuousPlayback: true, // New data property for playback mode
+            continuousPlayback: false, // New data property for playback mode
             visualizerBars: Array(20).fill(10),
             playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
             currentSpeedIndex: 2,
@@ -186,9 +186,9 @@ export default {
             selectedJuz: null,
             sidebarCollapsed: false,
             settingsDraft: {
-                showTajweed: true,
-                showRealtimeHighlighting: true,
-                showWordTranslation: true,
+                showTajweed: false,
+            showRealtimeHighlighting: false,
+            showWordTranslation: false,
             },
             tajweedRuleMap: {
                 h: {
@@ -784,7 +784,6 @@ export default {
                 this.showNextStep = false;
         } catch (_) { }
         await this.initializeBookmarkAuth();
-        await this.loadRealtimeHighlightPreference();
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
         this.bookmarkStorageHandler = (event) =>
@@ -819,21 +818,9 @@ export default {
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.continuousPlayback =
-            JSON.parse(localStorage.getItem("continuousPlayback")) ?? true;
+            JSON.parse(localStorage.getItem("continuousPlayback")) ?? false;
         this.playbackSpeed =
             JSON.parse(localStorage.getItem("playbackSpeed")) ?? 1;
-        try {
-            const storedTajweed = localStorage.getItem("suratShowTajweed");
-            if (storedTajweed !== null)
-                this.showTajweed = storedTajweed === "1";
-        } catch (_) { }
-        try {
-            const storedHighlighting = localStorage.getItem(
-                "suratShowRealtimeHighlighting"
-            );
-            if (storedHighlighting !== null)
-                this.showRealtimeHighlighting = storedHighlighting === "1";
-        } catch (_) { }
         try {
             const storedWordTranslation = localStorage.getItem(
                 "suratShowWordTranslation"
@@ -969,17 +956,6 @@ export default {
             if (!this.bookmarkAuthenticated) return;
             try {
                 await axios.put(`/api/preferences/${key}`, { value });
-            } catch (_) { }
-        },
-        async loadRealtimeHighlightPreference() {
-            if (!this.bookmarkAuthenticated) return;
-            try {
-                const pref = await this.fetchPreference(
-                    this.realtimeHighlightPreferenceKey
-                );
-                if (pref && typeof pref.enabled === "boolean") {
-                    this.showRealtimeHighlighting = pref.enabled;
-                }
             } catch (_) { }
         },
         loadReciterLeadOffsets() {
@@ -3598,12 +3574,10 @@ export default {
                 this.toggleAudioPlayer(index);
                 return;
             }
-            if (this.continuousPlayback) {
-                const nextIndex = index + 1;
-                if (nextIndex < this.filteredAyahs.length) {
-                    setTimeout(() => this.playAudio(nextIndex), 50);
-                    return;
-                }
+            const nextIndex = index + 1;
+            if (nextIndex < this.filteredAyahs.length) {
+                setTimeout(() => this.playAudio(nextIndex), 50);
+                return;
             }
             this.showAudioPlayer = false;
             this.currentlyPlayingIndex = -1;

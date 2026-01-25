@@ -6639,6 +6639,58 @@ to { opacity: 1; transform: translateY(0);
 }
 
 
+.bottom-audio-player[data-v-194365f3] {
+  border: 1px solid rgba(11, 128, 111, 0.35);
+  border-radius: 20px;
+  padding: 1rem;
+  background: #0d1718;
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+.player-header[data-v-194365f3] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.player-label[data-v-194365f3] {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.player-controls[data-v-194365f3] {
+  display: flex;
+  gap: 0.5rem;
+}
+.control-btn[data-v-194365f3] {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #06b6ac;
+  border: none;
+  color: #fff;
+}
+.control-btn[data-v-194365f3]:disabled {
+  background-color: rgba(255, 255, 255, 0.35);
+  cursor: not-allowed;
+}
+.custom-audio[data-v-194365f3] {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(15, 23, 42, 0.9);
+}
+.player-placeholder[data-v-194365f3] {
+  padding: 1rem;
+  text-align: center;
+  color: #cbd5f5;
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+}
+
+
 /* Add your custom styles for alerts here */
 
 

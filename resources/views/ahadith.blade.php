@@ -4,6 +4,5 @@
 <div style="padding-left: 50px">
     <ahadith-component></ahadith-component>
     {{-- @include('layouts.footer') --}}
-
-<div>
+</div>
 @endsection

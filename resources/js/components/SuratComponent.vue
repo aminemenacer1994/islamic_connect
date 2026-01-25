@@ -928,9 +928,6 @@
                                     <option :value="true">Enabled</option>
                                     <option :value="false">Disabled</option>
                                 </select>
-                                <p class="form-text small text-muted">
-                                    Toggle inline English word translations.
-                                </p>
                             </div>
                         </div>
                         <div class="modal-footer border-0">

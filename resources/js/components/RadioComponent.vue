@@ -88,7 +88,7 @@
         <h3 @click="showLiked = !showLiked" role="button" :aria-expanded="showLiked" :aria-controls="`liked-stations`"
           class="fw-bold mb-3 fs-4" style="display:flex;align-items:center;gap:.5rem;color:#0b1320;cursor:pointer;">
           <span
-            style="display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;background:#e6fffb;border:1px solid rgba(6,182,172,.35);color:#0bb39a;">
+            style="display:inline-flex;border-radius:50%;align-items:center;justify-content:center;color:#0bb39a;">
             <i class="bi bi-heart-fill"></i>
           </span>
           Favorite Stations ({{ likedStations.length }})

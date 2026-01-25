@@ -61,31 +61,12 @@
           <h2 class="timeline-heading">Choose a moment in the life of the Prophet</h2>
           <p class="timeline-subtitle">Scroll the years or search by title, year, or keyword.</p>
         </div>
-        <div class="mission-search" role="search">
-          <button class="mission-search__icon" type="button" aria-label="Search" @click="focusSearchInput">
-            <i class="bi bi-search"></i>
-          </button>
-          <input
-            type="search"
-            class="mission-search__input"
-            ref="searchInput"
-            v-model="searchQuery"
-            @input="filterEvents"
-            placeholder="Search year or event"
-            aria-label="Search the Seerah timeline"
-          />
-          <button v-if="searchQuery" class="mission-search__clear" type="button" @click="clearSearch"
-            aria-label="Clear search">
-            <i class="bi bi-x-lg"></i>
-          </button>
-        </div>
       </div>
       <div class="timeline-progress" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
         :aria-valuenow="timelineProgress">
         <div class="timeline-progress__fill" :style="{ width: timelineProgress + '%' }"></div>
       </div>
       <div class="timeline-meta">
-        <span class="timeline-count">Event {{ displayIndex }} of {{ events.length }}</span>
         <span v-if="currentEvent.title" class="timeline-current">
           {{ currentEvent.year ? currentEvent.year + ' · ' : '' }}{{ currentEvent.title }}
         </span>
@@ -253,7 +234,7 @@
           <article class="content-body" v-html="highlightedDescription"></article>
         </div>
         <div v-if="events[currentIndex].references" class="mt-2 small text-muted">
-          <strong>References:</strong>
+          <strong>References: </strong>
           <span>{{ events[currentIndex].references }}</span>
         </div>
 

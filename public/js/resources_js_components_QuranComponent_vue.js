@@ -1794,21 +1794,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _translation_AyahInfo_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./translation/AyahInfo.vue */ "./resources/js/components/translation/AyahInfo.vue");
 /* harmony import */ var _translation_MainAyah_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./translation/MainAyah.vue */ "./resources/js/components/translation/MainAyah.vue");
 /* harmony import */ var _translation_Translator_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./translation/Translator.vue */ "./resources/js/components/translation/Translator.vue");
-/* harmony import */ var _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modals/AlertModal.vue */ "./resources/js/components/modals/AlertModal.vue");
-/* harmony import */ var _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./accesibility/ScreenReader.vue */ "./resources/js/components/accesibility/ScreenReader.vue");
-/* harmony import */ var _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./search/Magnifier.vue */ "./resources/js/components/search/Magnifier.vue");
-/* harmony import */ var _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modals/OffcanvasSetting.vue */ "./resources/js/components/modals/OffcanvasSetting.vue");
-/* harmony import */ var _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./TransliterationSection.vue */ "./resources/js/components/TransliterationSection.vue");
-/* harmony import */ var _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./settings/SpeechSettings.vue */ "./resources/js/components/settings/SpeechSettings.vue");
-/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
-/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_10___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_10__);
-/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
-/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_12__);
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
-/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_13__);
-/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! docx */ "./node_modules/docx/dist/index.mjs");
+/* harmony import */ var _translation_BottomAudioPlayer_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./translation/BottomAudioPlayer.vue */ "./resources/js/components/translation/BottomAudioPlayer.vue");
+/* harmony import */ var _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modals/AlertModal.vue */ "./resources/js/components/modals/AlertModal.vue");
+/* harmony import */ var _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./accesibility/ScreenReader.vue */ "./resources/js/components/accesibility/ScreenReader.vue");
+/* harmony import */ var _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./search/Magnifier.vue */ "./resources/js/components/search/Magnifier.vue");
+/* harmony import */ var _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modals/OffcanvasSetting.vue */ "./resources/js/components/modals/OffcanvasSetting.vue");
+/* harmony import */ var _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./TransliterationSection.vue */ "./resources/js/components/TransliterationSection.vue");
+/* harmony import */ var _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./settings/SpeechSettings.vue */ "./resources/js/components/settings/SpeechSettings.vue");
+/* harmony import */ var _utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../utils/subscriptionUtils.js */ "./utils/subscriptionUtils.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! html2canvas */ "./node_modules/html2canvas/dist/html2canvas.js");
+/* harmony import */ var html2canvas__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(html2canvas__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var jspdf__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! jspdf */ "./node_modules/jspdf/dist/jspdf.es.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! file-saver */ "./node_modules/file-saver/dist/FileSaver.min.js");
+/* harmony import */ var file_saver__WEBPACK_IMPORTED_MODULE_13___default = /*#__PURE__*/__webpack_require__.n(file_saver__WEBPACK_IMPORTED_MODULE_13__);
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! papaparse */ "./node_modules/papaparse/papaparse.min.js");
+/* harmony import */ var papaparse__WEBPACK_IMPORTED_MODULE_14___default = /*#__PURE__*/__webpack_require__.n(papaparse__WEBPACK_IMPORTED_MODULE_14__);
+/* harmony import */ var docx__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! docx */ "./node_modules/docx/dist/index.mjs");
+
 
 
 
@@ -1827,15 +1829,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "TranslationSection",
   components: {
-    SpeechSettings: _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
-    OffcanvasSetting: _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
-    TransliterationSection: _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    SpeechSettings: _settings_SpeechSettings_vue__WEBPACK_IMPORTED_MODULE_9__["default"],
+    OffcanvasSetting: _modals_OffcanvasSetting_vue__WEBPACK_IMPORTED_MODULE_7__["default"],
+    TransliterationSection: _TransliterationSection_vue__WEBPACK_IMPORTED_MODULE_8__["default"],
     AyahInfo: _translation_AyahInfo_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     MainAyah: _translation_MainAyah_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     Translator: _translation_Translator_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
-    AlertModal: _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Magnifier: _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+    BottomAudioPlayer: _translation_BottomAudioPlayer_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    AlertModal: _modals_AlertModal_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    ScreenReader: _accesibility_ScreenReader_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Magnifier: _search_Magnifier_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
   },
   props: {
     successMessage: {
@@ -1996,7 +1999,7 @@ __webpack_require__.r(__webpack_exports__);
     const {
       success,
       subscriptionType
-    } = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.checkSubscriptionStatus)();
+    } = (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.checkSubscriptionStatus)();
     if (success) {
       this.isVisible = true; // Show premium features
       if (subscriptionType) {
@@ -2031,10 +2034,10 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     redirectToMonthlySubscription() {
-      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.redirectToSubscription)('monthly');
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.redirectToSubscription)('monthly');
     },
     redirectToYearlySubscription() {
-      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_9__.redirectToSubscription)('yearly');
+      (0,_utils_subscriptionUtils_js__WEBPACK_IMPORTED_MODULE_10__.redirectToSubscription)('yearly');
     },
     toggleIcon(event) {
       const icon = event.target;
@@ -2232,7 +2235,7 @@ __webpack_require__.r(__webpack_exports__);
     },
     async downloadAsWord() {
       var _this$information9, _this$information0, _this$information1, _this$information10, _this$information11;
-      const doc = new docx__WEBPACK_IMPORTED_MODULE_14__.Document({
+      const doc = new docx__WEBPACK_IMPORTED_MODULE_15__.Document({
         sections: [{
           properties: {
             page: {
@@ -2247,8 +2250,8 @@ __webpack_require__.r(__webpack_exports__);
           },
           children: [
           // Title Section
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: "Quran Translation Document",
               bold: true,
               size: 48,
@@ -2262,8 +2265,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // space
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: ``
             })],
             spacing: {
@@ -2273,8 +2276,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // surah Header
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: "Surah:",
               bold: true,
               size: 32,
@@ -2288,8 +2291,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Surah Info
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: `${(_this$information9 = this.information) === null || _this$information9 === void 0 || (_this$information9 = _this$information9.ayah) === null || _this$information9 === void 0 || (_this$information9 = _this$information9.surah) === null || _this$information9 === void 0 ? void 0 : _this$information9.name_en} (${(_this$information0 = this.information) === null || _this$information0 === void 0 || (_this$information0 = _this$information0.ayah) === null || _this$information0 === void 0 || (_this$information0 = _this$information0.surah) === null || _this$information0 === void 0 ? void 0 : _this$information0.name_ar})`,
               bold: false,
               size: 28,
@@ -2303,8 +2306,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // space
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: ``
             })],
             spacing: {
@@ -2314,8 +2317,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Ayah Number
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: `Ayah Number:`,
               bold: true,
               size: 32,
@@ -2329,8 +2332,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Ayah Number
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: `${(_this$information1 = this.information) === null || _this$information1 === void 0 || (_this$information1 = _this$information1.ayah) === null || _this$information1 === void 0 ? void 0 : _this$information1.ayah_id}`,
               bold: false,
               size: 28,
@@ -2345,8 +2348,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // space
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: ``
             })],
             spacing: {
@@ -2356,8 +2359,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Ayah Header
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: "Ayah:",
               bold: true,
               size: 32,
@@ -2371,8 +2374,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Ayah Text
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: (_this$information10 = this.information) === null || _this$information10 === void 0 || (_this$information10 = _this$information10.ayah) === null || _this$information10 === void 0 ? void 0 : _this$information10.ayah_text,
               size: 28,
               color: "333333",
@@ -2391,8 +2394,8 @@ __webpack_require__.r(__webpack_exports__);
             alignment: "RIGHT" // Right align Arabic text
           }),
           // space
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: ``
             })],
             spacing: {
@@ -2402,8 +2405,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Tafseer Header
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: "Translation:",
               bold: true,
               size: 32,
@@ -2416,8 +2419,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Tafseer Content
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: (_this$information11 = this.information) === null || _this$information11 === void 0 ? void 0 : _this$information11.translation,
               size: 28,
               color: "000000"
@@ -2433,8 +2436,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // space
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: ``
             })],
             spacing: {
@@ -2444,8 +2447,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Translator Header
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: "Translator:",
               bold: true,
               size: 32,
@@ -2458,8 +2461,8 @@ __webpack_require__.r(__webpack_exports__);
             }
           }),
           // Translator Content
-          new docx__WEBPACK_IMPORTED_MODULE_14__.Paragraph({
-            children: [new docx__WEBPACK_IMPORTED_MODULE_14__.TextRun({
+          new docx__WEBPACK_IMPORTED_MODULE_15__.Paragraph({
+            children: [new docx__WEBPACK_IMPORTED_MODULE_15__.TextRun({
               text: "Ahmed Ali",
               italics: false,
               size: 28,
@@ -2475,7 +2478,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       try {
         var _this$information12, _this$information13;
-        const blob = await docx__WEBPACK_IMPORTED_MODULE_14__.Packer.toBlob(doc);
+        const blob = await docx__WEBPACK_IMPORTED_MODULE_15__.Packer.toBlob(doc);
 
         // Generate a clean, ISO date string
         const date = new Date().toISOString().split("T")[0]; // e.g., 2024-12-28
@@ -2488,7 +2491,7 @@ __webpack_require__.r(__webpack_exports__);
         const filename = `translation_doc_surah_${surahNum}_ayah_${ayahNum}_${date}.docx`;
 
         // Save the file
-        (0,file_saver__WEBPACK_IMPORTED_MODULE_12__.saveAs)(blob, filename);
+        (0,file_saver__WEBPACK_IMPORTED_MODULE_13__.saveAs)(blob, filename);
       } catch (error) {
         console.error("Failed to generate Word document:", error);
         this.$emit("word-error", error);
@@ -4255,6 +4258,180 @@ __webpack_require__.r(__webpack_exports__);
     information: {
       type: Object,
       required: true
+    }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=script&lang=js":
+/*!************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=script&lang=js ***!
+  \************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/lib/axios.js");
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: "BottomAudioPlayer",
+  props: {
+    information: {
+      type: Object,
+      required: true
+    }
+  },
+  data() {
+    return {
+      surahAyahs: [],
+      currentAyahIndex: -1,
+      lastRequestId: 0,
+      isLoading: false,
+      error: null
+    };
+  },
+  computed: {
+    currentAyah() {
+      var _this$information;
+      if (this.currentAyahIndex >= 0 && this.currentAyahIndex < this.surahAyahs.length) {
+        return this.surahAyahs[this.currentAyahIndex];
+      }
+      return ((_this$information = this.information) === null || _this$information === void 0 ? void 0 : _this$information.ayah) || null;
+    },
+    currentAudioSrc() {
+      var _this$currentAyah;
+      return ((_this$currentAyah = this.currentAyah) === null || _this$currentAyah === void 0 ? void 0 : _this$currentAyah.audio_links) || null;
+    },
+    canPlayNext() {
+      return this.currentAyahIndex + 1 < this.surahAyahs.length;
+    },
+    canPlayPrev() {
+      return this.currentAyahIndex > 0;
+    },
+    statusMessage() {
+      if (this.isLoading) {
+        return "Loading surah audio…";
+      }
+      if (this.error) {
+        return this.error;
+      }
+      if (this.currentAyah) {
+        var _this$currentAyah$sur, _this$currentAyah$aya, _this$currentAyah$aya2;
+        const surahId = this.currentAyah.surah_id || ((_this$currentAyah$sur = this.currentAyah.surah) === null || _this$currentAyah$sur === void 0 ? void 0 : _this$currentAyah$sur.id);
+        const ayahNumber = (_this$currentAyah$aya = this.currentAyah.ayah_id) !== null && _this$currentAyah$aya !== void 0 ? _this$currentAyah$aya : (_this$currentAyah$aya2 = this.currentAyah.ayah) === null || _this$currentAyah$aya2 === void 0 ? void 0 : _this$currentAyah$aya2.ayah_id;
+        return `Surah ${surahId || "?"} · Ayah ${ayahNumber || "?"}`;
+      }
+      return "Select an ayah to hear its recitation.";
+    },
+    audioLabel() {
+      var _ayah$surah;
+      const ayah = this.currentAyah;
+      if (!ayah) {
+        return "Quran audio player";
+      }
+      const surahId = ayah.surah_id || ((_ayah$surah = ayah.surah) === null || _ayah$surah === void 0 ? void 0 : _ayah$surah.id);
+      return `Audio for Surah ${surahId || "?"} Ayah ${ayah.ayah_id || "?"}`;
+    }
+  },
+  watch: {
+    information: {
+      immediate: true,
+      handler(newInfo) {
+        this.loadSurahAyahs(newInfo);
+      }
+    },
+    currentAyahIndex(newIndex, oldIndex) {
+      if (newIndex === oldIndex) return;
+      if (!this.currentAudioSrc) return;
+      this.playAudio();
+    },
+    currentAudioSrc(newSrc, oldSrc) {
+      if (!newSrc || newSrc === oldSrc) return;
+      this.playAudio();
+    }
+  },
+  methods: {
+    async loadSurahAyahs(info) {
+      var _info$ayah$surah;
+      this.error = null;
+      this.surahAyahs = [];
+      this.currentAyahIndex = -1;
+      if (!(info !== null && info !== void 0 && info.ayah)) {
+        return;
+      }
+      const surahId = ((_info$ayah$surah = info.ayah.surah) === null || _info$ayah$surah === void 0 ? void 0 : _info$ayah$surah.id) || info.ayah.surah_id;
+      if (!surahId) {
+        this.surahAyahs = [info.ayah];
+        this.currentAyahIndex = 0;
+        return;
+      }
+      this.isLoading = true;
+      const requestId = ++this.lastRequestId;
+      try {
+        const {
+          data
+        } = await axios__WEBPACK_IMPORTED_MODULE_0__["default"].get(`/surahs/${surahId}/ayahs`);
+        if (this.lastRequestId !== requestId) {
+          return;
+        }
+        this.surahAyahs = Array.isArray(data) ? data.sort((a, b) => a.ayah_id - b.ayah_id) : [];
+        this.setCurrentIndex(info.ayah);
+      } catch (err) {
+        if (this.lastRequestId === requestId) {
+          this.error = "Unable to load surah audio.";
+        }
+        console.error("Failed to load ayahs:", err);
+      } finally {
+        if (this.lastRequestId === requestId) {
+          this.isLoading = false;
+        }
+      }
+    },
+    setCurrentIndex(selectedAyah) {
+      var _selectedAyah$id, _selectedAyah$ayah_id;
+      if (!this.surahAyahs.length) {
+        this.currentAyahIndex = -1;
+        return;
+      }
+      const targetAyahId = (_selectedAyah$id = selectedAyah.id) !== null && _selectedAyah$id !== void 0 ? _selectedAyah$id : null;
+      const targetNumber = (_selectedAyah$ayah_id = selectedAyah.ayah_id) !== null && _selectedAyah$ayah_id !== void 0 ? _selectedAyah$ayah_id : null;
+      let index = -1;
+      if (targetAyahId) {
+        index = this.surahAyahs.findIndex(ayah => ayah.id === targetAyahId);
+      }
+      if (index === -1 && targetNumber) {
+        index = this.surahAyahs.findIndex(ayah => ayah.ayah_id === targetNumber);
+      }
+      this.currentAyahIndex = index === -1 ? 0 : index;
+    },
+    playAudio() {
+      this.$nextTick(() => {
+        const audio = this.$refs.audioPlayer;
+        if (!audio || !this.currentAudioSrc) {
+          return;
+        }
+        audio.volume = 0.95;
+        audio.load();
+        audio.play().catch(() => {});
+      });
+    },
+    playNext() {
+      if (this.canPlayNext) {
+        this.currentAyahIndex += 1;
+      }
+    },
+    playPrevious() {
+      if (this.canPlayPrev) {
+        this.currentAyahIndex -= 1;
+      }
+    },
+    handleAyahEnded() {
+      if (this.canPlayNext) {
+        this.playNext();
+      }
     }
   }
 });
@@ -6464,9 +6641,13 @@ const _hoisted_17 = {
   key: 0,
   class: "col-md-1 col-2 d-flex align-items-center justify-content-center flex-column vertical-actions"
 };
+const _hoisted_18 = {
+  class: "mt-4"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_AyahInfo = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AyahInfo");
   const _component_MainAyah = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("MainAyah");
+  const _component_BottomAudioPlayer = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("BottomAudioPlayer");
   const _component_AlertModal = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("AlertModal");
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["w-100 my-element", {
@@ -6597,7 +6778,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     onClick: _cache[16] || (_cache[16] = (...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args)),
     onKeydown: [_cache[17] || (_cache[17] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args), ["prevent"]), ["enter"])), _cache[18] || (_cache[18] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withKeys)((0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.decreaseFontSize && $options.decreaseFontSize(...args), ["prevent"]), ["space"]))],
     title: "Decrease Text Size"
-  }, null, 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice settings "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-gear-fill h3 custom-icon-increase\" style=\"cursor: pointer\" @click=\"showOptions = !showOptions\"\n            title=\"Toggle Voice Settings\">\n          </i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Collapse for More Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"d-inline-flex gap-1\">\n            <i style=\"cursor: pointer;\" class=\"bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease\"\n              data-bs-toggle=\"collapse\" href=\"#collapseExample\" role=\"button\" aria-expanded=\"false\"\n              aria-controls=\"collapseExample\" @click=\"toggleIcon\" title=\"More Options\"></i>\n          </p> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
+  }, null, 32 /* NEED_HYDRATION */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Voice settings "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <i class=\"bi bi-gear-fill h3 custom-icon-increase\" style=\"cursor: pointer\" @click=\"showOptions = !showOptions\"\n            title=\"Toggle Voice Settings\">\n          </i> "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Collapse for More Options "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <p class=\"d-inline-flex gap-1\">\n            <i style=\"cursor: pointer;\" class=\"bi bi-file-earmark-arrow-down-fill h3 custom-icon-decrease\"\n              data-bs-toggle=\"collapse\" href=\"#collapseExample\" role=\"button\" aria-expanded=\"false\"\n              aria-controls=\"collapseExample\" @click=\"toggleIcon\" title=\"More Options\"></i>\n          </p> ")])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_BottomAudioPlayer, {
+    information: $props.information
+  }, null, 8 /* PROPS */, ["information"])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_AlertModal, {
     showAlertText: $props.showAlertText,
     showAlert: $props.showAlert,
     showErrorAlert: $props.showErrorAlert,
@@ -7689,6 +7872,69 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render)
+/* harmony export */ });
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
+
+const _hoisted_1 = {
+  key: 0,
+  class: "bottom-audio-player"
+};
+const _hoisted_2 = {
+  class: "player-header"
+};
+const _hoisted_3 = {
+  class: "player-label"
+};
+const _hoisted_4 = {
+  class: "player-controls"
+};
+const _hoisted_5 = ["disabled"];
+const _hoisted_6 = ["disabled"];
+const _hoisted_7 = ["src", "aria-label"];
+const _hoisted_8 = {
+  key: 1,
+  class: "player-placeholder"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return $props.information ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.statusMessage), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn control-btn",
+    onClick: _cache[0] || (_cache[0] = (...args) => $options.playPrevious && $options.playPrevious(...args)),
+    disabled: !$options.canPlayPrev,
+    "aria-label": "Play previous ayah"
+  }, [...(_cache[3] || (_cache[3] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-skip-start-fill"
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_5), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    type: "button",
+    class: "btn control-btn",
+    onClick: _cache[1] || (_cache[1] = (...args) => $options.playNext && $options.playNext(...args)),
+    disabled: !$options.canPlayNext,
+    "aria-label": "Play next ayah"
+  }, [...(_cache[4] || (_cache[4] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+    class: "bi bi-skip-end-fill"
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_6)])]), $options.currentAudioSrc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
+    key: 0,
+    ref: "audioPlayer",
+    src: $options.currentAudioSrc,
+    class: "w-100 custom-audio",
+    preload: "auto",
+    controls: "",
+    onEnded: _cache[2] || (_cache[2] = (...args) => $options.handleAyahEnded && $options.handleAyahEnded(...args)),
+    "aria-label": $options.audioLabel
+  }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_7)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_8, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.statusMessage), 1 /* TEXT */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+}
+
+/***/ }),
+
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/HelpGuideModal.vue?vue&type=template&id=0f15fe0a":
 /*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/HelpGuideModal.vue?vue&type=template&id=0f15fe0a ***!
@@ -8625,6 +8871,18 @@ __webpack_require__.r(__webpack_exports__);
 /*!**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahInfo.vue?vue&type=style&index=0&id=1f073694&scoped=true&lang=css ***!
   \**************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css":
+/*!***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css ***!
+  \***********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -10287,6 +10545,79 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahInfo_vue_vue_type_template_id_1f073694_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_AyahInfo_vue_vue_type_template_id_1f073694_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./AyahInfo.vue?vue&type=template&id=1f073694&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/AyahInfo.vue?vue&type=template&id=1f073694&scoped=true");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/translation/BottomAudioPlayer.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/translation/BottomAudioPlayer.vue ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _BottomAudioPlayer_vue_vue_type_template_id_194365f3_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true */ "./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true");
+/* harmony import */ var _BottomAudioPlayer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BottomAudioPlayer.vue?vue&type=script&lang=js */ "./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=script&lang=js");
+/* harmony import */ var _BottomAudioPlayer_vue_vue_type_style_index_0_id_194365f3_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css */ "./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_BottomAudioPlayer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_BottomAudioPlayer_vue_vue_type_template_id_194365f3_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-194365f3"],['__file',"resources/js/components/translation/BottomAudioPlayer.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=script&lang=js":
+/*!*******************************************************************************************!*\
+  !*** ./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=script&lang=js ***!
+  \*******************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BottomAudioPlayer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BottomAudioPlayer_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BottomAudioPlayer.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css":
+/*!***************************************************************************************************************************!*\
+  !*** ./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css ***!
+  \***************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_clonedRuleSet_10_use_0_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BottomAudioPlayer_vue_vue_type_style_index_0_id_194365f3_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!../../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css */ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=style&index=0&id=194365f3&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BottomAudioPlayer_vue_vue_type_template_id_194365f3_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_BottomAudioPlayer_vue_vue_type_template_id_194365f3_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/translation/BottomAudioPlayer.vue?vue&type=template&id=194365f3&scoped=true");
 
 
 /***/ }),
