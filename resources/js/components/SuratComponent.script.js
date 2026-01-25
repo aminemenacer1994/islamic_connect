@@ -12,6 +12,7 @@ export default {
         return {
             // responsive a11y
             isMobile: false,
+            isTabletOrMobile: false,
             // a11y
             selectedCardIndex: 0,
             screenReaderMessage: "",
@@ -2359,8 +2360,11 @@ export default {
         updateIsMobile() {
             try {
                 this.isMobile = window.matchMedia("(max-width: 767px)").matches;
+                this.isTabletOrMobile = window.matchMedia("(max-width: 991px)").matches;
             } catch (e) {
-                this.isMobile = window.innerWidth <= 767;
+                const width = window.innerWidth;
+                this.isMobile = width <= 767;
+                this.isTabletOrMobile = width <= 991;
             }
         },
         // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)

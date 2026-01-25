@@ -52,20 +52,31 @@
                 </div>
             </div>
         </div>
-        <div v-if="isMobile" class="mobile-surah-dropdown-wrapper px-3 mt-3">
+        <div v-if="isTabletOrMobile" class="mobile-surah-dropdown-wrapper px-3 mt-3">
             <label class="visually-hidden" for="mobileSurahDropdown">
                 Select surah
             </label>
-            <select id="mobileSurahDropdown"
-                class="form-select mobile-surah-dropdown shadow-sm"
-                v-model="selectedSurah"
-                @change="selectSurah(selectedSurah)"
-                aria-label="Select surah">
-                <option v-if="!surahs.length" disabled>Loading surahs...</option>
-                <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
-                    {{ surah.number }}. {{ surah.englishName }}
-                </option>
-            </select>
+            <div class="d-flex w-100 align-items-center gap-2">
+                <select v-if="isMobile" id="mobileSurahDropdown"
+                    class="form-select mobile-surah-dropdown shadow-sm flex-grow-1"
+                    v-model="selectedSurah"
+                    @change="selectSurah(selectedSurah)"
+                    aria-label="Select surah">
+                    <option v-if="!surahs.length" disabled>Loading surahs...</option>
+                    <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
+                        {{ surah.number }}. {{ surah.englishName }}
+                    </option>
+                </select>
+                <button type="button"
+                    class="btn btn-light shadow-sm next-step-settings-btn-standalone px-3 py-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#surahSettingsModal"
+                    @click="prepareSettingsDraft"
+                    aria-label="Open display settings"
+                    title="Display settings">
+                    <i class="bi bi-gear-fill"></i>
+                </button>
+            </div>
         </div>
         <div class="surah-layout">
             <div class="sticky-dropdown" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
