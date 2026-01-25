@@ -33981,7 +33981,6 @@ to {
 
 /* Based on provided code, I don't see the full original CSS. I'll append this to the end inside the style block */
 
-
 .reflection-pill.has-reflection[data-v-828f3036] {
     color: #0f766e;
     border-color: #0f766e;
@@ -34149,6 +34148,24 @@ to {
 }
 .reflection-action span[data-v-828f3036] {
     font-weight: 600;
+}
+.mobile-surah-dropdown-wrapper[data-v-828f3036] {
+    max-width: 520px;
+    margin: 0 auto 1.75rem;
+}
+.mobile-surah-dropdown[data-v-828f3036] {
+    border-radius: 999px;
+    font-weight: 600;
+    color: #0b3d2e;
+    border: 1px solid rgba(11, 61, 46, 0.25);
+    background: #ffffff;
+    padding-left: 1.1rem;
+    padding-right: 1.1rem;
+}
+.mobile-surah-dropdown[data-v-828f3036]:focus {
+    border-color: #0b8f7e;
+    box-shadow: 0 0 0 0.25rem rgba(11, 128, 111, 0.25);
+    outline: none;
 }
 .reflection-action.edit-action[data-v-828f3036] {
     color: #0f766e;
@@ -34846,6 +34863,17 @@ to {
 .next-step-card[data-v-828f3036] {
         padding: 14px;
 }
+.next-step-settings-row[data-v-828f3036] {
+        display: flex;
+        justify-content: center;
+}
+.next-step-settings-btn-standalone[data-v-828f3036] {
+        border-radius: 999px;
+        font-weight: 600;
+        border: 1px solid rgba(6, 38, 34, 0.15);
+        background: #fff;
+        color: #0f6e63;
+}
 }
 
 /* Consolidated base rules */
@@ -35517,6 +35545,11 @@ to {
 .tajweed-modal .modal-content[data-v-828f3036] {
     border-radius: 18px;
 }
+.tajweed-modal .modal-body[data-v-828f3036] {
+    max-height: 72vh;
+    padding: 24px;
+    overflow-y: auto;
+}
 .tajweed-rules-grid[data-v-828f3036] {
     display: grid;
     grid-template-columns: 1fr;
@@ -35571,18 +35604,18 @@ to {
     font-weight: 600;
 }
 .tajweed-rule-ar-desc[data-v-828f3036] {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     color: #2f5e53;
-    line-height: 1.4;
+    line-height: 1.25;
 }
 .tajweed-rule-label[data-v-828f3036] {
     font-size: 1.05rem;
     font-weight: 600;
 }
 .tajweed-rule-desc[data-v-828f3036] {
-    font-size: 0.9rem;
+    font-size: 0.78rem;
     color: #475569;
-    line-height: 1.4;
+    line-height: 1.25;
 }
 @media (max-width: 576px) {
 .tajweed-rule-row[data-v-828f3036] {
@@ -37251,9 +37284,33 @@ h1.display-5[data-v-828f3036] {
 .sidebar-tabs .tab-btn[data-v-828f3036]:hover {
     color: #ffffff;
 }
+.sidebar-settings-tab[data-v-828f3036] {
+    width: auto;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.85rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 42px;
+}
+.sidebar-settings-tab.active[data-v-828f3036] {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.35);
+}
 .sidebar-tabs .tab-btn.active[data-v-828f3036] {
     color: #ffffff;
     border-bottom-color: #ffffff;
+}
+.mobile-sidebar-settings[data-v-828f3036] {
+    margin-top: 10px;
+}
+.mobile-sidebar-settings .btn[data-v-828f3036] {
+    color: rgba(255, 255, 255, 0.88);
+    padding: 0;
+    font-size: 0.9rem;
 }
 
 /* Search Input */
@@ -37318,22 +37375,22 @@ h1.display-5[data-v-828f3036] {
     color: #e5e7eb;
 }
 .sidebar-item-meta[data-v-828f3036] {
-    margin-top: 4px;
-    font-size: 0.75rem;
-    color: rgba(255, 255, 255, 0.65);
+    margin-top: 2px;
+    font-size: 0.65rem;
+    color: rgba(255, 255, 255, 0.6);
     display: flex;
     align-items: center;
-    gap: 0.65rem;
-    letter-spacing: 0.06em;
+    gap: 0.5rem;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 .sidebar-item-extra[data-v-828f3036] {
-    margin-top: 4px;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.6);
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.55);
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.4rem;
 }
 .item-meta[data-v-828f3036] {
     font-size: 0.75rem;
