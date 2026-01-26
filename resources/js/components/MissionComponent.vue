@@ -1,18 +1,18 @@
 <template>
   <div class="p-3 mission-shell" :class="{ 'pb-audio-gap': showAudioPlayer }">
 
-    <div class="row py-3 justify-content-center text-center mb-3 mission-hero">
-      <div class="col-lg-10 col-xl-10">
-        <h1 class="display-5 fw-bold mission-hero__title">Seerah Timeline</h1>
-        <p class="lead mission-hero__lead">
-          The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH).
-        </p>
+    <section class="mission-intro container px-0 px-lg-3">
+      <div class="row py-3 justify-content-center text-center mb-3 mission-hero">
+        <div class="col-lg-10 col-xl-10">
+          <h1 class="display-5 fw-bold mission-hero__title">Seerah Timeline</h1>
+          <p class="lead mission-hero__lead">
+            The Seerah Timeline offers an insightful journey through the life of Prophet Muhammad (PBUH).
+          </p>
+        </div>
       </div>
-    </div>
 
-    <!-- Next Step: From Qur'an History to Seerah Timeline -->
-    <div class="container px-2">
-      <div class="mx-auto mb-4 next-step-card animate-rise">
+      <!-- Next Step: From Qur'an History to Seerah Timeline -->
+      <div class="next-step-card animate-rise mx-auto mb-4">
         <button type="button" class="next-step-toggle" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
           @click.stop="toggleNextStepMinimized">
@@ -50,9 +50,7 @@
           </div>
         </div>
       </div>
-    </div>
-
-    
+    </section>
 
     <section class="timeline-intro container">
       <div class="timeline-intro__upper">
@@ -335,45 +333,45 @@
     <!-- Global Custom Audio Player -->
     <div v-if="showAudioPlayer" class="audio-player-container" role="region" aria-label="Audio player">
       <div class="custom-audio-player">
-        <div class="controls audio-controls">
-          <button class="control-icon btn btn-link p-0" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10s"
-            aria-label="Rewind 10 seconds">
-            <i class="bi bi-skip-backward-fill"></i>
-          </button>
-          <button class="control-icon btn btn-link p-0" @click="toggleAudioPlayer(currentlyPlayingIndex)"
-            :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
-            :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'">
-            <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
-          </button>
-          <button class="control-icon btn btn-link p-0" @click="fastForwardAudio(currentlyPlayingIndex)"
-            title="Fast Forward 10s" aria-label="Fast forward 10 seconds">
-            <i class="bi bi-skip-forward-fill"></i>
-          </button>
-          <button class="control-icon btn btn-link p-0" @click="stopAudio(currentlyPlayingIndex)" title="Stop"
-            aria-label="Stop">
-            <i class="bi bi-stop-fill"></i>
-          </button>
-          <button class="control-icon btn btn-link p-0" @click="toggleVolume" title="Volume" aria-label="Adjust volume">
-            <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
-          </button>
-          <div v-if="showVolumeBar" class="volume-bar-container">
-            <input type="range" v-model="volume" min="0" max="1" step="0.1" @input="updateVolume" class="volume-slider"
-              aria-label="Volume control" aria-live="polite" />
+        <div class="player-controls">
+          <div class="player-header">
+            <span class="player-title">{{ currentEvent && currentEvent.title ? currentEvent.title : 'Seerah audio' }}</span>
+            <button class="icon-btn icon-btn--close" @click="closeAudioPlayer" title="Close"
+              aria-label="Close audio player">
+              <i class="bi bi-x-lg"></i>
+            </button>
           </div>
-          <span class="time" role="status" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime)
-          }}</span>
-          <button class="control-icon btn btn-link p-0 close-icon" @click="closeAudioPlayer" title="Close"
-            aria-label="Close audio player">
-            <i class="bi bi-x"></i>
-          </button>
+          <div class="control-row">
+            <button class="icon-btn" @click="rewindAudio(currentlyPlayingIndex)" title="Rewind 10 seconds"
+              aria-label="Rewind 10 seconds">
+              <i class="bi bi-skip-backward-fill"></i>
+            </button>
+            <button class="icon-btn" @click="toggleAudioPlayer(currentlyPlayingIndex)"
+              :title="isAudioPlaying[currentlyPlayingIndex] ? 'Pause' : 'Play'"
+              :aria-label="isAudioPlaying[currentlyPlayingIndex] ? 'Pause audio' : 'Play audio'">
+              <i class="bi" :class="isAudioPlaying[currentlyPlayingIndex] ? 'bi-pause-fill' : 'bi-play-fill'"></i>
+            </button>
+            <button class="icon-btn" @click="fastForwardAudio(currentlyPlayingIndex)" title="Fast forward 10 seconds"
+              aria-label="Fast forward 10 seconds">
+              <i class="bi bi-skip-forward-fill"></i>
+            </button>
+            <button class="icon-btn" @click="stopAudio(currentlyPlayingIndex)" title="Stop" aria-label="Stop audio">
+              <i class="bi bi-stop-fill"></i>
+            </button>
+            <button class="icon-btn" @click="toggleMute" :title="volume > 0 ? 'Mute' : 'Unmute'"
+              :aria-label="volume > 0 ? 'Mute audio' : 'Unmute audio'">
+              <i class="bi" :class="`bi-volume-${volume > 0.5 ? 'up' : volume > 0 ? 'down' : 'mute'}-fill`"></i>
+            </button>
+            <span class="timer" aria-live="polite">{{ formatTime(currentTime) }} / {{ formatTime(totalTime) }}</span>
+          </div>
         </div>
-        <div class="progress-bar" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
-          :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)"
-          :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`" tabindex="0"
-          @keydown.left.prevent="keyboardSeek(-5)" @keydown.right.prevent="keyboardSeek(5)"
-          @keydown.pageDown.prevent="keyboardSeek(-10)" @keydown.pageUp.prevent="keyboardSeek(10)"
-          @click="seekAudio($event, currentlyPlayingIndex)" aria-label="Seek audio">
-          <div class="progress" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+        <div class="progress-wrapper">
+          <div class="progress-track" role="progressbar" :aria-valuemin="0" :aria-valuemax="100"
+            :aria-valuenow="Math.round(progress[currentlyPlayingIndex] || 0)"
+            :aria-valuetext="`Progress ${Math.round(progress[currentlyPlayingIndex] || 0)} percent`"
+            @click="seekAudio($event, currentlyPlayingIndex)">
+            <div class="progress-fill" :style="{ width: progress[currentlyPlayingIndex] + '%' }"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -417,7 +415,7 @@ export default {
       currentTime: 0,
       totalTime: 0,
       volume: 1,
-      showVolumeBar: false,
+      lastVolumeBeforeMute: 1,
       fontSize: 18,
       tempFontSize: 18,
       scrollDirection: 'up',
@@ -863,10 +861,13 @@ export default {
         this._rafScheduled = false;
       });
     },
-    toggleVolume() {
-      this.showVolumeBar = !this.showVolumeBar;
-    },
-    updateVolume() {
+    toggleMute() {
+      if (this.volume > 0) {
+        this.lastVolumeBeforeMute = this.volume;
+        this.volume = 0;
+      } else {
+        this.volume = this.lastVolumeBeforeMute || 1;
+      }
       if (this.utterance) {
         this.utterance.volume = this.volume;
       }
@@ -1560,6 +1561,115 @@ export default {
   animation: riseIn 420ms ease-out both;
 }
 
+.mission-intro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.mission-intro .mission-hero {
+  margin-bottom: 0;
+}
+
+.next-step-card {
+  width: min(100%, 960px);
+  padding: 1.25rem 1.5rem;
+  background: linear-gradient(125deg, rgba(255, 255, 255, 0.95), rgba(244, 250, 248, 0.92));
+  border-radius: 26px;
+  border: 1px solid rgba(15, 41, 32, 0.08);
+  box-shadow: 0 16px 32px rgba(15, 41, 32, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.next-step-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at 20% 40%, rgba(11, 128, 111, 0.08), transparent 55%);
+}
+
+.next-step-toggle {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 6px 14px rgba(15, 41, 32, 0.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mission-muted);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.next-step-toggle:hover,
+.next-step-toggle:focus-visible {
+  background: #ffffff;
+  transform: translateY(-1px);
+}
+
+.next-step-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(11, 128, 111, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mission-accent);
+  font-size: 1.15rem;
+}
+
+.next-step-eyebrow {
+  letter-spacing: 0.35em;
+  font-size: 0.8rem;
+  color: rgba(11, 128, 111, 0.8);
+}
+
+.next-step-teaser {
+  font-weight: 600;
+}
+
+.next-step-link {
+  color: var(--mission-accent);
+  text-decoration: none;
+}
+
+.next-step-link-icon {
+  color: var(--mission-accent);
+}
+
+.next-step-text {
+  color: var(--mission-ink);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.next-step-cta {
+  border-radius: 999px;
+  background: var(--mission-accent);
+  border: none;
+  box-shadow: 0 10px 22px rgba(11, 128, 111, 0.25);
+}
+
+.next-step-cta:hover {
+  background: #0e6b5d;
+}
+
+@media (min-width: 768px) {
+  .mission-intro {
+    gap: 1.75rem;
+  }
+}
+
 .mission-hero-support {
   margin: 0 auto 12px;
   padding: 1.25rem 1.4rem;
@@ -1710,18 +1820,6 @@ export default {
   }
 }
 
-.audio-player-container {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1001;
-  background-color: rgba(33, 33, 33, 0.98);
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
-  border-radius: 12px 12px 0 0;
-  transition: transform 0.3s ease-in-out;
-}
-
 /* Reduce motion for users and improve tab switch performance */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -1740,151 +1838,105 @@ export default {
 .custom-audio-player {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 12px 16px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  gap: 14px;
 }
 
-.controls {
+.audio-player-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1100;
+  background: linear-gradient(145deg, #061d16 5%, rgba(10, 30, 23, 0.95) 60%, #0b1511 100%);
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0)) 16px;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -14px 32px rgba(4, 10, 8, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.player-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.player-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  width: 100%;
-  justify-content: center;
+  justify-content: space-between;
 }
 
-.control-icon {
-  color: #ffffff;
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: color 0.2s, transform 0.2s ease-in-out;
-  padding: 8px;
+.player-title {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.icon-btn {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
+  cursor: pointer;
+  transition: color 0.18s ease, transform 0.18s ease;
 }
 
-.control-icon:hover,
-.control-icon:active,
-.control-icon:focus {
-  color: var(--mission-accent);
-  transform: scale(1.1);
-  outline: none;
+.icon-btn i {
+  font-size: 1.1rem;
 }
 
-.close-icon {
+.icon-btn:hover,
+.icon-btn:focus-visible {
+  color: #f4ce74;
+  transform: translateY(-1px);
+}
+
+.icon-btn--close {
+  margin-left: 10px;
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.timer {
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 600;
   margin-left: auto;
-  margin-right: 8px;
 }
 
-.volume-bar-container {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 12px;
-  width: 100px;
-}
-
-.volume-slider {
+.progress-wrapper {
   width: 100%;
-  -webkit-appearance: none;
-  appearance: none;
+}
+
+.progress-track {
+  width: 100%;
   height: 6px;
-  background: #666;
-  outline: none;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-  border-radius: 12px;
-}
-
-.volume-slider:hover {
-  opacity: 1;
-}
-
-.volume-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 16px;
-  height: 16px;
-  background: var(--mission-accent);
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.volume-slider::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
-  background: var(--mission-accent);
-  cursor: pointer;
-  border-radius: 50%;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.time {
-  color: #e0e0e0;
-  font-size: 0.9rem;
-  margin-left: 12px;
-  font-weight: 500;
-}
-
-.progress-bar {
-  width: 100%;
-  height: 8px;
-  background: #555;
-  border-radius: 12px;
-  margin-top: 12px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.progress {
-  height: 100%;
-  background: var(--mission-accent);
-  transition: width 0.3s ease;
-}
-
-/* Interactive play button */
-.play-toggle {
-  transition: transform 120ms ease, filter 160ms ease;
-  outline: none;
-}
-
-.play-toggle:hover {
-  transform: scale(1.06);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-}
-
-.play-toggle:active {
-  transform: scale(0.98);
-}
-
-.play-toggle:focus-visible {
-  box-shadow: 0 0 0 0.2rem rgba(13, 182, 145, 0.35);
   border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  overflow: hidden;
 }
 
-.play-toggle.playing i {
-  animation: playPulse 1.8s ease-in-out infinite;
-  color: var(--mission-accent);
-}
-
-@keyframes playPulse {
-  0% {
-    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);
-  }
-
-  50% {
-    text-shadow: 0 0 12px rgba(13, 182, 145, 0.6);
-  }
-
-  100% {
-    text-shadow: 0 0 0 rgba(13, 182, 145, 0.0);
-  }
+.progress-fill {
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #f3de9b, #f1a34b 65%, #0fd6a5);
+  border-radius: inherit;
+  transition: width 0.2s ease;
 }
 
 .event-box {
@@ -1961,221 +2013,25 @@ export default {
   margin-bottom: 1.25rem;
 }
 
-/* Extra Small Screens (<400px) */
-@media (max-width: 399px) {
-  .controls {
-    flex-direction: column;
+@media (max-width: 575px) {
+  .control-row {
     gap: 8px;
-    align-items: center;
+    justify-content: center;
   }
 
-  .audio-controls {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(56px, 1fr));
-    gap: 8px 6px;
-    justify-items: center;
-    width: 100%;
+  .icon-btn {
+    width: 42px;
+    height: 42px;
   }
 
-  .audio-controls .control-icon {
-    font-size: 1.35rem;
-    padding: 6px;
-    width: 100%;
-  }
-
-  .audio-controls .close-icon {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .audio-controls .volume-bar-container {
-    grid-column: span 4;
-    margin: 0;
-    width: 100%;
-  }
-
-  .audio-controls .volume-slider {
-    width: 100%;
-  }
-
-  .audio-controls .time {
-    grid-column: span 2;
-    margin: 0;
-    text-align: center;
-    font-size: 0.8rem;
-  }
-
-  .audio-player-container {
-    padding: 8px;
-  }
-
-  .custom-audio-player {
-    padding: 8px;
-  }
-
-  .progress-bar {
-    height: 6px;
-    margin-top: 8px;
-  }
-
-  .event-box {
-    padding: 12px;
-  }
-
-  .time-estimates {
+  .player-meta {
     flex-direction: column;
-    gap: 8px;
-    font-size: 0.85rem;
-  }
-}
-
-/* Small Screens (400px–575px) */
-@media (min-width: 400px) and (max-width: 575px) {
-  .controls {
-    gap: 12px;
-    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 6px;
   }
 
-  .audio-controls {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(60px, 1fr));
-    gap: 12px 10px;
-    justify-items: center;
-    width: 100%;
-  }
-
-  .audio-controls .control-icon {
-    font-size: 1.35rem;
-    padding: 8px;
-    width: 100%;
-  }
-
-  .audio-controls .close-icon {
-    margin-left: 0;
-    margin-right: 0;
-  }
-
-  .audio-controls .volume-bar-container {
-    grid-column: span 4;
-    margin: 0;
-    width: 100%;
-  }
-
-  .audio-controls .volume-slider {
-    width: 100%;
-  }
-
-  .audio-controls .time {
-    grid-column: span 2;
-    margin: 0;
-    text-align: center;
+  .timer {
     font-size: 0.8rem;
-  }
-
-  .audio-player-container {
-    padding: 10px;
-  }
-
-  .custom-audio-player {
-    padding: 10px;
-  }
-
-  .progress-bar {
-    height: 6px;
-    margin-top: 10px;
-  }
-
-  .event-box {
-    padding: 16px;
-  }
-
-  .time-estimates {
-    font-size: 0.85rem;
-  }
-}
-
-/* Medium Screens (576px–767px) */
-@media (min-width: 576px) and (max-width: 767px) {
-  .controls {
-    gap: 14px;
-    flex-wrap: wrap;
-  }
-
-  .control-icon {
-    font-size: 1.3rem;
-    padding: 8px;
-  }
-
-  .close-icon {
-    margin-left: auto;
-    margin-right: 6px;
-  }
-
-  .volume-bar-container {
-    margin-left: 10px;
-    width: 90px;
-  }
-
-  .volume-slider {
-    width: 100%;
-  }
-
-  .time {
-    margin-left: 10px;
-    font-size: 0.85rem;
-  }
-
-  .audio-player-container {
-    padding: 10px 14px;
-  }
-
-  .custom-audio-player {
-    padding: 10px 14px;
-  }
-
-  .progress-bar {
-    margin-top: 10px;
-  }
-
-  .event-box {
-    padding: 18px;
-  }
-}
-
-/* Large Screens (≥768px) */
-@media (min-width: 768px) {
-  .controls {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 16px;
-  }
-
-  .control-icon {
-    font-size: 1.3rem;
-    padding: 8px;
-  }
-
-  .close-icon {
-    margin-left: auto;
-    margin-right: 8px;
-  }
-
-  .volume-bar-container {
-    margin-left: 12px;
-    width: 100px;
-  }
-
-  .volume-slider {
-    width: 100%;
-  }
-
-  .time {
-    margin-left: 12px;
-    font-size: 0.9rem;
-  }
-
-  .progress-bar {
-    margin-top: 12px;
   }
 }
 
