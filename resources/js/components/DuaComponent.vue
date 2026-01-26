@@ -94,16 +94,28 @@
 
     <!-- Tabs for All Duas and Liked Duas -->
     <div class="container mb-4">
-      <ul class="nav nav-tabs justify-content-center">
+      <ul class="nav nav-tabs justify-content-center" role="tablist">
         <li class="nav-item">
           <a class="nav-link" :class="{ active: viewMode === 'all' }" href="#"
-            @click.prevent="viewMode = 'all'; resetPagination()" aria-current="page">
+            role="tab"
+            id="tab-all"
+            aria-controls="dua-panel"
+            :aria-selected="viewMode === 'all'"
+            @click.prevent="viewMode = 'all'; resetPagination()"
+            @keydown.enter.prevent="viewMode = 'all'; resetPagination()"
+            @keydown.space.prevent="viewMode = 'all'; resetPagination()">
             All Duas
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" :class="{ active: viewMode === 'liked' }" href="#"
-            @click.prevent="viewMode = 'liked'; resetPagination()">
+            role="tab"
+            id="tab-liked"
+            aria-controls="dua-panel"
+            :aria-selected="viewMode === 'liked'"
+            @click.prevent="viewMode = 'liked'; resetPagination()"
+            @keydown.enter.prevent="viewMode = 'liked'; resetPagination()"
+            @keydown.space.prevent="viewMode = 'liked'; resetPagination()">
             Liked Duas
             <span v-if="likedDuasCount > 0" class="badge bg-danger ms-1">{{ likedDuasCount }}</span>
           </a>
@@ -168,7 +180,8 @@
     </transition>
 
     <!-- Duas Display -->
-    <div class="container">
+    <div class="container" id="dua-panel" role="tabpanel"
+      :aria-labelledby="viewMode === 'all' ? 'tab-all' : 'tab-liked'">
       <div v-if="filteredDuas.length === 0" class="alert no-duas-message text-center position-relative" role="status"
         aria-live="polite" :class="alertClass">
         <div v-if="filteredDuas.length === 0" class="text-center py-5 rounded-4 dua-empty" role="status" aria-live="polite">
@@ -195,18 +208,21 @@
 
       <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region"
         :aria-labelledby="`category-title-${category.id}`">
-        <div class="d-flex align-items-center justify-content-between category-header mb-3">
-          <h5 class="fw-semibold text-start mb-3 category-title" :id="`category-title-${category.id}`">
-            <img src="images/art.png" width="30px" class="me-2" alt="Category icon" />
-            {{ category.name }}
-          </h5>
-          <div class="d-flex align-items-center gap-3">
-            <i :class="category.collapsed ? 'bi bi-chevron-down action-icon' : 'bi bi-chevron-up action-icon'"
-              @click="toggleCategoryCollapse(category.id)" data-bs-toggle="tooltip" data-bs-placement="top"
-              :title="category.collapsed ? 'Expand Category' : 'Collapse Category'"
-              :aria-label="category.collapsed ? 'Expand Category' : 'Collapse Category'" role="button"></i>
+          <div class="d-flex align-items-center justify-content-between category-header mb-3">
+            <h5 class="fw-semibold text-start mb-3 category-title" :id="`category-title-${category.id}`">
+              <img src="images/art.png" width="30px" class="me-2" alt="Category icon" />
+              {{ category.name }}
+            </h5>
+            <div class="d-flex align-items-center gap-3">
+              <button type="button" class="category-toggle"
+                :class="category.collapsed ? 'collapsed' : 'expanded'"
+                @click="toggleCategoryCollapse(category.id)"
+                :aria-expanded="!category.collapsed"
+                :title="category.collapsed ? 'Expand Category' : 'Collapse Category'">
+                <i :class="category.collapsed ? 'bi bi-chevron-down' : 'bi bi-chevron-up'"></i>
+              </button>
+            </div>
           </div>
-        </div>
 
         <div v-if="!category.collapsed" class="row g-3" role="list">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6">
@@ -1141,6 +1157,30 @@ export default {
   border-radius: 22px;
   box-shadow: 0 12px 28px rgba(15, 41, 32, 0.08);
   padding: 1.25rem 1.75rem;
+}
+
+.category-toggle {
+  border: none;
+  background: none;
+  padding: 0.1rem 0.35rem;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #0b1320;
+  font-size: 1.25rem;
+  transition: background 0.2s ease;
+}
+
+.category-toggle:hover,
+.category-toggle.expanded {
+  background: rgba(11, 128, 111, 0.08);
+}
+
+.category-toggle:focus-visible {
+  outline: 2px solid rgba(11, 128, 111, 0.8);
+  outline-offset: 4px;
 }
 
 .dua-empty {

@@ -85,20 +85,22 @@
 
       <!-- Liked Stations Section -->
       <section v-if="likedStations.length" class="mb-5">
-        <h3 @click="showLiked = !showLiked" role="button" :aria-expanded="showLiked" :aria-controls="`liked-stations`"
-          class="fw-bold mb-3 fs-4" style="display:flex;align-items:center;gap:.5rem;color:#0b1320;cursor:pointer;">
+        <button @click="showLiked = !showLiked" type="button"
+          class="favorite-section-toggle fw-bold mb-3 fs-4" :aria-expanded="showLiked"
+          :aria-controls="`liked-stations`">
           <span
             style="display:inline-flex;border-radius:50%;align-items:center;justify-content:center;color:#0bb39a;">
             <i class="bi bi-heart-fill"></i>
           </span>
           Favorite Stations ({{ likedStations.length }})
           <i :class="showLiked ? 'bi bi-chevron-up' : 'bi bi-chevron-down'" class="ms-1"></i>
-        </h3>
+        </button>
         <div v-if="showLiked" class="section-animate" id="liked-stations">
           <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             <div v-for="station in likedStations" :key="station.id" class="col">
               <div :id="'station-' + station.id" role="article" :aria-labelledby="'station-title-' + station.id"
-                :class="{ 'active-card': currentAudio?.src === station.url }"
+                :class="[{ 'active-card': currentAudio?.src === station.url }, 'station-card-focusable']"
+                tabindex="0"
                 style="border-radius:20px;background:#ffffff;border:1px solid rgba(6,182,172,.18);box-shadow:0 6px 14px rgba(0,0,0,.06);transition:transform .12s ease, box-shadow .12s ease;"
                 @mouseenter="$event.currentTarget.style.boxShadow = '0 14px 28px rgba(6,182,172,.22)'; $event.currentTarget.style.transform = 'translateY(-2px)';"
                 @mouseleave="$event.currentTarget.style.boxShadow = '0 6px 14px rgba(0,0,0,.06)'; $event.currentTarget.style.transform = '';">
@@ -1447,6 +1449,23 @@ const playAudio = (index) => {
   -webkit-backdrop-filter: saturate(130%) blur(8px);
 }
 
+.favorite-section-toggle {
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  background:none;
+  border:none;
+  padding:0;
+  color:#0b1320;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.favorite-section-toggle:focus-visible {
+  outline:2px dashed rgba(11, 128, 111, 0.7);
+  outline-offset:4px;
+}
+
 .filter-header {
   padding: 0.25rem 0.35rem 0;
 }
@@ -1455,6 +1474,18 @@ const playAudio = (index) => {
   font-size: 1.02rem;
   font-weight: 700;
   letter-spacing: -0.01em;
+}
+
+.station-card-focusable {
+  border-radius: 20px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.station-card-focusable:focus-visible {
+  outline: 2px solid rgba(11, 128, 111, 0.6);
+  outline-offset: 4px;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px rgba(6, 182, 172, 0.25);
 }
 
 .filter-chevron {

@@ -1498,19 +1498,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       value: "listeners_desc"
     }, "Most Listeners", -1 /* CACHED */)]))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $setup.sortBy]])])])], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, $setup.isFilterOpen]])]),
     _: 1 /* STABLE */
-  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $setup.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+  })])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Liked Stations Section "), $setup.likedStations.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_15, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     onClick: _cache[6] || (_cache[6] = $event => $setup.showLiked = !$setup.showLiked),
-    role: "button",
+    type: "button",
+    class: "favorite-section-toggle fw-bold mb-3 fs-4",
     "aria-expanded": $setup.showLiked,
-    "aria-controls": `liked-stations`,
-    class: "fw-bold mb-3 fs-4",
-    style: {
-      "display": "flex",
-      "align-items": "center",
-      "gap": ".5rem",
-      "color": "#0b1320",
-      "cursor": "pointer"
-    }
+    "aria-controls": `liked-stations`
   }, [_cache[32] || (_cache[32] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     style: {
       "display": "inline-flex",
@@ -1532,9 +1525,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       id: 'station-' + station.id,
       role: "article",
       "aria-labelledby": 'station-title-' + station.id,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)({
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)([{
         'active-card': ((_$setup$currentAudio = $setup.currentAudio) === null || _$setup$currentAudio === void 0 ? void 0 : _$setup$currentAudio.src) === station.url
-      }),
+      }, 'station-card-focusable']),
+      tabindex: "0",
       style: {
         "border-radius": "20px",
         "background": "#ffffff",

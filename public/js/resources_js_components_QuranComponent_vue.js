@@ -7539,31 +7539,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-const _hoisted_1 = {
-  key: 0,
-  class: "bottom-audio-player"
-};
-const _hoisted_2 = {
-  class: "player-header"
-};
-const _hoisted_3 = {
-  class: "player-label"
-};
-const _hoisted_4 = ["src", "aria-label"];
-const _hoisted_5 = {
-  key: 1,
-  class: "player-placeholder"
-};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return $props.information ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.statusMessage), 1 /* TEXT */)]), $options.currentAudioSrc ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("audio", {
-    key: 0,
-    ref: "audioPlayer",
-    src: $options.currentAudioSrc,
-    class: "w-100 custom-audio",
-    preload: "auto",
-    controls: "",
-    "aria-label": $options.audioLabel
-  }, null, 8 /* PROPS */, _hoisted_4)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_5, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.statusMessage), 1 /* TEXT */)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <div class=\"bottom-audio-player\" v-if=\"information\">\n    <div class=\"player-header\">\n      <div class=\"player-label\">{{ statusMessage }}</div>\n    </div>\n\n      <audio\n        v-if=\"currentAudioSrc\"\n        ref=\"audioPlayer\"\n        :src=\"currentAudioSrc\"\n        class=\"w-100 custom-audio\"\n        preload=\"auto\"\n        controls\n        :aria-label=\"audioLabel\"\n      ></audio>\n\n    <div v-else class=\"player-placeholder\">\n      <span>{{ statusMessage }}</span>\n    </div>\n  </div> ");
 }
 
 /***/ }),

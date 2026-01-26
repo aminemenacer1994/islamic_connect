@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-audio-player" v-if="information">
+  <!-- <div class="bottom-audio-player" v-if="information">
     <div class="player-header">
       <div class="player-label">{{ statusMessage }}</div>
     </div>
@@ -17,7 +17,7 @@
     <div v-else class="player-placeholder">
       <span>{{ statusMessage }}</span>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script>

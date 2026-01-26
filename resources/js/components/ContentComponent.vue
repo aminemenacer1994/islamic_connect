@@ -17,22 +17,20 @@
       <div class="section-header">
         <p class="section-subtitle">Tap on a podcast to unlock immersive audio journeys and fresh perspectives.</p>
       </div>
-      <div class="podcast-selection-grid">
-        <div v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" class="podcast-selection-item"
-          @click="selectPodcast(podcast)"
-          :style="'border-radius:20px;background:linear-gradient(135deg,#ffffff,#ecfff7);border:1px solid rgba(11,179,154,.18);box-shadow:0 12px 26px rgba(11,179,154,.12),0 6px 14px rgba(0,0,0,.04);overflow:hidden;transition:transform .12s ease-out, box-shadow .12s ease-out;cursor:pointer'">
-          <div class="podcast-image-wrapper" style="position:relative;overflow:hidden;aspect-ratio:1;">
-            <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy" style="width:100%;height:100%;object-fit:cover;transition:transform .12s ease-out, filter .12s ease-out;">
-            <div class="podcast-overlay" :style="'position:absolute;inset:0;background:linear-gradient(180deg, rgba(10,155,209,.78), rgba(11,179,154,.88));display:flex;align-items:center;justify-content:center;flex-direction:column;gap:.4rem;opacity:0;transition:opacity .12s ease-out'"
-                 @mouseenter="$event.currentTarget.previousElementSibling.style.transform='scale(1.04)';$event.currentTarget.previousElementSibling.style.filter='saturate(1.03)';$event.currentTarget.style.opacity=1" 
-                 @mouseleave="$event.currentTarget.previousElementSibling.style.transform='scale(1)';$event.currentTarget.previousElementSibling.style.filter='saturate(1)';$event.currentTarget.style.opacity=0">
-              <i class="bi bi-play-circle-fill"></i>
-              <span class="play-text">Click to Select</span>
-            </div>
+    <div class="podcast-selection-grid">
+      <button v-for="podcast in islamicPodcasts" :key="podcast.rssUrl" type="button"
+        class="podcast-selection-item"
+        @click="selectPodcast(podcast)"
+        :aria-label="`Select podcast ${podcast.name}`">
+        <div class="podcast-image-wrapper">
+          <img :src="podcast.image" :alt="podcast.name" class="podcast-selection-image" loading="lazy">
+          <div class="podcast-overlay">
+            <i class="bi bi-play-circle-fill"></i>
+            <span class="play-text">Click to Select</span>
           </div>
-          <!-- <h5 class="podcast-selection-name fw-bold" :style="'padding:1.25rem;margin:0;font-size:1.15rem;color:#0b1320;text-align:center;background:#fff'">{{ podcast.name }}</h5> -->
         </div>
-      </div>
+      </button>
+    </div>
     </div>
 
     <!-- Selected Podcast Details -->
@@ -42,9 +40,9 @@
         <div class="selected-podcast-info">
           <h3 class="selected-podcast-title" :style="'font-size:2rem;font-weight:800;color:#0b1320;margin:0 0 .5rem'">{{ selectedPodcast.name }}</h3>
           <div class="selected-podcast-meta" :style="'display:flex;gap:.75rem;flex-wrap:wrap'">
-            <span class="episode-count" :style="'display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:rgba(11,179,154,.15);border-radius:20px;color:#0bb39a;border:2px solid rgba(11,179,154,.2);font-weight:600'">
-              <i class="bi bi-collection-play"></i>
-              {{ selectedPodcast.episodeCount > 0 ? selectedPodcast.episodeCount : 'Data not available' }} Episodes
+          <span class="episode-count">
+            <i class="bi bi-collection-play"></i>
+              {{ formatEpisodeCount(selectedPodcast.episodeCount) }} Episodes
               Available
             </span>
           </div>
@@ -1184,6 +1182,10 @@ export default {
       this.$nextTick(() => this.setupInfiniteScroll());
     },
 
+    formatEpisodeCount(count) {
+      return typeof count === 'number' ? count : 'Loading…';
+    },
+
     highlightText(title) {
       if (!this.searchQuery) return title;
       return title.replace(
@@ -1589,6 +1591,75 @@ export default {
 }
 .card-teal:hover { 
   transform: translateY(-2px); box-shadow: 0 18px 40px rgba(2,44,34,0.12); 
+}
+
+.podcast-selection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+}
+
+.podcast-selection-item {
+  border-radius: 20px;
+  background: linear-gradient(135deg,#ffffff,#ecfff7);
+  border: 1px solid rgba(11,179,154,.18);
+  box-shadow: 0 12px 26px rgba(11,179,154,.12),0 6px 14px rgba(0,0,0,.04);
+  overflow: hidden;
+  transition: transform .12s ease-out, box-shadow .12s ease-out;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  display: block;
+}
+
+.podcast-selection-item:focus-visible,
+.podcast-selection-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(11,179,154,.25);
+  outline: none;
+}
+
+.podcast-selection-item:focus-visible .podcast-overlay,
+.podcast-selection-item:hover .podcast-overlay {
+  opacity: 1;
+}
+
+.podcast-image-wrapper {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 1;
+}
+
+.podcast-selection-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform .12s ease-out, filter .12s ease-out;
+}
+
+.podcast-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,155,209,.78), rgba(11,179,154,.88));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: .4rem;
+  opacity: 0;
+  transition: opacity .12s ease-out;
+}
+
+.episode-count {
+  display:flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.5rem 1rem;
+  background:rgba(11,179,154,.15);
+  border-radius:20px;
+  color:#0bb39a;
+  border:2px solid rgba(11,179,154,.2);
+  font-weight:600;
 }
 
 :global(body) {
