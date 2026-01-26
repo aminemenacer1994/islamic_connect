@@ -146,6 +146,9 @@
 
         </div>
       </div>
+      <div class="mt-4">
+        <BottomAudioPlayer :information="information" />
+      </div>
       <!-- Alert Modal -->
       <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
         :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
@@ -157,6 +160,7 @@
 import AyahInfo from "./translation/AyahInfo.vue";
 import MainAyah from "./translation/MainAyah.vue";
 import AlertModal from "./modals/AlertModal.vue";
+import BottomAudioPlayer from "./translation/BottomAudioPlayer.vue";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { saveAs } from "file-saver";
@@ -173,6 +177,7 @@ export default {
     MainAyah,
     AlertModal,
     SpeechSettings,
+    BottomAudioPlayer,
   },
   props: {
     isVisible: {

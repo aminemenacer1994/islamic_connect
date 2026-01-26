@@ -78,6 +78,9 @@
 
         </div>
       </div>
+      <div class="mt-4">
+        <BottomAudioPlayer :information="information" />
+      </div>
       <AlertModal :showAlertText="showAlertText" :showAlert="showAlert" :showErrorAlert="showErrorAlert"
         :showAlertTextNote="showAlertTextNote" @close-alert-text="closeAlertText" />
     </div>
@@ -89,6 +92,7 @@
 import AyahInfo from './translation/AyahInfo.vue';
 import MainAyah from './translation/MainAyah.vue';
 import AlertModal from './modals/AlertModal.vue';
+import BottomAudioPlayer from './translation/BottomAudioPlayer.vue';
 import { checkSubscriptionStatus, redirectToSubscription } from '../../../utils/subscriptionUtils.js';
 
 import html2canvas from "html2canvas";
@@ -110,7 +114,8 @@ export default {
   components: {
     AyahInfo,
     MainAyah,
-    AlertModal
+    AlertModal,
+    BottomAudioPlayer
   },
   props: {
     isVisible: Boolean,

@@ -118,7 +118,7 @@
               experience.</p>
             <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished
               visuals each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
-            <div class="row row-cols-3 g-3">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
               <div class="col" v-for="stat in seoStats" :key="stat.label">
                 <div class="p-4 premium-stat h-100 text-center">
                   <p class="h3 fw-bold mb-1">{{ stat.value }}</p>
@@ -760,7 +760,7 @@
       </div>
     </transition>
     <transition name="premium-toast">
-      <div v-if="toast.visible" class="premium-toast" :class="`premium-toast--${toast.type}`">
+      <div v-if="toast.visible" class="premium-toast" :class="`premium-toast--${toast.type}`" role="status" aria-live="polite">
         <div>
           <p class="mb-0 fw-bold">{{ toast.title }}</p>
           <small class="text-muted">{{ toast.message }}</small>

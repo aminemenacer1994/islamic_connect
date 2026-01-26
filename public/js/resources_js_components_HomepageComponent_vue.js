@@ -2026,7 +2026,7 @@ const _hoisted_5 = {
   class: "col-lg-6 text-center text-lg-start"
 };
 const _hoisted_6 = {
-  class: "row row-cols-3 g-3"
+  class: "row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3"
 };
 const _hoisted_7 = {
   class: "p-4 premium-stat h-100 text-center"
@@ -2242,7 +2242,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   }, {
     default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$data.toast.visible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
       key: 0,
-      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["premium-toast", `premium-toast--${$data.toast.type}`])
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["premium-toast", `premium-toast--${$data.toast.type}`]),
+      role: "status",
+      "aria-live": "polite"
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_33, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.toast.title), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("small", _hoisted_34, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.toast.message), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       class: "btn-close btn-close-white",
       onClick: _cache[9] || (_cache[9] = (...args) => $options.dismissToast && $options.dismissToast(...args))

@@ -2,38 +2,17 @@
   <div class="bottom-audio-player" v-if="information">
     <div class="player-header">
       <div class="player-label">{{ statusMessage }}</div>
-      <div class="player-controls">
-        <button
-          type="button"
-          class="btn control-btn"
-          @click="playPrevious"
-          :disabled="!canPlayPrev"
-          aria-label="Play previous ayah"
-        >
-          <i class="bi bi-skip-start-fill"></i>
-        </button>
-        <button
-          type="button"
-          class="btn control-btn"
-          @click="playNext"
-          :disabled="!canPlayNext"
-          aria-label="Play next ayah"
-        >
-          <i class="bi bi-skip-end-fill"></i>
-        </button>
-      </div>
     </div>
 
-    <audio
-      v-if="currentAudioSrc"
-      ref="audioPlayer"
-      :src="currentAudioSrc"
-      class="w-100 custom-audio"
-      preload="auto"
-      controls
-      @ended="handleAyahEnded"
-      :aria-label="audioLabel"
-    ></audio>
+      <audio
+        v-if="currentAudioSrc"
+        ref="audioPlayer"
+        :src="currentAudioSrc"
+        class="w-100 custom-audio"
+        preload="auto"
+        controls
+        :aria-label="audioLabel"
+      ></audio>
 
     <div v-else class="player-placeholder">
       <span>{{ statusMessage }}</span>
@@ -42,8 +21,6 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
   name: "BottomAudioPlayer",
   props: {
@@ -54,32 +31,24 @@ export default {
   },
   data() {
     return {
-      surahAyahs: [],
-      currentAyahIndex: -1,
-      lastRequestId: 0,
       isLoading: false,
       error: null,
     };
   },
   computed: {
     currentAyah() {
-      if (this.currentAyahIndex >= 0 && this.currentAyahIndex < this.surahAyahs.length) {
-        return this.surahAyahs[this.currentAyahIndex];
-      }
       return this.information?.ayah || null;
     },
     currentAudioSrc() {
-      return this.currentAyah?.audio_links || null;
-    },
-    canPlayNext() {
-      return this.currentAyahIndex + 1 < this.surahAyahs.length;
-    },
-    canPlayPrev() {
-      return this.currentAyahIndex > 0;
+      const raw = this.currentAyah?.audio_links;
+      if (!raw) {
+        return null;
+      }
+      return this.resolveAudioUrl(raw);
     },
     statusMessage() {
       if (this.isLoading) {
-        return "Loading surah audio…";
+        return "Preparing the ayah audio…";
       }
       if (this.error) {
         return this.error;
@@ -100,97 +69,16 @@ export default {
       return `Audio for Surah ${surahId || "?"} Ayah ${ayah.ayah_id || "?"}`;
     },
   },
-  watch: {
-    information: {
-      immediate: true,
-      handler(newInfo) {
-        this.loadSurahAyahs(newInfo);
-      },
-    },
-    currentAyahIndex(newIndex, oldIndex) {
-      if (newIndex === oldIndex) return;
-      if (!this.currentAudioSrc) return;
-      this.playAudio();
-    },
-    currentAudioSrc(newSrc, oldSrc) {
-      if (!newSrc || newSrc === oldSrc) return;
-      this.playAudio();
-    },
-  },
   methods: {
-    async loadSurahAyahs(info) {
-      this.error = null;
-      this.surahAyahs = [];
-      this.currentAyahIndex = -1;
-      if (!info?.ayah) {
-        return;
-      }
-      const surahId = info.ayah.surah?.id || info.ayah.surah_id;
-      if (!surahId) {
-        this.surahAyahs = [info.ayah];
-        this.currentAyahIndex = 0;
-        return;
-      }
-      this.isLoading = true;
-      const requestId = ++this.lastRequestId;
+    resolveAudioUrl(url) {
       try {
-        const { data } = await axios.get(`/surahs/${surahId}/ayahs`);
-        if (this.lastRequestId !== requestId) {
-          return;
+        if (/^https?:\/\//i.test(url)) {
+          return url;
         }
-        this.surahAyahs = Array.isArray(data) ? data.sort((a, b) => a.ayah_id - b.ayah_id) : [];
-        this.setCurrentIndex(info.ayah);
+        return `${window.location.origin}${url}`;
       } catch (err) {
-        if (this.lastRequestId === requestId) {
-          this.error = "Unable to load surah audio.";
-        }
-        console.error("Failed to load ayahs:", err);
-      } finally {
-        if (this.lastRequestId === requestId) {
-          this.isLoading = false;
-        }
-      }
-    },
-    setCurrentIndex(selectedAyah) {
-      if (!this.surahAyahs.length) {
-        this.currentAyahIndex = -1;
-        return;
-      }
-      const targetAyahId = selectedAyah.id ?? null;
-      const targetNumber = selectedAyah.ayah_id ?? null;
-      let index = -1;
-      if (targetAyahId) {
-        index = this.surahAyahs.findIndex((ayah) => ayah.id === targetAyahId);
-      }
-      if (index === -1 && targetNumber) {
-        index = this.surahAyahs.findIndex((ayah) => ayah.ayah_id === targetNumber);
-      }
-      this.currentAyahIndex = index === -1 ? 0 : index;
-    },
-    playAudio() {
-      this.$nextTick(() => {
-        const audio = this.$refs.audioPlayer;
-        if (!audio || !this.currentAudioSrc) {
-          return;
-        }
-        audio.volume = 0.95;
-        audio.load();
-        audio.play().catch(() => {});
-      });
-    },
-    playNext() {
-      if (this.canPlayNext) {
-        this.currentAyahIndex += 1;
-      }
-    },
-    playPrevious() {
-      if (this.canPlayPrev) {
-        this.currentAyahIndex -= 1;
-      }
-    },
-    handleAyahEnded() {
-      if (this.canPlayNext) {
-        this.playNext();
+        console.warn("Unable to resolve audio URL", err);
+        return url;
       }
     },
   },
@@ -199,12 +87,12 @@ export default {
 
 <style scoped>
 .bottom-audio-player {
-  border: 1px solid rgba(11, 128, 111, 0.35);
+  border: 1px solid rgba(148, 163, 184, 0.6);
   border-radius: 20px;
-  padding: 1rem;
-  background: #0d1718;
-  color: #fff;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+  padding: 1.25rem;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
 }
 
 .player-header {
@@ -217,42 +105,22 @@ export default {
 .player-label {
   font-size: 0.95rem;
   font-weight: 600;
-}
-
-.player-controls {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.control-btn {
-  border-radius: 50%;
-  width: 36px;
-  height: 36px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #06b6ac;
-  border: none;
-  color: #fff;
-}
-
-.control-btn:disabled {
-  background-color: rgba(255, 255, 255, 0.35);
-  cursor: not-allowed;
+  color: #0f172a;
 }
 
 .custom-audio {
   width: 100%;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(15, 23, 42, 0.9);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: #f8fafc;
 }
 
 .player-placeholder {
   padding: 1rem;
-  text-align: center;
-  color: #cbd5f5;
+  background: #f1f5f9;
   border-radius: 12px;
-  border: 1px dashed rgba(255, 255, 255, 0.2);
+  text-align: center;
+  color: #475569;
+  font-weight: 500;
 }
 </style>

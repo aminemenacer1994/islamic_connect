@@ -178,101 +178,28 @@
                                         <!-- Screen reader live region for announcing selection changes -->
                                         <div class="visually-hidden" aria-live="polite" aria-atomic="true">{{
                                             screenReaderMessage }}</div>
-                                        <div id="ayah-content" :selectedSurahId="selectedSurahId"
-                                            @update-tafseer="updateTafseer" @update-information="updateInformation"
-                                            :style="{
-                                                display: 'flex',
-                                                gap: '12px',
-                                                justifyContent: 'space-around',
-                                                alignItems: 'center',
-                                                background: '#f8fafc',
-                                                border: '1px solid rgba(2,6,23,0.06)',
-                                                borderRadius: '12px'
-                                            }" class="icon-container hide-on-mobile mb-3">
-                                            <div class="text-center icon-text" role="group"
-                                                aria-label="Verse navigation controls" :aria-hidden="isMobile">
-                                                <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
-                                                    role="button" aria-label="Go to first verse"
-                                                    :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToFirstAyah"
-                                                    @keydown.space.prevent="goToFirstAyah"
-                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                    @click="goToFirstAyah" title="First verse"></i>
-                                                <!-- <div class="large">First verse</div> -->
-                                            </div>
-                                            <div class="text-center" role="group" aria-label="Previous verse"
-                                                :aria-hidden="isMobile">
-                                                <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                    role="button" aria-label="Go to previous verse"
-                                                    :tabindex="isMobile ? -1 : 0"
-                                                    @keydown.enter.prevent="goToPreviousAyah"
-                                                    @keydown.space.prevent="goToPreviousAyah"
-                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                    @click="goToPreviousAyah" title="Previous verse"></i>
-                                                <!-- <div class="large">Previous verse</div> -->
-                                            </div>
-                                            <div class="text-center" role="group" aria-label="Next verse"
-                                                :aria-hidden="isMobile">
-                                                <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                    role="button" aria-label="Go to next verse"
-                                                    :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToNextAyah"
-                                                    @keydown.space.prevent="goToNextAyah"
-                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                    @click="goToNextAyah" title="Next verse"></i>
-                                                <!-- <div class="large">Next verse</div> -->
-                                            </div>
-                                            <div class="text-center" role="group" aria-label="Last verse"
-                                                :aria-hidden="isMobile">
-                                                <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                    role="button" aria-label="Go to last verse"
-                                                    :tabindex="isMobile ? -1 : 0" @keydown.enter.prevent="goToLastAyah"
-                                                    @keydown.space.prevent="goToLastAyah"
-                                                    style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                    onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                    onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                    @click="goToLastAyah" title="Last verse"></i>
-                                                <!-- <div class="large">Last verse</div> -->
-                                            </div>
-                                        </div>
-                                        <!-- desktop top features -->
-                                        <div v-if="!isVisible" :style="iconStyle">
-                                            <!-- <div class="col pb-2">
-                                                <i :class="isOpen
-                                                    ? 'bi bi-x-circle-fill'
-                                                    : 'bi bi-plus-circle-fill'
-                                                    " class="text-left hide-on-mobile h4" @click="toggleContent"></i>
-                                            </div> -->
-                                            <div v-if="isOpen" class="hide-on-mobile">
-                                                <div class="text-center">
-                                                    <div class="row pt-2 text-center">
-                                                        <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                data-bs-placement="top" title="Write a note"
-                                                                @click="openModal('translationNote')"></i>
-                                                            <div class="icon-text pt-2">Write a Note</div>
-                                                        </div>
-                                                        <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i @click="submitForm"
-                                                                class="bi bi-bookmark text-right mr-2 h4"
-                                                                title="Bookmark verse"></i>
-                                                            <div class="icon-text pt-2">Bookmark</div>
-                                                        </div>
-
-                                                        <div class="col desktop-icon" style="cursor: pointer;">
-                                                            <i title="Give feedback" data-bs-toggle="modal"
-                                                                data-bs-target="#exampleModal"
-                                                                class="bi bi-chat-left-text desktop-icon text-right mr-2 h4"
-                                                                data-bs-placement="top"></i>
-                                                            <div class="icon-text pt-2">Feedback</div>
-                                                        </div>
-
+                                        <div class="desktop-actions hide-on-mobile mb-3" v-if="!isVisible">
+                                            <div v-if="isOpen" class="text-center">
+                                                <div class="row pt-2 text-center">
+                                                    <div class="col desktop-icon" style="cursor: pointer;">
+                                                        <i class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                            data-bs-placement="top" title="Write a note"
+                                                            @click="openModal('translationNote')"></i>
+                                                        <div class="icon-text pt-2">Write a Note</div>
                                                     </div>
-
+                                                    <div class="col desktop-icon" style="cursor: pointer;">
+                                                        <i @click="submitForm"
+                                                            class="bi bi-bookmark text-right mr-2 h4"
+                                                            title="Bookmark verse"></i>
+                                                        <div class="icon-text pt-2">Bookmark</div>
+                                                    </div>
+                                                    <div class="col desktop-icon" style="cursor: pointer;">
+                                                        <i title="Give feedback" data-bs-toggle="modal"
+                                                            data-bs-target="#exampleModal"
+                                                            class="bi bi-chat-left-text desktop-icon text-right mr-2 h4"
+                                                            data-bs-placement="top"></i>
+                                                        <div class="icon-text pt-2">Feedback</div>
+                                                    </div>
                                                 </div>
                                                 <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
                                             </div>
@@ -280,35 +207,6 @@
 
                                         <!-- mobile navigation  -->
                                         <div class="dropdown mobile-only pb-2" :aria-hidden="!isMobile">
-                                            <!-- <div :style="iconStyle" class="icon-container" role="group"
-                                                aria-label="Verse navigation controls (mobile)"
-                                                style="background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px; padding:10px 12px; display:flex; justify-content:space-between; align-items:center;">
-
-                                                <i class="bi bi-chevron-bar-left h4 verse-nav-icon"
-                                                    style="cursor: pointer; color:#1a5f7a;" role="button" aria-label="Go to first verse"
-                                                    :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToFirstAyah"
-                                                    @keydown.space.prevent="goToFirstAyah" @click="goToFirstAyah()"
-                                                    title="First verse"></i>
-                                                <i class="bi bi-arrow-left-circle h4 verse-nav-icon"
-                                                    style="cursor: pointer; color:#1a5f7a;" role="button"
-                                                    aria-label="Go to previous verse" :tabindex="isMobile ? 0 : -1"
-                                                    @keydown.enter.prevent="goToPreviousAyah"
-                                                    @keydown.space.prevent="goToPreviousAyah"
-                                                    @click="goToPreviousAyah()" title="Previous verse"></i>
-                                                 <i @click="submitForm" class="bi bi-bookmark mb-2 h4"
-                                                    aria-expanded="false" data-bs-placement="top"
-                                                    title="Bookmark verse"></i> 
-                                                <i class="bi bi-arrow-right-circle h4 verse-nav-icon"
-                                                    style="cursor: pointer; color:#1a5f7a;" role="button" aria-label="Go to next verse"
-                                                    :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToNextAyah"
-                                                    @keydown.space.prevent="goToNextAyah" @click="goToNextAyah()"
-                                                    title="Next verse"></i>
-                                                <i class="bi bi-chevron-bar-right h4 verse-nav-icon"
-                                                    style="cursor: pointer; color:#1a5f7a;" role="button" aria-label="Go to last verse"
-                                                    :tabindex="isMobile ? 0 : -1" @keydown.enter.prevent="goToLastAyah"
-                                                    @keydown.space.prevent="goToLastAyah" @click="goToLastAyah()"
-                                                    title="Last verse"></i>
-                                            </div> -->
                                             <!-- Mobile/Tablet tip: swipe between verses -->
                                             <div v-if="showSwipeTip"
                                                 class="swipe-tip alert py-2 mt-2 d-flex align-items-center justify-content-between mb-0 d-xxl-none"
@@ -384,108 +282,33 @@
                                     <div class="tab-pane content" id="profile" role="tabpanel"
                                         v-if="information != null">
                                         <div>
-                                            <div :selectedSurahId="selectedSurahId" @update-tafseer="updateTafseer"
-                                                @update-information="updateInformation"
-                                                class="icon-container hide-on-mobile mb-3" :aria-hidden="isMobile"
-                                                style="display:flex; gap:12px; justify-content:space-around; align-items:center;  background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px;">
-                                                <div class="text-center" role="group"
-                                                    aria-label="Verse navigation controls (desktop)">
-                                                    <i class="bi bi-skip-start-fill h2 pt- custom-prev-ayah verse-nav-icon"
-                                                        role="button" aria-label="Go to first verse"
-                                                        :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToFirstAyah"
-                                                        @keydown.space.prevent="goToFirstAyah"
-                                                        style="cursor: pointer;color:rgb(26, 95, 122)"
-                                                        @click="goToFirstAyah" title="First verse"></i>
-                                                </div>
-                                                <div class="text-center" role="group" aria-label="Previous verse">
-                                                    <i class="bi bi-arrow-left-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                        role="button" aria-label="Go to previous verse"
-                                                        :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToPreviousAyah"
-                                                        @keydown.space.prevent="goToPreviousAyah"
-                                                        style="cursor: pointer; color:rgb(26, 95, 122)"
-                                                        @click="goToPreviousAyah" title="Previous verse"></i>
-                                                </div>
-                                                <div class="text-center" role="group" aria-label="Next verse">
-                                                    <i class="bi bi-arrow-right-circle-fill pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                        role="button" aria-label="Go to next verse"
-                                                        :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToNextAyah"
-                                                        @keydown.space.prevent="goToNextAyah"
-                                                        style="cursor: pointer;color:rgb(26, 95, 122)"
-                                                        @click="goToNextAyah" title="Next verse"></i>
-                                                </div>
-                                                <div class="text-center" role="group" aria-label="Last verse">
-                                                    <i class="bi bi-skip-end-fill pt-2 h2 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                        role="button" aria-label="Go to last verse"
-                                                        :tabindex="isMobile ? -1 : 0"
-                                                        @keydown.enter.prevent="goToLastAyah"
-                                                        @keydown.space.prevent="goToLastAyah"
-                                                        style="cursor: pointer;color:rgb(26, 95, 122)"
-                                                        @click="goToLastAyah" title="Last verse"></i>
-                                                </div>
-                                            </div>
-                                            <!-- desktop top features -->
-                                            <div v-if="!isVisible" :style="iconStyle">
-                                                <!-- <div class="col pb-2">
-                                                    <i :class="isOpen
-                                                        ? 'bi bi-x-circle-fill'
-                                                        : 'bi bi-plus-circle-fill'
-                                                        " class="text-left hide-on-mobile h4"
-                                                        @click="toggleContent"></i>
-                                                </div> -->
-                                                <div v-if="isOpen" class="icon-container-fluid hide-on-mobile">
-                                                    <div class="text-center">
-                                                        <div class="row pt-2">
-                                                            <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                    aria-expanded="false" data-bs-placement="top"
-                                                                    title="Write a note" @click="
-                                                                        openModal(
-                                                                            'tafseerNote'
-                                                                        )
-                                                                        "></i>
-                                                                <div class="col desktop-icon">
-                                                                    <div class="icon-text pt-2 mb-2">Write a Note</div>
-                                                                </div>
+                                            <div class="desktop-actions hide-on-mobile mb-3" v-if="!isVisible">
+                                                <div v-if="isOpen" class="text-center">
+                                                    <div class="row pt-2">
+                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <i class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                                aria-expanded="false" data-bs-placement="top"
+                                                                title="Write a note" @click="openModal('tafseerNote')"></i>
+                                                            <div class="col desktop-icon">
+                                                                <div class="icon-text pt-2 mb-2">Write a Note</div>
                                                             </div>
-                                                            <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i @click="submitFormTafseer
-                                                                " class="bi bi-bookmark text-right mr-2 h4"
-                                                                    aria-expanded="false" data-bs-placement="top"
-                                                                    title="Bookmark verse"></i>
-                                                                <div class="col desktop-icon">
-                                                                    <div class="icon-text pt-2 mb-2">Bookmark</div>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <i @click="submitFormTafseer" class="bi bi-bookmark text-right mr-2 h4"
+                                                                aria-expanded="false" data-bs-placement="top"
+                                                                title="Bookmark verse"></i>
+                                                            <div class="col desktop-icon">
+                                                                <div class="icon-text pt-2 mb-2">Bookmark</div>
                                                             </div>
-                                                            <!-- <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i class="bi bi-info-circle h4 mr-2 pl-2"
-                                                                    data-bs-toggle="modal"
-                                                                    data-bs-target="#translationInfo"
-                                                                    aria-expanded="false" data-bs-placement="top"
-                                                                    title="Surah info"></i>
-                                                                <div class="col desktop-icon">
-                                                                    <div class="icon-text pt-2 mb-2">Surah Info</div>
-                                                                </div>
-                                                            </div> -->
-                                                            <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i title="Give feedback" data-bs-toggle="modal"
-                                                                    data-bs-target="#exampleModal"
-                                                                    class="bi bi-chat-left-text text-right mr-2 h4"
-                                                                    aria-expanded="false" data-bs-placement="top"></i>
-                                                                <div class="col desktop-icon">
-                                                                    <div class="icon-text pt-2 mb-2">Feedback</div>
-                                                                </div>
+                                                        </div>
+                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <i title="Give feedback" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"
+                                                                class="bi bi-chat-left-text text-right mr-2 h4"
+                                                                aria-expanded="false" data-bs-placement="top"></i>
+                                                            <div class="col desktop-icon">
+                                                                <div class="icon-text pt-2 mb-2">Feedback</div>
                                                             </div>
-                                                            <!-- <div class="col desktop-icon" style="cursor: pointer;">
-                                                                <i class="bi bi-arrows-fullscreen h4" @click="toggleFullScreen
-                                                                " title="Full screen" aria-expanded="false"
-                                                                    data-bs-placement="top"></i>
-                                                                <div class="col desktop-icon">
-                                                                    <div class="icon-text pt-2 mb-2">Full Screen</div>
-                                                                </div>
-                                                            </div> -->
                                                         </div>
                                                     </div>
                                                     <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
@@ -561,113 +384,40 @@
                                         <div>
                                             <!-- Ayah Controls -->
                                             <div class="pb-3">
-                                                <div :selectedSurahId="selectedSurahId" @update-tafseer="updateTafseer"
-                                                    @update-information="updateInformation"
-                                                    class="icon-container hide-on-mobile mb-3"
-                                                    style="display:flex; gap:12px; justify-content:space-around; align-items:center; background:#f8fafc; border:1px solid rgba(2,6,23,0.06); border-radius:12px;">
-                                                    <div class="text-center">
-                                                        <i class="bi bi-skip-start-fill icon-container h2 pt- custom-prev-ayah verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                            @click="goToFirstAyah"
-                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                            title="First verse"></i>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <i class="bi bi-arrow-left-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                            @click="goToPreviousAyah"
-                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                            title="Previous verse"></i>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <i class="bi bi-arrow-right-circle-fill icon-container pt-2 h4 custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                            @click="goToNextAyah"
-                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                            title="Next verse"></i>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <i class="bi bi-skip-end-fill pt-2 h2 icon-container custom-prev-ayah desktop-icon verse-nav-icon"
-                                                            style="cursor: pointer; color:#1a5f7a; transition: transform .15s ease, color .15s ease;"
-                                                            @click="goToLastAyah"
-                                                            onmouseover="this.style.transform='translateY(-1px)'; this.style.color='#0b806f'"
-                                                            onmouseout="this.style.transform='translateY(0)'; this.style.color='#1a5f7a'"
-                                                            title="Last verse"></i>
-                                                    </div>
-                                                </div>
                                                 <!-- desktop top features -->
-                                                <div :style="iconStyle">
-                                                    <!-- <div v-if="!isVisible" class="col pb-2">
-                                                        <i :class="isOpen
-                                                            ? 'bi bi-x-circle-fill'
-                                                            : 'bi bi-plus-circle-fill'
-                                                            " class="text-left hide-on-mobile h4"
-                                                            @click="toggleContent"></i>
-                                                    </div> -->
-                                                    <div v-if="isOpen" class="hide-on-mobile">
-                                                        <div class="text-center">
-                                                            <div class="row pt-2">
-                                                                <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i class="bi bi-file-earmark-text text-right mr-2 h4"
-                                                                        aria-expanded="false" data-bs-placement="top"
-                                                                        title="Write a note" @click="
-                                                                            openModal(
-                                                                                'transliterationNote'
-                                                                            )
-                                                                            "></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Write a Note
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col desktop-icon" style="
-                                                                        cursor: pointer;
-                                                                    ">
-                                                                    <i @click="submitFormTransliteration
-                                                                    " class="bi bi-bookmark text-right mr-2 h4"
-                                                                        aria-expanded="false"
-                                                                        title="Bookmark verse"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Bookmark</div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i class="bi bi-info-circle h4 mr-2 pl-2"
-                                                                        data-bs-toggle="modal"
-                                                                        data-bs-target="#translationInfo"
-                                                                        aria-expanded="false" data-bs-placement="top"
-                                                                        title="Surah info"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Surah Info
-                                                                        </div>
-                                                                    </div>
-                                                                </div> -->
-                                                                <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i title="Give feedback" data-bs-toggle="modal"
-                                                                        data-bs-target="#exampleModal"
-                                                                        class="bi bi-chat-left-text text-right mr-2 h4"
-                                                                        aria-expanded="false"
-                                                                        data-bs-placement="top"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Feedback</div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- <div class="col desktop-icon" style="cursor: pointer;">
-                                                                    <i class="bi bi-arrows-fullscreen h4" @click="toggleFullScreen
-                                                                    " title="Full screen"></i>
-                                                                    <div class="col desktop-icon">
-                                                                        <div class="icon-text pt-2 mb-2">Full Screen
-                                                                        </div>
-                                                                    </div>
-                                                                </div> -->
+                                            <div class="desktop-actions hide-on-mobile mb-3" v-if="!isVisible">
+                                                <div v-if="isOpen" class="text-center">
+                                                    <div class="row pt-2">
+                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <i class="bi bi-file-earmark-text text-right mr-2 h4"
+                                                                aria-expanded="false" data-bs-placement="top"
+                                                                title="Write a note"
+                                                                @click="openModal('transliterationNote')"></i>
+                                                            <div class="col desktop-icon">
+                                                                <div class="icon-text pt-2 mb-2">Write a Note</div>
                                                             </div>
                                                         </div>
-                                                        <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
+                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <i @click="submitFormTransliteration" class="bi bi-bookmark text-right mr-2 h4"
+                                                                aria-expanded="false" title="Bookmark verse"></i>
+                                                            <div class="col desktop-icon">
+                                                                <div class="icon-text pt-2 mb-2">Bookmark</div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col desktop-icon" style="cursor: pointer;">
+                                                            <i title="Give feedback" data-bs-toggle="modal"
+                                                                data-bs-target="#exampleModal"
+                                                                class="bi bi-chat-left-text text-right mr-2 h4"
+                                                                aria-expanded="false"
+                                                                data-bs-placement="top"></i>
+                                                            <div class="col desktop-icon">
+                                                                <div class="icon-text pt-2 mb-2">Feedback</div>
+                                                            </div>
+                                                        </div>
                                                     </div>
+                                                    <hr style="border: 1px solid #e5e7eb; margin: 10px 0 0 0;" />
                                                 </div>
+                                            </div>
 
                                                 <!-- mobile navigation -->
                                                 <div class="dropdown mobile-only">
@@ -1501,15 +1251,19 @@ export default {
 <style scoped>
 .card-teal {
     border-radius: 20px;
-    border: 1px solid rgba(20, 184, 165, 0);
-    box-shadow: 0 12px 28px rgba(2, 44, 34, 0.08);
-    background: linear-gradient(180deg, #ffffff 0%, #f9fefd 60%, #f2fbfa 100%);
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+    background: #ffffff;
     transition: transform 160ms ease, box-shadow 160ms ease;
 }
 
 .card-teal:hover {
     transform: translateY(-2px);
-    box-shadow: 0 18px 40px rgba(2, 44, 34, 0.12);
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+}
+
+.desktop-actions {
+    padding-bottom: 0.75rem;
 }
 
 .companion-hero {

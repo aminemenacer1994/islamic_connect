@@ -237,6 +237,7 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
     <div>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-md navbar-light navbar-transparent fixed-top shadow-lg py-1" role="navigation" aria-label="Primary">
