@@ -36197,9 +36197,9 @@ to {
 @media (max-width: 768px) {
 .controls[data-v-828f3036] {
         display: flex;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         gap: 10px;
-        justify-content: space-between;
+        justify-content: flex-start;
 }
 .controls .control-btn[title="Close"][data-v-828f3036] {
         margin-left: 0;
@@ -36210,6 +36210,23 @@ to {
         min-width: 88px;
         text-align: center;
         white-space: nowrap;
+        flex: 1 1 100%;
+        order: 3;
+        padding-top: 4px;
+}
+.controls .speed-control[data-v-828f3036],
+    .controls .repeat-control[data-v-828f3036] {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 8px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.08);
+        flex: 0 0 auto;
+}
+.controls .control-btn[title="Close"][data-v-828f3036] {
+        order: 4;
 }
 .volume-bar-container[data-v-828f3036] {
         position: fixed;
