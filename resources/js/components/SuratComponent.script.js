@@ -61,6 +61,7 @@ export default {
             showVolumeBar: false,
             showAudioPlayer: false,
             isHighlighted: false,
+            showScrollTop: false,
             // scrubbing state
             isScrubbing: false,
             _boundMove: null,
@@ -2078,6 +2079,13 @@ export default {
             }
         },
         onScrollVirtual() {
+            const maxScroll =
+                Math.max(
+                    document.documentElement.scrollHeight - window.innerHeight,
+                    0
+                ) || 1;
+            const show = window.scrollY > maxScroll * 0.3;
+            if (this.showScrollTop !== show) this.showScrollTop = show;
             this.isManualScrolling = true;
             clearTimeout(this.manualScrollTimer);
             this.manualScrollTimer = setTimeout(() => {
@@ -3680,6 +3688,29 @@ export default {
         },
         scrollToAyah(index) {
             this.scrollToAyahIndex(index);
+        },
+        scrollToSection(id) {
+            this.$nextTick(() => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const navHeight =
+                    parseFloat(
+                        getComputedStyle(document.documentElement).getPropertyValue(
+                            "--nav-offset"
+                        )
+                    ) || 72;
+                const targetTop = Math.max(
+                    el.getBoundingClientRect().top +
+                        window.scrollY -
+                        navHeight -
+                        12,
+                    0
+                );
+                window.scrollTo({ top: targetTop, behavior: "smooth" });
+            });
+        },
+        scrollToTop() {
+            window.scrollTo({ top: 0, behavior: "smooth" });
         },
         selectSurah(number, options = {}) {
             return new Promise((resolve, reject) => {

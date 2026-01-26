@@ -49,6 +49,7 @@
                             <i class="fas fa-arrow-up-right-from-square ms-2"></i>
                         </a>
                     </div>
+                    
                 </div>
             </div>
         </div>
@@ -118,6 +119,8 @@
                                         <i class="bi bi-gear-fill"></i>
                                     </button>
                                 </div>
+
+                                
 
                                 <!-- Search Input -->
                                 <div class="search-container">
@@ -1198,6 +1201,13 @@
                 </div>
             </div>
         </teleport>
+        <button
+            v-show="showScrollTop"
+            @click="scrollToTop"
+            class="surah-scroll-top"
+            aria-label="Scroll to top">
+            <i class="bi bi-arrow-up"></i>
+        </button>
     </div>
 </template>
 <script src="./SuratComponent.script.js"></script>
