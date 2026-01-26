@@ -1,0 +1,483 @@
+<template>
+  <div class="container-fluid my-5" role="main" aria-labelledby="school-finder-heading">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <h1 id="school-finder-heading" class="display-5 fw-bold text-center">Islamic Education Finder</h1>
+        <p class="text-center container mb-4 lead">
+          Discover trusted Islamic schools, madrassas, and education centers near you with ease!
+        </p>
+        <div class="premium-panel shadow">
+          <!-- Search Section -->
+          <div class="card-body container-fluid px-2 py-1">
+            <div class="row mb-4 justify-content-center">
+              <div>
+                <form class="d-flex align-items-center mb-3 search-row" role="search" aria-label="Search for schools by city" @submit.prevent="searchLocation">
+                  <label for="school-search-input" class="card-title pr-2 fw-bold label-lg">Search location:</label>
+                  <input id="mosque-search-input" type="search" class="form-control " placeholder="Enter city or country..."
+                    aria-label="Search city" v-model="searchQuery" autocomplete="off" />
+                  <button class="btn btn-action btn-primary-brand align-items-center justify-content-center"
+                    type="submit" :disabled="loading">
+                    <span v-if="!loading">Search</span>
+                    <span v-else class="spinner-border spinner-border-sm"></span>
+                  </button>
+                </form>
+              </div>
+            </div>
+
+            <!-- Loading State -->
+            <div v-if="loading" class="text-center py-5" aria-live="polite" aria-busy="true">
+              <div class="spinner-border text-primary spinner-lg" role="status" aria-label="Loading results">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-3">Searching for Islamic schools & centers in {{ searchQuery }}...</p>
+            </div>
+
+            <!-- Results -->
+            <div v-if="!loading">
+              <!-- No Search State -->
+              <div v-if="!searchQuery || (!searchSubmitted && schools.length === 0)" class="text-center py-5">
+                <i class="bi bi-book display-4 text-muted mb-3"></i>
+                <h3 class="h4 text-muted">Search for Islamic Schools & Centers</h3>
+                <p class="text-center text-muted">Enter a city to find nearby Islamic schools, madrassas, or education
+                  centers.</p>
+              </div>
+
+              <!-- No Results State -->
+              <div v-else-if="searchSubmitted && searchQuery && schools.length === 0" class="text-center py-5">
+                <i class="bi bi-binoculars display-4 text-muted mb-3"></i>
+                <h3 class="h4 text-muted">No Islamic schools found</h3>
+                <p class="text-center text-muted">
+                  No Islamic schools or education centers found in {{ searchQuery }}.
+                </p>
+              </div>
+
+              <!-- Results Grid -->
+              <div v-else class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4"
+                   role="list"
+                   aria-label="Search results">
+                <div class="col" v-for="(school, index) in schools" :key="school.id">
+                  <div class="card h-100 premium-card animate-in" style="display: flex; flex-direction: column;"
+                       role="article"
+                       :aria-label="`${school.name}, ${school.address || 'address not specified'}`"
+                       tabindex="0"
+                       @keydown="handleCardKeydown(index, $event)">
+                    <!-- Badges -->
+                    <div class="px-3 pt-3">
+                      <h1 class="card-title text-left fw-bold text-dark mb-3 title-lg">
+                        {{ school.name }}
+                      </h1>
+                    </div>
+                    <div class="card-body pt-0" style="flex: 1;">
+                      <div class="mb-2">
+                        <div class="d-flex align-items-start">
+                          <i class="bi bi-geo-alt-fill me-2 flex-shrink-0"></i>
+                          <span class="text-truncate line-clamp-2">
+                            {{ school.address || 'Address not specified' }}
+                          </span>
+                        </div>
+                      </div>
+
+                      <!-- Dynamic Star Rating -->
+                      <div class="mb-2 d-flex align-items-center">
+                        <span class="text-warning me-2">
+                          <i v-for="n in 5" :key="n" :class="getStarClass(n, school.rating || 0)"></i>
+                        </span>
+                        <small class="text-muted">({{ school.rating ? school.rating.toFixed(1) : 'N/A' }}/5)</small>
+                      </div>
+
+                      <div v-if="school.type" class="mb-2">
+                        <small class="text-muted">
+                          <strong>Type:</strong> {{ school.type }}
+                        </small>
+                      </div>
+
+                      <div v-if="school.tags?.opening_hours" class="opening-hours mb-2 mt-2">
+                        <small class="text-muted">
+                          <strong>Opening Times:</strong> {{ school.tags.opening_hours }}
+                        </small>
+                      </div>
+
+                      <!-- Button container pushed to the bottom -->
+
+                    </div>
+                    <div class="action-row d-flex justify-content-between align-items-center gap-2 px-3 pb-3">
+                      <button class="btn btn-action btn-primary-brand d-flex align-items-center justify-content-center flex-grow-1"
+                        @click="openGoogleMaps(school.lat, school.lon, school.name)"
+                        aria-label="Get directions to {{ school.name }}">
+                        <i class="bi bi-geo-alt me-2"></i>
+                        <b>Get Directions</b>
+                      </button>
+                      <a :href="school.website" target="_blank" rel="noopener noreferrer"
+                        class="btn btn-action btn-secondary-brand d-flex align-items-center justify-content-center flex-grow-1"
+                        :class="{ disabled: !school.website }"
+                        :aria-disabled="!school.website" aria-label="Visit website for {{ school.name }}">
+                        <i class="bi bi-globe me-2"></i>
+                        <b>Visit Website</b>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div v-if="!loading && searchSubmitted && searchQuery && schools.length > 0" class="d-flex justify-content-between align-items-center px-3 py-2">
+            <small class="text-muted" aria-live="polite">
+              Showing {{ schools.length }} Islamic educational schools & centers
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'IslamicEducationLocator',
+  data() {
+    return {
+      searchQuery: '',
+      loading: false,
+      schools: [],
+      focusedIndex: -1,
+      searchHistory: [],
+      currentLocation: null,
+      bbox: null,
+      error: '',
+      // Track whether a search was explicitly submitted
+      searchSubmitted: false,
+    };
+  },
+  watch: {
+    // When the search box is cleared, reset submission state and results
+    searchQuery(newVal) {
+      if (!newVal || !newVal.trim()) {
+        this.searchSubmitted = false;
+        this.schools = [];
+        this.error = '';
+      }
+    }
+  },
+  methods: {
+    handleCardKeydown(index, event) {
+      const key = event.key;
+      const last = this.schools.length - 1;
+      if (key === 'ArrowDown' || key === 'ArrowRight') {
+        event.preventDefault();
+        const next = Math.min(last, index + 1);
+        this.focusedIndex = next;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          cards[next]?.focus();
+        });
+      } else if (key === 'ArrowUp' || key === 'ArrowLeft') {
+        event.preventDefault();
+        const prev = Math.max(0, index - 1);
+        this.focusedIndex = prev;
+        this.$nextTick(() => {
+          const cards = event.currentTarget.parentElement.parentElement.querySelectorAll('.card.h-100');
+          cards[prev]?.focus();
+        });
+      } else if (key === 'Enter' || key === ' ') {
+        event.preventDefault();
+        const actionable = event.currentTarget.querySelector('button, a[href]:not(.disabled)');
+        actionable?.click();
+      }
+    },
+    async searchLocation() {
+      const query = this.searchQuery.trim();
+      if (!query) {
+        this.error = 'Please enter a city';
+        return;
+      }
+      // Mark that the user initiated a search explicitly
+      this.searchSubmitted = true;
+
+      const cachedSearch = this.searchHistory.find(s => s.query === query);
+      if (cachedSearch) {
+        this.currentLocation = cachedSearch.location;
+        this.bbox = cachedSearch.bbox;
+        await this.fetchNearbySchools();
+        return;
+      }
+
+      this.loading = true;
+      this.error = '';
+      this.schools = [];
+
+      try {
+        const response = await fetch(
+          `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&addressdetails=1&bounded=1`,
+          {
+            headers: {
+              'User-Agent': 'IslamicConnect/1.0 (your.email@example.com)',
+              'Accept-Language': 'en-US,en;q=0.9',
+            },
+          }
+        );
+
+        if (!response.ok) throw new Error('Location search service unavailable');
+
+        const data = await response.json();
+        if (!data.length) throw new Error('City not found');
+
+        const location = data[0];
+        this.currentLocation = {
+          lat: parseFloat(location.lat),
+          lon: parseFloat(location.lon),
+          display_name: location.display_name,
+          address: location.address,
+        };
+        this.bbox = location.boundingbox.map(Number);
+
+        this.searchHistory.unshift({
+          query,
+          location: this.currentLocation,
+          bbox: this.bbox,
+          timestamp: new Date(),
+        });
+        if (this.searchHistory.length > 5) this.searchHistory.pop();
+
+        await this.fetchNearbySchools();
+      } catch (err) {
+        console.error('Search error:', err);
+        this.error = err.message || 'Could not find city';
+        this.schools = [];
+      } finally {
+        this.loading = false;
+      }
+    },
+    async fetchNearbySchools() {
+      if (!this.bbox) return;
+
+      const [south, north, west, east] = this.bbox;
+      const query = `
+        [out:json][timeout:30];
+        (
+          node["amenity"~"school|college|university"]["religion"="islam"](${south},${west},${north},${east});
+          way["amenity"~"school|college|university"]["religion"="islam"](${south},${west},${north},${east});
+          node["amenity"~"school|college|university"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
+          way["amenity"~"school|college|university"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
+          node["amenity"="community_centre"]["destination"="islamic"](${south},${west},${north},${east});
+          way["amenity"="community_centre"]["destination"="islamic"](${south},${west},${north},${east});
+          node["amenity"="community_centre"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
+          way["amenity"="community_centre"]["name"~"[Ii]slamic|[Mm]adrasah|[Mm]uslim|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
+          node["amenity"="place_of_worship"]["religion"="islam"]["name"~"[Mm]adrasah|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
+          way["amenity"="place_of_worship"]["religion"="islam"]["name"~"[Mm]adrasah|[Qq]uran|[Aa]l-[Aa]zhar"](${south},${west},${north},${east});
+        );
+        out center;
+        >;
+        out skel qt;
+      `;
+
+      try {
+        const response = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
+        if (!response.ok) throw new Error('Failed to fetch Islamic schools');
+
+        const json = await response.json();
+        this.processSchoolData(json.elements || []);
+      } catch (err) {
+        console.error('Fetch error:', err);
+        this.error = err.message.includes('Too Many Requests')
+          ? 'Rate limit hit. Please wait and try again.'
+          : 'Could not load Islamic schools';
+        this.schools = [];
+      }
+    },
+    processSchoolData(elements) {
+      const seen = new Set();
+      const schools = [];
+
+      elements.forEach(element => {
+        if (!element.tags || seen.has(element.id)) return;
+
+        const coords = element.lat ? element : element.center || {};
+        if (!coords.lat || !coords.lon) return;
+
+        const tags = element.tags;
+        const name = tags.name || 'Islamic Education Center';
+
+        let type = 'School';
+        if (tags.name && tags.name.match(/[Mm]adrasah/i)) type = 'Madrassa';
+        else if (tags.amenity === 'community_centre') type = 'Education Center';
+        else if (tags.amenity === 'place_of_worship') type = 'Madrassa';
+        else if (tags.amenity === 'college' || tags.amenity === 'university') type = 'College/University';
+
+        const addressParts = [
+          tags['addr:street'],
+          tags['addr:housenumber'],
+          tags['addr:city'],
+          tags['addr:postcode'],
+          tags['addr:country'],
+        ].filter(Boolean);
+
+        const address = addressParts.length
+          ? addressParts.join(', ')
+          : tags['addr:full'] || this.currentLocation.display_name || 'Address not available';
+
+        const distance = this.calculateDistance(
+          this.currentLocation.lat, this.currentLocation.lon,
+          coords.lat, coords.lon
+        );
+
+        // Generate placeholder rating (3.5 to 5.0) since OpenStreetMap doesn't provide ratings
+        const rating = this.generatePlaceholderRating(tags, distance);
+
+        // Assign badges based on tags or random for placeholders
+        const badges = this.assignBadges(tags, rating);
+
+        schools.push({
+          id: element.id,
+          name,
+          type,
+          lat: coords.lat,
+          lon: coords.lon,
+          address,
+          distance,
+          phone: tags.phone,
+          website: tags.website,
+          opening_hours: tags.opening_hours,
+          tags,
+          rating, // Add rating
+          badges, // Add badges
+        });
+
+        seen.add(element.id);
+      });
+
+      this.schools = schools.sort((a, b) => a.distance - b.distance);
+    },
+    generatePlaceholderRating(tags, distance) {
+      // Simulate a rating based on heuristics (e.g., closer schools or specific types get higher ratings)
+      let baseRating = 3.5 + Math.random() * 1.5; // Random between 3.5 and 5.0
+      if (tags.amenity === 'college' || tags.amenity === 'university') baseRating += 0.3; // Boost for higher education
+      if (distance < 5000) baseRating += 0.2; // Boost for proximity (within 5km)
+      return Math.min(5.0, Math.max(3.5, parseFloat(baseRating.toFixed(1))));
+    },
+    assignBadges(tags, rating) {
+      const badges = [];
+      // Assign "Top Rated" for high ratings
+      if (rating >= 4.5) badges.push('Top Rated');
+      // Assign "New" based on tags or random chance (simulating recent establishment)
+      if (tags['opening_year'] || Math.random() < 0.3) badges.push('New');
+      // Assign "Family Friendly" for community centers or specific tags
+      if (tags.amenity === 'community_centre' || tags.access === 'customers') badges.push('Family Friendly');
+      return badges;
+    },
+    getStarClass(index, rating) {
+      if (rating >= index) return 'bi bi-star-fill';
+      if (rating >= index - 0.5) return 'bi bi-star-half';
+      return 'bi bi-star';
+    },
+    getBadgeClass(badge) {
+      switch (badge) {
+        case 'Top Rated': return 'bg-success';
+        case 'New': return 'bg-info';
+        case 'Family Friendly': return 'bg-primary';
+        default: return 'bg-secondary';
+      }
+    },
+    openGoogleMaps(lat, lon, name = '') {
+      if (!lat || !lon) return;
+
+      const baseUrl = 'https://www.google.com/maps';
+      const params = new URLSearchParams({
+        q: name ? `${name}@${lat},${lon}` : `${lat},${lon}`,
+        layer: 'c',
+        cbll: `${lat},${lon}`,
+        cbp: '11',
+      });
+
+      window.open(`${baseUrl}?${params.toString()}`, '_blank');
+    },
+    callSchool(phone) {
+      if (!phone) return;
+
+      if (confirm(`Call ${phone}?`)) {
+        const cleanPhone = phone.replace(/[^\d+]/g, '');
+        window.location.href = `tel:${cleanPhone}`;
+      }
+    },
+    calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371e3; // Earth radius in meters
+      const φ1 = lat1 * Math.PI / 180;
+      const φ2 = lat2 * Math.PI / 180;
+      const Δφ = (lat2 - lat1) * Math.PI / 180;
+      const Δλ = (lon2 - lon1) * Math.PI / 180;
+
+      const a = Math.sin(Δφ / 2) ** 2 +
+        Math.cos(φ1) * Math.cos(φ2) *
+        Math.sin(Δλ / 2) ** 2;
+
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c;
+    },
+    resetSearch() {
+      this.searchQuery = '';
+      this.currentLocation = null;
+      this.bbox = null;
+      this.schools = [];
+      this.error = '';
+    },
+  },
+};
+</script>
+
+<style scoped>
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(8px);} to { opacity: 1; transform: translateY(0);} }
+
+.premium-panel { border-radius: 20px; padding: 12px; }
+.premium-card { border-radius: 20px; overflow: hidden; transition: transform 180ms ease, box-shadow 180ms ease; position: relative; }
+.premium-card:hover, .premium-card:focus-within { transform: translateY(-4px); box-shadow: 0 12px 28px rgba(0,0,0,0.12); }
+.animate-in { animation: fadeInUp 320ms ease both; }
+
+  .label-lg { font-size: 20px; }
+  .title-lg { font-size: 25px; }
+  .search-row {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+  }
+  .search-row label {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .search-row button {
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .search-input {
+    flex: 1 1 250px;
+    min-width: 0;
+    max-width: 300px;
+  }
+.line-clamp-2 { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.action-row .btn-action { border-radius: 20px; height: 42px; box-shadow: rgba(16,24,40,0.14) 0 8px 24px; }
+.btn-action:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(24,129,185,0.25); }
+.btn-primary-brand { background: #0b5d4b; color: #fff; }
+.btn-secondary-brand { background: #1881b9; color: #fff; }
+.btn-primary-brand:hover, .btn-secondary-brand:hover { filter: brightness(1.05); }
+
+
+.form-control,
+.form-select {
+  border-radius: 20px !important;
+}
+
+.card-header { padding: 1.25rem 1.5rem; background-color: #2c3e50 !important; }
+.card-header .attribution small { color: rgba(255, 255, 255, 0.7); font-size: 0.7rem; }
+
+.badges { display: flex; flex-wrap: wrap; gap: 5px; }
+.badge { font-size: 0.75rem; padding: 0.25rem 0.5rem; border-radius: 20px; }
+
+.bg-success { background-color: #00bfa6; }
+.bg-info { background-color: #228B22; }
+.bg-primary { background-color: #1881b9; }
+
+@media (max-width: 768px) {
+  .card-header { flex-direction: column; text-align: center; }
+  .attribution { margin-top: 0.5rem; }
+}
+
+.spinner-lg { width: 3rem; height: 3rem; }
+</style>

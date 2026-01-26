@@ -1,0 +1,4 @@
+body.with-audio-player {
+  padding-bottom: 140px;
+  /* reserve space for the fixed audio bar */
+}

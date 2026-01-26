@@ -1,10 +1,10 @@
 "use strict";
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["resources_js_components_QiblaComponent_vue"],{
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js":
-/*!*********************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js ***!
-  \*********************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=script&lang=js":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=script&lang=js ***!
+  \**********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -511,10 +511,25 @@ const DEGREE_EPS = 0.5;
 
 /***/ }),
 
-/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true":
-/*!*************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true ***!
-  \*************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js":
+/*!*********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js ***!
+  \*********************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _components_vue_QiblaComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _components_vue_QiblaComponent_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../components/vue/QiblaComponent.vue */ "./resources/components/vue/QiblaComponent.vue");
+
+
+/***/ }),
+
+/***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true":
+/*!**************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true ***!
+  \**************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -789,7 +804,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     "aria-label": "Use my current location"
   }, [...(_cache[15] || (_cache[15] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "bi bi-geo-alt-fill"
-  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_16)])]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Welcome / Initial Content "), !$options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-body p-lg-4\" data-v-6d77f7a9><div class=\"row g-4\" data-v-6d77f7a9><div class=\"col-lg-6\" data-v-6d77f7a9><p class=\"lead mb-4\" data-v-6d77f7a9> This tool helps you find the Qibla direction and local prayer times accurately. </p><h5 class=\"text-primary fw-bold mb-3\" data-v-6d77f7a9>How to Use:</h5><ol class=\"ps-3 mb-0\" data-v-6d77f7a9><li class=\"mb-2\" data-v-6d77f7a9>Enter a city or address in the search bar above.</li><li class=\"mb-2\" data-v-6d77f7a9> Or, click <i class=\"bi bi-geo-alt\" data-v-6d77f7a9></i><strong data-v-6d77f7a9>Use My Location</strong> for automatic detection. </li><li class=\"mb-2\" data-v-6d77f7a9> Calibrate your device by moving it in a figure-eight motion for the most accurate compass reading. </li></ol></div><div class=\"col-lg-6\" data-v-6d77f7a9><h5 class=\"h4 card-title text-primary fw-bold mb-3\" data-v-6d77f7a9> The Significance of the Qibla </h5><br data-v-6d77f7a9><br data-v-6d77f7a9><p class=\"text-muted mb-3\" data-v-6d77f7a9> The Qibla is the fixed direction towards the Kaaba in the Grand Mosque in Mecca, Saudi Arabia. It is the direction that Muslims face when performing Salah (prayer). </p><p class=\"text-muted mb-0\" data-v-6d77f7a9> Facing the Qibla is a crucial condition for the validity of prayer, and it symbolizes the unity of all Muslims worldwide, as they all turn towards the same sacred point to worship Allah. </p></div></div></div>", 1)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_21, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_16)])]), $data.error ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_17, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.error), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Welcome / Initial Content "), !$options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_18, [...(_cache[17] || (_cache[17] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-body p-lg-4\" data-v-7d010e58><div class=\"row g-4\" data-v-7d010e58><div class=\"col-lg-6\" data-v-7d010e58><p class=\"lead mb-4\" data-v-7d010e58> This tool helps you find the Qibla direction and local prayer times accurately. </p><h5 class=\"text-primary fw-bold mb-3\" data-v-7d010e58>How to Use:</h5><ol class=\"ps-3 mb-0\" data-v-7d010e58><li class=\"mb-2\" data-v-7d010e58>Enter a city or address in the search bar above.</li><li class=\"mb-2\" data-v-7d010e58> Or, click <i class=\"bi bi-geo-alt\" data-v-7d010e58></i><strong data-v-7d010e58>Use My Location</strong> for automatic detection. </li><li class=\"mb-2\" data-v-7d010e58> Calibrate your device by moving it in a figure-eight motion for the most accurate compass reading. </li></ol></div><div class=\"col-lg-6\" data-v-7d010e58><h5 class=\"h4 card-title text-primary fw-bold mb-3\" data-v-7d010e58> The Significance of the Qibla </h5><br data-v-7d010e58><br data-v-7d010e58><p class=\"text-muted mb-3\" data-v-7d010e58> The Qibla is the fixed direction towards the Kaaba in the Grand Mosque in Mecca, Saudi Arabia. It is the direction that Muslims face when performing Salah (prayer). </p><p class=\"text-muted mb-0\" data-v-7d010e58> Facing the Qibla is a crucial condition for the validity of prayer, and it symbolizes the unity of all Muslims worldwide, as they all turn towards the same sacred point to worship Allah. </p></div></div></div>", 1)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_19, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_20, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Qibla & Compass "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_21, [_cache[34] || (_cache[34] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "card-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
     id: "qibla-direction-title",
@@ -831,7 +846,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     viewBox: "0 0 50 150",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
-  }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<defs data-v-6d77f7a9><linearGradient id=\"arrowGradient\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\" data-v-6d77f7a9><stop offset=\"0%\" style=\"stop-color:var(--primary-color);stop-opacity:1;\" data-v-6d77f7a9></stop><stop offset=\"100%\" style=\"stop-color:var(--primary-hover-color);stop-opacity:1;\" data-v-6d77f7a9></stop></linearGradient></defs><path d=\"M25 150 L40 100 L30 30 L25 0 L20 30 L10 100 Z\" fill=\"url(#arrowGradient)\" stroke=\"var(--primary-hover-color)\" stroke-width=\"3\" data-v-6d77f7a9></path><path d=\"M25 150 L40 100 L25 90 L10 100 Z\" fill=\"var(--primary-color)\" stroke=\"var(--primary-hover-color)\" stroke-width=\"2\" data-v-6d77f7a9></path>", 3)]))], 4 /* STYLE */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_26, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  }, [...(_cache[23] || (_cache[23] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<defs data-v-7d010e58><linearGradient id=\"arrowGradient\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\" data-v-7d010e58><stop offset=\"0%\" style=\"stop-color:var(--primary-color);stop-opacity:1;\" data-v-7d010e58></stop><stop offset=\"100%\" style=\"stop-color:var(--primary-hover-color);stop-opacity:1;\" data-v-7d010e58></stop></linearGradient></defs><path d=\"M25 150 L40 100 L30 30 L25 0 L20 30 L10 100 Z\" fill=\"url(#arrowGradient)\" stroke=\"var(--primary-hover-color)\" stroke-width=\"3\" data-v-7d010e58></path><path d=\"M25 150 L40 100 L25 90 L10 100 Z\" fill=\"var(--primary-color)\" stroke=\"var(--primary-hover-color)\" stroke-width=\"2\" data-v-7d010e58></path>", 3)]))], 4 /* STYLE */))])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_26, [_cache[24] || (_cache[24] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
     class: "text-muted"
   }, "Direction", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_27, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['bi', $options.directionIconClass])
@@ -905,19 +920,92 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("strong", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(time), 1 /* TEXT */)]);
   }), 128 /* KEYED_FRAGMENT */))])) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_54, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
     class: "text-muted"
-  }, "Prayer times will appear here.", -1 /* CACHED */)]))])), $data.timezone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, " Timezone: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.timezone), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header\" data-v-6d77f7a9><h5 class=\"h4 card-title text-primary fw-bold mb-0\" style=\"padding:10px;\" data-v-6d77f7a9> About Prayer Time Methods </h5></div><div class=\"card-body card-teal p-lg-4\" data-v-6d77f7a9><p class=\"text-muted mb-4\" data-v-6d77f7a9> Different organizations use various conventions for calculating prayer times. Here are the methods available in this tool. Select the one most commonly used in your region. </p><div class=\"row g-3\" data-v-6d77f7a9><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>Muslim World League</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9> Uses Fajr angle of 18° and Isha angle of 17°. Widely used in Europe, the Far East, and parts of the US. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>ISNA (North America)</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9> Sets both Fajr and Isha angles to 15°. The standard method for North America. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9> Egyptian General Authority </h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9> Uses Fajr angle of 19.5° and Isha angle of 17.5°. Used in Africa, Syria, and parts of the US. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>Umm Al-Qura, Makkah</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9> Uses a Fajr angle of 18.5°. Isha is 90 minutes after Maghrib. Used in the Arabian Peninsula. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-6d77f7a9><div class=\"method-card p-3 border rounded\" data-v-6d77f7a9><h6 class=\"text-primary fw-bold mb-2\" data-v-6d77f7a9>University of Karachi</h6><p class=\"text-muted small mb-0\" data-v-6d77f7a9> Sets Fajr and Isha angles to 18°. Common in Pakistan, Bangladesh, India, and Afghanistan. </p></div></div></div></div>", 2)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
+  }, "Prayer times will appear here.", -1 /* CACHED */)]))])), $data.timezone ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_55, " Timezone: " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.timezone), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $options.hasData ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"card-header\" data-v-7d010e58><h5 class=\"h4 card-title text-primary fw-bold mb-0\" style=\"padding:10px;\" data-v-7d010e58> About Prayer Time Methods </h5></div><div class=\"card-body card-teal p-lg-4\" data-v-7d010e58><p class=\"text-muted mb-4\" data-v-7d010e58> Different organizations use various conventions for calculating prayer times. Here are the methods available in this tool. Select the one most commonly used in your region. </p><div class=\"row g-3\" data-v-7d010e58><div class=\"col-12 col-md-6 col-lg-4\" data-v-7d010e58><div class=\"method-card p-3 border rounded\" data-v-7d010e58><h6 class=\"text-primary fw-bold mb-2\" data-v-7d010e58>Muslim World League</h6><p class=\"text-muted small mb-0\" data-v-7d010e58> Uses Fajr angle of 18° and Isha angle of 17°. Widely used in Europe, the Far East, and parts of the US. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-7d010e58><div class=\"method-card p-3 border rounded\" data-v-7d010e58><h6 class=\"text-primary fw-bold mb-2\" data-v-7d010e58>ISNA (North America)</h6><p class=\"text-muted small mb-0\" data-v-7d010e58> Sets both Fajr and Isha angles to 15°. The standard method for North America. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-7d010e58><div class=\"method-card p-3 border rounded\" data-v-7d010e58><h6 class=\"text-primary fw-bold mb-2\" data-v-7d010e58> Egyptian General Authority </h6><p class=\"text-muted small mb-0\" data-v-7d010e58> Uses Fajr angle of 19.5° and Isha angle of 17.5°. Used in Africa, Syria, and parts of the US. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-7d010e58><div class=\"method-card p-3 border rounded\" data-v-7d010e58><h6 class=\"text-primary fw-bold mb-2\" data-v-7d010e58>Umm Al-Qura, Makkah</h6><p class=\"text-muted small mb-0\" data-v-7d010e58> Uses a Fajr angle of 18.5°. Isha is 90 minutes after Maghrib. Used in the Arabian Peninsula. </p></div></div><div class=\"col-12 col-md-6 col-lg-4\" data-v-7d010e58><div class=\"method-card p-3 border rounded\" data-v-7d010e58><h6 class=\"text-primary fw-bold mb-2\" data-v-7d010e58>University of Karachi</h6><p class=\"text-muted small mb-0\" data-v-7d010e58> Sets Fajr and Isha angles to 18°. Common in Pakistan, Bangladesh, India, and Afghanistan. </p></div></div></div></div>", 2)]))])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)], 512 /* NEED_PATCH */);
 }
 
 /***/ }),
 
-/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css":
-/*!********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css ***!
-  \********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
+/***/ "./resources/components/vue/QiblaComponent.vue":
+/*!*****************************************************!*\
+  !*** ./resources/components/vue/QiblaComponent.vue ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _QiblaComponent_vue_vue_type_template_id_7d010e58_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true */ "./resources/components/vue/QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true");
+/* harmony import */ var _QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=script&lang=js */ "./resources/components/vue/QiblaComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _QiblaComponent_vue_vue_type_style_index_0_id_7d010e58_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css */ "./resources/components/vue/QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
+
+
+
+
+;
+
+
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_QiblaComponent_vue_vue_type_template_id_7d010e58_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-7d010e58"],['__file',"resources/components/vue/QiblaComponent.vue"]])
+/* hot reload */
+if (false) // removed by dead control flow
+{}
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (__exports__);
+
+/***/ }),
+
+/***/ "./resources/components/vue/QiblaComponent.vue?vue&type=script&lang=js":
+/*!*****************************************************************************!*\
+  !*** ./resources/components/vue/QiblaComponent.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"])
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QiblaComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=script&lang=js");
+ 
+
+/***/ }),
+
+/***/ "./resources/components/vue/QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/components/vue/QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_clonedRuleSet_10_use_0_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_style_index_0_id_7d010e58_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css */ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=style&index=0&id=7d010e58&scoped=true&lang=css");
+
+
+/***/ }),
+
+/***/ "./resources/components/vue/QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true":
+/*!***********************************************************************************************!*\
+  !*** ./resources/components/vue/QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true ***!
+  \***********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_template_id_7d010e58_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
+/* harmony export */ });
+/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_template_id_7d010e58_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/QiblaComponent.vue?vue&type=template&id=7d010e58&scoped=true");
 
 
 /***/ }),
@@ -932,18 +1020,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _QiblaComponent_vue_vue_type_template_id_6d77f7a9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true */ "./resources/js/components/QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true");
-/* harmony import */ var _QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=script&lang=js */ "./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js");
-/* harmony import */ var _QiblaComponent_vue_vue_type_style_index_0_id_6d77f7a9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css */ "./resources/js/components/QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css");
-/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
-
+/* harmony import */ var _QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QiblaComponent.vue?vue&type=script&lang=js */ "./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../node_modules/vue-loader/dist/exportHelper.js */ "./node_modules/vue-loader/dist/exportHelper.js");
 
 
 
 ;
-
-
-const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_3__["default"])(_QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"], [['render',_QiblaComponent_vue_vue_type_template_id_6d77f7a9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render],['__scopeId',"data-v-6d77f7a9"],['__file',"resources/js/components/QiblaComponent.vue"]])
+const __exports__ = /*#__PURE__*/(0,_node_modules_vue_loader_dist_exportHelper_js__WEBPACK_IMPORTED_MODULE_1__["default"])(_QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"], [['__file',"resources/js/components/QiblaComponent.vue"]])
 /* hot reload */
 if (false) // removed by dead control flow
 {}
@@ -965,33 +1048,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QiblaComponent.vue?vue&type=script&lang=js */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=script&lang=js");
  
-
-/***/ }),
-
-/***/ "./resources/js/components/QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css":
-/*!************************************************************************************************************!*\
-  !*** ./resources/js/components/QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css ***!
-  \************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_clonedRuleSet_10_use_0_node_modules_laravel_mix_node_modules_css_loader_dist_cjs_js_clonedRuleSet_10_use_1_node_modules_vue_loader_dist_stylePostLoader_js_node_modules_laravel_mix_node_modules_postcss_loader_dist_cjs_js_clonedRuleSet_10_use_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_style_index_0_id_6d77f7a9_scoped_true_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!../../../node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!../../../node_modules/vue-loader/dist/stylePostLoader.js!../../../node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css */ "./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-10.use[0]!./node_modules/laravel-mix/node_modules/css-loader/dist/cjs.js??clonedRuleSet-10.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/laravel-mix/node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-10.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=style&index=0&id=6d77f7a9&scoped=true&lang=css");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true":
-/*!**********************************************************************************************!*\
-  !*** ./resources/js/components/QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true ***!
-  \**********************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   render: () => (/* reexport safe */ _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_template_id_6d77f7a9_scoped_true__WEBPACK_IMPORTED_MODULE_0__.render)
-/* harmony export */ });
-/* harmony import */ var _node_modules_laravel_mix_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_dist_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_dist_index_js_ruleSet_0_use_0_QiblaComponent_vue_vue_type_template_id_6d77f7a9_scoped_true__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../../node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!../../../node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true */ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/js/components/QiblaComponent.vue?vue&type=template&id=6d77f7a9&scoped=true");
-
 
 /***/ })
 

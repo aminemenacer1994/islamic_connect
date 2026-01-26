@@ -1,15 +1,3 @@
-<template>
-  <div class="dropdown-search">
-   
-  </div>
-</template>
-
 <script>
-export default {
-
-}
+export { default } from "../../../components/vue/search/DropdownSearch.vue";
 </script>
-
-<style>
-
-</style>

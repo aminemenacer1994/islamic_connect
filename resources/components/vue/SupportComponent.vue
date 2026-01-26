@@ -1,0 +1,842 @@
+<template>
+  <div class="donation-page">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-10 text-center text-white">
+            <h1 class="mb-4 text-white">Support Islamic Education Technology</h1>
+            <p class="lead mb-5">Your contribution helps make authentic Islamic knowledge accessible to a global audience</p>
+
+            <!-- Impact Metrics -->
+            <div class="row">
+              <div class="col-md-3 col-sm-3 mb-4">
+                <div class="metric-item">
+                  <h3>85%</h3>
+                  <p>Accessibility Score</p>
+                </div>
+              </div>
+              <div class="col-md-3 mb-4 col-sm-3">
+                <div class="metric-item">
+                  <h3>75+</h3>
+                  <p>Countries</p>
+                </div>
+              </div>
+              <div class="col-md-3 mb-4 col-sm-3">
+                <div class="metric-item">
+                  <h3>575+</h3>
+                  <p>Cities</p>
+                </div>
+              </div>
+              <div class="col-md-3 mb-4 col-sm-3">
+                <div class="metric-item">
+                  <h3>1,090%</h3>
+                  <p>User Growth</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Combined Value Proposition and Donation Section -->
+    <section class="combined-section">
+      <div class="container-fluid">
+        <div class="row align-items-stretch">
+          <!-- Value Proposition Column -->
+          <div class="col-lg-1 mb-4">
+          </div>
+          <div class="col-lg-5 mb-4">
+            <div class="value-proposition-wrapper">
+              
+              <div class="form-header text-center mb-4">
+                <h2 class="mb-3">Strategic Impact Areas</h2>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">📚</div>
+                    <h4>Educational Content</h4>
+                    <p>Developing comprehensive Quranic explanations, Hadith collections, and scholarly resources</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">♿</div>
+                    <h4>Accessibility Features</h4>
+                    <p>Implementing screen reader support and voice interfaces for inclusive access</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">⚙️</div>
+                    <h4>Platform Infrastructure</h4>
+                    <p>Maintaining robust servers and scalable architecture for global user base</p>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-4">
+                  <div class="value-card">
+                    <div class="value-icon">🌍</div>
+                    <h4>Global Outreach</h4>
+                    <p>Expanding to underserved Muslim communities worldwide</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Donation Section Column -->
+          <div class="col-lg-5 mb-4">
+            <div class="donation-form">
+              <div class="form-header text-center mb-4">
+                <h3 class="mb-3">Make a Difference</h3>
+                <p class="text-muted">Your support enables us to continue our mission</p>
+              </div>
+
+              <div class="progress-card mb-4" role="presentation">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <strong>Monthly support target</strong>
+                  <span class="text-muted small">{{ insights.progress ?? 0 }}% reached</span>
+                </div>
+                <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" :aria-valuenow="insights.progress || 0">
+                  <div class="progress-bar" :style="progressBarStyle"></div>
+                </div>
+                <div class="d-flex justify-content-between mt-3">
+                  <span aria-live="polite">Raised: £{{ formatMoney(insights.totalRaised) }}</span>
+                  <span>Goal: £{{ formatMoney(insights.goal) }}</span>
+                </div>
+                <div class="progress-footnote mt-2 d-flex justify-content-between small text-muted">
+                  <span>{{ insights.donorCount || 0 }} donors</span>
+                  <span>Average gift: £{{ formatMoney(insights.averageDonation) }}</span>
+                </div>
+              </div>
+              <p class="text-danger small mb-3" v-if="insightError">{{ insightError }}</p>
+              <div class="history-note mb-3" v-if="historyMessage">
+                <i class="fas fa-heart"></i>
+                <span>{{ historyMessage }}</span>
+              </div>
+
+              <!-- Amount Selector -->
+              <div class="mb-3">
+                <label for="donation-amount" class="form-label">Choose an amount (GBP)</label>
+                <div class="input-group">
+                  <span class="input-group-text">£</span>
+                  <input
+                    id="donation-amount"
+                    type="number"
+                    min="1"
+                    step="1"
+                    class="form-control"
+                    :aria-invalid="!isValidAmount"
+                    :class="{ 'is-invalid': !isValidAmount }"
+                    v-model.number="amount"
+                    @input="onAmountInput"
+                  />
+                </div>
+                <div class="invalid-feedback" v-if="!isValidAmount">
+                  Please enter a whole-number amount between £1 and £100,000.
+                </div>
+                <div class="form-text">Minimum £1. Whole numbers only.</div>
+                <div class="suggested-amounts mt-2">
+                  <button
+                    v-for="value in insights.suggestedAmounts"
+                    :key="`suggestion-${value}`"
+                    type="button"
+                    class="btn btn-outline-secondary btn-sm"
+                    :class="{ active: selectedSuggestion === value }"
+                    @click="setSuggestedAmount(value)"
+                  >
+                    £{{ formatMoney(value) }}
+                  </button>
+                </div>
+              </div>
+
+              <!-- Trust Indicators -->
+              <div class="trust-indicators mb-4">
+                <div class="trust-item">
+                  <i class="fas fa-lock"></i>
+                  <span>Secure Payment</span>
+                </div>
+                <div class="trust-item">
+                  <i class="fas fa-shield-alt"></i>
+                  <span>SSL Encrypted</span>
+                </div>
+                <div class="trust-item">
+                  <i class="fas fa-certificate"></i>
+                  <span>Stripe Verified</span>
+                </div>
+              </div>
+
+              <!-- Summary -->
+              <div v-if="isValidAmount" class="summary-section mb-4">
+                <div class="summary-header">
+                  <h6>Ready to Contribute</h6>
+                </div>
+                <!-- <div class="summary-item">
+                  <span>Amount:</span>
+                  <strong>£{{ finalAmount }}</strong>
+                </div> -->
+                <div class="summary-item">
+                  <span>Your Impact:</span>
+                  <strong>{{ impactMessage }}</strong>
+                </div>
+              </div>
+              <p class="thank-you-message" v-if="thankYouMessage">
+                <i class="fas fa-star me-2"></i>
+                {{ thankYouMessage }}
+              </p>
+
+              <!-- Submit Button -->
+              <button class="btn btn-primary w-100" @click="processDonation" :disabled="!isValidAmount">
+                <i class="fas fa-lock me-2"></i>
+                Proceed to Secure Payment
+              </button>
+
+              <div class="email-note text-center text-muted mt-3">
+                <i class="fas fa-envelope-open-text me-1"></i>
+                We'll send a confirmation email once Stripe processes your gift.
+              </div>
+
+              <div class="security-guarantee text-center mt-3">
+                <p class="small text-muted">
+                  <i class="fas fa-shield-alt me-1"></i>
+                  Your contribution is securely processed by Stripe. We never store your payment details.
+                </p>
+              </div>
+
+              <div class="recent-donations mt-4" v-if="insights.recentDonations.length">
+                <h6 class="mb-3 text-uppercase">Recent supporters</h6>
+                <ul>
+                  <li v-for="donor in insights.recentDonations" :key="donor.id">
+                    <span>
+                      <strong>{{ donor.label || 'Supporter' }}</strong>
+                      <small class="text-muted d-block">{{ donor.timeAgo }}</small>
+                    </span>
+                    <span>£{{ formatMoney(donor.amount) }}</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-1 mb-4">
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      amount: 10,
+      insights: {
+        goal: 15000,
+        totalRaised: 0,
+        progress: 0,
+        presetAmounts: [10, 25, 50, 100],
+        averageDonation: 0,
+        recentDonations: [],
+        suggestedAmounts: [10, 25, 50, 100],
+        donorCount: 0,
+        lastDonation: null,
+      },
+      selectedSuggestion: 10,
+      isLoadingInsights: false,
+      insightError: '',
+      lastDonationRecord: null,
+    };
+  },
+  computed: {
+    finalAmount() {
+      return this.amount;
+    },
+    isValidAmount() {
+      const n = Number(this.finalAmount);
+      return Number.isFinite(n) && Number.isInteger(n) && n >= 1 && n <= 100000;
+    },
+    impactMessage() {
+      if (this.amount >= 100) return 'Major platform enhancement';
+      if (this.amount >= 50) return 'Content development for many users';
+      if (this.amount >= 25) return 'Supports multiple users monthly';
+      return 'Helps maintain basic access';
+    },
+    stripeUrl() {
+      const amountInCents = Math.round(this.finalAmount * 100);
+      const base = (typeof process !== 'undefined' && process.env && process.env.MIX_STRIPE_DONATE_URL)
+        ? process.env.MIX_STRIPE_DONATE_URL
+        : 'https://donate.stripe.com/6oE5kY84oc3q7fy145';
+      return `${base}?amount=${amountInCents}`;
+    },
+    progressBarStyle() {
+      const width = Math.min(100, Math.max(0, this.insights.progress || 0));
+      return { width: `${width}%` };
+    },
+    historyMessage() {
+      if (this.lastDonationRecord?.amount) {
+        return `We remember your last gift of £${this.formatMoney(this.lastDonationRecord.amount)} thank you for being part of Islamic Connect.`;
+      }
+      if (this.insights.lastDonation) {
+        const label = this.insights.lastDonation.label || 'A generous supporter';
+        return `${label} gave £${this.formatMoney(this.insights.lastDonation.amount)} recently.`;
+      }
+      return '';
+    },
+    thankYouMessage() {
+      if (this.lastDonationRecord?.amount) {
+        return `Every £${this.formatMoney(this.lastDonationRecord.amount)} you share keeps Islamic Connect ad-free.`;
+      }
+      if (this.insights.donorCount) {
+        return `You're joining ${this.insights.donorCount} supporters keeping Quranic tools accessible.`;
+      }
+      return 'Your contribution keeps authentic knowledge within reach.';
+    }
+  },
+  mounted() {
+    this.loadSavedDonation();
+    this.loadInsights();
+  },
+  methods: {
+    async loadInsights() {
+      this.isLoadingInsights = true;
+      try {
+        const response = await fetch('/api/donation-insights', {
+          headers: { 'Accept': 'application/json' },
+        });
+        if (!response.ok) throw new Error('Unable to load donation insights right now.');
+        const payload = await response.json();
+        this.insights = {
+          ...this.insights,
+          ...payload,
+          recentDonations: payload.recentDonations ?? [],
+          suggestedAmounts: payload.suggestedAmounts ?? this.insights.suggestedAmounts,
+          presetAmounts: payload.presetAmounts ?? this.insights.presetAmounts,
+        };
+        if (!this.selectedSuggestion && this.insights.suggestedAmounts?.length) {
+          this.setSuggestedAmount(this.insights.suggestedAmounts[0]);
+        }
+      } catch (err) {
+        console.error('Donation insights error:', err);
+        this.insightError = err?.message || 'Unable to refresh donation context.';
+      } finally {
+        this.isLoadingInsights = false;
+      }
+    },
+    loadSavedDonation() {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        const stored = localStorage.getItem('islamicConnectLastDonation');
+        if (!stored) return;
+        const parsed = JSON.parse(stored);
+        if (parsed?.amount) {
+          this.lastDonationRecord = parsed;
+          this.amount = parsed.amount;
+          this.selectedSuggestion = parsed.amount;
+        }
+      } catch (err) {
+        console.warn('Failed to read donation history', err);
+      }
+    },
+    storeLocalDonation() {
+      if (typeof localStorage === 'undefined') return;
+      try {
+        localStorage.setItem('islamicConnectLastDonation', JSON.stringify({
+          amount: this.finalAmount,
+          timestamp: Date.now(),
+        }));
+      } catch (err) {
+        console.warn('Unable to cache donation amount', err);
+      }
+    },
+    setSuggestedAmount(value) {
+      this.amount = Number(value);
+      this.selectedSuggestion = Number(value);
+    },
+    formatMoney(value) {
+      const number = Number(value) || 0;
+      const formatter = new Intl.NumberFormat('en-GB', {
+        minimumFractionDigits: number % 1 ? 2 : 0,
+        maximumFractionDigits: 2,
+      });
+      return formatter.format(number);
+    },
+    onAmountInput(e) {
+      let v = parseInt(e.target.value || '');
+      if (isNaN(v)) v = 0;
+      if (v < 0) v = 0;
+      if (v > 100000) v = 100000;
+      this.amount = v;
+      this.selectedSuggestion = null;
+    },
+    async processDonation() {
+      if (!this.isValidAmount) {
+        alert('Please select a contribution amount.');
+        return;
+      }
+
+      this.storeLocalDonation();
+
+      try {
+        const tokenEl = document.querySelector('meta[name="csrf-token"]');
+        const csrf = tokenEl ? tokenEl.getAttribute('content') : '';
+
+        const res = await fetch('/support/create-checkout-session', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': csrf,
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({ amount: this.finalAmount }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) throw new Error(data?.error || 'Failed to create payment session');
+
+        const key = (document.querySelector('meta[name="stripe-key"]') || {}).getAttribute?.('content');
+        if (!key) throw new Error('Stripe publishable key missing');
+        const stripe = window.Stripe ? window.Stripe(key) : null;
+        if (!stripe) throw new Error('Stripe.js not loaded');
+
+        const result = await stripe.redirectToCheckout({ sessionId: data.id });
+        if (result.error) {
+          throw new Error(result.error.message || 'Redirect failed');
+        }
+      } catch (err) {
+        console.error('Donation error:', err);
+        try {
+          window.location.href = this.stripeUrl;
+        } catch (_e) {
+          alert('Unable to start payment: ' + (err?.message || 'unknown error'));
+        }
+      }
+    }
+  }
+}
+</script>
+
+<style scoped>
+.donation-page {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+}
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #1a5f7a 0%, #2c3e50 100%);
+  padding: 100px 0 80px 0;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23ffffff' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  opacity: 0.3;
+}
+
+.hero-section h1 {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hero-section .lead {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.metric-item {
+  text-align: center;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.metric-item h3 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: #fff;
+}
+
+.metric-item p {
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  opacity: 0.9;
+}
+
+/* Combined Section */
+.combined-section {
+  padding: 80px 0;
+  background: #f8f9fa;
+}
+
+
+/* Value Cards */
+.value-card {
+  background: #fafbfc;
+  padding: 2rem 1.5rem;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  height: 100%;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: #1a5f7a;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.value-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.value-card:hover::before {
+  transform: scaleY(1);
+}
+
+.value-icon {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.value-card h4 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a5f7a;
+  margin-bottom: 1rem;
+}
+
+.value-card p {
+  color: #6c757d;
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Donation Section */
+.donation-form {
+  background: #fff;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e9ecef;
+  position: relative;
+  height: 100%;
+}
+
+.donation-form::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1a5f7a, #2c3e50);
+  border-radius: 16px 16px 0 0;
+}
+
+.form-header h3 {
+  font-size: 1.75rem;
+  padding-top: 5px;
+  font-weight: 800;
+  color: #2c3e50;
+}
+.form-header h2 {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #2c3e50;
+}
+
+.form-header p {
+  font-size: 1.1rem;
+  color: #6c757d;
+}
+
+/* Trust Indicators */
+.trust-indicators {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: #495057;
+  font-weight: 500;
+}
+
+.trust-item i {
+  color: #1a5f7a;
+}
+
+/* Enhanced Summary */
+.summary-section {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 12px;
+  border-left: 4px solid #1a5f7a;
+}
+
+.summary-header {
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.summary-header h6 {
+  margin: 0;
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+}
+
+.summary-item:not(:last-child) {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Enhanced Primary Button */
+.btn-primary {
+  background: #1a5f7a;
+  border: none;
+  color: white;
+  padding: 1.25rem 2rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  font-size: 1.1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #144a5f;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(26, 95, 122, 0.4);
+}
+
+.btn-primary:disabled {
+  background: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.security-guarantee {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+}
+
+.progress-card {
+  background: #eff5f9;
+  border-radius: 14px;
+  border: 1px solid #dde6ef;
+  padding: 1.25rem 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.progress-card .progress {
+  height: 10px;
+  background: #d2e5f4;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.progress-card .progress-bar {
+  background: linear-gradient(90deg, #1a5f7a, #2c3e50);
+  height: 100%;
+  border-radius: 12px;
+  transition: width 0.4s ease;
+}
+
+.progress-footnote {
+  letter-spacing: 0.01em;
+}
+
+.history-note {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1rem;
+  background: #e8fff6;
+  border-radius: 10px;
+  border: 1px solid #cfeee2;
+  color: #1b5a46;
+  font-weight: 500;
+}
+
+.suggested-amounts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.suggested-amounts button.active {
+  background: #1a5f7a;
+  color: white;
+  border-color: #1a5f7a;
+}
+
+.email-note {
+  font-size: 0.85rem;
+}
+
+.thank-you-message {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  color: #1a5f7a;
+  font-weight: 600;
+}
+
+.recent-donations {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  padding: 1rem 1.25rem;
+}
+
+.recent-donations ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recent-donations li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #ebeff3;
+  font-size: 0.9rem;
+}
+
+.recent-donations li:last-child {
+  border-bottom: none;
+}
+
+/* Testimonial Section */
+.testimonial-section {
+  padding: 40px 0;
+}
+
+.testimonial-card {
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  border-left: 4px solid #1a5f7a;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  font-size: 5rem;
+  color: #e9ecef;
+  font-family: Georgia, serif;
+  line-height: 1;
+}
+
+.testimonial-card blockquote {
+  margin: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-card blockquote p {
+  font-size: 1.3rem;
+  font-style: italic;
+  color: #495057;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.testimonial-card blockquote footer {
+  font-weight: 600;
+  color: #1a5f7a;
+  font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .combined-section {
+    padding: 60px 0;
+  }
+  
+  .value-proposition-wrapper,
+  .donation-form {
+    padding: 2rem;
+  }
+  
+  .value-proposition-wrapper h2 {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 0 40px 0;
+  }
+
+  .hero-section h1 {
+    font-size: 2.25rem;
+  }
+
+  .combined-section,
+  .testimonial-section {
+    padding: 40px 0;
+  }
+
+  .trust-indicators {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .value-card {
+    padding: 1.5rem;
+  }
+}
+</style>

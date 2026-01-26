@@ -1,0 +1,317 @@
+.card-teal {
+    border-radius: 20px;
+    border: 1px solid rgba(148, 163, 184, 0.5);
+    box-shadow: 0 16px 42px rgba(15, 23, 42, 0.08);
+    background: #ffffff;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.card-teal:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 48px rgba(15, 23, 42, 0.12);
+}
+
+.desktop-actions {
+    padding-bottom: 0.75rem;
+}
+
+.companion-hero {
+    background: linear-gradient(145deg, #f4f9f7, #fdfcf8);
+    border: 1px solid rgba(11, 128, 111, 0.12);
+    border-radius: 28px;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    /* margin: 2.5rem auto 1rem; */
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+
+.hero-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2.5rem;
+}
+
+.hero-text {
+    text-align: left;
+    max-width: 640px;
+}
+
+.hero-eyebrow {
+    letter-spacing: 0.3em;
+    font-size: 0.78rem;
+    color: #1a5f7a;
+}
+
+:deep(.hero-title) {
+    color: #0f172a;
+    font-size: clamp(2.4rem, 5vw, 3.5rem);
+    margin-bottom: 1rem;
+}
+
+.hero-copy {
+    color: #1f2933;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.hero-visual {
+    position: relative;
+    width: 280px;
+    aspect-ratio: 1 / 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(11, 128, 111, 0.35);
+    box-shadow: 0 10px 25px rgba(11, 128, 111, 0.15);
+    animation: heroPulse 8s ease-in-out infinite;
+}
+
+.ring-1 {
+    width: 90%;
+    height: 90%;
+    animation-delay: 0s;
+}
+
+.ring-2 {
+    width: 70%;
+    height: 70%;
+    animation-delay: 2s;
+}
+
+.ring-3 {
+    width: 50%;
+    height: 50%;
+    animation-delay: 4s;
+    background: radial-gradient(circle, rgba(11, 128, 111, 0.1), transparent 65%);
+}
+
+@keyframes heroPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.95;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 0.6;
+    }
+}
+
+.selector-card {
+    background: transparent !important;
+    border-radius: 20px;
+    box-shadow: 0 20px 45px rgba(15, 23, 42, 0.06);
+}
+
+.selector-heading {
+    margin-bottom: 0.75rem;
+}
+
+.field-helper {
+    color: #5f6b7b;
+    font-size: 0.92rem;
+    margin-bottom: 0;
+}
+
+.selector-control {
+    padding-right: 15px;
+    border-radius: 20px;
+    /* background: #f8fafc; */
+}
+
+.ayah-scroll {
+    overflow-y: auto;
+    cursor: pointer;
+    border: 1px solid rgba(49, 70, 67, 0.22);
+    border-radius: 18px;
+    max-height: 600px;
+    background: #ffffff;
+    padding: 0.25rem 0.5rem;
+}
+
+.ayah-item {
+    padding: 0.85rem 1rem;
+    padding-bottom: 2px;
+    border-radius: 16px;
+    transition: background 0.2s ease, border 0.2s ease, transform 0.15s ease;
+    border: 1px solid transparent;
+    margin-bottom: 0.35rem;
+}
+
+.ayah-item:hover,
+.ayah-item:focus-within {
+    background: rgba(11, 128, 111, 0.05);
+    border-color: rgba(11, 128, 111, 0.35);
+}
+
+.ayah-item.selected {
+    background: rgba(11, 128, 111, 0.12);
+    border-color: rgba(11, 128, 111, 0.45);
+    box-shadow: 0 10px 30px rgba(11, 128, 111, 0.15);
+}
+
+.ayah-label {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.92rem;
+    color: #0b5d4b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ayah-text {
+    font-weight: 600;
+    color: #1f2a37;
+    line-height: 1.6;
+}
+
+@media (max-width: 991px) {
+    .hero-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero-text {
+        text-align: center;
+    }
+
+    .selector-card {
+        padding: 1.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .companion-hero {
+        border-radius: 18px;
+        padding: 1.5rem;
+    }
+
+    .hero-copy {
+        font-size: 1rem;
+    }
+
+}
+
+.swipe-tip {
+    background-color: #e7f1ff;
+    /* light blue */
+    border: 1px solid #b6d4fe;
+    /* blue border */
+    color: #0a58ca;
+    /* primary blue text */
+    border-radius: 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.swipe-tip .btn-close {
+    width: .25rem;
+    height: .25rem;
+    padding: .25rem;
+}
+
+.swipe-tip .icon-circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background-color: #0a58ca;
+    color: #fff;
+    font-size: 12px;
+}
+
+.swipe-surface {
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Hint the compositor */
+.swipe-surface {
+    will-change: transform;
+}
+
+/* Direction-aware verse transition */
+.swipe-next-enter-from {
+    opacity: 0;
+    transform: translateX(24px);
+}
+
+.swipe-next-enter-active {
+    transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.swipe-next-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.swipe-prev-enter-from {
+    opacity: 0;
+    transform: translateX(-24px);
+}
+
+.swipe-prev-enter-active {
+    transition: transform 160ms ease, opacity 160ms ease;
+}
+
+.swipe-prev-enter-to {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Swipe success notice */
+.swipe-notice {
+    position: fixed;
+    left: 50%;
+    top: 80px;
+    transform: translateX(-50%);
+    background: rgba(15, 23, 42, 0.85);
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: swipeNoticeFade 500ms ease both;
+}
+
+.swipe-notice.right i {
+    transform: translateY(1px);
+}
+
+.swipe-notice.left i {
+    transform: translateY(1px);
+}
+
+@keyframes swipeNoticeFade {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.next-step-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    filter: invert(35%) sepia(16%) saturate(640%) hue-rotate(133deg) brightness(94%) contrast(91%);
+}

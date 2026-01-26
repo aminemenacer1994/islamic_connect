@@ -1,7 +1,7 @@
 import axios from "axios";
 import { JUZ_START_MAPPING, PAGE_START_MAPPING, getJuzStart, getPageStart } from "../utils/quran-mappings";
 import { Modal } from "bootstrap";
-import BookmarkModal from "./bookmarks/BookmarkModal.vue";
+import BookmarkModal from "../vue/bookmarks/BookmarkModal.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 export default {
     name: "SuratComponent",
