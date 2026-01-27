@@ -107,6 +107,10 @@ export default {
             // perf throttles
             lastProgressAt: 0,
             lastVizAt: 0,
+            // track last programmatic scroll to avoid jitter
+            lastAutoScrollIndex: null,
+            lastProgrammaticScrollAt: 0,
+            preferredPlaybackScrollFactor: 0.38,
             // request control
             _surahAborter: null,
             // delayed spinner timers per index
@@ -2217,14 +2221,58 @@ export default {
                 this.calibrateItemHeight();
 
                 const offset = this.currentHeaderOffset;
-                const targetTop = this.listTop + index * this.itemHeight - offset;
-                
+                const viewportHeight = window.innerHeight;
+                const audioHeight = this.getAudioPlayerHeight();
+                const availableHeight = Math.max(
+                    viewportHeight - offset - audioHeight,
+                    0
+                );
+                if (
+                    this.lastAutoScrollIndex === index &&
+                    Date.now() - this.lastProgrammaticScrollAt < 650
+                ) {
+                    this.lastProgrammaticScrollAt = Date.now();
+                    this.lastAutoScrollIndex = index;
+                    this.selectCard(index);
+                    this.isNavigating = false;
+                    return;
+                }
+                const cardEl = document.getElementById(
+                    `ayah-card-${index}`
+                );
+                let targetTop;
+
+                if (cardEl && cardEl.getBoundingClientRect) {
+                    const rect = cardEl.getBoundingClientRect();
+                    const cardCenter =
+                        window.scrollY + rect.top + rect.height / 2;
+                    const centerFactor =
+                        typeof this.preferredPlaybackScrollFactor === "number"
+                            ? this.preferredPlaybackScrollFactor
+                            : 0.5;
+                    const centerOffset = offset + availableHeight * centerFactor;
+                    targetTop = cardCenter - centerOffset;
+                } else {
+                    targetTop =
+                        this.listTop + index * this.itemHeight - offset;
+                }
+
+                const maxScroll = Math.max(
+                    document.documentElement.scrollHeight -
+                        window.innerHeight,
+                    0
+                );
+                const safeTarget = Math.min(
+                    Math.max(0, targetTop),
+                    maxScroll
+                );
+
+                this.lastProgrammaticScrollAt = Date.now();
+                this.lastAutoScrollIndex = index;
                 window.scrollTo({
-                    top: Math.max(0, targetTop),
+                    top: safeTarget,
                     behavior: "smooth",
                 });
-                setTimeout(() => this.ensureHighlightedCardVisible(index), 200);
-
                 this.selectCard(index);
 
                 // Delay resetting the navigation flag to let scrolls settle fully.
@@ -2236,27 +2284,17 @@ export default {
         },
         getAudioPlayerHeight() {
             if (!this.showAudioPlayer) return 0;
+            if (typeof document !== "undefined") {
+                const container = document.querySelector(".audio-player-container");
+                if (container) {
+                    const rect = container.getBoundingClientRect();
+                    if (rect && rect.height) {
+                        return rect.height;
+                    }
+                }
+            }
             // Match the fixed audio player height plus safe area allowance.
             return 220;
-        },
-        ensureHighlightedCardVisible(index) {
-            if (typeof window === "undefined") return;
-            const el = document.getElementById(`ayah-card-${index}`);
-            if (!el) return;
-            const rect = el.getBoundingClientRect();
-            const headerOffset = this.currentHeaderOffset + 12;
-            const bottomLimit = window.innerHeight - this.getAudioPlayerHeight();
-            if (rect.top < headerOffset) {
-                window.scrollBy({
-                    top: rect.top - headerOffset - 12,
-                    behavior: "smooth",
-                });
-            } else if (rect.bottom > bottomLimit) {
-                window.scrollBy({
-                    top: rect.bottom - bottomLimit + 12,
-                    behavior: "smooth",
-                });
-            }
         },
         // simple localStorage cache with TTL and SWR
         async cachedFetchJSON(url, cacheKey, ttlMs = 24 * 60 * 60 * 1000) {

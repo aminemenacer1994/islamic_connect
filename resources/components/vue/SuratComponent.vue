@@ -473,12 +473,17 @@
                     <div class="ayah-surface h-100 rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
                         <div class="d-flex justify-content-between text-muted ltr-text ayah-card-header">
-                            <h4>
-                                <img src="/images/art.png" width="35px" alt="Art Icon" />
-                                {{ surahDetails?.surahNumber }} :
-                                {{ item.index + 1 }}
-                                <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
-                            </h4>
+                            <div class="d-flex align-items-center gap-2">
+                                <h4>
+                                    <img src="/images/art.png" width="35px" alt="Art Icon" />
+                                    {{ surahDetails?.surahNumber }} :
+                                    {{ item.index + 1 }}
+                                    <span v-if="isAyahSaved(item.ayah)" class="saved-pill">Saved</span>
+                                </h4>
+                                <span v-if="isAudioPlaying[item.index]" class="now-playing-tag">
+                                    Now playing
+                                </span>
+                            </div>
                             <div class="d-flex align-items-center ayah-card-header-actions">
                                 <transition name="feedback-fade">
                                     <span v-if="
@@ -573,17 +578,35 @@
                             :aria-hidden="isMobile">
                             <div class="col-md-11">
                                 <div style="padding: 4px">
-                                    <p class="arabic-text rtl-text text-end mb-3"
-                                        v-html="highlightedText(item.ayah)"
-                                        :style="{ fontSize: arabicFontSize + 'px' }">
-                                    </p>
-                                    <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
-                                        Translation:
-                                    </h2>
-                                    <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)
-                                        " :style="{
-                                            fontSize: translationFontSize + 'px',
-                                        }"></p>
+                                <p
+                                    :class="[
+                                        'arabic-text rtl-text text-end mb-3',
+                                        {
+                                            'arabic-text--active':
+                                                currentlyPlayingIndex === item.index &&
+                                                isAudioPlaying[item.index],
+                                        },
+                                    ]"
+                                    v-html="highlightedText(item.ayah)"
+                                    :style="{ fontSize: arabicFontSize + 'px' }"
+                                ></p>
+                                <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                    Translation:
+                                </h2>
+                                <p
+                                    :class="[
+                                        'fw-regular ltr-text flex-grow-1 translation-text',
+                                        {
+                                            'translation-text--active':
+                                                currentlyPlayingIndex === item.index &&
+                                                isAudioPlaying[item.index],
+                                        },
+                                    ]"
+                                    v-html="highlightText(item.ayah.translation)"
+                                    :style="{
+                                        fontSize: translationFontSize + 'px',
+                                    }"
+                                ></p>
                                     <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                         <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
                                             aria-label="Copy ayah" title="Copy ayah">
@@ -638,17 +661,35 @@
                         <div style="" class="d-block d-md-none" role="group" aria-label="Ayah controls (mobile)"
                             :aria-hidden="!isMobile">
                             <div>
-                                <p class="arabic-text rtl-text text-end mb-3"
+                                <p
+                                    :class="[
+                                        'arabic-text rtl-text text-end mb-3',
+                                        {
+                                            'arabic-text--active':
+                                                currentlyPlayingIndex === item.index &&
+                                                isAudioPlaying[item.index],
+                                        },
+                                    ]"
                                     v-html="highlightedText(item.ayah)"
-                                    :style="{ fontSize: arabicFontSize + 'px' }">
-                                </p>
+                                    :style="{ fontSize: arabicFontSize + 'px' }"
+                                ></p>
                                 <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
                                 </h4>
-                                <p class="fw-regular ltr-text flex-grow-1" v-html="highlightText(item.ayah.translation)"
+                                <p
+                                    :class="[
+                                        'fw-regular ltr-text flex-grow-1 translation-text',
+                                        {
+                                            'translation-text--active':
+                                                currentlyPlayingIndex === item.index &&
+                                                isAudioPlaying[item.index],
+                                        },
+                                    ]"
+                                    v-html="highlightText(item.ayah.translation)"
                                     :style="{
                                         fontSize: translationFontSize + 'px',
-                                    }"></p>
+                                    }"
+                                ></p>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                     <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
                                         aria-label="Copy ayah" title="Copy ayah">
