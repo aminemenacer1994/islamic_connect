@@ -4324,7 +4324,12 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     onScrollVirtual() {
       const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0) || 1;
-      const show = window.scrollY > maxScroll * 0.3;
+      let show = window.scrollY > maxScroll * 0.3;
+      const firstCard = document.getElementById("ayah-card-0");
+      if (firstCard) {
+        const rect = firstCard.getBoundingClientRect();
+        if (rect.bottom < window.innerHeight - 24) show = true;
+      }
       if (this.showScrollTop !== show) this.showScrollTop = show;
       this.isManualScrolling = true;
       clearTimeout(this.manualScrollTimer);
@@ -4455,10 +4460,24 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         }
         const maxScroll = Math.max(document.documentElement.scrollHeight - window.innerHeight, 0);
         const safeTarget = Math.min(Math.max(0, targetTop), maxScroll);
+        const scrollableHeight = maxScroll;
+        const minimalScrollableHeight = Math.max(32, availableHeight * 0.35);
+        if (scrollableHeight <= minimalScrollableHeight) {
+          this.lastProgrammaticScrollAt = Date.now();
+          this.lastAutoScrollIndex = index;
+          this.selectCard(index);
+          this.isNavigating = false;
+          return;
+        }
+        let finalTarget = safeTarget;
+        if (targetTop > maxScroll && index < total - 1) {
+          const topAligned = this.listTop + index * this.itemHeight - offset;
+          finalTarget = Math.min(Math.max(0, topAligned), maxScroll);
+        }
         this.lastProgrammaticScrollAt = Date.now();
         this.lastAutoScrollIndex = index;
         window.scrollTo({
-          top: safeTarget,
+          top: finalTarget,
           behavior: "smooth"
         });
         this.selectCard(index);

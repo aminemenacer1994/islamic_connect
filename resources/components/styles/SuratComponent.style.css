@@ -1169,9 +1169,9 @@
             rgba(15, 110, 99, 0.25),
             rgba(255, 255, 255, 0.9));
     border-color: rgba(0, 157, 125, 0.8);
-    box-shadow: 0 26px 60px rgba(5, 36, 35, 0.45);
-    transform: translateY(-2px);
-    animation: highlightPulse 1.3s ease-in-out infinite alternate;
+    box-shadow: 0 12px 32px rgba(5, 36, 35, 0.28);
+    transform: translateY(-1px);
+    animation: highlightPulse 1.8s ease-in-out alternate;
 }
 
 @keyframes pulse {
@@ -1186,10 +1186,10 @@
 
 @keyframes highlightPulse {
     0% {
-        box-shadow: 0 22px 50px rgba(5, 69, 53, 0.45);
+        box-shadow: 0 14px 30px rgba(5, 69, 53, 0.35);
     }
     100% {
-        box-shadow: 0 18px 32px rgba(15, 110, 99, 0.35);
+        box-shadow: 0 10px 24px rgba(15, 110, 99, 0.3);
     }
 }
 
