@@ -188,14 +188,14 @@
                     <i class="fas fa-info-circle" aria-hidden="true"></i>
                     <span class="visually-hidden">Info</span>
                   </button>
-                  <button
+                  <!-- <button
                     type="button"
                     class="section-toggle-btn card-toggle-btn"
                     @click="toggleCardVisibility('globalSearch')"
                     :aria-expanded="isCardVisible('globalSearch')"
                     :aria-label="isCardVisible('globalSearch') ? 'Collapse global search' : 'Expand global search'">
                     <i class="bi" :class="isCardVisible('globalSearch') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                  </button>
+                  </button> -->
                 </div>
               </div>
               <div v-show="isCardVisible('globalSearch')">
@@ -341,34 +341,37 @@
                   <h3 class="fw-bold mb-0">Focus of This Lesson</h3>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Focus of this lesson font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('lessonFocus')"
-                  @click="decreaseSectionFont('lessonFocus')"
-                  aria-label="Decrease focus section font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('lessonFocus')"
-                  @click="increaseSectionFont('lessonFocus')"
-                  aria-label="Increase focus section font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Focus of this lesson font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('lessonFocus')"
+                    @click="decreaseSectionFont('lessonFocus')"
+                    aria-label="Decrease focus section font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('lessonFocus')"
+                    @click="increaseSectionFont('lessonFocus')"
+                    aria-label="Increase focus section font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('lessonFocus')"
+                    :aria-expanded="isCardVisible('lessonFocus')"
+                    :aria-label="isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'">
+                    <i class="bi" :class="isCardVisible('lessonFocus') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('lessonFocus')"
-                :aria-expanded="isCardVisible('lessonFocus')"
-                :aria-label="isCardVisible('lessonFocus') ? 'Collapse focus summary' : 'Expand focus summary'">
-                <i class="bi" :class="isCardVisible('lessonFocus') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('lessonFocus')" class="card-body px-4 py-3">
               <p class="text-muted medium mb-3">
@@ -424,34 +427,37 @@
                   <small v-if="lessonShareStatus" class="text-success small mb-0 ms-2">{{ lessonShareStatus }}</small>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Learning paths font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('learningPaths')"
-                  @click="decreaseSectionFont('learningPaths')"
-                  aria-label="Decrease learning paths font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('learningPaths')"
-                  @click="increaseSectionFont('learningPaths')"
-                  aria-label="Increase learning paths font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Learning paths font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('learningPaths')"
+                    @click="decreaseSectionFont('learningPaths')"
+                    aria-label="Decrease learning paths font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('learningPaths')"
+                    @click="increaseSectionFont('learningPaths')"
+                    aria-label="Increase learning paths font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('learningOverview')"
+                    :aria-expanded="isCardVisible('learningOverview')"
+                    :aria-label="isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'">
+                    <i class="bi" :class="isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('learningOverview')"
-                :aria-expanded="isCardVisible('learningOverview')"
-                :aria-label="isCardVisible('learningOverview') ? 'Collapse learning overview' : 'Expand learning overview'">
-                <i class="bi" :class="isCardVisible('learningOverview') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
               <!-- lesson overview -->
             <div
@@ -626,6 +632,14 @@
                 >
                   A+
                 </button>
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn ms-auto"
+                  @click="toggleCardVisibility('pathwayClips')"
+                  :aria-expanded="isCardVisible('pathwayClips')"
+                  :aria-label="isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'">
+                  <i class="bi" :class="isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
               </div>
             </div>
 
@@ -638,14 +652,6 @@
                   <h2 class="fw-bold mb-0 fs-5">Pathway Clips</h2>
                   <p class="text-muted small mb-0">Short visual cues to keep each insight gripping.</p>
                 </div>
-                <button
-                  type="button"
-                  class="section-toggle-btn card-toggle-btn ms-auto"
-                  @click="toggleCardVisibility('pathwayClips')"
-                  :aria-expanded="isCardVisible('pathwayClips')"
-                  :aria-label="isCardVisible('pathwayClips') ? 'Collapse pathway clips' : 'Expand pathway clips'">
-                  <i class="bi" :class="isCardVisible('pathwayClips') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                </button>
               </div>
               <div v-show="isCardVisible('pathwayClips')" class="card-body px-3">
                 <div class="row g-3">
@@ -702,34 +708,37 @@
                   </p>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Share with a friend font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('shareFriend')"
-                  @click="decreaseSectionFont('shareFriend')"
-                  aria-label="Decrease share with a friend font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('shareFriend')"
-                  @click="increaseSectionFont('shareFriend')"
-                  aria-label="Increase share with a friend font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Share with a friend font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('shareFriend')"
+                    @click="decreaseSectionFont('shareFriend')"
+                    aria-label="Decrease share with a friend font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('shareFriend')"
+                    @click="increaseSectionFont('shareFriend')"
+                    aria-label="Increase share with a friend font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('shareFriend')"
+                    :aria-expanded="isCardVisible('shareFriend')"
+                    :aria-label="isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'">
+                    <i class="bi" :class="isCardVisible('shareFriend') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('shareFriend')"
-                :aria-expanded="isCardVisible('shareFriend')"
-                :aria-label="isCardVisible('shareFriend') ? 'Collapse sharing' : 'Expand sharing'">
-                <i class="bi" :class="isCardVisible('shareFriend') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('shareFriend')" class="card-body px-3 px-md-3 py-3">
               <div class="d-flex flex-column flex-lg-row align-items-start align-items-lg-center gap-3">
@@ -774,34 +783,37 @@
                   </div> -->
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Dos and donts font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('dosDonts')"
-                  @click="decreaseSectionFont('dosDonts')"
-                  aria-label="Decrease dos and donts font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('dosDonts')"
-                  @click="increaseSectionFont('dosDonts')"
-                  aria-label="Increase dos and donts font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Dos and donts font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('dosDonts')"
+                    @click="decreaseSectionFont('dosDonts')"
+                    aria-label="Decrease dos and donts font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('dosDonts')"
+                    @click="increaseSectionFont('dosDonts')"
+                    aria-label="Increase dos and donts font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('dosDonts')"
+                    :aria-expanded="isCardVisible('dosDonts')"
+                    :aria-label="isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'">
+                    <i class="bi" :class="isCardVisible('dosDonts') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('dosDonts')"
-                :aria-expanded="isCardVisible('dosDonts')"
-                :aria-label="isCardVisible('dosDonts') ? 'Collapse Doʼs and Donʼts' : 'Expand Doʼs and Donʼts'">
-                <i class="bi" :class="isCardVisible('dosDonts') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('dosDonts')" class="card-body px-3 px-md-3 py-3">
               <div class="mb-3">
@@ -871,34 +883,37 @@
                 </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Duas font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('duas')"
-                  @click="decreaseSectionFont('duas')"
-                  aria-label="Decrease duas font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('duas')"
-                  @click="increaseSectionFont('duas')"
-                  aria-label="Increase duas font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Duas font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('duas')"
+                    @click="decreaseSectionFont('duas')"
+                    aria-label="Decrease duas font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('duas')"
+                    @click="increaseSectionFont('duas')"
+                    aria-label="Increase duas font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('duas')"
+                    :aria-expanded="isCardVisible('duas')"
+                    :aria-label="isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'">
+                    <i class="bi" :class="isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('duas')"
-                :aria-expanded="isCardVisible('duas')"
-                :aria-label="isCardVisible('duas') ? 'Collapse duas' : 'Expand duas'">
-                <i class="bi" :class="isCardVisible('duas') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div
               v-show="isCardVisible('duas')"
@@ -945,34 +960,37 @@
                   <p class="text-muted small mb-0">Short journeys from our community, handpicked for this chapter.</p>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Revert stories font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('revertStories')"
-                  @click="decreaseSectionFont('revertStories')"
-                  aria-label="Decrease revert stories font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('revertStories')"
-                  @click="increaseSectionFont('revertStories')"
-                  aria-label="Increase revert stories font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Revert stories font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('revertStories')"
+                    @click="decreaseSectionFont('revertStories')"
+                    aria-label="Decrease revert stories font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('revertStories')"
+                    @click="increaseSectionFont('revertStories')"
+                    aria-label="Increase revert stories font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('revertStories')"
+                    :aria-expanded="isCardVisible('revertStories')"
+                    :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
+                    <i class="bi" :class="isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('revertStories')"
-                :aria-expanded="isCardVisible('revertStories')"
-                :aria-label="isCardVisible('revertStories') ? 'Collapse revert stories' : 'Expand revert stories'">
-                <i class="bi" :class="isCardVisible('revertStories') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('revertStories')" class="card-body px-4 py-3">
               <div class="row g-3 video-grid-row">
@@ -1055,34 +1073,37 @@
                 </div> -->
               </div>
             </div>
-            <div class="section-font-controls ms-auto" role="group" aria-label="Key insights font size">
-              <button
-                type="button"
-                class="section-font-btn"
-                :disabled="isSectionFontMin('keyInsights')"
-                @click="decreaseSectionFont('keyInsights')"
-                aria-label="Decrease key insights font size"
-              >
-                A-
-              </button>
-              <button
-                type="button"
-                class="section-font-btn"
-                :disabled="isSectionFontMax('keyInsights')"
-                @click="increaseSectionFont('keyInsights')"
-                aria-label="Increase key insights font size"
-              >
-                A+
-              </button>
+            <div class="section-control-stack ms-auto">
+              <div class="section-font-controls" role="group" aria-label="Key insights font size">
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMin('keyInsights')"
+                  @click="decreaseSectionFont('keyInsights')"
+                  aria-label="Decrease key insights font size"
+                >
+                  A-
+                </button>
+                <button
+                  type="button"
+                  class="section-font-btn"
+                  :disabled="isSectionFontMax('keyInsights')"
+                  @click="increaseSectionFont('keyInsights')"
+                  aria-label="Increase key insights font size"
+                >
+                  A+
+                </button>
+                <button
+                  type="button"
+                  class="section-toggle-btn card-toggle-btn"
+                  @click="toggleCardVisibility('keyInsights')"
+                  :aria-expanded="isCardVisible('keyInsights')"
+                  :aria-label="isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'">
+                  <i class="bi" :class="isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                </button>
+              </div>
+              
             </div>
-            <button
-              type="button"
-              class="section-toggle-btn card-toggle-btn"
-              @click="toggleCardVisibility('keyInsights')"
-              :aria-expanded="isCardVisible('keyInsights')"
-              :aria-label="isCardVisible('keyInsights') ? 'Collapse key insights' : 'Expand key insights'">
-              <i class="bi" :class="isCardVisible('keyInsights') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-            </button>
           </div>
             <div v-show="isCardVisible('keyInsights')" class="card-body px-3 px-md-4 py-4">
               <div class="insight-hero mb-3">
@@ -1135,33 +1156,36 @@
                 </span>
                 <small v-if="duaShareStatus" class="text-success small mb-0 ms-2">{{ duaShareStatus }}</small>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Share and uplift font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('shareUplift')"
-                  @click="decreaseSectionFont('shareUplift')"
-                  aria-label="Decrease share and uplift font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('shareUplift')"
-                  @click="increaseSectionFont('shareUplift')"
-                  aria-label="Increase share and uplift font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Share and uplift font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('shareUplift')"
+                    @click="decreaseSectionFont('shareUplift')"
+                    aria-label="Decrease share and uplift font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('shareUplift')"
+                    @click="increaseSectionFont('shareUplift')"
+                    aria-label="Increase share and uplift font size"
+                  >
+                    A+
+                  </button>
+                  <button type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('shareUplift')"
+                    :aria-expanded="isCardVisible('shareUplift')"
+                    :aria-label="isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'">
+                    <i class="bi" :class="isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('shareUplift')"
-                :aria-expanded="isCardVisible('shareUplift')"
-                :aria-label="isCardVisible('shareUplift') ? 'Collapse share uplifit' : 'Expand share uplift'">
-                <i class="bi" :class="isCardVisible('shareUplift') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div
               v-show="isCardVisible('shareUplift')"
@@ -1227,8 +1251,6 @@
                 >
                   A+
                 </button>
-              </div>
-              <div class="chapter-tool-header-actions">
                 <button
                   type="button"
                   class="chapter-tool-open"
@@ -1283,34 +1305,37 @@
                     </div> -->
                   </div>
                 </div>
-                <div class="section-font-controls ms-auto" role="group" aria-label="Common questions font size">
-                  <button
-                    type="button"
-                    class="section-font-btn"
-                    :disabled="isSectionFontMin('commonQuestions')"
-                    @click="decreaseSectionFont('commonQuestions')"
-                    aria-label="Decrease common questions font size"
-                  >
-                    A-
-                  </button>
-                  <button
-                    type="button"
-                    class="section-font-btn"
-                    :disabled="isSectionFontMax('commonQuestions')"
-                    @click="increaseSectionFont('commonQuestions')"
-                    aria-label="Increase common questions font size"
-                  >
-                    A+
-                  </button>
+                <div class="section-control-stack ms-auto">
+                  <div class="section-font-controls" role="group" aria-label="Common questions font size">
+                    <button
+                      type="button"
+                      class="section-font-btn"
+                      :disabled="isSectionFontMin('commonQuestions')"
+                      @click="decreaseSectionFont('commonQuestions')"
+                      aria-label="Decrease common questions font size"
+                    >
+                      A-
+                    </button>
+                    <button
+                      type="button"
+                      class="section-font-btn"
+                      :disabled="isSectionFontMax('commonQuestions')"
+                      @click="increaseSectionFont('commonQuestions')"
+                      aria-label="Increase common questions font size"
+                    >
+                      A+
+                    </button>
+                    <button
+                      type="button"
+                      class="section-toggle-btn card-toggle-btn"
+                      @click="toggleCardVisibility('commonQuestions')"
+                      :aria-expanded="isCardVisible('commonQuestions')"
+                      :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
+                      <i class="bi" :class="isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                    </button>
+                  </div>
+                  
                 </div>
-                <button
-                  type="button"
-                  class="section-toggle-btn card-toggle-btn"
-                  @click="toggleCardVisibility('commonQuestions')"
-                  :aria-expanded="isCardVisible('commonQuestions')"
-                  :aria-label="isCardVisible('commonQuestions') ? 'Collapse FAQs' : 'Expand FAQs'">
-                  <i class="bi" :class="isCardVisible('commonQuestions') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-                </button>
               </div>
             <div v-show="isCardVisible('commonQuestions')">
               <div class="accordion-stack">
@@ -1382,34 +1407,37 @@
                   <h3 class="fw-bold mb-0">Motivation</h3>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Motivation font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('motivation')"
-                  @click="decreaseSectionFont('motivation')"
-                  aria-label="Decrease motivation font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('motivation')"
-                  @click="increaseSectionFont('motivation')"
-                  aria-label="Increase motivation font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Motivation font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('motivation')"
+                    @click="decreaseSectionFont('motivation')"
+                    aria-label="Decrease motivation font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('motivation')"
+                    @click="increaseSectionFont('motivation')"
+                    aria-label="Increase motivation font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('motivation')"
+                    :aria-expanded="isCardVisible('motivation')"
+                    :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
+                    <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('motivation')"
-                :aria-expanded="isCardVisible('motivation')"
-                :aria-label="isCardVisible('motivation') ? 'Collapse motivation' : 'Expand motivation'">
-                <i class="bi" :class="isCardVisible('motivation') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('motivation')" class="px-3 px-md-4 py-4">
               <div class="d-flex flex-column gap-2">
@@ -1655,7 +1683,6 @@
             </div>
           </div> -->
 
-          
           <!-- resources -->
           <div
             id="resources-section"
@@ -1671,34 +1698,37 @@
                   <h3 class="fw-bold mb-0">References & Resources</h3>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Resources font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('resources')"
-                  @click="decreaseSectionFont('resources')"
-                  aria-label="Decrease resources font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('resources')"
-                  @click="increaseSectionFont('resources')"
-                  aria-label="Increase resources font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Resources font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('resources')"
+                    @click="decreaseSectionFont('resources')"
+                    aria-label="Decrease resources font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('resources')"
+                    @click="increaseSectionFont('resources')"
+                    aria-label="Increase resources font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('resources')"
+                    :aria-expanded="isCardVisible('resources')"
+                    :aria-label="isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'">
+                    <i class="bi" :class="isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('resources')"
-                :aria-expanded="isCardVisible('resources')"
-                :aria-label="isCardVisible('resources') ? 'Collapse resources' : 'Expand resources'">
-                <i class="bi" :class="isCardVisible('resources') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('resources')" class="resources-body">
               <div class="resources-intro">
@@ -1805,34 +1835,37 @@
                   <p class="text-muted small mb-0">Attempt the curated quiz to move to the next chapter.</p>
                 </div>
               </div>
-              <div class="section-font-controls ms-auto" role="group" aria-label="Chapter quiz font size">
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMin('chapterQuiz')"
-                  @click="decreaseSectionFont('chapterQuiz')"
-                  aria-label="Decrease chapter quiz font size"
-                >
-                  A-
-                </button>
-                <button
-                  type="button"
-                  class="section-font-btn"
-                  :disabled="isSectionFontMax('chapterQuiz')"
-                  @click="increaseSectionFont('chapterQuiz')"
-                  aria-label="Increase chapter quiz font size"
-                >
-                  A+
-                </button>
+              <div class="section-control-stack ms-auto">
+                <div class="section-font-controls" role="group" aria-label="Chapter quiz font size">
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMin('chapterQuiz')"
+                    @click="decreaseSectionFont('chapterQuiz')"
+                    aria-label="Decrease chapter quiz font size"
+                  >
+                    A-
+                  </button>
+                  <button
+                    type="button"
+                    class="section-font-btn"
+                    :disabled="isSectionFontMax('chapterQuiz')"
+                    @click="increaseSectionFont('chapterQuiz')"
+                    aria-label="Increase chapter quiz font size"
+                  >
+                    A+
+                  </button>
+                  <button
+                    type="button"
+                    class="section-toggle-btn card-toggle-btn"
+                    @click="toggleCardVisibility('chapterQuiz')"
+                    :aria-expanded="isCardVisible('chapterQuiz')"
+                    :aria-label="isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'">
+                    <i class="bi" :class="isCardVisible('chapterQuiz') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
+                  </button>
+                </div>
+                
               </div>
-              <button
-                type="button"
-                class="section-toggle-btn card-toggle-btn"
-                @click="toggleCardVisibility('chapterQuiz')"
-                :aria-expanded="isCardVisible('chapterQuiz')"
-                :aria-label="isCardVisible('chapterQuiz') ? 'Collapse chapter quiz' : 'Expand chapter quiz'">
-                <i class="bi" :class="isCardVisible('chapterQuiz') ? 'bi-dash-lg' : 'bi-plus-lg'"></i>
-              </button>
             </div>
             <div v-show="isCardVisible('chapterQuiz')">
               <div v-if="currentQuestion">
