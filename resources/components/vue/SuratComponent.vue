@@ -972,9 +972,9 @@
                 <div class="modal-dialog modal-dialog-centered modal-md modal-modern">
                     <div class="modal-content surah-settings-modal">
                         <div class="modal-header">
-                            <h6 class="modal-title" id="surahSettingsLabel">
+                            <h4 class="modal-title" id="surahSettingsLabel">
                                 <b>Display settings</b>
-                            </h6>
+                            </h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
@@ -1027,7 +1027,7 @@
                             <button type="button" class="btn surah-settings-submit"
                                 @click="applySettingsModal"
                                 aria-label="Apply settings">
-                                Search
+                                Submit
                             </button>
                         </div>
                     </div>
@@ -1197,36 +1197,34 @@
             <div v-if="showAudioPlayer" class="audio-player-container">
                 <div class="custom-audio-player">
                     <div class="controls">
-                        <div class="audio-primary-controls">
-                            <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
-                                aria-label="Rewind 15 seconds" data-label="Rewind">
-                                <i class="bi bi-skip-backward-fill"></i>
-                            </button>
-                            <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
-                                title="Play/Pause" aria-label="Play or Pause" data-label="Play / Pause">
-                                <i :class="isAudioPlaying[currentlyPlayingIndex]
-                                    ? 'bi bi-pause-fill'
-                                    : 'bi bi-play-fill'
-                                    "></i>
-                            </button>
-                            <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
-                                title="Fast Forward" aria-label="Fast forward 20 seconds" data-label="Forward">
-                                <i class="bi bi-skip-forward-fill"></i>
-                            </button>
-                            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop"
-                                aria-label="Stop" data-label="Stop">
-                                <i class="bi bi-stop-fill"></i>
-                            </button>
-                            <button @click="toggleVolume" class="control-btn" title="Volume"
-                                aria-label="Toggle volume slider" data-label="Volume">
-                                <i class="bi" :class="`bi-volume-${volume > 0.5
-                                    ? 'up'
-                                    : volume > 0
-                                        ? 'down'
-                                        : 'mute'
-                                    }-fill`"></i>
-                            </button>
-                        </div>
+                        <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
+                            aria-label="Rewind 15 seconds">
+                            <i class="bi bi-skip-backward-fill"></i>
+                        </button>
+                        <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
+                            title="Play/Pause" aria-label="Play or Pause">
+                            <i :class="isAudioPlaying[currentlyPlayingIndex]
+                                ? 'bi bi-pause-fill'
+                                : 'bi bi-play-fill'
+                                "></i>
+                        </button>
+                        <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
+                            title="Fast Forward" aria-label="Fast forward 20 seconds">
+                            <i class="bi bi-skip-forward-fill"></i>
+                        </button>
+                        <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop"
+                            aria-label="Stop">
+                            <i class="bi bi-stop-fill"></i>
+                        </button>
+                        <button @click="toggleVolume" class="control-btn" title="Volume"
+                            aria-label="Toggle volume slider">
+                            <i class="bi" :class="`bi-volume-${volume > 0.5
+                                ? 'up'
+                                : volume > 0
+                                    ? 'down'
+                                    : 'mute'
+                                }-fill`"></i>
+                        </button>
                         <button @click="cyclePlaybackSpeed" class="control-btn speed-control"
                             :title="'Speed: ' + playbackSpeed + 'x'">
                             <i class="bi bi-speedometer2" :style="{
@@ -1237,12 +1235,12 @@
                             }"></i>
                             <span class="speed-indicator">{{ playbackSpeed }}x</span>
                         </button>
-                        <button @click="toggleRepeat" class="control-btn repeat-control" :title="isRepeatMode
+                        <button @click="toggleRepeat" class="control-btn repeat-control" :title="repeatCurrent
                             ? 'Repeat current ayah: on'
                             : 'Repeat current ayah: off'
-                            " :aria-pressed="isRepeatMode" aria-label="Toggle repeat current ayah">
+                            " :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
                             <i class="bi bi-arrow-repeat" :style="{
-                                color: isRepeatMode ? '#00bfa6' : '#ccc',
+                                color: repeatCurrent ? '#00bfa6' : '#ccc',
                             }"></i>
                         </button>
                         <div v-if="showVolumeBar" class="volume-bar-container">
