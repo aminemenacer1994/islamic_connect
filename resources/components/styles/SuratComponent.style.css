@@ -2540,7 +2540,10 @@
     margin-left: auto;
 }
 
-.controls .speed-control,
+.controls .speed-control {
+    display: inline-flex;
+}
+
 .controls .repeat-control {
     display: none;
 }
@@ -3486,6 +3489,59 @@ h1.display-5 {
     outline-offset: 2px;
 }
 
+.translation-block {
+    position: relative;
+    padding-right: 4rem;
+    min-height: 120px;
+}
+
+.translation-zoom-controls {
+    position: absolute;
+    top: 0.5rem;
+    right: 0;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 0;
+}
+
+.translation-zoom-btn {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    border: 1px solid rgba(15, 110, 99, 0.3);
+    background: #ffffff;
+    color: #0b6e63;
+    box-shadow: 0 8px 18px rgba(15, 53, 48, 0.16);
+    transition: transform 0.18s ease, border-color 0.18s ease,
+        background-color 0.18s ease, box-shadow 0.18s ease;
+}
+.translation-zoom-btn i {
+    font-size: 1.3rem;
+}
+
+.translation-zoom-btn:hover {
+    background-color: rgba(15, 110, 99, 0.08);
+    border-color: rgba(15, 110, 99, 0.5);
+    transform: translateY(-1px);
+}
+
+.translation-hidden-notice {
+    margin: 0;
+    padding: 1.5rem 0;
+    font-size: 0.95rem;
+    color: var(--ic-text-muted, #7f8c8d);
+}
+
+.translation-block--collapsed {
+    min-height: 80px;
+}
+
+.translation-zoom-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
 /* Entrance motion for ayah cards */
 @keyframes fadeInUp {
     from {
@@ -3978,6 +4034,30 @@ h1.display-5 {
     font-size: 1.25rem;
     font-weight: normal;
     color: #e5e7eb;
+}
+
+.surah-info-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    flex-shrink: 0;
+    max-width: 190px;
+}
+
+.surah-info-group .item-title-ar {
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: inline-block;
+}
+
+.sidebar-info-button {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .sidebar-item-meta {

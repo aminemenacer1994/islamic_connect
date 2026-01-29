@@ -49,6 +49,7 @@ export default {
             debounceTimer: null,
             arabicFontSize: 28,
             translationFontSize: 20,
+            isTranslationVisible: true,
             showTajweed: false,
             showRealtimeHighlighting: false,
             showWordTranslation: false,
@@ -3215,6 +3216,12 @@ export default {
         decreaseFontSize: function () {
             if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
             if (this.translationFontSize > 12) this.translationFontSize -= 2;
+        },
+        showTranslation: function () {
+            this.isTranslationVisible = true;
+        },
+        hideTranslation: function () {
+            this.isTranslationVisible = false;
         },
         shareOnWhatsApp: function (ayah) {
             const message = this.buildAyahMessage(ayah, { includeAudio: true });

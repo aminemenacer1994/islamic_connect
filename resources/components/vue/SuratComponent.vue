@@ -167,13 +167,17 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <!-- Arabic Name aligned right -->
-                                            <div class="item-title-ar ms-2 me-2">{{ surah.name }}</div>
-                                            <!-- Info Button inline -->
-                                            <button type="button" class="btn btn-link text-white p-0 ms-1 opacity-50 hover-opacity-100" 
-                                                @click.stop="openSurahInfo(surah)">
-                                                <i class="bi bi-info-circle"></i>
-                                            </button>
+                                            <div class="surah-info-group ms-auto">
+                                                <div class="item-title-ar text-end">
+                                                    {{ surah.name }}
+                                                </div>
+                                                <button type="button"
+                                                    class="btn btn-link text-white p-0 opacity-50 hover-opacity-100 sidebar-info-button"
+                                                    @click.stop="openSurahInfo(surah)"
+                                                    aria-label="View surah information">
+                                                    <i class="bi bi-info-circle"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -418,7 +422,7 @@
                                     </div>
                                 </div>
                             </div>
-
+                            
                             <div class="ayah-links-bar" v-if="isMobile">
                                 <button type="button" class="btn tajweed-rules-trigger" data-bs-toggle="modal"
                                     data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
@@ -566,10 +570,10 @@
                                         </a>
                                     </span>
                                 </transition>
-                                <!-- <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
+                                <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
                                     title="Save to folder / Organize" aria-label="Save to folder or organize bookmark">
                                     <i class="bi bi-folder-plus" aria-hidden="true"></i>
-                                </button> -->
+                                </button>
                             </div>
                         </div>
 
@@ -593,34 +597,57 @@
                                 <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
                                 </h2>
-                                <p
-                                    :class="[
-                                        'fw-regular ltr-text flex-grow-1 translation-text',
-                                        {
-                                            'translation-text--active':
-                                                currentlyPlayingIndex === item.index &&
-                                                isAudioPlaying[item.index],
-                                        },
-                                    ]"
-                                    v-html="highlightText(item.ayah.translation)"
-                                    :style="{
-                                        fontSize: translationFontSize + 'px',
-                                    }"
-                                ></p>
-                                    <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
-                                        <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
-                                            aria-label="Copy ayah" title="Copy ayah">
-                                            <i class="bi bi-clipboard" aria-hidden="true"></i>
-                                            <span>Copy</span>
+                                <div class="translation-block position-relative" :class="{ 'translation-block--collapsed': !isTranslationVisible }">
+                                    <div v-if="isTranslationVisible">
+                                        <p
+                                            :class="[
+                                                'fw-regular ltr-text flex-grow-1 translation-text',
+                                                {
+                                                    'translation-text--active':
+                                                        currentlyPlayingIndex === item.index &&
+                                                        isAudioPlaying[item.index],
+                                                },
+                                            ]"
+                                            v-html="highlightText(item.ayah.translation)"
+                                            :style="{
+                                                fontSize: translationFontSize + 'px',
+                                            }"
+                                        ></p>
+                                        <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                                            <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
+                                                aria-label="Copy ayah" title="Copy ayah">
+                                                <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                                <span>Copy</span>
+                                            </button>
+                                            <button type="button" class="action-pill"
+                                                @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
+                                                title="Share ayah">
+                                                <i class="bi bi-send" aria-hidden="true"></i>
+                                                <span>Share</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <p v-else class="translation-hidden-notice text-muted">
+                                        Translation hidden. Tap <strong>+</strong> to show it again.
+                                    </p>
+                                    <div class="translation-zoom-controls d-flex gap-2" aria-label="Translation visibility controls">
+                                        <button class="icon-btn translation-zoom-btn" type="button"
+                                            @click="showTranslation"
+                                            :disabled="isTranslationVisible"
+                                            aria-label="Show translation"
+                                            title="Show translation">
+                                            <i class="bi bi-plus" aria-hidden="true"></i>
                                         </button>
-                                        <button type="button" class="action-pill"
-                                            @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
-                                            title="Share ayah">
-                                            <i class="bi bi-send" aria-hidden="true"></i>
-                                            <span>Share</span>
+                                        <button class="icon-btn translation-zoom-btn" type="button"
+                                            @click="hideTranslation"
+                                            :disabled="!isTranslationVisible"
+                                            aria-label="Hide translation"
+                                            title="Hide translation">
+                                            <i class="bi bi-dash" aria-hidden="true"></i>
                                         </button>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                             <div class="col-md-1 text-center">
                                 <div class="d-flex flex-column align-items-center">
@@ -636,17 +663,13 @@
                                             : 'bi-play-circle-fill'
                                             " aria-hidden="true"></i>
                                     </button>
-                                    <button class="icon-btn mb-3" @click="decreaseFontSize"
-                                        aria-label="Decrease font size" title="Decrease Font Size">
-                                        <i class="bi bi-dash-circle-fill" aria-hidden="true"></i>
-                                    </button>
                                     <div class="d-flex align-items-center gap-2 mb-3">
                                         <button class="icon-btn" :class="{
                                             'is-saved': isAyahSaved(item.ayah),
                                         }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                            ? 'Remove bookmark'
-                                            : 'Quick save bookmark'
-                                            ">
+                                                    ? 'Remove bookmark'
+                                                    : 'Quick save bookmark'
+                                                    ">
                                             <i class="bi" :class="isAyahSaved(item.ayah)
                                                 ? 'bi-bookmark-check-fill'
                                                 : 'bi-bookmark-plus-fill'
@@ -774,7 +797,7 @@
                                     <i class="bi bi-journal-text" style="font-size: 1.6rem" aria-hidden="true"></i>
                                 </button>
                             </div> -->
-                                <!-- <div class="col text-center" style="padding: 2px">
+                                <div class="col text-center" style="padding: 2px">
                                     <button class="icon-btn" :class="{
                                         'is-saved': isAyahSaved(item.ayah),
                                     }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
@@ -786,7 +809,7 @@
                                             : 'bi-bookmark-plus-fill'
                                             " style="font-size: 1.6rem" aria-hidden="true"></i>
                                     </button>
-                                </div> -->
+                                </div>
                             </div>
                         </div>
                     </div>
