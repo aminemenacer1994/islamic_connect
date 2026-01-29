@@ -36541,6 +36541,35 @@ to {
     align-items: center;
     gap: 8px;
 }
+.surah-title-row .surah-title-actions[data-v-637d02d8] {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.surah-title-actions .header-control-btn[data-v-637d02d8] {
+    width: 46px;
+    height: 46px;
+    border-radius: 18px;
+    border: 1px solid rgba(11, 92, 83, 0.25);
+    background: #ffffffdd;
+    color: #0b5c53;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border 0.2s ease;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+}
+.surah-title-actions .header-control-btn[data-v-637d02d8]:hover,
+.surah-title-actions .header-control-btn[data-v-637d02d8]:focus-visible {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.2);
+}
+.surah-title-actions .header-control-btn.is-saved[data-v-637d02d8] {
+    background: linear-gradient(135deg, #0f6e63, #0a4b45);
+    border-color: #0b5c53;
+    color: #ffffff;
+}
 .surah-title[data-v-637d02d8] {
     font-size: 1.15rem;
     font-weight: 700;
@@ -37256,6 +37285,41 @@ to {
     margin-bottom: 10px;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+}
+.audio-primary-controls[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+.audio-primary-controls .control-btn[data-v-637d02d8] {
+    flex: 1 1 0;
+    min-width: 0;
+    position: relative;
+    justify-content: center;
+}
+.audio-primary-controls .control-btn[data-v-637d02d8]::after {
+    content: "";
+    font-size: 0;
+}
+.audio-primary-controls .control-btn[data-label][data-v-637d02d8] {
+    gap: 6px;
+}
+@media (min-width: 992px) {
+.audio-primary-controls .control-btn[data-label][data-v-637d02d8] {
+        justify-content: flex-start;
+        padding-inline: 16px;
+}
+.audio-primary-controls .control-btn[data-label] i[data-v-637d02d8] {
+        margin-right: 6px;
+}
+.audio-primary-controls .control-btn[data-label][data-v-637d02d8]::after {
+        content: attr(data-label);
+        font-size: 0.78rem;
+        color: rgba(255, 255, 255, 0.85);
+        white-space: nowrap;
+        margin-left: 0;
+}
 }
 .control-btn[data-v-637d02d8] {
     padding: 12px;
@@ -38092,18 +38156,23 @@ h1.display-5[data-v-637d02d8] {
     outline: 2px solid var(--ic-accent);
     outline-offset: 2px;
 }
-.translation-block[data-v-637d02d8] {
-    position: relative;
-    padding-right: 4rem;
-    min-height: 120px;
+.translation-row[data-v-637d02d8] {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding-right: 0;
 }
-.translation-zoom-controls[data-v-637d02d8] {
-    position: absolute;
-    top: 0.5rem;
-    right: 0;
+.translation-row--collapsed[data-v-637d02d8] {
+    min-height: 80px;
+}
+.translation-copy[data-v-637d02d8] {
+    flex: 1;
+}
+.translation-controls[data-v-637d02d8] {
+    display: flex;
     flex-direction: column;
     gap: 0.4rem;
-    padding: 0;
+    min-width: 44px;
 }
 .translation-zoom-btn[data-v-637d02d8] {
     width: 42px;

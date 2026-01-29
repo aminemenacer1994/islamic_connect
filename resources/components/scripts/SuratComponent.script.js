@@ -71,13 +71,29 @@ export default {
             isLoading: false,
             isNavigating: false, // Prevents scroll conflicts during jumps
             headerCollapsed: false, // Controls whether the toolbar/links are visible
-            continuousPlayback: false, // New data property for playback mode
+            continuousPlayback: false, // Legacy flag; new playbackMode supersedes it
             visualizerBars: Array(20).fill(10),
             playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
             currentSpeedIndex: 2,
-            repeatCurrent: JSON.parse(
-                localStorage.getItem("repeatCurrent") || "false"
-            ),
+            playbackMode: "continuous",
+            preferredPlaybackMode: "continuous",
+            playbackModeOptions: [
+                {
+                    value: "continuous",
+                    label: "Play the entire surah continuously",
+                    description: "Navigate from ayah to ayah without stopping until the surah ends."
+                },
+                {
+                    value: "repeat",
+                    label: "Repeat the current ayah",
+                    description: "Loop just the ayah you are on until you pause or switch it off."
+                },
+                {
+                    value: "manual",
+                    label: "Play single ayah manually",
+                    description: "Listen to one ayah at a time and tap play again when you are ready."
+                },
+            ],
             highlightLeadSeconds: 0.05,
             _lastSegmentIndex: -1,
             reciterLeadOffsets: {},
@@ -193,8 +209,9 @@ export default {
             sidebarCollapsed: false,
             settingsDraft: {
                 showTajweed: false,
-            showRealtimeHighlighting: false,
-            showWordTranslation: false,
+                showRealtimeHighlighting: false,
+                showWordTranslation: false,
+                playbackMode: "continuous",
             },
             tajweedRuleMap: {
                 h: {
@@ -380,6 +397,24 @@ export default {
                      number.includes(raw)
                  );
              });
+         },
+        isRepeatMode() {
+            return this.playbackMode === "repeat";
+        },
+        currentPlaybackModeOption() {
+            return (
+                this.playbackModeOptions.find(
+                    (option) => option.value === this.playbackMode
+                ) || this.playbackModeOptions[0]
+            );
+        },
+        draftPlaybackModeOption() {
+            const selected = this.settingsDraft?.playbackMode;
+            return (
+                this.playbackModeOptions.find(
+                    (option) => option.value === selected
+                ) || this.currentPlaybackModeOption
+            );
         },
         tajweedLegend() {
             return Object.keys(this.tajweedRuleMap)
@@ -560,6 +595,15 @@ export default {
                 (t) => t.identifier === this.selectedTranslation
             );
             return match?.englishName || "Translation";
+        },
+        currentActionAyah() {
+            if (!Array.isArray(this.filteredAyahs) || this.filteredAyahs.length === 0)
+                return null;
+            const index = Math.min(
+                Math.max(this.selectedCardIndex, 0),
+                this.filteredAyahs.length - 1
+            );
+            return this.filteredAyahs[index] || this.filteredAyahs[0] || null;
         },
         totalItems() {
             return Array.isArray(this.filteredAyahs)
@@ -827,6 +871,21 @@ export default {
             JSON.parse(localStorage.getItem("continuousPlayback")) ?? false;
         this.playbackSpeed =
             JSON.parse(localStorage.getItem("playbackSpeed")) ?? 1;
+        let storedPreferredPlaybackMode = null;
+        let storedPlaybackMode = null;
+        try {
+            storedPreferredPlaybackMode = localStorage.getItem(
+                "lastNonRepeatPlaybackMode"
+            );
+        } catch (_) {}
+        try {
+            storedPlaybackMode = localStorage.getItem("playbackMode");
+        } catch (_) {}
+        this.preferredPlaybackMode =
+            storedPreferredPlaybackMode || this.preferredPlaybackMode;
+        this.setPlaybackMode(
+            storedPlaybackMode || this.preferredPlaybackMode
+        );
         try {
             const storedWordTranslation = localStorage.getItem(
                 "suratShowWordTranslation"
@@ -936,12 +995,16 @@ export default {
             this.settingsDraft.showTajweed = !!this.showTajweed;
             this.settingsDraft.showRealtimeHighlighting = !!this.showRealtimeHighlighting;
             this.settingsDraft.showWordTranslation = !!this.showWordTranslation;
+            this.settingsDraft.playbackMode = this.playbackMode;
         },
         applySettingsDraft() {
             if (!this.settingsDraft) return;
             this.showTajweed = !!this.settingsDraft.showTajweed;
             this.showRealtimeHighlighting = !!this.settingsDraft.showRealtimeHighlighting;
             this.showWordTranslation = !!this.settingsDraft.showWordTranslation;
+            if (this.settingsDraft.playbackMode) {
+                this.setPlaybackMode(this.settingsDraft.playbackMode);
+            }
         },
         applySettingsModal() {
             this.applySettingsDraft();
@@ -3648,14 +3711,16 @@ export default {
         },
         handleAyahEnd: function (index) {
             this.stopAudio(index);
-            if (this.repeatCurrent) {
-                this.toggleAudioPlayer(index);
+            if (this.playbackMode === "repeat") {
+                this.playAudio(index);
                 return;
             }
-            const nextIndex = index + 1;
-            if (nextIndex < this.filteredAyahs.length) {
-                setTimeout(() => this.playAudio(nextIndex), 50);
-                return;
+            if (this.playbackMode === "continuous") {
+                const nextIndex = index + 1;
+                if (nextIndex < this.filteredAyahs.length) {
+                    setTimeout(() => this.playAudio(nextIndex), 50);
+                    return;
+                }
             }
             this.showAudioPlayer = false;
             this.currentlyPlayingIndex = -1;
@@ -3699,10 +3764,9 @@ export default {
         },
         playSurahContinuously() {
             if (!this.canPlaySurah) return;
+            this.setPlaybackMode("continuous");
             this.continuousPlayback = true;
             this.savePreference("continuousPlayback", true);
-            this.repeatCurrent = false;
-            localStorage.setItem("repeatCurrent", JSON.stringify(this.repeatCurrent));
             const startIndex = 0;
             if (
                 typeof this.currentlyPlayingIndex === "number" &&
@@ -4006,12 +4070,31 @@ export default {
 
             requestAnimationFrame(() => this.animateVisualizer());
         },
+        setPlaybackMode(mode) {
+            const validModes = ["continuous", "repeat", "manual"];
+            const normalized = validModes.includes(mode) ? mode : "continuous";
+            this.playbackMode = normalized;
+            try {
+                localStorage.setItem("playbackMode", normalized);
+            } catch (_) {}
+            if (normalized !== "repeat") {
+                this.preferredPlaybackMode = normalized;
+                try {
+                    localStorage.setItem(
+                        "lastNonRepeatPlaybackMode",
+                        normalized
+                    );
+                } catch (_) {}
+            }
+        },
         toggleRepeat() {
-            this.repeatCurrent = !this.repeatCurrent;
-            localStorage.setItem(
-                "repeatCurrent",
-                JSON.stringify(this.repeatCurrent)
-            );
+            if (this.isRepeatMode) {
+                this.setPlaybackMode(
+                    this.preferredPlaybackMode || "continuous"
+                );
+            } else {
+                this.setPlaybackMode("repeat");
+            }
         },
         closeOffcanvas() {
             this.prepareSettingsDraft();

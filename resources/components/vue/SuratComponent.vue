@@ -383,6 +383,34 @@
                                             <span class="surah-badge">
                                                 {{ surahDetails.ayahs ? surahDetails.ayahs.length : filteredAyahs.length }} verses
                                             </span>
+                                            <div class="surah-title-actions d-none d-md-flex align-items-center gap-2"
+                                                v-if="currentActionAyah">
+                                                <button type="button"
+                                                    class="icon-btn header-control-btn"
+                                                    @click.stop="openBookmarkModal(currentActionAyah)"
+                                                    aria-label="Save current ayah to folder"
+                                                    title="Save to folder">
+                                                    <i class="bi bi-folder-plus" aria-hidden="true"></i>
+                                                </button>
+                                                <button type="button"
+                                                    class="icon-btn header-control-btn"
+                                                    :class="{ 'is-saved': isAyahSaved(currentActionAyah) }"
+                                                    @click.stop="toggleBookmark(currentActionAyah)"
+                                                    :aria-label="isAyahSaved(currentActionAyah)
+                                                        ? 'Remove bookmark from current ayah'
+                                                        : 'Bookmark current ayah'"
+                                                    :title="isAyahSaved(currentActionAyah)
+                                                        ? 'Remove bookmark'
+                                                        : 'Quick save bookmark'
+                                                        ">
+                                                    <i class="bi"
+                                                        :class="isAyahSaved(currentActionAyah)
+                                                            ? 'bi-bookmark-check-fill'
+                                                            : 'bi-bookmark-plus-fill'
+                                                            "
+                                                        aria-hidden="true"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="surah-playback-controls">
@@ -570,10 +598,6 @@
                                         </a>
                                     </span>
                                 </transition>
-                                <button type="button" class="icon-btn ms-2" @click.stop="openBookmarkModal(item.ayah)"
-                                    title="Save to folder / Organize" aria-label="Save to folder or organize bookmark">
-                                    <i class="bi bi-folder-plus" aria-hidden="true"></i>
-                                </button>
                             </div>
                         </div>
 
@@ -597,40 +621,42 @@
                                 <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
                                 </h2>
-                                <div class="translation-block position-relative" :class="{ 'translation-block--collapsed': !isTranslationVisible }">
-                                    <div v-if="isTranslationVisible">
-                                        <p
-                                            :class="[
-                                                'fw-regular ltr-text flex-grow-1 translation-text',
-                                                {
-                                                    'translation-text--active':
-                                                        currentlyPlayingIndex === item.index &&
-                                                        isAudioPlaying[item.index],
-                                                },
-                                            ]"
-                                            v-html="highlightText(item.ayah.translation)"
-                                            :style="{
-                                                fontSize: translationFontSize + 'px',
-                                            }"
-                                        ></p>
-                                        <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
-                                            <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
-                                                aria-label="Copy ayah" title="Copy ayah">
-                                                <i class="bi bi-clipboard" aria-hidden="true"></i>
-                                                <span>Copy</span>
-                                            </button>
-                                            <button type="button" class="action-pill"
-                                                @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
-                                                title="Share ayah">
-                                                <i class="bi bi-send" aria-hidden="true"></i>
-                                                <span>Share</span>
-                                            </button>
+                                <div class="translation-row" :class="{ 'translation-row--collapsed': !isTranslationVisible }">
+                                    <div class="translation-copy flex-grow-1">
+                                        <div v-if="isTranslationVisible">
+                                            <p
+                                                :class="[
+                                                    'fw-regular ltr-text flex-grow-1 translation-text',
+                                                    {
+                                                        'translation-text--active':
+                                                            currentlyPlayingIndex === item.index &&
+                                                            isAudioPlaying[item.index],
+                                                    },
+                                                ]"
+                                                v-html="highlightText(item.ayah.translation)"
+                                                :style="{
+                                                    fontSize: translationFontSize + 'px',
+                                                }"
+                                            ></p>
+                                            <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                                                <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
+                                                    aria-label="Copy ayah" title="Copy ayah">
+                                                    <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                                    <span>Copy</span>
+                                                </button>
+                                                <button type="button" class="action-pill"
+                                                    @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
+                                                    title="Share ayah">
+                                                    <i class="bi bi-send" aria-hidden="true"></i>
+                                                    <span>Share</span>
+                                                </button>
+                                            </div>
                                         </div>
+                                        <p v-else class="translation-hidden-notice text-muted">
+                                            Translation hidden. Tap <strong>+</strong> to show it again.
+                                        </p>
                                     </div>
-                                    <p v-else class="translation-hidden-notice text-muted">
-                                        Translation hidden. Tap <strong>+</strong> to show it again.
-                                    </p>
-                                    <div class="translation-zoom-controls d-flex gap-2" aria-label="Translation visibility controls">
+                                    <div class="translation-controls d-flex flex-column gap-2" aria-label="Translation visibility controls">
                                         <button class="icon-btn translation-zoom-btn" type="button"
                                             @click="showTranslation"
                                             :disabled="isTranslationVisible"
@@ -663,19 +689,6 @@
                                             : 'bi-play-circle-fill'
                                             " aria-hidden="true"></i>
                                     </button>
-                                    <div class="d-flex align-items-center gap-2 mb-3">
-                                        <button class="icon-btn" :class="{
-                                            'is-saved': isAyahSaved(item.ayah),
-                                        }" @click.stop="toggleBookmark(item.ayah)" :title="isAyahSaved(item.ayah)
-                                                    ? 'Remove bookmark'
-                                                    : 'Quick save bookmark'
-                                                    ">
-                                            <i class="bi" :class="isAyahSaved(item.ayah)
-                                                ? 'bi-bookmark-check-fill'
-                                                : 'bi-bookmark-plus-fill'
-                                                " aria-hidden="true"></i>
-                                        </button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -989,6 +1002,19 @@
                                 </select>
                             </div>
                             <div class="surah-settings-group">
+                                <label class="form-label">Audio playback mode</label>
+                                <select class="form-select" v-model="settingsDraft.playbackMode"
+                                    aria-label="Select audio playback mode">
+                                    <option v-for="option in playbackModeOptions" :key="option.value"
+                                        :value="option.value">
+                                        {{ option.label }}
+                                    </option>
+                                </select>
+                                <small v-if="draftPlaybackModeOption && draftPlaybackModeOption.description" class="text-muted d-block mt-1">
+                                    {{ draftPlaybackModeOption.description }}
+                                </small>
+                            </div>
+                            <div class="surah-settings-group">
                                 <label class="form-label">Word-for-word translation</label>
                                 <select class="form-select" v-model="settingsDraft.showWordTranslation"
                                     aria-label="Word-for-word translation">
@@ -1171,34 +1197,36 @@
             <div v-if="showAudioPlayer" class="audio-player-container">
                 <div class="custom-audio-player">
                     <div class="controls">
-                        <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
-                            aria-label="Rewind 15 seconds">
-                            <i class="bi bi-skip-backward-fill"></i>
-                        </button>
-                        <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
-                            title="Play/Pause" aria-label="Play or Pause">
-                            <i :class="isAudioPlaying[currentlyPlayingIndex]
-                                ? 'bi bi-pause-fill'
-                                : 'bi bi-play-fill'
-                                "></i>
-                        </button>
-                        <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
-                            title="Fast Forward" aria-label="Fast forward 20 seconds">
-                            <i class="bi bi-skip-forward-fill"></i>
-                        </button>
-                        <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop"
-                            aria-label="Stop">
-                            <i class="bi bi-stop-fill"></i>
-                        </button>
-                        <button @click="toggleVolume" class="control-btn" title="Volume"
-                            aria-label="Toggle volume slider">
-                            <i class="bi" :class="`bi-volume-${volume > 0.5
-                                ? 'up'
-                                : volume > 0
-                                    ? 'down'
-                                    : 'mute'
-                                }-fill`"></i>
-                        </button>
+                        <div class="audio-primary-controls">
+                            <button @click="rewindAudio(currentlyPlayingIndex)" class="control-btn" title="Rewind"
+                                aria-label="Rewind 15 seconds" data-label="Rewind">
+                                <i class="bi bi-skip-backward-fill"></i>
+                            </button>
+                            <button @click="toggleAudioPlayer(currentlyPlayingIndex)" class="control-btn play-pause"
+                                title="Play/Pause" aria-label="Play or Pause" data-label="Play / Pause">
+                                <i :class="isAudioPlaying[currentlyPlayingIndex]
+                                    ? 'bi bi-pause-fill'
+                                    : 'bi bi-play-fill'
+                                    "></i>
+                            </button>
+                            <button @click="fastForwardAudio(currentlyPlayingIndex)" class="control-btn"
+                                title="Fast Forward" aria-label="Fast forward 20 seconds" data-label="Forward">
+                                <i class="bi bi-skip-forward-fill"></i>
+                            </button>
+                            <button @click="stopAudio(currentlyPlayingIndex)" class="control-btn" title="Stop"
+                                aria-label="Stop" data-label="Stop">
+                                <i class="bi bi-stop-fill"></i>
+                            </button>
+                            <button @click="toggleVolume" class="control-btn" title="Volume"
+                                aria-label="Toggle volume slider" data-label="Volume">
+                                <i class="bi" :class="`bi-volume-${volume > 0.5
+                                    ? 'up'
+                                    : volume > 0
+                                        ? 'down'
+                                        : 'mute'
+                                    }-fill`"></i>
+                            </button>
+                        </div>
                         <button @click="cyclePlaybackSpeed" class="control-btn speed-control"
                             :title="'Speed: ' + playbackSpeed + 'x'">
                             <i class="bi bi-speedometer2" :style="{
@@ -1209,12 +1237,12 @@
                             }"></i>
                             <span class="speed-indicator">{{ playbackSpeed }}x</span>
                         </button>
-                        <button @click="toggleRepeat" class="control-btn repeat-control" :title="repeatCurrent
+                        <button @click="toggleRepeat" class="control-btn repeat-control" :title="isRepeatMode
                             ? 'Repeat current ayah: on'
                             : 'Repeat current ayah: off'
-                            " :aria-pressed="repeatCurrent" aria-label="Toggle repeat current ayah">
+                            " :aria-pressed="isRepeatMode" aria-label="Toggle repeat current ayah">
                             <i class="bi bi-arrow-repeat" :style="{
-                                color: repeatCurrent ? '#00bfa6' : '#ccc',
+                                color: isRepeatMode ? '#00bfa6' : '#ccc',
                             }"></i>
                         </button>
                         <div v-if="showVolumeBar" class="volume-bar-container">
