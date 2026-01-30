@@ -899,6 +899,13 @@ export default {
             if (storedWordTranslation !== null)
                 this.showWordTranslation = storedWordTranslation === "1";
         } catch (_) { }
+        try {
+            const storedRealtimeHighlighting = localStorage.getItem(
+                "suratShowRealtimeHighlighting"
+            );
+            if (storedRealtimeHighlighting !== null)
+                this.showRealtimeHighlighting = storedRealtimeHighlighting === "1";
+        } catch (_) { }
         Promise.all([
             this.fetchReciters(),
             this.fetchSurahs(),

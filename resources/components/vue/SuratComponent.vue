@@ -1034,7 +1034,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="surah-settings-group">
-                                <label class="form-label">Reciter</label>
+                                <label class="form-label">Audio reciter</label>
                                 <select class="form-select" v-model="selectedReciter"
                                     aria-label="Select reciter">
                                     <option value="" disabled>Select a reciter</option>
@@ -1043,6 +1043,9 @@
                                         {{ reciter.englishName }}
                                     </option>
                                 </select>
+                                <small class="text-muted d-block mt-1">
+                                    Pick the reciter voice for audio playback.
+                                </small>
                             </div>
                             <div class="surah-settings-group">
                                 <label class="form-label">Translation</label>
@@ -1054,6 +1057,9 @@
                                         {{ translation.flag }} {{ translation.englishName }}
                                     </option>
                                 </select>
+                                <small class="text-muted d-block mt-1">
+                                    Choose the translation shown under each ayah.
+                                </small>
                             </div>
                             <div class="surah-settings-group">
                                 <label class="form-label">Audio playback mode</label>
@@ -1067,6 +1073,20 @@
                                 <small v-if="draftPlaybackModeOption && draftPlaybackModeOption.description" class="text-muted d-block mt-1">
                                     {{ draftPlaybackModeOption.description }}
                                 </small>
+                                <small v-else class="text-muted d-block mt-1">
+                                    Decide whether audio plays continuously, repeats, or stays manual.
+                                </small>
+                            </div>
+                            <div class="surah-settings-group">
+                                <label class="form-label">Word-for-word highlighting</label>
+                                <select class="form-select" v-model="settingsDraft.showRealtimeHighlighting"
+                                    aria-label="Word-for-word highlighting">
+                                    <option :value="true">Enabled</option>
+                                    <option :value="false">Disabled</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">
+                                    Highlight each word as it is recited.
+                                </small>
                             </div>
                             <div class="surah-settings-group">
                                 <label class="form-label">Word-for-word translation</label>
@@ -1075,6 +1095,9 @@
                                     <option :value="true">Enabled</option>
                                     <option :value="false">Disabled</option>
                                 </select>
+                                <small class="text-muted d-block mt-1">
+                                    Show a brief translation beneath each Arabic word.
+                                </small>
                             </div>
                         </div>
                         <div class="modal-footer border-0">
