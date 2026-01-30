@@ -219,6 +219,133 @@
     outline: none;
 }
 
+.mobile-surah-info-wrapper {
+    max-width: 520px;
+    margin: 0 auto 1.5rem;
+}
+
+.mobile-surah-info-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 12px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(11, 61, 46, 0.16);
+    background: linear-gradient(135deg,
+            rgba(11, 128, 111, 0.12),
+            rgba(255, 255, 255, 0.96));
+    box-shadow: 0 12px 24px rgba(15, 53, 48, 0.12);
+}
+
+.mobile-surah-info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-surah-info-eyebrow {
+    margin: 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #0f6e63;
+}
+
+.mobile-surah-info-title {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    font-weight: 700;
+    color: #0b3d2e;
+}
+
+.mobile-surah-info-number {
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+.mobile-surah-info-name {
+    font-size: 1.1rem;
+}
+
+.mobile-surah-info-translation {
+    font-size: 0.85rem;
+    color: #475467;
+}
+
+.mobile-surah-info-arabic {
+    font-size: 1.4rem;
+    color: #0f2f23;
+    font-family: var(--ic-quran-arabic-font);
+    direction: rtl;
+    text-align: left;
+}
+
+.mobile-surah-info-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.mobile-surah-info-chip {
+    font-size: 0.72rem;
+    font-weight: 600;
+    border-radius: 999px;
+    padding: 0.25rem 0.65rem;
+    background: rgba(11, 92, 83, 0.12);
+    border: 1px solid rgba(11, 92, 83, 0.22);
+    color: #0b5c53;
+}
+
+.mobile-surah-info-actions {
+    display: flex;
+    align-items: center;
+}
+
+.mobile-surah-info-btn {
+    border-radius: 999px;
+    padding: 0.4rem 0.95rem;
+    font-weight: 600;
+    background: #0b5c53;
+    border: 1px solid #0b5c53;
+    color: #ffffff;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.mobile-surah-info-btn:hover,
+.mobile-surah-info-btn:focus-visible {
+    background: #08433e;
+    border-color: #08433e;
+    color: #ffffff;
+}
+
+.mobile-surah-info-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 575.98px) {
+    .mobile-surah-info-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mobile-surah-info-actions {
+        width: 100%;
+    }
+
+    .mobile-surah-info-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
 .reflection-action.edit-action {
     color: #0f766e;
 

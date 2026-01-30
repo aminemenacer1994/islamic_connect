@@ -79,6 +79,64 @@
                 </button>
             </div>
         </div>
+        <div v-if="isTabletOrMobile && (surahDetails || currentSurahInfo)" class="mobile-surah-info-wrapper px-3">
+            <div class="mobile-surah-info-card">
+                <div class="mobile-surah-info-text">
+                    <p class="mobile-surah-info-eyebrow">Current surah</p>
+                    <div class="mobile-surah-info-title">
+                        <span class="mobile-surah-info-number">
+                            {{
+                                currentSurahMeta.number ||
+                                surahDetails?.surahNumber ||
+                                currentSurahInfo?.number ||
+                                selectedSurah ||
+                                "—"
+                            }}
+                        </span>
+                        <span class="mobile-surah-info-name">
+                            {{
+                                surahDetails?.englishName ||
+                                surahDetails?.name ||
+                                currentSurahInfo?.englishName ||
+                                currentSurahInfo?.name ||
+                                "Surah"
+                            }}
+                        </span>
+                    </div>
+                    <div v-if="currentSurahInfo?.englishNameTranslation" class="mobile-surah-info-translation">
+                        {{ currentSurahInfo.englishNameTranslation }}
+                    </div>
+                    <div v-if="currentSurahInfo?.name" class="mobile-surah-info-arabic">
+                        {{ currentSurahInfo.name }}
+                    </div>
+                    <div class="mobile-surah-info-meta">
+                        <span class="mobile-surah-info-chip">
+                            {{
+                                (currentSurahMeta.ayahCount ||
+                                    currentSurahInfo?.numberOfAyahs ||
+                                    surahDetails?.ayahs?.length)
+                                    ? `${currentSurahMeta.ayahCount ||
+                                        currentSurahInfo?.numberOfAyahs ||
+                                        surahDetails?.ayahs?.length} ayahs`
+                                    : "Ayahs —"
+                            }}
+                        </span>
+                        <span v-if="currentSurahMeta.origin" class="mobile-surah-info-chip">
+                            Origin: {{ currentSurahMeta.origin }}
+                        </span>
+                    </div>
+                </div>
+                <div class="mobile-surah-info-actions">
+                    <button type="button" class="btn mobile-surah-info-btn"
+                        @click="openSurahInfo(currentSurahInfo)"
+                        :disabled="!currentSurahInfo"
+                        aria-label="Open surah information">
+                        <i class="bi bi-info-circle" aria-hidden="true"></i>
+                        <span>Info</span>
+                    </button>
+                </div>
+            </div>
+        </div>
         <div class="surah-layout">
             <div class="sticky-dropdown" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
                 <div class="filter-header">
@@ -523,7 +581,7 @@
                                         :aria-label="isTranslationVisibleFor(item) ? 'Hide translation' : 'Show translation'"
                                         @change="onTranslationToggle(item, $event)"
                                         @click.stop>
-                                    <label class="form-check-label"
+                                    <label class="form-check-label mt-1"
                                         :for="`surat-translation-toggle-${item.index}`"
                                         @click.stop>
                                         Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
