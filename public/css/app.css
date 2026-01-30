@@ -35330,6 +35330,24 @@ to {
 .mobile-surah-info-actions[data-v-637d02d8] {
     display: flex;
     align-items: center;
+    gap: 8px;
+}
+.mobile-surah-info-settings-btn[data-v-637d02d8] {
+    border-radius: 14px;
+    padding: 0.35rem 0.55rem;
+    background: #ffffff;
+    border: 1px solid rgba(11, 61, 46, 0.2);
+    color: #0b5c53;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.12);
+}
+.mobile-surah-info-settings-btn[data-v-637d02d8]:hover,
+.mobile-surah-info-settings-btn[data-v-637d02d8]:focus-visible {
+    background: #f6fffd;
+    border-color: rgba(11, 61, 46, 0.35);
+    color: #0b5c53;
 }
 .mobile-surah-info-btn[data-v-637d02d8] {
     border-radius: 999px;

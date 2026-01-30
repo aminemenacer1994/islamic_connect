@@ -13,6 +13,7 @@ export default {
             // responsive a11y
             isMobile: false,
             isTabletOrMobile: false,
+            isTablet: false,
             // a11y
             selectedCardIndex: 0,
             screenReaderMessage: "",
@@ -610,6 +611,12 @@ export default {
             return Array.isArray(this.filteredAyahs)
                 ? this.filteredAyahs.length
                 : 0;
+        },
+        canMinimizeNextStep() {
+            return this.isMobile || this.isTablet;
+        },
+        isNextStepMinimized() {
+            return this.canMinimizeNextStep && this.nextStepMinimized;
         },
         currentHeaderOffset() {
             // Precise pixel calculations for the sticky header in both states
@@ -2111,6 +2118,7 @@ export default {
             event.dataTransfer.effectAllowed = "copyMove";
         },
         toggleNextStepMinimized() {
+            if (!this.canMinimizeNextStep) return;
             this.nextStepMinimized = !this.nextStepMinimized;
             try {
                 localStorage.setItem(
@@ -2492,10 +2500,14 @@ export default {
             try {
                 this.isMobile = window.matchMedia("(max-width: 767px)").matches;
                 this.isTabletOrMobile = window.matchMedia("(max-width: 991px)").matches;
+                this.isTablet = window.matchMedia(
+                    "(min-width: 768px) and (max-width: 991px)"
+                ).matches;
             } catch (e) {
                 const width = window.innerWidth;
                 this.isMobile = width <= 767;
                 this.isTabletOrMobile = width <= 991;
+                this.isTablet = width >= 768 && width <= 991;
             }
         },
         // removed ensureCardPositionsCached and fallbackCardPositions (scrollbar-related)

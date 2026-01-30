@@ -9,11 +9,11 @@
         </div>
         <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
-                <button type="button" :title="nextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="nextStepMinimized
+                <button v-if="canMinimizeNextStep" type="button" :title="isNextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="isNextStepMinimized
                     ? 'Restore next step'
                     : 'Minimize next step'
                     " @click="toggleNextStepMinimized" class="next-step-toggle">
-                    <i class="fas" :class="nextStepMinimized
+                    <i class="fas" :class="isNextStepMinimized
                         ? 'fa-expand-alt'
                         : 'fa-compress-alt'
                         " aria-hidden="true"></i>
@@ -28,13 +28,13 @@
                         <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
                             NEXT STEP
                         </p>
-                        <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
+                        <div v-show="isNextStepMinimized" class="mb-2 next-step-teaser">
                             <a href="/history" class="fw-semibold text-decoration-none next-step-link">
                                 Explore the Seerah timeline
                             </a>
                             <i class="fas fa-arrow-up-right-from-square ms-1 next-step-link-icon"></i>
                         </div>
-                        <p v-show="!nextStepMinimized" class="mb-3 next-step-text">
+                        <p v-show="!isNextStepMinimized" class="mb-3 next-step-text">
                             Learning how the Qur’an was preserved is a beautiful beginning. When you’re ready, gently
                             continue with the life of the Messenger who lived its message. Walk through a simple,
                             welcoming
@@ -43,7 +43,7 @@
                             </a>
                             to see the journey unfold.
                         </p>
-                        <a v-show="!nextStepMinimized" href="/mission"
+                        <a v-show="!isNextStepMinimized" href="/mission"
                             class="btn btn-sm fw-semibold text-white px-3 py-2 next-step-cta">
                             Explore Seerah
                             <i class="fas fa-arrow-up-right-from-square ms-2"></i>
@@ -53,7 +53,7 @@
                 </div>
             </div>
         </div>
-        <div v-if="isTabletOrMobile" class="mobile-surah-dropdown-wrapper px-3 mt-3">
+        <div v-if="isMobile" class="mobile-surah-dropdown-wrapper px-3 mt-3">
             <label class="visually-hidden" for="mobileSurahDropdown">
                 Select surah
             </label>
@@ -127,6 +127,15 @@
                     </div>
                 </div>
                 <div class="mobile-surah-info-actions">
+                    <button v-if="isTablet" type="button"
+                        class="btn mobile-surah-info-settings-btn"
+                        data-bs-toggle="modal"
+                        data-bs-target="#surahSettingsModal"
+                        @click="prepareSettingsDraft"
+                        aria-label="Open display settings"
+                        title="Display settings">
+                        <i class="bi bi-gear-fill" aria-hidden="true"></i>
+                    </button>
                     <button type="button" class="btn mobile-surah-info-btn"
                         @click="openSurahInfo(currentSurahInfo)"
                         :disabled="!currentSurahInfo"
