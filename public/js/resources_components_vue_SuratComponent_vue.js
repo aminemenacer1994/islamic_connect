@@ -3266,6 +3266,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   async mounted() {
     var _JSON$parse, _JSON$parse2;
     if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      this.isNavigating = true;
       window.scrollTo({
         top: 0,
         behavior: "auto"
@@ -3350,6 +3354,14 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     } catch (_) {}
     Promise.all([this.fetchReciters(), this.fetchSurahs(), this.fetchTranslations(), this.fetchSurahDetails()]).then(() => {
       this.isInitialLoad = false;
+    }).finally(() => {
+      if (typeof window !== "undefined") {
+        window.scrollTo({
+          top: 0,
+          behavior: "auto"
+        });
+      }
+      this.isNavigating = false;
     });
     this.loadReciterLeadOffsets();
     this.highlightLeadSeconds = this.getReciterLeadOffset(this.selectedReciter);
