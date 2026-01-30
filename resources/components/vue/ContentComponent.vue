@@ -40,11 +40,18 @@
         <div class="selected-podcast-info">
           <h3 class="selected-podcast-title" :style="'font-size:2rem;font-weight:800;color:#0b1320;margin:0 0 .5rem'">{{ selectedPodcast.name }}</h3>
           <div class="selected-podcast-meta" :style="'display:flex;gap:.75rem;flex-wrap:wrap'">
-          <span class="episode-count">
+          <span class="episode-count meta-pill">
             <i class="bi bi-collection-play"></i>
-              {{ formatEpisodeCount(selectedPodcast.episodeCount) }} Episodes
-              Available
-            </span>
+            {{ formatEpisodeCount(selectedPodcast.episodeCount) }} Episodes Available
+          </span>
+          <span class="episode-count meta-pill">
+            <i class="bi bi-clock-history"></i>
+            {{ formatTotalDuration(totalListeningMinutes) }} total
+          </span>
+          <span class="episode-count meta-pill">
+            <i class="bi bi-eye"></i>
+            {{ formatNumber(totalViews) }} views
+          </span>
           </div>
         </div>
         <div class="selected-podcast-image-container">
@@ -296,6 +303,11 @@
                   </button>
                 <button class="control-button" :aria-pressed="isFavourite(podcast) ? 'true' : 'false'" :title="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" :aria-label="isFavourite(podcast) ? 'Unfavorite' : 'Favorite'" @click.stop="toggleFavourite(podcast)">
                   <i class="bi" :class="isFavourite(podcast) ? 'bi-heart-fill text-danger' : 'bi-heart'" style="font-size:1.3rem;"></i>
+                </button>
+                <button class="download-button" type="button" @click.stop="downloadAudio(podcast)"
+                  :aria-label="`Download ${podcast.title} to listen offline`">
+                  <i class="bi bi-download" aria-hidden="true"></i>
+                  download to listen offline
                 </button>
                 </div>
               </div>

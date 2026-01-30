@@ -210,7 +210,19 @@ export default {
     },
     sortedPodcasts() {
       return this.applySorting([...this.filteredPodcasts]);
-    }
+    },
+    totalListeningMinutes() {
+      return (this.podcasts || []).reduce((sum, podcast) => {
+        const minutes = Number(podcast?.duration);
+        return sum + (Number.isFinite(minutes) ? minutes : 0);
+      }, 0);
+    },
+    totalViews() {
+      return (this.podcasts || []).reduce((sum, podcast) => {
+        const views = Number(podcast?.views);
+        return sum + (Number.isFinite(views) ? views : 0);
+      }, 0);
+    },
   },
 
   async mounted() {
@@ -519,19 +531,44 @@ export default {
     },
 
     downloadAudio(podcast) {
+      if (!podcast || !podcast.audioUrl) return;
+      const rawTitle = podcast.title || 'podcast-episode';
+      const sanitized = rawTitle
+        .replace(/[<>:"/\\|?*\x00-\x1F]/g, '')
+        .replace(/\s+/g, '_')
+        .slice(0, 120) || 'podcast-episode';
+      const filename = `${sanitized}.mp3`;
+
+      const fallbackOpen = () => {
+        const a = document.createElement("a");
+        a.href = podcast.audioUrl;
+        a.download = filename;
+        a.target = "_blank";
+        a.rel = "noopener";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      };
+
       fetch(podcast.audioUrl)
-        .then(response => response.blob())
+        .then(response => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.blob();
+        })
         .then(blob => {
           const url = window.URL.createObjectURL(blob);
           const a = document.createElement("a");
           a.href = url;
-          a.download = podcast.title.replace(/\s+/g, "_") + ".mp3";
+          a.download = filename;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
           window.URL.revokeObjectURL(url);
         })
-        .catch(error => console.error("Download failed:", error));
+        .catch(error => {
+          console.error("Download failed, opening source instead:", error);
+          fallbackOpen();
+        });
     },
     // When a year is selected, reset other filters and update podcasts
     onYearSelect() {
@@ -807,6 +844,24 @@ export default {
 
     formatEpisodeCount(count) {
       return typeof count === 'number' ? count : 'Loading…';
+    },
+    formatNumber(value) {
+      const number = Number(value);
+      if (!Number.isFinite(number)) return '0';
+      try {
+        return new Intl.NumberFormat('en-US').format(number);
+      } catch (e) {
+        return String(Math.round(number));
+      }
+    },
+    formatTotalDuration(totalMinutes) {
+      const minutes = Number(totalMinutes);
+      if (!Number.isFinite(minutes) || minutes <= 0) return 'N/A';
+      const hrs = Math.floor(minutes / 60);
+      const mins = Math.round(minutes % 60);
+      if (hrs <= 0) return `${mins} min`;
+      if (mins === 0) return `${hrs} hr`;
+      return `${hrs} hr ${mins} min`;
     },
 
     highlightText(title) {

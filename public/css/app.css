@@ -15273,6 +15273,32 @@ to   { opacity: 1; transform: translateY(0);
 .audio-controls-inline[data-v-410c5044] {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+.download-button[data-v-410c5044] {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 10px;
+  border: 1px solid rgba(11, 179, 154, 0.28);
+  background: #ffffff;
+  color: #0b1320;
+  font-weight: 500;
+  font-size: 0.88rem;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease;
+}
+.download-button i[data-v-410c5044] {
+  font-size: 0.95rem;
+  color: #0bb39a;
+}
+.download-button[data-v-410c5044]:hover {
+  background: rgba(11, 179, 154, 0.12);
+  box-shadow: 0 6px 16px rgba(11, 179, 154, 0.2);
+  transform: translateY(-1px);
 }
 .podcast-grid[data-v-410c5044] {
   display: grid;
