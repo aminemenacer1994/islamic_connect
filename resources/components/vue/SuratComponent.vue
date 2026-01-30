@@ -489,9 +489,8 @@
 
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list">
-                <div :style="{ height: topSpacerHeight + 'px' }"></div>
-
+            <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
+                :style="{ paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
                     :key="item.ayah.number" class="col-md-12 mb-2 mt-2 ayah-card-container shadow-md" role="listitem"
                     :id="`ayah-card-${item.index}`" @click="selectCard(item.index)"
@@ -502,7 +501,7 @@
                             isHighlighted && currentlyPlayingIndex === item.index,
                         'currently-playing': isAudioPlaying[item.index],
                     }">
-                    <div class="ayah-surface h-100 rtl-text d-flex flex-column">
+                    <div class="ayah-surface rtl-text d-flex flex-column">
                         <!-- Surah and Ayah Number -->
                         <div class="d-flex justify-content-between text-muted ltr-text ayah-card-header">
                             <div class="d-flex align-items-center gap-2">
@@ -517,6 +516,19 @@
                                 </span>
                             </div>
                             <div class="d-flex align-items-center ayah-card-header-actions">
+                                <div class="form-check form-switch translation-toggle ayah-translation-toggle">
+                                    <input class="form-check-input" type="checkbox"
+                                        :checked="isTranslationVisibleFor(item)"
+                                        :id="`surat-translation-toggle-${item.index}`"
+                                        :aria-label="isTranslationVisibleFor(item) ? 'Hide translation' : 'Show translation'"
+                                        @change="onTranslationToggle(item, $event)"
+                                        @click.stop>
+                                    <label class="form-check-label"
+                                        :for="`surat-translation-toggle-${item.index}`"
+                                        @click.stop>
+                                        Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
+                                    </label>
+                                </div>
                                 <transition name="feedback-fade">
                                     <span v-if="
                                         feedbackMessages[
@@ -618,12 +630,12 @@
                                     v-html="highlightedText(item.ayah)"
                                     :style="{ fontSize: arabicFontSize + 'px' }"
                                 ></p>
-                                <h2 class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                <h2 v-if="isTranslationVisibleFor(item)" class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
                                 </h2>
-                                <div class="translation-row" :class="{ 'translation-row--collapsed': !isTranslationVisible }">
+                                <div class="translation-row" :class="{ 'translation-row--collapsed': !isTranslationVisibleFor(item) }">
                                     <div class="translation-copy flex-grow-1">
-                                        <div v-if="isTranslationVisible">
+                                        <div v-if="isTranslationVisibleFor(item)">
                                             <p
                                                 :class="[
                                                     'fw-regular ltr-text flex-grow-1 translation-text',
@@ -638,39 +650,21 @@
                                                     fontSize: translationFontSize + 'px',
                                                 }"
                                             ></p>
-                                            <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
-                                                <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
-                                                    aria-label="Copy ayah" title="Copy ayah">
-                                                    <i class="bi bi-clipboard" aria-hidden="true"></i>
-                                                    <span>Copy</span>
-                                                </button>
-                                                <button type="button" class="action-pill"
-                                                    @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
-                                                    title="Share ayah">
-                                                    <i class="bi bi-send" aria-hidden="true"></i>
-                                                    <span>Share</span>
-                                                </button>
-                                            </div>
                                         </div>
-                                        <p v-else class="translation-hidden-notice text-muted">
-                                            Translation hidden. Tap <strong>+</strong> to show it again.
-                                        </p>
-                                    </div>
-                                    <div class="translation-controls d-flex flex-column gap-2" aria-label="Translation visibility controls">
-                                        <button class="icon-btn translation-zoom-btn" type="button"
-                                            @click="showTranslation"
-                                            :disabled="isTranslationVisible"
-                                            aria-label="Show translation"
-                                            title="Show translation">
-                                            <i class="bi bi-plus" aria-hidden="true"></i>
-                                        </button>
-                                        <button class="icon-btn translation-zoom-btn" type="button"
-                                            @click="hideTranslation"
-                                            :disabled="!isTranslationVisible"
-                                            aria-label="Hide translation"
-                                            title="Hide translation">
-                                            <i class="bi bi-dash" aria-hidden="true"></i>
-                                        </button>
+                                        <template v-else></template>
+                                        <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
+                                            <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
+                                                aria-label="Copy ayah" title="Copy ayah">
+                                                <i class="bi bi-clipboard" aria-hidden="true"></i>
+                                                <span>Copy</span>
+                                            </button>
+                                            <button type="button" class="action-pill"
+                                                @click.stop="shareOnWhatsApp(item.ayah)" aria-label="Share ayah"
+                                                title="Share ayah">
+                                                <i class="bi bi-send" aria-hidden="true"></i>
+                                                <span>Share</span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -709,23 +703,26 @@
                                     v-html="highlightedText(item.ayah)"
                                     :style="{ fontSize: arabicFontSize + 'px' }"
                                 ></p>
-                                <h4 class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                <h4 v-if="isTranslationVisibleFor(item)" class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
                                     Translation:
                                 </h4>
-                                <p
-                                    :class="[
-                                        'fw-regular ltr-text flex-grow-1 translation-text',
-                                        {
-                                            'translation-text--active':
-                                                currentlyPlayingIndex === item.index &&
-                                                isAudioPlaying[item.index],
-                                        },
-                                    ]"
-                                    v-html="highlightText(item.ayah.translation)"
-                                    :style="{
-                                        fontSize: translationFontSize + 'px',
-                                    }"
-                                ></p>
+                                <div v-if="isTranslationVisibleFor(item)">
+                                    <p
+                                        :class="[
+                                            'fw-regular ltr-text flex-grow-1 translation-text',
+                                            {
+                                                'translation-text--active':
+                                                    currentlyPlayingIndex === item.index &&
+                                                    isAudioPlaying[item.index],
+                                            },
+                                        ]"
+                                        v-html="highlightText(item.ayah.translation)"
+                                        :style="{
+                                            fontSize: translationFontSize + 'px',
+                                        }"
+                                    ></p>
+                                </div>
+                                <template v-else></template>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                     <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
                                         aria-label="Copy ayah" title="Copy ayah">
@@ -738,15 +735,15 @@
                                         <span>Share</span>
                                     </button>
                                     <!-- <button type="button" class="action-pill reflection-pill-fill"
-                                        :class="{ 'has-reflection': hasReflection(item.ayah) }"
-                                        @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
+                                    :class="{ 'has-reflection': hasReflection(item.ayah) }"
+                                    @click.stop="openReflectionModal(item.ayah)" :aria-label="hasReflection(item.ayah)
+                                        ? 'Edit reflection'
+                                        : 'Add reflection'" :title="hasReflection(item.ayah)
                                             ? 'Edit reflection'
-                                            : 'Add reflection'" :title="hasReflection(item.ayah)
-                                                ? 'Edit reflection'
-                                                : 'Add reflection'">
-                                        <i class="bi bi-journal-text" aria-hidden="true"></i>
-                                        <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
-                                    </button> -->
+                                            : 'Add reflection'">
+                                    <i class="bi bi-journal-text" aria-hidden="true"></i>
+                                    <span>{{ hasReflection(item.ayah) ? 'Reflected' : 'Reflect' }}</span>
+                                </button> -->
                                 </div>
                             </div>
                             <div class="row card-teal mb-3 py-2" style="
@@ -828,7 +825,6 @@
                     </div>
                 </div>
 
-                <div :style="{ height: bottomSpacerHeight + 'px' }"></div>
             </div>
 
             <!-- Screen reader live region -->
@@ -1299,6 +1295,6 @@
             <i class="bi bi-arrow-up"></i>
         </button>
     </div>
-</template>
+t</template>
 <script src="../scripts/SuratComponent.script.js"></script>
 <style scoped src="../styles/SuratComponent.style.css"></style>

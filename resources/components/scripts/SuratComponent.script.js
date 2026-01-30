@@ -50,6 +50,7 @@ export default {
             arabicFontSize: 28,
             translationFontSize: 20,
             isTranslationVisible: true,
+            translationVisibility: {},
             showTajweed: false,
             showRealtimeHighlighting: false,
             showWordTranslation: false,
@@ -709,6 +710,7 @@ export default {
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
                 this.isLoading = true;
+                this.translationVisibility = {};
                 this.savePreference("selectedSurah", newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
@@ -3280,11 +3282,33 @@ export default {
             if (this.arabicFontSize > 16) this.arabicFontSize -= 2;
             if (this.translationFontSize > 12) this.translationFontSize -= 2;
         },
-        showTranslation: function () {
-            this.isTranslationVisible = true;
+        getTranslationVisibilityKey(item) {
+            if (!item || !item.ayah) return "";
+            return this.buildAyahKey(
+                this.surahDetails?.surahNumber,
+                item.ayah.numberInSurah || item.ayah.number
+            );
         },
-        hideTranslation: function () {
-            this.isTranslationVisible = false;
+        isTranslationVisibleFor(item) {
+            const key = this.getTranslationVisibilityKey(item);
+            if (!key) return true;
+            const value = this.translationVisibility[key];
+            if (value === undefined) return this.isTranslationVisible;
+            return !!value;
+        },
+        setTranslationVisibleFor(item, value) {
+            const key = this.getTranslationVisibilityKey(item);
+            if (!key) return;
+            if (typeof this.$set === "function") {
+                this.$set(this.translationVisibility, key, !!value);
+            } else {
+                this.translationVisibility[key] = !!value;
+            }
+            this.$nextTick(() => this.scheduleHeightCalibration(true));
+        },
+        onTranslationToggle(item, event) {
+            const checked = !!event.target.checked;
+            this.setTranslationVisibleFor(item, checked);
         },
         shareOnWhatsApp: function (ayah) {
             const message = this.buildAyahMessage(ayah, { includeAudio: true });

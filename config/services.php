@@ -81,6 +81,11 @@ return [
         'token' => env('HUGGINGFACE_API_TOKEN'),
         'router_provider' => env('HUGGINGFACE_ROUTER_PROVIDER', 'novita'),
     ],
+    'islamhouse' => [
+        'key' => env('ISLAMHOUSE_API_KEY'),
+        'base' => env('ISLAMHOUSE_API_BASE', 'https://api3.islamhouse.com/v3'),
+        'version' => env('ISLAMHOUSE_API_VERSION', 'v3'),
+    ],
     
     // GA4 analytics config removed
 

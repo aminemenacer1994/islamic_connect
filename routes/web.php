@@ -193,6 +193,7 @@ $homeResponder = function () {
 Route::get('/welcome', $homeResponder);
 Route::get('/', $homeResponder);
 Route::get('/home', $homeResponder);
+Route::view('/trust', 'trust')->name('trust');
 // Route::get('/about', [AboutController::class, 'index'])->name('about');
 
 // Auth Routes

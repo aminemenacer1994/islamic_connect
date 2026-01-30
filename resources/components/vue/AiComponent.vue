@@ -280,8 +280,8 @@
         <div class="ai-trust-note" role="note" aria-live="polite">
           <i class="fas fa-shield-alt" aria-hidden="true"></i>
           <p class="mb-0 text-muted">
-            Religious guidance needs clear boundaries this is educational content, so consult a qualified scholar for
-            fatwas.
+            Religious guidance needs clear boundaries. Noor is educational, so consult a qualified scholar for fatwas.
+            <a href="/trust" class="text-decoration-underline text-primary ms-1">Trust &amp; disclaimer</a>
           </p>
         </div>
       </form>
@@ -290,83 +290,6 @@
 </template>
 
 <script>
-const DIGIT_WORD_MAP = {
-  0: 'zero',
-  1: 'one',
-  2: 'two',
-  3: 'three',
-  4: 'four',
-  5: 'five',
-  6: 'six',
-  7: 'seven',
-  8: 'eight',
-  9: 'nine',
-  10: 'ten',
-};
-const SEARCH_STOP_WORDS = new Set([
-  'the',
-  'and',
-  'is',
-  'are',
-  'to',
-  'of',
-  'a',
-  'an',
-  'in',
-  'for',
-  'on',
-  'with',
-  'that',
-  'this',
-  'it',
-  'as',
-  'be',
-  'or',
-  'from',
-  'at',
-  'by',
-  'if',
-  'do',
-  'does',
-  'did',
-  'what',
-  'how',
-  'can',
-  'i',
-  'my',
-  'we',
-  'you',
-  'your',
-  'our',
-  'they',
-  'them',
-  'their',
-  'he',
-  'she',
-  'his',
-  'her',
-  'was',
-  'were',
-  'will',
-  'would',
-  'should',
-  'could',
-  'about',
-  'into',
-  'over',
-  'after',
-  'before',
-  'when',
-  'where',
-  'which',
-  'who',
-  'whom',
-  'why',
-  'not',
-  'no',
-  'yes',
-  'please',
-]);
 const MOBILE_BREAKPOINT = 768;
 const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
 
@@ -389,11 +312,6 @@ export default {
       speechVoicesChanged: null,
       activeSpeechEntryKey: null,
       activeUtterance: null,
-      knowledgeBase: [],
-      knowledgeBaseReady: false,
-      knowledgeBaseLoading: false,
-      knowledgeBaseTokenWeights: {},
-      knowledgeBaseTokenCount: 0,
       suggestionsExpanded: true,
       voiceAlertMessage: '',
       voiceAlertTimeout: null,
@@ -481,15 +399,17 @@ export default {
     },
   },
   methods: {
-    createChatEntry(role, text, references = []) {
+    createChatEntry(role, text, references = [], summaryBullets = null) {
       const now = new Date();
-      const summaryBullets = this.extractSummaryBulletPoints(text);
-      const allowCollapse = summaryBullets.length && this.isLongMessage(text);
+      const resolvedSummary =
+        (Array.isArray(summaryBullets) && summaryBullets.length && summaryBullets) ||
+        this.extractSummaryBulletPoints(text);
+      const allowCollapse = resolvedSummary.length && this.isLongMessage(text);
       return {
         role,
         text,
         references,
-        summaryBullets,
+        summaryBullets: resolvedSummary,
         allowCollapse,
         collapsed: allowCollapse && this.isCompactMode,
         userToggled: false,
@@ -523,158 +443,6 @@ export default {
         return normalized ? `<p>${this.escapeHtml(normalized)}</p>` : '';
       }
       return paragraphs.map((paragraph) => `<p>${this.escapeHtml(paragraph)}</p>`).join('');
-    },
-    stripQuestionPrefix(value) {
-      if (!value) return '';
-      return value.replace(/^question\s*/i, '').trim();
-    },
-    normalizeSearchText(value) {
-      if (!value) return '';
-      const normalizedDigits = value.replace(/\b\d+\b/g, (match) => DIGIT_WORD_MAP[match] || match);
-      return normalizedDigits
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    },
-    stripStopWords(value) {
-      if (!value) {
-        return '';
-      }
-      const normalized = this.normalizeSearchText(value);
-      if (!normalized) {
-        return '';
-      }
-      const filtered = normalized
-        .split(' ')
-        .filter((token) => token.length > 2 && !SEARCH_STOP_WORDS.has(token));
-      return filtered.join(' ');
-    },
-    getSearchTokens(value) {
-      const normalized = this.normalizeSearchText(value);
-      if (!normalized) {
-        return [];
-      }
-      return normalized
-        .split(' ')
-        .filter((token) => token.length > 2 && !SEARCH_STOP_WORDS.has(token));
-    },
-    async loadKnowledgeBase() {
-      if (this.knowledgeBaseReady || this.knowledgeBaseLoading) {
-        return;
-      }
-      this.knowledgeBaseLoading = true;
-      try {
-        const module = await import('./data/english_islamqainfo.json');
-        const items = Array.isArray(module.default) ? module.default : [];
-        this.knowledgeBase = items.map((entry) => {
-          const title = entry?.title || '';
-          const question = this.stripQuestionPrefix(entry?.question || '');
-          const searchSource = `${title} ${question}`;
-          const normalizedSearchText = this.normalizeSearchText(searchSource);
-          const normalizedTitleText = this.normalizeSearchText(title);
-          const searchTextNoStops = this.stripStopWords(searchSource);
-          const titleTextNoStops = this.stripStopWords(title);
-          const tokens = this.getSearchTokens(normalizedSearchText);
-          const uniqueTokens = Array.from(new Set(tokens));
-          return {
-            ...entry,
-            __titleText: normalizedTitleText,
-            __searchText: normalizedSearchText,
-            __searchTextNoStops: searchTextNoStops,
-            __titleTextNoStops: titleTextNoStops,
-            __tokens: uniqueTokens,
-            __tokenSet: new Set(uniqueTokens),
-          };
-        });
-        const docCounts = {};
-        this.knowledgeBase.forEach((entry) => {
-          entry.__tokens.forEach((token) => {
-            docCounts[token] = (docCounts[token] || 0) + 1;
-          });
-        });
-        const totalDocs = this.knowledgeBase.length || 0;
-        const tokenWeights = {};
-        Object.keys(docCounts).forEach((token) => {
-          const count = docCounts[token];
-          tokenWeights[token] = Math.log((totalDocs + 1) / (count + 1)) + 1;
-        });
-        this.knowledgeBaseTokenWeights = tokenWeights;
-        this.knowledgeBaseTokenCount = totalDocs;
-        this.knowledgeBaseReady = true;
-      } catch (error) {
-        console.error('Unable to load Q&A knowledge base.', error);
-      } finally {
-        this.knowledgeBaseLoading = false;
-      }
-    },
-    findBestKnowledgeMatch(message) {
-      if (!message || !this.knowledgeBase.length) {
-        return null;
-      }
-      const normalized = this.normalizeSearchText(message);
-      if (!normalized) {
-        return null;
-      }
-      const tokens = this.getSearchTokens(normalized);
-      if (!tokens.length) {
-        return null;
-      }
-      const keywordPhrase = tokens.join(' ');
-      const requireAllTokens = tokens.length <= 4;
-      const minMatchRatio = requireAllTokens ? 1 : 0.6;
-      const minMatchedTokens = requireAllTokens ? tokens.length : Math.max(3, Math.ceil(tokens.length * 0.6));
-      const strongTokenThreshold = 1.6;
-      let bestEntry = null;
-      let bestScore = 0;
-      for (const entry of this.knowledgeBase) {
-        const searchText = entry.__searchText || '';
-        if (!searchText) {
-          continue;
-        }
-        const tokenSet = entry.__tokenSet;
-        if (!tokenSet || !tokenSet.size) {
-          continue;
-        }
-        const matchedTokens = tokens.filter((token) => tokenSet.has(token));
-        const matchCount = matchedTokens.length;
-        if (!matchCount) {
-          continue;
-        }
-        const matchRatio = matchCount / tokens.length;
-        if (matchRatio < minMatchRatio || matchCount < minMatchedTokens) {
-          continue;
-        }
-        const hasStrongToken = matchedTokens.some(
-          (token) => (this.knowledgeBaseTokenWeights[token] || 1) >= strongTokenThreshold,
-        );
-        if (!hasStrongToken) {
-          continue;
-        }
-        const searchTextNoStops = entry.__searchTextNoStops || '';
-        const titleTextNoStops = entry.__titleTextNoStops || '';
-        const phraseMatch =
-          (searchTextNoStops && searchTextNoStops.includes(keywordPhrase)) ||
-          (titleTextNoStops && titleTextNoStops.includes(keywordPhrase));
-        if (tokens.length <= 2 && !phraseMatch) {
-          continue;
-        }
-        let score = 0;
-        matchedTokens.forEach((token) => {
-          score += this.knowledgeBaseTokenWeights[token] || 1;
-        });
-        if (phraseMatch) {
-          score += 6;
-        }
-        if (entry.__titleText && entry.__titleText.includes(normalized)) {
-          score += 3;
-        }
-        if (score > bestScore) {
-          bestScore = score;
-          bestEntry = entry;
-        }
-      }
-      return bestEntry;
     },
     toPlainText(value = '') {
       if (!value) return '';
@@ -726,43 +494,6 @@ export default {
         return (normalized || []).slice(0, limit).map((piece) => piece.trim()).filter(Boolean);
       }
       return sanitized.slice(0, limit);
-    },
-    normalizeReferences(input) {
-      if (!input) return [];
-      const items = Array.isArray(input) ? input : [input];
-      return items
-        .map((item) => {
-          if (!item) {
-            return null;
-          }
-          if (typeof item === 'string') {
-            return { label: item, url: '' };
-          }
-          if (typeof item === 'object') {
-            return {
-              label: item.label || item.title || item.text || '',
-              url: item.url || item.link || item.href || '',
-            };
-          }
-          return null;
-        })
-        .filter((item) => item && item.label.trim());
-    },
-    buildEntryReferences(entry) {
-      if (!entry) {
-        return [];
-      }
-      const references = [];
-      if (entry.article_url) {
-        references.push({ label: 'Read full answer', url: entry.article_url });
-      }
-      if (entry.page_url) {
-        const label = entry.topic ? `${entry.topic} topic` : 'Topic page';
-        references.push({ label, url: entry.page_url });
-      } else if (entry.topic) {
-        references.push(entry.topic);
-      }
-      return this.normalizeReferences(references);
     },
     scrollChatWindow() {
       this.$nextTick(() => {
@@ -962,33 +693,69 @@ export default {
       this.chatHistory.push(this.createChatEntry('user', message));
       this.scrollChatWindow();
       this.scrollComponentToBottom();
+      this.chatLoading = true;
+
       try {
-        this.chatLoading = true;
-        await this.loadKnowledgeBase();
-        let responseText = '';
-        let references = [];
-        if (!this.knowledgeBase.length) {
-          responseText = 'The Q&A library is unavailable right now. Please try again soon.';
-        } else {
-          const matchedEntry = this.findBestKnowledgeMatch(message);
-          if (matchedEntry && matchedEntry.answer) {
-            responseText = matchedEntry.answer.trim();
-            references = this.buildEntryReferences(matchedEntry);
-          } else {
-            responseText =
-              'I could not find a matching answer in the library. Try rephrasing your question or pick a suggested topic.';
-          }
+        const payload = await this.postChatMessage(message);
+        if (!payload?.assistant?.message) {
+          throw new Error(payload?.error || 'Noor cannot respond right now.');
         }
-        this.chatHistory.push(this.createChatEntry('assistant', responseText, references));
+        const assistantData = payload.assistant;
+        const references = Array.isArray(assistantData.references) ? assistantData.references : [];
+        const summary = Array.isArray(assistantData.summary) ? assistantData.summary : [];
+        this.chatHistory.push(
+          this.createChatEntry('assistant', assistantData.message.trim(), references, summary),
+        );
+        if (payload.session_id) {
+          this.sessionId = payload.session_id;
+        }
+        this.syncCurrentSessionHistory();
         this.scrollChatWindow();
         this.scrollComponentToBottom();
-        this.syncCurrentSessionHistory();
       } catch (error) {
         console.error('Chat error:', error);
         this.chatError = error?.message || 'The assistant is temporarily unavailable.';
       } finally {
         this.chatLoading = false;
       }
+    },
+    async postChatMessage(message) {
+      if (!message) {
+        return null;
+      }
+      const payload = {
+        question: message,
+        session_id: this.sessionId || this.resetSession(),
+        language: this.getUserLanguage(),
+      };
+      const response = await fetch('/api/ai/ask', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-TOKEN': this.getCsrfToken(),
+        },
+        body: JSON.stringify(payload),
+      });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        const error = data?.error || 'Noor cannot respond right now.';
+        throw new Error(error);
+      }
+      return data;
+    },
+    getUserLanguage() {
+      if (typeof navigator === 'undefined') {
+        return 'en';
+      }
+      const locale = navigator.language || navigator.userLanguage || 'en';
+      return locale.split('-')[0].toLowerCase();
+    },
+    getCsrfToken() {
+      if (typeof document === 'undefined') {
+        return '';
+      }
+      const meta = document.querySelector('meta[name="csrf-token"]');
+      return meta?.getAttribute('content') || '';
     },
     shareConversationOnWhatsApp() {
       if (!this.chatHistory.length) {
@@ -1575,7 +1342,6 @@ export default {
         this.sessionExpired = false;
         return;
       }
-      this.clearConversationState();
       this.errorTimeout = setTimeout(() => {
         this.chatError = null;
         this.errorTimeout = null;

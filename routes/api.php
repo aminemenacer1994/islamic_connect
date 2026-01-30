@@ -2,6 +2,7 @@
 
 use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AIController;
 use App\Http\Controllers\DebugController;
 
 
@@ -14,3 +15,5 @@ use App\Http\Controllers\DebugController;
 // Route::middleware('auth:sanctum')->group(function () {
 //     Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
 // });
+
+Route::post('/ai/ask', [AIController::class, 'ask']);

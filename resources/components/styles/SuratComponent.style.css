@@ -1124,6 +1124,7 @@
 .ayah-card-container {
     border-radius: 20px;
     transition: transform 0.2s ease;
+    align-self: flex-start;
 }
 
 .ayah-surface {
@@ -3577,32 +3578,37 @@ h1.display-5 {
     flex: 1;
 }
 
-.translation-controls {
-    display: flex;
-    flex-direction: column;
+.translation-toggle {
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
     gap: 0.4rem;
-    min-width: 44px;
 }
 
-.translation-zoom-btn {
-    width: 42px;
-    height: 42px;
-    border-radius: 14px;
-    border: 1px solid rgba(15, 110, 99, 0.3);
-    background: #ffffff;
-    color: #0b6e63;
-    box-shadow: 0 8px 18px rgba(15, 53, 48, 0.16);
-    transition: transform 0.18s ease, border-color 0.18s ease,
-        background-color 0.18s ease, box-shadow 0.18s ease;
-}
-.translation-zoom-btn i {
-    font-size: 1.3rem;
+.translation-toggle .form-check-input {
+    cursor: pointer;
+    border-color: rgba(15, 110, 99, 0.45);
+    background-color: rgba(15, 110, 99, 0.18);
 }
 
-.translation-zoom-btn:hover {
-    background-color: rgba(15, 110, 99, 0.08);
-    border-color: rgba(15, 110, 99, 0.5);
-    transform: translateY(-1px);
+.translation-toggle .form-check-input:checked {
+    background-color: #0f6e63;
+    border-color: #0f6e63;
+}
+
+.translation-toggle .form-check-input:focus {
+    box-shadow: 0 0 0 0.2rem rgba(15, 110, 99, 0.25);
+}
+
+.translation-toggle .form-check-label {
+    font-size: 0.8rem;
+    color: #0b4a43;
+    cursor: pointer;
+    margin: 0;
+}
+
+.ayah-translation-toggle {
+    margin-right: 8px;
 }
 
 .translation-hidden-notice {
@@ -3614,12 +3620,6 @@ h1.display-5 {
 
 .translation-block--collapsed {
     min-height: 80px;
-}
-
-.translation-zoom-btn:disabled {
-    opacity: 0.35;
-    cursor: not-allowed;
-    box-shadow: none;
 }
 
 /* Entrance motion for ayah cards */
