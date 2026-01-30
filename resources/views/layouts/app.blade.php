@@ -265,8 +265,9 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
                         <!-- <li class="nav-item mt-2">
-                            <button class="button-33" role="button" type="button" onclick="window.location.href='/revert'">Reverts corner</button>
-                        </li>
+                            <button class="button-33" role="button" type="button" onclick="window.location.href='/ramadan-2026'">Ramadan 2026</button>
+                        </li>  -->
+                        <!--
                         <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/muslim'">Discover Islam</button>
                         </li> -->
@@ -274,7 +275,7 @@
                         <!-- From Uiverse.io by Spacious74 --> 
                         
 
-                        <!-- <button class="button" type="button" onclick="window.location.href='/revert'" data-path="/revert" data-nav-item="primary">
+                        <button class="button" type="button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
                         <svg
                                 viewBox="0 0 24 24"
                                 height="24"
@@ -293,11 +294,11 @@
                                 ></path>
                                 </g>
                             </svg>
-                            Reverts Corner
-                            <div class="hoverEffect" data-path="/revert" data-nav-item="primary">
+                            Ramadan 2026
+                            <div class="hoverEffect" data-path="/ramadan-2026" data-nav-item="primary">
                                 <div></div>
                             </div>
-                        </button> -->
+                        </button>
 
                         <!-- <button class="button" type="button" onclick="window.location.href='/muslim'">
                             <svg
@@ -326,15 +327,15 @@
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 button-91" href="/muslim" data-path="/muslim" data-nav-item="primary">Non-Muslim zone</a>
-                        </li>
+                        </li>-->
                        
-                        <li class="nav-item mt-2">
-                            <a class="nav-link pt-2 ml-3" href="/revert" data-path="/revert" data-nav-item="primary">Reverts corner</a>
-                        </li> -->
+                        <!-- <li class="nav-item mt-2">
+                            <a class="nav-link pt-2 ml-3" href="/ramadan-2026" data-path="/ramadan-2026" data-nav-item="primary">Ramadan 2026</a>
+                        </li>  -->
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/quran" data-path="/quran" data-nav-item="primary"><b>Quran Companion</b></a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3" href="/surat" data-path="/surat" data-nav-item="primary"><b>Holy Quran</b></a>
@@ -357,9 +358,9 @@
                             <a class="nav-link ml-3 pt-2 pl-3" href="/dua" data-path="/dua" data-nav-item="primary"><b>Dua Collection</b></a>
                         </li>
 
-                        <li class="nav-item mt-2">
+                        <!-- <li class="nav-item mt-2">
                             <a class="nav-link ml-3 pt-2 pl-3" href="/resource" data-path="/resource" data-nav-item="primary"><b>Resources</b></a>
-                        </li>
+                        </li> -->
 
                         <!-- <li class="nav-item mt-2">
                             <a class="nav-link pt-2 ml-3 pl-3" href="/support" data-path="/support" data-nav-item="primary"><b>Donations</b></a>

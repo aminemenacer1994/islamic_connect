@@ -86,6 +86,13 @@ return [
         'base' => env('ISLAMHOUSE_API_BASE', 'https://api3.islamhouse.com/v3'),
         'version' => env('ISLAMHOUSE_API_VERSION', 'v3'),
     ],
+
+    'aladhan' => [
+        'base' => env('ALADHAN_API_BASE', 'https://api.aladhan.com/v1'),
+        'country' => env('ALADHAN_DEFAULT_COUNTRY', 'United Kingdom'),
+        'method' => env('ALADHAN_DEFAULT_METHOD', 2),
+        'school' => env('ALADHAN_DEFAULT_SCHOOL', 0),
+    ],
     
     // GA4 analytics config removed
 

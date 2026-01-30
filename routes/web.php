@@ -254,6 +254,7 @@ Route::get('/muslim', [MuslimController::class, 'index'])->name('muslim');
 
 
 Route::get('/guide', [GuideController::class, 'index'])->name('guide');
+Route::view('/ramadan-2026', 'ramadan_2026')->name('ramadan_2026');
 Route::get('/quran', [QuranController::class, 'index']);
 Route::get('/contact', [ContactController::class, 'index']);
 // Route::get('/pricing', [PricingController::class, 'index'])->name('pricing');

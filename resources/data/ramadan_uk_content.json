@@ -1,0 +1,77 @@
+{
+  "hero": {
+    "title": "Ramadan 2026 in the UK",
+    "subtitle": "Verified guidance, city-level prayer times, and trusted references.",
+    "image": "/images/banner-photo-1200.webp",
+    "image_alt": "Ramadan lanterns and evening sky"
+  },
+  "intro": {
+    "summary": "This page combines UK-wide prayer time options, official moon-sighting verification, and trusted Quran and Hadith references. Dates are marked as expected until a UK authority confirms the moon sighting.",
+    "highlights": [
+      "All official UK cities included",
+      "Prayer time options from a verified API",
+      "Quran and Hadith references included in the response"
+    ]
+  },
+  "sections": [
+    {
+      "type": "article",
+      "title": "Ramadan: Spiritual Goals and Practices",
+      "body": "Ramadan trains the soul through fasting, Quran recitation, charity, and nightly prayers. Set clear intentions, reduce distractions, and prioritize sincere dua and repentance.\n\nPlan meals for moderation, maintain rest, and protect time for worship. The month\u2019s purpose is taqwa carrying its habits beyond Ramadan into everyday life.",
+      "source": "Islamic Connect guides"
+    },
+    {
+      "type": "article",
+      "title": "The Importance of Fasting in Islam",
+      "body": "Fasting, or 'Sawm,' is one of the Five Pillars of Islam and holds great spiritual significance. During the month of Ramadan, Muslims around the world fast from dawn to sunset, refraining from food, drink, and other physical needs as a form of worship and self-discipline. The primary goal of fasting is to attain 'Taqwa' (God-consciousness) by purifying the soul and gaining empathy for the less fortunate.\n\nFasting in Islam is not just about abstaining from food and drink but also from negative thoughts, harmful speech, and sinful actions. The Quran describes fasting as a means of spiritual growth, fostering self-restraint, and increasing awareness of Allah. Beyond Ramadan, Muslims are also encouraged to fast on other days, such as Mondays and Thursdays, as a means of maintaining spiritual discipline throughout the year.",
+      "source": "Islamic Connect guides"
+    },
+    {
+      "type": "article",
+      "title": "The Significance of the Night of Power (Laylat al-Qadr)",
+      "body": "The Night of Power (Laylat al-Qadr) is one of the holiest nights in Islam, occurring during the last ten nights of Ramadan. The Quran describes it as 'better than a thousand months' (Quran 97:3), emphasizing its immense spiritual significance. It is believed to be the night when the Quran was first revealed to Prophet Muhammad (PBUH).\n\nMuslims seek this night through increased worship, prayer, and recitation of the Quran, as acts performed on this night are multiplied in reward. Laylat al-Qadr is a time for reflection, seeking forgiveness, and drawing closer to Allah, symbolizing the profound connection between the divine and humanity.",
+      "source": "Islamic Connect guides"
+    }
+  ],
+  "media": {
+    "images": [
+      {
+        "title": "Ramadan hero banner",
+        "url": "/images/banner-photo-1200.webp",
+        "alt": "Ramadan lanterns and evening sky"
+      },
+      {
+        "title": "Ramadan banner (small)",
+        "url": "/images/banner-photo-400.webp",
+        "alt": "Ramadan lanterns at dusk"
+      }
+    ],
+    "videos": [],
+    "links": [
+      {
+        "title": "Moon Sighting UK",
+        "url": "https://www.moonsighting.org.uk",
+        "type": "verification"
+      },
+      {
+        "title": "AlAdhan Prayer Times API",
+        "url": "https://aladhan.engconsults.com/rest-api.html",
+        "type": "prayer_times_api"
+      },
+      {
+        "title": "Quran.com API Docs",
+        "url": "https://api-docs.quran.com/docs/content_apis_versioned/4.0.0/content-apis",
+        "type": "quran_api"
+      },
+      {
+        "title": "Sunnah.com API",
+        "url": "https://sunnah.com/developers",
+        "type": "hadith_api"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Verify your local start date",
+    "body": "Please confirm the official Ramadan start date with your local mosque or a UK moon-sighting authority."
+  }
+}

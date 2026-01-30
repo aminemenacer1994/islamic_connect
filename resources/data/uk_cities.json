@@ -1,0 +1,615 @@
+{
+  "source": "https://en.wikipedia.org/wiki/List_of_cities_in_the_United_Kingdom",
+  "retrieved_at": "2026-01-30",
+  "count": 76,
+  "cities": [
+    {
+      "name": "London",
+      "country": "England",
+      "region": "London",
+      "authority": "City of London",
+      "status": "Sui generis and ceremonial county",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Westminster",
+      "country": "England",
+      "region": "London",
+      "authority": "City of Westminster",
+      "status": "London borough",
+      "year_granted": "1540"
+    },
+    {
+      "name": "Birmingham",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "City of Birmingham",
+      "status": "Metropolitan borough",
+      "year_granted": "1889"
+    },
+    {
+      "name": "Leeds",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of Leeds",
+      "status": "Metropolitan borough",
+      "year_granted": "1893"
+    },
+    {
+      "name": "Glasgow",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "City of Glasgow",
+      "status": "Council area",
+      "year_granted": "mid-18th century(Burgh: 1492)"
+    },
+    {
+      "name": "Manchester",
+      "country": "England",
+      "region": "North West England",
+      "authority": "City of Manchester",
+      "status": "Metropolitan borough",
+      "year_granted": "1853"
+    },
+    {
+      "name": "Sheffield",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of Sheffield",
+      "status": "Metropolitan borough",
+      "year_granted": "1893"
+    },
+    {
+      "name": "Bradford",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of Bradford",
+      "status": "Metropolitan borough",
+      "year_granted": "1897"
+    },
+    {
+      "name": "Edinburgh",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "City of Edinburgh",
+      "status": "Council area",
+      "year_granted": "mid-18th century(Burgh: 1329)"
+    },
+    {
+      "name": "Liverpool",
+      "country": "England",
+      "region": "North West England",
+      "authority": "City of Liverpool",
+      "status": "Metropolitan borough",
+      "year_granted": "1880"
+    },
+    {
+      "name": "Bristol",
+      "country": "England",
+      "region": "South West England",
+      "authority": "City of Bristol",
+      "status": "Unitary authority and ceremonial county",
+      "year_granted": "1542"
+    },
+    {
+      "name": "Cardiff",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "Cardiff",
+      "status": "Principal area",
+      "year_granted": "1905"
+    },
+    {
+      "name": "Leicester",
+      "country": "England",
+      "region": "East Midlands",
+      "authority": "City of Leicester",
+      "status": "Unitary authority",
+      "year_granted": "1919"
+    },
+    {
+      "name": "Coventry",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "City of Coventry",
+      "status": "Metropolitan borough",
+      "year_granted": "1102 (\"time immemorial\")"
+    },
+    {
+      "name": "Wakefield",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of Wakefield",
+      "status": "Metropolitan borough",
+      "year_granted": "1888"
+    },
+    {
+      "name": "Belfast",
+      "country": "Northern Ireland",
+      "region": "Northern Ireland",
+      "authority": "Belfast",
+      "status": "",
+      "year_granted": "1888"
+    },
+    {
+      "name": "Nottingham",
+      "country": "England",
+      "region": "East Midlands",
+      "authority": "City of Nottingham",
+      "status": "Unitary authority",
+      "year_granted": "1897"
+    },
+    {
+      "name": "Newcastle upon Tyne",
+      "country": "England",
+      "region": "North East England",
+      "authority": "City of Newcastle upon Tyne",
+      "status": "Metropolitan borough",
+      "year_granted": "1882"
+    },
+    {
+      "name": "Doncaster",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of Doncaster",
+      "status": "Metropolitan borough",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Milton Keynes",
+      "country": "England",
+      "region": "South East England",
+      "authority": "City of Milton Keynes",
+      "status": "Unitary authority",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Salford",
+      "country": "England",
+      "region": "North West England",
+      "authority": "City of Salford",
+      "status": "Metropolitan borough",
+      "year_granted": "1926"
+    },
+    {
+      "name": "Sunderland",
+      "country": "England",
+      "region": "North East England",
+      "authority": "City of Sunderland",
+      "status": "Metropolitan borough",
+      "year_granted": "1992"
+    },
+    {
+      "name": "Brighton and Hove",
+      "country": "England",
+      "region": "South East England",
+      "authority": "Brighton and Hove",
+      "status": "Unitary authority",
+      "year_granted": "2001"
+    },
+    {
+      "name": "Wolverhampton",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "City of Wolverhampton",
+      "status": "Metropolitan borough",
+      "year_granted": "2001"
+    },
+    {
+      "name": "Kingston upon Hull",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of Kingston upon Hull",
+      "status": "Unitary authority",
+      "year_granted": "1897"
+    },
+    {
+      "name": "Plymouth",
+      "country": "England",
+      "region": "South West England",
+      "authority": "City of Plymouth",
+      "status": "Unitary authority",
+      "year_granted": "1928"
+    },
+    {
+      "name": "Derby",
+      "country": "England",
+      "region": "East Midlands",
+      "authority": "City of Derby",
+      "status": "Unitary authority",
+      "year_granted": "1977"
+    },
+    {
+      "name": "Stoke-on-Trent",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "City of Stoke-on-Trent",
+      "status": "Unitary authority",
+      "year_granted": "1925"
+    },
+    {
+      "name": "Southampton",
+      "country": "England",
+      "region": "South East England",
+      "authority": "City of Southampton",
+      "status": "Unitary authority",
+      "year_granted": "1964"
+    },
+    {
+      "name": "Swansea",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "Swansea",
+      "status": "Principal area",
+      "year_granted": "1969"
+    },
+    {
+      "name": "Aberdeen",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "City of Aberdeen",
+      "status": "Council area",
+      "year_granted": "1891(Burgh: 1179)"
+    },
+    {
+      "name": "Peterborough",
+      "country": "England",
+      "region": "East of England",
+      "authority": "City of Peterborough",
+      "status": "Unitary authority",
+      "year_granted": "1541"
+    },
+    {
+      "name": "Portsmouth",
+      "country": "England",
+      "region": "South East England",
+      "authority": "City of Portsmouth",
+      "status": "Unitary authority",
+      "year_granted": "192624"
+    },
+    {
+      "name": "York",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "City of York",
+      "status": "Unitary authority",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Colchester",
+      "country": "England",
+      "region": "East of England",
+      "authority": "City of Colchester",
+      "status": "Non-metropolitan borough",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Chelmsford",
+      "country": "England",
+      "region": "East of England",
+      "authority": "City of Chelmsford",
+      "status": "Non-metropolitan borough",
+      "year_granted": "2012"
+    },
+    {
+      "name": "Southend-on-Sea",
+      "country": "England",
+      "region": "East of England",
+      "authority": "City of Southend-on-Sea",
+      "status": "Unitary authority",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Oxford",
+      "country": "England",
+      "region": "South East England",
+      "authority": "City of Oxford",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1542"
+    },
+    {
+      "name": "Newport",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "Newport",
+      "status": "Principal area",
+      "year_granted": "2002"
+    },
+    {
+      "name": "Canterbury",
+      "country": "England",
+      "region": "South East England",
+      "authority": "City of Canterbury",
+      "status": "Non-metropolitan borough",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Preston",
+      "country": "England",
+      "region": "North West England",
+      "authority": "City of Preston",
+      "status": "Non-metropolitan borough",
+      "year_granted": "2002"
+    },
+    {
+      "name": "Dundee",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "City of Dundee",
+      "status": "Council area",
+      "year_granted": "1889(Burgh: 1191)"
+    },
+    {
+      "name": "Cambridge",
+      "country": "England",
+      "region": "East of England",
+      "authority": "City of Cambridge",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1951"
+    },
+    {
+      "name": "St Albans",
+      "country": "England",
+      "region": "East of England",
+      "authority": "St Albans City and District",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1877"
+    },
+    {
+      "name": "Lancaster",
+      "country": "England",
+      "region": "North West, England",
+      "authority": "City of Lancaster",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1937"
+    },
+    {
+      "name": "Norwich",
+      "country": "England",
+      "region": "East of England",
+      "authority": "City of Norwich",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1094 (\"time immemorial\")"
+    },
+    {
+      "name": "Chester",
+      "country": "England",
+      "region": "North West England",
+      "authority": "(Cheshire West and Chester does not hold status)",
+      "status": "Charter trustees",
+      "year_granted": "1541"
+    },
+    {
+      "name": "Exeter",
+      "country": "England",
+      "region": "South West England",
+      "authority": "City of Exeter",
+      "status": "Non-metropolitan borough",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Wrexham",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "Wrexham County Borough",
+      "status": "Principal area",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Gloucester",
+      "country": "England",
+      "region": "South West, England",
+      "authority": "City of Gloucester",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1541"
+    },
+    {
+      "name": "Winchester",
+      "country": "England",
+      "region": "South East, England",
+      "authority": "City of Winchester",
+      "status": "Non-metropolitan borough",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Durham",
+      "country": "England",
+      "region": "North East, England",
+      "authority": "(County Durham does not hold status)",
+      "status": "Charter trustees",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Carlisle",
+      "country": "England",
+      "region": "North West, England",
+      "authority": "(Cumberland does not hold status)",
+      "status": "Charter trustees",
+      "year_granted": "1133 (\"time immemorial\")"
+    },
+    {
+      "name": "Worcester",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "City of Worcester",
+      "status": "Non-metropolitan borough",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Lincoln",
+      "country": "England",
+      "region": "East Midlands",
+      "authority": "City of Lincoln",
+      "status": "Non-metropolitan borough",
+      "year_granted": "1072 (\"time immemorial\")"
+    },
+    {
+      "name": "Bath",
+      "country": "England",
+      "region": "South West, England",
+      "authority": "(Bath and North East Somerset does not hold status)",
+      "status": "Charter trustees",
+      "year_granted": "1090 (\"time immemorial\")"
+    },
+    {
+      "name": "Derry",
+      "country": "Northern Ireland",
+      "region": "Northern Ireland",
+      "authority": "None",
+      "status": "Represented on Derry City and Strabane District Council",
+      "year_granted": "1604"
+    },
+    {
+      "name": "Dunfermline",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "Dunfermline",
+      "status": "Part of Fife Council",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Bangor",
+      "country": "Northern Ireland",
+      "region": "Northern Ireland",
+      "authority": "None",
+      "status": "Represented on Ards and North Down Borough Council",
+      "year_granted": "2022"
+    },
+    {
+      "name": "Inverness",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "Inverness",
+      "status": "Part of Highland Council",
+      "year_granted": "2001"
+    },
+    {
+      "name": "Hereford",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "Hereford parish",
+      "status": "Civil parish",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Lisburn",
+      "country": "Northern Ireland",
+      "region": "Northern Ireland",
+      "authority": "None",
+      "status": "Represented on Lisburn and Castlereagh City Council",
+      "year_granted": "2002"
+    },
+    {
+      "name": "Stirling",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "Stirling",
+      "status": "Part of Stirling Council",
+      "year_granted": "2002"
+    },
+    {
+      "name": "Perth",
+      "country": "Scotland",
+      "region": "Scotland",
+      "authority": "Perth",
+      "status": "Part of Perth and Kinross Council",
+      "year_granted": "2012(Burgh: 12th century)"
+    },
+    {
+      "name": "Salisbury",
+      "country": "England",
+      "region": "South West England",
+      "authority": "Salisbury parish",
+      "status": "Civil parish",
+      "year_granted": "1227"
+    },
+    {
+      "name": "Lichfield",
+      "country": "England",
+      "region": "West Midlands",
+      "authority": "Lichfield parish",
+      "status": "Civil parish",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Chichester",
+      "country": "England",
+      "region": "South East England",
+      "authority": "Chichester parish",
+      "status": "Civil parish",
+      "year_granted": "1075(\"time immemorial\")"
+    },
+    {
+      "name": "Newry",
+      "country": "Northern Ireland",
+      "region": "Northern Ireland",
+      "authority": "None",
+      "status": "Represented on Newry, Mourne and Down District Council",
+      "year_granted": "2002"
+    },
+    {
+      "name": "Truro",
+      "country": "England",
+      "region": "South West England",
+      "authority": "Truro parish",
+      "status": "Civil parish",
+      "year_granted": "1877"
+    },
+    {
+      "name": "Ely",
+      "country": "England",
+      "region": "East of England",
+      "authority": "Ely parish",
+      "status": "Civil parish",
+      "year_granted": "1109(\"time immemorial\")"
+    },
+    {
+      "name": "Ripon",
+      "country": "England",
+      "region": "Yorkshire and the Humber",
+      "authority": "Ripon parish",
+      "status": "Civil parish",
+      "year_granted": "1865"
+    },
+    {
+      "name": "Armagh",
+      "country": "Northern Ireland",
+      "region": "Northern Ireland",
+      "authority": "None",
+      "status": "Represented on Armagh City, Banbridge and Craigavon Borough Council",
+      "year_granted": "1994"
+    },
+    {
+      "name": "Bangor",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "Bangor community",
+      "status": "Community",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "Wells",
+      "country": "England",
+      "region": "South West England",
+      "authority": "Wells parish",
+      "status": "Civil parish",
+      "year_granted": "\"time immemorial\""
+    },
+    {
+      "name": "St Asaph",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "St Asaph community",
+      "status": "Community",
+      "year_granted": "2012"
+    },
+    {
+      "name": "St Davids",
+      "country": "Wales",
+      "region": "Wales",
+      "authority": "St Davids and the Cathedral Close",
+      "status": "Community",
+      "year_granted": "1994"
+    }
+  ]
+}

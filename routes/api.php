@@ -4,6 +4,7 @@ use Laravel\Sanctum\Http\Controllers\CsrfCookieController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AIController;
 use App\Http\Controllers\DebugController;
+use App\Http\Controllers\Api\RamadanUkController;
 
 
 /*
@@ -17,3 +18,5 @@ use App\Http\Controllers\DebugController;
 // });
 
 Route::post('/ai/ask', [AIController::class, 'ask']);
+Route::get('/ramadan/uk', [RamadanUkController::class, 'show']);
+Route::get('/ramadan/uk/prayer-times', [RamadanUkController::class, 'prayerTimes']);
