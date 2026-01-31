@@ -57,276 +57,6 @@
       </div>
     </header>
 
-    <section id="interactive" class="r-section">
-      <div class="container">
-        <div class="r-section__head">
-          <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🧩</span>
-            Quran progress studio
-          </h2>
-          <p class="r-section__subtitle">
-            Track your reading with milestones, session logs, and a planner-tied daily breakdown. Estimates are
-            calculated from your inputs.
-          </p>
-        </div>
-        <div id="section-interactive-body" class="r-section__body">
-          <div v-if="!authResolved" class="r-empty">Checking login status...</div>
-          <div v-else-if="!isAuthenticated" class="r-auth-gate">
-            <p class="r-card__desc">
-              Log in to personalize your Quran tracker. Your data is saved locally per account on this device.
-            </p>
-            <div class="r-auth-actions">
-              <a class="r-button r-button--ghost" href="/login">Log in</a>
-            </div>
-          </div>
-          <div v-else class="r-grid r-grid--double r-grid--stagger">
-            <article class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
-              <div class="r-stack-head">
-                <h3 class="r-card__title">Quran reading progress 📖</h3>
-                <span class="r-badge">{{ quranProgressPercent }}% complete</span>
-              </div>
-              <p class="r-card__desc">
-                Choose a unit, log sessions, and keep the pace that fits your schedule.
-              </p>
-              <div class="r-progress">
-                <div
-                  class="r-progress__bar"
-                  role="progressbar"
-                  :aria-valuenow="quranProgressPercent"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  <span class="r-progress__fill" :style="{ width: `${quranProgressPercent}%` }"></span>
-                </div>
-                <div class="r-progress__meta">
-                  <span>{{ quranProgress.completed }} / {{ quranProgress.total }} {{ quranUnitLabel }}</span>
-                  <span>{{ quranProgressRemaining }} {{ quranUnitLabel }} remaining</span>
-                </div>
-              </div>
-              <div class="r-form r-form--compact">
-                <div class="r-form__row">
-                  <div>
-                    <label class="r-label" for="quran-unit">Unit</label>
-                    <select id="quran-unit" class="r-select" v-model="quranProgress.unit" @change="handleQuranUnitChange">
-                      <option v-for="unit in quranUnits" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="r-label" for="quran-total">Total</label>
-                    <input
-                      id="quran-total"
-                      class="r-input"
-                      type="number"
-                      min="1"
-                      v-model.number="quranProgress.total"
-                      @input="normalizeQuranProgress"
-                    />
-                  </div>
-                  <div>
-                    <label class="r-label" for="quran-completed">Completed</label>
-                    <input
-                      id="quran-completed"
-                      class="r-input"
-                      type="number"
-                      min="0"
-                      :max="quranProgress.total"
-                      v-model.number="quranProgress.completed"
-                      @input="normalizeQuranProgress"
-                    />
-                  </div>
-                </div>
-                <div class="r-form__row">
-                  <div>
-                    <label class="r-label" for="quran-goal">Daily goal</label>
-                    <input
-                      id="quran-goal"
-                      class="r-input"
-                      type="number"
-                      min="0"
-                      step="0.1"
-                      v-model.number="quranProgress.dailyGoal"
-                      @input="normalizeQuranProgress"
-                    />
-                  </div>
-                  <div class="r-quick-add">
-                    <span class="r-label">Quick add</span>
-                    <div class="r-quick-add__buttons">
-                      <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(1)">
-                        +1
-                      </button>
-                      <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(3)">
-                        +3
-                      </button>
-                      <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(5)">
-                        +5
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <p class="r-note r-note--muted">
-                Page counts can vary by mushaf edition. Adjust totals if needed.
-              </p>
-              <div class="r-progress__footer">
-                <span v-if="quranProgressRemaining === 0">Completed 🎉</span>
-                <span v-else-if="quranProgressDaysLeft">
-                  At this pace: ~{{ quranProgressDaysLeft }} day{{ quranProgressDaysLeft === 1 ? "" : "s" }} left
-                </span>
-                <span v-else>Set a daily goal to estimate your pace.</span>
-                <span class="r-progress__hint">Saved locally for your login.</span>
-              </div>
-              <div class="r-divider"></div>
-              <div class="r-progress-insights">
-                <div>
-                  <span class="r-mini-label">Days remaining</span>
-                  <strong>{{ quranDaysRemaining }}</strong>
-                </div>
-                <div>
-                  <span class="r-mini-label">Needed per day</span>
-                  <strong>{{ quranDailyTargetNeeded }} {{ quranUnitLabel }}/day</strong>
-                </div>
-                <div>
-                  <span class="r-mini-label">Est. completion</span>
-                  <strong>{{ quranCompletionLabel }}</strong>
-                </div>
-                <div>
-                  <span class="r-mini-label">Status</span>
-                  <span class="r-badge" :class="quranStatusClass">{{ quranStatusLabel }}</span>
-                </div>
-                <div>
-                  <span class="r-mini-label">Streak 🔥</span>
-                  <strong>{{ quranStreak }} day{{ quranStreak === 1 ? "" : "s" }}</strong>
-                </div>
-              </div>
-              <div class="r-milestones">
-                <span class="r-mini-label">Milestones</span>
-                <div class="r-milestones__row">
-                  <span
-                    v-for="milestone in quranMilestones"
-                    :key="milestone.value"
-                    class="r-milestone"
-                    :class="{ 'is-hit': milestone.reached }"
-                  >
-                    <span class="r-milestone__emoji">{{ milestone.reached ? "✅" : "▫️" }}</span>
-                    {{ milestone.value }}%
-                  </span>
-                </div>
-              </div>
-              <div class="r-divider"></div>
-              <div class="r-session">
-                <div class="r-stack-head">
-                  <h4 class="r-card__title r-card__title--small">Reading log ✍️</h4>
-                  <span class="r-badge">{{ quranSessions.length }} sessions</span>
-                </div>
-                <form class="r-form r-form--compact" @submit.prevent="addQuranSession">
-                  <div class="r-form__row">
-                    <input
-                      class="r-input"
-                      v-model.number="quranSessionDraft.amount"
-                      type="number"
-                      min="1"
-                      step="0.1"
-                      :max="quranProgress.total"
-                      placeholder="Amount"
-                      required
-                    />
-                    <input class="r-input" v-model="quranSessionDraft.date" type="date" required />
-                  </div>
-                  <div class="r-form__row">
-                    <input
-                      class="r-input"
-                      v-model.trim="quranSessionDraft.note"
-                      type="text"
-                      placeholder="Optional note"
-                    />
-                    <button class="r-button" type="submit">Log session</button>
-                  </div>
-                </form>
-                <div v-if="quranSessionsSorted.length" class="r-session-list">
-                  <div v-for="session in quranSessionsSorted" :key="session.id" class="r-session-item">
-                    <div>
-                      <strong>{{ session.amount }} {{ quranUnitLabel }}</strong>
-                      <p class="r-session-meta">
-                        {{ formatISODate(session.date) }}
-                        <span v-if="session.note"> · {{ session.note }}</span>
-                      </p>
-                    </div>
-                    <button class="r-icon-button" type="button" @click="removeQuranSession(session.id)">Remove</button>
-                  </div>
-                </div>
-                <p v-else class="r-empty">No sessions yet. Log your first reading above.</p>
-              </div>
-            </article>
-
-            <article class="r-card r-card--interactive r-animate" style="--delay: 0.12s;">
-              <div class="r-stack-head">
-                <h3 class="r-card__title">Daily breakdown 🗓️</h3>
-                <span class="r-badge">{{ calendarLength }} days</span>
-              </div>
-              <p class="r-card__desc">
-                Tied to your planner dates. Targets use your daily goal or an even split across Ramadan.
-              </p>
-              <div class="r-today-panel">
-                <div>
-                  <span class="r-mini-label">Today</span>
-                  <strong>{{ quranTodayRead }} / {{ quranTodayTarget }} {{ quranUnitLabel }}</strong>
-                  <div class="r-today-meta">
-                    <span>Remaining: {{ quranTodayRemaining }}</span>
-                    <span v-if="quranTodayRemaining === 0" class="r-badge r-badge--good">Done ✅</span>
-                  </div>
-                </div>
-                <div class="r-today-actions">
-                  <span
-                    class="r-tooltip"
-                    aria-label="Uses your device date to define today."
-                    title="Uses your device date to define today."
-                  >
-                    ℹ️
-                  </span>
-                  <button
-                    class="r-button r-button--ghost r-button--sm"
-                    type="button"
-                    :disabled="!canMarkTodayComplete"
-                    @click="markTodayComplete"
-                  >
-                    Mark today complete
-                  </button>
-                  <button
-                    v-if="lastQuickAction"
-                    class="r-chip r-chip--action"
-                    type="button"
-                    @click="undoLastQuickAction"
-                  >
-                    Undo
-                  </button>
-                </div>
-              </div>
-              <div class="r-breakdown">
-                <div
-                  v-for="day in quranBreakdownDays"
-                  :key="day.key"
-                  class="r-breakdown__row"
-                  :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }"
-                >
-                  <div>
-                    <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
-                    <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
-                  </div>
-                  <div class="r-breakdown__meta">
-                    <span>🎯 {{ day.target }} {{ quranUnitLabel }}</span>
-                    <span>📗 {{ day.read }} read</span>
-                    <span class="r-badge" :class="breakdownStatusClass(day.status)">
-                      {{ breakdownStatusLabel(day.status) }}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <section id="overview" class="r-section">
       <div class="container">
         <div class="r-section__head r-overview__head">
@@ -419,6 +149,216 @@
       </div>
     </section>
 
+    <section id="interactive" class="r-section">
+      <div class="container">
+        <div class="r-section__head">
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🧩</span>
+            Quran progress studio
+          </h2>
+          <p class="r-section__subtitle">
+            Track your reading with simple goals and a planner-tied daily breakdown. Estimates are calculated from your
+            inputs.
+          </p>
+        </div>
+        <div id="section-interactive-body" class="r-section__body">
+          <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+          <div v-else-if="!isAuthenticated" class="r-auth-gate">
+            <p class="r-card__desc">
+              Log in to personalize your Quran tracker. May Allah bless your journey and help you stay consistent.
+            </p>
+            <div class="r-auth-actions">
+              <a class="r-button r-button--ghost" href="/login">Log in</a>
+            </div>
+          </div>
+          <div v-else class="r-grid r-grid--double r-grid--stagger">
+            <article class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
+              <div class="r-interactive-stack">
+                <div class="r-stack-head">
+                  <h3 class="r-card__title">Quran reading progress 📖</h3>
+                  <span class="r-badge">{{ quranProgressPercent }}% complete</span>
+                </div>
+                <p class="r-card__desc">
+                  Choose a unit, set a pace, and track your progress day by day.
+                </p>
+                <p class="r-helper">Estimates use your daily goal and planner dates. Adjust totals to match your mushaf.</p>
+                <div class="r-progress">
+                  <div
+                    class="r-progress__bar"
+                    role="progressbar"
+                    :aria-valuenow="quranProgressPercent"
+                    aria-valuemin="0"
+                    aria-valuemax="100"
+                  >
+                    <span class="r-progress__fill" :style="{ width: `${quranProgressPercent}%` }"></span>
+                  </div>
+                  <div class="r-progress__meta">
+                    <span>{{ quranProgress.completed }} / {{ quranProgress.total }} {{ quranUnitLabel }}</span>
+                    <span>{{ quranProgressRemaining }} {{ quranUnitLabel }} remaining</span>
+                  </div>
+                </div>
+                <div class="r-form r-form--compact">
+                  <div class="r-form__row">
+                    <div>
+                      <label class="r-label" for="quran-unit">Unit</label>
+                      <select id="quran-unit" class="r-select" v-model="quranProgress.unit" @change="handleQuranUnitChange">
+                        <option v-for="unit in quranUnits" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
+                      </select>
+                    </div>
+                    <div>
+                      <label class="r-label" for="quran-total">Total</label>
+                      <input
+                        id="quran-total"
+                        class="r-input"
+                        type="number"
+                        min="1"
+                        v-model.number="quranProgress.total"
+                        @input="normalizeQuranProgress"
+                      />
+                    </div>
+                    <div>
+                      <label class="r-label" for="quran-completed">Completed</label>
+                      <input
+                        id="quran-completed"
+                        class="r-input"
+                        type="number"
+                        min="0"
+                        :max="quranProgress.total"
+                        v-model.number="quranProgress.completed"
+                        @input="normalizeQuranProgress"
+                      />
+                    </div>
+                  </div>
+                  <div class="r-form__row">
+                    <div>
+                      <label class="r-label" for="quran-goal">Daily goal</label>
+                      <input
+                        id="quran-goal"
+                        class="r-input"
+                        type="number"
+                        min="0"
+                        step="1"
+                        v-model.number="quranProgress.dailyGoal"
+                        @input="normalizeQuranProgress"
+                      />
+                    </div>
+                    <div class="r-quick-add">
+                      <span class="r-label">Quick add</span>
+                      <div class="r-quick-add__buttons">
+                        <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(1)">
+                          +1
+                        </button>
+                        <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(3)">
+                          +3
+                        </button>
+                        <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(5)">
+                          +5
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <p class="r-note r-note--muted">
+                  Page counts can vary by mushaf edition. Adjust totals if needed.
+                </p>
+                <div class="r-progress__footer">
+                  <span v-if="quranProgressRemaining === 0">Completed 🎉</span>
+                  <span v-else-if="quranProgressDaysLeft">
+                    At this pace: ~{{ quranProgressDaysLeft }} day{{ quranProgressDaysLeft === 1 ? "" : "s" }} left
+                  </span>
+                  <span v-else>Set a daily goal to estimate your pace.</span>
+                  <span class="r-progress__hint">Saved locally for your login.</span>
+                </div>
+                <div class="r-progress-insights">
+                  <div>
+                    <span class="r-mini-label">Days remaining</span>
+                    <strong>{{ quranDaysRemaining }}</strong>
+                  </div>
+                  <div>
+                    <span class="r-mini-label">Needed per day</span>
+                    <strong>{{ quranDailyTargetNeeded }} {{ quranUnitLabel }}/day</strong>
+                  </div>
+                  <div>
+                    <span class="r-mini-label">Est. completion</span>
+                    <strong>{{ quranCompletionLabel }}</strong>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="r-card r-card--interactive r-animate" style="--delay: 0.12s;">
+              <div class="r-interactive-stack">
+                <div class="r-stack-head">
+                  <h3 class="r-card__title">Daily breakdown 🗓️</h3>
+                  <span class="r-badge">{{ calendarLength }} days</span>
+                </div>
+                <p class="r-card__desc">
+                  Tied to your planner dates. Targets use your daily goal or an even split across Ramadan.
+                </p>
+                <p class="r-helper">Daily totals update from your saved entries (including “Mark today complete”).</p>
+                <div class="r-today-panel">
+                  <div>
+                    <span class="r-mini-label">Today</span>
+                    <strong>{{ quranTodayRead }} / {{ quranTodayTarget }} {{ quranUnitLabel }}</strong>
+                    <div class="r-today-meta">
+                      <span>Remaining: {{ quranTodayRemaining }}</span>
+                      <span v-if="quranTodayRemaining === 0" class="r-badge r-badge--good">Completed ✅</span>
+                    </div>
+                    <p v-if="quranTodayRemaining === 0" class="r-confirm">Completion saved for today.</p>
+                  </div>
+                  <div class="r-today-actions">
+                    <span
+                      class="r-tooltip"
+                      aria-label="Uses your device date to define today."
+                      title="Uses your device date to define today."
+                    >
+                      ℹ️
+                    </span>
+                    <button
+                      class="r-button r-button--ghost r-button--sm"
+                      type="button"
+                      :disabled="!canMarkTodayComplete"
+                      @click="markTodayComplete"
+                    >
+                      {{ quranTodayRemaining === 0 ? "Completed" : "Mark today complete" }}
+                    </button>
+                    <button
+                      v-if="lastQuickAction"
+                      class="r-chip r-chip--action"
+                      type="button"
+                      @click="undoLastQuickAction"
+                    >
+                      Undo
+                    </button>
+                  </div>
+                </div>
+                <div class="r-breakdown">
+                  <div
+                    v-for="day in quranBreakdownDays"
+                    :key="day.key"
+                    class="r-breakdown__row"
+                    :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }"
+                  >
+                    <div>
+                      <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
+                      <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
+                    </div>
+                    <div class="r-breakdown__meta">
+                      <span>🎯 {{ day.target }} {{ quranUnitLabel }}</span>
+                      <span>📗 {{ day.read }} read</span>
+                      <span class="r-badge" :class="breakdownStatusClass(day.status)">
+                        {{ breakdownStatusLabel(day.status) }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="key-dates" class="r-section">
       <div class="container">
         <div class="r-section__head">
@@ -498,30 +438,6 @@
                     <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
                     <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
                   </button>
-                </div>
-                <div v-if="selectedDay" class="r-calendar__detail">
-                  <div class="r-calendar__detail-head">
-                    <h4 class="r-calendar__detail-title">
-                      Day {{ selectedDay.dayNumber }} - {{ formatISODate(selectedDay.date) }}
-                    </h4>
-                    <span v-if="selectedDay.event" class="r-calendar__event-chip">{{ selectedDay.event }}</span>
-                  </div>
-                  <p class="r-card__desc">Add a quick note or intention for this day.</p>
-                  <div v-if="!authResolved" class="r-empty">Checking login status...</div>
-                  <div v-else-if="!isAuthenticated" class="r-auth-gate">
-                    <p class="r-card__desc">Log in to save your daily intention notes.</p>
-                    <div class="r-auth-actions">
-                      <a class="r-button r-button--ghost" href="/login">Log in</a>
-                    </div>
-                  </div>
-                  <textarea
-                    v-else
-                    class="r-textarea"
-                    rows="3"
-                    :value="selectedDayNote"
-                    placeholder="Example: Aim to finish Juz 3, call family, give sadaqah."
-                    @input="selectedDayNote = $event.target.value"
-                  ></textarea>
                 </div>
               </article>
             </div>
@@ -1148,7 +1064,6 @@ export default {
       calendarStartOverride: "",
       calendarLength: 30,
       selectedDayIndex: 0,
-      dayNotes: {},
       reminderDraft: {
         title: "",
         dayNumber: 1,
@@ -1174,11 +1089,6 @@ export default {
         dailyGoal: 20,
       },
       quranSessions: [],
-      quranSessionDraft: {
-        amount: 1,
-        date: "",
-        note: "",
-      },
       lastQuickAction: null,
       isAuthenticated: false,
       authResolved: false,
@@ -1284,20 +1194,6 @@ export default {
     selectedDay() {
       return this.calendarDays[this.selectedDayIndex] || null;
     },
-    selectedDayNote: {
-      get() {
-        if (!this.selectedDay || !this.isAuthenticated) return "";
-        return this.dayNotes[this.selectedDay.dayNumber] || "";
-      },
-      set(value) {
-        if (!this.selectedDay || !this.isAuthenticated) return;
-        this.dayNotes = {
-          ...this.dayNotes,
-          [this.selectedDay.dayNumber]: value,
-        };
-        this.persistDayNotes();
-      },
-    },
     dayOptions() {
       return Array.from({ length: this.calendarLength }, (_, index) => index + 1);
     },
@@ -1351,47 +1247,14 @@ export default {
       const remaining = this.quranProgressRemaining;
       const days = this.quranDaysRemaining;
       if (!days) return 0;
-      return Math.round((remaining / days) * 10) / 10;
-    },
-    quranOnTrack() {
-      if (!this.quranProgress.dailyGoal) return false;
-      return Number(this.quranProgress.dailyGoal) >= this.quranDailyTargetNeeded;
-    },
-    quranStatusLabel() {
-      if (this.quranProgressRemaining <= 0) return "Completed";
-      if (!this.quranProgress.dailyGoal) return "Set goal";
-      return this.quranOnTrack ? "On track" : "Adjust pace";
-    },
-    quranStatusClass() {
-      if (this.quranProgressRemaining <= 0) return "r-badge--good";
-      if (!this.quranProgress.dailyGoal) return "r-badge--warn";
-      return this.quranOnTrack ? "r-badge--good" : "r-badge--warn";
-    },
-    quranSessionsSorted() {
-      return [...this.quranSessions].sort((a, b) => {
-        if (a.date === b.date) return (b.createdAt || 0) - (a.createdAt || 0);
-        return String(b.date).localeCompare(String(a.date));
-      });
-    },
-    quranStreak() {
-      if (!this.quranSessions.length) return 0;
-      const dates = new Set(this.quranSessions.map((session) => session.date));
-      let streak = 0;
-      const cursor = new Date();
-      while (true) {
-        const key = this.toDateKey(cursor);
-        if (!dates.has(key)) break;
-        streak += 1;
-        cursor.setDate(cursor.getDate() - 1);
-      }
-      return streak;
+      return Math.max(Math.round(remaining / days), 0);
     },
     quranPlannedTarget() {
       const dailyGoal = Number(this.quranProgress.dailyGoal) || 0;
-      if (dailyGoal > 0) return dailyGoal;
+      if (dailyGoal > 0) return Math.max(Math.round(dailyGoal), 1);
       const total = Number(this.quranProgress.total) || 0;
       if (!this.calendarLength || total <= 0) return 0;
-      return Math.round((total / this.calendarLength) * 10) / 10;
+      return Math.max(Math.round(total / this.calendarLength), 1);
     },
     quranSessionsByDate() {
       return this.quranSessions.reduce((acc, session) => {
@@ -1433,13 +1296,6 @@ export default {
         };
       });
     },
-    quranMilestones() {
-      const percent = this.quranProgressPercent;
-      return [25, 50, 75, 100].map((value) => ({
-        value,
-        reached: percent >= value,
-      }));
-    },
     quranEstimatedCompletionDate() {
       const daysLeft = this.quranProgressDaysLeft;
       if (!daysLeft && daysLeft !== 0) return null;
@@ -1474,9 +1330,9 @@ export default {
       return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     },
     breakdownStatusLabel(status) {
-      if (status === "done") return "Done ✅";
+      if (status === "done") return "Completed ✅";
       if (status === "partial") return "In progress ⏳";
-      return "Not started";
+      return "Not completed";
     },
     breakdownStatusClass(status) {
       if (status === "done") return "r-badge--good";
@@ -1560,14 +1416,6 @@ export default {
       const match = dates.find((entry) => /first day of ramadan/i.test(entry.event));
       return this.parseLooseDate(match?.gregorian_date);
     },
-    setQuranSessionDate(value) {
-      const key = value ? this.toDateKey(value) : "";
-      if (!key) return;
-      this.quranSessionDraft = {
-        ...this.quranSessionDraft,
-        date: key,
-      };
-    },
     getLocalStorageKey(suffix) {
       if (!this.userId) return null;
       return `ramadan2026.${suffix}.${this.userId}`;
@@ -1590,22 +1438,15 @@ export default {
       this.normalizeQuranProgress();
     },
     normalizeQuranProgress() {
-      const total = Math.max(1, Number(this.quranProgress.total) || 1);
-      const completed = Math.min(Math.max(Number(this.quranProgress.completed) || 0, 0), total);
-      const dailyGoal = Math.max(0, Number(this.quranProgress.dailyGoal) || 0);
+      const total = Math.max(1, Math.round(Number(this.quranProgress.total) || 1));
+      const completedRaw = Math.round(Number(this.quranProgress.completed) || 0);
+      const completed = Math.min(Math.max(completedRaw, 0), total);
+      const dailyGoal = Math.max(0, Math.round(Number(this.quranProgress.dailyGoal) || 0));
       this.quranProgress = {
         ...this.quranProgress,
         total,
         completed,
         dailyGoal,
-      };
-      const sessionAmount = Math.min(
-        Math.max(Number(this.quranSessionDraft.amount) || this.quranPlannedTarget || 1, 1),
-        total
-      );
-      this.quranSessionDraft = {
-        ...this.quranSessionDraft,
-        amount: sessionAmount,
       };
       this.persistQuranProgress();
     },
@@ -1618,31 +1459,13 @@ export default {
       };
       this.normalizeQuranProgress();
     },
-    addQuranSession() {
-      if (!this.isAuthenticated) return;
-      if (!this.quranSessionDraft.amount || !this.quranSessionDraft.date) return;
-      const session = {
-        id: `session-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
-        amount: Number(this.quranSessionDraft.amount),
-        date: this.quranSessionDraft.date,
-        note: this.quranSessionDraft.note,
-        createdAt: Date.now(),
-      };
-      this.quranSessions = [session, ...this.quranSessions];
-      this.addQuranProgress(session.amount);
-      this.persistQuranSessions();
-      this.quranSessionDraft = {
-        ...this.quranSessionDraft,
-        amount: this.quranSessionDraft.amount,
-        note: "",
-      };
-    },
     addQuranSessionEntry(amount, date, note) {
       if (!this.isAuthenticated) return;
       if (!amount || !date) return;
+      const roundedAmount = Math.max(Math.round(Number(amount) || 0), 1);
       const session = {
         id: `session-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
-        amount: Number(amount),
+        amount: roundedAmount,
         date,
         note: note || "",
         createdAt: Date.now(),
@@ -1713,7 +1536,12 @@ export default {
         this.normalizeQuranProgress();
         const sessionsKey = this.getLocalStorageKey("quranSessions");
         const sessionsStored = JSON.parse(window.localStorage.getItem(sessionsKey) || "[]");
-        this.quranSessions = Array.isArray(sessionsStored) ? sessionsStored : [];
+        this.quranSessions = Array.isArray(sessionsStored)
+          ? sessionsStored.map((session) => ({
+              ...session,
+              amount: Math.max(Math.round(Number(session.amount) || 0), 1),
+            }))
+          : [];
       } catch (error) {
         this.quranSessions = [];
         this.lastQuickAction = null;
@@ -1725,14 +1553,12 @@ export default {
       if (this.selectedDay) {
         this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
       }
-      this.setQuranSessionDate(this.selectedDay?.date || new Date());
     },
     selectDay(index) {
       this.selectedDayIndex = index;
       if (this.selectedDay) {
         this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
       }
-      this.setQuranSessionDate(this.selectedDay?.date || new Date());
     },
     isPersonalPlanExpanded(index) {
       return !!this.personalPlanExpanded[index];
@@ -1838,9 +1664,6 @@ export default {
         Math.max(this.reminderDraft.dayNumber, 1),
         this.calendarLength
       );
-      if (this.selectedDay) {
-        this.setQuranSessionDate(this.selectedDay.date);
-      }
       if (typeof window === "undefined") return;
       window.localStorage.setItem(
         "ramadan2026.calendar",
@@ -1849,12 +1672,6 @@ export default {
           length: this.calendarLength,
         })
       );
-    },
-    persistDayNotes() {
-      if (!this.isAuthenticated) return;
-      const key = this.getUserStorageKey("dayNotes");
-      if (!key || typeof window === "undefined") return;
-      window.localStorage.setItem(key, JSON.stringify(this.dayNotes));
     },
     persistReminders() {
       if (!this.isAuthenticated) return;
@@ -1879,15 +1696,6 @@ export default {
         if (calendarStored?.start) this.calendarStartOverride = calendarStored.start;
         if (calendarStored?.length) this.calendarLength = Number(calendarStored.length) || this.calendarLength;
         if (this.isAuthenticated) {
-          const notesKey = this.getUserStorageKey("dayNotes");
-          const notesStored = JSON.parse(window.localStorage.getItem(notesKey) || "{}");
-          if (notesStored && typeof notesStored === "object") {
-            this.dayNotes = notesStored;
-          }
-        } else {
-          this.dayNotes = {};
-        }
-        if (this.isAuthenticated) {
           const remindersKey = this.getUserStorageKey("reminders");
           const reflectionsKey = this.getUserStorageKey("reflections");
           const remindersStored = JSON.parse(window.localStorage.getItem(remindersKey) || "[]");
@@ -1903,9 +1711,8 @@ export default {
           this.reflections = [];
         }
       } catch (error) {
-        this.reminders = [];
-        this.reflections = [];
-        this.dayNotes = {};
+      this.reminders = [];
+      this.reflections = [];
       }
     },
   },
@@ -2184,8 +1991,18 @@ export default {
 }
 
 #interactive.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.18), transparent 70%);
+  background: #fff6ea;
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.2), transparent 70%);
+  color: var(--r-ink);
+}
+
+#interactive .r-section__title {
+  color: var(--r-deep);
+}
+
+#interactive .r-section__subtitle {
+  color: var(--r-ink-soft);
 }
 
 #personal-plans.r-section {
@@ -3018,6 +2835,21 @@ export default {
   gap: 10px;
 }
 
+.r-interactive-stack {
+  display: grid;
+  gap: 18px;
+}
+
+.r-helper {
+  margin: 0;
+  color: var(--r-ink-soft);
+  font-size: 0.92rem;
+}
+
+.r-interactive-stack .r-progress-insights {
+  margin-top: 4px;
+}
+
 .r-form__row {
   display: grid;
   gap: 12px;
@@ -3073,16 +2905,15 @@ export default {
   color: rgba(27, 31, 42, 0.6);
 }
 
-.r-divider {
-  height: 1px;
-  background: rgba(27, 31, 42, 0.08);
-  margin: 18px 0;
-}
-
 .r-progress-insights {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.r-progress-insights > div {
+  display: grid;
+  gap: 4px;
 }
 
 .r-mini-label {
@@ -3104,33 +2935,6 @@ export default {
   color: #8c5b1b;
 }
 
-.r-session {
-  display: grid;
-  gap: 12px;
-}
-
-.r-session-list {
-  display: grid;
-  gap: 10px;
-}
-
-.r-session-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(27, 31, 42, 0.04);
-  border: 1px solid rgba(27, 31, 42, 0.08);
-}
-
-.r-session-meta {
-  margin: 4px 0 0;
-  font-size: 0.85rem;
-  color: var(--r-ink-soft);
-}
-
 .r-quick-add {
   display: grid;
   gap: 6px;
@@ -3142,52 +2946,17 @@ export default {
   gap: 8px;
 }
 
-.r-milestones {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.r-milestones__row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.r-milestone {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(27, 31, 42, 0.06);
-  border: 1px solid rgba(27, 31, 42, 0.12);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.r-milestone__emoji {
-  font-size: 0.9rem;
-}
-
-.r-milestone.is-hit {
-  background: rgba(76, 114, 96, 0.18);
-  border-color: rgba(76, 114, 96, 0.35);
-  color: #2f5d4d;
-  animation: milestonePulse 1.6s ease;
-}
 
 .r-breakdown {
   display: grid;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 6px;
   max-height: 520px;
   overflow: auto;
   padding-right: 4px;
 }
 
 .r-today-panel {
-  margin-top: 14px;
   padding: 12px;
   border-radius: 16px;
   background: rgba(27, 31, 42, 0.04);
@@ -3233,6 +3002,12 @@ export default {
   margin-top: 4px;
 }
 
+.r-confirm {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #2f5d4d;
+}
+
 .r-breakdown__row {
   display: flex;
   justify-content: space-between;
@@ -3272,21 +3047,6 @@ export default {
   justify-content: flex-end;
   font-size: 0.85rem;
   color: var(--r-ink-soft);
-}
-
-@keyframes milestonePulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
-  }
-  50% {
-    transform: scale(1.02);
-    box-shadow: 0 12px 26px rgba(76, 114, 96, 0.2);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
-  }
 }
 
 .r-button {
@@ -3680,8 +3440,5 @@ export default {
     transition: none;
   }
 
-  .r-milestone {
-    animation: none;
-  }
 }
 </style>

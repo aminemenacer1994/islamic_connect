@@ -40841,8 +40841,16 @@ to {
   --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.22), transparent 70%);
 }
 #interactive.r-section[data-v-05456a07] {
-  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.18), transparent 70%);
+  background: #fff6ea;
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.2), transparent 70%);
+  color: var(--r-ink);
+}
+#interactive .r-section__title[data-v-05456a07] {
+  color: var(--r-deep);
+}
+#interactive .r-section__subtitle[data-v-05456a07] {
+  color: var(--r-ink-soft);
 }
 #personal-plans.r-section[data-v-05456a07] {
   --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
@@ -41549,6 +41557,18 @@ to {
   margin-top: 12px;
   gap: 10px;
 }
+.r-interactive-stack[data-v-05456a07] {
+  display: grid;
+  gap: 18px;
+}
+.r-helper[data-v-05456a07] {
+  margin: 0;
+  color: var(--r-ink-soft);
+  font-size: 0.92rem;
+}
+.r-interactive-stack .r-progress-insights[data-v-05456a07] {
+  margin-top: 4px;
+}
 .r-form__row[data-v-05456a07] {
   display: grid;
   gap: 12px;
@@ -41597,15 +41617,14 @@ to {
   text-transform: uppercase;
   color: rgba(27, 31, 42, 0.6);
 }
-.r-divider[data-v-05456a07] {
-  height: 1px;
-  background: rgba(27, 31, 42, 0.08);
-  margin: 18px 0;
-}
 .r-progress-insights[data-v-05456a07] {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.r-progress-insights > div[data-v-05456a07] {
+  display: grid;
+  gap: 4px;
 }
 .r-mini-label[data-v-05456a07] {
   display: block;
@@ -41623,29 +41642,6 @@ to {
   background: rgba(215, 166, 74, 0.18);
   color: #8c5b1b;
 }
-.r-session[data-v-05456a07] {
-  display: grid;
-  gap: 12px;
-}
-.r-session-list[data-v-05456a07] {
-  display: grid;
-  gap: 10px;
-}
-.r-session-item[data-v-05456a07] {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 14px;
-  background: rgba(27, 31, 42, 0.04);
-  border: 1px solid rgba(27, 31, 42, 0.08);
-}
-.r-session-meta[data-v-05456a07] {
-  margin: 4px 0 0;
-  font-size: 0.85rem;
-  color: var(--r-ink-soft);
-}
 .r-quick-add[data-v-05456a07] {
   display: grid;
   gap: 6px;
@@ -41655,46 +41651,15 @@ to {
   flex-wrap: wrap;
   gap: 8px;
 }
-.r-milestones[data-v-05456a07] {
-  display: grid;
-  gap: 8px;
-  margin-top: 12px;
-}
-.r-milestones__row[data-v-05456a07] {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-.r-milestone[data-v-05456a07] {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(27, 31, 42, 0.06);
-  border: 1px solid rgba(27, 31, 42, 0.12);
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-.r-milestone__emoji[data-v-05456a07] {
-  font-size: 0.9rem;
-}
-.r-milestone.is-hit[data-v-05456a07] {
-  background: rgba(76, 114, 96, 0.18);
-  border-color: rgba(76, 114, 96, 0.35);
-  color: #2f5d4d;
-  animation: milestonePulse-05456a07 1.6s ease;
-}
 .r-breakdown[data-v-05456a07] {
   display: grid;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 6px;
   max-height: 520px;
   overflow: auto;
   padding-right: 4px;
 }
 .r-today-panel[data-v-05456a07] {
-  margin-top: 14px;
   padding: 12px;
   border-radius: 16px;
   background: rgba(27, 31, 42, 0.04);
@@ -41735,6 +41700,11 @@ to {
   color: var(--r-ink-soft);
   margin-top: 4px;
 }
+.r-confirm[data-v-05456a07] {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: #2f5d4d;
+}
 .r-breakdown__row[data-v-05456a07] {
   display: flex;
   justify-content: space-between;
@@ -41769,20 +41739,6 @@ to {
   justify-content: flex-end;
   font-size: 0.85rem;
   color: var(--r-ink-soft);
-}
-@keyframes milestonePulse-05456a07 {
-0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
-}
-50% {
-    transform: scale(1.02);
-    box-shadow: 0 12px 26px rgba(76, 114, 96, 0.2);
-}
-100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
-}
 }
 .r-button[data-v-05456a07] {
   align-self: flex-start;
@@ -42112,9 +42068,6 @@ to {
   .r-modal-card[data-v-05456a07],
   .r-breakdown__row[data-v-05456a07] {
     transition: none;
-}
-.r-milestone[data-v-05456a07] {
-    animation: none;
 }
 }
 
