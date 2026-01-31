@@ -2,7 +2,20 @@
   "page_title": "Ramadan 2026 | Complete Guide & Resources",
   "meta_description": "Complete guide for Ramadan 1447 AH (2026 CE): key dates, how to fast, prayers made easy, Quran plans, charity guidance, health tips, duas, tools, and verified resources.",
   "last_updated": "2025-03-01",
-  "data_source": "Umm al-Qura Calendar (Saudi Arabia), Islamic Society of North America (ISNA), Muslim World League",
+  "data_sources": [
+    {
+      "label": "Umm al-Qura Calendar (Saudi Arabia)",
+      "link": "https://www.ummulqura.org.sa/"
+    },
+    {
+      "label": "Islamic Society of North America (ISNA)",
+      "link": "https://www.isna.net/"
+    },
+    {
+      "label": "Muslim World League",
+      "link": "https://www.themwl.org/"
+    }
+  ],
 
   "labels": {
     "references": "References",
@@ -22,8 +35,8 @@
   "header": {
     "title": "Ramadan 2026 (1447 AH)",
     "subtitle": "The Month of Quran, Fasting, and Spiritual Renewal",
-    "banner_image": "/images/banner-photo-1200.webp",
-    "alt_text": "Golden crescent moon with mosque silhouette at dusk",
+    "banner_image": "/images/ramadan-hero-pexels.jpg",
+    "alt_text": "Grand mosque exterior under a twilight sky",
     "stats": {
       "last_updated_label": "Last updated",
       "data_sources_label": "Data sources"
@@ -35,14 +48,12 @@
     { "label": "History", "href": "#history" },
     { "label": "Key dates", "href": "#key-dates" },
     { "label": "How to fast", "href": "#how-to-fast" },
-    { "label": "Prayers", "href": "#prayers" },
     { "label": "Quran plans", "href": "#quran-plans" },
     { "label": "Personal plans", "href": "#personal-plans" },
     { "label": "Charity", "href": "#charity" },
     { "label": "Health tips", "href": "#health" },
     { "label": "Duas", "href": "#duas" },
     { "label": "Short clips", "href": "#shorts" },
-    { "label": "Downloads", "href": "#downloads" },
     { "label": "Tools", "href": "#tools" }
   ],
 
@@ -73,44 +84,108 @@
         "citation": "Al-Qadr 97:1-5",
         "link": "https://quran.com/97"
       }
-    ],
-    "videos": [
-      {
-        "title": "Why do we fast in Ramadan?",
-        "description": "Simple explanation of the purpose of fasting.",
-        "source": "YouTube",
-        "link": "https://www.youtube.com/watch?v=1KEOOEZ7ZgI"
-      }
     ]
   },
 
   "history": {
     "section_title": "History & Significance",
-    "subtitle": "Ramadan is tied to the first revelation of the Quran and remains central to Islamic worship. The practice of fasting in Ramadan began with the early Muslim community and continues globally today.",
+    "subtitle": "Ramadan is linked to the Quranic revelation and the obligation of fasting. Its devotional rhythm has shaped Muslim worship, ethics, and communal life for centuries.",
     "body": [
-      "The Quran establishes fasting as a prescribed act for believers, linking Ramadan directly to revelation and guidance. Over centuries, communities have preserved the rhythm of fasting, nightly prayers, and charity as a shared spiritual culture.",
-      "The month is also a time of moral renewal - improving character, speech, and relationships. This spiritual focus is one reason Ramadan remains the most cherished month in the Islamic calendar.",
-      "Across the world, Ramadan brings together families, neighbors, and communities to build stronger bonds and shared purpose."
+      "The Quran frames fasting in Ramadan as a prescribed act for believers and ties the month to revelation and guidance.",
+      "Prophetic practice established suhoor, iftar at sunset, and intensified night worship, while the last ten nights emphasize Laylat al-Qadr and spiritual retreat (i'tikaf).",
+      "Across centuries, Ramadan shaped daily routines, public worship, and charitable life, anchored by mosques, learning circles, and family gatherings.",
+      "Modern Ramadan carries these traditions worldwide through organized charity, community programming, and digital learning."
     ],
     "timeline": [
       {
-        "period": "Early Islamic era",
-        "detail": "Fasting in Ramadan becomes a communal practice as outlined in the Quran."
+        "period": "c. 610 CE (13 BH)",
+        "detail": "First Quranic revelation occurs in Ramadan, traditionally associated with Laylat al-Qadr."
       },
       {
-        "period": "Revelation of the Quran",
-        "detail": "Ramadan is honored as the month of divine guidance for humanity."
+        "period": "624 CE (2 AH)",
+        "detail": "Fasting in Ramadan is prescribed for believers (Qur'an 2:183-185)."
       },
       {
-        "period": "Across civilizations",
-        "detail": "Muslims across regions maintain fasting, Taraweeh, and charity as shared traditions."
+        "period": "632-661 CE (Rashidun era)",
+        "detail": "Ramadan practices consolidate within the early Muslim community, emphasizing communal prayer and charity."
+      },
+      {
+        "period": "7th-8th centuries CE",
+        "detail": "Ramadan observance spreads across expanding Muslim communities in the Middle East, North Africa, and Asia."
+      },
+      {
+        "period": "9th-12th centuries CE",
+        "detail": "Legal and devotional scholarship elaborates fasting practice, moon sighting, and community observance."
+      },
+      {
+        "period": "13th-15th centuries CE",
+        "detail": "Regional traditions develop in Andalusia, the Maghreb, Egypt, and the Levant alongside urban mosque life."
+      },
+      {
+        "period": "15th-19th centuries CE",
+        "detail": "Ottoman, Safavid, and Mughal societies expand public iftars, endowments, and Quran education."
+      },
+      {
+        "period": "20th-21st centuries CE",
+        "detail": "Global Ramadan programming, large-scale iftars, and coordinated charity expand community impact."
       },
       {
         "period": "Today",
-        "detail": "Ramadan continues to unite communities globally through worship, service, and family ties."
+        "detail": "Ramadan continues to unite communities worldwide through worship, service, and family ties."
       }
     ],
+    "notable_figures": {
+      "title": "Scholars & Voices",
+      "items": [
+        {
+          "name": "Ibn Abbas (d. 687 CE)",
+          "note": "Early Qur'anic exegete whose explanations shaped how Muslims understand verses about fasting."
+        },
+        {
+          "name": "Imam Malik (d. 795 CE)",
+          "note": "Documented Madinan practice, including Ramadan customs and community observance."
+        },
+        {
+          "name": "Imam al-Shafi'i (d. 820 CE)",
+          "note": "Systematized legal principles that influenced fasting rulings across regions."
+        },
+        {
+          "name": "Imam al-Nawawi (d. 1277 CE)",
+          "note": "Compiled hadith and devotional guidance that shaped Ramadan practice."
+        }
+      ]
+    },
+    "regional_practices": {
+      "title": "Regional Traditions",
+      "items": [
+        {
+          "region": "Egypt (Cairo)",
+          "detail": "Lantern processions and communal iftars became distinctive Ramadan features."
+        },
+        {
+          "region": "Ottoman cities (Istanbul)",
+          "detail": "Public iftar tents and endowments supported travelers and the poor."
+        },
+        {
+          "region": "West Africa (Sahel)",
+          "detail": "Quran recitation circles and night study gatherings remain a hallmark."
+        },
+        {
+          "region": "South & Southeast Asia",
+          "detail": "Large taraweeh congregations and neighborhood iftars reinforce community bonds."
+        },
+        {
+          "region": "Diaspora communities",
+          "detail": "Mosques and Islamic centers host open iftars and service drives to build cohesion."
+        }
+      ]
+    },
     "references": [
+      {
+        "source": "Qur'an",
+        "citation": "Al-Baqarah 2:183-187",
+        "link": "https://quran.com/2/183"
+      },
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:185",
@@ -118,8 +193,13 @@
       },
       {
         "source": "Qur'an",
-        "citation": "Al-Qadr 97:1",
-        "link": "https://quran.com/97/1"
+        "citation": "Al-Qadr 97:1-5",
+        "link": "https://quran.com/97"
+      },
+      {
+        "source": "Qur'an",
+        "citation": "Al-Baqarah 2:187",
+        "link": "https://quran.com/2/187"
       }
     ]
   },
@@ -222,48 +302,6 @@
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:183-187",
         "link": "https://quran.com/2/183"
-      }
-    ]
-  },
-
-  "prayers_made_easy": {
-    "section_title": "Prayers Made Easy (Daily + Taraweeh)",
-    "intro": "Keep prayers simple and consistent. Focus on quality, not perfection.",
-    "daily_prayers_title": "Daily prayers",
-    "daily_prayer_tips": [
-      "Pray on time even if the prayer is short.",
-      "Keep a small list of duas you repeat daily.",
-      "Use prayer as your daily reset points.",
-      "If you miss a prayer, make it up as soon as you can."
-    ],
-    "daily_prayers": [
-      { "name": "Fajr", "rakaat": "2", "time_window": "Dawn", "focus": "Start the day with calm and clarity." },
-      { "name": "Dhuhr", "rakaat": "4", "time_window": "Midday", "focus": "Refocus in the middle of the day." },
-      { "name": "Asr", "rakaat": "4", "time_window": "Afternoon", "focus": "Stay steady and mindful." },
-      { "name": "Maghrib", "rakaat": "3", "time_window": "Sunset", "focus": "Gratitude at Iftar." },
-      { "name": "Isha", "rakaat": "4", "time_window": "Night", "focus": "Close the day with worship." }
-    ],
-    "taraweeh": {
-      "title": "Taraweeh (Night Prayer)",
-      "description": "Taraweeh is a special night prayer in Ramadan. Pray in congregation or at home. Even a small portion is valuable.",
-      "tips": [
-        "Start with a shorter number of rakaat and build consistency.",
-        "Follow the local masjid schedule or pray at home with family.",
-        "Keep a gentle pace and focus on reflection.",
-        "If you miss a night, return the next - consistency matters most."
-      ],
-      "checklist_title": "Checklist",
-      "checklist": [
-        "Make intention before starting.",
-        "Read from the Quran if possible.",
-        "End with a short dua for acceptance."
-      ]
-    },
-    "references": [
-      {
-        "source": "Qur'an",
-        "citation": "Al-Baqarah 2:238",
-        "link": "https://quran.com/2/238"
       }
     ]
   },
@@ -400,6 +438,44 @@
           "Week 4: Wrap-up and gratitude"
         ],
         "accountability": "Weekly debrief with the team."
+      },
+      {
+        "title": "Beginner Step-Up Plan",
+        "who_for": "New to consistent Ramadan routines",
+        "overview": "A gentle ramp-up plan that builds confidence with short, repeatable habits.",
+        "focus": "Consistency over intensity.",
+        "daily_flow": [
+          "Fajr: 5 minutes of Quran + simple dua",
+          "Dhuhr: 2 pages of Quran",
+          "Maghrib: gratitude note + family check-in",
+          "Isha: short Taraweeh or 2 rakaat at home"
+        ],
+        "weekly_focus": [
+          "Week 1: Set a realistic daily target",
+          "Week 2: Add a short reflection journal",
+          "Week 3: Increase Quran time by 5 minutes",
+          "Week 4: Maintain routine and prepare for Eid"
+        ],
+        "accountability": "Track progress daily and celebrate small wins."
+      },
+      {
+        "title": "Night Worship Plan",
+        "who_for": "Those focusing on the last 10 nights",
+        "overview": "Structured routine to maximize Qiyam, dua, and Quran in the evenings.",
+        "focus": "Deep night worship and focused dua.",
+        "daily_flow": [
+          "After Maghrib: light meal + rest",
+          "After Isha: Taraweeh with focus",
+          "Late night: 20 minutes Quran + dua",
+          "Before Suhoor: 2-4 rakaat Qiyam"
+        ],
+        "weekly_focus": [
+          "Week 1: Prepare sleep schedule",
+          "Week 2: Add a dua list for family",
+          "Week 3: Increase Qiyam duration",
+          "Week 4: Focus on Laylat al-Qadr"
+        ],
+        "accountability": "Set a nightly alarm and keep a short dua checklist."
       }
     ]
   },
@@ -527,6 +603,7 @@
         "transliteration": "Rabbana atina fid-dunya hasanah",
         "translation": "Our Lord, give us good in this world",
         "reference": "Qur'an 2:201",
+        "link": "https://quran.com/2/201",
         "tag": "Quran"
       },
       {
@@ -535,6 +612,7 @@
         "transliteration": "Rabbana la tuzigh qulubana",
         "translation": "Our Lord, do not let our hearts deviate",
         "reference": "Qur'an 3:8",
+        "link": "https://quran.com/3/8",
         "tag": "Quran"
       },
       {
@@ -543,6 +621,7 @@
         "transliteration": "Rabbana hab lana min azwajina",
         "translation": "Our Lord, grant us from among our spouses",
         "reference": "Qur'an 25:74",
+        "link": "https://quran.com/25/74",
         "tag": "Quran"
       }
     ],
@@ -885,61 +964,6 @@
     ]
   },
 
-  "downloads_printables": {
-    "section_title": "Downloads & Printables",
-    "subtitle": "Print-friendly guides to keep your home organized throughout the month.",
-    "resources": [
-      {
-        "name": "Ramadan 2026 Planner PDF",
-        "description": "Daily checklist, meal planner, Quran tracker",
-        "file_size": "2.1 MB",
-        "link": "/downloads/ramadan-planner-2026.pdf"
-      },
-      {
-        "name": "Prayer Time Calendar",
-        "description": "Customizable prayer time sheet for your city",
-        "file_size": "1.5 MB",
-        "link": "/downloads/prayer-calendar.pdf"
-      },
-      {
-        "name": "Kids Activity Pack",
-        "description": "Coloring, puzzles, and educational activities",
-        "file_size": "3.4 MB",
-        "link": "/downloads/kids-activity-pack.zip"
-      },
-      {
-        "name": "30-Day Quran Checklist",
-        "description": "Track daily readings and reflections",
-        "file_size": "900 KB",
-        "link": "/downloads/quran-checklist.pdf"
-      },
-      {
-        "name": "Iftar Recipe Cards",
-        "description": "Healthy iftar ideas and portions",
-        "file_size": "1.2 MB",
-        "link": "/downloads/iftar-recipes.pdf"
-      },
-      {
-        "name": "Laylat al-Qadr Notes",
-        "description": "Reflection prompts for the last 10 nights",
-        "file_size": "750 KB",
-        "link": "/downloads/laylat-al-qadr-notes.pdf"
-      },
-      {
-        "name": "Family Goals Tracker",
-        "description": "Shared Ramadan goals and progress sheet",
-        "file_size": "820 KB",
-        "link": "/downloads/family-goals.pdf"
-      },
-      {
-        "name": "Daily Dua Cards",
-        "description": "Printable Quran duas for suhoor and iftar",
-        "file_size": "600 KB",
-        "link": "/downloads/dua-cards.pdf"
-      }
-    ]
-  },
-
   "platform_resources": {
     "section_title": "Apps & Learning Resources",
     "subtitle": "Choose the platform that suits your learning style.",
@@ -947,25 +971,52 @@
       {
         "title": "Mobile",
         "items": [
-          "Muslim Pro (Prayer times, Quran, Qibla)",
-          "Quran.com App",
-          "Bayyinah TV"
+          {
+            "label": "Muslim Pro (Prayer times, Quran, Qibla)",
+            "link": "https://www.muslimpro.com/"
+          },
+          {
+            "label": "Quran.com App",
+            "link": "https://quran.com/apps"
+          },
+          {
+            "label": "Bayyinah TV",
+            "link": "https://bayyinahtv.com/"
+          }
         ]
       },
       {
         "title": "Web",
         "items": [
-          "Quran.com",
-          "Bayyinah TV",
-          "SeekersGuidance"
+          {
+            "label": "Quran.com",
+            "link": "https://quran.com/"
+          },
+          {
+            "label": "Bayyinah TV",
+            "link": "https://bayyinahtv.com/"
+          },
+          {
+            "label": "SeekersGuidance",
+            "link": "https://seekersguidance.org/"
+          }
         ]
       },
       {
         "title": "General",
         "items": [
-          "Local masjid courses",
-          "Ramadan reflection playlists",
-          "Community study circles"
+          {
+            "label": "Local masjid courses",
+            "link": "https://www.google.com/maps/search/masjid+near+me"
+          },
+          {
+            "label": "Ramadan reflection playlists",
+            "link": "https://www.youtube.com/results?search_query=ramadan+reflection+playlist"
+          },
+          {
+            "label": "Community study circles",
+            "link": "https://www.google.com/search?q=islamic+study+circle+near+me"
+          }
         ]
       }
     ]

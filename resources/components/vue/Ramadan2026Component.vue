@@ -17,7 +17,18 @@
               </div>
               <div class="r-hero__card">
                 <span class="r-hero__label">{{ ramadan.header.stats.data_sources_label }}</span>
-                <strong>{{ ramadan.data_source }}</strong>
+                <div class="r-hero__sources">
+                  <a
+                    v-for="source in ramadan.data_sources"
+                    :key="source.label"
+                    class="r-hero__source"
+                    :href="source.link"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {{ source.label }}
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -30,17 +41,14 @@
 
           <div class="r-hero__media r-animate" style="--delay: 0.22s;">
             <div class="r-hero__frame">
-              <picture v-if="heroImage">
-                <source :srcset="heroImageSrcset.avif" type="image/avif" />
-                <source :srcset="heroImageSrcset.webp" type="image/webp" />
-                <img
-                  :src="heroImage"
-                  :alt="ramadan.header.alt_text"
-                  class="r-hero__image"
-                  loading="lazy"
-                  @error="handleHeroImageError"
-                />
-              </picture>
+              <img
+                v-if="heroImage"
+                :src="heroImage"
+                :alt="ramadan.header.alt_text"
+                class="r-hero__image"
+                loading="lazy"
+                @error="handleHeroImageError"
+              />
               <div class="r-hero__glow"></div>
             </div>
             <div class="r-hero__note">{{ ramadan.important_dates.note }}</div>
@@ -62,20 +70,13 @@
         <ul class="r-overview__list">
           <li v-for="item in ramadan.overview.key_points" :key="item">{{ item }}</li>
         </ul>
-        <div class="r-video-grid r-video-grid--wide">
-          <div v-for="video in ramadan.overview.videos" :key="video.link" class="r-video-card">
-            <h4>{{ video.title }}</h4>
-            <p>{{ video.description }}</p>
-            <a class="r-link" :href="video.link" target="_blank" rel="noopener">
-              {{ ramadan.labels.open_video }}
-            </a>
-          </div>
-        </div>
         <div class="r-references" v-if="ramadan.overview.references">
           <h4>{{ ramadan.labels.references }}</h4>
           <ul>
             <li v-for="ref in ramadan.overview.references" :key="ref.citation">
-              <span>{{ ref.source }} — {{ ref.citation }}</span>
+              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                {{ ref.source }} — {{ ref.citation }}
+              </a>
               <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
             </li>
           </ul>
@@ -98,11 +99,34 @@
             <p class="r-card__desc">{{ item.detail }}</p>
           </article>
         </div>
+        <div
+          class="r-grid r-grid--double r-spacing-top"
+          v-if="ramadan.history.notable_figures || ramadan.history.regional_practices"
+        >
+          <article v-if="ramadan.history.notable_figures" class="r-card">
+            <h3 class="r-card__title">{{ ramadan.history.notable_figures.title }}</h3>
+            <ul class="r-list">
+              <li v-for="item in ramadan.history.notable_figures.items" :key="item.name">
+                <strong>{{ item.name }}:</strong> {{ item.note }}
+              </li>
+            </ul>
+          </article>
+          <article v-if="ramadan.history.regional_practices" class="r-card">
+            <h3 class="r-card__title">{{ ramadan.history.regional_practices.title }}</h3>
+            <ul class="r-list">
+              <li v-for="item in ramadan.history.regional_practices.items" :key="item.region">
+                <strong>{{ item.region }}:</strong> {{ item.detail }}
+              </li>
+            </ul>
+          </article>
+        </div>
         <div class="r-references" v-if="ramadan.history.references">
           <h4>{{ ramadan.labels.references }}</h4>
           <ul>
             <li v-for="ref in ramadan.history.references" :key="ref.citation">
-              <span>{{ ref.source }} — {{ ref.citation }}</span>
+              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                {{ ref.source }} — {{ ref.citation }}
+              </a>
               <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
             </li>
           </ul>
@@ -145,52 +169,9 @@
           <h4>{{ ramadan.labels.references }}</h4>
           <ul>
             <li v-for="ref in ramadan.how_to_fast.references" :key="ref.citation">
-              <span>{{ ref.source }} — {{ ref.citation }}</span>
-              <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="prayers" class="r-section">
-      <div class="container">
-        <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.prayers_made_easy.section_title }}</h2>
-          <p class="r-section__subtitle">{{ ramadan.prayers_made_easy.intro }}</p>
-        </div>
-        <div class="r-grid r-grid--double">
-          <article class="r-card">
-            <h3 class="r-card__title">{{ ramadan.prayers_made_easy.daily_prayers_title }}</h3>
-            <div class="r-prayer-list">
-              <div v-for="prayer in ramadan.prayers_made_easy.daily_prayers" :key="prayer.name" class="r-prayer-item">
-                <div>
-                  <h4>{{ prayer.name }} <span class="r-chip">{{ prayer.rakaat }} rakaat</span></h4>
-                  <p>{{ prayer.time_window }} — {{ prayer.focus }}</p>
-                </div>
-              </div>
-            </div>
-            <ul class="r-list r-spacing-top">
-              <li v-for="tip in ramadan.prayers_made_easy.daily_prayer_tips" :key="tip">{{ tip }}</li>
-            </ul>
-          </article>
-          <article class="r-card">
-            <h3 class="r-card__title">{{ ramadan.prayers_made_easy.taraweeh.title }}</h3>
-            <p class="r-card__desc">{{ ramadan.prayers_made_easy.taraweeh.description }}</p>
-            <ul class="r-list">
-              <li v-for="tip in ramadan.prayers_made_easy.taraweeh.tips" :key="tip">{{ tip }}</li>
-            </ul>
-            <h4 class="r-card__title r-card__title--small">{{ ramadan.prayers_made_easy.taraweeh.checklist_title }}</h4>
-            <ul class="r-list">
-              <li v-for="item in ramadan.prayers_made_easy.taraweeh.checklist" :key="item">{{ item }}</li>
-            </ul>
-          </article>
-        </div>
-        <div class="r-references" v-if="ramadan.prayers_made_easy.references">
-          <h4>{{ ramadan.labels.references }}</h4>
-          <ul>
-            <li v-for="ref in ramadan.prayers_made_easy.references" :key="ref.citation">
-              <span>{{ ref.source }} — {{ ref.citation }}</span>
+              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                {{ ref.source }} — {{ ref.citation }}
+              </a>
               <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
             </li>
           </ul>
@@ -223,7 +204,9 @@
           <h4>{{ ramadan.labels.references }}</h4>
           <ul>
             <li v-for="ref in ramadan.quran_reading_plans.references" :key="ref.citation">
-              <span>{{ ref.source }} — {{ ref.citation }}</span>
+              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                {{ ref.source }} — {{ ref.citation }}
+              </a>
               <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
             </li>
           </ul>
@@ -295,7 +278,9 @@
           <h4>{{ ramadan.labels.references }}</h4>
           <ul>
             <li v-for="ref in ramadan.charity_guide.references" :key="ref.citation">
-              <span>{{ ref.source }} — {{ ref.citation }}</span>
+              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                {{ ref.source }} — {{ ref.citation }}
+              </a>
               <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
             </li>
           </ul>
@@ -350,7 +335,9 @@
               <p class="r-arabic" dir="rtl">{{ dua.arabic }}</p>
               <p class="r-translit">{{ dua.transliteration }}</p>
               <p class="r-story-desc">{{ dua.translation }}</p>
-              <span class="r-story-duration">{{ dua.reference }}</span>
+              <a class="r-story-duration" :href="dua.link" target="_blank" rel="noopener">
+                {{ dua.reference }}
+              </a>
             </div>
           </article>
         </div>
@@ -421,42 +408,6 @@
       </div>
     </section>
 
-    <section id="downloads" class="r-section r-section--alt">
-      <div class="container">
-        <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.downloads_printables.section_title }}</h2>
-          <p class="r-section__subtitle">{{ ramadan.downloads_printables.subtitle }}</p>
-        </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="item in ramadan.downloads_printables.resources" :key="item.name" class="r-card r-card--download">
-            <h3 class="r-card__title">{{ item.name }}</h3>
-            <p class="r-card__desc">{{ item.description }}</p>
-            <div class="r-download">
-              <span class="r-chip">{{ item.file_size }}</span>
-              <a :href="item.link" class="r-link">{{ ramadan.labels.download }}</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="platforms" class="r-section">
-      <div class="container">
-        <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.platform_resources.section_title }}</h2>
-          <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
-        </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="card in ramadan.platform_resources.cards" :key="card.title" class="r-card">
-            <h3 class="r-card__title">{{ card.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in card.items" :key="item">{{ item }}</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
     <section id="tools" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
@@ -487,6 +438,25 @@
       </div>
     </section>
 
+    <section id="platforms" class="r-section">
+      <div class="container">
+        <div class="r-section__head">
+          <h2 class="r-section__title">{{ ramadan.platform_resources.section_title }}</h2>
+          <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
+        </div>
+        <div class="r-grid r-grid--triple">
+          <article v-for="card in ramadan.platform_resources.cards" :key="card.title" class="r-card">
+            <h3 class="r-card__title">{{ card.title }}</h3>
+            <ul class="r-list">
+              <li v-for="item in card.items" :key="item.label">
+                <a class="r-resource-link" :href="item.link" target="_blank" rel="noopener">{{ item.label }}</a>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <div
       class="modal fade"
       id="moreDuasModal"
@@ -494,7 +464,7 @@
       aria-labelledby="moreDuasModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="moreDuasModalLabel">{{ ramadan.duas_prayers.modal_title }}</h5>
@@ -513,7 +483,9 @@
                       <p class="r-translit">{{ item.transliteration }}</p>
                       <p class="r-story-desc">{{ item.translation }}</p>
                       <div class="r-story-meta">
-                        <span class="r-story-duration">{{ item.reference }}</span>
+                        <a class="r-story-duration" :href="item.resource" target="_blank" rel="noopener">
+                          {{ item.reference }}
+                        </a>
                         <a class="r-story-link" :href="item.resource" target="_blank" rel="noopener">{{ ramadan.labels.resource_label }}</a>
                       </div>
                     </div>
@@ -543,12 +515,6 @@ export default {
   computed: {
     heroImage() {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
-    },
-    heroImageSrcset() {
-      return {
-        avif: "/images/banner-photo-400.avif 400w, /images/banner-photo-800.avif 800w, /images/banner-photo-1200.avif 1200w",
-        webp: "/images/banner-photo-400.webp 400w, /images/banner-photo-800.webp 800w, /images/banner-photo-1200.webp 1200w",
-      };
     },
   },
   methods: {
@@ -584,20 +550,22 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cormorant+Garamond:wght@500;600;700&family=Source+Sans+3:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap");
 
 .ramadan-2026 {
-  --r-ink: #102a22;
-  --r-ink-soft: #3f534b;
-  --r-gold: #d1a046;
-  --r-teal: #1b7567;
-  --r-cream: #f7f1e7;
-  --r-sand: #efe5d4;
-  --r-shadow: 0 24px 60px rgba(16, 42, 34, 0.18);
-  --r-radius: 22px;
-  font-family: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --r-ink: #1b1f2a;
+  --r-ink-soft: #4a5060;
+  --r-accent: #d7a64a;
+  --r-accent-deep: #b8832e;
+  --r-deep: #0f2230;
+  --r-mist: #f6f1ea;
+  --r-card: #ffffff;
+  --r-line: rgba(27, 31, 42, 0.08);
+  --r-shadow: 0 28px 70px rgba(10, 17, 26, 0.18);
+  --r-radius: 24px;
+  font-family: "Manrope", "Segoe UI", sans-serif;
   color: var(--r-ink);
-  background: radial-gradient(circle at 15% 15%, #fff9ef 0, #f7efe3 45%, #efe2d1 100%);
+  background: linear-gradient(180deg, #0f2230 0%, #132c3b 12%, #f6f1ea 35%, #f6f1ea 100%);
 }
 
 .ramadan-2026 * {
@@ -606,15 +574,20 @@ export default {
 
 .r-hero {
   position: relative;
-  padding: 90px 0 70px;
+  padding: 96px 0 80px;
   overflow: hidden;
+  color: #fdf7ef;
+  background: radial-gradient(circle at 10% 10%, rgba(255, 229, 188, 0.45), transparent 45%),
+    radial-gradient(circle at 85% 15%, rgba(185, 220, 225, 0.45), transparent 45%),
+    linear-gradient(140deg, #173247, #2a5264 55%, #3f6a78);
 }
 
 .r-hero__backdrop {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 70% 30%, rgba(27, 117, 103, 0.16), transparent 55%),
-    radial-gradient(circle at 20% 10%, rgba(209, 160, 70, 0.22), transparent 52%);
+  background: radial-gradient(circle at 20% 20%, rgba(255, 215, 155, 0.35), transparent 45%),
+    radial-gradient(circle at 78% 12%, rgba(150, 205, 212, 0.35), transparent 45%),
+    linear-gradient(140deg, rgba(18, 40, 54, 0.75), rgba(26, 54, 70, 0.45));
   pointer-events: none;
 }
 
@@ -622,41 +595,42 @@ export default {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 40px;
+  gap: 48px;
   align-items: center;
   z-index: 1;
 }
 
 .r-hero__content {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .r-hero__eyebrow {
   text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.7rem;
+  letter-spacing: 0.24em;
+  font-size: 0.65rem;
   font-weight: 700;
-  color: var(--r-teal);
+  color: rgba(253, 247, 239, 0.7);
 }
 
 .r-hero__title {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
-  font-size: clamp(2.8rem, 4.5vw, 4.4rem);
-  line-height: 1.05;
-  margin: 4px 0 0;
+  font-family: "Fraunces", serif;
+  font-size: clamp(2.8rem, 4.6vw, 4.6rem);
+  line-height: 1.04;
+  margin: 0;
+  color: #ffffff;
 }
 
 .r-hero__subtitle {
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   font-weight: 500;
-  color: var(--r-ink-soft);
+  color: rgba(253, 247, 239, 0.85);
 }
 
 .r-hero__lead {
-  font-size: 1.1rem;
-  margin: 0;
+  font-size: 1.05rem;
   max-width: 560px;
+  color: rgba(253, 247, 239, 0.78);
 }
 
 .r-hero__stats {
@@ -666,111 +640,143 @@ export default {
 }
 
 .r-hero__card {
-  background: rgba(255, 255, 255, 0.85);
   padding: 16px 18px;
-  border-radius: 18px;
-  box-shadow: var(--r-shadow);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
 }
 
 .r-hero__label {
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--r-teal);
+  letter-spacing: 0.16em;
+  color: rgba(253, 247, 239, 0.7);
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.r-hero__sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.r-hero__source {
+  color: rgba(253, 247, 239, 0.9);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.r-hero__source:not(:last-child)::after {
+  content: ",";
+  margin-left: 4px;
+  color: rgba(253, 247, 239, 0.65);
+}
+
+.r-hero__source:hover {
+  color: #ffffff;
 }
 
 .r-hero__nav {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  margin-top: 10px;
 }
 
 .r-hero__pill {
   border-radius: 999px;
-  padding: 8px 14px;
-  background: rgba(255, 255, 255, 0.7);
-  color: var(--r-ink);
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fdf7ef;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9rem;
-  border: 1px solid rgba(27, 117, 103, 0.15);
+  font-size: 0.88rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: all 0.2s ease;
 }
 
 .r-hero__pill:hover {
-  color: var(--r-teal);
-  border-color: rgba(27, 117, 103, 0.35);
+  color: #0f2230;
+  background: #fdf7ef;
 }
 
 .r-hero__media {
   display: grid;
-  gap: 16px;
+  gap: 18px;
   align-items: center;
 }
 
 .r-hero__frame {
   position: relative;
-  padding: 18px;
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(209, 160, 70, 0.35), rgba(27, 117, 103, 0.15));
+  padding: 22px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: var(--r-shadow);
 }
 
 .r-hero__image {
   width: 100%;
-  max-height: 420px;
-  border-radius: 20px;
+  max-height: 520px;
+  border-radius: 24px 6px 24px 6px;
   object-fit: cover;
 }
 
 .r-hero__glow {
   position: absolute;
   inset: 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
   pointer-events: none;
 }
 
 .r-hero__note {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(253, 247, 239, 0.92);
   padding: 14px 16px;
   border-radius: 16px;
   font-size: 0.95rem;
-  color: var(--r-ink-soft);
-  box-shadow: var(--r-shadow);
+  color: #1b1f2a;
+  border: 1px solid rgba(15, 34, 48, 0.15);
+  box-shadow: 0 12px 30px rgba(15, 34, 48, 0.2);
 }
 
 .r-section {
-  padding: 70px 0;
+  padding: 80px 0;
+}
+
+#overview.r-section {
+  background: #fff6ea;
 }
 
 .r-section--alt {
-  background: rgba(255, 255, 255, 0.6);
+  background: #fdf9f3;
 }
 
 .r-section__head {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 34px;
 }
 
 .r-section__title {
-  font-family: "Cormorant Garamond", "Times New Roman", serif;
-  font-size: clamp(2.1rem, 3vw, 2.9rem);
+  font-family: "Fraunces", serif;
+  font-size: clamp(2.1rem, 3vw, 3rem);
   margin: 0;
+  color: var(--r-deep);
 }
 
 .r-section__subtitle {
   color: var(--r-ink-soft);
-  max-width: 760px;
+  max-width: 820px;
 }
 
 .r-overview__lead {
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   font-weight: 600;
-  color: var(--r-ink);
+  color: var(--r-deep);
   max-width: 900px;
 }
 
@@ -781,16 +787,16 @@ export default {
 }
 
 .r-overview__list {
-  margin-top: 20px;
+  margin-top: 22px;
   padding-left: 22px;
   display: grid;
-  gap: 8px;
+  gap: 10px;
   max-width: 760px;
 }
 
 .r-grid {
   display: grid;
-  gap: 24px;
+  gap: 26px;
 }
 
 .r-grid--dates {
@@ -806,38 +812,39 @@ export default {
 }
 
 .r-card {
-  background: #fff;
+  background: var(--r-card);
   border-radius: var(--r-radius);
-  padding: 24px;
-  box-shadow: var(--r-shadow);
+  padding: 26px;
+  border: 1px solid var(--r-line);
+  box-shadow: 0 16px 40px rgba(15, 34, 48, 0.08);
 }
 
 .r-card__tag {
   display: inline-flex;
   padding: 6px 12px;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 16px;
-  background: var(--r-sand);
-  color: var(--r-ink);
+  background: rgba(215, 166, 74, 0.18);
+  color: var(--r-accent-deep);
 }
 
 .r-card__tag--start {
-  background: rgba(27, 117, 103, 0.16);
-  color: var(--r-teal);
+  background: rgba(73, 125, 140, 0.16);
+  color: #2f6b7a;
 }
 
 .r-card__tag--special {
-  background: rgba(209, 160, 70, 0.2);
-  color: #a0732d;
+  background: rgba(215, 166, 74, 0.2);
+  color: var(--r-accent-deep);
 }
 
 .r-card__tag--eid {
-  background: rgba(246, 222, 211, 0.8);
-  color: #8d4b3b;
+  background: rgba(250, 221, 196, 0.8);
+  color: #9a552f;
 }
 
 .r-card__title {
@@ -853,7 +860,7 @@ export default {
 
 .r-card__meta {
   font-weight: 600;
-  color: var(--r-teal);
+  color: var(--r-accent-deep);
 }
 
 .r-card__desc {
@@ -862,28 +869,18 @@ export default {
 
 .r-list {
   padding-left: 18px;
-}
-
-.r-list-block h4 {
-  font-size: 1rem;
-  margin-top: 18px;
-  margin-bottom: 8px;
-}
-
-.r-list-block ul {
-  padding-left: 18px;
-  margin-bottom: 12px;
+  color: var(--r-ink-soft);
 }
 
 .r-link {
   font-weight: 700;
-  color: var(--r-teal);
+  color: var(--r-deep);
   text-decoration: none;
   white-space: nowrap;
 }
 
 .r-link:hover {
-  color: #0c574a;
+  color: var(--r-accent-deep);
 }
 
 .r-link--button {
@@ -891,12 +888,12 @@ export default {
   margin-top: 22px;
   padding: 10px 18px;
   border-radius: 999px;
-  border: 1px solid rgba(27, 117, 103, 0.3);
+  border: 1px solid rgba(15, 34, 48, 0.2);
   background: #fff;
 }
 
 .r-link--button:hover {
-  background: rgba(27, 117, 103, 0.08);
+  background: rgba(215, 166, 74, 0.15);
 }
 
 .r-chip {
@@ -904,8 +901,8 @@ export default {
   align-items: center;
   padding: 4px 10px;
   border-radius: 999px;
-  background: rgba(27, 117, 103, 0.12);
-  color: var(--r-teal);
+  background: rgba(27, 31, 42, 0.08);
+  color: var(--r-deep);
   font-size: 0.75rem;
   font-weight: 600;
   margin-top: 6px;
@@ -936,9 +933,10 @@ export default {
 }
 
 .r-video-card {
-  padding: 14px;
-  border-radius: 16px;
-  background: rgba(27, 117, 103, 0.08);
+  padding: 16px;
+  border-radius: 18px;
+  background: rgba(27, 31, 42, 0.06);
+  border: 1px solid rgba(27, 31, 42, 0.08);
 }
 
 .r-references {
@@ -972,8 +970,8 @@ export default {
 }
 
 .r-arabic {
-  font-family: "Amiri", "Times New Roman", serif;
-  font-size: 1.25rem;
+  font-family: "Fraunces", serif;
+  font-size: 1.15rem;
   margin-bottom: 8px;
 }
 
@@ -1002,15 +1000,15 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: rgba(16, 42, 34, 0.08);
-  color: var(--r-ink);
+  background: rgba(27, 31, 42, 0.08);
+  color: var(--r-deep);
   text-decoration: none;
-  border: 1px solid rgba(16, 42, 34, 0.12);
+  border: 1px solid rgba(27, 31, 42, 0.12);
 }
 
 .r-expand:hover {
-  color: var(--r-teal);
-  border-color: rgba(27, 117, 103, 0.35);
+  color: var(--r-accent-deep);
+  border-color: rgba(215, 166, 74, 0.4);
 }
 
 .r-story-grid {
@@ -1025,12 +1023,13 @@ export default {
 
 .r-story-card {
   position: relative;
-  border-radius: 24px;
+  border-radius: 26px;
   padding: 22px;
   min-height: 220px;
   color: #0f1f1b;
   overflow: hidden;
-  box-shadow: var(--r-shadow);
+  border: 1px solid rgba(15, 34, 48, 0.1);
+  box-shadow: 0 20px 40px rgba(15, 34, 48, 0.12);
 }
 
 .r-story-card::before {
@@ -1040,7 +1039,7 @@ export default {
   background-image: var(--story-bg);
   background-size: cover;
   background-position: center;
-  filter: saturate(0.85);
+  filter: saturate(0.9);
   opacity: 0.55;
 }
 
@@ -1048,11 +1047,11 @@ export default {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.7));
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.72));
 }
 
 .r-story-card--dua::before {
-  opacity: 0.35;
+  opacity: 0.25;
 }
 
 .r-story-content {
@@ -1066,7 +1065,7 @@ export default {
   font-size: 0.7rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--r-teal);
+  color: var(--r-accent-deep);
   font-weight: 700;
 }
 
@@ -1086,11 +1085,12 @@ export default {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--r-ink-soft);
+  text-decoration: none;
 }
 
 .r-story-link {
   font-weight: 700;
-  color: var(--r-teal);
+  color: var(--r-deep);
   text-decoration: none;
 }
 
@@ -1109,35 +1109,45 @@ export default {
 }
 
 .r-short-block {
-  margin-top: 28px;
+  margin-top: 30px;
 }
 
 .r-short-groups {
   display: grid;
-  gap: 24px;
+  gap: 26px;
 }
 
 .r-short-group__title {
   margin-bottom: 12px;
+  color: var(--r-deep);
 }
 
 .r-note {
   margin-top: 12px;
   padding: 10px 12px;
   border-radius: 12px;
-  background: rgba(27, 117, 103, 0.08);
+  background: rgba(215, 166, 74, 0.14);
   color: var(--r-ink-soft);
 }
 
 .r-modal-grid {
   display: grid;
-  gap: 20px;
+  gap: 22px;
 }
 
 .r-modal-card {
-  padding: 14px;
+  padding: 16px;
   border-radius: 16px;
   background: rgba(16, 42, 34, 0.04);
+}
+
+.ramadan-2026 :deep(.modal-dialog.modal-xl) {
+  max-width: 1200px;
+}
+
+.ramadan-2026 :deep(.modal-content) {
+  border-radius: 20px;
+  border: 1px solid rgba(27, 31, 42, 0.12);
 }
 
 .r-animate {
@@ -1170,7 +1180,7 @@ export default {
 
 @media (max-width: 768px) {
   .r-section {
-    padding: 56px 0;
+    padding: 60px 0;
   }
 
   .r-hero__stats {
@@ -1209,3 +1219,24 @@ export default {
   }
 }
 </style>
+.r-reference-link {
+  flex: 1;
+  min-width: 0;
+  color: var(--r-deep);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.r-reference-link:hover {
+  color: var(--r-accent-deep);
+}
+
+.r-resource-link {
+  color: var(--r-ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.r-resource-link:hover {
+  color: var(--r-accent-deep);
+}
