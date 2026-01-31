@@ -65,24 +65,26 @@
             {{ ramadan.overview.section_title }}
           </h2>
           <p class="r-overview__lead">{{ ramadan.overview.subtitle }}</p>
+        </div>
+        <div id="section-overview-body" class="r-section__body">
           <p v-for="(para, index) in ramadan.overview.body" :key="index" class="r-overview__body">
             {{ para }}
           </p>
-        </div>
-        <h3 class="r-section__subtitle">{{ ramadan.overview.key_points_title }}</h3>
-        <ul class="r-overview__list">
-          <li v-for="item in ramadan.overview.key_points" :key="item">{{ item }}</li>
-        </ul>
-        <div class="r-references" v-if="ramadan.overview.references">
-          <h4>{{ ramadan.labels.references }}</h4>
-          <ul>
-            <li v-for="ref in ramadan.overview.references" :key="ref.citation">
-              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                {{ ref.source }} — {{ ref.citation }}
-              </a>
-              <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-            </li>
+          <h3 class="r-section__subtitle">{{ ramadan.overview.key_points_title }}</h3>
+          <ul class="r-overview__list">
+            <li v-for="item in ramadan.overview.key_points" :key="item">{{ item }}</li>
           </ul>
+          <div class="r-references" v-if="ramadan.overview.references">
+            <h4>{{ ramadan.labels.references }}</h4>
+            <ul>
+              <li v-for="ref in ramadan.overview.references" :key="ref.citation">
+                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                  {{ ref.source }} — {{ ref.citation }}
+                </a>
+                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -95,52 +97,54 @@
             {{ ramadan.history.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.history.subtitle }}</p>
+        </div>
+        <div id="section-history-body" class="r-section__body">
           <p v-for="(para, index) in ramadan.history.body" :key="index" class="r-section__subtitle">
             {{ para }}
           </p>
-        </div>
-        <div class="r-grid r-grid--double r-grid--timeline">
-          <article
-            v-for="(item, index) in ramadan.history.timeline"
-            :key="item.period"
-            class="r-card r-card--timeline"
+          <div class="r-grid r-grid--double r-grid--timeline">
+            <article
+              v-for="(item, index) in ramadan.history.timeline"
+              :key="item.period"
+              class="r-card r-card--timeline"
+            >
+              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
+              <h3 class="r-card__title">{{ item.period }}</h3>
+              <p class="r-card__desc">{{ item.detail }}</p>
+            </article>
+          </div>
+          <div
+            class="r-grid r-grid--double r-spacing-top"
+            v-if="ramadan.history.notable_figures || ramadan.history.regional_practices"
           >
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
-            <h3 class="r-card__title">{{ item.period }}</h3>
-            <p class="r-card__desc">{{ item.detail }}</p>
-          </article>
-        </div>
-        <div
-          class="r-grid r-grid--double r-spacing-top"
-          v-if="ramadan.history.notable_figures || ramadan.history.regional_practices"
-        >
-          <article v-if="ramadan.history.notable_figures" class="r-card">
-            <h3 class="r-card__title">{{ ramadan.history.notable_figures.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in ramadan.history.notable_figures.items" :key="item.name">
-                <strong>{{ item.name }}:</strong> {{ item.note }}
+            <article v-if="ramadan.history.notable_figures" class="r-card">
+              <h3 class="r-card__title">{{ ramadan.history.notable_figures.title }}</h3>
+              <ul class="r-list">
+                <li v-for="item in ramadan.history.notable_figures.items" :key="item.name">
+                  <strong>{{ item.name }}:</strong> {{ item.note }}
+                </li>
+              </ul>
+            </article>
+            <article v-if="ramadan.history.regional_practices" class="r-card">
+              <h3 class="r-card__title">{{ ramadan.history.regional_practices.title }}</h3>
+              <ul class="r-list">
+                <li v-for="item in ramadan.history.regional_practices.items" :key="item.region">
+                  <strong>{{ item.region }}:</strong> {{ item.detail }}
+                </li>
+              </ul>
+            </article>
+          </div>
+          <div class="r-references" v-if="ramadan.history.references">
+            <h4>{{ ramadan.labels.references }}</h4>
+            <ul>
+              <li v-for="ref in ramadan.history.references" :key="ref.citation">
+                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                  {{ ref.source }} — {{ ref.citation }}
+                </a>
+                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
               </li>
             </ul>
-          </article>
-          <article v-if="ramadan.history.regional_practices" class="r-card">
-            <h3 class="r-card__title">{{ ramadan.history.regional_practices.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in ramadan.history.regional_practices.items" :key="item.region">
-                <strong>{{ item.region }}:</strong> {{ item.detail }}
-              </li>
-            </ul>
-          </article>
-        </div>
-        <div class="r-references" v-if="ramadan.history.references">
-          <h4>{{ ramadan.labels.references }}</h4>
-          <ul>
-            <li v-for="ref in ramadan.history.references" :key="ref.citation">
-              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                {{ ref.source }} — {{ ref.citation }}
-              </a>
-              <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-            </li>
-          </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -154,20 +158,22 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.important_dates.subtitle }}</p>
         </div>
-        <div class="r-grid r-grid--dates">
-          <article
-            v-for="(date, index) in ramadan.important_dates.dates"
-            :key="date.event"
-            class="r-card r-card--date"
-          >
-            <div class="r-card__tag" :class="`r-card__tag--${date.type}`">
-              {{ date.event }}
-              <span class="r-card__emoji r-card__emoji--tag" aria-hidden="true">{{ dateEmoji(date.type) }}</span>
-            </div>
-            <h3 class="r-card__title">{{ date.gregorian_date }}</h3>
-            <p class="r-card__meta">{{ date.hijri_date }}</p>
-            <p class="r-card__desc">{{ date.description }}</p>
-          </article>
+        <div id="section-key-dates-body" class="r-section__body">
+          <div class="r-grid r-grid--dates">
+            <article
+              v-for="(date, index) in ramadan.important_dates.dates"
+              :key="date.event"
+              class="r-card r-card--date"
+            >
+              <div class="r-card__tag" :class="`r-card__tag--${date.type}`">
+                {{ date.event }}
+                <span class="r-card__emoji r-card__emoji--tag" aria-hidden="true">{{ dateEmoji(date.type) }}</span>
+              </div>
+              <h3 class="r-card__title">{{ date.gregorian_date }}</h3>
+              <p class="r-card__meta">{{ date.hijri_date }}</p>
+              <p class="r-card__desc">{{ date.description }}</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -183,187 +189,189 @@
             Turn this guide into a living plan with a day-by-day calendar, personal reminders, and shared reflections.
           </p>
         </div>
-        <div class="row justify-content-center r-planner-row">
-          <div class="col-12 col-md-10">
-            <article class="r-card r-planner-card r-card--planner">
-              <div class="r-planner-head">
-                <div>
-                  <h3 class="r-card__title">Ramadan day-by-day calendar</h3>
-                  <p class="r-card__desc">
-                    Adjust the start date to match local moon sighting and track your progress each day.
-                  </p>
+        <div id="section-planner-body" class="r-section__body">
+          <div class="row justify-content-center r-planner-row">
+            <div class="col-12 col-md-10">
+              <article class="r-card r-planner-card r-card--planner">
+                <div class="r-planner-head">
+                  <div>
+                    <h3 class="r-card__title">Ramadan day-by-day calendar</h3>
+                    <p class="r-card__desc">
+                      Adjust the start date to match local moon sighting and track your progress each day.
+                    </p>
+                  </div>
+                  <div class="r-planner-controls">
+                    <label class="r-label" for="planner-start-date">Start date</label>
+                    <input
+                      id="planner-start-date"
+                      class="r-input"
+                      type="date"
+                      v-model="calendarStartOverride"
+                      @change="persistCalendar"
+                    />
+                    <label class="r-label" for="planner-length">Length</label>
+                    <select id="planner-length" class="r-select" v-model.number="calendarLength" @change="persistCalendar">
+                      <option v-for="len in [29, 30]" :key="len" :value="len">{{ len }} days</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="r-planner-controls">
-                  <label class="r-label" for="planner-start-date">Start date</label>
-                  <input
-                    id="planner-start-date"
-                    class="r-input"
-                    type="date"
-                    v-model="calendarStartOverride"
-                    @change="persistCalendar"
-                  />
-                  <label class="r-label" for="planner-length">Length</label>
-                  <select id="planner-length" class="r-select" v-model.number="calendarLength" @change="persistCalendar">
-                    <option v-for="len in [29, 30]" :key="len" :value="len">{{ len }} days</option>
-                  </select>
+                <div class="r-calendar">
+                  <button
+                    v-for="(day, index) in calendarDays"
+                    :key="day.key"
+                    class="r-calendar__cell"
+                    type="button"
+                    :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
+                    @click="selectDay(index)"
+                  >
+                    <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
+                    <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
+                    <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
+                  </button>
                 </div>
-              </div>
-              <div class="r-calendar">
-                <button
-                  v-for="(day, index) in calendarDays"
-                  :key="day.key"
-                  class="r-calendar__cell"
-                  type="button"
-                  :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
-                  @click="selectDay(index)"
-                >
-                  <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
-                  <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
-                  <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
-                </button>
-              </div>
-              <div v-if="selectedDay" class="r-calendar__detail">
-                <div class="r-calendar__detail-head">
-                  <h4 class="r-calendar__detail-title">
-                    Day {{ selectedDay.dayNumber }} - {{ formatISODate(selectedDay.date) }}
-                  </h4>
-                  <span v-if="selectedDay.event" class="r-calendar__event-chip">{{ selectedDay.event }}</span>
+                <div v-if="selectedDay" class="r-calendar__detail">
+                  <div class="r-calendar__detail-head">
+                    <h4 class="r-calendar__detail-title">
+                      Day {{ selectedDay.dayNumber }} - {{ formatISODate(selectedDay.date) }}
+                    </h4>
+                    <span v-if="selectedDay.event" class="r-calendar__event-chip">{{ selectedDay.event }}</span>
+                  </div>
+                  <p class="r-card__desc">Add a quick note or intention for this day.</p>
+                  <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+                  <div v-else-if="!isAuthenticated" class="r-auth-gate">
+                    <p class="r-card__desc">Log in to save your daily intention notes.</p>
+                    <div class="r-auth-actions">
+                      <a class="r-button r-button--ghost" href="/login">Log in</a>
+                    </div>
+                  </div>
+                  <textarea
+                    v-else
+                    class="r-textarea"
+                    rows="3"
+                    :value="selectedDayNote"
+                    placeholder="Example: Aim to finish Juz 3, call family, give sadaqah."
+                    @input="selectedDayNote = $event.target.value"
+                  ></textarea>
                 </div>
-                <p class="r-card__desc">Add a quick note or intention for this day.</p>
+              </article>
+            </div>
+          </div>
+          <div class="row r-planner-row">
+            <div class="col-12 col-md-6">
+              <article class="r-card r-card--soft">
+                <div class="r-stack-head">
+                  <h3 class="r-card__title">Personal reminders</h3>
+                  <span class="r-badge">{{ reminders.length }} saved</span>
+                </div>
+                <p class="r-card__desc">
+                  Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device.
+                </p>
                 <div v-if="!authResolved" class="r-empty">Checking login status...</div>
                 <div v-else-if="!isAuthenticated" class="r-auth-gate">
-                  <p class="r-card__desc">Log in to save your daily intention notes.</p>
+                  <p class="r-card__desc">Log in to create and view your saved personal reminders.</p>
                   <div class="r-auth-actions">
                     <a class="r-button r-button--ghost" href="/login">Log in</a>
                   </div>
                 </div>
-                <textarea
-                  v-else
-                  class="r-textarea"
-                  rows="3"
-                  :value="selectedDayNote"
-                  placeholder="Example: Aim to finish Juz 3, call family, give sadaqah."
-                  @input="selectedDayNote = $event.target.value"
-                ></textarea>
-              </div>
-            </article>
-          </div>
-        </div>
-        <div class="row r-planner-row">
-          <div class="col-12 col-md-6">
-            <article class="r-card r-card--soft">
-              <div class="r-stack-head">
-                <h3 class="r-card__title">Personal reminders</h3>
-                <span class="r-badge">{{ reminders.length }} saved</span>
-              </div>
-              <p class="r-card__desc">
-                Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device.
-              </p>
-              <div v-if="!authResolved" class="r-empty">Checking login status...</div>
-              <div v-else-if="!isAuthenticated" class="r-auth-gate">
-                <p class="r-card__desc">Log in to create and view your saved personal reminders.</p>
-                <div class="r-auth-actions">
-                  <a class="r-button r-button--ghost" href="/login">Log in</a>
+                <div v-else>
+                  <form class="r-form" @submit.prevent="addReminder">
+                    <div class="r-form__row">
+                      <input
+                        class="r-input"
+                        v-model.trim="reminderDraft.title"
+                        type="text"
+                        placeholder="Reminder title"
+                        required
+                      />
+                      <select class="r-select" v-model.number="reminderDraft.dayNumber">
+                        <option v-for="day in dayOptions" :key="day" :value="day">Day {{ day }}</option>
+                      </select>
+                    </div>
+                    <div class="r-form__row">
+                      <select class="r-select" v-model="reminderDraft.timeOfDay">
+                        <option v-for="option in timeOfDayOptions" :key="option.value" :value="option.value">
+                          {{ option.label }}
+                        </option>
+                      </select>
+                      <input
+                        class="r-input"
+                        v-model.trim="reminderDraft.note"
+                        type="text"
+                        placeholder="Optional note"
+                      />
+                    </div>
+                    <button class="r-button" type="submit">Save reminder</button>
+                  </form>
+                  <div v-if="sortedReminders.length" class="r-reminder-list">
+                    <div v-for="reminder in sortedReminders" :key="reminder.id" class="r-reminder">
+                      <label class="r-checkbox">
+                        <input type="checkbox" v-model="reminder.done" @change="persistReminders" />
+                        <span></span>
+                      </label>
+                      <div class="r-reminder__body">
+                        <h4 :class="{ 'is-done': reminder.done }">{{ reminder.title }}</h4>
+                        <p>Day {{ reminder.dayNumber }} - {{ formatTimeLabel(reminder.timeOfDay) }}</p>
+                        <p v-if="reminder.note">{{ reminder.note }}</p>
+                      </div>
+                      <button class="r-icon-button" type="button" @click="removeReminder(reminder.id)">
+                        Remove
+                      </button>
+                    </div>
+                  </div>
+                  <p v-else class="r-empty">No reminders yet. Add your first one above.</p>
                 </div>
-              </div>
-              <div v-else>
-                <form class="r-form" @submit.prevent="addReminder">
-                  <div class="r-form__row">
-                    <input
-                      class="r-input"
-                      v-model.trim="reminderDraft.title"
-                      type="text"
-                      placeholder="Reminder title"
+              </article>
+            </div>
+            <div class="col-12 col-md-6">
+              <article class="r-card r-card--soft">
+                <div class="r-stack-head">
+                  <h3 class="r-card__title">Community reflections</h3>
+                  <span class="r-badge">{{ reflections.length }} shared</span>
+                </div>
+                <p class="r-card__desc">Share a short reflection, dua, or intention and see it appear instantly.</p>
+                <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+                <div v-else-if="!isAuthenticated" class="r-auth-gate">
+                  <p class="r-card__desc">Log in to share and view your saved community reflections.</p>
+                  <div class="r-auth-actions">
+                    <a class="r-button r-button--ghost" href="/login">Log in</a>
+                  </div>
+                </div>
+                <div v-else>
+                  <form class="r-form" @submit.prevent="addReflection">
+                    <div class="r-form__row">
+                      <input
+                        class="r-input"
+                        v-model.trim="reflectionDraft.name"
+                        type="text"
+                        placeholder="Name (optional)"
+                      />
+                      <select class="r-select" v-model="reflectionDraft.mood">
+                        <option v-for="mood in reflectionMoods" :key="mood" :value="mood">{{ mood }}</option>
+                      </select>
+                    </div>
+                    <textarea
+                      class="r-textarea"
+                      v-model.trim="reflectionDraft.text"
+                      rows="3"
+                      placeholder="Share a reflection or dua..."
                       required
-                    />
-                    <select class="r-select" v-model.number="reminderDraft.dayNumber">
-                      <option v-for="day in dayOptions" :key="day" :value="day">Day {{ day }}</option>
-                    </select>
+                    ></textarea>
+                    <button class="r-button" type="submit">Share reflection</button>
+                  </form>
+                  <div v-if="reflections.length" class="r-reflection-list">
+                    <article v-for="reflection in reflections" :key="reflection.id" class="r-reflection">
+                      <div class="r-reflection__meta">
+                        <span class="r-reflection__name">{{ reflection.name || "Anonymous" }}</span>
+                        <span class="r-reflection__mood">{{ reflection.mood }}</span>
+                        <span class="r-reflection__time">{{ formatRelativeTime(reflection.timestamp) }}</span>
+                      </div>
+                      <p>{{ reflection.text }}</p>
+                    </article>
                   </div>
-                  <div class="r-form__row">
-                    <select class="r-select" v-model="reminderDraft.timeOfDay">
-                      <option v-for="option in timeOfDayOptions" :key="option.value" :value="option.value">
-                        {{ option.label }}
-                      </option>
-                    </select>
-                    <input
-                      class="r-input"
-                      v-model.trim="reminderDraft.note"
-                      type="text"
-                      placeholder="Optional note"
-                    />
-                  </div>
-                  <button class="r-button" type="submit">Save reminder</button>
-                </form>
-                <div v-if="sortedReminders.length" class="r-reminder-list">
-                  <div v-for="reminder in sortedReminders" :key="reminder.id" class="r-reminder">
-                    <label class="r-checkbox">
-                      <input type="checkbox" v-model="reminder.done" @change="persistReminders" />
-                      <span></span>
-                    </label>
-                    <div class="r-reminder__body">
-                      <h4 :class="{ 'is-done': reminder.done }">{{ reminder.title }}</h4>
-                      <p>Day {{ reminder.dayNumber }} - {{ formatTimeLabel(reminder.timeOfDay) }}</p>
-                      <p v-if="reminder.note">{{ reminder.note }}</p>
-                    </div>
-                    <button class="r-icon-button" type="button" @click="removeReminder(reminder.id)">
-                      Remove
-                    </button>
-                  </div>
+                  <p v-else class="r-empty">Be the first to share a reflection.</p>
                 </div>
-                <p v-else class="r-empty">No reminders yet. Add your first one above.</p>
-              </div>
-            </article>
-          </div>
-          <div class="col-12 col-md-6">
-            <article class="r-card r-card--soft">
-              <div class="r-stack-head">
-                <h3 class="r-card__title">Community reflections</h3>
-                <span class="r-badge">{{ reflections.length }} shared</span>
-              </div>
-              <p class="r-card__desc">Share a short reflection, dua, or intention and see it appear instantly.</p>
-              <div v-if="!authResolved" class="r-empty">Checking login status...</div>
-              <div v-else-if="!isAuthenticated" class="r-auth-gate">
-                <p class="r-card__desc">Log in to share and view your saved community reflections.</p>
-                <div class="r-auth-actions">
-                  <a class="r-button r-button--ghost" href="/login">Log in</a>
-                </div>
-              </div>
-              <div v-else>
-                <form class="r-form" @submit.prevent="addReflection">
-                  <div class="r-form__row">
-                    <input
-                      class="r-input"
-                      v-model.trim="reflectionDraft.name"
-                      type="text"
-                      placeholder="Name (optional)"
-                    />
-                    <select class="r-select" v-model="reflectionDraft.mood">
-                      <option v-for="mood in reflectionMoods" :key="mood" :value="mood">{{ mood }}</option>
-                    </select>
-                  </div>
-                  <textarea
-                    class="r-textarea"
-                    v-model.trim="reflectionDraft.text"
-                    rows="3"
-                    placeholder="Share a reflection or dua..."
-                    required
-                  ></textarea>
-                  <button class="r-button" type="submit">Share reflection</button>
-                </form>
-                <div v-if="reflections.length" class="r-reflection-list">
-                  <article v-for="reflection in reflections" :key="reflection.id" class="r-reflection">
-                    <div class="r-reflection__meta">
-                      <span class="r-reflection__name">{{ reflection.name || "Anonymous" }}</span>
-                      <span class="r-reflection__mood">{{ reflection.mood }}</span>
-                      <span class="r-reflection__time">{{ formatRelativeTime(reflection.timestamp) }}</span>
-                    </div>
-                    <p>{{ reflection.text }}</p>
-                  </article>
-                </div>
-                <p v-else class="r-empty">Be the first to share a reflection.</p>
-              </div>
-            </article>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -378,25 +386,47 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.how_to_fast.intro }}</p>
         </div>
-        <div class="r-grid r-grid--triple r-grid--stagger">
-          <article v-for="(card, index) in ramadan.how_to_fast.cards" :key="card.title" class="r-card r-card--step">
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("fasting", index) }}</span>
-            <h3 class="r-card__title">{{ card.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in card.items" :key="item">{{ item }}</li>
+        <div id="section-how-to-fast-body" class="r-section__body">
+          <div class="r-grid r-grid--triple r-grid--stagger">
+            <article v-for="(card, index) in ramadan.how_to_fast.cards" :key="card.title" class="r-card r-card--step">
+              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("fasting", index) }}</span>
+              <h3 class="r-card__title">{{ card.title }}</h3>
+              <ul class="r-list">
+                <li v-for="item in card.items" :key="item">{{ item }}</li>
+              </ul>
+            </article>
+          </div>
+          <div class="r-references" v-if="ramadan.how_to_fast.references">
+            <h4>{{ ramadan.labels.references }}</h4>
+            <ul>
+              <li v-for="ref in ramadan.how_to_fast.references" :key="ref.citation">
+                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                  {{ ref.source }} — {{ ref.citation }}
+                </a>
+                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
+              </li>
             </ul>
-          </article>
+          </div>
         </div>
-        <div class="r-references" v-if="ramadan.how_to_fast.references">
-          <h4>{{ ramadan.labels.references }}</h4>
-          <ul>
-            <li v-for="ref in ramadan.how_to_fast.references" :key="ref.citation">
-              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                {{ ref.source }} — {{ ref.citation }}
-              </a>
-              <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-            </li>
-          </ul>
+      </div>
+    </section>
+
+    <section id="faq" class="r-section r-section--alt">
+      <div class="container">
+        <div class="r-section__head">
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">❓</span>
+            {{ ramadan.faq.section_title }}
+          </h2>
+          <p class="r-section__subtitle">{{ ramadan.faq.subtitle }}</p>
+        </div>
+        <div id="section-faq-body" class="r-section__body">
+          <div class="r-grid r-grid--double r-faq-grid">
+            <article v-for="item in ramadan.faq.items" :key="item.question" class="r-card r-card--faq">
+              <h3 class="r-card__title r-faq-question">{{ item.question }}</h3>
+              <p class="r-card__desc r-faq-answer">{{ item.answer }}</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -409,33 +439,59 @@
             {{ ramadan.quran_reading_plans.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.quran_reading_plans.intro }}</p>
+          <div class="r-section__controls">
+            <button class="r-button r-button--ghost r-button--sm" type="button" @click="toggleAllQuranPlans">
+              {{ areAllQuranPlansExpanded ? "Collapse all plans" : "Expand all plans" }}
+            </button>
+          </div>
         </div>
-        <div class="r-grid r-grid--triple r-grid--stagger">
-          <article v-for="(plan, index) in ramadan.quran_reading_plans.plans" :key="plan.level" class="r-card r-card--plan">
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("quran", index) }}</span>
-            <h3 class="r-card__title">{{ plan.level }}</h3>
-            <p class="r-card__desc">Daily target: {{ plan.daily_target }}</p>
-            <ul class="r-list">
-              <li>Time needed: {{ plan.time_needed }}</li>
-              <li>Structure: {{ plan.structure }}</li>
-              <li>Goal: {{ plan.goal }}</li>
-              <li>Split: {{ plan.split }}</li>
+        <div id="section-quran-plans-body" class="r-section__body">
+          <div class="r-grid r-grid--triple r-grid--stagger">
+            <article
+              v-for="(plan, index) in ramadan.quran_reading_plans.plans"
+              :key="plan.level"
+              class="r-card r-card--plan"
+            >
+              <div class="r-card__head">
+                <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("quran", index) }}</span>
+                <div class="r-card__head-text">
+                  <h3 class="r-card__title">{{ plan.level }}</h3>
+                  <p class="r-card__desc">Daily target: {{ plan.daily_target }}</p>
+                  <button
+                    class="r-card__toggle"
+                    type="button"
+                    :aria-expanded="isQuranPlanExpanded(index)"
+                    :aria-controls="`quran-plan-${index}`"
+                    @click="toggleQuranPlan(index)"
+                  >
+                    {{ isQuranPlanExpanded(index) ? "Hide details" : "View full plan" }}
+                  </button>
+                </div>
+              </div>
+              <div :id="`quran-plan-${index}`" class="r-plan-details" v-show="isQuranPlanExpanded(index)">
+                <ul class="r-list">
+                  <li>Time needed: {{ plan.time_needed }}</li>
+                  <li>Structure: {{ plan.structure }}</li>
+                  <li>Goal: {{ plan.goal }}</li>
+                  <li>Split: {{ plan.split }}</li>
+                </ul>
+                <ul class="r-list r-spacing-top">
+                  <li v-for="tip in plan.tips" :key="tip">{{ tip }}</li>
+                </ul>
+              </div>
+            </article>
+          </div>
+          <div class="r-references" v-if="ramadan.quran_reading_plans.references">
+            <h4>{{ ramadan.labels.references }}</h4>
+            <ul>
+              <li v-for="ref in ramadan.quran_reading_plans.references" :key="ref.citation">
+                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                  {{ ref.source }} — {{ ref.citation }}
+                </a>
+                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
+              </li>
             </ul>
-            <ul class="r-list r-spacing-top">
-              <li v-for="tip in plan.tips" :key="tip">{{ tip }}</li>
-            </ul>
-          </article>
-        </div>
-        <div class="r-references" v-if="ramadan.quran_reading_plans.references">
-          <h4>{{ ramadan.labels.references }}</h4>
-          <ul>
-            <li v-for="ref in ramadan.quran_reading_plans.references" :key="ref.citation">
-              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                {{ ref.source }} — {{ ref.citation }}
-              </a>
-              <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-            </li>
-          </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -448,28 +504,54 @@
             {{ ramadan.personal_plans.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.personal_plans.intro }}</p>
+          <div class="r-section__controls">
+            <button class="r-button r-button--ghost r-button--sm" type="button" @click="toggleAllPersonalPlans">
+              {{ areAllPersonalPlansExpanded ? "Collapse all plans" : "Expand all plans" }}
+            </button>
+          </div>
         </div>
-        <div class="r-grid r-grid--double r-grid--stagger">
-          <article v-for="(plan, index) in ramadan.personal_plans.plans" :key="plan.title" class="r-card r-card--persona">
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("personal", index) }}</span>
-            <h3 class="r-card__title">{{ plan.title }}</h3>
-            <p class="r-card__desc">{{ plan.who_for }}</p>
-            <p class="r-card__desc">{{ plan.overview }}</p>
-            <p class="r-card__desc">{{ plan.focus }}</p>
-            <div class="r-list-block">
-              <h4>{{ ramadan.personal_plans.daily_flow_title }}</h4>
-              <ul>
-                <li v-for="item in plan.daily_flow" :key="item">{{ item }}</li>
-              </ul>
-            </div>
-            <div class="r-list-block">
-              <h4>{{ ramadan.personal_plans.weekly_focus_title }}</h4>
-              <ul>
-                <li v-for="item in plan.weekly_focus" :key="item">{{ item }}</li>
-              </ul>
-            </div>
-            <p class="r-card__desc">{{ plan.accountability }}</p>
-          </article>
+        <div id="section-personal-plans-body" class="r-section__body">
+          <div class="r-grid r-grid--double r-grid--stagger">
+            <article
+              v-for="(plan, index) in ramadan.personal_plans.plans"
+              :key="plan.title"
+              class="r-card r-card--persona"
+            >
+              <div class="r-card__head">
+                <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("personal", index) }}</span>
+                <div class="r-card__head-text">
+                  <h3 class="r-card__title">{{ plan.title }}</h3>
+                  <button
+                    class="r-card__toggle"
+                    type="button"
+                    :aria-expanded="isPersonalPlanExpanded(index)"
+                    :aria-controls="`personal-plan-${index}`"
+                    @click="togglePersonalPlan(index)"
+                  >
+                    {{ isPersonalPlanExpanded(index) ? "Hide details" : "View full plan" }}
+                  </button>
+                </div>
+              </div>
+              <p class="r-card__desc">{{ plan.who_for }}</p>
+              <p class="r-card__desc">{{ plan.overview }}</p>
+              <div :id="`personal-plan-${index}`" class="r-plan-details" v-show="isPersonalPlanExpanded(index)">
+                <p class="r-card__desc">{{ plan.focus }}</p>
+                <div class="r-list-block">
+                  <h4>{{ ramadan.personal_plans.daily_flow_title }}</h4>
+                  <ul>
+                    <li v-for="item in plan.daily_flow" :key="item">{{ item }}</li>
+                  </ul>
+                </div>
+                <div class="r-list-block">
+                  <h4>{{ ramadan.personal_plans.weekly_focus_title }}</h4>
+                  <ul>
+                    <li v-for="item in plan.weekly_focus" :key="item">{{ item }}</li>
+                  </ul>
+                </div>
+                <p class="r-card__desc">{{ plan.accountability }}</p>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -483,42 +565,44 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.charity_guide.intro }}</p>
         </div>
-        <div class="r-grid r-grid--double">
-          <article class="r-card r-card--charity">
-            <span class="r-card__emoji" aria-hidden="true">💛</span>
-            <div class="r-charity-body">
-              <p v-for="(para, index) in ramadan.charity_guide.overview" :key="index" class="r-card__desc">
-                {{ para }}
-              </p>
-              <h3 class="r-card__title">{{ ramadan.charity_guide.zakat_al_fitr.title }}</h3>
+        <div id="section-charity-body" class="r-section__body">
+          <div class="r-grid r-grid--double">
+            <article class="r-card r-card--charity">
+              <span class="r-card__emoji" aria-hidden="true">💛</span>
+              <div class="r-charity-body">
+                <p v-for="(para, index) in ramadan.charity_guide.overview" :key="index" class="r-card__desc">
+                  {{ para }}
+                </p>
+                <h3 class="r-card__title">{{ ramadan.charity_guide.zakat_al_fitr.title }}</h3>
+                <ul class="r-list">
+                  <li v-for="point in ramadan.charity_guide.zakat_al_fitr.points" :key="point">{{ point }}</li>
+                </ul>
+              </div>
+            </article>
+            <article class="r-card r-card--charity r-card--charity-alt">
+              <span class="r-card__emoji" aria-hidden="true">🎁</span>
+              <h3 class="r-card__title">{{ ramadan.charity_guide.sadaqah_title }}</h3>
               <ul class="r-list">
-                <li v-for="point in ramadan.charity_guide.zakat_al_fitr.points" :key="point">{{ point }}</li>
+                <li v-for="item in ramadan.charity_guide.sadaqah_ideas" :key="item">{{ item }}</li>
               </ul>
-            </div>
-          </article>
-          <article class="r-card r-card--charity r-card--charity-alt">
-            <span class="r-card__emoji" aria-hidden="true">🎁</span>
-            <h3 class="r-card__title">{{ ramadan.charity_guide.sadaqah_title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in ramadan.charity_guide.sadaqah_ideas" :key="item">{{ item }}</li>
+              <h4 class="r-card__title r-card__title--small">{{ ramadan.charity_guide.giving_checklist_title }}</h4>
+              <ul class="r-list">
+                <li v-for="item in ramadan.charity_guide.giving_checklist" :key="item">{{ item }}</li>
+              </ul>
+              <div class="r-note" v-for="note in ramadan.charity_guide.impact_notes" :key="note">{{ note }}</div>
+            </article>
+          </div>
+          <div class="r-references" v-if="ramadan.charity_guide.references">
+            <h4>{{ ramadan.labels.references }}</h4>
+            <ul>
+              <li v-for="ref in ramadan.charity_guide.references" :key="ref.citation">
+                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
+                  {{ ref.source }} — {{ ref.citation }}
+                </a>
+                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
+              </li>
             </ul>
-            <h4 class="r-card__title r-card__title--small">{{ ramadan.charity_guide.giving_checklist_title }}</h4>
-            <ul class="r-list">
-              <li v-for="item in ramadan.charity_guide.giving_checklist" :key="item">{{ item }}</li>
-            </ul>
-            <div class="r-note" v-for="note in ramadan.charity_guide.impact_notes" :key="note">{{ note }}</div>
-          </article>
-        </div>
-        <div class="r-references" v-if="ramadan.charity_guide.references">
-          <h4>{{ ramadan.labels.references }}</h4>
-          <ul>
-            <li v-for="ref in ramadan.charity_guide.references" :key="ref.citation">
-              <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                {{ ref.source }} — {{ ref.citation }}
-              </a>
-              <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-            </li>
-          </ul>
+          </div>
         </div>
       </div>
     </section>
@@ -532,34 +616,36 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.health_food_tips.intro }}</p>
         </div>
-        <div class="r-grid r-grid--triple r-grid--stagger">
-          <article
-            v-for="(section, index) in ramadan.health_food_tips.primary_sections"
-            :key="section.title"
-            class="r-card r-card--health"
-          >
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index) }}</span>
-            <h3 class="r-card__title">{{ section.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in section.items" :key="item">{{ item }}</li>
-            </ul>
-          </article>
-        </div>
-        <div class="r-grid r-grid--double r-spacing-top">
-          <article
-            v-for="(section, index) in ramadan.health_food_tips.secondary_sections"
-            :key="section.title"
-            class="r-card r-card--health r-card--health-alt"
-          >
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index + 3) }}</span>
-            <h3 class="r-card__title">{{ section.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in section.items" :key="item">{{ item }}</li>
-            </ul>
-          </article>
-        </div>
-        <div class="r-micro-tips">
-          <span v-for="tip in ramadan.health_food_tips.micro_tips" :key="tip" class="r-chip">{{ tip }}</span>
+        <div id="section-health-body" class="r-section__body">
+          <div class="r-grid r-grid--triple r-grid--stagger">
+            <article
+              v-for="(section, index) in ramadan.health_food_tips.primary_sections"
+              :key="section.title"
+              class="r-card r-card--health"
+            >
+              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index) }}</span>
+              <h3 class="r-card__title">{{ section.title }}</h3>
+              <ul class="r-list">
+                <li v-for="item in section.items" :key="item">{{ item }}</li>
+              </ul>
+            </article>
+          </div>
+          <div class="r-grid r-grid--double r-spacing-top">
+            <article
+              v-for="(section, index) in ramadan.health_food_tips.secondary_sections"
+              :key="section.title"
+              class="r-card r-card--health r-card--health-alt"
+            >
+              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index + 3) }}</span>
+              <h3 class="r-card__title">{{ section.title }}</h3>
+              <ul class="r-list">
+                <li v-for="item in section.items" :key="item">{{ item }}</li>
+              </ul>
+            </article>
+          </div>
+          <div class="r-micro-tips">
+            <span v-for="tip in ramadan.health_food_tips.micro_tips" :key="tip" class="r-chip">{{ tip }}</span>
+          </div>
         </div>
       </div>
     </section>
@@ -573,33 +659,35 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.duas_prayers.intro }}</p>
         </div>
-        <div class="r-story-grid">
-          <article
-            v-for="dua in ramadan.duas_prayers.daily_duas"
-            :key="dua.occasion"
-            class="r-story-card r-story-card--dua"
-            :style="storyStyle()"
+        <div id="section-duas-body" class="r-section__body">
+          <div class="r-story-grid">
+            <article
+              v-for="dua in ramadan.duas_prayers.daily_duas"
+              :key="dua.occasion"
+              class="r-story-card r-story-card--dua"
+              :style="storyStyle()"
+            >
+              <div class="r-story-content">
+                <span class="r-story-tag">{{ ramadan.duas_prayers.tag_label }}</span>
+                <h3 class="r-story-title">{{ dua.occasion }}</h3>
+                <p class="r-arabic" dir="rtl">{{ dua.arabic }}</p>
+                <p class="r-translit">{{ dua.transliteration }}</p>
+                <p class="r-story-desc">{{ dua.translation }}</p>
+                <a class="r-story-duration" :href="dua.link" target="_blank" rel="noopener">
+                  {{ dua.reference }}
+                </a>
+              </div>
+            </article>
+          </div>
+          <button
+            class="r-link r-link--button"
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#moreDuasModal"
           >
-            <div class="r-story-content">
-              <span class="r-story-tag">{{ ramadan.duas_prayers.tag_label }}</span>
-              <h3 class="r-story-title">{{ dua.occasion }}</h3>
-              <p class="r-arabic" dir="rtl">{{ dua.arabic }}</p>
-              <p class="r-translit">{{ dua.transliteration }}</p>
-              <p class="r-story-desc">{{ dua.translation }}</p>
-              <a class="r-story-duration" :href="dua.link" target="_blank" rel="noopener">
-                {{ dua.reference }}
-              </a>
-            </div>
-          </article>
+            {{ ramadan.duas_prayers.view_more_label }}
+          </button>
         </div>
-        <button
-          class="r-link r-link--button"
-          type="button"
-          data-bs-toggle="modal"
-          data-bs-target="#moreDuasModal"
-        >
-          {{ ramadan.duas_prayers.view_more_label }}
-        </button>
       </div>
     </section>
 
@@ -612,49 +700,51 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.shorts.subtitle }}</p>
         </div>
-        <div class="r-short-block">
-          <h3 class="r-section__subtitle">{{ ramadan.shorts.highlights_title }}</h3>
-          <div class="r-story-grid">
-            <article
-              v-for="item in ramadan.shorts.highlights"
-              :key="item.link"
-              class="r-story-card"
-              :style="storyStyle(item.thumbnail)"
-            >
-              <div class="r-story-content">
-                <span class="r-story-tag">{{ item.tag }}</span>
-                <h3 class="r-story-title">{{ item.title }}</h3>
-                <p class="r-story-desc">{{ item.description }}</p>
-              <span class="r-story-duration">{{ ramadan.labels.duration_prefix }}: {{ item.duration }}</span>
-                <a class="r-story-link" :href="item.link" target="_blank" rel="noopener">
-                  {{ ramadan.labels.watch_short }}
-                </a>
-              </div>
-            </article>
+        <div id="section-shorts-body" class="r-section__body">
+          <div class="r-short-block">
+            <h3 class="r-section__subtitle">{{ ramadan.shorts.highlights_title }}</h3>
+            <div class="r-story-grid">
+              <article
+                v-for="item in ramadan.shorts.highlights"
+                :key="item.link"
+                class="r-story-card"
+                :style="storyStyle(item.thumbnail)"
+              >
+                <div class="r-story-content">
+                  <span class="r-story-tag">{{ item.tag }}</span>
+                  <h3 class="r-story-title">{{ item.title }}</h3>
+                  <p class="r-story-desc">{{ item.description }}</p>
+                  <span class="r-story-duration">{{ ramadan.labels.duration_prefix }}: {{ item.duration }}</span>
+                  <a class="r-story-link" :href="item.link" target="_blank" rel="noopener">
+                    {{ ramadan.labels.watch_short }}
+                  </a>
+                </div>
+              </article>
+            </div>
           </div>
-        </div>
-        <div class="r-short-block">
-          <h3 class="r-section__subtitle">{{ ramadan.labels.explore_by_theme }}</h3>
-          <div class="r-short-groups">
-            <div v-for="group in ramadan.shorts.groups" :key="group.title" class="r-short-group">
-              <h4 class="r-short-group__title">{{ group.title }}</h4>
-              <div class="r-story-grid">
-                <article
-                  v-for="item in group.items"
-                  :key="item.link"
-                  class="r-story-card"
-                  :style="storyStyle(item.thumbnail)"
-                >
-                  <div class="r-story-content">
-                    <span class="r-story-tag">{{ item.tag }}</span>
-                    <h3 class="r-story-title">{{ item.title }}</h3>
-                    <p class="r-story-desc">{{ item.description }}</p>
-                    <span class="r-story-duration">{{ ramadan.labels.duration_prefix }}: {{ item.duration }}</span>
-                    <a class="r-story-link" :href="item.link" target="_blank" rel="noopener">
-                      {{ ramadan.labels.watch_short }}
-                    </a>
-                  </div>
-                </article>
+          <div class="r-short-block">
+            <h3 class="r-section__subtitle">{{ ramadan.labels.explore_by_theme }}</h3>
+            <div class="r-short-groups">
+              <div v-for="group in ramadan.shorts.groups" :key="group.title" class="r-short-group">
+                <h4 class="r-short-group__title">{{ group.title }}</h4>
+                <div class="r-story-grid">
+                  <article
+                    v-for="item in group.items"
+                    :key="item.link"
+                    class="r-story-card"
+                    :style="storyStyle(item.thumbnail)"
+                  >
+                    <div class="r-story-content">
+                      <span class="r-story-tag">{{ item.tag }}</span>
+                      <h3 class="r-story-title">{{ item.title }}</h3>
+                      <p class="r-story-desc">{{ item.description }}</p>
+                      <span class="r-story-duration">{{ ramadan.labels.duration_prefix }}: {{ item.duration }}</span>
+                      <a class="r-story-link" :href="item.link" target="_blank" rel="noopener">
+                        {{ ramadan.labels.watch_short }}
+                      </a>
+                    </div>
+                  </article>
+                </div>
               </div>
             </div>
           </div>
@@ -671,27 +761,33 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.tools_calculators.subtitle }}</p>
         </div>
-        <div class="r-grid r-grid--triple r-grid--stagger">
-          <article v-for="(tool, index) in ramadan.tools_calculators.tools" :key="tool.title" class="r-card r-card--tool">
-            <a
-              class="r-expand"
-              :href="tool.link"
-              target="_blank"
-              rel="noopener"
-              :aria-label="ramadan.labels.open_tool_aria"
-              :title="ramadan.labels.open_tool_title"
+        <div id="section-tools-body" class="r-section__body">
+          <div class="r-grid r-grid--triple r-grid--stagger">
+            <article
+              v-for="(tool, index) in ramadan.tools_calculators.tools"
+              :key="tool.title"
+              class="r-card r-card--tool"
             >
-              <i :class="['fas', tool.icon]" aria-hidden="true"></i>
-            </a>
-            <div>
-              <span class="r-card__emoji r-card__emoji--inline" aria-hidden="true">{{ getEmoji("tools", index) }}</span>
-              <h3 class="r-card__title">{{ tool.title }}</h3>
-              <p class="r-card__desc">{{ tool.description }}</p>
-            </div>
-            <a :href="tool.link" class="r-link" target="_blank" rel="noopener">
-              {{ ramadan.labels.open_tool }}
-            </a>
-          </article>
+              <a
+                class="r-expand"
+                :href="tool.link"
+                target="_blank"
+                rel="noopener"
+                :aria-label="ramadan.labels.open_tool_aria"
+                :title="ramadan.labels.open_tool_title"
+              >
+                <i :class="['fas', tool.icon]" aria-hidden="true"></i>
+              </a>
+              <div>
+                <span class="r-card__emoji r-card__emoji--inline" aria-hidden="true">{{ getEmoji("tools", index) }}</span>
+                <h3 class="r-card__title">{{ tool.title }}</h3>
+                <p class="r-card__desc">{{ tool.description }}</p>
+              </div>
+              <a :href="tool.link" class="r-link" target="_blank" rel="noopener">
+                {{ ramadan.labels.open_tool }}
+              </a>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -705,16 +801,22 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
         </div>
-        <div class="r-grid r-grid--triple r-grid--stagger">
-          <article v-for="(card, index) in ramadan.platform_resources.cards" :key="card.title" class="r-card r-card--resource">
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("platforms", index) }}</span>
-            <h3 class="r-card__title">{{ card.title }}</h3>
-            <ul class="r-list">
-              <li v-for="item in card.items" :key="item.label">
-                <a class="r-resource-link" :href="item.link" target="_blank" rel="noopener">{{ item.label }}</a>
-              </li>
-            </ul>
-          </article>
+        <div id="section-platforms-body" class="r-section__body">
+          <div class="r-grid r-grid--triple r-grid--stagger">
+            <article
+              v-for="(card, index) in ramadan.platform_resources.cards"
+              :key="card.title"
+              class="r-card r-card--resource"
+            >
+              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("platforms", index) }}</span>
+              <h3 class="r-card__title">{{ card.title }}</h3>
+              <ul class="r-list">
+                <li v-for="item in card.items" :key="item.label">
+                  <a class="r-resource-link" :href="item.link" target="_blank" rel="noopener">{{ item.label }}</a>
+                </li>
+              </ul>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -794,6 +896,8 @@ export default {
       authResolved: false,
       userId: null,
       authRefreshHandler: null,
+      personalPlanExpanded: {},
+      quranPlanExpanded: {},
       emojiPalettes: {
         timeline: ["🕌", "📜", "🌙", "🤲", "🕰️", "✨"],
         fasting: ["🥣", "🧂", "🚰", "🌤️", "🧘", "✨"],
@@ -912,6 +1016,20 @@ export default {
         return timeOrder.indexOf(a.timeOfDay) - timeOrder.indexOf(b.timeOfDay);
       });
     },
+    personalPlansCount() {
+      return this.ramadan.personal_plans?.plans?.length || 0;
+    },
+    areAllPersonalPlansExpanded() {
+      if (!this.personalPlansCount) return true;
+      return Array.from({ length: this.personalPlansCount }).every((_, index) => !!this.personalPlanExpanded[index]);
+    },
+    quranPlansCount() {
+      return this.ramadan.quran_reading_plans?.plans?.length || 0;
+    },
+    areAllQuranPlansExpanded() {
+      if (!this.quranPlansCount) return true;
+      return Array.from({ length: this.quranPlansCount }).every((_, index) => !!this.quranPlanExpanded[index]);
+    },
   },
   methods: {
     formatISODate(value) {
@@ -1020,6 +1138,40 @@ export default {
       if (this.selectedDay) {
         this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
       }
+    },
+    isPersonalPlanExpanded(index) {
+      return !!this.personalPlanExpanded[index];
+    },
+    togglePersonalPlan(index) {
+      this.personalPlanExpanded = {
+        ...this.personalPlanExpanded,
+        [index]: !this.personalPlanExpanded[index],
+      };
+    },
+    toggleAllPersonalPlans() {
+      const nextValue = !this.areAllPersonalPlansExpanded;
+      const expanded = {};
+      for (let i = 0; i < this.personalPlansCount; i += 1) {
+        expanded[i] = nextValue;
+      }
+      this.personalPlanExpanded = expanded;
+    },
+    isQuranPlanExpanded(index) {
+      return !!this.quranPlanExpanded[index];
+    },
+    toggleQuranPlan(index) {
+      this.quranPlanExpanded = {
+        ...this.quranPlanExpanded,
+        [index]: !this.quranPlanExpanded[index],
+      };
+    },
+    toggleAllQuranPlans() {
+      const nextValue = !this.areAllQuranPlansExpanded;
+      const expanded = {};
+      for (let i = 0; i < this.quranPlansCount; i += 1) {
+        expanded[i] = nextValue;
+      }
+      this.quranPlanExpanded = expanded;
     },
     addReminder() {
       if (!this.isAuthenticated) return;
@@ -1177,6 +1329,11 @@ export default {
   --r-card: #ffffff;
   --r-line: rgba(27, 31, 42, 0.08);
   --r-shadow: 0 28px 70px rgba(10, 17, 26, 0.18);
+  --r-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --r-hover-lift: -6px;
+  --r-hover-shadow: 0 26px 60px rgba(15, 34, 48, 0.18);
+  --r-hover-ring: 0 0 0 1px rgba(215, 166, 74, 0.25);
+  --r-hover-border: rgba(215, 166, 74, 0.45);
   --r-radius: 24px;
   font-family: "Manrope", "Segoe UI", sans-serif;
   color: var(--r-ink);
@@ -1463,11 +1620,27 @@ export default {
   --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
 }
 
+#faq.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.26), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
+}
+
 .r-section__head {
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin-bottom: 34px;
+}
+
+.r-section__controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.r-section__body {
+  display: block;
 }
 
 .r-section__title {
@@ -1515,6 +1688,18 @@ export default {
 
 .r-card__emoji--inline {
   margin-bottom: 6px;
+}
+
+.r-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.r-card__head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .r-section__subtitle {
@@ -1574,7 +1759,15 @@ export default {
   box-shadow: 0 16px 40px rgba(15, 34, 48, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: transform 0.28s var(--r-ease), box-shadow 0.28s var(--r-ease), border-color 0.28s var(--r-ease);
+}
+
+.r-hero__card,
+.r-story-card,
+.r-reminder,
+.r-reflection,
+.r-modal-card {
+  transition: transform 0.28s var(--r-ease), box-shadow 0.28s var(--r-ease), border-color 0.28s var(--r-ease);
 }
 
 .r-card > * {
@@ -1718,6 +1911,20 @@ export default {
   --r-card-accent: rgba(76, 114, 96, 0.45);
 }
 
+.r-card--faq {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f1e6 100%);
+  border: 1px solid rgba(215, 166, 74, 0.18);
+  --r-card-accent: rgba(215, 166, 74, 0.5);
+}
+
+.r-faq-question {
+  margin-bottom: 12px;
+}
+
+.r-faq-answer {
+  max-width: 520px;
+}
+
 .r-card__tag {
   display: inline-flex;
   padding: 6px 12px;
@@ -1768,6 +1975,29 @@ export default {
   color: var(--r-ink-soft);
   position: relative;
   z-index: 1;
+}
+
+.r-plan-details {
+  display: grid;
+  gap: 12px;
+}
+
+.r-card__toggle {
+  align-self: flex-start;
+  border: none;
+  background: rgba(27, 31, 42, 0.08);
+  color: var(--r-deep);
+  font-weight: 700;
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.r-card__toggle:hover {
+  background: rgba(27, 31, 42, 0.16);
+  color: var(--r-accent-deep);
 }
 
 .r-list {
@@ -2069,6 +2299,10 @@ export default {
   color: var(--r-deep);
 }
 
+.r-faq-grid {
+  align-items: stretch;
+}
+
 .r-note {
   margin-top: 12px;
   padding: 10px 12px;
@@ -2167,6 +2401,11 @@ export default {
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s ease, color 0.2s ease;
+}
+
+.r-button--sm {
+  padding: 6px 12px;
+  font-size: 0.8rem;
 }
 
 .r-button:hover {
@@ -2497,9 +2736,15 @@ export default {
 }
 
 @media (hover: hover) {
-  .r-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 22px 48px rgba(15, 34, 48, 0.14);
+  .r-card:hover,
+  .r-story-card:hover,
+  .r-hero__card:hover,
+  .r-reminder:hover,
+  .r-reflection:hover,
+  .r-modal-card:hover {
+    transform: translateY(var(--r-hover-lift));
+    box-shadow: var(--r-hover-shadow), var(--r-hover-ring);
+    border-color: var(--r-hover-border);
   }
 }
 
@@ -2508,6 +2753,15 @@ export default {
     animation: none;
     opacity: 1;
     transform: none;
+  }
+
+  .r-card,
+  .r-hero__card,
+  .r-story-card,
+  .r-reminder,
+  .r-reflection,
+  .r-modal-card {
+    transition: none;
   }
 }
 </style>

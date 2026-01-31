@@ -48,6 +48,7 @@
     { "label": "History", "href": "#history" },
     { "label": "Key dates", "href": "#key-dates" },
     { "label": "How to fast", "href": "#how-to-fast" },
+    { "label": "FAQ", "href": "#faq" },
     { "label": "Quran plans", "href": "#quran-plans" },
     { "label": "Personal plans", "href": "#personal-plans" },
     { "label": "Charity", "href": "#charity" },
@@ -1018,6 +1019,33 @@
             "link": "https://www.google.com/search?q=islamic+study+circle+near+me"
           }
         ]
+      }
+    ]
+  },
+
+  "faq": {
+    "section_title": "Frequently Asked Questions",
+    "subtitle": "Mainstream Sunni guidance commonly shared in North American masajid.",
+    "items": [
+      {
+        "question": "When does Ramadan 2026 start?",
+        "answer": "Most North American calendars project the first fast on February 17, 2026, with the first Taraweeh night on February 16, 2026. Local moon sighting can shift this by a day, so confirm with your local masjid."
+      },
+      {
+        "question": "What time does the daily fast begin and end?",
+        "answer": "Fasting is from true dawn (Fajr) until sunset (Maghrib). Follow your local prayer timetable for your exact city times."
+      },
+      {
+        "question": "Who is exempt from fasting?",
+        "answer": "Children before puberty, the ill, travelers, pregnant or nursing women, and those menstruating are exempt. Missed fasts are made up later when possible; ask a local scholar about fidya or kaffarah in your situation."
+      },
+      {
+        "question": "What breaks the fast?",
+        "answer": "Eating or drinking, sexual relations, intentional vomiting, and menstrual or postpartum bleeding break the fast. If you eat or drink out of forgetfulness, the fast remains valid according to most Sunni opinions."
+      },
+      {
+        "question": "How can I make the most of the last 10 nights?",
+        "answer": "Prioritize night prayer, Quran, dua, and charity, and focus on the odd nights (21, 23, 25, 27, 29) for Laylat al-Qadr. Many people adjust sleep schedules or take time off to focus on worship."
       }
     ]
   },
