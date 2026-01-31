@@ -60,7 +60,10 @@
     <section id="overview" class="r-section">
       <div class="container">
         <div class="r-section__head r-overview__head">
-          <h2 class="r-section__title">{{ ramadan.overview.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🌙</span>
+            {{ ramadan.overview.section_title }}
+          </h2>
           <p class="r-overview__lead">{{ ramadan.overview.subtitle }}</p>
           <p v-for="(para, index) in ramadan.overview.body" :key="index" class="r-overview__body">
             {{ para }}
@@ -87,14 +90,22 @@
     <section id="history" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.history.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">📜</span>
+            {{ ramadan.history.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.history.subtitle }}</p>
           <p v-for="(para, index) in ramadan.history.body" :key="index" class="r-section__subtitle">
             {{ para }}
           </p>
         </div>
-        <div class="r-grid r-grid--double">
-          <article v-for="item in ramadan.history.timeline" :key="item.period" class="r-card">
+        <div class="r-grid r-grid--double r-grid--timeline">
+          <article
+            v-for="(item, index) in ramadan.history.timeline"
+            :key="item.period"
+            class="r-card r-card--timeline"
+          >
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
             <h3 class="r-card__title">{{ item.period }}</h3>
             <p class="r-card__desc">{{ item.detail }}</p>
           </article>
@@ -137,12 +148,22 @@
     <section id="key-dates" class="r-section">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.important_dates.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🗓️</span>
+            {{ ramadan.important_dates.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.important_dates.subtitle }}</p>
         </div>
         <div class="r-grid r-grid--dates">
-          <article v-for="date in ramadan.important_dates.dates" :key="date.event" class="r-card r-card--date">
-            <div class="r-card__tag" :class="`r-card__tag--${date.type}`">{{ date.event }}</div>
+          <article
+            v-for="(date, index) in ramadan.important_dates.dates"
+            :key="date.event"
+            class="r-card r-card--date"
+          >
+            <div class="r-card__tag" :class="`r-card__tag--${date.type}`">
+              {{ date.event }}
+              <span class="r-card__emoji r-card__emoji--tag" aria-hidden="true">{{ dateEmoji(date.type) }}</span>
+            </div>
             <h3 class="r-card__title">{{ date.gregorian_date }}</h3>
             <p class="r-card__meta">{{ date.hijri_date }}</p>
             <p class="r-card__desc">{{ date.description }}</p>
@@ -154,69 +175,83 @@
     <section id="planner" class="r-section">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">Live Ramadan Planner</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🧭</span>
+            Live Ramadan Planner
+          </h2>
           <p class="r-section__subtitle">
             Turn this guide into a living plan with a day-by-day calendar, personal reminders, and shared reflections.
           </p>
         </div>
-        <div class="r-grid r-grid--double r-planner-grid">
-          <article class="r-card r-planner-card">
-            <div class="r-planner-head">
-              <div>
-                <h3 class="r-card__title">Ramadan day-by-day calendar</h3>
-                <p class="r-card__desc">
-                  Adjust the start date to match local moon sighting and track your progress each day.
-                </p>
+        <div class="row justify-content-center r-planner-row">
+          <div class="col-12 col-md-10">
+            <article class="r-card r-planner-card r-card--planner">
+              <div class="r-planner-head">
+                <div>
+                  <h3 class="r-card__title">Ramadan day-by-day calendar</h3>
+                  <p class="r-card__desc">
+                    Adjust the start date to match local moon sighting and track your progress each day.
+                  </p>
+                </div>
+                <div class="r-planner-controls">
+                  <label class="r-label" for="planner-start-date">Start date</label>
+                  <input
+                    id="planner-start-date"
+                    class="r-input"
+                    type="date"
+                    v-model="calendarStartOverride"
+                    @change="persistCalendar"
+                  />
+                  <label class="r-label" for="planner-length">Length</label>
+                  <select id="planner-length" class="r-select" v-model.number="calendarLength" @change="persistCalendar">
+                    <option v-for="len in [29, 30]" :key="len" :value="len">{{ len }} days</option>
+                  </select>
+                </div>
               </div>
-              <div class="r-planner-controls">
-                <label class="r-label" for="planner-start-date">Start date</label>
-                <input
-                  id="planner-start-date"
-                  class="r-input"
-                  type="date"
-                  v-model="calendarStartOverride"
-                  @change="persistCalendar"
-                />
-                <label class="r-label" for="planner-length">Length</label>
-                <select id="planner-length" class="r-select" v-model.number="calendarLength" @change="persistCalendar">
-                  <option v-for="len in [29, 30]" :key="len" :value="len">{{ len }} days</option>
-                </select>
+              <div class="r-calendar">
+                <button
+                  v-for="(day, index) in calendarDays"
+                  :key="day.key"
+                  class="r-calendar__cell"
+                  type="button"
+                  :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
+                  @click="selectDay(index)"
+                >
+                  <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
+                  <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
+                  <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
+                </button>
               </div>
-            </div>
-            <div class="r-calendar">
-              <button
-                v-for="(day, index) in calendarDays"
-                :key="day.key"
-                class="r-calendar__cell"
-                type="button"
-                :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
-                @click="selectDay(index)"
-              >
-                <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
-                <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
-                <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
-              </button>
-            </div>
-            <div v-if="selectedDay" class="r-calendar__detail">
-              <div class="r-calendar__detail-head">
-                <h4 class="r-calendar__detail-title">
-                  Day {{ selectedDay.dayNumber }} - {{ formatISODate(selectedDay.date) }}
-                </h4>
-                <span v-if="selectedDay.event" class="r-calendar__event-chip">{{ selectedDay.event }}</span>
+              <div v-if="selectedDay" class="r-calendar__detail">
+                <div class="r-calendar__detail-head">
+                  <h4 class="r-calendar__detail-title">
+                    Day {{ selectedDay.dayNumber }} - {{ formatISODate(selectedDay.date) }}
+                  </h4>
+                  <span v-if="selectedDay.event" class="r-calendar__event-chip">{{ selectedDay.event }}</span>
+                </div>
+                <p class="r-card__desc">Add a quick note or intention for this day.</p>
+                <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+                <div v-else-if="!isAuthenticated" class="r-auth-gate">
+                  <p class="r-card__desc">Log in to save your daily intention notes.</p>
+                  <div class="r-auth-actions">
+                    <a class="r-button r-button--ghost" href="/login">Log in</a>
+                  </div>
+                </div>
+                <textarea
+                  v-else
+                  class="r-textarea"
+                  rows="3"
+                  :value="selectedDayNote"
+                  placeholder="Example: Aim to finish Juz 3, call family, give sadaqah."
+                  @input="selectedDayNote = $event.target.value"
+                ></textarea>
               </div>
-              <p class="r-card__desc">Add a quick note or intention for this day.</p>
-              <textarea
-                class="r-textarea"
-                rows="3"
-                :value="selectedDayNote"
-                placeholder="Example: Aim to finish Juz 3, call family, give sadaqah."
-                @input="selectedDayNote = $event.target.value"
-              ></textarea>
-            </div>
-          </article>
-
-          <div class="r-planner__stack">
-            <article class="r-card">
+            </article>
+          </div>
+        </div>
+        <div class="row r-planner-row">
+          <div class="col-12 col-md-6">
+            <article class="r-card r-card--soft">
               <div class="r-stack-head">
                 <h3 class="r-card__title">Personal reminders</h3>
                 <span class="r-badge">{{ reminders.length }} saved</span>
@@ -279,8 +314,9 @@
                 <p v-else class="r-empty">No reminders yet. Add your first one above.</p>
               </div>
             </article>
-
-            <article class="r-card">
+          </div>
+          <div class="col-12 col-md-6">
+            <article class="r-card r-card--soft">
               <div class="r-stack-head">
                 <h3 class="r-card__title">Community reflections</h3>
                 <span class="r-badge">{{ reflections.length }} shared</span>
@@ -336,11 +372,15 @@
     <section id="how-to-fast" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.how_to_fast.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🥣</span>
+            {{ ramadan.how_to_fast.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.how_to_fast.intro }}</p>
         </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="card in ramadan.how_to_fast.cards" :key="card.title" class="r-card">
+        <div class="r-grid r-grid--triple r-grid--stagger">
+          <article v-for="(card, index) in ramadan.how_to_fast.cards" :key="card.title" class="r-card r-card--step">
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("fasting", index) }}</span>
             <h3 class="r-card__title">{{ card.title }}</h3>
             <ul class="r-list">
               <li v-for="item in card.items" :key="item">{{ item }}</li>
@@ -364,11 +404,15 @@
     <section id="quran-plans" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.quran_reading_plans.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">📖</span>
+            {{ ramadan.quran_reading_plans.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.quran_reading_plans.intro }}</p>
         </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="plan in ramadan.quran_reading_plans.plans" :key="plan.level" class="r-card">
+        <div class="r-grid r-grid--triple r-grid--stagger">
+          <article v-for="(plan, index) in ramadan.quran_reading_plans.plans" :key="plan.level" class="r-card r-card--plan">
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("quran", index) }}</span>
             <h3 class="r-card__title">{{ plan.level }}</h3>
             <p class="r-card__desc">Daily target: {{ plan.daily_target }}</p>
             <ul class="r-list">
@@ -399,11 +443,15 @@
     <section id="personal-plans" class="r-section">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.personal_plans.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🎯</span>
+            {{ ramadan.personal_plans.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.personal_plans.intro }}</p>
         </div>
-        <div class="r-grid r-grid--double">
-          <article v-for="plan in ramadan.personal_plans.plans" :key="plan.title" class="r-card">
+        <div class="r-grid r-grid--double r-grid--stagger">
+          <article v-for="(plan, index) in ramadan.personal_plans.plans" :key="plan.title" class="r-card r-card--persona">
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("personal", index) }}</span>
             <h3 class="r-card__title">{{ plan.title }}</h3>
             <p class="r-card__desc">{{ plan.who_for }}</p>
             <p class="r-card__desc">{{ plan.overview }}</p>
@@ -429,11 +477,15 @@
     <section id="charity" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.charity_guide.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🤝</span>
+            {{ ramadan.charity_guide.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.charity_guide.intro }}</p>
         </div>
         <div class="r-grid r-grid--double">
-          <article class="r-card">
+          <article class="r-card r-card--charity">
+            <span class="r-card__emoji" aria-hidden="true">💛</span>
             <div class="r-charity-body">
               <p v-for="(para, index) in ramadan.charity_guide.overview" :key="index" class="r-card__desc">
                 {{ para }}
@@ -444,7 +496,8 @@
               </ul>
             </div>
           </article>
-          <article class="r-card">
+          <article class="r-card r-card--charity r-card--charity-alt">
+            <span class="r-card__emoji" aria-hidden="true">🎁</span>
             <h3 class="r-card__title">{{ ramadan.charity_guide.sadaqah_title }}</h3>
             <ul class="r-list">
               <li v-for="item in ramadan.charity_guide.sadaqah_ideas" :key="item">{{ item }}</li>
@@ -473,11 +526,19 @@
     <section id="health" class="r-section">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.health_food_tips.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🥗</span>
+            {{ ramadan.health_food_tips.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.health_food_tips.intro }}</p>
         </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="section in ramadan.health_food_tips.primary_sections" :key="section.title" class="r-card">
+        <div class="r-grid r-grid--triple r-grid--stagger">
+          <article
+            v-for="(section, index) in ramadan.health_food_tips.primary_sections"
+            :key="section.title"
+            class="r-card r-card--health"
+          >
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index) }}</span>
             <h3 class="r-card__title">{{ section.title }}</h3>
             <ul class="r-list">
               <li v-for="item in section.items" :key="item">{{ item }}</li>
@@ -485,7 +546,12 @@
           </article>
         </div>
         <div class="r-grid r-grid--double r-spacing-top">
-          <article v-for="section in ramadan.health_food_tips.secondary_sections" :key="section.title" class="r-card">
+          <article
+            v-for="(section, index) in ramadan.health_food_tips.secondary_sections"
+            :key="section.title"
+            class="r-card r-card--health r-card--health-alt"
+          >
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index + 3) }}</span>
             <h3 class="r-card__title">{{ section.title }}</h3>
             <ul class="r-list">
               <li v-for="item in section.items" :key="item">{{ item }}</li>
@@ -501,7 +567,10 @@
     <section id="duas" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.duas_prayers.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🤲</span>
+            {{ ramadan.duas_prayers.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.duas_prayers.intro }}</p>
         </div>
         <div class="r-story-grid">
@@ -537,7 +606,10 @@
     <section id="shorts" class="r-section">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.shorts.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🎥</span>
+            {{ ramadan.shorts.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.shorts.subtitle }}</p>
         </div>
         <div class="r-short-block">
@@ -593,11 +665,14 @@
     <section id="tools" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.tools_calculators.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🧮</span>
+            {{ ramadan.tools_calculators.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.tools_calculators.subtitle }}</p>
         </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="tool in ramadan.tools_calculators.tools" :key="tool.title" class="r-card r-card--tool">
+        <div class="r-grid r-grid--triple r-grid--stagger">
+          <article v-for="(tool, index) in ramadan.tools_calculators.tools" :key="tool.title" class="r-card r-card--tool">
             <a
               class="r-expand"
               :href="tool.link"
@@ -609,6 +684,7 @@
               <i :class="['fas', tool.icon]" aria-hidden="true"></i>
             </a>
             <div>
+              <span class="r-card__emoji r-card__emoji--inline" aria-hidden="true">{{ getEmoji("tools", index) }}</span>
               <h3 class="r-card__title">{{ tool.title }}</h3>
               <p class="r-card__desc">{{ tool.description }}</p>
             </div>
@@ -623,11 +699,15 @@
     <section id="platforms" class="r-section">
       <div class="container">
         <div class="r-section__head">
-          <h2 class="r-section__title">{{ ramadan.platform_resources.section_title }}</h2>
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🌐</span>
+            {{ ramadan.platform_resources.section_title }}
+          </h2>
           <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
         </div>
-        <div class="r-grid r-grid--triple">
-          <article v-for="card in ramadan.platform_resources.cards" :key="card.title" class="r-card">
+        <div class="r-grid r-grid--triple r-grid--stagger">
+          <article v-for="(card, index) in ramadan.platform_resources.cards" :key="card.title" class="r-card r-card--resource">
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("platforms", index) }}</span>
             <h3 class="r-card__title">{{ card.title }}</h3>
             <ul class="r-list">
               <li v-for="item in card.items" :key="item.label">
@@ -713,6 +793,16 @@ export default {
       isAuthenticated: false,
       authResolved: false,
       userId: null,
+      authRefreshHandler: null,
+      emojiPalettes: {
+        timeline: ["🕌", "📜", "🌙", "🤲", "🕰️", "✨"],
+        fasting: ["🥣", "🧂", "🚰", "🌤️", "🧘", "✨"],
+        quran: ["📖", "🧭", "🗂️", "✨"],
+        personal: ["🎯", "👥", "🏡", "🌿", "🧠", "✨"],
+        health: ["🥗", "💧", "💤", "🏃", "🍋", "✨"],
+        tools: ["🧮", "📍", "🕌", "🧭", "🗺️", "✨"],
+        platforms: ["🌐", "🎓", "📺", "📚", "📍", "✨"],
+      },
       timeOfDayOptions: [
         { value: "suhoor", label: "Suhoor (pre-dawn)" },
         { value: "fajr", label: "Fajr" },
@@ -729,6 +819,23 @@ export default {
     await this.initializeAuthentication();
     this.loadPlannerState();
     this.selectTodayOrFirst();
+    if (typeof window !== "undefined") {
+      this.authRefreshHandler = this.refreshAuthState.bind(this);
+      window.addEventListener("focus", this.authRefreshHandler);
+      document.addEventListener("visibilitychange", this.authRefreshHandler);
+    }
+  },
+  beforeDestroy() {
+    if (typeof window !== "undefined" && this.authRefreshHandler) {
+      window.removeEventListener("focus", this.authRefreshHandler);
+      document.removeEventListener("visibilitychange", this.authRefreshHandler);
+    }
+  },
+  unmounted() {
+    if (typeof window !== "undefined" && this.authRefreshHandler) {
+      window.removeEventListener("focus", this.authRefreshHandler);
+      document.removeEventListener("visibilitychange", this.authRefreshHandler);
+    }
   },
   computed: {
     heroImage() {
@@ -783,11 +890,11 @@ export default {
     },
     selectedDayNote: {
       get() {
-        if (!this.selectedDay) return "";
+        if (!this.selectedDay || !this.isAuthenticated) return "";
         return this.dayNotes[this.selectedDay.dayNumber] || "";
       },
       set(value) {
-        if (!this.selectedDay) return;
+        if (!this.selectedDay || !this.isAuthenticated) return;
         this.dayNotes = {
           ...this.dayNotes,
           [this.selectedDay.dayNumber]: value,
@@ -831,6 +938,16 @@ export default {
       this.isAuthenticated = !!id;
       this.authResolved = true;
     },
+    async refreshAuthState() {
+      if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
+      const previousUserId = this.userId;
+      const wasAuthenticated = this.isAuthenticated;
+      await this.initializeAuthentication();
+      if (previousUserId !== this.userId || wasAuthenticated !== this.isAuthenticated) {
+        this.loadPlannerState();
+        this.selectTodayOrFirst();
+      }
+    },
     handleHeroImageError() {
       if (this.heroImageOverride !== this.heroImageFallback) {
         this.heroImageOverride = this.heroImageFallback;
@@ -845,6 +962,19 @@ export default {
       return {
         "--story-bg": `url(${thumbnail})`,
       };
+    },
+    getEmoji(palette, index) {
+      const list = this.emojiPalettes?.[palette] || [];
+      if (!list.length) return "✨";
+      return list[index % list.length];
+    },
+    dateEmoji(type) {
+      const map = {
+        start: "🌙",
+        special: "✨",
+        eid: "🎉",
+      };
+      return map[type] || "🗓️";
     },
     parseISODate(value) {
       if (!value) return null;
@@ -971,8 +1101,10 @@ export default {
       );
     },
     persistDayNotes() {
-      if (typeof window === "undefined") return;
-      window.localStorage.setItem("ramadan2026.dayNotes", JSON.stringify(this.dayNotes));
+      if (!this.isAuthenticated) return;
+      const key = this.getUserStorageKey("dayNotes");
+      if (!key || typeof window === "undefined") return;
+      window.localStorage.setItem(key, JSON.stringify(this.dayNotes));
     },
     persistReminders() {
       if (!this.isAuthenticated) return;
@@ -996,9 +1128,14 @@ export default {
         const calendarStored = JSON.parse(window.localStorage.getItem("ramadan2026.calendar") || "{}");
         if (calendarStored?.start) this.calendarStartOverride = calendarStored.start;
         if (calendarStored?.length) this.calendarLength = Number(calendarStored.length) || this.calendarLength;
-        const notesStored = JSON.parse(window.localStorage.getItem("ramadan2026.dayNotes") || "{}");
-        if (notesStored && typeof notesStored === "object") {
-          this.dayNotes = notesStored;
+        if (this.isAuthenticated) {
+          const notesKey = this.getUserStorageKey("dayNotes");
+          const notesStored = JSON.parse(window.localStorage.getItem(notesKey) || "{}");
+          if (notesStored && typeof notesStored === "object") {
+            this.dayNotes = notesStored;
+          }
+        } else {
+          this.dayNotes = {};
         }
         if (this.isAuthenticated) {
           const remindersKey = this.getUserStorageKey("reminders");
@@ -1035,6 +1172,8 @@ export default {
   --r-accent-deep: #b8832e;
   --r-deep: #0f2230;
   --r-mist: #f6f1ea;
+  --r-sage: #4c7260;
+  --r-rose: #c98c78;
   --r-card: #ffffff;
   --r-line: rgba(27, 31, 42, 0.08);
   --r-shadow: 0 28px 70px rgba(10, 17, 26, 0.18);
@@ -1220,14 +1359,108 @@ export default {
 
 .r-section {
   padding: 80px 0;
+  position: relative;
+  overflow: hidden;
+  --r-ornament-1: none;
+  --r-ornament-2: none;
+}
+
+.r-section::before,
+.r-section::after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  background: var(--r-ornament-1);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.r-section::before {
+  top: -140px;
+  right: -140px;
+}
+
+.r-section::after {
+  bottom: -160px;
+  left: -160px;
+  background: var(--r-ornament-2);
+  opacity: 0.45;
+}
+
+.r-section .container {
+  position: relative;
+  z-index: 1;
 }
 
 #overview.r-section {
   background: #fff6ea;
+  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.35), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.25), transparent 70%);
 }
 
 .r-section--alt {
   background: #fdf9f3;
+}
+
+#history.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.32), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.25), transparent 70%);
+}
+
+#key-dates.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.3), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.15), transparent 70%);
+}
+
+#planner.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(76, 114, 96, 0.3), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.24), transparent 70%);
+}
+
+#how-to-fast.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.28), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
+}
+
+#quran-plans.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.28), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.22), transparent 70%);
+}
+
+#personal-plans.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.22), transparent 70%);
+}
+
+#charity.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.28), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.2), transparent 70%);
+}
+
+#health.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(76, 114, 96, 0.28), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
+}
+
+#duas.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.25), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
+}
+
+#shorts.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.2), transparent 70%);
+}
+
+#tools.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(76, 114, 96, 0.25), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.18), transparent 70%);
+}
+
+#platforms.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.2), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
 }
 
 .r-section__head {
@@ -1242,6 +1475,46 @@ export default {
   font-size: clamp(2.1rem, 3vw, 3rem);
   margin: 0;
   color: var(--r-deep);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.r-emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.r-emoji--title {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.r-card__emoji {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 1.05rem;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(15, 34, 48, 0.12);
+  box-shadow: 0 10px 22px rgba(15, 34, 48, 0.08);
+  margin-bottom: 12px;
+}
+
+.r-card__emoji--tag {
+  margin-left: 8px;
+  margin-bottom: 0;
+  font-size: 0.85rem;
+  padding: 2px 8px;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.r-card__emoji--inline {
+  margin-bottom: 6px;
 }
 
 .r-section__subtitle {
@@ -1275,6 +1548,10 @@ export default {
   gap: 26px;
 }
 
+.r-grid--timeline {
+  position: relative;
+}
+
 .r-grid--dates {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
 }
@@ -1292,7 +1569,153 @@ export default {
   border-radius: var(--r-radius);
   padding: 26px;
   border: 1px solid var(--r-line);
-  box-shadow: 0 16px 40px rgba(15, 34, 48, 0.08);
+  --r-card-accent: rgba(215, 166, 74, 0.35);
+  border-top: 3px solid var(--r-card-accent);
+  box-shadow: 0 16px 40px rgba(15, 34, 48, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.r-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.r-card--timeline {
+  padding-left: 34px;
+  border-left: 4px solid rgba(215, 166, 74, 0.55);
+  background: linear-gradient(135deg, #ffffff 0%, #fff4e2 100%);
+  --r-card-accent: rgba(215, 166, 74, 0.6);
+}
+
+.r-card--timeline::before {
+  content: "";
+  position: absolute;
+  left: 12px;
+  top: 20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--r-accent);
+  box-shadow: 0 0 0 6px rgba(215, 166, 74, 0.2);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--timeline::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76, 114, 96, 0.25), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--date {
+  background: linear-gradient(180deg, #ffffff 0%, #fff9f0 100%);
+  border-top: 3px solid rgba(215, 166, 74, 0.8);
+  --r-card-accent: rgba(215, 166, 74, 0.8);
+}
+
+.r-card--date::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--step {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf7f0 100%);
+  --r-card-accent: rgba(201, 140, 120, 0.5);
+}
+
+.r-card--step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(215, 166, 74, 0.18) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--plan {
+  background: linear-gradient(135deg, #ffffff 0%, #f3f7f6 100%);
+  --r-card-accent: rgba(111, 153, 164, 0.55);
+}
+
+.r-card--plan::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  right: -40px;
+  width: 120px;
+  height: 120px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(111, 153, 164, 0.25), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--persona {
+  background: linear-gradient(135deg, #ffffff 0%, #fef4ed 100%);
+  border: 1px solid rgba(201, 140, 120, 0.2);
+  --r-card-accent: rgba(201, 140, 120, 0.55);
+}
+
+.r-card--persona::after {
+  content: "";
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(201, 140, 120, 0.25), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--charity {
+  background: linear-gradient(135deg, #ffffff 0%, #fff4e7 100%);
+  border: 1px solid rgba(215, 166, 74, 0.2);
+  --r-card-accent: rgba(215, 166, 74, 0.55);
+}
+
+.r-card--charity-alt {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f1ea 100%);
+  border: 1px solid rgba(201, 140, 120, 0.2);
+  --r-card-accent: rgba(201, 140, 120, 0.5);
+}
+
+.r-card--health {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f6f3 100%);
+  border: 1px solid rgba(76, 114, 96, 0.2);
+  --r-card-accent: rgba(76, 114, 96, 0.55);
+}
+
+.r-card--health-alt {
+  background: linear-gradient(135deg, #ffffff 0%, #eef5f6 100%);
+  border: 1px solid rgba(111, 153, 164, 0.2);
+  --r-card-accent: rgba(111, 153, 164, 0.55);
+}
+
+.r-card--resource {
+  background: linear-gradient(135deg, #ffffff 0%, #f2f8f7 100%);
+  border: 1px solid rgba(76, 114, 96, 0.2);
+  --r-card-accent: rgba(76, 114, 96, 0.45);
 }
 
 .r-card__tag {
@@ -1327,6 +1750,8 @@ export default {
   font-size: 1.3rem;
   font-weight: 700;
   margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .r-card__title--small {
@@ -1341,11 +1766,15 @@ export default {
 
 .r-card__desc {
   color: var(--r-ink-soft);
+  position: relative;
+  z-index: 1;
 }
 
 .r-list {
   padding-left: 18px;
   color: var(--r-ink-soft);
+  position: relative;
+  z-index: 1;
 }
 
 .r-link {
@@ -1419,6 +1848,28 @@ export default {
   margin-top: 24px;
 }
 
+.r-reference-link {
+  flex: 1;
+  min-width: 0;
+  color: var(--r-deep);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.r-reference-link:hover {
+  color: var(--r-accent-deep);
+}
+
+.r-resource-link {
+  color: var(--r-ink-soft);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.r-resource-link:hover {
+  color: var(--r-accent-deep);
+}
+
 .r-references ul {
   list-style: none;
   padding: 0;
@@ -1464,6 +1915,15 @@ export default {
   position: relative;
   display: grid;
   gap: 16px;
+  --r-card-accent: rgba(111, 153, 164, 0.5);
+}
+
+#tools .r-card--tool:nth-child(odd) {
+  background: linear-gradient(135deg, #ffffff 0%, #f2f7f4 100%);
+}
+
+#tools .r-card--tool:nth-child(even) {
+  background: linear-gradient(135deg, #ffffff 0%, #fff4e7 100%);
 }
 
 .r-expand {
@@ -1505,7 +1965,18 @@ export default {
   color: #0f1f1b;
   overflow: hidden;
   border: 1px solid rgba(15, 34, 48, 0.1);
-  box-shadow: 0 20px 40px rgba(15, 34, 48, 0.12);
+  border-top: 3px solid rgba(111, 153, 164, 0.5);
+  box-shadow: 0 20px 40px rgba(15, 34, 48, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.r-card--soft {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f4ef 100%);
+  border: 1px solid rgba(15, 34, 48, 0.08);
+}
+
+.r-card--planner {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(253, 246, 234, 0.9));
+  border: 1px solid rgba(215, 166, 74, 0.25);
 }
 
 .r-story-card::before {
@@ -1617,10 +2088,6 @@ export default {
   background: rgba(16, 42, 34, 0.04);
 }
 
-.r-planner-grid {
-  align-items: start;
-}
-
 .r-planner-card {
   display: grid;
   gap: 20px;
@@ -1640,9 +2107,8 @@ export default {
   min-width: 220px;
 }
 
-.r-planner__stack {
-  display: grid;
-  gap: 22px;
+.r-planner-row + .r-planner-row {
+  margin-top: 24px;
 }
 
 .r-label {
@@ -2020,6 +2486,23 @@ export default {
   }
 }
 
+@media (min-width: 900px) {
+  .r-grid--stagger > *:nth-child(odd) {
+    margin-top: 8px;
+  }
+
+  .r-grid--stagger > *:nth-child(even) {
+    margin-top: -6px;
+  }
+}
+
+@media (hover: hover) {
+  .r-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 48px rgba(15, 34, 48, 0.14);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .r-animate {
     animation: none;
@@ -2028,24 +2511,3 @@ export default {
   }
 }
 </style>
-.r-reference-link {
-  flex: 1;
-  min-width: 0;
-  color: var(--r-deep);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.r-reference-link:hover {
-  color: var(--r-accent-deep);
-}
-
-.r-resource-link {
-  color: var(--r-ink-soft);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.r-resource-link:hover {
-  color: var(--r-accent-deep);
-}
