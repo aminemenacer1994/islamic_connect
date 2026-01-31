@@ -33,7 +33,7 @@
             </div>
 
             <nav class="r-hero__nav r-animate" style="--delay: 0.36s;">
-              <a v-for="link in ramadan.nav_links" :key="link.href" class="r-hero__pill" :href="link.href">
+              <a v-for="link in navLinks" :key="link.href" class="r-hero__pill" :href="link.href">
                 {{ link.label }}
               </a>
             </nav>
@@ -147,6 +147,188 @@
             <p class="r-card__meta">{{ date.hijri_date }}</p>
             <p class="r-card__desc">{{ date.description }}</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="planner" class="r-section">
+      <div class="container">
+        <div class="r-section__head">
+          <h2 class="r-section__title">Live Ramadan Planner</h2>
+          <p class="r-section__subtitle">
+            Turn this guide into a living plan with a day-by-day calendar, personal reminders, and shared reflections.
+          </p>
+        </div>
+        <div class="r-grid r-grid--double r-planner-grid">
+          <article class="r-card r-planner-card">
+            <div class="r-planner-head">
+              <div>
+                <h3 class="r-card__title">Ramadan day-by-day calendar</h3>
+                <p class="r-card__desc">
+                  Adjust the start date to match local moon sighting and track your progress each day.
+                </p>
+              </div>
+              <div class="r-planner-controls">
+                <label class="r-label" for="planner-start-date">Start date</label>
+                <input
+                  id="planner-start-date"
+                  class="r-input"
+                  type="date"
+                  v-model="calendarStartOverride"
+                  @change="persistCalendar"
+                />
+                <label class="r-label" for="planner-length">Length</label>
+                <select id="planner-length" class="r-select" v-model.number="calendarLength" @change="persistCalendar">
+                  <option v-for="len in [29, 30]" :key="len" :value="len">{{ len }} days</option>
+                </select>
+              </div>
+            </div>
+            <div class="r-calendar">
+              <button
+                v-for="(day, index) in calendarDays"
+                :key="day.key"
+                class="r-calendar__cell"
+                type="button"
+                :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
+                @click="selectDay(index)"
+              >
+                <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
+                <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
+                <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
+              </button>
+            </div>
+            <div v-if="selectedDay" class="r-calendar__detail">
+              <div class="r-calendar__detail-head">
+                <h4 class="r-calendar__detail-title">
+                  Day {{ selectedDay.dayNumber }} - {{ formatISODate(selectedDay.date) }}
+                </h4>
+                <span v-if="selectedDay.event" class="r-calendar__event-chip">{{ selectedDay.event }}</span>
+              </div>
+              <p class="r-card__desc">Add a quick note or intention for this day.</p>
+              <textarea
+                class="r-textarea"
+                rows="3"
+                :value="selectedDayNote"
+                placeholder="Example: Aim to finish Juz 3, call family, give sadaqah."
+                @input="selectedDayNote = $event.target.value"
+              ></textarea>
+            </div>
+          </article>
+
+          <div class="r-planner__stack">
+            <article class="r-card">
+              <div class="r-stack-head">
+                <h3 class="r-card__title">Personal reminders</h3>
+                <span class="r-badge">{{ reminders.length }} saved</span>
+              </div>
+              <p class="r-card__desc">
+                Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device.
+              </p>
+              <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+              <div v-else-if="!isAuthenticated" class="r-auth-gate">
+                <p class="r-card__desc">Log in to create and view your saved personal reminders.</p>
+                <div class="r-auth-actions">
+                  <a class="r-button r-button--ghost" href="/login">Log in</a>
+                </div>
+              </div>
+              <div v-else>
+                <form class="r-form" @submit.prevent="addReminder">
+                  <div class="r-form__row">
+                    <input
+                      class="r-input"
+                      v-model.trim="reminderDraft.title"
+                      type="text"
+                      placeholder="Reminder title"
+                      required
+                    />
+                    <select class="r-select" v-model.number="reminderDraft.dayNumber">
+                      <option v-for="day in dayOptions" :key="day" :value="day">Day {{ day }}</option>
+                    </select>
+                  </div>
+                  <div class="r-form__row">
+                    <select class="r-select" v-model="reminderDraft.timeOfDay">
+                      <option v-for="option in timeOfDayOptions" :key="option.value" :value="option.value">
+                        {{ option.label }}
+                      </option>
+                    </select>
+                    <input
+                      class="r-input"
+                      v-model.trim="reminderDraft.note"
+                      type="text"
+                      placeholder="Optional note"
+                    />
+                  </div>
+                  <button class="r-button" type="submit">Save reminder</button>
+                </form>
+                <div v-if="sortedReminders.length" class="r-reminder-list">
+                  <div v-for="reminder in sortedReminders" :key="reminder.id" class="r-reminder">
+                    <label class="r-checkbox">
+                      <input type="checkbox" v-model="reminder.done" @change="persistReminders" />
+                      <span></span>
+                    </label>
+                    <div class="r-reminder__body">
+                      <h4 :class="{ 'is-done': reminder.done }">{{ reminder.title }}</h4>
+                      <p>Day {{ reminder.dayNumber }} - {{ formatTimeLabel(reminder.timeOfDay) }}</p>
+                      <p v-if="reminder.note">{{ reminder.note }}</p>
+                    </div>
+                    <button class="r-icon-button" type="button" @click="removeReminder(reminder.id)">
+                      Remove
+                    </button>
+                  </div>
+                </div>
+                <p v-else class="r-empty">No reminders yet. Add your first one above.</p>
+              </div>
+            </article>
+
+            <article class="r-card">
+              <div class="r-stack-head">
+                <h3 class="r-card__title">Community reflections</h3>
+                <span class="r-badge">{{ reflections.length }} shared</span>
+              </div>
+              <p class="r-card__desc">Share a short reflection, dua, or intention and see it appear instantly.</p>
+              <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+              <div v-else-if="!isAuthenticated" class="r-auth-gate">
+                <p class="r-card__desc">Log in to share and view your saved community reflections.</p>
+                <div class="r-auth-actions">
+                  <a class="r-button r-button--ghost" href="/login">Log in</a>
+                </div>
+              </div>
+              <div v-else>
+                <form class="r-form" @submit.prevent="addReflection">
+                  <div class="r-form__row">
+                    <input
+                      class="r-input"
+                      v-model.trim="reflectionDraft.name"
+                      type="text"
+                      placeholder="Name (optional)"
+                    />
+                    <select class="r-select" v-model="reflectionDraft.mood">
+                      <option v-for="mood in reflectionMoods" :key="mood" :value="mood">{{ mood }}</option>
+                    </select>
+                  </div>
+                  <textarea
+                    class="r-textarea"
+                    v-model.trim="reflectionDraft.text"
+                    rows="3"
+                    placeholder="Share a reflection or dua..."
+                    required
+                  ></textarea>
+                  <button class="r-button" type="submit">Share reflection</button>
+                </form>
+                <div v-if="reflections.length" class="r-reflection-list">
+                  <article v-for="reflection in reflections" :key="reflection.id" class="r-reflection">
+                    <div class="r-reflection__meta">
+                      <span class="r-reflection__name">{{ reflection.name || "Anonymous" }}</span>
+                      <span class="r-reflection__mood">{{ reflection.mood }}</span>
+                      <span class="r-reflection__time">{{ formatRelativeTime(reflection.timestamp) }}</span>
+                    </div>
+                    <p>{{ reflection.text }}</p>
+                  </article>
+                </div>
+                <p v-else class="r-empty">Be the first to share a reflection.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -502,6 +684,7 @@
 
 <script>
 import ramadanData from "./data/ramadan_2026.json";
+import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 
 export default {
   name: "Ramadan2026Component",
@@ -510,11 +693,117 @@ export default {
       ramadan: ramadanData,
       heroImageOverride: null,
       heroImageFallback: "/images/banner-photo-800.webp",
+      calendarStartOverride: "",
+      calendarLength: 30,
+      selectedDayIndex: 0,
+      dayNotes: {},
+      reminderDraft: {
+        title: "",
+        dayNumber: 1,
+        timeOfDay: "maghrib",
+        note: "",
+      },
+      reminders: [],
+      reflectionDraft: {
+        name: "",
+        mood: "Grateful",
+        text: "",
+      },
+      reflections: [],
+      isAuthenticated: false,
+      authResolved: false,
+      userId: null,
+      timeOfDayOptions: [
+        { value: "suhoor", label: "Suhoor (pre-dawn)" },
+        { value: "fajr", label: "Fajr" },
+        { value: "dhuhr", label: "Dhuhr" },
+        { value: "asr", label: "Asr" },
+        { value: "maghrib", label: "Maghrib / Iftar" },
+        { value: "isha", label: "Isha / Taraweeh" },
+        { value: "night", label: "Late night" },
+      ],
+      reflectionMoods: ["Grateful", "Hopeful", "Focused", "Peaceful", "Motivated"],
     };
+  },
+  async mounted() {
+    await this.initializeAuthentication();
+    this.loadPlannerState();
+    this.selectTodayOrFirst();
   },
   computed: {
     heroImage() {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
+    },
+    navLinks() {
+      const extra = { label: "Planner", href: "#planner" };
+      return [...this.ramadan.nav_links, extra];
+    },
+    calendarStartDate() {
+      const override = this.parseISODate(this.calendarStartOverride);
+      if (override) return override;
+      const fallback = this.findDefaultStartDate();
+      return fallback || new Date();
+    },
+    importantDateMap() {
+      const map = {};
+      const dates = this.ramadan.important_dates?.dates || [];
+      dates.forEach((entry) => {
+        const parsed = this.parseLooseDate(entry.gregorian_date);
+        if (!parsed) return;
+        const key = this.toDateKey(parsed);
+        if (!map[key]) map[key] = [];
+        map[key].push({ event: entry.event, type: entry.type });
+      });
+      return map;
+    },
+    calendarDays() {
+      const days = [];
+      const start = this.calendarStartDate;
+      if (!start || Number.isNaN(start.getTime())) return days;
+      const todayKey = this.toDateKey(new Date());
+      for (let i = 0; i < this.calendarLength; i += 1) {
+        const date = new Date(start);
+        date.setDate(start.getDate() + i);
+        const key = this.toDateKey(date);
+        const events = this.importantDateMap[key] || [];
+        const eventLabel = events.map((item) => item.event).join(" / ");
+        days.push({
+          key,
+          date,
+          dayNumber: i + 1,
+          event: eventLabel || "",
+          isToday: key === todayKey,
+          type: events[0]?.type || "",
+        });
+      }
+      return days;
+    },
+    selectedDay() {
+      return this.calendarDays[this.selectedDayIndex] || null;
+    },
+    selectedDayNote: {
+      get() {
+        if (!this.selectedDay) return "";
+        return this.dayNotes[this.selectedDay.dayNumber] || "";
+      },
+      set(value) {
+        if (!this.selectedDay) return;
+        this.dayNotes = {
+          ...this.dayNotes,
+          [this.selectedDay.dayNumber]: value,
+        };
+        this.persistDayNotes();
+      },
+    },
+    dayOptions() {
+      return Array.from({ length: this.calendarLength }, (_, index) => index + 1);
+    },
+    sortedReminders() {
+      const timeOrder = this.timeOfDayOptions.map((option) => option.value);
+      return [...this.reminders].sort((a, b) => {
+        if (a.dayNumber !== b.dayNumber) return a.dayNumber - b.dayNumber;
+        return timeOrder.indexOf(a.timeOfDay) - timeOrder.indexOf(b.timeOfDay);
+      });
     },
   },
   methods: {
@@ -530,6 +819,18 @@ export default {
         day: "numeric",
       });
     },
+    formatShortDate(value) {
+      if (!value) return "";
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    },
+    async initializeAuthentication() {
+      const id = await fetchUserIdFromApi();
+      this.userId = id;
+      this.isAuthenticated = !!id;
+      this.authResolved = true;
+    },
     handleHeroImageError() {
       if (this.heroImageOverride !== this.heroImageFallback) {
         this.heroImageOverride = this.heroImageFallback;
@@ -544,6 +845,181 @@ export default {
       return {
         "--story-bg": `url(${thumbnail})`,
       };
+    },
+    parseISODate(value) {
+      if (!value) return null;
+      const parts = String(value).split("-");
+      if (parts.length === 3) {
+        const [year, month, day] = parts.map((part) => Number(part));
+        const parsed = new Date(year, month - 1, day);
+        if (!Number.isNaN(parsed.getTime())) return parsed;
+      }
+      const parsed = new Date(value);
+      if (Number.isNaN(parsed.getTime())) return null;
+      return parsed;
+    },
+    parseLooseDate(value) {
+      if (!value) return null;
+      const match = String(value).match(/[A-Za-z]+ \d{1,2}, \d{4}/);
+      const parsed = new Date(match ? match[0] : value);
+      if (Number.isNaN(parsed.getTime())) return null;
+      return parsed;
+    },
+    toDateKey(value) {
+      const date = new Date(value);
+      if (Number.isNaN(date.getTime())) return "";
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    },
+    findDefaultStartDate() {
+      const dates = this.ramadan.important_dates?.dates || [];
+      const match = dates.find((entry) => /first day of ramadan/i.test(entry.event));
+      return this.parseLooseDate(match?.gregorian_date);
+    },
+    selectTodayOrFirst() {
+      const todayIndex = this.calendarDays.findIndex((day) => day.isToday);
+      this.selectedDayIndex = todayIndex >= 0 ? todayIndex : 0;
+      if (this.selectedDay) {
+        this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
+      }
+    },
+    selectDay(index) {
+      this.selectedDayIndex = index;
+      if (this.selectedDay) {
+        this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
+      }
+    },
+    addReminder() {
+      if (!this.isAuthenticated) return;
+      if (!this.reminderDraft.title) return;
+      const reminder = {
+        id: `reminder-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+        title: this.reminderDraft.title,
+        dayNumber: this.reminderDraft.dayNumber,
+        timeOfDay: this.reminderDraft.timeOfDay,
+        note: this.reminderDraft.note,
+        done: false,
+      };
+      this.reminders = [...this.reminders, reminder];
+      this.persistReminders();
+      this.reminderDraft = {
+        title: "",
+        dayNumber: this.reminderDraft.dayNumber,
+        timeOfDay: this.reminderDraft.timeOfDay,
+        note: "",
+      };
+    },
+    removeReminder(id) {
+      if (!this.isAuthenticated) return;
+      this.reminders = this.reminders.filter((reminder) => reminder.id !== id);
+      this.persistReminders();
+    },
+    formatTimeLabel(value) {
+      const match = this.timeOfDayOptions.find((option) => option.value === value);
+      return match ? match.label : value;
+    },
+    addReflection() {
+      if (!this.isAuthenticated) return;
+      if (!this.reflectionDraft.text) return;
+      const reflection = {
+        id: `reflection-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+        name: this.reflectionDraft.name,
+        mood: this.reflectionDraft.mood,
+        text: this.reflectionDraft.text,
+        timestamp: Date.now(),
+      };
+      this.reflections = [reflection, ...this.reflections];
+      this.persistReflections();
+      this.reflectionDraft = {
+        name: "",
+        mood: this.reflectionDraft.mood,
+        text: "",
+      };
+    },
+    formatRelativeTime(timestamp) {
+      if (!timestamp) return "";
+      const diff = Date.now() - timestamp;
+      const seconds = Math.floor(diff / 1000);
+      if (seconds < 45) return "just now";
+      const minutes = Math.floor(seconds / 60);
+      if (minutes < 60) return `${minutes} min ago`;
+      const hours = Math.floor(minutes / 60);
+      if (hours < 24) return `${hours} hr ago`;
+      const days = Math.floor(hours / 24);
+      if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
+      const date = new Date(timestamp);
+      return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    },
+    persistCalendar() {
+      if (this.calendarLength < 1) return;
+      if (this.selectedDayIndex >= this.calendarLength) {
+        this.selectedDayIndex = this.calendarLength - 1;
+      }
+      this.reminderDraft.dayNumber = Math.min(
+        Math.max(this.reminderDraft.dayNumber, 1),
+        this.calendarLength
+      );
+      if (typeof window === "undefined") return;
+      window.localStorage.setItem(
+        "ramadan2026.calendar",
+        JSON.stringify({
+          start: this.calendarStartOverride,
+          length: this.calendarLength,
+        })
+      );
+    },
+    persistDayNotes() {
+      if (typeof window === "undefined") return;
+      window.localStorage.setItem("ramadan2026.dayNotes", JSON.stringify(this.dayNotes));
+    },
+    persistReminders() {
+      if (!this.isAuthenticated) return;
+      const key = this.getUserStorageKey("reminders");
+      if (!key || typeof window === "undefined") return;
+      window.localStorage.setItem(key, JSON.stringify(this.reminders));
+    },
+    persistReflections() {
+      if (!this.isAuthenticated) return;
+      const key = this.getUserStorageKey("reflections");
+      if (!key || typeof window === "undefined") return;
+      window.localStorage.setItem(key, JSON.stringify(this.reflections));
+    },
+    getUserStorageKey(suffix) {
+      if (!this.userId) return null;
+      return `ramadan2026.${suffix}.${this.userId}`;
+    },
+    loadPlannerState() {
+      if (typeof window === "undefined") return;
+      try {
+        const calendarStored = JSON.parse(window.localStorage.getItem("ramadan2026.calendar") || "{}");
+        if (calendarStored?.start) this.calendarStartOverride = calendarStored.start;
+        if (calendarStored?.length) this.calendarLength = Number(calendarStored.length) || this.calendarLength;
+        const notesStored = JSON.parse(window.localStorage.getItem("ramadan2026.dayNotes") || "{}");
+        if (notesStored && typeof notesStored === "object") {
+          this.dayNotes = notesStored;
+        }
+        if (this.isAuthenticated) {
+          const remindersKey = this.getUserStorageKey("reminders");
+          const reflectionsKey = this.getUserStorageKey("reflections");
+          const remindersStored = JSON.parse(window.localStorage.getItem(remindersKey) || "[]");
+          if (Array.isArray(remindersStored)) {
+            this.reminders = remindersStored;
+          }
+          const reflectionsStored = JSON.parse(window.localStorage.getItem(reflectionsKey) || "[]");
+          if (Array.isArray(reflectionsStored)) {
+            this.reflections = reflectionsStored;
+          }
+        } else {
+          this.reminders = [];
+          this.reflections = [];
+        }
+      } catch (error) {
+        this.reminders = [];
+        this.reflections = [];
+        this.dayNotes = {};
+      }
     },
   },
 };
@@ -1141,6 +1617,335 @@ export default {
   background: rgba(16, 42, 34, 0.04);
 }
 
+.r-planner-grid {
+  align-items: start;
+}
+
+.r-planner-card {
+  display: grid;
+  gap: 20px;
+}
+
+.r-planner-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.r-planner-controls {
+  display: grid;
+  gap: 8px;
+  min-width: 220px;
+}
+
+.r-planner__stack {
+  display: grid;
+  gap: 22px;
+}
+
+.r-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--r-ink-soft);
+  font-weight: 700;
+}
+
+.r-input,
+.r-select,
+.r-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--r-line);
+  background: #fff;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--r-ink);
+}
+
+.r-input:focus,
+.r-select:focus,
+.r-textarea:focus {
+  outline: none;
+  border-color: rgba(215, 166, 74, 0.55);
+  box-shadow: 0 0 0 3px rgba(215, 166, 74, 0.18);
+}
+
+.r-textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+
+.r-form {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.r-form__row {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.r-button {
+  align-self: flex-start;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  background: var(--r-accent);
+  color: #1b1f2a;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.r-button:hover {
+  background: var(--r-accent-deep);
+  color: #ffffff;
+}
+
+.r-button--ghost {
+  background: transparent;
+  border: 1px solid rgba(27, 31, 42, 0.2);
+  color: var(--r-deep);
+}
+
+.r-button--ghost:hover {
+  background: rgba(27, 31, 42, 0.08);
+  color: var(--r-deep);
+}
+
+.r-auth-gate {
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px dashed rgba(27, 31, 42, 0.2);
+  background: rgba(27, 31, 42, 0.03);
+  display: grid;
+  gap: 12px;
+}
+
+.r-auth-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.r-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(27, 31, 42, 0.08);
+  color: var(--r-deep);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.r-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.r-calendar__cell {
+  border: 1px solid var(--r-line);
+  border-radius: 14px;
+  padding: 10px;
+  min-height: 92px;
+  text-align: left;
+  background: #fff;
+  display: grid;
+  gap: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.r-calendar__cell:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(15, 34, 48, 0.12);
+}
+
+.r-calendar__cell.is-selected {
+  border-color: rgba(215, 166, 74, 0.8);
+  box-shadow: 0 12px 26px rgba(215, 166, 74, 0.2);
+}
+
+.r-calendar__cell.is-today {
+  border-color: rgba(47, 107, 122, 0.7);
+}
+
+.r-calendar__cell.is-special {
+  background: rgba(253, 249, 243, 0.9);
+}
+
+.r-calendar__day {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--r-deep);
+}
+
+.r-calendar__date {
+  font-size: 0.75rem;
+  color: var(--r-ink-soft);
+}
+
+.r-calendar__event {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--r-accent-deep);
+}
+
+.r-calendar__detail {
+  margin-top: 14px;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  background: rgba(27, 31, 42, 0.04);
+  display: grid;
+  gap: 10px;
+}
+
+.r-calendar__detail-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.r-calendar__detail-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.r-calendar__event-chip {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(215, 166, 74, 0.2);
+  color: var(--r-accent-deep);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.r-stack-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.r-reminder-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.r-reminder {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+}
+
+.r-reminder__body h4 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.r-reminder__body h4.is-done {
+  text-decoration: line-through;
+  color: var(--r-ink-soft);
+}
+
+.r-reminder__body p {
+  margin: 0;
+  color: var(--r-ink-soft);
+  font-size: 0.9rem;
+}
+
+.r-icon-button {
+  border: none;
+  background: none;
+  color: var(--r-accent-deep);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.r-checkbox {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.r-checkbox input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.r-checkbox span {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  border: 1px solid rgba(27, 31, 42, 0.3);
+  background: #fff;
+  display: inline-block;
+}
+
+.r-checkbox input:checked + span {
+  background: var(--r-accent);
+  border-color: var(--r-accent-deep);
+}
+
+.r-reflection-list {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.r-reflection {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  background: rgba(253, 249, 243, 0.85);
+}
+
+.r-reflection__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--r-ink-soft);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.r-reflection__name {
+  color: var(--r-deep);
+}
+
+.r-reflection__mood {
+  color: var(--r-accent-deep);
+}
+
+.r-empty {
+  margin-top: 12px;
+  color: var(--r-ink-soft);
+  font-style: italic;
+}
+
 .ramadan-2026 :deep(.modal-dialog.modal-xl) {
   max-width: 1200px;
 }
@@ -1208,6 +2013,10 @@ export default {
 
   .r-story-grid--modal {
     grid-template-columns: 1fr;
+  }
+
+  .r-calendar {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
