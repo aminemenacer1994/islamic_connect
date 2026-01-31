@@ -57,6 +57,276 @@
       </div>
     </header>
 
+    <section id="interactive" class="r-section">
+      <div class="container">
+        <div class="r-section__head">
+          <h2 class="r-section__title">
+            <span class="r-emoji r-emoji--title" aria-hidden="true">🧩</span>
+            Quran progress studio
+          </h2>
+          <p class="r-section__subtitle">
+            Track your reading with milestones, session logs, and a planner-tied daily breakdown. Estimates are
+            calculated from your inputs.
+          </p>
+        </div>
+        <div id="section-interactive-body" class="r-section__body">
+          <div v-if="!authResolved" class="r-empty">Checking login status...</div>
+          <div v-else-if="!isAuthenticated" class="r-auth-gate">
+            <p class="r-card__desc">
+              Log in to personalize your Quran tracker. Your data is saved locally per account on this device.
+            </p>
+            <div class="r-auth-actions">
+              <a class="r-button r-button--ghost" href="/login">Log in</a>
+            </div>
+          </div>
+          <div v-else class="r-grid r-grid--double r-grid--stagger">
+            <article class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
+              <div class="r-stack-head">
+                <h3 class="r-card__title">Quran reading progress 📖</h3>
+                <span class="r-badge">{{ quranProgressPercent }}% complete</span>
+              </div>
+              <p class="r-card__desc">
+                Choose a unit, log sessions, and keep the pace that fits your schedule.
+              </p>
+              <div class="r-progress">
+                <div
+                  class="r-progress__bar"
+                  role="progressbar"
+                  :aria-valuenow="quranProgressPercent"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  <span class="r-progress__fill" :style="{ width: `${quranProgressPercent}%` }"></span>
+                </div>
+                <div class="r-progress__meta">
+                  <span>{{ quranProgress.completed }} / {{ quranProgress.total }} {{ quranUnitLabel }}</span>
+                  <span>{{ quranProgressRemaining }} {{ quranUnitLabel }} remaining</span>
+                </div>
+              </div>
+              <div class="r-form r-form--compact">
+                <div class="r-form__row">
+                  <div>
+                    <label class="r-label" for="quran-unit">Unit</label>
+                    <select id="quran-unit" class="r-select" v-model="quranProgress.unit" @change="handleQuranUnitChange">
+                      <option v-for="unit in quranUnits" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="r-label" for="quran-total">Total</label>
+                    <input
+                      id="quran-total"
+                      class="r-input"
+                      type="number"
+                      min="1"
+                      v-model.number="quranProgress.total"
+                      @input="normalizeQuranProgress"
+                    />
+                  </div>
+                  <div>
+                    <label class="r-label" for="quran-completed">Completed</label>
+                    <input
+                      id="quran-completed"
+                      class="r-input"
+                      type="number"
+                      min="0"
+                      :max="quranProgress.total"
+                      v-model.number="quranProgress.completed"
+                      @input="normalizeQuranProgress"
+                    />
+                  </div>
+                </div>
+                <div class="r-form__row">
+                  <div>
+                    <label class="r-label" for="quran-goal">Daily goal</label>
+                    <input
+                      id="quran-goal"
+                      class="r-input"
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      v-model.number="quranProgress.dailyGoal"
+                      @input="normalizeQuranProgress"
+                    />
+                  </div>
+                  <div class="r-quick-add">
+                    <span class="r-label">Quick add</span>
+                    <div class="r-quick-add__buttons">
+                      <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(1)">
+                        +1
+                      </button>
+                      <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(3)">
+                        +3
+                      </button>
+                      <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(5)">
+                        +5
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <p class="r-note r-note--muted">
+                Page counts can vary by mushaf edition. Adjust totals if needed.
+              </p>
+              <div class="r-progress__footer">
+                <span v-if="quranProgressRemaining === 0">Completed 🎉</span>
+                <span v-else-if="quranProgressDaysLeft">
+                  At this pace: ~{{ quranProgressDaysLeft }} day{{ quranProgressDaysLeft === 1 ? "" : "s" }} left
+                </span>
+                <span v-else>Set a daily goal to estimate your pace.</span>
+                <span class="r-progress__hint">Saved locally for your login.</span>
+              </div>
+              <div class="r-divider"></div>
+              <div class="r-progress-insights">
+                <div>
+                  <span class="r-mini-label">Days remaining</span>
+                  <strong>{{ quranDaysRemaining }}</strong>
+                </div>
+                <div>
+                  <span class="r-mini-label">Needed per day</span>
+                  <strong>{{ quranDailyTargetNeeded }} {{ quranUnitLabel }}/day</strong>
+                </div>
+                <div>
+                  <span class="r-mini-label">Est. completion</span>
+                  <strong>{{ quranCompletionLabel }}</strong>
+                </div>
+                <div>
+                  <span class="r-mini-label">Status</span>
+                  <span class="r-badge" :class="quranStatusClass">{{ quranStatusLabel }}</span>
+                </div>
+                <div>
+                  <span class="r-mini-label">Streak 🔥</span>
+                  <strong>{{ quranStreak }} day{{ quranStreak === 1 ? "" : "s" }}</strong>
+                </div>
+              </div>
+              <div class="r-milestones">
+                <span class="r-mini-label">Milestones</span>
+                <div class="r-milestones__row">
+                  <span
+                    v-for="milestone in quranMilestones"
+                    :key="milestone.value"
+                    class="r-milestone"
+                    :class="{ 'is-hit': milestone.reached }"
+                  >
+                    <span class="r-milestone__emoji">{{ milestone.reached ? "✅" : "▫️" }}</span>
+                    {{ milestone.value }}%
+                  </span>
+                </div>
+              </div>
+              <div class="r-divider"></div>
+              <div class="r-session">
+                <div class="r-stack-head">
+                  <h4 class="r-card__title r-card__title--small">Reading log ✍️</h4>
+                  <span class="r-badge">{{ quranSessions.length }} sessions</span>
+                </div>
+                <form class="r-form r-form--compact" @submit.prevent="addQuranSession">
+                  <div class="r-form__row">
+                    <input
+                      class="r-input"
+                      v-model.number="quranSessionDraft.amount"
+                      type="number"
+                      min="1"
+                      step="0.1"
+                      :max="quranProgress.total"
+                      placeholder="Amount"
+                      required
+                    />
+                    <input class="r-input" v-model="quranSessionDraft.date" type="date" required />
+                  </div>
+                  <div class="r-form__row">
+                    <input
+                      class="r-input"
+                      v-model.trim="quranSessionDraft.note"
+                      type="text"
+                      placeholder="Optional note"
+                    />
+                    <button class="r-button" type="submit">Log session</button>
+                  </div>
+                </form>
+                <div v-if="quranSessionsSorted.length" class="r-session-list">
+                  <div v-for="session in quranSessionsSorted" :key="session.id" class="r-session-item">
+                    <div>
+                      <strong>{{ session.amount }} {{ quranUnitLabel }}</strong>
+                      <p class="r-session-meta">
+                        {{ formatISODate(session.date) }}
+                        <span v-if="session.note"> · {{ session.note }}</span>
+                      </p>
+                    </div>
+                    <button class="r-icon-button" type="button" @click="removeQuranSession(session.id)">Remove</button>
+                  </div>
+                </div>
+                <p v-else class="r-empty">No sessions yet. Log your first reading above.</p>
+              </div>
+            </article>
+
+            <article class="r-card r-card--interactive r-animate" style="--delay: 0.12s;">
+              <div class="r-stack-head">
+                <h3 class="r-card__title">Daily breakdown 🗓️</h3>
+                <span class="r-badge">{{ calendarLength }} days</span>
+              </div>
+              <p class="r-card__desc">
+                Tied to your planner dates. Targets use your daily goal or an even split across Ramadan.
+              </p>
+              <div class="r-today-panel">
+                <div>
+                  <span class="r-mini-label">Today</span>
+                  <strong>{{ quranTodayRead }} / {{ quranTodayTarget }} {{ quranUnitLabel }}</strong>
+                  <div class="r-today-meta">
+                    <span>Remaining: {{ quranTodayRemaining }}</span>
+                    <span v-if="quranTodayRemaining === 0" class="r-badge r-badge--good">Done ✅</span>
+                  </div>
+                </div>
+                <div class="r-today-actions">
+                  <span
+                    class="r-tooltip"
+                    aria-label="Uses your device date to define today."
+                    title="Uses your device date to define today."
+                  >
+                    ℹ️
+                  </span>
+                  <button
+                    class="r-button r-button--ghost r-button--sm"
+                    type="button"
+                    :disabled="!canMarkTodayComplete"
+                    @click="markTodayComplete"
+                  >
+                    Mark today complete
+                  </button>
+                  <button
+                    v-if="lastQuickAction"
+                    class="r-chip r-chip--action"
+                    type="button"
+                    @click="undoLastQuickAction"
+                  >
+                    Undo
+                  </button>
+                </div>
+              </div>
+              <div class="r-breakdown">
+                <div
+                  v-for="day in quranBreakdownDays"
+                  :key="day.key"
+                  class="r-breakdown__row"
+                  :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }"
+                >
+                  <div>
+                    <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
+                    <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
+                  </div>
+                  <div class="r-breakdown__meta">
+                    <span>🎯 {{ day.target }} {{ quranUnitLabel }}</span>
+                    <span>📗 {{ day.read }} read</span>
+                    <span class="r-badge" :class="breakdownStatusClass(day.status)">
+                      {{ breakdownStatusLabel(day.status) }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="overview" class="r-section">
       <div class="container">
         <div class="r-section__head r-overview__head">
@@ -892,6 +1162,24 @@ export default {
         text: "",
       },
       reflections: [],
+      quranUnits: [
+        { value: "pages", label: "Pages (614)" },
+        { value: "juz", label: "Juz (30)" },
+        { value: "surahs", label: "Surahs (114)" },
+      ],
+      quranProgress: {
+        unit: "pages",
+        total: 614,
+        completed: 0,
+        dailyGoal: 20,
+      },
+      quranSessions: [],
+      quranSessionDraft: {
+        amount: 1,
+        date: "",
+        note: "",
+      },
+      lastQuickAction: null,
       isAuthenticated: false,
       authResolved: false,
       userId: null,
@@ -922,6 +1210,7 @@ export default {
   async mounted() {
     await this.initializeAuthentication();
     this.loadPlannerState();
+    this.loadInteractiveState();
     this.selectTodayOrFirst();
     if (typeof window !== "undefined") {
       this.authRefreshHandler = this.refreshAuthState.bind(this);
@@ -946,8 +1235,11 @@ export default {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
     },
     navLinks() {
-      const extra = { label: "Planner", href: "#planner" };
-      return [...this.ramadan.nav_links, extra];
+      const extra = [
+        { label: "Interactive tools", href: "#interactive" },
+        { label: "Planner", href: "#planner" },
+      ];
+      return [...extra, ...this.ramadan.nav_links];
     },
     calendarStartDate() {
       const override = this.parseISODate(this.calendarStartOverride);
@@ -1030,6 +1322,137 @@ export default {
       if (!this.quranPlansCount) return true;
       return Array.from({ length: this.quranPlansCount }).every((_, index) => !!this.quranPlanExpanded[index]);
     },
+    quranUnitLabel() {
+      const match = this.quranUnits.find((unit) => unit.value === this.quranProgress.unit);
+      return match ? match.value : "units";
+    },
+    quranProgressPercent() {
+      const total = Number(this.quranProgress.total) || 0;
+      if (total <= 0) return 0;
+      const completed = Math.min(Math.max(Number(this.quranProgress.completed) || 0, 0), total);
+      return Math.round((completed / total) * 100);
+    },
+    quranProgressRemaining() {
+      const total = Number(this.quranProgress.total) || 0;
+      const completed = Math.min(Math.max(Number(this.quranProgress.completed) || 0, 0), total);
+      return Math.max(total - completed, 0);
+    },
+    quranProgressDaysLeft() {
+      const dailyGoal = Number(this.quranProgress.dailyGoal) || 0;
+      if (dailyGoal <= 0) return null;
+      const remaining = this.quranProgressRemaining;
+      return Math.ceil(remaining / dailyGoal);
+    },
+    quranDaysRemaining() {
+      if (!this.selectedDay) return this.calendarLength;
+      return Math.max(this.calendarLength - this.selectedDay.dayNumber + 1, 1);
+    },
+    quranDailyTargetNeeded() {
+      const remaining = this.quranProgressRemaining;
+      const days = this.quranDaysRemaining;
+      if (!days) return 0;
+      return Math.round((remaining / days) * 10) / 10;
+    },
+    quranOnTrack() {
+      if (!this.quranProgress.dailyGoal) return false;
+      return Number(this.quranProgress.dailyGoal) >= this.quranDailyTargetNeeded;
+    },
+    quranStatusLabel() {
+      if (this.quranProgressRemaining <= 0) return "Completed";
+      if (!this.quranProgress.dailyGoal) return "Set goal";
+      return this.quranOnTrack ? "On track" : "Adjust pace";
+    },
+    quranStatusClass() {
+      if (this.quranProgressRemaining <= 0) return "r-badge--good";
+      if (!this.quranProgress.dailyGoal) return "r-badge--warn";
+      return this.quranOnTrack ? "r-badge--good" : "r-badge--warn";
+    },
+    quranSessionsSorted() {
+      return [...this.quranSessions].sort((a, b) => {
+        if (a.date === b.date) return (b.createdAt || 0) - (a.createdAt || 0);
+        return String(b.date).localeCompare(String(a.date));
+      });
+    },
+    quranStreak() {
+      if (!this.quranSessions.length) return 0;
+      const dates = new Set(this.quranSessions.map((session) => session.date));
+      let streak = 0;
+      const cursor = new Date();
+      while (true) {
+        const key = this.toDateKey(cursor);
+        if (!dates.has(key)) break;
+        streak += 1;
+        cursor.setDate(cursor.getDate() - 1);
+      }
+      return streak;
+    },
+    quranPlannedTarget() {
+      const dailyGoal = Number(this.quranProgress.dailyGoal) || 0;
+      if (dailyGoal > 0) return dailyGoal;
+      const total = Number(this.quranProgress.total) || 0;
+      if (!this.calendarLength || total <= 0) return 0;
+      return Math.round((total / this.calendarLength) * 10) / 10;
+    },
+    quranSessionsByDate() {
+      return this.quranSessions.reduce((acc, session) => {
+        if (!session.date) return acc;
+        const amount = Number(session.amount) || 0;
+        acc[session.date] = (acc[session.date] || 0) + amount;
+        return acc;
+      }, {});
+    },
+    quranTodayKey() {
+      return this.toDateKey(new Date());
+    },
+    quranTodayRead() {
+      return this.quranSessionsByDate[this.quranTodayKey] || 0;
+    },
+    quranTodayTarget() {
+      return this.quranPlannedTarget;
+    },
+    quranTodayRemaining() {
+      return Math.max(this.quranTodayTarget - this.quranTodayRead, 0);
+    },
+    canMarkTodayComplete() {
+      return this.isAuthenticated && this.quranTodayTarget > 0 && this.quranTodayRemaining > 0;
+    },
+    quranBreakdownDays() {
+      const target = this.quranPlannedTarget;
+      const byDate = this.quranSessionsByDate;
+      return this.calendarDays.map((day) => {
+        const read = byDate[day.key] || 0;
+        let status = "empty";
+        if (target > 0 && read >= target) status = "done";
+        else if (read > 0) status = "partial";
+        return {
+          ...day,
+          target,
+          read,
+          status,
+          isSelected: this.selectedDay ? day.key === this.selectedDay.key : false,
+        };
+      });
+    },
+    quranMilestones() {
+      const percent = this.quranProgressPercent;
+      return [25, 50, 75, 100].map((value) => ({
+        value,
+        reached: percent >= value,
+      }));
+    },
+    quranEstimatedCompletionDate() {
+      const daysLeft = this.quranProgressDaysLeft;
+      if (!daysLeft && daysLeft !== 0) return null;
+      const start = this.selectedDay?.date ? new Date(this.selectedDay.date) : new Date();
+      const estimate = new Date(start);
+      estimate.setDate(estimate.getDate() + Math.max(daysLeft - 1, 0));
+      return estimate;
+    },
+    quranCompletionLabel() {
+      if (this.quranProgressRemaining <= 0) return "Completed 🎉";
+      if (!this.quranProgress.dailyGoal) return "Set a daily goal";
+      return this.quranEstimatedCompletionDate ? this.formatISODate(this.quranEstimatedCompletionDate) : "Set a daily goal";
+    },
   },
   methods: {
     formatISODate(value) {
@@ -1050,6 +1473,16 @@ export default {
       if (Number.isNaN(date.getTime())) return "";
       return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     },
+    breakdownStatusLabel(status) {
+      if (status === "done") return "Done ✅";
+      if (status === "partial") return "In progress ⏳";
+      return "Not started";
+    },
+    breakdownStatusClass(status) {
+      if (status === "done") return "r-badge--good";
+      if (status === "partial") return "r-badge--warn";
+      return "";
+    },
     async initializeAuthentication() {
       const id = await fetchUserIdFromApi();
       this.userId = id;
@@ -1063,6 +1496,7 @@ export default {
       await this.initializeAuthentication();
       if (previousUserId !== this.userId || wasAuthenticated !== this.isAuthenticated) {
         this.loadPlannerState();
+        this.loadInteractiveState();
         this.selectTodayOrFirst();
       }
     },
@@ -1126,18 +1560,179 @@ export default {
       const match = dates.find((entry) => /first day of ramadan/i.test(entry.event));
       return this.parseLooseDate(match?.gregorian_date);
     },
+    setQuranSessionDate(value) {
+      const key = value ? this.toDateKey(value) : "";
+      if (!key) return;
+      this.quranSessionDraft = {
+        ...this.quranSessionDraft,
+        date: key,
+      };
+    },
+    getLocalStorageKey(suffix) {
+      if (!this.userId) return null;
+      return `ramadan2026.${suffix}.${this.userId}`;
+    },
+    getQuranDefaults(unit) {
+      const defaults = {
+        pages: { total: 614, dailyGoal: 20 },
+        juz: { total: 30, dailyGoal: 1 },
+        surahs: { total: 114, dailyGoal: 4 },
+      };
+      return defaults[unit] || defaults.pages;
+    },
+    handleQuranUnitChange() {
+      const defaults = this.getQuranDefaults(this.quranProgress.unit);
+      this.quranProgress = {
+        ...this.quranProgress,
+        total: defaults.total,
+        dailyGoal: defaults.dailyGoal,
+      };
+      this.normalizeQuranProgress();
+    },
+    normalizeQuranProgress() {
+      const total = Math.max(1, Number(this.quranProgress.total) || 1);
+      const completed = Math.min(Math.max(Number(this.quranProgress.completed) || 0, 0), total);
+      const dailyGoal = Math.max(0, Number(this.quranProgress.dailyGoal) || 0);
+      this.quranProgress = {
+        ...this.quranProgress,
+        total,
+        completed,
+        dailyGoal,
+      };
+      const sessionAmount = Math.min(
+        Math.max(Number(this.quranSessionDraft.amount) || this.quranPlannedTarget || 1, 1),
+        total
+      );
+      this.quranSessionDraft = {
+        ...this.quranSessionDraft,
+        amount: sessionAmount,
+      };
+      this.persistQuranProgress();
+    },
+    addQuranProgress(amount) {
+      if (!this.isAuthenticated || !amount) return;
+      const next = (Number(this.quranProgress.completed) || 0) + amount;
+      this.quranProgress = {
+        ...this.quranProgress,
+        completed: next,
+      };
+      this.normalizeQuranProgress();
+    },
+    addQuranSession() {
+      if (!this.isAuthenticated) return;
+      if (!this.quranSessionDraft.amount || !this.quranSessionDraft.date) return;
+      const session = {
+        id: `session-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+        amount: Number(this.quranSessionDraft.amount),
+        date: this.quranSessionDraft.date,
+        note: this.quranSessionDraft.note,
+        createdAt: Date.now(),
+      };
+      this.quranSessions = [session, ...this.quranSessions];
+      this.addQuranProgress(session.amount);
+      this.persistQuranSessions();
+      this.quranSessionDraft = {
+        ...this.quranSessionDraft,
+        amount: this.quranSessionDraft.amount,
+        note: "",
+      };
+    },
+    addQuranSessionEntry(amount, date, note) {
+      if (!this.isAuthenticated) return;
+      if (!amount || !date) return;
+      const session = {
+        id: `session-${Date.now()}-${Math.random().toString(16).slice(2, 8)}`,
+        amount: Number(amount),
+        date,
+        note: note || "",
+        createdAt: Date.now(),
+      };
+      this.quranSessions = [session, ...this.quranSessions];
+      this.addQuranProgress(session.amount);
+      this.persistQuranSessions();
+      this.lastQuickAction = {
+        id: session.id,
+        label: "Marked today complete",
+        timestamp: Date.now(),
+      };
+    },
+    markTodayComplete() {
+      if (!this.canMarkTodayComplete) return;
+      this.addQuranSessionEntry(this.quranTodayRemaining, this.quranTodayKey, "Marked today complete");
+    },
+    undoLastQuickAction() {
+      if (!this.lastQuickAction?.id) return;
+      this.removeQuranSession(this.lastQuickAction.id);
+      this.lastQuickAction = null;
+    },
+    removeQuranSession(id) {
+      if (!this.isAuthenticated) return;
+      const session = this.quranSessions.find((item) => item.id === id);
+      this.quranSessions = this.quranSessions.filter((item) => item.id !== id);
+      if (this.lastQuickAction?.id === id) {
+        this.lastQuickAction = null;
+      }
+      if (session) {
+        this.quranProgress = {
+          ...this.quranProgress,
+          completed: (Number(this.quranProgress.completed) || 0) - Number(session.amount || 0),
+        };
+        this.normalizeQuranProgress();
+      }
+      this.persistQuranSessions();
+    },
+    persistQuranProgress() {
+      if (typeof window === "undefined" || !this.isAuthenticated) return;
+      const key = this.getLocalStorageKey("quranProgress");
+      if (!key) return;
+      window.localStorage.setItem(key, JSON.stringify(this.quranProgress));
+    },
+    persistQuranSessions() {
+      if (typeof window === "undefined" || !this.isAuthenticated) return;
+      const key = this.getLocalStorageKey("quranSessions");
+      if (!key) return;
+      window.localStorage.setItem(key, JSON.stringify(this.quranSessions));
+    },
+    loadInteractiveState() {
+      if (typeof window === "undefined") return;
+      if (!this.isAuthenticated) {
+        this.quranSessions = [];
+        this.normalizeQuranProgress();
+        this.lastQuickAction = null;
+        return;
+      }
+      try {
+        const progressKey = this.getLocalStorageKey("quranProgress");
+        const progressStored = JSON.parse(window.localStorage.getItem(progressKey) || "null");
+        if (progressStored && typeof progressStored === "object") {
+          this.quranProgress = {
+            ...this.quranProgress,
+            ...progressStored,
+          };
+        }
+        this.normalizeQuranProgress();
+        const sessionsKey = this.getLocalStorageKey("quranSessions");
+        const sessionsStored = JSON.parse(window.localStorage.getItem(sessionsKey) || "[]");
+        this.quranSessions = Array.isArray(sessionsStored) ? sessionsStored : [];
+      } catch (error) {
+        this.quranSessions = [];
+        this.lastQuickAction = null;
+      }
+    },
     selectTodayOrFirst() {
       const todayIndex = this.calendarDays.findIndex((day) => day.isToday);
       this.selectedDayIndex = todayIndex >= 0 ? todayIndex : 0;
       if (this.selectedDay) {
         this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
       }
+      this.setQuranSessionDate(this.selectedDay?.date || new Date());
     },
     selectDay(index) {
       this.selectedDayIndex = index;
       if (this.selectedDay) {
         this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
       }
+      this.setQuranSessionDate(this.selectedDay?.date || new Date());
     },
     isPersonalPlanExpanded(index) {
       return !!this.personalPlanExpanded[index];
@@ -1243,6 +1838,9 @@ export default {
         Math.max(this.reminderDraft.dayNumber, 1),
         this.calendarLength
       );
+      if (this.selectedDay) {
+        this.setQuranSessionDate(this.selectedDay.date);
+      }
       if (typeof window === "undefined") return;
       window.localStorage.setItem(
         "ramadan2026.calendar",
@@ -1585,6 +2183,11 @@ export default {
   --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.22), transparent 70%);
 }
 
+#interactive.r-section {
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.18), transparent 70%);
+}
+
 #personal-plans.r-section {
   --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
   --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.22), transparent 70%);
@@ -1858,6 +2461,25 @@ export default {
   height: 120px;
   border-radius: 24px;
   background: linear-gradient(135deg, rgba(111, 153, 164, 0.25), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.r-card--interactive {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f6f0 100%);
+  border: 1px solid rgba(111, 153, 164, 0.22);
+  --r-card-accent: rgba(111, 153, 164, 0.45);
+}
+
+.r-card--interactive::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 70px;
+  height: 70px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(215, 166, 74, 0.18), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -2311,6 +2933,12 @@ export default {
   color: var(--r-ink-soft);
 }
 
+.r-note--muted {
+  background: rgba(27, 31, 42, 0.06);
+  color: var(--r-ink-soft);
+  font-size: 0.85rem;
+}
+
 .r-modal-grid {
   display: grid;
   gap: 22px;
@@ -2385,10 +3013,280 @@ export default {
   margin-top: 16px;
 }
 
+.r-form--compact {
+  margin-top: 12px;
+  gap: 10px;
+}
+
 .r-form__row {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.r-progress {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.r-progress__bar {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(27, 31, 42, 0.08);
+  overflow: hidden;
+  border: 1px solid rgba(27, 31, 42, 0.12);
+}
+
+.r-progress__fill {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(76, 114, 96, 0.75), rgba(215, 166, 74, 0.85));
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+
+.r-progress__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
+.r-progress__footer {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
+.r-progress__hint {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(27, 31, 42, 0.6);
+}
+
+.r-divider {
+  height: 1px;
+  background: rgba(27, 31, 42, 0.08);
+  margin: 18px 0;
+}
+
+.r-progress-insights {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.r-mini-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(27, 31, 42, 0.6);
+  margin-bottom: 4px;
+}
+
+.r-badge--good {
+  background: rgba(76, 114, 96, 0.18);
+  color: #2f5d4d;
+}
+
+.r-badge--warn {
+  background: rgba(215, 166, 74, 0.18);
+  color: #8c5b1b;
+}
+
+.r-session {
+  display: grid;
+  gap: 12px;
+}
+
+.r-session-list {
+  display: grid;
+  gap: 10px;
+}
+
+.r-session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+}
+
+.r-session-meta {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
+.r-quick-add {
+  display: grid;
+  gap: 6px;
+}
+
+.r-quick-add__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.r-milestones {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.r-milestones__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.r-milestone {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(27, 31, 42, 0.06);
+  border: 1px solid rgba(27, 31, 42, 0.12);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.r-milestone__emoji {
+  font-size: 0.9rem;
+}
+
+.r-milestone.is-hit {
+  background: rgba(76, 114, 96, 0.18);
+  border-color: rgba(76, 114, 96, 0.35);
+  color: #2f5d4d;
+  animation: milestonePulse 1.6s ease;
+}
+
+.r-breakdown {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.r-today-panel {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.r-today-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.r-tooltip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(27, 31, 42, 0.08);
+  font-size: 0.85rem;
+  cursor: help;
+}
+
+.r-chip--action {
+  border: 1px dashed rgba(27, 31, 42, 0.2);
+  background: rgba(27, 31, 42, 0.04);
+}
+
+.r-today-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+  margin-top: 4px;
+}
+
+.r-breakdown__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.r-breakdown__row.is-today {
+  border-color: rgba(47, 107, 122, 0.5);
+}
+
+.r-breakdown__row.is-selected {
+  border-color: rgba(215, 166, 74, 0.6);
+  box-shadow: 0 12px 26px rgba(215, 166, 74, 0.2);
+}
+
+.r-breakdown__day {
+  font-weight: 700;
+  display: block;
+}
+
+.r-breakdown__date {
+  font-size: 0.8rem;
+  color: var(--r-ink-soft);
+}
+
+.r-breakdown__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
+@keyframes milestonePulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 12px 26px rgba(76, 114, 96, 0.2);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
+  }
 }
 
 .r-button {
@@ -2723,6 +3621,23 @@ export default {
   .r-calendar {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+
+  .r-breakdown__row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .r-breakdown__meta {
+    justify-content: flex-start;
+  }
+
+  .r-today-panel {
+    align-items: flex-start;
+  }
+
+  .r-today-actions {
+    justify-content: flex-start;
+  }
 }
 
 @media (min-width: 900px) {
@@ -2760,8 +3675,13 @@ export default {
   .r-story-card,
   .r-reminder,
   .r-reflection,
-  .r-modal-card {
+  .r-modal-card,
+  .r-breakdown__row {
     transition: none;
+  }
+
+  .r-milestone {
+    animation: none;
   }
 }
 </style>

@@ -40840,6 +40840,10 @@ to {
   --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.28), transparent 70%);
   --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.22), transparent 70%);
 }
+#interactive.r-section[data-v-05456a07] {
+  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
+  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.18), transparent 70%);
+}
 #personal-plans.r-section[data-v-05456a07] {
   --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
   --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.22), transparent 70%);
@@ -41074,6 +41078,23 @@ to {
   height: 120px;
   border-radius: 24px;
   background: linear-gradient(135deg, rgba(111, 153, 164, 0.25), transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+.r-card--interactive[data-v-05456a07] {
+  background: linear-gradient(135deg, #ffffff 0%, #f7f6f0 100%);
+  border: 1px solid rgba(111, 153, 164, 0.22);
+  --r-card-accent: rgba(111, 153, 164, 0.45);
+}
+.r-card--interactive[data-v-05456a07]::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 70px;
+  height: 70px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(215, 166, 74, 0.18), transparent);
   pointer-events: none;
   z-index: 0;
 }
@@ -41456,6 +41477,11 @@ to {
   background: rgba(215, 166, 74, 0.14);
   color: var(--r-ink-soft);
 }
+.r-note--muted[data-v-05456a07] {
+  background: rgba(27, 31, 42, 0.06);
+  color: var(--r-ink-soft);
+  font-size: 0.85rem;
+}
 .r-modal-grid[data-v-05456a07] {
   display: grid;
   gap: 22px;
@@ -41519,10 +41545,244 @@ to {
   gap: 12px;
   margin-top: 16px;
 }
+.r-form--compact[data-v-05456a07] {
+  margin-top: 12px;
+  gap: 10px;
+}
 .r-form__row[data-v-05456a07] {
   display: grid;
   gap: 12px;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+.r-progress[data-v-05456a07] {
+  margin-top: 14px;
+  display: grid;
+  gap: 8px;
+}
+.r-progress__bar[data-v-05456a07] {
+  width: 100%;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(27, 31, 42, 0.08);
+  overflow: hidden;
+  border: 1px solid rgba(27, 31, 42, 0.12);
+}
+.r-progress__fill[data-v-05456a07] {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(76, 114, 96, 0.75), rgba(215, 166, 74, 0.85));
+  border-radius: inherit;
+  transition: width 0.3s ease;
+}
+.r-progress__meta[data-v-05456a07] {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+.r-progress__footer[data-v-05456a07] {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+.r-progress__hint[data-v-05456a07] {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(27, 31, 42, 0.6);
+}
+.r-divider[data-v-05456a07] {
+  height: 1px;
+  background: rgba(27, 31, 42, 0.08);
+  margin: 18px 0;
+}
+.r-progress-insights[data-v-05456a07] {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+.r-mini-label[data-v-05456a07] {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(27, 31, 42, 0.6);
+  margin-bottom: 4px;
+}
+.r-badge--good[data-v-05456a07] {
+  background: rgba(76, 114, 96, 0.18);
+  color: #2f5d4d;
+}
+.r-badge--warn[data-v-05456a07] {
+  background: rgba(215, 166, 74, 0.18);
+  color: #8c5b1b;
+}
+.r-session[data-v-05456a07] {
+  display: grid;
+  gap: 12px;
+}
+.r-session-list[data-v-05456a07] {
+  display: grid;
+  gap: 10px;
+}
+.r-session-item[data-v-05456a07] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+}
+.r-session-meta[data-v-05456a07] {
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+.r-quick-add[data-v-05456a07] {
+  display: grid;
+  gap: 6px;
+}
+.r-quick-add__buttons[data-v-05456a07] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.r-milestones[data-v-05456a07] {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+.r-milestones__row[data-v-05456a07] {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.r-milestone[data-v-05456a07] {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(27, 31, 42, 0.06);
+  border: 1px solid rgba(27, 31, 42, 0.12);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+.r-milestone__emoji[data-v-05456a07] {
+  font-size: 0.9rem;
+}
+.r-milestone.is-hit[data-v-05456a07] {
+  background: rgba(76, 114, 96, 0.18);
+  border-color: rgba(76, 114, 96, 0.35);
+  color: #2f5d4d;
+  animation: milestonePulse-05456a07 1.6s ease;
+}
+.r-breakdown[data-v-05456a07] {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+  max-height: 520px;
+  overflow: auto;
+  padding-right: 4px;
+}
+.r-today-panel[data-v-05456a07] {
+  margin-top: 14px;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.r-today-actions[data-v-05456a07] {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.r-tooltip[data-v-05456a07] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(27, 31, 42, 0.08);
+  font-size: 0.85rem;
+  cursor: help;
+}
+.r-chip--action[data-v-05456a07] {
+  border: 1px dashed rgba(27, 31, 42, 0.2);
+  background: rgba(27, 31, 42, 0.04);
+}
+.r-today-meta[data-v-05456a07] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+  margin-top: 4px;
+}
+.r-breakdown__row[data-v-05456a07] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(27, 31, 42, 0.04);
+  border: 1px solid rgba(27, 31, 42, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.r-breakdown__row.is-today[data-v-05456a07] {
+  border-color: rgba(47, 107, 122, 0.5);
+}
+.r-breakdown__row.is-selected[data-v-05456a07] {
+  border-color: rgba(215, 166, 74, 0.6);
+  box-shadow: 0 12px 26px rgba(215, 166, 74, 0.2);
+}
+.r-breakdown__day[data-v-05456a07] {
+  font-weight: 700;
+  display: block;
+}
+.r-breakdown__date[data-v-05456a07] {
+  font-size: 0.8rem;
+  color: var(--r-ink-soft);
+}
+.r-breakdown__meta[data-v-05456a07] {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+@keyframes milestonePulse-05456a07 {
+0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
+}
+50% {
+    transform: scale(1.02);
+    box-shadow: 0 12px 26px rgba(76, 114, 96, 0.2);
+}
+100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(76, 114, 96, 0.2);
+}
 }
 .r-button[data-v-05456a07] {
   align-self: flex-start;
@@ -41804,6 +42064,19 @@ to {
 .r-calendar[data-v-05456a07] {
     grid-template-columns: repeat(4, minmax(0, 1fr));
 }
+.r-breakdown__row[data-v-05456a07] {
+    flex-direction: column;
+    align-items: flex-start;
+}
+.r-breakdown__meta[data-v-05456a07] {
+    justify-content: flex-start;
+}
+.r-today-panel[data-v-05456a07] {
+    align-items: flex-start;
+}
+.r-today-actions[data-v-05456a07] {
+    justify-content: flex-start;
+}
 }
 @media (min-width: 900px) {
 .r-grid--stagger[data-v-05456a07] > *:nth-child(odd) {
@@ -41836,8 +42109,12 @@ to {
   .r-story-card[data-v-05456a07],
   .r-reminder[data-v-05456a07],
   .r-reflection[data-v-05456a07],
-  .r-modal-card[data-v-05456a07] {
+  .r-modal-card[data-v-05456a07],
+  .r-breakdown__row[data-v-05456a07] {
     transition: none;
+}
+.r-milestone[data-v-05456a07] {
+    animation: none;
 }
 }
 
