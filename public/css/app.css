@@ -41969,6 +41969,33 @@ to {
   border-radius: 20px;
   border: 1px solid rgba(27, 31, 42, 0.12);
 }
+.r-fab[data-v-05456a07] {
+  position: fixed;
+  bottom: clamp(20px, 3vw, 30px);
+  right: clamp(20px, 3vw, 30px);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--r-accent), var(--r-accent-deep));
+  color: #fff;
+  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 30px rgba(15, 34, 48, 0.25);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 60;
+}
+.r-fab[data-v-05456a07]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 36px rgba(15, 34, 48, 0.32);
+}
+.r-fab[data-v-05456a07]:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(215, 166, 74, 0.6);
+}
 .r-animate[data-v-05456a07] {
   opacity: 0;
   transform: translateY(12px);

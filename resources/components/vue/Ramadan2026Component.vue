@@ -1044,10 +1044,20 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
     </div>
   </div>
+  <button
+    v-if="showFab"
+    class="r-fab"
+    type="button"
+    @click="scrollToTop"
+    aria-label="Scroll back to top"
+    title="Scroll back to top"
+  >
+    <span aria-hidden="true">⬆</span>
+  </button>
+</div>
 </template>
 
 <script>
@@ -1064,6 +1074,8 @@ export default {
       calendarStartOverride: "",
       calendarLength: 30,
       selectedDayIndex: 0,
+      showFab: false,
+      fabVisibilityHandler: null,
       reminderDraft: {
         title: "",
         dayNumber: 1,
@@ -1126,6 +1138,10 @@ export default {
       this.authRefreshHandler = this.refreshAuthState.bind(this);
       window.addEventListener("focus", this.authRefreshHandler);
       document.addEventListener("visibilitychange", this.authRefreshHandler);
+      this.fabVisibilityHandler = this.updateFabVisibility;
+      window.addEventListener("scroll", this.fabVisibilityHandler);
+      window.addEventListener("resize", this.fabVisibilityHandler);
+      this.updateFabVisibility();
     }
   },
   beforeDestroy() {
@@ -1133,11 +1149,21 @@ export default {
       window.removeEventListener("focus", this.authRefreshHandler);
       document.removeEventListener("visibilitychange", this.authRefreshHandler);
     }
+    if (typeof window !== "undefined" && this.fabVisibilityHandler) {
+      window.removeEventListener("scroll", this.fabVisibilityHandler);
+      window.removeEventListener("resize", this.fabVisibilityHandler);
+      this.fabVisibilityHandler = null;
+    }
   },
   unmounted() {
     if (typeof window !== "undefined" && this.authRefreshHandler) {
       window.removeEventListener("focus", this.authRefreshHandler);
       document.removeEventListener("visibilitychange", this.authRefreshHandler);
+    }
+    if (typeof window !== "undefined" && this.fabVisibilityHandler) {
+      window.removeEventListener("scroll", this.fabVisibilityHandler);
+      window.removeEventListener("resize", this.fabVisibilityHandler);
+      this.fabVisibilityHandler = null;
     }
   },
   computed: {
@@ -1654,6 +1680,25 @@ export default {
       if (days < 7) return `${days} day${days === 1 ? "" : "s"} ago`;
       const date = new Date(timestamp);
       return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    },
+    updateFabVisibility() {
+      if (typeof window === "undefined") {
+        this.showFab = false;
+        return;
+      }
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+      const viewportHeight =
+        window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+      const scrollableHeight = Math.max(
+        (document.documentElement.scrollHeight || document.body.scrollHeight || 0) - viewportHeight,
+        0
+      );
+      const ratio = scrollableHeight > 0 ? scrollTop / scrollableHeight : viewportHeight > 0 ? scrollTop / viewportHeight : 0;
+      this.showFab = ratio > 0.1;
+    },
+    scrollToTop() {
+      if (typeof window === "undefined") return;
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
     persistCalendar() {
       if (this.calendarLength < 1) return;
@@ -3316,6 +3361,36 @@ export default {
 .ramadan-2026 :deep(.modal-content) {
   border-radius: 20px;
   border: 1px solid rgba(27, 31, 42, 0.12);
+}
+
+.r-fab {
+  position: fixed;
+  bottom: clamp(20px, 3vw, 30px);
+  right: clamp(20px, 3vw, 30px);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--r-accent), var(--r-accent-deep));
+  color: #fff;
+  font-size: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 20px 30px rgba(15, 34, 48, 0.25);
+  cursor: pointer;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  z-index: 60;
+}
+
+.r-fab:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 26px 36px rgba(15, 34, 48, 0.32);
+}
+
+.r-fab:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(215, 166, 74, 0.6);
 }
 
 .r-animate {
