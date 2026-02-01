@@ -294,7 +294,7 @@
                                 ></path>
                                 </g>
                             </svg>
-                            Ramadan 2026
+                            Ramadan Guide 2026
                             <div class="hoverEffect" data-path="/ramadan-2026" data-nav-item="primary">
                                 <div></div>
                             </div>
@@ -427,6 +427,37 @@
         <div id="sidebar-backdrop" class="sidebar-backdrop" aria-hidden="true"></div>
         <!-- Main Content -->
         <main id="main-content" role="main" tabindex="-1">
+            <div id="quick-access-wrapper" class="quick-access-wrapper" aria-live="polite">
+                <button
+                    id="quick-access-trigger"
+                    class="quick-access-trigger"
+                    type="button"
+                    aria-controls="quick-access-panel"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                    hidden
+                >
+                    <span>Jump between sections</span>
+                    <small>Quick access</small>
+                </button>
+                <nav
+                    id="quick-access-panel"
+                    class="quick-access-panel"
+                    aria-label="Quick access to sections"
+                    hidden
+                >
+                    <div class="quick-access-panel__header">
+                        <span>Sections</span>
+                        <button
+                            id="quick-access-close"
+                            class="quick-access-panel__close"
+                            type="button"
+                            aria-label="Close quick access menu"
+                        >&times;</button>
+                    </div>
+                    <ul id="quick-access-list" class="quick-access-panel__list"></ul>
+                </nav>
+            </div>
             @hasSection('page_h1')
             @yield('page_h1')
             @else
@@ -754,6 +785,83 @@
             }
         });
     </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const trigger = document.getElementById('quick-access-trigger');
+            const panel = document.getElementById('quick-access-panel');
+            const list = document.getElementById('quick-access-list');
+            const closeBtn = document.getElementById('quick-access-close');
+            const mainContent = document.getElementById('main-content');
+            if (!trigger || !panel || !list || !mainContent) return;
+
+            const sections = Array.from(mainContent.querySelectorAll('section[id]'))
+                .filter((section) => section.offsetParent !== null)
+                .map((section) => {
+                    const heading = section.querySelector('h2, h1, h3, .section-title');
+                    const label = heading
+                        ? heading.textContent.trim().replace(/\s+/g, ' ')
+                        : section.getAttribute('aria-label') || section.id;
+                    return { id: section.id, label };
+                })
+                .sort((a, b) => a.label.localeCompare(b.label));
+
+            if (!sections.length) return;
+
+            trigger.hidden = false;
+            panel.hidden = true;
+
+            const openPanel = (isOpen) => {
+                trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                panel.hidden = !isOpen;
+                panel.classList.toggle('is-open', isOpen);
+            };
+
+            trigger.addEventListener('click', (event) => {
+                event.preventDefault();
+                openPanel(panel.hidden);
+                if (!panel.hidden) {
+                    panel.querySelector('a')?.focus();
+                }
+            });
+
+            closeBtn?.addEventListener('click', () => openPanel(false));
+
+            document.addEventListener('click', (event) => {
+                if (!panel.hidden && !panel.contains(event.target) && event.target !== trigger) {
+                    openPanel(false);
+                }
+            });
+
+            const createItem = ({ id, label }) => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `#${id}`;
+                link.textContent = label;
+                link.setAttribute('data-section-id', id);
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    const target = document.getElementById(id);
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                    openPanel(false);
+                });
+                listItem.appendChild(link);
+                return listItem;
+            };
+
+            sections.forEach((section) => {
+                list.appendChild(createItem(section));
+            });
+
+            trigger.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    trigger.click();
+                }
+            });
+        });
+    </script>
 
 
     <script defer src="https://js.stripe.com/v3/"></script>
@@ -782,6 +890,111 @@
 
 </html>
 <style>
+    .quick-access-wrapper {
+        position: sticky;
+        top: calc(3.5rem + 1rem);
+        z-index: 1050;
+        display: flex;
+        justify-content: flex-end;
+        padding: 0.5rem;
+        pointer-events: none;
+    }
+    .quick-access-trigger {
+        pointer-events: auto;
+        border: 1px solid rgba(18, 18, 18, 0.2);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 999px;
+        padding: 0.4rem 1rem;
+        display: inline-flex;
+        flex-direction: column;
+        text-align: left;
+        font-size: 0.75rem;
+        gap: 0.1rem;
+        font-weight: 600;
+        box-shadow: 0px 6px 18px -10px rgba(0, 0, 0, 0.6);
+        color: #0d1b2a;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .quick-access-trigger:focus-visible {
+        outline: 2px solid #0f62fe;
+        outline-offset: 2px;
+    }
+    .quick-access-wrapper:not(:hover) .quick-access-panel {
+        opacity: 0.95;
+    }
+    .quick-access-trigger[aria-expanded="true"] {
+        transform: translateY(-2px);
+    }
+    .quick-access-panel {
+        pointer-events: auto;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        margin-top: 0.35rem;
+        width: min(320px, calc(100vw - 1rem));
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 18px;
+        border: 1px solid rgba(18, 18, 18, 0.08);
+        box-shadow: 0 0px 30px rgba(18, 18, 18, 0.25);
+        padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+        max-height: 340px;
+        overflow-y: auto;
+        transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+    .quick-access-panel__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 600;
+        font-size: 0.8rem;
+    }
+    .quick-access-panel__close {
+        border: none;
+        background: transparent;
+        font-size: 1.2rem;
+        line-height: 1;
+        padding: 0;
+        cursor: pointer;
+        color: #0d1b2a;
+    }
+    .quick-access-panel__list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        gap: 0.25rem;
+    }
+    .quick-access-panel__list a {
+        display: block;
+        width: 100%;
+        padding: 0.45rem 0.75rem;
+        border-radius: 12px;
+        background: rgba(15, 98, 254, 0.08);
+        color: #0f62fe;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: background-color 0.2s ease;
+    }
+    .quick-access-panel__list a:hover,
+    .quick-access-panel__list a:focus-visible {
+        background: rgba(15, 98, 254, 0.2);
+    }
+    @media (max-width: 768px) {
+        .quick-access-wrapper {
+            justify-content: center;
+            top: calc(4.25rem + 1rem);
+        }
+        .quick-access-panel {
+            right: 50%;
+            transform: translateX(50%);
+            width: calc(100vw - 1.5rem);
+        }
+    }
+
 /* From Uiverse.io by Wendell47 */ 
 .button {
   display: inline-flex;

@@ -10,32 +10,37 @@
             <p class="r-hero__subtitle r-animate" style="--delay: 0.18s;">{{ ramadan.header.subtitle }}</p>
             <p class="r-hero__lead r-animate" style="--delay: 0.24s;">{{ ramadan.meta_description }}</p>
 
-            <div class="r-hero__stats r-animate" style="--delay: 0.3s;">
-              <div class="r-hero__card">
-                <span class="r-hero__label">{{ ramadan.header.stats.last_updated_label }}</span>
-                <strong>{{ formatISODate(ramadan.last_updated) }}</strong>
+            <nav
+              class="r-hero__nav r-animate"
+              style="--delay: 0.36s;"
+              aria-label="Jump to Ramadan sections"
+            >
+              <div class="r-hero__nav-row">
+                <a
+                  v-for="link in navPrimaryLinks"
+                  :key="link.href"
+                  class="r-hero__pill r-hero__pill--primary"
+                  :href="link.href"
+                >
+                  {{ link.label }}
+                </a>
               </div>
-              <div class="r-hero__card">
-                <span class="r-hero__label">{{ ramadan.header.stats.data_sources_label }}</span>
-                <div class="r-hero__sources">
-                  <a
-                    v-for="source in ramadan.data_sources"
-                    :key="source.label"
-                    class="r-hero__source"
-                    :href="source.link"
-                    target="_blank"
-                    rel="noopener"
-                  >
-                    {{ source.label }}
-                  </a>
+
+              <div class="r-hero__nav-groups">
+                <div v-for="group in navSections" :key="group.title" class="r-hero__nav-group">
+                  <span class="r-hero__nav-group-title">{{ group.title }}</span>
+                  <div class="r-hero__nav-links">
+                    <a
+                      v-for="link in group.links"
+                      :key="link.href"
+                      class="r-hero__nav-link"
+                      :href="link.href"
+                    >
+                      {{ link.label }}
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-
-            <nav class="r-hero__nav r-animate" style="--delay: 0.36s;">
-              <a v-for="link in navLinks" :key="link.href" class="r-hero__pill" :href="link.href">
-                {{ link.label }}
-              </a>
             </nav>
           </div>
 
@@ -1170,12 +1175,51 @@ export default {
     heroImage() {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
     },
-    navLinks() {
-      const extra = [
+    navPrimaryLinks() {
+      return [
         { label: "Interactive tools", href: "#interactive" },
         { label: "Planner", href: "#planner" },
       ];
-      return [...extra, ...this.ramadan.nav_links];
+    },
+    navSections() {
+      const foundationLabels = new Set([
+        "What is Ramadan",
+        "History",
+        "Key dates",
+        "How to fast",
+        "FAQ",
+      ]);
+      const resourceLabels = new Set([
+        "Quran plans",
+        "Personal plans",
+        "Charity",
+        "Health tips",
+        "Duas",
+        "Short clips",
+        "Tools",
+      ]);
+      const sections = [];
+      const baseLinks = Array.isArray(this.ramadan.nav_links) ? this.ramadan.nav_links : [];
+      const foundations = [];
+      const resources = [];
+
+      baseLinks.forEach((link) => {
+        if (foundationLabels.has(link.label)) {
+          foundations.push(link);
+        } else if (resourceLabels.has(link.label)) {
+          resources.push(link);
+        } else {
+          resources.push(link);
+        }
+      });
+
+      if (foundations.length) {
+        sections.push({ title: "Foundations", links: foundations });
+      }
+      if (resources.length) {
+        sections.push({ title: "Daily practice", links: resources });
+      }
+      return sections;
     },
     calendarStartDate() {
       const override = this.parseISODate(this.calendarStartOverride);
@@ -1901,10 +1945,62 @@ export default {
 }
 
 .r-hero__nav {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.r-hero__nav-row {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin-top: 10px;
+}
+
+.r-hero__nav-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+}
+
+.r-hero__nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.r-hero__nav-group-title {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(253, 247, 239, 0.65);
+}
+
+.r-hero__nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.r-hero__nav-link {
+  border-radius: 12px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fdf7ef;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.86rem;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.r-hero__nav-link:hover {
+  color: #0f2230;
+  background: #fdf7ef;
+}
+
+.r-hero__pill--primary {
+  min-width: 170px;
+  text-align: center;
 }
 
 .r-hero__pill {
