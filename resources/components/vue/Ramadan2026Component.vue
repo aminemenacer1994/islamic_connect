@@ -2,46 +2,41 @@
   <div class="ramadan-2026">
     <header class="r-hero" id="top">
       <div class="r-hero__backdrop"></div>
-      <div class="container">
+      <div class="r-hero__inner">
         <div class="r-hero__grid">
           <div class="r-hero__content">
             <p class="r-hero__eyebrow r-animate" style="--delay: 0.05s;">{{ ramadan.page_title }}</p>
             <h1 class="r-hero__title r-animate" style="--delay: 0.12s;">{{ ramadan.header.title }}</h1>
             <p class="r-hero__subtitle r-animate" style="--delay: 0.18s;">{{ ramadan.header.subtitle }}</p>
-            <p class="r-hero__lead r-animate" style="--delay: 0.24s;">{{ ramadan.meta_description }}</p>
+            <div class="r-hero__subtext-wrap r-animate" style="--delay: 0.25s;">
+              <p v-for="(line, index) in heroHighlights" :key="index" class="r-hero__subtext">
+                {{ line }}
+              </p>
+            </div>
 
-            <nav
-              class="r-hero__nav r-animate"
+            <div
+              v-if="navSections.length"
+              class="r-hero__section-grid r-animate"
               style="--delay: 0.36s;"
-              aria-label="Jump to Ramadan sections"
             >
-              <div class="r-hero__nav-row">
-                <a
-                  v-for="link in navPrimaryLinks"
-                  :key="link.href"
-                  class="r-hero__pill r-hero__pill--primary"
-                  :href="link.href"
-                >
-                  {{ link.label }}
-                </a>
-              </div>
-
-              <div class="r-hero__nav-groups">
-                <div v-for="group in navSections" :key="group.title" class="r-hero__nav-group">
-                  <span class="r-hero__nav-group-title">{{ group.title }}</span>
-                  <div class="r-hero__nav-links">
-                    <a
-                      v-for="link in group.links"
-                      :key="link.href"
-                      class="r-hero__nav-link"
-                      :href="link.href"
-                    >
-                      {{ link.label }}
-                    </a>
-                  </div>
+              <article
+                v-for="section in navSections"
+                :key="section.title"
+                class="r-hero__section-card"
+              >
+                <p class="r-hero__section-title">{{ section.title }}</p>
+                <div class="r-hero__section-links">
+                  <a
+                    v-for="link in section.links"
+                    :key="link.href"
+                    class="r-hero__section-pill"
+                    :href="link.href"
+                  >
+                    {{ link.label }}
+                  </a>
                 </div>
-              </div>
-            </nav>
+              </article>
+            </div>
           </div>
 
           <div class="r-hero__media r-animate" style="--delay: 0.22s;">
@@ -1094,6 +1089,10 @@ export default {
         timeOfDay: "maghrib",
         note: "",
       },
+      heroHighlights: [
+        "Complete Ramadan 1447 AH (2026 CE) guide with dates, prayer cues, health tips, and trusted tools.",
+        "Planner-driven reminders, Quran tracking, and community reflections keep you consistent through the month.",
+      ],
       reminders: [],
       reflectionDraft: {
         name: "",
@@ -1213,8 +1212,6 @@ export default {
       baseLinks.forEach((link) => {
         if (foundationLabels.has(link.label)) {
           foundations.push(link);
-        } else if (resourceLabels.has(link.label)) {
-          resources.push(link);
         } else {
           resources.push(link);
         }
@@ -1873,6 +1870,11 @@ export default {
   z-index: 1;
 }
 
+.r-hero__inner {
+  width: 100%;
+  padding: 0 clamp(1.5rem, 4vw, 3.5rem) clamp(1.5rem, 4vw, 3.5rem);
+}
+
 .r-hero__content {
   display: grid;
   gap: 16px;
@@ -1951,81 +1953,67 @@ export default {
   color: #ffffff;
 }
 
-.r-hero__nav {
+.r-hero__section-grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
-  margin-top: 10px;
+  margin-top: 18px;
 }
 
-.r-hero__nav-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+.r-hero__section-card {
+  padding: 18px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 18px 30px rgba(6, 27, 43, 0.35);
 }
 
-.r-hero__nav-groups {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 12px;
+.r-hero__section-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 12px;
 }
 
-.r-hero__nav-group {
+.r-hero__section-links {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.r-hero__nav-group-title {
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: rgba(253, 247, 239, 0.65);
+.r-hero__section-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(12, 32, 45, 0.3);
+  color: #fdf7ef;
+  text-decoration: none;
+  font-weight: 600;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
-.r-hero__nav-links {
-  display: flex;
-  flex-direction: column;
+.r-hero__section-pill:hover {
+  background: rgba(255, 255, 255, 0.9);
+  color: #0f2230;
+  transform: translateY(-1px);
+}
+
+.r-hero__subtext-wrap {
+  margin-top: 12px;
+  display: grid;
   gap: 6px;
 }
 
-.r-hero__nav-link {
-  border-radius: 12px;
-  padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fdf7ef;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.86rem;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: background 0.2s ease, color 0.2s ease;
+.r-hero__subtext {
+  margin: 0;
+  font-size: 0.95rem;
+  color: rgba(253, 247, 239, 0.75);
+  max-width: 540px;
 }
 
-.r-hero__nav-link:hover {
-  color: #0f2230;
-  background: #fdf7ef;
-}
-
-.r-hero__pill--primary {
-  min-width: 170px;
-  text-align: center;
-}
-
-.r-hero__pill {
-  border-radius: 999px;
-  padding: 7px 14px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #fdf7ef;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.88rem;
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  transition: all 0.2s ease;
-}
-
-.r-hero__pill:hover {
-  color: #0f2230;
-  background: #fdf7ef;
-}
 
 .r-hero__media {
   display: grid;
@@ -2035,11 +2023,13 @@ export default {
 
 .r-hero__frame {
   position: relative;
-  padding: 22px;
   border-radius: 30px;
+  border-top-right-radius: 30px;
+  border-bottom-left-radius: 30px;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: var(--r-shadow);
+  max-width: 80%;
+  margin-left: auto;
 }
 
 .r-hero__image {
@@ -2047,6 +2037,8 @@ export default {
   max-height: 520px;
   border-radius: 24px 6px 24px 6px;
   object-fit: cover;
+  transform: scale(0.95);
+  transform-origin: center;
 }
 
 .r-hero__glow {
@@ -3040,6 +3032,7 @@ export default {
   padding: 0.4rem 1rem;
   font-weight: 600;
   font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 .ramadan-reminder-form {
@@ -3864,10 +3857,6 @@ export default {
     padding: 20px;
   }
 
-  .r-hero__nav {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
   .r-download {
     flex-direction: column;
