@@ -79,17 +79,12 @@
           <ul class="r-overview__list">
             <li v-for="item in ramadan.overview.key_points" :key="item">{{ item }}</li>
           </ul>
-          <div class="r-references" v-if="ramadan.overview.references">
-            <h4>{{ ramadan.labels.references }}</h4>
-            <ul>
-              <li v-for="ref in ramadan.overview.references" :key="ref.citation">
-                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                  {{ ref.source }} — {{ ref.citation }}
-                </a>
-                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-              </li>
-            </ul>
-          </div>
+          <ReferenceList
+            v-if="ramadan.overview.references"
+            :items="ramadan.overview.references"
+            :title="ramadan.labels.references"
+            :action-label="ramadan.labels.view_source"
+          />
         </div>
       </div>
     </section>
@@ -139,17 +134,12 @@
               </ul>
             </article>
           </div>
-          <div class="r-references" v-if="ramadan.history.references">
-            <h4>{{ ramadan.labels.references }}</h4>
-            <ul>
-              <li v-for="ref in ramadan.history.references" :key="ref.citation">
-                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                  {{ ref.source }} — {{ ref.citation }}
-                </a>
-                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-              </li>
-            </ul>
-          </div>
+          <ReferenceList
+            v-if="ramadan.history.references"
+            :items="ramadan.history.references"
+            :title="ramadan.labels.references"
+            :action-label="ramadan.labels.view_source"
+          />
         </div>
       </div>
     </section>
@@ -449,67 +439,82 @@
           </div>
           <div class="row r-planner-row">
             <div class="col-12 col-md-6">
-              <article class="r-card r-card--soft">
-                <div class="r-stack-head">
-                  <h3 class="r-card__title">Personal reminders</h3>
-                  <span class="r-badge">{{ reminders.length }} saved</span>
+              <article class="ramadan-reminder-card">
+                <div class="ramadan-reminder-card__head">
+                  <div>
+                    <p class="ramadan-reminder-eyebrow">Personal reminders</p>
+                    <h3 class="ramadan-reminder-title">Stay present this Ramadan</h3>
+                    <p class="ramadan-reminder-lead">
+                      Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device.
+                    </p>
+                  </div>
+                  <span class="ramadan-reminder-pill">{{ reminders.length }} saved</span>
                 </div>
-                <p class="r-card__desc">
-                  Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device.
-                </p>
-                <div v-if="!authResolved" class="r-empty">Checking login status...</div>
-                <div v-else-if="!isAuthenticated" class="r-auth-gate">
-                  <p class="r-card__desc">Log in to create and view your saved personal reminders.</p>
-                  <div class="r-auth-actions">
-                    <a class="r-button r-button--ghost" href="/login">Log in</a>
+                <div v-if="!authResolved" class="ramadan-reminder-empty">Checking login status...</div>
+                <div v-else-if="!isAuthenticated" class="ramadan-reminder-auth">
+                  <p>Log in to create and view your saved personal reminders.</p>
+                  <div class="ramadan-reminder-auth__actions">
+                    <a class="ramadan-reminder-link" href="/login">Log in</a>
                   </div>
                 </div>
                 <div v-else>
-                  <form class="r-form" @submit.prevent="addReminder">
-                    <div class="r-form__row">
+                  <form class="ramadan-reminder-form" @submit.prevent="addReminder">
+                    <div class="ramadan-reminder-form__row">
                       <input
-                        class="r-input"
+                        class="ramadan-reminder-input"
                         v-model.trim="reminderDraft.title"
                         type="text"
                         placeholder="Reminder title"
                         required
                       />
-                      <select class="r-select" v-model.number="reminderDraft.dayNumber">
+                      <select class="ramadan-reminder-select" v-model.number="reminderDraft.dayNumber">
                         <option v-for="day in dayOptions" :key="day" :value="day">Day {{ day }}</option>
                       </select>
                     </div>
-                    <div class="r-form__row">
-                      <select class="r-select" v-model="reminderDraft.timeOfDay">
+                    <div class="ramadan-reminder-form__row">
+                      <select class="ramadan-reminder-select" v-model="reminderDraft.timeOfDay">
                         <option v-for="option in timeOfDayOptions" :key="option.value" :value="option.value">
                           {{ option.label }}
                         </option>
                       </select>
                       <input
-                        class="r-input"
+                        class="ramadan-reminder-input"
                         v-model.trim="reminderDraft.note"
                         type="text"
                         placeholder="Optional note"
                       />
                     </div>
-                    <button class="r-button" type="submit">Save reminder</button>
+                    <button class="ramadan-reminder-submit" type="submit">Save reminder</button>
                   </form>
-                  <div v-if="sortedReminders.length" class="r-reminder-list">
-                    <div v-for="reminder in sortedReminders" :key="reminder.id" class="r-reminder">
-                      <label class="r-checkbox">
-                        <input type="checkbox" v-model="reminder.done" @change="persistReminders" />
-                        <span></span>
-                      </label>
-                      <div class="r-reminder__body">
-                        <h4 :class="{ 'is-done': reminder.done }">{{ reminder.title }}</h4>
-                        <p>Day {{ reminder.dayNumber }} - {{ formatTimeLabel(reminder.timeOfDay) }}</p>
-                        <p v-if="reminder.note">{{ reminder.note }}</p>
+                  <div v-if="sortedReminders.length" class="ramadan-reminder-list">
+                    <article
+                      v-for="reminder in sortedReminders"
+                      :key="reminder.id"
+                      class="ramadan-reminder-item"
+                    >
+                      <div class="ramadan-reminder-item__status">
+                        <label class="ramadan-checkbox">
+                          <input type="checkbox" v-model="reminder.done" @change="persistReminders" />
+                          <span></span>
+                        </label>
+                        <div>
+                          <h4 :class="{ 'is-done': reminder.done }">{{ reminder.title }}</h4>
+                          <p class="ramadan-reminder-meta">
+                            Day {{ reminder.dayNumber }} - {{ formatTimeLabel(reminder.timeOfDay) }}
+                          </p>
+                          <p v-if="reminder.note" class="ramadan-reminder-note">{{ reminder.note }}</p>
+                        </div>
                       </div>
-                      <button class="r-icon-button" type="button" @click="removeReminder(reminder.id)">
+                      <button
+                        class="ramadan-reminder-remove"
+                        type="button"
+                        @click="removeReminder(reminder.id)"
+                      >
                         Remove
                       </button>
-                    </div>
+                    </article>
                   </div>
-                  <p v-else class="r-empty">No reminders yet. Add your first one above.</p>
+                  <p v-else class="ramadan-reminder-empty">No reminders yet. Add your first one above.</p>
                 </div>
               </article>
             </div>
@@ -587,17 +592,12 @@
               </ul>
             </article>
           </div>
-          <div class="r-references" v-if="ramadan.how_to_fast.references">
-            <h4>{{ ramadan.labels.references }}</h4>
-            <ul>
-              <li v-for="ref in ramadan.how_to_fast.references" :key="ref.citation">
-                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                  {{ ref.source }} — {{ ref.citation }}
-                </a>
-                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-              </li>
-            </ul>
-          </div>
+          <ReferenceList
+            v-if="ramadan.how_to_fast.references"
+            :items="ramadan.how_to_fast.references"
+            :title="ramadan.labels.references"
+            :action-label="ramadan.labels.view_source"
+          />
         </div>
       </div>
     </section>
@@ -672,17 +672,12 @@
               </div>
             </article>
           </div>
-          <div class="r-references" v-if="ramadan.quran_reading_plans.references">
-            <h4>{{ ramadan.labels.references }}</h4>
-            <ul>
-              <li v-for="ref in ramadan.quran_reading_plans.references" :key="ref.citation">
-                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                  {{ ref.source }} — {{ ref.citation }}
-                </a>
-                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-              </li>
-            </ul>
-          </div>
+          <ReferenceList
+            v-if="ramadan.quran_reading_plans.references"
+            :items="ramadan.quran_reading_plans.references"
+            :title="ramadan.labels.references"
+            :action-label="ramadan.labels.view_source"
+          />
         </div>
       </div>
     </section>
@@ -783,17 +778,12 @@
               <div class="r-note" v-for="note in ramadan.charity_guide.impact_notes" :key="note">{{ note }}</div>
             </article>
           </div>
-          <div class="r-references" v-if="ramadan.charity_guide.references">
-            <h4>{{ ramadan.labels.references }}</h4>
-            <ul>
-              <li v-for="ref in ramadan.charity_guide.references" :key="ref.citation">
-                <a class="r-reference-link" :href="ref.link" target="_blank" rel="noopener">
-                  {{ ref.source }} — {{ ref.citation }}
-                </a>
-                <a class="r-link" :href="ref.link" target="_blank" rel="noopener">{{ ramadan.labels.view_source }}</a>
-              </li>
-            </ul>
-          </div>
+          <ReferenceList
+            v-if="ramadan.charity_guide.references"
+            :items="ramadan.charity_guide.references"
+            :title="ramadan.labels.references"
+            :action-label="ramadan.labels.view_source"
+          />
         </div>
       </div>
     </section>
@@ -891,52 +881,65 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.shorts.subtitle }}</p>
         </div>
-        <div id="section-shorts-body" class="r-section__body">
-          <div class="r-short-block">
-            <h3 class="r-section__subtitle">{{ ramadan.shorts.highlights_title }}</h3>
-            <div class="r-story-grid">
+        <div class="ramadan-short-hero">
+          <div>
+            <p class="ramadan-short-eyebrow">Quick inspiration for Ramadan</p>
+            <h3 class="ramadan-short-hero__title">{{ ramadan.shorts.highlights_title }}</h3>
+            <p class="ramadan-short-hero__lead">
+              {{ ramadan.shorts.subtitle }}
+            </p>
+          </div>
+          <div class="ramadan-short-pillset">
+            <span class="ramadan-short-pill">Curated clips</span>
+            <span class="ramadan-short-pill">Reminders ready</span>
+            <span class="ramadan-short-pill">Shareable</span>
+          </div>
+        </div>
+
+        <div class="ramadan-short-highlights">
+          <article
+            v-for="item in ramadan.shorts.highlights"
+            :key="item.link"
+            class="ramadan-short-card"
+            :style="storyStyle(item.thumbnail)"
+          >
+            <div class="ramadan-short-card__content">
+              <span class="ramadan-short-card__tag">{{ item.tag }}</span>
+              <h3 class="ramadan-short-card__title">{{ item.title }}</h3>
+              <p class="ramadan-short-card__desc">{{ item.description }}</p>
+            </div>
+            <div class="ramadan-short-card__footer">
+              <a class="ramadan-short-card__link" :href="item.link" target="_blank" rel="noopener">
+                {{ ramadan.labels.watch_short }}
+              </a>
+            </div>
+          </article>
+        </div>
+
+        <div class="ramadan-short-groups">
+          <div v-for="group in ramadan.shorts.groups" :key="group.title" class="ramadan-short-group">
+            <div class="ramadan-short-group__head">
+              <h4 class="ramadan-short-group__title">{{ group.title }}</h4>
+              <p class="ramadan-short-group__subtitle">{{ ramadan.labels.explore_by_theme }}</p>
+            </div>
+            <div class="ramadan-short-group__grid">
               <article
-                v-for="item in ramadan.shorts.highlights"
+                v-for="item in group.items"
                 :key="item.link"
-                class="r-story-card"
+                class="ramadan-short-card ramadan-short-card--compact"
                 :style="storyStyle(item.thumbnail)"
               >
-                <div class="r-story-content">
-                  <span class="r-story-tag">{{ item.tag }}</span>
-                  <h3 class="r-story-title">{{ item.title }}</h3>
-                  <p class="r-story-desc">{{ item.description }}</p>
-                  <span class="r-story-duration">{{ ramadan.labels.duration_prefix }}: {{ item.duration }}</span>
-                  <a class="r-story-link" :href="item.link" target="_blank" rel="noopener">
+                <div class="ramadan-short-card__content">
+                  <span class="ramadan-short-card__tag">{{ item.tag }}</span>
+                  <h3 class="ramadan-short-card__title">{{ item.title }}</h3>
+                  <p class="ramadan-short-card__desc">{{ item.description }}</p>
+                </div>
+                <div class="ramadan-short-card__footer">
+                  <a class="ramadan-short-card__link" :href="item.link" target="_blank" rel="noopener">
                     {{ ramadan.labels.watch_short }}
                   </a>
                 </div>
               </article>
-            </div>
-          </div>
-          <div class="r-short-block">
-            <h3 class="r-section__subtitle">{{ ramadan.labels.explore_by_theme }}</h3>
-            <div class="r-short-groups">
-              <div v-for="group in ramadan.shorts.groups" :key="group.title" class="r-short-group">
-                <h4 class="r-short-group__title">{{ group.title }}</h4>
-                <div class="r-story-grid">
-                  <article
-                    v-for="item in group.items"
-                    :key="item.link"
-                    class="r-story-card"
-                    :style="storyStyle(item.thumbnail)"
-                  >
-                    <div class="r-story-content">
-                      <span class="r-story-tag">{{ item.tag }}</span>
-                      <h3 class="r-story-title">{{ item.title }}</h3>
-                      <p class="r-story-desc">{{ item.description }}</p>
-                      <span class="r-story-duration">{{ ramadan.labels.duration_prefix }}: {{ item.duration }}</span>
-                      <a class="r-story-link" :href="item.link" target="_blank" rel="noopener">
-                        {{ ramadan.labels.watch_short }}
-                      </a>
-                    </div>
-                  </article>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -1067,10 +1070,14 @@
 
 <script>
 import ramadanData from "./data/ramadan_2026.json";
+import ReferenceList from "./ReferenceList.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 
 export default {
   name: "Ramadan2026Component",
+  components: {
+    ReferenceList,
+  },
   data() {
     return {
       ramadan: ramadanData,
@@ -2654,22 +2661,6 @@ export default {
   border: 1px solid rgba(27, 31, 42, 0.08);
 }
 
-.r-references {
-  margin-top: 24px;
-}
-
-.r-reference-link {
-  flex: 1;
-  min-width: 0;
-  color: var(--r-deep);
-  text-decoration: none;
-  font-weight: 600;
-}
-
-.r-reference-link:hover {
-  color: var(--r-accent-deep);
-}
-
 .r-resource-link {
   color: var(--r-ink-soft);
   text-decoration: none;
@@ -2678,24 +2669,6 @@ export default {
 
 .r-resource-link:hover {
   color: var(--r-accent-deep);
-}
-
-.r-references ul {
-  list-style: none;
-  padding: 0;
-  margin: 12px 0 0;
-  display: grid;
-  gap: 10px;
-}
-
-.r-references li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  background: rgba(16, 42, 34, 0.04);
 }
 
 .r-download {
@@ -2865,18 +2838,379 @@ export default {
   margin-top: 20px;
 }
 
-.r-short-block {
-  margin-top: 30px;
+.ramadan-short-hero {
+  background: linear-gradient(135deg, #ffffff 0%, #f5f7f9 100%);
+  border-radius: 28px;
+  padding: 2rem;
+  border: 1px solid rgba(15, 34, 48, 0.08);
+  box-shadow: 0 20px 50px rgba(15, 41, 80, 0.1);
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
 }
 
-.r-short-groups {
+.ramadan-short-eyebrow {
+  letter-spacing: 0.4em;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  color: #0f766e;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+}
+
+.ramadan-short-hero__title {
+  font-size: clamp(1.3rem, 1.6vw, 1.6rem);
+  margin: 0;
+}
+
+.ramadan-short-hero__lead {
+  margin: 0.25rem 0;
+  color: #475569;
+  max-width: 520px;
+}
+
+.ramadan-short-pillset {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.ramadan-short-pill {
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(13, 148, 136, 0.15);
+  color: #0f766e;
+  font-weight: 600;
+  font-size: 0.8rem;
+}
+
+.ramadan-short-highlights {
+  margin-top: 2rem;
   display: grid;
-  gap: 26px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
-.r-short-group__title {
-  margin-bottom: 12px;
-  color: var(--r-deep);
+.ramadan-short-card {
+  border-radius: 28px;
+  padding: 2rem;
+  min-height: 240px;
+  color: #fff;
+  background: linear-gradient(135deg, rgba(30, 64, 175, 0.3), rgba(15, 23, 42, 0.95)), var(--story-bg);
+  background-blend-mode: multiply;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+}
+
+.ramadan-short-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.7));
+  z-index: 0;
+}
+
+.ramadan-short-card__content,
+.ramadan-short-card__footer {
+  position: relative;
+  z-index: 1;
+}
+
+.ramadan-short-card__tag {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #d8f3ec;
+  margin-bottom: 0.6rem;
+}
+
+.ramadan-short-card__title {
+  font-size: 1rem;
+  margin: 0 0 0.35rem;
+}
+
+.ramadan-short-card__desc {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.85rem;
+}
+
+.ramadan-short-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ramadan-short-card__link {
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  background: rgba(13, 148, 136, 0.85);
+  box-shadow: 0 8px 20px rgba(13, 148, 136, 0.3);
+}
+
+.ramadan-short-card__link:hover {
+  background: rgba(13, 148, 136, 1);
+}
+
+.ramadan-short-card--compact {
+  min-height: 210px;
+  padding: 1.6rem;
+}
+
+.ramadan-short-groups {
+  margin-top: 2.5rem;
+  display: grid;
+  gap: 1.75rem;
+}
+
+.ramadan-short-group__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.ramadan-short-group__title {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.ramadan-short-group__subtitle {
+  margin: 0;
+  color: #475569;
+  font-size: 0.9rem;
+}
+
+.ramadan-short-group__grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.ramadan-reminder-card {
+  border-radius: 28px;
+  padding: 2rem;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 70%);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.12);
+}
+
+.ramadan-reminder-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ramadan-reminder-eyebrow {
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  color: #0f766e;
+  margin: 0 0 0.35rem;
+}
+
+.ramadan-reminder-title {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.ramadan-reminder-lead {
+  margin: 0.4rem 0 0;
+  color: #475569;
+}
+
+.ramadan-reminder-pill {
+  border-radius: 999px;
+  background: rgba(239, 68, 68, 0.1);
+  color: #b91c1c;
+  padding: 0.4rem 1rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.ramadan-reminder-form {
+  display: grid;
+  gap: 1rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.ramadan-reminder-form__row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+
+.ramadan-reminder-input,
+.ramadan-reminder-select {
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  padding: 0.8rem 1rem;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: #fff;
+}
+
+.ramadan-reminder-select {
+  appearance: none;
+}
+
+.ramadan-reminder-submit {
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0f766e, #2dd4bf);
+  color: #fff;
+  font-weight: 700;
+  padding: 0.8rem 1.4rem;
+  cursor: pointer;
+  align-self: flex-start;
+  box-shadow: 0 14px 24px rgba(15, 118, 110, 0.25);
+}
+
+.ramadan-reminder-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ramadan-reminder-item {
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 1rem 1.2rem;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+}
+
+.ramadan-reminder-item__status {
+  display: flex;
+  gap: 0.9rem;
+  align-items: center;
+}
+
+.ramadan-checkbox {
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.ramadan-checkbox input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  cursor: pointer;
+  margin: 0;
+}
+
+.ramadan-checkbox span {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: rgba(15, 23, 42, 0.1);
+  transition: background 0.2s ease;
+}
+
+.ramadan-checkbox input:checked + span {
+  background: linear-gradient(135deg, #0f766e, #2dd4bf);
+}
+
+.ramadan-reminder-item h4 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.ramadan-reminder-item h4.is-done {
+  text-decoration: line-through;
+  color: #94a3b8;
+}
+
+.ramadan-reminder-meta {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+.ramadan-reminder-note {
+  margin: 0.25rem 0 0;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+.ramadan-reminder-remove {
+  border: none;
+  background: transparent;
+  color: #b91c1c;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ramadan-reminder-auth {
+  border-radius: 18px;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.ramadan-reminder-auth__actions {
+  margin-top: 0.75rem;
+}
+
+.ramadan-reminder-link {
+  text-decoration: none;
+  color: #0f766e;
+  font-weight: 700;
+  border-bottom: 1px solid transparent;
+}
+
+.ramadan-reminder-link:hover {
+  border-color: #0f766e;
+}
+
+.ramadan-reminder-empty {
+  font-size: 0.95rem;
+  color: #475569;
+  margin: 1rem 0;
+}
+
+@media (max-width: 992px) {
+  .ramadan-short-highlights,
+  .ramadan-short-group__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .ramadan-short-highlights,
+  .ramadan-short-group__grid {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .ramadan-short-hero {
+    flex-direction: column;
+  }
+  .ramadan-reminder-form__row {
+    grid-template-columns: 1fr;
+  }
 }
 
 .r-faq-grid {
@@ -3536,11 +3870,6 @@ export default {
   }
 
   .r-download {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .r-references li {
     flex-direction: column;
     align-items: flex-start;
   }
