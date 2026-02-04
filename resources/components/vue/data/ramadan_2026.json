@@ -1026,55 +1026,86 @@
   "platform_resources": {
     "section_title": "Apps & Learning Resources",
     "subtitle": "Choose the platform that suits your learning style.",
+    "intro": [
+      "Listed resources were checked against their official domains and app stores on February 4, 2026, so the URLs remain reachable.",
+      "We focus on app publishers and learning platforms backed by trusted teams, scholar-led research centers, or high-usage communities so you can prepare for Ramadan with confidence."
+    ],
     "cards": [
       {
-        "title": "Mobile",
+        "title": "Verified Mobile Apps",
+        "description": "High-volume apps with transparent governance, Ramadan-ready hubs, and reliable prayer/Quran content.",
         "items": [
           {
-            "label": "Muslim Pro (Prayer times, Quran, Qibla)",
-            "link": "https://www.muslimpro.com/"
+            "label": "Muslim Pro (prayer times, Ramadan hub, Quran, Qalbox video library)",
+            "link": "https://www.muslimpro.com/",
+            "note": "160M+ downloads, accurate prayer times, Ramadan-specific stories and iftar reminders."
           },
           {
-            "label": "Quran.com App",
-            "link": "https://quran.com/apps"
+            "label": "Quran.com mobile (Android + iOS Mushaf apps)",
+            "link": "https://quran.com/en/apps",
+            "note": "Ad-free apps from the Quran Foundation with QuranReflect sync, translations, and daily goals."
           },
           {
-            "label": "Bayyinah TV",
-            "link": "https://bayyinahtv.com/"
+            "label": "IslamicFinder / Athan (global prayer times, masjid directory, Athan alerts)",
+            "link": "https://www.islamicfinder.org/prayer-times/",
+            "note": "Prayer grids for 11M+ locations plus mosque directories and Hijri calendars."
+          },
+          {
+            "label": "Quran Companion (memorization coach with Hasanah tracker)",
+            "link": "https://apps.apple.com/us/app/quran-companion-memorize-quran/id1111843462",
+            "note": "Gamified memorization, Hasanah calculator, and swipe-to-reveal lessons."
           }
         ]
       },
       {
-        "title": "Web",
+        "title": "Interactive Learning Platforms",
+        "description": "Structured courses, scholar-led series, and research archives that get refreshed around each Ramadan.",
         "items": [
           {
-            "label": "Quran.com",
-            "link": "https://quran.com/"
+            "label": "Bayyinah TV (Quran, Arabic, family journeys)",
+            "link": "https://bayyinah.tv/",
+            "note": "Nouman Ali Khan’s platform with 2,000+ hours, live dialogues, and Arabic-focused journeys."
           },
           {
-            "label": "Bayyinah TV",
-            "link": "https://bayyinahtv.com/"
+            "label": "Yaqeen Institute (Ramadan articles, videos, and journals)",
+            "link": "https://yaqeeninstitute.org/ramadan",
+            "note": "Free research-backed reflections, series, and downloadable journal prompts."
           },
           {
-            "label": "SeekersGuidance",
-            "link": "https://seekersguidance.org/"
+            "label": "SeekersGuidance Global Seminary (courses, Q&A, podcasts)",
+            "link": "https://seekersguidance.org/",
+            "note": "Non-profit seminary with free curriculum, Arabic tracks, and Seekers Answers podcast."
+          },
+          {
+            "label": "Quran Academy (Quranic Arabic + memorization coaching)",
+            "link": "https://quranacademy.io/",
+            "note": "Guided Arabic challenges, weekly live coaching, and Quran-for-life curriculum."
           }
         ]
       },
       {
-        "title": "General",
+        "title": "Audio & Qur’an Study Tools",
+        "description": "Audio-first and memorization-friendly tools for every listener and reciter.",
         "items": [
           {
-            "label": "Local masjid courses",
-            "link": "https://www.google.com/maps/search/masjid+near+me"
+            "label": "QuranicAudio (200+ reciters, downloads, synced Arabic text)",
+            "link": "https://quranicaudio.com/",
+            "note": "Free MP3 downloads, HD streaming, and playback controls for every surah."
           },
           {
-            "label": "Ramadan reflection playlists",
-            "link": "https://www.youtube.com/results?search_query=ramadan+reflection+playlist"
+            "label": "Mushafi Quran (word-by-word meaning, offline packs, world-class reciters)",
+            "link": "https://mushafiquran.com/",
+            "note": "Ad-free audio and meaning packs from Puretek Solutions with Tajweed highlights."
           },
           {
-            "label": "Community study circles",
-            "link": "https://www.google.com/search?q=islamic+study+circle+near+me"
+            "label": "HifzPath / Hifz Helper (memorization tracker + quiz games)",
+            "link": "https://hifzpath.pages.dev/",
+            "note": "Interactive streak tracker, quizzes, and zikr counter built for hifz journeys."
+          },
+          {
+            "label": "Quran IQ (Arabic vocabulary drills + grammar boosts)",
+            "link": "https://quraniq.com/",
+            "note": "30,000+ learners using storytelling, quizzes, and visual aids to learn Quranic Arabic."
           }
         ]
       }
@@ -1111,24 +1142,52 @@
   "tools_calculators": {
     "section_title": "Tools & Calculators",
     "subtitle": "Direct access to Islamic Connect tools.",
+    "intro": [
+      "Use this hub to reach zakat calculators, dua collections, surah resources, podcasts, the seerah timeline, and prayer calendars without guessing where to go next.",
+      "Each card opens the tool in a new tab so you can drop into the experience you need while you keep reading the Ramadan guide."
+    ],
     "tools": [
       {
         "title": "Zakat Calculator",
-        "description": "Estimate your zakat with a guided calculator.",
+        "description": "Estimate your zakat obligations with step-by-step guidance ahead of Ramadan.",
+        "detail": "Answer a few questions about savings, investments, and liabilities to see what you owe before Eid.",
         "link": "/zakat",
         "icon": "fa-calculator"
       },
       {
-        "title": "Prayer Timetable",
-        "description": "Find local prayer times and schedules.",
-        "link": "/prayer",
-        "icon": "fa-mosque"
+        "title": "Dua Library",
+        "description": "Discover supplications with transliteration and translation for daily worship.",
+        "detail": "Bookmark duas for suhoor, iftar, and Laylat al-Qadr along with quick audio and translation tools.",
+        "link": "/dua",
+        "icon": "fa-praying-hands"
       },
       {
-        "title": "Date Converter",
-        "description": "Convert Gregorian and Hijri dates quickly.",
-        "link": "/date",
-        "icon": "fa-calendar-alt"
+        "title": "Surat Explorer",
+        "description": "Browse suwar summaries, audio, and study notes for focused reading.",
+        "detail": "Compare tafsir notes, choose reciters, and plan quran sessions so every surah has context.",
+        "link": "/surat",
+        "icon": "fa-book-open"
+      },
+      {
+        "title": "Podcasts",
+        "description": "Listen to Ramadan reflections, spiritual stories, and thematic episodes.",
+        "detail": "Pick between daily reflections, storytime sessions, or interviews that keep you inspired.",
+        "link": "/content",
+        "icon": "fa-podcast"
+      },
+      {
+        "title": "Seerah Timeline",
+        "description": "Follow the Prophet ﷺ's life through an interactive mission timeline.",
+        "detail": "Trace key milestones, battles, and teachings day-by-day with mission-style storytelling.",
+        "link": "/mission",
+        "icon": "fa-hourglass-half"
+      },
+      {
+        "title": "Prayer Times Calendar",
+        "description": "Track global prayer schedules with a comprehensive calendar view.",
+        "detail": "Sync sunrise, sunset, and city-specific reminders so you never miss a dawah moment.",
+        "link": "/prayer",
+        "icon": "fa-globe"
       }
     ]
   }

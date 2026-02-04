@@ -960,6 +960,9 @@
             {{ ramadan.tools_calculators.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.tools_calculators.subtitle }}</p>
+          <div v-if="ramadan.tools_calculators.intro" class="r-section__intro">
+            <p v-for="(line, index) in ramadan.tools_calculators.intro" :key="index">{{ line }}</p>
+          </div>
         </div>
         <div id="section-tools-body" class="r-section__body">
           <div class="r-grid r-grid--triple r-grid--stagger">
@@ -976,13 +979,18 @@
                 :aria-label="ramadan.labels.open_tool_aria"
                 :title="ramadan.labels.open_tool_title"
               >
-                <i :class="['fas', tool.icon]" aria-hidden="true"></i>
+                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
               </a>
-              <div>
-                <span class="r-card__emoji r-card__emoji--inline" aria-hidden="true">{{ getEmoji("tools", index) }}</span>
-                <h3 class="r-card__title">{{ tool.title }}</h3>
-                <p class="r-card__desc">{{ tool.description }}</p>
+              <div class="r-card--tool__top-row">
+              <div class="r-card--tool__icons">
+                <i :class="['fas', tool.icon]" aria-hidden="true"></i>
               </div>
+                <div class="r-card--tool__text">
+                  <h3 class="r-card__title">{{ tool.title }}</h3>
+                  <p class="r-card__desc">{{ tool.description }}</p>
+                </div>
+              </div>
+              <p v-if="tool.detail" class="r-card__detail">{{ tool.detail }}</p>
               <a :href="tool.link" class="r-link" target="_blank" rel="noopener">
                 {{ ramadan.labels.open_tool }}
               </a>
@@ -2202,6 +2210,13 @@ export default {
   gap: 12px;
   margin-bottom: 34px;
 }
+.r-section__intro {
+  color: var(--r-ink-soft);
+  font-size: 1rem;
+  max-width: 960px;
+  margin-top: 12px;
+  line-height: 1.6;
+}
 
 .r-section__controls {
   display: flex;
@@ -2314,6 +2329,7 @@ export default {
 
 .r-grid--triple {
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-auto-rows: 1fr;
 }
 
 .r-grid--double {
@@ -2732,9 +2748,54 @@ export default {
 
 .r-card--tool {
   position: relative;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  min-height: 320px;
   --r-card-accent: rgba(111, 153, 164, 0.5);
+}
+
+#tools #section-tools-body .r-grid--triple {
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+  grid-auto-rows: 1fr;
+}
+
+#tools #section-tools-body .r-card--tool__top-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.r-card--tool__icons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.r-card--tool__icons .fas {
+  font-size: 1.7rem;
+  color: #0e0e0e;
+  -webkit-text-fill-color: #0e0e0e;
+}
+
+.r-card--tool__text {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+}
+
+.r-card__detail {
+  margin: 0 0 16px;
+  color: var(--r-ink-soft);
+  font-size: 1rem;
+  line-height: 1.6;
+  width: 100%;
+}
+
+.r-card__emoji--inline {
+  color: #0e0e0e;
 }
 
 #tools .r-card--tool:nth-child(odd) {
@@ -2743,6 +2804,32 @@ export default {
 
 #tools .r-card--tool:nth-child(even) {
   background: linear-gradient(135deg, #ffffff 0%, #fff4e7 100%);
+}
+
+@media (max-width: 1024px) {
+  #tools #section-tools-body .r-grid--triple {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  #tools #section-tools-body .r-card--tool__top-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  #tools .r-card--tool {
+    min-height: auto;
+  }
+
+  #tools .r-card__detail {
+    font-size: 0.95rem;
+  }
+
+  #tools .r-section__intro {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
 }
 
 .r-expand {
@@ -2756,7 +2843,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: rgba(27, 31, 42, 0.08);
-  color: var(--r-deep);
+  color: #0e0e0e;
   text-decoration: none;
   border: 1px solid rgba(27, 31, 42, 0.12);
 }
