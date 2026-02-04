@@ -13,7 +13,9 @@
                 {{ line }}
               </p>
             </div>
+          </div>
 
+          <div class="r-hero__media r-animate" style="--delay: 0.22s;">
             <div
               v-if="navSections.length"
               class="r-hero__section-grid r-animate"
@@ -37,21 +39,6 @@
                 </div>
               </article>
             </div>
-          </div>
-
-          <div class="r-hero__media r-animate" style="--delay: 0.22s;">
-            <div class="r-hero__frame">
-              <img
-                v-if="heroImage"
-                :src="heroImage"
-                :alt="ramadan.header.alt_text"
-                class="r-hero__image"
-                loading="lazy"
-                @error="handleHeroImageError"
-              />
-              <div class="r-hero__glow"></div>
-            </div>
-            <div class="r-hero__note">{{ ramadan.important_dates.note }}</div>
           </div>
         </div>
       </div>

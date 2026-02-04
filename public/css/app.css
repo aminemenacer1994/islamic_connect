@@ -42421,8 +42421,11 @@ to {
 .r-hero[data-v-05456a07] {
     padding: 70px 0 60px;
 }
+.r-hero__content[data-v-05456a07] {
+    order: 0;
+}
 .r-hero__media[data-v-05456a07] {
-    order: -1;
+    order: 1;
 }
 }
 @media (max-width: 768px) {
@@ -42847,4 +42850,3 @@ to {
     font-size: 1.6rem;
 }
 }
-
