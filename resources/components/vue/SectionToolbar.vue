@@ -29,6 +29,15 @@
         <span>Print</span>
       </button>
       <button
+        class="section-toolbar__button section-toolbar__button--pdf"
+        type="button"
+        @click="$emit('export-pdf', sectionId)"
+        :aria-label="`Download ${sectionTitle || 'this section'} as PDF`"
+      >
+        <i class="fas fa-file-pdf" aria-hidden="true"></i>
+        <span>PDF</span>
+      </button>
+      <button
         class="section-toolbar__button section-toolbar__button--text section-toolbar__button--smaller"
         type="button"
         @click="$emit('adjust-font', { sectionId, delta: -0.1 })"
@@ -175,6 +184,12 @@ export default {
   border-color: rgba(12, 24, 36, 0.35);
   color: var(--r-deep);
   background: linear-gradient(120deg, rgba(12, 24, 36, 0.12), rgba(12, 24, 36, 0.02));
+}
+
+.section-toolbar__button--pdf {
+  border-color: rgba(176, 26, 26, 0.4);
+  color: #b01a1a;
+  background: linear-gradient(120deg, rgba(176, 26, 26, 0.12), rgba(176, 26, 26, 0.02));
 }
 
 .section-toolbar__feedback {

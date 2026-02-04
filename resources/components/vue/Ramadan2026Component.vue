@@ -60,6 +60,7 @@
           @whatsapp-share="shareSectionViaWhatsApp"
           @copy-section="copySectionContent"
           @print-section="printSection"
+          @export-pdf="exportSectionPdf"
           @adjust-font="adjustSectionFont"
         />
         <div id="section-overview-body" class="r-section__body" :style="sectionBodyStyle('overview')">
@@ -1230,6 +1231,8 @@ import ramadanData from "./data/ramadan_2026.json";
 import ReferenceList from "./ReferenceList.vue";
 import SectionToolbar from "./SectionToolbar.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 
 export default {
   name: "Ramadan2026Component",
@@ -2281,6 +2284,60 @@ export default {
       printWindow.print();
       printWindow.close();
       this.setToolbarFeedback(sectionId, "Print dialog opened");
+    },
+    async exportSectionPdf(sectionId) {
+      if (!sectionId || typeof window === "undefined" || typeof document === "undefined") return;
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      const clone = section.cloneNode(true);
+      const toolbar = clone.querySelector(".section-toolbar");
+      if (toolbar) toolbar.remove();
+      const sectionWidth = Math.min(section.offsetWidth || 900, 1200);
+      const wrapper = document.createElement("div");
+      wrapper.style.boxSizing = "border-box";
+      wrapper.style.background = "#fff";
+      wrapper.style.padding = "24px";
+      wrapper.style.width = `${sectionWidth}px`;
+      wrapper.appendChild(clone);
+      const hidden = document.createElement("div");
+      hidden.style.position = "fixed";
+      hidden.style.top = "-9999px";
+      hidden.style.left = "-9999px";
+      hidden.style.opacity = "0";
+      hidden.style.pointerEvents = "none";
+      hidden.style.zIndex = "-1";
+      hidden.appendChild(wrapper);
+      document.body.appendChild(hidden);
+      try {
+        const scale = Math.min(Math.max(window.devicePixelRatio || 1, 1) * 1.5, 3);
+        const canvas = await html2canvas(wrapper, {
+          scale,
+          backgroundColor: "#ffffff",
+          useCORS: true,
+        });
+        const imgData = canvas.toDataURL("image/png", 1);
+        const orientation = canvas.width > canvas.height ? "landscape" : "portrait";
+        const pdf = new jsPDF({
+          orientation,
+          unit: "px",
+          format: [canvas.width, canvas.height],
+        });
+        pdf.addImage(imgData, "PNG", 0, 0, canvas.width, canvas.height);
+        const sectionTitle = this.getSectionTitle(sectionId) || sectionId || "ramadan-section";
+        const filenameSlug =
+          sectionTitle
+            .toLowerCase()
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "") || sectionId || "ramadan-section";
+        pdf.save(`${filenameSlug}.pdf`);
+        this.setToolbarFeedback(sectionId, "PDF download ready");
+      } catch {
+        this.setToolbarFeedback(sectionId, "Unable to export PDF");
+      } finally {
+        if (document.body.contains(hidden)) {
+          document.body.removeChild(hidden);
+        }
+      }
     },
     adjustSectionFont({ sectionId, delta } = {}) {
       if (!sectionId || !delta) return;
