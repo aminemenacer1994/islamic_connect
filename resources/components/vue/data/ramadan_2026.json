@@ -990,22 +990,6 @@
         "tag": "Fasting",
         "link": "https://www.youtube.com/shorts/xX74aNqVf28",
         "thumbnail": "https://i.ytimg.com/vi/xX74aNqVf28/hqdefault.jpg"
-      },
-      {
-        "title": "Daily gratitude reminder",
-        "description": "A clip to set a grateful tone for each iftar.",
-        "duration": "Under 1 min",
-        "tag": "Gratitude",
-        "link": "https://www.youtube.com/shorts/ExampleLink1",
-        "thumbnail": "https://i.ytimg.com/vi/ExampleLink1/hqdefault.jpg"
-      },
-      {
-        "title": "Faith over fatigue",
-        "description": "Encouragement to keep worship steady during busy days.",
-        "duration": "Under 1 min",
-        "tag": "Steadfast",
-        "link": "https://www.youtube.com/shorts/ExampleLink2",
-        "thumbnail": "https://i.ytimg.com/vi/ExampleLink2/hqdefault.jpg"
       }
     ],
     "groups": [
@@ -1085,14 +1069,6 @@
             "tag": "Charity",
             "link": "https://www.youtube.com/shorts/Ycfzl4NjkmI",
             "thumbnail": "https://i.ytimg.com/vi/Ycfzl4NjkmI/hqdefault.jpg"
-          },
-          {
-            "title": "Daily sadaqah reminder",
-            "description": "Encouragement to support others in small daily acts.",
-            "duration": "Under 1 min",
-            "tag": "Charity",
-            "link": "https://www.youtube.com/shorts/ExampleLink3",
-            "thumbnail": "https://i.ytimg.com/vi/ExampleLink3/hqdefault.jpg"
           }
         ]
       }
