@@ -842,7 +842,6 @@
               :style="storyStyle()"
             >
               <div class="r-story-content">
-                <span class="r-story-tag">{{ dua.source || ramadan.duas_prayers.tag_label }}</span>
                 <h3 class="r-story-title">{{ dua.occasion }}</h3>
                 <p class="r-arabic" dir="rtl">{{ dua.arabic }}</p>
                 <p class="r-translit">{{ dua.transliteration }}</p>
@@ -913,7 +912,6 @@
           <div v-for="group in ramadan.shorts.groups" :key="group.title" class="ramadan-short-group">
             <div class="ramadan-short-group__head">
               <h4 class="ramadan-short-group__title">{{ group.title }}</h4>
-              <p class="ramadan-short-group__subtitle">{{ ramadan.labels.explore_by_theme }}</p>
             </div>
             <div class="ramadan-short-group__grid">
               <article
@@ -1084,7 +1082,6 @@
                     class="r-story-card r-story-card--dua"
                   >
                     <div class="r-story-content">
-                      <span class="r-story-tag">{{ item.source || ramadan.duas_prayers.tag_label }}</span>
                       <h4 class="r-story-title" v-html="highlightDuaText(item.name)"></h4>
                       <p class="r-arabic" dir="rtl" v-html="highlightDuaText(item.arabic)"></p>
                       <p class="r-translit" v-html="highlightDuaText(item.transliteration)"></p>
@@ -2340,6 +2337,20 @@ export default {
 #duas.r-section {
   --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.25), transparent 70%);
   --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
+  padding-top: clamp(60px, 5vw, 80px);
+  padding-bottom: clamp(70px, 5vw, 90px);
+}
+
+#duas .r-section__head {
+  margin-bottom: 20px;
+}
+
+#duas .r-story-grid {
+  gap: 14px;
+}
+
+#duas .r-story-card--dua .r-story-content {
+  gap: 6px;
 }
 
 #shorts.r-section {
@@ -3511,25 +3522,27 @@ export default {
 
 .r-modal-grid {
   display: grid;
-  gap: 18px;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  margin-top: 12px;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  margin-top: 10px;
 }
 
 .r-modal-card {
-  padding: 14px;
-  border-radius: 20px;
-  background: #fff;
-  border: 1px solid rgba(15, 34, 48, 0.1);
+  padding: 6px 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
   font-family: "Inter", "Source Sans Pro", "Noto Sans Arabic", sans-serif;
+  transition: none;
+  animation: none;
 }
 
 .r-dua-modal-controls {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-bottom: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .r-dua-search {
@@ -3605,6 +3618,8 @@ export default {
   border: 1px solid rgba(15, 34, 48, 0.08);
   color: #0f1f1b;
   font-family: "Inter", "Noto Sans Arabic", "Source Sans Pro", sans-serif;
+  transition: none;
+  animation: none;
 }
 
 .r-dua-empty {

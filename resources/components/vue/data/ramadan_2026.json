@@ -26,7 +26,6 @@
     "download": "Download",
     "watch_short": "Watch short",
     "highlights": "Highlights",
-    "explore_by_theme": "Explore by theme",
     "view_source": "View",
     "duration_prefix": "Duration",
     "resource_label": "Resource"
@@ -695,7 +694,7 @@
       }
     ],
     "view_more_label": "Explore the verified dua library",
-    "modal_title": "Verified Dua Library",
+    "modal_title": "Dua Library",
     "modal_sections": [
       {
         "title": "Worship & Prayer",
