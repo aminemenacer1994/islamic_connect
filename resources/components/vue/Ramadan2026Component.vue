@@ -53,7 +53,16 @@
           </h2>
           <p class="r-overview__lead">{{ ramadan.overview.subtitle }}</p>
         </div>
-        <div id="section-overview-body" class="r-section__body">
+        <SectionToolbar
+          section-id="overview"
+          :section-title="ramadan.overview.section_title"
+          :section-feedback="toolbarFeedback['overview']"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-overview-body" class="r-section__body" :style="sectionBodyStyle('overview')">
           <p v-for="(para, index) in ramadan.overview.body" :key="index" class="r-overview__body">
             {{ para }}
           </p>
@@ -80,7 +89,19 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.history.subtitle }}</p>
         </div>
-        <div id="section-history-body" class="r-section__body">
+        <SectionToolbar
+          section-id="history"
+          :section-title="ramadan.history.section_title"
+          :section-feedback="toolbarFeedback['history']"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-history-body" class="r-section__body" :style="sectionBodyStyle('history')">
           <p v-for="(para, index) in ramadan.history.body" :key="index" class="r-section__subtitle">
             {{ para }}
           </p>
@@ -575,7 +596,19 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.how_to_fast.intro }}</p>
         </div>
-        <div id="section-how-to-fast-body" class="r-section__body">
+        <SectionToolbar
+          section-id="how-to-fast"
+          :section-title="ramadan.how_to_fast.section_title"
+          :section-feedback="toolbarFeedback['how-to-fast']"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-how-to-fast-body" class="r-section__body" :style="sectionBodyStyle('how-to-fast')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article v-for="(card, index) in ramadan.how_to_fast.cards" :key="card.title" class="r-card r-card--step">
               <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("fasting", index) }}</span>
@@ -604,7 +637,19 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.faq.subtitle }}</p>
         </div>
-        <div id="section-faq-body" class="r-section__body">
+        <SectionToolbar
+          section-id="faq"
+          :section-title="ramadan.faq.section_title"
+          :section-feedback="toolbarFeedback.faq"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-faq-body" class="r-section__body" :style="sectionBodyStyle('faq')">
           <div class="r-grid r-grid--double r-faq-grid">
             <article v-for="item in ramadan.faq.items" :key="item.question" class="r-card r-card--faq">
               <h3 class="r-card__title r-faq-question">{{ item.question }}</h3>
@@ -629,7 +674,19 @@
             </button>
           </div>
         </div>
-        <div id="section-quran-plans-body" class="r-section__body">
+        <SectionToolbar
+          section-id="quran-plans"
+          :section-title="ramadan.quran_reading_plans.section_title"
+          :section-feedback="toolbarFeedback['quran-plans']"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-quran-plans-body" class="r-section__body" :style="sectionBodyStyle('quran-plans')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article
               v-for="(plan, index) in ramadan.quran_reading_plans.plans"
@@ -689,7 +746,19 @@
             </button>
           </div>
         </div>
-        <div id="section-personal-plans-body" class="r-section__body">
+        <SectionToolbar
+          section-id="personal-plans"
+          :section-title="ramadan.personal_plans.section_title"
+          :section-feedback="toolbarFeedback['personal-plans']"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-personal-plans-body" class="r-section__body" :style="sectionBodyStyle('personal-plans')">
           <div class="r-grid r-grid--double r-grid--stagger">
             <article
               v-for="(plan, index) in ramadan.personal_plans.plans"
@@ -744,7 +813,19 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.charity_guide.intro }}</p>
         </div>
-        <div id="section-charity-body" class="r-section__body">
+        <SectionToolbar
+          section-id="charity"
+          :section-title="ramadan.charity_guide.section_title"
+          :section-feedback="toolbarFeedback.charity"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-charity-body" class="r-section__body" :style="sectionBodyStyle('charity')">
           <div class="r-grid r-grid--double">
             <article class="r-card r-card--charity">
               <span class="r-card__emoji" aria-hidden="true">💛</span>
@@ -790,7 +871,19 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.health_food_tips.intro }}</p>
         </div>
-        <div id="section-health-body" class="r-section__body">
+        <SectionToolbar
+          section-id="health"
+          :section-title="ramadan.health_food_tips.section_title"
+          :section-feedback="toolbarFeedback.health"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-health-body" class="r-section__body" :style="sectionBodyStyle('health')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article
               v-for="(section, index) in ramadan.health_food_tips.primary_sections"
@@ -994,7 +1087,19 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
         </div>
-        <div id="section-platforms-body" class="r-section__body">
+        <SectionToolbar
+          section-id="platforms"
+          :section-title="ramadan.platform_resources.section_title"
+          :section-feedback="toolbarFeedback.platforms"
+          @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent"
+          @print-section="printSection"
+          @export-pdf="exportSectionPdf"
+          @play-section="focusSection"
+          @adjust-font="adjustSectionFont"
+        />
+        <div id="section-platforms-body" class="r-section__body" :style="sectionBodyStyle('platforms')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article
               v-for="(card, index) in ramadan.platform_resources.cards"
@@ -1123,12 +1228,14 @@
 <script>
 import ramadanData from "./data/ramadan_2026.json";
 import ReferenceList from "./ReferenceList.vue";
+import SectionToolbar from "./SectionToolbar.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 
 export default {
   name: "Ramadan2026Component",
   components: {
     ReferenceList,
+    SectionToolbar,
   },
   data() {
     return {
@@ -1198,6 +1305,9 @@ export default {
         { value: "night", label: "Late night" },
       ],
       reflectionMoods: ["Grateful", "Hopeful", "Focused", "Peaceful", "Motivated"],
+      sectionFontScale: {},
+      toolbarFeedback: {},
+      toolbarFeedbackTimeouts: {},
     };
   },
   async mounted() {
@@ -1225,6 +1335,7 @@ export default {
       window.removeEventListener("resize", this.fabVisibilityHandler);
       this.fabVisibilityHandler = null;
     }
+    this.clearAllToolbarFeedbackTimers();
   },
   unmounted() {
     if (typeof window !== "undefined" && this.authRefreshHandler) {
@@ -1236,6 +1347,7 @@ export default {
       window.removeEventListener("resize", this.fabVisibilityHandler);
       this.fabVisibilityHandler = null;
     }
+    this.clearAllToolbarFeedbackTimers();
   },
   computed: {
     heroImage() {
@@ -1956,6 +2068,275 @@ export default {
       if (!this.userId) return null;
       return `ramadan2026.${suffix}.${this.userId}`;
     },
+    sectionBodyStyle(sectionId) {
+      const scale = this.sectionFontScale[sectionId] || 1;
+      return {
+        fontSize: `${scale.toFixed(2)}em`,
+      };
+    },
+    getSectionTitle(sectionId) {
+      const titles = {
+        overview: this.ramadan.overview?.section_title,
+        history: this.ramadan.history?.section_title,
+        "how-to-fast": this.ramadan.how_to_fast?.section_title,
+        faq: this.ramadan.faq?.section_title,
+        "quran-plans": this.ramadan.quran_reading_plans?.section_title,
+        "personal-plans": this.ramadan.personal_plans?.section_title,
+        charity: this.ramadan.charity_guide?.section_title,
+        health: this.ramadan.health_food_tips?.section_title,
+        platforms: this.ramadan.platform_resources?.section_title,
+      };
+      return titles[sectionId] || "";
+    },
+    getSectionShareText(sectionId) {
+      const parts = [];
+      const append = (value) => {
+        if (!value) return;
+        parts.push(value);
+      };
+      const title = this.getSectionTitle(sectionId);
+      if (title) append(title);
+
+      const overview = this.ramadan.overview;
+      const history = this.ramadan.history;
+      const howToFast = this.ramadan.how_to_fast;
+      const faq = this.ramadan.faq;
+      const quranPlans = this.ramadan.quran_reading_plans;
+      const personalPlans = this.ramadan.personal_plans;
+      const charity = this.ramadan.charity_guide;
+      const health = this.ramadan.health_food_tips;
+      const platforms = this.ramadan.platform_resources;
+
+      switch (sectionId) {
+        case "overview":
+          append(overview?.subtitle);
+          (overview?.body || []).forEach((para) => append(para));
+          if (overview?.key_points?.length) {
+            append("Key points:");
+            overview.key_points.forEach((point) => append(`- ${point}`));
+          }
+          break;
+        case "history":
+          append(history?.subtitle);
+          (history?.body || []).forEach((para) => append(para));
+          if (history?.timeline?.length) {
+            append("Timeline highlights:");
+            history.timeline.forEach((item) =>
+              append(`${item.period} – ${item.detail}${item.reference ? ` (${item.reference})` : ""}`)
+            );
+          }
+          break;
+        case "how-to-fast":
+          append(howToFast?.intro);
+          (howToFast?.cards || []).forEach((card) => {
+            append(`${card.title}:`);
+            (card.items || []).forEach((item) => append(`- ${item}`));
+          });
+          break;
+        case "faq":
+          (faq?.items || []).forEach((item) => {
+            append(`Q: ${item.question}`);
+            append(`A: ${item.answer}`);
+          });
+          break;
+        case "quran-plans":
+          append(quranPlans?.intro);
+          (quranPlans?.plans || []).forEach((plan) => {
+            append(`${plan.level} plan`);
+            append(`Daily target: ${plan.daily_target}`);
+            append(`Time needed: ${plan.time_needed}`);
+            append(`Structure: ${plan.structure}`);
+            append(`Goal: ${plan.goal}`);
+            append(`Split: ${plan.split}`);
+            if (plan?.tips?.length) {
+              append("Tips:");
+              plan.tips.forEach((tip) => append(`- ${tip}`));
+            }
+          });
+          break;
+        case "personal-plans":
+          append(personalPlans?.intro);
+          (personalPlans?.plans || []).forEach((plan) => {
+            append(`${plan.title} (${plan.who_for})`);
+            append(plan.overview);
+            append(`Focus: ${plan.focus}`);
+            append("Daily flow:");
+            (plan.daily_flow || []).forEach((item) => append(`- ${item}`));
+            append("Weekly focus:");
+            (plan.weekly_focus || []).forEach((item) => append(`- ${item}`));
+            append(`Accountability: ${plan.accountability}`);
+          });
+          break;
+        case "charity":
+          append(charity?.intro);
+          (charity?.overview || []).forEach((para) => append(para));
+          append(charity?.zakat_al_fitr?.title);
+          (charity?.zakat_al_fitr?.points || []).forEach((point) => append(`- ${point}`));
+          append(charity?.sadaqah_title);
+          (charity?.sadaqah_ideas || []).forEach((idea) => append(`- ${idea}`));
+          append(charity?.giving_checklist_title);
+          (charity?.giving_checklist || []).forEach((item) => append(`- ${item}`));
+          (charity?.impact_notes || []).forEach((note) => append(`Note: ${note}`));
+          break;
+        case "health":
+          append(health?.intro);
+          (health?.primary_sections || []).forEach((section) => {
+            append(`${section.title}:`);
+            (section.items || []).forEach((item) => append(`- ${item}`));
+          });
+          (health?.secondary_sections || []).forEach((section) => {
+            append(`${section.title}:`);
+            (section.items || []).forEach((item) => append(`- ${item}`));
+          });
+          if (health?.micro_tips?.length) {
+            append("Micro tips:");
+            health.micro_tips.forEach((tip) => append(`- ${tip}`));
+          }
+          break;
+        case "platforms":
+          (platforms?.intro || []).forEach((line) => append(line));
+          (platforms?.cards || []).forEach((card) => {
+            append(`${card.title}: ${card.description}`);
+            (card.items || []).forEach((item) => append(`- ${item.label}`));
+          });
+          break;
+        default:
+          break;
+      }
+
+      return parts.join("\n\n");
+    },
+    shareSectionViaWhatsApp(sectionId) {
+      const text = this.getSectionShareText(sectionId);
+      if (!text || typeof window === "undefined") return;
+      const encoded = encodeURIComponent(text);
+      const url = `https://web.whatsapp.com/send?text=${encoded}`;
+      window.open(url, "_blank");
+      this.setToolbarFeedback(sectionId, "Opening WhatsApp Web");
+    },
+    async copySectionContent(sectionId) {
+      const text = this.getSectionShareText(sectionId);
+      if (!text) return;
+      if (typeof navigator !== "undefined" && navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+          this.setToolbarFeedback(sectionId, "Copied to clipboard");
+          return;
+        } catch (error) {
+          // fallback to execCommand
+        }
+      }
+      if (typeof document === "undefined") return;
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("aria-hidden", "true");
+      textarea.style.position = "fixed";
+      textarea.style.top = "-9999px";
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        document.execCommand("copy");
+        this.setToolbarFeedback(sectionId, "Copied to clipboard");
+      } finally {
+        document.body.removeChild(textarea);
+      }
+    },
+    printSection(sectionId) {
+      if (typeof window === "undefined" || typeof document === "undefined") return;
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      const clone = section.cloneNode(true);
+      const toolbar = clone.querySelector(".section-toolbar");
+      if (toolbar) toolbar.remove();
+      const sectionTitle = this.getSectionTitle(sectionId) || "Ramadan section";
+      const printWindow = window.open("", "_blank", "width=700,height=900");
+      if (!printWindow) {
+        this.setToolbarFeedback(sectionId, "Allow pop-ups to print this section");
+        return;
+      }
+      const style = `
+        <style>
+          body { font-family: 'Manrope', 'Segoe UI', sans-serif; padding: 2rem; background: #fff; color: #111; }
+          h1, h2, h3, h4 { font-weight: 600; }
+          ul { margin-left: 1.25rem; }
+          p { line-height: 1.5; margin: 0 0 0.85rem 0; }
+          a { color: #1b60ff; }
+        </style>
+      `;
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>${this.escapeHtml(sectionTitle)}</title>
+            ${style}
+          </head>
+          <body>
+            <h1>${this.escapeHtml(sectionTitle)}</h1>
+            ${clone.innerHTML}
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+      printWindow.focus();
+      printWindow.print();
+      printWindow.close();
+      this.setToolbarFeedback(sectionId, "Print dialog opened");
+    },
+    adjustSectionFont({ sectionId, delta } = {}) {
+      if (!sectionId || !delta) return;
+      const step = Number(delta) || 0;
+      if (!step) return;
+      const minScale = 0.8;
+      const maxScale = 1.4;
+      const current = this.sectionFontScale[sectionId] || 1;
+      const next = Math.max(minScale, Math.min(maxScale, current + step));
+      if (next === current) return;
+      this.sectionFontScale = {
+        ...this.sectionFontScale,
+        [sectionId]: next,
+      };
+      const label = step > 0 ? "Font increased" : "Font decreased";
+      this.setToolbarFeedback(sectionId, label);
+    },
+    setToolbarFeedback(sectionId, message) {
+      if (!sectionId) return;
+      this.toolbarFeedback = {
+        ...this.toolbarFeedback,
+        [sectionId]: message,
+      };
+      const timers = { ...(this.toolbarFeedbackTimeouts || {}) };
+      if (timers[sectionId]) {
+        clearTimeout(timers[sectionId]);
+      }
+      const timerId = setTimeout(() => {
+        this.clearToolbarFeedback(sectionId);
+      }, 3000);
+      timers[sectionId] = timerId;
+      this.toolbarFeedbackTimeouts = timers;
+    },
+    clearToolbarFeedback(sectionId) {
+      if (!sectionId) return;
+      const timers = { ...(this.toolbarFeedbackTimeouts || {}) };
+      if (timers[sectionId]) {
+        clearTimeout(timers[sectionId]);
+        timers[sectionId] = null;
+      }
+      this.toolbarFeedbackTimeouts = timers;
+      this.toolbarFeedback = {
+        ...this.toolbarFeedback,
+        [sectionId]: "",
+      };
+    },
+    clearAllToolbarFeedbackTimers() {
+      const timers = this.toolbarFeedbackTimeouts || {};
+      Object.values(timers).forEach((timerId) => {
+        if (timerId) {
+          clearTimeout(timerId);
+        }
+      });
+      this.toolbarFeedbackTimeouts = {};
+      this.toolbarFeedback = {};
+    },
     loadPlannerState() {
       if (typeof window === "undefined") return;
       try {
@@ -1990,26 +2371,23 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap");
 
 .ramadan-2026 {
-  --r-ink: #1b1f2a;
-  --r-ink-soft: #4a5060;
-  --r-accent: #d7a64a;
-  --r-accent-deep: #b8832e;
-  --r-deep: #0f2230;
-  --r-mist: #f6f1ea;
-  --r-sage: #4c7260;
-  --r-rose: #c98c78;
+  --r-ink: #0f1d2c;
+  --r-ink-soft: #4e5d74;
+  --r-accent: #1f7a68;
+  --r-accent-deep: #14584a;
+  --r-deep: #0c1824;
+  --r-mist: #f5f6fb;
+  --r-sage: #2c8d72;
+  --r-rose: #d87f5d;
   --r-card: #ffffff;
-  --r-line: rgba(27, 31, 42, 0.08);
-  --r-shadow: 0 28px 70px rgba(10, 17, 26, 0.18);
-  --r-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --r-hover-lift: -6px;
-  --r-hover-shadow: 0 26px 60px rgba(15, 34, 48, 0.18);
-  --r-hover-ring: 0 0 0 1px rgba(215, 166, 74, 0.25);
-  --r-hover-border: rgba(215, 166, 74, 0.45);
-  --r-radius: 24px;
+  --r-line: rgba(15, 31, 50, 0.12);
+  --r-shadow: 0 25px 60px rgba(15, 34, 48, 0.12);
+  --r-ease: cubic-bezier(0.27, 1.05, 0.32, 1);
+  --r-radius: 32px;
   font-family: "Manrope", "Segoe UI", sans-serif;
   color: var(--r-ink);
-  background: linear-gradient(180deg, #0f2230 0%, #132c3b 12%, #f6f1ea 35%, #f6f1ea 100%);
+  background: var(--r-mist);
+  padding-bottom: 80px;
 }
 
 .ramadan-2026 * {
@@ -2234,34 +2612,15 @@ export default {
 }
 
 .r-section {
-  padding: 80px 0;
+  padding: clamp(2.75rem, 4vw, 4rem) 0;
   position: relative;
-  overflow: hidden;
-  --r-ornament-1: none;
-  --r-ornament-2: none;
+  overflow: visible;
+  background: transparent;
 }
 
 .r-section::before,
 .r-section::after {
-  content: "";
-  position: absolute;
-  width: 360px;
-  height: 360px;
-  background: var(--r-ornament-1);
-  opacity: 0.5;
-  pointer-events: none;
-}
-
-.r-section::before {
-  top: -140px;
-  right: -140px;
-}
-
-.r-section::after {
-  bottom: -160px;
-  left: -160px;
-  background: var(--r-ornament-2);
-  opacity: 0.45;
+  display: none;
 }
 
 .r-section .container {
@@ -2269,116 +2628,22 @@ export default {
   z-index: 1;
 }
 
-#overview.r-section {
-  background: #fff6ea;
-  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.35), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.25), transparent 70%);
-}
-
-.r-section--alt {
-  background: #fdf9f3;
-}
-
-#history.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.32), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.25), transparent 70%);
-}
-
-#key-dates.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.3), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.15), transparent 70%);
-}
-
-#planner.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(76, 114, 96, 0.3), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.24), transparent 70%);
-}
-
-#how-to-fast.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.28), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
-}
-
-#quran-plans.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.28), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(76, 114, 96, 0.22), transparent 70%);
-}
-
-#interactive.r-section {
-  background: #fff6ea;
-  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.2), transparent 70%);
-  color: var(--r-ink);
-}
-
-#interactive .r-section__title {
-  color: var(--r-deep);
-}
-
-#interactive .r-section__subtitle {
-  color: var(--r-ink-soft);
-}
-
-#personal-plans.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.22), transparent 70%);
-}
-
-#charity.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.28), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(201, 140, 120, 0.2), transparent 70%);
-}
-
-#health.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(76, 114, 96, 0.28), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
-}
-
-#duas.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.25), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
-  padding-top: clamp(60px, 5vw, 80px);
-  padding-bottom: clamp(70px, 5vw, 90px);
-}
-
-#duas .r-section__head {
-  margin-bottom: 20px;
-}
-
-#duas .r-story-grid {
-  gap: 14px;
-}
-
-#duas .r-story-card--dua .r-story-content {
-  gap: 6px;
-}
-
-#shorts.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(111, 153, 164, 0.25), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.2), transparent 70%);
-}
-
-#tools.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(76, 114, 96, 0.25), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(215, 166, 74, 0.18), transparent 70%);
-}
-
-#platforms.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(201, 140, 120, 0.2), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(111, 153, 164, 0.2), transparent 70%);
-}
-
-#faq.r-section {
-  --r-ornament-1: radial-gradient(circle, rgba(215, 166, 74, 0.26), transparent 70%);
-  --r-ornament-2: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
+.r-section__body {
+  margin-top: 1rem;
+  padding: clamp(2rem, 2vw, 3rem);
+  border-radius: 32px;
+  background: var(--r-card);
+  border: 1px solid rgba(15, 34, 48, 0.08);
+  box-shadow: var(--r-shadow);
 }
 
 .r-section__head {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 34px;
+  gap: 8px;
+  margin-bottom: 0;
 }
+
 .r-section__intro {
   color: var(--r-ink-soft);
   font-size: 1rem;
@@ -2392,10 +2657,6 @@ export default {
   gap: 10px;
   align-items: center;
   flex-wrap: wrap;
-}
-
-.r-section__body {
-  display: block;
 }
 
 .r-section__title {
