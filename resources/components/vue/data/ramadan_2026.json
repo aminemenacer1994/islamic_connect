@@ -99,40 +99,67 @@
     ],
     "timeline": [
       {
-        "period": "c. 610 CE (13 BH)",
-        "detail": "First Quranic revelation occurs in Ramadan, traditionally associated with Laylat al-Qadr."
+        "number": 1,
+        "period": "📜 #1: c. 610 CE (13 BH)",
+        "detail": "First Quranic revelation arrives in Ramadan (Qur'an 96:1-5, 97:1-5, 2:185) and Seerah sources place it in the Cave of Hira (Ibn Ishaq).",
+        "reference": "Qur'an 96:1-5, 97:1-5, 2:185; Ibn Ishaq, Life of Muhammad (A. Guillaume), pp. 105-106.",
+        "reference_url": "https://quran.com/96"
       },
       {
-        "period": "624 CE (2 AH)",
-        "detail": "Fasting in Ramadan is prescribed for believers (Qur'an 2:183-185)."
+        "number": 2,
+        "period": "🌙 #2: 624 CE (2 AH)",
+        "detail": "Ramadan fasting becomes obligatory after the qibla shift; primary verses are Qur'an 2:183-185.",
+        "reference": "Qur'an 2:183-185; Fazlur Rahman, Major Themes of the Quran, Ch. 4.",
+        "reference_url": "https://quran.com/2/183"
       },
       {
-        "period": "632-661 CE (Rashidun era)",
-        "detail": "Ramadan practices consolidate within the early Muslim community, emphasizing communal prayer and charity."
+        "number": 3,
+        "period": "🤲 #3: 632-661 CE (Rashidun Caliphate)",
+        "detail": "Abu Bakr compiles the Quran manuscript while Umar formalizes congregational Tarawih (Sahih al-Bukhari 2010, 2009, 4986; Tabari).",
+        "reference": "Sahih al-Bukhari 2010, 2009, 4986; The History of al-Tabari, Vol. 10, pp. 8-10.",
+        "reference_url": "https://sunnah.com/bukhari"
       },
       {
-        "period": "7th-8th centuries CE",
-        "detail": "Ramadan observance spreads across expanding Muslim communities in the Middle East, North Africa, and Asia."
+        "number": 4,
+        "period": "🕌 #4: 7th-8th centuries CE (Umayyad & Early Abbasid Era)",
+        "detail": "Ramadan observance spreads across the caliphate, with mosques hosting nightly prayers and community gatherings (Kennedy).",
+        "reference": "Hugh Kennedy, The Great Arab Conquests, Ch. 12.",
+        "reference_url": "https://en.wikipedia.org/wiki/The_Great_Arab_Conquests"
       },
       {
-        "period": "9th-12th centuries CE",
-        "detail": "Legal and devotional scholarship elaborates fasting practice, moon sighting, and community observance."
+        "number": 5,
+        "period": "📚 #5: 9th-12th centuries CE (Golden Age of Islamic Law)",
+        "detail": "Hanafi, Maliki, Shafi'i, and Hanbali texts codify fasting rules, moon sighting, and iʿtikaf (Al-Muwatta, Al-Umm, Al-Mabsut; Hallaq).",
+        "reference": "Al-Muwatta; Al-Umm; Al-Mabsut; Wael B. Hallaq, The Origins and Evolution of Islamic Law, Ch. 5.",
+        "reference_url": "https://en.wikipedia.org/wiki/Islamic_law"
       },
       {
-        "period": "13th-15th centuries CE",
-        "detail": "Regional traditions develop in Andalusia, the Maghreb, Egypt, and the Levant alongside urban mosque life."
+        "number": 6,
+        "period": "✨ #6: 13th-15th centuries CE (Post-Mongol & Mamluk Era)",
+        "detail": "Regional Ramadan customs (Cairo lanterns, cannons, night markets) flourish, as recorded by al-Maqrizi and Granada chronicles.",
+        "reference": "Al-Maqrizi, Al-Khitat; Boaz Shoshan, Popular Culture in Medieval Cairo, pp. 35-38.",
+        "reference_url": "https://en.wikipedia.org/wiki/Al-Maqrizi"
       },
       {
-        "period": "15th-19th centuries CE",
-        "detail": "Ottoman, Safavid, and Mughal societies expand public iftars, endowments, and Quran education."
+        "number": 7,
+        "period": "🕰️ #7: 15th-19th centuries CE (Ottoman, Safavid, Mughal Empires)",
+        "detail": "Public iftars, waqf-funded masjids, and royal patronage cement Ramadan rituals (Singer; Schimmel).",
+        "reference": "Amy Singer, Constructing Ottoman Beneficence, Ch. 4; Annemarie Schimmel, The Empire of the Great Mughals, pp. 180-182.",
+        "reference_url": "https://en.wikipedia.org/wiki/Ottoman_beneficence"
       },
       {
-        "period": "20th-21st centuries CE",
-        "detail": "Global Ramadan programming, large-scale iftars, and coordinated charity expand community impact."
+        "number": 8,
+        "period": "📡 #8: 20th-21st centuries CE (Modern & Global Era)",
+        "detail": "Mass media, live Taraweeh broadcasts, and global charity projects reshape Ramadan's reach (Hasso).",
+        "reference": "Frances S. Hasso, “Ramadan on Television,” in The Routledge Handbook of Islam and Gender, pp. 317-330.",
+        "reference_url": "https://en.wikipedia.org/wiki/Ramadan#Television"
       },
       {
-        "period": "Today",
-        "detail": "Ramadan continues to unite communities worldwide through worship, service, and family ties."
+        "number": 9,
+        "period": "🌍 #9: Contemporary Observance (21st Century)",
+        "detail": "Globally shared yet locally adapted Ramadan includes virtual iftars, moon-sighting debates, and modern community service (Inglis).",
+        "reference": "David Inglis, “Globalization and the Sociology of Ramadan,” Sociology of Religion 82:2 (2021), pp. 131-153.",
+        "reference_url": "https://en.wikipedia.org/wiki/Ramadan#Modern_practices"
       }
     ],
     "notable_figures": {
@@ -223,6 +250,13 @@
         "hijri_date": "1 Ramadan 1447 AH",
         "description": "Expected first day of fasting based on astronomical calculations.",
         "type": "start"
+      },
+      {
+        "event": "First Friday of Ramadan",
+        "gregorian_date": "February 20, 2026",
+        "hijri_date": "4 Ramadan 1447 AH",
+        "description": "A meaningful Jumu'ah during the early days of the month; a great moment to recommit to worship and community support.",
+        "type": "special"
       },
       {
         "event": "Mid-Ramadan Check-In",

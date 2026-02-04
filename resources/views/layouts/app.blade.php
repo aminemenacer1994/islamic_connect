@@ -275,7 +275,7 @@
                         <!-- From Uiverse.io by Spacious74 --> 
                         
 
-                        <button class="button" type="button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
+                        <!-- <button class="button" type="button" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
                         <svg
                                 viewBox="0 0 24 24"
                                 height="24"
@@ -294,11 +294,11 @@
                                 ></path>
                                 </g>
                             </svg>
-                            Ramadan Guide 2026
+                            Ramadan Guide
                             <div class="hoverEffect" data-path="/ramadan-2026" data-nav-item="primary">
                                 <div></div>
                             </div>
-                        </button>
+                        </button> -->
 
                         <!-- <button class="button" type="button" onclick="window.location.href='/muslim'">
                             <svg

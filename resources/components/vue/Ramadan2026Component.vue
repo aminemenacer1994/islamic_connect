@@ -98,15 +98,26 @@
             {{ para }}
           </p>
           <div class="r-grid r-grid--double r-grid--timeline">
-            <article
-              v-for="(item, index) in ramadan.history.timeline"
-              :key="item.period"
-              class="r-card r-card--timeline"
+          <article
+            v-for="(item, index) in ramadan.history.timeline"
+            :key="item.period"
+            class="r-card r-card--timeline"
+          >
+            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
+            <span v-if="item.number" class="r-card__history-number">#{{ item.number }}</span>
+            <h3 class="r-card__title">{{ item.period }}</h3>
+            <p class="r-card__desc">{{ item.detail }}</p>
+            <p v-if="item.reference" class="r-card__reference">{{ item.reference }}</p>
+            <a
+              v-if="item.reference_url"
+              class="r-card__reference-link"
+              :href="item.reference_url"
+              target="_blank"
+              rel="noreferrer noopener"
             >
-              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
-              <h3 class="r-card__title">{{ item.period }}</h3>
-              <p class="r-card__desc">{{ item.detail }}</p>
-            </article>
+              View source
+            </a>
+          </article>
           </div>
           <div
             class="r-grid r-grid--double r-spacing-top"
@@ -288,7 +299,7 @@
                 <p class="r-helper">Daily totals update from your saved entries (including “Mark today complete”).</p>
                 <div class="r-today-panel">
                   <div>
-                    <span class="r-mini-label">Today</span>
+                    <span class="r-mini-label">Today's Progress</span>
                     <strong>{{ quranTodayRead }} / {{ quranTodayTarget }} {{ quranUnitLabel }}</strong>
                     <div class="r-today-meta">
                       <span>Remaining: {{ quranTodayRemaining }}</span>
@@ -2515,6 +2526,39 @@ export default {
   margin-bottom: 16px;
   background: rgba(215, 166, 74, 0.18);
   color: var(--r-accent-deep);
+}
+
+.r-card__history-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+  color: var(--r-accent-deep);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+}
+
+.r-card__reference {
+  font-size: 0.82rem;
+  color: var(--r-ink-soft);
+  margin-top: 8px;
+  line-height: 1.4;
+}
+
+.r-card__reference-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--r-accent-deep);
+  margin-top: 4px;
+}
+
+.r-card__reference-link:hover {
+  text-decoration: underline;
 }
 
 .r-card__tag--start {
