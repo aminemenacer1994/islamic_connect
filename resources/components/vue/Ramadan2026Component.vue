@@ -105,13 +105,12 @@
             {{ para }}
           </p>
           <div class="r-grid r-grid--double r-grid--timeline">
-          <article
-            v-for="(item, index) in ramadan.history.timeline"
-            :key="item.period"
-            class="r-card r-card--timeline"
-          >
+            <article
+              v-for="(item, index) in ramadan.history.timeline"
+              :key="item.period"
+              class="r-card r-card--timeline"
+            >
             <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
-            <span v-if="item.number" class="r-card__history-number">#{{ item.number }}</span>
             <h3 class="r-card__title">{{ item.period }}</h3>
             <p class="r-card__desc">{{ item.detail }}</p>
             <p v-if="item.reference" class="r-card__reference">{{ item.reference }}</p>
@@ -411,8 +410,7 @@
               <p class="r-moon-sighting__intro">{{ ramadan.moon_sighting.intro }}</p>
               <ol class="r-moon-sighting__steps">
                 <li v-for="(step, index) in ramadan.moon_sighting.steps" :key="index">
-                  <i class="fas fa-circle r-step-icon" aria-hidden="true"></i>
-                  <span>{{ step }}</span>
+                  {{ step }}
                 </li>
               </ol>
               <p class="r-moon-sighting__note">{{ ramadan.moon_sighting.note }}</p>
@@ -434,7 +432,7 @@
         </div>
         <div id="section-planner-body" class="r-section__body">
           <div class="row justify-content-center r-planner-row">
-            <div class="col-12 col-md-10">
+            <div class="col-12">
               <article class="r-card r-planner-card r-card--planner">
                 <div class="r-planner-head">
                   <div>
@@ -1064,16 +1062,6 @@
               :key="tool.title"
               class="r-card r-card--tool"
             >
-              <a
-                class="r-expand"
-                :href="tool.link"
-                target="_blank"
-                rel="noopener"
-                :aria-label="ramadan.labels.open_tool_aria"
-                :title="ramadan.labels.open_tool_title"
-              >
-                <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-              </a>
               <div class="r-card--tool__top-row">
               <div class="r-card--tool__icons">
                 <i :class="['fas', tool.icon]" aria-hidden="true"></i>
@@ -1084,9 +1072,16 @@
                 </div>
               </div>
               <p v-if="tool.detail" class="r-card__detail">{{ tool.detail }}</p>
-              <a :href="tool.link" class="r-link" target="_blank" rel="noopener">
-                {{ ramadan.labels.open_tool }}
-              </a>
+              <div class="r-card--tool__footer">
+                <a
+                  :href="tool.link"
+                  class="r-button r-button--ghost r-card--tool__action"
+                  target="_blank"
+                  rel="noopener"
+                >
+                  {{ ramadan.labels.open_tool }}
+                </a>
+              </div>
             </article>
           </div>
         </div>
@@ -2815,13 +2810,14 @@ export default {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 1.05rem;
-  background: rgba(255, 255, 255, 0.75);
-  border: 1px solid rgba(15, 34, 48, 0.12);
-  box-shadow: 0 10px 22px rgba(15, 34, 48, 0.08);
-  margin-bottom: 12px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  font-size: 1.2rem;
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.5));
+  border: 1px solid rgba(15, 34, 48, 0.15);
+  box-shadow: 0 12px 18px rgba(15, 34, 48, 0.25);
+  margin-bottom: 16px;
 }
 
 .r-card__emoji--tag {
@@ -2897,12 +2893,10 @@ export default {
 }
 
 .r-card {
-  background: var(--r-card);
+  background: var(--r-card-bg, var(--r-card));
   border-radius: var(--r-radius);
   padding: 26px;
-  border: 1px solid var(--r-line);
-  --r-card-accent: rgba(215, 166, 74, 0.35);
-  border-top: 3px solid var(--r-card-accent);
+  border: 1px solid var(--r-card-outline, var(--r-line));
   box-shadow: 0 16px 40px rgba(15, 34, 48, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
   position: relative;
   overflow: hidden;
@@ -2925,8 +2919,8 @@ export default {
 .r-card--timeline {
   padding-left: 34px;
   border-left: 4px solid rgba(215, 166, 74, 0.55);
-  background: linear-gradient(135deg, #ffffff 0%, #fff4e2 100%);
-  --r-card-accent: rgba(215, 166, 74, 0.6);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #fff4e2 100%);
+  --r-card-outline: rgba(215, 166, 74, 0.25);
 }
 
 .r-card--timeline::before {
@@ -2957,9 +2951,9 @@ export default {
 }
 
 .r-card--date {
-  background: linear-gradient(180deg, #ffffff 0%, #fff9f0 100%);
+  --r-card-bg: linear-gradient(180deg, #ffffff 0%, #fff9f0 100%);
+  --r-card-outline: rgba(215, 166, 74, 0.4);
   border-top: 3px solid rgba(215, 166, 74, 0.8);
-  --r-card-accent: rgba(215, 166, 74, 0.8);
 }
 
 .r-card--date::after {
@@ -2976,8 +2970,8 @@ export default {
 }
 
 .r-card--step {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf7f0 100%);
-  --r-card-accent: rgba(201, 140, 120, 0.5);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #fdf7f0 100%);
+  --r-card-outline: rgba(201, 140, 120, 0.25);
 }
 
 .r-card--step::before {
@@ -2992,8 +2986,8 @@ export default {
 }
 
 .r-card--plan {
-  background: linear-gradient(135deg, #ffffff 0%, #f3f7f6 100%);
-  --r-card-accent: rgba(111, 153, 164, 0.55);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f3f7f6 100%);
+  --r-card-outline: rgba(111, 153, 164, 0.25);
 }
 
 .r-card--plan::after {
@@ -3010,9 +3004,8 @@ export default {
 }
 
 .r-card--interactive {
-  background: linear-gradient(135deg, #ffffff 0%, #f7f6f0 100%);
-  border: 1px solid rgba(111, 153, 164, 0.22);
-  --r-card-accent: rgba(111, 153, 164, 0.45);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f6f0 100%);
+  --r-card-outline: rgba(111, 153, 164, 0.22);
 }
 
 .r-card--interactive::after {
@@ -3029,9 +3022,8 @@ export default {
 }
 
 .r-card--persona {
-  background: linear-gradient(135deg, #ffffff 0%, #fef4ed 100%);
-  border: 1px solid rgba(201, 140, 120, 0.2);
-  --r-card-accent: rgba(201, 140, 120, 0.55);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #fef4ed 100%);
+  --r-card-outline: rgba(201, 140, 120, 0.25);
 }
 
 .r-card--persona::after {
@@ -3048,39 +3040,33 @@ export default {
 }
 
 .r-card--charity {
-  background: linear-gradient(135deg, #ffffff 0%, #fff4e7 100%);
-  border: 1px solid rgba(215, 166, 74, 0.2);
-  --r-card-accent: rgba(215, 166, 74, 0.55);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #fff4e7 100%);
+  --r-card-outline: rgba(215, 166, 74, 0.3);
 }
 
 .r-card--charity-alt {
-  background: linear-gradient(135deg, #ffffff 0%, #f7f1ea 100%);
-  border: 1px solid rgba(201, 140, 120, 0.2);
-  --r-card-accent: rgba(201, 140, 120, 0.5);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f1ea 100%);
+  --r-card-outline: rgba(201, 140, 120, 0.3);
 }
 
 .r-card--health {
-  background: linear-gradient(135deg, #ffffff 0%, #f0f6f3 100%);
-  border: 1px solid rgba(76, 114, 96, 0.2);
-  --r-card-accent: rgba(76, 114, 96, 0.55);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f0f6f3 100%);
+  --r-card-outline: rgba(76, 114, 96, 0.3);
 }
 
 .r-card--health-alt {
-  background: linear-gradient(135deg, #ffffff 0%, #eef5f6 100%);
-  border: 1px solid rgba(111, 153, 164, 0.2);
-  --r-card-accent: rgba(111, 153, 164, 0.55);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #eef5f6 100%);
+  --r-card-outline: rgba(111, 153, 164, 0.3);
 }
 
 .r-card--resource {
-  background: linear-gradient(135deg, #ffffff 0%, #f2f8f7 100%);
-  border: 1px solid rgba(76, 114, 96, 0.2);
-  --r-card-accent: rgba(76, 114, 96, 0.45);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f2f8f7 100%);
+  --r-card-outline: rgba(76, 114, 96, 0.3);
 }
 
 .r-card--faq {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f1e6 100%);
-  border: 1px solid rgba(215, 166, 74, 0.18);
-  --r-card-accent: rgba(215, 166, 74, 0.5);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f8f1e6 100%);
+  --r-card-outline: rgba(215, 166, 74, 0.25);
 }
 
 .r-faq-question {
@@ -3104,8 +3090,8 @@ export default {
   display: flex;
   align-items: flex-start;
   gap: 0.8rem;
-  border: 1px solid rgba(15, 34, 48, 0.08);
-  background: linear-gradient(135deg, #ffffff, #faf7f3);
+  --r-card-bg: linear-gradient(135deg, #ffffff, #faf7f3);
+  --r-card-outline: rgba(15, 34, 48, 0.08);
 }
 
 .r-card--mini__icon {
@@ -3120,20 +3106,13 @@ export default {
   color: var(--r-accent-deep);
 }
 
-.r-step-icon {
-  font-size: 0.6rem;
-  margin-right: 0.5rem;
-  color: var(--r-accent);
-}
-
 .r-moon-sighting {
   margin-top: 1.5rem;
 }
 
 .r-card--moon {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf8f1 100%);
-  border: 1px solid rgba(237, 143, 38, 0.25);
-  --r-card-accent: rgba(237, 143, 38, 0.5);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #fdf8f1 100%);
+  --r-card-outline: rgba(237, 143, 38, 0.25);
   padding: 1.5rem;
 }
 
@@ -3166,8 +3145,9 @@ export default {
   letter-spacing: 0.12em;
   font-weight: 700;
   margin-bottom: 16px;
-  background: rgba(215, 166, 74, 0.18);
-  color: var(--r-accent-deep);
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--r-deep);
+  border: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .r-card__history-number {
@@ -3498,13 +3478,37 @@ export default {
 }
 
 .r-card--soft {
-  background: linear-gradient(135deg, #ffffff 0%, #f7f4ef 100%);
-  border: 1px solid rgba(15, 34, 48, 0.08);
+  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f4ef 100%);
+  --r-card-outline: rgba(15, 34, 48, 0.08);
 }
 
 .r-card--planner {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(253, 246, 234, 0.9));
-  border: 1px solid rgba(215, 166, 74, 0.25);
+  --r-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(253, 246, 234, 0.9));
+  --r-card-outline: rgba(215, 166, 74, 0.25);
+}
+
+.r-card--tool__footer {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.r-card--tool__action {
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0f1d2c;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.82));
+  border: 1px solid rgba(15, 34, 48, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 4px 12px rgba(15, 34, 48, 0.1);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.r-card--tool__action:focus-visible,
+.r-card--tool__action:hover {
+  background: linear-gradient(135deg, #ffffff, #fdf6ec);
+  transform: translateY(-1px);
 }
 
 .r-story-card::before {
@@ -4103,6 +4107,7 @@ export default {
 .r-planner-card {
   display: grid;
   gap: 20px;
+  width: 100%;
 }
 
 .r-planner-head {
@@ -4442,22 +4447,23 @@ export default {
 }
 
 .r-calendar {
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+  grid-auto-rows: 1fr;
   gap: 10px;
 }
 
 .r-calendar__cell {
   border: 1px solid var(--r-line);
   border-radius: 14px;
-  padding: 10px;
-  min-height: 92px;
-  text-align: left;
+  padding: 12px 10px;
   background: #fff;
   display: grid;
   gap: 4px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  aspect-ratio: 1 / 1;
 }
 
 .r-calendar__cell:hover {
