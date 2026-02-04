@@ -48,7 +48,6 @@
       <div class="container">
         <div class="r-section__head r-overview__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🌙</span>
             {{ ramadan.overview.section_title }}
           </h2>
           <p class="r-overview__lead">{{ ramadan.overview.subtitle }}</p>
@@ -85,7 +84,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">📜</span>
             {{ ramadan.history.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.history.subtitle }}</p>
@@ -163,7 +161,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🧩</span>
             Quran progress studio
           </h2>
           <p class="r-section__subtitle">
@@ -373,10 +370,24 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🗓️</span>
             {{ ramadan.important_dates.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.important_dates.subtitle }}</p>
+        </div>
+        <div v-if="keyDateHighlights.length" class="r-key-dates__highlights">
+          <article
+            v-for="highlight in keyDateHighlights"
+            :key="highlight.title"
+            class="r-card r-card--mini"
+          >
+            <div class="r-card--mini__icon">
+              <i :class="['fas', highlight.icon]" aria-hidden="true"></i>
+            </div>
+            <div>
+              <p class="r-card__title">{{ highlight.title }}</p>
+              <p class="r-card__desc">{{ highlight.copy }}</p>
+            </div>
+          </article>
         </div>
         <div id="section-key-dates-body" class="r-section__body">
           <div class="r-grid r-grid--dates">
@@ -394,6 +405,19 @@
               <p class="r-card__desc">{{ date.description }}</p>
             </article>
           </div>
+          <div v-if="ramadan.moon_sighting" class="r-moon-sighting">
+            <article class="r-card r-card--moon">
+              <h3 class="r-card__title">{{ ramadan.moon_sighting.title }}</h3>
+              <p class="r-moon-sighting__intro">{{ ramadan.moon_sighting.intro }}</p>
+              <ol class="r-moon-sighting__steps">
+                <li v-for="(step, index) in ramadan.moon_sighting.steps" :key="index">
+                  <i class="fas fa-circle r-step-icon" aria-hidden="true"></i>
+                  <span>{{ step }}</span>
+                </li>
+              </ol>
+              <p class="r-moon-sighting__note">{{ ramadan.moon_sighting.note }}</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>
@@ -402,7 +426,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🧭</span>
             Live Ramadan Planner
           </h2>
           <p class="r-section__subtitle">
@@ -592,7 +615,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🥣</span>
             {{ ramadan.how_to_fast.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.how_to_fast.intro }}</p>
@@ -633,7 +655,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">❓</span>
             {{ ramadan.faq.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.faq.subtitle }}</p>
@@ -665,7 +686,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">📖</span>
             {{ ramadan.quran_reading_plans.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.quran_reading_plans.intro }}</p>
@@ -737,7 +757,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🎯</span>
             {{ ramadan.personal_plans.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.personal_plans.intro }}</p>
@@ -809,7 +828,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🤝</span>
             {{ ramadan.charity_guide.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.charity_guide.intro }}</p>
@@ -867,7 +885,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🥗</span>
             {{ ramadan.health_food_tips.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.health_food_tips.intro }}</p>
@@ -922,7 +939,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🤲</span>
             {{ ramadan.duas_prayers.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.duas_prayers.intro }}</p>
@@ -962,7 +978,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🎥</span>
             {{ ramadan.shorts.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.shorts.subtitle }}</p>
@@ -1035,7 +1050,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🧮</span>
             {{ ramadan.tools_calculators.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.tools_calculators.subtitle }}</p>
@@ -1083,7 +1097,6 @@
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
-            <span class="r-emoji r-emoji--title" aria-hidden="true">🌐</span>
             {{ ramadan.platform_resources.section_title }}
           </h2>
           <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
@@ -1439,6 +1452,35 @@ export default {
         });
       }
       return days;
+    },
+    keyDateHighlights() {
+      const dates = this.ramadan.important_dates?.dates || [];
+      const start = dates.find((date) => date.type === "start");
+      const special = dates.find((date) => date.type === "special");
+      const eid = dates.find((date) => date.type === "eid");
+      const highlights = [];
+      if (start) {
+        highlights.push({
+          icon: "fa-sun",
+          title: "Ramadan begins",
+          copy: `${start.gregorian_date} · ${start.description}`,
+        });
+      }
+      if (special) {
+        highlights.push({
+          icon: "fa-shapes",
+          title: "Laylat al-Qadr focus",
+          copy: `${special.gregorian_date} · ${special.description}`,
+        });
+      }
+      if (eid) {
+        highlights.push({
+          icon: "fa-sparkles",
+          title: "Finish with Eid",
+          copy: `${eid.gregorian_date} · ${eid.description}`,
+        });
+      }
+      return highlights;
     },
     selectedDay() {
       return this.calendarDays[this.selectedDayIndex] || null;
@@ -2425,7 +2467,7 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap");
 
 .ramadan-2026 {
   --r-ink: #0f1d2c;
@@ -2451,6 +2493,12 @@ export default {
   box-sizing: border-box;
 }
 
+.r-section__title,
+.r-hero__title,
+.r-card__title {
+  font-family: "Playfair Display", "Fraunces", serif;
+}
+
 .r-hero {
   position: relative;
   padding: 96px 0 80px;
@@ -2459,6 +2507,31 @@ export default {
   background: radial-gradient(circle at 10% 10%, rgba(255, 229, 188, 0.45), transparent 45%),
     radial-gradient(circle at 85% 15%, rgba(185, 220, 225, 0.45), transparent 45%),
     linear-gradient(140deg, #173247, #2a5264 55%, #3f6a78);
+  isolation: isolate;
+}
+
+.r-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02)),
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.35), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 205, 0.25), transparent 55%);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  animation: heroGradient 18s linear infinite alternate;
+  pointer-events: none;
+}
+
+.r-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 45%);
+  background-size: 120px 120px;
+  opacity: 0.3;
+  animation: heroPattern 30s linear infinite;
+  pointer-events: none;
 }
 
 .r-hero__backdrop {
@@ -3016,6 +3089,72 @@ export default {
 
 .r-faq-answer {
   max-width: 520px;
+}
+
+.r-key-dates__highlights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.r-card--mini {
+  padding: 1rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  border: 1px solid rgba(15, 34, 48, 0.08);
+  background: linear-gradient(135deg, #ffffff, #faf7f3);
+}
+
+.r-card--mini__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(215, 166, 74, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--r-accent-deep);
+}
+
+.r-step-icon {
+  font-size: 0.6rem;
+  margin-right: 0.5rem;
+  color: var(--r-accent);
+}
+
+.r-moon-sighting {
+  margin-top: 1.5rem;
+}
+
+.r-card--moon {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf8f1 100%);
+  border: 1px solid rgba(237, 143, 38, 0.25);
+  --r-card-accent: rgba(237, 143, 38, 0.5);
+  padding: 1.5rem;
+}
+
+.r-moon-sighting__intro {
+  margin-bottom: 0.75rem;
+  color: var(--r-ink-soft);
+}
+
+.r-moon-sighting__steps {
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+  line-height: 1.55;
+}
+
+.r-moon-sighting__steps li + li {
+  margin-top: 0.35rem;
+}
+
+.r-moon-sighting__note {
+  font-weight: 600;
+  color: var(--r-accent-deep);
 }
 
 .r-card__tag {
@@ -4553,6 +4692,24 @@ export default {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes heroGradient {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(-20px, -10px, 0) scale(1.05);
+  }
+}
+
+@keyframes heroPattern {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200px 150px;
   }
 }
 

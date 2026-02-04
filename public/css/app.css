@@ -3,7 +3,7 @@
 @import url(https://fonts.googleapis.com/css2?family=Amiri:wght@400;600;700&family=Noto+Sans+Arabic:wght@400;500;700&display=swap);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css);
 @import url(https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css);
-@import url(https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap);
 
 /* Local fonts with swap to improve FOIT */
 @font-face {
@@ -40739,6 +40739,11 @@ to {
 .ramadan-2026[data-v-05456a07] * {
   box-sizing: border-box;
 }
+.r-section__title[data-v-05456a07],
+.r-hero__title[data-v-05456a07],
+.r-card__title[data-v-05456a07] {
+  font-family: "Playfair Display", "Fraunces", serif;
+}
 .r-hero[data-v-05456a07] {
   position: relative;
   padding: 96px 0 80px;
@@ -40747,6 +40752,29 @@ to {
   background: radial-gradient(circle at 10% 10%, rgba(255, 229, 188, 0.45), transparent 45%),
     radial-gradient(circle at 85% 15%, rgba(185, 220, 225, 0.45), transparent 45%),
     linear-gradient(140deg, #173247, #2a5264 55%, #3f6a78);
+  isolation: isolate;
+}
+.r-hero[data-v-05456a07]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.02)),
+    radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.35), transparent 55%),
+    radial-gradient(circle at 80% 10%, rgba(255, 255, 205, 0.25), transparent 55%);
+  opacity: 0.55;
+  mix-blend-mode: screen;
+  animation: heroGradient-05456a07 18s linear infinite alternate;
+  pointer-events: none;
+}
+.r-hero[data-v-05456a07]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, transparent 45%);
+  background-size: 120px 120px;
+  opacity: 0.3;
+  animation: heroPattern-05456a07 30s linear infinite;
+  pointer-events: none;
 }
 .r-hero__backdrop[data-v-05456a07] {
   position: absolute;
@@ -41228,6 +41256,62 @@ to {
 }
 .r-faq-answer[data-v-05456a07] {
   max-width: 520px;
+}
+.r-key-dates__highlights[data-v-05456a07] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin: 1rem 0 1.5rem;
+}
+.r-card--mini[data-v-05456a07] {
+  padding: 1rem;
+  border-radius: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.8rem;
+  border: 1px solid rgba(15, 34, 48, 0.08);
+  background: linear-gradient(135deg, #ffffff, #faf7f3);
+}
+.r-card--mini__icon[data-v-05456a07] {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  background: rgba(215, 166, 74, 0.12);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--r-accent-deep);
+}
+.r-step-icon[data-v-05456a07] {
+  font-size: 0.6rem;
+  margin-right: 0.5rem;
+  color: var(--r-accent);
+}
+.r-moon-sighting[data-v-05456a07] {
+  margin-top: 1.5rem;
+}
+.r-card--moon[data-v-05456a07] {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf8f1 100%);
+  border: 1px solid rgba(237, 143, 38, 0.25);
+  --r-card-accent: rgba(237, 143, 38, 0.5);
+  padding: 1.5rem;
+}
+.r-moon-sighting__intro[data-v-05456a07] {
+  margin-bottom: 0.75rem;
+  color: var(--r-ink-soft);
+}
+.r-moon-sighting__steps[data-v-05456a07] {
+  margin: 0 0 0.75rem;
+  padding-left: 1.25rem;
+  line-height: 1.55;
+}
+.r-moon-sighting__steps li + li[data-v-05456a07] {
+  margin-top: 0.35rem;
+}
+.r-moon-sighting__note[data-v-05456a07] {
+  font-weight: 600;
+  color: var(--r-accent-deep);
 }
 .r-card__tag[data-v-05456a07] {
   display: inline-flex;
@@ -42544,6 +42628,22 @@ to {
 to {
     opacity: 1;
     transform: translateY(0);
+}
+}
+@keyframes heroGradient-05456a07 {
+0% {
+    transform: translate3d(0, 0, 0) scale(1);
+}
+100% {
+    transform: translate3d(-20px, -10px, 0) scale(1.05);
+}
+}
+@keyframes heroPattern-05456a07 {
+0% {
+    background-position: 0 0;
+}
+100% {
+    background-position: 200px 150px;
 }
 }
 @media (max-width: 992px) {

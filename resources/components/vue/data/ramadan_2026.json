@@ -295,6 +295,18 @@
     ]
   },
 
+  "moon_sighting": {
+    "title": "Moon-sighting adjustment instructions",
+    "intro": "Ramadan depends on the lunar crescent. These steps help you stay aligned with local moon-sighting announcements while keeping your plan flexible.",
+    "steps": [
+      "Follow the final announcement from your local masjid, Islamic council, or moon-sighting committee before committing to the start of Ramadan.",
+      "Keep both 29- and 30-day plans handy so you can switch the calendar as soon as you hear whether the crescent was seen.",
+      "If the crescent is not confirmed on the 29th night, extend the current day of preparation and begin fasting the next evening while still waiting for confirmation.",
+      "Note who confirmed the sighting (community leader, scholar, or committee) and which geographic region they represented so your family can confidently follow the approved schedule."
+    ],
+    "note": "Right after the official sighting, update the planner start date and adapt reminders, printouts, and digital exports to the confirmed timeline."
+  },
+
   "how_to_fast": {
     "section_title": "How To Fast (Do's & Don'ts)",
     "intro": "Fasting is from dawn to sunset with the intention (niyyah). The goal is worship, discipline, and avoiding what breaks the fast.",
