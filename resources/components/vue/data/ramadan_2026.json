@@ -628,9 +628,10 @@
   },
 
   "duas_prayers": {
-    "section_title": "Essential Quran Duas",
-    "intro": "Every dua below is from the Quran. Use these throughout Ramadan.",
-    "tag_label": "Quran",
+    "section_title": "Essential Duas & Supplications",
+    "intro": "Every dua below is verified from the Qur'an or authentic hadith so you can recite with confidence.",
+    "tag_label": "Source",
+    "search_label": "Search Quran & Prophetic duas",
     "daily_duas": [
       {
         "occasion": "Good in this life and the next",
@@ -639,7 +640,8 @@
         "translation": "Our Lord, give us good in this world",
         "reference": "Qur'an 2:201",
         "link": "https://quran.com/2/201",
-        "tag": "Quran"
+        "source": "Qur'an",
+        "tag": "Qur'an"
       },
       {
         "occasion": "Steadfast hearts",
@@ -648,20 +650,52 @@
         "translation": "Our Lord, do not let our hearts deviate",
         "reference": "Qur'an 3:8",
         "link": "https://quran.com/3/8",
-        "tag": "Quran"
+        "source": "Qur'an",
+        "tag": "Qur'an"
       },
       {
-        "occasion": "Family and righteousness",
-        "arabic": "رَبَّنَا هَبْ لَنَا مِنْ أَزْوَاجِنَا",
-        "transliteration": "Rabbana hab lana min azwajina",
-        "translation": "Our Lord, grant us from among our spouses",
-        "reference": "Qur'an 25:74",
-        "link": "https://quran.com/25/74",
-        "tag": "Quran"
+        "occasion": "Guide us to the straight path",
+        "arabic": "اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ",
+        "transliteration": "Ihdinas-siratal-mustaqim",
+        "translation": "Guide us to the straight path",
+        "reference": "Qur'an 1:6",
+        "link": "https://quran.com/1/6",
+        "source": "Qur'an",
+        "tag": "Qur'an"
+      },
+      {
+        "occasion": "Mercy from Allah",
+        "arabic": "رَبَّنَا هَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً",
+        "transliteration": "Rabbana hab lana min ladunka rahmah",
+        "translation": "Our Lord, grant us mercy from Yourself",
+        "reference": "Qur'an 18:10",
+        "link": "https://quran.com/18/10",
+        "source": "Qur'an",
+        "tag": "Qur'an"
+      },
+      {
+        "occasion": "Steadfast in prayer",
+        "arabic": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
+        "transliteration": "Rabbi ij'alni muqima as-salah",
+        "translation": "My Lord, make me an establisher of prayer",
+        "reference": "Qur'an 14:40",
+        "link": "https://quran.com/14/40",
+        "source": "Qur'an",
+        "tag": "Qur'an"
+      },
+      {
+        "occasion": "Patience & resilience",
+        "arabic": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
+        "transliteration": "Rabbana afrigh 'alayna sabran",
+        "translation": "Our Lord, pour upon us patience",
+        "reference": "Qur'an 2:250",
+        "link": "https://quran.com/2/250",
+        "source": "Qur'an",
+        "tag": "Qur'an"
       }
     ],
-    "view_more_label": "View more Quran duas",
-    "modal_title": "Quran Dua Library",
+    "view_more_label": "Explore the verified dua library",
+    "modal_title": "Verified Dua Library",
     "modal_sections": [
       {
         "title": "Worship & Prayer",
@@ -672,15 +706,8 @@
             "transliteration": "Rabbi ishrah li sadri",
             "translation": "My Lord, expand for me my chest",
             "reference": "Qur'an 20:25",
-            "resource": "https://quran.com/20/25"
-          },
-          {
-            "name": "Accept deeds",
-            "arabic": "رَبَّنَا تَقَبَّلْ مِنَّا",
-            "transliteration": "Rabbana taqabbal minna",
-            "translation": "Our Lord, accept from us",
-            "reference": "Qur'an 2:127",
-            "resource": "https://quran.com/2/127"
+            "resource": "https://quran.com/20/25",
+            "source": "Qur'an"
           },
           {
             "name": "Increase knowledge",
@@ -688,15 +715,8 @@
             "transliteration": "Rabbi zidni 'ilma",
             "translation": "My Lord, increase me in knowledge",
             "reference": "Qur'an 20:114",
-            "resource": "https://quran.com/20/114"
-          },
-          {
-            "name": "Keep steady",
-            "arabic": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
-            "transliteration": "Rabbana afrigh 'alayna sabran",
-            "translation": "Our Lord, pour upon us patience",
-            "reference": "Qur'an 2:250",
-            "resource": "https://quran.com/2/250"
+            "resource": "https://quran.com/20/114",
+            "source": "Qur'an"
           },
           {
             "name": "Guidance",
@@ -704,7 +724,8 @@
             "transliteration": "Ihdinas-siratal-mustaqim",
             "translation": "Guide us to the straight path",
             "reference": "Qur'an 1:6",
-            "resource": "https://quran.com/1/6"
+            "resource": "https://quran.com/1/6",
+            "source": "Qur'an"
           },
           {
             "name": "Devotion",
@@ -712,7 +733,17 @@
             "transliteration": "Rabbana waj'alna muslimayn",
             "translation": "Our Lord, make us Muslims in submission to You",
             "reference": "Qur'an 2:128",
-            "resource": "https://quran.com/2/128"
+            "resource": "https://quran.com/2/128",
+            "source": "Qur'an"
+          },
+          {
+            "name": "Prayer in family",
+            "arabic": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
+            "transliteration": "Rabbi ij'alni muqima as-salah",
+            "translation": "My Lord, make me an establisher of prayer",
+            "reference": "Qur'an 14:40",
+            "resource": "https://quran.com/14/40",
+            "source": "Qur'an"
           }
         ]
       },
@@ -725,7 +756,8 @@
             "transliteration": "Rabbana la tuhammilna ma la taqata lana bih",
             "translation": "Our Lord, do not burden us beyond what we can bear",
             "reference": "Qur'an 2:286",
-            "resource": "https://quran.com/2/286"
+            "resource": "https://quran.com/2/286",
+            "source": "Qur'an"
           },
           {
             "name": "Mercy",
@@ -733,7 +765,8 @@
             "transliteration": "Rabbi ighfir warham",
             "translation": "My Lord, forgive and have mercy",
             "reference": "Qur'an 23:118",
-            "resource": "https://quran.com/23/118"
+            "resource": "https://quran.com/23/118",
+            "source": "Qur'an"
           },
           {
             "name": "Repentance",
@@ -741,23 +774,8 @@
             "transliteration": "Rabbana zalamna anfusana",
             "translation": "Our Lord, we have wronged ourselves",
             "reference": "Qur'an 7:23",
-            "resource": "https://quran.com/7/23"
-          },
-          {
-            "name": "Steadfast hearts",
-            "arabic": "رَبَّنَا لَا تُزِغْ قُلُوبَنَا",
-            "transliteration": "Rabbana la tuzigh qulubana",
-            "translation": "Our Lord, do not let our hearts deviate",
-            "reference": "Qur'an 3:8",
-            "resource": "https://quran.com/3/8"
-          },
-          {
-            "name": "Light for us",
-            "arabic": "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا",
-            "transliteration": "Rabbana atmim lana nurana",
-            "translation": "Our Lord, perfect for us our light",
-            "reference": "Qur'an 66:8",
-            "resource": "https://quran.com/66/8"
+            "resource": "https://quran.com/7/23",
+            "source": "Qur'an"
           },
           {
             "name": "Forgive our sins",
@@ -765,7 +783,26 @@
             "transliteration": "Rabbana ighfir lana dhunubana",
             "translation": "Our Lord, forgive us our sins",
             "reference": "Qur'an 3:147",
-            "resource": "https://quran.com/3/147"
+            "resource": "https://quran.com/3/147",
+            "source": "Qur'an"
+          },
+          {
+            "name": "Light for us",
+            "arabic": "رَبَّنَا أَتْمِمْ لَنَا نُورَنَا",
+            "transliteration": "Rabbana atmim lana nurana",
+            "translation": "Our Lord, perfect for us our light",
+            "reference": "Qur'an 66:8",
+            "resource": "https://quran.com/66/8",
+            "source": "Qur'an"
+          },
+          {
+            "name": "Turn away punishment",
+            "arabic": "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ",
+            "transliteration": "Rabbana isrif 'anna 'adhaba jahannam",
+            "translation": "Our Lord, turn away from us the punishment of Hell",
+            "reference": "Qur'an 25:65",
+            "resource": "https://quran.com/25/65",
+            "source": "Qur'an"
           }
         ]
       },
@@ -778,7 +815,8 @@
             "transliteration": "Rabbana hab lana min azwajina",
             "translation": "Our Lord, grant us from among our spouses",
             "reference": "Qur'an 25:74",
-            "resource": "https://quran.com/25/74"
+            "resource": "https://quran.com/25/74",
+            "source": "Qur'an"
           },
           {
             "name": "Parents and believers",
@@ -786,23 +824,8 @@
             "transliteration": "Rabbi ighfir li wa li walidayya",
             "translation": "My Lord, forgive me and my parents",
             "reference": "Qur'an 14:41",
-            "resource": "https://quran.com/14/41"
-          },
-          {
-            "name": "For all believers",
-            "arabic": "رَبَّنَا اغْفِرْ لَنَا وَلِإِخْوَانِنَا",
-            "transliteration": "Rabbana ighfir lana wa li ikhwanina",
-            "translation": "Our Lord, forgive us and our brothers",
-            "reference": "Qur'an 59:10",
-            "resource": "https://quran.com/59/10"
-          },
-          {
-            "name": "Prayer in family",
-            "arabic": "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
-            "transliteration": "Rabbi ij'alni muqima as-salah",
-            "translation": "My Lord, make me an establisher of prayer",
-            "reference": "Qur'an 14:40",
-            "resource": "https://quran.com/14/40"
+            "resource": "https://quran.com/14/41",
+            "source": "Qur'an"
           },
           {
             "name": "Peaceful home",
@@ -810,20 +833,31 @@
             "transliteration": "Rabbi anzilni munzalan mubaraka",
             "translation": "My Lord, let me land at a blessed landing place",
             "reference": "Qur'an 23:29",
-            "resource": "https://quran.com/23/29"
+            "resource": "https://quran.com/23/29",
+            "source": "Qur'an"
           },
           {
-            "name": "Righteous hearts",
+            "name": "Clean hearts",
             "arabic": "رَبَّنَا لَا تَجْعَلْ فِي قُلُوبِنَا غِلًّا",
             "transliteration": "Rabbana la taj'al fi qulubina ghillan",
             "translation": "Our Lord, do not place in our hearts any rancor",
             "reference": "Qur'an 59:10",
-            "resource": "https://quran.com/59/10"
+            "resource": "https://quran.com/59/10",
+            "source": "Qur'an"
+          },
+          {
+            "name": "Do not leave me alone",
+            "arabic": "رَبِّ لَا تَذَرْنِي فَرْدًا",
+            "transliteration": "Rabbi la tadharni fardan",
+            "translation": "My Lord, do not leave me alone while You are the best of inheritors",
+            "reference": "Qur'an 4:129",
+            "resource": "https://quran.com/4/129",
+            "source": "Qur'an"
           }
         ]
       },
       {
-        "title": "Provision & Charity",
+        "title": "Provision & Resilience",
         "items": [
           {
             "name": "Good provision",
@@ -831,7 +865,8 @@
             "transliteration": "Rabbi inni lima anzalta ilayya min khayrin faqir",
             "translation": "My Lord, I am in need of whatever good You send down to me",
             "reference": "Qur'an 28:24",
-            "resource": "https://quran.com/28/24"
+            "resource": "https://quran.com/28/24",
+            "source": "Qur'an"
           },
           {
             "name": "Blessed wealth",
@@ -839,7 +874,8 @@
             "transliteration": "Rabbana atina fid-dunya hasanah",
             "translation": "Our Lord, give us good in this world",
             "reference": "Qur'an 2:201",
-            "resource": "https://quran.com/2/201"
+            "resource": "https://quran.com/2/201",
+            "source": "Qur'an"
           },
           {
             "name": "Accepted deeds",
@@ -847,23 +883,8 @@
             "transliteration": "Rabbana taqabbal minna",
             "translation": "Our Lord, accept from us",
             "reference": "Qur'an 2:127",
-            "resource": "https://quran.com/2/127"
-          },
-          {
-            "name": "Protection for the needy",
-            "arabic": "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ",
-            "transliteration": "Rabbana isrif 'anna 'adhaba jahannam",
-            "translation": "Our Lord, turn away from us the punishment of Hell",
-            "reference": "Qur'an 25:65",
-            "resource": "https://quran.com/25/65"
-          },
-          {
-            "name": "Guidance and mercy",
-            "arabic": "رَبَّنَا هَبْ لَنَا مِنْ لَدُنْكَ رَحْمَةً",
-            "transliteration": "Rabbana hab lana min ladunka rahmah",
-            "translation": "Our Lord, grant us mercy from Yourself",
-            "reference": "Qur'an 18:10",
-            "resource": "https://quran.com/18/10"
+            "resource": "https://quran.com/2/127",
+            "source": "Qur'an"
           },
           {
             "name": "Steadfast faith",
@@ -871,7 +892,58 @@
             "transliteration": "Rabbana 'alayka tawakkalna",
             "translation": "Our Lord, upon You we rely",
             "reference": "Qur'an 10:85",
-            "resource": "https://quran.com/10/85"
+            "resource": "https://quran.com/10/85",
+            "source": "Qur'an"
+          },
+          {
+            "name": "Patience in trials",
+            "arabic": "رَبَّنَا أَفْرِغْ عَلَيْنَا صَبْرًا",
+            "transliteration": "Rabbana afrigh 'alayna sabran",
+            "translation": "Our Lord, pour upon us patience",
+            "reference": "Qur'an 2:250",
+            "resource": "https://quran.com/2/250",
+            "source": "Qur'an"
+          },
+          {
+            "name": "Turn away punishment",
+            "arabic": "رَبَّنَا اصْرِفْ عَنَّا عَذَابَ جَهَنَّمَ",
+            "transliteration": "Rabbana isrif 'anna 'adhaba jahannam",
+            "translation": "Our Lord, turn away from us the punishment of Hell",
+            "reference": "Qur'an 25:65",
+            "resource": "https://quran.com/25/65",
+            "source": "Qur'an"
+          }
+        ]
+      },
+      {
+        "title": "Prophetic Supplications",
+        "items": [
+          {
+            "name": "Guidance & piety",
+            "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْهُدَى وَالتُّقَى وَالْعَفَافَ وَالْغِنَى",
+            "transliteration": "Allahumma inni as'alukal-huda wat-tuqa wal-'afafa wal-ghina",
+            "translation": "O Allah, I ask You for guidance, piety, chastity, and contentment",
+            "reference": "Sunan Ibn Majah 3832",
+            "resource": "https://sunnah.com/ibnmajah:3832",
+            "source": "Hadith"
+          },
+          {
+            "name": "Beneficial knowledge, provision & deeds",
+            "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ عِلْمًا نَافِعًا وَرِزْقًا طَيِّبًا وَعَمَلًا مُتَقَبَّلًا",
+            "transliteration": "Allahumma inni as'aluka ilman nafi'an, wa rizqan tayyiban, wa amalan mutaqabbalan",
+            "translation": "O Allah, I ask You for beneficial knowledge, good provision, and accepted deeds",
+            "reference": "Sunan Ibn Majah 925",
+            "resource": "https://sunnah.com/ibnmajah:925",
+            "source": "Hadith"
+          },
+          {
+            "name": "Forgiveness & well-being",
+            "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ",
+            "transliteration": "Allahumma inni as'alukal-'afwa wal-'afiyah fid-dunya wal-akhirah",
+            "translation": "O Allah, I ask You for forgiveness and well-being in this world and the Hereafter",
+            "reference": "Sunan Ibn Majah 3871",
+            "resource": "https://sunnah.com/ibnmajah:3871",
+            "source": "Hadith"
           }
         ]
       }

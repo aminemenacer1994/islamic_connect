@@ -842,7 +842,7 @@
               :style="storyStyle()"
             >
               <div class="r-story-content">
-                <span class="r-story-tag">{{ ramadan.duas_prayers.tag_label }}</span>
+                <span class="r-story-tag">{{ dua.source || ramadan.duas_prayers.tag_label }}</span>
                 <h3 class="r-story-title">{{ dua.occasion }}</h3>
                 <p class="r-arabic" dir="rtl">{{ dua.arabic }}</p>
                 <p class="r-translit">{{ dua.transliteration }}</p>
@@ -1030,22 +1030,76 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="r-modal-grid">
-              <div v-for="section in ramadan.duas_prayers.modal_sections" :key="section.title" class="r-modal-card">
+            <div class="r-dua-modal-controls">
+              <div class="r-dua-search">
+                <label class="r-dua-search__label" for="duaSearchInput">
+                  {{ ramadan.duas_prayers.search_label || "Search the dua library" }}
+                </label>
+                <input
+                  id="duaSearchInput"
+                  class="r-input r-input--search"
+                  type="search"
+                  v-model="duaSearchTerm"
+                  placeholder="Search by purpose, Arabic, or reference"
+                  autocomplete="off"
+                />
+                <p class="r-dua-search__hint">Highlights refresh as you type and show every matching word.</p>
+              </div>
+              <div class="r-dua-filters" role="group" aria-label="Filter duas">
+                <div class="r-dua-filter-group">
+                  <label class="r-dua-filter-label" for="duaSourceSelect">Source</label>
+                  <select id="duaSourceSelect" class="r-select" v-model="duaSourceFilter">
+                    <option v-for="filter in duaSourceFilters" :key="filter.value" :value="filter.value">
+                      {{ filter.label }}
+                    </option>
+                  </select>
+                </div>
+                <div class="r-dua-filter-group">
+                  <label class="r-dua-filter-label" for="duaSectionSelect">Section</label>
+                  <select id="duaSectionSelect" class="r-select" v-model="duaSectionFilter">
+                    <option v-for="filter in duaSectionFilters" :key="filter.value" :value="filter.value">
+                      {{ filter.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="!filteredDuaSections.length" class="r-dua-empty">
+              <p>No matching supplications were found. Try clearing the search or changing the filter.</p>
+              <button type="button" class="r-link" @click="resetDuaFilters">Reset filters</button>
+            </div>
+
+            <div v-else class="r-modal-grid">
+              <div
+                v-for="section in filteredDuaSections"
+                :key="section.title"
+                class="r-modal-card"
+              >
                 <h3>{{ section.title }}</h3>
                 <div class="r-story-grid r-story-grid--modal">
-                  <article v-for="item in section.items" :key="item.name" class="r-story-card r-story-card--dua">
+                  <article
+                    v-for="item in section.items"
+                    :key="`${item.name}-${item.reference}`"
+                    class="r-story-card r-story-card--dua"
+                  >
                     <div class="r-story-content">
-                      <span class="r-story-tag">{{ ramadan.duas_prayers.tag_label }}</span>
-                      <h4 class="r-story-title">{{ item.name }}</h4>
-                      <p class="r-arabic" dir="rtl">{{ item.arabic }}</p>
-                      <p class="r-translit">{{ item.transliteration }}</p>
-                      <p class="r-story-desc">{{ item.translation }}</p>
+                      <span class="r-story-tag">{{ item.source || ramadan.duas_prayers.tag_label }}</span>
+                      <h4 class="r-story-title" v-html="highlightDuaText(item.name)"></h4>
+                      <p class="r-arabic" dir="rtl" v-html="highlightDuaText(item.arabic)"></p>
+                      <p class="r-translit" v-html="highlightDuaText(item.transliteration)"></p>
+                      <p class="r-story-desc" v-html="highlightDuaText(item.translation)"></p>
                       <div class="r-story-meta">
-                        <a class="r-story-duration" :href="item.resource" target="_blank" rel="noopener">
-                          {{ item.reference }}
+                        <a
+                          class="r-story-duration"
+                          :href="item.resource"
+                          target="_blank"
+                          rel="noopener"
+                          v-html="highlightDuaText(item.reference)"
+                        ></a>
+                        <a class="r-story-link" :href="item.resource" target="_blank" rel="noopener">
+                          {{ ramadan.labels.resource_label }}
                         </a>
-                        <a class="r-story-link" :href="item.resource" target="_blank" rel="noopener">{{ ramadan.labels.resource_label }}</a>
                       </div>
                     </div>
                   </article>
@@ -1053,7 +1107,7 @@
               </div>
             </div>
           </div>
-      </div>
+        </div>
     </div>
   </div>
   <button
@@ -1081,7 +1135,10 @@ export default {
   },
   data() {
     return {
-      ramadan: ramadanData,
+    ramadan: ramadanData,
+      duaSearchTerm: "",
+      duaSourceFilter: "all",
+      duaSectionFilter: "all",
       heroImageOverride: null,
       heroImageFallback: "/images/banner-photo-800.webp",
       calendarStartOverride: "",
@@ -1389,6 +1446,70 @@ export default {
       if (!this.quranProgress.dailyGoal) return "Set a daily goal";
       return this.quranEstimatedCompletionDate ? this.formatISODate(this.quranEstimatedCompletionDate) : "Set a daily goal";
     },
+    duaSearchTokens() {
+      if (!this.duaSearchTerm) return [];
+      return this.duaSearchTerm
+        .toLowerCase()
+        .split(/\s+/)
+        .map((token) => token.trim())
+        .filter(Boolean);
+    },
+    duaSearchRegex() {
+      if (!this.duaSearchTokens.length) return null;
+      const pattern = this.duaSearchTokens.map((token) => this.escapeRegExp(token)).join("|");
+      return new RegExp(`(${pattern})`, "gi");
+    },
+    duaSourceFilters() {
+      const sections = this.ramadan.duas_prayers?.modal_sections || [];
+      const sources = new Set();
+      sections.forEach((section) => {
+        (section.items || []).forEach((item) => {
+          const value = this.getDuaSourceValue(item);
+          if (value) sources.add(value);
+        });
+      });
+      const labelMap = {
+        quran: "Qur'an",
+        hadith: "Hadith",
+      };
+      const options = [{ label: "All sources", value: "all" }];
+      Array.from(sources)
+        .sort()
+        .forEach((value) => {
+          options.push({
+            label: labelMap[value] || value.charAt(0).toUpperCase() + value.slice(1),
+            value,
+          });
+        });
+      return options;
+    },
+    duaSectionFilters() {
+      const sections = this.ramadan.duas_prayers?.modal_sections || [];
+      const options = [{ label: "All sections", value: "all" }];
+      sections.forEach((section) => {
+        options.push({
+          label: section.title,
+          value: section.title.toLowerCase().replace(/[^a-z]/g, ""),
+        });
+      });
+      return options;
+    },
+    filteredDuaSections() {
+      const sections = this.ramadan.duas_prayers?.modal_sections || [];
+      const normalizedSectionFilter = this.duaSectionFilter.replace(/[^a-z]/g, "");
+      return sections
+        .map((section) => {
+          const shouldIncludeSection =
+            !normalizedSectionFilter || normalizedSectionFilter === "all"
+              ? true
+              : section.title.toLowerCase().replace(/[^a-z]/g, "") === normalizedSectionFilter;
+          const items = shouldIncludeSection
+            ? (section.items || []).filter((item) => this.isDuaVisible(item))
+            : [];
+          return { ...section, items };
+        })
+        .filter((section) => section.items.length);
+    },
   },
   methods: {
     formatISODate(value) {
@@ -1450,6 +1571,56 @@ export default {
       return {
         "--story-bg": `url(${thumbnail})`,
       };
+    },
+    getDuaSourceValue(item) {
+      const raw = item?.source || this.ramadan.duas_prayers?.tag_label || "Qur'an";
+      return String(raw).toLowerCase().replace(/[^a-z]/g, "");
+    },
+    isDuaVisible(item) {
+      return this.matchesSourceFilter(item) && this.matchesDuaSearch(item);
+    },
+    matchesDuaSearch(item) {
+      if (!this.duaSearchTokens.length) return true;
+      const haystack = [
+        item?.name,
+        item?.occasion,
+        item?.arabic,
+        item?.transliteration,
+        item?.translation,
+        item?.reference,
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return this.duaSearchTokens.every((token) => haystack.includes(token));
+    },
+    matchesSourceFilter(item) {
+      if (this.duaSourceFilter === "all") return true;
+      return this.getDuaSourceValue(item) === this.duaSourceFilter;
+    },
+    resetDuaFilters() {
+      this.duaSearchTerm = "";
+      this.duaSourceFilter = "all";
+      this.duaSectionFilter = "all";
+    },
+    highlightDuaText(text) {
+      if (!text) return "";
+      const escaped = this.escapeHtml(text);
+      if (!this.duaSearchRegex) return escaped;
+      return escaped.replace(this.duaSearchRegex, "<mark>$1</mark>");
+    },
+    escapeHtml(value = "") {
+      const stringValue = String(value);
+      return stringValue
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    },
+    escapeRegExp(value = "") {
+      const stringValue = String(value);
+      return stringValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     },
     getEmoji(palette, index) {
       const list = this.emojiPalettes?.[palette] || [];
@@ -2846,10 +3017,6 @@ export default {
   gap: 20px;
 }
 
-.r-story-grid--modal {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .r-story-card {
   position: relative;
   border-radius: 26px;
@@ -3344,13 +3511,121 @@ export default {
 
 .r-modal-grid {
   display: grid;
-  gap: 22px;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 12px;
 }
 
 .r-modal-card {
-  padding: 16px;
+  padding: 14px;
+  border-radius: 20px;
+  background: #fff;
+  border: 1px solid rgba(15, 34, 48, 0.1);
+  box-shadow: none;
+  font-family: "Inter", "Source Sans Pro", "Noto Sans Arabic", sans-serif;
+}
+
+.r-dua-modal-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.r-dua-search {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.r-dua-search__label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--r-ink-soft);
+}
+
+.r-input--search {
+  border-radius: 14px;
+  border: 1px solid rgba(15, 34, 48, 0.18);
+  background: rgba(255, 255, 255, 0.95);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+}
+
+.r-input--search:focus {
+  border-color: rgba(215, 166, 74, 0.6);
+  box-shadow: 0 0 0 3px rgba(215, 166, 74, 0.15);
+}
+
+.r-dua-search__hint {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--r-ink-soft);
+}
+
+.r-dua-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.8rem;
+}
+
+.r-dua-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.r-dua-filter-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--r-ink-soft);
+}
+
+.r-dua-filter-group .r-select {
+  border-radius: 14px;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(15, 34, 48, 0.18);
+  background: #fff;
+  font-family: inherit;
+}
+
+.r-story-grid--modal {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.r-story-card--dua {
+  min-height: auto;
+  padding: 12px;
   border-radius: 16px;
-  background: rgba(16, 42, 34, 0.04);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(15, 34, 48, 0.08);
+  color: #0f1f1b;
+  font-family: "Inter", "Noto Sans Arabic", "Source Sans Pro", sans-serif;
+}
+
+.r-dua-empty {
+  border-radius: 18px;
+  background: rgba(250, 245, 238, 0.9);
+  border: 1px dashed rgba(111, 153, 164, 0.5);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.r-dua-empty .r-link {
+  align-self: flex-start;
+}
+
+.r-story-card--dua mark {
+  background: rgba(215, 166, 74, 0.35);
+  color: #0f1f1b;
+  padding: 0 0.18rem;
+  border-radius: 0.2rem;
 }
 
 .r-planner-card {
@@ -3958,7 +4233,7 @@ export default {
   }
 
   .r-hero__media {
-    order: -1;
+    order: 0;
   }
 }
 
@@ -3983,6 +4258,19 @@ export default {
 
   .r-story-grid--modal {
     grid-template-columns: 1fr;
+  }
+
+  .r-dua-modal-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .r-dua-filters {
+    justify-content: flex-start;
+  }
+
+  .r-dua-search {
+    width: 100%;
   }
 
   .r-calendar {
