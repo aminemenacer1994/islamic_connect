@@ -16,24 +16,11 @@
           </div>
 
           <div class="r-hero__media r-animate" style="--delay: 0.22s;">
-            <div
-              v-if="navSections.length"
-              class="r-hero__section-grid r-animate"
-              style="--delay: 0.36s;"
-            >
-              <article
-                v-for="section in navSections"
-                :key="section.title"
-                class="r-hero__section-card"
-              >
+            <div v-if="navSections.length" class="r-hero__section-grid r-animate" style="--delay: 0.36s;">
+              <article v-for="section in navSections" :key="section.title" class="r-hero__section-card">
                 <p class="r-hero__section-title">{{ section.title }}</p>
                 <div class="r-hero__section-links">
-                  <a
-                    v-for="link in section.links"
-                    :key="link.href"
-                    class="r-hero__section-pill"
-                    :href="link.href"
-                  >
+                  <a v-for="link in section.links" :key="link.href" class="r-hero__section-pill" :href="link.href">
                     {{ link.label }}
                   </a>
                 </div>
@@ -52,16 +39,10 @@
           </h2>
           <p class="r-overview__lead">{{ ramadan.overview.subtitle }}</p>
         </div>
-        <SectionToolbar
-          section-id="overview"
-          :section-title="ramadan.overview.section_title"
-          :section-feedback="toolbarFeedback['overview']"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="overview" :section-title="ramadan.overview.section_title"
+          :section-feedback="toolbarFeedback['overview']" @whatsapp-share="shareSectionViaWhatsApp"
+          @copy-section="copySectionContent" @print-section="printSection" @export-pdf="exportSectionPdf"
+          @adjust-font="adjustSectionFont" />
         <div id="section-overview-body" class="r-section__body" :style="sectionBodyStyle('overview')">
           <p v-for="(para, index) in ramadan.overview.body" :key="index" class="r-overview__body">
             {{ para }}
@@ -70,12 +51,8 @@
           <ul class="r-overview__list">
             <li v-for="item in ramadan.overview.key_points" :key="item">{{ item }}</li>
           </ul>
-          <ReferenceList
-            v-if="ramadan.overview.references"
-            :items="ramadan.overview.references"
-            :title="ramadan.labels.references"
-            :action-label="ramadan.labels.view_source"
-          />
+          <ReferenceList v-if="ramadan.overview.references" :items="ramadan.overview.references"
+            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
         </div>
       </div>
     </section>
@@ -88,47 +65,31 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.history.subtitle }}</p>
         </div>
-        <SectionToolbar
-          section-id="history"
-          :section-title="ramadan.history.section_title"
-          :section-feedback="toolbarFeedback['history']"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="history" :section-title="ramadan.history.section_title"
+          :section-feedback="toolbarFeedback['history']" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-history-body" class="r-section__body" :style="sectionBodyStyle('history')">
           <p v-for="(para, index) in ramadan.history.body" :key="index" class="r-section__subtitle">
             {{ para }}
           </p>
           <div class="r-grid r-grid--double r-grid--timeline">
-            <article
-              v-for="(item, index) in ramadan.history.timeline"
-              :key="item.period"
-              class="r-card r-card--timeline"
-            >
-            <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("timeline", index) }}</span>
-            <h3 class="r-card__title">{{ item.period }}</h3>
-            <p class="r-card__desc">{{ item.detail }}</p>
-            <p v-if="item.reference" class="r-card__reference">{{ item.reference }}</p>
-            <a
-              v-if="item.reference_url"
-              class="r-card__reference-link"
-              :href="item.reference_url"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              View source
-            </a>
-          </article>
+            <article v-for="(item, index) in ramadan.history.timeline" :key="item.period"
+              class="r-card r-card--timeline">
+              <span class="r-card__icon" aria-hidden="true">
+                <i :class="getIconClasses('timeline', index)"></i>
+              </span>
+              <h3 class="r-card__title">{{ item.period }}</h3>
+              <p class="r-card__desc">{{ item.detail }}</p>
+              <p v-if="item.reference" class="r-card__reference">{{ item.reference }}</p>
+              <a v-if="item.reference_url" class="r-card__reference-link" :href="item.reference_url" target="_blank"
+                rel="noreferrer noopener">
+                View source
+              </a>
+            </article>
           </div>
-          <div
-            class="r-grid r-grid--double r-spacing-top"
-            v-if="ramadan.history.notable_figures || ramadan.history.regional_practices"
-          >
+          <div class="r-grid r-grid--double r-spacing-top"
+            v-if="ramadan.history.notable_figures || ramadan.history.regional_practices">
             <article v-if="ramadan.history.notable_figures" class="r-card">
               <h3 class="r-card__title">{{ ramadan.history.notable_figures.title }}</h3>
               <ul class="r-list">
@@ -146,12 +107,8 @@
               </ul>
             </article>
           </div>
-          <ReferenceList
-            v-if="ramadan.history.references"
-            :items="ramadan.history.references"
-            :title="ramadan.labels.references"
-            :action-label="ramadan.labels.view_source"
-          />
+          <ReferenceList v-if="ramadan.history.references" :items="ramadan.history.references"
+            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
         </div>
       </div>
     </section>
@@ -177,189 +134,213 @@
               <a class="r-button r-button--ghost" href="/login">Log in</a>
             </div>
           </div>
-          <div v-else class="r-grid r-grid--double r-grid--stagger">
-            <article class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
-              <div class="r-interactive-stack">
-                <div class="r-stack-head">
-                  <h3 class="r-card__title">Quran reading progress 📖</h3>
-                  <span class="r-badge">{{ quranProgressPercent }}% complete</span>
+          <div v-else class="r-interactive-layout">
+            <div v-if="quranOnboardingSteps.length" class="r-quran-onboarding r-quran-onboarding--theme">
+              <div class="r-quran-onboarding__header">
+                <div>
+                  <p class="r-mini-label">Quick start</p>
+                  <h4>Ramadan-ready tracker prep</h4>
                 </div>
-                <p class="r-card__desc">
-                  Choose a unit, set a pace, and track your progress day by day.
-                </p>
-                <p class="r-helper">Estimates use your daily goal and planner dates. Adjust totals to match your mushaf.</p>
-                <div class="r-progress">
-                  <div
-                    class="r-progress__bar"
-                    role="progressbar"
-                    :aria-valuenow="quranProgressPercent"
-                    aria-valuemin="0"
-                    aria-valuemax="100"
-                  >
-                    <span class="r-progress__fill" :style="{ width: `${quranProgressPercent}%` }"></span>
+                <span class="r-quran-onboarding__hint">Follow the flow · 3 steps</span>
+              </div>
+              <div class="r-quran-onboarding__steps r-quran-onboarding__steps--theme">
+                <article
+                  v-for="(step, index) in quranOnboardingSteps"
+                  :key="step.title"
+                  class="r-quran-onboarding__step r-quran-onboarding__step--theme"
+                >
+                  <div class="r-quran-onboarding__step-badge">
+                    <span class="r-quran-onboarding__step-icon" aria-hidden="true">
+                      <i :class="['fas', step.icon]"></i>
+                    </span>
+                    <span class="r-quran-onboarding__step-index">Step {{ index + 1 }}</span>
                   </div>
-                  <div class="r-progress__meta">
-                    <span>{{ quranProgress.completed }} / {{ quranProgress.total }} {{ quranUnitLabel }}</span>
-                    <span>{{ quranProgressRemaining }} {{ quranUnitLabel }} remaining</span>
+                  <h5>{{ step.title }}</h5>
+                  <p>{{ step.detail }}</p>
+                </article>
+              </div>
+              <div class="r-quran-onboarding__cta-row">
+                <button class="r-button r-button--primary" type="button" @click="scrollToQuranTracker">
+                  Open tracker
+                </button>
+                <span class="r-quran-onboarding__cta-hint">Or jump straight to today’s target</span>
+              </div>
+            </div>
+            <div class="r-interactive-grid">
+              <article ref="quranProgressCard" class="r-card r-card--interactive r-animate" style="--delay: 0.05s;">
+                <div class="r-interactive-stack">
+                  <div class="r-stack-head">
+                    <h3 class="r-card__title">
+                      <i class="fas fa-book-open" aria-hidden="true"></i>
+                      Quran reading progress
+                    </h3>
+                    <span class="r-badge">{{ quranProgressPercent }}% complete</span>
+                  </div>
+                  <p class="r-card__desc">
+                    Choose a unit, set a pace, and track your progress day by day.
+                  </p>
+                  <p class="r-helper">Estimates use your daily goal and planner dates. Adjust totals to match your
+                    mushaf.</p>
+                  <div class="r-progress">
+                    <div class="r-progress__bar" role="progressbar" :aria-valuenow="quranProgressPercent"
+                      aria-valuemin="0" aria-valuemax="100">
+                      <span class="r-progress__fill" :style="{ width: `${quranProgressPercent}%` }"></span>
+                    </div>
+                    <div class="r-progress__meta">
+                      <span>{{ quranProgress.completed }} / {{ quranProgress.total }} {{ quranUnitLabel }}</span>
+                      <span>{{ quranProgressRemaining }} {{ quranUnitLabel }} remaining</span>
+                    </div>
+                  </div>
+                  <div class="r-form r-form--compact">
+                    <div class="r-form__row">
+                      <div>
+                        <label class="r-label" for="quran-unit">Unit</label>
+                        <select id="quran-unit" class="r-select" v-model="quranProgress.unit"
+                          @change="handleQuranUnitChange">
+                          <option v-for="unit in quranUnits" :key="unit.value" :value="unit.value">{{ unit.label }}
+                          </option>
+                        </select>
+                      </div>
+                      <div>
+                        <label class="r-label" for="quran-total">Total</label>
+                        <input id="quran-total" class="r-input" type="number" min="1"
+                          v-model.number="quranProgress.total" @input="normalizeQuranProgress" />
+                      </div>
+                      <div>
+                        <label class="r-label" for="quran-completed">Completed</label>
+                        <input id="quran-completed" class="r-input" type="number" min="0" :max="quranProgress.total"
+                          v-model.number="quranProgress.completed" @input="normalizeQuranProgress" />
+                      </div>
+                    </div>
+                    <div class="r-form__row">
+                      <div>
+                        <label class="r-label" for="quran-goal">Daily goal</label>
+                        <input id="quran-goal" class="r-input" type="number" min="0" step="1"
+                          v-model.number="quranProgress.dailyGoal" @input="normalizeQuranProgress" />
+                      </div>
+                      <div class="r-quick-add">
+                        <span class="r-label">Quick add</span>
+                        <div class="r-quick-add__buttons">
+                          <button class="r-button r-button--ghost r-button--sm" type="button"
+                            @click="addQuranProgress(1)">
+                            +1
+                          </button>
+                          <button class="r-button r-button--ghost r-button--sm" type="button"
+                            @click="addQuranProgress(3)">
+                            +3
+                          </button>
+                          <button class="r-button r-button--ghost r-button--sm" type="button"
+                            @click="addQuranProgress(5)">
+                            +5
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <p class="r-note r-note--muted">
+                    Page counts can vary by mushaf edition. Adjust totals if needed.
+                  </p>
+                  <div class="r-progress__footer">
+                    <span v-if="quranProgressRemaining === 0">
+                      <i class="fas fa-check-circle" aria-hidden="true"></i>
+                      Completed
+                    </span>
+                    <span v-else-if="quranProgressDaysLeft">
+                      <i class="fas fa-road" aria-hidden="true"></i>
+                      At this pace: ~{{ quranProgressDaysLeft }} day{{ quranProgressDaysLeft === 1 ? "" : "s" }} left
+                    </span>
+                    <span v-else>
+                      <i class="fas fa-calendar" aria-hidden="true"></i>
+                      Set a daily goal to estimate your pace.
+                    </span>
+                    <span class="r-progress__hint">Saved locally for your login.</span>
+                  </div>
+                  <div class="r-progress-insights">
+                    <div>
+                      <span class="r-mini-label">Days remaining</span>
+                      <strong>{{ quranDaysRemaining }}</strong>
+                    </div>
+                    <div>
+                      <span class="r-mini-label">Needed per day</span>
+                      <strong>{{ quranDailyTargetNeeded }} {{ quranUnitLabel }}/day</strong>
+                    </div>
+                    <div>
+                      <span class="r-mini-label">Est. completion</span>
+                    <strong>
+                      <i class="fas fa-flag-checkered" aria-hidden="true"></i>
+                      {{ quranCompletionLabel }}
+                    </strong>
+                    </div>
                   </div>
                 </div>
-                <div class="r-form r-form--compact">
-                  <div class="r-form__row">
+              </article>
+
+              <article class="r-card r-card--interactive r-animate" style="--delay: 0.12s;">
+                <div class="r-interactive-stack">
+                  <div class="r-stack-head">
+                    <h3 class="r-card__title">
+                      <i class="fas fa-calendar-day" aria-hidden="true"></i>
+                      Daily breakdown
+                    </h3>
+                    <span class="r-badge">{{ calendarLength }} days</span>
+                  </div>
+                  <p class="r-card__desc">
+                    Tied to your planner dates. Targets use your daily goal or an even split across Ramadan.
+                  </p>
+                  <p class="r-helper">Daily totals update from your saved entries (including “Mark today complete”).</p>
+                  <div class="r-today-panel">
                     <div>
-                      <label class="r-label" for="quran-unit">Unit</label>
-                      <select id="quran-unit" class="r-select" v-model="quranProgress.unit" @change="handleQuranUnitChange">
-                        <option v-for="unit in quranUnits" :key="unit.value" :value="unit.value">{{ unit.label }}</option>
-                      </select>
+                      <span class="r-mini-label">Today's Progress</span>
+                      <strong>{{ quranTodayRead }} / {{ quranTodayTarget }} {{ quranUnitLabel }}</strong>
+                      <div class="r-today-meta">
+                        <span>Remaining: {{ quranTodayRemaining }}</span>
+                        <span v-if="quranTodayRemaining === 0" class="r-badge r-badge--good">
+                          <i class="fas fa-check" aria-hidden="true"></i>
+                          Completed
+                        </span>
+                      </div>
+                      <p v-if="quranTodayRemaining === 0" class="r-confirm">Completion saved for today.</p>
                     </div>
-                    <div>
-                      <label class="r-label" for="quran-total">Total</label>
-                      <input
-                        id="quran-total"
-                        class="r-input"
-                        type="number"
-                        min="1"
-                        v-model.number="quranProgress.total"
-                        @input="normalizeQuranProgress"
-                      />
-                    </div>
-                    <div>
-                      <label class="r-label" for="quran-completed">Completed</label>
-                      <input
-                        id="quran-completed"
-                        class="r-input"
-                        type="number"
-                        min="0"
-                        :max="quranProgress.total"
-                        v-model.number="quranProgress.completed"
-                        @input="normalizeQuranProgress"
-                      />
+                    <div class="r-today-actions">
+                      <span class="r-tooltip" aria-label="Uses your device date to define today."
+                        title="Uses your device date to define today.">
+                        <i class="fas fa-circle-info" aria-hidden="true"></i>
+                      </span>
+                      <button class="r-button r-button--ghost r-button--sm" type="button"
+                        :disabled="!canMarkTodayComplete" @click="markTodayComplete">
+                        {{ quranTodayRemaining === 0 ? "Completed" : "Mark today complete" }}
+                      </button>
+                      <button v-if="lastQuickAction" class="r-chip r-chip--action" type="button"
+                        @click="undoLastQuickAction">
+                        Undo
+                      </button>
                     </div>
                   </div>
-                  <div class="r-form__row">
-                    <div>
-                      <label class="r-label" for="quran-goal">Daily goal</label>
-                      <input
-                        id="quran-goal"
-                        class="r-input"
-                        type="number"
-                        min="0"
-                        step="1"
-                        v-model.number="quranProgress.dailyGoal"
-                        @input="normalizeQuranProgress"
-                      />
-                    </div>
-                    <div class="r-quick-add">
-                      <span class="r-label">Quick add</span>
-                      <div class="r-quick-add__buttons">
-                        <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(1)">
-                          +1
-                        </button>
-                        <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(3)">
-                          +3
-                        </button>
-                        <button class="r-button r-button--ghost r-button--sm" type="button" @click="addQuranProgress(5)">
-                          +5
-                        </button>
+                  <div class="r-breakdown">
+                    <div v-for="day in quranBreakdownDays" :key="day.key" class="r-breakdown__row"
+                      :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }">
+                      <div>
+                        <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
+                        <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
+                      </div>
+                      <div class="r-breakdown__meta">
+                        <span>
+                          <i class="fas fa-bullseye" aria-hidden="true"></i>
+                          {{ day.target }} {{ quranUnitLabel }}
+                        </span>
+                        <span>
+                          <i class="fas fa-book-open" aria-hidden="true"></i>
+                          {{ day.read }} read
+                        </span>
+                        <span class="r-badge" :class="breakdownStatusClass(day.status)">
+                          {{ breakdownStatusLabel(day.status) }}
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
-                <p class="r-note r-note--muted">
-                  Page counts can vary by mushaf edition. Adjust totals if needed.
-                </p>
-                <div class="r-progress__footer">
-                  <span v-if="quranProgressRemaining === 0">Completed 🎉</span>
-                  <span v-else-if="quranProgressDaysLeft">
-                    At this pace: ~{{ quranProgressDaysLeft }} day{{ quranProgressDaysLeft === 1 ? "" : "s" }} left
-                  </span>
-                  <span v-else>Set a daily goal to estimate your pace.</span>
-                  <span class="r-progress__hint">Saved locally for your login.</span>
-                </div>
-                <div class="r-progress-insights">
-                  <div>
-                    <span class="r-mini-label">Days remaining</span>
-                    <strong>{{ quranDaysRemaining }}</strong>
-                  </div>
-                  <div>
-                    <span class="r-mini-label">Needed per day</span>
-                    <strong>{{ quranDailyTargetNeeded }} {{ quranUnitLabel }}/day</strong>
-                  </div>
-                  <div>
-                    <span class="r-mini-label">Est. completion</span>
-                    <strong>{{ quranCompletionLabel }}</strong>
-                  </div>
-                </div>
-              </div>
-            </article>
-
-            <article class="r-card r-card--interactive r-animate" style="--delay: 0.12s;">
-              <div class="r-interactive-stack">
-                <div class="r-stack-head">
-                  <h3 class="r-card__title">Daily breakdown 🗓️</h3>
-                  <span class="r-badge">{{ calendarLength }} days</span>
-                </div>
-                <p class="r-card__desc">
-                  Tied to your planner dates. Targets use your daily goal or an even split across Ramadan.
-                </p>
-                <p class="r-helper">Daily totals update from your saved entries (including “Mark today complete”).</p>
-                <div class="r-today-panel">
-                  <div>
-                    <span class="r-mini-label">Today's Progress</span>
-                    <strong>{{ quranTodayRead }} / {{ quranTodayTarget }} {{ quranUnitLabel }}</strong>
-                    <div class="r-today-meta">
-                      <span>Remaining: {{ quranTodayRemaining }}</span>
-                      <span v-if="quranTodayRemaining === 0" class="r-badge r-badge--good">Completed ✅</span>
-                    </div>
-                    <p v-if="quranTodayRemaining === 0" class="r-confirm">Completion saved for today.</p>
-                  </div>
-                  <div class="r-today-actions">
-                    <span
-                      class="r-tooltip"
-                      aria-label="Uses your device date to define today."
-                      title="Uses your device date to define today."
-                    >
-                      ℹ️
-                    </span>
-                    <button
-                      class="r-button r-button--ghost r-button--sm"
-                      type="button"
-                      :disabled="!canMarkTodayComplete"
-                      @click="markTodayComplete"
-                    >
-                      {{ quranTodayRemaining === 0 ? "Completed" : "Mark today complete" }}
-                    </button>
-                    <button
-                      v-if="lastQuickAction"
-                      class="r-chip r-chip--action"
-                      type="button"
-                      @click="undoLastQuickAction"
-                    >
-                      Undo
-                    </button>
-                  </div>
-                </div>
-                <div class="r-breakdown">
-                  <div
-                    v-for="day in quranBreakdownDays"
-                    :key="day.key"
-                    class="r-breakdown__row"
-                    :class="{ 'is-today': day.isToday, 'is-selected': day.isSelected }"
-                  >
-                    <div>
-                      <span class="r-breakdown__day">Day {{ day.dayNumber }}</span>
-                      <span class="r-breakdown__date">{{ formatShortDate(day.date) }}</span>
-                    </div>
-                    <div class="r-breakdown__meta">
-                      <span>🎯 {{ day.target }} {{ quranUnitLabel }}</span>
-                      <span>📗 {{ day.read }} read</span>
-                      <span class="r-badge" :class="breakdownStatusClass(day.status)">
-                        {{ breakdownStatusLabel(day.status) }}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
+              </article>
+            </div>
           </div>
         </div>
       </div>
@@ -374,12 +355,8 @@
           <p class="r-section__subtitle">{{ ramadan.important_dates.subtitle }}</p>
         </div>
         <div v-if="keyDateHighlights.length" class="r-key-dates__highlights">
-          <article
-            v-for="highlight in keyDateHighlights"
-            :key="highlight.title"
-            class="r-card r-card--mini"
-          >
-            <div class="r-card--mini__icon">
+          <article v-for="highlight in keyDateHighlights" :key="highlight.title" class="r-card r-card--mini">
+            <div v-if="highlight.showIcon !== false && highlight.icon" class="r-card--mini__icon">
               <i :class="['fas', highlight.icon]" aria-hidden="true"></i>
             </div>
             <div>
@@ -390,14 +367,10 @@
         </div>
         <div id="section-key-dates-body" class="r-section__body">
           <div class="r-grid r-grid--dates">
-            <article
-              v-for="(date, index) in ramadan.important_dates.dates"
-              :key="date.event"
-              class="r-card r-card--date"
-            >
+            <article v-for="(date, index) in ramadan.important_dates.dates" :key="date.event"
+              class="r-card r-card--date">
               <div class="r-card__tag" :class="`r-card__tag--${date.type}`">
                 {{ date.event }}
-                <span class="r-card__emoji r-card__emoji--tag" aria-hidden="true">{{ dateEmoji(date.type) }}</span>
               </div>
               <h3 class="r-card__title">{{ date.gregorian_date }}</h3>
               <p class="r-card__meta">{{ date.hijri_date }}</p>
@@ -443,28 +416,19 @@
                   </div>
                   <div class="r-planner-controls">
                     <label class="r-label" for="planner-start-date">Start date</label>
-                    <input
-                      id="planner-start-date"
-                      class="r-input"
-                      type="date"
-                      v-model="calendarStartOverride"
-                      @change="persistCalendar"
-                    />
+                    <input id="planner-start-date" class="r-input" type="date" v-model="calendarStartOverride"
+                      @change="persistCalendar" />
                     <label class="r-label" for="planner-length">Length</label>
-                    <select id="planner-length" class="r-select" v-model.number="calendarLength" @change="persistCalendar">
+                    <select id="planner-length" class="r-select" v-model.number="calendarLength"
+                      @change="persistCalendar">
                       <option v-for="len in [29, 30]" :key="len" :value="len">{{ len }} days</option>
                     </select>
                   </div>
                 </div>
                 <div class="r-calendar">
-                  <button
-                    v-for="(day, index) in calendarDays"
-                    :key="day.key"
-                    class="r-calendar__cell"
-                    type="button"
+                  <button v-for="(day, index) in calendarDays" :key="day.key" class="r-calendar__cell" type="button"
                     :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
-                    @click="selectDay(index)"
-                  >
+                    @click="selectDay(index)">
                     <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
                     <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
                     <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
@@ -478,7 +442,6 @@
               <article class="ramadan-reminder-card">
                 <div class="ramadan-reminder-card__head">
                   <div>
-                    <p class="ramadan-reminder-eyebrow">Personal reminders</p>
                     <h3 class="ramadan-reminder-title">Stay present this Ramadan</h3>
                     <p class="ramadan-reminder-lead">
                       Build a mini schedule for suhoor, iftar, prayers, or goals. Reminders stay on this device.
@@ -494,15 +457,11 @@
                   </div>
                 </div>
                 <div v-else>
-                  <form class="ramadan-reminder-form" @submit.prevent="addReminder">
+                  <div class="ramadan-reminder-form-shell">
+                    <form class="ramadan-reminder-form" @submit.prevent="addReminder">
                     <div class="ramadan-reminder-form__row">
-                      <input
-                        class="ramadan-reminder-input"
-                        v-model.trim="reminderDraft.title"
-                        type="text"
-                        placeholder="Reminder title"
-                        required
-                      />
+                      <input class="ramadan-reminder-input" v-model.trim="reminderDraft.title" type="text"
+                        placeholder="Reminder title" required />
                       <select class="ramadan-reminder-select" v-model.number="reminderDraft.dayNumber">
                         <option v-for="day in dayOptions" :key="day" :value="day">Day {{ day }}</option>
                       </select>
@@ -513,21 +472,14 @@
                           {{ option.label }}
                         </option>
                       </select>
-                      <input
-                        class="ramadan-reminder-input"
-                        v-model.trim="reminderDraft.note"
-                        type="text"
-                        placeholder="Optional note"
-                      />
+                      <input class="ramadan-reminder-input" v-model.trim="reminderDraft.note" type="text"
+                        placeholder="Optional note" />
                     </div>
                     <button class="ramadan-reminder-submit" type="submit">Save reminder</button>
                   </form>
+                  </div>
                   <div v-if="sortedReminders.length" class="ramadan-reminder-list">
-                    <article
-                      v-for="reminder in sortedReminders"
-                      :key="reminder.id"
-                      class="ramadan-reminder-item"
-                    >
+                    <article v-for="reminder in sortedReminders" :key="reminder.id" class="ramadan-reminder-item">
                       <div class="ramadan-reminder-item__status">
                         <label class="ramadan-checkbox">
                           <input type="checkbox" v-model="reminder.done" @change="persistReminders" />
@@ -541,11 +493,7 @@
                           <p v-if="reminder.note" class="ramadan-reminder-note">{{ reminder.note }}</p>
                         </div>
                       </div>
-                      <button
-                        class="ramadan-reminder-remove"
-                        type="button"
-                        @click="removeReminder(reminder.id)"
-                      >
+                      <button class="ramadan-reminder-remove" type="button" @click="removeReminder(reminder.id)">
                         Remove
                       </button>
                     </article>
@@ -569,27 +517,20 @@
                   </div>
                 </div>
                 <div v-else>
-                  <form class="r-form" @submit.prevent="addReflection">
+                  <div class="r-form-shell">
+                    <form class="r-form" @submit.prevent="addReflection">
                     <div class="r-form__row">
-                      <input
-                        class="r-input"
-                        v-model.trim="reflectionDraft.name"
-                        type="text"
-                        placeholder="Name (optional)"
-                      />
+                      <input class="r-input" v-model.trim="reflectionDraft.name" type="text"
+                        placeholder="Name (optional)" />
                       <select class="r-select" v-model="reflectionDraft.mood">
                         <option v-for="mood in reflectionMoods" :key="mood" :value="mood">{{ mood }}</option>
                       </select>
                     </div>
-                    <textarea
-                      class="r-textarea"
-                      v-model.trim="reflectionDraft.text"
-                      rows="3"
-                      placeholder="Share a reflection or dua..."
-                      required
-                    ></textarea>
-                    <button class="r-button" type="submit">Share reflection</button>
+                    <textarea class="r-textarea" v-model.trim="reflectionDraft.text" rows="3"
+                      placeholder="Share a reflection or dua..." required></textarea>
+                    <button class="r-button r-button--primary" type="submit">Share reflection</button>
                   </form>
+                  </div>
                   <div v-if="reflections.length" class="r-reflection-list">
                     <article v-for="reflection in reflections" :key="reflection.id" class="r-reflection">
                       <div class="r-reflection__meta">
@@ -617,34 +558,24 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.how_to_fast.intro }}</p>
         </div>
-        <SectionToolbar
-          section-id="how-to-fast"
-          :section-title="ramadan.how_to_fast.section_title"
-          :section-feedback="toolbarFeedback['how-to-fast']"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="how-to-fast" :section-title="ramadan.how_to_fast.section_title"
+          :section-feedback="toolbarFeedback['how-to-fast']" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-how-to-fast-body" class="r-section__body" :style="sectionBodyStyle('how-to-fast')">
-          <div class="r-grid r-grid--triple r-grid--stagger">
+          <div class="r-grid r-grid--triple r-grid--stagger r-grid--how-to-fast">
             <article v-for="(card, index) in ramadan.how_to_fast.cards" :key="card.title" class="r-card r-card--step">
-              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("fasting", index) }}</span>
+              <span class="r-card__icon" aria-hidden="true">
+                <i :class="getIconClasses('fasting', index)"></i>
+              </span>
               <h3 class="r-card__title">{{ card.title }}</h3>
               <ul class="r-list">
                 <li v-for="item in card.items" :key="item">{{ item }}</li>
               </ul>
             </article>
           </div>
-          <ReferenceList
-            v-if="ramadan.how_to_fast.references"
-            :items="ramadan.how_to_fast.references"
-            :title="ramadan.labels.references"
-            :action-label="ramadan.labels.view_source"
-          />
+          <ReferenceList v-if="ramadan.how_to_fast.references" :items="ramadan.how_to_fast.references"
+            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
         </div>
       </div>
     </section>
@@ -657,18 +588,10 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.faq.subtitle }}</p>
         </div>
-        <SectionToolbar
-          section-id="faq"
-          :section-title="ramadan.faq.section_title"
-          :section-feedback="toolbarFeedback.faq"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="faq" :section-title="ramadan.faq.section_title"
+          :section-feedback="toolbarFeedback.faq" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-faq-body" class="r-section__body" :style="sectionBodyStyle('faq')">
           <div class="r-grid r-grid--double r-faq-grid">
             <article v-for="item in ramadan.faq.items" :key="item.question" class="r-card r-card--faq">
@@ -693,37 +616,23 @@
             </button>
           </div>
         </div>
-        <SectionToolbar
-          section-id="quran-plans"
-          :section-title="ramadan.quran_reading_plans.section_title"
-          :section-feedback="toolbarFeedback['quran-plans']"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="quran-plans" :section-title="ramadan.quran_reading_plans.section_title"
+          :section-feedback="toolbarFeedback['quran-plans']" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-quran-plans-body" class="r-section__body" :style="sectionBodyStyle('quran-plans')">
           <div class="r-grid r-grid--triple r-grid--stagger">
-            <article
-              v-for="(plan, index) in ramadan.quran_reading_plans.plans"
-              :key="plan.level"
-              class="r-card r-card--plan"
-            >
+            <article v-for="(plan, index) in ramadan.quran_reading_plans.plans" :key="plan.level"
+              class="r-card r-card--plan">
               <div class="r-card__head">
-                <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("quran", index) }}</span>
+                <span class="r-card__icon" aria-hidden="true">
+                  <i :class="getIconClasses('quran', index)"></i>
+                </span>
                 <div class="r-card__head-text">
                   <h3 class="r-card__title">{{ plan.level }}</h3>
                   <p class="r-card__desc">Daily target: {{ plan.daily_target }}</p>
-                  <button
-                    class="r-card__toggle"
-                    type="button"
-                    :aria-expanded="isQuranPlanExpanded(index)"
-                    :aria-controls="`quran-plan-${index}`"
-                    @click="toggleQuranPlan(index)"
-                  >
+                  <button class="r-card__toggle" type="button" :aria-expanded="isQuranPlanExpanded(index)"
+                    :aria-controls="`quran-plan-${index}`" @click="toggleQuranPlan(index)">
                     {{ isQuranPlanExpanded(index) ? "Hide details" : "View full plan" }}
                   </button>
                 </div>
@@ -741,12 +650,8 @@
               </div>
             </article>
           </div>
-          <ReferenceList
-            v-if="ramadan.quran_reading_plans.references"
-            :items="ramadan.quran_reading_plans.references"
-            :title="ramadan.labels.references"
-            :action-label="ramadan.labels.view_source"
-          />
+          <ReferenceList v-if="ramadan.quran_reading_plans.references" :items="ramadan.quran_reading_plans.references"
+            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
         </div>
       </div>
     </section>
@@ -764,36 +669,22 @@
             </button>
           </div>
         </div>
-        <SectionToolbar
-          section-id="personal-plans"
-          :section-title="ramadan.personal_plans.section_title"
-          :section-feedback="toolbarFeedback['personal-plans']"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="personal-plans" :section-title="ramadan.personal_plans.section_title"
+          :section-feedback="toolbarFeedback['personal-plans']" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-personal-plans-body" class="r-section__body" :style="sectionBodyStyle('personal-plans')">
           <div class="r-grid r-grid--double r-grid--stagger">
-            <article
-              v-for="(plan, index) in ramadan.personal_plans.plans"
-              :key="plan.title"
-              class="r-card r-card--persona"
-            >
+            <article v-for="(plan, index) in ramadan.personal_plans.plans" :key="plan.title"
+              class="r-card r-card--persona">
               <div class="r-card__head">
-                <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("personal", index) }}</span>
+                <span class="r-card__icon" aria-hidden="true">
+                  <i :class="getIconClasses('personal', index)"></i>
+                </span>
                 <div class="r-card__head-text">
                   <h3 class="r-card__title">{{ plan.title }}</h3>
-                  <button
-                    class="r-card__toggle"
-                    type="button"
-                    :aria-expanded="isPersonalPlanExpanded(index)"
-                    :aria-controls="`personal-plan-${index}`"
-                    @click="togglePersonalPlan(index)"
-                  >
+                  <button class="r-card__toggle" type="button" :aria-expanded="isPersonalPlanExpanded(index)"
+                    :aria-controls="`personal-plan-${index}`" @click="togglePersonalPlan(index)">
                     {{ isPersonalPlanExpanded(index) ? "Hide details" : "View full plan" }}
                   </button>
                 </div>
@@ -830,22 +721,16 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.charity_guide.intro }}</p>
         </div>
-        <SectionToolbar
-          section-id="charity"
-          :section-title="ramadan.charity_guide.section_title"
-          :section-feedback="toolbarFeedback.charity"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="charity" :section-title="ramadan.charity_guide.section_title"
+          :section-feedback="toolbarFeedback.charity" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-charity-body" class="r-section__body" :style="sectionBodyStyle('charity')">
           <div class="r-grid r-grid--double">
             <article class="r-card r-card--charity">
-              <span class="r-card__emoji" aria-hidden="true">💛</span>
+              <span class="r-card__icon" aria-hidden="true">
+                <i class="fas fa-heart"></i>
+              </span>
               <div class="r-charity-body">
                 <p v-for="(para, index) in ramadan.charity_guide.overview" :key="index" class="r-card__desc">
                   {{ para }}
@@ -857,7 +742,9 @@
               </div>
             </article>
             <article class="r-card r-card--charity r-card--charity-alt">
-              <span class="r-card__emoji" aria-hidden="true">🎁</span>
+              <span class="r-card__icon" aria-hidden="true">
+                <i class="fas fa-gift"></i>
+              </span>
               <h3 class="r-card__title">{{ ramadan.charity_guide.sadaqah_title }}</h3>
               <ul class="r-list">
                 <li v-for="item in ramadan.charity_guide.sadaqah_ideas" :key="item">{{ item }}</li>
@@ -869,12 +756,8 @@
               <div class="r-note" v-for="note in ramadan.charity_guide.impact_notes" :key="note">{{ note }}</div>
             </article>
           </div>
-          <ReferenceList
-            v-if="ramadan.charity_guide.references"
-            :items="ramadan.charity_guide.references"
-            :title="ramadan.labels.references"
-            :action-label="ramadan.labels.view_source"
-          />
+          <ReferenceList v-if="ramadan.charity_guide.references" :items="ramadan.charity_guide.references"
+            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
         </div>
       </div>
     </section>
@@ -887,26 +770,17 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.health_food_tips.intro }}</p>
         </div>
-        <SectionToolbar
-          section-id="health"
-          :section-title="ramadan.health_food_tips.section_title"
-          :section-feedback="toolbarFeedback.health"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="health" :section-title="ramadan.health_food_tips.section_title"
+          :section-feedback="toolbarFeedback.health" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-health-body" class="r-section__body" :style="sectionBodyStyle('health')">
           <div class="r-grid r-grid--triple r-grid--stagger">
-            <article
-              v-for="(section, index) in ramadan.health_food_tips.primary_sections"
-              :key="section.title"
-              class="r-card r-card--health"
-            >
-              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index) }}</span>
+            <article v-for="(section, index) in ramadan.health_food_tips.primary_sections" :key="section.title"
+              class="r-card r-card--health">
+              <span class="r-card__icon" aria-hidden="true">
+                <i :class="getIconClasses('health', index)"></i>
+              </span>
               <h3 class="r-card__title">{{ section.title }}</h3>
               <ul class="r-list">
                 <li v-for="item in section.items" :key="item">{{ item }}</li>
@@ -914,12 +788,11 @@
             </article>
           </div>
           <div class="r-grid r-grid--double r-spacing-top">
-            <article
-              v-for="(section, index) in ramadan.health_food_tips.secondary_sections"
-              :key="section.title"
-              class="r-card r-card--health r-card--health-alt"
-            >
-              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("health", index + 3) }}</span>
+            <article v-for="(section, index) in ramadan.health_food_tips.secondary_sections" :key="section.title"
+              class="r-card r-card--health r-card--health-alt">
+              <span class="r-card__icon" aria-hidden="true">
+                <i :class="getIconClasses('health', index + 3)"></i>
+              </span>
               <h3 class="r-card__title">{{ section.title }}</h3>
               <ul class="r-list">
                 <li v-for="item in section.items" :key="item">{{ item }}</li>
@@ -943,12 +816,8 @@
         </div>
         <div id="section-duas-body" class="r-section__body">
           <div class="r-story-grid">
-            <article
-              v-for="dua in ramadan.duas_prayers.daily_duas"
-              :key="dua.occasion"
-              class="r-story-card r-story-card--dua"
-              :style="storyStyle()"
-            >
+            <article v-for="dua in ramadan.duas_prayers.daily_duas" :key="dua.occasion"
+              class="r-story-card r-story-card--dua" :style="storyStyle()">
               <div class="r-story-content">
                 <h3 class="r-story-title">{{ dua.occasion }}</h3>
                 <p class="r-arabic" dir="rtl">{{ dua.arabic }}</p>
@@ -960,12 +829,7 @@
               </div>
             </article>
           </div>
-          <button
-            class="r-link r-link--button"
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#moreDuasModal"
-          >
+          <button class="r-link r-link--button" type="button" data-bs-toggle="modal" data-bs-target="#moreDuasModal">
             {{ ramadan.duas_prayers.view_more_label }}
           </button>
         </div>
@@ -996,12 +860,8 @@
         </div>
 
         <div class="ramadan-short-highlights">
-          <article
-            v-for="item in ramadan.shorts.highlights"
-            :key="item.link"
-            class="ramadan-short-card"
-            :style="storyStyle(item.thumbnail)"
-          >
+          <article v-for="item in ramadan.shorts.highlights" :key="item.link" class="ramadan-short-card"
+            :style="storyStyle(item.thumbnail)">
             <div class="ramadan-short-card__content">
               <span class="ramadan-short-card__tag">{{ item.tag }}</span>
               <h3 class="ramadan-short-card__title">{{ item.title }}</h3>
@@ -1021,12 +881,8 @@
               <h4 class="ramadan-short-group__title">{{ group.title }}</h4>
             </div>
             <div class="ramadan-short-group__grid">
-              <article
-                v-for="item in group.items"
-                :key="item.link"
-                class="ramadan-short-card ramadan-short-card--compact"
-                :style="storyStyle(item.thumbnail)"
-              >
+              <article v-for="item in group.items" :key="item.link"
+                class="ramadan-short-card ramadan-short-card--compact" :style="storyStyle(item.thumbnail)">
                 <div class="ramadan-short-card__content">
                   <span class="ramadan-short-card__tag">{{ item.tag }}</span>
                   <h3 class="ramadan-short-card__title">{{ item.title }}</h3>
@@ -1057,15 +913,12 @@
         </div>
         <div id="section-tools-body" class="r-section__body">
           <div class="r-grid r-grid--triple r-grid--stagger">
-            <article
-              v-for="(tool, index) in ramadan.tools_calculators.tools"
-              :key="tool.title"
-              class="r-card r-card--tool"
-            >
+            <article v-for="(tool, index) in ramadan.tools_calculators.tools" :key="tool.title"
+              class="r-card r-card--tool">
               <div class="r-card--tool__top-row">
-              <div class="r-card--tool__icons">
-                <i :class="['fas', tool.icon]" aria-hidden="true"></i>
-              </div>
+                <div class="r-card--tool__icons">
+                  <i :class="['fas', tool.icon]" aria-hidden="true"></i>
+                </div>
                 <div class="r-card--tool__text">
                   <h3 class="r-card__title">{{ tool.title }}</h3>
                   <p class="r-card__desc">{{ tool.description }}</p>
@@ -1073,12 +926,8 @@
               </div>
               <p v-if="tool.detail" class="r-card__detail">{{ tool.detail }}</p>
               <div class="r-card--tool__footer">
-                <a
-                  :href="tool.link"
-                  class="r-button r-button--ghost r-card--tool__action"
-                  target="_blank"
-                  rel="noopener"
-                >
+                <a :href="tool.link" class="r-button r-button--ghost r-card--tool__action" target="_blank"
+                  rel="noopener">
                   {{ ramadan.labels.open_tool }}
                 </a>
               </div>
@@ -1096,26 +945,17 @@
           </h2>
           <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
         </div>
-        <SectionToolbar
-          section-id="platforms"
-          :section-title="ramadan.platform_resources.section_title"
-          :section-feedback="toolbarFeedback.platforms"
-          @ai-summary="summarizeSection"
-          @whatsapp-share="shareSectionViaWhatsApp"
-          @copy-section="copySectionContent"
-          @print-section="printSection"
-          @export-pdf="exportSectionPdf"
-          @play-section="focusSection"
-          @adjust-font="adjustSectionFont"
-        />
+        <SectionToolbar section-id="platforms" :section-title="ramadan.platform_resources.section_title"
+          :section-feedback="toolbarFeedback.platforms" @ai-summary="summarizeSection"
+          @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
+          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
         <div id="section-platforms-body" class="r-section__body" :style="sectionBodyStyle('platforms')">
           <div class="r-grid r-grid--triple r-grid--stagger">
-            <article
-              v-for="(card, index) in ramadan.platform_resources.cards"
-              :key="card.title"
-              class="r-card r-card--resource"
-            >
-              <span class="r-card__emoji" aria-hidden="true">{{ getEmoji("platforms", index) }}</span>
+            <article v-for="(card, index) in ramadan.platform_resources.cards" :key="card.title"
+              class="r-card r-card--resource">
+              <span class="r-card__icon" aria-hidden="true">
+                <i :class="getIconClasses('platforms', index)"></i>
+              </span>
               <h3 class="r-card__title">{{ card.title }}</h3>
               <ul class="r-list">
                 <li v-for="item in card.items" :key="item.label">
@@ -1128,13 +968,7 @@
       </div>
     </section>
 
-    <div
-      class="modal fade"
-      id="moreDuasModal"
-      tabindex="-1"
-      aria-labelledby="moreDuasModalLabel"
-      aria-hidden="true"
-    >
+    <div class="modal fade" id="moreDuasModal" tabindex="-1" aria-labelledby="moreDuasModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -1147,14 +981,8 @@
                 <label class="r-dua-search__label" for="duaSearchInput">
                   {{ ramadan.duas_prayers.search_label || "Search the dua library" }}
                 </label>
-                <input
-                  id="duaSearchInput"
-                  class="r-input r-input--search"
-                  type="search"
-                  v-model="duaSearchTerm"
-                  placeholder="Search by purpose, Arabic, or reference"
-                  autocomplete="off"
-                />
+                <input id="duaSearchInput" class="r-input r-input--search" type="search" v-model="duaSearchTerm"
+                  placeholder="Search by purpose, Arabic, or reference" autocomplete="off" />
                 <p class="r-dua-search__hint">Highlights refresh as you type and show every matching word.</p>
               </div>
               <div class="r-dua-filters" role="group" aria-label="Filter duas">
@@ -1183,31 +1011,19 @@
             </div>
 
             <div v-else class="r-modal-grid">
-              <div
-                v-for="section in filteredDuaSections"
-                :key="section.title"
-                class="r-modal-card"
-              >
+              <div v-for="section in filteredDuaSections" :key="section.title" class="r-modal-card">
                 <h3>{{ section.title }}</h3>
                 <div class="r-story-grid r-story-grid--modal">
-                  <article
-                    v-for="item in section.items"
-                    :key="`${item.name}-${item.reference}`"
-                    class="r-story-card r-story-card--dua"
-                  >
+                  <article v-for="item in section.items" :key="`${item.name}-${item.reference}`"
+                    class="r-story-card r-story-card--dua">
                     <div class="r-story-content">
                       <h4 class="r-story-title" v-html="highlightDuaText(item.name)"></h4>
                       <p class="r-arabic" dir="rtl" v-html="highlightDuaText(item.arabic)"></p>
                       <p class="r-translit" v-html="highlightDuaText(item.transliteration)"></p>
                       <p class="r-story-desc" v-html="highlightDuaText(item.translation)"></p>
                       <div class="r-story-meta">
-                        <a
-                          class="r-story-duration"
-                          :href="item.resource"
-                          target="_blank"
-                          rel="noopener"
-                          v-html="highlightDuaText(item.reference)"
-                        ></a>
+                        <a class="r-story-duration" :href="item.resource" target="_blank" rel="noopener"
+                          v-html="highlightDuaText(item.reference)"></a>
                         <a class="r-story-link" :href="item.resource" target="_blank" rel="noopener">
                           {{ ramadan.labels.resource_label }}
                         </a>
@@ -1219,19 +1035,13 @@
             </div>
           </div>
         </div>
+      </div>
     </div>
+    <button v-if="showFab" class="r-fab" type="button" @click="scrollToTop" aria-label="Scroll back to top"
+      title="Scroll back to top">
+      <span aria-hidden="true">⬆</span>
+    </button>
   </div>
-  <button
-    v-if="showFab"
-    class="r-fab"
-    type="button"
-    @click="scrollToTop"
-    aria-label="Scroll back to top"
-    title="Scroll back to top"
-  >
-    <span aria-hidden="true">⬆</span>
-  </button>
-</div>
 </template>
 
 <script>
@@ -1250,7 +1060,7 @@ export default {
   },
   data() {
     return {
-    ramadan: ramadanData,
+      ramadan: ramadanData,
       duaSearchTerm: "",
       duaSourceFilter: "all",
       duaSectionFilter: "all",
@@ -1297,14 +1107,14 @@ export default {
       authRefreshHandler: null,
       personalPlanExpanded: {},
       quranPlanExpanded: {},
-      emojiPalettes: {
-        timeline: ["🕌", "📜", "🌙", "🤲", "🕰️", "✨"],
-        fasting: ["🥣", "🧂", "🚰", "🌤️", "🧘", "✨"],
-        quran: ["📖", "🧭", "🗂️", "✨"],
-        personal: ["🎯", "👥", "🏡", "🌿", "🧠", "✨"],
-        health: ["🥗", "💧", "💤", "🏃", "🍋", "✨"],
-        tools: ["🧮", "📍", "🕌", "🧭", "🗺️", "✨"],
-        platforms: ["🌐", "🎓", "📺", "📚", "📍", "✨"],
+      iconPalettes: {
+        fallback: ["fa-star"],
+        timeline: ["fa-mosque", "fa-calendar-week", "fa-scroll", "fa-hourglass-half", "fa-star", "fa-sun"],
+        fasting: ["fa-utensils", "fa-water", "fa-apple-alt", "fa-leaf", "fa-moon", "fa-sun"],
+        quran: ["fa-book-open", "fa-hands-praying", "fa-scroll", "fa-lightbulb", "fa-compass"],
+        personal: ["fa-users", "fa-home", "fa-hands-helping", "fa-seedling", "fa-star"],
+        health: ["fa-apple-alt", "fa-water", "fa-bed", "fa-bicycle", "fa-leaf", "fa-heart"],
+        platforms: ["fa-globe", "fa-laptop", "fa-mobile-alt", "fa-headphones", "fa-book", "fa-play"],
       },
       timeOfDayOptions: [
         { value: "suhoor", label: "Suhoor (pre-dawn)" },
@@ -1459,6 +1269,7 @@ export default {
           icon: "fa-sun",
           title: "Ramadan begins",
           copy: `${start.gregorian_date} · ${start.description}`,
+          showIcon: false,
         });
       }
       if (special) {
@@ -1466,6 +1277,7 @@ export default {
           icon: "fa-shapes",
           title: "Laylat al-Qadr focus",
           copy: `${special.gregorian_date} · ${special.description}`,
+          showIcon: false,
         });
       }
       if (eid) {
@@ -1473,6 +1285,7 @@ export default {
           icon: "fa-sparkles",
           title: "Finish with Eid",
           copy: `${eid.gregorian_date} · ${eid.description}`,
+          showIcon: false,
         });
       }
       return highlights;
@@ -1591,9 +1404,28 @@ export default {
       return estimate;
     },
     quranCompletionLabel() {
-      if (this.quranProgressRemaining <= 0) return "Completed 🎉";
+      if (this.quranProgressRemaining <= 0) return "Completed";
       if (!this.quranProgress.dailyGoal) return "Set a daily goal";
       return this.quranEstimatedCompletionDate ? this.formatISODate(this.quranEstimatedCompletionDate) : "Set a daily goal";
+    },
+    quranOnboardingSteps() {
+      return [
+        {
+          icon: "fa-book-open",
+          title: "Choose your measurement",
+          detail: "Select pages, juz, or hizb so the tracker matches the mushaf you read.",
+        },
+        {
+          icon: "fa-bullseye",
+          title: "Set totals & goals",
+          detail: "Add your current progress, overall target, and a daily pace so estimates fall into place.",
+        },
+        {
+          icon: "fa-bolt",
+          title: "Log quick boosts",
+          detail: "Use the +1/+3/+5 buttons or “Mark today complete” to keep streaks growing.",
+        },
+      ];
     },
     duaSearchTokens() {
       if (!this.duaSearchTerm) return [];
@@ -1680,8 +1512,8 @@ export default {
       return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
     },
     breakdownStatusLabel(status) {
-      if (status === "done") return "Completed ✅";
-      if (status === "partial") return "In progress ⏳";
+      if (status === "done") return "Completed";
+      if (status === "partial") return "In progress";
       return "Not completed";
     },
     breakdownStatusClass(status) {
@@ -1771,18 +1603,10 @@ export default {
       const stringValue = String(value);
       return stringValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
     },
-    getEmoji(palette, index) {
-      const list = this.emojiPalettes?.[palette] || [];
-      if (!list.length) return "✨";
-      return list[index % list.length];
-    },
-    dateEmoji(type) {
-      const map = {
-        start: "🌙",
-        special: "✨",
-        eid: "🎉",
-      };
-      return map[type] || "🗓️";
+    getIconClasses(palette, index) {
+      const paletteList = this.iconPalettes?.[palette] || this.iconPalettes?.fallback || [];
+      const iconName = paletteList[index % paletteList.length] || this.iconPalettes?.fallback?.[0] || "fa-star";
+      return ["fas", iconName];
     },
     parseISODate(value) {
       if (!value) return null;
@@ -1938,9 +1762,9 @@ export default {
         const sessionsStored = JSON.parse(window.localStorage.getItem(sessionsKey) || "[]");
         this.quranSessions = Array.isArray(sessionsStored)
           ? sessionsStored.map((session) => ({
-              ...session,
-              amount: Math.max(Math.round(Number(session.amount) || 0), 1),
-            }))
+            ...session,
+            amount: Math.max(Math.round(Number(session.amount) || 0), 1),
+          }))
           : [];
       } catch (error) {
         this.quranSessions = [];
@@ -2073,6 +1897,13 @@ export default {
     scrollToTop() {
       if (typeof window === "undefined") return;
       window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+    scrollToQuranTracker() {
+      if (typeof window === "undefined") return;
+      const card = this.$refs.quranProgressCard;
+      if (card && typeof card.scrollIntoView === "function") {
+        card.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     },
     persistCalendar() {
       if (this.calendarLength < 1) return;
@@ -2453,8 +2284,8 @@ export default {
           this.reflections = [];
         }
       } catch (error) {
-      this.reminders = [];
-      this.reflections = [];
+        this.reminders = [];
+        this.reflections = [];
       }
     },
   },
@@ -2698,6 +2529,7 @@ export default {
   align-items: center;
 }
 
+
 .r-hero__frame {
   position: relative;
   border-radius: 30px;
@@ -2806,7 +2638,7 @@ export default {
   line-height: 1;
 }
 
-.r-card__emoji {
+.r-card__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -2820,7 +2652,7 @@ export default {
   margin-bottom: 16px;
 }
 
-.r-card__emoji--tag {
+.r-card__icon--tag {
   margin-left: 8px;
   margin-bottom: 0;
   font-size: 0.85rem;
@@ -2828,8 +2660,30 @@ export default {
   background: rgba(255, 255, 255, 0.6);
 }
 
-.r-card__emoji--inline {
+.r-card__icon--inline {
   margin-bottom: 6px;
+}
+
+.r-card__icon i {
+  font-size: 1.35rem;
+  color: var(--r-accent-deep);
+}
+
+.r-card__title i,
+.r-breakdown__meta span i,
+.r-progress__footer span i,
+.r-progress-insights strong i,
+.r-today-meta span i,
+.r-quran-onboarding__step-icon i {
+  margin-right: 0.35rem;
+  font-size: 1rem;
+  color: inherit;
+}
+
+.r-tooltip i {
+  font-size: 0.9rem;
+  margin: 0;
+  color: inherit;
 }
 
 .r-card__head {
@@ -2892,6 +2746,20 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
+.r-grid--how-to-fast {
+  grid-template-columns: repeat(3, minmax(240px, 1fr));
+}
+
+.r-grid--how-to-fast.r-grid--stagger {
+  gap: 26px;
+}
+
+@media (max-width: 1024px) {
+  .r-grid--how-to-fast {
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+}
+
 .r-card {
   background: var(--r-card-bg, var(--r-card));
   border-radius: var(--r-radius);
@@ -2911,7 +2779,7 @@ export default {
   transition: transform 0.28s var(--r-ease), box-shadow 0.28s var(--r-ease), border-color 0.28s var(--r-ease);
 }
 
-.r-card > * {
+.r-card>* {
   position: relative;
   z-index: 1;
 }
@@ -2954,19 +2822,6 @@ export default {
   --r-card-bg: linear-gradient(180deg, #ffffff 0%, #fff9f0 100%);
   --r-card-outline: rgba(215, 166, 74, 0.4);
   border-top: 3px solid rgba(215, 166, 74, 0.8);
-}
-
-.r-card--date::after {
-  content: "";
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(15, 34, 48, 0.12), transparent 70%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 .r-card--step {
@@ -3127,7 +2982,7 @@ export default {
   line-height: 1.55;
 }
 
-.r-moon-sighting__steps li + li {
+.r-moon-sighting__steps li+li {
   margin-top: 0.35rem;
 }
 
@@ -3173,14 +3028,22 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.78rem;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(31, 122, 104, 0.95), rgba(20, 88, 74, 0.95));
+  color: #fff;
+  bottom: 0px;
+  font-size: 0.85rem;
   font-weight: 700;
-  color: var(--r-accent-deep);
-  margin-top: 4px;
+  letter-spacing: 0.08em;
+  margin-top: 8px;
+  box-shadow: 0 10px 30px rgba(27, 31, 42, 0.18);
 }
 
 .r-card__reference-link:hover {
-  text-decoration: underline;
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(27, 31, 42, 0.25);
+  text-decoration: none;
 }
 
 .r-card__tag--start {
@@ -3400,7 +3263,7 @@ export default {
   width: 100%;
 }
 
-.r-card__emoji--inline {
+.r-card__icon--inline {
   color: #0e0e0e;
 }
 
@@ -3478,8 +3341,10 @@ export default {
 }
 
 .r-card--soft {
-  --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f7f4ef 100%);
+  --r-card-bg: #fff;
   --r-card-outline: rgba(15, 34, 48, 0.08);
+  border: 1px solid rgba(15, 34, 48, 0.08);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
 }
 
 .r-card--planner {
@@ -3751,9 +3616,12 @@ export default {
 .ramadan-reminder-card {
   border-radius: 28px;
   padding: 2rem;
-  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 70%);
-  border: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 24px 40px rgba(15, 23, 42, 0.12);
+  background: #fff;
+  border: 1px solid rgba(15, 23, 42, 0.05);
+  box-shadow: 0 20px 35px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .ramadan-reminder-card__head {
@@ -3767,19 +3635,24 @@ export default {
 .ramadan-reminder-eyebrow {
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  font-size: 0.7rem;
+  font-size: 0.75rem;
   color: #0f766e;
-  margin: 0 0 0.35rem;
+  margin: 0 0 0.3rem;
 }
 
 .ramadan-reminder-title {
   margin: 0;
-  font-size: 1.6rem;
+  font-size: 1.55rem;
+  color: #0c1c2e;
 }
 
 .ramadan-reminder-lead {
-  margin: 0.4rem 0 0;
+  margin: 0.35rem 0 0;
   color: #475569;
+}
+
+.ramadan-reminder-title {
+  font-family: "Playfair Display", "Fraunces", serif;
 }
 
 .ramadan-reminder-pill {
@@ -3798,20 +3671,28 @@ export default {
   margin: 1rem 0 1.25rem;
 }
 
+.ramadan-reminder-form-shell,
+.r-form-shell {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
 .ramadan-reminder-form__row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.85rem;
+  gap: 0.8rem;
 }
 
 .ramadan-reminder-input,
 .ramadan-reminder-select {
-  border-radius: 16px;
-  border: 1px solid rgba(15, 23, 42, 0.15);
-  padding: 0.8rem 1rem;
+  border-radius: 18px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  padding: 0.85rem 1.1rem;
   font-size: 0.95rem;
   font-family: inherit;
-  background: #fff;
+  background: #fefefe;
 }
 
 .ramadan-reminder-select {
@@ -3821,13 +3702,31 @@ export default {
 .ramadan-reminder-submit {
   border: none;
   border-radius: 999px;
-  background: linear-gradient(135deg, #0f766e, #2dd4bf);
+  background: linear-gradient(135deg, rgba(27, 118, 110, 0.9), rgba(28, 96, 84, 0.95));
   color: #fff;
   font-weight: 700;
-  padding: 0.8rem 1.4rem;
+  padding: 0.9rem 1.6rem;
   cursor: pointer;
   align-self: flex-start;
-  box-shadow: 0 14px 24px rgba(15, 118, 110, 0.25);
+  box-shadow: 0 16px 32px rgba(27, 118, 110, 0.25);
+  letter-spacing: 0.04em;
+}
+
+.ramadan-reminder-submit:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px rgba(27, 118, 110, 0.35);
+}
+
+.ramadan-reminder-submit,
+.r-card--soft .r-button--primary {
+  margin-top: auto;
+  width: 100%;
+}
+
+.ramadan-reminder-submit,
+.r-card--soft .r-button--primary {
+  margin-top: auto;
+  width: 100%;
 }
 
 .ramadan-reminder-list {
@@ -3882,7 +3781,7 @@ export default {
   transition: background 0.2s ease;
 }
 
-.ramadan-checkbox input:checked + span {
+.ramadan-checkbox input:checked+span {
   background: linear-gradient(135deg, #0f766e, #2dd4bf);
 }
 
@@ -3944,6 +3843,7 @@ export default {
 }
 
 @media (max-width: 992px) {
+
   .ramadan-short-highlights,
   .ramadan-short-group__grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -3951,13 +3851,16 @@ export default {
 }
 
 @media (max-width: 768px) {
+
   .ramadan-short-highlights,
   .ramadan-short-group__grid {
     grid-template-columns: repeat(1, minmax(0, 1fr));
   }
+
   .ramadan-short-hero {
     flex-direction: column;
   }
+
   .ramadan-reminder-form__row {
     grid-template-columns: 1fr;
   }
@@ -4108,23 +4011,31 @@ export default {
   display: grid;
   gap: 20px;
   width: 100%;
+  padding: 24px;
+  border-radius: 28px;
+  border: 1px solid rgba(215, 166, 74, 0.35);
+  background: linear-gradient(180deg, #fffdf7 0%, #fff7e9 100%);
+  box-shadow: 0 18px 36px rgba(15, 34, 48, 0.10);
+  position: relative;
 }
 
 .r-planner-head {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 24px;
   justify-content: space-between;
   align-items: flex-start;
 }
 
 .r-planner-controls {
-  display: grid;
-  gap: 8px;
-  min-width: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  min-width: 200px;
 }
 
-.r-planner-row + .r-planner-row {
+.r-planner-row+.r-planner-row {
   margin-top: 24px;
 }
 
@@ -4147,6 +4058,25 @@ export default {
   font-family: inherit;
   font-size: 0.95rem;
   color: var(--r-ink);
+}
+
+.r-calendar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(110px, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 10px;
+  padding: 8px;
+  border-radius: 24px;
+  border: 1px solid rgba(215, 166, 74, 0.35);
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+@media (max-width: 1280px) {
+  .r-calendar {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
 }
 
 .r-input:focus,
@@ -4182,6 +4112,129 @@ export default {
   margin: 0;
   color: var(--r-ink-soft);
   font-size: 0.92rem;
+}
+
+.r-interactive-layout {
+  display: grid;
+  gap: 20px;
+}
+
+.r-interactive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.r-quran-onboarding {
+  padding: 18px 20px;
+  border-radius: 18px;
+  border: 1px solid rgba(215, 166, 74, 0.4);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
+  box-shadow: 0 18px 40px rgba(15, 34, 48, 0.12);
+}
+
+.r-quran-onboarding__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.r-quran-onboarding__header h4 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.r-quran-onboarding__hint {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--r-ink-soft);
+}
+
+.r-quran-onboarding__steps {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.r-quran-onboarding__step {
+  padding: 12px;
+  border-radius: 14px;
+  border: 1px dashed rgba(76, 114, 96, 0.4);
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.r-quran-onboarding__step-icon {
+  font-size: 1.3rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(27, 117, 103, 0.08);
+  color: #0f5f4f;
+}
+
+.r-quran-onboarding__cta-row {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.r-quran-onboarding__cta-hint {
+  font-size: 0.85rem;
+  color: var(--r-ink-soft);
+}
+
+.r-quran-onboarding--theme {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(247, 240, 229, 0.8));
+  border: 1px solid rgba(215, 166, 74, 0.35);
+}
+
+.r-quran-onboarding__steps--theme {
+  gap: 14px;
+}
+
+.r-quran-onboarding__step--theme {
+  border: 1px solid rgba(111, 153, 164, 0.2);
+  background: #fff;
+  padding: 14px;
+  box-shadow: 0 10px 30px rgba(15, 34, 48, 0.08);
+  min-height: 120px;
+}
+
+.r-quran-onboarding__step-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+
+.r-quran-onboarding__step-index {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--r-ink-soft);
+}
+
+.r-quran-onboarding__step h5 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.r-quran-onboarding__step p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--r-ink-soft);
 }
 
 .r-interactive-stack .r-progress-insights {
@@ -4249,7 +4302,7 @@ export default {
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
-.r-progress-insights > div {
+.r-progress-insights>div {
   display: grid;
   gap: 4px;
 }
@@ -4420,6 +4473,16 @@ export default {
   color: var(--r-deep);
 }
 
+.r-button--primary {
+  background: linear-gradient(135deg, #1f7a68, #14584a);
+  color: #ffffff;
+  box-shadow: 0 10px 24px rgba(20, 88, 74, 0.35);
+}
+
+.r-button--primary:hover {
+  background: linear-gradient(135deg, #0f5f4f, #103c2f);
+}
+
 .r-auth-gate {
   margin-top: 16px;
   padding: 16px;
@@ -4446,60 +4509,55 @@ export default {
   font-weight: 700;
 }
 
-.r-calendar {
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-  grid-auto-rows: 1fr;
-  gap: 10px;
-}
-
 .r-calendar__cell {
-  border: 1px solid var(--r-line);
-  border-radius: 14px;
-  padding: 12px 10px;
+  border: 1px solid rgba(15, 31, 42, 0.12);
+  border-radius: 16px;
+  padding: 10px;
   background: #fff;
   display: grid;
   gap: 4px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-  aspect-ratio: 1 / 1;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  min-height: 100px;
+  box-shadow: 0 10px 22px rgba(15, 34, 48, 0.06);
 }
 
 .r-calendar__cell:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 24px rgba(15, 34, 48, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 18px 34px rgba(15, 34, 48, 0.18);
 }
 
 .r-calendar__cell.is-selected {
   border-color: rgba(215, 166, 74, 0.8);
-  box-shadow: 0 12px 26px rgba(215, 166, 74, 0.2);
+  box-shadow: 0 15px 32px rgba(215, 166, 74, 0.25);
+  background: #fffaf3;
 }
 
 .r-calendar__cell.is-today {
-  border-color: rgba(47, 107, 122, 0.7);
+  border-color: rgba(47, 107, 122, 0.8);
 }
 
 .r-calendar__cell.is-special {
-  background: rgba(253, 249, 243, 0.9);
+  background: linear-gradient(180deg, rgba(215, 166, 74, 0.15), rgba(215, 166, 74, 0.05));
+  border-color: rgba(215, 166, 74, 0.6);
 }
 
 .r-calendar__day {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--r-deep);
 }
 
 .r-calendar__date {
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   color: var(--r-ink-soft);
 }
 
 .r-calendar__event {
-  font-size: 0.65rem;
+  font-size: 0.75rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   color: var(--r-accent-deep);
 }
 
@@ -4604,7 +4662,7 @@ export default {
   display: inline-block;
 }
 
-.r-checkbox input:checked + span {
+.r-checkbox input:checked+span {
   background: var(--r-accent);
   border-color: var(--r-accent-deep);
 }
@@ -4705,6 +4763,7 @@ export default {
   0% {
     transform: translate3d(0, 0, 0) scale(1);
   }
+
   100% {
     transform: translate3d(-20px, -10px, 0) scale(1.05);
   }
@@ -4714,6 +4773,7 @@ export default {
   0% {
     background-position: 0 0;
   }
+
   100% {
     background-position: 200px 150px;
   }
@@ -4792,16 +4852,17 @@ export default {
 }
 
 @media (min-width: 900px) {
-  .r-grid--stagger > *:nth-child(odd) {
+  .r-grid--stagger>*:nth-child(odd) {
     margin-top: 8px;
   }
 
-  .r-grid--stagger > *:nth-child(even) {
+  .r-grid--stagger>*:nth-child(even) {
     margin-top: -6px;
   }
 }
 
 @media (hover: hover) {
+
   .r-card:hover,
   .r-story-card:hover,
   .r-hero__card:hover,
