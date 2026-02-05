@@ -426,13 +426,26 @@
                   </div>
                 </div>
                 <div class="r-calendar">
-                  <button v-for="(day, index) in calendarDays" :key="day.key" class="r-calendar__cell" type="button"
+                  <button
+                    v-for="(day, index) in calendarDays"
+                    :key="day.key"
+                    class="r-calendar__cell"
+                    type="button"
                     :class="{ 'is-today': day.isToday, 'is-selected': index === selectedDayIndex, 'is-special': day.event }"
-                    @click="selectDay(index)">
+                    @click="selectDay(index)"
+                    @mouseenter="setHoveredCalendarDay(day)"
+                    @focus="setHoveredCalendarDay(day)"
+                    @mouseleave="clearHoveredCalendarDay"
+                    @blur="clearHoveredCalendarDay"
+                  >
                     <span class="r-calendar__day">Day {{ day.dayNumber }}</span>
                     <span class="r-calendar__date">{{ formatShortDate(day.date) }}</span>
                     <span v-if="day.event" class="r-calendar__event">{{ day.event }}</span>
                   </button>
+                  <div v-if="hoveredCalendarHint" class="r-calendar__hint" aria-live="polite">
+                    <strong>{{ hoveredCalendarHint.title }}</strong>
+                    <span>{{ hoveredCalendarHint.event }}</span>
+                  </div>
                 </div>
               </article>
             </div>
@@ -1071,6 +1084,7 @@ export default {
       selectedDayIndex: 0,
       showFab: false,
       fabVisibilityHandler: null,
+      hoveredCalendarDay: null,
       reminderDraft: {
         title: "",
         dayNumber: 1,
@@ -1292,6 +1306,13 @@ export default {
     },
     selectedDay() {
       return this.calendarDays[this.selectedDayIndex] || null;
+    },
+    hoveredCalendarHint() {
+      if (!this.hoveredCalendarDay) return null;
+      return {
+        title: `Day ${this.hoveredCalendarDay.dayNumber} · ${this.formatShortDate(this.hoveredCalendarDay.date)}`,
+        event: this.hoveredCalendarDay.event || "No special events planned yet",
+      };
     },
     dayOptions() {
       return Array.from({ length: this.calendarLength }, (_, index) => index + 1);
@@ -1783,6 +1804,12 @@ export default {
       if (this.selectedDay) {
         this.reminderDraft.dayNumber = this.selectedDay.dayNumber;
       }
+    },
+    setHoveredCalendarDay(day) {
+      this.hoveredCalendarDay = day;
+    },
+    clearHoveredCalendarDay() {
+      this.hoveredCalendarDay = null;
     },
     isPersonalPlanExpanded(index) {
       return !!this.personalPlanExpanded[index];
@@ -2309,6 +2336,10 @@ export default {
   --r-shadow: 0 25px 60px rgba(15, 34, 48, 0.12);
   --r-ease: cubic-bezier(0.27, 1.05, 0.32, 1);
   --r-radius: 32px;
+  --r-hover-lift: -6px;
+  --r-hover-shadow: 0 28px 50px rgba(15, 34, 48, 0.22);
+  --r-hover-ring: 0 0 0 1px rgba(215, 166, 74, 0.35);
+  --r-hover-border: rgba(215, 166, 74, 0.7);
   font-family: "Manrope", "Segoe UI", sans-serif;
   color: var(--r-ink);
   background: var(--r-mist);
@@ -3149,6 +3180,31 @@ export default {
   font-size: 0.75rem;
   font-weight: 600;
   margin-top: 6px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s var(--r-ease), background 0.25s var(--r-ease), box-shadow 0.25s var(--r-ease);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+}
+
+.r-chip:hover {
+  transform: translateY(-2px);
+  background: rgba(215, 166, 74, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(215, 166, 74, 0.4), 0 8px 18px rgba(15, 34, 48, 0.12);
+}
+
+.r-chip::after {
+  content: "";
+  position: absolute;
+  inset: 10% 20%;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.r-chip:hover::after {
+  opacity: 1;
 }
 
 .r-prayer-list {
@@ -3452,6 +3508,13 @@ export default {
   margin-top: 20px;
 }
 
+.r-micro-tips .r-chip {
+  background: linear-gradient(120deg, rgba(31, 122, 104, 0.9), rgba(20, 88, 74, 0.85));
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(20, 88, 74, 0.35);
+  animation: pulseHalo 5s ease-in-out infinite;
+}
+
 .ramadan-short-hero {
   background: linear-gradient(135deg, #ffffff 0%, #f5f7f9 100%);
   border-radius: 28px;
@@ -3520,6 +3583,18 @@ export default {
   position: relative;
   overflow: hidden;
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+  transition: transform 0.35s var(--r-ease), box-shadow 0.35s var(--r-ease);
+}
+
+.ramadan-short-card::before {
+  content: "";
+  position: absolute;
+  inset: -15% 0 auto;
+  height: 35%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.35), transparent 70%);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: shimmerPulse 10s ease-in-out infinite;
 }
 
 .ramadan-short-card::after {
@@ -3528,6 +3603,11 @@ export default {
   inset: 0;
   background: linear-gradient(180deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.7));
   z-index: 0;
+}
+
+.ramadan-short-card:hover {
+  transform: translateY(-10px) scale(1.01);
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.35);
 }
 
 .ramadan-short-card__content,
@@ -4071,6 +4151,29 @@ export default {
   border: 1px solid rgba(215, 166, 74, 0.35);
   background: #fff;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.r-calendar__hint {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 18px;
+  border: 1px solid rgba(215, 166, 74, 0.4);
+  background: rgba(15, 34, 48, 0.04);
+  font-size: 0.9rem;
+  display: grid;
+  gap: 4px;
+  animation: pulseHalo 3.5s ease-in-out infinite;
+  box-shadow: 0 8px 30px rgba(15, 34, 48, 0.12);
+}
+
+.r-calendar__hint strong {
+  font-weight: 700;
+  color: var(--r-deep);
+}
+
+.r-calendar__hint span {
+  color: var(--r-ink-soft);
 }
 
 @media (max-width: 1280px) {
@@ -4776,6 +4879,33 @@ export default {
 
   100% {
     background-position: 200px 150px;
+  }
+}
+
+@keyframes pulseHalo {
+  0% {
+    box-shadow: 0 6px 16px rgba(215, 166, 74, 0.08);
+  }
+  50% {
+    box-shadow: 0 10px 26px rgba(215, 166, 74, 0.18);
+  }
+  100% {
+    box-shadow: 0 6px 16px rgba(215, 166, 74, 0.08);
+  }
+}
+
+@keyframes shimmerPulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.55;
   }
 }
 
