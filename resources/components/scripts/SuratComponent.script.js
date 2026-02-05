@@ -679,6 +679,7 @@ export default {
         },
         selectedReciter: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.persistLocalSetting("suratSelectedReciter", newVal);
                 this.isLoading = true;
                 this.savePreference("selectedReciter", newVal);
                 this.highlightLeadSeconds = this.getReciterLeadOffset(newVal);
@@ -698,6 +699,7 @@ export default {
         },
         selectedTranslation: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.persistLocalSetting("suratSelectedTranslation", newVal);
                 this.isLoading = true;
                 this.savePreference("selectedTranslation", newVal);
                 this.currentlyPlayingIndex = 0;
@@ -716,6 +718,7 @@ export default {
         },
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.persistLocalSetting("suratSelectedSurah", newVal);
                 this.isLoading = true;
                 this.translationVisibility = {};
                 this.savePreference("selectedSurah", newVal);
@@ -875,9 +878,21 @@ export default {
             this.nextStepMinimized =
                 localStorage.getItem("suratNextStepMinimized") === "1";
         } catch (_) { }
-        this.selectedSurah = "1";
-        this.selectedReciter = "ar.alafasy";
-        this.selectedTranslation = "en.ahmedali";
+        let storedSurah = null;
+        let storedReciter = null;
+        let storedTranslation = null;
+        try {
+            storedSurah = localStorage.getItem("suratSelectedSurah");
+        } catch (_) {}
+        try {
+            storedReciter = localStorage.getItem("suratSelectedReciter");
+        } catch (_) {}
+        try {
+            storedTranslation = localStorage.getItem("suratSelectedTranslation");
+        } catch (_) {}
+        this.selectedSurah = storedSurah || "1";
+        this.selectedReciter = storedReciter || "ar.alafasy";
+        this.selectedTranslation = storedTranslation || "en.ahmedali";
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.continuousPlayback =
@@ -899,6 +914,11 @@ export default {
         this.setPlaybackMode(
             storedPlaybackMode || this.preferredPlaybackMode
         );
+        try {
+            const storedTajweed = localStorage.getItem("suratShowTajweed");
+            if (storedTajweed !== null)
+                this.showTajweed = storedTajweed === "1";
+        } catch (_) {}
         try {
             const storedWordTranslation = localStorage.getItem(
                 "suratShowWordTranslation"
@@ -1053,6 +1073,12 @@ export default {
             try {
                 await axios.put(`/api/preferences/${key}`, { value });
             } catch (_) { }
+        },
+        persistLocalSetting(key, value) {
+            if (typeof window === "undefined") return;
+            try {
+                localStorage.setItem(key, value);
+            } catch (_) {}
         },
         loadReciterLeadOffsets() {
             try {

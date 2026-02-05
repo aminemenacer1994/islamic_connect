@@ -596,6 +596,15 @@
                                         Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
                                     </label>
                                 </div>
+                                <button v-if="showTajweed"
+                                    type="button"
+                                    class="btn btn-sm btn-outline-success tajweed-header-trigger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#tajweedRulesModal"
+                                    :aria-label="'Open tajweed rules for ayah ' + (item.index + 1)"
+                                    @click.stop>
+                                    Tajweed rules
+                                </button>
                                 <transition name="feedback-fade">
                                     <span v-if="
                                         feedbackMessages[
@@ -697,9 +706,11 @@
                                     v-html="highlightedText(item.ayah)"
                                     :style="{ fontSize: arabicFontSize + 'px' }"
                                 ></p>
-                                <h2 v-if="isTranslationVisibleFor(item)" class="pt-2 ltr-text hide-on-mobile-tablet ml-2">
-                                    Translation:
-                                </h2>
+                                <div v-if="isTranslationVisibleFor(item)" class="translation-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                    <h2 class="mb-0">
+                                        Translation:
+                                    </h2>
+                                </div>
                                 <div class="translation-row" :class="{ 'translation-row--collapsed': !isTranslationVisibleFor(item) }">
                                     <div class="translation-copy flex-grow-1">
                                         <div v-if="isTranslationVisibleFor(item)">
@@ -770,9 +781,11 @@
                                     v-html="highlightedText(item.ayah)"
                                     :style="{ fontSize: arabicFontSize + 'px' }"
                                 ></p>
-                                <h4 v-if="isTranslationVisibleFor(item)" class="fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
-                                    Translation:
-                                </h4>
+                                <div v-if="isTranslationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                    <h4 class="mb-0">
+                                        Translation:
+                                    </h4>
+                                </div>
                                 <div v-if="isTranslationVisibleFor(item)">
                                     <p
                                         :class="[
@@ -907,7 +920,7 @@
 
         <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
 
-        <teleport to="body">
+        <teleport v-if="showTajweed" to="body">
             <div class="modal fade" id="tajweedRulesModal" tabindex="-1" aria-labelledby="tajweedRulesLabel"
                 aria-hidden="true" data-bs-backdrop="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg modal-modern">
@@ -1068,6 +1081,17 @@
                                 </select>
                                 <small class="text-muted d-block mt-1">
                                     Choose the translation shown under each ayah.
+                                </small>
+                            </div>
+                            <div class="surah-settings-group">
+                                <label class="form-label">Tajweed colors &amp; rules</label>
+                                <select class="form-select" v-model="settingsDraft.showTajweed"
+                                    aria-label="Enable tajweed colors and rules">
+                                    <option :value="true">Enabled</option>
+                                    <option :value="false">Disabled</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">
+                                    Toggle the tajweed-colored text in the Quran and access the tajweed rules legend.
                                 </small>
                             </div>
                             <div class="surah-settings-group">
