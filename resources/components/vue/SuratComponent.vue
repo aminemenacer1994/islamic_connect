@@ -556,6 +556,47 @@
 
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
+            <div v-if="surahDetails && !isLoading" class="surah-download-banner ltr-text" role="region" aria-label="Surah download">
+                <button
+                    type="button"
+                    class="surah-download-btn"
+                    :class="{ 'is-downloaded': isSurahAudioDownloaded }"
+                    @click.stop="downloadSurahAudio()"
+                    :disabled="isSurahAudioDownloading || !canDownloadSurahAudio()"
+                    :aria-label="!canDownloadSurahAudio()
+                        ? 'Full surah download unavailable for this reciter'
+                        : isSurahAudioDownloading
+                            ? 'Downloading full surah MP3'
+                            : isSurahAudioDownloaded
+                                ? 'Surah MP3 downloaded'
+                                : 'Download full surah MP3'"
+                    :title="!canDownloadSurahAudio()
+                        ? 'Full surah download unavailable'
+                        : isSurahAudioDownloading
+                            ? 'Downloading...'
+                            : isSurahAudioDownloaded
+                                ? 'Downloaded'
+                                : 'Download full surah MP3'">
+                    <i
+                        class="bi"
+                        :class="isSurahAudioDownloading
+                            ? 'bi-arrow-repeat ic-spin'
+                            : isSurahAudioDownloaded
+                                ? 'bi-check-circle-fill'
+                                : 'bi-download'"
+                        aria-hidden="true"></i>
+                    <span class="surah-download-btn-title">
+                        {{
+                            isSurahAudioDownloading
+                                ? "Downloading full surah…"
+                                : isSurahAudioDownloaded
+                                    ? "Surah MP3 downloaded"
+                                    : "Download full surah (MP3)"
+                        }}
+                    </span>
+                </button>
+            </div>
+
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
                 :style="{ paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }">
                 <div style="padding: 12px; border-radius: 8px" ref="audioCard" v-for="item in visibleWindow"
@@ -599,23 +640,30 @@
                                 <button
                                     type="button"
                                     class="icon-btn ayah-download-btn"
+                                    :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
                                     @click.stop="downloadAyahAudio(item.ayah)"
                                     :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
                                     :aria-label="!item.ayah?.audio
                                         ? 'Audio unavailable for this ayah'
                                         : isAyahAudioDownloading(item.ayah)
                                             ? 'Downloading ayah audio'
+                                            : isAyahAudioDownloaded(item.ayah)
+                                                ? 'Ayah MP3 downloaded'
                                             : 'Download ayah audio as MP3'"
                                     :title="!item.ayah?.audio
                                         ? 'Audio unavailable'
                                         : isAyahAudioDownloading(item.ayah)
                                             ? 'Downloading...'
+                                            : isAyahAudioDownloaded(item.ayah)
+                                                ? 'Downloaded'
                                             : 'Download MP3'">
                                     <i
                                         class="bi"
                                         :class="isAyahAudioDownloading(item.ayah)
                                             ? 'bi-arrow-repeat ic-spin'
-                                            : 'bi-download'"
+                                            : isAyahAudioDownloaded(item.ayah)
+                                                ? 'bi-check-circle-fill'
+                                                : 'bi-download'"
                                         aria-hidden="true"></i>
                                 </button>
                                 <button v-if="showTajweed"

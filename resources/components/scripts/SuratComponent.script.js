@@ -25,6 +25,10 @@ export default {
             isAudioPlaying: [],
             isAudioLoading: [],
             isAudioDownloading: {},
+            isAudioDownloaded: {},
+            isSurahAudioDownloading: false,
+            isSurahAudioDownloaded: false,
+            surahAudioDownloadedTimer: null,
             currentlyPlaying: null,
             currentlyPlayingIndex: 0,
             isVisible: true,
@@ -682,6 +686,10 @@ export default {
         },
         selectedReciter: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.isSurahAudioDownloading = false;
+                this.isSurahAudioDownloaded = false;
+                clearTimeout(this.surahAudioDownloadedTimer);
+                this.surahAudioDownloadedTimer = null;
                 this.persistLocalSetting("suratSelectedReciter", newVal);
                 this.isLoading = true;
                 this.savePreference("selectedReciter", newVal);
@@ -721,6 +729,10 @@ export default {
         },
         selectedSurah: function (newVal) {
             if (newVal && !this.isLoading) {
+                this.isSurahAudioDownloading = false;
+                this.isSurahAudioDownloaded = false;
+                clearTimeout(this.surahAudioDownloadedTimer);
+                this.surahAudioDownloadedTimer = null;
                 this.persistLocalSetting("suratSelectedSurah", newVal);
                 this.isLoading = true;
                 this.translationVisibility = {};
@@ -994,6 +1006,8 @@ export default {
             });
         }
         clearTimeout(this.savedAyahClearTimer);
+        clearTimeout(this.surahAudioDownloadedTimer);
+        this.surahAudioDownloadedTimer = null;
         clearTimeout(this.bookmarkToastTimer);
         this.bookmarkToastAction = null;
         clearTimeout(this.authAlertTimer);
@@ -1012,6 +1026,8 @@ export default {
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
         clearTimeout(this.savedAyahClearTimer);
+        clearTimeout(this.surahAudioDownloadedTimer);
+        this.surahAudioDownloadedTimer = null;
         clearTimeout(this.bookmarkToastTimer);
             this.bookmarkToastAction = null;
             clearTimeout(this.authAlertTimer);
@@ -1223,6 +1239,26 @@ export default {
             if (!key) return false;
             return !!this.isAudioDownloading[key];
         },
+        isAyahAudioDownloaded(ayah) {
+            const key = this.getAyahKeyForAyah(ayah);
+            if (!key) return false;
+            return !!this.isAudioDownloaded[key];
+        },
+        markAyahAudioDownloaded(key, duration = 5000) {
+            if (!key) return;
+            if (typeof this.$set === "function") {
+                this.$set(this.isAudioDownloaded, key, true);
+            } else {
+                this.isAudioDownloaded[key] = true;
+            }
+            setTimeout(() => {
+                if (typeof this.$set === "function") {
+                    this.$set(this.isAudioDownloaded, key, false);
+                } else {
+                    this.isAudioDownloaded[key] = false;
+                }
+            }, duration);
+        },
         sanitizeFilenamePart(value) {
             return String(value || "")
                 .trim()
@@ -1243,6 +1279,144 @@ export default {
                 reciter,
             ];
             return `${parts.join("-")}.mp3`;
+        },
+        buildSurahAudioFilename() {
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            const reciter = this.sanitizeFilenamePart(this.selectedReciter || "reciter");
+            const parts = ["surah", surahNumber || "unknown", reciter];
+            return `${parts.join("-")}.mp3`;
+        },
+        canDownloadSurahAudio() {
+            return !!this.getQuranRecitationId(this.selectedReciter);
+        },
+        markSurahAudioDownloaded(duration = 6000) {
+            this.isSurahAudioDownloaded = true;
+            clearTimeout(this.surahAudioDownloadedTimer);
+            this.surahAudioDownloadedTimer = setTimeout(() => {
+                this.isSurahAudioDownloaded = false;
+                this.surahAudioDownloadedTimer = null;
+            }, duration);
+        },
+        extractChapterRecitationAudioUrl(payload, baseUrl) {
+            if (!payload) return "";
+            const audioFile =
+                payload.audio_file ||
+                payload.audioFile ||
+                payload.chapter_recitation ||
+                payload.chapterRecitation ||
+                null;
+            const raw =
+                audioFile?.audio_url ||
+                audioFile?.audioUrl ||
+                audioFile?.url ||
+                audioFile?.file_url ||
+                "";
+            if (!raw || typeof raw !== "string") return "";
+            if (raw.startsWith("//")) return `https:${raw}`;
+            if (raw.startsWith("/")) return `${baseUrl}${raw}`;
+            return raw;
+        },
+        async downloadSurahAudio() {
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            if (!surahNumber) return;
+            const firstAyahKey = this.buildAyahKey(surahNumber, 1);
+            if (this.isSurahAudioDownloading) return;
+
+            const recitationId = this.getQuranRecitationId(this.selectedReciter);
+            if (!recitationId) {
+                this.triggerAyahFeedback(
+                    firstAyahKey,
+                    "Full surah download isn't available for this reciter.",
+                    "feedback-warning",
+                    "warning"
+                );
+                this.announce("Full surah download isn't available for this reciter.");
+                return;
+            }
+
+            this.isSurahAudioDownloading = true;
+            this.isSurahAudioDownloaded = false;
+            clearTimeout(this.surahAudioDownloadedTimer);
+            this.surahAudioDownloadedTimer = null;
+            this.announce("Downloading full surah audio.");
+
+            const endpoint = `https://api.quran.com/api/v4/chapter_recitations/${recitationId}/${surahNumber}`;
+            let audioUrl = "";
+
+            try {
+                const response = await fetch(endpoint, { mode: "cors" });
+                if (!response.ok) {
+                    throw new Error(`Surah audio lookup failed: ${response.status}`);
+                }
+                const payload = await response.json();
+                audioUrl = this.extractChapterRecitationAudioUrl(
+                    payload,
+                    "https://api.quran.com"
+                );
+            } catch (error) {
+                console.warn("Unable to resolve full surah audio URL:", error);
+            }
+
+            if (!audioUrl) {
+                this.triggerAyahFeedback(
+                    firstAyahKey,
+                    "Unable to fetch a full-surah MP3 for this reciter. You can still download individual ayahs.",
+                    "feedback-warning",
+                    "warning"
+                );
+                this.announce("Unable to fetch a full surah MP3. You can download individual ayahs.");
+                this.isSurahAudioDownloading = false;
+                return;
+            }
+
+            const filename = this.buildSurahAudioFilename();
+
+            try {
+                const response = await fetch(audioUrl, { mode: "cors" });
+                if (!response.ok) {
+                    throw new Error(`Surah audio download failed: ${response.status}`);
+                }
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = filename;
+                a.rel = "noopener";
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                setTimeout(() => {
+                    try {
+                        window.URL.revokeObjectURL(blobUrl);
+                    } catch (_) {}
+                }, 2000);
+
+                this.markSurahAudioDownloaded();
+                this.triggerAyahFeedback(
+                    firstAyahKey,
+                    "Surah MP3 downloaded.",
+                    "bg-dark text-white",
+                    "check"
+                );
+                this.announce("Surah MP3 downloaded.");
+            } catch (error) {
+                console.warn("Unable to download full surah audio as a blob:", error);
+                this.triggerAyahFeedback(
+                    firstAyahKey,
+                    "Unable to download directly. Open the surah audio and use your browser to save it.",
+                    "feedback-warning",
+                    "warning",
+                    audioUrl,
+                    "Open audio",
+                    15000
+                );
+                this.announce("Unable to download directly. Open the surah audio to save it.");
+            } finally {
+                this.isSurahAudioDownloading = false;
+            }
         },
         async downloadAyahAudio(ayah) {
             if (!ayah) return;
@@ -1298,13 +1472,14 @@ export default {
                     } catch (_) {}
                 }, 2000);
 
+                this.markAyahAudioDownloaded(key);
                 this.triggerAyahFeedback(
                     key,
-                    "MP3 download started.",
+                    "MP3 downloaded.",
                     "bg-dark text-white",
                     "check"
                 );
-                this.announce("MP3 download started.");
+                this.announce("MP3 downloaded.");
             } catch (error) {
                 console.warn("Unable to download audio as a blob:", error);
                 this.triggerAyahFeedback(
@@ -2321,12 +2496,10 @@ export default {
             }
         },
         onScrollVirtual() {
-            const maxScroll =
-                Math.max(
-                    document.documentElement.scrollHeight - window.innerHeight,
-                    0
-                ) || 1;
-            let show = window.scrollY > maxScroll * 0.3;
+            const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
+            const listTop = Number(this.listTop) || 0;
+            const threshold = listTop + Math.max(320, window.innerHeight * 0.4);
+            let show = scrollY > threshold;
             const firstCard = document.getElementById("ayah-card-0");
             if (firstCard) {
                 const rect = firstCard.getBoundingClientRect();
