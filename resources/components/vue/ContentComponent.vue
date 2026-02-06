@@ -153,7 +153,7 @@
     </div>
 
     <!-- Podcast Episodes Section -->
-    <div v-if="!loading && visiblePodcasts.length" class="episodes-section">
+    <div v-if="selectedPodcast" class="episodes-section">
       <div class="section-header">
         <h2 class="section-title" style="background-image:none;-webkit-text-fill-color:initial;color:#0b1320;">Episodes</h2>
         <p class="section-subtitle">Press play to experience each episode’s rich audio storytelling.</p>

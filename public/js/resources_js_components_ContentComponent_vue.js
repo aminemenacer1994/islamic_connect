@@ -744,7 +744,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_45)])])])], 2 /* CLASS */)]);
     }), 128 /* KEYED_FRAGMENT */))], 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vShow, _ctx.isVisible]])]),
     _: 1 /* STABLE */
-  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Episodes Section "), !_ctx.loading && _ctx.visiblePodcasts.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  })])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Podcast Episodes Section "), _ctx.selectedPodcast ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [_cache[50] || (_cache[50] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "section-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
     class: "section-title",

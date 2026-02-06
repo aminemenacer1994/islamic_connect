@@ -596,6 +596,28 @@
                                         Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
                                     </label>
                                 </div>
+                                <button
+                                    type="button"
+                                    class="icon-btn ayah-download-btn"
+                                    @click.stop="downloadAyahAudio(item.ayah)"
+                                    :disabled="!item.ayah?.audio || isAyahAudioDownloading(item.ayah)"
+                                    :aria-label="!item.ayah?.audio
+                                        ? 'Audio unavailable for this ayah'
+                                        : isAyahAudioDownloading(item.ayah)
+                                            ? 'Downloading ayah audio'
+                                            : 'Download ayah audio as MP3'"
+                                    :title="!item.ayah?.audio
+                                        ? 'Audio unavailable'
+                                        : isAyahAudioDownloading(item.ayah)
+                                            ? 'Downloading...'
+                                            : 'Download MP3'">
+                                    <i
+                                        class="bi"
+                                        :class="isAyahAudioDownloading(item.ayah)
+                                            ? 'bi-arrow-repeat ic-spin'
+                                            : 'bi-download'"
+                                        aria-hidden="true"></i>
+                                </button>
                                 <button v-if="showTajweed"
                                     type="button"
                                     class="btn btn-sm btn-outline-success tajweed-header-trigger"

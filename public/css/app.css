@@ -37499,6 +37499,28 @@ to {
     transition: background-color 0.18s ease, border-color 0.18s ease,
         transform 0.18s ease;
 }
+.icon-btn[data-v-637d02d8]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+.ayah-download-btn[data-v-637d02d8] {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+}
+.ic-spin[data-v-637d02d8] {
+    display: inline-block;
+    animation: ic-spin-637d02d8 0.9s linear infinite;
+}
+@keyframes ic-spin-637d02d8 {
+0% {
+        transform: rotate(0deg);
+}
+100% {
+        transform: rotate(360deg);
+}
+}
 .card-teal .icon-btn[data-v-637d02d8] {
     width: 34px;
     height: 34px;

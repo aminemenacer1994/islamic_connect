@@ -2873,6 +2873,33 @@
         transform 0.18s ease;
 }
 
+.icon-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ayah-download-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+}
+
+.ic-spin {
+    display: inline-block;
+    animation: ic-spin 0.9s linear infinite;
+}
+
+@keyframes ic-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
 .card-teal .icon-btn {
     width: 34px;
     height: 34px;

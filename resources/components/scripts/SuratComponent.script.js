@@ -24,6 +24,7 @@ export default {
             selectedTranslation: "en.ahmedali",
             isAudioPlaying: [],
             isAudioLoading: [],
+            isAudioDownloading: {},
             currentlyPlaying: null,
             currentlyPlayingIndex: 0,
             isVisible: true,
@@ -142,6 +143,8 @@ export default {
             visibleEnd: 0,
             listTop: 0,
             _heightMeasureRaf: null,
+            _virtualWindowRaf: null,
+            itemHeightCalibrated: false,
             // Next-step card visibility
             showNextStep: true,
             nextStepMinimized: false,
@@ -1026,6 +1029,10 @@ export default {
                 window.cancelAnimationFrame(this._heightMeasureRaf);
                 this._heightMeasureRaf = null;
             }
+            if (this._virtualWindowRaf && typeof window !== "undefined") {
+                window.cancelAnimationFrame(this._virtualWindowRaf);
+                this._virtualWindowRaf = null;
+            }
         },
     methods: {
         showToast(message, timeout = 3500, action = null) {
@@ -1204,6 +1211,116 @@ export default {
                 this.announce("Unable to copy ayah.");
             }
         },
+        getAyahKeyForAyah(ayah) {
+            if (!this.surahDetails || !ayah) return "";
+            const surahNumber = Number(this.surahDetails.surahNumber);
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            if (!surahNumber || !ayahNumber) return "";
+            return this.buildAyahKey(surahNumber, ayahNumber);
+        },
+        isAyahAudioDownloading(ayah) {
+            const key = this.getAyahKeyForAyah(ayah);
+            if (!key) return false;
+            return !!this.isAudioDownloading[key];
+        },
+        sanitizeFilenamePart(value) {
+            return String(value || "")
+                .trim()
+                .replace(/\s+/g, "-")
+                .replace(/[^a-zA-Z0-9._-]/g, "_")
+                .replace(/_+/g, "_")
+                .replace(/-+/g, "-");
+        },
+        buildAyahAudioFilename(ayah) {
+            const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
+            const ayahNumber = Number(ayah?.numberInSurah || ayah?.number);
+            const reciter = this.sanitizeFilenamePart(this.selectedReciter || "reciter");
+            const parts = [
+                "surah",
+                surahNumber || "unknown",
+                "ayah",
+                ayahNumber || "unknown",
+                reciter,
+            ];
+            return `${parts.join("-")}.mp3`;
+        },
+        async downloadAyahAudio(ayah) {
+            if (!ayah) return;
+            const key = this.getAyahKeyForAyah(ayah);
+            if (!key) return;
+            if (this.isAudioDownloading[key]) return;
+
+            const audioUrl = ayah.audio || "";
+            if (!audioUrl) {
+                this.triggerAyahFeedback(
+                    key,
+                    "Audio unavailable for this ayah.",
+                    "feedback-warning",
+                    "warning"
+                );
+                this.announce("Audio unavailable for this ayah.");
+                return;
+            }
+
+            const setDownloading = (value) => {
+                if (typeof this.$set === "function") {
+                    this.$set(this.isAudioDownloading, key, !!value);
+                } else {
+                    this.isAudioDownloading[key] = !!value;
+                }
+            };
+
+            setDownloading(true);
+            this.announce("Downloading ayah audio.");
+
+            const filename = this.buildAyahAudioFilename(ayah);
+
+            try {
+                const response = await fetch(audioUrl, { mode: "cors" });
+                if (!response.ok) {
+                    throw new Error(`Audio download failed: ${response.status}`);
+                }
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+
+                const a = document.createElement("a");
+                a.href = blobUrl;
+                a.download = filename;
+                a.rel = "noopener";
+                a.style.display = "none";
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+
+                setTimeout(() => {
+                    try {
+                        window.URL.revokeObjectURL(blobUrl);
+                    } catch (_) {}
+                }, 2000);
+
+                this.triggerAyahFeedback(
+                    key,
+                    "MP3 download started.",
+                    "bg-dark text-white",
+                    "check"
+                );
+                this.announce("MP3 download started.");
+            } catch (error) {
+                console.warn("Unable to download audio as a blob:", error);
+                this.triggerAyahFeedback(
+                    key,
+                    "Unable to download directly. Open the audio and use your browser to save it.",
+                    "feedback-warning",
+                    "warning",
+                    audioUrl,
+                    "Open audio",
+                    15000
+                );
+                this.announce("Unable to download directly. Open the audio link to save it.");
+            } finally {
+                setDownloading(false);
+            }
+        },
         async syncSavedAyahsFromApi() {
             if (!this.bookmarkAuthenticated) return;
             try {
@@ -1323,7 +1440,7 @@ export default {
                 this.quickSaveBookmark(ayah);
             }
         },
-        triggerAyahFeedback(key, text, cssClass, icon, link = "", linkText = "") {
+        triggerAyahFeedback(key, text, cssClass, icon, link = "", linkText = "", timeout = 6000) {
             // Use reactive assignment
             this.feedbackMessages = {
                 ...this.feedbackMessages,
@@ -1334,7 +1451,7 @@ export default {
                 const next = { ...this.feedbackMessages };
                 delete next[key];
                 this.feedbackMessages = next;
-            }, 6000);
+            }, timeout);
         },
         async quickSaveBookmark(ayah) {
             if (!this.surahDetails || !ayah) return;
@@ -2185,6 +2302,9 @@ export default {
             this._heightMeasureRaf = window.requestAnimationFrame(() => {
                 this._heightMeasureRaf = null;
                 this.calibrateItemHeight(force);
+                if (!this.itemHeightCalibrated) {
+                    this.itemHeightCalibrated = true;
+                }
             });
         },
         computeListTop() {
@@ -2218,7 +2338,17 @@ export default {
             this.manualScrollTimer = setTimeout(() => {
                 this.isManualScrolling = false;
             }, 1000);
-            this.updateVirtualWindow();
+            if (typeof window !== "undefined") {
+                if (this._virtualWindowRaf) {
+                    window.cancelAnimationFrame(this._virtualWindowRaf);
+                }
+                this._virtualWindowRaf = window.requestAnimationFrame(() => {
+                    this._virtualWindowRaf = null;
+                    this.updateVirtualWindow();
+                });
+            } else {
+                this.updateVirtualWindow();
+            }
         },
         updateVirtualWindow() {
             const n = this.filteredAyahs ? this.filteredAyahs.length : 0;
@@ -2241,7 +2371,9 @@ export default {
                 if (start !== this.visibleStart || end !== this.visibleEnd) {
                     this.visibleStart = start;
                     this.visibleEnd = end;
-                    this.scheduleHeightCalibration(true);
+                    if (!this.itemHeightCalibrated) {
+                        this.scheduleHeightCalibration(true);
+                    }
                 }
                 return;
             }
@@ -2264,7 +2396,9 @@ export default {
                     this.isHighlighted = true;
                     this.selectedJuz = this.filteredAyahs[approxIndex].juz;
                 }
-                this.scheduleHeightCalibration(true);
+                if (!this.itemHeightCalibrated) {
+                    this.scheduleHeightCalibration(true);
+                }
             }
         },
         syncVirtualWindowAfterSelection() {
@@ -3360,6 +3494,7 @@ export default {
             } else {
                 this.translationVisibility[key] = !!value;
             }
+            this.itemHeightCalibrated = false;
             this.$nextTick(() => this.scheduleHeightCalibration(true));
         },
         onTranslationToggle(item, event) {
