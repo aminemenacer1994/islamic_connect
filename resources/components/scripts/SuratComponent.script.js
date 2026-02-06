@@ -47,6 +47,25 @@ export default {
             surahInfoModalInstance: null,
             settingsModalId: "surahSettingsModal",
             settingsModalInstance: null,
+            fontPickerOffcanvasId: "quranFontOffcanvas",
+            fontPickerModalId: "quranFontModal",
+            fontPickerOffcanvasInstance: null,
+            fontPickerModalInstance: null,
+            quranFonts: [],
+            quranFontsLoading: false,
+            quranFontsError: "",
+            selectedQuranFontId: "",
+            quranFontDraftId: "",
+            quranFontPreferenceKey: "suratSelectedFont",
+            fontPreviewText: "",
+            fontPreviewTajweedText: "",
+            fontPreviewFallbackText: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
+            fontPreviewLoading: false,
+            fontPreviewError: "",
+            fontPickerAlert: "",
+            fontPickerAlertTimer: null,
+            defaultQuranFontStack:
+                "'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif",
             surahInfoFontSize: 16,
             surahInfoFontSizeMin: 14,
             surahInfoFontSizeMax: 22,
@@ -424,6 +443,25 @@ export default {
                     (option) => option.value === selected
                 ) || this.currentPlaybackModeOption
             );
+        },
+        activeQuranFont() {
+            if (!Array.isArray(this.quranFonts) || !this.quranFonts.length)
+                return null;
+            return (
+                this.quranFonts.find(
+                    (font) => font.id === this.selectedQuranFontId
+                ) ||
+                this.quranFonts[0] ||
+                null
+            );
+        },
+        quranFontStyle() {
+            const stack =
+                this.activeQuranFont?.cssStack ||
+                this.defaultQuranFontStack;
+            return {
+                "--ic-quran-arabic-font": stack,
+            };
         },
         tajweedLegend() {
             return Object.keys(this.tajweedRuleMap)
@@ -896,6 +934,7 @@ export default {
         let storedSurah = null;
         let storedReciter = null;
         let storedTranslation = null;
+        let storedFont = null;
         try {
             storedSurah = localStorage.getItem("suratSelectedSurah");
         } catch (_) {}
@@ -905,9 +944,14 @@ export default {
         try {
             storedTranslation = localStorage.getItem("suratSelectedTranslation");
         } catch (_) {}
+        try {
+            storedFont = localStorage.getItem(this.quranFontPreferenceKey);
+        } catch (_) {}
         this.selectedSurah = storedSurah || "1";
         this.selectedReciter = storedReciter || "ar.alafasy";
         this.selectedTranslation = storedTranslation || "en.ahmedali";
+        this.selectedQuranFontId = storedFont || "";
+        this.quranFontDraftId = this.selectedQuranFontId;
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.continuousPlayback =
@@ -953,6 +997,8 @@ export default {
             this.fetchSurahs(),
             this.fetchTranslations(),
             this.fetchSurahDetails(),
+            this.fetchQuranFonts(),
+            this.fetchFontPreviewAyah(),
         ])
             .then(() => {
                 this.isInitialLoad = false;
@@ -1010,6 +1056,8 @@ export default {
         this.surahAudioDownloadedTimer = null;
         clearTimeout(this.bookmarkToastTimer);
         this.bookmarkToastAction = null;
+        clearTimeout(this.fontPickerAlertTimer);
+        this.fontPickerAlertTimer = null;
         clearTimeout(this.authAlertTimer);
         if (this._heightMeasureRaf && typeof window !== "undefined") {
             window.cancelAnimationFrame(this._heightMeasureRaf);
@@ -1030,6 +1078,8 @@ export default {
         this.surahAudioDownloadedTimer = null;
         clearTimeout(this.bookmarkToastTimer);
             this.bookmarkToastAction = null;
+            clearTimeout(this.fontPickerAlertTimer);
+            this.fontPickerAlertTimer = null;
             clearTimeout(this.authAlertTimer);
             if (this.reflectionModalHiddenHandler) {
                 const modalEl = document.getElementById(this.reflectionModalId);
@@ -1085,6 +1135,383 @@ export default {
                 Modal.getInstance(modalEl) ||
                 new Modal(modalEl);
             this.settingsModalInstance.hide();
+        },
+        prepareFontPicker() {
+            this.fontPickerAlert = "";
+            this.clearFontPickerTimer();
+            if (
+                !this.quranFontDraftId &&
+                Array.isArray(this.quranFonts) &&
+                this.quranFonts.length
+            ) {
+                this.quranFontDraftId = this.selectedQuranFontId || this.quranFonts[0].id;
+            } else if (!this.quranFontDraftId) {
+                this.quranFontDraftId = this.selectedQuranFontId || "";
+            } else if (!this.selectedQuranFontId) {
+                this.selectedQuranFontId = this.quranFontDraftId;
+            }
+            if (!this.quranFonts.length && !this.quranFontsLoading) {
+                this.fetchQuranFonts();
+            }
+            if (!this.fontPreviewTajweedText && !this.fontPreviewLoading) {
+                this.fetchFontPreviewAyah();
+            }
+        },
+        openFontPicker() {
+            this.prepareFontPicker();
+            if (this.isMobile) {
+                const modalEl = document.getElementById(
+                    this.fontPickerModalId
+                );
+                if (!modalEl) return;
+                this.fontPickerModalInstance =
+                    this.fontPickerModalInstance ||
+                    Modal.getInstance(modalEl) ||
+                    new Modal(modalEl);
+                this.fontPickerModalInstance.show();
+                return;
+            }
+            const offcanvasEl = this.$refs.fontPickerOffcanvas;
+            if (
+                !offcanvasEl ||
+                !(window && window.bootstrap && window.bootstrap.Offcanvas)
+            )
+                return;
+            this.fontPickerOffcanvasInstance =
+                window.bootstrap.Offcanvas.getInstance(offcanvasEl) ||
+                window.bootstrap.Offcanvas.getOrCreateInstance(offcanvasEl);
+            this.fontPickerOffcanvasInstance.show();
+        },
+        closeFontPicker() {
+            const modalEl = document.getElementById(this.fontPickerModalId);
+            if (modalEl) {
+                const modal =
+                    Modal.getInstance(modalEl) ||
+                    this.fontPickerModalInstance;
+                if (modal) modal.hide();
+            }
+            const offcanvasEl = this.$refs.fontPickerOffcanvas;
+            if (
+                offcanvasEl &&
+                window &&
+                window.bootstrap &&
+                window.bootstrap.Offcanvas
+            ) {
+                const instance =
+                    window.bootstrap.Offcanvas.getInstance(offcanvasEl) ||
+                    this.fontPickerOffcanvasInstance;
+                if (instance) instance.hide();
+            }
+            this.clearFontPickerTimer();
+        },
+        selectQuranFontDraft(id) {
+            this.quranFontDraftId = id;
+        },
+        applyQuranFontSelection() {
+            if (!this.quranFontDraftId) return;
+            this.selectedQuranFontId = this.quranFontDraftId;
+            this.persistLocalSetting(
+                this.quranFontPreferenceKey,
+                this.selectedQuranFontId
+            );
+            const selected =
+                this.quranFonts.find(
+                    (font) => font.id === this.selectedQuranFontId
+                ) || this.activeQuranFont;
+            const label = selected?.label || "Quran font";
+            this.fontPickerAlert = `Font applied: ${label}.`;
+            this.clearFontPickerTimer();
+            this.fontPickerAlertTimer = setTimeout(() => {
+                this.fontPickerAlert = "";
+                this.closeFontPicker();
+            }, 5000);
+        },
+        clearFontPickerTimer() {
+            if (this.fontPickerAlertTimer) {
+                clearTimeout(this.fontPickerAlertTimer);
+                this.fontPickerAlertTimer = null;
+            }
+        },
+        ensureSelectedQuranFont() {
+            if (!Array.isArray(this.quranFonts) || !this.quranFonts.length) {
+                return;
+            }
+            const exists = this.quranFonts.some(
+                (font) => font.id === this.selectedQuranFontId
+            );
+            if (!exists) {
+                this.selectedQuranFontId = this.quranFonts[0].id;
+            }
+            const draftExists = this.quranFonts.some(
+                (font) => font.id === this.quranFontDraftId
+            );
+            if (!draftExists) {
+                this.quranFontDraftId = this.selectedQuranFontId;
+            }
+            this.persistLocalSetting(
+                this.quranFontPreferenceKey,
+                this.selectedQuranFontId
+            );
+        },
+        getQuranComFonts() {
+            return [
+                {
+                    id: "qpc-hafs",
+                    label: "QPC Hafs",
+                    cssStack:
+                        "'UthmanicHafs', 'Noto Naskh Arabic', 'Amiri', serif",
+                    source: "Quran.com",
+                    inputId: "qpc-hafs",
+                    isTajweed: false,
+                },
+                {
+                    id: "uthmani",
+                    label: "Uthmani",
+                    cssStack:
+                        "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif",
+                    source: "Quran.com",
+                    inputId: "uthmani",
+                    isTajweed: false,
+                },
+                {
+                    id: "indopak",
+                    label: "IndoPak",
+                    cssStack:
+                        "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                    source: "Quran.com",
+                    inputId: "indopak",
+                    isTajweed: false,
+                },
+                {
+                    id: "tajweed-mushaf",
+                    label: "Tajweed Mushaf (QCF V4)",
+                    cssStack:
+                        "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif",
+                    source: "Quran.com",
+                    inputId: "tajweed-mushaf",
+                    isTajweed: true,
+                },
+            ];
+        },
+        getFallbackQuranFonts() {
+            return [
+                {
+                    id: "scheherazade-new",
+                    label: "Scheherazade New",
+                    cssStack:
+                        "'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif",
+                    source: "Local",
+                    inputId: "scheherazade-new",
+                    isTajweed: false,
+                },
+                {
+                    id: "uthmanic-hafs",
+                    label: "Uthmanic Hafs",
+                    cssStack: "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif",
+                    source: "Local",
+                    inputId: "uthmanic-hafs",
+                    isTajweed: true,
+                },
+                {
+                    id: "noto-naskh-arabic",
+                    label: "Noto Naskh Arabic",
+                    cssStack: "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif",
+                    source: "Google Fonts",
+                    inputId: "noto-naskh-arabic",
+                    isTajweed: false,
+                },
+                {
+                    id: "noto-nastaliq-urdu",
+                    label: "Noto Nastaliq Urdu",
+                    cssStack: "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                    source: "Google Fonts",
+                    inputId: "noto-nastaliq-urdu",
+                    isTajweed: false,
+                },
+                {
+                    id: "reem-kufi",
+                    label: "Reem Kufi",
+                    cssStack: "'Reem Kufi', 'Cairo', 'Amiri', serif",
+                    source: "Google Fonts",
+                    inputId: "reem-kufi",
+                    isTajweed: false,
+                },
+                {
+                    id: "amiri",
+                    label: "Amiri",
+                    cssStack: "'Amiri', 'Scheherazade New', serif",
+                    source: "Local",
+                    inputId: "amiri",
+                    isTajweed: false,
+                },
+            ];
+        },
+        getFontStackFallback(identifier = "", label = "") {
+            const options = [
+                "'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif",
+                "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif",
+                "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                "'Reem Kufi', 'Cairo', 'Amiri', serif",
+                "'Aref Ruqaa', 'Amiri', serif",
+                "'Lateef', 'Amiri', serif",
+                "'Cairo', 'Amiri', serif",
+                "'Amiri', 'Scheherazade New', serif",
+            ];
+            const key = `${identifier} ${label}`.trim().toLowerCase();
+            if (!key) return this.defaultQuranFontStack;
+            let hash = 0;
+            for (let i = 0; i < key.length; i += 1) {
+                hash = (hash * 31 + key.charCodeAt(i)) | 0;
+            }
+            const index = Math.abs(hash) % options.length;
+            return options[index] || this.defaultQuranFontStack;
+        },
+        getFontStackForEdition(identifier = "", label = "") {
+            const id = `${identifier}`.toLowerCase();
+            const name = `${label}`.toLowerCase();
+            const token = `${id} ${name}`;
+            if (token.includes("uthmani") || token.includes("uthmanic")) {
+                return "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif";
+            }
+            if (token.includes("tajweed")) {
+                return "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif";
+            }
+            if (token.includes("warsh")) {
+                return "'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', serif";
+            }
+            if (token.includes("nastaliq") || token.includes("indopak") || token.includes("indo")) {
+                return "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif";
+            }
+            if (token.includes("ruqaa") || token.includes("ruqa")) {
+                return "'Aref Ruqaa', 'Amiri', serif";
+            }
+            if (token.includes("kufi") || token.includes("kufic")) {
+                return "'Reem Kufi', 'Cairo', 'Amiri', serif";
+            }
+            if (token.includes("cairo")) {
+                return "'Cairo', 'Amiri', serif";
+            }
+            if (token.includes("lateef")) {
+                return "'Lateef', 'Amiri', serif";
+            }
+            if (token.includes("naskh")) {
+                return "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif";
+            }
+            if (token.includes("imlaei") || token.includes("imla")) {
+                return "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif";
+            }
+            if (token.includes("amiri")) {
+                return "'Amiri', 'Scheherazade New', serif";
+            }
+            if (token.includes("khaled")) {
+                return "'Amiri', 'Scheherazade New', serif";
+            }
+            if (token.includes("scheherazade")) {
+                return "'Scheherazade New', 'Amiri', serif";
+            }
+            if (token.includes("simple")) {
+                return "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif";
+            }
+            return this.getFontStackFallback(identifier, label);
+        },
+        isTajweedEdition(identifier = "", label = "") {
+            const token = `${identifier} ${label}`.toLowerCase();
+            return token.includes("tajweed");
+        },
+        getFontPreviewHtml(font) {
+            const raw =
+                this.fontPreviewTajweedText ||
+                this.fontPreviewText ||
+                this.fontPreviewFallbackText;
+            if (!raw) return "";
+            if (font?.isTajweed) {
+                return this.formatTajweedText(raw);
+            }
+            const plain = this.fontPreviewText || this.fontPreviewFallbackText;
+            return this.escapeHtml(plain);
+        },
+        normalizeQuranFonts(editions) {
+            const out = [];
+            const seen = new Set();
+            (editions || []).forEach((edition) => {
+                const identifier = edition?.identifier || edition?.name || "";
+                if (!identifier || seen.has(identifier)) return;
+                const label =
+                    edition?.englishName ||
+                    edition?.name ||
+                    edition?.identifier ||
+                    "Quran font";
+                const cssStack = this.getFontStackForEdition(
+                    edition?.identifier || "",
+                    label
+                );
+                const isTajweed = this.isTajweedEdition(
+                    edition?.identifier || "",
+                    label
+                );
+                const inputId = identifier
+                    .toString()
+                    .toLowerCase()
+                    .replace(/[^a-z0-9]+/g, "-")
+                    .replace(/(^-+|-+$)/g, "");
+                const sourceLabel =
+                    edition?.type ||
+                    edition?.format ||
+                    edition?.language ||
+                    "API";
+                out.push({
+                    id: identifier,
+                    label,
+                    cssStack,
+                    isTajweed,
+                    source: sourceLabel,
+                    inputId: inputId || identifier,
+                });
+                seen.add(identifier);
+            });
+            out.sort((a, b) => a.label.localeCompare(b.label));
+            return out;
+        },
+        async fetchQuranFonts() {
+            this.quranFontsLoading = true;
+            this.quranFontsError = "";
+            try {
+                this.quranFonts = this.getQuranComFonts();
+                this.ensureSelectedQuranFont();
+            } catch (error) {
+                console.error("Error fetching Quran fonts:", error);
+                this.quranFontsError =
+                    "Unable to load fonts right now. Showing available defaults.";
+                this.quranFonts = this.getQuranComFonts();
+                this.ensureSelectedQuranFont();
+            } finally {
+                this.quranFontsLoading = false;
+            }
+        },
+        async fetchFontPreviewAyah() {
+            this.fontPreviewLoading = true;
+            this.fontPreviewError = "";
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    "https://api.alquran.cloud/v1/ayah/1/quran-tajweed",
+                    "cache:quran-font-preview",
+                    30 * 24 * 60 * 60 * 1000
+                );
+                const previewText = data?.data?.text || "";
+                if (previewText) {
+                    this.fontPreviewTajweedText = previewText;
+                    this.fontPreviewText = this.stripTajweedMarkers(previewText);
+                } else {
+                    this.fontPreviewText = this.fontPreviewFallbackText;
+                }
+            } catch (error) {
+                console.error("Error fetching font preview ayah:", error);
+                this.fontPreviewError =
+                    "Preview unavailable. Using default ayah.";
+                this.fontPreviewText = this.fontPreviewFallbackText;
+            } finally {
+                this.fontPreviewLoading = false;
+            }
         },
         async fetchPreference(key) {
             if (!this.bookmarkAuthenticated) return null;

@@ -1,6 +1,7 @@
 <template>
     <div class="container  surat-premium"
         :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true, 'sidebar-collapsed': sidebarCollapsed }"
+        :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
             <div class="col-lg-10 col-xl-10">
@@ -506,6 +507,13 @@
                                             </select>
                                         </div>
                                         <button type="button"
+                                            class="icon-btn surah-font-btn d-none d-md-flex"
+                                            @click="openFontPicker"
+                                            aria-label="Choose Quran font"
+                                            title="Quran font">
+                                            <i class="fas fa-font" aria-hidden="true"></i>
+                                        </button>
+                                        <button type="button"
                                             class="icon-btn surah-settings-btn d-none d-md-flex"
                                             data-bs-toggle="modal"
                                             data-bs-target="#surahSettingsModal"
@@ -523,6 +531,12 @@
                                     data-bs-target="#tajweedRulesModal" aria-label="View tajweed rules">
                                     <i class="bi bi-palette-fill" aria-hidden="true"></i>
                                     <span class="tajweed-rules-label">Tajweed Rules</span>
+                                </button>
+                                <button type="button" class="btn font-picker-inline"
+                                    @click="openFontPicker"
+                                    aria-label="Choose Quran font">
+                                    <i class="fas fa-font" aria-hidden="true"></i>
+                                    <span class="font-picker-label">Fonts</span>
                                 </button>
                                 <button type="button" class="btn surah-offcanvas-inline" data-bs-toggle="offcanvas"
                                     data-bs-target="#surahOffcanvas" aria-controls="surahOffcanvas"
@@ -594,6 +608,13 @@
                                     : "Download full surah (MP3)"
                         }}
                     </span>
+                </button>
+                <button
+                    type="button"
+                    class="btn surah-font-picker-btn"
+                    @click.stop="openFontPicker"
+                    aria-label="Choose Quran font">
+                    <i class="fas fa-font" aria-hidden="true"></i>
                 </button>
             </div>
 
@@ -1209,6 +1230,148 @@
                                 aria-label="Apply settings">
                                 Submit
                             </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div v-if="!isMobile" class="offcanvas offcanvas-end quran-font-offcanvas" tabindex="-1"
+                :id="fontPickerOffcanvasId" ref="fontPickerOffcanvas" aria-labelledby="quranFontOffcanvasLabel">
+                <div class="offcanvas-header">
+                    <div>
+                        <h4 class="offcanvas-title" id="quranFontOffcanvasLabel">
+                            <b>Quran fonts</b>
+                        </h4>
+                        <p class="quran-font-subtitle mb-0">
+                            Select a Quranic script. Preview uses Al-Fatiha 1 with tajweed colors.
+                        </p>
+                    </div>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="quran-font-panel">
+                        <div v-if="quranFontsLoading" class="quran-font-loading">
+                            Loading Quran fonts...
+                        </div>
+                        <div v-else>
+                            <div v-if="quranFontsError" class="quran-font-error">
+                                {{ quranFontsError }}
+                            </div>
+                            <div class="quran-font-list">
+                                <div v-for="font in quranFonts" :key="font.id" class="quran-font-option"
+                                    :class="{ selected: quranFontDraftId === font.id }"
+                                    @click="selectQuranFontDraft(font.id)">
+                                    <div class="quran-font-option-header">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio"
+                                                :id="`quran-font-${font.inputId}`" :value="font.id"
+                                                v-model="quranFontDraftId" @click.stop />
+                                            <label class="form-check-label"
+                                                :for="`quran-font-${font.inputId}`"
+                                                :style="{ fontFamily: font.cssStack }">
+                                                {{ font.label }}
+                                            </label>
+                                        </div>
+                                        <span v-if="font.source" class="quran-font-source">
+                                            {{ font.source }}
+                                        </span>
+                                    </div>
+                                    <div class="quran-font-preview" :style="{ fontFamily: font.cssStack }">
+                                        <div v-if="fontPreviewLoading" class="quran-font-preview-loading">
+                                            Loading preview...
+                                        </div>
+                                        <div v-else class="quran-font-preview-text" v-html="getFontPreviewHtml(font)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div v-if="fontPickerAlert" class="alert alert-soft-success quran-font-alert" role="status">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>{{ fontPickerAlert }}</span>
+                        </div>
+                        <div class="quran-font-actions">
+                            <button type="button" class="btn btn-outline-secondary" @click="closeFontPicker">
+                                Cancel
+                            </button>
+                            <button type="button" class="btn surah-settings-submit"
+                                :disabled="!quranFontDraftId" @click="applyQuranFontSelection">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div v-if="isMobile" class="modal fade quran-font-modal" :id="fontPickerModalId" tabindex="-1"
+                aria-labelledby="quranFontModalLabel" aria-hidden="true" data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable modal-fullscreen-sm-down">
+                    <div class="modal-content quran-font-modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="quranFontModalLabel">
+                                <b>Quran fonts</b>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p class="quran-font-subtitle">
+                                Select a Quranic script. Preview uses Al-Fatiha 1 with tajweed colors.
+                            </p>
+                            <div class="quran-font-panel">
+                                <div v-if="quranFontsLoading" class="quran-font-loading">
+                                    Loading Quran fonts...
+                                </div>
+                                <div v-else>
+                                    <div v-if="quranFontsError" class="quran-font-error">
+                                        {{ quranFontsError }}
+                                    </div>
+                                    <div class="quran-font-list">
+                                        <div v-for="font in quranFonts" :key="font.id" class="quran-font-option"
+                                            :class="{ selected: quranFontDraftId === font.id }"
+                                            @click="selectQuranFontDraft(font.id)">
+                                            <div class="quran-font-option-header">
+                                                <div class="form-check">
+                                                    <input class="form-check-input" type="radio"
+                                                        :id="`quran-font-mobile-${font.inputId}`" :value="font.id"
+                                                        v-model="quranFontDraftId" @click.stop />
+                                                    <label class="form-check-label"
+                                                        :for="`quran-font-mobile-${font.inputId}`"
+                                                        :style="{ fontFamily: font.cssStack }">
+                                                        {{ font.label }}
+                                                    </label>
+                                                </div>
+                                                <span v-if="font.source" class="quran-font-source">
+                                                    {{ font.source }}
+                                                </span>
+                                            </div>
+                                            <div class="quran-font-preview" :style="{ fontFamily: font.cssStack }">
+                                                <div v-if="fontPreviewLoading" class="quran-font-preview-loading">
+                                                    Loading preview...
+                                                </div>
+                                                <div v-else class="quran-font-preview-text" v-html="getFontPreviewHtml(font)"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-if="fontPickerAlert" class="alert alert-soft-success quran-font-alert" role="status">
+                                    <i class="bi bi-check-circle-fill"></i>
+                                    <span>{{ fontPickerAlert }}</span>
+                                </div>
+                                <div class="quran-font-actions">
+                                    <button type="button" class="btn btn-outline-secondary" @click="closeFontPicker">
+                                        Cancel
+                                    </button>
+                                    <button type="button" class="btn surah-settings-submit"
+                                        :disabled="!quranFontDraftId" @click="applyQuranFontSelection">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
