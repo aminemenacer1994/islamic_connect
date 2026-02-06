@@ -728,6 +728,7 @@ export default {
         selectedQuranFontId(newVal) {
             if (!newVal) return;
             this.persistLocalSetting(this.quranFontPreferenceKey, newVal);
+            this.syncQuranFontStack(newVal);
         },
         selectedReciter: function (newVal) {
             if (newVal && !this.isLoading) {
@@ -1228,15 +1229,19 @@ export default {
                 this.quranFontPreferenceKey,
                 this.selectedQuranFontId
             );
+            this.syncQuranFontStack();
             const selected =
                 this.quranFonts.find(
                     (font) => font.id === this.selectedQuranFontId
                 ) || this.activeQuranFont;
-            const stack = selected?.cssStack || "";
-            this.storedQuranFontStack = stack;
-            if (stack) {
-                this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
-            }
+            const useTajweed = !!selected?.isTajweed;
+            this.showTajweed = useTajweed;
+            if (this.settingsDraft)
+                this.settingsDraft.showTajweed = useTajweed;
+            this.persistLocalSetting(
+                "suratShowTajweed",
+                useTajweed ? "1" : "0"
+            );
             const label = selected?.label || "Quran font";
             this.fontPickerAlert = `Font applied: ${label}.`;
             this.clearFontPickerTimer();
@@ -1275,14 +1280,37 @@ export default {
                 this.quranFontPreferenceKey,
                 this.selectedQuranFontId
             );
+            this.syncQuranFontStack();
             const selected =
                 this.quranFonts.find(
                     (font) => font.id === this.selectedQuranFontId
                 ) || this.activeQuranFont;
-            const stack = selected?.cssStack || "";
-            if (stack) {
-                this.storedQuranFontStack = stack;
-                this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+            const useTajweed = !!selected?.isTajweed;
+            this.showTajweed = useTajweed;
+            if (this.settingsDraft)
+                this.settingsDraft.showTajweed = useTajweed;
+            this.persistLocalSetting(
+                "suratShowTajweed",
+                useTajweed ? "1" : "0"
+            );
+        },
+        syncQuranFontStack(fontId = "") {
+            const targetId = fontId || this.selectedQuranFontId;
+            const selected =
+                this.quranFonts.find((font) => font.id === targetId) ||
+                this.activeQuranFont;
+            const stack =
+                selected?.cssStack ||
+                this.storedQuranFontStack ||
+                this.defaultQuranFontStack;
+            if (!stack) return;
+            this.storedQuranFontStack = stack;
+            this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+            if (typeof document !== "undefined") {
+                document.documentElement.style.setProperty(
+                    "--ic-quran-arabic-font",
+                    stack
+                );
             }
         },
         coerceLegacyFontId(value) {
@@ -1322,7 +1350,7 @@ export default {
                     id: "indopak",
                     label: "IndoPak",
                     cssStack:
-                        "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                        "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
                     source: "Quran.com",
                     inputId: "indopak",
                     isTajweed: false,
@@ -1395,7 +1423,7 @@ export default {
             const options = [
                 "'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif",
                 "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif",
-                "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
                 "'Reem Kufi', 'Cairo', 'Amiri', serif",
                 "'Aref Ruqaa', 'Amiri', serif",
                 "'Lateef', 'Amiri', serif",
@@ -1425,7 +1453,7 @@ export default {
                 return "'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', serif";
             }
             if (token.includes("nastaliq") || token.includes("indopak") || token.includes("indo")) {
-                return "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif";
+                return "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif";
             }
             if (token.includes("ruqaa") || token.includes("ruqa")) {
                 return "'Aref Ruqaa', 'Amiri', serif";

@@ -3589,6 +3589,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     selectedQuranFontId(newVal) {
       if (!newVal) return;
       this.persistLocalSetting(this.quranFontPreferenceKey, newVal);
+      this.syncQuranFontStack(newVal);
     },
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
@@ -4005,12 +4006,12 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!this.quranFontDraftId) return;
       this.selectedQuranFontId = this.quranFontDraftId;
       this.persistLocalSetting(this.quranFontPreferenceKey, this.selectedQuranFontId);
+      this.syncQuranFontStack();
       const selected = this.quranFonts.find(font => font.id === this.selectedQuranFontId) || this.activeQuranFont;
-      const stack = (selected === null || selected === void 0 ? void 0 : selected.cssStack) || "";
-      this.storedQuranFontStack = stack;
-      if (stack) {
-        this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
-      }
+      const useTajweed = !!(selected !== null && selected !== void 0 && selected.isTajweed);
+      this.showTajweed = useTajweed;
+      if (this.settingsDraft) this.settingsDraft.showTajweed = useTajweed;
+      this.persistLocalSetting("suratShowTajweed", useTajweed ? "1" : "0");
       const label = (selected === null || selected === void 0 ? void 0 : selected.label) || "Quran font";
       this.fontPickerAlert = `Font applied: ${label}.`;
       this.clearFontPickerTimer();
@@ -4042,11 +4043,22 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.quranFontDraftId = this.selectedQuranFontId;
       }
       this.persistLocalSetting(this.quranFontPreferenceKey, this.selectedQuranFontId);
+      this.syncQuranFontStack();
       const selected = this.quranFonts.find(font => font.id === this.selectedQuranFontId) || this.activeQuranFont;
-      const stack = (selected === null || selected === void 0 ? void 0 : selected.cssStack) || "";
-      if (stack) {
-        this.storedQuranFontStack = stack;
-        this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+      const useTajweed = !!(selected !== null && selected !== void 0 && selected.isTajweed);
+      this.showTajweed = useTajweed;
+      if (this.settingsDraft) this.settingsDraft.showTajweed = useTajweed;
+      this.persistLocalSetting("suratShowTajweed", useTajweed ? "1" : "0");
+    },
+    syncQuranFontStack(fontId = "") {
+      const targetId = fontId || this.selectedQuranFontId;
+      const selected = this.quranFonts.find(font => font.id === targetId) || this.activeQuranFont;
+      const stack = (selected === null || selected === void 0 ? void 0 : selected.cssStack) || this.storedQuranFontStack || this.defaultQuranFontStack;
+      if (!stack) return;
+      this.storedQuranFontStack = stack;
+      this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+      if (typeof document !== "undefined") {
+        document.documentElement.style.setProperty("--ic-quran-arabic-font", stack);
       }
     },
     coerceLegacyFontId(value) {
@@ -4078,7 +4090,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }, {
         id: "indopak",
         label: "IndoPak",
-        cssStack: "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+        cssStack: "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
         source: "Quran.com",
         inputId: "indopak",
         isTajweed: false
@@ -4137,7 +4149,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       }];
     },
     getFontStackFallback(identifier = "", label = "") {
-      const options = ["'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif", "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif", "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif", "'Reem Kufi', 'Cairo', 'Amiri', serif", "'Aref Ruqaa', 'Amiri', serif", "'Lateef', 'Amiri', serif", "'Cairo', 'Amiri', serif", "'Amiri', 'Scheherazade New', serif"];
+      const options = ["'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', serif", "'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif", "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif", "'Reem Kufi', 'Cairo', 'Amiri', serif", "'Aref Ruqaa', 'Amiri', serif", "'Lateef', 'Amiri', serif", "'Cairo', 'Amiri', serif", "'Amiri', 'Scheherazade New', serif"];
       const key = `${identifier} ${label}`.trim().toLowerCase();
       if (!key) return this.defaultQuranFontStack;
       let hash = 0;
@@ -4161,7 +4173,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         return "'Amiri', 'Noto Naskh Arabic', 'Scheherazade New', serif";
       }
       if (token.includes("nastaliq") || token.includes("indopak") || token.includes("indo")) {
-        return "'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif";
+        return "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif";
       }
       if (token.includes("ruqaa") || token.includes("ruqa")) {
         return "'Aref Ruqaa', 'Amiri', serif";

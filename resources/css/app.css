@@ -14,7 +14,18 @@
 @font-face {
   font-family: 'UthmanicHafs';
   src: url('/fonts/UthmanicHafs-Regular.woff2') format('woff2'),
-       url('/fonts/UthmanicHafs-Regular.woff') format('woff');
+       url('/fonts/UthmanicHafs-Regular.woff') format('woff'),
+       url('https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver18.woff2') format('woff2'),
+       url('https://verses.quran.foundation/fonts/quran/hafs/uthmanic_hafs/UthmanicHafs1Ver18.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IndoPak';
+  src: url('https://verses.quran.foundation/fonts/quran/hafs/indopak/IndoPak.woff2') format('woff2'),
+       url('https://verses.quran.foundation/fonts/quran/hafs/indopak/IndoPak.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

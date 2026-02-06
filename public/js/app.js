@@ -1,10 +1,4 @@
 "use strict";
-try {
-  var _icQuranFontStack = localStorage.getItem("suratSelectedFontStack");
-  if (_icQuranFontStack) {
-    document.documentElement.style.setProperty("--ic-quran-arabic-font", _icQuranFontStack);
-  }
-} catch (e) {}
 (self["webpackChunk"] = self["webpackChunk"] || []).push([["/js/app"],{
 
 /***/ "./node_modules/laravel-mix/node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./resources/components/vue/PricingComponent.vue?vue&type=script&lang=js":

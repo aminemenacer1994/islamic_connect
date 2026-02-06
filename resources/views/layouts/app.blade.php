@@ -111,6 +111,24 @@
             }
         })();
     </script> -->
+    <script>
+        (function() {
+            try {
+                var stack = localStorage.getItem('suratSelectedFontStack');
+                var id = localStorage.getItem('suratSelectedFont');
+                var map = {
+                    'qpc-hafs': "'UthmanicHafs', 'Noto Naskh Arabic', 'Amiri', serif",
+                    'uthmani': "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif",
+                    'indopak': "'IndoPak', 'Noto Nastaliq Urdu', 'Lateef', 'Amiri', serif",
+                    'tajweed-mushaf': "'UthmanicHafs', 'Scheherazade New', 'Amiri', serif"
+                };
+                var resolved = stack || map[id] || '';
+                if (resolved) {
+                    document.documentElement.style.setProperty('--ic-quran-arabic-font', resolved);
+                }
+            } catch (e) {}
+        })();
+    </script>
     <meta name="stripe-key" content="{{ config('services.stripe.key') }}">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-QWLL07EBX9"></script>
     <script>

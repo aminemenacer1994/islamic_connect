@@ -1,22 +1,15 @@
 <template>
-  <main class="container-fluid dua-shell py-5" role="main" aria-labelledby="dua-title">
-    <section class="container dua-hero mb-5">
+  <main class="container-fluid dua-shell py-4" role="main" aria-labelledby="dua-title">
+    <section class="container dua-hero mb-4">
       <div class="dua-hero-text">
-        <p class="dua-eyebrow text-uppercase mb-1">Quran Dua Library</p>
-        <h1 id="dua-title" class="fw-bold mb-2 dua-title">Dua Collection</h1>
+        <h1 id="dua-title" class="fw-bold mb-2 dua-title">Dua Library</h1>
         <p class="dua-hero-subtitle mb-0 dua-lead">
-          Explore a curated selection of authentic Islamic supplications, organized by theme so you can find the dua
-          that speaks to your current moment.
+          Find authentic duas by theme, then save or share what you need.
         </p>
-      </div>
-      <div class="dua-hero-pillset mt-3 mt-md-0">
-        <span class="dua-pill">Curated & verified</span>
-        <span class="dua-pill">Quranic & prophetic</span>
-        <span class="dua-pill">Ready to share</span>
       </div>
     </section>
 
-    <section class="container dua-tab-panel mb-4">
+    <section class="container dua-tab-panel mb-3">
       <div class="dua-tab-row">
         <button
           type="button"
@@ -58,8 +51,8 @@
       </div>
     </section>
 
-    <section class="container mb-4 dua-search-wrapper" role="search">
-      <div class="dua-search-card shadow-sm rounded-4 p-4">
+    <section class="container mb-3 dua-search-wrapper" role="search">
+      <div class="dua-search-card p-3">
         <div class="row g-3 align-items-stretch">
           <div class="col-md-6">
             <label class="form-label visually-hidden" for="dua-search-input">Search duas</label>
@@ -71,7 +64,7 @@
                 id="dua-search-input"
                 v-model="searchQuery"
                 type="text"
-                class="form-control border-0 py-3"
+                class="form-control border-0 py-2"
                 placeholder="Search by title, Arabic, translation, or reference"
                 aria-label="Search duas"
                 @input="resetPagination" />
@@ -115,7 +108,7 @@
       </div>
     </section>
 
-    <section class="container mb-5" aria-label="Suggested topics">
+    <section class="container mb-4" aria-label="Suggested topics">
       <div class="dua-tag-list">
         <button
           v-for="tag in searchTags"
@@ -147,8 +140,8 @@
         {{ errorMessage }}
       </div>
 
-      <div v-if="filteredDuas.length === 0 && !isLoading && !errorMessage" class="alert no-duas-message text-center rounded-4">
-        <div class="py-5">
+      <div v-if="filteredDuas.length === 0 && !isLoading && !errorMessage" class="alert no-duas-message text-center">
+        <div class="py-4">
           <i class="bi fs-1 mb-3 d-block" :class="viewMode === 'liked' ? 'bi-heart-fill' : 'bi-search'"></i>
           <p class="fw-medium fs-5">
             {{ viewMode === 'liked'
@@ -164,11 +157,10 @@
     </div>
 
     <div class="container" id="dua-panel" role="tabpanel" :aria-labelledby="viewMode === 'all' ? 'tab-all' : 'tab-liked'">
-      <div v-for="category in filteredDuas" :key="category.id" class="mb-5" role="region"
+      <div v-for="category in filteredDuas" :key="category.id" class="mb-4" role="region"
         :aria-labelledby="`category-title-${category.id}`">
-        <div class="dua-category-heading mb-4">
+        <div class="dua-category-heading mb-3">
           <div>
-            <p class="category-eyebrow mb-1">Category</p>
             <h2 class="category-title fw-bold mb-0" :id="`category-title-${category.id}`">{{ category.name }}</h2>
           </div>
           <button
@@ -182,7 +174,7 @@
           </button>
         </div>
 
-        <div v-if="!category.collapsed" class="row g-4 dua-card-grid" role="list">
+        <div v-if="!category.collapsed" class="row g-3 dua-card-grid" role="list">
           <div v-for="dua in getPaginatedDuas(category.duas)" :key="dua.id" class="col-12 col-md-6">
             <article
               class="dua-card h-100 position-relative"
@@ -196,13 +188,12 @@
                   <span>{{ loginWarnings[dua.id] }}</span>
                   <a class="auth-warning-cta ms-2" href="/login">Log in</a>
                 </div>
-                <p class="dua-card-source text-uppercase fw-bold mb-2">Quran</p>
-                <h3 class="dua-card-title fw-bold mb-3" :id="`dua-title-${dua.id}`">
+                <h3 class="dua-card-title fw-bold mb-2" :id="`dua-title-${dua.id}`">
                   <span v-html="highlightText(dua.title)"></span>
                 </h3>
                 <p
                   v-if="dua.arabic"
-                  class="dua-card-arabic mb-3 font-arabic"
+                  class="dua-card-arabic mb-2 font-arabic"
                   lang="ar"
                   dir="rtl"
                   :style="{ fontSize: 'calc(var(--font-size-base) * 1.5)', lineHeight: '2.5' }"
@@ -210,17 +201,16 @@
                   aria-label="Dua in Arabic"></p>
                 <p
                   v-if="dua.transliteration"
-                  class="dua-card-transliteration mb-2 fst-italic text-muted"
+                  class="dua-card-transliteration mb-1 fst-italic text-muted"
                   v-html="highlightText(dua.transliteration)"
                   aria-label="Dua transliteration"></p>
                 <p
-                  class="dua-card-translation mb-2"
+                  class="dua-card-translation mb-1"
                   :style="{ fontSize: 'calc(var(--font-size-base) * 0.98)' }"
                   v-html="highlightText(dua.translation)"
                   aria-label="Dua translation"></p>
                 <div class="dua-card-meta mt-auto">
                   <span class="dua-card-reference" v-html="highlightText(dua.reference)"></span>
-                  <span class="dua-card-pill">Resource</span>
                 </div>
               </div>
               <div class="dua-card-actions">
