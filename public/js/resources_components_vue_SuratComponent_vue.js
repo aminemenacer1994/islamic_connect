@@ -2987,6 +2987,8 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       selectedQuranFontId: "",
       quranFontDraftId: "",
       quranFontPreferenceKey: "suratSelectedFont",
+      quranFontStackPreferenceKey: "suratSelectedFontStack",
+      storedQuranFontStack: "",
       fontPreviewText: "",
       fontPreviewTajweedText: "",
       fontPreviewFallbackText: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
@@ -3369,7 +3371,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     },
     quranFontStyle() {
       var _this$activeQuranFont;
-      const stack = ((_this$activeQuranFont = this.activeQuranFont) === null || _this$activeQuranFont === void 0 ? void 0 : _this$activeQuranFont.cssStack) || this.defaultQuranFontStack;
+      const stack = this.storedQuranFontStack || ((_this$activeQuranFont = this.activeQuranFont) === null || _this$activeQuranFont === void 0 ? void 0 : _this$activeQuranFont.cssStack) || this.defaultQuranFontStack;
       return {
         "--ic-quran-arabic-font": stack
       };
@@ -3584,6 +3586,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.debouncedQuery = val;
       }, 300);
     },
+    selectedQuranFontId(newVal) {
+      if (!newVal) return;
+      this.persistLocalSetting(this.quranFontPreferenceKey, newVal);
+    },
     selectedReciter: function (newVal) {
       if (newVal && !this.isLoading) {
         this.isSurahAudioDownloading = false;
@@ -3779,6 +3785,7 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     let storedReciter = null;
     let storedTranslation = null;
     let storedFont = null;
+    let storedFontStack = null;
     try {
       storedSurah = localStorage.getItem("suratSelectedSurah");
     } catch (_) {}
@@ -3791,11 +3798,17 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
     try {
       storedFont = localStorage.getItem(this.quranFontPreferenceKey);
     } catch (_) {}
+    try {
+      storedFontStack = localStorage.getItem(this.quranFontStackPreferenceKey);
+    } catch (_) {}
     this.selectedSurah = storedSurah || "1";
     this.selectedReciter = storedReciter || "ar.alafasy";
     this.selectedTranslation = storedTranslation || "en.ahmedali";
-    this.selectedQuranFontId = storedFont || "";
+    this.selectedQuranFontId = this.coerceLegacyFontId(storedFont) || "";
     this.quranFontDraftId = this.selectedQuranFontId;
+    this.storedQuranFontStack = storedFontStack || "";
+    this.quranFonts = this.getQuranComFonts();
+    this.ensureSelectedQuranFont();
     this.currentlyPlayingIndex = 0;
     this.isHighlighted = false;
     this.continuousPlayback = (_JSON$parse = JSON.parse(localStorage.getItem("continuousPlayback"))) !== null && _JSON$parse !== void 0 ? _JSON$parse : false;
@@ -3993,6 +4006,11 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       this.selectedQuranFontId = this.quranFontDraftId;
       this.persistLocalSetting(this.quranFontPreferenceKey, this.selectedQuranFontId);
       const selected = this.quranFonts.find(font => font.id === this.selectedQuranFontId) || this.activeQuranFont;
+      const stack = (selected === null || selected === void 0 ? void 0 : selected.cssStack) || "";
+      this.storedQuranFontStack = stack;
+      if (stack) {
+        this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+      }
       const label = (selected === null || selected === void 0 ? void 0 : selected.label) || "Quran font";
       this.fontPickerAlert = `Font applied: ${label}.`;
       this.clearFontPickerTimer();
@@ -4011,6 +4029,10 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       if (!Array.isArray(this.quranFonts) || !this.quranFonts.length) {
         return;
       }
+      const normalized = this.coerceLegacyFontId(this.selectedQuranFontId);
+      if (normalized && normalized !== this.selectedQuranFontId) {
+        this.selectedQuranFontId = normalized;
+      }
       const exists = this.quranFonts.some(font => font.id === this.selectedQuranFontId);
       if (!exists) {
         this.selectedQuranFontId = this.quranFonts[0].id;
@@ -4020,6 +4042,23 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.quranFontDraftId = this.selectedQuranFontId;
       }
       this.persistLocalSetting(this.quranFontPreferenceKey, this.selectedQuranFontId);
+      const selected = this.quranFonts.find(font => font.id === this.selectedQuranFontId) || this.activeQuranFont;
+      const stack = (selected === null || selected === void 0 ? void 0 : selected.cssStack) || "";
+      if (stack) {
+        this.storedQuranFontStack = stack;
+        this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+      }
+    },
+    coerceLegacyFontId(value) {
+      var _this$quranFonts;
+      if (!value) return "";
+      const raw = String(value).toLowerCase();
+      if ((_this$quranFonts = this.quranFonts) !== null && _this$quranFonts !== void 0 && _this$quranFonts.some(font => font.id === raw)) return raw;
+      if (raw.includes("tajweed")) return "tajweed-mushaf";
+      if (raw.includes("indopak") || raw.includes("indo") || raw.includes("nastaliq")) return "indopak";
+      if (raw.includes("uthmani") || raw.includes("uthmanic")) return "uthmani";
+      if (raw.includes("qpc") || raw.includes("hafs") || raw.includes("simple")) return "qpc-hafs";
+      return raw;
     },
     getQuranComFonts() {
       return [{

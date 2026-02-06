@@ -57,6 +57,8 @@ export default {
             selectedQuranFontId: "",
             quranFontDraftId: "",
             quranFontPreferenceKey: "suratSelectedFont",
+            quranFontStackPreferenceKey: "suratSelectedFontStack",
+            storedQuranFontStack: "",
             fontPreviewText: "",
             fontPreviewTajweedText: "",
             fontPreviewFallbackText: "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
@@ -457,6 +459,7 @@ export default {
         },
         quranFontStyle() {
             const stack =
+                this.storedQuranFontStack ||
                 this.activeQuranFont?.cssStack ||
                 this.defaultQuranFontStack;
             return {
@@ -722,6 +725,10 @@ export default {
                 this.debouncedQuery = val;
             }, 300);
         },
+        selectedQuranFontId(newVal) {
+            if (!newVal) return;
+            this.persistLocalSetting(this.quranFontPreferenceKey, newVal);
+        },
         selectedReciter: function (newVal) {
             if (newVal && !this.isLoading) {
                 this.isSurahAudioDownloading = false;
@@ -935,6 +942,7 @@ export default {
         let storedReciter = null;
         let storedTranslation = null;
         let storedFont = null;
+        let storedFontStack = null;
         try {
             storedSurah = localStorage.getItem("suratSelectedSurah");
         } catch (_) {}
@@ -947,11 +955,17 @@ export default {
         try {
             storedFont = localStorage.getItem(this.quranFontPreferenceKey);
         } catch (_) {}
+        try {
+            storedFontStack = localStorage.getItem(this.quranFontStackPreferenceKey);
+        } catch (_) {}
         this.selectedSurah = storedSurah || "1";
         this.selectedReciter = storedReciter || "ar.alafasy";
         this.selectedTranslation = storedTranslation || "en.ahmedali";
-        this.selectedQuranFontId = storedFont || "";
+        this.selectedQuranFontId = this.coerceLegacyFontId(storedFont) || "";
         this.quranFontDraftId = this.selectedQuranFontId;
+        this.storedQuranFontStack = storedFontStack || "";
+        this.quranFonts = this.getQuranComFonts();
+        this.ensureSelectedQuranFont();
         this.currentlyPlayingIndex = 0;
         this.isHighlighted = false;
         this.continuousPlayback =
@@ -1218,6 +1232,11 @@ export default {
                 this.quranFonts.find(
                     (font) => font.id === this.selectedQuranFontId
                 ) || this.activeQuranFont;
+            const stack = selected?.cssStack || "";
+            this.storedQuranFontStack = stack;
+            if (stack) {
+                this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+            }
             const label = selected?.label || "Quran font";
             this.fontPickerAlert = `Font applied: ${label}.`;
             this.clearFontPickerTimer();
@@ -1236,6 +1255,10 @@ export default {
             if (!Array.isArray(this.quranFonts) || !this.quranFonts.length) {
                 return;
             }
+            const normalized = this.coerceLegacyFontId(this.selectedQuranFontId);
+            if (normalized && normalized !== this.selectedQuranFontId) {
+                this.selectedQuranFontId = normalized;
+            }
             const exists = this.quranFonts.some(
                 (font) => font.id === this.selectedQuranFontId
             );
@@ -1252,6 +1275,28 @@ export default {
                 this.quranFontPreferenceKey,
                 this.selectedQuranFontId
             );
+            const selected =
+                this.quranFonts.find(
+                    (font) => font.id === this.selectedQuranFontId
+                ) || this.activeQuranFont;
+            const stack = selected?.cssStack || "";
+            if (stack) {
+                this.storedQuranFontStack = stack;
+                this.persistLocalSetting(this.quranFontStackPreferenceKey, stack);
+            }
+        },
+        coerceLegacyFontId(value) {
+            if (!value) return "";
+            const raw = String(value).toLowerCase();
+            if (this.quranFonts?.some((font) => font.id === raw)) return raw;
+            if (raw.includes("tajweed")) return "tajweed-mushaf";
+            if (raw.includes("indopak") || raw.includes("indo") || raw.includes("nastaliq"))
+                return "indopak";
+            if (raw.includes("uthmani") || raw.includes("uthmanic"))
+                return "uthmani";
+            if (raw.includes("qpc") || raw.includes("hafs") || raw.includes("simple"))
+                return "qpc-hafs";
+            return raw;
         },
         getQuranComFonts() {
             return [
