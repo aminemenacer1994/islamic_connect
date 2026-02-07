@@ -57,9 +57,6 @@
           <div class="col-md-6">
             <label class="form-label visually-hidden" for="dua-search-input">Search duas</label>
             <div class="dua-search-input">
-              <span class="search-icon">
-                <i class="bi bi-search"></i>
-              </span>
               <input
                 id="dua-search-input"
                 v-model="searchQuery"

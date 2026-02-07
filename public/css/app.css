@@ -16192,14 +16192,6 @@ h1 {
   font-size: 0.95rem;
   color: #0f172a;
 }
-.dua-search-input .search-icon[data-v-4b4cde72] {
-  color: #0f766e;
-  font-size: 1.1rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-}
 .dua-clear-btn[data-v-4b4cde72] {
   border: none;
   background: transparent;
@@ -16227,7 +16219,15 @@ h1 {
 .dua-tag-list[data-v-4b4cde72] {
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 0.35rem;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.dua-tag-list[data-v-4b4cde72]::-webkit-scrollbar {
+  display: none;
 }
 .dua-tag[data-v-4b4cde72] {
   border: none;
@@ -16243,6 +16243,8 @@ h1 {
   gap: 0.4rem;
   cursor: pointer;
   transition: all 0.2s ease;
+  white-space: nowrap;
+  scroll-snap-align: start;
 }
 .dua-tag.active[data-v-4b4cde72] {
   background: #0f766e;
@@ -16339,7 +16341,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 0.6rem;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   margin-top: auto;
   z-index: 1;
 }
@@ -16348,7 +16350,8 @@ h1 {
   gap: 0.25rem;
   background: #f1f5f9;
   border-radius: 999px;
-  padding: 0.2rem 0.3rem;
+  padding: 0.35rem 0.6rem;
+  flex: 0 0 auto;
 }
 .dua-font-btn[data-v-4b4cde72] {
   border: none;
@@ -16367,10 +16370,11 @@ h1 {
 .dua-action-group[data-v-4b4cde72] {
   display: inline-flex;
   gap: 0.25rem;
+  margin-left: auto;
 }
 .dua-action-btn[data-v-4b4cde72] {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   border-radius: 12px;
   border: 1px solid rgba(15, 23, 42, 0.1);
   background: #f1f5f9;
@@ -16387,7 +16391,7 @@ h1 {
   color: #ffffff;
 }
 .dua-action-btn i[data-v-4b4cde72] {
-  font-size: 1.05rem;
+  font-size: 1rem;
 }
 .action-pill[data-v-4b4cde72] {
   font-size: 0.8rem;
@@ -16473,9 +16477,20 @@ mark.mark-tag[data-v-4b4cde72] {
     padding: 1.1rem;
 }
 .dua-card-actions[data-v-4b4cde72] {
-    flex-direction: column;
-    align-items: stretch;
-    justify-content: flex-start;
+    gap: 0.5rem;
+}
+}
+@media (min-width: 992px) {
+.dua-hero[data-v-4b4cde72] {
+    text-align: center;
+    justify-items: center;
+}
+.dua-hero-text[data-v-4b4cde72] {
+    margin: 0 auto;
+}
+.dua-tab-row[data-v-4b4cde72] {
+    width: 100%;
+    justify-content: center;
 }
 }
 @media (max-width: 768px) {
@@ -16490,6 +16505,16 @@ mark.mark-tag[data-v-4b4cde72] {
 }
 }
 @media (max-width: 576px) {
+.dua-card-actions[data-v-4b4cde72] {
+    gap: 0.4rem;
+}
+.dua-font-btn[data-v-4b4cde72] {
+    font-size: 1rem;
+}
+.dua-action-btn[data-v-4b4cde72] {
+    width: 34px;
+    height: 34px;
+}
 .dua-tab-row[data-v-4b4cde72] {
     width: 100%;
     display: flex;
@@ -16505,12 +16530,7 @@ mark.mark-tag[data-v-4b4cde72] {
     gap: 0.35rem;
 }
 .dua-tag-list[data-v-4b4cde72] {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    padding-bottom: 0.35rem;
-}
-.dua-tag[data-v-4b4cde72] {
-    white-space: nowrap;
+    scrollbar-width: none;
 }
 }
 
@@ -35032,16 +35052,16 @@ to {
         border-color: rgba(11, 128, 111, 0.35);
 }
 .surah-settings-submit[data-v-637d02d8] {
-    background: #0b3d2e;
-    border-color: #0b3d2e;
-    color: #f8fbf9;
+    background: #1aa39a;
+    border-color: #1aa39a;
+    color: #f6fffe;
     font-weight: 600;
     padding: 0.6rem 1.4rem;
 }
 .surah-settings-submit[data-v-637d02d8]:hover,
 .surah-settings-submit[data-v-637d02d8]:focus-visible {
-    background: #093226;
-    border-color: #093226;
+    background: #168a82;
+    border-color: #168a82;
     color: #ffffff;
 }
 .surah-settings-btn[data-v-637d02d8] {

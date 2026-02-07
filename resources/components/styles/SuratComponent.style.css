@@ -53,17 +53,17 @@
     }
 
 .surah-settings-submit {
-    background: #0b3d2e;
-    border-color: #0b3d2e;
-    color: #f8fbf9;
+    background: #1aa39a;
+    border-color: #1aa39a;
+    color: #f6fffe;
     font-weight: 600;
     padding: 0.6rem 1.4rem;
 }
 
 .surah-settings-submit:hover,
 .surah-settings-submit:focus-visible {
-    background: #093226;
-    border-color: #093226;
+    background: #168a82;
+    border-color: #168a82;
     color: #ffffff;
 }
 
