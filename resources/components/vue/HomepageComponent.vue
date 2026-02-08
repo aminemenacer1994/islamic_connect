@@ -200,7 +200,7 @@
                   </div>
                   <h3 class="h3 fw-bold">Learn Your Way</h3>
                   <p class="mb-4 text-muted" style="font-size: 16px; line-height: 1.6;">
-                    Text-to-speech, screen reader and keybord navigator support, and bookmarking ensure accessible
+                    Text-to-speech, screen reader and keyboard navigator support, and bookmarking ensure accessible
                     learning
                     for everyone, regardless of ability.
                   </p>

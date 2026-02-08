@@ -2211,3 +2211,98 @@
     margin-bottom: 0.7rem;
   }
 }
+
+/* Mobile audio player: force 2-row layout */
+@media (max-width: 768px) {
+  .custom-audio-player {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "left actions"
+      "time progress";
+    row-gap: 8px !important;
+    column-gap: 10px !important;
+    align-items: center;
+  }
+
+  .custom-audio-player .controls {
+    display: contents;
+  }
+
+  .controls-left {
+    grid-area: left;
+    min-width: 0;
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  .controls-left .control-group {
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .audio-actions {
+    grid-area: actions;
+    justify-content: flex-end;
+    min-width: 0;
+    gap: 8px;
+    flex-wrap: nowrap;
+  }
+
+  .audio-actions__group {
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .info-section {
+    grid-area: time;
+    justify-content: flex-start;
+    min-width: 0;
+    width: max-content;
+    gap: 0;
+  }
+
+  .episode-title {
+    display: none !important;
+  }
+
+  .time {
+    min-width: 0;
+    text-align: left;
+    font-size: 0.8rem;
+  }
+
+  .progress-bar {
+    grid-area: progress;
+    min-width: 0;
+    margin: 0 !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .custom-audio-player {
+    row-gap: 6px !important;
+    column-gap: 8px !important;
+  }
+
+  .controls-left {
+    gap: 8px;
+  }
+
+  .controls-left .control-group {
+    gap: 4px;
+  }
+
+  .audio-actions {
+    gap: 6px;
+  }
+
+  .audio-actions__group {
+    gap: 4px;
+  }
+
+  .audio-speed-select {
+    width: 64px;
+    min-width: 64px;
+  }
+}

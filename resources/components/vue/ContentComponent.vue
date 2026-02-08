@@ -323,7 +323,7 @@
                   <button class="download-button" type="button" @click.stop="downloadAudio(podcast)"
                     :aria-label="`Download ${podcast.title} to listen offline`">
                     <i class="bi bi-download" aria-hidden="true"></i>
-                    download to listen offline
+                    Download to listen offline
                   </button>
                 </div>
               </div>
