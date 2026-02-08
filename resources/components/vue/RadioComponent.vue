@@ -3,9 +3,8 @@
     <div class="container py-5">
       <div class="row justify-content-center text-center mb-3">
         <div class="col-lg-10 col-xl-10">
-          <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">Qur'an
-            Airwaves</h1>
-          <p class="lead" style="color:#475569;max-width:920px;margin:0 auto;">Discover live Quranic reciters stations
+          <h1 class="display-5 fw-bold" style="color:#0b1320;letter-spacing:-.02em;margin-bottom:.25rem;">The World of Quranic Recitation</h1>
+          <p class="lead mb-2 mt-1" style="color:#475569;margin:0 auto;">Discover live Quranic reciters, Biographies, Fatwas and Translations stations
             from renowned reciters worldwide.</p>
         </div>
       </div>

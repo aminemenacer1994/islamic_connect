@@ -819,7 +819,7 @@
       </div>
     </section>
 
-    <section id="duas" class="r-section r-section--alt">
+    <!-- <section id="duas" class="r-section r-section--alt">
       <div class="container">
         <div class="r-section__head">
           <h2 class="r-section__title">
@@ -847,7 +847,7 @@
           </button>
         </div>
       </div>
-    </section>
+    </section> -->
 
     <section id="shorts" class="r-section">
       <div class="container">
@@ -981,7 +981,7 @@
       </div>
     </section>
 
-    <div class="modal fade" id="moreDuasModal" tabindex="-1" aria-labelledby="moreDuasModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="moreDuasModal" tabindex="-1" aria-labelledby="moreDuasModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -1049,7 +1049,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <button v-if="showFab" class="r-fab" type="button" @click="scrollToTop" aria-label="Scroll back to top"
       title="Scroll back to top">
       <span aria-hidden="true">⬆</span>

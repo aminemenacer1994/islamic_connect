@@ -173,12 +173,12 @@
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'surah' }"
                                         @click="setActiveSidebarTab('surah')">Surah</button>
-                                    <!-- <button class="tab-btn flex-fill" 
+                                    <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'verse' }"
                                         @click="setActiveSidebarTab('verse')">Verse</button>
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'juz' }"
-                                        @click="setActiveSidebarTab('juz')">Juz</button> -->
+                                        @click="setActiveSidebarTab('juz')">Juz</button>
                                     <button v-if="!isMobile" type="button" class="tab-btn sidebar-settings-tab ms-auto"
                                         data-bs-toggle="modal"
                                         data-bs-target="#surahSettingsModal"
@@ -256,7 +256,7 @@
                                         Surah {{ surahDetails.englishName }}
                                     </div>
                                     <div class="sidebar-item" v-for="verse in filteredVersesList" :key="verse.key"
-                                         :class="{ active: currentlyPlayingIndex === (verse.number - 1) }"
+                                         :class="{ active: activeAyahIndex === (verse.number - 1) }"
                                          @click="selectVerseFromSidebar(verse.number)">
                                          <div class="d-flex w-100 align-items-center">
                                              <div class="item-number-container me-2">
@@ -627,7 +627,7 @@
                     @keydown.space.prevent="toggleAudioPlayer(item.index)" draggable="true" tabindex="0"
                     @dragstart="onAyahDragStart(item.ayah, $event)" :class="{
                         highlighted:
-                            isHighlighted && currentlyPlayingIndex === item.index,
+                            isHighlighted && activeAyahIndex === item.index,
                         'currently-playing': isAudioPlaying[item.index],
                     }">
                     <div class="ayah-surface rtl-text d-flex flex-column">

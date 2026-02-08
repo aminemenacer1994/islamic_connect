@@ -49,12 +49,11 @@
     { "label": "How to fast", "href": "#how-to-fast" },
     { "label": "FAQ", "href": "#faq" },
     { "label": "Quran plans", "href": "#quran-plans" },
-    { "label": "Personal plans", "href": "#personal-plans" },
+    { "label": "Personal plans", "href": "#personal-plans" },    
+    { "label": "Tools", "href": "#tools" },
     { "label": "Charity", "href": "#charity" },
     { "label": "Health tips", "href": "#health" },
-    { "label": "Duas", "href": "#duas" },
-    { "label": "Short clips", "href": "#shorts" },
-    { "label": "Tools", "href": "#tools" }
+    { "label": "Short clips", "href": "#shorts" }
   ],
 
   "overview": {

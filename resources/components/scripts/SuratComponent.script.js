@@ -124,6 +124,7 @@ export default {
             ],
             highlightLeadSeconds: 0.05,
             _lastSegmentIndex: -1,
+            currentAudioIndex: -1,
             reciterLeadOffsets: {},
             reciterDefaultLeadOffsets: {
                 "ar.abdulbasitmurattal": 0.05,
@@ -146,8 +147,10 @@ export default {
             favoriteReciters: ["ar.alafasy", "ar.abdulbasitmurattal"],
             favoriteTranslations: ["en.ahmedali", "en.sahih"],
             lastAutoScrollAt: 0,
+            lastManualNavigationAt: 0,
             isManualScrolling: false,
             manualScrollTimer: null,
+            autoSyncLockUntil: 0,
             ayahScrubValue: 1,
             // perf throttles
             lastProgressAt: 0,
@@ -156,6 +159,14 @@ export default {
             lastAutoScrollIndex: null,
             lastProgrammaticScrollAt: 0,
             preferredPlaybackScrollFactor: 0.38,
+            _scrollCorrectionTimer: null,
+            _scrollCorrectionToken: 0,
+            _navigationSettleTimer: null,
+            _navigationSettleToken: 0,
+            navigationTargetIndex: null,
+            navigationTargetTolerance: 12,
+            windowLockUntil: 0,
+            windowLockIndex: null,
             // request control
             _surahAborter: null,
             // delayed spinner timers per index
@@ -350,6 +361,16 @@ export default {
         };
     },
     computed: {
+        isAnyAudioPlaying() {
+            return Array.isArray(this.isAudioPlaying)
+                ? this.isAudioPlaying.some(Boolean)
+                : false;
+        },
+        activeAyahIndex() {
+            return this.isAnyAudioPlaying
+                ? this.currentlyPlayingIndex
+                : this.selectedCardIndex;
+        },
         filteredJuzs() {
             const query = (this.sidebarSearchQuery || "").trim().toLowerCase();
             const allJuz = Array.from({ length: 30 }, (_, i) => i + 1);
@@ -667,7 +688,17 @@ export default {
             return this.canMinimizeNextStep && this.nextStepMinimized;
         },
         currentHeaderOffset() {
-            // Precise pixel calculations for the sticky header in both states
+            // Measure sticky header height when possible for accurate scroll offsets
+            try {
+                const sticky = this.$refs && this.$refs.stickyDropdown;
+                if (sticky && sticky.getBoundingClientRect) {
+                    const rect = sticky.getBoundingClientRect();
+                    if (rect && rect.height) {
+                        return rect.height;
+                    }
+                }
+            } catch (_) { }
+            // Fallback if measurement isn't available yet
             return this.headerCollapsed ? 40 : 180;
         },
         visibleWindow() {
@@ -854,7 +885,23 @@ export default {
                 return;
             }
             this._lastHighlightIndex = -1;
-            if (this.isAudioPlaying[this.currentlyPlayingIndex]) {
+            if (
+                typeof this.currentAudioIndex !== "number" ||
+                this.currentAudioIndex < 0
+            ) {
+                const playingIndex = Array.isArray(this.isAudioPlaying)
+                    ? this.isAudioPlaying.findIndex(Boolean)
+                    : -1;
+                if (playingIndex >= 0) {
+                    this.currentAudioIndex = playingIndex;
+                }
+            }
+            const idx =
+                typeof this.currentAudioIndex === "number" &&
+                this.currentAudioIndex >= 0
+                    ? this.currentAudioIndex
+                    : this.currentlyPlayingIndex;
+            if (this.isAudioPlaying[idx]) {
                 this.startHighlightLoop();
             }
         },
@@ -1074,6 +1121,10 @@ export default {
         clearTimeout(this.fontPickerAlertTimer);
         this.fontPickerAlertTimer = null;
         clearTimeout(this.authAlertTimer);
+        clearTimeout(this._scrollCorrectionTimer);
+        this._scrollCorrectionTimer = null;
+        clearTimeout(this._navigationSettleTimer);
+        this._navigationSettleTimer = null;
         if (this._heightMeasureRaf && typeof window !== "undefined") {
             window.cancelAnimationFrame(this._heightMeasureRaf);
             this._heightMeasureRaf = null;
@@ -1091,11 +1142,15 @@ export default {
         clearTimeout(this.savedAyahClearTimer);
         clearTimeout(this.surahAudioDownloadedTimer);
         this.surahAudioDownloadedTimer = null;
-        clearTimeout(this.bookmarkToastTimer);
+            clearTimeout(this.bookmarkToastTimer);
             this.bookmarkToastAction = null;
             clearTimeout(this.fontPickerAlertTimer);
             this.fontPickerAlertTimer = null;
             clearTimeout(this.authAlertTimer);
+            clearTimeout(this._scrollCorrectionTimer);
+            this._scrollCorrectionTimer = null;
+            clearTimeout(this._navigationSettleTimer);
+            this._navigationSettleTimer = null;
             if (this.reflectionModalHiddenHandler) {
                 const modalEl = document.getElementById(this.reflectionModalId);
                 if (modalEl) {
@@ -3018,6 +3073,9 @@ export default {
                 this._virtualWindowRaf = window.requestAnimationFrame(() => {
                     this._virtualWindowRaf = null;
                     this.updateVirtualWindow();
+                    if (this.isNavigating) {
+                        this.checkNavigationSettled();
+                    }
                 });
             } else {
                 this.updateVirtualWindow();
@@ -3028,6 +3086,24 @@ export default {
             if (n === 0) {
                 this.visibleStart = 0;
                 this.visibleEnd = 0;
+                return;
+            }
+            const now = Date.now();
+            if (
+                this.isNavigating &&
+                this.windowLockUntil &&
+                now < this.windowLockUntil &&
+                typeof this.windowLockIndex === "number"
+            ) {
+                const start = Math.max(0, this.windowLockIndex - this.buffer);
+                const end = Math.min(n, start + this.windowSize + this.buffer * 2);
+                if (start !== this.visibleStart || end !== this.visibleEnd) {
+                    this.visibleStart = start;
+                    this.visibleEnd = end;
+                    if (!this.itemHeightCalibrated) {
+                        this.scheduleHeightCalibration(true);
+                    }
+                }
                 return;
             }
             // Account for the dynamic sticky header offset when determining which card is "active" at the top
@@ -3062,7 +3138,13 @@ export default {
                 
                 // UX Improvement: Sync sidebar highlights on scroll (if not playing)
                 const isPlayingAny = Object.values(this.isAudioPlaying).some(v => v);
-                if (!this.isNavigating && !isPlayingAny && this.filteredAyahs?.[approxIndex]) {
+                if (
+                    !this.isNavigating &&
+                    !this.isAutoSyncLocked() &&
+                    this.isManualScrolling &&
+                    !isPlayingAny &&
+                    this.filteredAyahs?.[approxIndex]
+                ) {
                     // Critical: Use a silent update or check isManualScrolling 
                     // to prevent syncPlaybackScroll from snap-jumping during user scroll.
                     this.currentlyPlayingIndex = approxIndex;
@@ -3124,7 +3206,94 @@ export default {
             this.deepLinkHandled = true;
             this.scrollToAyahIndex(index);
         },
-        scrollToAyahIndex(index) {
+        isAutoSyncLocked() {
+            return Date.now() < (this.autoSyncLockUntil || 0);
+        },
+        lockAutoSync(durationMs) {
+            const nextUntil = Date.now() + Math.max(0, durationMs || 0);
+            if (!this.autoSyncLockUntil || nextUntil > this.autoSyncLockUntil) {
+                this.autoSyncLockUntil = nextUntil;
+            }
+        },
+        getScrollBehavior(preferred = "smooth") {
+            if (preferred === "auto") return "auto";
+            try {
+                if (
+                    typeof window !== "undefined" &&
+                    window.matchMedia &&
+                    window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                ) {
+                    return "auto";
+                }
+            } catch (_) { }
+            return preferred;
+        },
+        beginManualNavigation(index, options = {}) {
+            const { duration = 2200, tolerance = 12 } = options || {};
+            this.isNavigating = true;
+            this.navigationTargetIndex = index;
+            this.navigationTargetTolerance = tolerance;
+            this.windowLockIndex = index;
+            this.windowLockUntil = Date.now() + duration;
+            this.lockAutoSync(duration + 400);
+            if (this._navigationSettleTimer) {
+                clearTimeout(this._navigationSettleTimer);
+                this._navigationSettleTimer = null;
+            }
+            const token = (this._navigationSettleToken || 0) + 1;
+            this._navigationSettleToken = token;
+            this._navigationSettleTimer = setTimeout(() => {
+                if (token !== this._navigationSettleToken) return;
+                this.finishManualNavigation();
+            }, duration);
+        },
+        finishManualNavigation() {
+            const index = this.navigationTargetIndex;
+            this.navigationTargetIndex = null;
+            this.windowLockIndex = null;
+            this.windowLockUntil = 0;
+            this.isNavigating = false;
+            const now = Date.now();
+            const minUnlockAt = now + 250;
+            if (!this.autoSyncLockUntil || this.autoSyncLockUntil < minUnlockAt) {
+                this.autoSyncLockUntil = minUnlockAt;
+            }
+            if (typeof index === "number" && index >= 0) {
+                this.selectCard(index);
+            }
+        },
+        checkNavigationSettled() {
+            if (this.navigationTargetIndex == null) return;
+            const index = this.navigationTargetIndex;
+            const cardEl = document.getElementById(`ayah-card-${index}`);
+            if (!cardEl || !cardEl.getBoundingClientRect) return;
+            const rect = cardEl.getBoundingClientRect();
+            const offset = this.currentHeaderOffset;
+            const viewportHeight = window.innerHeight;
+            const audioHeight = this.getAudioPlayerHeight();
+            const availableHeight = Math.max(
+                viewportHeight - offset - audioHeight,
+                0
+            );
+            const centerFactor =
+                typeof this.preferredPlaybackScrollFactor === "number"
+                    ? this.preferredPlaybackScrollFactor
+                    : 0.5;
+            const desiredCenter = offset + availableHeight * centerFactor;
+            const delta = rect.top + rect.height / 2 - desiredCenter;
+            if (Math.abs(delta) <= (this.navigationTargetTolerance || 12)) {
+                this.finishManualNavigation();
+            }
+        },
+        scrollToAyahIndex(index, options = {}) {
+            const {
+                behavior = "smooth",
+                settle = false,
+                settleDelay = null,
+                force = false,
+                lock = false,
+            } = options || {};
+            const resolvedBehavior = this.getScrollBehavior(behavior);
             const total = Array.isArray(this.filteredAyahs)
                 ? this.filteredAyahs.length
                 : 0;
@@ -3147,90 +3316,240 @@ export default {
 
             // Reduced nested ticks for an "instant" jump feel
             this.$nextTick(() => {
-                this.computeListTop();
-                this.calibrateItemHeight();
+                const runScroll = () => {
+                    this.computeListTop();
+                    this.calibrateItemHeight();
 
-                const offset = this.currentHeaderOffset;
-                const viewportHeight = window.innerHeight;
-                const audioHeight = this.getAudioPlayerHeight();
-                const availableHeight = Math.max(
-                    viewportHeight - offset - audioHeight,
-                    0
-                );
-                if (
-                    this.lastAutoScrollIndex === index &&
-                    Date.now() - this.lastProgrammaticScrollAt < 650
-                ) {
+                    const offset = this.currentHeaderOffset;
+                    const viewportHeight = window.innerHeight;
+                    const audioHeight = this.getAudioPlayerHeight();
+                    const availableHeight = Math.max(
+                        viewportHeight - offset - audioHeight,
+                        0
+                    );
+                    if (
+                        !force &&
+                        this.lastAutoScrollIndex === index &&
+                        Date.now() - this.lastProgrammaticScrollAt < 650
+                    ) {
+                        this.lastProgrammaticScrollAt = Date.now();
+                        this.lastAutoScrollIndex = index;
+                        this.selectCard(index);
+                        this.isNavigating = false;
+                        return;
+                    }
+                    const cardEl = document.getElementById(
+                        `ayah-card-${index}`
+                    );
+                    const hadCardEl = !!cardEl;
+                    let targetTop;
+
+                    if (cardEl && cardEl.getBoundingClientRect) {
+                        const rect = cardEl.getBoundingClientRect();
+                        const cardCenter =
+                            window.scrollY + rect.top + rect.height / 2;
+                        const centerFactor =
+                            typeof this.preferredPlaybackScrollFactor === "number"
+                                ? this.preferredPlaybackScrollFactor
+                                : 0.5;
+                        const centerOffset =
+                            offset + availableHeight * centerFactor;
+                        targetTop = cardCenter - centerOffset;
+                    } else {
+                        targetTop =
+                            this.listTop + index * this.itemHeight - offset;
+                    }
+
+                    const maxScroll = Math.max(
+                        document.documentElement.scrollHeight -
+                            window.innerHeight,
+                        0
+                    );
+                    const safeTarget = Math.min(
+                        Math.max(0, targetTop),
+                        maxScroll
+                    );
+
+                    const scrollableHeight = maxScroll;
+                    const minimalScrollableHeight = Math.max(
+                        32,
+                        availableHeight * 0.35
+                    );
+                    if (scrollableHeight <= minimalScrollableHeight) {
+                        this.lastProgrammaticScrollAt = Date.now();
+                        this.lastAutoScrollIndex = index;
+                        this.selectCard(index);
+                        this.isNavigating = false;
+                        return;
+                    }
+
+                    let finalTarget = safeTarget;
+                    if (targetTop > maxScroll && index < total - 1) {
+                        const topAligned =
+                            this.listTop + index * this.itemHeight - offset;
+                        finalTarget = Math.min(
+                            Math.max(0, topAligned),
+                            maxScroll
+                        );
+                    }
+
                     this.lastProgrammaticScrollAt = Date.now();
                     this.lastAutoScrollIndex = index;
+                    const distance = Math.abs(finalTarget - window.scrollY);
+                    const correctionDelay =
+                        settleDelay != null
+                            ? settleDelay
+                            : Math.min(900, Math.max(320, distance * 0.35));
+                    if (lock) {
+                        const lockDuration = Math.max(
+                            1400,
+                            correctionDelay + 900
+                        );
+                        this.beginManualNavigation(index, {
+                            duration: lockDuration,
+                            tolerance: 12,
+                        });
+                    }
+                    const shouldPrime = lock && !hadCardEl;
+                    window.scrollTo({
+                        top: finalTarget,
+                        behavior: shouldPrime ? "auto" : resolvedBehavior,
+                    });
                     this.selectCard(index);
-                    this.isNavigating = false;
-                    return;
-                }
-                const cardEl = document.getElementById(
-                    `ayah-card-${index}`
-                );
-                let targetTop;
+                    if (lock) {
+                        this.$nextTick(() => {
+                            this.checkNavigationSettled();
+                        });
+                    }
+                    if (shouldPrime) {
+                        this.$nextTick(() => {
+                            if (
+                                typeof window !== "undefined" &&
+                                window.requestAnimationFrame
+                            ) {
+                                window.requestAnimationFrame(() => {
+                                    const nextEl = document.getElementById(
+                                        `ayah-card-${index}`
+                                    );
+                                    if (!nextEl || !nextEl.getBoundingClientRect) return;
+                                    const rect = nextEl.getBoundingClientRect();
+                                    const nextOffset = this.currentHeaderOffset;
+                                    const nextViewport = window.innerHeight;
+                                    const nextAudio = this.getAudioPlayerHeight();
+                                    const nextAvailable = Math.max(
+                                        nextViewport - nextOffset - nextAudio,
+                                        0
+                                    );
+                                    const centerFactor =
+                                        typeof this.preferredPlaybackScrollFactor === "number"
+                                            ? this.preferredPlaybackScrollFactor
+                                            : 0.5;
+                                    const nextCenterOffset =
+                                        nextOffset + nextAvailable * centerFactor;
+                                    const nextTarget =
+                                        window.scrollY + rect.top + rect.height / 2 - nextCenterOffset;
+                                    const maxScroll = Math.max(
+                                        document.documentElement.scrollHeight -
+                                            window.innerHeight,
+                                        0
+                                    );
+                                    const safeNextTarget = Math.min(
+                                        Math.max(0, nextTarget),
+                                        maxScroll
+                                    );
+                                    window.scrollTo({
+                                        top: safeNextTarget,
+                                        behavior: resolvedBehavior,
+                                    });
+                                });
+                            }
+                        });
+                    }
+                    if (settle) {
+                        this.scheduleScrollCorrection(index, {
+                            delay: correctionDelay,
+                            behavior: resolvedBehavior,
+                            passes: 2,
+                        });
+                    }
 
-                if (cardEl && cardEl.getBoundingClientRect) {
+                    if (!lock) {
+                        // Delay resetting the navigation flag to let scrolls settle fully.
+                        // 1000ms ensures smooth scroll completes before auto-locking resumes.
+                        setTimeout(() => {
+                            this.isNavigating = false;
+                        }, settle ? Math.max(1000, correctionDelay + 200) : 1000);
+                    }
+                };
+
+                if (
+                    typeof window !== "undefined" &&
+                    window.requestAnimationFrame
+                ) {
+                    window.requestAnimationFrame(runScroll);
+                } else {
+                    runScroll();
+                }
+            });
+        },
+        scheduleScrollCorrection(index, options = {}) {
+            const {
+                delay = 420,
+                tolerance = 8,
+                behavior = "smooth",
+                passes = 1,
+            } = options || {};
+            if (this._scrollCorrectionTimer) {
+                clearTimeout(this._scrollCorrectionTimer);
+                this._scrollCorrectionTimer = null;
+            }
+            const token = (this._scrollCorrectionToken || 0) + 1;
+            this._scrollCorrectionToken = token;
+            const runCorrection = (attempt) => {
+                if (token !== this._scrollCorrectionToken) return;
+                this.$nextTick(() => {
+                    if (token !== this._scrollCorrectionToken) return;
+                    const cardEl = document.getElementById(
+                        `ayah-card-${index}`
+                    );
+                    if (!cardEl || !cardEl.getBoundingClientRect) return;
                     const rect = cardEl.getBoundingClientRect();
-                    const cardCenter =
-                        window.scrollY + rect.top + rect.height / 2;
+                    const offset = this.currentHeaderOffset;
+                    const viewportHeight = window.innerHeight;
+                    const audioHeight = this.getAudioPlayerHeight();
+                    const availableHeight = Math.max(
+                        viewportHeight - offset - audioHeight,
+                        0
+                    );
                     const centerFactor =
                         typeof this.preferredPlaybackScrollFactor === "number"
                             ? this.preferredPlaybackScrollFactor
                             : 0.5;
-                    const centerOffset = offset + availableHeight * centerFactor;
-                    targetTop = cardCenter - centerOffset;
-                } else {
-                    targetTop =
-                        this.listTop + index * this.itemHeight - offset;
-                }
-
-                const maxScroll = Math.max(
-                    document.documentElement.scrollHeight -
-                        window.innerHeight,
-                    0
-                );
-                const safeTarget = Math.min(
-                    Math.max(0, targetTop),
-                    maxScroll
-                );
-
-                const scrollableHeight = maxScroll;
-                const minimalScrollableHeight = Math.max(
-                    32,
-                    availableHeight * 0.35
-                );
-                if (scrollableHeight <= minimalScrollableHeight) {
-                    this.lastProgrammaticScrollAt = Date.now();
-                    this.lastAutoScrollIndex = index;
-                    this.selectCard(index);
-                    this.isNavigating = false;
-                    return;
-                }
-
-                let finalTarget = safeTarget;
-                if (targetTop > maxScroll && index < total - 1) {
-                    const topAligned = this.listTop + index * this.itemHeight - offset;
-                    finalTarget = Math.min(Math.max(0, topAligned), maxScroll);
-                }
-
-
-                this.lastProgrammaticScrollAt = Date.now();
-                this.lastAutoScrollIndex = index;
-                window.scrollTo({
-                    top: finalTarget,
-                    behavior: "smooth",
+                    const desiredCenter =
+                        offset + availableHeight * centerFactor;
+                    const delta =
+                        rect.top + rect.height / 2 - desiredCenter;
+                    if (Math.abs(delta) <= tolerance) return;
+                    const maxScroll = Math.max(
+                        document.documentElement.scrollHeight -
+                            window.innerHeight,
+                        0
+                    );
+                    const target = Math.min(
+                        Math.max(0, window.scrollY + delta),
+                        maxScroll
+                    );
+                    window.scrollTo({ top: target, behavior });
+                    if (attempt < passes) {
+                        this._scrollCorrectionTimer = setTimeout(() => {
+                            runCorrection(attempt + 1);
+                        }, 180);
+                    }
                 });
-                this.selectCard(index);
-
-                // Delay resetting the navigation flag to let scrolls settle fully.
-                // 1000ms ensures smooth scroll completes before auto-locking resumes.
-                setTimeout(() => {
-                    this.isNavigating = false;
-                }, 1000);
-            });
+            };
+            this._scrollCorrectionTimer = setTimeout(() => {
+                runCorrection(1);
+            }, delay);
         },
         getAudioPlayerHeight() {
             if (!this.showAudioPlayer) return 0;
@@ -3709,7 +4028,23 @@ export default {
             if (!this.showRealtimeHighlighting) return;
             if (this._highlightRafId) return;
             const step = () => {
-                if (!this.isAudioPlaying[this.currentlyPlayingIndex]) {
+                if (
+                    typeof this.currentAudioIndex !== "number" ||
+                    this.currentAudioIndex < 0
+                ) {
+                    const playingIndex = Array.isArray(this.isAudioPlaying)
+                        ? this.isAudioPlaying.findIndex(Boolean)
+                        : -1;
+                    if (playingIndex >= 0) {
+                        this.currentAudioIndex = playingIndex;
+                    }
+                }
+                const idx =
+                    typeof this.currentAudioIndex === "number" &&
+                    this.currentAudioIndex >= 0
+                        ? this.currentAudioIndex
+                        : this.currentlyPlayingIndex;
+                if (!this.isAudioPlaying[idx]) {
                     this.stopHighlightLoop();
                     return;
                 }
@@ -3731,7 +4066,23 @@ export default {
             if (!audio) return;
             const duration = audio.duration || 0;
             if (!duration || !isFinite(duration)) return;
-            const ayah = this.filteredAyahs[this.currentlyPlayingIndex];
+            if (
+                typeof this.currentAudioIndex !== "number" ||
+                this.currentAudioIndex < 0
+            ) {
+                const playingIndex = Array.isArray(this.isAudioPlaying)
+                    ? this.isAudioPlaying.findIndex(Boolean)
+                    : -1;
+                if (playingIndex >= 0) {
+                    this.currentAudioIndex = playingIndex;
+                }
+            }
+            const idx =
+                typeof this.currentAudioIndex === "number" &&
+                this.currentAudioIndex >= 0
+                    ? this.currentAudioIndex
+                    : this.currentlyPlayingIndex;
+            const ayah = this.filteredAyahs[idx];
             const wordCount = this.getAyahAudioWordCount(ayah);
             if (!wordCount) return;
             const currentTime = audio.currentTime;
@@ -3813,8 +4164,13 @@ export default {
             this._lastHighlightEls = [];
         },
         applyWordHighlight(wordIndex) {
+            const idx =
+                typeof this.currentAudioIndex === "number" &&
+                this.currentAudioIndex >= 0
+                    ? this.currentAudioIndex
+                    : this.currentlyPlayingIndex;
             const card = document.getElementById(
-                `ayah-card-${this.currentlyPlayingIndex}`
+                `ayah-card-${idx}`
             );
             if (!card) return;
             this.clearActiveWordHighlight();
@@ -3950,6 +4306,7 @@ export default {
             );
             this.currentlyPlaying = audio;
             this.currentlyPlayingIndex = index;
+            this.currentAudioIndex = index;
             this.isHighlighted = true;
 
             // Setup metadata and word timing
@@ -4042,6 +4399,7 @@ export default {
                 this.isAudioLoading[index] = false;
                 this.progress[index] = 0;
                 this.isHighlighted = false;
+                this.currentAudioIndex = -1;
                 this.stopHighlightLoop();
             }
         },
@@ -4573,6 +4931,7 @@ export default {
                     this.currentlyPlaying.pause();
                     this.currentlyPlaying = null;
                     this.currentlyPlayingIndex = 0;
+                    this.currentAudioIndex = -1;
                 }
                 // Clear references; recreate on-demand for speed
                 if (this.audioElements && this.audioElements.forEach) {
@@ -4673,39 +5032,65 @@ export default {
         },
         async selectJuz(juzNumber) {
             this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
             this.selectedJuz = juzNumber;
             const start = getJuzStart(juzNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
                 await this.selectSurah(start.surah, { skipScroll: true });
                 // No search clearing needed here as we are jumping to a specific Juz start
-                this.scrollToAyah(start.ayah - 1);
+                this.selectCard(start.ayah - 1);
+                this.scrollToAyahIndex(start.ayah - 1, {
+                    settle: true,
+                    force: true,
+                    behavior: "smooth",
+                    lock: true,
+                });
             }
         },
         async selectPage(pageNumber) {
             this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
             const start = getPageStart(pageNumber);
             if (start) {
                 // Ensure surah is loaded first (selectSurah returns a promise)
                 await this.selectSurah(start.surah, { skipScroll: true });
-                this.scrollToAyah(start.ayah - 1);
+                this.selectCard(start.ayah - 1);
+                this.scrollToAyahIndex(start.ayah - 1, {
+                    settle: true,
+                    force: true,
+                    behavior: "smooth",
+                    lock: true,
+                });
             } else {
                  console.log("Page navigation mapping incomplete");
                  this.isNavigating = false;
              }
-        },
+         },
         selectVerseFromSidebar(verseIndex) {
             this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
             // Clear main view search to ensure verse is visible
             this.searchQuery = "";
             this.debouncedQuery = "";
+            this.selectCard(verseIndex - 1);
             
-            this.$nextTick(() => {
-                this.scrollToAyahIndex(verseIndex - 1);
-            });
+            const runScroll = () => {
+                this.$nextTick(() => {
+                    this.scrollToAyahIndex(verseIndex - 1, {
+                        settle: true,
+                        force: true,
+                        behavior: "smooth",
+                        lock: true,
+                    });
+                });
+            };
 
             if (this.isMobile && !this.sidebarCollapsed) {
                 this.toggleSidebar();
+                this.$nextTick(runScroll);
+            } else {
+                runScroll();
             }
         },
         scrollToAyah(index) {
@@ -4789,6 +5174,7 @@ export default {
             // If user is manually scrolling or we are in the middle of a nav jump, 
             // don't force a "snap-back" scroll.
             if (this.isManualScrolling || this.isNavigating) return;
+            if (this.isAutoSyncLocked()) return;
             const manualNavCooldown = 800;
             if (Date.now() - this.lastManualNavigationAt < manualNavCooldown) return;
 
@@ -4806,6 +5192,7 @@ export default {
         },
         onAyahScrubChange(event) {
             this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
             const raw = Number(event.target?.value || 1);
             const targetIndex = Math.min(
                 Math.max(0, raw - 1),
@@ -4819,7 +5206,12 @@ export default {
             this.$nextTick(() => {
                 this.ayahScrubValue = targetIndex + 1;
                 this.selectCard(targetIndex);
-                this.scrollToAyahIndex(targetIndex);
+                this.scrollToAyahIndex(targetIndex, {
+                    settle: true,
+                    force: true,
+                    behavior: "smooth",
+                    lock: true,
+                });
                 this.playAudio(targetIndex);
             });
         },
@@ -4843,6 +5235,7 @@ export default {
             this.showAudioPlayer = false;
             this.currentlyPlayingIndex = 0;
             this.currentlyPlaying = null;
+            this.currentAudioIndex = -1;
             this.isHighlighted = false;
         },
         seekToPosition: function (event) {

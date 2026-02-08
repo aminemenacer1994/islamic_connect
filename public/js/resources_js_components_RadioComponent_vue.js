@@ -1447,14 +1447,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "letter-spacing": "-.02em",
       "margin-bottom": ".25rem"
     }
-  }, "Qur'an Airwaves"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
-    class: "lead",
+  }, "The World of Quranic Recitation"), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", {
+    class: "lead mb-2 mt-1",
     style: {
       "color": "#475569",
-      "max-width": "920px",
       "margin": "0 auto"
     }
-  }, "Discover live Quranic reciters stations from renowned reciters worldwide.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Collapsible Filter Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, "Discover live Quranic reciters, Biographies, Fatwas and Translations stations from renowned reciters worldwide.")])], -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Search Bar and Category Dropdown "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Collapsible Filter Panel "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Toggle Header "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "d-flex justify-content-between align-items-center mb-2 cursor-pointer filter-header",
     onClick: _cache[0] || (_cache[0] = $event => $setup.isFilterOpen = !$setup.isFilterOpen),
     role: "button",

@@ -12,7 +12,7 @@
       </div>
 
       <!-- Next Step: From Qur'an History to Seerah Timeline -->
-      <div class="next-step-card animate-rise mx-auto mb-4">
+      <!-- <div class="next-step-card animate-rise mx-auto mb-4">
         <button type="button" class="next-step-toggle" :title="nextStepMinimized ? 'Restore' : 'Minimize'"
           :aria-label="nextStepMinimized ? 'Restore next step' : 'Minimize next step'"
           @click.stop="toggleNextStepMinimized">
@@ -26,7 +26,7 @@
             <p class="mb-2 fw-semibold text-uppercase next-step-eyebrow">
               NEXT STEP
             </p>
-            <!-- Minimized teaser -->
+            -- Minimized teaser --
             <div v-show="nextStepMinimized" class="mb-2 next-step-teaser">
               <a href="/dua" class="fw-semibold text-decoration-none next-step-link">
                 Explore Du‘a collection
@@ -49,7 +49,7 @@
             </a>
           </div>
         </div>
-      </div>
+      </div> -->
     </section>
 
     <section class="timeline-intro container">
