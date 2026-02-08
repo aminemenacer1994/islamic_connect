@@ -8,7 +8,7 @@
                 <h1 class="display-5 fw-bold">The Holy Quran</h1>
             </div>
         </div>
-        <div v-show="showNextStep" class="next-step-wrapper">
+        <!-- <div v-show="showNextStep" class="next-step-wrapper">
             <div class="mx-auto mb-4 next-step-card">
                 <button v-if="canMinimizeNextStep" type="button" :title="isNextStepMinimized ? 'Restore' : 'Minimize'" :aria-label="isNextStepMinimized
                     ? 'Restore next step'
@@ -53,7 +53,7 @@
                     
                 </div>
             </div>
-        </div>
+        </div> -->
         <div v-if="isMobile" class="mobile-surah-dropdown-wrapper px-3 mt-3">
             <label class="visually-hidden" for="mobileSurahDropdown">
                 Select surah

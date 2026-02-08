@@ -11914,10 +11914,6 @@ i[data-v-266d7b05]:hover {
   --mission-surface: #ffffff;
   --mission-surface-soft: #f6f2ea;
   --mission-border: rgba(15, 41, 32, 0.12);
-  background:
-    radial-gradient(1200px 520px at -10% -10%, rgba(11, 128, 111, 0.08), transparent 60%),
-    radial-gradient(900px 520px at 110% 5%, rgba(28, 108, 122, 0.08), transparent 58%),
-    linear-gradient(180deg, #f9fbfa 0%, #f1f6f3 100%);
   border: 1px solid rgba(15, 41, 32, 0.06);
   border-radius: 28px;
   position: relative;
@@ -11957,7 +11953,7 @@ i[data-v-266d7b05]:hover {
 }
 @media (min-width: 1400px) {
 .mission-shell .container[data-v-34eda1ab] {
-    max-width: 1440px;
+    /* max-width: 1440px; */
 }
 }
 .mission-hero__title[data-v-34eda1ab] {
@@ -11969,7 +11965,6 @@ i[data-v-266d7b05]:hover {
 }
 .mission-hero__lead[data-v-34eda1ab] {
   color: var(--mission-muted);
-  max-width: 760px;
   margin: 0 auto;
   font-size: clamp(1rem, 1.5vw, 1.2rem);
 }
@@ -16296,7 +16291,6 @@ h1 {
 
 .dua-shell[data-v-4b4cde72] {
   min-height: 100%;
-  background: #f6f8fb;
   color: #0f172a;
 }
 .dua-hero[data-v-4b4cde72] {
