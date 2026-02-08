@@ -1289,16 +1289,19 @@ export default {
                 this.quranFonts.find(
                     (font) => font.id === this.selectedQuranFontId
                 ) || this.activeQuranFont;
-            const useTajweed = !!selected?.isTajweed;
-            this.showTajweed = useTajweed;
-            if (this.settingsDraft)
-                this.settingsDraft.showTajweed = useTajweed;
-            this.persistLocalSetting(
-                "suratShowTajweed",
-                useTajweed ? "1" : "0"
-            );
+            const fontSupportsTajweed = !!selected?.isTajweed;
+            const wasTajweedEnabled = !!this.showTajweed;
+            if (fontSupportsTajweed && !wasTajweedEnabled) {
+                this.showTajweed = true;
+                if (this.settingsDraft)
+                    this.settingsDraft.showTajweed = true;
+            }
             const label = selected?.label || "Quran font";
-            this.fontPickerAlert = `Font applied: ${label}.`;
+            const tajweedNotice =
+                fontSupportsTajweed && !wasTajweedEnabled
+                    ? " Tajweed colors enabled."
+                    : "";
+            this.fontPickerAlert = `Font applied: ${label}.${tajweedNotice}`;
             this.clearFontPickerTimer();
             this.fontPickerAlertTimer = setTimeout(() => {
                 this.fontPickerAlert = "";
@@ -1336,18 +1339,6 @@ export default {
                 this.selectedQuranFontId
             );
             this.syncQuranFontStack();
-            const selected =
-                this.quranFonts.find(
-                    (font) => font.id === this.selectedQuranFontId
-                ) || this.activeQuranFont;
-            const useTajweed = !!selected?.isTajweed;
-            this.showTajweed = useTajweed;
-            if (this.settingsDraft)
-                this.settingsDraft.showTajweed = useTajweed;
-            this.persistLocalSetting(
-                "suratShowTajweed",
-                useTajweed ? "1" : "0"
-            );
         },
         syncQuranFontStack(fontId = "") {
             const targetId = fontId || this.selectedQuranFontId;

@@ -173,12 +173,12 @@
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'surah' }"
                                         @click="setActiveSidebarTab('surah')">Surah</button>
-                                    <button class="tab-btn flex-fill" 
+                                    <!-- <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'verse' }"
                                         @click="setActiveSidebarTab('verse')">Verse</button>
                                     <button class="tab-btn flex-fill" 
                                         :class="{ active: activeSidebarTab === 'juz' }"
-                                        @click="setActiveSidebarTab('juz')">Juz</button>
+                                        @click="setActiveSidebarTab('juz')">Juz</button> -->
                                     <button v-if="!isMobile" type="button" class="tab-btn sidebar-settings-tab ms-auto"
                                         data-bs-toggle="modal"
                                         data-bs-target="#surahSettingsModal"
@@ -570,7 +570,7 @@
 
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-            <div v-if="surahDetails && !isLoading" class="surah-download-banner ltr-text" role="region" aria-label="Surah download">
+            <!-- <div v-if="surahDetails && !isLoading" class="surah-download-banner ltr-text" role="region" aria-label="Surah download">
                 <button
                     type="button"
                     class="surah-download-btn"
@@ -616,7 +616,7 @@
                     aria-label="Choose Quran font">
                     <i class="fas fa-font" aria-hidden="true"></i>
                 </button>
-            </div>
+            </div> -->
 
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
                 :style="{ paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }">
@@ -645,6 +645,17 @@
                                 </span>
                             </div>
                             <div class="d-flex align-items-center ayah-card-header-actions">
+                                <button v-if="showTajweed"
+                                    type="button"
+                                    class="action-pill tajweed-header-trigger"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#tajweedRulesModal"
+                                    :aria-label="'Open tajweed rules for ayah ' + (item.index + 1)"
+                                    title="View tajweed rules legend"
+                                    @click.stop>
+                                    <i class="bi bi-palette-fill" aria-hidden="true"></i>
+                                    <span>Tajweed rules</span>
+                                </button>
                                 <div class="form-check form-switch translation-toggle ayah-translation-toggle">
                                     <input class="form-check-input" type="checkbox"
                                         :checked="isTranslationVisibleFor(item)"
@@ -658,7 +669,7 @@
                                         Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
                                     </label>
                                 </div>
-                                <button
+                                <!-- <button
                                     type="button"
                                     class="icon-btn ayah-download-btn"
                                     :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
@@ -686,16 +697,7 @@
                                                 ? 'bi-check-circle-fill'
                                                 : 'bi-download'"
                                         aria-hidden="true"></i>
-                                </button>
-                                <button v-if="showTajweed"
-                                    type="button"
-                                    class="btn btn-sm btn-outline-success tajweed-header-trigger"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#tajweedRulesModal"
-                                    :aria-label="'Open tajweed rules for ayah ' + (item.index + 1)"
-                                    @click.stop>
-                                    Tajweed rules
-                                </button>
+                                </button>-->
                                 <transition name="feedback-fade">
                                     <span v-if="
                                         feedbackMessages[
