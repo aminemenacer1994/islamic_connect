@@ -105,6 +105,8 @@ export default {
             isLoading: false,
             isNavigating: false, // Prevents scroll conflicts during jumps
             headerCollapsed: false, // Controls whether the toolbar/links are visible
+            showDesktopToolbar: true,
+            showDesktopSurahContext: true,
             continuousPlayback: false, // Legacy flag; new playbackMode supersedes it
             visualizerBars: Array(20).fill(10),
             playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
@@ -585,6 +587,41 @@ export default {
                 number: surahNumber || this.currentSurahInfo?.number,
             };
         },
+        desktopSurahContext() {
+            return {
+                number:
+                    this.currentSurahMeta?.number ||
+                    this.surahDetails?.surahNumber ||
+                    this.currentSurahInfo?.number ||
+                    this.selectedSurah ||
+                    "",
+                englishName:
+                    this.surahDetails?.englishName ||
+                    this.currentSurahInfo?.englishName ||
+                    this.surahDetails?.name ||
+                    this.currentSurahInfo?.name ||
+                    "Surah",
+                arabicName:
+                    this.currentSurahInfo?.name ||
+                    this.surahDetails?.name ||
+                    "",
+                translationName:
+                    this.currentSurahInfo?.englishNameTranslation || "",
+                ayahCount:
+                    this.currentSurahMeta?.ayahCount ||
+                    this.currentSurahInfo?.numberOfAyahs ||
+                    this.surahDetails?.ayahs?.length ||
+                    null,
+                origin:
+                    this.currentSurahMeta?.origin ||
+                    this.currentSurahInfo?.revelationType ||
+                    "",
+            };
+        },
+        desktopSurahContextKey() {
+            const ctx = this.desktopSurahContext || {};
+            return `${ctx.number || "surah"}-${ctx.englishName || "name"}-${ctx.arabicName || "ar"}`;
+        },
         currentSurahAudioMetaKey() {
             const surahNumber = Number(
                 this.selectedSurah || this.surahDetails?.surahNumber
@@ -608,18 +645,18 @@ export default {
         },
         surahDownloadReadyLabel() {
             if (this.currentSurahAudioSizeLabel) {
-                return `Download full surah (${this.currentSurahAudioSizeLabel})`;
+                return `Download the full surah MP3 for offline listening (${this.currentSurahAudioSizeLabel}).`;
             }
             if (this.isCurrentSurahAudioMetaLoading) {
-                return "Download full surah (size loading...)";
+                return "Download the full surah MP3 for offline listening (estimating file size...).";
             }
-            return "Download full surah (MP3)";
+            return "Download the full surah MP3 for offline listening.";
         },
         surahDownloadReadyAriaLabel() {
             if (this.currentSurahAudioSizeLabel) {
-                return `Download full surah (${this.currentSurahAudioSizeLabel})`;
+                return `Download full surah MP3 for offline listening (${this.currentSurahAudioSizeLabel})`;
             }
-            return "Download full surah";
+            return "Download full surah MP3 for offline listening";
         },
         isTranslationTransliterationAllEnabled() {
             if (!Array.isArray(this.filteredAyahs) || !this.filteredAyahs.length) {
