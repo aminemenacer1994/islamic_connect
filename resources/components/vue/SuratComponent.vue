@@ -570,7 +570,7 @@
 
             <div v-if="isLoading" class="loading-placeholder">Loading Surah...</div>
 
-            <!-- <div v-if="surahDetails && !isLoading" class="surah-download-banner ltr-text" role="region" aria-label="Surah download">
+            <div v-if="surahDetails && !isLoading" class="surah-download-banner ltr-text" role="region" aria-label="Surah download">
                 <button
                     type="button"
                     class="surah-download-btn"
@@ -616,7 +616,7 @@
                     aria-label="Choose Quran font">
                     <i class="fas fa-font" aria-hidden="true"></i>
                 </button>
-            </div> -->
+            </div>
 
             <div class="row rtl-text" ref="listContainer" role="list" aria-label="Ayah cards list"
                 :style="{ paddingTop: topSpacerHeight + 'px', paddingBottom: bottomSpacerHeight + 'px' }">
@@ -663,7 +663,7 @@
                                         :aria-label="isTranslationVisibleFor(item) ? 'Hide translation' : 'Show translation'"
                                         @change="onTranslationToggle(item, $event)"
                                         @click.stop>
-                                    <label class="form-check-label"
+                                    <label class="form-check-label mt-1"
                                         :for="`surat-translation-toggle-${item.index}`"
                                         @click.stop>
                                         Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
@@ -676,7 +676,7 @@
                                         :aria-label="isTransliterationVisibleFor(item) ? 'Hide transliteration' : 'Show transliteration'"
                                         @change="onTransliterationToggle(item, $event)"
                                         @click.stop>
-                                    <label class="form-check-label"
+                                    <label class="form-check-label mt-1"
                                         :for="`surat-transliteration-toggle-${item.index}`"
                                         @click.stop>
                                         Transliteration {{ isTransliterationVisibleFor(item) ? 'on' : 'off' }}
