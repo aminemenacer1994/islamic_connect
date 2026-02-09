@@ -74,6 +74,22 @@ export default {
             surahInfoFontSize: 16,
             surahInfoFontSizeMin: 14,
             surahInfoFontSizeMax: 22,
+            advancedSearchQuery: "",
+            advancedSearchDebounceTimer: null,
+            advancedSearchAbortController: null,
+            advancedSearchResults: [],
+            advancedSearchLoading: false,
+            advancedSearchError: "",
+            advancedSearchTotalMatches: 0,
+            advancedSearchMaxResults: 45,
+            advancedSearchMinLength: 2,
+            isAdvancedSearchVisible: true,
+            isAdvancedSearchPanelVisible: true,
+            speechRecognitionSupported: false,
+            speechRecognitionListening: false,
+            speechRecognitionError: "",
+            speechRecognitionInstance: null,
+            speechRecognitionLocale: "en-US",
             searchQuery: "",
             debouncedQuery: "",
             debounceTimer: null,
@@ -552,6 +568,35 @@ export default {
                         ayah.lowerTransliteration.includes(query))
             );
         },
+        advancedSearchTrimmedQuery() {
+            return (this.advancedSearchQuery || "").trim();
+        },
+        hasAdvancedSearchQuery() {
+            return (
+                this.advancedSearchTrimmedQuery.length >=
+                this.advancedSearchMinLength
+            );
+        },
+        hasAdvancedSearchResults() {
+            return (
+                Array.isArray(this.advancedSearchResults) &&
+                this.advancedSearchResults.length > 0
+            );
+        },
+        hasAdvancedSearchPanelContent() {
+            return (
+                this.advancedSearchLoading ||
+                this.hasAdvancedSearchResults ||
+                this.hasAdvancedSearchQuery ||
+                !!this.advancedSearchError ||
+                !!this.speechRecognitionError
+            );
+        },
+        ayahBodyFontSize() {
+            const baseSize = Number(this.translationFontSize);
+            if (!Number.isFinite(baseSize)) return 15;
+            return Math.max(10, Math.min(baseSize - 2, 17));
+        },
         filteredSurahs() {
             if (!Array.isArray(this.surahs)) return [];
             const raw = (this.surahSearchQuery || "").trim().toLowerCase();
@@ -783,18 +828,7 @@ export default {
             return this.canMinimizeNextStep && this.nextStepMinimized;
         },
         currentHeaderOffset() {
-            // Measure sticky header height when possible for accurate scroll offsets
-            try {
-                const sticky = this.$refs && this.$refs.stickyDropdown;
-                if (sticky && sticky.getBoundingClientRect) {
-                    const rect = sticky.getBoundingClientRect();
-                    if (rect && rect.height) {
-                        return rect.height;
-                    }
-                }
-            } catch (_) { }
-            // Fallback if measurement isn't available yet
-            return this.headerCollapsed ? 40 : 180;
+            return this.getScrollTopOffset();
         },
         visibleWindow() {
             const start = Math.max(
@@ -851,6 +885,19 @@ export default {
                 this.debouncedQuery = val;
             }, 300);
         },
+        advancedSearchQuery: function (val) {
+            clearTimeout(this.advancedSearchDebounceTimer);
+            if (!(val || "").trim()) {
+                this.clearAdvancedSearch(false);
+                return;
+            }
+            if (!this.isAdvancedSearchPanelVisible) {
+                this.isAdvancedSearchPanelVisible = true;
+            }
+            this.advancedSearchDebounceTimer = setTimeout(() => {
+                this.runAdvancedSearch();
+            }, 280);
+        },
         selectedQuranFontId(newVal) {
             if (!newVal) return;
             this.persistLocalSetting(this.quranFontPreferenceKey, newVal);
@@ -893,6 +940,12 @@ export default {
                         this.isLoading = false;
                         this.resetAllAudioPlayers();
                         this.syncVirtualWindowAfterSelection();
+                        if (
+                            this.hasAdvancedSearchQuery &&
+                            this.isAdvancedSearchPanelVisible
+                        ) {
+                            this.runAdvancedSearch({ force: true });
+                        }
                     })
                     .catch(() => {
                         this.isLoading = false;
@@ -1048,6 +1101,7 @@ export default {
         window.addEventListener("keydown", this._keydownHandler);
         this.updateIsMobile();
         window.addEventListener("resize", this.updateIsMobile);
+        this.initializeSpeechRecognition();
         // Restore dismissal state for next-step card
         try {
             if (localStorage.getItem("suratNextStepDismissed") === "1")
@@ -1209,6 +1263,9 @@ export default {
                 if (audio && audio.remove) audio.remove();
             });
         }
+        this.teardownSpeechRecognition();
+        clearTimeout(this.advancedSearchDebounceTimer);
+        this.abortAdvancedSearchRequest();
         clearTimeout(this.savedAyahClearTimer);
         clearTimeout(this.surahAudioDownloadedTimer);
         this.surahAudioDownloadedTimer = null;
@@ -1235,6 +1292,9 @@ export default {
         window.removeEventListener("scroll", this.onScrollVirtual);
         window.removeEventListener("resize", this.computeListTop);
         window.removeEventListener("resize", this.calibrateItemHeight);
+        this.teardownSpeechRecognition();
+        clearTimeout(this.advancedSearchDebounceTimer);
+        this.abortAdvancedSearchRequest();
         clearTimeout(this.savedAyahClearTimer);
         clearTimeout(this.surahAudioDownloadedTimer);
         this.surahAudioDownloadedTimer = null;
@@ -1275,6 +1335,698 @@ export default {
                 this.bookmarkToast = "";
                 this.bookmarkToastAction = null;
             }, timeout);
+        },
+        abortAdvancedSearchRequest() {
+            if (!this.advancedSearchAbortController) return;
+            try {
+                this.advancedSearchAbortController.abort();
+            } catch (_) {
+                // ignore aborted controller issues
+            }
+            this.advancedSearchAbortController = null;
+        },
+        clearAdvancedSearch(resetInput = true) {
+            clearTimeout(this.advancedSearchDebounceTimer);
+            this.abortAdvancedSearchRequest();
+            if (resetInput) {
+                this.advancedSearchQuery = "";
+            }
+            this.advancedSearchResults = [];
+            this.advancedSearchLoading = false;
+            this.advancedSearchError = "";
+            this.advancedSearchTotalMatches = 0;
+        },
+        toggleAdvancedSearchVisibility() {
+            const nextState = !this.isAdvancedSearchVisible;
+            this.isAdvancedSearchVisible = nextState;
+            if (!nextState) {
+                this.stopVoiceSearch();
+                this.abortAdvancedSearchRequest();
+                this.speechRecognitionError = "";
+                return;
+            }
+            if (this.hasAdvancedSearchQuery && this.isAdvancedSearchPanelVisible) {
+                this.runAdvancedSearch({ force: true });
+            }
+        },
+        closeAdvancedSearchPanel() {
+            this.stopVoiceSearch();
+            this.speechRecognitionError = "";
+            this.clearAdvancedSearch(false);
+            this.isAdvancedSearchPanelVisible = false;
+        },
+        getSpeechRecognitionErrorMessage(code = "") {
+            const normalized = String(code || "").toLowerCase();
+            if (normalized === "no-speech")
+                return "No speech detected. Try speaking again.";
+            if (normalized === "audio-capture")
+                return "Microphone unavailable. Check microphone access.";
+            if (normalized === "not-allowed" || normalized === "service-not-allowed")
+                return "Microphone permission denied by browser settings.";
+            if (normalized === "network")
+                return "Speech recognition network issue. Please retry.";
+            if (normalized === "language-not-supported")
+                return "Speech language is not supported in this browser.";
+            return "Speech recognition failed. Please try again.";
+        },
+        initializeSpeechRecognition() {
+            if (typeof window === "undefined") return;
+            if (this.speechRecognitionInstance) return;
+
+            const SpeechRecognition =
+                window.SpeechRecognition || window.webkitSpeechRecognition;
+            if (!SpeechRecognition) {
+                this.speechRecognitionSupported = false;
+                return;
+            }
+
+            const recognition = new SpeechRecognition();
+            recognition.interimResults = true;
+            recognition.maxAlternatives = 1;
+            recognition.continuous = false;
+            recognition.lang =
+                (typeof navigator !== "undefined" &&
+                    navigator.language) ||
+                "en-US";
+
+            recognition.onstart = () => {
+                this.speechRecognitionListening = true;
+                this.speechRecognitionError = "";
+            };
+
+            recognition.onresult = (event) => {
+                if (!event?.results) return;
+                let transcript = "";
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const text = event.results[i]?.[0]?.transcript || "";
+                    if (!text) continue;
+                    transcript += `${text} `;
+                }
+                const normalizedTranscript = transcript.trim();
+                if (!normalizedTranscript) return;
+
+                this.advancedSearchQuery = normalizedTranscript;
+                let hasFinalResult = false;
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    if (event.results[i]?.isFinal) {
+                        hasFinalResult = true;
+                        break;
+                    }
+                }
+                if (hasFinalResult) {
+                    this.runAdvancedSearch({ force: true });
+                }
+            };
+
+            recognition.onerror = (event) => {
+                const code = event?.error || "";
+                this.speechRecognitionListening = false;
+                if (code === "aborted") return;
+                this.speechRecognitionError = this.getSpeechRecognitionErrorMessage(
+                    code
+                );
+            };
+
+            recognition.onend = () => {
+                this.speechRecognitionListening = false;
+            };
+
+            this.speechRecognitionInstance = recognition;
+            this.speechRecognitionSupported = true;
+            this.speechRecognitionLocale = recognition.lang || "en-US";
+        },
+        startVoiceSearch() {
+            if (!this.speechRecognitionSupported || !this.speechRecognitionInstance) {
+                this.initializeSpeechRecognition();
+            }
+            if (!this.speechRecognitionSupported || !this.speechRecognitionInstance) {
+                this.speechRecognitionError =
+                    "Voice search is not supported in this browser.";
+                return;
+            }
+            this.speechRecognitionError = "";
+            try {
+                this.speechRecognitionInstance.lang =
+                    (typeof navigator !== "undefined" &&
+                        navigator.language) ||
+                    this.speechRecognitionLocale ||
+                    "en-US";
+                this.speechRecognitionLocale =
+                    this.speechRecognitionInstance.lang;
+                this.speechRecognitionInstance.start();
+            } catch (error) {
+                const name = String(error?.name || "");
+                if (name === "InvalidStateError") return;
+                this.speechRecognitionError =
+                    "Unable to start voice search right now.";
+            }
+        },
+        stopVoiceSearch() {
+            if (!this.speechRecognitionInstance) return;
+            try {
+                this.speechRecognitionInstance.stop();
+            } catch (_) {
+                // ignore stop race conditions
+            }
+            this.speechRecognitionListening = false;
+        },
+        toggleVoiceSearch() {
+            if (this.speechRecognitionListening) {
+                this.stopVoiceSearch();
+                return;
+            }
+            this.startVoiceSearch();
+        },
+        teardownSpeechRecognition() {
+            if (!this.speechRecognitionInstance) return;
+            try {
+                this.speechRecognitionInstance.onstart = null;
+                this.speechRecognitionInstance.onresult = null;
+                this.speechRecognitionInstance.onerror = null;
+                this.speechRecognitionInstance.onend = null;
+                this.speechRecognitionInstance.stop();
+            } catch (_) {
+                // ignore teardown failures
+            }
+            this.speechRecognitionInstance = null;
+            this.speechRecognitionListening = false;
+        },
+        getScrollTopOffset() {
+            if (typeof window === "undefined" || typeof document === "undefined") {
+                return this.headerCollapsed ? 56 : 92;
+            }
+
+            let offset = 72;
+            try {
+                const rootStyle = window.getComputedStyle(
+                    document.documentElement
+                );
+                const cssOffset = parseFloat(
+                    rootStyle.getPropertyValue("--nav-offset")
+                );
+                if (Number.isFinite(cssOffset) && cssOffset > 0) {
+                    offset = cssOffset;
+                }
+            } catch (_) {
+                // fall back to default nav offset
+            }
+
+            let total = offset + 10;
+            const stickyToolbar = document.querySelector(".quran-toolbar-sticky");
+            if (stickyToolbar && stickyToolbar.getBoundingClientRect) {
+                const style = window.getComputedStyle(stickyToolbar);
+                if (style.display !== "none" && style.visibility !== "hidden") {
+                    const rect = stickyToolbar.getBoundingClientRect();
+                    const overlapsTopBand =
+                        rect.height > 0 &&
+                        rect.bottom > offset &&
+                        rect.top <= offset + 28;
+                    if (overlapsTopBand) {
+                        total += rect.height + 10;
+                    }
+                }
+            }
+
+            return Math.min(Math.max(total, 56), 340);
+        },
+        getAdvancedSearchEditions(query) {
+            const hasArabic = /[\u0600-\u06FF]/.test(query || "");
+            const translationId = this.selectedTranslation || "en.ahmedali";
+            const transliterationId =
+                this.transliterationEditionIdentifier || "en.transliteration";
+
+            const ordered = hasArabic
+                ? ["quran-uthmani", translationId, transliterationId]
+                : [translationId, transliterationId, "quran-uthmani"];
+
+            return Array.from(
+                new Set(
+                    ordered.filter((edition) => typeof edition === "string" && edition.trim())
+                )
+            );
+        },
+        escapeRegExp(value) {
+            return String(value || "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        },
+        getAdvancedSearchTerms() {
+            const query = (this.advancedSearchQuery || "").trim();
+            if (!query) return [];
+            return query
+                .split(/\s+/)
+                .map((term) => term.trim())
+                .filter(Boolean);
+        },
+        highlightAdvancedSearchText(text) {
+            const safeText = this.escapeHtml(text || "");
+            const terms = this.getAdvancedSearchTerms();
+            if (!terms.length) return safeText;
+
+            let highlighted = safeText;
+            terms.forEach((term) => {
+                const regex = new RegExp(
+                    `(${this.escapeRegExp(term)})`,
+                    "gi"
+                );
+                highlighted = highlighted.replace(
+                    regex,
+                    '<span class="advanced-search-highlight">$1</span>'
+                );
+            });
+            return highlighted;
+        },
+        readAdvancedSearchCache(cacheKey, ttlMs) {
+            if (typeof window === "undefined") return null;
+            try {
+                const raw = localStorage.getItem(cacheKey);
+                if (!raw) return null;
+                const parsed = JSON.parse(raw);
+                if (
+                    !parsed ||
+                    !parsed.ts ||
+                    typeof parsed.data === "undefined"
+                )
+                    return null;
+                if (Date.now() - parsed.ts > ttlMs) return null;
+                return parsed.data;
+            } catch (_) {
+                return null;
+            }
+        },
+        writeAdvancedSearchCache(cacheKey, data) {
+            if (typeof window === "undefined") return;
+            try {
+                localStorage.setItem(
+                    cacheKey,
+                    JSON.stringify({ ts: Date.now(), data })
+                );
+            } catch (_) {
+                // ignore storage limits
+            }
+        },
+        async fetchAdvancedSearchJSON(url, cacheKey, ttlMs, signal) {
+            const cached = this.readAdvancedSearchCache(cacheKey, ttlMs);
+            if (cached) return cached;
+
+            const response = await fetch(url, { signal });
+            if (!response.ok) throw new Error(`${response.status}`);
+            const json = await response.json();
+            this.writeAdvancedSearchCache(cacheKey, json);
+            return json;
+        },
+        parseAdvancedSearchMatches(payload, fallbackEdition = "") {
+            const rawMatches = Array.isArray(payload?.data?.matches)
+                ? payload.data.matches
+                : [];
+            const editionFromPayload =
+                payload?.data?.edition?.identifier || fallbackEdition || "";
+            return rawMatches
+                .map((raw) => {
+                    const surahNumber = Number(
+                        raw?.surah?.number || raw?.surahNumber || 0
+                    );
+                    const ayahNumber = Number(
+                        raw?.numberInSurah || raw?.ayahNumber || 0
+                    );
+                    if (!surahNumber || !ayahNumber) return null;
+
+                    const editionIdentifier =
+                        raw?.edition?.identifier || editionFromPayload;
+                    const snippet = String(raw?.text || "");
+                    const isArabicEdition =
+                        editionIdentifier === "quran-uthmani" ||
+                        editionIdentifier.startsWith("ar.");
+                    const isTransliterationEdition =
+                        editionIdentifier ===
+                            this.transliterationEditionIdentifier ||
+                        /translit/i.test(editionIdentifier);
+
+                    return {
+                        key: this.buildAyahKey(surahNumber, ayahNumber),
+                        surahNumber,
+                        ayahNumber,
+                        surahEnglishName:
+                            raw?.surah?.englishName || `Surah ${surahNumber}`,
+                        surahArabicName: raw?.surah?.name || "",
+                        surahTranslationName:
+                            raw?.surah?.englishNameTranslation || "",
+                        arabicSnippet: isArabicEdition ? snippet : "",
+                        translationSnippet:
+                            !isArabicEdition && !isTransliterationEdition
+                                ? snippet
+                                : "",
+                        transliterationSnippet: isTransliterationEdition
+                            ? snippet
+                            : "",
+                    };
+                })
+                .filter(Boolean);
+        },
+        mergeAdvancedSearchMatches(...collections) {
+            const merged = new Map();
+            collections.forEach((collection) => {
+                if (!Array.isArray(collection)) return;
+                collection.forEach((match) => {
+                    if (!match?.key) return;
+                    if (!merged.has(match.key)) {
+                        merged.set(match.key, { ...match });
+                        return;
+                    }
+                    const existing = merged.get(match.key);
+                    merged.set(match.key, {
+                        ...existing,
+                        surahEnglishName:
+                            existing.surahEnglishName ||
+                            match.surahEnglishName,
+                        surahArabicName:
+                            existing.surahArabicName || match.surahArabicName,
+                        surahTranslationName:
+                            existing.surahTranslationName ||
+                            match.surahTranslationName,
+                        arabicSnippet:
+                            existing.arabicSnippet || match.arabicSnippet,
+                        translationSnippet:
+                            existing.translationSnippet ||
+                            match.translationSnippet,
+                        transliterationSnippet:
+                            existing.transliterationSnippet ||
+                            match.transliterationSnippet,
+                    });
+                });
+            });
+            return Array.from(merged.values()).sort((a, b) => {
+                if (a.surahNumber !== b.surahNumber)
+                    return a.surahNumber - b.surahNumber;
+                return a.ayahNumber - b.ayahNumber;
+            });
+        },
+        buildAdvancedSearchResult(match, surahPayload, translationId) {
+            const editions = Array.isArray(surahPayload?.data?.data)
+                ? surahPayload.data.data
+                : [];
+
+            const arabicEdition =
+                editions.find(
+                    (item) => item?.edition?.identifier === "quran-uthmani"
+                ) || editions[0];
+            const translationEdition =
+                editions.find(
+                    (item) => item?.edition?.identifier === translationId
+                ) || editions[1];
+            const transliterationEdition =
+                editions.find(
+                    (item) =>
+                        item?.edition?.identifier ===
+                            this.transliterationEditionIdentifier ||
+                        item?.edition?.type === "transliteration"
+                ) || null;
+
+            const index = Math.max(0, Number(match.ayahNumber) - 1);
+            const arabicAyah = arabicEdition?.ayahs?.[index];
+            const translationAyah = translationEdition?.ayahs?.[index];
+            const transliterationAyah = transliterationEdition?.ayahs?.[index];
+
+            const arabicText =
+                arabicAyah?.text || match.arabicSnippet || "";
+            const translationText =
+                translationAyah?.text ||
+                match.translationSnippet ||
+                "Translation not available";
+            const transliterationText =
+                transliterationAyah?.text ||
+                match.transliterationSnippet ||
+                this.transliterationFallbackText;
+
+            const surahEnglishName =
+                arabicEdition?.englishName ||
+                match.surahEnglishName ||
+                `Surah ${match.surahNumber}`;
+            const surahArabicName =
+                arabicEdition?.name || match.surahArabicName || "";
+            const surahTranslationName =
+                arabicEdition?.englishNameTranslation ||
+                match.surahTranslationName ||
+                "";
+
+            return {
+                key: this.buildAyahKey(match.surahNumber, match.ayahNumber),
+                surahNumber: match.surahNumber,
+                ayahNumber: match.ayahNumber,
+                surahEnglishName,
+                surahArabicName,
+                surahTranslationName,
+                text: arabicText,
+                translation: translationText,
+                transliteration: transliterationText,
+                page: Number(arabicAyah?.page || 0) || null,
+                juz: Number(arabicAyah?.juz || 0) || null,
+            };
+        },
+        async hydrateAdvancedSearchMatches(
+            matches,
+            translationId,
+            transliterationId,
+            signal
+        ) {
+            const bySurah = new Map();
+            matches.forEach((match) => {
+                if (!bySurah.has(match.surahNumber)) {
+                    bySurah.set(match.surahNumber, true);
+                }
+            });
+
+            const surahNumbers = Array.from(bySurah.keys());
+            const requests = surahNumbers.map(async (surahNumber) => {
+                const endpoint =
+                    `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/` +
+                    `quran-uthmani,${translationId},${transliterationId}`;
+                const cacheKey =
+                    `cache:advanced-search:surah:${surahNumber}:` +
+                    `${translationId}:${transliterationId}`;
+                const payload = await this.fetchAdvancedSearchJSON(
+                    endpoint,
+                    cacheKey,
+                    12 * 60 * 60 * 1000,
+                    signal
+                );
+                return { surahNumber, payload };
+            });
+
+            const responses = await Promise.allSettled(requests);
+            const payloadBySurah = new Map();
+            responses.forEach((result) => {
+                if (result.status !== "fulfilled") return;
+                payloadBySurah.set(
+                    result.value.surahNumber,
+                    result.value.payload
+                );
+            });
+
+            return matches.map((match) => {
+                const payload = payloadBySurah.get(match.surahNumber);
+                return this.buildAdvancedSearchResult(
+                    match,
+                    payload,
+                    translationId
+                );
+            });
+        },
+        async runAdvancedSearch(options = {}) {
+            const { force = false } = options;
+            const query = (this.advancedSearchQuery || "").trim();
+            if (query.length < this.advancedSearchMinLength) {
+                this.clearAdvancedSearch(false);
+                return;
+            }
+            if (!this.isAdvancedSearchPanelVisible) {
+                this.isAdvancedSearchPanelVisible = true;
+            }
+
+            const normalizedQuery = query.toLowerCase();
+            const translationId = this.selectedTranslation || "en.ahmedali";
+            const transliterationId =
+                this.transliterationEditionIdentifier || "en.transliteration";
+
+            if (!force && this.advancedSearchLoading) {
+                this.abortAdvancedSearchRequest();
+            }
+
+            this.abortAdvancedSearchRequest();
+            const controller = new AbortController();
+            const { signal } = controller;
+            this.advancedSearchAbortController = controller;
+            this.advancedSearchLoading = true;
+            this.advancedSearchError = "";
+            this.advancedSearchResults = [];
+            this.advancedSearchTotalMatches = 0;
+
+            try {
+                const editions = this.getAdvancedSearchEditions(query);
+                const requests = editions.map(async (edition) => {
+                    const endpoint =
+                        `https://api.alquran.cloud/v1/search/` +
+                        `${encodeURIComponent(query)}/all/${edition}`;
+                    const payload = await this.fetchAdvancedSearchJSON(
+                        endpoint,
+                        `cache:advanced-search:query:${edition}:${normalizedQuery}`,
+                        3 * 60 * 60 * 1000,
+                        signal
+                    );
+                    return { edition, payload };
+                });
+
+                const searchResponses = await Promise.allSettled(requests);
+                if (signal.aborted) return;
+
+                const parsedCollections = searchResponses
+                    .filter((result) => result.status === "fulfilled")
+                    .map((result) =>
+                        this.parseAdvancedSearchMatches(
+                            result.value.payload,
+                            result.value.edition
+                        )
+                    );
+
+                if (!parsedCollections.length) {
+                    throw new Error("No successful search responses.");
+                }
+
+                const mergedMatches = this.mergeAdvancedSearchMatches(
+                    ...parsedCollections
+                );
+                this.advancedSearchTotalMatches = mergedMatches.length;
+
+                if (!mergedMatches.length) {
+                    this.advancedSearchResults = [];
+                    return;
+                }
+
+                const limitedMatches = mergedMatches.slice(
+                    0,
+                    this.advancedSearchMaxResults
+                );
+
+                const hydrated = await this.hydrateAdvancedSearchMatches(
+                    limitedMatches,
+                    translationId,
+                    transliterationId,
+                    signal
+                );
+
+                if (signal.aborted) return;
+                this.advancedSearchResults = hydrated;
+            } catch (error) {
+                if (error?.name === "AbortError") return;
+                console.error("Advanced search failed:", error);
+                this.advancedSearchResults = [];
+                this.advancedSearchTotalMatches = 0;
+                this.advancedSearchError =
+                    "Unable to search verses right now. Please try again.";
+            } finally {
+                if (this.advancedSearchAbortController === controller) {
+                    this.advancedSearchAbortController = null;
+                    this.advancedSearchLoading = false;
+                }
+            }
+        },
+        alignAyahCardAfterSearch(index, behavior = "auto") {
+            if (
+                typeof index !== "number" ||
+                index < 0 ||
+                typeof window === "undefined"
+            ) {
+                return;
+            }
+            this.$nextTick(() => {
+                const align = () => {
+                    const cardEl = document.getElementById(`ayah-card-${index}`);
+                    if (!cardEl || !cardEl.getBoundingClientRect) return;
+
+                    const rect = cardEl.getBoundingClientRect();
+                    const offset = this.currentHeaderOffset;
+                    const viewportHeight = window.innerHeight;
+                    const audioHeight = this.getAudioPlayerHeight();
+                    const availableHeight = Math.max(
+                        viewportHeight - offset - audioHeight,
+                        0
+                    );
+                    const centerFactor =
+                        typeof this.preferredPlaybackScrollFactor === "number"
+                            ? this.preferredPlaybackScrollFactor
+                            : 0.38;
+                    const desiredCenter = offset + availableHeight * centerFactor;
+                    const delta = rect.top + rect.height / 2 - desiredCenter;
+                    if (Math.abs(delta) <= 8) return;
+
+                    const maxScroll = Math.max(
+                        document.documentElement.scrollHeight -
+                            window.innerHeight,
+                        0
+                    );
+                    const target = Math.min(
+                        Math.max(0, window.scrollY + delta),
+                        maxScroll
+                    );
+                    window.scrollTo({ top: target, behavior });
+                };
+
+                if (window.requestAnimationFrame) {
+                    window.requestAnimationFrame(align);
+                } else {
+                    align();
+                }
+            });
+        },
+        async openAdvancedSearchResult(result) {
+            if (!result) return;
+            const surahNumber = Number(result.surahNumber);
+            const ayahNumber = Number(result.ayahNumber);
+            if (!surahNumber || !ayahNumber) return;
+
+            this.isNavigating = true;
+            this.lastManualNavigationAt = Date.now();
+
+            try {
+                if (String(this.selectedSurah) !== String(surahNumber)) {
+                    await this.selectSurah(surahNumber, { skipScroll: true });
+                }
+
+                const targetIndex = Math.max(0, ayahNumber - 1);
+                this.searchQuery = "";
+                this.debouncedQuery = "";
+
+                const total = Array.isArray(this.filteredAyahs)
+                    ? this.filteredAyahs.length
+                    : 0;
+                const safeIndex = Math.min(
+                    targetIndex,
+                    Math.max(total - 1, 0)
+                );
+                const start = Math.max(0, safeIndex - this.buffer);
+                this.visibleStart = start;
+                this.visibleEnd = Math.min(
+                    total,
+                    start + this.windowSize + this.buffer * 2
+                );
+
+                await this.$nextTick();
+                this.scrollToAyahIndex(safeIndex, {
+                    settle: true,
+                    settleDelay: 260,
+                    force: true,
+                    behavior: "auto",
+                    lock: true,
+                });
+                this.alignAyahCardAfterSearch(safeIndex, "smooth");
+                setTimeout(() => {
+                    this.alignAyahCardAfterSearch(safeIndex, "auto");
+                }, 520);
+                this.announce(
+                    `Opened Surah ${surahNumber}, Ayah ${ayahNumber}.`
+                );
+            } catch (error) {
+                console.error("Unable to open advanced search result:", error);
+                this.announce("Unable to open this ayah right now.");
+            }
         },
         prepareSettingsDraft() {
             if (!this.settingsDraft) return;

@@ -9,6 +9,146 @@
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
+        <div class="row justify-content-center mb-2">
+            <div class="col-12 d-flex justify-content-end ltr-text">
+                <button
+                    type="button"
+                    class="btn btn-link advanced-quran-search-visibility-btn"
+                    :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
+                    aria-controls="advancedQuranSearchSection"
+                    @click="toggleAdvancedSearchVisibility">
+                    <i class="bi"
+                        :class="isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye'"
+                        aria-hidden="true"></i>
+                    <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
+                </button>
+            </div>
+        </div>
+        <div
+            v-show="isAdvancedSearchVisible"
+            id="advancedQuranSearchSection"
+            class="row justify-content-center mb-4">
+            <div class="col-12">
+                <section class="advanced-quran-search ltr-text"
+                    :class="{ 'is-panel-hidden': !isAdvancedSearchPanelVisible }"
+                    role="search"
+                    aria-label="Advanced Quran search">
+                    <div class="advanced-quran-search-top">
+                        <div class="advanced-quran-search-head">
+                            <h2 class="advanced-quran-search-title mb-0">Search Quran</h2>
+                            <p class="advanced-quran-search-subtitle mb-0">
+                                Ayah matches with translation.
+                            </p>
+                        </div>
+                        <div
+                            v-if="isAdvancedSearchPanelVisible && hasAdvancedSearchPanelContent"
+                            class="advanced-quran-search-top-actions">
+                            <button
+                                type="button"
+                                class="btn btn-link advanced-quran-search-close-panel"
+                                @click="closeAdvancedSearchPanel"
+                                aria-label="Close and clear search results panel">
+                                <i class="bi bi-x-lg" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="advanced-quran-search-input-wrap">
+                        <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true"></i>
+                        <input type="search" class="form-control advanced-quran-search-input"
+                            v-model="advancedSearchQuery"
+                            placeholder="Search across all ayahs (min 2 characters)..."
+                            aria-label="Search across all Quran verses"
+                            @keydown.enter.prevent="runAdvancedSearch({ force: true })" />
+                        <div class="advanced-quran-search-actions">
+                            <button
+                                v-if="speechRecognitionSupported"
+                                type="button"
+                                class="btn btn-link advanced-quran-search-voice"
+                                :class="{ 'is-listening': speechRecognitionListening }"
+                                @click="toggleVoiceSearch"
+                                :aria-label="speechRecognitionListening
+                                    ? 'Stop voice search'
+                                    : 'Start voice search'">
+                                <i class="bi"
+                                    :class="speechRecognitionListening ? 'bi-mic-fill' : 'bi-mic'"
+                                    aria-hidden="true"></i>
+                            </button>
+                            <button v-if="advancedSearchQuery" type="button"
+                                class="btn btn-link advanced-quran-search-clear"
+                                @click="clearAdvancedSearch()"
+                                aria-label="Clear advanced search">
+                                <i class="bi bi-x-circle" aria-hidden="true"></i>
+                                <span class="advanced-quran-search-clear-text">Clear</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        v-if="isAdvancedSearchPanelVisible"
+                        id="advancedQuranSearchPanel"
+                        class="advanced-quran-search-panel">
+                        <div class="advanced-quran-search-meta" aria-live="polite">
+                            <span v-if="advancedSearchLoading">
+                                Searching ayahs...
+                            </span>
+                            <span v-else-if="advancedSearchError" class="text-danger">
+                                {{ advancedSearchError }}
+                            </span>
+                            <span v-else-if="hasAdvancedSearchQuery && hasAdvancedSearchResults">
+                                Showing {{ advancedSearchResults.length }} of {{ advancedSearchTotalMatches }} matches
+                            </span>
+                            <span v-else-if="hasAdvancedSearchQuery && !advancedSearchLoading">
+                                No matches found for "{{ advancedSearchTrimmedQuery }}".
+                            </span>
+                        </div>
+                        <div v-if="speechRecognitionError" class="advanced-quran-search-speech-error" aria-live="polite">
+                            {{ speechRecognitionError }}
+                        </div>
+
+                        <div v-if="hasAdvancedSearchResults" class="advanced-quran-search-results"
+                            role="list" aria-label="Advanced Quran search results">
+                            <article v-for="result in advancedSearchResults" :key="result.key"
+                                class="advanced-quran-search-result" role="listitem">
+                                <div class="advanced-quran-search-result-head">
+                                    <div class="advanced-quran-search-result-ref">
+                                        <span class="advanced-quran-search-result-chip">
+                                            {{ result.surahNumber }}:{{ result.ayahNumber }}
+                                        </span>
+                                        <span class="advanced-quran-search-result-surah">
+                                            {{ result.surahEnglishName }}
+                                        </span>
+                                        <span v-if="result.surahArabicName"
+                                            class="advanced-quran-search-result-arabic-name">
+                                            {{ result.surahArabicName }}
+                                        </span>
+                                        <span v-if="result.page" class="advanced-quran-search-result-meta">
+                                            Page {{ result.page }}
+                                        </span>
+                                        <span v-if="result.juz" class="advanced-quran-search-result-meta">
+                                            Juz {{ result.juz }}
+                                        </span>
+                                    </div>
+                                    <button type="button" class="btn btn-sm advanced-quran-search-open"
+                                        @click="openAdvancedSearchResult(result)"
+                                        :aria-label="`Open Surah ${result.surahNumber}, Ayah ${result.ayahNumber}`">
+                                        <i class="bi bi-box-arrow-up-right me-1" aria-hidden="true"></i>
+                                        Open
+                                    </button>
+                                </div>
+                                <p class="advanced-quran-search-arabic mb-2"
+                                    v-html="highlightAdvancedSearchText(result.text)"></p>
+                                <div class="advanced-quran-search-detail-grid">
+                                    <div class="advanced-quran-search-detail">
+                                        <span class="advanced-quran-search-detail-label">Translation</span>
+                                        <p class="advanced-quran-search-translation mb-0"
+                                            v-html="highlightAdvancedSearchText(result.translation)"></p>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
         <div v-if="(surahDetails || currentSurahInfo) && !isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)"
             class="quran-toolbar-sticky ltr-text"
             role="region"
@@ -792,7 +932,7 @@
                                                 ]"
                                                 v-html="highlightText(item.ayah.translation)"
                                                 :style="{
-                                                    fontSize: translationFontSize + 'px',
+                                                    fontSize: ayahBodyFontSize + 'px',
                                                 }"
                                             ></p>
                                         </div>
@@ -814,7 +954,7 @@
                                             ]"
                                             v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
                                             :style="{
-                                                fontSize: translationFontSize + 'px',
+                                                fontSize: ayahBodyFontSize + 'px',
                                             }"
                                         ></p>
                                         <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
@@ -885,7 +1025,7 @@
                                         ]"
                                         v-html="highlightText(item.ayah.translation)"
                                         :style="{
-                                            fontSize: translationFontSize + 'px',
+                                            fontSize: ayahBodyFontSize + 'px',
                                         }"
                                     ></p>
                                 </div>
@@ -907,7 +1047,7 @@
                                     ]"
                                     v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
                                     :style="{
-                                        fontSize: translationFontSize + 'px',
+                                        fontSize: ayahBodyFontSize + 'px',
                                     }"
                                 ></p>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
