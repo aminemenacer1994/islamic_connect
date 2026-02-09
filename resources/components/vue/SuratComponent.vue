@@ -663,13 +663,26 @@
                                         :aria-label="isTranslationVisibleFor(item) ? 'Hide translation' : 'Show translation'"
                                         @change="onTranslationToggle(item, $event)"
                                         @click.stop>
-                                    <label class="form-check-label mt-1"
+                                    <label class="form-check-label"
                                         :for="`surat-translation-toggle-${item.index}`"
                                         @click.stop>
                                         Translation {{ isTranslationVisibleFor(item) ? 'on' : 'off' }}
                                     </label>
                                 </div>
-                                <!-- <button
+                                <div class="form-check form-switch translation-toggle ayah-transliteration-toggle">
+                                    <input class="form-check-input" type="checkbox"
+                                        :checked="isTransliterationVisibleFor(item)"
+                                        :id="`surat-transliteration-toggle-${item.index}`"
+                                        :aria-label="isTransliterationVisibleFor(item) ? 'Hide transliteration' : 'Show transliteration'"
+                                        @change="onTransliterationToggle(item, $event)"
+                                        @click.stop>
+                                    <label class="form-check-label"
+                                        :for="`surat-transliteration-toggle-${item.index}`"
+                                        @click.stop>
+                                        Transliteration {{ isTransliterationVisibleFor(item) ? 'on' : 'off' }}
+                                    </label>
+                                </div>
+                                <button
                                     type="button"
                                     class="icon-btn ayah-download-btn"
                                     :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
@@ -697,7 +710,7 @@
                                                 ? 'bi-check-circle-fill'
                                                 : 'bi-download'"
                                         aria-hidden="true"></i>
-                                </button>-->
+                                </button>
                                 <transition name="feedback-fade">
                                     <span v-if="
                                         feedbackMessages[
@@ -823,6 +836,26 @@
                                             ></p>
                                         </div>
                                         <template v-else></template>
+                                        <div v-if="isTransliterationVisibleFor(item)" class="transliteration-header pt-2 ltr-text hide-on-mobile-tablet ml-2">
+                                            <h2 class="mb-0">
+                                                Transliteration:
+                                            </h2>
+                                        </div>
+                                        <p
+                                            v-if="isTransliterationVisibleFor(item)"
+                                            :class="[
+                                                'fw-regular ltr-text flex-grow-1 transliteration-text',
+                                                {
+                                                    'transliteration-text--active':
+                                                        currentlyPlayingIndex === item.index &&
+                                                        isAudioPlaying[item.index],
+                                                },
+                                            ]"
+                                            v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
+                                            :style="{
+                                                fontSize: translationFontSize + 'px',
+                                            }"
+                                        ></p>
                                         <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                             <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
                                                 aria-label="Copy ayah" title="Copy ayah">
@@ -896,6 +929,26 @@
                                     ></p>
                                 </div>
                                 <template v-else></template>
+                                <div v-if="isTransliterationVisibleFor(item)" class="d-flex align-items-center fw-bold pt-2 ltr-text hide-on-mobile-tablet ml-2 transliteration-header">
+                                    <h4 class="mb-0">
+                                        Transliteration:
+                                    </h4>
+                                </div>
+                                <p
+                                    v-if="isTransliterationVisibleFor(item)"
+                                    :class="[
+                                        'fw-regular ltr-text flex-grow-1 transliteration-text',
+                                        {
+                                            'transliteration-text--active':
+                                                currentlyPlayingIndex === item.index &&
+                                                isAudioPlaying[item.index],
+                                        },
+                                    ]"
+                                    v-html="highlightText(item.ayah.transliteration || transliterationFallbackText)"
+                                    :style="{
+                                        fontSize: translationFontSize + 'px',
+                                    }"
+                                ></p>
                                 <div class="ayah-quick-actions ltr-text" role="group" aria-label="Quick actions">
                                     <button type="button" class="action-pill" @click.stop="copyAyah(item.ayah)"
                                         aria-label="Copy ayah" title="Copy ayah">

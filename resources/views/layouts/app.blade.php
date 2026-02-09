@@ -283,13 +283,13 @@
                             <a class="nav-link pt-2 ml-3 pl-3" href="/" data-path="/" data-nav-item="primary"><b>Home</b></a>
                         </li>
 
-                        <!-- <div class="ramadan-cta">
+                        <div class="ramadan-cta">
                             <button class="ramadan-cta__button" style="border-radius: 10px; font-weight: 200;" onclick="window.location.href='/ramadan-2026'" data-path="/ramadan-2026" data-nav-item="primary">
                                 <i class="ramadan-cta__pulse" aria-hidden="true"></i>
                                 <b>Ramadan Guide</b>
                                 <i class="ramadan-cta__pulse" aria-hidden="true"></i>
                             </button>
-                        </div> -->
+                        </div>
                         <!-- <li class="nav-item mt-2">
                             <button class="button-33" role="button" type="button" onclick="window.location.href='/ramadan-2026'">Ramadan 2026</button>
                         </li>  -->

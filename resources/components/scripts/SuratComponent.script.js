@@ -22,6 +22,7 @@ export default {
             selectedSurah: "1",
             selectedReciter: "ar.alafasy",
             selectedTranslation: "en.ahmedali",
+            transliterationEditionIdentifier: "en.transliteration",
             isAudioPlaying: [],
             isAudioLoading: [],
             isAudioDownloading: {},
@@ -75,9 +76,12 @@ export default {
             debouncedQuery: "",
             debounceTimer: null,
             arabicFontSize: 28,
-            translationFontSize: 20,
+            translationFontSize: 18,
+            transliterationFallbackText: "Transliteration not available",
             isTranslationVisible: true,
             translationVisibility: {},
+            isTransliterationVisible: true,
+            transliterationVisibility: {},
             showTajweed: false,
             showRealtimeHighlighting: false,
             showWordTranslation: false,
@@ -425,7 +429,9 @@ export default {
                 .filter(a => 
                     String(a.numberInSurah).includes(query) ||
                     (a.lowerText && a.lowerText.includes(query)) ||
-                    (a.lowerTranslation && a.lowerTranslation.includes(query))
+                    (a.lowerTranslation && a.lowerTranslation.includes(query)) ||
+                    (a.lowerTransliteration &&
+                        a.lowerTransliteration.includes(query))
                 )
                 .map(a => ({
                      number: a.numberInSurah,
@@ -537,7 +543,9 @@ export default {
                 (ayah) =>
                     (ayah.lowerText && ayah.lowerText.includes(query)) ||
                     (ayah.lowerTranslation &&
-                        ayah.lowerTranslation.includes(query))
+                        ayah.lowerTranslation.includes(query)) ||
+                    (ayah.lowerTransliteration &&
+                        ayah.lowerTransliteration.includes(query))
             );
         },
         filteredSurahs() {
@@ -813,6 +821,7 @@ export default {
                 this.persistLocalSetting("suratSelectedSurah", newVal);
                 this.isLoading = true;
                 this.translationVisibility = {};
+                this.transliterationVisibility = {};
                 this.savePreference("selectedSurah", newVal);
                 this.currentlyPlayingIndex = 0;
                 this.isHighlighted = false;
@@ -1725,6 +1734,8 @@ export default {
             if (ayahNumber) header += ` (Ayah ${ayahNumber})`;
             const lines = [header];
             if (ayah.text) lines.push(`Arabic: ${ayah.text}`);
+            if (ayah.transliteration)
+                lines.push(`Transliteration: ${ayah.transliteration}`);
             if (ayah.translation)
                 lines.push(`Translation: ${ayah.translation}`);
             if (includeAudio && ayah.audio)
@@ -4523,6 +4534,35 @@ export default {
             const checked = !!event.target.checked;
             this.setTranslationVisibleFor(item, checked);
         },
+        getTransliterationVisibilityKey(item) {
+            if (!item || !item.ayah) return "";
+            return this.buildAyahKey(
+                this.surahDetails?.surahNumber,
+                item.ayah.numberInSurah || item.ayah.number
+            );
+        },
+        isTransliterationVisibleFor(item) {
+            const key = this.getTransliterationVisibilityKey(item);
+            if (!key) return true;
+            const value = this.transliterationVisibility[key];
+            if (value === undefined) return this.isTransliterationVisible;
+            return !!value;
+        },
+        setTransliterationVisibleFor(item, value) {
+            const key = this.getTransliterationVisibilityKey(item);
+            if (!key) return;
+            if (typeof this.$set === "function") {
+                this.$set(this.transliterationVisibility, key, !!value);
+            } else {
+                this.transliterationVisibility[key] = !!value;
+            }
+            this.itemHeightCalibrated = false;
+            this.$nextTick(() => this.scheduleHeightCalibration(true));
+        },
+        onTransliterationToggle(item, event) {
+            const checked = !!event.target.checked;
+            this.setTransliterationVisibleFor(item, checked);
+        },
         shareOnWhatsApp: function (ayah) {
             const message = this.buildAyahMessage(ayah, { includeAudio: true });
             if (!message) return;
@@ -4729,6 +4769,61 @@ export default {
                 this.isLoading = false;
             }
         },
+        async fetchSurahTransliteration(surahNumber = this.selectedSurah) {
+            const requestedSurah = String(surahNumber || "");
+            if (!requestedSurah) return;
+
+            const transliterationIdentifier =
+                this.transliterationEditionIdentifier || "en.transliteration";
+            const transliterationCacheKey = `cache:surah-transliteration:${requestedSurah}:${transliterationIdentifier}`;
+
+            try {
+                const { data } = await this.cachedFetchJSON(
+                    `https://api.alquran.cloud/v1/surah/${requestedSurah}/${transliterationIdentifier}`,
+                    transliterationCacheKey,
+                    14 * 24 * 60 * 60 * 1000
+                );
+                if (this._isDestroyed) return;
+
+                const activeSurah = String(
+                    this.surahDetails?.surahNumber || this.selectedSurah || ""
+                );
+                if (activeSurah !== requestedSurah) return;
+
+                const transliterationAyahs = Array.isArray(data?.data?.ayahs)
+                    ? data.data.ayahs
+                    : [];
+                if (
+                    !transliterationAyahs.length ||
+                    !Array.isArray(this.surahDetails?.ayahs)
+                )
+                    return;
+
+                this.surahDetails.ayahs = this.surahDetails.ayahs.map(
+                    (ayah, index) => {
+                        const fetchedText =
+                            transliterationAyahs?.[index]?.text;
+                        const normalizedFetchedText =
+                            typeof fetchedText === "string"
+                                ? fetchedText
+                                : "";
+                        if (!normalizedFetchedText) return ayah;
+                        return {
+                            ...ayah,
+                            transliteration: normalizedFetchedText,
+                            lowerTransliteration:
+                                normalizedFetchedText.toLowerCase(),
+                        };
+                    }
+                );
+                this.itemHeightCalibrated = false;
+                this.$nextTick(() => this.scheduleHeightCalibration(true));
+            } catch (error) {
+                const status = String(error?.message || "");
+                if (status === "404" || status === "400") return;
+                console.warn("Unable to load transliteration:", error);
+            }
+        },
         fetchSurahDetails: function () {
             if (
                 !this.selectedSurah ||
@@ -4765,6 +4860,12 @@ export default {
                             (item) =>
                                 item?.edition?.identifier === "quran-tajweed"
                         );
+                        const transliteration = editions.find(
+                            (item) =>
+                                item?.edition?.identifier ===
+                                this.transliterationEditionIdentifier ||
+                                item?.edition?.type === "transliteration"
+                        );
                         this.surahDetails = {
                             surahNumber: this.selectedSurah,
                             englishName: arabicText?.englishName,
@@ -4778,6 +4879,14 @@ export default {
                                         translation?.ayahs?.[index]?.text
                                             ? translation.ayahs[index].text
                                             : "Translation not available";
+                                    const transliterationTextRaw =
+                                        transliteration?.ayahs?.[index]?.text ||
+                                        "";
+                                    const transliterationText =
+                                        typeof transliterationTextRaw ===
+                                        "string"
+                                            ? transliterationTextRaw
+                                            : "";
                                     const words = text ? text.split(" ") : [];
                                     const tajweedWords = tajweedText
                                         ? tajweedText.split(" ")
@@ -4790,6 +4899,9 @@ export default {
                                         lowerText: text.toLowerCase(),
                                         translation: transText,
                                         lowerTranslation: transText.toLowerCase(),
+                                        transliteration: transliterationText,
+                                        lowerTransliteration:
+                                            transliterationText.toLowerCase(),
                                         juz: ayah.juz,
                                         hizb: ayah.hizb,
                                         hizbQuarter: ayah.hizbQuarter,
@@ -4805,6 +4917,7 @@ export default {
                             ),
                         };
                         this.isLoading = false;
+                        this.fetchSurahTransliteration(this.selectedSurah);
                         this.enrichSurahWithQuranSegments()
                             .finally(() => {
                                 // Pre-warm current and next from cache path as well
@@ -4862,6 +4975,12 @@ export default {
                         (item) =>
                             item?.edition?.identifier === "quran-tajweed"
                     );
+                    const transliteration = editions.find(
+                        (item) =>
+                            item?.edition?.identifier ===
+                            this.transliterationEditionIdentifier ||
+                            item?.edition?.type === "transliteration"
+                    );
                     this.surahDetails = {
                         surahNumber: this.selectedSurah,
                         englishName: arabicText?.englishName,
@@ -4874,6 +4993,12 @@ export default {
                                 translation?.ayahs?.[index]?.text
                                     ? translation.ayahs[index].text
                                     : "Translation not available";
+                            const transliterationTextRaw =
+                                transliteration?.ayahs?.[index]?.text || "";
+                            const transliterationText =
+                                typeof transliterationTextRaw === "string"
+                                    ? transliterationTextRaw
+                                    : "";
                             const words = text ? text.split(" ") : [];
                             const tajweedWords = tajweedText
                                 ? tajweedText.split(" ")
@@ -4886,6 +5011,9 @@ export default {
                                 lowerText: text.toLowerCase(),
                                 translation: transText,
                                 lowerTranslation: transText.toLowerCase(),
+                                transliteration: transliterationText,
+                                lowerTransliteration:
+                                    transliterationText.toLowerCase(),
                                 juz: ayah.juz,
                                 hizb: ayah.hizb,
                                 hizbQuarter: ayah.hizbQuarter,
@@ -4901,6 +5029,7 @@ export default {
                     };
                     console.log("Surah details fetched:", this.surahDetails);
                     this.isLoading = false;
+                    this.fetchSurahTransliteration(this.selectedSurah);
                     this.enrichSurahWithQuranSegments()
                         .finally(() => {
                             // Pre-warm the first and next ayah for instant playback

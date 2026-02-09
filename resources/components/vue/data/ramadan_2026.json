@@ -1206,32 +1206,11 @@
         "icon": "fa-calculator"
       },
       {
-        "title": "Dua Library",
-        "description": "Discover supplications with transliteration and translation for daily worship.",
-        "detail": "Bookmark duas for suhoor, iftar, and Laylat al-Qadr along with quick audio and translation tools.",
-        "link": "/dua",
-        "icon": "fa-praying-hands"
-      },
-      {
         "title": "Surat Explorer",
         "description": "Browse suwar summaries, audio, and study notes for focused reading.",
         "detail": "Compare tafsir notes, choose reciters, and plan quran sessions so every surah has context.",
         "link": "/surat",
         "icon": "fa-book-open"
-      },
-      {
-        "title": "Podcasts",
-        "description": "Listen to Ramadan reflections, spiritual stories, and thematic episodes.",
-        "detail": "Pick between daily reflections, storytime sessions, or interviews that keep you inspired.",
-        "link": "/content",
-        "icon": "fa-podcast"
-      },
-      {
-        "title": "Seerah Timeline",
-        "description": "Follow the Prophet ﷺ's life through an interactive mission timeline.",
-        "detail": "Trace key milestones, battles, and teachings day-by-day with mission-style storytelling.",
-        "link": "/mission",
-        "icon": "fa-hourglass-half"
       },
       {
         "title": "Prayer Times Calendar",
