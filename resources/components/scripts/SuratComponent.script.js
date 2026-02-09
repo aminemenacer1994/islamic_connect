@@ -29,6 +29,8 @@ export default {
             isAudioDownloaded: {},
             isSurahAudioDownloading: false,
             isSurahAudioDownloaded: false,
+            surahAudioMetaByKey: {},
+            surahAudioMetaLoadingByKey: {},
             surahAudioDownloadedTimer: null,
             currentlyPlaying: null,
             currentlyPlayingIndex: 0,
@@ -582,6 +584,54 @@ export default {
                 origin: cached?.revelationType || this.currentSurahInfo?.revelationType,
                 number: surahNumber || this.currentSurahInfo?.number,
             };
+        },
+        currentSurahAudioMetaKey() {
+            const surahNumber = Number(
+                this.selectedSurah || this.surahDetails?.surahNumber
+            );
+            return this.getSurahAudioMetaKey(surahNumber, this.selectedReciter);
+        },
+        currentSurahAudioMeta() {
+            const key = this.currentSurahAudioMetaKey;
+            if (!key) return null;
+            return this.surahAudioMetaByKey[key] || null;
+        },
+        isCurrentSurahAudioMetaLoading() {
+            const key = this.currentSurahAudioMetaKey;
+            if (!key) return false;
+            return !!this.surahAudioMetaLoadingByKey[key];
+        },
+        currentSurahAudioSizeLabel() {
+            const sizeBytes = this.currentSurahAudioMeta?.sizeBytes;
+            if (!sizeBytes) return "";
+            return this.formatBytesToMegabytes(sizeBytes);
+        },
+        surahDownloadReadyLabel() {
+            if (this.currentSurahAudioSizeLabel) {
+                return `Download full surah (${this.currentSurahAudioSizeLabel})`;
+            }
+            if (this.isCurrentSurahAudioMetaLoading) {
+                return "Download full surah (size loading...)";
+            }
+            return "Download full surah (MP3)";
+        },
+        surahDownloadReadyAriaLabel() {
+            if (this.currentSurahAudioSizeLabel) {
+                return `Download full surah (${this.currentSurahAudioSizeLabel})`;
+            }
+            return "Download full surah";
+        },
+        isTranslationTransliterationAllEnabled() {
+            if (!Array.isArray(this.filteredAyahs) || !this.filteredAyahs.length) {
+                return !!this.isTranslationVisible && !!this.isTransliterationVisible;
+            }
+            return this.filteredAyahs.every((ayah) => {
+                const item = { ayah };
+                return (
+                    this.isTranslationVisibleFor(item) &&
+                    this.isTransliterationVisibleFor(item)
+                );
+            });
         },
         currentMobileAyah() {
             const ayahs = Array.isArray(this.filteredAyahs)
@@ -1843,6 +1893,48 @@ export default {
             const parts = ["surah", surahNumber || "unknown", reciter];
             return `${parts.join("-")}.mp3`;
         },
+        getSurahAudioMetaKey(surahNumber = this.selectedSurah, reciterId = this.selectedReciter) {
+            const normalizedSurah = Number(surahNumber);
+            if (!normalizedSurah || !reciterId) return "";
+            return `${reciterId}:${normalizedSurah}`;
+        },
+        setSurahAudioMetaCache(key, value) {
+            if (!key) return;
+            if (typeof this.$set === "function") {
+                this.$set(this.surahAudioMetaByKey, key, value);
+            } else {
+                this.surahAudioMetaByKey[key] = value;
+            }
+        },
+        setSurahAudioMetaLoading(key, value) {
+            if (!key) return;
+            if (typeof this.$set === "function") {
+                this.$set(this.surahAudioMetaLoadingByKey, key, !!value);
+            } else {
+                this.surahAudioMetaLoadingByKey[key] = !!value;
+            }
+        },
+        normalizeFileSizeBytes(value) {
+            if (typeof value === "number" && Number.isFinite(value) && value > 0) {
+                return Math.round(value);
+            }
+            if (typeof value !== "string") return null;
+            const normalized = value.trim().toLowerCase().replace(/,/g, "");
+            if (!normalized) return null;
+            const match = normalized.match(/(\d+(\.\d+)?)/);
+            if (!match) return null;
+            const numeric = Number(match[1]);
+            if (!Number.isFinite(numeric) || numeric <= 0) return null;
+            if (normalized.includes("gb")) return Math.round(numeric * 1024 * 1024 * 1024);
+            if (normalized.includes("mb")) return Math.round(numeric * 1024 * 1024);
+            if (normalized.includes("kb")) return Math.round(numeric * 1024);
+            return Math.round(numeric);
+        },
+        formatBytesToMegabytes(bytes, decimals = 1) {
+            const size = Number(bytes);
+            if (!Number.isFinite(size) || size <= 0) return "";
+            return `${(size / (1024 * 1024)).toFixed(decimals)} MB`;
+        },
         canDownloadSurahAudio() {
             return !!this.getQuranRecitationId(this.selectedReciter);
         },
@@ -1854,14 +1946,19 @@ export default {
                 this.surahAudioDownloadedTimer = null;
             }, duration);
         },
-        extractChapterRecitationAudioUrl(payload, baseUrl) {
-            if (!payload) return "";
-            const audioFile =
+        extractChapterRecitationAudioFile(payload) {
+            if (!payload || typeof payload !== "object") return null;
+            return (
                 payload.audio_file ||
                 payload.audioFile ||
                 payload.chapter_recitation ||
                 payload.chapterRecitation ||
-                null;
+                null
+            );
+        },
+        extractChapterRecitationAudioUrl(payload, baseUrl) {
+            if (!payload) return "";
+            const audioFile = this.extractChapterRecitationAudioFile(payload);
             const raw =
                 audioFile?.audio_url ||
                 audioFile?.audioUrl ||
@@ -1872,6 +1969,104 @@ export default {
             if (raw.startsWith("//")) return `https:${raw}`;
             if (raw.startsWith("/")) return `${baseUrl}${raw}`;
             return raw;
+        },
+        extractChapterRecitationFileSizeBytes(payload) {
+            if (!payload) return null;
+            const audioFile = this.extractChapterRecitationAudioFile(payload);
+            const candidates = [
+                audioFile?.file_size,
+                audioFile?.fileSize,
+                audioFile?.filesize,
+                audioFile?.size,
+                payload?.file_size,
+                payload?.fileSize,
+                payload?.filesize,
+                payload?.size,
+            ];
+            for (const candidate of candidates) {
+                const bytes = this.normalizeFileSizeBytes(candidate);
+                if (bytes) return bytes;
+            }
+            return null;
+        },
+        async fetchAudioContentLength(audioUrl) {
+            if (!audioUrl) return null;
+            try {
+                const response = await fetch(audioUrl, {
+                    method: "HEAD",
+                    mode: "cors",
+                });
+                if (!response.ok) return null;
+                return this.normalizeFileSizeBytes(
+                    response.headers.get("content-length")
+                );
+            } catch (_) {
+                return null;
+            }
+        },
+        async resolveChapterRecitationMeta(
+            surahNumber = this.selectedSurah,
+            reciterId = this.selectedReciter,
+            options = {}
+        ) {
+            const { force = false } = options;
+            const normalizedSurah = Number(surahNumber);
+            const recitationId = this.getQuranRecitationId(reciterId);
+            if (!normalizedSurah || !recitationId) {
+                return { audioUrl: "", sizeBytes: null };
+            }
+
+            const key = this.getSurahAudioMetaKey(normalizedSurah, reciterId);
+            const cachedMeta = key ? this.surahAudioMetaByKey[key] : null;
+            if (!force && cachedMeta?.audioUrl) {
+                return cachedMeta;
+            }
+
+            if (key) this.setSurahAudioMetaLoading(key, true);
+            try {
+                const endpoint = `https://api.quran.com/api/v4/chapter_recitations/${recitationId}/${normalizedSurah}`;
+                const response = await fetch(endpoint, { mode: "cors" });
+                if (!response.ok) {
+                    throw new Error(
+                        `Surah audio lookup failed: ${response.status}`
+                    );
+                }
+                const payload = await response.json();
+                const audioUrl = this.extractChapterRecitationAudioUrl(
+                    payload,
+                    "https://api.quran.com"
+                );
+                let sizeBytes =
+                    this.extractChapterRecitationFileSizeBytes(payload);
+
+                if (!sizeBytes && audioUrl) {
+                    sizeBytes = await this.fetchAudioContentLength(audioUrl);
+                }
+
+                const meta = {
+                    audioUrl: audioUrl || "",
+                    sizeBytes: sizeBytes || null,
+                    updatedAt: Date.now(),
+                };
+                if (key && meta.audioUrl) {
+                    this.setSurahAudioMetaCache(key, meta);
+                }
+                return meta;
+            } finally {
+                if (key) this.setSurahAudioMetaLoading(key, false);
+            }
+        },
+        prefetchCurrentSurahAudioMeta() {
+            const surahNumber = Number(
+                this.selectedSurah || this.surahDetails?.surahNumber
+            );
+            if (!surahNumber || !this.canDownloadSurahAudio()) return;
+            this.resolveChapterRecitationMeta(
+                surahNumber,
+                this.selectedReciter
+            ).catch((error) => {
+                console.warn("Unable to prefetch surah audio metadata:", error);
+            });
         },
         async downloadSurahAudio() {
             const surahNumber = Number(this.surahDetails?.surahNumber || this.selectedSurah);
@@ -1897,19 +2092,22 @@ export default {
             this.surahAudioDownloadedTimer = null;
             this.announce("Downloading full surah audio.");
 
-            const endpoint = `https://api.quran.com/api/v4/chapter_recitations/${recitationId}/${surahNumber}`;
             let audioUrl = "";
 
             try {
-                const response = await fetch(endpoint, { mode: "cors" });
-                if (!response.ok) {
-                    throw new Error(`Surah audio lookup failed: ${response.status}`);
-                }
-                const payload = await response.json();
-                audioUrl = this.extractChapterRecitationAudioUrl(
-                    payload,
-                    "https://api.quran.com"
+                let meta = await this.resolveChapterRecitationMeta(
+                    surahNumber,
+                    this.selectedReciter
                 );
+                audioUrl = meta?.audioUrl || "";
+                if (!audioUrl) {
+                    meta = await this.resolveChapterRecitationMeta(
+                        surahNumber,
+                        this.selectedReciter,
+                        { force: true }
+                    );
+                    audioUrl = meta?.audioUrl || "";
+                }
             } catch (error) {
                 console.warn("Unable to resolve full surah audio URL:", error);
             }
@@ -4534,6 +4732,17 @@ export default {
             const checked = !!event.target.checked;
             this.setTranslationVisibleFor(item, checked);
         },
+        applyGlobalTextVisibility({
+            translation = this.isTranslationVisible,
+            transliteration = this.isTransliterationVisible,
+        } = {}) {
+            this.isTranslationVisible = !!translation;
+            this.isTransliterationVisible = !!transliteration;
+            this.translationVisibility = {};
+            this.transliterationVisibility = {};
+            this.itemHeightCalibrated = false;
+            this.$nextTick(() => this.scheduleHeightCalibration(true));
+        },
         getTransliterationVisibilityKey(item) {
             if (!item || !item.ayah) return "";
             return this.buildAyahKey(
@@ -4562,6 +4771,18 @@ export default {
         onTransliterationToggle(item, event) {
             const checked = !!event.target.checked;
             this.setTransliterationVisibleFor(item, checked);
+        },
+        onToolbarAllTextToggle(event) {
+            const checked = !!event?.target?.checked;
+            this.applyGlobalTextVisibility({
+                translation: checked,
+                transliteration: checked,
+            });
+            this.announce(
+                checked
+                    ? "Translation and transliteration enabled for all ayahs."
+                    : "Translation and transliteration disabled for all ayahs."
+            );
         },
         shareOnWhatsApp: function (ayah) {
             const message = this.buildAyahMessage(ayah, { includeAudio: true });
@@ -4832,6 +5053,7 @@ export default {
             )
                 return Promise.resolve();
             this.isLoading = true;
+            this.prefetchCurrentSurahAudioMeta();
             const cacheKey = `cache:surah:${this.selectedSurah}:${this.selectedReciter}:${this.selectedTranslation}:tajweed`;
 
             // Serve from cache immediately if available

@@ -27,6 +27,7 @@
     --bs-info: #228B22;
     --bs-warning: #f59e0b;
     --bs-danger: #ef4444;
+    --ic-title-font-family: "Manrope", "Inter", "Segoe UI", sans-serif;
 }
 
 body {
@@ -37,6 +38,30 @@ html {
     scroll-padding-top: var(--navbar-h);
     scroll-behavior: smooth;
     scrollbar-gutter: stable;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+.title,
+[class*="-title"],
+[class^="title-"],
+[class*=" title-"],
+.page-title,
+.hero-title,
+.section-title,
+.card-title,
+.modal-title {
+    font-family: var(--ic-title-font-family);
 }
 
 /* Interaction polish to reduce micro-friction */
