@@ -35257,10 +35257,25 @@ to {
     min-width: 0;
 }
 .advanced-quran-search-top-actions[data-v-637d02d8] {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.34rem;
+    flex-wrap: wrap;
+    flex-shrink: 0;
+}
+.advanced-quran-search-top-pills[data-v-637d02d8] {
     display: inline-flex;
     align-items: center;
-    gap: 0.2rem;
-    flex-shrink: 0;
+    justify-content: flex-end;
+    gap: 0.34rem;
+    flex-wrap: wrap;
+}
+.advanced-quran-search-top-pill[data-v-637d02d8] {
+    font-size: 0.83rem;
+    padding: 0.42rem 0.72rem;
+    border-radius: 12px;
+    min-height: 36px;
 }
 .advanced-quran-search-title[data-v-637d02d8] {
     font-size: 0.98rem;
@@ -35560,6 +35575,9 @@ to {
 .advanced-quran-search-top-actions[data-v-637d02d8] {
         align-self: flex-end;
 }
+.advanced-quran-search-top-pills[data-v-637d02d8] {
+        gap: 0.3rem;
+}
 .advanced-quran-search-results[data-v-637d02d8] {
         max-height: 46vh;
 }
@@ -35581,11 +35599,29 @@ to {
         font-size: 0.72rem;
 }
 .advanced-quran-search-top[data-v-637d02d8] {
-        flex-direction: column;
-        align-items: stretch;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+}
+.advanced-quran-search-head[data-v-637d02d8] {
+        flex: 1 1 auto;
+        min-width: 0;
 }
 .advanced-quran-search-top-actions[data-v-637d02d8] {
+        flex: 0 0 auto;
         justify-content: flex-end;
+        flex-wrap: nowrap;
+}
+.advanced-quran-search-top-pills[data-v-637d02d8] {
+        width: auto;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+}
+.advanced-quran-search-top-pill[data-v-637d02d8] {
+        font-size: 0.78rem;
+        padding: 0.36rem 0.58rem;
+        min-height: 34px;
+        white-space: nowrap;
 }
 .advanced-quran-search-input-wrap[data-v-637d02d8] {
         min-height: 44px;
@@ -35646,6 +35682,16 @@ to {
         font-size: 0.72rem;
         padding: 0.3rem 0.42rem;
         gap: 0.24rem;
+}
+.advanced-quran-search-top-pills[data-v-637d02d8] {
+        gap: 0.26rem;
+        flex-wrap: nowrap;
+}
+.advanced-quran-search-top-pill[data-v-637d02d8] {
+        font-size: 0.72rem;
+        padding: 0.3rem 0.46rem;
+        border-radius: 10px;
+        min-height: 30px;
 }
 .advanced-quran-search-visibility-btn i[data-v-637d02d8] {
         font-size: 0.76rem;
@@ -39821,7 +39867,36 @@ to {
 .ayah-card-header-actions[data-v-637d02d8] {
         width: 100%;
         justify-content: flex-start;
-        gap: 10px 14px;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 8px;
+}
+.ayah-card-header-actions .translation-toggle[data-v-637d02d8] {
+        flex: 1 1 0;
+        min-width: 0;
+        justify-content: center !important;
+        padding: 0.2rem 0.42rem !important;
+        gap: 0.32rem !important;
+}
+.ayah-card-header-actions .translation-toggle .form-check-input[data-v-637d02d8] {
+        width: 1.7rem;
+        height: 0.98rem;
+}
+.ayah-card-header-actions .translation-toggle .form-check-label[data-v-637d02d8] {
+        font-size: 0.68rem;
+}
+.ayah-translation-toggle[data-v-637d02d8],
+    .ayah-transliteration-toggle[data-v-637d02d8] {
+        margin-right: 0 !important;
+}
+.ayah-card-header-actions .ayah-download-btn[data-v-637d02d8] {
+        flex: 0 0 34px;
+        width: 34px;
+        height: 34px;
+}
+.ayah-card-header-actions .feedback-badge[data-v-637d02d8] {
+        flex-basis: 100%;
+        order: 99;
 }
 }
 .feedback-badge[data-v-637d02d8] {

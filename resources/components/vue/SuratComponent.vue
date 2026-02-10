@@ -9,7 +9,7 @@
                 <p class="holy-book-description mb-0">Explore the Holy Quran with clear recitations, trusted translations, and practical tools that help you read with focus, listen with understanding, and reflect on each ayah in your daily life.</p>
             </div>
         </div>
-        <div class="row justify-content-center mb-2">
+        <div v-if="!isAdvancedSearchVisible" class="row justify-content-center mb-2">
             <div class="col-12 d-flex justify-content-end ltr-text">
                 <div class="advanced-search-utility-actions">
                     <button
@@ -50,10 +50,28 @@
                                 Ayah matches with translation.
                             </p>
                         </div>
-                        <div
-                            v-if="isAdvancedSearchPanelVisible && hasAdvancedSearchPanelContent"
-                            class="advanced-quran-search-top-actions">
+                        <div class="advanced-quran-search-top-actions">
+                            <div class="advanced-quran-search-top-pills">
+                                <button
+                                    type="button"
+                                    class="btn btn-link advanced-quran-search-visibility-btn advanced-quran-search-top-pill"
+                                    :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
+                                    aria-controls="advancedQuranSearchSection"
+                                    @click="toggleAdvancedSearchVisibility">
+                                    <i class="bi bi-eye-slash" aria-hidden="true"></i>
+                                    <span>Hide search</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-link advanced-quran-search-visibility-btn surat-onboarding-trigger advanced-quran-search-top-pill"
+                                    aria-label="Open surat onboarding guide"
+                                    @click="openSuratOnboarding">
+                                    <i class="fas fa-compass" aria-hidden="true"></i>
+                                    <span>Onboarding</span>
+                                </button>
+                            </div>
                             <button
+                                v-if="isAdvancedSearchPanelVisible && hasAdvancedSearchPanelContent"
                                 type="button"
                                 class="btn btn-link advanced-quran-search-close-panel"
                                 @click="closeAdvancedSearchPanel"
