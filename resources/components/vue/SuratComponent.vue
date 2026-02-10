@@ -11,17 +11,27 @@
         </div>
         <div class="row justify-content-center mb-2">
             <div class="col-12 d-flex justify-content-end ltr-text">
-                <button
-                    type="button"
-                    class="btn btn-link advanced-quran-search-visibility-btn"
-                    :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
-                    aria-controls="advancedQuranSearchSection"
-                    @click="toggleAdvancedSearchVisibility">
-                    <i class="bi"
-                        :class="isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye'"
-                        aria-hidden="true"></i>
-                    <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
-                </button>
+                <div class="advanced-search-utility-actions">
+                    <button
+                        type="button"
+                        class="btn btn-link advanced-quran-search-visibility-btn"
+                        :aria-expanded="isAdvancedSearchVisible ? 'true' : 'false'"
+                        aria-controls="advancedQuranSearchSection"
+                        @click="toggleAdvancedSearchVisibility">
+                        <i class="bi"
+                            :class="isAdvancedSearchVisible ? 'bi-eye-slash' : 'bi-eye'"
+                            aria-hidden="true"></i>
+                        <span>{{ isAdvancedSearchVisible ? "Hide search" : "Show search" }}</span>
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-link advanced-quran-search-visibility-btn surat-onboarding-trigger"
+                        aria-label="Open surat onboarding guide"
+                        @click="openSuratOnboarding">
+                        <i class="fas fa-compass" aria-hidden="true"></i>
+                        <span>Onboarding</span>
+                    </button>
+                </div>
             </div>
         </div>
         <div
@@ -81,6 +91,45 @@
                                 <span class="advanced-quran-search-clear-text">Clear</span>
                             </button>
                         </div>
+                    </div>
+                    <div
+                        v-if="isTabletOrMobile"
+                        class="advanced-quran-mobile-controls"
+                        role="group"
+                        aria-label="Surah quick controls">
+                        <label class="visually-hidden" for="searchSurahDropdown">
+                            Select surah
+                        </label>
+                        <select
+                            id="searchSurahDropdown"
+                            class="form-select advanced-quran-mobile-surah-select"
+                            v-model="selectedSurah"
+                            @change="selectSurah(selectedSurah)"
+                            aria-label="Select surah">
+                            <option v-if="!surahs.length" disabled>Loading surahs...</option>
+                            <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
+                                {{ surah.number }}. {{ surah.englishName }}
+                            </option>
+                        </select>
+                        <button
+                            type="button"
+                            class="btn advanced-quran-mobile-icon-btn"
+                            data-bs-toggle="modal"
+                            data-bs-target="#surahSettingsModal"
+                            @click="prepareSettingsDraft"
+                            aria-label="Open display settings"
+                            title="Display settings">
+                            <i class="bi bi-gear" aria-hidden="true"></i>
+                        </button>
+                        <button
+                            type="button"
+                            class="btn advanced-quran-mobile-icon-btn"
+                            @click="openSurahInfo(currentSurahInfo)"
+                            :disabled="!currentSurahInfo"
+                            aria-label="Open surah information"
+                            title="Open surah information">
+                            <i class="bi bi-info-circle" aria-hidden="true"></i>
+                        </button>
                     </div>
                     <div
                         v-if="isAdvancedSearchPanelVisible"
@@ -418,99 +467,6 @@
                 </div>
             </div>
         </div> -->
-        <div v-if="isMobile" class="mobile-surah-dropdown-wrapper px-3 mt-3">
-            <label class="visually-hidden" for="mobileSurahDropdown">
-                Select surah
-            </label>
-            <div class="d-flex w-100 align-items-center gap-2">
-                <select v-if="isMobile" id="mobileSurahDropdown"
-                    class="form-select mobile-surah-dropdown shadow-sm flex-grow-1"
-                    v-model="selectedSurah"
-                    @change="selectSurah(selectedSurah)"
-                    aria-label="Select surah">
-                    <option v-if="!surahs.length" disabled>Loading surahs...</option>
-                    <option v-for="surah in surahs" :key="surah.number" :value="String(surah.number)">
-                        {{ surah.number }}. {{ surah.englishName }}
-                    </option>
-                </select>
-                <button type="button"
-                    class="btn btn-light shadow-sm next-step-settings-btn-standalone px-3 py-2"
-                    data-bs-toggle="modal"
-                    data-bs-target="#surahSettingsModal"
-                    @click="prepareSettingsDraft"
-                    aria-label="Open display settings"
-                    title="Display settings">
-                    <i class="bi bi-gear-fill"></i>
-                </button>
-            </div>
-        </div>
-        <div v-if="isTabletOrMobile && (surahDetails || currentSurahInfo)" class="mobile-surah-info-wrapper px-3">
-            <div class="mobile-surah-info-card">
-                <div class="mobile-surah-info-text">
-                    <p class="mobile-surah-info-eyebrow">Current surah</p>
-                    <div class="mobile-surah-info-title">
-                        <span class="mobile-surah-info-number">
-                            {{
-                                currentSurahMeta.number ||
-                                surahDetails?.surahNumber ||
-                                currentSurahInfo?.number ||
-                                selectedSurah ||
-                                "—"
-                            }}
-                        </span>
-                        <span class="mobile-surah-info-name">
-                            {{
-                                surahDetails?.englishName ||
-                                surahDetails?.name ||
-                                currentSurahInfo?.englishName ||
-                                currentSurahInfo?.name ||
-                                "Surah"
-                            }}
-                        </span>
-                    </div>
-                    <div v-if="currentSurahInfo?.englishNameTranslation" class="mobile-surah-info-translation">
-                        {{ currentSurahInfo.englishNameTranslation }}
-                    </div>
-                    <div v-if="currentSurahInfo?.name" class="mobile-surah-info-arabic">
-                        {{ currentSurahInfo.name }}
-                    </div>
-                    <div class="mobile-surah-info-meta">
-                        <span class="mobile-surah-info-chip">
-                            {{
-                                (currentSurahMeta.ayahCount ||
-                                    currentSurahInfo?.numberOfAyahs ||
-                                    surahDetails?.ayahs?.length)
-                                    ? `${currentSurahMeta.ayahCount ||
-                                        currentSurahInfo?.numberOfAyahs ||
-                                        surahDetails?.ayahs?.length} ayahs`
-                                    : "Ayahs —"
-                            }}
-                        </span>
-                        <span v-if="currentSurahMeta.origin" class="mobile-surah-info-chip">
-                            Origin: {{ currentSurahMeta.origin }}
-                        </span>
-                    </div>
-                </div>
-                <div class="mobile-surah-info-actions">
-                    <button v-if="isTablet" type="button"
-                        class="btn mobile-surah-info-settings-btn"
-                        data-bs-toggle="modal"
-                        data-bs-target="#surahSettingsModal"
-                        @click="prepareSettingsDraft"
-                        aria-label="Open display settings"
-                        title="Display settings">
-                        <i class="bi bi-gear-fill" aria-hidden="true"></i>
-                    </button>
-                    <button type="button" class="btn mobile-surah-info-btn"
-                        @click="openSurahInfo(currentSurahInfo)"
-                        :disabled="!currentSurahInfo"
-                        aria-label="Open surah information">
-                        <i class="bi bi-info-circle" aria-hidden="true"></i>
-                        <span>Info</span>
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="surah-layout">
             <div class="sticky-dropdown" ref="stickyDropdown" :class="{ collapsed: !isVisible }">
                 <div class="filter-header">
@@ -1166,6 +1122,99 @@
         </div>
 
         <bookmark-modal :ayah="activeAyah" @saved="onBookmarkSaved" />
+
+        <teleport to="body">
+            <div class="modal fade surat-onboarding-shell"
+                :id="suratOnboardingModalId"
+                tabindex="-1"
+                aria-labelledby="suratOnboardingLabel"
+                aria-hidden="true"
+                data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-2xl">
+                    <div class="modal-content surat-onboarding-modal">
+                        <div class="modal-header">
+                            <div>
+                                <h4 class="modal-title" id="suratOnboardingLabel">
+                                    <i class="fas fa-map-marked-alt me-2" aria-hidden="true"></i>
+                                    <b>Surat onboarding guide</b>
+                                </h4>
+                                <p class="surat-onboarding-subtitle mb-0">
+                                    Most important features first, with simple explanations.
+                                </p>
+                            </div>
+                            <div class="surat-onboarding-header-actions">
+                                <button type="button" class="surat-onboarding-font-btn"
+                                    @click="decreaseSuratOnboardingFontSize"
+                                    :disabled="suratOnboardingFontSize <= suratOnboardingFontSizeMin"
+                                    aria-label="Decrease onboarding font size"
+                                    title="Decrease font size">
+                                    <i class="fas fa-minus" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="surat-onboarding-font-btn"
+                                    @click="increaseSuratOnboardingFontSize"
+                                    :disabled="suratOnboardingFontSize >= suratOnboardingFontSizeMax"
+                                    aria-label="Increase onboarding font size"
+                                    title="Increase font size">
+                                    <i class="fas fa-plus" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close onboarding modal"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body"
+                            :style="{ '--surat-onboarding-font-size': suratOnboardingFontSize + 'px' }">
+                            <div class="surat-onboarding-search-wrap">
+                                <i class="fas fa-search surat-onboarding-search-icon" aria-hidden="true"></i>
+                                <input type="search"
+                                    class="form-control surat-onboarding-search-input"
+                                    v-model="suratOnboardingSearchQuery"
+                                    placeholder="Search onboarding features..."
+                                    aria-label="Search surat onboarding features" />
+                                <button
+                                    v-if="suratOnboardingSearchQuery"
+                                    type="button"
+                                    class="btn btn-link surat-onboarding-search-clear"
+                                    @click="clearSuratOnboardingSearch"
+                                    aria-label="Clear onboarding search">
+                                    <i class="fas fa-times" aria-hidden="true"></i>
+                                    Clear
+                                </button>
+                            </div>
+                            <p class="surat-onboarding-meta mb-3">
+                                Showing {{ filteredSuratOnboardingFeatures.length }} of {{ suratOnboardingFeatures.length }}
+                                features
+                            </p>
+                            <div v-if="filteredSuratOnboardingFeatures.length" class="surat-onboarding-grid">
+                                <article v-for="feature in filteredSuratOnboardingFeatures"
+                                    :key="feature.id"
+                                    class="surat-onboarding-card">
+                                    <div class="surat-onboarding-card-top">
+                                        <div class="surat-onboarding-card-meta">
+                                            <span class="surat-onboarding-icon" aria-hidden="true">
+                                                <i class="fas" :class="feature.iconClass || 'fa-info-circle'"></i>
+                                            </span>
+                                            <span class="surat-onboarding-area">{{ feature.area }}</span>
+                                        </div>
+                                        <span class="surat-onboarding-rank">#{{ feature.priority }}</span>
+                                    </div>
+                                    <h5 class="surat-onboarding-title"
+                                        v-html="highlightSuratOnboardingText(feature.title)"></h5>
+                                    <p class="surat-onboarding-summary mb-2"
+                                        v-html="highlightSuratOnboardingText(feature.summary)"></p>
+                                    <p class="surat-onboarding-how mb-0">
+                                        <span class="surat-onboarding-how-label">How to use:</span>
+                                        <span v-html="highlightSuratOnboardingText(feature.howTo)"></span>
+                                    </p>
+                                </article>
+                            </div>
+                            <div v-else class="surat-onboarding-empty">
+                                No features matched "{{ suratOnboardingSearchQuery }}".
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
 
         <teleport v-if="showTajweed" to="body">
             <div class="modal fade" id="tajweedRulesModal" tabindex="-1" aria-labelledby="tajweedRulesLabel"

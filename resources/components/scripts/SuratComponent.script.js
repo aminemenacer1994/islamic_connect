@@ -74,6 +74,7 @@ export default {
             surahInfoFontSize: 16,
             surahInfoFontSizeMin: 14,
             surahInfoFontSizeMax: 22,
+            surahInfoFontSizePreferenceBaseKey: "surat_surah_info_font_size",
             advancedSearchQuery: "",
             advancedSearchDebounceTimer: null,
             advancedSearchAbortController: null,
@@ -91,6 +92,335 @@ export default {
             speechRecognitionError: "",
             speechRecognitionInstance: null,
             speechRecognitionLocale: "en-US",
+            suratOnboardingModalId: "suratOnboardingModal",
+            suratOnboardingModalInstance: null,
+            suratOnboardingSearchQuery: "",
+            suratOnboardingFontSize: 15,
+            suratOnboardingFontSizeMin: 13,
+            suratOnboardingFontSizeMax: 20,
+            suratOnboardingFontSizePreferenceBaseKey: "surat_onboarding_font_size",
+            suratReaderFontSizePreferenceBaseKey: "surat_reader_font_sizes",
+            suratPreferenceAnonStorageKey: "ic_surat_pref_anon_id",
+            suratPreferenceAnonId: "",
+            suratOnboardingFeatures: [
+                {
+                    id: "feature-read-flow",
+                    priority: 1,
+                    area: "Reading",
+                    iconClass: "fa-book-open",
+                    title: "Read ayahs with Arabic, translation, and transliteration",
+                    summary:
+                        "Each ayah card is built for focused reading, with Arabic text first and optional translation/transliteration beneath it.",
+                    howTo:
+                        "Select any surah from the sidebar or mobile dropdown, then scroll the ayah cards and toggle translation/transliteration per ayah.",
+                    keywords: [
+                        "read",
+                        "arabic",
+                        "translation",
+                        "transliteration",
+                        "ayah",
+                        "surah",
+                    ],
+                },
+                {
+                    id: "feature-audio-playback",
+                    priority: 2,
+                    area: "Audio",
+                    iconClass: "fa-headphones",
+                    title: "Play ayah audio with full playback controls",
+                    summary:
+                        "You can play a single ayah or continue through the surah with controls for pause, rewind, forward, speed, volume, and stop.",
+                    howTo:
+                        "Use the play button on any ayah card. The bottom audio player gives timeline scrubbing and advanced playback controls.",
+                    keywords: [
+                        "audio",
+                        "play",
+                        "pause",
+                        "rewind",
+                        "speed",
+                        "volume",
+                    ],
+                },
+                {
+                    id: "feature-advanced-search",
+                    priority: 3,
+                    area: "Search",
+                    iconClass: "fa-search",
+                    title: "Search across the full Quran instantly",
+                    summary:
+                        "The advanced search bar scans ayahs and translation content across surahs and shows matched references in a result panel.",
+                    howTo:
+                        "Use the Search Quran box at the top, type at least 2 characters, then open any result to jump directly to that ayah.",
+                    keywords: [
+                        "search",
+                        "all",
+                        "quran",
+                        "result",
+                        "jump",
+                    ],
+                },
+                {
+                    id: "feature-voice-search",
+                    priority: 4,
+                    area: "Search",
+                    iconClass: "fa-microphone",
+                    title: "Use voice search for hands-free discovery",
+                    summary:
+                        "If your browser supports speech recognition, you can speak your query and run advanced Quran search without typing.",
+                    howTo:
+                        "Tap the microphone icon inside the advanced search input, speak clearly, then review highlighted matches.",
+                    keywords: [
+                        "voice",
+                        "microphone",
+                        "speech",
+                        "search",
+                    ],
+                },
+                {
+                    id: "feature-reciter-selection",
+                    priority: 5,
+                    area: "Audio",
+                    iconClass: "fa-user",
+                    title: "Switch reciters to match your listening preference",
+                    summary:
+                        "You can choose a reciter voice and the audio stream updates to that reciter for surah playback and ayah playback.",
+                    howTo:
+                        "Change reciter from the sticky toolbar, settings modal, or offcanvas controls.",
+                    keywords: [
+                        "reciter",
+                        "voice",
+                        "audio",
+                        "selection",
+                    ],
+                },
+                {
+                    id: "feature-translation-selection",
+                    priority: 6,
+                    area: "Understanding",
+                    iconClass: "fa-language",
+                    title: "Choose translation language/version",
+                    summary:
+                        "Translations can be switched at any time so you read the tafsir-friendly wording that suits your study style.",
+                    howTo:
+                        "Pick a translation from toolbar settings or offcanvas controls, then ayah cards refresh with the new translation.",
+                    keywords: [
+                        "translation",
+                        "language",
+                        "meaning",
+                        "study",
+                    ],
+                },
+                {
+                    id: "feature-translation-toggle",
+                    priority: 7,
+                    area: "Reading",
+                    iconClass: "fa-toggle-on",
+                    title: "Toggle translation and transliteration visibility",
+                    summary:
+                        "You can hide or show translation/transliteration for each ayah and also use global toggles for all visible ayahs.",
+                    howTo:
+                        "Use the Translation and Transliteration switches in ayah headers, or the toolbar global switch for all cards.",
+                    keywords: [
+                        "toggle",
+                        "translation",
+                        "transliteration",
+                        "show",
+                        "hide",
+                    ],
+                },
+                {
+                    id: "feature-font-size",
+                    priority: 8,
+                    area: "Accessibility",
+                    iconClass: "fa-text-height",
+                    title: "Adjust reading font size with + and - controls",
+                    summary:
+                        "Arabic and supporting text can be scaled up or down, helping you read comfortably on desktop and mobile.",
+                    howTo:
+                        "Use the +/- icon controls on ayah cards (mobile) to increase or decrease Arabic and translation font sizes.",
+                    keywords: [
+                        "font",
+                        "size",
+                        "increase",
+                        "decrease",
+                        "plus",
+                        "minus",
+                    ],
+                },
+                {
+                    id: "feature-quran-font-picker",
+                    priority: 9,
+                    area: "Accessibility",
+                    iconClass: "fa-font",
+                    title: "Apply Quranic font styles with live preview",
+                    summary:
+                        "The Quran font picker lets you select a script style and preview it before applying it across the page.",
+                    howTo:
+                        "Open Quranic fonts from the toolbar, choose a style in the preview list, then submit to apply.",
+                    keywords: [
+                        "font",
+                        "quranic",
+                        "script",
+                        "preview",
+                    ],
+                },
+                {
+                    id: "feature-tajweed",
+                    priority: 10,
+                    area: "Learning",
+                    iconClass: "fa-palette",
+                    title: "Enable tajweed colors and view tajweed rules",
+                    summary:
+                        "Tajweed coloring can be turned on for recitation guidance, with a dedicated modal explaining each rule color.",
+                    howTo:
+                        "Enable tajweed in settings, then open Tajweed rules from the toolbar to learn each highlighted rule.",
+                    keywords: [
+                        "tajweed",
+                        "rules",
+                        "color",
+                        "recitation",
+                    ],
+                },
+                {
+                    id: "feature-word-highlight",
+                    priority: 11,
+                    area: "Learning",
+                    iconClass: "fa-highlighter",
+                    title: "Turn on word-for-word highlighting during playback",
+                    summary:
+                        "As audio plays, each spoken word can highlight in sync, helping you track pronunciation and pacing.",
+                    howTo:
+                        "Enable Word-for-word highlighting in display settings, then play an ayah to follow active word highlights.",
+                    keywords: [
+                        "word",
+                        "highlight",
+                        "word-for-word",
+                        "realtime",
+                    ],
+                },
+                {
+                    id: "feature-word-translation",
+                    priority: 12,
+                    area: "Learning",
+                    iconClass: "fa-spell-check",
+                    title: "Enable word-for-word translation support",
+                    summary:
+                        "Word-level translation can be shown so each Arabic segment is easier to connect with meaning while reading.",
+                    howTo:
+                        "Turn on Word-for-word translation in display settings to render extra guidance beneath Arabic words.",
+                    keywords: [
+                        "word",
+                        "translation",
+                        "meaning",
+                        "learning",
+                    ],
+                },
+                {
+                    id: "feature-bookmarks",
+                    priority: 13,
+                    area: "Study",
+                    iconClass: "fa-bookmark",
+                    title: "Save ayahs with quick bookmarks",
+                    summary:
+                        "Any ayah can be bookmarked for later review, creating a fast way to return to verses you are reflecting on.",
+                    howTo:
+                        "Tap the bookmark icon on an ayah card to save or remove it quickly.",
+                    keywords: [
+                        "bookmark",
+                        "save",
+                        "favorite",
+                        "ayah",
+                    ],
+                },
+                {
+                    id: "feature-share-copy",
+                    priority: 14,
+                    area: "Sharing",
+                    iconClass: "fa-share-alt",
+                    title: "Copy or share ayahs in one tap",
+                    summary:
+                        "Built-in quick actions let you copy an ayah text or share it directly to WhatsApp without leaving the page.",
+                    howTo:
+                        "Use the Copy and Share action pills under each ayah block.",
+                    keywords: [
+                        "copy",
+                        "share",
+                        "whatsapp",
+                        "text",
+                    ],
+                },
+                {
+                    id: "feature-download",
+                    priority: 15,
+                    area: "Offline",
+                    iconClass: "fa-download",
+                    title: "Download ayah audio and full surah audio",
+                    summary:
+                        "You can download individual ayah MP3 files or full surah MP3 files for offline listening.",
+                    howTo:
+                        "Use the download icon on an ayah card, or the toolbar download button for full-surah audio.",
+                    keywords: [
+                        "download",
+                        "offline",
+                        "mp3",
+                        "surah",
+                        "ayah",
+                    ],
+                },
+                {
+                    id: "feature-surah-info",
+                    priority: 16,
+                    area: "Context",
+                    iconClass: "fa-info-circle",
+                    title: "Open surah information and metadata",
+                    summary:
+                        "Surah info gives context such as name, revelation place, ayah count, and additional explanatory content.",
+                    howTo:
+                        "Press the Info button from toolbar/sidebar/mobile card to open the surah information modal.",
+                    keywords: [
+                        "surah",
+                        "information",
+                        "metadata",
+                        "context",
+                    ],
+                },
+                {
+                    id: "feature-navigation",
+                    priority: 17,
+                    area: "Navigation",
+                    iconClass: "fa-compass",
+                    title: "Navigate quickly with sidebar and mobile controls",
+                    summary:
+                        "Desktop sidebar and mobile offcanvas controls help you jump between surahs and keep navigation simple.",
+                    howTo:
+                        "Use the left sidebar on desktop, or open the sliders icon on mobile/tablet for offcanvas controls.",
+                    keywords: [
+                        "sidebar",
+                        "navigation",
+                        "mobile",
+                        "offcanvas",
+                        "surah",
+                    ],
+                },
+                {
+                    id: "feature-ui-utilities",
+                    priority: 18,
+                    area: "Utility",
+                    iconClass: "fa-sliders-h",
+                    title: "Use quick utility controls for focus",
+                    summary:
+                        "You can hide/show the search panel, collapse/restore sticky tools, and jump back to top with one click.",
+                    howTo:
+                        "Use top pills and restore buttons around the toolbar area, plus the floating scroll-to-top button.",
+                    keywords: [
+                        "hide",
+                        "show",
+                        "toolbar",
+                        "scroll",
+                        "top",
+                    ],
+                },
+            ],
             searchQuery: "",
             debouncedQuery: "",
             debounceTimer: null,
@@ -124,6 +454,8 @@ export default {
             headerCollapsed: false, // Controls whether the toolbar/links are visible
             showDesktopToolbar: true,
             showDesktopSurahContext: true,
+            showMobileSurahInfoCard: true,
+            mobileSurahInfoCardStorageKey: "suratMobileSurahInfoCardHidden",
             continuousPlayback: false, // Legacy flag; new playbackMode supersedes it
             visualizerBars: Array(20).fill(10),
             playbackSpeeds: [0.5, 0.75, 1, 1.25, 1.5, 2, 2.5],
@@ -592,6 +924,33 @@ export default {
                 !!this.advancedSearchError ||
                 !!this.speechRecognitionError
             );
+        },
+        suratOnboardingSearchTerms() {
+            const raw = (this.suratOnboardingSearchQuery || "").trim().toLowerCase();
+            if (!raw) return [];
+            return raw
+                .split(/\s+/)
+                .map((term) => term.trim())
+                .filter(Boolean);
+        },
+        filteredSuratOnboardingFeatures() {
+            const features = Array.isArray(this.suratOnboardingFeatures)
+                ? this.suratOnboardingFeatures
+                : [];
+            const terms = this.suratOnboardingSearchTerms;
+            if (!terms.length) return features;
+            return features.filter((feature) => {
+                const haystack = [
+                    feature.title,
+                    feature.summary,
+                    feature.howTo,
+                    feature.area,
+                    ...(Array.isArray(feature.keywords) ? feature.keywords : []),
+                ]
+                    .join(" ")
+                    .toLowerCase();
+                return terms.every((term) => haystack.includes(term));
+            });
         },
         ayahBodyFontSize() {
             const baseSize = Number(this.translationFontSize);
@@ -1109,6 +1468,7 @@ export default {
                 this.showNextStep = false;
         } catch (_) { }
         await this.initializeBookmarkAuth();
+        await this.initializeFontSizePreferences();
         this.bookmarkEventHandler = (event) =>
             this.handleBookmarksUpdated(event);
         this.bookmarkStorageHandler = (event) =>
@@ -1136,6 +1496,10 @@ export default {
         try {
             this.nextStepMinimized =
                 localStorage.getItem("suratNextStepMinimized") === "1";
+        } catch (_) { }
+        try {
+            this.showMobileSurahInfoCard =
+                localStorage.getItem(this.mobileSurahInfoCardStorageKey) !== "1";
         } catch (_) { }
         let storedSurah = null;
         let storedReciter = null;
@@ -1289,6 +1653,14 @@ export default {
             }
             this.reflectionModalHiddenHandler = null;
         }
+        if (this.suratOnboardingModalInstance) {
+            try {
+                this.suratOnboardingModalInstance.hide();
+            } catch (_) {
+                // ignore modal teardown errors
+            }
+            this.suratOnboardingModalInstance = null;
+        }
         if (this._heightMeasureRaf && typeof window !== "undefined") {
             window.cancelAnimationFrame(this._heightMeasureRaf);
             this._heightMeasureRaf = null;
@@ -1327,6 +1699,14 @@ export default {
                     );
                 }
                 this.reflectionModalHiddenHandler = null;
+            }
+            if (this.suratOnboardingModalInstance) {
+                try {
+                    this.suratOnboardingModalInstance.hide();
+                } catch (_) {
+                    // ignore modal teardown errors
+                }
+                this.suratOnboardingModalInstance = null;
             }
             if (this._heightMeasureRaf && typeof window !== "undefined") {
                 window.cancelAnimationFrame(this._heightMeasureRaf);
@@ -1385,6 +1765,44 @@ export default {
             this.speechRecognitionError = "";
             this.clearAdvancedSearch(false);
             this.isAdvancedSearchPanelVisible = false;
+        },
+        openSuratOnboarding() {
+            const modalEl = document.getElementById(this.suratOnboardingModalId);
+            if (!modalEl) return;
+            this.suratOnboardingModalInstance =
+                this.suratOnboardingModalInstance ||
+                Modal.getInstance(modalEl) ||
+                new Modal(modalEl);
+            this.suratOnboardingModalInstance.show();
+        },
+        clearSuratOnboardingSearch() {
+            this.suratOnboardingSearchQuery = "";
+        },
+        increaseSuratOnboardingFontSize() {
+            if (this.suratOnboardingFontSize < this.suratOnboardingFontSizeMax) {
+                this.suratOnboardingFontSize += 1;
+            }
+        },
+        decreaseSuratOnboardingFontSize() {
+            if (this.suratOnboardingFontSize > this.suratOnboardingFontSizeMin) {
+                this.suratOnboardingFontSize -= 1;
+            }
+        },
+        highlightSuratOnboardingText(value) {
+            const safeValue = this.escapeHtml(value || "");
+            const terms = this.suratOnboardingSearchTerms;
+            if (!terms.length) return safeValue;
+
+            let highlighted = safeValue;
+            terms.forEach((term) => {
+                const regex = new RegExp(`(${this.escapeRegExp(term)})`, "gi");
+                highlighted = highlighted.replace(
+                    regex,
+                    '<span class="surat-onboarding-highlight">$1</span>'
+                );
+            });
+
+            return highlighted;
         },
         getSpeechRecognitionErrorMessage(code = "") {
             const normalized = String(code || "").toLowerCase();
@@ -2599,6 +3017,161 @@ export default {
                 localStorage.setItem(key, value);
             } catch (_) {}
         },
+        getOrCreateSuratPreferenceAnonId() {
+            if (this.suratPreferenceAnonId) {
+                return this.suratPreferenceAnonId;
+            }
+            if (typeof window === "undefined") return "";
+            try {
+                const key = this.suratPreferenceAnonStorageKey;
+                let anonId = localStorage.getItem(key);
+                if (!anonId) {
+                    anonId = `anon-${Math.random().toString(36).slice(2, 12)}`;
+                    localStorage.setItem(key, anonId);
+                }
+                this.suratPreferenceAnonId = anonId;
+                return anonId;
+            } catch (_) {
+                return "";
+            }
+        },
+        buildScopedFontPreferenceKey(baseKey) {
+            if (this.bookmarkStorageUserId) {
+                return `${baseKey}_user_${this.bookmarkStorageUserId}`;
+            }
+            const anonId = this.getOrCreateSuratPreferenceAnonId();
+            return `${baseKey}_anon_${anonId || "local"}`;
+        },
+        readScopedFontPreference(baseKey, options = {}) {
+            const { json = false } = options;
+            if (typeof window === "undefined") return null;
+            try {
+                const key = this.buildScopedFontPreferenceKey(baseKey);
+                const raw = localStorage.getItem(key);
+                if (raw === null || raw === undefined || raw === "") return null;
+                if (!json) return raw;
+                return JSON.parse(raw);
+            } catch (_) {
+                return null;
+            }
+        },
+        writeScopedFontPreference(baseKey, value, options = {}) {
+            const { json = false } = options;
+            if (typeof window === "undefined") return;
+            try {
+                const key = this.buildScopedFontPreferenceKey(baseKey);
+                const payload = json ? JSON.stringify(value) : String(value);
+                localStorage.setItem(key, payload);
+            } catch (_) {
+                // ignore storage errors
+            }
+        },
+        clampFontSizeValue(value, min, max, fallback) {
+            const parsed = Number(value);
+            if (!Number.isFinite(parsed)) return fallback;
+            return Math.min(max, Math.max(min, parsed));
+        },
+        persistReaderFontSizePreferences() {
+            this.writeScopedFontPreference(
+                this.suratReaderFontSizePreferenceBaseKey,
+                {
+                    arabicFontSize: this.clampFontSizeValue(
+                        this.arabicFontSize,
+                        16,
+                        40,
+                        28
+                    ),
+                    translationFontSize: this.clampFontSizeValue(
+                        this.translationFontSize,
+                        12,
+                        30,
+                        18
+                    ),
+                },
+                { json: true }
+            );
+        },
+        persistSurahInfoFontSizePreference() {
+            this.writeScopedFontPreference(
+                this.surahInfoFontSizePreferenceBaseKey,
+                this.clampFontSizeValue(
+                    this.surahInfoFontSize,
+                    this.surahInfoFontSizeMin,
+                    this.surahInfoFontSizeMax,
+                    16
+                )
+            );
+        },
+        persistOnboardingFontSizePreference() {
+            this.writeScopedFontPreference(
+                this.suratOnboardingFontSizePreferenceBaseKey,
+                this.clampFontSizeValue(
+                    this.suratOnboardingFontSize,
+                    this.suratOnboardingFontSizeMin,
+                    this.suratOnboardingFontSizeMax,
+                    15
+                )
+            );
+        },
+        async initializeFontSizePreferences() {
+            if (
+                this.bookmarkAuthenticated &&
+                !this.bookmarkStorageUserId
+            ) {
+                try {
+                    await this.fetchBookmarkStorageUserId();
+                } catch (_) {
+                    // ignore preference scope lookup errors
+                }
+            }
+
+            const storedReaderSizes = this.readScopedFontPreference(
+                this.suratReaderFontSizePreferenceBaseKey,
+                { json: true }
+            );
+            if (storedReaderSizes && typeof storedReaderSizes === "object") {
+                this.arabicFontSize = this.clampFontSizeValue(
+                    storedReaderSizes.arabicFontSize,
+                    16,
+                    40,
+                    this.arabicFontSize
+                );
+                this.translationFontSize = this.clampFontSizeValue(
+                    storedReaderSizes.translationFontSize,
+                    12,
+                    30,
+                    this.translationFontSize
+                );
+            }
+
+            const storedSurahInfoFontSize = this.readScopedFontPreference(
+                this.surahInfoFontSizePreferenceBaseKey
+            );
+            if (storedSurahInfoFontSize !== null) {
+                this.surahInfoFontSize = this.clampFontSizeValue(
+                    storedSurahInfoFontSize,
+                    this.surahInfoFontSizeMin,
+                    this.surahInfoFontSizeMax,
+                    this.surahInfoFontSize
+                );
+            }
+
+            const storedOnboardingFontSize = this.readScopedFontPreference(
+                this.suratOnboardingFontSizePreferenceBaseKey
+            );
+            if (storedOnboardingFontSize !== null) {
+                this.suratOnboardingFontSize = this.clampFontSizeValue(
+                    storedOnboardingFontSize,
+                    this.suratOnboardingFontSizeMin,
+                    this.suratOnboardingFontSizeMax,
+                    this.suratOnboardingFontSize
+                );
+            }
+
+            this.persistReaderFontSizePreferences();
+            this.persistSurahInfoFontSizePreference();
+            this.persistOnboardingFontSizePreference();
+        },
         loadReciterLeadOffsets() {
             try {
                 const stored = localStorage.getItem("reciterLeadOffsets");
@@ -3214,6 +3787,7 @@ export default {
         },
         async evaluateBookmarkAuth() {
             const userId = await fetchUserIdFromApi();
+            this.bookmarkStorageUserId = userId || null;
             this.bookmarkAuthenticated = !!userId;
             return this.bookmarkAuthenticated;
         },
@@ -4092,6 +4666,18 @@ export default {
                     "suratNextStepMinimized",
                     this.nextStepMinimized ? "1" : "0"
                 );
+            } catch (_) { }
+        },
+        closeMobileSurahInfoCard() {
+            this.showMobileSurahInfoCard = false;
+            try {
+                localStorage.setItem(this.mobileSurahInfoCardStorageKey, "1");
+            } catch (_) { }
+        },
+        showMobileSurahInfoCardAgain() {
+            this.showMobileSurahInfoCard = true;
+            try {
+                localStorage.removeItem(this.mobileSurahInfoCardStorageKey);
             } catch (_) { }
         },
         dismissNextStep() {
