@@ -24,8 +24,8 @@
 
 @font-face {
   font-family: 'IndoPak';
-  src: url('https://verses.quran.foundation/fonts/quran/hafs/indopak/IndoPak.woff2') format('woff2'),
-       url('https://verses.quran.foundation/fonts/quran/hafs/indopak/IndoPak.woff') format('woff');
+  src: url('https://verses.quran.foundation/fonts/quran/hafs/indopak/indopak.woff2') format('woff2'),
+       url('https://verses.quran.foundation/fonts/quran/hafs/indopak/indopak.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;

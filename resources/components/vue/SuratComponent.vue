@@ -785,6 +785,15 @@
                                 </div>
                                 <button
                                     type="button"
+                                    class="btn btn-sm ayah-tafseer-trigger"
+                                    @click.stop="openAyahTafseerModal(item.ayah)"
+                                    :aria-label="`Open tafseer for ayah ${item.index + 1}`"
+                                    :title="`Open tafseer for ayah ${item.index + 1}`">
+                                    <i class="bi bi-journal-richtext" aria-hidden="true"></i>
+                                    <span>Tafseer</span>
+                                </button>
+                                <button
+                                    type="button"
                                     class="icon-btn ayah-download-btn"
                                     :class="{ 'is-downloaded': isAyahAudioDownloaded(item.ayah) }"
                                     @click.stop="downloadAyahAudio(item.ayah)"
@@ -1283,6 +1292,61 @@
                             <div v-else class="text-muted small">
                                 Surah details are not available yet. Please try again in a moment.
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </teleport>
+
+        <teleport to="body">
+            <div class="modal fade" :id="ayahTafseerModalId" tabindex="-1" aria-labelledby="ayahTafseerModalLabel"
+                aria-hidden="true" data-bs-backdrop="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg modal-modern modal-fullscreen-md-down">
+                    <div class="modal-content ayah-tafseer-modal">
+                        <div class="modal-header">
+                            <div class="ayah-tafseer-modal-head">
+                                <h5 class="modal-title" id="ayahTafseerModalLabel">
+                                    <b>Ayah tafseer</b>
+                                </h5>
+                                <p v-if="selectedAyahForTafseer" class="ayah-tafseer-reference mb-0">
+                                    Surah {{ selectedAyahForTafseer.surahNumber }} · Ayah {{ selectedAyahForTafseer.ayahNumber }}
+                                </p>
+                            </div>
+                            <div class="ayah-tafseer-modal-actions">
+                                <button type="button" class="ayah-tafseer-font-btn"
+                                    @click="decreaseAyahTafseerFontSize"
+                                    :disabled="ayahTafseerFontSize <= ayahTafseerFontSizeMin"
+                                    aria-label="Decrease tafseer font size" title="Decrease font size">
+                                    <i class="bi bi-dash-lg" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="ayah-tafseer-font-btn"
+                                    @click="increaseAyahTafseerFontSize"
+                                    :disabled="ayahTafseerFontSize >= ayahTafseerFontSizeMax"
+                                    aria-label="Increase tafseer font size" title="Increase font size">
+                                    <i class="bi bi-plus-lg" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" class="btn-close" @click="hideAyahTafseerModal"
+                                    aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <div class="modal-body" :style="{
+                            '--ayah-tafseer-font-size': ayahTafseerFontSize + 'px'
+                        }">
+                            <div v-if="ayahTafseerLoading" class="ayah-tafseer-state">
+                                Loading tafseer...
+                            </div>
+                            <div v-else-if="ayahTafseerError" class="ayah-tafseer-state ayah-tafseer-state-error">
+                                {{ ayahTafseerError }}
+                            </div>
+                            <div v-else-if="ayahTafseerText" class="ayah-tafseer-content">
+                                <p class="mb-0">{{ ayahTafseerText }}</p>
+                            </div>
+                            <div v-else class="ayah-tafseer-state">
+                                Tafseer is not available for this ayah.
+                            </div>
+                            <p v-if="ayahTafseerEditionLabel" class="ayah-tafseer-source mb-0">
+                                Source: {{ ayahTafseerEditionLabel }} (api.quran.com)
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -1798,6 +1862,6 @@
             <i class="bi bi-arrow-up"></i>
         </button>
     </div>
-t</template>
+</template>
 <script src="../scripts/SuratComponent.script.js"></script>
 <style scoped src="../styles/SuratComponent.style.css"></style>

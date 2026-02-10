@@ -48,6 +48,25 @@ export default {
             surahInfoError: "",
             surahInfoModalId: "surahInfoModal",
             surahInfoModalInstance: null,
+            ayahTafseerModalId: "ayahTafseerModal",
+            ayahTafseerModalInstance: null,
+            ayahTafseerModalHiddenHandler: null,
+            selectedAyahForTafseer: null,
+            ayahTafseerLoading: false,
+            ayahTafseerError: "",
+            ayahTafseerText: "",
+            ayahTafseerEditionIdentifier: "",
+            ayahTafseerEditionName: "",
+            ayahTafseerFontSize: 17,
+            ayahTafseerFontSizeMin: 14,
+            ayahTafseerFontSizeMax: 24,
+            ayahTafseerCache: {},
+            ayahTafseerRequestToken: 0,
+            englishTafsirId: null,
+            englishTafsirName: "",
+            englishTafsirSlug: "",
+            englishTafsirInfoLoaded: false,
+            englishTafsirResources: [],
             settingsModalId: "surahSettingsModal",
             settingsModalInstance: null,
             fontPickerOffcanvasId: "quranFontOffcanvas",
@@ -81,7 +100,8 @@ export default {
             advancedSearchLoading: false,
             advancedSearchError: "",
             advancedSearchTotalMatches: 0,
-            advancedSearchMaxResults: 45,
+            advancedSearchMaxResults: 18,
+            advancedSearchHydrationSurahLimit: 10,
             advancedSearchMinLength: 2,
             isAdvancedSearchVisible: true,
             isAdvancedSearchPanelVisible: true,
@@ -536,6 +556,13 @@ export default {
                 return "";
             }
         },
+        ayahTafseerEditionLabel() {
+            return (
+                this.ayahTafseerEditionName ||
+                this.ayahTafseerEditionIdentifier ||
+                ""
+            );
+        },
         reflectionMessagePromptRows() {
             const prompts = this.reflectionMessagePrompts || [];
             const perRow = 5;
@@ -896,7 +923,7 @@ export default {
             }
             this.advancedSearchDebounceTimer = setTimeout(() => {
                 this.runAdvancedSearch();
-            }, 280);
+            }, 420);
         },
         selectedQuranFontId(newVal) {
             if (!newVal) return;
@@ -1101,7 +1128,7 @@ export default {
         window.addEventListener("keydown", this._keydownHandler);
         this.updateIsMobile();
         window.addEventListener("resize", this.updateIsMobile);
-        this.initializeSpeechRecognition();
+        this.detectSpeechRecognitionSupport();
         // Restore dismissal state for next-step card
         try {
             if (localStorage.getItem("suratNextStepDismissed") === "1")
@@ -1211,6 +1238,7 @@ export default {
             this.fetchSurahDetails(),
             this.fetchQuranFonts(),
             this.fetchFontPreviewAyah(),
+            this.ensureEnglishTafsirResource().catch(() => null),
         ])
             .then(() => {
                 this.isInitialLoad = false;
@@ -1278,6 +1306,26 @@ export default {
         this._scrollCorrectionTimer = null;
         clearTimeout(this._navigationSettleTimer);
         this._navigationSettleTimer = null;
+        if (this.ayahTafseerModalHiddenHandler) {
+            const modalEl = document.getElementById(this.ayahTafseerModalId);
+            if (modalEl) {
+                modalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.ayahTafseerModalHiddenHandler
+                );
+            }
+            this.ayahTafseerModalHiddenHandler = null;
+        }
+        if (this.reflectionModalHiddenHandler) {
+            const modalEl = document.getElementById(this.reflectionModalId);
+            if (modalEl) {
+                modalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.reflectionModalHiddenHandler
+                );
+            }
+            this.reflectionModalHiddenHandler = null;
+        }
         if (this._heightMeasureRaf && typeof window !== "undefined") {
             window.cancelAnimationFrame(this._heightMeasureRaf);
             this._heightMeasureRaf = null;
@@ -1307,6 +1355,16 @@ export default {
             this._scrollCorrectionTimer = null;
             clearTimeout(this._navigationSettleTimer);
             this._navigationSettleTimer = null;
+            if (this.ayahTafseerModalHiddenHandler) {
+                const modalEl = document.getElementById(this.ayahTafseerModalId);
+                if (modalEl) {
+                    modalEl.removeEventListener(
+                        "hidden.bs.modal",
+                        this.ayahTafseerModalHiddenHandler
+                    );
+                }
+                this.ayahTafseerModalHiddenHandler = null;
+            }
             if (this.reflectionModalHiddenHandler) {
                 const modalEl = document.getElementById(this.reflectionModalId);
                 if (modalEl) {
@@ -1377,6 +1435,10 @@ export default {
         },
         getSpeechRecognitionErrorMessage(code = "") {
             const normalized = String(code || "").toLowerCase();
+            if (normalized === "not-supported")
+                return "Voice search is not supported in this browser.";
+            if (normalized === "insecure-context")
+                return "Voice search requires HTTPS (or localhost).";
             if (normalized === "no-speech")
                 return "No speech detected. Try speaking again.";
             if (normalized === "audio-capture")
@@ -1389,18 +1451,39 @@ export default {
                 return "Speech language is not supported in this browser.";
             return "Speech recognition failed. Please try again.";
         },
+        getSpeechRecognitionConstructor() {
+            if (typeof window === "undefined") return null;
+            return window.SpeechRecognition || window.webkitSpeechRecognition || null;
+        },
+        detectSpeechRecognitionSupport() {
+            this.speechRecognitionSupported = !!this.getSpeechRecognitionConstructor();
+        },
+        isSpeechRecognitionSecureContext() {
+            if (typeof window === "undefined") return false;
+            if (window.isSecureContext) return true;
+            const host = String(window.location?.hostname || "").toLowerCase();
+            return host === "localhost" || host === "127.0.0.1" || host === "[::1]";
+        },
         initializeSpeechRecognition() {
             if (typeof window === "undefined") return;
             if (this.speechRecognitionInstance) return;
 
-            const SpeechRecognition =
-                window.SpeechRecognition || window.webkitSpeechRecognition;
+            const SpeechRecognition = this.getSpeechRecognitionConstructor();
             if (!SpeechRecognition) {
                 this.speechRecognitionSupported = false;
                 return;
             }
 
-            const recognition = new SpeechRecognition();
+            let recognition = null;
+            try {
+                recognition = new SpeechRecognition();
+            } catch (_) {
+                this.speechRecognitionSupported = false;
+                this.speechRecognitionError = this.getSpeechRecognitionErrorMessage(
+                    "not-supported"
+                );
+                return;
+            }
             recognition.interimResults = true;
             recognition.maxAlternatives = 1;
             recognition.continuous = false;
@@ -1456,12 +1539,25 @@ export default {
             this.speechRecognitionLocale = recognition.lang || "en-US";
         },
         startVoiceSearch() {
-            if (!this.speechRecognitionSupported || !this.speechRecognitionInstance) {
+            if (!this.speechRecognitionSupported) {
+                this.detectSpeechRecognitionSupport();
+            }
+            if (!this.speechRecognitionSupported) {
+                this.speechRecognitionError =
+                    this.getSpeechRecognitionErrorMessage("not-supported");
+                return;
+            }
+            if (!this.isSpeechRecognitionSecureContext()) {
+                this.speechRecognitionError =
+                    this.getSpeechRecognitionErrorMessage("insecure-context");
+                return;
+            }
+            if (!this.speechRecognitionInstance) {
                 this.initializeSpeechRecognition();
             }
-            if (!this.speechRecognitionSupported || !this.speechRecognitionInstance) {
+            if (!this.speechRecognitionInstance) {
                 this.speechRecognitionError =
-                    "Voice search is not supported in this browser.";
+                    this.getSpeechRecognitionErrorMessage("not-supported");
                 return;
             }
             this.speechRecognitionError = "";
@@ -1475,10 +1571,15 @@ export default {
                     this.speechRecognitionInstance.lang;
                 this.speechRecognitionInstance.start();
             } catch (error) {
-                const name = String(error?.name || "");
-                if (name === "InvalidStateError") return;
+                const name = String(error?.name || "").toLowerCase();
+                if (name === "invalidstateerror") return;
+                if (name === "notallowederror" || name === "securityerror") {
+                    this.speechRecognitionError =
+                        this.getSpeechRecognitionErrorMessage("not-allowed");
+                    return;
+                }
                 this.speechRecognitionError =
-                    "Unable to start voice search right now.";
+                    this.getSpeechRecognitionErrorMessage();
             }
         },
         stopVoiceSearch() {
@@ -1552,12 +1653,9 @@ export default {
         getAdvancedSearchEditions(query) {
             const hasArabic = /[\u0600-\u06FF]/.test(query || "");
             const translationId = this.selectedTranslation || "en.ahmedali";
-            const transliterationId =
-                this.transliterationEditionIdentifier || "en.transliteration";
-
             const ordered = hasArabic
-                ? ["quran-uthmani", translationId, transliterationId]
-                : [translationId, transliterationId, "quran-uthmani"];
+                ? ["quran-uthmani", translationId]
+                : [translationId];
 
             return Array.from(
                 new Set(
@@ -1628,7 +1726,11 @@ export default {
             if (cached) return cached;
 
             const response = await fetch(url, { signal });
-            if (!response.ok) throw new Error(`${response.status}`);
+            if (!response.ok) {
+                const error = new Error(`HTTP_${response.status}`);
+                error.status = response.status;
+                throw error;
+            }
             const json = await response.json();
             this.writeAdvancedSearchCache(cacheKey, json);
             return json;
@@ -1794,32 +1896,35 @@ export default {
                 }
             });
 
-            const surahNumbers = Array.from(bySurah.keys());
-            const requests = surahNumbers.map(async (surahNumber) => {
+            const surahNumbers = Array.from(bySurah.keys()).slice(
+                0,
+                Math.max(1, Number(this.advancedSearchHydrationSurahLimit) || 1)
+            );
+            const payloadBySurah = new Map();
+
+            for (const surahNumber of surahNumbers) {
+                if (signal?.aborted) break;
                 const endpoint =
                     `https://api.alquran.cloud/v1/surah/${surahNumber}/editions/` +
                     `quran-uthmani,${translationId},${transliterationId}`;
                 const cacheKey =
                     `cache:advanced-search:surah:${surahNumber}:` +
                     `${translationId}:${transliterationId}`;
-                const payload = await this.fetchAdvancedSearchJSON(
-                    endpoint,
-                    cacheKey,
-                    12 * 60 * 60 * 1000,
-                    signal
-                );
-                return { surahNumber, payload };
-            });
-
-            const responses = await Promise.allSettled(requests);
-            const payloadBySurah = new Map();
-            responses.forEach((result) => {
-                if (result.status !== "fulfilled") return;
-                payloadBySurah.set(
-                    result.value.surahNumber,
-                    result.value.payload
-                );
-            });
+                try {
+                    const payload = await this.fetchAdvancedSearchJSON(
+                        endpoint,
+                        cacheKey,
+                        12 * 60 * 60 * 1000,
+                        signal
+                    );
+                    payloadBySurah.set(surahNumber, payload);
+                } catch (error) {
+                    const status = this.getHttpStatusFromError(error);
+                    if (status === 429) {
+                        break;
+                    }
+                }
+            }
 
             return matches.map((match) => {
                 const payload = payloadBySurah.get(match.surahNumber);
@@ -1865,12 +1970,27 @@ export default {
                     const endpoint =
                         `https://api.alquran.cloud/v1/search/` +
                         `${encodeURIComponent(query)}/all/${edition}`;
-                    const payload = await this.fetchAdvancedSearchJSON(
-                        endpoint,
-                        `cache:advanced-search:query:${edition}:${normalizedQuery}`,
-                        3 * 60 * 60 * 1000,
-                        signal
-                    );
+                    let payload = null;
+                    try {
+                        payload = await this.fetchAdvancedSearchJSON(
+                            endpoint,
+                            `cache:advanced-search:query:${edition}:${normalizedQuery}`,
+                            3 * 60 * 60 * 1000,
+                            signal
+                        );
+                    } catch (error) {
+                        const status = this.getHttpStatusFromError(error);
+                        if (status === 404) {
+                            payload = {
+                                data: {
+                                    matches: [],
+                                    edition: { identifier: edition },
+                                },
+                            };
+                        } else {
+                            throw error;
+                        }
+                    }
                     return { edition, payload };
                 });
 
@@ -1887,7 +2007,17 @@ export default {
                     );
 
                 if (!parsedCollections.length) {
-                    throw new Error("No successful search responses.");
+                    const rejected = searchResponses.filter(
+                        (result) => result.status === "rejected"
+                    );
+                    const hasRateLimit = rejected.some(
+                        (result) =>
+                            this.getHttpStatusFromError(result.reason) === 429
+                    );
+                    if (hasRateLimit) {
+                        throw new Error("RATE_LIMIT");
+                    }
+                    throw new Error("NO_SUCCESSFUL_RESPONSES");
                 }
 
                 const mergedMatches = this.mergeAdvancedSearchMatches(
@@ -1919,6 +2049,18 @@ export default {
                 console.error("Advanced search failed:", error);
                 this.advancedSearchResults = [];
                 this.advancedSearchTotalMatches = 0;
+                const status = this.getHttpStatusFromError(error);
+                const message = String(error?.message || "").toUpperCase();
+                if (status === 429 || message.includes("RATE_LIMIT")) {
+                    this.advancedSearchError =
+                        "Quran search is temporarily rate-limited. Please wait a moment and try again.";
+                    return;
+                }
+                if (message.includes("FAILED TO FETCH")) {
+                    this.advancedSearchError =
+                        "Unable to reach Quran search right now. Please retry in a moment.";
+                    return;
+                }
                 this.advancedSearchError =
                     "Unable to search verses right now. Please try again.";
             } finally {
@@ -3365,6 +3507,802 @@ export default {
             );
             this.surahInfoFontSize = next;
         },
+        getAyahTafseerEditionDisplayName(identifier = "", fallbackName = "") {
+            if (fallbackName) return fallbackName;
+            if (
+                this.englishTafsirId &&
+                String(identifier || "") === String(this.englishTafsirId) &&
+                this.englishTafsirName
+            ) {
+                return this.englishTafsirName;
+            }
+            return identifier ? `English Tafsir ${identifier}` : "English Tafsir";
+        },
+        normalizeQuranComTafsirResources(payload) {
+            const rawResources = Array.isArray(payload?.tafsirs)
+                ? payload.tafsirs
+                : Array.isArray(payload?.data?.tafsirs)
+                    ? payload.data.tafsirs
+                    : Array.isArray(payload?.data)
+                        ? payload.data
+                        : Array.isArray(payload)
+                            ? payload
+                            : [];
+            const seenIds = new Set();
+            return rawResources
+                .map((resource) => {
+                    const id = Number(
+                        resource?.tafsir_id ||
+                            resource?.id ||
+                            resource?.resource_id ||
+                            0
+                    );
+                    const slug = String(resource?.slug || "").trim();
+                    const translatedName =
+                        resource?.translated_name?.name ||
+                        resource?.translated_name ||
+                        "";
+                    const name =
+                        resource?.name ||
+                        translatedName ||
+                        resource?.english_name ||
+                        "";
+                    const languageName =
+                        resource?.language_name ||
+                        resource?.language ||
+                        resource?.lang ||
+                        "";
+                    const authorName =
+                        resource?.author_name || resource?.author || "";
+                    return {
+                        id,
+                        slug,
+                        name: String(name || "").trim(),
+                        languageName: String(languageName || "").trim(),
+                        authorName: String(authorName || "").trim(),
+                    };
+                })
+                .filter((resource) => {
+                    if (resource.id <= 0 || seenIds.has(resource.id)) {
+                        return false;
+                    }
+                    seenIds.add(resource.id);
+                    return true;
+                });
+        },
+        isEnglishTafsirResource(resource) {
+            if (!resource) return false;
+            const languageToken = String(resource.languageName || "").toLowerCase();
+            if (
+                languageToken === "en" ||
+                languageToken.startsWith("en-") ||
+                languageToken.includes("english")
+            ) {
+                return true;
+            }
+            const combined = `${resource.name || ""} ${resource.authorName || ""}`.toLowerCase();
+            return combined.includes("english");
+        },
+        pickPreferredEnglishTafsir(resources = []) {
+            const normalized = Array.isArray(resources) ? resources : [];
+            const englishResources = normalized.filter((resource) =>
+                this.isEnglishTafsirResource(resource)
+            );
+            if (!englishResources.length) return null;
+
+            const preferredTokens = [
+                "ibn-kathir",
+                "ibn kathir",
+                "jalalayn",
+                "maududi",
+                "tafhim",
+            ];
+
+            for (const token of preferredTokens) {
+                const match = englishResources.find((resource) => {
+                    const slug = String(resource.slug || "").toLowerCase();
+                    const name = String(resource.name || "").toLowerCase();
+                    const author = String(resource.authorName || "").toLowerCase();
+                    return (
+                        slug.includes(token) ||
+                        name.includes(token) ||
+                        author.includes(token)
+                    );
+                });
+                if (match) return match;
+            }
+
+            return englishResources[0];
+        },
+        getOrderedEnglishTafsirResources(primaryResource = null) {
+            const ordered = [];
+            const pushUnique = (resource) => {
+                if (!resource) return;
+                const id = Number(resource.id || resource.tafsir_id);
+                if (!id || ordered.some((entry) => Number(entry.id) === id)) {
+                    return;
+                }
+                ordered.push({
+                    id,
+                    name: String(resource.name || "").trim(),
+                    slug: String(resource.slug || "").trim(),
+                    languageName: String(resource.languageName || "").trim(),
+                    authorName: String(resource.authorName || "").trim(),
+                });
+            };
+
+            pushUnique(primaryResource);
+            if (this.englishTafsirId) {
+                pushUnique({
+                    id: this.englishTafsirId,
+                    name: this.englishTafsirName,
+                    slug: this.englishTafsirSlug,
+                    languageName: "English",
+                });
+            }
+            (this.englishTafsirResources || []).forEach(pushUnique);
+            return ordered;
+        },
+        getHttpStatusFromError(error) {
+            const explicitStatus = Number(error?.response?.status || error?.status || 0);
+            if (explicitStatus > 0) return explicitStatus;
+            const message = String(error?.message || error || "");
+            const statusMatch = message.match(/\b(\d{3})\b/);
+            return statusMatch ? Number(statusMatch[1]) : 0;
+        },
+        isNotFoundHttpError(error) {
+            return this.getHttpStatusFromError(error) === 404;
+        },
+        isRetriableTafsirRequestError(error) {
+            const status = this.getHttpStatusFromError(error);
+            return status === 400 || status === 404;
+        },
+        async fetchEnglishTafsirInfo(tafsirId, fallbackResource = null) {
+            const normalizedId = Number(tafsirId);
+            if (!normalizedId) return null;
+            const ttlMs = 30 * 24 * 60 * 60 * 1000;
+            const requestCandidates = [
+                {
+                    url: `https://api.quran.com/api/v4/resources/tafsirs/${normalizedId}?language=en`,
+                    cacheSuffix: "meta:lang-en",
+                },
+                {
+                    url: `https://api.quran.com/api/v4/resources/tafsirs/${normalizedId}`,
+                    cacheSuffix: "meta",
+                },
+                {
+                    url: `https://api.quran.com/api/v4/resources/tafsirs/${normalizedId}/info?language=en`,
+                    cacheSuffix: "info:lang-en",
+                },
+                {
+                    url: `https://api.quran.com/api/v4/resources/tafsirs/${normalizedId}/info`,
+                    cacheSuffix: "info",
+                },
+            ];
+
+            let infoPayload = null;
+            for (const candidate of requestCandidates) {
+                try {
+                    const { data } = await this.cachedFetchJSON(
+                        candidate.url,
+                        `cache:quran-com-v2-tafsir-info:${normalizedId}:${candidate.cacheSuffix}`,
+                        ttlMs
+                    );
+                    const candidateInfo =
+                        data?.tafsir || data?.resource || data?.data || data;
+                    if (
+                        candidateInfo &&
+                        typeof candidateInfo === "object" &&
+                        !Array.isArray(candidateInfo)
+                    ) {
+                        infoPayload = candidateInfo;
+                        break;
+                    }
+                } catch (error) {
+                    if (!this.isNotFoundHttpError(error)) {
+                        continue;
+                    }
+                }
+            }
+
+            const translatedName =
+                infoPayload?.translated_name?.name ||
+                infoPayload?.translated_name ||
+                "";
+            const fallbackName =
+                fallbackResource?.name ||
+                this.englishTafsirName ||
+                `English Tafsir ${normalizedId}`;
+            const fallbackSlug =
+                fallbackResource?.slug || this.englishTafsirSlug || "";
+            const name = infoPayload?.name || translatedName || fallbackName;
+            this.englishTafsirName = String(name || "").trim();
+            this.englishTafsirSlug = String(
+                infoPayload?.slug || fallbackSlug || ""
+            ).trim();
+            this.englishTafsirInfoLoaded = true;
+            return {
+                id: normalizedId,
+                name: this.englishTafsirName,
+                slug: this.englishTafsirSlug,
+            };
+        },
+        async ensureEnglishTafsirResource() {
+            if (!Array.isArray(this.englishTafsirResources)) {
+                this.englishTafsirResources = [];
+            }
+
+            if (!this.englishTafsirResources.length) {
+                try {
+                    const { data } = await this.cachedFetchJSON(
+                        "https://api.quran.com/api/v4/resources/tafsirs?language=en",
+                        "cache:quran-com-v2-tafsir-resources",
+                        30 * 24 * 60 * 60 * 1000
+                    );
+                    const resources = this.normalizeQuranComTafsirResources(data);
+                    const englishResources = resources.filter((resource) =>
+                        this.isEnglishTafsirResource(resource)
+                    );
+                    this.englishTafsirResources =
+                        englishResources.length > 0 ? englishResources : resources;
+                } catch (error) {
+                    console.error(
+                        "Unable to load Quran.com tafsir resources:",
+                        error
+                    );
+                }
+            }
+
+            const resources = this.englishTafsirResources || [];
+            const activeFromList = this.englishTafsirId
+                ? resources.find(
+                    (resource) => Number(resource.id) === Number(this.englishTafsirId)
+                )
+                : null;
+            const selectedResource =
+                activeFromList ||
+                this.pickPreferredEnglishTafsir(resources) ||
+                resources[0] ||
+                null;
+
+            if (!this.englishTafsirId && selectedResource?.id) {
+                this.englishTafsirId = Number(selectedResource.id);
+            }
+            if (!this.englishTafsirName && selectedResource?.name) {
+                this.englishTafsirName = selectedResource.name;
+            }
+            if (!this.englishTafsirSlug && selectedResource?.slug) {
+                this.englishTafsirSlug = selectedResource.slug;
+            }
+            if (!this.englishTafsirId) return null;
+
+            if (!this.englishTafsirInfoLoaded) {
+                if (selectedResource?.name || this.englishTafsirName) {
+                    this.englishTafsirName =
+                        selectedResource?.name || this.englishTafsirName;
+                    this.englishTafsirSlug =
+                        selectedResource?.slug || this.englishTafsirSlug;
+                    this.englishTafsirInfoLoaded = true;
+                } else {
+                    await this.fetchEnglishTafsirInfo(
+                        this.englishTafsirId,
+                        selectedResource
+                    );
+                }
+            }
+
+            return {
+                id: this.englishTafsirId,
+                name:
+                    this.englishTafsirName ||
+                    selectedResource?.name ||
+                    `English Tafsir ${this.englishTafsirId}`,
+                slug: this.englishTafsirSlug || selectedResource?.slug || "",
+            };
+        },
+        parseQuranComTafsirEntries(payload) {
+            const rawEntries = [];
+            const pushRawEntries = (candidate, fallbackVerseKey = "") => {
+                if (!candidate) return;
+                if (Array.isArray(candidate)) {
+                    candidate.forEach((entry) =>
+                        pushRawEntries(entry, fallbackVerseKey)
+                    );
+                    return;
+                }
+                if (typeof candidate !== "object") return;
+                rawEntries.push({ entry: candidate, fallbackVerseKey });
+            };
+            const pushVerseMapEntries = (
+                verseMap,
+                fallbackResource = null
+            ) => {
+                if (!verseMap || typeof verseMap !== "object") return;
+                Object.keys(verseMap).forEach((verseKey) => {
+                    const mappedEntry = verseMap[verseKey];
+                    if (!mappedEntry || typeof mappedEntry !== "object") return;
+                    rawEntries.push({
+                        entry: {
+                            ...mappedEntry,
+                            verse_key:
+                                mappedEntry.verse_key ||
+                                mappedEntry.verseKey ||
+                                mappedEntry.ayah_key ||
+                                verseKey,
+                            resource_name:
+                                mappedEntry.resource_name ||
+                                fallbackResource?.resource_name ||
+                                fallbackResource?.resourceName ||
+                                "",
+                            text:
+                                mappedEntry.text ||
+                                mappedEntry.tafsir_text ||
+                                mappedEntry.content ||
+                                fallbackResource?.text ||
+                                "",
+                        },
+                        fallbackVerseKey: verseKey,
+                    });
+                });
+            };
+
+            pushRawEntries(payload?.tafsirs);
+            pushRawEntries(payload?.data?.tafsirs);
+            pushRawEntries(payload?.results);
+            pushRawEntries(payload?.data);
+            pushRawEntries(payload?.tafsir);
+            pushVerseMapEntries(payload?.tafsir?.verses, payload?.tafsir);
+            pushVerseMapEntries(payload?.verses, payload);
+
+            if (Array.isArray(payload?.verses)) {
+                payload.verses.forEach((verse) => {
+                    const verseKey =
+                        verse?.verse_key || verse?.verseKey || verse?.ayah_key || "";
+                    pushRawEntries(verse?.tafsirs, verseKey);
+                    pushRawEntries(verse?.tafsir, verseKey);
+                    pushVerseMapEntries(verse?.tafsir?.verses, verse?.tafsir);
+                });
+            }
+
+            if (!rawEntries.length) {
+                pushRawEntries(payload);
+            }
+
+            const parsed = rawEntries
+                .map(({ entry, fallbackVerseKey }) => {
+                    const textCandidates = [
+                        entry?.text,
+                        entry?.tafsir_text,
+                        entry?.tafsir,
+                        entry?.content,
+                        entry?.body,
+                        entry?.description,
+                        entry?.html,
+                    ];
+                    const text = textCandidates.find(
+                        (candidate) =>
+                            typeof candidate === "string" && candidate.trim()
+                    );
+                    if (!text) return null;
+                    return {
+                        verseKey: String(
+                            entry?.verse_key ||
+                                entry?.verseKey ||
+                                entry?.ayah_key ||
+                                fallbackVerseKey ||
+                                ""
+                        ).trim(),
+                        text: String(text || ""),
+                        resourceName: String(
+                            entry?.resource_name ||
+                                entry?.tafsir_name ||
+                                entry?.resource?.name ||
+                                entry?.resource?.translated_name?.name ||
+                                ""
+                        ).trim(),
+                    };
+                })
+                .filter(Boolean);
+
+            const seen = new Set();
+            return parsed.filter((entry) => {
+                const key = `${entry.verseKey}::${entry.text}`;
+                if (seen.has(key)) return false;
+                seen.add(key);
+                return true;
+            });
+        },
+        getQuranComTafsirRequestCandidates(tafsirId, surahNumber, ayahNumber) {
+            const ayahReference = `${surahNumber}:${ayahNumber}`;
+            return [
+                {
+                    url: `https://api.quran.com/api/v4/quran/tafsirs/${tafsirId}?verse_key=${encodeURIComponent(
+                        ayahReference
+                    )}&language=en`,
+                    cacheKey: `cache:quran-com-v2-ayah-tafseer:${tafsirId}:${ayahReference}:verse-key-lang-en`,
+                },
+                {
+                    url: `https://api.quran.com/api/v4/quran/tafsirs/${tafsirId}?verse_key=${encodeURIComponent(
+                        ayahReference
+                    )}`,
+                    cacheKey: `cache:quran-com-v2-ayah-tafseer:${tafsirId}:${ayahReference}:verse-key`,
+                },
+                {
+                    url: `https://api.quran.com/api/v4/quran/tafsirs/${tafsirId}?chapter_number=${surahNumber}&verse_number=${ayahNumber}&language=en`,
+                    cacheKey: `cache:quran-com-v2-ayah-tafseer:${tafsirId}:${ayahReference}:chapter-verse-lang-en`,
+                },
+                {
+                    url: `https://api.quran.com/api/v4/quran/tafsirs/${tafsirId}?chapter_number=${surahNumber}&verse_number=${ayahNumber}`,
+                    cacheKey: `cache:quran-com-v2-ayah-tafseer:${tafsirId}:${ayahReference}:chapter-verse`,
+                },
+            ];
+        },
+        parseVerseByKeyTafsirEntries(payload, fallbackVerseKey = "") {
+            const verse = payload?.verse || payload?.data?.verse || payload?.data || payload;
+            if (!verse || typeof verse !== "object") return [];
+            const verseKey =
+                String(
+                    verse?.verse_key || verse?.verseKey || fallbackVerseKey || ""
+                ).trim();
+
+            const normalizeRawTafsirs = (candidate) => {
+                if (Array.isArray(candidate)) return candidate;
+                if (candidate && typeof candidate === "object") {
+                    return Object.values(candidate);
+                }
+                return [];
+            };
+            let rawTafsirs = normalizeRawTafsirs(verse?.tafsirs);
+            if (!rawTafsirs.length) {
+                rawTafsirs = normalizeRawTafsirs(verse?.data?.tafsirs);
+            }
+            if (!rawTafsirs.length) {
+                rawTafsirs = normalizeRawTafsirs(verse?.tafsir);
+            }
+            if (!rawTafsirs.length) {
+                rawTafsirs = normalizeRawTafsirs(payload?.tafsirs);
+            }
+            return rawTafsirs
+                .map((entry) => {
+                    const text =
+                        entry?.text ||
+                        entry?.tafsir_text ||
+                        entry?.content ||
+                        entry?.body ||
+                        "";
+                    if (typeof text !== "string" || !text.trim()) return null;
+                    return {
+                        verseKey: String(
+                            entry?.verse_key ||
+                                entry?.verseKey ||
+                                entry?.ayah_key ||
+                                verseKey
+                        ).trim(),
+                        text: String(text),
+                        resourceName: String(
+                            entry?.resource_name ||
+                                entry?.tafsir_name ||
+                                entry?.resource?.name ||
+                                entry?.translated_name?.name ||
+                                ""
+                        ).trim(),
+                    };
+                })
+                .filter(Boolean);
+        },
+        async fetchAyahTafseerEntriesFromQuranCom(
+            tafsirId,
+            surahNumber,
+            ayahNumber
+        ) {
+            const ttlMs = 30 * 24 * 60 * 60 * 1000;
+            const ayahReference = `${surahNumber}:${ayahNumber}`;
+            const requestCandidates = this.getQuranComTafsirRequestCandidates(
+                tafsirId,
+                surahNumber,
+                ayahNumber
+            );
+            let lastError = null;
+
+            for (const candidate of requestCandidates) {
+                try {
+                    const { data } = await this.cachedFetchJSON(
+                        candidate.url,
+                        candidate.cacheKey,
+                        ttlMs
+                    );
+                    const entries = this.parseQuranComTafsirEntries(data);
+                    if (entries.length) return entries;
+                } catch (error) {
+                    lastError = error;
+                    if (!this.isRetriableTafsirRequestError(error)) {
+                        break;
+                    }
+                }
+            }
+
+            // Fallback to Verses API (more consistent for ayah-scoped tafsir payloads).
+            const byKeyCandidates = [
+                {
+                    url: `https://api.quran.com/api/v4/verses/by_key/${encodeURIComponent(
+                        ayahReference
+                    )}?tafsirs=${tafsirId}&language=en`,
+                    cacheKey: `cache:quran-com-v2-ayah-tafseer:${tafsirId}:${ayahReference}:verse-by-key-lang-en`,
+                },
+                {
+                    url: `https://api.quran.com/api/v4/verses/by_key/${encodeURIComponent(
+                        ayahReference
+                    )}?tafsirs=${tafsirId}`,
+                    cacheKey: `cache:quran-com-v2-ayah-tafseer:${tafsirId}:${ayahReference}:verse-by-key`,
+                },
+            ];
+
+            for (const candidate of byKeyCandidates) {
+                try {
+                    const { data } = await this.cachedFetchJSON(
+                        candidate.url,
+                        candidate.cacheKey,
+                        ttlMs
+                    );
+                    const entries = this.parseVerseByKeyTafsirEntries(
+                        data,
+                        ayahReference
+                    );
+                    if (entries.length) return entries;
+                } catch (error) {
+                    lastError = error;
+                    if (!this.isRetriableTafsirRequestError(error)) {
+                        break;
+                    }
+                }
+            }
+
+            if (lastError) throw lastError;
+            return [];
+        },
+        findAyahTafsirEntryForReference(entries, surahNumber, ayahNumber) {
+            if (!Array.isArray(entries) || !entries.length) return null;
+            const normalizedSurah = Number(surahNumber);
+            const normalizedAyah = Number(ayahNumber);
+            const targetReference = `${normalizedSurah}:${normalizedAyah}`;
+            const exactMatch = entries.find(
+                (entry) => String(entry?.verseKey || "").trim() === targetReference
+            );
+            if (exactMatch) return exactMatch;
+
+            const numericMatch = entries.find((entry) => {
+                const verseKey = String(entry?.verseKey || "").trim();
+                if (!verseKey) return false;
+                const parts = verseKey.split(/[:|]/);
+                if (parts.length < 2) return false;
+                return (
+                    Number(parts[0]) === normalizedSurah &&
+                    Number(parts[1]) === normalizedAyah
+                );
+            });
+            if (numericMatch) return numericMatch;
+
+            return entries[0];
+        },
+        getAyahTafseerCacheKey(surahNumber, ayahNumber, tafsirId = null) {
+            const activeTafsirId =
+                Number(tafsirId || this.englishTafsirId) || "unknown";
+            return `${activeTafsirId}:${surahNumber}:${ayahNumber}`;
+        },
+        resetAyahTafseerState() {
+            this.ayahTafseerLoading = false;
+            this.ayahTafseerError = "";
+            this.ayahTafseerText = "";
+            this.ayahTafseerEditionIdentifier = "";
+            this.ayahTafseerEditionName = "";
+        },
+        increaseAyahTafseerFontSize() {
+            this.ayahTafseerFontSize = Math.min(
+                this.ayahTafseerFontSize + 1,
+                this.ayahTafseerFontSizeMax
+            );
+        },
+        decreaseAyahTafseerFontSize() {
+            this.ayahTafseerFontSize = Math.max(
+                this.ayahTafseerFontSize - 1,
+                this.ayahTafseerFontSizeMin
+            );
+        },
+        showAyahTafseerModal() {
+            this.$nextTick(() => {
+                const modalEl = document.getElementById(
+                    this.ayahTafseerModalId
+                );
+                if (!modalEl) return;
+                this.ayahTafseerModalInstance =
+                    Modal.getInstance(modalEl) || new Modal(modalEl);
+                if (this.ayahTafseerModalHiddenHandler) {
+                    modalEl.removeEventListener(
+                        "hidden.bs.modal",
+                        this.ayahTafseerModalHiddenHandler
+                    );
+                }
+                const handler = () => this.onAyahTafseerModalHidden();
+                modalEl.addEventListener("hidden.bs.modal", handler);
+                this.ayahTafseerModalHiddenHandler = handler;
+                this.ayahTafseerModalInstance.show();
+            });
+        },
+        hideAyahTafseerModal() {
+            const modalEl = document.getElementById(this.ayahTafseerModalId);
+            const modal =
+                this.ayahTafseerModalInstance ||
+                (modalEl ? Modal.getInstance(modalEl) : null);
+            if (modal) {
+                modal.hide();
+            }
+        },
+        onAyahTafseerModalHidden() {
+            const modalEl = document.getElementById(this.ayahTafseerModalId);
+            if (modalEl && this.ayahTafseerModalHiddenHandler) {
+                modalEl.removeEventListener(
+                    "hidden.bs.modal",
+                    this.ayahTafseerModalHiddenHandler
+                );
+            }
+            this.ayahTafseerModalHiddenHandler = null;
+            this.ayahTafseerModalInstance = null;
+            this.ayahTafseerRequestToken += 1;
+            this.selectedAyahForTafseer = null;
+            this.resetAyahTafseerState();
+        },
+        openAyahTafseerModal(ayah) {
+            if (!ayah) return;
+            const surahNumber = Number(
+                this.surahDetails?.surahNumber || this.selectedSurah
+            );
+            const ayahNumber = Number(ayah.numberInSurah || ayah.number);
+            if (!surahNumber || !ayahNumber) return;
+
+            this.selectedAyahForTafseer = {
+                surahNumber,
+                ayahNumber,
+            };
+            this.resetAyahTafseerState();
+            this.ayahTafseerLoading = true;
+            this.ayahTafseerFontSize = Number(this.ayahTafseerFontSize) || 17;
+            const requestToken = this.ayahTafseerRequestToken + 1;
+            this.ayahTafseerRequestToken = requestToken;
+
+            this.showAyahTafseerModal();
+
+            this.fetchAyahTafseerForSelection(
+                surahNumber,
+                ayahNumber,
+                requestToken
+            );
+        },
+        async fetchAyahTafseerForSelection(
+            surahNumber,
+            ayahNumber,
+            requestToken
+        ) {
+            let lastError = null;
+            let receivedAnyPayload = false;
+
+            try {
+                const tafsirResource = await this.ensureEnglishTafsirResource();
+                if (requestToken !== this.ayahTafseerRequestToken) return;
+
+                const candidateResources =
+                    this.getOrderedEnglishTafsirResources(tafsirResource);
+                if (!candidateResources.length) {
+                    this.ayahTafseerLoading = false;
+                    this.ayahTafseerError =
+                        "No English tafseer resource is available right now.";
+                    return;
+                }
+
+                for (const resource of candidateResources) {
+                    if (requestToken !== this.ayahTafseerRequestToken) return;
+                    const tafsirId = Number(resource?.id);
+                    if (!tafsirId) continue;
+
+                    const cacheKey = this.getAyahTafseerCacheKey(
+                        surahNumber,
+                        ayahNumber,
+                        tafsirId
+                    );
+                    const cached = this.ayahTafseerCache[cacheKey];
+                    if (cached?.text) {
+                        this.ayahTafseerText = cached.text;
+                        this.ayahTafseerEditionIdentifier =
+                            cached.editionIdentifier || "";
+                        this.ayahTafseerEditionName = cached.editionName || "";
+                        this.ayahTafseerError = "";
+                        this.ayahTafseerLoading = false;
+                        this.englishTafsirId = tafsirId;
+                        if (resource?.slug) {
+                            this.englishTafsirSlug = resource.slug;
+                        }
+                        if (cached.editionName) {
+                            this.englishTafsirName = cached.editionName;
+                        }
+                        this.englishTafsirInfoLoaded = true;
+                        return;
+                    }
+
+                    let entries = [];
+                    try {
+                        entries = await this.fetchAyahTafseerEntriesFromQuranCom(
+                            tafsirId,
+                            surahNumber,
+                            ayahNumber
+                        );
+                        receivedAnyPayload = true;
+                    } catch (error) {
+                        lastError = error;
+                        continue;
+                    }
+                    if (requestToken !== this.ayahTafseerRequestToken) return;
+
+                    const selectedEntry = this.findAyahTafsirEntryForReference(
+                        entries,
+                        surahNumber,
+                        ayahNumber
+                    );
+                    const normalizedText = this.stripHtmlTags(
+                        selectedEntry?.text || ""
+                    );
+                    if (!normalizedText) {
+                        continue;
+                    }
+
+                    const resolvedPayload = {
+                        text: normalizedText,
+                        editionIdentifier: String(tafsirId),
+                        editionName: this.getAyahTafseerEditionDisplayName(
+                            String(tafsirId),
+                            resource?.name ||
+                                selectedEntry?.resourceName ||
+                                this.englishTafsirName ||
+                                ""
+                        ),
+                    };
+
+                    this.ayahTafseerCache[cacheKey] = { ...resolvedPayload };
+                    this.ayahTafseerText = resolvedPayload.text;
+                    this.ayahTafseerEditionIdentifier =
+                        resolvedPayload.editionIdentifier || "";
+                    this.ayahTafseerEditionName =
+                        resolvedPayload.editionName || "";
+                    this.ayahTafseerError = "";
+                    this.ayahTafseerLoading = false;
+                    this.englishTafsirId = tafsirId;
+                    if (resource?.slug) {
+                        this.englishTafsirSlug = resource.slug;
+                    }
+                    if (resolvedPayload.editionName) {
+                        this.englishTafsirName = resolvedPayload.editionName;
+                    }
+                    this.englishTafsirInfoLoaded = true;
+                    return;
+                }
+
+                this.ayahTafseerLoading = false;
+                this.ayahTafseerError = receivedAnyPayload
+                    ? "No English tafseer content was returned for this ayah."
+                    : "Unable to load English tafseer for this ayah right now.";
+            } catch (error) {
+                lastError = error;
+            }
+
+            if (requestToken !== this.ayahTafseerRequestToken) return;
+
+            if (!this.ayahTafseerError) {
+                this.ayahTafseerLoading = false;
+                this.ayahTafseerError =
+                    "Unable to load English tafseer for this ayah right now.";
+            }
+            if (lastError) {
+                console.error("Error fetching English ayah tafseer:", lastError);
+            }
+        },
         async fetchSurahInfoDetails(surahNumber) {
             if (!surahNumber) return;
             try {
@@ -3789,6 +4727,9 @@ export default {
         },
         stripHtmlTags(value) {
             if (!value) return "";
+            if (typeof document === "undefined") {
+                return String(value).replace(/<[^>]+>/g, " ").trim();
+            }
             const div = document.createElement("div");
             div.innerHTML = value;
             return (div.textContent || div.innerText || "").trim();

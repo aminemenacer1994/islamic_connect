@@ -27,8 +27,8 @@
 }
 @font-face {
   font-family: 'IndoPak';
-  src: url('https://verses.quran.foundation/fonts/quran/hafs/indopak/IndoPak.woff2') format('woff2'),
-       url('https://verses.quran.foundation/fonts/quran/hafs/indopak/IndoPak.woff') format('woff');
+  src: url('https://verses.quran.foundation/fonts/quran/hafs/indopak/indopak.woff2') format('woff2'),
+       url('https://verses.quran.foundation/fonts/quran/hafs/indopak/indopak.woff') format('woff');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -37280,6 +37280,122 @@ to {
     font-size: 0.8rem;
     color: #94a3b8;
 }
+[data-v-637d02d8] .ayah-tafseer-modal {
+    border-radius: 20px;
+    border: 1px solid rgba(15, 23, 42, 0.1);
+    background: linear-gradient(180deg, #ffffff 0%, #f8fbfa 100%);
+    box-shadow:
+        0 16px 34px rgba(15, 23, 42, 0.12),
+        0 28px 60px rgba(15, 23, 42, 0.1);
+}
+[data-v-637d02d8] .ayah-tafseer-modal .modal-header {
+    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    padding: 1.1rem 1.4rem 0.95rem;
+}
+[data-v-637d02d8] .ayah-tafseer-modal-head {
+    min-width: 0;
+}
+[data-v-637d02d8] .ayah-tafseer-modal .modal-title,[data-v-637d02d8] .ayah-tafseer-modal .modal-title b {
+    color: #0f172a;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+[data-v-637d02d8] .ayah-tafseer-reference {
+    margin-top: 0.25rem;
+    color: #475569;
+    font-size: 0.82rem;
+    font-weight: 600;
+}
+[data-v-637d02d8] .ayah-tafseer-modal-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+[data-v-637d02d8] .ayah-tafseer-font-btn {
+    border: 1px solid rgba(15, 23, 42, 0.12);
+    background: #ffffff;
+    color: #0f172a;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease, border-color 0.2s ease,
+        transform 0.2s ease;
+}
+[data-v-637d02d8] .ayah-tafseer-font-btn:hover {
+    background: rgba(15, 118, 110, 0.08);
+    border-color: rgba(15, 118, 110, 0.25);
+    transform: translateY(-1px);
+}
+[data-v-637d02d8] .ayah-tafseer-font-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+[data-v-637d02d8] .ayah-tafseer-modal .btn-close {
+    opacity: 0.6;
+}
+[data-v-637d02d8] .ayah-tafseer-modal .modal-body {
+    padding: 1.25rem 1.45rem 1.35rem;
+    max-height: 72vh;
+    overflow: auto;
+}
+[data-v-637d02d8] .ayah-tafseer-content {
+    border-radius: 14px;
+    border: 1px solid rgba(15, 118, 110, 0.16);
+    background: rgba(255, 255, 255, 0.96);
+    padding: 1rem 1rem 0.95rem;
+    color: #1f2937;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+[data-v-637d02d8] .ayah-tafseer-content p {
+    margin: 0;
+    font-size: var(--ayah-tafseer-font-size, 17px);
+    line-height: 1.78;
+    white-space: pre-line;
+}
+[data-v-637d02d8] .ayah-tafseer-state {
+    border-radius: 12px;
+    border: 1px solid rgba(15, 118, 110, 0.14);
+    background: rgba(15, 118, 110, 0.05);
+    color: #0f6e63;
+    padding: 0.9rem 0.95rem;
+    font-size: 0.95rem;
+}
+[data-v-637d02d8] .ayah-tafseer-state-error {
+    border-color: rgba(220, 38, 38, 0.3);
+    background: rgba(220, 38, 38, 0.08);
+    color: #991b1b;
+}
+[data-v-637d02d8] .ayah-tafseer-source {
+    margin-top: 0.85rem;
+    color: #64748b;
+    font-size: 0.78rem;
+}
+@media (max-width: 767.98px) {
+[data-v-637d02d8] .ayah-tafseer-modal .modal-header {
+        padding: 1rem 1rem 0.8rem;
+}
+[data-v-637d02d8] .ayah-tafseer-modal .modal-title,[data-v-637d02d8] .ayah-tafseer-modal .modal-title b {
+        font-size: 1.1rem;
+}
+[data-v-637d02d8] .ayah-tafseer-reference {
+        font-size: 0.76rem;
+}
+[data-v-637d02d8] .ayah-tafseer-modal .modal-body {
+        padding: 1rem;
+        max-height: none;
+}
+[data-v-637d02d8] .ayah-tafseer-content {
+        padding: 0.9rem 0.9rem 0.85rem;
+}
+[data-v-637d02d8] .ayah-tafseer-content p {
+        font-size: var(--ayah-tafseer-font-size, 16px);
+        line-height: 1.7;
+}
+}
 .surah-layout .surah-list .filter-list[data-v-637d02d8] {
     display: flex;
     flex-direction: column;
@@ -39092,7 +39208,9 @@ h1.display-5[data-v-637d02d8] {
     border-radius: 16px;
     border: 1px solid rgba(15, 110, 99, 0.2);
     background: linear-gradient(135deg, rgba(239, 252, 248, 0.92), rgba(247, 251, 249, 0.96));
-    box-shadow: 0 12px 24px rgba(15, 53, 48, 0.1);
+    box-shadow:
+        0 8px 14px rgba(15, 53, 48, 0.08),
+        0 16px 22px -10px rgba(15, 53, 48, 0.22);
     backdrop-filter: blur(8px);
     overflow-x: auto;
     overflow-y: hidden;
@@ -39551,11 +39669,46 @@ to {
     justify-content: flex-end;
     max-width: 100%;
 }
+.ayah-tafseer-trigger[data-v-637d02d8] {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border-radius: 999px;
+    border: 1px solid rgba(15, 110, 99, 0.26);
+    background: rgba(15, 110, 99, 0.1);
+    color: #0b5c53;
+    font-weight: 700;
+    font-size: 0.74rem;
+    line-height: 1;
+    padding: 0.34rem 0.7rem;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, border-color 0.2s ease,
+        transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ayah-tafseer-trigger i[data-v-637d02d8] {
+    font-size: 0.85rem;
+}
+.ayah-tafseer-trigger[data-v-637d02d8]:hover,
+.ayah-tafseer-trigger[data-v-637d02d8]:focus-visible {
+    background: rgba(15, 110, 99, 0.18);
+    border-color: rgba(15, 110, 99, 0.45);
+    color: #0b5c53;
+    box-shadow: 0 8px 16px rgba(15, 53, 48, 0.12);
+    transform: translateY(-1px);
+}
+.ayah-tafseer-trigger[data-v-637d02d8]:focus-visible {
+    outline: 2px solid rgba(15, 110, 99, 0.35);
+    outline-offset: 2px;
+}
 @media (max-width: 576px) {
 .ayah-card-header-actions[data-v-637d02d8] {
         width: 100%;
         justify-content: flex-start;
         gap: 10px 14px;
+}
+.ayah-tafseer-trigger[data-v-637d02d8] {
+        padding: 0.32rem 0.56rem;
+        font-size: 0.71rem;
 }
 }
 .feedback-badge[data-v-637d02d8] {
