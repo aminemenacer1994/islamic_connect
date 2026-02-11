@@ -1146,24 +1146,32 @@
         "description": "High-volume apps with transparent governance, Ramadan-ready hubs, and reliable prayer/Quran content.",
         "items": [
           {
-            "label": "Muslim Pro (prayer times, Ramadan hub, Quran, Qalbox video library)",
+            "name": "Muslim Pro",
+            "label": "Muslim Pro",
             "link": "https://www.muslimpro.com/",
-            "note": "160M+ downloads, accurate prayer times, Ramadan-specific stories and iftar reminders."
+            "note": "Prayer times, Quran, and Ramadan reminders in one place with large global usage.",
+            "logo": "https://www.muslimpro.com/favicon.ico"
           },
           {
-            "label": "Quran.com mobile (Android + iOS Mushaf apps)",
+            "name": "Quran.com Mobile",
+            "label": "Quran.com Mobile",
             "link": "https://quran.com/en/apps",
-            "note": "Ad-free apps from the Quran Foundation with QuranReflect sync, translations, and daily goals."
+            "note": "Ad-free Quran Foundation app with translations, recitations, tafsir access, and daily goals.",
+            "logo": "https://quran.com/favicon.ico"
           },
           {
-            "label": "IslamicFinder / Athan (global prayer times, masjid directory, Athan alerts)",
+            "name": "IslamicFinder Athan",
+            "label": "IslamicFinder Athan",
             "link": "https://www.islamicfinder.org/prayer-times/",
-            "note": "Prayer grids for 11M+ locations plus mosque directories and Hijri calendars."
+            "note": "Global prayer times with mosque directory, qibla support, and Hijri calendar features.",
+            "logo": "https://www.islamicfinder.org/favicon.ico"
           },
           {
-            "label": "Quran Companion (memorization coach with Hasanah tracker)",
+            "name": "Quran Companion",
+            "label": "Quran Companion",
             "link": "https://apps.apple.com/us/app/quran-companion-memorize-quran/id1111843462",
-            "note": "Gamified memorization, Hasanah calculator, and swipe-to-reveal lessons."
+            "note": "Memorization-focused experience with streaks, motivation tools, and guided review routines.",
+            "logo": "https://qurancompanion.com/favicon.ico"
           }
         ]
       },
@@ -1172,24 +1180,32 @@
         "description": "Structured courses, scholar-led series, and research archives that get refreshed around each Ramadan.",
         "items": [
           {
-            "label": "Bayyinah TV (Quran, Arabic, family journeys)",
+            "name": "Bayyinah TV",
+            "label": "Bayyinah TV",
             "link": "https://bayyinah.tv/",
-            "note": "Nouman Ali Khan’s platform with 2,000+ hours, live dialogues, and Arabic-focused journeys."
+            "note": "Long-form Quran and Arabic video learning with family pathways and structured episodes.",
+            "logo": "https://bayyinah.tv/favicon.ico"
           },
           {
-            "label": "Yaqeen Institute (Ramadan articles, videos, and journals)",
+            "name": "Yaqeen Institute Ramadan",
+            "label": "Yaqeen Institute Ramadan",
             "link": "https://yaqeeninstitute.org/ramadan",
-            "note": "Free research-backed reflections, series, and downloadable journal prompts."
+            "note": "Research-backed Ramadan reflections, videos, and journals with downloadable resources.",
+            "logo": "https://yaqeeninstitute.org/favicon.ico"
           },
           {
-            "label": "SeekersGuidance Global Seminary (courses, Q&A, podcasts)",
+            "name": "SeekersGuidance",
+            "label": "SeekersGuidance",
             "link": "https://seekersguidance.org/",
-            "note": "Non-profit seminary with free curriculum, Arabic tracks, and Seekers Answers podcast."
+            "note": "Non-profit seminary with structured courses, Q&A resources, and guided learning tracks.",
+            "logo": "https://seekersguidance.org/favicon.ico"
           },
           {
-            "label": "Quran Academy (Quranic Arabic + memorization coaching)",
+            "name": "Quran Academy",
+            "label": "Quran Academy",
             "link": "https://quranacademy.io/",
-            "note": "Guided Arabic challenges, weekly live coaching, and Quran-for-life curriculum."
+            "note": "Quranic Arabic learning pathways with challenges, memorization support, and coach-led sessions.",
+            "logo": "https://quranacademy.io/favicon.ico"
           }
         ]
       },
@@ -1198,24 +1214,32 @@
         "description": "Audio-first and memorization-friendly tools for every listener and reciter.",
         "items": [
           {
-            "label": "QuranicAudio (200+ reciters, downloads, synced Arabic text)",
+            "name": "QuranicAudio",
+            "label": "QuranicAudio",
             "link": "https://quranicaudio.com/",
-            "note": "Free MP3 downloads, HD streaming, and playback controls for every surah."
+            "note": "Large reciter library with downloadable MP3 and flexible streaming playback.",
+            "logo": "https://quranicaudio.com/favicon.ico"
           },
           {
-            "label": "Mushafi Quran (word-by-word meaning, offline packs, world-class reciters)",
+            "name": "Mushafi Quran",
+            "label": "Mushafi Quran",
             "link": "https://mushafiquran.com/",
-            "note": "Ad-free audio and meaning packs from Puretek Solutions with Tajweed highlights."
+            "note": "Word-by-word meaning, offline packs, and tajwid-friendly recitation tools.",
+            "logo": "https://mushafiquran.com/favicon.ico"
           },
           {
-            "label": "HifzPath / Hifz Helper (memorization tracker + quiz games)",
+            "name": "HifzPath",
+            "label": "HifzPath",
             "link": "https://hifzpath.pages.dev/",
-            "note": "Interactive streak tracker, quizzes, and zikr counter built for hifz journeys."
+            "note": "Memorization tracking with streak tools, quick quizzes, and revision support.",
+            "logo": "https://hifzpath.pages.dev/favicon.ico"
           },
           {
-            "label": "Quran IQ (Arabic vocabulary drills + grammar boosts)",
+            "name": "Quran IQ",
+            "label": "Quran IQ",
             "link": "https://quraniq.com/",
-            "note": "30,000+ learners using storytelling, quizzes, and visual aids to learn Quranic Arabic."
+            "note": "Arabic vocabulary and grammar drills for understanding Quranic language with guided lessons.",
+            "logo": "https://quraniq.com/favicon.ico"
           }
         ]
       }

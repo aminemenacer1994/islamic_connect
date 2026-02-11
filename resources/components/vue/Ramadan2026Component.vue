@@ -992,15 +992,46 @@
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article v-for="(card, index) in ramadan.platform_resources.cards" :key="card.title"
               class="r-card r-card--resource">
-              <span class="r-card__icon" aria-hidden="true">
-                <i :class="getIconClasses('platforms', index)"></i>
-              </span>
-              <h3 class="r-card__title">{{ card.title }}</h3>
-              <ul class="r-list">
-                <li v-for="item in card.items" :key="item.label">
-                  <a class="r-resource-link" :href="item.link" target="_blank" rel="noopener">{{ item.label }}</a>
-                </li>
-              </ul>
+              <div class="r-resource-card__header">
+                <span class="r-card__icon" aria-hidden="true">
+                  <i :class="getIconClasses('platforms', index)"></i>
+                </span>
+                <div class="r-resource-card__title-wrap">
+                  <h3 class="r-card__title">{{ card.title }}</h3>
+                  <p class="r-card__desc r-resource-card__desc">{{ card.description }}</p>
+                </div>
+                <button type="button" class="r-resource-toggle" @click="togglePlatformCard(index)"
+                  :aria-expanded="isPlatformCardOpen(index)" :aria-label="`Toggle ${card.title}`">
+                  <i class="fas" :class="isPlatformCardOpen(index) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                </button>
+              </div>
+
+              <div v-show="isPlatformCardOpen(index)" class="r-resource-list">
+                <article v-for="item in card.items" :key="item.label" class="r-resource-item">
+                  <div class="r-resource-item__head">
+                    <span class="r-resource-item__logo-wrap" aria-hidden="true">
+                      <img v-if="!failedPlatformLogos[item.link]" :src="item.logo" :alt="`${item.name || item.label} logo`"
+                        class="r-resource-item__logo" loading="lazy" @error="markPlatformLogoFailed(item.link)" />
+                      <span v-else class="r-resource-item__logo-fallback">
+                        {{ resourceInitials(item.name || item.label) }}
+                      </span>
+                    </span>
+                    <div class="r-resource-item__title-wrap">
+                      <h4 class="r-resource-item__title">{{ item.name || item.label }}</h4>
+                    </div>
+                  </div>
+
+                  <p v-if="item.note" class="r-resource-item__note">{{ item.note }}</p>
+
+                  <div class="r-resource-item__footer">
+                    <a class="r-resource-link r-button r-button--ghost r-resource-link--icon" :href="item.link"
+                      target="_blank" rel="noopener" :aria-label="`Open ${item.name || item.label}`"
+                      :title="`Open ${item.name || item.label}`">
+                      <i class="fas fa-arrow-up-right-from-square" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </article>
+              </div>
             </article>
           </div>
         </div>
@@ -1145,6 +1176,8 @@ export default {
       authRefreshHandler: null,
       personalPlanExpanded: {},
       quranPlanExpanded: {},
+      platformCardExpanded: {},
+      failedPlatformLogos: {},
       iconPalettes: {
         fallback: ["fa-star"],
         timeline: ["fa-mosque", "fa-calendar-week", "fa-scroll", "fa-hourglass-half", "fa-star", "fa-sun"],
@@ -1562,6 +1595,33 @@ export default {
       const date = new Date(value);
       if (Number.isNaN(date.getTime())) return "";
       return date.toLocaleDateString("en-US", { month: "short", day: "numeric" });
+    },
+    isPlatformCardOpen(index) {
+      return this.platformCardExpanded[index] !== false;
+    },
+    togglePlatformCard(index) {
+      this.platformCardExpanded = {
+        ...this.platformCardExpanded,
+        [index]: !this.isPlatformCardOpen(index),
+      };
+    },
+    markPlatformLogoFailed(link) {
+      if (!link) return;
+      this.failedPlatformLogos = {
+        ...this.failedPlatformLogos,
+        [link]: true,
+      };
+    },
+    resourceInitials(value) {
+      if (!value) return "R";
+      const words = String(value)
+        .replace(/[^a-zA-Z0-9 ]/g, " ")
+        .trim()
+        .split(/\s+/)
+        .filter(Boolean)
+        .slice(0, 2);
+      if (!words.length) return "R";
+      return words.map((word) => word[0].toUpperCase()).join("");
     },
     breakdownStatusLabel(status) {
       if (status === "done") return "Completed";
@@ -2984,6 +3044,129 @@ export default {
 .r-card--resource {
   --r-card-bg: linear-gradient(135deg, #ffffff 0%, #f2f8f7 100%);
   --r-card-outline: rgba(76, 114, 96, 0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 18px;
+}
+
+.r-card--resource .r-card__icon {
+  width: 52px;
+  height: 52px;
+}
+
+.r-card--resource .r-card__icon i {
+  font-size: 1.5rem;
+}
+
+.r-card--resource .r-card__title {
+  font-size: 1.45rem;
+}
+
+.r-resource-card__header {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+
+.r-resource-card__title-wrap {
+  min-width: 0;
+  flex: 1;
+}
+
+.r-resource-card__desc {
+  margin-bottom: 0;
+  font-size: 0.98rem;
+  line-height: 1.42;
+}
+
+.r-resource-toggle {
+  border: 1px solid rgba(15, 34, 48, 0.14);
+  background: #fff;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--r-deep);
+  font-size: 0.72rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.r-resource-toggle:hover {
+  background: rgba(15, 34, 48, 0.06);
+}
+
+.r-resource-list {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.r-resource-item {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid rgba(15, 34, 48, 0.1);
+  box-shadow: 0 6px 14px rgba(15, 34, 48, 0.06);
+  padding: 0.55rem 0.6rem;
+}
+
+.r-resource-item__head {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.r-resource-item__logo-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: #fff;
+  border: 1px solid rgba(15, 34, 48, 0.1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.r-resource-item__logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.r-resource-item__logo-fallback {
+  font-size: 0.63rem;
+  font-weight: 700;
+  color: var(--r-ink-soft);
+}
+
+.r-resource-item__title-wrap {
+  min-width: 0;
+}
+
+.r-resource-item__title {
+  margin: 0.1rem 0 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--r-deep);
+  line-height: 1.3;
+}
+
+.r-resource-item__note {
+  margin: 0.4rem 0 0;
+  color: var(--r-ink-soft);
+  line-height: 1.48;
+  font-size: 0.93rem;
+}
+
+.r-resource-item__footer {
+  margin-top: 0.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .r-card--faq {
@@ -3283,13 +3466,24 @@ export default {
 }
 
 .r-resource-link {
-  color: var(--r-ink-soft);
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 700;
+  font-size: 0.72rem;
+  padding: 0.22rem 0.45rem;
+}
+
+.r-resource-link--icon {
+  min-width: 26px;
+  min-height: 24px;
+  border-radius: 7px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .r-resource-link:hover {
-  color: var(--r-accent-deep);
+  text-decoration: none;
 }
 
 .r-download {
@@ -4979,7 +5173,6 @@ export default {
   .r-card {
     padding: 20px;
   }
-
 
   .r-download {
     flex-direction: column;
