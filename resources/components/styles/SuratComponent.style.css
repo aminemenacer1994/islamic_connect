@@ -153,23 +153,100 @@
 
 .advanced-quran-mobile-controls {
     margin-top: 0.56rem;
-    padding-top: 0.56rem;
-    border-top: 1px solid rgba(11, 107, 89, 0.14);
+    padding: 0.46rem;
+    border: 1px solid rgba(11, 107, 89, 0.16);
+    border-radius: 14px;
+    background: #ffffff !important;
+    position: relative;
+    z-index: 20;
+    isolation: isolate;
     display: flex;
     align-items: center;
     gap: 0.45rem;
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.26s ease, border-color 0.26s ease,
+        background-color 0.26s ease, opacity 0.2s ease;
+    will-change: transform, opacity;
+}
+
+.advanced-quran-mobile-controls-spacer {
+    display: none;
+    height: 0;
+    pointer-events: none;
+}
+
+@media (max-width: 991.98px) {
+    .advanced-quran-mobile-controls.is-pinned {
+        position: fixed;
+        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + env(safe-area-inset-top) + 10px);
+        left: 12px;
+        right: 12px;
+        margin-top: 0;
+        padding: 0.56rem;
+        border: 1px solid rgba(11, 107, 89, 0.24);
+        border-radius: 14px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto auto;
+        align-items: center;
+        gap: 0.5rem;
+        background: #ffffff !important;
+        box-shadow: 0 14px 30px rgba(15, 53, 48, 0.22);
+        backdrop-filter: none;
+        z-index: 2200 !important;
+        animation: mobile-toolbar-pin-in 240ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .advanced-quran-mobile-controls-spacer {
+        display: block;
+        height: 112px;
+        transition: height 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-surah-select {
+        min-width: 0;
+        width: 100%;
+    }
+
+    .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-icon-btn {
+        flex: 0 0 40px;
+        width: 40px;
+        height: 40px;
+    }
+
+    @keyframes mobile-toolbar-pin-in {
+        from {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.985);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
 }
 
 .advanced-quran-mobile-surah-select {
-    min-height: 40px;
+    min-height: 44px;
+    height: 44px;
     border-radius: 11px;
     border: 1px solid rgba(11, 61, 46, 0.28);
-    background: #ffffff;
+    background: #ffffff !important;
     color: #0b3d2e;
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     font-weight: 700;
-    line-height: 1.2;
+    line-height: 1.35;
+    padding-top: 0.44rem;
+    padding-bottom: 0.44rem;
     box-shadow: none !important;
+}
+
+@media (max-width: 991.98px) {
+    .advanced-quran-mobile-controls.is-pinned,
+    .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-surah-select,
+    .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-icon-btn {
+        background-color: #ffffff !important;
+    }
 }
 
 .advanced-quran-mobile-surah-select:focus {
@@ -620,9 +697,13 @@
     }
 
     .advanced-quran-mobile-surah-select {
-        min-height: 38px;
+        min-height: 42px;
+        height: 42px;
         border-radius: 10px;
-        font-size: 0.85rem;
+        font-size: 0.84rem;
+        line-height: 1.3;
+        padding-top: 0.38rem;
+        padding-bottom: 0.38rem;
     }
 
     .advanced-quran-mobile-icon-btn {
@@ -4875,10 +4956,48 @@ h1.display-5 {
 }
 
 .quran-toolbar-sticky {
+    position: -webkit-sticky;
     position: sticky;
-    top: calc(var(--nav-offset, 72px) + 10px);
+    top: 82px;
+    top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px);
     z-index: 30;
     margin: 4px 0 10px;
+}
+
+/* Force desktop toolbar to stay pinned even in sticky-hostile layouts. */
+@media (min-width: 992px) {
+    .quran-toolbar-sticky.quran-toolbar-fixed-shell {
+        position: relative;
+        top: auto;
+        min-height: 84px;
+    }
+
+    .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar {
+        position: static;
+        margin: 0;
+    }
+
+    .quran-toolbar-sticky.quran-toolbar-fixed-shell.is-pinned .quran-toolbar {
+        position: fixed;
+        top: 82px;
+        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 10px);
+        left: 16px;
+        right: 16px;
+        width: auto;
+        z-index: 1040;
+    }
+}
+
+@media (min-width: 1200px) {
+    .surat-premium.has-sidebar .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar {
+        left: 422px;
+        right: 20px;
+    }
+
+    .surat-premium.sidebar-collapsed .quran-toolbar-sticky.quran-toolbar-fixed-shell .quran-toolbar {
+        left: 94px;
+        right: 20px;
+    }
 }
 
 .quran-toolbar {
@@ -5139,7 +5258,8 @@ h1.display-5 {
 
 @media (max-width: 991.98px) {
     .quran-toolbar-sticky {
-        top: calc(var(--nav-offset, 72px) + 8px);
+        top: 80px;
+        top: calc(var(--nav-offset, var(--navbar-h, 72px)) + 8px);
     }
 
     .quran-toolbar {
@@ -6374,5 +6494,58 @@ h1.display-5 {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* Hard mobile safety override:
+   Keep the pinned toolbar fully opaque and above all verse content. */
+@media (max-width: 991.98px) {
+    .surat-premium .advanced-quran-mobile-controls.is-pinned {
+        position: fixed !important;
+        top: calc(
+            var(--nav-offset, var(--navbar-h, 72px)) +
+                env(safe-area-inset-top) + 8px
+        ) !important;
+        left: max(10px, env(safe-area-inset-left)) !important;
+        right: max(10px, env(safe-area-inset-right)) !important;
+        z-index: 12000 !important;
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        opacity: 1 !important;
+        border: 1px solid rgba(11, 107, 89, 0.22) !important;
+        box-shadow: 0 16px 34px rgba(15, 23, 42, 0.18) !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        isolation: isolate !important;
+        transform: translateZ(0);
+    }
+
+    .surat-premium .advanced-quran-mobile-controls.is-pinned::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        background: #ffffff;
+        z-index: -1;
+    }
+
+    .surat-premium .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-surah-select,
+    .surat-premium .advanced-quran-mobile-controls.is-pinned .advanced-quran-mobile-icon-btn {
+        background: #ffffff !important;
+        background-color: #ffffff !important;
+        background-image: none !important;
+        opacity: 1 !important;
+    }
+
+    .surat-premium.mobile-toolbar-pinned .surah-layout {
+        padding-top: 0 !important;
+        transition: padding-top 220ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+}
+
+@media (max-width: 575.98px) {
+    .advanced-quran-mobile-controls-spacer {
+        height: 122px;
     }
 }

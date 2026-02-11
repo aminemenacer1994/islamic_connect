@@ -452,6 +452,8 @@ export default {
             isLoading: false,
             isNavigating: false, // Prevents scroll conflicts during jumps
             headerCollapsed: false, // Controls whether the toolbar/links are visible
+            isToolbarPinned: false,
+            firstAyahTop: 0,
             showDesktopToolbar: true,
             showDesktopSurahContext: true,
             showMobileSurahInfoCard: true,
@@ -4722,6 +4724,7 @@ export default {
                 const el = this.$refs.listContainer;
                 if (!el) {
                     this.listTop = 0;
+                    this.updateToolbarPinState();
                     return;
                 }
                 const rect = el.getBoundingClientRect();
@@ -4729,8 +4732,53 @@ export default {
             } catch (_) {
                 this.listTop = 0;
             }
+            this.updateToolbarPinState();
+        },
+        getToolbarPinTriggerOffset() {
+            if (typeof window === "undefined" || typeof document === "undefined") {
+                return 82;
+            }
+            let navOffset = 72;
+            try {
+                const rootStyle = window.getComputedStyle(document.documentElement);
+                const navOffsetCss = parseFloat(
+                    rootStyle.getPropertyValue("--nav-offset")
+                );
+                const navbarHeightCss = parseFloat(
+                    rootStyle.getPropertyValue("--navbar-h")
+                );
+                if (Number.isFinite(navOffsetCss) && navOffsetCss > 0) {
+                    navOffset = navOffsetCss;
+                } else if (Number.isFinite(navbarHeightCss) && navbarHeightCss > 0) {
+                    navOffset = navbarHeightCss;
+                }
+            } catch (_) {
+                // fall back to default offset
+            }
+            return navOffset + 8;
+        },
+        updateToolbarPinState() {
+            if (typeof window === "undefined") return;
+            const firstCard = document.getElementById("ayah-card-0");
+            if (firstCard && firstCard.getBoundingClientRect) {
+                const rect = firstCard.getBoundingClientRect();
+                this.firstAyahTop = rect.top + window.scrollY;
+            } else if (!this.firstAyahTop) {
+                this.firstAyahTop = Number(this.listTop) || 0;
+            }
+            const triggerTop = Number(this.firstAyahTop) || 0;
+            if (!triggerTop) {
+                if (this.isToolbarPinned) this.isToolbarPinned = false;
+                return;
+            }
+            const triggerOffset = this.getToolbarPinTriggerOffset();
+            const shouldPin = window.scrollY >= Math.max(0, triggerTop - triggerOffset);
+            if (this.isToolbarPinned !== shouldPin) {
+                this.isToolbarPinned = shouldPin;
+            }
         },
         onScrollVirtual() {
+            this.updateToolbarPinState();
             const scrollY = typeof window !== "undefined" ? window.scrollY : 0;
             const listTop = Number(this.listTop) || 0;
             const threshold = listTop + Math.max(320, window.innerHeight * 0.4);
@@ -4838,6 +4886,8 @@ export default {
         },
         syncVirtualWindowAfterSelection() {
             const total = this.filteredAyahs ? this.filteredAyahs.length : 0;
+            this.firstAyahTop = 0;
+            this.isToolbarPinned = false;
             this.visibleStart = 0;
             this.visibleEnd = Math.min(
                 total,

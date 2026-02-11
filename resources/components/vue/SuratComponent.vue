@@ -1,6 +1,11 @@
 <template>
     <div class="container  surat-premium"
-        :class="{ 'has-audio-player': showAudioPlayer, 'has-sidebar': true, 'sidebar-collapsed': sidebarCollapsed }"
+        :class="{
+            'has-audio-player': showAudioPlayer,
+            'has-sidebar': true,
+            'sidebar-collapsed': sidebarCollapsed,
+            'mobile-toolbar-pinned': isTabletOrMobile && isToolbarPinned
+        }"
         :style="quranFontStyle"
         role="main" aria-label="Quran Explorer">
         <div class="row justify-content-center text-center mb-3">
@@ -115,6 +120,7 @@
                     <div
                         v-if="isTabletOrMobile"
                         class="advanced-quran-mobile-controls"
+                        :class="{ 'is-pinned': isToolbarPinned }"
                         role="group"
                         aria-label="Surah quick controls">
                         <label class="visually-hidden" for="searchSurahDropdown">
@@ -151,6 +157,10 @@
                             <i class="bi bi-info-circle" aria-hidden="true"></i>
                         </button>
                     </div>
+                    <div
+                        v-if="isTabletOrMobile && isToolbarPinned"
+                        class="advanced-quran-mobile-controls-spacer"
+                        aria-hidden="true"></div>
                     <div
                         v-if="isAdvancedSearchPanelVisible"
                         id="advancedQuranSearchPanel"
@@ -220,6 +230,10 @@
         </div>
         <div v-if="(surahDetails || currentSurahInfo) && !isTabletOrMobile && (showDesktopToolbar || showDesktopSurahContext)"
             class="quran-toolbar-sticky ltr-text"
+            :class="{
+                'quran-toolbar-fixed-shell': showDesktopToolbar,
+                'is-pinned': showDesktopToolbar && isToolbarPinned
+            }"
             role="region"
             aria-label="Quran quick controls">
             <div v-if="showDesktopToolbar" class="quran-toolbar">
