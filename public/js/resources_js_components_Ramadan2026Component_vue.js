@@ -43,7 +43,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       calendarStartOverride: "",
       calendarLength: 30,
       selectedDayIndex: 0,
-      viewportWidth: typeof window !== "undefined" ? window.innerWidth : 1200,
       isTrackerVisible: true,
       showFab: false,
       fabVisibilityHandler: null,
@@ -168,9 +167,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
   computed: {
     heroImage() {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
-    },
-    isDesktopViewport() {
-      return this.viewportWidth >= 992;
     },
     navSections() {
       const foundationLabels = new Set(["What is Ramadan", "History", "Key dates", "How to fast", "FAQ", "Recources"]);
@@ -531,7 +527,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
       return this.platformCardExpanded[index] !== false;
     },
     togglePlatformCard(index) {
-      if (this.isDesktopViewport) return;
       this.platformCardExpanded = _objectSpread(_objectSpread({}, this.platformCardExpanded), {}, {
         [index]: !this.isPlatformCardOpen(index)
       });
@@ -917,7 +912,6 @@ function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = 
         this.showFab = false;
         return;
       }
-      this.viewportWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || this.viewportWidth;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
       const viewportHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
       const scrollableHeight = Math.max((document.documentElement.scrollHeight || document.body.scrollHeight || 0) - viewportHeight, 0);
@@ -2222,7 +2216,7 @@ const _hoisted_266 = {
   key: 0,
   class: "r-card__desc r-resource-card__desc"
 };
-const _hoisted_267 = ["onClick", "aria-expanded", "aria-label"];
+const _hoisted_267 = ["onClick", "aria-expanded", "aria-label", "title"];
 const _hoisted_268 = {
   key: 0,
   class: "r-resource-list"
@@ -2902,23 +2896,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
       key: card.title,
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["r-card r-card--resource", {
-        'r-card--resource-collapsed': !$options.isDesktopViewport && !$options.isPlatformCardOpen(index)
+        'r-card--resource-collapsed': !$options.isPlatformCardOpen(index)
       }])
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_262, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_263, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)($options.getIconClasses('platforms', index))
-    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_264, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_265, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), card.description && ($options.isDesktopViewport || $options.isPlatformCardOpen(index)) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_266, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), !$options.isDesktopViewport ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 0,
+    }, null, 2 /* CLASS */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_264, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", _hoisted_265, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.title), 1 /* TEXT */), card.description && $options.isPlatformCardOpen(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_266, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(card.description), 1 /* TEXT */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "r-resource-toggle",
       onClick: $event => $options.togglePlatformCard(index),
       "aria-expanded": $options.isPlatformCardOpen(index),
-      "aria-label": `Toggle ${card.title}`
+      "aria-label": $options.isPlatformCardOpen(index) ? `Collapse ${card.title}` : `Expand ${card.title}`,
+      title: $options.isPlatformCardOpen(index) ? `Collapse ${card.title}` : `Expand ${card.title}`
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["fas", $options.isPlatformCardOpen(index) ? 'fa-chevron-up' : 'fa-chevron-down'])
-    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_267)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
+    }, null, 2 /* CLASS */)], 8 /* PROPS */, _hoisted_267)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(vue__WEBPACK_IMPORTED_MODULE_0__.Transition, {
       name: "r-collapse"
     }, {
-      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$options.isDesktopViewport || $options.isPlatformCardOpen(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_268, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(card.items, item => {
+      default: (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(() => [$options.isPlatformCardOpen(index) ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_268, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(card.items, item => {
         return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", {
           key: item.label,
           class: "r-resource-item"

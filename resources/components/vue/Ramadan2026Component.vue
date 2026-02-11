@@ -863,26 +863,28 @@
           <div class="r-grid r-grid--platforms">
             <article v-for="(card, index) in ramadan.platform_resources.cards" :key="card.title"
               class="r-card r-card--resource"
-              :class="{ 'r-card--resource-collapsed': !isDesktopViewport && !isPlatformCardOpen(index) }">
+              :class="{ 'r-card--resource-collapsed': !isPlatformCardOpen(index) }">
               <div class="r-resource-card__header">
                 <span class="r-card__icon" aria-hidden="true">
                   <i :class="getIconClasses('platforms', index)"></i>
                 </span>
                 <div class="r-resource-card__title-wrap">
                   <h3 class="r-card__title">{{ card.title }}</h3>
-                  <p v-if="card.description && (isDesktopViewport || isPlatformCardOpen(index))"
+                  <p v-if="card.description && isPlatformCardOpen(index)"
                     class="r-card__desc r-resource-card__desc">
                     {{ card.description }}
                   </p>
                 </div>
-                <button v-if="!isDesktopViewport" type="button" class="r-resource-toggle" @click="togglePlatformCard(index)"
-                  :aria-expanded="isPlatformCardOpen(index)" :aria-label="`Toggle ${card.title}`">
+                <button type="button" class="r-resource-toggle" @click="togglePlatformCard(index)"
+                  :aria-expanded="isPlatformCardOpen(index)"
+                  :aria-label="isPlatformCardOpen(index) ? `Collapse ${card.title}` : `Expand ${card.title}`"
+                  :title="isPlatformCardOpen(index) ? `Collapse ${card.title}` : `Expand ${card.title}`">
                   <i class="fas" :class="isPlatformCardOpen(index) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                 </button>
               </div>
 
               <transition name="r-collapse">
-                <div v-if="isDesktopViewport || isPlatformCardOpen(index)" class="r-resource-list">
+                <div v-if="isPlatformCardOpen(index)" class="r-resource-list">
                   <article v-for="item in card.items" :key="item.label" class="r-resource-item">
                     <div class="r-resource-item__head">
                       <span class="r-resource-item__logo-wrap" aria-hidden="true">
@@ -1014,7 +1016,6 @@ export default {
       calendarStartOverride: "",
       calendarLength: 30,
       selectedDayIndex: 0,
-      viewportWidth: typeof window !== "undefined" ? window.innerWidth : 1200,
       isTrackerVisible: true,
       showFab: false,
       fabVisibilityHandler: null,
@@ -1124,9 +1125,6 @@ export default {
   computed: {
     heroImage() {
       return this.heroImageOverride || this.ramadan.header.banner_image || this.heroImageFallback;
-    },
-    isDesktopViewport() {
-      return this.viewportWidth >= 992;
     },
     navSections() {
       const foundationLabels = new Set([
@@ -1481,7 +1479,6 @@ export default {
       return this.platformCardExpanded[index] !== false;
     },
     togglePlatformCard(index) {
-      if (this.isDesktopViewport) return;
       this.platformCardExpanded = {
         ...this.platformCardExpanded,
         [index]: !this.isPlatformCardOpen(index),
@@ -1884,8 +1881,6 @@ export default {
         this.showFab = false;
         return;
       }
-      this.viewportWidth =
-        window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth || this.viewportWidth;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || 0;
       const viewportHeight =
         window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
