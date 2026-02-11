@@ -11,13 +11,42 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../scripts/islamicAiToolkit */ "./resources/components/scripts/islamicAiToolkit.js");
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+
 const MOBILE_BREAKPOINT = 768;
 const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
+const AI_TEST_HARNESS_KEY = '__islamicAiHarness';
+const SESSION_MEMORY_LIMIT = 30;
+const SESSION_STORAGE_COMPACTION_STEPS = [{
+  maxSessions: 24,
+  maxEntries: 40,
+  maxTextLength: 2200,
+  keepReferences: true,
+  keepSummary: true
+}, {
+  maxSessions: 16,
+  maxEntries: 28,
+  maxTextLength: 1400,
+  keepReferences: false,
+  keepSummary: true
+}, {
+  maxSessions: 10,
+  maxEntries: 18,
+  maxTextLength: 900,
+  keepReferences: false,
+  keepSummary: false
+}, {
+  maxSessions: 6,
+  maxEntries: 10,
+  maxTextLength: 560,
+  keepReferences: false,
+  keepSummary: false
+}];
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data() {
     return {
@@ -68,7 +97,11 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
       chatSessions: [],
       selectedSessionId: '',
       sessionStartedAt: null,
-      sessionDropdownOpen: false
+      sessionDropdownOpen: false,
+      questionGenerator: null,
+      questionBankCount: 0,
+      questionBankMeta: null,
+      latestBatchVerification: null
     };
   },
   computed: {
@@ -103,10 +136,11 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
     }
   },
   methods: {
-    createChatEntry(role, text, references = [], summaryBullets = null) {
+    createChatEntry(role, text, references = [], summaryBullets = null, verification = null) {
       const now = new Date();
-      const resolvedSummary = Array.isArray(summaryBullets) && summaryBullets.length && summaryBullets || this.extractSummaryBulletPoints(text);
-      const allowCollapse = resolvedSummary.length && this.isLongMessage(text);
+      const providedSummary = Array.isArray(summaryBullets) ? summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4) : null;
+      const resolvedSummary = providedSummary !== null ? providedSummary : role === 'assistant' ? [] : this.extractSummaryBulletPoints(text);
+      const allowCollapse = role !== 'assistant' && resolvedSummary.length && this.isLongMessage(text);
       return {
         role,
         text,
@@ -117,6 +151,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
         userToggled: false,
         speechControlsVisible: false,
         speechStatus: 'stopped',
+        verification,
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], {
           hour: 'numeric',
@@ -128,6 +163,23 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
           day: 'numeric'
         })
       };
+    },
+    getVerificationBadgeClass(verification) {
+      const confidence = (verification === null || verification === void 0 ? void 0 : verification.confidence) || 'low';
+      if (confidence === 'high') return 'chat-verification--high';
+      if (confidence === 'medium') return 'chat-verification--medium';
+      return 'chat-verification--low';
+    },
+    formatVerificationLabel(verification) {
+      if (!verification) {
+        return '';
+      }
+      const confidence = String(verification.confidence || 'low').toUpperCase();
+      const sourceCount = Number(verification.totalSources || 0);
+      if (sourceCount > 0) {
+        return `${confidence} confidence - ${sourceCount} source${sourceCount === 1 ? '' : 's'}`;
+      }
+      return `${confidence} confidence`;
     },
     escapeHtml(value) {
       const map = {
@@ -391,8 +443,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
         }
         const assistantData = payload.assistant;
         const references = Array.isArray(assistantData.references) ? assistantData.references : [];
-        const summary = Array.isArray(assistantData.summary) ? assistantData.summary : [];
-        this.chatHistory.push(this.createChatEntry('assistant', assistantData.message.trim(), references, summary));
+        this.chatHistory.push(this.createChatEntry('assistant', assistantData.message.trim(), references, [], null));
         if (payload.session_id) {
           this.sessionId = payload.session_id;
         }
@@ -418,15 +469,22 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
       const response = await fetch('/api/ai/ask', {
         method: 'POST',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': this.getCsrfToken()
         },
         body: JSON.stringify(payload)
       });
-      const data = await response.json().catch(() => ({}));
+      const contentType = (response.headers.get('content-type') || '').toLowerCase();
+      const isJson = contentType.includes('application/json');
+      const data = isJson ? await response.json().catch(() => ({})) : {};
       if (!response.ok) {
-        const error = (data === null || data === void 0 ? void 0 : data.error) || 'Noor cannot respond right now.';
+        const statusHint = response.status ? `Request failed (${response.status}).` : '';
+        const error = (data === null || data === void 0 ? void 0 : data.error) || statusHint || 'Noor cannot respond right now.';
         throw new Error(error);
+      }
+      if (!isJson) {
+        throw new Error('Unexpected server response. Please refresh and try again.');
       }
       return data;
     },
@@ -443,6 +501,120 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
       }
       const meta = document.querySelector('meta[name="csrf-token"]');
       return (meta === null || meta === void 0 ? void 0 : meta.getAttribute('content')) || '';
+    },
+    initializeQuestionGenerator() {
+      if (!this.questionGenerator) {
+        this.questionGenerator = new _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.IslamicQuestionGenerator();
+      }
+      return this.questionGenerator;
+    },
+    parseQuestionBankMeta() {
+      if (typeof window === 'undefined') {
+        return null;
+      }
+      try {
+        const raw = window.localStorage.getItem(_scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.QUESTION_BANK_META_STORAGE_KEY);
+        if (!raw) {
+          return null;
+        }
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== 'object') {
+          return null;
+        }
+        return parsed;
+      } catch (error) {
+        return null;
+      }
+    },
+    getQuestionBank() {
+      if (typeof window === 'undefined') {
+        return [];
+      }
+      const questions = (0,_scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.loadQuestionBankFromStorage)(window.localStorage);
+      this.questionBankCount = questions.length;
+      this.questionBankMeta = this.parseQuestionBankMeta();
+      return questions;
+    },
+    generateQuestionBank(count = _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_QUESTION_COUNT) {
+      if (typeof window === 'undefined') {
+        return [];
+      }
+      const generator = this.initializeQuestionGenerator();
+      const questions = (0,_scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.ensureQuestionBank)({
+        generator,
+        count,
+        storage: window.localStorage
+      });
+      this.questionBankCount = questions.length;
+      this.questionBankMeta = this.parseQuestionBankMeta();
+      return questions;
+    },
+    initializeQuestionBank() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      this.initializeQuestionGenerator();
+      this.getQuestionBank();
+    },
+    async runBatchVerification(batchSize = _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_BATCH_SIZE, maxBatches = null) {
+      const normalizedBatchSize = Math.max(1, Number(batchSize) || _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_BATCH_SIZE);
+      const existingQuestions = this.getQuestionBank();
+      const questions = existingQuestions.length ? existingQuestions : this.generateQuestionBank(_scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_QUESTION_COUNT);
+      const batches = (0,_scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.chunkQuestionBatches)(questions, normalizedBatchSize);
+      const limit = Number.isFinite(Number(maxBatches)) && Number(maxBatches) > 0 ? Math.min(batches.length, Number(maxBatches)) : batches.length;
+      const batchReports = [];
+      for (let index = 0; index < limit; index += 1) {
+        const batch = batches[index];
+        const response = await fetch('/api/ai/batch-verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': this.getCsrfToken()
+          },
+          body: JSON.stringify({
+            questions: batch
+          })
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error((payload === null || payload === void 0 ? void 0 : payload.error) || `Batch verification failed at batch ${index + 1}.`);
+        }
+        batchReports.push({
+          batch: index + 1,
+          size: batch.length,
+          summary: payload.summary || {}
+        });
+      }
+      const report = {
+        generatedAt: new Date().toISOString(),
+        totalQuestions: questions.length,
+        batchSize: normalizedBatchSize,
+        batchesProcessed: batchReports.length,
+        batches: batchReports
+      };
+      this.latestBatchVerification = report;
+      return report;
+    },
+    attachAiTestHarness() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      window[AI_TEST_HARNESS_KEY] = {
+        apis: _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.FREE_ISLAMIC_APIS,
+        generateQuestionBank: (count = _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_QUESTION_COUNT) => this.generateQuestionBank(count),
+        getQuestionBank: () => this.getQuestionBank(),
+        runBatchVerification: (batchSize = _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.DEFAULT_BATCH_SIZE, maxBatches = null) => this.runBatchVerification(batchSize, maxBatches),
+        getLatestBatchReport: () => this.latestBatchVerification,
+        storageKey: _scripts_islamicAiToolkit__WEBPACK_IMPORTED_MODULE_0__.QUESTION_BANK_STORAGE_KEY
+      };
+    },
+    detachAiTestHarness() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      if (window[AI_TEST_HARNESS_KEY]) {
+        delete window[AI_TEST_HARNESS_KEY];
+      }
     },
     shareConversationOnWhatsApp() {
       if (!this.chatHistory.length) {
@@ -557,15 +729,137 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
       this.voiceFinalTranscript = '';
       this.voiceInterimTranscript = '';
     },
+    isQuotaExceededError(error) {
+      if (!error || typeof error !== 'object') {
+        return false;
+      }
+      const name = String(error.name || '');
+      const code = Number(error.code || 0);
+      return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED' || code === 22 || code === 1014;
+    },
+    formatEntryTime(timestamp) {
+      const parsed = typeof timestamp === 'string' ? Date.parse(timestamp) : timestamp;
+      const date = new Date(!Number.isNaN(parsed) && parsed ? parsed : Date.now());
+      return {
+        iso: date.toISOString(),
+        displayTime: date.toLocaleTimeString([], {
+          hour: 'numeric',
+          minute: '2-digit'
+        }),
+        displayDate: date.toLocaleDateString([], {
+          weekday: 'short',
+          month: 'short',
+          day: 'numeric'
+        })
+      };
+    },
+    normalizeStoredReference(reference) {
+      if (!reference || typeof reference !== 'object') {
+        return null;
+      }
+      const label = String(reference.label || '').trim();
+      if (!label) {
+        return null;
+      }
+      const normalizedUrl = typeof reference.url === 'string' && reference.url.trim() ? reference.url.trim() : null;
+      return {
+        label: label.slice(0, 180),
+        url: normalizedUrl
+      };
+    },
+    serializeSessionEntryForStorage(entry, options = {}) {
+      if (!entry || typeof entry !== 'object') {
+        return null;
+      }
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const rawText = typeof entry.text === 'string' ? entry.text.trim() : '';
+      if (!rawText) {
+        return null;
+      }
+      const maxTextLength = Number(options.maxTextLength || 1200);
+      const text = rawText.length > maxTextLength ? `${rawText.slice(0, maxTextLength)}...` : rawText;
+      const references = options.keepReferences ? Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 4) : [] : [];
+      const summaryBullets = options.keepSummary ? Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 3) : this.extractSummaryBulletPoints(text) : [];
+      const verification = entry.verification && typeof entry.verification === 'object' ? {
+        verified: Boolean(entry.verification.verified),
+        confidence: String(entry.verification.confidence || 'low'),
+        totalSources: Number(entry.verification.totalSources || 0),
+        message: String(entry.verification.message || '')
+      } : null;
+      const time = this.formatEntryTime(entry.time);
+      return {
+        role,
+        text,
+        time: time.iso,
+        references,
+        summaryBullets,
+        verification
+      };
+    },
+    buildStorageSessionPayload(options = {}) {
+      const maxSessions = Number(options.maxSessions || 12);
+      const maxEntries = Number(options.maxEntries || 20);
+      const sessions = Array.isArray(this.chatSessions) ? this.chatSessions.slice(0, maxSessions) : [];
+      return sessions.map(session => {
+        const history = Array.isArray(session.history) ? session.history : [];
+        const compactedHistory = history.slice(-maxEntries).map(entry => this.serializeSessionEntryForStorage(entry, options)).filter(Boolean);
+        if (!session.id || !compactedHistory.length) {
+          return null;
+        }
+        return {
+          id: String(session.id),
+          createdAt: session.createdAt || session.updatedAt || Date.now(),
+          updatedAt: session.updatedAt || Date.now(),
+          history: compactedHistory
+        };
+      }).filter(Boolean);
+    },
+    normalizeStoredChatEntry(entry) {
+      if (!entry || typeof entry !== 'object') {
+        return null;
+      }
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const text = typeof entry.text === 'string' ? entry.text.trim() : '';
+      if (!text) {
+        return null;
+      }
+      const time = this.formatEntryTime(entry.time);
+      const references = Array.isArray(entry.references) ? entry.references.map(item => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 5) : [];
+      const summaryBullets = Array.isArray(entry.summaryBullets) ? entry.summaryBullets.map(item => String(item || '').trim()).filter(Boolean).slice(0, 4) : this.extractSummaryBulletPoints(text);
+      const allowCollapse = role !== 'assistant' && summaryBullets.length > 0 && this.isLongMessage(text);
+      return {
+        role,
+        text,
+        references,
+        summaryBullets,
+        allowCollapse,
+        collapsed: allowCollapse && this.isCompactMode,
+        userToggled: false,
+        speechControlsVisible: false,
+        speechStatus: 'stopped',
+        verification: null,
+        time: time.iso,
+        displayTime: time.displayTime,
+        displayDate: time.displayDate
+      };
+    },
     persistSessionsStorage() {
       if (typeof window === 'undefined') {
         return;
       }
-      try {
-        window.localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, JSON.stringify(this.chatSessions));
-      } catch (error) {
-        console.error('Unable to save chat sessions', error);
+      for (const strategy of SESSION_STORAGE_COMPACTION_STEPS) {
+        try {
+          const payload = this.buildStorageSessionPayload(strategy);
+          window.localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, JSON.stringify(payload));
+          return;
+        } catch (error) {
+          if (!this.isQuotaExceededError(error)) {
+            console.error('Unable to save chat sessions', error);
+            return;
+          }
+        }
       }
+      console.error('Unable to save chat sessions', new Error('Storage quota exceeded after compaction attempts.'));
     },
     loadStoredSessions() {
       if (typeof window === 'undefined') {
@@ -579,10 +873,10 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
         }
         const sessions = stored.filter(session => session && session.id && Array.isArray(session.history) && session.history.length).map(session => ({
           id: session.id,
-          history: session.history.map(entry => _objectSpread({}, entry)),
+          history: session.history.map(entry => this.normalizeStoredChatEntry(entry)).filter(Boolean),
           createdAt: session.createdAt || session.updatedAt || Date.now(),
           updatedAt: session.updatedAt || Date.now()
-        })).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+        })).filter(session => session.history.length).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
         this.chatSessions = sessions;
         if (!this.selectedSessionId && sessions.length) {
           this.selectedSessionId = sessions[0].id;
@@ -607,6 +901,9 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
         this.chatSessions.splice(existingIndex, 1);
       }
       this.chatSessions.unshift(record);
+      if (this.chatSessions.length > SESSION_MEMORY_LIMIT) {
+        this.chatSessions = this.chatSessions.slice(0, SESSION_MEMORY_LIMIT);
+      }
       this.persistSessionsStorage();
     },
     loadSession(sessionId) {
@@ -1016,6 +1313,8 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
     this.resetSession();
     this.updateCompactMode();
     this.initializeSpeechSynthesis();
+    this.initializeQuestionBank();
+    this.attachAiTestHarness();
     this.resizeListener = () => this.updateCompactMode();
     window.addEventListener('resize', this.resizeListener);
   },
@@ -1041,6 +1340,7 @@ const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
       this.voiceAlertTimeout = null;
     }
     this.stopSpeech();
+    this.detachAiTestHarness();
   }
 });
 
@@ -1197,84 +1497,88 @@ const _hoisted_38 = {
 const _hoisted_39 = {
   class: "chat-bubble-container"
 };
-const _hoisted_40 = ["innerHTML"];
-const _hoisted_41 = {
+const _hoisted_40 = {
   key: 0,
+  class: "chat-section-heading"
+};
+const _hoisted_41 = ["innerHTML"];
+const _hoisted_42 = {
+  key: 1,
   class: "chat-entry-actions"
 };
-const _hoisted_42 = ["onClick"];
 const _hoisted_43 = ["onClick"];
-const _hoisted_44 = {
+const _hoisted_44 = ["onClick"];
+const _hoisted_45 = {
   class: "chat-voice-wrapper ms-2"
 };
-const _hoisted_45 = ["onClick", "aria-expanded"];
-const _hoisted_46 = {
+const _hoisted_46 = ["onClick", "aria-expanded"];
+const _hoisted_47 = {
   key: 0,
   class: "chat-voice-controls",
   role: "group",
   "aria-label": "Speech controls",
   "aria-live": "polite"
 };
-const _hoisted_47 = ["onClick", "disabled"];
 const _hoisted_48 = ["onClick", "disabled"];
 const _hoisted_49 = ["onClick", "disabled"];
-const _hoisted_50 = {
+const _hoisted_50 = ["onClick", "disabled"];
+const _hoisted_51 = {
   class: "chat-voice-status",
   "aria-live": "polite"
 };
-const _hoisted_51 = {
-  key: 1,
+const _hoisted_52 = {
+  key: 2,
   class: "chat-summary"
 };
-const _hoisted_52 = {
+const _hoisted_53 = {
   class: "chat-summary-title"
 };
-const _hoisted_53 = ["onClick"];
-const _hoisted_54 = {
+const _hoisted_54 = ["onClick"];
+const _hoisted_55 = {
   key: 0
 };
-const _hoisted_55 = {
+const _hoisted_56 = {
   key: 1
 };
-const _hoisted_56 = {
-  key: 3,
+const _hoisted_57 = {
+  key: 5,
   class: "chat-references-wrapper",
   "aria-label": "Sources that informed this answer"
 };
-const _hoisted_57 = {
+const _hoisted_58 = {
   class: "chat-references",
   role: "list"
 };
-const _hoisted_58 = ["href"];
-const _hoisted_59 = {
+const _hoisted_59 = ["href"];
+const _hoisted_60 = {
   key: 0,
   class: "chat-entry assistant chat-entry--typing",
   "aria-live": "polite"
 };
-const _hoisted_60 = ["disabled"];
-const _hoisted_61 = {
+const _hoisted_61 = ["disabled"];
+const _hoisted_62 = {
   class: "ai-form-meta pt-2 text-muted"
 };
-const _hoisted_62 = {
+const _hoisted_63 = {
   class: "ai-secondary-group"
 };
-const _hoisted_63 = ["disabled"];
-const _hoisted_64 = {
+const _hoisted_64 = ["disabled"];
+const _hoisted_65 = {
   key: 0,
   class: "spinner-border spinner-border-sm",
   role: "status",
   "aria-hidden": "true"
 };
-const _hoisted_65 = ["disabled", "aria-pressed"];
-const _hoisted_66 = ["disabled"];
-const _hoisted_67 = {
+const _hoisted_66 = ["disabled", "aria-pressed"];
+const _hoisted_67 = ["disabled"];
+const _hoisted_68 = {
   key: 0,
   class: "ai-voice-status",
   role: "status",
   "aria-live": "polite"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-welcome\" aria-live=\"polite\" data-v-077e75cb><div class=\"ai-welcome-icon\" aria-hidden=\"true\" data-v-077e75cb><i class=\"fas fa-star-and-crescent\" aria-hidden=\"true\" data-v-077e75cb></i></div><div class=\"ai-welcome-text pt-2\" data-v-077e75cb><h2 class=\"fw-bold\" data-v-077e75cb>Introducing Noor, Your AI Companion</h2><p class=\"container ai-welcome-copy\" data-v-077e75cb> Noor listens first, then gently responds with Quran rooted insight and prophetic kindness so every exchange feels like encouragement from a trusted companion. Ask for dua ideas, reminders, or reflections tuned to your day. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [_cache[44] || (_cache[44] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"ai-welcome\" aria-live=\"polite\" data-v-077e75cb><div class=\"ai-welcome-icon\" aria-hidden=\"true\" data-v-077e75cb><i class=\"fas fa-star-and-crescent\" aria-hidden=\"true\" data-v-077e75cb></i></div><div class=\"ai-welcome-text pt-2\" data-v-077e75cb><h2 class=\"fw-bold\" data-v-077e75cb>Introducing Noor, Your AI Companion</h2><p class=\"container ai-welcome-copy\" data-v-077e75cb> Noor listens first, then gently responds with Quran rooted insight and prophetic kindness so every exchange feels like encouragement from a trusted companion. Ask for dua ideas, reminders, or reflections tuned to your day. </p></div></div>", 1)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_cache[16] || (_cache[16] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h6", {
     class: "fw-bold"
   }, "Need inspiration ?", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
@@ -1421,12 +1725,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(entry.role === 'assistant' ? 'fas fa-robot chat-icon' : 'fas fa-user chat-icon'),
       "aria-hidden": "true",
       title: "Sender"
-    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+    }, null, 2 /* CLASS */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("b", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Assistant' : 'You'), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_38, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayTime) + " · " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.displayDate), 1 /* TEXT */)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_39, [entry.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_40, "Answer")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
       class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-bubble', entry.role, {
         'chat-bubble--collapsed': entry.role === 'assistant' && entry.collapsed
       }]),
       innerHTML: $options.formatChatText(entry.text)
-    }, null, 10 /* CLASS, PROPS */, _hoisted_40), entry.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, 10 /* CLASS, PROPS */, _hoisted_41), entry.role === 'assistant' ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "chat-share-btn",
       onClick: $event => $options.shareEntryOnWhatsApp(entry),
@@ -1436,7 +1740,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "d-none d-md-inline ms-1"
-    }, "Share answer", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_42), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Share answer", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "chat-copy-btn ms-2",
       onClick: $event => $options.copyEntryToClipboard(entry),
@@ -1446,7 +1750,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "d-none d-md-inline ms-1"
-    }, "Copy answer", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_43), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Copy answer", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_44), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "chat-voice-trigger",
       onClick: $event => $options.toggleSpeechControls(entry),
@@ -1456,7 +1760,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       "aria-hidden": "true"
     }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "visually-hidden"
-    }, "Read this answer aloud", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_45), entry.speechControlsVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_46, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, "Read this answer aloud", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_46), entry.speechControlsVisible ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "chat-voice-control-btn",
       onClick: $event => $options.playEntrySpeech(entry),
@@ -1465,7 +1769,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [...(_cache[32] || (_cache[32] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-play",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_47), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "chat-voice-control-btn",
       onClick: $event => $options.pauseEntrySpeech(entry),
@@ -1474,7 +1778,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [...(_cache[33] || (_cache[33] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-pause",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_48), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
       type: "button",
       class: "chat-voice-control-btn",
       onClick: $event => $options.stopEntrySpeech(entry),
@@ -1483,18 +1787,25 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [...(_cache[34] || (_cache[34] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       class: "fas fa-stop",
       "aria-hidden": "true"
-    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_49), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.speechStatus === 'loading' ? 'Preparing…' : entry.speechStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.collapsed && entry.summaryBullets.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_51, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_52, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Quick summary' : 'Question snapshot'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.summaryBullets, (bullet, bulletIndex) => {
+    }, null, -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_50), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.speechStatus === 'loading' ? 'Preparing…' : entry.speechStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.collapsed && entry.summaryBullets.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_52, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("p", _hoisted_53, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'Quick summary' : 'Question snapshot'), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.summaryBullets, (bullet, bulletIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `summary-${idx}-${bulletIndex}`
       }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(bullet), 1 /* TEXT */);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.allowCollapse && $data.isCompactMode ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
-      key: 2,
+      key: 3,
       type: "button",
       class: "chat-collapse-toggle",
       onClick: $event => $options.toggleEntryCollapse(entry)
-    }, [entry.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_54, " Show full " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'response' : 'question'), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_55, " Collapse to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'summary' : 'preview'), 1 /* TEXT */))], 8 /* PROPS */, _hoisted_53)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_56, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+    }, [entry.collapsed ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_55, " Show full " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'response' : 'question'), 1 /* TEXT */)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_56, " Collapse to " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(entry.role === 'assistant' ? 'summary' : 'preview'), 1 /* TEXT */))], 8 /* PROPS */, _hoisted_54)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.role === 'assistant' && entry.verification ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", {
+      key: 4,
+      class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(['chat-verification', $options.getVerificationBadgeClass(entry.verification)]),
+      "aria-live": "polite"
+    }, [_cache[35] || (_cache[35] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+      class: "fas fa-check-circle",
+      "aria-hidden": "true"
+    }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($options.formatVerificationLabel(entry.verification)), 1 /* TEXT */)], 2 /* CLASS */)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), entry.references && entry.references.length ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_57, [_cache[36] || (_cache[36] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
       class: "chat-references-heading"
-    }, "References", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_57, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
+    }, "Reference (Proof)", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_58, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(entry.references, (reference, refIndex) => {
       return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
         key: `ref-${idx}-${refIndex}-${reference.label}`
       }, [reference.url ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("a", {
@@ -1502,11 +1813,11 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         href: reference.url,
         target: "_blank",
         rel: "noopener noreferrer"
-      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_58)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
+      }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 9 /* TEXT, PROPS */, _hoisted_59)) : ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, {
         key: 1
       }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)((0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(reference.label), 1 /* TEXT */)], 64 /* STABLE_FRAGMENT */))]);
     }), 128 /* KEYED_FRAGMENT */))])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])], 2 /* CLASS */);
-  }), 128 /* KEYED_FRAGMENT */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_59, [...(_cache[36] || (_cache[36] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }), 128 /* KEYED_FRAGMENT */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("article", _hoisted_60, [...(_cache[37] || (_cache[37] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "chat-entry-header"
   }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-robot chat-icon",
@@ -1532,7 +1843,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     ref: "aiForm",
     class: "ai-form pt-3",
     onSubmit: _cache[15] || (_cache[15] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.withModifiers)((...args) => $options.sendChatMessage && $options.sendChatMessage(...args), ["prevent"]))
-  }, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  }, [_cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
     class: "visually-hidden",
     for: "aiChatInput"
   }, "Ask the chatbot", -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("textarea", {
@@ -1543,14 +1854,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     rows: "2",
     placeholder: "Ask something that brings you closer to Allah...",
     disabled: $data.chatLoading
-  }, null, 8 /* PROPS */, _hoisted_60), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_61, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, 8 /* PROPS */, _hoisted_61), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.chatDraft]]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_62, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_63, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "submit",
     class: "ai-submit",
     disabled: $data.chatLoading || !$data.chatDraft.trim()
-  }, [_cache[37] || (_cache[37] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-paper-plane",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_64)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Noor is Thinking...' : 'Ask Noor'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_63), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), $data.chatLoading ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("span", _hoisted_65)) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.chatLoading ? 'Noor is Thinking...' : 'Ask Noor'), 1 /* TEXT */)], 8 /* PROPS */, _hoisted_64), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: (0,vue__WEBPACK_IMPORTED_MODULE_0__.normalizeClass)(["ai-voice-btn text-center", {
       'ai-voice-btn--active': $data.voiceListening
@@ -1558,21 +1869,21 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     disabled: $data.chatLoading,
     onClick: _cache[13] || (_cache[13] = (...args) => $options.toggleVoiceSearch && $options.toggleVoiceSearch(...args)),
     "aria-pressed": $data.voiceListening.toString()
-  }, [_cache[38] || (_cache[38] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [_cache[39] || (_cache[39] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-microphone",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceListening ? 'Listening…' : 'Voice search'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_65), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceListening ? 'Listening…' : 'Voice search'), 1 /* TEXT */)], 10 /* CLASS, PROPS */, _hoisted_66), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
     type: "button",
     class: "ai-clear-input",
     disabled: $data.chatLoading || !$data.chatDraft.trim(),
     onClick: _cache[14] || (_cache[14] = (...args) => $options.clearDraft && $options.clearDraft(...args))
-  }, [...(_cache[39] || (_cache[39] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, [...(_cache[40] || (_cache[40] = [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-eraser",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear input", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_66)])]), $data.voiceStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_67, [_cache[40] || (_cache[40] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  }, null, -1 /* CACHED */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", null, "Clear input", -1 /* CACHED */)]))], 8 /* PROPS */, _hoisted_67)])]), $data.voiceStatus ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("p", _hoisted_68, [_cache[41] || (_cache[41] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
     class: "fas fa-microphone me-1",
     "aria-hidden": "true"
-  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[42] || (_cache[42] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  }, null, -1 /* CACHED */)), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.voiceStatus), 1 /* TEXT */)])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), _cache[43] || (_cache[43] = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
     class: "ai-trust-note",
     role: "note",
     "aria-live": "polite"
@@ -1598,6 +1909,509 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
+
+/***/ }),
+
+/***/ "./resources/components/scripts/islamicAiToolkit.js":
+/*!**********************************************************!*\
+  !*** ./resources/components/scripts/islamicAiToolkit.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   DEFAULT_BATCH_SIZE: () => (/* binding */ DEFAULT_BATCH_SIZE),
+/* harmony export */   DEFAULT_QUESTION_COUNT: () => (/* binding */ DEFAULT_QUESTION_COUNT),
+/* harmony export */   FREE_ISLAMIC_APIS: () => (/* binding */ FREE_ISLAMIC_APIS),
+/* harmony export */   IslamicQuestionGenerator: () => (/* binding */ IslamicQuestionGenerator),
+/* harmony export */   QUESTION_BANK_META_STORAGE_KEY: () => (/* binding */ QUESTION_BANK_META_STORAGE_KEY),
+/* harmony export */   QUESTION_BANK_STORAGE_KEY: () => (/* binding */ QUESTION_BANK_STORAGE_KEY),
+/* harmony export */   chunkQuestionBatches: () => (/* binding */ chunkQuestionBatches),
+/* harmony export */   ensureQuestionBank: () => (/* binding */ ensureQuestionBank),
+/* harmony export */   loadQuestionBankFromStorage: () => (/* binding */ loadQuestionBankFromStorage),
+/* harmony export */   saveQuestionBankToStorage: () => (/* binding */ saveQuestionBankToStorage)
+/* harmony export */ });
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+const QUESTION_BANK_STORAGE_KEY = 'islamic-connect:verified-question-bank';
+const QUESTION_BANK_META_STORAGE_KEY = 'islamic-connect:verified-question-bank-meta';
+const DEFAULT_QUESTION_COUNT = 10000;
+const DEFAULT_BATCH_SIZE = 1000;
+const FREE_ISLAMIC_APIS = {
+  quranCom: {
+    name: 'Quran.com API',
+    baseURL: 'https://api.quran.com/api/v4',
+    endpoints: {
+      chapters: '/chapters',
+      versesByChapter: '/verses/by_chapter/{chapter_number}',
+      verseByKey: '/verses/by_key/{verse_key}',
+      search: '/search/{query}?size=20&page=1',
+      translations: '/resources/translations',
+      tafsirs: '/resources/tafsirs',
+      recitations: '/resources/recitations'
+    },
+    keyRequired: false
+  },
+  alQuranCloud: {
+    name: 'Alquran.cloud',
+    baseURL: 'https://api.alquran.cloud/v1',
+    endpoints: {
+      quran: '/quran/{edition}',
+      surah: '/surah/{surah}/{edition}',
+      ayah: '/ayah/{surah}:{ayah}/{edition}',
+      search: '/search/{query}/{edition}'
+    },
+    keyRequired: false
+  },
+  quranGading: {
+    name: 'Quran Gading API',
+    baseURL: 'https://api.quran.gading.dev',
+    endpoints: {
+      surah: '/surah/{surah_number}',
+      ayah: '/surah/{surah_number}/{ayah_number}',
+      search: '/search?q={query}',
+      juz: '/juz/{juz_number}'
+    },
+    keyRequired: false
+  },
+  quranEnc: {
+    name: 'QuranEnc API',
+    baseURL: 'https://quranenc.com/api/v1',
+    endpoints: {
+      translations: '/translations/list',
+      translationAyah: '/translation/aya/{translation_key}/{surah_number}/{ayah_number}',
+      tafsirAyah: '/translation/aya/{tafsir_key}/{surah_number}/{ayah_number}'
+    },
+    keyRequired: false
+  },
+  sunnah: {
+    name: 'Sunnah.com API',
+    baseURL: 'https://api.sunnah.com/v1',
+    endpoints: {
+      collections: '/collections',
+      books: '/collections/{collection}/books',
+      hadiths: '/collections/{collection}/books/{book}/hadiths',
+      hadith: '/collections/{collection}/hadiths/{hadithNumber}',
+      search: '/search?query={query}&collection={collection}'
+    },
+    keyRequired: true
+  },
+  hadithJson: {
+    name: 'Hadith JSON (GitHub, Islamic Network)',
+    baseURL: 'https://raw.githubusercontent.com/islamic-network/hadith-json/main',
+    endpoints: {
+      bukhari: '/bukhari.json',
+      muslim: '/muslim.json',
+      abudawud: '/abudawud.json',
+      tirmidhi: '/tirmidhi.json',
+      nasai: '/nasai.json',
+      ibnmajah: '/ibnmajah.json',
+      malik: '/malik.json'
+    },
+    keyRequired: false
+  },
+  hadithJsonExtended: {
+    name: 'Hadith JSON (GitHub, AhmedBaset)',
+    baseURL: 'https://raw.githubusercontent.com/AhmedBaset/hadith-json/main/db/by_book/the_9_books',
+    endpoints: {
+      bukhari: '/bukhari.json',
+      muslim: '/muslim.json',
+      abudawud: '/abudawud.json',
+      tirmidhi: '/tirmidhi.json',
+      nasai: '/nasai.json',
+      ibnmajah: '/ibnmajah.json'
+    },
+    keyRequired: false
+  },
+  aladhan: {
+    name: 'Aladhan API',
+    baseURL: 'https://api.aladhan.com/v1',
+    endpoints: {
+      timings: '/timings/{date}?latitude={lat}&longitude={lng}&method={method}',
+      calendar: '/calendar/{month}/{year}?latitude={lat}&longitude={lng}',
+      qibla: '/qibla/{lat}/{lng}',
+      gToH: '/gToH/{date}',
+      hToG: '/hToG/{date}'
+    },
+    keyRequired: false
+  }
+};
+const BASE_CATEGORY_COUNTS = {
+  quran: 3000,
+  hadith: 2500,
+  fiqh: 2000,
+  aqidah: 1500,
+  seerah: 1000,
+  history: 500,
+  edge: 1000
+};
+const QURAN_TOPICS = ['Allah', 'Prophet Muhammad', 'angels', 'holy books', 'day of judgment', 'paradise', 'hell', 'patience', 'prayer', 'fasting', 'zakat', 'hajj', 'charity', 'honesty', 'justice', 'mercy', 'forgiveness', 'repentance', 'gratitude', 'trust', 'sincerity', 'humility', 'parents', 'orphans', 'poor', 'knowledge', 'wisdom', 'death', 'wealth', 'business ethics', 'marriage', 'divorce', 'inheritance', 'cleanliness', 'modesty', 'peace', 'reconciliation', 'community', 'leadership', 'rights', 'responsibilities', 'creation', 'morality', 'speech', 'reflection', 'quran recitation', 'memorization', 'night prayer', 'dhikr', 'dua', 'ramadan', 'umrah', 'sacrifice'];
+const FIQH_TOPICS = ['purification', 'wudu', 'ghusl', 'tayammum', 'menstruation', 'prayer times', 'adhan', 'iqamah', 'salah conditions', 'salah pillars', 'congregational prayer', 'friday prayer', 'eid prayer', 'funeral prayer', 'voluntary prayers', 'fasting conditions', 'ramadan', 'zakat calculation', 'zakat recipients', 'hajj pillars', 'hajj types', 'umrah', 'sacrifice', 'aqiqah', 'marriage contract', 'divorce types', 'iddah', 'inheritance shares', 'business transactions', 'leasing', 'insurance', 'food regulations', 'slaughtering', 'clothing', 'medical treatment', 'funeral rites'];
+const AQIDAH_TOPICS = ['tawheed', 'shirk', 'rububiyyah', 'uluhiyyah', 'asma was-sifaat', 'faith', 'iman', 'kufr', 'nifaq', 'qadar', 'predestination', 'prophethood', 'miracles', 'angels', 'jinn', 'heaven', 'hell', 'grave punishment', 'resurrection', 'reckoning', 'intercession', 'companions', 'ahl al-bayt', 'ummah', 'unity', 'innovation', 'ijtihad', 'taqlid', 'consensus', 'analogy'];
+const SEERAH_TOPICS = ['birth', 'childhood', 'revelation', 'first Muslims', 'persecution', 'migration to Abyssinia', 'isra and miraj', 'migration to Medina', 'constitution of Medina', 'battles', 'treaties', 'conquest of Mecca', 'farewell pilgrimage', 'death', 'character', 'family', 'companions', 'justice', 'mercy', 'leadership', 'teaching methods', 'social reforms'];
+const HISTORY_EVENTS = ['Rightly Guided Caliphs', 'Battle of Badr', 'Battle of Uhud', 'Battle of the Trench', 'Treaty of Hudaybiyyah', 'Conquest of Mecca', 'Year of the Elephant', 'First Revelation', 'Migration to Medina', 'Year of Sorrow', 'Night Journey', 'Farewell Pilgrimage', 'Early Muslim Community', 'Spread of Islam', 'Islamic Golden Age', 'Muslim Spain', 'Ottoman Empire', 'Mughal Empire', 'Abbasid Caliphate', 'Umayyad Caliphate', 'Companions of the Prophet', 'Mothers of the Believers'];
+const MODERN_TOPICS = ['cryptocurrency', 'online trading', 'stock market', 'insurance', 'banking', 'loans', 'mortgages', 'organ donation', 'euthanasia', 'abortion', 'social media', 'online privacy', 'AI ethics', 'online business', 'e-commerce', 'vaccines', 'mental health', 'climate change', 'political participation', 'voting', 'interfaith marriage', 'modern fashion', 'cosmetic surgery', 'music', 'movies', 'games', 'sports betting', 'yoga', 'meditation'];
+const QURAN_TEMPLATES = ['What does the Quran say about {topic}?', 'Find Quran verses about {topic}.', 'How does the Quran address {topic}?', 'Mention Quranic verses on {topic}.', 'Explain the Quranic view on {topic}.'];
+const HADITH_TEMPLATES = ['Hadith about {topic}.', 'Authentic hadith regarding {topic}.', 'What did Prophet Muhammad say about {topic}?', 'Find hadith on {topic}.', 'Prophetic guidance on {topic}.'];
+const FIQH_TEMPLATES = ['How to perform {act}?', 'Rules of {act}.', 'Conditions for {act}.', 'What invalidates {act}?', 'Explain {act} in Islam.'];
+const AQIDAH_TEMPLATES = ['What is {concept} in Islam?', 'Explain {concept}.', 'Islamic belief about {concept}.', 'Evidence for {concept}.', 'Importance of {concept}.'];
+const SEERAH_TEMPLATES = ['Tell me about {event}.', 'What happened during {event}?', 'Explain {event} in the Prophet life.', 'Significance of {event}.', 'Lessons from {event}.'];
+const EDGE_TEMPLATES = [{
+  question: 'Is {topic} halal or haram?',
+  type: 'modern',
+  expected: 'defer',
+  keywords: ['consult', 'scholar', 'context']
+}, {
+  question: 'Islamic ruling on {topic}.',
+  type: 'modern',
+  expected: 'multi-source',
+  keywords: ['scholars', 'differ', 'opinions']
+}, {
+  question: 'How to handle {topic} as a Muslim?',
+  type: 'modern',
+  expected: 'principles',
+  keywords: ['islamic principles', 'ethics', 'values']
+}, {
+  question: 'Specific ruling for my situation: {topic}.',
+  type: 'defer',
+  expected: 'defer',
+  keywords: ['personal', 'consult', 'qualified']
+}, {
+  question: 'Is my {topic} valid?',
+  type: 'defer',
+  expected: 'defer',
+  keywords: ['specific', 'consult', 'scholar']
+}, {
+  question: 'Predict {topic} using Islamic texts.',
+  type: 'reject',
+  expected: 'reject',
+  keywords: ['forbidden', 'unknown', 'Allah']
+}, {
+  question: 'Give me a fatwa about {topic}.',
+  type: 'reject',
+  expected: 'reject',
+  keywords: ['fatwa', 'scholar', 'qualified']
+}];
+class IslamicQuestionGenerator {
+  constructor() {
+    this.baseCategoryCounts = _objectSpread({}, BASE_CATEGORY_COUNTS);
+  }
+  generateQuestions(count = DEFAULT_QUESTION_COUNT) {
+    const target = Number.isFinite(count) && count > 0 ? Math.floor(count) : DEFAULT_QUESTION_COUNT;
+    const categories = this.scaleCategoryCounts(target);
+    const questions = [];
+    const idCounter = {
+      value: 1
+    };
+    this.addQuranQuestions(questions, categories.quran, idCounter);
+    this.addHadithQuestions(questions, categories.hadith, idCounter);
+    this.addFiqhQuestions(questions, categories.fiqh, idCounter);
+    this.addAqidahQuestions(questions, categories.aqidah, idCounter);
+    this.addSeerahQuestions(questions, categories.seerah, idCounter);
+    this.addHistoryQuestions(questions, categories.history, idCounter);
+    this.addEdgeCaseQuestions(questions, categories.edge);
+    const shuffled = this.shuffleArray(questions);
+    return shuffled.slice(0, target);
+  }
+  scaleCategoryCounts(targetCount) {
+    const sourceTotal = Object.values(this.baseCategoryCounts).reduce((sum, value) => sum + value, 0);
+    const entries = Object.entries(this.baseCategoryCounts);
+    const scaled = {};
+    let allocated = 0;
+    entries.forEach(([name, baseCount], index) => {
+      if (index === entries.length - 1) {
+        scaled[name] = Math.max(0, targetCount - allocated);
+      } else {
+        const count = Math.floor(baseCount / sourceTotal * targetCount);
+        scaled[name] = count;
+        allocated += count;
+      }
+    });
+    return scaled;
+  }
+  addQuranQuestions(questions, count, idCounter) {
+    for (let i = 0; i < count; i += 1) {
+      const topic = this.getRandomItem(QURAN_TOPICS);
+      const template = this.getRandomItem(QURAN_TEMPLATES);
+      const difficulty = this.getRandomDifficulty();
+      questions.push({
+        id: `Q${String(idCounter.value).padStart(5, '0')}`,
+        category: 'quran',
+        subcategory: this.getQuranSubcategory(topic),
+        question: template.replace('{topic}', topic),
+        difficulty,
+        expectedSources: ['quran'],
+        minVerses: difficulty === 'easy' ? 1 : difficulty === 'medium' ? 2 : 3,
+        verificationLevel: 'high',
+        tags: [topic, 'quran', this.getRandomEdition()],
+        metadata: {
+          createdAt: new Date().toISOString(),
+          priority: this.getPriority(difficulty)
+        }
+      });
+      idCounter.value += 1;
+    }
+  }
+  addHadithQuestions(questions, count, idCounter) {
+    for (let i = 0; i < count; i += 1) {
+      const topic = this.getRandomItem(QURAN_TOPICS);
+      const template = this.getRandomItem(HADITH_TEMPLATES);
+      const collection = this.getRandomCollection();
+      const difficulty = this.getRandomDifficulty();
+      questions.push({
+        id: `H${String(idCounter.value).padStart(5, '0')}`,
+        category: 'hadith',
+        subcategory: collection,
+        question: template.replace('{topic}', topic),
+        difficulty,
+        expectedSources: ['hadith'],
+        requiredCollection: collection,
+        minHadiths: 1,
+        verificationLevel: 'high',
+        tags: [topic, 'hadith', collection],
+        metadata: {
+          grade: this.getRandomGrade(),
+          collection
+        }
+      });
+      idCounter.value += 1;
+    }
+  }
+  addFiqhQuestions(questions, count, idCounter) {
+    for (let i = 0; i < count; i += 1) {
+      const topic = this.getRandomItem(FIQH_TOPICS);
+      const template = this.getRandomItem(FIQH_TEMPLATES);
+      const school = this.getRandomSchool();
+      questions.push({
+        id: `F${String(idCounter.value).padStart(5, '0')}`,
+        category: 'fiqh',
+        subcategory: topic,
+        question: template.replace('{act}', topic),
+        difficulty: 'medium',
+        expectedSources: ['quran', 'hadith'],
+        schoolOfThought: school,
+        requiresStepByStep: true,
+        verificationLevel: 'medium',
+        tags: [topic, 'fiqh', school],
+        metadata: {
+          school,
+          requiresConditions: true
+        }
+      });
+      idCounter.value += 1;
+    }
+  }
+  addAqidahQuestions(questions, count, idCounter) {
+    for (let i = 0; i < count; i += 1) {
+      const topic = this.getRandomItem(AQIDAH_TOPICS);
+      const template = this.getRandomItem(AQIDAH_TEMPLATES);
+      questions.push({
+        id: `A${String(idCounter.value).padStart(5, '0')}`,
+        category: 'aqidah',
+        subcategory: 'creed',
+        question: template.replace('{concept}', topic),
+        difficulty: 'medium',
+        expectedSources: ['quran', 'hadith'],
+        expectedComponents: this.getExpectedComponents(topic),
+        verificationLevel: 'high',
+        tags: [topic, 'aqidah', 'creed'],
+        metadata: {
+          coreBelief: true,
+          requiresEvidence: true
+        }
+      });
+      idCounter.value += 1;
+    }
+  }
+  addSeerahQuestions(questions, count, idCounter) {
+    for (let i = 0; i < count; i += 1) {
+      const topic = this.getRandomItem(SEERAH_TOPICS);
+      const template = this.getRandomItem(SEERAH_TEMPLATES);
+      questions.push({
+        id: `S${String(idCounter.value).padStart(5, '0')}`,
+        category: 'seerah',
+        subcategory: 'prophetic_life',
+        question: template.replace('{event}', topic),
+        difficulty: 'easy',
+        expectedSources: ['seerah', 'history'],
+        verificationLevel: 'medium',
+        tags: [topic, 'seerah', 'prophet'],
+        metadata: {
+          historical: true,
+          requiresContext: true
+        }
+      });
+      idCounter.value += 1;
+    }
+  }
+  addHistoryQuestions(questions, count, idCounter) {
+    for (let i = 0; i < count; i += 1) {
+      const event = this.getRandomItem(HISTORY_EVENTS);
+      const difficulty = this.getRandomDifficulty();
+      questions.push({
+        id: `R${String(idCounter.value).padStart(5, '0')}`,
+        category: 'history',
+        subcategory: 'islamic_history',
+        question: `Tell me about ${event}.`,
+        difficulty,
+        expectedSources: ['history', 'seerah'],
+        verificationLevel: 'medium',
+        tags: [event.toLowerCase().replace(/\s+/g, '_'), 'history'],
+        metadata: {
+          historicalPeriod: this.getHistoricalPeriod(event),
+          requiresDates: true
+        }
+      });
+      idCounter.value += 1;
+    }
+  }
+  addEdgeCaseQuestions(questions, count) {
+    for (let i = 0; i < count; i += 1) {
+      const template = this.getRandomItem(EDGE_TEMPLATES);
+      const topic = this.getRandomItem(MODERN_TOPICS);
+      questions.push({
+        id: `E${String(i + 1).padStart(5, '0')}`,
+        category: 'edge_case',
+        subcategory: template.type,
+        question: template.question.replace('{topic}', topic),
+        difficulty: 'hard',
+        expectedResponse: template.expected,
+        expectedKeywords: template.keywords,
+        verificationLevel: 'requires_human',
+        tags: [topic, 'modern', 'contemporary'],
+        metadata: {
+          requiresScholarlyInput: true,
+          cautionLevel: 'high'
+        }
+      });
+    }
+  }
+  getRandomItem(list) {
+    return list[Math.floor(Math.random() * list.length)];
+  }
+  getRandomDifficulty() {
+    const random = Math.random();
+    if (random < 0.6) return 'easy';
+    if (random < 0.9) return 'medium';
+    return 'hard';
+  }
+  getRandomCollection() {
+    const collections = ['bukhari', 'muslim', 'abudawud', 'tirmidhi', 'nasai', 'ibnmajah'];
+    return this.getRandomItem(collections);
+  }
+  getRandomSchool() {
+    const schools = ['hanafi', 'shafi', 'maliki', 'hanbali'];
+    return this.getRandomItem(schools);
+  }
+  getRandomEdition() {
+    const editions = ['quran-uthmani', 'quran-simple', 'en.sahih', 'en.pickthall', 'en.yusufali'];
+    return this.getRandomItem(editions);
+  }
+  getRandomGrade() {
+    const grades = ['sahih', 'hasan', 'daif'];
+    return this.getRandomItem(grades);
+  }
+  getQuranSubcategory(topic) {
+    const themes = {
+      allah: 'divinity',
+      prayer: 'worship',
+      charity: 'social',
+      justice: 'ethics',
+      knowledge: 'education',
+      patience: 'character'
+    };
+    return themes[String(topic || '').toLowerCase()] || 'general';
+  }
+  getExpectedComponents(topic) {
+    const components = {
+      tawheed: ['rububiyyah', 'uluhiyyah', 'asma was-sifaat'],
+      iman: ['Allah', 'angels', 'books', 'prophets', 'day of judgment', 'qadar'],
+      prophethood: ['messengers', 'miracles', 'infallibility', 'finality']
+    };
+    return components[String(topic || '').toLowerCase()] || [];
+  }
+  getHistoricalPeriod(event) {
+    const periods = {
+      'Rightly Guided Caliphs': '632-661 CE',
+      'Battle of Badr': '624 CE',
+      'Conquest of Mecca': '630 CE',
+      'Islamic Golden Age': '8th-14th century'
+    };
+    return periods[event] || 'Various';
+  }
+  getPriority(difficulty) {
+    const priorities = {
+      easy: 1,
+      medium: 2,
+      hard: 3
+    };
+    return priorities[difficulty] || 2;
+  }
+  shuffleArray(array) {
+    const cloned = [...array];
+    for (let i = cloned.length - 1; i > 0; i -= 1) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [cloned[i], cloned[j]] = [cloned[j], cloned[i]];
+    }
+    return cloned;
+  }
+}
+function chunkQuestionBatches(questions, batchSize = DEFAULT_BATCH_SIZE) {
+  if (!Array.isArray(questions) || !questions.length) {
+    return [];
+  }
+  const normalizedBatchSize = Math.max(1, Number(batchSize) || DEFAULT_BATCH_SIZE);
+  const batches = [];
+  for (let i = 0; i < questions.length; i += normalizedBatchSize) {
+    batches.push(questions.slice(i, i + normalizedBatchSize));
+  }
+  return batches;
+}
+function loadQuestionBankFromStorage(storage = null) {
+  if (!storage) {
+    return [];
+  }
+  try {
+    const parsed = JSON.parse(storage.getItem(QUESTION_BANK_STORAGE_KEY) || '[]');
+    return Array.isArray(parsed) ? parsed : [];
+  } catch (error) {
+    return [];
+  }
+}
+function saveQuestionBankToStorage(questions, storage = null) {
+  if (!storage) {
+    return false;
+  }
+  try {
+    storage.setItem(QUESTION_BANK_STORAGE_KEY, JSON.stringify(questions));
+    storage.setItem(QUESTION_BANK_META_STORAGE_KEY, JSON.stringify({
+      count: Array.isArray(questions) ? questions.length : 0,
+      generatedAt: new Date().toISOString()
+    }));
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+function ensureQuestionBank({
+  generator,
+  count = DEFAULT_QUESTION_COUNT,
+  storage = null
+} = {}) {
+  if (!generator || typeof generator.generateQuestions !== 'function') {
+    return [];
+  }
+  const existing = loadQuestionBankFromStorage(storage);
+  if (existing.length >= count) {
+    return existing;
+  }
+  const questions = generator.generateQuestions(count);
+  saveQuestionBankToStorage(questions, storage);
+  return questions;
+}
 
 /***/ }),
 

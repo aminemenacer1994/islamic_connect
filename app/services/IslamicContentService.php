@@ -25,7 +25,8 @@ class IslamicContentService
      *     articles: array|null,
      *     quran: array|null,
      *     hadith: array|null,
-     *     dua: array|null
+     *     dua: array|null,
+     *     local_faq: array|null
      * }
      */
     public function gatherContent(string $question, string $language = 'en'): array
@@ -39,7 +40,8 @@ class IslamicContentService
             'articles' => $this->fetchIslamHouseArticles($language, $keywords),
             'quran' => $this->fetchQuranReference($keywords, $language),
             'hadith' => $this->fetchHadith($keywords),
-            'dua' => $this->fetchDua($language, $keywords),
+            'dua' => null,
+            'local_faq' => null,
         ];
     }
 
@@ -60,7 +62,203 @@ class IslamicContentService
             array_map('trim', preg_split('/\s+/', $clean)),
             fn ($value) => strlen($value) > 2,
         );
-        return array_slice(array_unique($tokens), 0, $limit);
+
+        $stopWords = [
+            'what', 'which', 'who', 'where', 'when', 'why', 'how',
+            'tell', 'show', 'explain', 'share', 'give', 'teach',
+            'about', 'regarding', 'related', 'please',
+            'this', 'that', 'these', 'those',
+            'with', 'from', 'into', 'onto', 'over', 'under',
+            'have', 'has', 'had', 'will', 'would', 'could', 'should',
+            'does', 'did', 'done', 'make', 'made', 'also', 'just',
+            'your', 'yours', 'my', 'mine', 'our', 'ours', 'their', 'theirs',
+            'for', 'and', 'the', 'are', 'was', 'were',
+        ];
+
+        $filtered = array_values(array_filter(
+            $tokens,
+            fn ($token) => !in_array($token, $stopWords, true)
+        ));
+
+        if (empty($filtered)) {
+            $filtered = array_values($tokens);
+        }
+
+        $normalized = array_map(
+            fn ($token) => trim(strtolower(Str::singular($token))),
+            $filtered
+        );
+
+        return array_slice(array_values(array_unique(array_filter($normalized))), 0, $limit);
+    }
+
+    protected function fetchLocalFaqAnswer(string $question, array $keywords = []): ?array
+    {
+        static $faqDataset = null;
+        if ($faqDataset === null) {
+            $faqDataset = $this->loadLocalFaqDataset();
+        }
+
+        if (empty($faqDataset)) {
+            return null;
+        }
+
+        $queryKeywords = $keywords ?: $this->extractKeywords($question, 8);
+        $normalizedQuestion = strtolower(trim($this->extractKeyword($question)));
+        $best = null;
+        $bestScore = 0;
+        $bestKeywordMatches = 0;
+        $bestTitleExactMatch = false;
+
+        foreach ($faqDataset as $chapter) {
+            if (!is_array($chapter)) {
+                continue;
+            }
+
+            $chapterTitle = strtolower(trim((string) ($chapter['title'] ?? $chapter['key'] ?? '')));
+            $faqs = $chapter['faqs'] ?? [];
+            if (!is_array($faqs)) {
+                continue;
+            }
+
+            foreach ($faqs as $faq) {
+                if (!is_array($faq)) {
+                    continue;
+                }
+
+                $title = trim((string) ($faq['title'] ?? ''));
+                $body = $this->plainText((string) ($faq['body'] ?? ''));
+                if ($title === '' || $body === '') {
+                    continue;
+                }
+
+                $titleHaystack = strtolower($title);
+                $bodyHaystack = strtolower($body);
+                $score = 0;
+                $matchedKeywords = 0;
+                $titleExactMatch = false;
+
+                foreach ($queryKeywords as $keyword) {
+                    if ($keyword === '') {
+                        continue;
+                    }
+                    $normalizedKeyword = strtolower($keyword);
+                    $matched = false;
+                    if (str_contains($titleHaystack, $normalizedKeyword)) {
+                        $score += 4;
+                        $matched = true;
+                    }
+                    if ($chapterTitle !== '' && str_contains($chapterTitle, $normalizedKeyword)) {
+                        $score += 2;
+                        $matched = true;
+                    }
+                    if (str_contains($bodyHaystack, $normalizedKeyword)) {
+                        $score += 1;
+                        $matched = true;
+                    }
+                    if ($matched) {
+                        $matchedKeywords++;
+                    }
+                }
+
+                if ($normalizedQuestion !== '') {
+                    if (str_contains($titleHaystack, $normalizedQuestion) || str_contains($normalizedQuestion, $titleHaystack)) {
+                        $score += 15;
+                        $titleExactMatch = true;
+                    }
+                }
+
+                if (!empty($queryKeywords)) {
+                    $allKeywordsInTitle = true;
+                    foreach ($queryKeywords as $keyword) {
+                        if (!str_contains($titleHaystack, strtolower($keyword))) {
+                            $allKeywordsInTitle = false;
+                            break;
+                        }
+                    }
+                    if ($allKeywordsInTitle) {
+                        $score += 8;
+                    }
+                }
+
+                if (!empty($queryKeywords) && $matchedKeywords === 0 && !$titleExactMatch) {
+                    continue;
+                }
+
+                if (
+                    $score > $bestScore
+                    || ($score === $bestScore && $matchedKeywords > $bestKeywordMatches)
+                ) {
+                    $bestScore = $score;
+                    $bestKeywordMatches = $matchedKeywords;
+                    $bestTitleExactMatch = $titleExactMatch;
+                    $best = [
+                        'title' => $title,
+                        'text' => $body,
+                        'topic' => $chapter['title'] ?? $chapter['key'] ?? 'General',
+                    ];
+                }
+            }
+        }
+
+        if (!$best) {
+            return null;
+        }
+
+        $requiredKeywordMatches = count($queryKeywords) >= 2 ? 2 : (count($queryKeywords) === 1 ? 1 : 0);
+        if (!$bestTitleExactMatch && $bestScore < 4) {
+            return null;
+        }
+        if (!$bestTitleExactMatch && $requiredKeywordMatches > 0 && $bestKeywordMatches < $requiredKeywordMatches) {
+            return null;
+        }
+
+        return [
+            'title' => $best['title'],
+            'text' => Str::limit((string) $best['text'], 720, '...'),
+            'reference' => sprintf('Local FAQ: %s', (string) $best['title']),
+            'topic' => $best['topic'],
+            'url' => null,
+        ];
+    }
+
+    protected function loadLocalFaqDataset(): array
+    {
+        $paths = [
+            resource_path('components/vue/data/faqs.json'),
+            resource_path('components/vue/data/commonQuestions.json'),
+        ];
+
+        $all = [];
+
+        foreach ($paths as $path) {
+            if (!is_file($path)) {
+                continue;
+            }
+
+            try {
+                $raw = file_get_contents($path);
+                $decoded = json_decode((string) $raw, true);
+                if (is_array($decoded)) {
+                    $all = array_merge($all, $decoded);
+                }
+            } catch (\Throwable $exception) {
+                Log::warning('Failed to load local FAQ dataset file', [
+                    'path' => $path,
+                    'error' => $exception->getMessage(),
+                ]);
+            }
+        }
+
+        return $all;
+    }
+
+    protected function plainText(string $value): string
+    {
+        $text = strip_tags($value);
+        $text = html_entity_decode($text, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $text = preg_replace('/\s+/', ' ', $text);
+        return trim((string) $text);
     }
 
     protected function fetchIslamHouseArticles(string $language, array $keywords = []): ?array
@@ -152,7 +350,7 @@ class IslamicContentService
             return $this->fetchQuranByAyah($ayahId, $edition);
         }
 
-        $query = trim(implode(' ', $keywords));
+        $query = $this->buildQuranSearchQuery($keywords);
         if (!$query) {
             return null;
         }
@@ -163,13 +361,16 @@ class IslamicContentService
         try {
             $response = Http::timeout(8000)->retry(1, 500)->get($url);
             if (!$response->successful()) {
-                return null;
+                return $this->fetchQuranReferenceFromGading($keywords);
             }
 
             $data = $response->json();
-            $match = Arr::get($data, 'data.matches.0');
+            $match = $this->selectBestQuranMatch(
+                Arr::get($data, 'data.matches', []),
+                $keywords
+            );
             if (!is_array($match)) {
-                return null;
+                return $this->fetchQuranReferenceFromGading($keywords);
             }
 
             $surahNumber = Arr::get($match, 'surah.number') ?? Arr::get($match, 'surah') ?? Arr::get($match, 'number') ?? null;
@@ -194,8 +395,9 @@ class IslamicContentService
                 'query' => $query,
                 'error' => $exception->getMessage(),
             ]);
-            return null;
         }
+
+        return $this->fetchQuranReferenceFromGading($keywords);
     }
 
     protected function editionForLanguage(string $language): string
@@ -267,6 +469,10 @@ class IslamicContentService
 
     protected function fetchHadith(array $keywords = []): ?array
     {
+        if (empty($keywords)) {
+            return null;
+        }
+
         try {
             $query = Ahadith::query()->with(['chapter.imam']);
             if ($keywords) {
@@ -277,7 +483,7 @@ class IslamicContentService
                     }
                 });
             }
-            $record = $query->inRandomOrder()->first();
+            $record = $query->orderBy('id')->first();
             if ($record && $record->hadith_en) {
                 $imam = $record->chapter?->imam?->imam_name;
                 $chapter = $record->chapter?->chapter_text;
@@ -295,47 +501,7 @@ class IslamicContentService
             ]);
         }
 
-        $edition = 'eng-bukhari';
-        $id = random_int(1, 2500);
-        $urls = [
-            "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/{$edition}/{$id}.json",
-            "https://raw.githubusercontent.com/fawazahmed0/hadith-api/1/editions/{$edition}/{$id}.json",
-        ];
-
-        foreach ($urls as $url) {
-            try {
-                $response = Http::timeout(6000)->get($url);
-                if (!$response->successful()) {
-                    continue;
-                }
-
-                $data = $response->json();
-                $hadithText = Arr::get($data, 'hadith')
-                    ?? Arr::get($data, 'content')
-                    ?? Arr::get($data, 'body');
-                $reference = Arr::get($data, 'number')
-                    ?? Arr::get($data, 'id')
-                    ?? $id;
-                $book = Arr::get($data, 'book') ?? 'Sahih al-Bukhari';
-
-                if (!$hadithText) {
-                    continue;
-                }
-
-                return [
-                    'text' => $hadithText,
-                    'reference' => sprintf('%s, Hadith %s', $book, $reference),
-                    'url' => "https://www.sunnah.com/bukhari/{$reference}",
-                ];
-            } catch (\Throwable $exception) {
-                Log::warning('Hadith API call failed', [
-                    'url' => $url,
-                    'error' => $exception->getMessage(),
-                ]);
-            }
-        }
-
-        return null;
+        return $this->fetchHadithFromJsonApis($keywords);
     }
 
     protected function fetchDua(string $language, array $keywords = []): ?array
@@ -467,12 +633,12 @@ class IslamicContentService
         try {
             $response = Http::timeout(8000)->retry(1, 500)->get($url);
             if (!$response->successful()) {
-                return null;
+                return $this->fetchQuranByAyahFromGading($ayahId);
             }
 
             $data = Arr::get($response->json(), 'data');
             if (!is_array($data)) {
-                return null;
+                return $this->fetchQuranByAyahFromGading($ayahId);
             }
 
             $surahName = Arr::get($data, 'surah.englishName', 'Quran');
@@ -492,7 +658,343 @@ class IslamicContentService
                 'ayah' => $ayahId,
                 'error' => $exception->getMessage(),
             ]);
+        }
+
+        return $this->fetchQuranByAyahFromGading($ayahId);
+    }
+
+    protected function fetchQuranReferenceFromGading(array $keywords): ?array
+    {
+        $query = $this->buildQuranSearchQuery($keywords);
+        if ($query === '') {
             return null;
         }
+
+        $baseUrl = rtrim((string) config('services.quran_gading.base', 'https://api.quran.gading.dev'), '/');
+        $url = "{$baseUrl}/search?q=" . urlencode($query);
+
+        try {
+            $response = Http::acceptJson()->timeout(8000)->retry(1, 500)->get($url);
+            if (!$response->successful()) {
+                return null;
+            }
+
+            $results = Arr::get($response->json(), 'data', []);
+            if (!is_array($results) || empty($results)) {
+                return null;
+            }
+
+            $match = is_array($results[0] ?? null) ? $results[0] : null;
+            if (!$match) {
+                return null;
+            }
+
+            $surahNumber = (int) (Arr::get($match, 'surah.number') ?? Arr::get($match, 'surah.number.id') ?? 0);
+            $ayahNumber = (int) (Arr::get($match, 'number.inSurah') ?? Arr::get($match, 'number') ?? 0);
+            $verseText = trim((string) (
+                Arr::get($match, 'translation.en')
+                ?? Arr::get($match, 'translation.id')
+                ?? Arr::get($match, 'text.transliteration.en')
+                ?? Arr::get($match, 'text.arab')
+                ?? ''
+            ));
+
+            if ($surahNumber <= 0 || $ayahNumber <= 0 || $verseText === '') {
+                return null;
+            }
+
+            $surahName = trim((string) (
+                Arr::get($match, 'surah.name.transliteration.en')
+                ?? Arr::get($match, 'surah.englishName')
+                ?? Arr::get($match, 'surah.name.short')
+                ?? 'Quran'
+            ));
+
+            return [
+                'text' => $verseText,
+                'reference' => sprintf('Surah %s, Ayah %d (quran.gading.dev)', $surahName, $ayahNumber),
+                'url' => "https://quran.com/{$surahNumber}/{$ayahNumber}",
+                'edition' => 'quran.gading.dev',
+            ];
+        } catch (\Throwable $exception) {
+            Log::warning('Quran Gading search failed', [
+                'query' => $query,
+                'error' => $exception->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    protected function fetchQuranByAyahFromGading(string $ayahId): ?array
+    {
+        [$surah, $ayah] = array_pad(explode(':', $ayahId, 2), 2, null);
+        $surahNumber = (int) $surah;
+        $ayahNumber = (int) $ayah;
+        if ($surahNumber <= 0 || $ayahNumber <= 0) {
+            return null;
+        }
+
+        $baseUrl = rtrim((string) config('services.quran_gading.base', 'https://api.quran.gading.dev'), '/');
+        $url = "{$baseUrl}/surah/{$surahNumber}/{$ayahNumber}";
+
+        try {
+            $response = Http::acceptJson()->timeout(8000)->retry(1, 500)->get($url);
+            if (!$response->successful()) {
+                return null;
+            }
+
+            $data = Arr::get($response->json(), 'data', []);
+            if (!is_array($data)) {
+                return null;
+            }
+
+            $verseText = trim((string) (
+                Arr::get($data, 'translation.en')
+                ?? Arr::get($data, 'translation.id')
+                ?? Arr::get($data, 'text.transliteration.en')
+                ?? Arr::get($data, 'text.arab')
+                ?? ''
+            ));
+            if ($verseText === '') {
+                return null;
+            }
+
+            $surahName = trim((string) (
+                Arr::get($data, 'surah.name.transliteration.en')
+                ?? Arr::get($data, 'surah.englishName')
+                ?? Arr::get($data, 'surah.name.short')
+                ?? 'Quran'
+            ));
+
+            return [
+                'text' => $verseText,
+                'reference' => sprintf('Surah %s, Ayah %d (quran.gading.dev)', $surahName, $ayahNumber),
+                'url' => "https://quran.com/{$surahNumber}/{$ayahNumber}",
+                'edition' => 'quran.gading.dev',
+            ];
+        } catch (\Throwable $exception) {
+            Log::warning('Quran Gading ayah lookup failed', [
+                'ayah' => $ayahId,
+                'error' => $exception->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    protected function fetchHadithFromJsonApis(array $keywords): ?array
+    {
+        if (empty($keywords)) {
+            return null;
+        }
+
+        $baseUrl = rtrim((string) config(
+            'services.hadith_json.base',
+            'https://raw.githubusercontent.com/AhmedBaset/hadith-json/main/db/by_book/the_9_books'
+        ), '/');
+        $legacyBase = rtrim((string) config(
+            'services.hadith_json.legacy_base',
+            'https://raw.githubusercontent.com/islamic-network/hadith-json/main'
+        ), '/');
+
+        $collections = ['bukhari', 'muslim', 'abudawud', 'tirmidhi', 'nasai', 'ibnmajah'];
+
+        foreach ($collections as $collection) {
+            $result = $this->searchHadithJsonCollection("{$baseUrl}/{$collection}.json", $collection, $keywords);
+            if ($result) {
+                return $result;
+            }
+        }
+
+        foreach (['bukhari', 'muslim'] as $collection) {
+            $result = $this->searchHadithJsonCollection("{$legacyBase}/{$collection}.json", $collection, $keywords, true);
+            if ($result) {
+                return $result;
+            }
+        }
+
+        return null;
+    }
+
+    protected function searchHadithJsonCollection(
+        string $url,
+        string $collection,
+        array $keywords,
+        bool $legacyFormat = false
+    ): ?array {
+        try {
+            $response = Http::acceptJson()->timeout(8000)->retry(1, 500)->get($url);
+            if (!$response->successful()) {
+                return null;
+            }
+
+            $payload = $response->json();
+            $rows = $legacyFormat
+                ? (is_array($payload) ? $payload : [])
+                : Arr::get($payload, 'hadiths', []);
+            if (!is_array($rows) || empty($rows)) {
+                return null;
+            }
+
+            $best = null;
+            $bestScore = 0;
+            foreach (array_slice($rows, 0, 2000) as $row) {
+                if (!is_array($row)) {
+                    continue;
+                }
+
+                $english = trim((string) (
+                    Arr::get($row, 'english')
+                    ?? Arr::get($row, 'text')
+                    ?? Arr::get($row, 'text_en')
+                    ?? Arr::get($row, 'hadithEnglish')
+                    ?? ''
+                ));
+                $arabic = trim((string) (
+                    Arr::get($row, 'arabic')
+                    ?? Arr::get($row, 'text_ar')
+                    ?? Arr::get($row, 'hadithArabic')
+                    ?? ''
+                ));
+                $text = $english !== '' ? $english : $arabic;
+                if ($text === '') {
+                    continue;
+                }
+
+                $haystack = strtolower($english !== '' ? $english : $text);
+                $score = 0;
+                foreach ($keywords as $keyword) {
+                    if ($keyword !== '' && str_contains($haystack, strtolower($keyword))) {
+                        $score += 1;
+                    }
+                }
+
+                if ($score > $bestScore) {
+                    $bestScore = $score;
+                    $best = $row;
+                }
+            }
+
+            if (!$best || $bestScore === 0) {
+                return null;
+            }
+
+            $number = trim((string) (
+                Arr::get($best, 'hadith_number')
+                ?? Arr::get($best, 'hadithnumber')
+                ?? Arr::get($best, 'number')
+                ?? Arr::get($best, 'id')
+                ?? ''
+            ));
+            $text = trim((string) (
+                Arr::get($best, 'english')
+                ?? Arr::get($best, 'text')
+                ?? Arr::get($best, 'text_en')
+                ?? Arr::get($best, 'hadithEnglish')
+                ?? Arr::get($best, 'arabic')
+                ?? Arr::get($best, 'text_ar')
+                ?? Arr::get($best, 'hadithArabic')
+                ?? ''
+            ));
+
+            if ($text === '') {
+                return null;
+            }
+
+            $reference = ucfirst($collection) . ($number !== '' ? " Hadith {$number}" : ' Hadith');
+
+            return [
+                'text' => $text,
+                'reference' => $reference,
+                'url' => $number !== '' ? "https://sunnah.com/{$collection}:{$number}" : null,
+            ];
+        } catch (\Throwable $exception) {
+            Log::warning('Hadith JSON lookup failed', [
+                'collection' => $collection,
+                'url' => $url,
+                'error' => $exception->getMessage(),
+            ]);
+            return null;
+        }
+    }
+
+    protected function buildQuranSearchQuery(array $keywords): string
+    {
+        if (empty($keywords)) {
+            return '';
+        }
+
+        $priority = [
+            'allah', 'islam', 'iman', 'tawhid', 'taqwa',
+            'salah', 'prayer', 'dua', 'charity', 'zakat',
+            'fasting', 'ramadan', 'hajj', 'mercy', 'forgiveness',
+            'patience', 'justice', 'family', 'parents', 'marriage',
+        ];
+
+        $scored = [];
+        foreach ($keywords as $index => $keyword) {
+            $score = in_array($keyword, $priority, true) ? 2 : 1;
+            $scored[] = ['keyword' => $keyword, 'score' => $score, 'index' => $index];
+        }
+
+        usort($scored, function ($a, $b) {
+            if ($a['score'] === $b['score']) {
+                return $a['index'] <=> $b['index'];
+            }
+            return $b['score'] <=> $a['score'];
+        });
+
+        $top = array_slice(array_map(fn ($item) => $item['keyword'], $scored), 0, 3);
+        return trim(implode(' ', $top));
+    }
+
+    protected function selectBestQuranMatch($matches, array $keywords): ?array
+    {
+        if (!is_array($matches) || empty($matches)) {
+            return null;
+        }
+
+        $candidates = array_slice($matches, 0, 12);
+        $ranked = [];
+
+        foreach ($candidates as $index => $match) {
+            if (!is_array($match)) {
+                continue;
+            }
+
+            $text = strtolower(trim((string) Arr::get($match, 'text', '')));
+            $surahName = strtolower(trim((string) Arr::get($match, 'surah.englishName', '')));
+
+            $score = 0;
+            foreach ($keywords as $keyword) {
+                if ($keyword === '') {
+                    continue;
+                }
+                if ($text !== '' && str_contains($text, $keyword)) {
+                    $score += 3;
+                }
+                if ($surahName !== '' && str_contains($surahName, $keyword)) {
+                    $score += 1;
+                }
+            }
+
+            $ranked[] = [
+                'score' => $score,
+                'index' => $index,
+                'match' => $match,
+            ];
+        }
+
+        if (empty($ranked)) {
+            return null;
+        }
+
+        usort($ranked, function ($a, $b) {
+            if ($a['score'] === $b['score']) {
+                return $a['index'] <=> $b['index'];
+            }
+            return $b['score'] <=> $a['score'];
+        });
+
+        return $ranked[0]['match'] ?? null;
     }
 }

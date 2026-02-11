@@ -78,7 +78,7 @@
             </div>
 
           </div>
-          <!-- <section id="ai-persona-section" class="container-fluid ic-hero__ai ic-reveal" style="--ic-delay: 0.6s;" aria-label="Islamic chatbot preview">
+          <!-- <section id="ai-persona-section" class="container ic-hero__ai ic-reveal" style="--ic-delay: 0.6s;" aria-label="Islamic chatbot preview">
             <div class="welcome-chat-frame">
               <ai-component></ai-component>
             </div>
@@ -86,23 +86,7 @@
         </div>
       </div>
     </div>
-    <!-- <section aria-labelledby="prayer-times-heading">
-      <div class="container-fluid">
-        <div class="row justify-content-center">
-          <div class="col-12">
-            -- SEO Optimized Heading --
-            <h2 id="prayer-times-heading" class="text-center mb-4" style="color: black; font-weight: 800;">
-              Today's Prayer Times
-            </h2>
-
-            -- Performance & Accessibility Enhanced Component --
-            <PrayerTimes class="mb-3 prayer-times-enhanced" :lazy-load="true" :reduce-motion="true" aria-live="polite"
-              aria-atomic="true" />
-
-          </div>
-        </div>
-      </div>
-    </section> -->
+   
 
 
 
@@ -212,25 +196,7 @@
         </div>
       </div>
     </section>
-    <!-- <section class="container journeys-section text-center mx-auto my-5">
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                <h2 class="h4 fw-bold mb-1 text-center">Explore our most visited journeys</h2>
-                <p class="text-muted mb-4">Hand-curated pathways to Quran, dua, and mission experiences, all adorned with premium spacing, subtle motion, and refined corners.</p>
-            </div>
-        </div>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4 mt-2 justify-content-center">
-            <div class="col" v-for="journey in seoCards" :key="`journey-${journey.title}`">
-                <article class="premium-card h-100 d-flex flex-column">
-                    <div>
-                        <h3 class="h6 fw-semibold mb-2">{{ journey.title }}</h3>
-                        <p class="small text-muted mb-3">{{ journey.desc }}</p>
-                    </div>
-                    <a class="mt-auto fw-semibold text-teal" :title="journey.title" :href="journey.href">Explore →</a>
-                </article>
-            </div>
-        </div>
-    </section> -->
+    
     <section class="container pt-3 pb-3 ic-features" aria-label="Islamic Connect Features">
 
       <!-- First Row - Quran Companion -->
@@ -389,39 +355,6 @@
           </div>
 
 
-          <!-- Feature 2: Voice Search -->
-          <!-- <div class="col-md-6">
-            <div class="d-flex h-100">
-              <div class="flex-shrink-0 me-4">
-                <img src="images/voice-recognition.png" width="60" height="60"
-                  alt="Voice recognition icon for voice search feature" loading="lazy">
-              </div>
-              <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">Voice-Activated Quran Search</h3>
-                <p class="mb-0">
-                  Use voice commands to search Quranic verses and teachings.
-                  A hands-free, accessible way to explore Islamic content quickly and intuitively.
-                </p>
-              </div>
-            </div>
-          </div> -->
-
-          <!-- Feature 3: Note Editor -->
-          <!-- <div class="col-md-6">
-            <div class="d-flex h-100">
-              <div class="flex-shrink-0 me-4">
-                <img src="images/elearning.png" width="60" height="60" alt="E-learning icon for note editor feature"
-                  loading="lazy">
-              </div>
-              <div class="flex-grow-1">
-                <h3 class="h5 mb-2 fw-bold">Advanced Islamic Note Editor</h3>
-                <p class="mb-0">
-                  A customizable note-taking tool designed specifically for Islamic studies.
-                  Organize your reflections, bookmarks, and study notes with ease.
-                </p>
-              </div>
-            </div>
-          </div> -->
 
           <!-- Feature 1: Speech-to-Text -->
           <div class="col-md-6 mb-3">
@@ -478,102 +411,7 @@
       </div>
     </section>
 
-    <!-- Premium CTA Section -->
-    <!-- Premium CTA Section -->
-    <!-- <section class="py-5 ic-support" aria-labelledby="premium-heading" role="region">
-      <div class="container">
-        <div class="row justify-content-center text-center mb-4">
-          <div class="col-lg-8">
-            <h2 id="premium-heading" class="fw-bold ic-support__title">Support The Work, Access
-              More</h2>
-            <p class="lead text-muted" style="line-height:1.7">
-              Your support sustains this khidmah and keeps Islamic knowledge accessible for everyone.
-            </p>
-          </div>
-        </div>
-
-
-        <div class="row justify-content-center mb-4 quote-wrapper bg-white">
-          <div class="col-lg-9">
-            <div class="quote-card">
-
-              <div class="quote-glow"></div>
-
-              <div class="quote-content">
-                <p class="faith-quote">
-                  <span class="quote-mark" aria-hidden="true">“</span>
-                  Whoever treads a path seeking knowledge, Allah will make easy for him a path to Paradise.
-                  <span class="quote-mark" aria-hidden="true">”</span>
-                </p>
-
-                <div class="quote-ref">Hadith Sahih Muslim</div>
-
-                <div class="quote-divider"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="row justify-content-center">
-          <div class="col-lg-10">
-            <div class="row g-4">
-              <div class="col-md-6">
-                <div class="card h-100 border-0" style="box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-                  <div class="card-body p-4 text-start">
-                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">What your support enables</h3>
-                    <ul class="mb-0" style="list-style:none; padding-left:0; color:#4a5568; line-height:1.7;">
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Keep Quran tools fast, accessible,
-                        and ad‑free</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Offer trustworthy resources curated
-                        with amanah</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Deliver new features shaped by your
-                        feedback</li>
-                      <li class="mb-2"><i class="fas fa-check text-success me-2"></i>Make the platform available to
-                        those who can’t pay</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div class="col-md-6">
-                <div class="h-100 d-flex flex-column justify-content-between"
-                  style="background:white; border-radius:12px; border:1px solid #e9ecef; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
-                  <div class="p-4 text-start">
-                    <h3 class="h4 fw-bold mb-3" style="color:#2c3e50;">Simple and transparent</h3>
-                    <p class="mb-3" style="color:#4a5568;">Secure Stripe payments. Cancel anytime. No tracking, no ads.
-                    </p>
-                    <button @click="goTo('/support')" style="
-                        background: rgba(255, 255, 255, 0.9);
-                        color: #1a5f7a;
-                        border: 2px solid #1a5f7a;
-                        padding: 1rem 2rem;
-                        border-radius: 12px;
-                        font-weight: 700;
-                        font-size: 1.1rem;
-                        box-shadow: 0 5px 20px rgba(26, 95, 122, 0.2);
-                        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-                        backdrop-filter: blur(10px);
-                      "
-                      onmouseover="this.style.transform='translateY(-2px)'; this.style.background='#1a5f7a'; this.style.color='white'; this.style.boxShadow='0 8px 25px rgba(26, 95, 122, 0.4)';"
-                      onmouseout="this.style.transform='translateY(0)'; this.style.background='rgba(255, 255, 255, 0.9)'; this.style.color='#1a5f7a'; this.style.boxShadow='0 5px 20px rgba(26, 95, 122, 0.2)';">
-                      <i class="fas fa-heart me-2"></i>Provide a small Donation
-                    </button>
-                  </div>
-                  <div class="px-4 pb-4">
-                    <div class="d-flex align-items-center" style="gap:.5rem; color:#6c757d;">
-                      <i class="fas fa-lock"></i>
-                      <small>SSL encrypted • PCI compliant</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section> -->
-
-    <!-- Quick Join Section -->
+   
     <!-- Enhanced Quick Join Section -->
     <section class="py-5 quick-join-section ic-join">
       <!-- Background Elements -->
@@ -634,11 +472,7 @@
                     <i class="fab fa-telegram me-2"></i>Join Telegram Community
                     <span class="ic-join-btn__arrow">→</span>
                   </a>
-                  <!-- <div class="mt-2">
-                    <small class="text-muted" style="font-weight: 500;">
-                      <i class="fas fa-users me-1"></i>3,200+ active members
-                    </small>
-                  </div> -->
+                  
                 </div>
               </div>
             </div>

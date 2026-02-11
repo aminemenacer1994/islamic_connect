@@ -12,82 +12,97 @@ class AIResponseFormatter
      *     articles: array|null,
      *     quran: array|null,
      *     hadith: array|null,
-     *     dua: array|null
+     *     dua: array|null,
+     *     local_faq: array|null
      * }  $content
      */
     public function format(array $content): array
     {
-        $sections = [];
-        $summaryBullets = [];
+        $evidence = [];
         $references = [];
-        $question = trim($content['question'] ?? '');
-        $headline = $question ? "Regarding “{$question}”" : 'Regarding your question';
-        $sections[] = "{$headline}. Noor gathered the following trusted references.";
-        if ($question) {
-            $summaryBullets[] = "Focus on “{$question}” while you reflect on these references.";
-        }
+        $question = trim((string) ($content['question'] ?? ''));
+        $sourceCount = 0;
 
-        if ($content['articles']) {
-            $article = $content['articles'][0];
-            $title = $article['title'] ?? 'IslamHouse insight';
-            $description = $article['description'] ?? 'Helpful guidance from IslamHouse.';
-            $shortDescription = Str::limit(trim($description), 220, '…');
-            $sections[] = "IslamHouse article “{$title}” highlights: " . trim($description);
-            if ($shortDescription) {
-                $summaryBullets[] = "IslamHouse: “{$shortDescription}”";
+        if (!empty($content['quran']) && is_array($content['quran'])) {
+            $referenceLabel = trim((string) ($content['quran']['reference'] ?? 'Quran'));
+            $quranSnippet = $this->snippet((string) ($content['quran']['text'] ?? ''), 320);
+            if ($quranSnippet !== '') {
+                $evidence[] = $quranSnippet;
+                $sourceCount++;
             }
-            $this->pushReference($references, $title, $article['url'] ?? '');
+            $this->pushReference($references, $referenceLabel, (string) ($content['quran']['url'] ?? ''));
         }
 
-        if ($content['quran']) {
-            $text = $content['quran']['text'] ?? '';
-            $referenceLabel = $content['quran']['reference'] ?? 'Quran';
-            $sections[] = "Quran reminder ({$referenceLabel}): " . trim($text);
-            if ($text) {
-                $summaryBullets[] = "Reflect on {$referenceLabel}.";
+        if (!empty($content['hadith']) && is_array($content['hadith'])) {
+            $referenceLabel = trim((string) ($content['hadith']['reference'] ?? 'Hadith'));
+            $hadithSnippet = $this->snippet((string) ($content['hadith']['text'] ?? ''), 300);
+            if ($hadithSnippet !== '') {
+                $evidence[] = $hadithSnippet;
+                $sourceCount++;
             }
-            $this->pushReference($references, $referenceLabel, $content['quran']['url'] ?? '');
+            $this->pushReference($references, $referenceLabel, (string) ($content['hadith']['url'] ?? ''));
         }
 
-        if ($content['hadith']) {
-            $referenceLabel = $content['hadith']['reference'] ?? 'Prophetic guidance';
-            $text = $content['hadith']['text'] ?? '';
-            $sections[] = "{$referenceLabel} says: " . trim($text);
-            if ($text) {
-                $summaryBullets[] = "Hadith reference: {$referenceLabel}.";
+        if (!empty($content['articles']) && is_array($content['articles'])) {
+            $article = $content['articles'][0] ?? null;
+            if (is_array($article)) {
+                $title = trim((string) ($article['title'] ?? 'IslamHouse insight'));
+                $description = $this->snippet((string) ($article['description'] ?? ''), 220);
+                if ($description !== '') {
+                    $evidence[] = $description;
+                    $sourceCount++;
+                }
+                $this->pushReference($references, $title, (string) ($article['url'] ?? ''));
             }
-            $this->pushReference($references, $referenceLabel, $content['hadith']['url'] ?? '');
         }
 
-        if ($content['dua']) {
-            $title = $content['dua']['reference'] ?? 'Recommended Dua';
-            $duaText = $content['dua']['text'] ?? $content['dua']['translation'] ?? '';
-            $sections[] = "{$title} – " . trim($duaText);
-            if ($duaText) {
-                $summaryBullets[] = "Recite the dua titled “{$title}”.";
-            }
-            $this->pushReference($references, $title, $content['dua']['url'] ?? '');
+        $finalMessage = '';
+        if ($sourceCount === 0) {
+            $sections = [
+                $question !== ''
+                    ? "I cannot verify a source-backed answer for \"{$question}\" right now."
+                    : 'I cannot verify a source-backed answer right now.',
+                'Ask a narrower Quran or Hadith question and try again.',
+            ];
+            $finalMessage = implode("\n\n", $sections);
+        } else {
+            $primary = trim((string) ($evidence[0] ?? ''));
+            $supporting = trim((string) ($evidence[1] ?? ''));
+            $finalMessage = $this->buildConversationalAnswer($primary, $supporting);
         }
 
-        if (empty($sections)) {
-            $sections[] = 'The Islamic content APIs were not reachable right now. Please try again in a few moments.';
-            $summaryBullets[] = 'Awaiting refreshed content from trusted sources.';
-        }
-
-        $finalMessage = implode("\n\n", array_filter($sections));
-        $finalSummary = array_unique(array_filter($summaryBullets));
-        if (empty($finalSummary)) {
-            $finalSummary = ['Guidance compiled using the trusted Islamic APIs.'];
-        }
-
-        $shortSummary = implode(' · ', array_slice($finalSummary, 0, 2));
+        $shortSummary = Str::limit($finalMessage, 160, '...');
 
         return [
             'message' => $finalMessage,
-            'summary' => array_values($finalSummary),
+            'summary' => [],
             'short_summary' => $shortSummary,
             'references' => array_values($references),
         ];
+    }
+
+    protected function buildConversationalAnswer(string $primary, string $supporting = ''): string
+    {
+        if ($primary === '') {
+            return 'I could not produce a reliable answer text from the available sources.';
+        }
+
+        $message = "In short: {$primary}";
+        if ($supporting !== '') {
+            $message .= "\n\nAlso: {$supporting}";
+        }
+
+        return $message;
+    }
+
+    protected function snippet(?string $text, int $limit = 240): string
+    {
+        $normalized = preg_replace('/\s+/', ' ', trim((string) $text));
+        if ($normalized === '') {
+            return '';
+        }
+
+        return Str::limit($normalized, $limit, '...');
     }
 
     /**

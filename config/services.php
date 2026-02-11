@@ -93,6 +93,26 @@ return [
         'method' => env('ALADHAN_DEFAULT_METHOD', 2),
         'school' => env('ALADHAN_DEFAULT_SCHOOL', 0),
     ],
+
+    'sunnah' => [
+        'base' => env('SUNNAH_API_BASE', 'https://api.sunnah.com/v1'),
+        'key' => env('SUNNAH_API_KEY'),
+    ],
+
+    'quran_gading' => [
+        'base' => env('QURAN_GADING_API_BASE', 'https://api.quran.gading.dev'),
+    ],
+
+    'hadith_json' => [
+        'base' => env(
+            'HADITH_JSON_API_BASE',
+            'https://raw.githubusercontent.com/AhmedBaset/hadith-json/main/db/by_book/the_9_books'
+        ),
+        'legacy_base' => env(
+            'HADITH_JSON_LEGACY_BASE',
+            'https://raw.githubusercontent.com/islamic-network/hadith-json/main'
+        ),
+    ],
     
     // GA4 analytics config removed
 

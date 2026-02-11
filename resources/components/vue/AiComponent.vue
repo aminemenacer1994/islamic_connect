@@ -152,6 +152,7 @@
               <span class="chat-timestamp">{{ entry.displayTime }} · {{ entry.displayDate }}</span>
             </div>
             <div class="chat-bubble-container">
+              <p v-if="entry.role === 'assistant'" class="chat-section-heading">Answer</p>
               <div :class="[
                 'chat-bubble',
                 entry.role,
@@ -213,9 +214,16 @@
                   Collapse to {{ entry.role === 'assistant' ? 'summary' : 'preview' }}
                 </span>
               </button>
+              <div
+                v-if="entry.role === 'assistant' && entry.verification"
+                :class="['chat-verification', getVerificationBadgeClass(entry.verification)]"
+                aria-live="polite">
+                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                <span>{{ formatVerificationLabel(entry.verification) }}</span>
+              </div>
               <div v-if="entry.references && entry.references.length" class="chat-references-wrapper"
                 aria-label="Sources that informed this answer">
-                <span class="chat-references-heading">References</span>
+                <span class="chat-references-heading">Reference (Proof)</span>
                 <ul class="chat-references" role="list">
                   <li v-for="(reference, refIndex) in entry.references"
                     :key="`ref-${idx}-${refIndex}-${reference.label}`">
@@ -290,8 +298,28 @@
 </template>
 
 <script>
+import {
+  DEFAULT_BATCH_SIZE,
+  DEFAULT_QUESTION_COUNT,
+  FREE_ISLAMIC_APIS,
+  IslamicQuestionGenerator,
+  QUESTION_BANK_META_STORAGE_KEY,
+  QUESTION_BANK_STORAGE_KEY,
+  chunkQuestionBatches,
+  ensureQuestionBank,
+  loadQuestionBankFromStorage,
+} from '../scripts/islamicAiToolkit';
+
 const MOBILE_BREAKPOINT = 768;
 const CHAT_HISTORY_STORAGE_KEY = 'islamic-connect-chat-sessions';
+const AI_TEST_HARNESS_KEY = '__islamicAiHarness';
+const SESSION_MEMORY_LIMIT = 30;
+const SESSION_STORAGE_COMPACTION_STEPS = [
+  { maxSessions: 24, maxEntries: 40, maxTextLength: 2200, keepReferences: true, keepSummary: true },
+  { maxSessions: 16, maxEntries: 28, maxTextLength: 1400, keepReferences: false, keepSummary: true },
+  { maxSessions: 10, maxEntries: 18, maxTextLength: 900, keepReferences: false, keepSummary: false },
+  { maxSessions: 6, maxEntries: 10, maxTextLength: 560, keepReferences: false, keepSummary: false },
+];
 
 export default {
   data() {
@@ -366,6 +394,10 @@ export default {
       selectedSessionId: '',
       sessionStartedAt: null,
       sessionDropdownOpen: false,
+      questionGenerator: null,
+      questionBankCount: 0,
+      questionBankMeta: null,
+      latestBatchVerification: null,
     };
   },
   computed: {
@@ -399,12 +431,15 @@ export default {
     },
   },
   methods: {
-    createChatEntry(role, text, references = [], summaryBullets = null) {
+    createChatEntry(role, text, references = [], summaryBullets = null, verification = null) {
       const now = new Date();
-      const resolvedSummary =
-        (Array.isArray(summaryBullets) && summaryBullets.length && summaryBullets) ||
-        this.extractSummaryBulletPoints(text);
-      const allowCollapse = resolvedSummary.length && this.isLongMessage(text);
+      const providedSummary = Array.isArray(summaryBullets)
+        ? summaryBullets.map((item) => String(item || '').trim()).filter(Boolean).slice(0, 4)
+        : null;
+      const resolvedSummary = providedSummary !== null
+        ? providedSummary
+        : (role === 'assistant' ? [] : this.extractSummaryBulletPoints(text));
+      const allowCollapse = role !== 'assistant' && resolvedSummary.length && this.isLongMessage(text);
       return {
         role,
         text,
@@ -415,10 +450,28 @@ export default {
         userToggled: false,
         speechControlsVisible: false,
         speechStatus: 'stopped',
+        verification,
         time: now.toISOString(),
         displayTime: now.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
         displayDate: now.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
       };
+    },
+    getVerificationBadgeClass(verification) {
+      const confidence = verification?.confidence || 'low';
+      if (confidence === 'high') return 'chat-verification--high';
+      if (confidence === 'medium') return 'chat-verification--medium';
+      return 'chat-verification--low';
+    },
+    formatVerificationLabel(verification) {
+      if (!verification) {
+        return '';
+      }
+      const confidence = String(verification.confidence || 'low').toUpperCase();
+      const sourceCount = Number(verification.totalSources || 0);
+      if (sourceCount > 0) {
+        return `${confidence} confidence - ${sourceCount} source${sourceCount === 1 ? '' : 's'}`;
+      }
+      return `${confidence} confidence`;
     },
     escapeHtml(value) {
       const map = {
@@ -702,9 +755,8 @@ export default {
         }
         const assistantData = payload.assistant;
         const references = Array.isArray(assistantData.references) ? assistantData.references : [];
-        const summary = Array.isArray(assistantData.summary) ? assistantData.summary : [];
         this.chatHistory.push(
-          this.createChatEntry('assistant', assistantData.message.trim(), references, summary),
+          this.createChatEntry('assistant', assistantData.message.trim(), references, [], null),
         );
         if (payload.session_id) {
           this.sessionId = payload.session_id;
@@ -731,15 +783,22 @@ export default {
       const response = await fetch('/api/ai/ask', {
         method: 'POST',
         headers: {
+          Accept: 'application/json',
           'Content-Type': 'application/json',
           'X-CSRF-TOKEN': this.getCsrfToken(),
         },
         body: JSON.stringify(payload),
       });
-      const data = await response.json().catch(() => ({}));
+      const contentType = (response.headers.get('content-type') || '').toLowerCase();
+      const isJson = contentType.includes('application/json');
+      const data = isJson ? await response.json().catch(() => ({})) : {};
       if (!response.ok) {
-        const error = data?.error || 'Noor cannot respond right now.';
+        const statusHint = response.status ? `Request failed (${response.status}).` : '';
+        const error = data?.error || statusHint || 'Noor cannot respond right now.';
         throw new Error(error);
+      }
+      if (!isJson) {
+        throw new Error('Unexpected server response. Please refresh and try again.');
       }
       return data;
     },
@@ -756,6 +815,125 @@ export default {
       }
       const meta = document.querySelector('meta[name="csrf-token"]');
       return meta?.getAttribute('content') || '';
+    },
+    initializeQuestionGenerator() {
+      if (!this.questionGenerator) {
+        this.questionGenerator = new IslamicQuestionGenerator();
+      }
+      return this.questionGenerator;
+    },
+    parseQuestionBankMeta() {
+      if (typeof window === 'undefined') {
+        return null;
+      }
+      try {
+        const raw = window.localStorage.getItem(QUESTION_BANK_META_STORAGE_KEY);
+        if (!raw) {
+          return null;
+        }
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== 'object') {
+          return null;
+        }
+        return parsed;
+      } catch (error) {
+        return null;
+      }
+    },
+    getQuestionBank() {
+      if (typeof window === 'undefined') {
+        return [];
+      }
+      const questions = loadQuestionBankFromStorage(window.localStorage);
+      this.questionBankCount = questions.length;
+      this.questionBankMeta = this.parseQuestionBankMeta();
+      return questions;
+    },
+    generateQuestionBank(count = DEFAULT_QUESTION_COUNT) {
+      if (typeof window === 'undefined') {
+        return [];
+      }
+      const generator = this.initializeQuestionGenerator();
+      const questions = ensureQuestionBank({
+        generator,
+        count,
+        storage: window.localStorage,
+      });
+      this.questionBankCount = questions.length;
+      this.questionBankMeta = this.parseQuestionBankMeta();
+      return questions;
+    },
+    initializeQuestionBank() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      this.initializeQuestionGenerator();
+      this.getQuestionBank();
+    },
+    async runBatchVerification(batchSize = DEFAULT_BATCH_SIZE, maxBatches = null) {
+      const normalizedBatchSize = Math.max(1, Number(batchSize) || DEFAULT_BATCH_SIZE);
+      const existingQuestions = this.getQuestionBank();
+      const questions = existingQuestions.length
+        ? existingQuestions
+        : this.generateQuestionBank(DEFAULT_QUESTION_COUNT);
+      const batches = chunkQuestionBatches(questions, normalizedBatchSize);
+      const limit = Number.isFinite(Number(maxBatches)) && Number(maxBatches) > 0
+        ? Math.min(batches.length, Number(maxBatches))
+        : batches.length;
+      const batchReports = [];
+
+      for (let index = 0; index < limit; index += 1) {
+        const batch = batches[index];
+        const response = await fetch('/api/ai/batch-verify', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': this.getCsrfToken(),
+          },
+          body: JSON.stringify({ questions: batch }),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok) {
+          throw new Error(payload?.error || `Batch verification failed at batch ${index + 1}.`);
+        }
+        batchReports.push({
+          batch: index + 1,
+          size: batch.length,
+          summary: payload.summary || {},
+        });
+      }
+
+      const report = {
+        generatedAt: new Date().toISOString(),
+        totalQuestions: questions.length,
+        batchSize: normalizedBatchSize,
+        batchesProcessed: batchReports.length,
+        batches: batchReports,
+      };
+      this.latestBatchVerification = report;
+      return report;
+    },
+    attachAiTestHarness() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      window[AI_TEST_HARNESS_KEY] = {
+        apis: FREE_ISLAMIC_APIS,
+        generateQuestionBank: (count = DEFAULT_QUESTION_COUNT) => this.generateQuestionBank(count),
+        getQuestionBank: () => this.getQuestionBank(),
+        runBatchVerification: (batchSize = DEFAULT_BATCH_SIZE, maxBatches = null) =>
+          this.runBatchVerification(batchSize, maxBatches),
+        getLatestBatchReport: () => this.latestBatchVerification,
+        storageKey: QUESTION_BANK_STORAGE_KEY,
+      };
+    },
+    detachAiTestHarness() {
+      if (typeof window === 'undefined') {
+        return;
+      }
+      if (window[AI_TEST_HARNESS_KEY]) {
+        delete window[AI_TEST_HARNESS_KEY];
+      }
     },
     shareConversationOnWhatsApp() {
       if (!this.chatHistory.length) {
@@ -874,15 +1052,159 @@ export default {
       this.voiceFinalTranscript = '';
       this.voiceInterimTranscript = '';
     },
+    isQuotaExceededError(error) {
+      if (!error || typeof error !== 'object') {
+        return false;
+      }
+      const name = String(error.name || '');
+      const code = Number(error.code || 0);
+      return name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED' || code === 22 || code === 1014;
+    },
+    formatEntryTime(timestamp) {
+      const parsed = typeof timestamp === 'string' ? Date.parse(timestamp) : timestamp;
+      const date = new Date(!Number.isNaN(parsed) && parsed ? parsed : Date.now());
+      return {
+        iso: date.toISOString(),
+        displayTime: date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' }),
+        displayDate: date.toLocaleDateString([], { weekday: 'short', month: 'short', day: 'numeric' }),
+      };
+    },
+    normalizeStoredReference(reference) {
+      if (!reference || typeof reference !== 'object') {
+        return null;
+      }
+      const label = String(reference.label || '').trim();
+      if (!label) {
+        return null;
+      }
+      const normalizedUrl = typeof reference.url === 'string' && reference.url.trim() ? reference.url.trim() : null;
+      return {
+        label: label.slice(0, 180),
+        url: normalizedUrl,
+      };
+    },
+    serializeSessionEntryForStorage(entry, options = {}) {
+      if (!entry || typeof entry !== 'object') {
+        return null;
+      }
+
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const rawText = typeof entry.text === 'string' ? entry.text.trim() : '';
+      if (!rawText) {
+        return null;
+      }
+
+      const maxTextLength = Number(options.maxTextLength || 1200);
+      const text = rawText.length > maxTextLength ? `${rawText.slice(0, maxTextLength)}...` : rawText;
+      const references = options.keepReferences
+        ? (Array.isArray(entry.references) ? entry.references.map((item) => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 4) : [])
+        : [];
+      const summaryBullets = options.keepSummary
+        ? (Array.isArray(entry.summaryBullets)
+          ? entry.summaryBullets.map((item) => String(item || '').trim()).filter(Boolean).slice(0, 3)
+          : this.extractSummaryBulletPoints(text))
+        : [];
+      const verification =
+        entry.verification && typeof entry.verification === 'object'
+          ? {
+            verified: Boolean(entry.verification.verified),
+            confidence: String(entry.verification.confidence || 'low'),
+            totalSources: Number(entry.verification.totalSources || 0),
+            message: String(entry.verification.message || ''),
+          }
+          : null;
+      const time = this.formatEntryTime(entry.time);
+
+      return {
+        role,
+        text,
+        time: time.iso,
+        references,
+        summaryBullets,
+        verification,
+      };
+    },
+    buildStorageSessionPayload(options = {}) {
+      const maxSessions = Number(options.maxSessions || 12);
+      const maxEntries = Number(options.maxEntries || 20);
+      const sessions = Array.isArray(this.chatSessions) ? this.chatSessions.slice(0, maxSessions) : [];
+
+      return sessions
+        .map((session) => {
+          const history = Array.isArray(session.history) ? session.history : [];
+          const compactedHistory = history
+            .slice(-maxEntries)
+            .map((entry) => this.serializeSessionEntryForStorage(entry, options))
+            .filter(Boolean);
+
+          if (!session.id || !compactedHistory.length) {
+            return null;
+          }
+
+          return {
+            id: String(session.id),
+            createdAt: session.createdAt || session.updatedAt || Date.now(),
+            updatedAt: session.updatedAt || Date.now(),
+            history: compactedHistory,
+          };
+        })
+        .filter(Boolean);
+    },
+    normalizeStoredChatEntry(entry) {
+      if (!entry || typeof entry !== 'object') {
+        return null;
+      }
+
+      const role = entry.role === 'assistant' ? 'assistant' : 'user';
+      const text = typeof entry.text === 'string' ? entry.text.trim() : '';
+      if (!text) {
+        return null;
+      }
+
+      const time = this.formatEntryTime(entry.time);
+      const references = Array.isArray(entry.references)
+        ? entry.references.map((item) => this.normalizeStoredReference(item)).filter(Boolean).slice(0, 5)
+        : [];
+      const summaryBullets = Array.isArray(entry.summaryBullets)
+        ? entry.summaryBullets.map((item) => String(item || '').trim()).filter(Boolean).slice(0, 4)
+        : this.extractSummaryBulletPoints(text);
+      const allowCollapse = role !== 'assistant' && summaryBullets.length > 0 && this.isLongMessage(text);
+
+      return {
+        role,
+        text,
+        references,
+        summaryBullets,
+        allowCollapse,
+        collapsed: allowCollapse && this.isCompactMode,
+        userToggled: false,
+        speechControlsVisible: false,
+        speechStatus: 'stopped',
+        verification: null,
+        time: time.iso,
+        displayTime: time.displayTime,
+        displayDate: time.displayDate,
+      };
+    },
     persistSessionsStorage() {
       if (typeof window === 'undefined') {
         return;
       }
-      try {
-        window.localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, JSON.stringify(this.chatSessions));
-      } catch (error) {
-        console.error('Unable to save chat sessions', error);
+
+      for (const strategy of SESSION_STORAGE_COMPACTION_STEPS) {
+        try {
+          const payload = this.buildStorageSessionPayload(strategy);
+          window.localStorage.setItem(CHAT_HISTORY_STORAGE_KEY, JSON.stringify(payload));
+          return;
+        } catch (error) {
+          if (!this.isQuotaExceededError(error)) {
+            console.error('Unable to save chat sessions', error);
+            return;
+          }
+        }
       }
+
+      console.error('Unable to save chat sessions', new Error('Storage quota exceeded after compaction attempts.'));
     },
     loadStoredSessions() {
       if (typeof window === 'undefined') {
@@ -898,10 +1220,11 @@ export default {
           .filter((session) => session && session.id && Array.isArray(session.history) && session.history.length)
           .map((session) => ({
             id: session.id,
-            history: session.history.map((entry) => ({ ...entry })),
+            history: session.history.map((entry) => this.normalizeStoredChatEntry(entry)).filter(Boolean),
             createdAt: session.createdAt || session.updatedAt || Date.now(),
             updatedAt: session.updatedAt || Date.now(),
           }))
+          .filter((session) => session.history.length)
           .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
         this.chatSessions = sessions;
         if (!this.selectedSessionId && sessions.length) {
@@ -927,6 +1250,9 @@ export default {
         this.chatSessions.splice(existingIndex, 1);
       }
       this.chatSessions.unshift(record);
+      if (this.chatSessions.length > SESSION_MEMORY_LIMIT) {
+        this.chatSessions = this.chatSessions.slice(0, SESSION_MEMORY_LIMIT);
+      }
       this.persistSessionsStorage();
     },
     loadSession(sessionId) {
@@ -1369,6 +1695,8 @@ export default {
     this.resetSession();
     this.updateCompactMode();
     this.initializeSpeechSynthesis();
+    this.initializeQuestionBank();
+    this.attachAiTestHarness();
     this.resizeListener = () => this.updateCompactMode();
     window.addEventListener('resize', this.resizeListener);
   },
@@ -1394,6 +1722,7 @@ export default {
       this.voiceAlertTimeout = null;
     }
     this.stopSpeech();
+    this.detachAiTestHarness();
   },
 };
 </script>
@@ -2439,6 +2768,44 @@ export default {
   outline-offset: 2px;
 }
 
+.chat-verification {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid transparent;
+}
+
+.chat-verification--high {
+  background: rgba(34, 197, 94, 0.14);
+  color: #14532d;
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.chat-verification--medium {
+  background: rgba(234, 179, 8, 0.14);
+  color: #854d0e;
+  border-color: rgba(234, 179, 8, 0.35);
+}
+
+.chat-verification--low {
+  background: rgba(220, 38, 38, 0.12);
+  color: #991b1b;
+  border-color: rgba(220, 38, 38, 0.35);
+}
+
+.chat-section-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0b4b44;
+  margin: 0 0 0.35rem 0.25rem;
+}
+
 .chat-references-wrapper {
   background: rgba(15, 110, 99, 0.12);
   border: 1px solid rgba(15, 110, 99, 0.28);
@@ -2507,6 +2874,7 @@ export default {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  width: 100%;
   z-index: 1;
   border-radius: 20px;
   border: 1px solid var(--ai-border);
@@ -2517,7 +2885,10 @@ export default {
 }
 
 .ai-textarea {
+  display: block;
   width: 100%;
+  max-width: none;
+  box-sizing: border-box;
   border-radius: 14px;
   border: 1px solid rgba(15, 110, 99, 0.2);
   padding: 0.95rem 1.15rem;

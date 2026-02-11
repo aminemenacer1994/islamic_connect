@@ -18,7 +18,13 @@ use App\Http\Controllers\Api\RssProxyController;
 //     Route::get('/debug/subscription', [DebugController::class, 'subscriptionDebug']);
 // });
 
-Route::post('/ai/ask', [AIController::class, 'ask']);
-Route::get('/ramadan/uk', [RamadanUkController::class, 'show']);
-Route::get('/ramadan/uk/prayer-times', [RamadanUkController::class, 'prayerTimes']);
-Route::get('/rss', [RssProxyController::class, 'show']);
+Route::post('/ai/ask', [AIController::class, 'ask'])
+    ->withoutMiddleware('auth:sanctum');
+Route::post('/ai/batch-verify', [AIController::class, 'batchVerify'])
+    ->withoutMiddleware('auth:sanctum');
+Route::get('/ramadan/uk', [RamadanUkController::class, 'show'])
+    ->withoutMiddleware('auth:sanctum');
+Route::get('/ramadan/uk/prayer-times', [RamadanUkController::class, 'prayerTimes'])
+    ->withoutMiddleware('auth:sanctum');
+Route::get('/rss', [RssProxyController::class, 'show'])
+    ->withoutMiddleware('auth:sanctum');

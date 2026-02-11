@@ -81,7 +81,7 @@
     align-items: center;
     justify-content: flex-end;
     gap: 0.34rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-shrink: 0;
 }
 
@@ -90,18 +90,19 @@
     align-items: center;
     justify-content: flex-end;
     gap: 0.34rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 
 .advanced-quran-search-top-pill {
-    font-size: 0.83rem;
-    padding: 0.42rem 0.72rem;
+    font-size: 0.96rem;
+    padding: 0.52rem 0.9rem;
     border-radius: 12px;
-    min-height: 36px;
+    min-height: 40px;
+    white-space: nowrap;
 }
 
 .advanced-quran-search-title {
-    font-size: 0.98rem;
+    font-size: 1.06rem;
     font-weight: 700;
     color: #0b3d2e;
 }
@@ -497,9 +498,9 @@
     }
 
     .advanced-quran-search-top-pill {
-        font-size: 0.78rem;
-        padding: 0.36rem 0.58rem;
-        min-height: 34px;
+        font-size: 0.86rem;
+        padding: 0.42rem 0.66rem;
+        min-height: 36px;
         white-space: nowrap;
     }
 
@@ -583,10 +584,10 @@
     }
 
     .advanced-quran-search-top-pill {
-        font-size: 0.72rem;
-        padding: 0.3rem 0.46rem;
+        font-size: 0.79rem;
+        padding: 0.36rem 0.54rem;
         border-radius: 10px;
-        min-height: 30px;
+        min-height: 33px;
     }
 
     .advanced-quran-search-visibility-btn i {
@@ -4888,11 +4889,17 @@ h1.display-5 {
     width: 100%;
     padding: 10px 12px;
     border-radius: 16px;
-    border: 1px solid rgba(15, 110, 99, 0.2);
-    background: linear-gradient(135deg, rgba(239, 252, 248, 0.92), rgba(247, 251, 249, 0.96));
+    border: 1px solid rgba(15, 110, 99, 0.3);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.99),
+        rgba(245, 252, 249, 0.99)
+    );
     box-shadow:
-        0 8px 14px rgba(15, 53, 48, 0.08),
-        0 16px 22px -10px rgba(15, 53, 48, 0.22);
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(255, 255, 255, 0.7),
+        0 18px 34px rgba(15, 53, 48, 0.2),
+        0 36px 60px -20px rgba(15, 53, 48, 0.45);
     backdrop-filter: blur(8px);
     overflow-x: auto;
     overflow-y: hidden;
@@ -5065,6 +5072,69 @@ h1.display-5 {
     font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
+}
+
+@media (min-width: 992px) {
+    .quran-toolbar {
+        gap: 13px;
+        padding: 14px 17px;
+        border-radius: 20px;
+    }
+
+    .quran-toolbar-btn {
+        min-height: 50px;
+        font-size: 0.94rem;
+        padding: 0.68rem 1rem;
+        border-radius: 14px;
+    }
+
+    .quran-toolbar-btn i {
+        font-size: 1.08rem;
+    }
+
+    .quran-toolbar-btn-sm {
+        padding: 0.62rem 0.88rem;
+    }
+
+    .quran-toolbar-btn-icon,
+    .quran-toolbar-btn-settings {
+        width: 50px;
+        min-width: 50px;
+    }
+
+    .quran-toolbar-reciter,
+    .quran-toolbar-translation {
+        flex: 0 0 270px;
+        min-width: 240px;
+    }
+
+    .surat-premium.sidebar-collapsed .quran-toolbar-reciter,
+    .surat-premium.sidebar-collapsed .quran-toolbar-translation {
+        flex: 0 0 320px;
+        min-width: 280px;
+    }
+
+    .quran-toolbar-select {
+        height: 50px;
+        font-size: 0.94rem;
+        border-radius: 14px;
+    }
+
+    .quran-toolbar-switch {
+        min-height: 50px;
+        padding: 0.54rem 0.86rem !important;
+        border-radius: 14px;
+        gap: 0.62rem !important;
+    }
+
+    .quran-toolbar-switch .form-check-input {
+        width: 2.35rem;
+        height: 1.3rem;
+    }
+
+    .quran-toolbar-switch .form-check-label {
+        font-size: 0.88rem;
+    }
 }
 
 @media (max-width: 991.98px) {

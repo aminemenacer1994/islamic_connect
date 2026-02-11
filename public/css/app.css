@@ -3020,6 +3020,39 @@ input[type="checkbox"][data-v-2156e372] {
   outline: 2px solid #0db691;
   outline-offset: 2px;
 }
+.chat-verification[data-v-077e75cb] {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  border-radius: 999px;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid transparent;
+}
+.chat-verification--high[data-v-077e75cb] {
+  background: rgba(34, 197, 94, 0.14);
+  color: #14532d;
+  border-color: rgba(34, 197, 94, 0.4);
+}
+.chat-verification--medium[data-v-077e75cb] {
+  background: rgba(234, 179, 8, 0.14);
+  color: #854d0e;
+  border-color: rgba(234, 179, 8, 0.35);
+}
+.chat-verification--low[data-v-077e75cb] {
+  background: rgba(220, 38, 38, 0.12);
+  color: #991b1b;
+  border-color: rgba(220, 38, 38, 0.35);
+}
+.chat-section-heading[data-v-077e75cb] {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #0b4b44;
+  margin: 0 0 0.35rem 0.25rem;
+}
 .chat-references-wrapper[data-v-077e75cb] {
   background: rgba(15, 110, 99, 0.12);
   border: 1px solid rgba(15, 110, 99, 0.28);
@@ -3079,6 +3112,7 @@ input[type="checkbox"][data-v-2156e372] {
   display: flex;
   flex-direction: column;
   gap: 0.65rem;
+  width: 100%;
   z-index: 1;
   border-radius: 20px;
   border: 1px solid var(--ai-border);
@@ -3088,7 +3122,10 @@ input[type="checkbox"][data-v-2156e372] {
   animation: ai-rise-077e75cb 0.6s ease both 0.22s;
 }
 .ai-textarea[data-v-077e75cb] {
+  display: block;
   width: 100%;
+  max-width: none;
+  box-sizing: border-box;
   border-radius: 14px;
   border: 1px solid rgba(15, 110, 99, 0.2);
   padding: 0.95rem 1.15rem;
@@ -35261,7 +35298,7 @@ to {
     align-items: center;
     justify-content: flex-end;
     gap: 0.34rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     flex-shrink: 0;
 }
 .advanced-quran-search-top-pills[data-v-637d02d8] {
@@ -35269,16 +35306,17 @@ to {
     align-items: center;
     justify-content: flex-end;
     gap: 0.34rem;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
 }
 .advanced-quran-search-top-pill[data-v-637d02d8] {
-    font-size: 0.83rem;
-    padding: 0.42rem 0.72rem;
+    font-size: 0.96rem;
+    padding: 0.52rem 0.9rem;
     border-radius: 12px;
-    min-height: 36px;
+    min-height: 40px;
+    white-space: nowrap;
 }
 .advanced-quran-search-title[data-v-637d02d8] {
-    font-size: 0.98rem;
+    font-size: 1.06rem;
     font-weight: 700;
     color: #0b3d2e;
 }
@@ -35618,9 +35656,9 @@ to {
         flex-wrap: nowrap;
 }
 .advanced-quran-search-top-pill[data-v-637d02d8] {
-        font-size: 0.78rem;
-        padding: 0.36rem 0.58rem;
-        min-height: 34px;
+        font-size: 0.86rem;
+        padding: 0.42rem 0.66rem;
+        min-height: 36px;
         white-space: nowrap;
 }
 .advanced-quran-search-input-wrap[data-v-637d02d8] {
@@ -35688,10 +35726,10 @@ to {
         flex-wrap: nowrap;
 }
 .advanced-quran-search-top-pill[data-v-637d02d8] {
-        font-size: 0.72rem;
-        padding: 0.3rem 0.46rem;
+        font-size: 0.79rem;
+        padding: 0.36rem 0.54rem;
         border-radius: 10px;
-        min-height: 30px;
+        min-height: 33px;
 }
 .advanced-quran-search-visibility-btn i[data-v-637d02d8] {
         font-size: 0.76rem;
@@ -39400,11 +39438,17 @@ h1.display-5[data-v-637d02d8] {
     width: 100%;
     padding: 10px 12px;
     border-radius: 16px;
-    border: 1px solid rgba(15, 110, 99, 0.2);
-    background: linear-gradient(135deg, rgba(239, 252, 248, 0.92), rgba(247, 251, 249, 0.96));
+    border: 1px solid rgba(15, 110, 99, 0.3);
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.99),
+        rgba(245, 252, 249, 0.99)
+    );
     box-shadow:
-        0 8px 14px rgba(15, 53, 48, 0.08),
-        0 16px 22px -10px rgba(15, 53, 48, 0.22);
+        inset 0 1px 0 rgba(255, 255, 255, 0.9),
+        0 0 0 1px rgba(255, 255, 255, 0.7),
+        0 18px 34px rgba(15, 53, 48, 0.2),
+        0 36px 60px -20px rgba(15, 53, 48, 0.45);
     backdrop-filter: blur(8px);
     overflow-x: auto;
     overflow-y: hidden;
@@ -39553,6 +39597,58 @@ h1.display-5[data-v-637d02d8] {
     font-size: 0.78rem;
     font-weight: 700;
     cursor: pointer;
+}
+@media (min-width: 992px) {
+.quran-toolbar[data-v-637d02d8] {
+        gap: 13px;
+        padding: 14px 17px;
+        border-radius: 20px;
+}
+.quran-toolbar-btn[data-v-637d02d8] {
+        min-height: 50px;
+        font-size: 0.94rem;
+        padding: 0.68rem 1rem;
+        border-radius: 14px;
+}
+.quran-toolbar-btn i[data-v-637d02d8] {
+        font-size: 1.08rem;
+}
+.quran-toolbar-btn-sm[data-v-637d02d8] {
+        padding: 0.62rem 0.88rem;
+}
+.quran-toolbar-btn-icon[data-v-637d02d8],
+    .quran-toolbar-btn-settings[data-v-637d02d8] {
+        width: 50px;
+        min-width: 50px;
+}
+.quran-toolbar-reciter[data-v-637d02d8],
+    .quran-toolbar-translation[data-v-637d02d8] {
+        flex: 0 0 270px;
+        min-width: 240px;
+}
+.surat-premium.sidebar-collapsed .quran-toolbar-reciter[data-v-637d02d8],
+    .surat-premium.sidebar-collapsed .quran-toolbar-translation[data-v-637d02d8] {
+        flex: 0 0 320px;
+        min-width: 280px;
+}
+.quran-toolbar-select[data-v-637d02d8] {
+        height: 50px;
+        font-size: 0.94rem;
+        border-radius: 14px;
+}
+.quran-toolbar-switch[data-v-637d02d8] {
+        min-height: 50px;
+        padding: 0.54rem 0.86rem !important;
+        border-radius: 14px;
+        gap: 0.62rem !important;
+}
+.quran-toolbar-switch .form-check-input[data-v-637d02d8] {
+        width: 2.35rem;
+        height: 1.3rem;
+}
+.quran-toolbar-switch .form-check-label[data-v-637d02d8] {
+        font-size: 0.88rem;
+}
 }
 @media (max-width: 991.98px) {
 .quran-toolbar-sticky[data-v-637d02d8] {
@@ -42456,9 +42552,9 @@ to {
   gap: 0.5rem;
   padding: 0.45rem 0.75rem;
   border-radius: 32px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(15, 34, 48, 0.08);
-  box-shadow: 0 10px 30px rgba(15, 34, 48, 0.08);
+  /* background: rgba(255, 255, 255, 0.9); */
+  /* border: 1px solid rgba(15, 34, 48, 0.08); */
+  /* box-shadow: 0 10px 30px rgba(15, 34, 48, 0.08); */
   justify-content: flex-start;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
