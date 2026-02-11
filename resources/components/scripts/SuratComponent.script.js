@@ -2674,7 +2674,7 @@ export default {
             this.fontPickerAlertTimer = setTimeout(() => {
                 this.fontPickerAlert = "";
                 this.closeFontPicker();
-            }, 5000);
+            }, 3000);
         },
         clearFontPickerTimer() {
             if (this.fontPickerAlertTimer) {
@@ -5270,12 +5270,38 @@ export default {
             return { data: json, fromCache: false };
         },
         onKeydown(e) {
+            const key = (e && e.key) || "";
             const tag = ((e.target && e.target.tagName) || "").toLowerCase();
-            if (
+            const isTypingContext =
                 e.target?.isContentEditable ||
-                ["input", "textarea", "select"].includes(tag)
-            )
+                ["input", "textarea", "select"].includes(tag);
+            if (isTypingContext) {
                 return;
+            }
+            if (
+                key === "/" &&
+                !e.metaKey &&
+                !e.ctrlKey &&
+                !e.altKey &&
+                this.isAdvancedSearchVisible
+            ) {
+                e.preventDefault();
+                const input = this.$refs.advancedSearchInput;
+                if (input && typeof input.focus === "function") {
+                    input.focus();
+                    if (typeof input.select === "function") {
+                        input.select();
+                    }
+                }
+                if (!this.isAdvancedSearchPanelVisible) {
+                    this.isAdvancedSearchPanelVisible = true;
+                }
+                return;
+            }
+            if (key === "Escape" && this.hasAdvancedSearchQuery) {
+                this.clearAdvancedSearch();
+                return;
+            }
             if (
                 !Array.isArray(this.filteredAyahs) ||
                 this.filteredAyahs.length === 0

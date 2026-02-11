@@ -51,8 +51,14 @@
           <ul class="r-overview__list">
             <li v-for="item in ramadan.overview.key_points" :key="item">{{ item }}</li>
           </ul>
-          <ReferenceList v-if="ramadan.overview.references" :items="ramadan.overview.references"
-            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
+          <div v-if="hasSectionReferences(ramadan.overview.references)" class="r-inline-references">
+            <p class="r-inline-references__title">{{ ramadan.labels.references }}</p>
+            <p v-for="(ref, refIndex) in ramadan.overview.references" :key="`overview-reference-${refIndex}`"
+              class="r-inline-reference">
+              <span class="r-inline-reference__citation">{{ ref.citation }}</span>
+              <span v-if="referenceSummary(ref)"> - {{ referenceSummary(ref) }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -66,9 +72,9 @@
           <p class="r-section__subtitle">{{ ramadan.history.subtitle }}</p>
         </div>
         <SectionToolbar section-id="history" :section-title="ramadan.history.section_title"
-          :section-feedback="toolbarFeedback['history']" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback['history']"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-history-body" class="r-section__body" :style="sectionBodyStyle('history')">
           <p v-for="(para, index) in ramadan.history.body" :key="index" class="r-section__subtitle">
             {{ para }}
@@ -82,10 +88,6 @@
               <h3 class="r-card__title">{{ item.period }}</h3>
               <p class="r-card__desc">{{ item.detail }}</p>
               <p v-if="item.reference" class="r-card__reference">{{ item.reference }}</p>
-              <a v-if="item.reference_url" class="r-card__reference-link" :href="item.reference_url" target="_blank"
-                rel="noreferrer noopener">
-                View source
-              </a>
             </article>
           </div>
           <div class="r-grid r-grid--double r-spacing-top"
@@ -107,8 +109,14 @@
               </ul>
             </article>
           </div>
-          <ReferenceList v-if="ramadan.history.references" :items="ramadan.history.references"
-            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
+          <div v-if="hasSectionReferences(ramadan.history.references)" class="r-inline-references">
+            <p class="r-inline-references__title">{{ ramadan.labels.references }}</p>
+            <p v-for="(ref, refIndex) in ramadan.history.references" :key="`history-reference-${refIndex}`"
+              class="r-inline-reference">
+              <span class="r-inline-reference__citation">{{ ref.citation }}</span>
+              <span v-if="referenceSummary(ref)"> - {{ referenceSummary(ref) }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -572,9 +580,9 @@
           <p class="r-section__subtitle">{{ ramadan.how_to_fast.intro }}</p>
         </div>
         <SectionToolbar section-id="how-to-fast" :section-title="ramadan.how_to_fast.section_title"
-          :section-feedback="toolbarFeedback['how-to-fast']" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback['how-to-fast']"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-how-to-fast-body" class="r-section__body" :style="sectionBodyStyle('how-to-fast')">
           <div class="r-grid r-grid--triple r-grid--stagger r-grid--how-to-fast">
             <article v-for="(card, index) in ramadan.how_to_fast.cards" :key="card.title" class="r-card r-card--step">
@@ -587,8 +595,14 @@
               </ul>
             </article>
           </div>
-          <ReferenceList v-if="ramadan.how_to_fast.references" :items="ramadan.how_to_fast.references"
-            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
+          <div v-if="hasSectionReferences(ramadan.how_to_fast.references)" class="r-inline-references">
+            <p class="r-inline-references__title">{{ ramadan.labels.references }}</p>
+            <p v-for="(ref, refIndex) in ramadan.how_to_fast.references" :key="`how-to-fast-reference-${refIndex}`"
+              class="r-inline-reference">
+              <span class="r-inline-reference__citation">{{ ref.citation }}</span>
+              <span v-if="referenceSummary(ref)"> - {{ referenceSummary(ref) }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -602,9 +616,9 @@
           <p class="r-section__subtitle">{{ ramadan.faq.subtitle }}</p>
         </div>
         <SectionToolbar section-id="faq" :section-title="ramadan.faq.section_title"
-          :section-feedback="toolbarFeedback.faq" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback.faq"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-faq-body" class="r-section__body" :style="sectionBodyStyle('faq')">
           <div class="r-grid r-grid--double r-faq-grid">
             <article v-for="item in ramadan.faq.items" :key="item.question" class="r-card r-card--faq">
@@ -630,9 +644,9 @@
           </div>
         </div>
         <SectionToolbar section-id="quran-plans" :section-title="ramadan.quran_reading_plans.section_title"
-          :section-feedback="toolbarFeedback['quran-plans']" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback['quran-plans']"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-quran-plans-body" class="r-section__body" :style="sectionBodyStyle('quran-plans')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article v-for="(plan, index) in ramadan.quran_reading_plans.plans" :key="plan.level"
@@ -663,8 +677,14 @@
               </div>
             </article>
           </div>
-          <ReferenceList v-if="ramadan.quran_reading_plans.references" :items="ramadan.quran_reading_plans.references"
-            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
+          <div v-if="hasSectionReferences(ramadan.quran_reading_plans.references)" class="r-inline-references">
+            <p class="r-inline-references__title">{{ ramadan.labels.references }}</p>
+            <p v-for="(ref, refIndex) in ramadan.quran_reading_plans.references"
+              :key="`quran-plans-reference-${refIndex}`" class="r-inline-reference">
+              <span class="r-inline-reference__citation">{{ ref.citation }}</span>
+              <span v-if="referenceSummary(ref)"> - {{ referenceSummary(ref) }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -683,9 +703,9 @@
           </div>
         </div>
         <SectionToolbar section-id="personal-plans" :section-title="ramadan.personal_plans.section_title"
-          :section-feedback="toolbarFeedback['personal-plans']" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback['personal-plans']"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-personal-plans-body" class="r-section__body" :style="sectionBodyStyle('personal-plans')">
           <div class="r-grid r-grid--double r-grid--stagger">
             <article v-for="(plan, index) in ramadan.personal_plans.plans" :key="plan.title"
@@ -735,9 +755,9 @@
           <p class="r-section__subtitle">{{ ramadan.charity_guide.intro }}</p>
         </div>
         <SectionToolbar section-id="charity" :section-title="ramadan.charity_guide.section_title"
-          :section-feedback="toolbarFeedback.charity" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback.charity"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-charity-body" class="r-section__body" :style="sectionBodyStyle('charity')">
           <div class="r-grid r-grid--double">
             <article class="r-card r-card--charity">
@@ -769,8 +789,14 @@
               <div class="r-note" v-for="note in ramadan.charity_guide.impact_notes" :key="note">{{ note }}</div>
             </article>
           </div>
-          <ReferenceList v-if="ramadan.charity_guide.references" :items="ramadan.charity_guide.references"
-            :title="ramadan.labels.references" :action-label="ramadan.labels.view_source" />
+          <div v-if="hasSectionReferences(ramadan.charity_guide.references)" class="r-inline-references">
+            <p class="r-inline-references__title">{{ ramadan.labels.references }}</p>
+            <p v-for="(ref, refIndex) in ramadan.charity_guide.references" :key="`charity-reference-${refIndex}`"
+              class="r-inline-reference">
+              <span class="r-inline-reference__citation">{{ ref.citation }}</span>
+              <span v-if="referenceSummary(ref)"> - {{ referenceSummary(ref) }}</span>
+            </p>
+          </div>
         </div>
       </div>
     </section>
@@ -784,9 +810,9 @@
           <p class="r-section__subtitle">{{ ramadan.health_food_tips.intro }}</p>
         </div>
         <SectionToolbar section-id="health" :section-title="ramadan.health_food_tips.section_title"
-          :section-feedback="toolbarFeedback.health" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback.health"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-health-body" class="r-section__body" :style="sectionBodyStyle('health')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article v-for="(section, index) in ramadan.health_food_tips.primary_sections" :key="section.title"
@@ -959,9 +985,9 @@
           <p class="r-section__subtitle">{{ ramadan.platform_resources.subtitle }}</p>
         </div>
         <SectionToolbar section-id="platforms" :section-title="ramadan.platform_resources.section_title"
-          :section-feedback="toolbarFeedback.platforms" @ai-summary="summarizeSection"
+          :section-feedback="toolbarFeedback.platforms"
           @whatsapp-share="shareSectionViaWhatsApp" @copy-section="copySectionContent" @print-section="printSection"
-          @export-pdf="exportSectionPdf" @play-section="focusSection" @adjust-font="adjustSectionFont" />
+          @export-pdf="exportSectionPdf" @adjust-font="adjustSectionFont" />
         <div id="section-platforms-body" class="r-section__body" :style="sectionBodyStyle('platforms')">
           <div class="r-grid r-grid--triple r-grid--stagger">
             <article v-for="(card, index) in ramadan.platform_resources.cards" :key="card.title"
@@ -1059,7 +1085,6 @@
 
 <script>
 import ramadanData from "./data/ramadan_2026.json";
-import ReferenceList from "./ReferenceList.vue";
 import SectionToolbar from "./SectionToolbar.vue";
 import { fetchUserIdFromApi } from "../utils/bookmarkAuth";
 import html2canvas from "html2canvas";
@@ -1068,7 +1093,6 @@ import { jsPDF } from "jspdf";
 export default {
   name: "Ramadan2026Component",
   components: {
-    ReferenceList,
     SectionToolbar,
   },
   data() {
@@ -1514,6 +1538,13 @@ export default {
     },
   },
   methods: {
+    hasSectionReferences(items) {
+      return Array.isArray(items) && items.length > 0;
+    },
+    referenceSummary(reference) {
+      if (!reference || typeof reference !== "object") return "";
+      return reference.embedded_text || reference.summary || reference.excerpt || "";
+    },
     formatISODate(value) {
       if (!value) return "";
       const date = new Date(value);
@@ -2108,9 +2139,12 @@ export default {
       const text = this.getSectionShareText(sectionId);
       if (!text || typeof window === "undefined") return;
       const encoded = encodeURIComponent(text);
-      const url = `https://web.whatsapp.com/send?text=${encoded}`;
-      window.open(url, "_blank");
-      this.setToolbarFeedback(sectionId, "Opening WhatsApp Web");
+      const shareUrl = `https://wa.me/?text=${encoded}`;
+      const popup = window.open(shareUrl, "_blank", "noopener,noreferrer");
+      if (!popup) {
+        window.location.href = shareUrl;
+      }
+      this.setToolbarFeedback(sectionId, "Opening WhatsApp");
     },
     async copySectionContent(sectionId) {
       const text = this.getSectionShareText(sectionId);
@@ -2134,8 +2168,10 @@ export default {
       textarea.focus();
       textarea.select();
       try {
-        document.execCommand("copy");
-        this.setToolbarFeedback(sectionId, "Copied to clipboard");
+        const copied = document.execCommand("copy");
+        this.setToolbarFeedback(sectionId, copied ? "Copied to clipboard" : "Unable to copy section");
+      } catch (error) {
+        this.setToolbarFeedback(sectionId, "Unable to copy section");
       } finally {
         document.body.removeChild(textarea);
       }
@@ -3050,31 +3086,39 @@ export default {
 
 .r-card__reference {
   font-size: 0.82rem;
-  color: var(--r-ink-soft);
+  color: var(--r-ink);
   margin-top: 8px;
   line-height: 1.4;
-}
-
-.r-card__reference-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(31, 122, 104, 0.95), rgba(20, 88, 74, 0.95));
-  color: #fff;
-  bottom: 0px;
-  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  margin-top: 8px;
-  box-shadow: 0 10px 30px rgba(27, 31, 42, 0.18);
 }
 
-.r-card__reference-link:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 32px rgba(27, 31, 42, 0.25);
-  text-decoration: none;
+.r-inline-references {
+  margin-top: 18px;
+}
+
+.r-inline-references__title {
+  margin: 0 0 8px;
+  font-weight: 700;
+  color: var(--r-ink);
+  font-family: "Playfair Display", "Fraunces", serif;
+  letter-spacing: 0;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+
+.r-inline-reference {
+  margin: 8px 0 0;
+  color: var(--r-ink-soft);
+  line-height: 1.5;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.97rem;
+}
+
+.r-inline-reference__citation {
+  color: var(--r-ink);
+  font-weight: 700;
+  font-family: "Playfair Display", "Fraunces", serif;
+  letter-spacing: 0;
 }
 
 .r-card__tag--start {
@@ -4979,6 +5023,7 @@ export default {
   .r-today-actions {
     justify-content: flex-start;
   }
+
 }
 
 @media (min-width: 900px) {

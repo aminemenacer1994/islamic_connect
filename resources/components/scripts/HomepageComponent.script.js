@@ -71,6 +71,7 @@ export default {
         type: "success",
       },
       toastTimer: null,
+      isSubmitting: false,
     };
   },
   computed: {
@@ -96,6 +97,9 @@ export default {
     stripeUrl() {
       const amountInCents = this.finalAmount * 100;
       return `https://donate.stripe.com/6oE5kY84oc3q7fy145?amount=${amountInCents}`;
+    },
+    currentYear() {
+      return new Date().getFullYear();
     }
   },
   mounted() {
@@ -117,13 +121,16 @@ export default {
     },
     processDonation() {
       if (!this.isValidAmount) {
-        alert('Please select a contribution amount.');
+        this.showToast("error", "Select an amount", "Please choose a contribution amount before continuing.");
         return;
       }
 
       window.location.href = this.stripeUrl;
     },
     sendMessage() {
+      if (this.isSubmitting) {
+        return;
+      }
       this.showConfirm({
         title: "Ready to send your message?",
         message: "We'll route this message to the correct team and share a thoughtful reply within 24 hours.",
@@ -134,6 +141,9 @@ export default {
       });
     },
     submitMail() {
+      if (this.isSubmitting) {
+        return;
+      }
       this.showConfirm({
         title: "Join the mailing list?",
         message: "Stay in the loop with updates, launches, and new resources from the Islamic Connect mission.",
@@ -143,17 +153,21 @@ export default {
         },
       });
     },
-    postForm(url, toastTitle, toastMessage) {
-      axios
-        .post(url, this.form)
-        .then(() => {
-          this.showToast("success", toastTitle, toastMessage);
-          this.form.reset();
-        })
-        .catch((err) => {
-          const errorMessage = err.response?.data?.message || "Please try again later.";
-          this.showToast("error", "Something went wrong", errorMessage);
-        });
+    async postForm(url, toastTitle, toastMessage) {
+      if (this.isSubmitting) {
+        return;
+      }
+      this.isSubmitting = true;
+      try {
+        await axios.post(url, this.form);
+        this.showToast("success", toastTitle, toastMessage);
+        this.form.reset();
+      } catch (err) {
+        const errorMessage = err.response?.data?.message || "Please try again later.";
+        this.showToast("error", "Something went wrong", errorMessage);
+      } finally {
+        this.isSubmitting = false;
+      }
     },
     showConfirm({ title, message, confirmLabel = "Confirm", action }) {
       this.confirmDialog = {
@@ -165,10 +179,16 @@ export default {
       };
     },
     handleCancel() {
+      if (this.isSubmitting) {
+        return;
+      }
       this.confirmDialog.visible = false;
       this.confirmDialog.action = null;
     },
     handleConfirm() {
+      if (this.isSubmitting) {
+        return;
+      }
       const action = this.confirmDialog.action;
       this.handleCancel();
       if (typeof action === "function") {

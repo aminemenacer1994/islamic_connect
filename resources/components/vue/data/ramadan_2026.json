@@ -4,16 +4,24 @@
   "last_updated": "2025-03-01",
   "data_sources": [
     {
-      "label": "Umm al-Qura Calendar (Saudi Arabia)",
-      "link": "https://www.ummulqura.org.sa/"
+      "label": "Quran.com",
+      "link": "https://quran.com"
     },
     {
-      "label": "Islamic Society of North America (ISNA)",
-      "link": "https://www.isna.net/"
+      "label": "Sunnah.com",
+      "link": "https://sunnah.com"
     },
     {
-      "label": "Muslim World League",
-      "link": "https://www.themwl.org/"
+      "label": "IslamQA.info",
+      "link": "https://islamqa.info"
+    },
+    {
+      "label": "Yaqeen Institute",
+      "link": "https://yaqeeninstitute.org"
+    },
+    {
+      "label": "SeekersGuidance",
+      "link": "https://seekersguidance.org"
     }
   ],
 
@@ -76,12 +84,20 @@
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:183-185",
-        "link": "https://quran.com/2/183"
+        "source_site": "quran.com",
+        "embedded_text": "Allah prescribed fasting for believers so they may attain taqwa, and identified Ramadan as the month in which the Quran was revealed as guidance."
       },
       {
         "source": "Qur'an",
         "citation": "Al-Qadr 97:1-5",
-        "link": "https://quran.com/97"
+        "source_site": "quran.com",
+        "embedded_text": "Laylat al-Qadr is described as better than a thousand months and a night filled with peace by Allah's permission."
+      },
+      {
+        "source": "Hadith",
+        "citation": "Sahih al-Bukhari 38; Sahih Muslim 760",
+        "source_site": "sunnah.com",
+        "embedded_text": "The Prophet taught that whoever fasts Ramadan with faith and hope of reward will have previous sins forgiven."
       }
     ]
   },
@@ -99,58 +115,58 @@
       {
         "number": 1,
         "period": "c. 610 CE (13 BH)",
-        "detail": "First Quranic revelation arrives in Ramadan (Qur'an 96:1-5, 97:1-5, 2:185) and Seerah sources place it in the Cave of Hira (Ibn Ishaq).",
-        "reference": "Qur'an 96:1-5, 97:1-5, 2:185; Ibn Ishaq, Life of Muhammad (A. Guillaume), pp. 105-106.",
-        "reference_url": "https://quran.com/96"
+        "detail": "The first revelation is tied to Ramadan, and the Quran identifies this month as the period of guidance for humanity.",
+        "reference": "Qur'an 96:1-5; Qur'an 97:1-5; Qur'an 2:185",
+        "reference_site": "quran.com"
       },
       {
         "number": 2,
         "period": "624 CE (2 AH)",
-        "detail": "Ramadan fasting becomes obligatory after the qibla shift; primary verses are Qur'an 2:183-185.",
-        "reference": "Qur'an 2:183-185; Fazlur Rahman, Major Themes of the Quran, Ch. 4.",
-        "reference_url": "https://quran.com/2/183"
+        "detail": "The command to fast in Ramadan is formally legislated, with clear rulings on the goal, timeframe, and concessions.",
+        "reference": "Qur'an 2:183-187",
+        "reference_site": "quran.com"
       },
       {
         "number": 3,
         "period": "632-661 CE (Rashidun Caliphate)",
-        "detail": "Abu Bakr compiles the Quran manuscript while Umar formalizes congregational Tarawih (Sahih al-Bukhari 2010, 2009, 4986; Tabari).",
-        "reference": "Sahih al-Bukhari 2010, 2009, 4986; The History of al-Tabari, Vol. 10, pp. 8-10.",
-        "reference_url": "https://sunnah.com/bukhari"
+        "detail": "Companions preserved Quran transmission and organized Ramadan night prayer at scale for community worship.",
+        "reference": "Sahih al-Bukhari 4986; Sahih al-Bukhari 2010",
+        "reference_site": "sunnah.com"
       },
       {
         "number": 4,
-        "period": "7th-8th centuries CE (Umayyad & Early Abbasid Era)",
-        "detail": "Ramadan observance spreads across the caliphate, with mosques hosting nightly prayers and community gatherings (Kennedy).",
-        "reference": "Hugh Kennedy, The Great Arab Conquests, Ch. 12.",
-        "reference_url": "https://en.wikipedia.org/wiki/The_Great_Arab_Conquests"
+        "period": "Classical Sunni Practice",
+        "detail": "Iftar at sunset, suhoor before dawn, and intensified qiyam became stable features of Ramadan worship across regions.",
+        "reference": "Sahih al-Bukhari 1957; Sahih Muslim 1095",
+        "reference_site": "sunnah.com"
       },
       {
         "number": 5,
-        "period": "9th-12th centuries CE (Golden Age of Islamic Law)",
-        "detail": "Hanafi, Maliki, Shafi'i, and Hanbali texts codify fasting rules, moon sighting, and iʿtikaf (Al-Muwatta, Al-Umm, Al-Mabsut; Hallaq).",
-        "reference": "Al-Muwatta; Al-Umm; Al-Mabsut; Wael B. Hallaq, The Origins and Evolution of Islamic Law, Ch. 5.",
-        "reference_url": "https://en.wikipedia.org/wiki/Islamic_law"
+        "period": "Contemporary Fiqh Clarification",
+        "detail": "Modern fatwa platforms continue to explain exemptions, makeup fasts, fidyah, and valid reasons for breaking the fast.",
+        "reference": "IslamQA Ramadan topic hub and fasting rulings",
+        "reference_site": "IslamQA.info"
       },
       {
         "number": 6,
-        "period": "15th-19th centuries CE (Ottoman, Safavid, Mughal Empires)",
-        "detail": "Public iftars, waqf-funded masjids, and royal patronage cement Ramadan rituals (Singer; Schimmel).",
-        "reference": "Amy Singer, Constructing Ottoman Beneficence, Ch. 4; Annemarie Schimmel, The Empire of the Great Mughals, pp. 180-182.",
-        "reference_url": "https://en.wikipedia.org/wiki/Ottoman_beneficence"
+        "period": "Community Teaching in the Digital Era",
+        "detail": "Structured online courses and answer services broaden access to Ramadan fiqh, adab, and worship preparation.",
+        "reference": "SeekersGuidance Ramadan answers and curriculum pages",
+        "reference_site": "SeekersGuidance"
       },
       {
         "number": 7,
-        "period": "20th-21st centuries CE (Modern & Global Era)",
-        "detail": "Mass media, live Taraweeh broadcasts, and global charity projects reshape Ramadan's reach (Hasso).",
-        "reference": "Frances S. Hasso, “Ramadan on Television,” in The Routledge Handbook of Islam and Gender, pp. 317-330.",
-        "reference_url": "https://en.wikipedia.org/wiki/Ramadan#Television"
+        "period": "Global Reflection Projects",
+        "detail": "Research-driven Ramadan series and reflection journals increase access to spiritually grounded educational content.",
+        "reference": "Yaqeen Institute Ramadan collection",
+        "reference_site": "Yaqeen Institute"
       },
       {
         "number": 8,
         "period": "Contemporary Observance (21st Century)",
-        "detail": "Globally shared yet locally adapted Ramadan includes virtual iftars, moon-sighting debates, and modern community service (Inglis).",
-        "reference": "David Inglis, “Globalization and the Sociology of Ramadan,” Sociology of Religion 82:2 (2021), pp. 131-153.",
-        "reference_url": "https://en.wikipedia.org/wiki/Ramadan#Modern_practices"
+        "detail": "Ramadan is globally shared but locally timed, with communities combining moon-sighting announcements, digital planning, and local service.",
+        "reference": "Qur'an 2:185 with applied guidance from Sunni fiqh references",
+        "reference_site": "quran.com / Sunnah.com / IslamQA.info / SeekersGuidance / Yaqeen Institute"
       }
     ],
     "notable_figures": {
@@ -203,22 +219,26 @@
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:183-187",
-        "link": "https://quran.com/2/183"
+        "source_site": "quran.com",
+        "embedded_text": "These verses establish fasting in Ramadan, name the month of revelation, and provide core legal concessions for illness and travel."
       },
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:185",
-        "link": "https://quran.com/2/185"
+        "source_site": "quran.com",
+        "embedded_text": "Ramadan is defined as the month of Quran revelation and guidance, linking worship routine directly to revelation."
       },
       {
-        "source": "Qur'an",
-        "citation": "Al-Qadr 97:1-5",
-        "link": "https://quran.com/97"
+        "source": "Hadith",
+        "citation": "Sahih al-Bukhari 2010; Sahih al-Bukhari 4986",
+        "source_site": "sunnah.com",
+        "embedded_text": "These narrations are used for Ramadan congregational night prayer and the compilation-preservation history of the Qur'an."
       },
       {
-        "source": "Qur'an",
-        "citation": "Al-Baqarah 2:187",
-        "link": "https://quran.com/2/187"
+        "source": "Fiqh Guidance",
+        "citation": "Ramadan guidance collections",
+        "source_site": "IslamQA.info / SeekersGuidance / Yaqeen Institute",
+        "embedded_text": "Contemporary scholarship explains how classical rulings are applied in modern schedules, health contexts, and community conditions."
       }
     ]
   },
@@ -339,7 +359,20 @@
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:183-187",
-        "link": "https://quran.com/2/183"
+        "source_site": "quran.com",
+        "embedded_text": "These verses define the obligation, the fasting window from dawn to night, and legal allowances for hardship."
+      },
+      {
+        "source": "Hadith",
+        "citation": "Sahih al-Bukhari 1904; Sahih Muslim 1151",
+        "source_site": "sunnah.com",
+        "embedded_text": "Prophetic guidance clarifies intention, what invalidates fasting, and the reward connected to sincere fasting."
+      },
+      {
+        "source": "Fiqh Q&A",
+        "citation": "Common fasting rulings",
+        "source_site": "IslamQA.info / SeekersGuidance",
+        "embedded_text": "Scholarly answers explain practical edge cases such as sickness, travel, pregnancy, medication timing, and makeup fasts."
       }
     ]
   },
@@ -392,7 +425,20 @@
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:185",
-        "link": "https://quran.com/2/185"
+        "source_site": "quran.com",
+        "embedded_text": "Ramadan is explicitly framed around Quran guidance, making daily recitation and study central to the month."
+      },
+      {
+        "source": "Hadith",
+        "citation": "Sahih al-Bukhari 1901; Sahih Muslim 760",
+        "source_site": "sunnah.com",
+        "embedded_text": "Prophetic teachings connect Ramadan fasting and night prayer to purification and spiritual growth."
+      },
+      {
+        "source": "Reflection & Study",
+        "citation": "Ramadan reading resources",
+        "source_site": "Yaqeen Institute / SeekersGuidance",
+        "embedded_text": "Structured learning paths and reflection guides support consistent Quran goals for different schedules."
       }
     ]
   },
@@ -559,7 +605,20 @@
       {
         "source": "Qur'an",
         "citation": "Al-Baqarah 2:177",
-        "link": "https://quran.com/2/177"
+        "source_site": "quran.com",
+        "embedded_text": "Righteousness includes financial giving to relatives, vulnerable people, and those in need."
+      },
+      {
+        "source": "Hadith",
+        "citation": "Sahih al-Bukhari 1902; Sahih Muslim 2308",
+        "source_site": "sunnah.com",
+        "embedded_text": "The Prophet was described as especially generous in Ramadan, encouraging expanded charity during this month."
+      },
+      {
+        "source": "Fiqh Q&A",
+        "citation": "Zakat al-Fitr and sadaqah guidance",
+        "source_site": "IslamQA.info / SeekersGuidance",
+        "embedded_text": "Practical rulings explain who pays Zakat al-Fitr, timing before Eid prayer, and distribution priorities."
       }
     ]
   },

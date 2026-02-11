@@ -17,7 +17,7 @@
 
       <div class="ai-suggestions text-start" aria-label="Suggested questions">
         <div class="ai-suggestions-header">
-          <h6 class="fw-bold">Need inspiration ?</h6>
+          <h6 class="fw-bold">Need inspiration?</h6>
           <button type="button" class="ai-suggestions-toggle" @click="toggleSuggestions"
             :aria-expanded="suggestionsExpanded.toString()">
             <span class="sr-only">
@@ -99,13 +99,12 @@
             @keydown.enter.prevent="selectSessionFromList(session.id)">
             <span>{{ formatSessionLabel(session) }}</span>
             <small>{{ formatSessionTimestamp(session.updatedAt) }}</small>
-            <span role="button" class="ai-session-inline__dropdown-remove"
-              tabindex="0"
+            <button type="button" class="ai-session-inline__dropdown-remove"
               @click.stop="prepareDeleteSession(session.id)"
               @keydown.enter.stop.prevent="prepareDeleteSession(session.id)"
               aria-label="Delete this saved chat">
               <i class="fas fa-times" aria-hidden="true"></i>
-            </span>
+            </button>
           </div>
         </div>
         <div v-if="pendingDeleteSessionId" class="ai-session-inline__alert ai-session-inline__alert--warning"
@@ -259,14 +258,16 @@
       <form ref="aiForm" class="ai-form pt-3" @submit.prevent="sendChatMessage">
         <label class="visually-hidden" for="aiChatInput">Ask the chatbot</label>
         <textarea id="aiChatInput" ref="aiChatInput" v-model="chatDraft" class="ai-textarea" rows="2"
-          placeholder="Ask something that brings you closer to Allah..." :disabled="chatLoading"></textarea>
+          placeholder="Ask something that brings you closer to Allah..." :disabled="chatLoading"
+          @keydown="handleComposerKeydown"></textarea>
 
         <div class="ai-form-meta pt-2 text-muted">
+          <p class="ai-input-hint mb-0">Press Ctrl+Enter (or Cmd+Enter on Mac) to send quickly.</p>
           <div class="ai-secondary-group">
             <button type="submit" class="ai-submit" :disabled="chatLoading || !chatDraft.trim()">
               <i class="fas fa-paper-plane" aria-hidden="true"></i>
               <span v-if="chatLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-              <span>{{ chatLoading ? 'Noor is Thinking...' : 'Ask Noor' }}</span>
+              <span>{{ chatLoading ? 'Noor is thinking...' : 'Ask Noor' }}</span>
             </button>
             <button type="button" class="ai-voice-btn text-center" :class="{ 'ai-voice-btn--active': voiceListening }"
               :disabled="chatLoading" @click="toggleVoiceSearch" :aria-pressed="voiceListening.toString()">
@@ -284,6 +285,9 @@
         <p v-if="voiceStatus" class="ai-voice-status" role="status" aria-live="polite">
           <i class="fas fa-microphone me-1" aria-hidden="true"></i>
           {{ voiceStatus }}
+        </p>
+        <p v-if="voiceAlertMessage" class="voice-alert" role="status" aria-live="polite">
+          {{ voiceAlertMessage }}
         </p>
         <div class="ai-trust-note" role="note" aria-live="polite">
           <i class="fas fa-shield-alt" aria-hidden="true"></i>
@@ -333,6 +337,7 @@ export default {
       sessionExpired: false,
       isCompactMode: false,
       resizeListener: null,
+      documentClickHandler: null,
       copyNotice: '',
       copyNoticeTimeout: null,
       availableVoices: [],
@@ -431,6 +436,15 @@ export default {
     },
   },
   methods: {
+    handleComposerKeydown(event) {
+      if (!event) {
+        return;
+      }
+      if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
+        event.preventDefault();
+        this.sendChatMessage();
+      }
+    },
     createChatEntry(role, text, references = [], summaryBullets = null, verification = null) {
       const now = new Date();
       const providedSummary = Array.isArray(summaryBullets)
@@ -739,8 +753,7 @@ export default {
       if (!message) return;
       this.chatError = null;
       if (!this.isIslamicQuestion(message)) {
-        this.chatError = 'Please ask something related to Islamic teachings or practice.';
-        return;
+        this.showCopyNotice('Tip: Noor works best with Quran, Sunnah, and Islamic practice questions.');
       }
       this.chatDraft = '';
       this.chatHistory.push(this.createChatEntry('user', message));
@@ -1277,7 +1290,23 @@ export default {
       if (!this.chatSessions.length) {
         return;
       }
+      this.pendingClearAll = false;
+      this.pendingDeleteSessionId = '';
       this.sessionDropdownOpen = !this.sessionDropdownOpen;
+    },
+    handleDocumentClick(event) {
+      if (!this.sessionDropdownOpen || !event) {
+        return;
+      }
+      const root = this.$el;
+      const container = root?.querySelector('.ai-session-inline');
+      const trigger = root?.querySelector('.ai-session-inline__button');
+      if (container?.contains(event.target) || trigger?.contains(event.target)) {
+        return;
+      }
+      this.sessionDropdownOpen = false;
+      this.pendingClearAll = false;
+      this.pendingDeleteSessionId = '';
     },
     prepareClearAllSessions() {
       this.pendingClearAll = true;
@@ -1344,8 +1373,6 @@ export default {
       const timestamp = session.createdAt || session.updatedAt;
       const formatted = this.formatSessionTimestamp(timestamp);
       const messageCount = session.history?.length || 0;
-      const lastEntry = session.history?.[session.history.length - 1];
-      const lastRole = lastEntry?.role === 'assistant' ? 'Noor' : lastEntry?.role === 'user' ? 'You' : '';
       const suffix = [`${messageCount} msg${messageCount === 1 ? '' : 's'}`];
       return `${formatted} · ${suffix.join(' · ')}`;
     },
@@ -1420,9 +1447,9 @@ export default {
             clearTimeout(this.voiceStatusTimeout);
             this.voiceStatusTimeout = null;
           }
-          this.voiceStatus = 'Voice search activated   listening for your question.';
+          this.voiceStatus = 'Voice search activated. Listening for your question.';
           this.clearVoiceAutoSubmitTimer();
-          this.showVoiceAlert('Voice search activated   listening for your question.');
+          this.showVoiceAlert('Voice search activated. Listening for your question.');
         };
         recognition.onresult = (event) => {
           const results = event.results;
@@ -1457,7 +1484,7 @@ export default {
           if (finalChunkTrimmed) {
             this.scheduleVoiceSubmission(this.voiceFinalTranscript.trim());
           } else if (interimTrimmed) {
-            this.voiceStatus = 'Listening   feel free to continue speaking.';
+            this.voiceStatus = 'Listening. Feel free to continue speaking.';
             this.voiceStatusTransient = false;
           }
         };
@@ -1497,7 +1524,7 @@ export default {
       }
       this.cancelVoiceDraftUpdate();
       this.chatDraft = transcript;
-      this.voiceStatus = 'Captured your question   sending it shortly.';
+      this.voiceStatus = 'Captured your question. Sending it shortly.';
       this.voiceStatusTransient = false;
       if (this.voiceAutoSubmitTimer) {
         clearTimeout(this.voiceAutoSubmitTimer);
@@ -1576,7 +1603,7 @@ export default {
     },
     handleSessionExpiry() {
       this.sessionExpired = true;
-      this.chatError = 'Session expired   refresh the page to continue.';
+      this.chatError = 'Session expired. Refresh the page to continue.';
     },
     reloadPage() {
       if (typeof window !== 'undefined' && window.location) {
@@ -1585,7 +1612,10 @@ export default {
     },
     isIslamicQuestion(message) {
       if (!message) return false;
-      const normalized = message.toLowerCase();
+      const normalized = message.toLowerCase().trim();
+      if (normalized.length < 3) {
+        return false;
+      }
       const keywords = [
         'islam',
         'muslim',
@@ -1623,7 +1653,12 @@ export default {
         'nikah',
         'shahada',
       ];
-      return keywords.some((keyword) => normalized.includes(keyword));
+      if (keywords.some((keyword) => normalized.includes(keyword))) {
+        return true;
+      }
+      const startsLikeQuestion = /^(what|how|why|when|where|who|can|should|is|are|do|does|did|i|my)\b/.test(normalized);
+      const hasLetters = /[a-z]/.test(normalized);
+      return hasLetters && (startsLikeQuestion || normalized.includes('?') || normalized.length >= 16);
     },
     resetSession() {
       const newId = `${Date.now()}-${Math.floor(Math.random() * 100000)}`;
@@ -1699,10 +1734,16 @@ export default {
     this.attachAiTestHarness();
     this.resizeListener = () => this.updateCompactMode();
     window.addEventListener('resize', this.resizeListener);
+    this.documentClickHandler = (event) => this.handleDocumentClick(event);
+    document.addEventListener('click', this.documentClickHandler);
   },
   beforeUnmount() {
     if (this.resizeListener) {
       window.removeEventListener('resize', this.resizeListener);
+    }
+    if (this.documentClickHandler) {
+      document.removeEventListener('click', this.documentClickHandler);
+      this.documentClickHandler = null;
     }
     if (this.copyNoticeTimeout) {
       clearTimeout(this.copyNoticeTimeout);
@@ -1905,6 +1946,12 @@ export default {
   font-size: 0.85rem;
   cursor: pointer;
   padding: 0;
+  line-height: 1;
+}
+
+.ai-session-inline__dropdown-remove:hover,
+.ai-session-inline__dropdown-remove:focus-visible {
+  color: #8c1616;
 }
 
 .ai-session-inline__actions {
@@ -2912,6 +2959,12 @@ export default {
   gap: 0.5rem;
   justify-content: flex-end;
   align-items: center;
+}
+
+.ai-input-hint {
+  margin-right: auto;
+  font-size: 0.82rem;
+  color: var(--ai-muted);
 }
 
 .ai-form-meta small {

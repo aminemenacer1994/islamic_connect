@@ -83,10 +83,12 @@
                     <div class="advanced-quran-search-input-wrap">
                         <i class="bi bi-search advanced-quran-search-icon" aria-hidden="true"></i>
                         <input type="search" class="form-control advanced-quran-search-input"
+                            ref="advancedSearchInput"
                             v-model="advancedSearchQuery"
                             placeholder="Search across all ayahs (min 2 characters)..."
                             aria-label="Search across all Quran verses"
-                            @keydown.enter.prevent="runAdvancedSearch({ force: true })" />
+                            @keydown.enter.prevent="runAdvancedSearch({ force: true })"
+                            @keydown.esc.prevent="clearAdvancedSearch()" />
                         <div class="advanced-quran-search-actions">
                             <button
                                 v-if="speechRecognitionSupported"

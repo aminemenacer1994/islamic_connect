@@ -16,7 +16,7 @@
               <div class="text-left">
                 <!-- Badge -->
                 <div class="ic-hero__badge ic-reveal" style="--ic-delay: 0.1s;">
-                  <i class="fas fa-star me-2"></i>Trusted by 1000's of Muslims Worldwide
+                  <i class="fas fa-star me-2"></i>Trusted by thousands of Muslims worldwide
                 </div>
 
                 <h1 class="display-4 mt-1 fw-bold text-left hero-title ic-hero__title ic-reveal"
@@ -97,11 +97,10 @@
         <div class="row gy-4 align-items-center">
           <div class="col-lg-6 text-center text-lg-start">
             <h2 id="seo-heading" class="display-5 fw-bold mb-3">Discover Quran, Knowledge & Accessible Tools</h2>
-            <p class="text-muted mb-3">A premium hero-inspired narrative that balances on-brand gradients with clean
-              typography. These headings and stats reiterate the title keywords before Vue hydrates the rest of the
-              experience.</p>
-            <p class="text-muted mb-4">Explore curated pathways with subtle motion, modern gradients, and polished
-              visuals each insight is crafted to feel alive, centered, and spiritually uplifting.</p>
+            <p class="text-muted mb-3">Study the Quran with reliable references, clear recitations, and practical
+              tools designed for everyday worship and learning.</p>
+            <p class="text-muted mb-4">Start with guided pathways, then move at your own pace using search, audio,
+              and accessibility features built for consistency.</p>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
               <div class="col" v-for="stat in seoStats" :key="stat.label">
                 <div class="p-4 premium-stat h-100 text-center">
@@ -562,10 +561,11 @@
 
                   <div class="col-12">
                     <div class="d-grid">
-                      <button type="submit" class="btn btn-teal btn-lg fw-semibold contact-card__btn">
+                      <button type="submit" class="btn btn-teal btn-lg fw-semibold contact-card__btn"
+                        :disabled="isSubmitting">
                         <span class="d-flex align-items-center justify-content-center gap-2">
                           <i class="fas fa-paper-plane" aria-hidden="true"></i>
-                          Send Message
+                          {{ isSubmitting ? "Sending..." : "Send Message" }}
                         </span>
                       </button>
                     </div>
@@ -585,8 +585,8 @@
           <h3 class="premium-dialog-title">{{ confirmDialog.title }}</h3>
           <p class="premium-dialog-message">{{ confirmDialog.message }}</p>
           <div class="d-flex align-items-center justify-content-end gap-2 mt-3">
-            <button class="btn btn-outline-secondary" @click="handleCancel">Cancel</button>
-            <button class="btn btn-teal contact-card__btn" @click="handleConfirm">
+            <button class="btn btn-outline-secondary" @click="handleCancel" :disabled="isSubmitting">Cancel</button>
+            <button class="btn btn-teal contact-card__btn" @click="handleConfirm" :disabled="isSubmitting">
               {{ confirmDialog.confirmLabel }}
             </button>
           </div>
@@ -608,7 +608,7 @@
         class="container-fluid footer-inner d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
         <div class="copyright text-center text-md-start">
           <span class="me-2">©</span>
-          <strong>2025 Copyright: </strong>
+          <strong>{{ currentYear }} Copyright: </strong>
           <a href="https://islamiconnect.com/" class="text-white text-decoration-none fw-bold">islamiconnect.com</a>
         </div>
         <div class="social text-center text-md-end">

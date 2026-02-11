@@ -94,10 +94,10 @@ export default {
   flex-wrap: nowrap;
   gap: 0.5rem;
   padding: 0.45rem 0.75rem;
-  border-radius: 32px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(15, 34, 48, 0.08);
-  box-shadow: 0 10px 30px rgba(15, 34, 48, 0.08);
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   justify-content: flex-start;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;

@@ -2265,6 +2265,11 @@ input[type="checkbox"][data-v-2156e372] {
   font-size: 0.85rem;
   cursor: pointer;
   padding: 0;
+  line-height: 1;
+}
+.ai-session-inline__dropdown-remove[data-v-077e75cb]:hover,
+.ai-session-inline__dropdown-remove[data-v-077e75cb]:focus-visible {
+  color: #8c1616;
 }
 .ai-session-inline__actions[data-v-077e75cb] {
   display: flex;
@@ -3147,6 +3152,11 @@ input[type="checkbox"][data-v-2156e372] {
   gap: 0.5rem;
   justify-content: flex-end;
   align-items: center;
+}
+.ai-input-hint[data-v-077e75cb] {
+  margin-right: auto;
+  font-size: 0.82rem;
+  color: var(--ai-muted);
 }
 .ai-form-meta small[data-v-077e75cb] {
   color: #081b22;
@@ -42473,72 +42483,6 @@ to {
 }
 
 
-.r-references[data-v-10a44d1f] {
-  margin-top: 24px;
-}
-.r-references h4[data-v-10a44d1f] {
-  margin: 0;
-  font-weight: 600;
-  color: var(--r-ink);
-}
-.r-reference-grid[data-v-10a44d1f] {
-  margin-top: 12px;
-  display: grid;
-  gap: 12px;
-}
-.r-reference-card[data-v-10a44d1f] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 14px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(15, 34, 48, 0.1);
-  background: var(--r-card);
-  box-shadow: 0 10px 25px rgba(15, 34, 48, 0.08);
-}
-.r-reference-card__copy[data-v-10a44d1f] {
-  flex: 1;
-  min-width: 0;
-}
-.r-reference-card__source[data-v-10a44d1f] {
-  margin: 0;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--r-ink);
-}
-.r-reference-card__citation[data-v-10a44d1f] {
-  margin: 4px 0 0;
-  color: var(--r-ink-soft);
-  font-size: 0.82rem;
-}
-.r-reference-card__action[data-v-10a44d1f] {
-  padding: 8px 20px;
-  border-radius: 999px;
-  border: 1px solid rgba(215, 166, 74, 0.4);
-  background: rgba(215, 166, 74, 0.12);
-  color: var(--r-ink);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: background 0.2s ease, border-color 0.2s ease;
-}
-.r-reference-card__action[data-v-10a44d1f]:hover {
-  background: rgba(215, 166, 74, 0.25);
-  border-color: rgba(215, 166, 74, 0.7);
-}
-@media (max-width: 640px) {
-.r-reference-card[data-v-10a44d1f] {
-    flex-direction: column;
-    align-items: flex-start;
-}
-.r-reference-card__action[data-v-10a44d1f] {
-    width: 100%;
-    text-align: center;
-}
-}
-
-
 .section-toolbar[data-v-764d2fb0] {
   display: flex;
   flex-direction: column;
@@ -42551,10 +42495,10 @@ to {
   flex-wrap: nowrap;
   gap: 0.5rem;
   padding: 0.45rem 0.75rem;
-  border-radius: 32px;
-  /* background: rgba(255, 255, 255, 0.9); */
-  /* border: 1px solid rgba(15, 34, 48, 0.08); */
-  /* box-shadow: 0 10px 30px rgba(15, 34, 48, 0.08); */
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   justify-content: flex-start;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
@@ -43293,29 +43237,35 @@ to {
 }
 .r-card__reference[data-v-05456a07] {
   font-size: 0.82rem;
-  color: var(--r-ink-soft);
+  color: var(--r-ink);
   margin-top: 8px;
   line-height: 1.4;
-}
-.r-card__reference-link[data-v-05456a07] {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 18px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, rgba(31, 122, 104, 0.95), rgba(20, 88, 74, 0.95));
-  color: #fff;
-  bottom: 0px;
-  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  margin-top: 8px;
-  box-shadow: 0 10px 30px rgba(27, 31, 42, 0.18);
 }
-.r-card__reference-link[data-v-05456a07]:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 14px 32px rgba(27, 31, 42, 0.25);
-  text-decoration: none;
+.r-inline-references[data-v-05456a07] {
+  margin-top: 18px;
+}
+.r-inline-references__title[data-v-05456a07] {
+  margin: 0 0 8px;
+  font-weight: 700;
+  color: var(--r-ink);
+  font-family: "Playfair Display", "Fraunces", serif;
+  letter-spacing: 0;
+  font-size: 1.55rem;
+  line-height: 1.2;
+}
+.r-inline-reference[data-v-05456a07] {
+  margin: 8px 0 0;
+  color: var(--r-ink-soft);
+  line-height: 1.5;
+  font-family: "Manrope", sans-serif;
+  font-size: 0.97rem;
+}
+.r-inline-reference__citation[data-v-05456a07] {
+  color: var(--r-ink);
+  font-weight: 700;
+  font-family: "Playfair Display", "Fraunces", serif;
+  letter-spacing: 0;
 }
 .r-card__tag--start[data-v-05456a07] {
   background: rgba(73, 125, 140, 0.16);
